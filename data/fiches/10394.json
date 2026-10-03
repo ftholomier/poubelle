@@ -1,0 +1,251 @@
+{
+    "id": 10394,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "marc-pfertzel",
+    "path": "/joueurs/marc-pfertzel/",
+    "title": "Marc Pfertzel",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/marc-pfertzel-veut-revenir-en-ligue-1_57703.webp",
+    "date": "2025-01-17T07:40:51",
+    "modified": "2025-01-17T07:45:46",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Marc Pfertzel est resté 6 mois avec l'équipe réserve de Sochaux avant de faire carrière principalement en Italie et en Allemagne."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/marc-pfertzel-veut-revenir-en-ligue-1_57703.webp",
+            "caption": "Marc Pfertzel – Maxxppp",
+            "credit": "Footmercato",
+            "caption_raw": "Marc Pfertzel – Maxxppp – Footmercato"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10394,
+        "url": "https://www.fcsochauxretro.com/a-la-une/marc-pfertzel/",
+        "path": "/a-la-une/marc-pfertzel/",
+        "slug": "marc-pfertzel",
+        "seo_title": "Marc Pfertzel - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Marc Pfertzel</h2>\n<h4><strong>Né le 21 mai 1981 à Mulhouse (68)  </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière latéral droit</p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2001</p>\n<p><strong>Départ de Sochaux : </strong>juin 2001</p>",
+        "header_lines": [
+            "Marc Pfertzel",
+            "Né le 21 mai 1981 à Mulhouse (68)",
+            "Taille : 1m82",
+            "Poids : 73 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "Arrivée à Sochaux : janvier 2001",
+            "Départ de Sochaux : juin 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Marc",
+        "last_name": "Pfertzel",
+        "display_name": "Marc Pfertzel",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1981-05-21",
+                "precision": "day",
+                "text": "21 mai 1981"
+            },
+            "place": {
+                "text": "Mulhouse (68)",
+                "city": "Mulhouse",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 21 mai 1981 à Mulhouse (68)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2001-01",
+            "precision": "month",
+            "text": "janvier 2001"
+        },
+        "departure": {
+            "iso": "2001-06",
+            "precision": "month",
+            "text": "juin 2001"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Marc Pfertzel"
+            },
+            {
+                "label": null,
+                "value": "Né le 21 mai 1981 à Mulhouse (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2001"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2001"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

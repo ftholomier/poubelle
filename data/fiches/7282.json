@@ -1,0 +1,233 @@
+{
+    "id": 7282,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-calve",
+    "path": "/joueurs/jean-calve/",
+    "title": "Jean Calvé",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/02/1933354581.jpg",
+    "date": "2024-11-10T17:58:39",
+    "modified": "2026-02-03T21:44:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "20",
+        "text": "Jean Calvé a joué 20 matchs (3 passes décisives) avec Sochaux son club formateur avant de signer professionnel au Mans."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/fc-sochaux-aviez-vous-reconnu-l-ancien-jaune-et-bleu-jean-calve-1605609911.jpg",
+            "caption": "Jean Calvé",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean Calvé – L’est républicain"
+        },
+        {
+            "image": "2026/02/1933354581.jpg",
+            "caption": "Calvé",
+            "credit": "Collection privée",
+            "caption_raw": "Calvé – Collection privée"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7282,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-calve/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-calve/",
+        "slug": "jean-calve",
+        "seo_title": "Jean Calvé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Calvé</h2>\n<h4><strong>né le 30 avril 1984 à Cormeilles-en-Parisis (95)</strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>Arrière droit</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2002</p>\n<p><strong>Départ de Sochaux : </strong>juin 2006</p>\n<p><strong>Premier match :</strong> Bordeaux - Sochaux du 15/10/2005 : 1-1</p>\n<p><strong>Dernier match : </strong>Sochaux - Bordeaux du 23/04/2006 : 0-3</p>",
+        "header_lines": [
+            "Jean Calvé",
+            "né le 30 avril 1984 à Cormeilles-en-Parisis (95)",
+            "Taille : 1m83",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : Arrière droit",
+            "Arrivée à Sochaux : juillet 2002",
+            "Départ de Sochaux : juin 2006",
+            "Premier match : Bordeaux - Sochaux du 15/10/2005 : 1-1",
+            "Dernier match : Sochaux - Bordeaux du 23/04/2006 : 0-3"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean",
+        "last_name": "Calvé",
+        "display_name": "Jean Calvé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1984-04-30",
+                "precision": "day",
+                "text": "30 avril 1984"
+            },
+            "place": {
+                "text": "Cormeilles-en-Parisis (95)",
+                "city": "Cormeilles-en-Parisis",
+                "department": "95",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 avril 1984 à Cormeilles-en-Parisis (95)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "Arrière droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2002-07",
+            "precision": "month",
+            "text": "juillet 2002"
+        },
+        "departure": {
+            "iso": "2006-06",
+            "precision": "month",
+            "text": "juin 2006"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Bordeaux - Sochaux du 15/10/2005 : 1-1",
+        "last_match": "Sochaux - Bordeaux du 23/04/2006 : 0-3",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Calvé"
+            },
+            {
+                "label": null,
+                "value": "né le 30 avril 1984 à Cormeilles-en-Parisis (95)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "Arrière droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2006"
+            },
+            {
+                "label": "Premier match",
+                "value": "Bordeaux - Sochaux du 15/10/2005 : 1-1"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - Bordeaux du 23/04/2006 : 0-3"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2005 - 2006",
+                    "17",
+                    "0",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "17",
+                    "0",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "20",
+                    "0"
+                ]
+            ],
+            "source_table": 875
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

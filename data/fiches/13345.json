@@ -1,0 +1,114 @@
+{
+    "id": 13345,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sandro-nardis",
+    "path": "/dirigeants/sandro-nardis/",
+    "title": "Sandro Nardis",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/66c324bdbcd4e344779132.webp",
+    "date": "2025-04-05T14:43:24",
+    "modified": "2026-06-05T11:26:37",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Sandro Nardis, un président local qui sauve le club avec un consortium d'acteurs régionaux : 2024- ....</strong></h4>\n<ul>\n<li>Sandro Nardis, à la tête de l'entreprise familiale EIMI basée dans le Pays de Montbéliard, est un partenaire financier du club depuis des décennies. Un partenariat initié par Bartolino Nardis son père, créateur de la société EIMI en 1979. </li>\n<li>A l'été 2023, alors que le club est au bord du gouffre, il ne fuit pas ses responsabilités et prend la tête d'un consortium local pour sauver le club de la faillite.</li>\n<li>Il investit fortement et devient sponsor maillot du club.</li>\n<li>Il devient officiellement président à l'été 2024 et nomme avec le conseil de surveillance du club, Clément Calvez comme président exécutif.  </li>\n<li>En 2025, il entame des discussions avec la marque Peugeot pour les faire revenir au club comme sponsor. C'est chose faite en mars 2026. </li>\n<li>A l'issue de la saison 2025/2026 il réussit son premier pari en ramenant le club en ligue 2 après une saison solide. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "2024",
+        "text": "Président depuis 2024, Sandro Nardis est partenaire du club depuis de nombreuses années et son père avant lui via leur société EIMI."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/66c324bdbcd4e344779132.webp",
+            "caption": "Sandro Nardis actuel président du FC Sochaux-Montbéliard. Il a pris la tête du consortium régional qui a permis de sauver le club à l’été 2023.",
+            "credit": "",
+            "caption_raw": "Sandro Nardis actuel président du FC Sochaux-Montbéliard. Il a pris la tête du consortium régional qui a permis de sauver le club à l’été 2023."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13345,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/sandro-nardis/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/sandro-nardis/",
+        "slug": "sandro-nardis",
+        "seo_title": "Sandro Nardis - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Sandro Nardis</h2>\n<h4><strong>Président du conseil de surveillance depuis 2024</strong></h4>",
+        "header_lines": [
+            "Sandro Nardis",
+            "Président du conseil de surveillance depuis 2024"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Sandro",
+        "last_name": "Nardis",
+        "display_name": "Sandro Nardis",
+        "nickname": "",
+        "subtitle": "Président du conseil de surveillance depuis 2024",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sandro Nardis"
+            },
+            {
+                "label": null,
+                "value": "Président du conseil de surveillance depuis 2024"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

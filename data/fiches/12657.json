@@ -1,0 +1,165 @@
+{
+    "id": 12657,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "stephen-mc-cormick",
+    "path": "/joueurs/stephen-mc-cormick/",
+    "title": "Stephen Mc Cormick (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-25.jpg",
+    "date": "2025-03-08T17:52:33",
+    "modified": "2025-11-12T14:02:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>\n<p>A l'été 1997, Sochaux cherche un attaquant supplémentaire pour compléter sa ligne d'attaque. Faruk Hadzibegic met à l'essai pour quelques jours Stephen McCormick, un attaquant écossais de 27 ans. Ce longiligne attaquant d’1,92 m a terminé meilleur buteur de D2 écossaise marquant 32 buts en 33 matches la saison précédente. Il a également été élu meilleur joueur de ce championnat. Gilles Rousset qui l’a rencontré en coupe d’Ecosse l’a conseillé notamment pour sa très bonne mentalité.</p>\n</li>\n<li>Après une semaine d'entraînement, Faruk Hadzibegic ne gardera pas l’Ecossais. Si la mentalité et les qualités du joueur ont convaincus, Hadzibegic pense que son style de jeu ne correspond pas à la D2 française.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Stephen Mc Cormick a été à l'essai une semaine à l'été 1997."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-25.jpg",
+            "caption": "Stephen Mc Cormick",
+            "credit": "Dundee United",
+            "caption_raw": "Stephen Mc Cormick – Dundee United"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12657,
+        "url": "https://www.fcsochauxretro.com/uncategorized/stephen-mc-cormick/",
+        "path": "/uncategorized/stephen-mc-cormick/",
+        "slug": "stephen-mc-cormick",
+        "seo_title": "Stephen Mc Cormick (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Stephen Mc Cormick</h2>\n<h4><strong>né le 14 aout 1969 à Dumbarton (Ecosse)</strong></h4>\n<p><strong>Taille : </strong>1m92</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>A l'essai en : </strong>juillet 1997</p>",
+        "header_lines": [
+            "Stephen Mc Cormick",
+            "né le 14 aout 1969 à Dumbarton (Ecosse)",
+            "Taille : 1m92",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "A l'essai en : juillet 1997"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Stephen",
+        "last_name": "Mc Cormick",
+        "display_name": "Stephen Mc Cormick",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1997-07",
+            "precision": "month",
+            "text": "juillet 1997"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1969-08-14",
+                "precision": "day",
+                "text": "14 aout 1969"
+            },
+            "place": {
+                "text": "Dumbarton (Ecosse)",
+                "city": "Dumbarton",
+                "department": null,
+                "country": "Ecosse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 aout 1969 à Dumbarton (Ecosse)"
+        },
+        "death": null,
+        "height": "1m92",
+        "height_cm": 192,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Stephen Mc Cormick"
+            },
+            {
+                "label": null,
+                "value": "né le 14 aout 1969 à Dumbarton (Ecosse)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m92"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 1997"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

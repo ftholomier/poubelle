@@ -1,0 +1,134 @@
+{
+    "id": 16375,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-todt",
+    "path": "/dirigeants/jean-todt/",
+    "title": "Jean Todt",
+    "categories": [
+        "administratifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/Jt-official-pic.jpg",
+    "date": "2025-09-06T08:19:16",
+    "modified": "2025-11-13T10:58:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Le supérieur hiérarchique du Président du FC Sochaux-Montbéliard</strong></h4>\n<ul>\n<li>Jean Todt ancien pilote et co-pilote de rallye devient champion du monde en 1981. Il arrête sa carrière sur cette performance sportive et se voit confier la direction de Peugeot-Talbot Sport par le groupe PSA. </li>\n<li>A ce titre, outre ses nombreuses victoires prestigieuses (2 fois champion du monde des rallyes avec la 205 Turbo 16), 4 victoires au Paris-Dakar (405 Turbo 16) et 2 victoires aux 24H du Mans (avec la 905), il est le supérieur hiérarchique du Président du FC Sochaux-Montbéliard Jacques Thouzery au sein du groupe PSA. </li>\n<li>Dans les années 80 et au début des années 1990 on le voit très souvent dans les travées du stade Bonal. </li>\n<li>A la fin de la saison 1992/1993, on apprend qu'il quitte PSA après 12 magnifiques années pour rejoindre le dernier Everest automobile qu'il n'a pas encore conquis : la Formule 1. Il s'engage avec la Scuderia Ferrari avec laquelle il gagnera 14 titres de champion du monde (pilote + constructeur). </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "12",
+        "text": "Jean Todt a été directeur de Peugeot Sport durant 12 années."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/Jt-official-pic.jpg",
+            "caption": "Jean Todt",
+            "credit": "",
+            "caption_raw": "Jean Todt"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16375,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/jean-todt/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/jean-todt/",
+        "slug": "jean-todt",
+        "seo_title": "Jean Todt - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Todt  </h2>\n<p><strong>Né le 25 février 1946 à Pierrefort (15)</strong></p>\n<h4><strong>Directeur de Peugeot-Talbot Sport de 1982 à 1993.</strong></h4>",
+        "header_lines": [
+            "Jean Todt",
+            "Né le 25 février 1946 à Pierrefort (15)",
+            "Directeur de Peugeot-Talbot Sport de 1982 à 1993."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Jean",
+        "last_name": "Todt",
+        "display_name": "Jean Todt",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1946-02-25",
+                "precision": "day",
+                "text": "25 février 1946"
+            },
+            "place": {
+                "text": "Pierrefort (15)",
+                "city": "Pierrefort",
+                "department": "15",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 25 février 1946 à Pierrefort (15)"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Todt"
+            },
+            {
+                "label": null,
+                "value": "Né le 25 février 1946 à Pierrefort (15)"
+            },
+            {
+                "label": null,
+                "value": "Directeur de Peugeot-Talbot Sport de 1982 à 1993."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

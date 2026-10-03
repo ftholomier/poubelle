@@ -1,0 +1,162 @@
+{
+    "id": 20601,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gael-kore",
+    "path": "/joueurs/gael-kore/",
+    "title": "Gaël Koré (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/55_Gael-Kore-rotated-1.jpg",
+    "date": "2026-02-15T20:53:30",
+    "modified": "2026-02-15T21:02:51",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Formé à l'Académie Jean-Marc Guillou à Djékanou en Côte d'Ivoire, il évolue au poste de milieu défensif. </li>\n<li>De 2022 à 2025, il évolue à la Jeunesse Athlétique Club d'Angre (JACA) club de troisième division ivoirienne rataché à l'Académie de Jean-Marc Guillou. </li>\n<li>En février 2026, il effectue un essai d'une semaine sous les ordres de Vincent Hognon. Mais le club ne donne pas suite. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Gaël Koré reste 1 semaine à l'essai en février 2026."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/55_Gael-Kore-rotated-1.jpg",
+            "caption": "Gaël Koré à l’essai",
+            "credit": "DR Académie Jean-Marc Guillou",
+            "caption_raw": "Gaël Koré à l’essai – Photo DR Académie Jean-Marc Guillou"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20601,
+        "url": "https://www.fcsochauxretro.com/a-la-une/gael-kore-a-lessai/",
+        "path": "/a-la-une/gael-kore-a-lessai/",
+        "slug": "gael-kore-a-lessai",
+        "seo_title": "Gaël Koré (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Gaël Koré</h2>\n<h4><strong>né le 4 mai 2005 à Djekanou (Côte d'Ivoire)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>69 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>A l'essai à Sochaux en : </strong>février 2026</p>",
+        "header_lines": [
+            "Gaël Koré",
+            "né le 4 mai 2005 à Djekanou (Côte d'Ivoire)",
+            "Taille : 1m80",
+            "Poids : 69 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "A l'essai à Sochaux en : février 2026"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Gaël",
+        "last_name": "Koré",
+        "display_name": "Gaël Koré",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2026-02",
+            "precision": "month",
+            "text": "février 2026"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2005-05-04",
+                "precision": "day",
+                "text": "4 mai 2005"
+            },
+            "place": {
+                "text": "Djekanou (Côte d'Ivoire)",
+                "city": "Djekanou",
+                "department": null,
+                "country": "Côte d'Ivoire",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 4 mai 2005 à Djekanou (Côte d'Ivoire)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "69 kg",
+        "weight_kg": 69,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gaël Koré"
+            },
+            {
+                "label": null,
+                "value": "né le 4 mai 2005 à Djekanou (Côte d'Ivoire)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "69 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "A l'essai à Sochaux en",
+                "value": "février 2026"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

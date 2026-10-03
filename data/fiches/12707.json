@@ -1,0 +1,168 @@
+{
+    "id": 12707,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "miguel-pallardo",
+    "path": "/joueurs/miguel-pallardo/",
+    "title": "Miguel Pallardo (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-32.jpg",
+    "date": "2025-03-08T23:11:36",
+    "modified": "2025-11-12T13:54:29",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>En aout 2014, Sochaux a retrouvé la ligue 2 et les débuts sont timides. Olivier Echouafni l'entraîneur recherche un milieu défensif supplémentaire.</li>\n<li>Le club met à l'essai Miguel Pallardo qui a de belles références en Espagne mais se retrouve libre. A près quelques jours d'entraînement, les dirigeants décident de ne pas le recruter. Ils jeteront leur dévolu sur Florian Tardieu. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Miguel Pallardo a été mis à l'essai en aout 2014 durant 1 semaine."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-32.jpg",
+            "caption": "Miguel Pallardo",
+            "credit": "lemondedufootball.fr",
+            "caption_raw": "Miguel Pallardo – lemondedufootball.fr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12707,
+        "url": "https://www.fcsochauxretro.com/uncategorized/miguel-pallardo/",
+        "path": "/uncategorized/miguel-pallardo/",
+        "slug": "miguel-pallardo",
+        "seo_title": "Miguel Pallardo (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Miguel Pallardo</h2>\n<h4><strong>né le 5 septembre 1986 à Alaquas (Espagne)</strong></h4>\n<p><strong>Taille : </strong>1m73</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>International espagnol U17 (finaliste de la coupe du monde 2003), U19 et espoirs (9 sélections) </strong></p>\n<p><strong>A l'essai en : </strong>aout 2014</p>",
+        "header_lines": [
+            "Miguel Pallardo",
+            "né le 5 septembre 1986 à Alaquas (Espagne)",
+            "Taille : 1m73",
+            "Poids : 73 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International espagnol U17 (finaliste de la coupe du monde 2003), U19 et espoirs (9 sélections)",
+            "A l'essai en : aout 2014"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Miguel",
+        "last_name": "Pallardo",
+        "display_name": "Miguel Pallardo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2014-08",
+            "precision": "month",
+            "text": "aout 2014"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1986-09-05",
+                "precision": "day",
+                "text": "5 septembre 1986"
+            },
+            "place": {
+                "text": "Alaquas (Espagne)",
+                "city": "Alaquas",
+                "department": null,
+                "country": "Espagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 5 septembre 1986 à Alaquas (Espagne)"
+        },
+        "death": null,
+        "height": "1m73",
+        "height_cm": 173,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International espagnol U17 (finaliste de la coupe du monde 2003), U19 et espoirs (9 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Miguel Pallardo"
+            },
+            {
+                "label": null,
+                "value": "né le 5 septembre 1986 à Alaquas (Espagne)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m73"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International espagnol U17 (finaliste de la coupe du monde 2003), U19 et espoirs (9 sélections)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "aout 2014"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

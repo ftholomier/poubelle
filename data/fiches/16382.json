@@ -1,0 +1,119 @@
+{
+    "id": 16382,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-pierre-et-josiane-farolfi",
+    "path": "/personnages-emblematiques/jean-pierre-et-josiane-farolfi/",
+    "title": "Jean-Pierre et Josiane Farolfi",
+    "categories": [
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/5566.jpg",
+    "date": "2025-09-06T11:52:01",
+    "modified": "2025-11-12T20:27:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Quelques années après la création du centre de formation, Jean-Pierre et Josiane Farolfi sont embauchés pour s'occuper de l'intendance, des repas, du bricolage, entretiens des extérieurs, des pelouses etc. </li>\n<li>Ils deviennent vite des figures incontournables du club et y resteront durant plus de deux décennies voyant passé tous les futurs professionnels du club qui en gardent des souvenirs à vie comme le révèle les témoignages récents de Bernard Genghini ou Eric Hély lors du documentaire sur les 50 ans du centre de formation. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1977",
+        "text": "Le couple Farolfi est entré au centre de formation pour s'occuper des stagiaires en 1977."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/5566.jpg",
+            "caption": "Jean-Pierre et Josiane Farolfi lors de leurs noces d’or",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean-Pierre et Josiane Farolfi lors de leurs noces d’or – L’est républicain"
+        },
+        {
+            "image": "2025/09/c-etait-il-y-a-un-demi-siecle-1424948942.jpg",
+            "caption": "Jean-Pierre et Josiane Farolfi lors de leur mariage en 1962",
+            "credit": "L’est républicain.",
+            "caption_raw": "Jean-Pierre et Josiane Farolfi lors de leur mariage en 1962 – L’est républicain."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16382,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/jean-pierre-et-josiane-farolfi/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/jean-pierre-et-josiane-farolfi/",
+        "slug": "jean-pierre-et-josiane-farolfi",
+        "seo_title": "Jean-Pierre et Josiane Farolfi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Pierre et Josiane Farolfi</h2>\n<h4><strong>Intendants du centre de formation de 1977 à 1999  </strong></h4>",
+        "header_lines": [
+            "Jean-Pierre et Josiane Farolfi",
+            "Intendants du centre de formation de 1977 à 1999"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Jean-Pierre et Josiane",
+        "last_name": "Farolfi",
+        "display_name": "Jean-Pierre et Josiane Farolfi",
+        "nickname": "",
+        "subtitle": "Intendants du centre de formation de 1977 à 1999",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Pierre et Josiane Farolfi"
+            },
+            {
+                "label": null,
+                "value": "Intendants du centre de formation de 1977 à 1999"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

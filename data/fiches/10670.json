@@ -1,0 +1,271 @@
+{
+    "id": 10670,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-louis-reignier",
+    "path": "/joueurs/jean-louis-reignier/",
+    "title": "Jean-Louis Reignier",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/01/5-85.jpg",
+    "date": "2025-01-26T21:23:45",
+    "modified": "2025-07-16T22:12:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "124",
+        "text": "Jean-Louis Reignier aurait joué 124 matchs (49 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-85.jpg",
+            "caption": "Jean-Louis Reignier",
+            "credit": "sco1919.com / L’équipe",
+            "caption_raw": "Jean-Louis Reignier – sco1919.com / L’équipe"
+        },
+        {
+            "image": "2025/01/66386-1.jpg",
+            "caption": "Jean-Louis Reignier",
+            "credit": "Footballdatabase",
+            "caption_raw": "Jean-Louis Reignier – Footballdatabase"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10670,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-louis-reignier/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-louis-reignier/",
+        "slug": "jean-louis-reignier",
+        "seo_title": "Jean-Louis Reignier - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Louis Reignier</h2>\n<h4><strong>né le 1er avril 1929 à Cholet (49)</strong></h4>\n<h4><strong>Décédé le 7 juillet 1992 à xx </strong></h4>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Poste : </strong>ailier gauche</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1948</p>\n<p><strong>Départ de Sochaux : </strong>juin 1954</p>\n<p><strong>Premier match joué :</strong> CO Roubaix-Tourcoing - Sochaux du 23/09/1948 : 5-1</p>\n<p><strong>Dernier match joué :</strong> Saint Etienne-Sochaux du 17/05/1991 : 2-1</p>\n<p><strong>Premier but marqué</strong> : Sète - Sochaux du 12/02/1950 : 1-2 - But à la 1'</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Vainqueur de la coupe nationale corporative 1950</li>\n<li>Vice-champion de France de première division 1953</li>\n<li>Vainqueur de la coupe Charles Drago 1953</li>\n</ul>",
+        "header_lines": [
+            "Jean-Louis Reignier",
+            "né le 1er avril 1929 à Cholet (49)",
+            "Décédé le 7 juillet 1992 à xx",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "Arrivée à Sochaux : juillet 1948",
+            "Départ de Sochaux : juin 1954",
+            "Premier match joué : CO Roubaix-Tourcoing - Sochaux du 23/09/1948 : 5-1",
+            "Dernier match joué : Saint Etienne-Sochaux du 17/05/1991 : 2-1",
+            "Premier but marqué : Sète - Sochaux du 12/02/1950 : 1-2 - But à la 1'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe nationale corporative 1950",
+            "Vice-champion de France de première division 1953",
+            "Vainqueur de la coupe Charles Drago 1953"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Louis",
+        "last_name": "Reignier",
+        "display_name": "Jean-Louis Reignier",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1929-04-01",
+                "precision": "day",
+                "text": "1er avril 1929"
+            },
+            "place": {
+                "text": "Cholet (49)",
+                "city": "Cholet",
+                "department": "49",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er avril 1929 à Cholet (49)"
+        },
+        "death": {
+            "date": {
+                "iso": "1992-07-07",
+                "precision": "day",
+                "text": "7 juillet 1992"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 7 juillet 1992 à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1948-07",
+            "precision": "month",
+            "text": "juillet 1948"
+        },
+        "departure": {
+            "iso": "1954-06",
+            "precision": "month",
+            "text": "juin 1954"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "CO Roubaix-Tourcoing - Sochaux du 23/09/1948 : 5-1",
+        "last_match": "Saint Etienne-Sochaux du 17/05/1991 : 2-1",
+        "first_goal": "Sète - Sochaux du 12/02/1950 : 1-2 - But à la 1'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe nationale corporative 1950",
+            "Vice-champion de France de première division 1953",
+            "Vainqueur de la coupe Charles Drago 1953"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Louis Reignier"
+            },
+            {
+                "label": null,
+                "value": "né le 1er avril 1929 à Cholet (49)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 7 juillet 1992 à xx"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1948"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1954"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "CO Roubaix-Tourcoing - Sochaux du 23/09/1948 : 5-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Saint Etienne-Sochaux du 17/05/1991 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sète - Sochaux du 12/02/1950 : 1-2 - But à la 1'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe nationale corporative 1950"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de première division 1953"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago 1953"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

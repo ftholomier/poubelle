@@ -1,0 +1,166 @@
+{
+    "id": 13891,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "abasse-ba",
+    "path": "/entraineurs/abasse-ba/",
+    "title": "Abasse Ba",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-adjoints",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/05/abasse-ba-adjoint-principal-photo-lionel-vadam-1699179571.jpg",
+    "date": "2025-07-17T15:30:21",
+    "modified": "2026-09-17T11:51:09",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "212",
+        "text": "Abasse Ba aura été l'adjoint de quatre entraineurs en deux saisons (Oswald Tanchot, Karim Mokeddem, Eric Hély, Frédéric Bompard). Un record !"
+    },
+    "gallery": [
+        {
+            "image": "2025/05/abasse-ba-adjoint-principal-photo-lionel-vadam-1699179571.jpg",
+            "caption": "Abasse Ba",
+            "credit": "L’est républicain",
+            "caption_raw": "Abasse Ba – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13891,
+        "url": "https://www.fcsochauxretro.com/a-la-une/abasse-ba/",
+        "path": "/a-la-une/abasse-ba/",
+        "slug": "abasse-ba",
+        "seo_title": "Abasse Ba - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Abasse Ba</h2>\n<h4><strong>né le 12 juillet 1976 à Pelel Kindessae (Sénégal) </strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poste : </strong>Entraineur adjoint</p>\n<p><strong>Arrivée à Sochaux :</strong> Juillet 2023</p>\n<p><strong>Départ de Sochaux :</strong> Juin 2025</p>",
+        "header_lines": [
+            "Abasse Ba",
+            "né le 12 juillet 1976 à Pelel Kindessae (Sénégal)",
+            "Taille : 1m88",
+            "Poste : Entraineur adjoint",
+            "Arrivée à Sochaux : Juillet 2023",
+            "Départ de Sochaux : Juin 2025"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "entraineur"
+        ],
+        "first_name": "Abasse",
+        "last_name": "Ba",
+        "display_name": "Abasse Ba",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1976-07-12",
+                "precision": "day",
+                "text": "12 juillet 1976"
+            },
+            "place": {
+                "text": "Pelel Kindessae (Sénégal)",
+                "city": "Pelel Kindessae",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 12 juillet 1976 à Pelel Kindessae (Sénégal)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Entraineur adjoint",
+        "line": "E",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2023-07",
+            "precision": "month",
+            "text": "Juillet 2023"
+        },
+        "departure": {
+            "iso": "2025-06",
+            "precision": "month",
+            "text": "Juin 2025"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Abasse Ba"
+            },
+            {
+                "label": null,
+                "value": "né le 12 juillet 1976 à Pelel Kindessae (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poste",
+                "value": "Entraineur adjoint"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "Juillet 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "Juin 2025"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

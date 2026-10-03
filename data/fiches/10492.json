@@ -1,0 +1,219 @@
+{
+    "id": 10492,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "geoffray-durbant",
+    "path": "/joueurs/geoffray-durbant/",
+    "title": "Geoffray Durbant",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-28.jpg",
+    "date": "2025-01-16T20:06:02",
+    "modified": "2025-05-12T20:11:05",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "32",
+        "text": "Geoffrey Durbant a signé à Sochaux à l'âge de 32 ans."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-28.jpg",
+            "caption": "Geoffray Durbant",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Geoffray Durbant – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10492,
+        "url": "https://www.fcsochauxretro.com/a-la-une/geoffray-durbant/",
+        "path": "/a-la-une/geoffray-durbant/",
+        "slug": "geoffray-durbant",
+        "seo_title": "Geoffray Durbant - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Geoffray Durbant</h2>\n<h4><strong>né le 19 mai 1992 à Bondy (93)</strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids :</strong> 72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International guadeloupéen (3 sélections, 2 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2025</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match joué : </strong>  </p>\n<p><strong>Dernier match joué : </strong></p>",
+        "header_lines": [
+            "Geoffray Durbant",
+            "né le 19 mai 1992 à Bondy (93)",
+            "Taille : 1m82",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International guadeloupéen (3 sélections, 2 buts)",
+            "Arrivée à Sochaux : janvier 2025",
+            "Départ de Sochaux :",
+            "Premier match joué :",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Geoffray",
+        "last_name": "Durbant",
+        "display_name": "Geoffray Durbant",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1992-05-19",
+                "precision": "day",
+                "text": "19 mai 1992"
+            },
+            "place": {
+                "text": "Bondy (93)",
+                "city": "Bondy",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 mai 1992 à Bondy (93)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International guadeloupéen (3 sélections, 2 buts)"
+        ],
+        "arrival": {
+            "iso": "2025-01",
+            "precision": "month",
+            "text": "janvier 2025"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Geoffray Durbant"
+            },
+            {
+                "label": null,
+                "value": "né le 19 mai 1992 à Bondy (93)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International guadeloupéen (3 sélections, 2 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2025"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": ""
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "National 1",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2024 - 2025",
+                    "15",
+                    "3",
+                    "15",
+                    "3"
+                ],
+                [
+                    "TOTAL",
+                    "15",
+                    "3",
+                    "15",
+                    "3"
+                ]
+            ],
+            "source_table": 1066
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

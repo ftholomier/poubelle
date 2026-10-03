@@ -1,0 +1,246 @@
+{
+    "id": 8868,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sofiane-diop",
+    "path": "/joueurs/sofiane-diop/",
+    "title": "Sofiane Diop",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-18.jpg",
+    "date": "2024-12-15T10:19:25",
+    "modified": "2025-03-31T20:44:27",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Sofiane Diop a joué 15 matchs (1 but et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/sofiane-diop-une-rentree-remarquee-qui-a-booste-le-fcsm-photo-er-lionel-vadam-1583595034.jpg",
+            "caption": "Sofiane Diaop",
+            "credit": "L’est républicain",
+            "caption_raw": "Sofiane Diaop – L’est républicain"
+        },
+        {
+            "image": "2024/12/1200x680_20190919_155200_resized.jpg",
+            "caption": "Sofiane Diop",
+            "credit": "France Bleu Belfort-Montbéliard",
+            "caption_raw": "Sofiane Diop – France Bleu Belfort-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8868,
+        "url": "https://www.fcsochauxretro.com/a-la-une/sofiane-diop/",
+        "path": "/a-la-une/sofiane-diop/",
+        "slug": "sofiane-diop",
+        "seo_title": "Sofiane Diop - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Sofiane Diop</h2>\n<h4><strong>né le 9 juin 2000 à Tours (37)</strong></h4>\n<p><strong>Taille :</strong> 1m75</p>\n<p><strong>Poids :</strong> 65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> milieu offensif ou ailier</p>\n<p><strong>International marocain </strong></p>\n<p><strong>Arrivée à Sochaux :</strong> septembre 2019</p>\n<p><strong>Départ de Sochaux :</strong> juin 2020</p>\n<p><strong>Premier match joué :</strong> Sochaux - Clermont du 04/10/2019 : 4-0</p>\n<p><strong>Dernier match joué : Clermont - </strong>Sochaux du 06/03/2020 : 2-0 </p>\n<p><strong>Premier but marqué :</strong> Valenciennes - Sochaux du 14/02/2020 : 3-2 - But à la 10'</p>",
+        "header_lines": [
+            "Sofiane Diop",
+            "né le 9 juin 2000 à Tours (37)",
+            "Taille : 1m75",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif ou ailier",
+            "International marocain",
+            "Arrivée à Sochaux : septembre 2019",
+            "Départ de Sochaux : juin 2020",
+            "Premier match joué : Sochaux - Clermont du 04/10/2019 : 4-0",
+            "Dernier match joué : Clermont - Sochaux du 06/03/2020 : 2-0",
+            "Premier but marqué : Valenciennes - Sochaux du 14/02/2020 : 3-2 - But à la 10'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Sofiane",
+        "last_name": "Diop",
+        "display_name": "Sofiane Diop",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "2000-06-09",
+                "precision": "day",
+                "text": "9 juin 2000"
+            },
+            "place": {
+                "text": "Tours (37)",
+                "city": "Tours",
+                "department": "37",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 juin 2000 à Tours (37)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "milieu offensif ou ailier",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International marocain"
+        ],
+        "arrival": {
+            "iso": "2019-09",
+            "precision": "month",
+            "text": "septembre 2019"
+        },
+        "departure": {
+            "iso": "2020-06",
+            "precision": "month",
+            "text": "juin 2020"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Clermont du 04/10/2019 : 4-0",
+        "last_match": "Clermont - Sochaux du 06/03/2020 : 2-0",
+        "first_goal": "Valenciennes - Sochaux du 14/02/2020 : 3-2 - But à la 10'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sofiane Diop"
+            },
+            {
+                "label": null,
+                "value": "né le 9 juin 2000 à Tours (37)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif ou ailier"
+            },
+            {
+                "label": null,
+                "value": "International marocain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2020"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Clermont du 04/10/2019 : 4-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Clermont - Sochaux du 06/03/2020 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Valenciennes - Sochaux du 14/02/2020 : 3-2 - But à la 10'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2019 - 2020",
+                    "15",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "15",
+                    "1"
+                ],
+                [
+                    "TOTAL",
+                    "15",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "15",
+                    "1"
+                ]
+            ],
+            "source_table": 984
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

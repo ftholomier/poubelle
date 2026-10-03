@@ -1,0 +1,351 @@
+{
+    "id": 5953,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "roger-hug",
+    "path": "/joueurs/roger-hug/",
+    "title": "Roger Hug",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-principaux",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/61b230069dbb9661425276.webp",
+    "date": "2024-10-11T11:54:56",
+    "modified": "2025-05-28T11:15:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Carrière de joueur",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "383",
+        "text": "Roger Hug a disputé 383 matches avec Sochaux, 187 (9 buts) comme joueur et 196 (91 victoires - 48 nuls - 57 défaites) comme entraîneur. Il est l'homme le plus titré de l'histoire du club (6 trophées nationaux)."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/61b230069dbb9661425276.webp",
+            "caption": "Robert Hug",
+            "credit": "",
+            "caption_raw": "Robert Hug"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 5953,
+        "url": "https://www.fcsochauxretro.com/a-la-une/roger-hug/",
+        "path": "/a-la-une/roger-hug/",
+        "slug": "roger-hug",
+        "seo_title": "Roger Hug - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Roger Hug</h2>\n<h4><strong>né le 27 aout 1913 à Audincourt (25) </strong></h4>\n<h4><strong>Décédé le 22 juin 1996 à Grand Charmont (25). </strong></h4>\n<p><strong>Taille : 1m76</strong></p>\n<p><strong>Pied : Droitier</strong></p>\n<p><strong>Poste : Défenseur central ou milieu défensif</strong></p>\n<p><strong>Puis : Entraîneur</strong></p>\n<p><strong>Carrière de joueur</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juin 1931</p>\n<p><strong>Départ de Sochaux : </strong>juin 1948</p>\n<p><strong>Premier match joué </strong>: Sochaux - Metz du 18/09/1922 : 1-5</p>\n<p><strong>Dernier match joué :</strong> Saint-Etienne - Sochaux du 15/02/1948 : 2-1 </p>\n<p><strong>Premier but marqué : </strong>Sochaux -Metz du 18/09/1932 - But à la 75'</p>\n<p><strong>Carrière d'entraîneur</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>mars 1962</p>\n<p><strong>Départ de Sochaux : </strong>novembre 1966</p>\n<p><strong>Premier match entraîné </strong>: Sochaux - Stade Français du 01/03/1962 : 2-3</p>\n<p><strong>Dernier match entraîné :</strong> Sochaux - Nîmes 20/11/1966 : 2-2 </p>\n<p><strong>Palmarès avec Sochaux</strong></p>\n<ul>\n<li>Champion de France 1935 et 1938 (joueur)</li>\n<li>Finaliste du tournoi de l'exposition de Bruxelles en 1935</li>\n<li>Vice-champion de France 1937 (joueur)</li>\n<li>Vainqueur de la coupe de France 1937 (joueur)</li>\n<li>Champion de France de deuxième division 1947 (joueur)</li>\n<li>Vice-champion de France de deuxième division 1964 (entraîneur)</li>\n<li>Vainqueur de la coupe Charles Drago 1963 et 1964 (Entraîneur)</li>\n</ul>",
+        "header_lines": [
+            "Roger Hug",
+            "né le 27 aout 1913 à Audincourt (25)",
+            "Décédé le 22 juin 1996 à Grand Charmont (25).",
+            "Taille : 1m76",
+            "Pied : Droitier",
+            "Poste : Défenseur central ou milieu défensif",
+            "Puis : Entraîneur",
+            "Carrière de joueur",
+            "Arrivée à Sochaux : juin 1931",
+            "Départ de Sochaux : juin 1948",
+            "Premier match joué : Sochaux - Metz du 18/09/1922 : 1-5",
+            "Dernier match joué : Saint-Etienne - Sochaux du 15/02/1948 : 2-1",
+            "Premier but marqué : Sochaux -Metz du 18/09/1932 - But à la 75'",
+            "Carrière d'entraîneur",
+            "Arrivée à Sochaux : mars 1962",
+            "Départ de Sochaux : novembre 1966",
+            "Premier match entraîné : Sochaux - Stade Français du 01/03/1962 : 2-3",
+            "Dernier match entraîné : Sochaux - Nîmes 20/11/1966 : 2-2",
+            "Palmarès avec Sochaux",
+            "Champion de France 1935 et 1938 (joueur)",
+            "Finaliste du tournoi de l'exposition de Bruxelles en 1935",
+            "Vice-champion de France 1937 (joueur)",
+            "Vainqueur de la coupe de France 1937 (joueur)",
+            "Champion de France de deuxième division 1947 (joueur)",
+            "Vice-champion de France de deuxième division 1964 (entraîneur)",
+            "Vainqueur de la coupe Charles Drago 1963 et 1964 (Entraîneur)"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur",
+            "entraineur"
+        ],
+        "first_name": "Roger",
+        "last_name": "Hug",
+        "display_name": "Roger Hug",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1913-08-27",
+                "precision": "day",
+                "text": "27 aout 1913"
+            },
+            "place": {
+                "text": "Audincourt (25)",
+                "city": "Audincourt",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 27 aout 1913 à Audincourt (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1996-06-22",
+                "precision": "day",
+                "text": "22 juin 1996"
+            },
+            "place": {
+                "text": "Grand Charmont (25)",
+                "city": "Grand Charmont",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 22 juin 1996 à Grand Charmont (25)."
+        },
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "Droitier",
+        "position": "Défenseur central ou milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1931-06",
+            "precision": "month",
+            "text": "juin 1931"
+        },
+        "departure": {
+            "iso": "1948-06",
+            "precision": "month",
+            "text": "juin 1948"
+        },
+        "arrival_coach": {
+            "iso": "1962-03",
+            "precision": "month",
+            "text": "mars 1962"
+        },
+        "departure_coach": {
+            "iso": "1966-11",
+            "precision": "month",
+            "text": "novembre 1966"
+        },
+        "first_match": "Sochaux - Metz du 18/09/1922 : 1-5",
+        "last_match": "Saint-Etienne - Sochaux du 15/02/1948 : 2-1",
+        "first_goal": "Sochaux -Metz du 18/09/1932 - But à la 75'",
+        "first_match_coached": "Sochaux - Stade Français du 01/03/1962 : 2-3",
+        "last_match_coached": "Sochaux - Nîmes 20/11/1966 : 2-2",
+        "honours": [],
+        "then": [
+            "Entraîneur"
+        ],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Roger Hug"
+            },
+            {
+                "label": null,
+                "value": "né le 27 aout 1913 à Audincourt (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 22 juin 1996 à Grand Charmont (25)."
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Pied",
+                "value": "Droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "Défenseur central ou milieu défensif"
+            },
+            {
+                "label": "Puis",
+                "value": "Entraîneur"
+            },
+            {
+                "label": null,
+                "value": "Carrière de joueur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1931"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1948"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Metz du 18/09/1922 : 1-5"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Saint-Etienne - Sochaux du 15/02/1948 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux -Metz du 18/09/1932 - But à la 75'"
+            },
+            {
+                "label": null,
+                "value": "Carrière d'entraîneur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "mars 1962"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "novembre 1966"
+            },
+            {
+                "label": "Premier match entraîné",
+                "value": "Sochaux - Stade Français du 01/03/1962 : 2-3"
+            },
+            {
+                "label": "Dernier match entraîné",
+                "value": "Sochaux - Nîmes 20/11/1966 : 2-2"
+            },
+            {
+                "label": null,
+                "value": "Palmarès avec Sochaux"
+            },
+            {
+                "label": null,
+                "value": "Champion de France 1935 et 1938 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Finaliste du tournoi de l'exposition de Bruxelles en 1935"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France 1937 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 1937 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 1947 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de deuxième division 1964 (entraîneur)"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago 1963 et 1964 (Entraîneur)"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

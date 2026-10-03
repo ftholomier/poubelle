@@ -1,0 +1,235 @@
+{
+    "id": 9013,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mouhamadou-drammeh",
+    "path": "/joueurs/mouhamadou-drammeh/",
+    "title": "Mouhamadou Drammeh",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/5-25.jpg",
+    "date": "2024-12-15T16:15:39",
+    "modified": "2025-07-16T21:44:06",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "28",
+        "text": "Mouhamadou Drammeh a joué 28 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/mouhamadou-drammeh-fc-sochaux-apres-son-exclusion-je-suis-dans-l-incomprehension-1730993599.jpg",
+            "caption": "Mouhamadou Drammeh",
+            "credit": "L’est républicain",
+            "caption_raw": "Mouhamadou Drammeh – L’est républicain"
+        },
+        {
+            "image": "2024/12/mouhamadou-drammeh-a-droite-etait-titulaire-au-tour-precedent-en-coupe-et-a-joue-35-minutes-a-rouen-photo-christine-dumas-1729964395.jpg",
+            "caption": "Mouhamadou Drammeh",
+            "credit": "L’est républicain",
+            "caption_raw": "Mouhamadou Drammeh – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9013,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/mouhamadou-drammeh/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/mouhamadou-drammeh/",
+        "slug": "mouhamadou-drammeh",
+        "seo_title": "Mouhamadou Drammeh - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mouhamadou Drammeh</h2>\n<h4><strong>né le 15 mai 1999 à Paris (75)</strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids :</strong> 75 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2023</p>\n<p><strong>Départ de Sochaux : </strong>juin 2025</p>\n<p><strong>Premier match joué </strong>: Geispolsheim - Sochaux du 09/12/2023 : 0-4</p>\n<p><strong>Dernier match joué :</strong> QRM - Sochaux du 16/05/2025 : 1-0</p>",
+        "header_lines": [
+            "Mouhamadou Drammeh",
+            "né le 15 mai 1999 à Paris (75)",
+            "Taille : 1m88",
+            "Poids : 75 kg",
+            "Pied : gaucher",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : aout 2023",
+            "Départ de Sochaux : juin 2025",
+            "Premier match joué : Geispolsheim - Sochaux du 09/12/2023 : 0-4",
+            "Dernier match joué : QRM - Sochaux du 16/05/2025 : 1-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mouhamadou",
+        "last_name": "Drammeh",
+        "display_name": "Mouhamadou Drammeh",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1999-05-15",
+                "precision": "day",
+                "text": "15 mai 1999"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 mai 1999 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "gaucher",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "aout 2023"
+        },
+        "departure": {
+            "iso": "2025-06",
+            "precision": "month",
+            "text": "juin 2025"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Geispolsheim - Sochaux du 09/12/2023 : 0-4",
+        "last_match": "QRM - Sochaux du 16/05/2025 : 1-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mouhamadou Drammeh"
+            },
+            {
+                "label": null,
+                "value": "né le 15 mai 1999 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2025"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Geispolsheim - Sochaux du 09/12/2023 : 0-4"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "QRM - Sochaux du 16/05/2025 : 1-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "National 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023 - 2024",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "2024 - 2025",
+                    "20",
+                    "0",
+                    "4",
+                    "0",
+                    "24",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "23",
+                    "0",
+                    "5",
+                    "0",
+                    "28",
+                    "0"
+                ]
+            ],
+            "source_table": 1086
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

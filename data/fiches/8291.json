@@ -1,0 +1,252 @@
+{
+    "id": 8291,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "brown-ideye",
+    "path": "/joueurs/brown-ideye/",
+    "title": "Brown Ideye",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/ideye-stage1.jpg",
+    "date": "2024-12-13T09:13:14",
+    "modified": "2026-02-27T17:02:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "58",
+        "text": "Brown Ideye a joué 58 matchs (22 buts et 5 passes décisives) pour Sochaux. matches joués avec Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/si-brown-ideye-n-a-pas-repris-l-entrainement-avec-ses-coequipiers-comme-prevu-c-est-que-son-avenir-a-sochaux-ou-ailleurs-se-discute-en-coulisses-photojean-luc-gillme-1484129171.jpg",
+            "caption": "Brown Ideye",
+            "credit": "L Vadam",
+            "caption_raw": "Brown Ideye – L Vadam"
+        },
+        {
+            "image": "2024/12/ideye-brown-a-signe-au-fc-sochaux-1484129452.jpg",
+            "caption": "Brown Ideye",
+            "credit": "Reinoso",
+            "caption_raw": "Brown Ideye – Reinoso"
+        },
+        {
+            "image": "2026/02/ideye-stage1.jpg",
+            "caption": "Brown",
+            "credit": "Collection privée",
+            "caption_raw": "Brown – Collection privée"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8291,
+        "url": "https://www.fcsochauxretro.com/a-la-une/brown-ideye/",
+        "path": "/a-la-une/brown-ideye/",
+        "slug": "brown-ideye",
+        "seo_title": "Brown Ideye - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Brown Ideye</h2>\n<h4><strong>né le 10 octobre 1988 à Yenagoa (Nigéria)</strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>International nigérian (28 sélections, 6 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2010</p>\n<p><strong>Départ de Sochaux : </strong>juin 2011</p>\n<p><strong>Premier match joué :</strong> Valenciennes - Sochaux du 31/01/2010 : 1-1</p>\n<p><strong>Dernier match joué :</strong> Arles-Avignon - Sochaux du 29/05/2011 : 1-3</p>\n<p><strong>Premier but et premier doublé marqué :</strong> Sochaux - Le Mans du 03/02/2010 : 3-0 - Buts à la 54' et 70'</p>",
+        "header_lines": [
+            "Brown Ideye",
+            "né le 10 octobre 1988 à Yenagoa (Nigéria)",
+            "Taille : 1m81",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International nigérian (28 sélections, 6 buts)",
+            "Arrivée à Sochaux : janvier 2010",
+            "Départ de Sochaux : juin 2011",
+            "Premier match joué : Valenciennes - Sochaux du 31/01/2010 : 1-1",
+            "Dernier match joué : Arles-Avignon - Sochaux du 29/05/2011 : 1-3",
+            "Premier but et premier doublé marqué : Sochaux - Le Mans du 03/02/2010 : 3-0 - Buts à la 54' et 70'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Brown",
+        "last_name": "Ideye",
+        "display_name": "Brown Ideye",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1988-10-10",
+                "precision": "day",
+                "text": "10 octobre 1988"
+            },
+            "place": {
+                "text": "Yenagoa (Nigéria)",
+                "city": "Yenagoa",
+                "department": null,
+                "country": "Nigéria",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 octobre 1988 à Yenagoa (Nigéria)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International nigérian (28 sélections, 6 buts)"
+        ],
+        "arrival": {
+            "iso": "2010-01",
+            "precision": "month",
+            "text": "janvier 2010"
+        },
+        "departure": {
+            "iso": "2011-06",
+            "precision": "month",
+            "text": "juin 2011"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Valenciennes - Sochaux du 31/01/2010 : 1-1",
+        "last_match": "Arles-Avignon - Sochaux du 29/05/2011 : 1-3",
+        "first_goal": "Sochaux - Le Mans du 03/02/2010 : 3-0 - Buts à la 54' et 70'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Brown Ideye"
+            },
+            {
+                "label": null,
+                "value": "né le 10 octobre 1988 à Yenagoa (Nigéria)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International nigérian (28 sélections, 6 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2010"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2011"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Valenciennes - Sochaux du 31/01/2010 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Arles-Avignon - Sochaux du 29/05/2011 : 1-3"
+            },
+            {
+                "label": "Premier but et premier doublé marqué",
+                "value": "Sochaux - Le Mans du 03/02/2010 : 3-0 - Buts à la 54' et 70'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

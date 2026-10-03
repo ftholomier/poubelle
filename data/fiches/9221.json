@@ -1,0 +1,246 @@
+{
+    "id": 9221,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "olivier-werner",
+    "path": "/joueurs/olivier-werner/",
+    "title": "Olivier Werner",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/25653.jpg",
+    "date": "2024-12-28T23:56:56",
+    "modified": "2025-11-29T13:35:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "36",
+        "text": "Olivier Werner a gardé les buts de Sochaux à 36 reprises (14 clean sheets)."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5edef7c0b02bd_okmaxsportsworldtwo377169.jpg",
+            "caption": "Olivier Werner",
+            "credit": "France 3 Franche-Comté",
+            "caption_raw": "Olivier Werner – France 3 Franche-Comté"
+        },
+        {
+            "image": "2024/12/je-ne-sais-pas-si-on-sera-plus-fort-mais-on-a-appris-des-choses-confie-olivier-werner-qui-revient-avec-lucidite-et-franchise-sur-la-saison-ecoulee-photo-lionel-vadam-1467402018.jpg",
+            "caption": "Olivier Werner",
+            "credit": "L’est républicain",
+            "caption_raw": "Olivier Werner – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "dailymotion",
+            "id": "x4pwq9t",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9221,
+        "url": "https://www.fcsochauxretro.com/a-la-une/olivier-werner/",
+        "path": "/a-la-une/olivier-werner/",
+        "slug": "olivier-werner",
+        "seo_title": "Olivier Werner - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Olivier Werner</h2>\n<h4><strong>né le 16 avril 1985 à Malmédy (Belgique) </strong></h4>\n<p><strong>Taille : </strong>1m93</p>\n<p><strong>Poids : </strong>93 kg</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>International belge U19 (1 sélection)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2015</p>\n<p><strong>Départ de Sochaux : </strong>juin 2017</p>\n<p><strong>Premier match joué :</strong> Clermont - Sochaux du 31/07/2015 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Orléans du 16/08/2016 : 0-0</p>",
+        "header_lines": [
+            "Olivier Werner",
+            "né le 16 avril 1985 à Malmédy (Belgique)",
+            "Taille : 1m93",
+            "Poids : 93 kg",
+            "Poste : gardien de but",
+            "Pied : droitier",
+            "International belge U19 (1 sélection)",
+            "Arrivée à Sochaux : juillet 2015",
+            "Départ de Sochaux : juin 2017",
+            "Premier match joué : Clermont - Sochaux du 31/07/2015 : 0-0",
+            "Dernier match joué : Sochaux - Orléans du 16/08/2016 : 0-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Olivier",
+        "last_name": "Werner",
+        "display_name": "Olivier Werner",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1985-04-16",
+                "precision": "day",
+                "text": "16 avril 1985"
+            },
+            "place": {
+                "text": "Malmédy (Belgique)",
+                "city": "Malmédy",
+                "department": null,
+                "country": "Belgique",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 16 avril 1985 à Malmédy (Belgique)"
+        },
+        "death": null,
+        "height": "1m93",
+        "height_cm": 193,
+        "weight": "93 kg",
+        "weight_kg": 93,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [
+            "International belge U19 (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "2015-07",
+            "precision": "month",
+            "text": "juillet 2015"
+        },
+        "departure": {
+            "iso": "2017-06",
+            "precision": "month",
+            "text": "juin 2017"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Clermont - Sochaux du 31/07/2015 : 0-0",
+        "last_match": "Sochaux - Orléans du 16/08/2016 : 0-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Olivier Werner"
+            },
+            {
+                "label": null,
+                "value": "né le 16 avril 1985 à Malmédy (Belgique)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m93"
+            },
+            {
+                "label": "Poids",
+                "value": "93 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": null,
+                "value": "International belge U19 (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2015"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2017"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Clermont - Sochaux du 31/07/2015 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Orléans du 16/08/2016 : 0-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

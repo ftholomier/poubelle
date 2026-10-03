@@ -1,0 +1,180 @@
+{
+    "id": 14962,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jeffrey-quarshie",
+    "path": "/joueurs/jeffrey-quarshie/",
+    "title": "Jeffrey Quarshie (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/Jeffrey_Quarshie.jpg",
+    "date": "2025-07-02T16:29:25",
+    "modified": "2025-11-18T23:07:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<p>Il reste à l'essai quelques jours à Sochaux lors de l'été 2023. Face à l'incertitude financière autour du club, il s'engage finalement à Cholet en National. </p>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "15 jours d'essai à l'été 2023 pour Jeffrey Quarshie."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/Jeffrey_Quarshie.jpg",
+            "caption": "Jeffrey Quarshie",
+            "credit": "L’est républicain",
+            "caption_raw": "Jeffrey Quarshie – L’est républicain"
+        },
+        {
+            "image": "2025/07/jeffrey-quarshie-en-bleu-et-stone-mambo-en-jaune-photo-christian-lemontey-1692225162.jpg",
+            "caption": "Jeffrey Quarshie et Stone Mambo – Aout 2023",
+            "credit": "L’est républicain",
+            "caption_raw": "Jeffrey Quarshie et Stone Mambo – Aout 2023 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 14962,
+        "url": "https://www.fcsochauxretro.com/uncategorized/jeffrey-quarshie/",
+        "path": "/uncategorized/jeffrey-quarshie/",
+        "slug": "jeffrey-quarshie",
+        "seo_title": "Jeffrey Quarshie (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jeffrey Quarshie</h2>\n<h4><strong>né le 11 juillet 1991 à Rennes (35)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux :</strong> aout 2023</p>\n<p><strong>Départ de Sochaux : </strong>aout 2023</p>",
+        "header_lines": [
+            "Jeffrey Quarshie",
+            "né le 11 juillet 1991 à Rennes (35)",
+            "Taille : 1m80",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : aout 2023",
+            "Départ de Sochaux : aout 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jeffrey",
+        "last_name": "Quarshie",
+        "display_name": "Jeffrey Quarshie",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1991-07-11",
+                "precision": "day",
+                "text": "11 juillet 1991"
+            },
+            "place": {
+                "text": "Rennes (35)",
+                "city": "Rennes",
+                "department": "35",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 11 juillet 1991 à Rennes (35)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "aout 2023"
+        },
+        "departure": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "aout 2023"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jeffrey Quarshie"
+            },
+            {
+                "label": null,
+                "value": "né le 11 juillet 1991 à Rennes (35)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "aout 2023"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

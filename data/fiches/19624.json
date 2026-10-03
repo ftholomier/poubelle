@@ -1,0 +1,464 @@
+{
+    "id": 19624,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-vitkovice-amical-23-01-1988",
+    "path": "/matchs/1987-1988/sochaux-vitkovice-amical-23-01-1988/",
+    "title": "Amical – Sochaux (D2) / Vitkovice (D1 TCH) – 23/01/1988 – 1-1",
+    "categories": [
+        "1987-1988",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/Silvestre-Lorius.png",
+    "date": "2025-12-24T10:21:31",
+    "modified": "2026-01-03T14:28:29",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Pour la reprise, Sochaux va affronter une équipe européenne. Actuellement 5e du championnat de Tchécoslovaquie, Vitkovice disputera les quarts de finale de la coupe UEFA après sa qualification fin décembre face au Vitoria Guimaraes. </li>\n<li>A Sochaux, Morin est absent pour cette première rencontre de l'année. Il est au repos depuis la reprise. Il en va de même pour Madar qui est lui aussi blessé. </li>\n<li>Après cette rencontre, les Sochaliens se rendront en stage à Saint Jean de Monts en Vendée. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>6' :</strong> frappe de Sauzée boxée par Zapalka. </li>\n<li><strong>13' : bien décalé par Thomas dans la surface, Paille ouvre le score d'un tir précis. 1-0</strong></li>\n<li><strong>14' :</strong> slalom de Sauzée dont la frappe rase le poteau de Zapalka. </li>\n<li><strong>25' : centre aérien de Skarecky que Silvestre propulse dans sa lucarne en voulant dégager la balle. 1-1</strong></li>\n<li><strong>34' :</strong> frappe de Sauzée sur le poteau. </li>\n<li><strong>57' :</strong> Dobraje repousse une frappe de Dostal. </li>\n<li><strong>67' :</strong> belle action collective de Sochaux. Lucas sert parfaitement Paille qui frappe au dessus. </li>\n<li><strong>70' :</strong> beau mouvement collectif des Tchécoslovaques. Houska, seul devant Dobraje, manque le cadre. </li>\n<li><strong>80' :</strong> frappe de Frotey déviée en corner par le gardien. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Sylvester Takac :</strong> \" <em>Je suis satisfait de cette rencontre. Certes nous étions fatigués en seconde période mais le contenu fut très intéressant face à un adversaire européen.</em>\"</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Les joueurs pros Sochaliens se rendront à Saint Jean de Monts en stage : les 14 professionnels plus Christophe Gaonac'h et Jean-Marc Frotey. </li>\n<li>3 rencontres amicales sont au programme pour le FCSM fin janvier et début février : contre la Roche sur Yon, Niort et Orléans. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "première rencontre de l'année pour le FCSM"
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Silvestre-Lorius.png",
+            "caption": "Silvestre",
+            "credit": "Lorius",
+            "caption_raw": "Silvestre – Lorius"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19624,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-d2-vitkovice-d1-tch-23-01-1988-1-1/",
+        "path": "/a-la-une/amical-sochaux-d2-vitkovice-d1-tch-23-01-1988-1-1/",
+        "slug": "amical-sochaux-d2-vitkovice-d1-tch-23-01-1988-1-1",
+        "seo_title": "Amical - Sochaux (D2) / Vitkovice (D1 TCH) - 23/01/1988 - 1-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (D2) / Vitkovice (D1 TCH) : 1-1</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 23 janvier 1988</strong></h4>\n<h4><strong>Stade de Lure (70)</strong></h4>\n<h4><strong>1 000 spectateurs</strong></h4>\n<h4><strong>Arbitrage : ?</strong></h4>\n<p>Buts :  Paille 13' pour Sochaux ; Silvestre 25' (csc) pour Vitkovice.  </p>",
+        "header_lines": [
+            "Sochaux (D2) / Vitkovice (D1 TCH) : 1-1",
+            "Match amical",
+            "Samedi 23 janvier 1988",
+            "Stade de Lure (70)",
+            "1 000 spectateurs",
+            "Arbitrage : ?",
+            "Buts : Paille 13' pour Sochaux ; Silvestre 25' (csc) pour Vitkovice."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1988-01-23",
+        "date_text": "Samedi 23 janvier 1988",
+        "season": "1987-1988",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "away": {
+            "name": "Vitkovice",
+            "level": "D1 TCH"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 1,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-1",
+        "score_line": "Sochaux (D2) / Vitkovice (D1 TCH) : 1-1",
+        "result": "N",
+        "stadium": "Stade de Lure (70)",
+        "spectators": 1000,
+        "spectators_text": "1 000 spectateurs",
+        "referee": "?",
+        "goals_text": "Paille 13' pour Sochaux ; Silvestre 25' (csc) pour Vitkovice.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Paille 13'"
+            },
+            {
+                "team": "Vitkovice",
+                "scorers": "Silvestre 25' (csc)"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "6",
+                "text": "frappe de Sauzée boxée par Zapalka.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "13",
+                "text": "bien décalé par Thomas dans la surface, Paille ouvre le score d'un tir précis. 1-0",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "14",
+                "text": "slalom de Sauzée dont la frappe rase le poteau de Zapalka.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "25",
+                "text": "centre aérien de Skarecky que Silvestre propulse dans sa lucarne en voulant dégager la balle. 1-1",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "34",
+                "text": "frappe de Sauzée sur le poteau.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "57",
+                "text": "Dobraje repousse une frappe de Dostal.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "67",
+                "text": "belle action collective de Sochaux. Lucas sert parfaitement Paille qui frappe au dessus.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "70",
+                "text": "beau mouvement collectif des Tchécoslovaques. Houska, seul devant Dobraje, manque le cadre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "80",
+                "text": "frappe de Frotey déviée en corner par le gardien.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Sylvester Takac",
+                "text": "Je suis satisfait de cette rencontre. Certes nous étions fatigués en seconde période mais le contenu fut très intéressant face à un adversaire européen."
+            }
+        ],
+        "breves": [
+            "Les joueurs pros Sochaliens se rendront à Saint Jean de Monts en stage : les 14 professionnels plus Christophe Gaonac'h et Jean-Marc Frotey.",
+            "3 rencontres amicales sont au programme pour le FCSM fin janvier et début février : contre la Roche sur Yon, Niort et Orléans."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZEE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "13"
+                    ],
+                    "goals_text": "13'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "THOMAS Jean-Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "67",
+                    "sub_text": "Sortie 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FROTEY Jean-Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "67",
+                    "sub_out": null,
+                    "sub_text": "Entrée 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DOBRAJE Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1695
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

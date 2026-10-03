@@ -1,0 +1,286 @@
+{
+    "id": 9422,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "curt-keller",
+    "path": "/joueurs/curt-keller/",
+    "title": "Curt Keller",
+    "categories": [
+        "a-la-une",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-57.jpg",
+    "date": "2024-12-22T16:48:27",
+    "modified": "2024-12-22T17:16:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "33",
+        "text": "Curt Keller a joué 33 matchs (12 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-57.jpg",
+            "caption": "Curt Keller",
+            "credit": "FFF",
+            "caption_raw": "Curt Keller – FFF"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9422,
+        "url": "https://www.fcsochauxretro.com/a-la-une/curt-keller/",
+        "path": "/a-la-une/curt-keller/",
+        "slug": "curt-keller",
+        "seo_title": "Curt Keller - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Curt Keller</h2>\n<h4><strong>né le 28 avril 1918 à Strasbourg (67)</strong></h4>\n<h4><strong>Décédé le 3 mars 1992 à Albi (81)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International français (1 sélection) </strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1937</p>\n<p><strong>Départ de Sochaux : </strong>juin 1939</p>\n<p><strong>Premier match joué</strong> : Valenciennes - Sochaux du 22/08/1937 : 0-0</p>\n<p><strong>Dernier match joué : </strong>Excelsior Roubaix - Sochaux du 21/05/1939 : 3-2</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Rouen du 05/09/1937 : 5-0 - But à la 84'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de première division 1938</li>\n</ul>",
+        "header_lines": [
+            "Curt Keller",
+            "né le 28 avril 1918 à Strasbourg (67)",
+            "Décédé le 3 mars 1992 à Albi (81)",
+            "Taille : 1m75",
+            "Poids : 68 kg",
+            "Poste : attaquant",
+            "International français (1 sélection)",
+            "Arrivée à Sochaux : juillet 1937",
+            "Départ de Sochaux : juin 1939",
+            "Premier match joué : Valenciennes - Sochaux du 22/08/1937 : 0-0",
+            "Dernier match joué : Excelsior Roubaix - Sochaux du 21/05/1939 : 3-2",
+            "Premier but marqué : Sochaux - Rouen du 05/09/1937 : 5-0 - But à la 84'",
+            "Palmarès avec Sochaux :",
+            "Champion de France de première division 1938"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Curt",
+        "last_name": "Keller",
+        "display_name": "Curt Keller",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1918-04-28",
+                "precision": "day",
+                "text": "28 avril 1918"
+            },
+            "place": {
+                "text": "Strasbourg (67)",
+                "city": "Strasbourg",
+                "department": "67",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 28 avril 1918 à Strasbourg (67)"
+        },
+        "death": {
+            "date": {
+                "iso": "1992-03-03",
+                "precision": "day",
+                "text": "3 mars 1992"
+            },
+            "place": {
+                "text": "Albi (81)",
+                "city": "Albi",
+                "department": "81",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 3 mars 1992 à Albi (81)"
+        },
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "1937-07",
+            "precision": "month",
+            "text": "juillet 1937"
+        },
+        "departure": {
+            "iso": "1939-06",
+            "precision": "month",
+            "text": "juin 1939"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Valenciennes - Sochaux du 22/08/1937 : 0-0",
+        "last_match": "Excelsior Roubaix - Sochaux du 21/05/1939 : 3-2",
+        "first_goal": "Sochaux - Rouen du 05/09/1937 : 5-0 - But à la 84'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de première division 1938"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Curt Keller"
+            },
+            {
+                "label": null,
+                "value": "né le 28 avril 1918 à Strasbourg (67)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 3 mars 1992 à Albi (81)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1937"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1939"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Valenciennes - Sochaux du 22/08/1937 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Excelsior Roubaix - Sochaux du 21/05/1939 : 3-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Rouen du 05/09/1937 : 5-0 - But à la 84'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1938"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "3"
+                ],
+                [
+                    "1998-1999",
+                    "14",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "14",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "14",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "24",
+                    "3"
+                ]
+            ],
+            "source_table": 456
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

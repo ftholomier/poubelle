@@ -1,0 +1,172 @@
+{
+    "id": 12520,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "chahir-belghazouani",
+    "path": "/joueurs/chahir-belghazouani/",
+    "title": "Chahir Belghazouani (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-10.jpg",
+    "date": "2025-03-04T20:24:06",
+    "modified": "2026-03-02T13:13:25",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Sochaux est relégable fin 2008 et cherche à se renforcer. Le club recrute d'abord Vaclav Sverkos en attaque et Yassine Mikari au poste d'arrière gauche. Pour remonter au classement, le club met à l'essai le jeune milieu de terrain Chahir Belghazouani. Il appartient alors au Dynamo Kiev et a été prêté au RC Strasbourg lors de la première partie de saison. Mais à la fin de l'automne le club alsacien met fin au prêt suite à un problème extra sportif. Le joueur aurait joué dans un clip de Rap appellant notamment à commettre des violences contre les policiers. </li>\n<li>Le joueur est donc libre et Sochaux le met à l'essai lors de son stage de reprise en Andalousie. Finalement, Sochaux ne le conservera pas. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2008",
+        "text": "Chahir Belghazouani a été à l'essai à Sochaux en décembre/janvier 2008."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-10.jpg",
+            "caption": "Chahir Belghazouani",
+            "credit": "footballdatabase.eu",
+            "caption_raw": "Chahir Belghazouani – footballdatabase.eu"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12520,
+        "url": "https://www.fcsochauxretro.com/uncategorized/chahir-belghazouani/",
+        "path": "/uncategorized/chahir-belghazouani/",
+        "slug": "chahir-belghazouani",
+        "seo_title": "Chahir Belghazouani (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Chahir Belghazouani</strong></h2>\n<h4><strong>né le 6 octobre 1986 à Porto-Vecchio (2A)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>International marocain (8 sélections)</strong></p>\n<p><strong>A l'essai en : </strong>décembre 2008</p>",
+        "header_lines": [
+            "Chahir Belghazouani",
+            "né le 6 octobre 1986 à Porto-Vecchio (2A)",
+            "Taille : 1m80",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "International marocain (8 sélections)",
+            "A l'essai en : décembre 2008"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Chahir",
+        "last_name": "Belghazouani",
+        "display_name": "Chahir Belghazouani",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2008-12",
+            "precision": "month",
+            "text": "décembre 2008"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1986-10-06",
+                "precision": "day",
+                "text": "6 octobre 1986"
+            },
+            "place": {
+                "text": "Porto-Vecchio (2A)",
+                "city": "Porto-Vecchio",
+                "department": "2A",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 octobre 1986 à Porto-Vecchio (2A)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International marocain (8 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Chahir Belghazouani"
+            },
+            {
+                "label": null,
+                "value": "né le 6 octobre 1986 à Porto-Vecchio (2A)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": null,
+                "value": "International marocain (8 sélections)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "décembre 2008"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

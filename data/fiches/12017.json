@@ -1,0 +1,240 @@
+{
+    "id": 12017,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "michel-milojevic",
+    "path": "/joueurs/michel-milojevic/",
+    "title": "Michel Milojevic",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Milojevic-Messenet-.png",
+    "date": "2025-02-22T17:53:26",
+    "modified": "2026-02-13T08:54:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Michel Milojevic a joué 4 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Milojevic-Messenet-.png",
+            "caption": "Milojevic",
+            "credit": "Messenet",
+            "caption_raw": "Milojevic – Messenet"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12017,
+        "url": "https://www.fcsochauxretro.com/a-la-une/michel-milojevic/",
+        "path": "/a-la-une/michel-milojevic/",
+        "slug": "michel-milojevic",
+        "seo_title": "Michel Milojevic - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Michel Milojevic</h2>\n<h4><strong>né le 17 avril 1964 à Cuprija (Serbie)</strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1979</p>\n<p><strong>Départ de Sochaux :</strong> juin 1981</p>\n<p><strong>Premier match joué :</strong> Laval - Sochaux du 22/05/1981 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Lens - Sochaux du 02/06/1981 : 5-1</p>",
+        "header_lines": [
+            "Michel Milojevic",
+            "né le 17 avril 1964 à Cuprija (Serbie)",
+            "Taille : 1m83",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juillet 1979",
+            "Départ de Sochaux : juin 1981",
+            "Premier match joué : Laval - Sochaux du 22/05/1981 : 0-0",
+            "Dernier match joué : Lens - Sochaux du 02/06/1981 : 5-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Michel",
+        "last_name": "Milojevic",
+        "display_name": "Michel Milojevic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1964-04-17",
+                "precision": "day",
+                "text": "17 avril 1964"
+            },
+            "place": {
+                "text": "Cuprija (Serbie)",
+                "city": "Cuprija",
+                "department": null,
+                "country": "Serbie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 17 avril 1964 à Cuprija (Serbie)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1979-07",
+            "precision": "month",
+            "text": "juillet 1979"
+        },
+        "departure": {
+            "iso": "1981-06",
+            "precision": "month",
+            "text": "juin 1981"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Laval - Sochaux du 22/05/1981 : 0-0",
+        "last_match": "Lens - Sochaux du 02/06/1981 : 5-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Michel Milojevic"
+            },
+            {
+                "label": null,
+                "value": "né le 17 avril 1964 à Cuprija (Serbie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1979"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1981"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Laval - Sochaux du 22/05/1981 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Lens - Sochaux du 02/06/1981 : 5-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ]
+            ],
+            "source_table": 462
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

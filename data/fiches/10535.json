@@ -1,0 +1,313 @@
+{
+    "id": 10535,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-pierre-posca",
+    "path": "/joueurs/jean-pierre-posca/",
+    "title": "Jean-Pierre Posca",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/01/5-42.jpg",
+    "date": "2025-01-19T10:57:05",
+    "modified": "2025-07-16T22:13:25",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "420",
+        "text": "Jean-Pierre Posca a joué 420 matchs (9 buts et 1 passe décisive) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/photo-1554994281.jpg",
+            "caption": "Jean-Pierre Posca",
+            "credit": "",
+            "caption_raw": "Jean-Pierre Posca"
+        },
+        {
+            "image": "2025/01/images-7.jpg",
+            "caption": "Jean-Pierre Posca",
+            "credit": "dr",
+            "caption_raw": "Jean-Pierre Posca – dr"
+        },
+        {
+            "image": "2025/01/8-5.jpg",
+            "caption": "Jean-Pierre Posca",
+            "credit": "fcsm",
+            "caption_raw": "Jean-Pierre Posca – fcsm"
+        },
+        {
+            "image": "2025/01/7-9.jpg",
+            "caption": "Jean-Pierre Posca",
+            "credit": "dr",
+            "caption_raw": "Jean-Pierre Posca – dr"
+        },
+        {
+            "image": "2025/01/5-42.jpg",
+            "caption": "Jean-Pierre Posca",
+            "credit": "fcsm",
+            "caption_raw": "Jean-Pierre Posca – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10535,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-pierre-posca/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-pierre-posca/",
+        "slug": "jean-pierre-posca",
+        "seo_title": "Jean-Pierre Posca - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Pierre Posca</h2>\n<h4><strong>né le 10 mars 1952 à Colombier-Fontaine (25)</strong></h4>\n<h4><strong>Décédé le 1er janvier 2010 à Besançon (25)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>arrière latéral <strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1968</p>\n<p><strong>Départ de Sochaux :</strong> juin 1985</p>\n<p><strong>Premier match joué :</strong> Sochaux - Reims du 13/10/1971 : 1-1 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - FC Mantois du 12/03/1985 : 8-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Marseille du 06/08/1976 : 1-2 - But à la 60'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vice-champion de France 1980</li>\n<li>Demi-finaliste de la coupe UEFA 1981</li>\n</ul>",
+        "header_lines": [
+            "Jean-Pierre Posca",
+            "né le 10 mars 1952 à Colombier-Fontaine (25)",
+            "Décédé le 1er janvier 2010 à Besançon (25)",
+            "Taille : 1m75",
+            "Poids : 75 kg",
+            "Pied : ambidextre",
+            "Poste : arrière latéral",
+            "Arrivée à Sochaux : juillet 1968",
+            "Départ de Sochaux : juin 1985",
+            "Premier match joué : Sochaux - Reims du 13/10/1971 : 1-1",
+            "Dernier match joué : Sochaux - FC Mantois du 12/03/1985 : 8-1",
+            "Premier but marqué : Sochaux - Marseille du 06/08/1976 : 1-2 - But à la 60'",
+            "Palmarès avec Sochaux :",
+            "Vice-champion de France 1980",
+            "Demi-finaliste de la coupe UEFA 1981"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Pierre",
+        "last_name": "Posca",
+        "display_name": "Jean-Pierre Posca",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1952-03-10",
+                "precision": "day",
+                "text": "10 mars 1952"
+            },
+            "place": {
+                "text": "Colombier-Fontaine (25)",
+                "city": "Colombier-Fontaine",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 mars 1952 à Colombier-Fontaine (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "2010-01-01",
+                "precision": "day",
+                "text": "1er janvier 2010"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 1er janvier 2010 à Besançon (25)"
+        },
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "ambidextre",
+        "position": "arrière latéral",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1968-07",
+            "precision": "month",
+            "text": "juillet 1968"
+        },
+        "departure": {
+            "iso": "1985-06",
+            "precision": "month",
+            "text": "juin 1985"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Reims du 13/10/1971 : 1-1",
+        "last_match": "Sochaux - FC Mantois du 12/03/1985 : 8-1",
+        "first_goal": "Sochaux - Marseille du 06/08/1976 : 1-2 - But à la 60'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vice-champion de France 1980",
+            "Demi-finaliste de la coupe UEFA 1981"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Pierre Posca"
+            },
+            {
+                "label": null,
+                "value": "né le 10 mars 1952 à Colombier-Fontaine (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 1er janvier 2010 à Besançon (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1968"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1985"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Reims du 13/10/1971 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - FC Mantois du 12/03/1985 : 8-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Marseille du 06/08/1976 : 1-2 - But à la 60'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France 1980"
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe UEFA 1981"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

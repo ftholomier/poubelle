@@ -1,0 +1,368 @@
+{
+    "id": 22997,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "young-boys-de-berne-sochaux-amical-15-09-1970",
+    "path": "/matchs/1970-1971/young-boys-de-berne-sochaux-amical-15-09-1970/",
+    "title": "Amical – Young Boys de Berne (D1 SUI) / Sochaux (D1) – 15/09/1970 – 2-3",
+    "categories": [
+        "1970-1971",
+        "amical",
+        "annees-70-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/09/teambild_70-71_bis.jpg",
+    "date": "2026-09-10T16:18:18",
+    "modified": "2026-09-10T16:41:09",
+    "author": "gsanchez",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Avant le choc à Nantes en championnat, Sochaux rencontre en amical les Young Boys de Berne, équipe déjà rencontrée en match de préparation en août. Les sochaliens s'étaient imposés 1-0 à Bonal sur un but de Piat.</li>\n<li>Paul Barret peut compter sur un effectif au complet à un détail près : ce n'est pas Eugene Battmann qui garde les cages sochaliennes mais Jean-Paul Kraft, gardien de Nancy.</li>\n<li>Les remplaçants sont Duffez et Lang, ce dernier ayant été particulièrement brillant lors de la 1ere victoire de la réserve en Championnat National le week-end précédent contre Joinville.</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>Les suisses mènent 1-0 à la mi-temps et doublent la mise à la 55e minute.</li>\n<li><strong>70' : Lech ouvre sur Melic en position d'ailier gauche. Ce dernier centre pour Piat qui réduit le score. (2-1)</strong></li>\n<li><strong>83' : Largouët est à l'origine de l'action puis Piat, Terrier et enfin la tête de Lechantre qui égalise. (2-2)</strong></li>\n<li><strong>88' : Piat est fauché dans la surface de réparation. Pénalty. Lech transforme la sentence. (2-3)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Les observateurs apprécièrent la rentrée de Lang à 30 minutes du terme, ce qui correspond au renouveau sochalien et au renversement de situation.</li>\n<li>Lech et Largouët sont à crédité d'un bon match. Et le gardien d'un soir, Kraft, n'a pas commis la moindre erreur.</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "6e victoire en amical en 8 rencontres (1 nul, 1 défaite)."
+    },
+    "gallery": [
+        {
+            "image": "2026/09/teambild_70-71.jpg",
+            "caption": "Young Boys Berne 1970 1971",
+            "credit": "",
+            "caption_raw": "Young Boys Berne 1970 1971"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 22997,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/amical-young-boys-de-berne-d1-sui-sochaux-d1-15-09-1970-2-3/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/amical-young-boys-de-berne-d1-sui-sochaux-d1-15-09-1970-2-3/",
+        "slug": "amical-young-boys-de-berne-d1-sui-sochaux-d1-15-09-1970-2-3",
+        "seo_title": "Amical - Young Boys de Berne (D1 SUI) / Sochaux (D1) - 15/09/1970 - 2-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Young Boys Berne (D1 Suisse) / Sochaux : 2-3</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Mardi 15 septembre 1970</strong></h4>\n<h4><b>Stade de Suisse Wankdorf de Berne</b></h4>\n<p>Buts : Piat 71', Lechantre 83' et Lech 88' s.p. pour Sochaux.</p>",
+        "header_lines": [
+            "Young Boys Berne (D1 Suisse) / Sochaux : 2-3",
+            "Match amical",
+            "Mardi 15 septembre 1970",
+            "Stade de Suisse Wankdorf de Berne",
+            "Buts : Piat 71', Lechantre 83' et Lech 88' s.p. pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1970-09-15",
+        "date_text": "Mardi 15 septembre 1970",
+        "season": "1970-1971",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Young Boys de Berne",
+            "level": "D1 SUI"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-3",
+        "score_line": "Young Boys Berne (D1 Suisse) / Sochaux : 2-3",
+        "result": "V",
+        "stadium": "Stade de Suisse Wankdorf de Berne",
+        "spectators": null,
+        "spectators_text": null,
+        "referee": null,
+        "goals_text": "Piat 71', Lechantre 83' et Lech 88' s.p. pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Piat 71', Lechantre 83' et Lech 88' s.p."
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "70",
+                "text": "Lech ouvre sur Melic en position d'ailier gauche. Ce dernier centre pour Piat qui réduit le score. (2-1)",
+                "goal": true,
+                "score": "2-1"
+            },
+            {
+                "minute": "83",
+                "text": "Largouët est à l'origine de l'action puis Piat, Terrier et enfin la tête de Lechantre qui égalise. (2-2)",
+                "goal": true,
+                "score": "2-2"
+            },
+            {
+                "minute": "88",
+                "text": "Piat est fauché dans la surface de réparation. Pénalty. Lech transforme la sentence. (2-3)",
+                "goal": true,
+                "score": "2-3"
+            }
+        ],
+        "reactions": [],
+        "breves": [
+            "Les observateurs apprécièrent la rentrée de Lang à 30 minutes du terme, ce qui correspond au renouveau sochalien et au renversement de situation.",
+            "Lech et Largouët sont à crédité d'un bon match. Et le gardien d'un soir, Kraft, n'a pas commis la moindre erreur."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "KRAFT Jean-Paul",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LARGOUËT Jacques",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SELES Laszlo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BURCKLÉ Gérard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WASSMER Marcel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "WATTEAU Michel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MELIC Vojislav",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "TERRIER Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LECH Georges",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "88"
+                    ],
+                    "goals_text": "⚽ 88' s.p.",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PIAT Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "71"
+                    ],
+                    "goals_text": "⚽ 71'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LECHANTRE Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "83"
+                    ],
+                    "goals_text": "⚽ 83'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LANG Jean-Christian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "65",
+                    "sub_out": null,
+                    "sub_text": "↑ 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "BARRET Paul",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 2003
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

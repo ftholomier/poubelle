@@ -1,0 +1,241 @@
+{
+    "id": 13903,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "christian-bracconi",
+    "path": "/entraineurs/christian-bracconi/",
+    "title": "Christian Bracconi",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-adjoints",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/05/si-on-doit-se-dire-les-choses-on-ne-s-en-prive-pas-l-amitie-amene-ca-dixit-christian-bracconi-au-sujet-de-sa-relation-avec-albert-cartier-photo-lionel-vadam-1477250681.jpg",
+    "date": "2025-07-17T10:57:09",
+    "modified": "2026-09-17T11:49:58",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Christian Bracconi a été l'entraineur adjoint d'Albert Cartier durant une saison à Sochaux en 2016/2017."
+    },
+    "gallery": [
+        {
+            "image": "2025/05/si-on-doit-se-dire-les-choses-on-ne-s-en-prive-pas-l-amitie-amene-ca-dixit-christian-bracconi-au-sujet-de-sa-relation-avec-albert-cartier-photo-lionel-vadam-1477250681.jpg",
+            "caption": "Christian Bracconi",
+            "credit": "L’est républicain",
+            "caption_raw": "Christian Bracconi – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13903,
+        "url": "https://www.fcsochauxretro.com/a-la-une/christian-bracconi/",
+        "path": "/a-la-une/christian-bracconi/",
+        "slug": "christian-bracconi",
+        "seo_title": "Christian Bracconi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Christian Bracconi</h2>\n<h4><strong>né le 24 novembre 1960 à Constantine (Algérie) </strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poste : </strong>Entraineur adjoint</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 2016</p>\n<p><strong>Départ de Sochaux :</strong> juin 2017</p>",
+        "header_lines": [
+            "Christian Bracconi",
+            "né le 24 novembre 1960 à Constantine (Algérie)",
+            "Taille : 1m77",
+            "Poste : Entraineur adjoint",
+            "Arrivée à Sochaux : juin 2016",
+            "Départ de Sochaux : juin 2017"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "entraineur"
+        ],
+        "first_name": "Christian",
+        "last_name": "Bracconi",
+        "display_name": "Christian Bracconi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1960-11-24",
+                "precision": "day",
+                "text": "24 novembre 1960"
+            },
+            "place": {
+                "text": "Constantine (Algérie)",
+                "city": "Constantine",
+                "department": null,
+                "country": "Algérie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 novembre 1960 à Constantine (Algérie)"
+        },
+        "death": null,
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Entraineur adjoint",
+        "line": "E",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2016-06",
+            "precision": "month",
+            "text": "juin 2016"
+        },
+        "departure": {
+            "iso": "2017-06",
+            "precision": "month",
+            "text": "juin 2017"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Christian Bracconi"
+            },
+            {
+                "label": null,
+                "value": "né le 24 novembre 1960 à Constantine (Algérie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poste",
+                "value": "Entraineur adjoint"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 2016"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2017"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1976-1977",
+                    "16",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "1977-1978",
+                    "16",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "1978-1979",
+                    "21",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "21",
+                    "0"
+                ],
+                [
+                    "1979-1980",
+                    "13",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "13",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "66",
+                    "0",
+                    "4",
+                    "0",
+                    "2",
+                    "0",
+                    "72",
+                    "0"
+                ]
+            ],
+            "source_table": 283
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

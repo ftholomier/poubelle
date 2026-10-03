@@ -1,0 +1,132 @@
+{
+    "id": 13636,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "leonard-specht",
+    "path": "/dirigeants/leonard-specht/",
+    "title": "Léonard Specht",
+    "categories": [
+        "directeurs-sportifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/images.jpg",
+    "date": "2025-04-30T13:25:15",
+    "modified": "2025-11-13T10:30:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Léonard Specht - Directeur sportif en 1998-1999 </strong></h4>\n<ul>\n<li>Né le 16 avril 1954 à Mommenheim, Léonard Specht évolue au poste de défenseur central. Il réalise une brillante carrière de joueur et a un palmarès impressionnant : 4 fois champion de France (Strasbourg x1, Bordeaux x3) 2 fois Vainqueur de la coupe de France (1986 et 1987) et deux fois demi-finaliste de la coupe d'Europe (Bordeaux). Il termine sa carrière où il l'a commencé au RC Strasbourg. Il devient entraîneur et fait remonter le club en première division en gagnant le titre face à Sochaux (1988) comme il l'avait fait en 1977 comme joueur. Il compte 18 sélections en équipe de France pour 1 but marqué. </li>\n<li>En 1998, Gilles Daget qui cherche un directeur sportif depuis plusieurs saisons lui propose le poste alors que le club est en fâcheuse posture en première division. L'Alsacien alors commercial chez un fabriquant de tramway alsacien (Lohr) est très attaché à sa région. Mais il accepte ce rôle que Gilles Daget lui avait déjà proposé 3 ans plus tôt.</li>\n<li>Il arrive le 28 octobre 1998 au moment de l'éviction de Faruk Hadzibegic. C'est lui qui conforte Philippe Anziani dans son rôle d'entraîneur alors qu'il ne devait assurer qu'un intérim à l'origine. Pari perdant car le club redescend en deuxième division à l'issue de la saison malgré une fin de saison haletante.</li>\n<li>En 1999, il est le responsable du recrutement et réalise le transfert d'El Hadji Diouf à Rennes pour un montant record pour Sochaux à l'époque (35 millions de francs). Une partie de la somme récoltée est misée sur deux recrues d'expérience : Jean-Michel Ferri en provenance de Liverpool et Anto Drobnjak d'Osaka au Japon. Deux leaders pour encadrer les jeunes lionceaux prometteurs. Mais la mayonnaise ne prend pas, Philippe Anziani est démis de ses fonctions en septembre 1999. Il choisit Jean Fernandez pour le remplacer et quitte le club peu de temps après au moment de l'arrivée du nouveau président Jean-Claude Plessis. Il ne sera resté qu'une seule saison à Sochaux comme directeur sportif. </li>\n<li>Après Sochaux il repart dans le monde de l'entreprise. En juin 2009, face aux difficultés rencontrées par son club de cœur le RC Strasbourg, il prend la présidence après Philippe Ginestet. Il démissionne 2 mois plus tard. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Léonard Specht est nommé par Gilles Daget en 1998. En 1999, il quitte le club sous la présidence de Jean-Claude Plessis. Il aura été le directeur sportif qui a nommé Jean Fernandez entraîneur en septembre 1999."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/Daget-et-Specht-Est-Republicain.png",
+            "caption": "Daget et Specht",
+            "credit": "Est Républicain",
+            "caption_raw": "Daget et Specht – Est Républicain"
+        },
+        {
+            "image": "2025/04/images.jpg",
+            "caption": "Léonard Specht",
+            "credit": "L’Alsace",
+            "caption_raw": "Léonard Specht – L’Alsace"
+        },
+        {
+            "image": "2025/04/Specht-Gillme.png",
+            "caption": "Specht",
+            "credit": "Gillme",
+            "caption_raw": "Specht – Gillme"
+        },
+        {
+            "image": "2025/04/Daget-et-Specht-Gillme.png",
+            "caption": "Daget et Specht",
+            "credit": "Gillme",
+            "caption_raw": "Daget et Specht – Gillme"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13636,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/leonard-specht/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/leonard-specht/",
+        "slug": "leonard-specht",
+        "seo_title": "Léonard Specht - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Léonard Specht </h2>\n<h4><strong>Directeur sportif de 1998 à 1999 </strong></h4>",
+        "header_lines": [
+            "Léonard Specht",
+            "Directeur sportif de 1998 à 1999"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Léonard",
+        "last_name": "Specht",
+        "display_name": "Léonard Specht",
+        "nickname": "",
+        "subtitle": "Directeur sportif de 1998 à 1999",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Léonard Specht"
+            },
+            {
+                "label": null,
+                "value": "Directeur sportif de 1998 à 1999"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

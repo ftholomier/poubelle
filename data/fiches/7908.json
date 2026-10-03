@@ -1,0 +1,251 @@
+{
+    "id": 7908,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "yvon-goujon",
+    "path": "/joueurs/yvon-goujon/",
+    "title": "Yvon Goujon",
+    "categories": [
+        "a-la-une",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/37068.jpg",
+    "date": "2024-11-24T22:01:21",
+    "modified": "2025-11-12T15:01:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "41",
+        "text": "Yvon Goujon a joué 41 matchs (13 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/37068.jpg",
+            "caption": "Yvon Goujon",
+            "credit": "fff",
+            "caption_raw": "Yvon Goujon – fff"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7908,
+        "url": "https://www.fcsochauxretro.com/a-la-une/yvon-goujon-7908/",
+        "path": "/a-la-une/yvon-goujon-7908/",
+        "slug": "yvon-goujon-7908",
+        "seo_title": "Yvon Goujon - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Yvon Goujon</h2>\n<h4><strong>né le 21 janvier 1937 à Lorient (56)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif ou attaquant</p>\n<p><strong>International français (11 sélections, 6 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>octobre 1959</p>\n<p><strong>Départ de Sochaux : </strong>novembre 1960</p>\n<p><strong>Premier match joué</strong> : Sochaux - Toulouse du 25/10/1959 : 0-2</p>\n<p><strong>Dernier match joué :</strong> Strasbourg - Sochaux du 13/11/1960 : 4-0</p>\n<p><strong>Premier but marqué : </strong>Valenciennes - Sochaux du 08/11/1959 : 1-1 - But à la 38'</p>",
+        "header_lines": [
+            "Yvon Goujon",
+            "né le 21 janvier 1937 à Lorient (56)",
+            "Taille : 1m80",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif ou attaquant",
+            "International français (11 sélections, 6 buts)",
+            "Arrivée à Sochaux : octobre 1959",
+            "Départ de Sochaux : novembre 1960",
+            "Premier match joué : Sochaux - Toulouse du 25/10/1959 : 0-2",
+            "Dernier match joué : Strasbourg - Sochaux du 13/11/1960 : 4-0",
+            "Premier but marqué : Valenciennes - Sochaux du 08/11/1959 : 1-1 - But à la 38'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Yvon",
+        "last_name": "Goujon",
+        "display_name": "Yvon Goujon",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1937-01-21",
+                "precision": "day",
+                "text": "21 janvier 1937"
+            },
+            "place": {
+                "text": "Lorient (56)",
+                "city": "Lorient",
+                "department": "56",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 janvier 1937 à Lorient (56)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "milieu offensif ou attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français (11 sélections, 6 buts)"
+        ],
+        "arrival": {
+            "iso": "1959-10",
+            "precision": "month",
+            "text": "octobre 1959"
+        },
+        "departure": {
+            "iso": "1960-11",
+            "precision": "month",
+            "text": "novembre 1960"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Toulouse du 25/10/1959 : 0-2",
+        "last_match": "Strasbourg - Sochaux du 13/11/1960 : 4-0",
+        "first_goal": "Valenciennes - Sochaux du 08/11/1959 : 1-1 - But à la 38'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Yvon Goujon"
+            },
+            {
+                "label": null,
+                "value": "né le 21 janvier 1937 à Lorient (56)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif ou attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français (11 sélections, 6 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "octobre 1959"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "novembre 1960"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Toulouse du 25/10/1959 : 0-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Strasbourg - Sochaux du 13/11/1960 : 4-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Valenciennes - Sochaux du 08/11/1959 : 1-1 - But à la 38'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,248 @@
+{
+    "id": 9493,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "yannick-konki",
+    "path": "/joueurs/yannick-konki/",
+    "title": "Yannick Konki",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-67.jpg",
+    "date": "2024-12-23T10:09:14",
+    "modified": "2024-12-23T10:14:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>.</p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<p>.</p>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Yannick Konki a été formé durant 4 saisons au centre de formation de Sochaux et a gagné la coupe Gambardella en 2007."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/telechargement-22.jpg",
+            "caption": "Yannick Konki",
+            "credit": "L’est républicain",
+            "caption_raw": "Yannick Konki – L’est républicain"
+        },
+        {
+            "image": "2024/12/yannick-konki-a-g-va-etre-teste-par-le-staff-colmarien-photo-l-v-1295347573.jpg",
+            "caption": "Yannick Konki",
+            "credit": "L’est républicain",
+            "caption_raw": "Yannick Konki – L’est républicain"
+        },
+        {
+            "image": "2024/12/yannick-konki-coupes-a-la-main-au-duplex-une-boite-de-nuit-parisienne-avec-marvin-martin-et-edouard-butin-des-trois-l-un-n-a-pas-eu-la-chance-de-passer-pro-photo-d-archives-lion.jpg",
+            "caption": "Yannick Konki",
+            "credit": "L’est républicain",
+            "caption_raw": "Yannick Konki – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-67.jpg",
+            "caption": "Yannick Konki",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Yannick Konki – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9493,
+        "url": "https://www.fcsochauxretro.com/a-la-une/yannick-konki/",
+        "path": "/a-la-une/yannick-konki/",
+        "slug": "yannick-konki",
+        "seo_title": "Yannick Konki - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Yannick Konki</h2>\n<h4><strong>né le 19 novembre 1988 à Agen (47)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2004</p>\n<p><strong>Départ de Sochaux : </strong>juin 2008</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2007</li>\n</ul>",
+        "header_lines": [
+            "Yannick Konki",
+            "né le 19 novembre 1988 à Agen (47)",
+            "Taille : 1m75",
+            "Poids : 70 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "Arrivée à Sochaux : juillet 2004",
+            "Départ de Sochaux : juin 2008",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Yannick",
+        "last_name": "Konki",
+        "display_name": "Yannick Konki",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1988-11-19",
+                "precision": "day",
+                "text": "19 novembre 1988"
+            },
+            "place": {
+                "text": "Agen (47)",
+                "city": "Agen",
+                "department": "47",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 novembre 1988 à Agen (47)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2004-07",
+            "precision": "month",
+            "text": "juillet 2004"
+        },
+        "departure": {
+            "iso": "2008-06",
+            "precision": "month",
+            "text": "juin 2008"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Yannick Konki"
+            },
+            {
+                "label": null,
+                "value": "né le 19 novembre 1988 à Agen (47)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2004"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2008"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

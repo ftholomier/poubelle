@@ -1,0 +1,572 @@
+{
+    "id": 17949,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-nimes-division-2-18-05-2001",
+    "path": "/matchs/2000-2001/sochaux-nimes-division-2-18-05-2001/",
+    "title": "J38 – Sochaux / Nîmes – D2 – 18/05/2001 – 4-1",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/Meriem-Nimes-v.jpg",
+    "date": "2025-11-09T12:02:16",
+    "modified": "2025-12-24T13:54:55",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Sochaux termine 1er de deuxième division avec 75 points."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/00.jpg",
+            "caption": "Supporters – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est republicain",
+            "caption_raw": "Supporters – Sochaux-Nîmes 2000-2001 – L’est republicain"
+        },
+        {
+            "image": "2025/11/11-5.jpg",
+            "caption": "Crucet – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Crucet – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/22-7.jpg",
+            "caption": "Flachez – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Flachez – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/33-11.jpg",
+            "caption": "Manac’h – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Manac’h – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/44-7.jpg",
+            "caption": "Supporters – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Supporters – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/55-31-scaled.jpg",
+            "caption": "Crucet – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Crucet – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/66-6-scaled.jpg",
+            "caption": "Flachez – Manac’h – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Flachez – Manac’h – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/77-4.jpg",
+            "caption": "Pedretti – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Pedretti – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/88-1.jpg",
+            "caption": "Frau – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Frau – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/99-5-scaled.jpg",
+            "caption": "Les supporters envahissent le terrain après Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Les supporters envahissent le terrain après Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/123-scaled.jpg",
+            "caption": "Crucet lors de Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Crucet lors de Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/456-scaled.jpg",
+            "caption": "Chedli et Pedretti – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Chedli et Pedretti – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/741.jpg",
+            "caption": "Flachez – Pedretti – Isabey – Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Flachez – Pedretti – Isabey – Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/789.jpg",
+            "caption": "Supporters lors de Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Supporters lors de Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/852.jpg",
+            "caption": "Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/963.jpg",
+            "caption": "Supporters lors de Sochaux-Nîmes 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Supporters lors de Sochaux-Nîmes 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/347779071_621955109973546_4550688028050213805_n.jpg",
+            "caption": "Une de l’est républicain après Sochaux-Nîmes 2000-2001 – Les supporters en joie",
+            "credit": "L’est républicain",
+            "caption_raw": "Une de l’est républicain après Sochaux-Nîmes 2000-2001 – Les supporters en joie – L’est républicain"
+        },
+        {
+            "image": "2025/11/Scan_0002.jpg",
+            "caption": "Frau – Sochaux-Nîmes 2000-2001",
+            "credit": "Esprit club",
+            "caption_raw": "Frau – Sochaux-Nîmes 2000-2001 – Esprit club"
+        },
+        {
+            "image": "2025/11/FF287620du2022200520200120d2a2038e20X-v.jpg",
+            "caption": "Frau – Sochaux-Nîmes 2000-2001",
+            "credit": "France football",
+            "caption_raw": "Frau – Sochaux-Nîmes 2000-2001 – France football"
+        },
+        {
+            "image": "2025/11/120995844_3694817370530816_5475274913877863126_o-n2-1.jpg",
+            "caption": "Sochaux-Nîmes 2000-2001",
+            "credit": "DR",
+            "caption_raw": "Sochaux-Nîmes 2000-2001 – DR"
+        },
+        {
+            "image": "2025/11/Meriem-Nimes-v-1.jpg",
+            "caption": "Meriem – Sochaux-Nîmes 2000-2001",
+            "credit": "DR",
+            "caption_raw": "Meriem – Sochaux-Nîmes 2000-2001 – DR"
+        },
+        {
+            "image": "2025/11/IMG_20230702_145030_edit_93025219711326-scaled.jpg",
+            "caption": "Célébration après Sochaux-Nîmes",
+            "credit": "oznorMB",
+            "caption_raw": "Célébration après Sochaux-Nîmes – oznorMB"
+        },
+        {
+            "image": "2025/11/Numeriser0008-2.jpg",
+            "caption": "Meriem – Sochaux-Nîmes 2000-2001",
+            "credit": "DR",
+            "caption_raw": "Meriem – Sochaux-Nîmes 2000-2001 – DR"
+        },
+        {
+            "image": "2025/11/Numeriser0054-ok.jpg",
+            "caption": "Célébration lors de Sochaux-Nîmes 2000-2001",
+            "credit": "DR",
+            "caption_raw": "Célébration lors de Sochaux-Nîmes 2000-2001 – DR"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "2-KGFk3fKYs",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17949,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j38-sochaux-nimes-d2-18-05-2001-4-1/",
+        "path": "/a-la-une/j38-sochaux-nimes-d2-18-05-2001-4-1/",
+        "slug": "j38-sochaux-nimes-d2-18-05-2001-4-1",
+        "seo_title": "J38 - Sochaux / Nîmes - D2 - 18/05/2001 - 4-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Nîmes : 4-1<br></strong></h2>\n<h4><strong>38è journée de championnat de D2</strong></h4>\n<h4><strong>Vendredi 18 mai 2001</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>19 345 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Chéron</strong></h4>\n<p>Buts : Piquionne 10' (csc), Frau 25' et 38', Manac'h 27' pour Sochaux ; Salaün 49' pour Nîmes</p>",
+        "header_lines": [
+            "Sochaux / Nîmes : 4-1",
+            "38è journée de championnat de D2",
+            "Vendredi 18 mai 2001",
+            "Stade Auguste Bonal",
+            "19 345 spectateurs",
+            "Arbitre : M. Chéron",
+            "Buts : Piquionne 10' (csc), Frau 25' et 38', Manac'h 27' pour Sochaux ; Salaün 49' pour Nîmes"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2001-05-18",
+        "date_text": "Vendredi 18 mai 2001",
+        "season": "2000-2001",
+        "competition": "Championnat",
+        "competition_label": "Division 2",
+        "competition_code": "D2",
+        "round": "J38",
+        "round_text": "38è journée de championnat de D2",
+        "home": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "away": {
+            "name": "Nîmes",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 4,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "4-1",
+        "score_line": "Sochaux / Nîmes : 4-1",
+        "result": "V",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 19345,
+        "spectators_text": "19 345 spectateurs",
+        "referee": "M. Chéron",
+        "goals_text": "Piquionne 10' (csc), Frau 25' et 38', Manac'h 27' pour Sochaux ; Salaün 49' pour Nîmes",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Piquionne 10' (csc), Frau 25' et 38', Manac'h 27'"
+            },
+            {
+                "team": "Nîmes",
+                "scorers": "Salaün 49'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "77",
+                    "sub_text": "Sortie 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "27"
+                    ],
+                    "goals_text": "27'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "77",
+                    "sub_text": "Sortie 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MERIEM Camel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAGIS Michaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "25",
+                        "38"
+                    ],
+                    "goals_text": "25' et 38'",
+                    "sub_in": null,
+                    "sub_out": "77",
+                    "sub_text": "Sortie 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAGUET Jean-Baptiste",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ISABEY Michaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DROBNJAK Anto",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "77",
+                    "sub_out": null,
+                    "sub_text": "Entrée 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "77",
+                    "sub_out": null,
+                    "sub_text": "Entrée 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "77",
+                    "sub_out": null,
+                    "sub_text": "Entrée 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1712
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

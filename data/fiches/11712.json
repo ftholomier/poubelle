@@ -1,0 +1,318 @@
+{
+    "id": 11712,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "antoine-lowi",
+    "path": "/joueurs/antoine-lowi/",
+    "title": "Antoine Lowi",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/LOWI85.jpg",
+    "date": "2025-02-14T09:25:38",
+    "modified": "2025-09-10T07:05:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Antoine Lowi aurait gardé les buts de Sochaux à 15 reprises (amicaux compris)."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/1930-12-01-Le_Trait_dunion_Peugeot-photo-equipe-der.jpg",
+            "caption": "Sochaux 1930-1931",
+            "credit": "",
+            "caption_raw": "Sochaux 1930-1931"
+        },
+        {
+            "image": "2025/02/1930-11-18-Le_Miroir_des_sports-Amical-Rennes-Sochaux-1-0-photo-b2-G4-768x421-1.jpg",
+            "caption": "Antoine Lowi",
+            "credit": "",
+            "caption_raw": "Antoine Lowi"
+        },
+        {
+            "image": "2025/02/LOWI85.jpg",
+            "caption": "Antoine Lowi",
+            "credit": "dr",
+            "caption_raw": "Antoine Lowi – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11712,
+        "url": "https://www.fcsochauxretro.com/a-la-une/antoine-lowi/",
+        "path": "/a-la-une/antoine-lowi/",
+        "slug": "antoine-lowi",
+        "seo_title": "Antoine Lowi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Antoine Lowi</h2>\n<h4><strong>né le 28 janvier 1903 à xx (Hongrie)</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1929</p>\n<p><strong>Départ de Sochaux : </strong>octobre 1931</p>\n<p><strong>Premier match joué :</strong> CA Mulhouse - Sochaux du 06/10/1929 : 4-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Châlon-sur-Saône du 03/05/1931 : 5-0</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n<li>Vainqueur du Challenge de Turckheim 1931</li>\n<li>Champion de première série (DH) du District du Pays de Montbéliard 1931</li>\n<li>Vainqueur de la coupe Peugeot 1931</li>\n</ul>",
+        "header_lines": [
+            "Antoine Lowi",
+            "né le 28 janvier 1903 à xx (Hongrie)",
+            "Décédé le xx à xx",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1929",
+            "Départ de Sochaux : octobre 1931",
+            "Premier match joué : CA Mulhouse - Sochaux du 06/10/1929 : 4-0",
+            "Dernier match joué : Sochaux - Châlon-sur-Saône du 03/05/1931 : 5-0",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Champion de première série (DH) du District du Pays de Montbéliard 1931",
+            "Vainqueur de la coupe Peugeot 1931"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Antoine",
+        "last_name": "Lowi",
+        "display_name": "Antoine Lowi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1903-01-28",
+                "precision": "day",
+                "text": "28 janvier 1903"
+            },
+            "place": {
+                "text": "xx (Hongrie)",
+                "city": "xx",
+                "department": null,
+                "country": "Hongrie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 28 janvier 1903 à xx (Hongrie)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1929-07",
+            "precision": "month",
+            "text": "juillet 1929"
+        },
+        "departure": {
+            "iso": "1931-10",
+            "precision": "month",
+            "text": "octobre 1931"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "CA Mulhouse - Sochaux du 06/10/1929 : 4-0",
+        "last_match": "Sochaux - Châlon-sur-Saône du 03/05/1931 : 5-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Champion de première série (DH) du District du Pays de Montbéliard 1931",
+            "Vainqueur de la coupe Peugeot 1931"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Antoine Lowi"
+            },
+            {
+                "label": null,
+                "value": "né le 28 janvier 1903 à xx (Hongrie)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1929"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "octobre 1931"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "CA Mulhouse - Sochaux du 06/10/1929 : 4-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Châlon-sur-Saône du 03/05/1931 : 5-0"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1931"
+            },
+            {
+                "label": null,
+                "value": "Champion de première série (DH) du District du Pays de Montbéliard 1931"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Peugeot 1931"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1986-1987",
+                    "8",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "8",
+                    "0"
+                ],
+                [
+                    "1987-1988",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "17",
+                    "8",
+                    "25",
+                    "8"
+                ],
+                [
+                    "1988-1989",
+                    "6",
+                    "0",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "8",
+                    "1"
+                ],
+                [
+                    "1990-1991",
+                    "19",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "21",
+                    "5"
+                ],
+                [
+                    "1991-1992",
+                    "21",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "54",
+                    "6",
+                    "13",
+                    "2",
+                    "17",
+                    "8",
+                    "85",
+                    "16"
+                ]
+            ],
+            "source_table": 289
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

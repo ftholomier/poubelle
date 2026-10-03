@@ -1,0 +1,114 @@
+{
+    "id": 13315,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "louis-maillard-salin",
+    "path": "/dirigeants/louis-maillard-salin/",
+    "title": "Louis Maillard-Salin",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/61d5d5281ebc6452085526.webp",
+    "date": "2025-03-29T23:07:32",
+    "modified": "2025-11-12T20:42:33",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Créateur du club et premier président : 1928 - 1939</strong></h4>\n<ul>\n<li>Louis Maillard-Salin alors directeur de l'usine carrosserie chez Peugeot crée avec l'un de ses chefs de services, Maurice Bailly, le FC Sochaux le 14 juin 1928.</li>\n<li>Il restera président lors de la fusion avec l'AS Montbéliard en 1930. </li>\n<li>Il demeure encore aujourd'hui, le Président le plus titré de l'histoire du club puisqu'il quittera ses fonctions en 1939 au commencement de la guerre.</li>\n<li>Sous sa présidence, le club est devenu professionnel grâce à l'appui de Jean-Pierre Peugeot, a fusionné avec l'AS Montbéliard, a ouvert de nombreuses sections dans d'autres sports (natation, athlétisme, boxe etc.), a vu la construction du stade de la Forge (1931).</li>\n<li>Il a aussi remplit l'armoire à trophées avec 1 coupe Peugeot (1931), une coupe de France (1937) et deux championnats de France (1935 et 1938). Le club a également été vice-champion de France en 1937. </li>\n<li>Lorsqu'il quitte sa présidence, le FC Sochaux-Montbéliard est le club le plus titré de France. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "4 trophées nationaux sous la présidence de Louis Maillard-Salin, le créateur et premier président de l'histoire du club. Il restera 11 ans à la tête du club, le quittant à la veille de la deuxième guerre mondiale."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/61d5d5281ebc6452085526.webp",
+            "caption": "Louis Maillard-Salin",
+            "credit": "Créateur et premier président du club de 1928 à 1939",
+            "caption_raw": "Louis Maillard-Salin – Créateur et premier président du club de 1928 à 1939"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13315,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/louis-maillard-salin/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/louis-maillard-salin/",
+        "slug": "louis-maillard-salin",
+        "seo_title": "Louis Maillard-Salin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Louis Maillard-Salin </h2>\n<h4><strong>Président de 1928 à 1939 </strong></h4>",
+        "header_lines": [
+            "Louis Maillard-Salin",
+            "Président de 1928 à 1939"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Louis",
+        "last_name": "Maillard-Salin",
+        "display_name": "Louis Maillard-Salin",
+        "nickname": "",
+        "subtitle": "Président de 1928 à 1939",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Louis Maillard-Salin"
+            },
+            {
+                "label": null,
+                "value": "Président de 1928 à 1939"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

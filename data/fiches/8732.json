@@ -1,0 +1,168 @@
+{
+    "id": 8732,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "bromwich",
+    "path": "/joueurs/bromwich/",
+    "title": "? Bromwich (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-02T22:40:41",
+    "modified": "2025-11-12T14:18:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Bromwich a joué 1 match amical avec Sochaux fin 1930."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8732,
+        "url": "https://www.fcsochauxretro.com/uncategorized/bromwich/",
+        "path": "/uncategorized/bromwich/",
+        "slug": "bromwich",
+        "seo_title": "? Bromwich (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>? Bromwich</strong></h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx  </strong></h4>\n<p><strong>Poste : </strong>défenseur</p>\n<p><strong>A l'essai en : </strong>décembre 1930</p>\n<p><strong>Premier et dernier match amical joué :</strong> Sochaux - Sète du 07/12/1930 : 1-3</p>",
+        "header_lines": [
+            "? Bromwich",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : défenseur",
+            "A l'essai en : décembre 1930",
+            "Premier et dernier match amical joué : Sochaux - Sète du 07/12/1930 : 1-3"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Bromwich",
+        "display_name": "? Bromwich",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1930-12",
+            "precision": "month",
+            "text": "décembre 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Bromwich"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "décembre 1930"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sochaux - Sète du 07/12/1930 : 1-3"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

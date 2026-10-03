@@ -1,0 +1,502 @@
+{
+    "id": 18084,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "fc-synot-sochaux-coupe-d-europe-21-07-2002",
+    "path": "/matchs/2002-2003/fc-synot-sochaux-coupe-d-europe-21-07-2002/",
+    "title": "3è tour aller – FC Synot (RTC) / Sochaux – Coupe intertoto – 21/07/2002 – 0-3",
+    "categories": [
+        "2002-2003",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "coupe-deurope",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/2509a3d8-96ce-4340-99b3-f13f5ce0afb3.jpg",
+    "date": "2025-11-12T11:22:24",
+    "modified": "2025-12-07T00:10:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "3 victoires de suite dans cette coupe Intertoto."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/2509a3d8-96ce-4340-99b3-f13f5ce0afb3.jpg",
+            "caption": "Frau lors de FC Synot – Sochaux – Coupe Intertoto 2002-2003",
+            "credit": "DR",
+            "caption_raw": "Frau lors de FC Synot – Sochaux – Coupe Intertoto 2002-2003 – DR"
+        },
+        {
+            "image": "2025/11/627d73ed-ebd3-48f0-934a-d9a6e939f23d.jpg",
+            "caption": "Pedretti – FC Synot – Sochaux – Coupe Intertoto 2002-2003",
+            "credit": "DR",
+            "caption_raw": "Pedretti – FC Synot – Sochaux – Coupe Intertoto 2002-2003 – DR"
+        },
+        {
+            "image": "2025/11/75fc1bcc-b2e8-4e0e-8ba0-388bef7d5e73.jpg",
+            "caption": "Raschke et Boudarène lors de FC Synot – Sochaux – Coupe Intertoto 2002-2003",
+            "credit": "DR",
+            "caption_raw": "Raschke et Boudarène lors de FC Synot – Sochaux – Coupe Intertoto 2002-2003 – DR"
+        },
+        {
+            "image": "2025/11/34cc5727-0bfe-46b4-9ced-3071530f8d79.jpg",
+            "caption": "Flachez lors de FC Synot – Sochaux – Coupe Intertoto 2002-2003",
+            "credit": "DR",
+            "caption_raw": "Flachez lors de FC Synot – Sochaux – Coupe Intertoto 2002-2003 – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 18084,
+        "url": "https://www.fcsochauxretro.com/a-la-une/3e-tour-aller-fc-synot-rtc-sochaux-coupe-intertoto-21-07-2002-0-3/",
+        "path": "/a-la-une/3e-tour-aller-fc-synot-rtc-sochaux-coupe-intertoto-21-07-2002-0-3/",
+        "slug": "3e-tour-aller-fc-synot-rtc-sochaux-coupe-intertoto-21-07-2002-0-3",
+        "seo_title": "3è tour aller - FC Synot (RTC) / Sochaux - Coupe intertoto - 21/07/2002 - 0-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Synot (D1 Tchèque) / Sochaux (D1 France) : 0-3<br></strong></h2>\n<h4><strong>3è tour aller - Coupe Intertoto</strong></h4>\n<h4><strong>Dimanche 21 juillet 2002</strong></h4>\n<h4><strong>Stade Miroslava Valenty de Uherské Hradiště (Rép. Tchèque)</strong></h4>\n<h4><strong>2 100 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Shmolik (Bielorussie)<br></strong></h4>\n<p>Buts : Frau 21' et 49', Lonfat 84' pour Sochaux. </p>",
+        "header_lines": [
+            "Synot (D1 Tchèque) / Sochaux (D1 France) : 0-3",
+            "3è tour aller - Coupe Intertoto",
+            "Dimanche 21 juillet 2002",
+            "Stade Miroslava Valenty de Uherské Hradiště (Rép. Tchèque)",
+            "2 100 spectateurs",
+            "Arbitre : M. Shmolik (Bielorussie)",
+            "Buts : Frau 21' et 49', Lonfat 84' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2002-07-21",
+        "date_text": "Dimanche 21 juillet 2002",
+        "season": "2002-2003",
+        "competition": "Coupe d'Europe",
+        "competition_label": "Coupe intertoto",
+        "competition_code": "Coupe intertoto",
+        "round": "3è tour aller",
+        "round_text": "3è tour aller - Coupe Intertoto",
+        "home": {
+            "name": "FC Synot",
+            "level": "RTC"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-3",
+        "score_line": "Synot (D1 Tchèque) / Sochaux (D1 France) : 0-3",
+        "result": "V",
+        "stadium": "Stade Miroslava Valenty de Uherské Hradiště (Rép. Tchèque)",
+        "spectators": 2100,
+        "spectators_text": "2 100 spectateurs",
+        "referee": "M. Shmolik (Bielorussie)",
+        "goals_text": "Frau 21' et 49', Lonfat 84' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Frau 21' et 49', Lonfat 84'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "CROS Pierrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SAUGET David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "JOSSE Maxime",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FATY Jacques",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MIKARI Yassin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PERQUIS Damien",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TULASNE Geoffrey",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ANIN Kévin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DAVIES Charly",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MAURICE-BELAY Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "GURLER Serdar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DREYER Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BUTIN Edouard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DUPLUS Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CARLAO",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "NOGUEIRA Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SVERKOS Vaclav",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MARTIN Marvin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "GILLOT Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1474
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

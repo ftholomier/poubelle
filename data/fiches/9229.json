@@ -1,0 +1,265 @@
+{
+    "id": 9229,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "elisha-owusu",
+    "path": "/joueurs/elisha-owusu/",
+    "title": "Elisha Owusu",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-75.jpg",
+    "date": "2024-12-27T23:23:19",
+    "modified": "2024-12-28T17:56:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "36",
+        "text": "Elisha Owusu a joué 36 matches (1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/elisha-owusu-n-a-plus-joue-depuis-la-defaite-concedee-a-bonal-face-a-orleans-photo-lionel-vadam-1540469682.jpg",
+            "caption": "Elisha Owusu",
+            "credit": "L’est républicain",
+            "caption_raw": "Elisha Owusu – L’est républicain"
+        },
+        {
+            "image": "2024/12/elisa-owusu-a-droite-et-jeando-fuchs-ont-uni-leurs-efforts-pour-faire-barrage-a-n-guessan-kouame-et-au-paris-football-club-photos-maxppp-aude-alcover-lp-icon-sport-1541269792.jpg",
+            "caption": "Elisha Owusu",
+            "credit": "L’est républicain",
+            "caption_raw": "Elisha Owusu – L’est républicain"
+        },
+        {
+            "image": "2024/12/apres-son-pret-a-sochaux-elisha-owusu-ne-repassera-pas-l-ol-il-rejoindra-le-championnat-belge-photo-er-lemontey-christian-1561317462.jpg",
+            "caption": "Elisha Owusu",
+            "credit": "L’est républicain",
+            "caption_raw": "Elisha Owusu – L’est républicain"
+        },
+        {
+            "image": "2024/12/elisha-owusu-cette-aventure-a-sochaux-est-une-vraie-chance-1555346620.jpg",
+            "caption": "Elisha Owusu",
+            "credit": "L’est républicain",
+            "caption_raw": "Elisha Owusu – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9229,
+        "url": "https://www.fcsochauxretro.com/a-la-une/elisha-owusu/",
+        "path": "/a-la-une/elisha-owusu/",
+        "slug": "elisha-owusu",
+        "seo_title": "Elisha Owusu - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Elisha Owusu</h2>\n<h4><strong>né le 7 novembre 1997 à Montreuil (93)</strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>International ghanéen (15 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018</p>\n<p><strong>Départ de Sochaux : </strong>juin 2019</p>\n<p><strong>Premier match joué :</strong> Grenoble - Sochaux du 27/07/2018 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Grenoble du 17/05/2019 : 3-1 </p>",
+        "header_lines": [
+            "Elisha Owusu",
+            "né le 7 novembre 1997 à Montreuil (93)",
+            "Taille : 1m82",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International ghanéen (15 sélections)",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : juin 2019",
+            "Premier match joué : Grenoble - Sochaux du 27/07/2018 : 1-0",
+            "Dernier match joué : Sochaux - Grenoble du 17/05/2019 : 3-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Elisha",
+        "last_name": "Owusu",
+        "display_name": "Elisha Owusu",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1997-11-07",
+                "precision": "day",
+                "text": "7 novembre 1997"
+            },
+            "place": {
+                "text": "Montreuil (93)",
+                "city": "Montreuil",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 novembre 1997 à Montreuil (93)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International ghanéen (15 sélections)"
+        ],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2019-06",
+            "precision": "month",
+            "text": "juin 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Grenoble - Sochaux du 27/07/2018 : 1-0",
+        "last_match": "Sochaux - Grenoble du 17/05/2019 : 3-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Elisha Owusu"
+            },
+            {
+                "label": null,
+                "value": "né le 7 novembre 1997 à Montreuil (93)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International ghanéen (15 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Grenoble - Sochaux du 27/07/2018 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Grenoble du 17/05/2019 : 3-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "29",
+                    "10",
+                    "0",
+                    "0",
+                    "34",
+                    "12"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "29",
+                    "10",
+                    "0",
+                    "0",
+                    "34",
+                    "12"
+                ]
+            ],
+            "source_table": 429
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

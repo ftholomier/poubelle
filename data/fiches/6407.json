@@ -1,0 +1,258 @@
+{
+    "id": 6407,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "henri-atamaniuk",
+    "path": "/joueurs/henri-atamaniuk/",
+    "title": "Henri Atamaniuk",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/ATAMANIUK-Sochaux.jpg",
+    "date": "2024-10-27T08:15:15",
+    "modified": "2026-02-04T13:44:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "49",
+        "text": "Henri Atamaniuk a joué 49 matchs (18 buts) avec Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/inbound155285642935899203.jpg",
+            "caption": "Henri Atamaniuk",
+            "credit": "",
+            "caption_raw": "Henri Atamaniuk"
+        },
+        {
+            "image": "2024/11/inbound7809235314148235944.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6407,
+        "url": "https://www.fcsochauxretro.com/a-la-une/henri-atamaniuk/",
+        "path": "/a-la-une/henri-atamaniuk/",
+        "slug": "henri-atamaniuk",
+        "seo_title": "Henri Atamaniuk - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Henri Atamaniuk </h2>\n<h4><strong>né le 28 octobre 1944 à Freyming-Merlebach (57) </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juin 1962</p>\n<p><strong>Départ de Sochaux : </strong>juillet 1963</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Premier match joué et premier but marqué :</strong> Nice - Sochaux du 21/08/1966 : 1-4 - But à la 6'</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Rouen du 05/07/1968 : 3-0</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe de France 1967</li>\n</ul>",
+        "header_lines": [
+            "Henri Atamaniuk",
+            "né le 28 octobre 1944 à Freyming-Merlebach (57)",
+            "Taille : 1m75",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Premier passage",
+            "Arrivée à Sochaux : juin 1962",
+            "Départ de Sochaux : juillet 1963",
+            "Deuxième passage",
+            "Premier match joué et premier but marqué : Nice - Sochaux du 21/08/1966 : 1-4 - But à la 6'",
+            "Dernier match joué : Sochaux - Rouen du 05/07/1968 : 3-0",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1967"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Henri",
+        "last_name": "Atamaniuk",
+        "display_name": "Henri Atamaniuk",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1944-10-28",
+                "precision": "day",
+                "text": "28 octobre 1944"
+            },
+            "place": {
+                "text": "Freyming-Merlebach (57)",
+                "city": "Freyming-Merlebach",
+                "department": "57",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 28 octobre 1944 à Freyming-Merlebach (57)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1962-06",
+            "precision": "month",
+            "text": "juin 1962"
+        },
+        "departure": {
+            "iso": "1963-07",
+            "precision": "month",
+            "text": "juillet 1963"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Nice - Sochaux du 21/08/1966 : 1-4 - But à la 6'",
+        "last_match": "Sochaux - Rouen du 05/07/1968 : 3-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de France 1967"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Henri Atamaniuk"
+            },
+            {
+                "label": null,
+                "value": "né le 28 octobre 1944 à Freyming-Merlebach (57)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1962"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 1963"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Nice - Sochaux du 21/08/1966 : 1-4 - But à la 6'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Rouen du 05/07/1968 : 3-0"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1967"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1966-1967",
+                    "20",
+                    "9",
+                    "2",
+                    "0",
+                    "22",
+                    "9"
+                ],
+                [
+                    "1967-1968",
+                    "29",
+                    "9",
+                    "2",
+                    "0",
+                    "31",
+                    "9"
+                ],
+                [
+                    "Total",
+                    "49",
+                    "18",
+                    "4",
+                    "0",
+                    "53",
+                    "18"
+                ]
+            ],
+            "source_table": 727
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

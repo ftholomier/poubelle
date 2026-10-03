@@ -1,0 +1,291 @@
+{
+    "id": 11112,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "melvin-sitti",
+    "path": "/joueurs/melvin-sitti/",
+    "title": "Melvin Sitti",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/8-8.jpg",
+    "date": "2025-01-28T18:39:25",
+    "modified": "2025-01-28T19:20:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "17",
+        "text": "Melvin Sitti a joué 17 matchs pour Sochaux son club formateur mais a signé professionnel ailleurs."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/melvin-sitti-retourne-a-norwich-son-pret-a-beveren-n-a-pas-fonctionne-photo-er-christian-lemontey-1611692592.jpg",
+            "caption": "Melvin Sitti",
+            "credit": "L’est républicain",
+            "caption_raw": "Melvin Sitti – L’est républicain"
+        },
+        {
+            "image": "2025/01/melvin-sitti-entre-par-la-grande-porte-dans-le-onze-sochalien-photo-er-lionel-vadam-1577715693.jpg",
+            "caption": "Melvin Sitti",
+            "credit": "L’est républicain",
+            "caption_raw": "Melvin Sitti – L’est républicain"
+        },
+        {
+            "image": "2025/01/melvin-sitti-appartient-desormais-a-un-club-anglais-photo-er-christian-lemontey-1580243999.jpg",
+            "caption": "Melvin Sitti",
+            "credit": "L’est républicain",
+            "caption_raw": "Melvin Sitti – L’est républicain"
+        },
+        {
+            "image": "2025/01/355709.jpg",
+            "caption": "Melvin Sitti",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Melvin Sitti – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2025/01/1200-L-guingamp-pass-par-sochaux-et-norwich-melvin-sitti-vient-renforcer-la-rserve.jpg",
+            "caption": "Melvin Sitti",
+            "credit": "L’équipe",
+            "caption_raw": "Melvin Sitti – L’équipe"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11112,
+        "url": "https://www.fcsochauxretro.com/a-la-une/melvin-sitti/",
+        "path": "/a-la-une/melvin-sitti/",
+        "slug": "melvin-sitti",
+        "seo_title": "Melvin Sitti - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Melvin Sitti</h2>\n<h4><strong>né le 14 février 2000 à Paris (75)</strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif<strong><br></strong></p>\n<p><strong>International français U20 (1 sélection)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2017</p>\n<p><strong>Départ de Sochaux : </strong>juin 2020</p>\n<p><strong>Premier match joué :</strong> Sochaux - Caen du 20/07/2019 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Clermont - Sochaux du 06/03/2020 : 2-0</p>",
+        "header_lines": [
+            "Melvin Sitti",
+            "né le 14 février 2000 à Paris (75)",
+            "Taille : 1m82",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International français U20 (1 sélection)",
+            "Arrivée à Sochaux : juillet 2017",
+            "Départ de Sochaux : juin 2020",
+            "Premier match joué : Sochaux - Caen du 20/07/2019 : 0-0",
+            "Dernier match joué : Clermont - Sochaux du 06/03/2020 : 2-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Melvin",
+        "last_name": "Sitti",
+        "display_name": "Melvin Sitti",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2000-02-14",
+                "precision": "day",
+                "text": "14 février 2000"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 février 2000 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français U20 (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "2017-07",
+            "precision": "month",
+            "text": "juillet 2017"
+        },
+        "departure": {
+            "iso": "2020-06",
+            "precision": "month",
+            "text": "juin 2020"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Caen du 20/07/2019 : 0-0",
+        "last_match": "Clermont - Sochaux du 06/03/2020 : 2-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Melvin Sitti"
+            },
+            {
+                "label": null,
+                "value": "né le 14 février 2000 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International français U20 (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2017"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2020"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Caen du 20/07/2019 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Clermont - Sochaux du 06/03/2020 : 2-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1993-1994",
+                    "28",
+                    "2",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "2"
+                ],
+                [
+                    "1994-1995",
+                    "30",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "32",
+                    "0"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "27",
+                    "2",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "31",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "58",
+                    "2",
+                    "27",
+                    "2",
+                    "6",
+                    "0",
+                    "2",
+                    "0",
+                    "93",
+                    "4"
+                ]
+            ],
+            "source_table": 434
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

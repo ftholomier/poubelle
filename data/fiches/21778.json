@@ -1,0 +1,224 @@
+{
+    "id": 21778,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mohamed-abdel-kader-toure",
+    "path": "/joueurs/mohamed-abdel-kader-toure/",
+    "title": "Mohamed Abdel Kader Touré",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/07/Mohamed-Toure-rejoint-le-FC-Sochaux-Montbeliard.jpg",
+    "date": "2026-07-19T15:27:06",
+    "modified": "2026-07-19T16:04:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Né le 12 décembre 2005 à Conakry, en Guinée, Mohamed Abdel Kader Touré y débute le football dans les rues de Conakry.</li>\n<li>Défenseur polyvalent et puissant il est repéré par l'Académie SOAR la plus importante de Guinée. Il évolue alors en première division guinéenne. </li>\n<li>Repéré par Sochaux, il intègre l'équipe réserve en post formation pour la saison 2025/2026.</li>\n<li>Il fait de bons débuts et il est même désigné capitaine sur certains matchs. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li><strong>Saison 2025/2026</strong></li>\n<li>Après plusieurs entraînements avec le groupe professionnel, il est lancé en professionnel par Vincent Hognon en coupe de France à Béthune. Il joue tout le match. </li>\n<li>S'il s'entraine encore plusieurs fois avec les professionnels jusqu'à la fin de la saison il évolue principalement en réserve où il dispute 15 rencontres. </li>\n<li><strong>Saison 2026/2027</strong></li>\n<li>A l'intersaison 2026, il est intégré à la préparation d'avant saison. Il joue en amical contre le FC Zurich et Grenoble aux postes de latéral droit et gauche. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2025",
+        "text": "Mohamed Abdel Kader Touré est arrivé à Sochaux à l'été 2025."
+    },
+    "gallery": [
+        {
+            "image": "2026/07/Mohamed-Toure-rejoint-le-FC-Sochaux-Montbeliard.jpg",
+            "caption": "Mohamed Abdel Kader Touré",
+            "credit": "FCSM",
+            "caption_raw": "Mohamed Abdel Kader Touré – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 21778,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mohamed-abdel-kader-toure/",
+        "path": "/a-la-une/mohamed-abdel-kader-toure/",
+        "slug": "mohamed-abdel-kader-toure",
+        "seo_title": "Mohamed Abdel Kader Touré - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mohamed Abdel Kader Touré</h2>\n<h4><strong>né le 12 décembre 2005 à Conakry (Guinée)  </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central ou latéral</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2025</p>\n<p><strong>Départ de Sochaux :</strong></p>\n<p><strong>Premier match joué : </strong>Béthune - Sochaux du 20/12/2025 : 2-4 </p>\n<p><strong>Dernier match joué :</strong> </p>",
+        "header_lines": [
+            "Mohamed Abdel Kader Touré",
+            "né le 12 décembre 2005 à Conakry (Guinée)",
+            "Taille : 1m82",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : défenseur central ou latéral",
+            "Arrivée à Sochaux : aout 2025",
+            "Départ de Sochaux :",
+            "Premier match joué : Béthune - Sochaux du 20/12/2025 : 2-4",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mohamed Abdel Kader",
+        "last_name": "Touré",
+        "display_name": "Mohamed Abdel Kader Touré",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2005-12-12",
+                "precision": "day",
+                "text": "12 décembre 2005"
+            },
+            "place": {
+                "text": "Conakry (Guinée)",
+                "city": "Conakry",
+                "department": null,
+                "country": "Guinée",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 12 décembre 2005 à Conakry (Guinée)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "défenseur central ou latéral",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2025-08",
+            "precision": "month",
+            "text": "aout 2025"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Béthune - Sochaux du 20/12/2025 : 2-4",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mohamed Abdel Kader Touré"
+            },
+            {
+                "label": null,
+                "value": "né le 12 décembre 2005 à Conakry (Guinée)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central ou latéral"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2025"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Béthune - Sochaux du 20/12/2025 : 2-4"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

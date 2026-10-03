@@ -1,0 +1,172 @@
+{
+    "id": 8410,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pascal-baruxakis",
+    "path": "/joueurs/pascal-baruxakis/",
+    "title": "Pascal Baruxakis",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/359777_pascal_baruxakis.jpg",
+    "date": "2024-12-03T12:10:44",
+    "modified": "2026-03-30T08:36:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Arrivé de Guinée à l’aube du nouveau millénaire, Pascal Baruxakis est considéré comme un grand espoir du FC Sochaux-Montbéliard. Dès son arrivée, il multiplie les performances en inscrivant de nombreux buts avec les équipes de jeunes et la réserve du club.</li>\n<li>Sans que les raisons officielles ne soient connues, il ne signe pas de contrat professionnel à Sochaux et rejoint Le Mans, alors en première division.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Au Mans, il joue avec la réserve mais ne parvient pas à obtenir du temps de jeu avec l’équipe première, qui tourne très bien. Après deux saisons à attendre sa chance, il décide de quitter la Sarthe. Il va alors écumer les divisions inférieures françaises, à Jura Sud, Saint-Georges-les-Ancizes, Aurillac et Trélissac.</li>\n<li>Il rejoint ensuite la Suisse, où il évolue entre la deuxième et la troisième division avec Monthey et le CS Chênois.</li>\n<li><strong>Carrière d'entraîneur</strong></li>\n<li>À l’heure de prendre sa retraite, en 2013, il retourne en Guinée pour entraîner.</li>\n<li>Il devient d’abord entraîneur adjoint du Hafia FC dès 2014 et assure deux intérims en 2014 et en 2015. En 2019, alors adjoint de Xavier Bernal, un Espagnol, il est nommé entraîneur principal du club le 1er avril à la suite de mauvais résultats. Il redresse la barre et qualifie son équipe pour la Ligue des champions africaine, 35 ans après sa dernière participation !</li>\n<li>En 2021, Baruxakis effectue un stage de formation au centre de Sochaux. En novembre 2022, il est limogé de son poste d’entraîneur du Hafia FC.</li>\n<li>Dans la foulée, en janvier 2023, Baruxakis est nommé sélectionneur de l’équipe de Guinée U23, poste qu’il occupe pendant un an.</li>\n<li>En juin 2024, il est nommé sélectionneur de l’équipe U20 de Guinée.</li>\n<li>Début 2025, l’entraîneur du Hafia, souffrant, part se soigner. Pascal Baruxakis devient alors adjoint et entraîneur principal intérimaire de son ancien club.</li>\n<li>Lors de la saison 2025/2026, il reste adjoint de Lakhdar Adjali, joueur longtemps convoité par Sochaux à la fin des années 1990 en D2.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Pascal Baruxakis n'a joué aucun match pour l'équipe première de Sochaux malgré de nombreux buts marqués avec les équipes jeunes et la réserve."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/359777_pascal_baruxakis.jpg",
+            "caption": "Pascal Baruxakis",
+            "credit": "dr",
+            "caption_raw": "Pascal Baruxakis – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8410,
+        "url": "https://www.fcsochauxretro.com/a-la-une/pascal-baruxakis/",
+        "path": "/a-la-une/pascal-baruxakis/",
+        "slug": "pascal-baruxakis",
+        "seo_title": "Pascal Baruxakis - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pascal Baruxakis</h2>\n<h4><strong>né le 4 février 1983 à Conakry (Guinée) </strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2000</p>\n<p><strong>Départ de Sochaux : </strong>juin 2003</p>",
+        "header_lines": [
+            "Pascal Baruxakis",
+            "né le 4 février 1983 à Conakry (Guinée)",
+            "Taille : 1m78",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 2000",
+            "Départ de Sochaux : juin 2003"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Pascal",
+        "last_name": "Baruxakis",
+        "display_name": "Pascal Baruxakis",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1983-02-04",
+                "precision": "day",
+                "text": "4 février 1983"
+            },
+            "place": {
+                "text": "Conakry (Guinée)",
+                "city": "Conakry",
+                "department": null,
+                "country": "Guinée",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 4 février 1983 à Conakry (Guinée)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2000-07",
+            "precision": "month",
+            "text": "juillet 2000"
+        },
+        "departure": {
+            "iso": "2003-06",
+            "precision": "month",
+            "text": "juin 2003"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pascal Baruxakis"
+            },
+            {
+                "label": null,
+                "value": "né le 4 février 1983 à Conakry (Guinée)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2000"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2003"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

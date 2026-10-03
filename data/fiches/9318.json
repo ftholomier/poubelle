@@ -1,0 +1,295 @@
+{
+    "id": 9318,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "leon-van-pratt",
+    "path": "/joueurs/leon-van-pratt/",
+    "title": "Léon Van Pratt",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/Van-Pratt.jpg",
+    "date": "2024-12-30T00:36:34",
+    "modified": "2024-12-30T00:59:06",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Léon Van Pratt a joué deux saisons pour le FC Sochaux. Il est l'un des meilleurs buteurs du club lors de la première saison en 1928/1929."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/9-5-26_Colombes_football_association_equipe_.Agence_Rol_btv1b53161615m.jpeg",
+            "caption": "AS Valentigney avant la finale de la coupe de France 1926 – Gallica",
+            "credit": "Bibliothèque nationale de France",
+            "caption_raw": "AS Valentigney avant la finale de la coupe de France 1926 – Gallica – Bibliothèque nationale de France"
+        },
+        {
+            "image": "2024/11/1928-FC-Sochaux3b1-1536x992-1.jpg",
+            "caption": "Sochaux 1928-1929",
+            "credit": "",
+            "caption_raw": "Sochaux 1928-1929"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9318,
+        "url": "https://www.fcsochauxretro.com/a-la-une/leon-van-pratt/",
+        "path": "/a-la-une/leon-van-pratt/",
+        "slug": "leon-van-pratt",
+        "seo_title": "Léon Van Pratt - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Léon Van Pratt </h2>\n<h4><strong>Né le xx à Bruxelles (Belgique) ?  </strong></h4>\n<h4><strong>Décédé le xx à xx</strong> </h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1928 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1930</p>\n<p><strong>Premier match joué et premier but marqué ? :</strong> Sochaux - AS Valentigney (2) du 02/09/1928 : 3-0</p>\n<p><strong>Dernier match joué :</strong> AS Montbéliard - Sochaux du 25/08/1929 : 0-6 </p>\n<p><strong>Palmarès avec Sochaux :</strong> </p>\n<ul>\n<li>Champion de deuxième série de District du Pays de Montbéliard 1929</li>\n<li>Vainqueur du Challenge de Turckheim 1929</li>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n</ul>",
+        "header_lines": [
+            "Léon Van Pratt",
+            "Né le xx à Bruxelles (Belgique) ?",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1928",
+            "Départ de Sochaux : juin 1930",
+            "Premier match joué et premier but marqué ? : Sochaux - AS Valentigney (2) du 02/09/1928 : 3-0",
+            "Dernier match joué : AS Montbéliard - Sochaux du 25/08/1929 : 0-6",
+            "Palmarès avec Sochaux :",
+            "Champion de deuxième série de District du Pays de Montbéliard 1929",
+            "Vainqueur du Challenge de Turckheim 1929",
+            "Vainqueur du Challenge de Turckheim 1930"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Léon",
+        "last_name": "Van Pratt",
+        "display_name": "Léon Van Pratt",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "Bruxelles (Belgique) ?",
+                "city": "Bruxelles (Belgique) ?",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le xx à Bruxelles (Belgique) ?"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1928-07",
+            "precision": "month",
+            "text": "juillet 1928"
+        },
+        "departure": {
+            "iso": "1930-06",
+            "precision": "month",
+            "text": "juin 1930"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - AS Valentigney (2) du 02/09/1928 : 3-0",
+        "last_match": "AS Montbéliard - Sochaux du 25/08/1929 : 0-6",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de deuxième série de District du Pays de Montbéliard 1929",
+            "Vainqueur du Challenge de Turckheim 1929",
+            "Vainqueur du Challenge de Turckheim 1930"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Léon Van Pratt"
+            },
+            {
+                "label": null,
+                "value": "Né le xx à Bruxelles (Belgique) ?"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1928"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1930"
+            },
+            {
+                "label": "Premier match joué et premier but marqué ?",
+                "value": "Sochaux - AS Valentigney (2) du 02/09/1928 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "AS Montbéliard - Sochaux du 25/08/1929 : 0-6"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de deuxième série de District du Pays de Montbéliard 1929"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1929"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,227 @@
+{
+    "id": 7928,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierre-givert",
+    "path": "/joueurs/pierre-givert/",
+    "title": "Pierre Givert",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/594348.jpg",
+    "date": "2024-11-24T09:17:46",
+    "modified": "2024-11-24T16:31:51",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Pierre Givert aurait joué 6 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/594348.jpg",
+            "caption": "Pierre Givert",
+            "credit": "dr",
+            "caption_raw": "Pierre Givert – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7928,
+        "url": "https://www.fcsochauxretro.com/a-la-une/pierre-givert/",
+        "path": "/a-la-une/pierre-givert/",
+        "slug": "pierre-givert",
+        "seo_title": "Pierre Givert - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pierre Givert<br></h2>\n<h4><strong>né le XX à xx</strong></h4>\n<h4><strong>Décédé le XX à XX</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>septembre 1943 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1944 ?  </p>\n<p><strong>Premier match joué :</strong> FC Sochaux-Valentigney - EF Nancy-Lorraine du 23/09/1943 : 3-0</p>\n<p><strong>Dernier match joué : </strong>PS Besançon - Sochaux du 26/03/1944 : 2-1</p>",
+        "header_lines": [
+            "Pierre Givert",
+            "né le XX à xx",
+            "Décédé le XX à XX",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : septembre 1943",
+            "Départ de Sochaux : juin 1944 ?",
+            "Premier match joué : FC Sochaux-Valentigney - EF Nancy-Lorraine du 23/09/1943 : 3-0",
+            "Dernier match joué : PS Besançon - Sochaux du 26/03/1944 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Pierre",
+        "last_name": "Givert",
+        "display_name": "Pierre Givert",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "XX"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le XX à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "XX"
+            },
+            "place": {
+                "text": "XX",
+                "city": "XX",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le XX à XX"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1943-09",
+            "precision": "month",
+            "text": "septembre 1943"
+        },
+        "departure": {
+            "iso": "1944-06",
+            "precision": "month",
+            "text": "juin 1944 ?"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "FC Sochaux-Valentigney - EF Nancy-Lorraine du 23/09/1943 : 3-0",
+        "last_match": "PS Besançon - Sochaux du 26/03/1944 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierre Givert"
+            },
+            {
+                "label": null,
+                "value": "né le XX à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le XX à XX"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 1943"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1944 ?"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "FC Sochaux-Valentigney - EF Nancy-Lorraine du 23/09/1943 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "PS Besançon - Sochaux du 26/03/1944 : 2-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "14",
+                    "",
+                    "",
+                    "",
+                    "14",
+                    ""
+                ],
+                [
+                    "Total",
+                    "14",
+                    "",
+                    "",
+                    "",
+                    "14",
+                    ""
+                ]
+            ],
+            "source_table": 222
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

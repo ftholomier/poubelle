@@ -1,0 +1,295 @@
+{
+    "id": 4882,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "frederic-martin",
+    "path": "/joueurs/frederic-martin/",
+    "title": "Frédéric Martin",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-87.jpg",
+    "date": "2024-12-29T11:22:57",
+    "modified": "2026-06-03T13:57:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "21",
+        "text": "Frédéric Martin a joué 21 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/frederic-martin-oppose-ici-a-loko-aura-ete-perturbe-par-les-blessures-durant-sa-carriere-sochalienne-photo-er-archives-1617183038.jpg",
+            "caption": "Frédéric Martin",
+            "credit": "L’est républicain",
+            "caption_raw": "Frédéric Martin – L’est républicain"
+        },
+        {
+            "image": "2025/10/77-6-scaled.jpg",
+            "caption": "Frédéric Martin – Sochaux – Gueugnon – 1999/2000",
+            "credit": "L’est républicain",
+            "caption_raw": "Frédéric Martin – Sochaux – Gueugnon – 1999/2000 – L’est républicain"
+        },
+        {
+            "image": "2025/10/SAM_9241.jpg",
+            "caption": "Frédéric Martin – Sochaux – Louhans-Cuiseaux – Amical de pré-saison 1999-2000",
+            "credit": "L’est républicain",
+            "caption_raw": "Frédéric Martin – Sochaux – Louhans-Cuiseaux – Amical de pré-saison 1999-2000 – L’est républicain"
+        },
+        {
+            "image": "2025/10/77-11-scaled.jpg",
+            "caption": "Frédéric Martin – Sochaux – Louhans-Cuiseaux 1999-2000",
+            "credit": "L’est républicain.",
+            "caption_raw": "Frédéric Martin – Sochaux – Louhans-Cuiseaux 1999-2000 – L’est républicain."
+        },
+        {
+            "image": "2025/10/gtgt-f.png",
+            "caption": "Frédéric Martin – Sochaux-Le Havre 1999-2000",
+            "credit": "L’est républicain",
+            "caption_raw": "Frédéric Martin – Sochaux-Le Havre 1999-2000 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4882,
+        "url": "https://www.fcsochauxretro.com/a-la-une/frederic-martin/",
+        "path": "/a-la-une/frederic-martin/",
+        "slug": "frederic-martin",
+        "seo_title": "Frédéric Martin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Frédéric Martin</h2>\n<h4><strong>Né le 6 juin 1969 à Bordeaux (33)<br></strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position: </strong>arrière latéral droit<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1998<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2001<strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Nancy - Sochaux du 08/08/1998 : 1-1 </p>\n<p><strong>Dernier match joué :</strong> Nancy - Sochaux du 10/02/2000 : 2-1 a.p</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>\n<p>Champion de France de deuxième division 2001</p>\n</li>\n</ul>",
+        "header_lines": [
+            "Frédéric Martin",
+            "Né le 6 juin 1969 à Bordeaux (33)",
+            "Taille : 1m72",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Position: arrière latéral droit",
+            "Arrivée à Sochaux : juillet 1998",
+            "Départ de Sochaux : juin 2001",
+            "Premier match joué : Nancy - Sochaux du 08/08/1998 : 1-1",
+            "Dernier match joué : Nancy - Sochaux du 10/02/2000 : 2-1 a.p",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Frédéric",
+        "last_name": "Martin",
+        "display_name": "Frédéric Martin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1969-06-06",
+                "precision": "day",
+                "text": "6 juin 1969"
+            },
+            "place": {
+                "text": "Bordeaux (33)",
+                "city": "Bordeaux",
+                "department": "33",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 6 juin 1969 à Bordeaux (33)"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1998-07",
+            "precision": "month",
+            "text": "juillet 1998"
+        },
+        "departure": {
+            "iso": "2001-06",
+            "precision": "month",
+            "text": "juin 2001"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Nancy - Sochaux du 08/08/1998 : 1-1",
+        "last_match": "Nancy - Sochaux du 10/02/2000 : 2-1 a.p",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division 2001"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Frédéric Martin"
+            },
+            {
+                "label": null,
+                "value": "Né le 6 juin 1969 à Bordeaux (33)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1998"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2001"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Nancy - Sochaux du 08/08/1998 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Nancy - Sochaux du 10/02/2000 : 2-1 a.p"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 2001"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1998 - 1999",
+                    "3",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "0",
+                    "-",
+                    "0",
+                    "3",
+                    "0"
+                ],
+                [
+                    "1999 - 2000",
+                    "-",
+                    "-",
+                    "13",
+                    "0",
+                    "3",
+                    "0",
+                    "2",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "2000 - 2001",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-"
+                ],
+                [
+                    "TOTAL",
+                    "3",
+                    "0",
+                    "13",
+                    "0",
+                    "13",
+                    "0",
+                    "2",
+                    "0",
+                    "21",
+                    "0"
+                ]
+            ],
+            "source_table": 1858
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,182 @@
+{
+    "id": 12399,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierre-crockaert",
+    "path": "/joueurs/pierre-crockaert/",
+    "title": "Pierre Crockaert (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-1.jpg",
+    "date": "2025-03-02T17:11:48",
+    "modified": "2025-11-12T14:16:05",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "L'international belge Pierre Crockaert a joué 1 match amical pour Sochaux en 1929."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-1.jpg",
+            "caption": "Pierre Crockaert",
+            "credit": "DR",
+            "caption_raw": "Pierre Crockaert – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12399,
+        "url": "https://www.fcsochauxretro.com/uncategorized/pierre-crockaert-12399/",
+        "path": "/uncategorized/pierre-crockaert-12399/",
+        "slug": "pierre-crockaert-12399",
+        "seo_title": "Pierre Crockaert (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pierre Crockaert</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>décédé le xx à xx</strong></h4>\n<p><strong>Poste :</strong> attaquant</p>\n<h4><strong>International belge   </strong></h4>\n<p><strong>A l'essai en : </strong>novembre 1929 </p>\n<p><strong>Premier et dernier match amical joué :</strong> AS Metz - Sochaux du 24/11/1929 : 2-6</p>",
+        "header_lines": [
+            "Pierre Crockaert",
+            "né le xx à xx",
+            "décédé le xx à xx",
+            "Poste : attaquant",
+            "International belge",
+            "A l'essai en : novembre 1929",
+            "Premier et dernier match amical joué : AS Metz - Sochaux du 24/11/1929 : 2-6"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Pierre",
+        "last_name": "Crockaert",
+        "display_name": "Pierre Crockaert",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1929-11",
+            "precision": "month",
+            "text": "novembre 1929"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International belge"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierre Crockaert"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International belge"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "novembre 1929"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "AS Metz - Sochaux du 24/11/1929 : 2-6"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

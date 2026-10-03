@@ -1,0 +1,234 @@
+{
+    "id": 6379,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "manu-agro",
+    "path": "/joueurs/manu-agro/",
+    "title": "Manu Agro",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/inbound7351717752641062610.jpg",
+    "date": "2024-10-26T09:44:59",
+    "modified": "2026-03-28T09:23:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Manu Koca Agro est né à Paris en 2002. Il grandit en région parisienne. Enfant actif, il pratique le judo durant toute son enfance, jusqu’à l’âge de 15 ans, lorsqu’il obtient sa ceinture marron.</li>\n<li>À 15 ans, pour suivre ses copains, il devient gardien de but et signe au CA Paris. Un an plus tard, il rejoint le FC Issy-les-Moulineaux, où il réalise des prestations solides. Repéré par des dirigeants sochaliens, il rejoint le club à l’été 2018.</li>\n<li>Gardien à la carrure imposante (1,91 m), il devient rapidement titulaire en U17 puis en U19, avant de s’imposer en équipe réserve en National 3 à partir de la saison 2021/2022.</li>\n<li>En mai 2022, il signe son premier contrat professionnel et devient le gardien n°3 du club.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li><strong>Saison 2021/2022</strong><br>Lors de cette saison 2021/2022, il participe à ses premiers entraînements avec le groupe professionnel dirigé par Omar Daf.</li>\n<li><strong>Saison 2022/2023</strong><br>Affublé du n°50, il est le troisième gardien du groupe professionnel, derrière Maxence Prévôt, le titulaire, et Medhi Jeannin, sa doublure.</li>\n<li>Il participe à toute la préparation estivale et, le 12 juillet 2022, il dispute son premier match avec les professionnels en amical. Face à Bourg-en-Bresse, il joue toute la deuxième mi-temps et réalise un clean sheet (0-0).</li>\n<li>Quelques jours plus tard, il joue au stade Serzian contre l’ASM Belfort. Il débute comme titulaire et encaisse un but à la 12e minute. Les gardiens se partageant le temps de jeu, il sort à l’heure de jeu. Sochaux l’emporte 2-1.</li>\n<li>Il débute la saison comme titulaire en réserve. En octobre, à la suite d’une blessure, il est convoqué pour plusieurs matchs de championnat et de Coupe de France comme doublure (contre Valenciennes et Saint-Étienne en championnat, et contre Hombourg-Haut et Thaon-les-Vosges en Coupe de France).</li>\n<li>Cependant, il ne dispute aucun match officiel avec l’équipe première de Sochaux. À l’été 2023, arrivé en fin de contrat, il n’est pas prolongé et quitte le club.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li><strong>Saison 2023/2024</strong><br>Il signe au Racing Club de France, en région parisienne. Le club évolue en National 3, championnat dans lequel il a déjà disputé 22 matchs avec la réserve de Sochaux. Il joue 23 matchs pour le club francilien, qui accède au National 2 après une très bonne saison.</li>\n<li><strong>Saison 2024/2025</strong><br>À l’intersaison, Manu Agro fait face à la concurrence de Rubens Adelaïde et est remplaçant toute la saison en N2. À l’été 2025, il quitte donc le club francilien.</li>\n<li><strong>Saison 2025/2026</strong><br>Pour se relancer, il signe à Vesoul en septembre 2025. Sa petite amie est originaire de Haute-Saône et son beau-frère y joue, ce qui facilite le contact. Le club évolue en R1 mais dispose déjà d’un gardien performant. Manu Agro est donc le plus souvent remplaçant, mais il s’entretient en attendant un projet plus ambitieux.</li>\n<li>En janvier 2026, il trouve un point de chute en Corse. Il signe au Gallia Club Lucciana, qui évolue en National 3. À partir du mois de février, il devient titulaire et participe à la bonne période du club, qui remonte dans le ventre mou du classement.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Manu Agro aura joué 3 matchs amicaux avec Sochaux à l'été 2022. Il a été le troisième gardien du club durant une saison."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/628cf94c6e24a265878560.jpg",
+            "caption": "Manu Agro",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Manu Agro – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/10/Manu_Agro22_62dfa8490ebfc986985837.jpg",
+            "caption": "Manu Agro",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Manu Agro – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2026/03/manu-agro-ancien-troisieme-gardien-du-groupe-professionnel-sochalien-compte-plusieurs-convocations-en-ligue-2-et-en-coupe-de-france-photo-d-archives-christian-lemontey-1761421034.jpg",
+            "caption": "Manu Agro – Photo Christian Lemontey",
+            "credit": "L’est républicain",
+            "caption_raw": "Manu Agro – Photo Christian Lemontey – L’est républicain"
+        },
+        {
+            "image": "2026/03/photo-1654612113.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2026/03/628cf9448ff0a983503357.jpg",
+            "caption": "Manu Agro",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Manu Agro – Photo FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2026/03/manu-koca-agro-est-pour-la-premiere-fois-appele-en-ligue-2-photo-er-christian-lemontey-1664558246.jpg",
+            "caption": "Manu Koca Agro – Photo Christian Lemontey",
+            "credit": "L’est républicain",
+            "caption_raw": "Manu Koca Agro – Photo Christian Lemontey – L’est républicain"
+        },
+        {
+            "image": "2026/03/628cf95b4819d566565038.jpg",
+            "caption": "Manu Koga Agro",
+            "credit": "FCSM",
+            "caption_raw": "Manu Koga Agro – Photo FCSM"
+        },
+        {
+            "image": "2026/03/6482e78fbb6a2616891226.webp",
+            "caption": "Manu Agro",
+            "credit": "L’est républicain",
+            "caption_raw": "Manu Agro – Photo L’est républicain"
+        },
+        {
+            "image": "2026/03/manu-agro-ne-poursuivra-pas-son-aventure-au-fcsm-il-etait-le-troisieme-gardien-cette-saison-il-a-signe-au-racing-club-de-france-n2-photo-christian-lemontey-1757520762.jpg",
+            "caption": "Manu Agro – Photo L’est républicain",
+            "credit": "Christian Lemontey",
+            "caption_raw": "Manu Agro – Photo L’est républicain – Christian Lemontey"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6379,
+        "url": "https://www.fcsochauxretro.com/a-la-une/manu-agro/",
+        "path": "/a-la-une/manu-agro/",
+        "slug": "manu-agro",
+        "seo_title": "Manu Agro - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Manu Agro</h2>\n<h4><strong>né le 14 juin 2002 à Paris (75) </strong></h4>\n<p><strong>Taille : </strong>1m91</p>\n<p><strong>Poids : </strong>87 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 2018</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2023</p>\n<p><strong>Premier match :</strong> Bourg-en-Bresse Sochaux du 12/07/2022 : 0-0 (amical)</p>\n<p><strong>Dernier match : </strong>ASM Belfort - Sochaux du 19/07/2022 : 1-2 (amical)</p>",
+        "header_lines": [
+            "Manu Agro",
+            "né le 14 juin 2002 à Paris (75)",
+            "Taille : 1m91",
+            "Poids : 87 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juin 2018",
+            "Départ de Sochaux : juillet 2023",
+            "Premier match : Bourg-en-Bresse Sochaux du 12/07/2022 : 0-0 (amical)",
+            "Dernier match : ASM Belfort - Sochaux du 19/07/2022 : 1-2 (amical)"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Manu",
+        "last_name": "Agro",
+        "display_name": "Manu Agro",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2002-06-14",
+                "precision": "day",
+                "text": "14 juin 2002"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 juin 2002 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m91",
+        "height_cm": 191,
+        "weight": "87 kg",
+        "weight_kg": 87,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2018-06",
+            "precision": "month",
+            "text": "juin 2018"
+        },
+        "departure": {
+            "iso": "2023-07",
+            "precision": "month",
+            "text": "juillet 2023"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Bourg-en-Bresse Sochaux du 12/07/2022 : 0-0 (amical)",
+        "last_match": "ASM Belfort - Sochaux du 19/07/2022 : 1-2 (amical)",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Manu Agro"
+            },
+            {
+                "label": null,
+                "value": "né le 14 juin 2002 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m91"
+            },
+            {
+                "label": "Poids",
+                "value": "87 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2023"
+            },
+            {
+                "label": "Premier match",
+                "value": "Bourg-en-Bresse Sochaux du 12/07/2022 : 0-0 (amical)"
+            },
+            {
+                "label": "Dernier match",
+                "value": "ASM Belfort - Sochaux du 19/07/2022 : 1-2 (amical)"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

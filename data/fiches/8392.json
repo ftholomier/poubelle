@@ -1,0 +1,172 @@
+{
+    "id": 8392,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jesah-ayessa",
+    "path": "/joueurs/jesah-ayessa/",
+    "title": "Jesah Ayessa",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/inbound277291765313391940.jpg",
+    "date": "2024-12-02T22:13:33",
+    "modified": "2026-03-28T13:25:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Passé par Maisons-Alfort, Toulouse-Fontaines puis Istres, Jesah Ayessa rejoint Sochaux à l’âge de 19 ans, en 2019. Il ne parvient toutefois pas à s’y imposer et quitte le club après une seule saison au centre de formation.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Défenseur central qui a des origines congolaises, il est doté d’un solide gabarit et impressionne dans les divisions inférieures.</li>\n<li>Il s’engage tour à tour à Gueugnon, Saint-Alban, Romorantin, puis Le Puy, avec lequel il réalise une très bonne saison en National 2.</li>\n<li><strong>Saison 2024/2025</strong></li>\n<li>Repéré par plusieurs clubs professionnels, il signe à l’AC Ajaccio et débute la saison 2024/2025 comme titulaire en Ligue 2. Il dispute au total 25 matchs de championnat.</li>\n<li><strong>Saison 2025/2026</strong></li>\n<li>Lors de l'intersaison 2025/2026, l'AC Ajaccio dépose le bilan et Jesah Ayessa se retrouve sans club. </li>\n<li>En janvier 2026, après 6 mois de chômage, il s'engage dans le championnat de première division d'Ouzbékistan dans le club du Dinamo Samarqand. </li>\n<li>Il est aussi préssenti pour intégrer la sélection du Congo son pays d'origine. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Jesah Ayessa n'a joué aucun match avec l'équipe professionnelle de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/2-1.jpg",
+            "caption": "Jesah Ayessa",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Jesah Ayessa – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8392,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jesah-ayessa/",
+        "path": "/a-la-une/jesah-ayessa/",
+        "slug": "jesah-ayessa",
+        "seo_title": "Jesah Ayessa - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jesah Ayessa</h2>\n<h4><strong>né le 9 janvier 2000 à Paris (75) </strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>90 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2019</p>\n<p><strong>Départ de Sochaux : </strong>juin 2020</p>",
+        "header_lines": [
+            "Jesah Ayessa",
+            "né le 9 janvier 2000 à Paris (75)",
+            "Taille : 1m88",
+            "Poids : 90 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juillet 2019",
+            "Départ de Sochaux : juin 2020"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jesah",
+        "last_name": "Ayessa",
+        "display_name": "Jesah Ayessa",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2000-01-09",
+                "precision": "day",
+                "text": "9 janvier 2000"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 janvier 2000 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "90 kg",
+        "weight_kg": 90,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2019-07",
+            "precision": "month",
+            "text": "juillet 2019"
+        },
+        "departure": {
+            "iso": "2020-06",
+            "precision": "month",
+            "text": "juin 2020"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jesah Ayessa"
+            },
+            {
+                "label": null,
+                "value": "né le 9 janvier 2000 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "90 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2020"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

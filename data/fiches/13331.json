@@ -1,0 +1,132 @@
+{
+    "id": 13331,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gilles-daget",
+    "path": "/dirigeants/gilles-daget/",
+    "title": "Gilles Daget",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/61d5d462bcb82845580456.webp",
+    "date": "2025-04-05T08:00:03",
+    "modified": "2025-11-12T20:57:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Gilles Daget, un président bâtisseur : 1994 - 1999 </strong></h4>\n<ul>\n<li>Alors vice-président du club en charge des dossiers stratégiques comme la reconstruction du futur stade Bonal, Gilles Daget devient président en décembre 1994. La crise de résultats sportifs de l'équipe première et un centre de formation vieillissant nécessite un renouveau. Les dirigeants de Peugeot décident alors de confier les rênes de l'équipe à Gilles Daget, un homme du sérail qui connait les élus et maîtrise sur le bout des doigts les projets stratégiques pour assurer l'avenir du club. Mission lui est aussi confiée de relancer la formation et de pérenniser le club en première division.</li>\n<li>Au niveau des grandes infrastructures Gilles Daget va réussir un travail remarquable avec la construction du nouveau stade Bonal et l'aménagement du nouveau centre de formation aux métiers du football dans un l'ancien château de Jean-Pierre Peugeot à Seloncourt donné par la famille. Ce centre ultra moderne offrira des générations de joueurs talentueux au club et lui permettra de surfer sur le sommet de la vague pendant 15 ans. </li>\n<li>Au niveau sportif en revanche, l'affaire est plus délicate. En quelques années Sochaux a perdu Pierre Tournier directeur du centre de formation parti à Monaco, Jacques Thouzery l'emblématique président depuis 20 ans, Sylvester Takac l'entraîneur le plus capé de l'histoire du club et Silvio Croci qui gérait les parties administrative et sportive et notamment le recrutement. Les remplacer est une gageure et Gilles Daget ne fera pas toujours les bons choix. En 5 ans à la tête du club, les professionnels ne joueront qu'une saison et demi en première division avec deux descentes à la clé. Et dans les coupes aucune performance notable si ce n'est une demi-finale de coupe de la ligue en 1999. C'est la pire période sportive de l'histoire du club jusqu'alors. </li>\n<li>En fin d'année 1999, le stade et le centre de formation sont en voie d'achèvement. Les dirigeants de PSA décident de le remplacer par un dynamique directeur commercial de la marque : Jean-Claude Plessis. Juste avant son départ, Gilles Daget nomme un nouvel entraîneur alors que le club qui a le plus gros budget de ligue 2 végète en deuxième partie de tableau. Il jette son dévolu sur Jean Fernandez avec la mission de remonter en ligue 1 dans les plus brefs délais. Il a planté les graines, son successeur saura faire fructifier tout ce riche potentiel. <em><strong>  </strong></em><em><strong> </strong></em></li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "5 ans à la tête du club pour Gilles Daget qui aura mené à bien les projets de nouveau stade Bonal et de nouveau centre de formation à Seloncourt."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/Daget-et-Specht-Est-Republicain.png",
+            "caption": "Daget et Specht",
+            "credit": "Est Républicain",
+            "caption_raw": "Daget et Specht – Est Républicain"
+        },
+        {
+            "image": "2025/04/Hadzibegic-et-Daget-Gillme.png",
+            "caption": "Hadzibegic et Daget",
+            "credit": "Gillmé",
+            "caption_raw": "Hadzibegic et Daget – Gillmé"
+        },
+        {
+            "image": "2025/04/Daget-Reinoso.png",
+            "caption": "Daget",
+            "credit": "Reinoso",
+            "caption_raw": "Daget – Reinoso"
+        },
+        {
+            "image": "2025/04/554861_10150947791819113_356870874_n.jpg",
+            "caption": "Daget et Hdzibegic",
+            "credit": "Le Pays",
+            "caption_raw": "Daget et Hdzibegic – Le Pays"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13331,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/gilles-daget/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/gilles-daget/",
+        "slug": "gilles-daget",
+        "seo_title": "Gilles Daget - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Gilles Daget </h2>\n<h4><strong>Président de 1994 à 1999</strong></h4>",
+        "header_lines": [
+            "Gilles Daget",
+            "Président de 1994 à 1999"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Gilles",
+        "last_name": "Daget",
+        "display_name": "Gilles Daget",
+        "nickname": "",
+        "subtitle": "Président de 1994 à 1999",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gilles Daget"
+            },
+            {
+                "label": null,
+                "value": "Président de 1994 à 1999"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

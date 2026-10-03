@@ -1,0 +1,114 @@
+{
+    "id": 13321,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "antoine-peugeot",
+    "path": "/dirigeants/antoine-peugeot/",
+    "title": "Antoine Peugeot",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/61d5d494783d1025832614.webp",
+    "date": "2025-04-04T10:52:51",
+    "modified": "2025-11-12T20:44:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Antoine Peugeot - Deuxième président du club : 1939 -1945 </strong></h4>\n<ul>\n<li>Antoine Peugeot, né le avril 1910 à Valentigney, est le cousin de Jean-Pierre Peugeot. Il devient président du club suite au départ de Louis Maillard-Salin. Il est le premier et demeurera le seul membre de la famille Peugeot à occuper la présidence du club. </li>\n<li>Il assurera la survie du club durant la deuxième guerre mondiale et sera aux manettes de la fusion avec l'AS Valentigney imposée par le gouvernement de Vichy. </li>\n<li>Au sortir de la guerre il cède son fauteuil à Gaston Turin. Il restera membre du conseil de surveillance de l'entreprise durant de nombreuses années. Il décèdera le 21 décembre 2002 à Valentigney. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Antoine Peugeot est resté 6 ans à la présidence du club qui deviendra temporairement le FC Sochaux-Valentigney durant la deuxième guerre mondiale."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/61d5d494783d1025832614.webp",
+            "caption": "Antoine Peugeot –",
+            "credit": "",
+            "caption_raw": "Antoine Peugeot –"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13321,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/antoine-peugeot/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/antoine-peugeot/",
+        "slug": "antoine-peugeot",
+        "seo_title": "Antoine Peugeot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Antoine Peugeot </h2>\n<h4><strong>Président de 1939 à 1945 </strong> </h4>",
+        "header_lines": [
+            "Antoine Peugeot",
+            "Président de 1939 à 1945"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Antoine",
+        "last_name": "Peugeot",
+        "display_name": "Antoine Peugeot",
+        "nickname": "",
+        "subtitle": "Président de 1939 à 1945",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Antoine Peugeot"
+            },
+            {
+                "label": null,
+                "value": "Président de 1939 à 1945"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

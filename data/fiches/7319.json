@@ -1,0 +1,246 @@
+{
+    "id": 7319,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sekou-cisse",
+    "path": "/joueurs/sekou-cisse/",
+    "title": "Sékou Cissé",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/3.jpg",
+    "date": "2024-11-10T18:24:47",
+    "modified": "2025-03-06T20:56:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "31",
+        "text": "Sékou Cissé a joué 31 matchs (9 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/le-2-mars-2016-avec-le-fc-sochaux-sekou-cisse-avait-ete-buteur-face-au-fc-nantes-en-quarts-de-finale-de-la-coupe-de-france-3-2-a-p-photo-er-lionel-vadam-1634842104.jpg",
+            "caption": "Sékou Cissé",
+            "credit": "L’est républicain",
+            "caption_raw": "Sékou Cissé – L’est républicain"
+        },
+        {
+            "image": "2024/11/sekou-cisse-portera-le-n-18-pour-sochaux-comme-le-nombre-de-buts-qu-il-pourra-marquer-cette-saison-photo-francis-reinoso-1441139013.jpg",
+            "caption": "Sékou Cissé",
+            "credit": "L’est républicain",
+            "caption_raw": "Sékou Cissé – L’est républicain"
+        },
+        {
+            "image": "2024/11/3.jpg",
+            "caption": "Sékou Cissé",
+            "credit": "L’est républicain",
+            "caption_raw": "Sékou Cissé – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7319,
+        "url": "https://www.fcsochauxretro.com/a-la-une/sekou-cisse/",
+        "path": "/a-la-une/sekou-cisse/",
+        "slug": "sekou-cisse",
+        "seo_title": "Sékou Cissé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Sékou Cissé</h2>\n<h4><strong>né le 23 mai 1985 à Dabou (Côte d'Ivoire)  </strong></h4>\n<p><strong>Taille : </strong>1m84</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International ivoirien (10 sélections, 3 buts). </strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2015</p>\n<p><strong>Départ de Sochaux : </strong>juin 2016</p>\n<p><strong>Premier match joué :</strong> Sochaux - Créteil du 11/09/2015 : 0-3</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Clermont foot du 13/05/2016 : 2-0</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Valenciennes du 02/10/2015 : 1-0 - But à la 53'</p>",
+        "header_lines": [
+            "Sékou Cissé",
+            "né le 23 mai 1985 à Dabou (Côte d'Ivoire)",
+            "Taille : 1m84",
+            "Poids : 78 kg",
+            "Pied : ambidextre",
+            "Poste : attaquant",
+            "International ivoirien (10 sélections, 3 buts).",
+            "Arrivée à Sochaux : aout 2015",
+            "Départ de Sochaux : juin 2016",
+            "Premier match joué : Sochaux - Créteil du 11/09/2015 : 0-3",
+            "Dernier match joué : Sochaux - Clermont foot du 13/05/2016 : 2-0",
+            "Premier but marqué : Sochaux - Valenciennes du 02/10/2015 : 1-0 - But à la 53'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Sékou",
+        "last_name": "Cissé",
+        "display_name": "Sékou Cissé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1985-05-23",
+                "precision": "day",
+                "text": "23 mai 1985"
+            },
+            "place": {
+                "text": "Dabou (Côte d'Ivoire)",
+                "city": "Dabou",
+                "department": null,
+                "country": "Côte d'Ivoire",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 mai 1985 à Dabou (Côte d'Ivoire)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "ambidextre",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International ivoirien (10 sélections, 3 buts)."
+        ],
+        "arrival": {
+            "iso": "2015-08",
+            "precision": "month",
+            "text": "aout 2015"
+        },
+        "departure": {
+            "iso": "2016-06",
+            "precision": "month",
+            "text": "juin 2016"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Créteil du 11/09/2015 : 0-3",
+        "last_match": "Sochaux - Clermont foot du 13/05/2016 : 2-0",
+        "first_goal": "Sochaux - Valenciennes du 02/10/2015 : 1-0 - But à la 53'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sékou Cissé"
+            },
+            {
+                "label": null,
+                "value": "né le 23 mai 1985 à Dabou (Côte d'Ivoire)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International ivoirien (10 sélections, 3 buts)."
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2015"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2016"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Créteil du 11/09/2015 : 0-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Clermont foot du 13/05/2016 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Valenciennes du 02/10/2015 : 1-0 - But à la 53'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1972 - 1973",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ]
+            ],
+            "source_table": 893
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

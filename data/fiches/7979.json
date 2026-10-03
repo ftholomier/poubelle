@@ -1,0 +1,240 @@
+{
+    "id": 7979,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "vincent-galland",
+    "path": "/joueurs/vincent-galland/",
+    "title": "Vincent Galland",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/03/Galland.jpg",
+    "date": "2024-11-22T12:25:23",
+    "modified": "2025-03-04T15:08:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<p>Il aurait été l'entraineur de l'Avant-Garde Sportive Mascara, AGSM, en 1948 (Algérie)</p>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques inconnues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "89",
+        "text": "Vincent Galland a joué 89 matchs (6 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/Galland.jpg",
+            "caption": "Galland –",
+            "credit": "DR",
+            "caption_raw": "Galland – – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7979,
+        "url": "https://www.fcsochauxretro.com/a-la-une/vincent-galland/",
+        "path": "/a-la-une/vincent-galland/",
+        "slug": "vincent-galland",
+        "seo_title": "Vincent Galland - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Vincent Galland</h2>\n<h4><strong>né en 1904 à Saïda (Algérie)</strong></h4>\n<h4><strong>Décédé en 1980 à ?</strong> </h4>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu droit<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1929</p>\n<p><strong>Départ de Sochaux :</strong> juin 1932</p>\n<p><strong>Premier match joué :</strong> AS Montbéliard - Sochaux du 25/08/1929 : 0-6</p>\n<p><strong>Dernier match joué :</strong> Sochaux - FC Sète du 05/06/1932 : 2-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Rapid de Prague du 23/02/1930 : 4-4 - 4è but</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n<li>Vainqueur du Challenge de Turckheim 1931</li>\n<li>Vainqueur de la coupe Peugeot 1931</li>\n<li>Champion de Première série du District du Pays de Montbéliard 1931</li>\n<li>Champion de Division d'honneur régional Bourgogne-Franche-Comté 1932</li>\n</ul>",
+        "header_lines": [
+            "Vincent Galland",
+            "né en 1904 à Saïda (Algérie)",
+            "Décédé en 1980 à ?",
+            "Pied : droitier",
+            "Poste : milieu droit",
+            "Arrivée à Sochaux : juillet 1929",
+            "Départ de Sochaux : juin 1932",
+            "Premier match joué : AS Montbéliard - Sochaux du 25/08/1929 : 0-6",
+            "Dernier match joué : Sochaux - FC Sète du 05/06/1932 : 2-1",
+            "Premier but marqué : Sochaux - Rapid de Prague du 23/02/1930 : 4-4 - 4è but",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Vainqueur de la coupe Peugeot 1931",
+            "Champion de Première série du District du Pays de Montbéliard 1931",
+            "Champion de Division d'honneur régional Bourgogne-Franche-Comté 1932"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Vincent",
+        "last_name": "Galland",
+        "display_name": "Vincent Galland",
+        "nickname": "",
+        "subtitle": "né en 1904 à Saïda (Algérie)",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1904",
+                "precision": "year",
+                "text": "1904"
+            },
+            "place": {
+                "text": "Saïda (Algérie)",
+                "city": "Saïda",
+                "department": null,
+                "country": "Algérie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né en 1904 à Saïda (Algérie)"
+        },
+        "death": {
+            "date": {
+                "iso": "1980",
+                "precision": "year",
+                "text": "1980"
+            },
+            "place": {
+                "text": "?",
+                "city": "?",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé en 1980 à ?"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu droit",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1929-07",
+            "precision": "month",
+            "text": "juillet 1929"
+        },
+        "departure": {
+            "iso": "1932-06",
+            "precision": "month",
+            "text": "juin 1932"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "AS Montbéliard - Sochaux du 25/08/1929 : 0-6",
+        "last_match": "Sochaux - FC Sète du 05/06/1932 : 2-1",
+        "first_goal": "Sochaux - Rapid de Prague du 23/02/1930 : 4-4 - 4è but",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Vainqueur de la coupe Peugeot 1931",
+            "Champion de Première série du District du Pays de Montbéliard 1931",
+            "Champion de Division d'honneur régional Bourgogne-Franche-Comté 1932"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Vincent Galland"
+            },
+            {
+                "label": null,
+                "value": "né en 1904 à Saïda (Algérie)"
+            },
+            {
+                "label": null,
+                "value": "Décédé en 1980 à ?"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1929"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1932"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "AS Montbéliard - Sochaux du 25/08/1929 : 0-6"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - FC Sète du 05/06/1932 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Rapid de Prague du 23/02/1930 : 4-4 - 4è but"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1931"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Peugeot 1931"
+            },
+            {
+                "label": null,
+                "value": "Champion de Première série du District du Pays de Montbéliard 1931"
+            },
+            {
+                "label": null,
+                "value": "Champion de Division d'honneur régional Bourgogne-Franche-Comté 1932"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

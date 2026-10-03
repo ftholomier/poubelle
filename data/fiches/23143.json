@@ -1,0 +1,380 @@
+{
+    "id": 23143,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nimes-sochaux-division-1-05-08-1980",
+    "path": "/matchs/1980-1981/nimes-sochaux-division-1-05-08-1980/",
+    "title": "J03 – Nîmes  / Sochaux – D1 – 5/08/1980 – 0-0",
+    "categories": [
+        "1980-1981",
+        "a-la-une",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/09/80-81-en-amical.png",
+    "date": "2026-09-30T19:11:53",
+    "modified": "2026-10-02T16:50:17",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir le match</li>\n<li>a venir </li>\n<li> </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>4' : </strong>à venir</li>\n<li> </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Albert Rust :</strong> <em>à venir</em></li>\n<li> </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "première victoire de la saison pour le FCSM"
+    },
+    "gallery": [
+        {
+            "image": "2026/09/80-81-en-amical.png",
+            "caption": "Equipe Sochaux 80-81",
+            "credit": "But",
+            "caption_raw": "Equipe Sochaux 80-81 – But"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 23143,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j03-nimes-sochaux-d1-5-08-1980-0-0/",
+        "path": "/a-la-une/j03-nimes-sochaux-d1-5-08-1980-0-0/",
+        "slug": "j03-nimes-sochaux-d1-5-08-1980-0-0",
+        "seo_title": "J03 - Nîmes / Sochaux - D1 - 5/08/1980 - 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Nîmes / Sochaux  : 0-0</strong></h2>\n<h4><strong>3e journée de division 1</strong></h4>\n<h4><strong>Mardi 29 juillet 1980</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>6 519 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M Girard</strong></h4>",
+        "header_lines": [
+            "Nîmes / Sochaux : 0-0",
+            "3e journée de division 1",
+            "Mardi 29 juillet 1980",
+            "Stade Auguste Bonal",
+            "6 519 spectateurs",
+            "Arbitrage : M Girard"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1980-08-05",
+        "date_text": "Mardi 29 juillet 1980",
+        "season": "1980-1981",
+        "competition": "Championnat",
+        "competition_label": "Division 1",
+        "competition_code": "D1",
+        "round": "J03",
+        "round_text": "3e journée de division 1",
+        "home": {
+            "name": "Nîmes",
+            "level": null
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "Nîmes / Sochaux : 0-0",
+        "result": "N",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 6519,
+        "spectators_text": "6 519 spectateurs",
+        "referee": "M Girard",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "4",
+                "text": "à venir",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Albert Rust",
+                "text": "à venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "52"
+                    ],
+                    "goals_text": "52'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZÉE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "26"
+                    ],
+                    "goals_text": "26'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "18"
+                    ],
+                    "goals_text": "18'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "57",
+                    "sub_text": "Sortie 57'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "57",
+                    "sub_out": null,
+                    "sub_text": "Entrée 57'",
+                    "yellow": [
+                        "69"
+                    ],
+                    "red": [],
+                    "cards_text": "J 69'",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

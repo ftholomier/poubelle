@@ -1,0 +1,270 @@
+{
+    "id": 11075,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nisa-saveljic",
+    "path": "/joueurs/nisa-saveljic/",
+    "title": "Nisa Saveljic",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-114.jpg",
+    "date": "2025-02-01T10:59:50",
+    "modified": "2025-02-01T11:19:05",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "72",
+        "text": "Nisa Saveljic a joué 72 matchs (5 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/le-seul-but-sochalien-sur-penalty-signe-nino-saveljic-photo-alexandre-marchi-photo-er-alexandre-marchi-1621356525.jpg",
+            "caption": "Nisa Saveljic marque sur pénalty lors de la finale de la coupe de la ligue 2003",
+            "credit": "L’est républicain",
+            "caption_raw": "Nisa Saveljic marque sur pénalty lors de la finale de la coupe de la ligue 2003 – L’est républicain"
+        },
+        {
+            "image": "2025/02/nisa-saveljic-sous-le-maillot-du-fcsm-en-2002-photo-d-archives-er-1678369831.jpg",
+            "caption": "Nisa Saveljic",
+            "credit": "L’est républicain",
+            "caption_raw": "Nisa Saveljic – L’est républicain"
+        },
+        {
+            "image": "2025/01/5-114.jpg",
+            "caption": "Nisa Saveljic",
+            "credit": "L’est républicain",
+            "caption_raw": "Nisa Saveljic – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11075,
+        "url": "https://www.fcsochauxretro.com/a-la-une/nisa-saveljic/",
+        "path": "/a-la-une/nisa-saveljic/",
+        "slug": "nisa-saveljic",
+        "seo_title": "Nisa Saveljic - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Nisa Saveljic</h2>\n<h4><strong>né le 29 mars 1970 à Podgorica (Monténégro) </strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International yougoslave (32 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>août 2001</p>\n<p><strong>Départ de Sochaux : </strong>juin 2003</p>\n<p><strong>Premier match joué :</strong> Sochaux - Bordeaux du 09/09/2001 : 2-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Sedan du 24/05/2003 : 2-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Marseille du 06/04/2002 : 3-0 - But à la 18'</p>\n<p><strong>Palmarès avec Sochaux :</strong> </p>\n<ul>\n<li>Demi-finaliste de la coupe Intertoto 2002</li>\n<li>Finaliste de la coupe de la ligue 2003</li>\n</ul>",
+        "header_lines": [
+            "Nisa Saveljic",
+            "né le 29 mars 1970 à Podgorica (Monténégro)",
+            "Taille : 1m88",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International yougoslave (32 sélections, 1 but)",
+            "Arrivée à Sochaux : août 2001",
+            "Départ de Sochaux : juin 2003",
+            "Premier match joué : Sochaux - Bordeaux du 09/09/2001 : 2-0",
+            "Dernier match joué : Sochaux - Sedan du 24/05/2003 : 2-1",
+            "Premier but marqué : Sochaux - Marseille du 06/04/2002 : 3-0 - But à la 18'",
+            "Palmarès avec Sochaux :",
+            "Demi-finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Nisa",
+        "last_name": "Saveljic",
+        "display_name": "Nisa Saveljic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1970-03-29",
+                "precision": "day",
+                "text": "29 mars 1970"
+            },
+            "place": {
+                "text": "Podgorica (Monténégro)",
+                "city": "Podgorica",
+                "department": null,
+                "country": "Monténégro",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 mars 1970 à Podgorica (Monténégro)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International yougoslave (32 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2001-08",
+            "precision": "month",
+            "text": "août 2001"
+        },
+        "departure": {
+            "iso": "2003-06",
+            "precision": "month",
+            "text": "juin 2003"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Bordeaux du 09/09/2001 : 2-0",
+        "last_match": "Sochaux - Sedan du 24/05/2003 : 2-1",
+        "first_goal": "Sochaux - Marseille du 06/04/2002 : 3-0 - But à la 18'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Demi-finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Nisa Saveljic"
+            },
+            {
+                "label": null,
+                "value": "né le 29 mars 1970 à Podgorica (Monténégro)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International yougoslave (32 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "août 2001"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2003"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Bordeaux du 09/09/2001 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Sedan du 24/05/2003 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Marseille du 06/04/2002 : 3-0 - But à la 18'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe Intertoto 2002"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

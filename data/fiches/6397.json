@@ -1,0 +1,309 @@
+{
+    "id": 6397,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacques-andrieux",
+    "path": "/joueurs/jacques-andrieux/",
+    "title": "Jacques Andrieux",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/Jacques-Andrieux-FCSM.jpg",
+    "date": "2024-10-26T17:29:53",
+    "modified": "2026-03-08T06:08:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+            "title": "Sa carrière au fcm",
+            "html": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "174",
+        "text": "Jacques Andrieux a joué 174 matchs (2 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/Jacques-Andrieux-FCSM.jpg",
+            "caption": "Jacques Andrieux",
+            "credit": "FCSM",
+            "caption_raw": "Jacques Andrieux – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6397,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jacques-andrieux/",
+        "path": "/a-la-une/jacques-andrieux/",
+        "slug": "jacques-andrieux",
+        "seo_title": "Jacques Andrieux - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacques Andrieux</h2>\n<h4><strong>né le 22 février 1940 à Paris (75) et </strong><strong>décédé en 1997</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 1963</p>\n<p><strong>Départ de Sochaux : </strong>juillet 1971</p>\n<p><strong>Premier match joué :</strong> Sochaux - Stade Français du 29/08/1964 : 4-1</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Valenciennes du 24/10/1970 : 0-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Valenciennes du 21/03/1965 : 3-2 - But à la 30'</p>",
+        "header_lines": [
+            "Jacques Andrieux",
+            "né le 22 février 1940 à Paris (75) et décédé en 1997",
+            "Taille : 1m80",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juin 1963",
+            "Départ de Sochaux : juillet 1971",
+            "Premier match joué : Sochaux - Stade Français du 29/08/1964 : 4-1",
+            "Dernier match joué : Sochaux - Valenciennes du 24/10/1970 : 0-1",
+            "Premier but marqué : Sochaux - Valenciennes du 21/03/1965 : 3-2 - But à la 30'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jacques",
+        "last_name": "Andrieux",
+        "display_name": "Jacques Andrieux",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1940-02-22",
+                "precision": "day",
+                "text": "22 février 1940"
+            },
+            "place": {
+                "text": "Paris (75) et décédé en 1997",
+                "city": "Paris (75) et décédé en 1997",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 février 1940 à Paris (75) et décédé en 1997"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1963-06",
+            "precision": "month",
+            "text": "juin 1963"
+        },
+        "departure": {
+            "iso": "1971-07",
+            "precision": "month",
+            "text": "juillet 1971"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Stade Français du 29/08/1964 : 4-1",
+        "last_match": "Sochaux - Valenciennes du 24/10/1970 : 0-1",
+        "first_goal": "Sochaux - Valenciennes du 21/03/1965 : 3-2 - But à la 30'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacques Andrieux"
+            },
+            {
+                "label": null,
+                "value": "né le 22 février 1940 à Paris (75) et décédé en 1997"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1963"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 1971"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Stade Français du 29/08/1964 : 4-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Valenciennes du 24/10/1970 : 0-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Valenciennes du 21/03/1965 : 3-2 - But à la 30'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe Drago",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1963-1964",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "1964-1965",
+                    "21",
+                    "1",
+                    "4",
+                    "0",
+                    "1",
+                    "0",
+                    "26",
+                    "1"
+                ],
+                [
+                    "1965-1966",
+                    "32",
+                    "0",
+                    "4",
+                    "0",
+                    "-",
+                    "-",
+                    "36",
+                    "0"
+                ],
+                [
+                    "1966-1967",
+                    "28",
+                    "1",
+                    "7",
+                    "0",
+                    "-",
+                    "-",
+                    "35",
+                    "1"
+                ],
+                [
+                    "1967-1968",
+                    "33",
+                    "0",
+                    "3",
+                    "0",
+                    "-",
+                    "-",
+                    "36",
+                    "0"
+                ],
+                [
+                    "1968-1969",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "30",
+                    "0"
+                ],
+                [
+                    "1969-1970",
+                    "28",
+                    "0",
+                    "1",
+                    "1",
+                    "-",
+                    "-",
+                    "29",
+                    "1"
+                ],
+                [
+                    "1970-1971",
+                    "3",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "3",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "174",
+                    "2",
+                    "20",
+                    "1",
+                    "3",
+                    "0",
+                    "197",
+                    "3"
+                ]
+            ],
+            "source_table": 720
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

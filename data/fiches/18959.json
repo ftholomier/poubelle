@@ -1,0 +1,168 @@
+{
+    "id": 18959,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacques-remy",
+    "path": "/joueurs/jacques-remy/",
+    "title": "Jacques Rémy (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/11/53a92d393a7d2.jpeg",
+    "date": "2025-11-24T10:50:53",
+    "modified": "2026-02-04T20:49:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>Jacques Rémy joue dans des petits clubs du sud de la France mais se montre très performant offensivement. Il empile les buts alors qu'il est très jeune et n'est jamais passé par un centre de formation : AC Port-de-Bouc, Stade Beaucairois, ES Fos-sur-Mer et FC Carpentras entre 1987 et 1993.  </li>\n<li>Il est même sélectionné en équipe de France U18 alors qu'il n'est pas dans un centre de formation. </li>\n<li>A l'été 1993, il est repéré par plusieurs clubs professionnels qui lui proposent un contrat. </li>\n<li>Sochaux le met à l'essai quelques jours en juillet 1993 mais il ne sera finalement pas conservé. Il signera quelques jours après au SM Caen où il jouera 3 matchs de D1. </li>\n</ul>"
+        },
+        {
+            "title": "Carrière après le FCSM",
+            "html": "<ul>\n<li>Il connait une carrière très riche. Il joue tour à tour à : </li>\n<li><strong>1993-1994</strong> : Caen en D1 (3 matchs)</li>\n<li><strong>1994-1995</strong> : Istres en National (10 matchs/4 buts)</li>\n<li><strong>1995-1996</strong> : US Endoume CFA (32 matchs/ 18 buts)</li>\n<li><strong>1996-1997</strong> : Martigues National (13 matchs/ 1 but)</li>\n<li><strong>1997-1998</strong> : Pau FC National (27 matchs/14 buts)</li>\n<li><strong>1998-2000</strong> : Martigues National (60 matchs/48 buts)</li>\n<li><strong>2000-2001</strong> : Strasbourg D1 (13 matchs/1 but) - Vainqueur de la coupe de la ligue il évolue en attaque aux côtés de Danijel Ljuboja notamment. </li>\n<li><strong>2001-2002 :</strong> Grenoble D2 (29 matchs/10 buts)</li>\n<li><strong>2002-2004 :</strong> FC Istres D2 (67 matchs/21 buts) - Accession en D1 sous les ordres de Mecha Bazdarevic. Il inscrit 12 buts l'année de la montée. </li>\n<li><strong>2004-2005 :</strong> Rouen National (25 matchs/ 5 buts)</li>\n<li><strong>2005-2007 :</strong> Stade Olympique de Cassis-Carnoux CFA (40 matchs/24 buts)</li>\n<li><strong>2007-2009 :</strong> Liberia D1 du Costa Rica (35 matchs/16 buts)</li>\n<li><strong>Juin 2009 à janvier 2010 :</strong> Six Fourgs le Busc FC en District (8 matchs/12 buts)</li>\n<li><strong>Janvier 2010 à juin 2011 :</strong> SC Toulon CFA (28 matchs/14 buts)</li>\n<li><strong>2011-2012 :</strong> La Penne sur Huveaune DH. </li>\n<li><strong>Carrière d'entraîneur</strong></li>\n<li><strong>2012-2022 :</strong> Recruteur pur le Montpellier Hérault SC</li>\n<li><strong>Janvier 2022 à juin 2022 :</strong> Entraineur adjoint du FC La Garnache (District Vendée)</li>\n<li><strong>2022-2023 :</strong> Entraineur du FC La Garnache (District Vendée)</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Jacques Rémy a été à l'essai une semaine à Sochaux à l'été 1993."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/53a92d393a7d2.jpeg",
+            "caption": "Jacques Rémy",
+            "credit": "Racingstub.fr",
+            "caption_raw": "Jacques Rémy – Racingstub.fr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 18959,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/jacques-remy-a-lessai/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/jacques-remy-a-lessai/",
+        "slug": "jacques-remy-a-lessai",
+        "seo_title": "Jacques Rémy (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacques Rémy</h2>\n<h4><strong>né le 3 mars 1972 à Denain (59) </strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International français U18</strong></p>\n<p><strong>A l'essai à Sochaux en : juillet 1993</strong></p>",
+        "header_lines": [
+            "Jacques Rémy",
+            "né le 3 mars 1972 à Denain (59)",
+            "Taille : 1m83",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International français U18",
+            "A l'essai à Sochaux en : juillet 1993"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jacques",
+        "last_name": "Rémy",
+        "display_name": "Jacques Rémy",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1993-07",
+            "precision": "month",
+            "text": "juillet 1993"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1972-03-03",
+                "precision": "day",
+                "text": "3 mars 1972"
+            },
+            "place": {
+                "text": "Denain (59)",
+                "city": "Denain",
+                "department": "59",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 mars 1972 à Denain (59)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U18"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacques Rémy"
+            },
+            {
+                "label": null,
+                "value": "né le 3 mars 1972 à Denain (59)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français U18"
+            },
+            {
+                "label": "A l'essai à Sochaux en",
+                "value": "juillet 1993"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

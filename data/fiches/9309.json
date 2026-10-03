@@ -1,0 +1,291 @@
+{
+    "id": 9309,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "olivier-verdon",
+    "path": "/joueurs/olivier-verdon/",
+    "title": "Olivier Verdon",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-92.jpg",
+    "date": "2024-12-29T20:52:51",
+    "modified": "2024-12-29T22:26:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "30",
+        "text": "Olivier Verdon a joué 30 matchs (2 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/olivier-verdon-manquera-le-deplacement-a-metz-et-la-reception-de-troyes-photo-christian-lemontey-1551907727.jpg",
+            "caption": "Olivier Verdon",
+            "credit": "L’est républicain",
+            "caption_raw": "Olivier Verdon – L’est républicain"
+        },
+        {
+            "image": "2024/12/le-fc-sochaux-d-olivier-verdon-joue-son-avenir-en-ligue-2-ce-soir-sur-la-pelouse-de-lorient-photo-l-alsace-vincent-voegtlin-1557426494.jpg",
+            "caption": "Olivier Verdon",
+            "credit": "L’Alsace",
+            "caption_raw": "Olivier Verdon – L’Alsace"
+        },
+        {
+            "image": "2024/12/1200x680_maxsportsworldtwo641643.jpg",
+            "caption": "Olivier Verdon",
+            "credit": "L’est républicain",
+            "caption_raw": "Olivier Verdon – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-92.jpg",
+            "caption": "Olivier Verdon",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Olivier Verdon – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9309,
+        "url": "https://www.fcsochauxretro.com/a-la-une/olivier-verdon/",
+        "path": "/a-la-une/olivier-verdon/",
+        "slug": "olivier-verdon",
+        "seo_title": "Olivier Verdon - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Olivier Verdon</h2>\n<h4><strong>Né le 5 octobre 1995 à Clamart (92)</strong></h4>\n<p><strong>Taille : </strong>1m90</p>\n<p><strong>Poids : </strong>85 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International béninois (38 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018</p>\n<p><strong>Départ de Sochaux : </strong>juin 2019</p>\n<p><strong>Premier match joué :</strong> Grenoble - Sochaux du 27/07/2018 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Grenoble du 17/05/2019 : 3-1</p>\n<p><strong>Premier but marqué :</strong> Gazélec Ajaccio - Sochaux du 26/04/2019 : 0-2 - But à la 19'</p>",
+        "header_lines": [
+            "Olivier Verdon",
+            "Né le 5 octobre 1995 à Clamart (92)",
+            "Taille : 1m90",
+            "Poids : 85 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International béninois (38 sélections)",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : juin 2019",
+            "Premier match joué : Grenoble - Sochaux du 27/07/2018 : 1-0",
+            "Dernier match joué : Sochaux - Grenoble du 17/05/2019 : 3-1",
+            "Premier but marqué : Gazélec Ajaccio - Sochaux du 26/04/2019 : 0-2 - But à la 19'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Olivier",
+        "last_name": "Verdon",
+        "display_name": "Olivier Verdon",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1995-10-05",
+                "precision": "day",
+                "text": "5 octobre 1995"
+            },
+            "place": {
+                "text": "Clamart (92)",
+                "city": "Clamart",
+                "department": "92",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 5 octobre 1995 à Clamart (92)"
+        },
+        "death": null,
+        "height": "1m90",
+        "height_cm": 190,
+        "weight": "85 kg",
+        "weight_kg": 85,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International béninois (38 sélections)"
+        ],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2019-06",
+            "precision": "month",
+            "text": "juin 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Grenoble - Sochaux du 27/07/2018 : 1-0",
+        "last_match": "Sochaux - Grenoble du 17/05/2019 : 3-1",
+        "first_goal": "Gazélec Ajaccio - Sochaux du 26/04/2019 : 0-2 - But à la 19'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Olivier Verdon"
+            },
+            {
+                "label": null,
+                "value": "Né le 5 octobre 1995 à Clamart (92)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m90"
+            },
+            {
+                "label": "Poids",
+                "value": "85 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International béninois (38 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Grenoble - Sochaux du 27/07/2018 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Grenoble du 17/05/2019 : 3-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Gazélec Ajaccio - Sochaux du 26/04/2019 : 0-2 - But à la 19'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

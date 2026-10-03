@@ -1,0 +1,323 @@
+{
+    "id": 9053,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "frederic-duplus",
+    "path": "/joueurs/frederic-duplus/",
+    "title": "Frédéric Duplus",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/inbound4832329755147670563.jpg",
+    "date": "2024-12-15T23:36:18",
+    "modified": "2025-05-12T20:06:10",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Frédéric Duplus a joué 15 matchs avec Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/frederic-duplus-forme-au-fc-sochaux-met-un-terme-a-sa-carriere-1727525879.jpg",
+            "caption": "Frédéric Duplus",
+            "credit": "L’est républicain",
+            "caption_raw": "Frédéric Duplus – L’est républicain"
+        },
+        {
+            "image": "2024/12/frederic-duplus-est-le-deuxieme-sochalien-a-avoir-touche-le-plus-de-ballons-1484128303.jpg",
+            "caption": "Frédéric Duplus",
+            "credit": "L’est républicain",
+            "caption_raw": "Frédéric Duplus – L’est républicain"
+        },
+        {
+            "image": "2024/12/frederic-duplus-a-repris-le-chemin-des-terrains-dimanche-en-cfa-photo-francis-reinoso-1424948729.jpg",
+            "caption": "Frédéric Duplus",
+            "credit": "L’est républicain",
+            "caption_raw": "Frédéric Duplus – L’est républicain"
+        },
+        {
+            "image": "2024/12/inbound6203775181906870823.jpg",
+            "caption": "Frédéric Duplus – Saison 2008-2009",
+            "credit": "fcsm",
+            "caption_raw": "Frédéric Duplus – Saison 2008-2009 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9053,
+        "url": "https://www.fcsochauxretro.com/a-la-une/frederic-duplus/",
+        "path": "/a-la-une/frederic-duplus/",
+        "slug": "frederic-duplus",
+        "seo_title": "Frédéric Duplus - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Frédéric Duplus</h2>\n<h4><strong>né le 7 avril 1990 à Belfort (90)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids :</strong> 73 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière latéral droit</p>\n<p><strong>International français U16, U17, U18, U19, U20 (48 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2002</p>\n<p><strong>Départ de Sochaux : </strong>juin 2013</p>\n<p><strong>Premier match joué : </strong>Sochaux - Lyon du 29/10/2008 : 0-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Auxerre du 15/05/2010 : 1-2</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2007</li>\n</ul>",
+        "header_lines": [
+            "Frédéric Duplus",
+            "né le 7 avril 1990 à Belfort (90)",
+            "Taille : 1m78",
+            "Poids : 73 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "International français U16, U17, U18, U19, U20 (48 sélections, 1 but)",
+            "Arrivée à Sochaux : juillet 2002",
+            "Départ de Sochaux : juin 2013",
+            "Premier match joué : Sochaux - Lyon du 29/10/2008 : 0-2",
+            "Dernier match joué : Sochaux - Auxerre du 15/05/2010 : 1-2",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Frédéric",
+        "last_name": "Duplus",
+        "display_name": "Frédéric Duplus",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1990-04-07",
+                "precision": "day",
+                "text": "7 avril 1990"
+            },
+            "place": {
+                "text": "Belfort (90)",
+                "city": "Belfort",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 avril 1990 à Belfort (90)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International français U16, U17, U18, U19, U20 (48 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2002-07",
+            "precision": "month",
+            "text": "juillet 2002"
+        },
+        "departure": {
+            "iso": "2013-06",
+            "precision": "month",
+            "text": "juin 2013"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Lyon du 29/10/2008 : 0-2",
+        "last_match": "Sochaux - Auxerre du 15/05/2010 : 1-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Frédéric Duplus"
+            },
+            {
+                "label": null,
+                "value": "né le 7 avril 1990 à Belfort (90)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U17, U18, U19, U20 (48 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2013"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Lyon du 29/10/2008 : 0-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Auxerre du 15/05/2010 : 1-2"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Qualification Ligue Europa",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2008 - 2009",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2009 - 2010",
+                    "10",
+                    "0",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "13",
+                    "0"
+                ],
+                [
+                    "2010 - 2011",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0"
+                ],
+                [
+                    "2011 - 2012",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ],
+                [
+                    "2012 - 2013",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "11",
+                    "0",
+                    "2",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "15",
+                    "0"
+                ]
+            ],
+            "source_table": 1064
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

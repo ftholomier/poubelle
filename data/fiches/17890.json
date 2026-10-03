@@ -1,0 +1,432 @@
+{
+    "id": 17890,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "clermont-foot-sochaux-coupe-de-france-20-01-2001",
+    "path": "/matchs/2000-2001/clermont-foot-sochaux-coupe-de-france-20-01-2001/",
+    "title": "1/32e – Clermont Foot (N1) / Sochaux (D2) – CDF – 20/01/2001 – 2-2 a.p (5-4 tab)",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "coupe-de-france",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/55-8.jpg",
+    "date": "2025-11-08T22:38:35",
+    "modified": "2025-12-24T09:23:54",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "10è but de la saison de Stéphane Crucet qui a aussi réalisé 6 passes décisives."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/55-8.jpg",
+            "caption": "Raschke – Clermont – Sochaux 2000/2001",
+            "credit": "France football",
+            "caption_raw": "Raschke – Clermont – Sochaux 2000/2001 – France football"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17890,
+        "url": "https://www.fcsochauxretro.com/a-la-une/1-32e-clermont-foot-n1-sochaux-d2-cdf-20-01-2001-2-2-a-p-5-4-tab/",
+        "path": "/a-la-une/1-32e-clermont-foot-n1-sochaux-d2-cdf-20-01-2001-2-2-a-p-5-4-tab/",
+        "slug": "1-32e-clermont-foot-n1-sochaux-d2-cdf-20-01-2001-2-2-a-p-5-4-tab",
+        "seo_title": "1/32e - Clermont Foot (N1) / Sochaux (D2) - CDF - 20/01/2001 - 2-2 a.p (5-4 tab) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Clermont foot (N1) / Sochaux (D2) : 2-2 a.p (5-4 tab)<br></strong></h2>\n<h4><strong>32è de finale de la coupe de France</strong></h4>\n<h4><strong>Samedi 20 janvier 2001</strong></h4>\n<h4><strong>Stade Gabriel Montpied (63)</strong></h4>\n<h4><strong>9 200 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Feuillade<br></strong></h4>\n<p>Buts : Cabezas 12' et Mussard 91' pour Clermont ; Crucet 85' et 108' (sp) pour Sochaux</p>",
+        "header_lines": [
+            "Clermont foot (N1) / Sochaux (D2) : 2-2 a.p (5-4 tab)",
+            "32è de finale de la coupe de France",
+            "Samedi 20 janvier 2001",
+            "Stade Gabriel Montpied (63)",
+            "9 200 spectateurs",
+            "Arbitre : M. Feuillade",
+            "Buts : Cabezas 12' et Mussard 91' pour Clermont ; Crucet 85' et 108' (sp) pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2001-01-20",
+        "date_text": "Samedi 20 janvier 2001",
+        "season": "2000-2001",
+        "competition": "Coupe de France",
+        "competition_label": "Coupe de France",
+        "competition_code": "CDF",
+        "round": "1/32e",
+        "round_text": "32è de finale de la coupe de France",
+        "home": {
+            "name": "Clermont Foot",
+            "level": "N1"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 2,
+            "extra": "a.p (5-4 tab)",
+            "aet": true,
+            "pens": {
+                "home": 5,
+                "away": 4
+            }
+        },
+        "score_raw": "2-2 a.p (5-4 tab)",
+        "score_line": "Clermont foot (N1) / Sochaux (D2) : 2-2 a.p (5-4 tab)",
+        "result": "D",
+        "stadium": "Stade Gabriel Montpied (63)",
+        "spectators": 9200,
+        "spectators_text": "9 200 spectateurs",
+        "referee": "M. Feuillade",
+        "goals_text": "Cabezas 12' et Mussard 91' pour Clermont ; Crucet 85' et 108' (sp) pour Sochaux",
+        "goals": [
+            {
+                "team": "Clermont",
+                "scorers": "Cabezas 12' et Mussard 91'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Crucet 85' et 108' (sp)"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "74",
+                    "sub_text": "Sortie 74'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "63",
+                    "sub_text": "Sortie 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MERIEM Camel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "69",
+                    "sub_text": "Sortie 69'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "85",
+                        "108"
+                    ],
+                    "goals_text": "85' et 108' sp",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAGUET Jean-Baptiste",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "38"
+                    ],
+                    "red": [],
+                    "cards_text": "J 38'",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "69",
+                    "sub_out": null,
+                    "sub_text": "Entrée 69'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOULANGER Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "74",
+                    "sub_out": null,
+                    "sub_text": "Entrée 74'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ISABEY Michaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "63",
+                    "sub_out": null,
+                    "sub_text": "Entrée 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MONSOREAU Sylvain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1692
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

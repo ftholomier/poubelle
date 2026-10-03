@@ -1,0 +1,278 @@
+{
+    "id": 6385,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "henri-alberto",
+    "path": "/joueurs/henri-alberto/",
+    "title": "Henri Alberto",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/inbound4869945166775413909.jpg",
+    "date": "2024-10-26T13:12:06",
+    "modified": "2025-01-21T21:12:45",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "62",
+        "text": "Henri Alberto a gardé les buts du FC Sochaux durant 62 rencontres en deux saisons."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/65532.jpg",
+            "caption": "Henri Alberto",
+            "credit": "",
+            "caption_raw": "Henri Alberto"
+        },
+        {
+            "image": "2024/10/alberto_telechargement.jpg",
+            "caption": "Henri Alberto",
+            "credit": "",
+            "caption_raw": "Henri Alberto"
+        },
+        {
+            "image": "2024/11/inbound5198590015933229285.png",
+            "caption": "Image publicitaire",
+            "credit": "",
+            "caption_raw": "Image publicitaire"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6385,
+        "url": "https://www.fcsochauxretro.com/a-la-une/henri-alberto/",
+        "path": "/a-la-une/henri-alberto/",
+        "slug": "henri-alberto",
+        "seo_title": "Henri Alberto - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Henri Alberto</h2>\n<h4><strong>né le 18 novembre 1933 à Paesana (Italie)</strong></h4>\n<h4><strong>Décédé le 19 avril 2019 à Valence (26)  </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1960</p>\n<p><strong>Départ de Sochaux : </strong>juin 1962</p>\n<p><strong>Premier match :</strong> Sochaux - Bordeaux du 04/12/1960 : 2-0</p>\n<p><strong>Dernier match : </strong>Sochaux - Angers du 19/05/1962 : 5-2</p>",
+        "header_lines": [
+            "Henri Alberto",
+            "né le 18 novembre 1933 à Paesana (Italie)",
+            "Décédé le 19 avril 2019 à Valence (26)",
+            "Taille : 1m82",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1960",
+            "Départ de Sochaux : juin 1962",
+            "Premier match : Sochaux - Bordeaux du 04/12/1960 : 2-0",
+            "Dernier match : Sochaux - Angers du 19/05/1962 : 5-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Henri",
+        "last_name": "Alberto",
+        "display_name": "Henri Alberto",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1933-11-18",
+                "precision": "day",
+                "text": "18 novembre 1933"
+            },
+            "place": {
+                "text": "Paesana (Italie)",
+                "city": "Paesana",
+                "department": null,
+                "country": "Italie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 novembre 1933 à Paesana (Italie)"
+        },
+        "death": {
+            "date": {
+                "iso": "2019-04-19",
+                "precision": "day",
+                "text": "19 avril 2019"
+            },
+            "place": {
+                "text": "Valence (26)",
+                "city": "Valence",
+                "department": "26",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 19 avril 2019 à Valence (26)"
+        },
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1960-07",
+            "precision": "month",
+            "text": "juillet 1960"
+        },
+        "departure": {
+            "iso": "1962-06",
+            "precision": "month",
+            "text": "juin 1962"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Bordeaux du 04/12/1960 : 2-0",
+        "last_match": "Sochaux - Angers du 19/05/1962 : 5-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Henri Alberto"
+            },
+            {
+                "label": null,
+                "value": "né le 18 novembre 1933 à Paesana (Italie)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 19 avril 2019 à Valence (26)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1960"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1962"
+            },
+            {
+                "label": "Premier match",
+                "value": "Sochaux - Bordeaux du 04/12/1960 : 2-0"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - Angers du 19/05/1962 : 5-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe Drago",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1960-1961",
+                    "-",
+                    "-",
+                    "19",
+                    "0",
+                    "2",
+                    "0",
+                    "2",
+                    "0",
+                    "23",
+                    "0"
+                ],
+                [
+                    "1961-1962",
+                    "35",
+                    "0",
+                    "-",
+                    "-",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "39",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "35",
+                    "0",
+                    "19",
+                    "0",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "62",
+                    "0"
+                ]
+            ],
+            "source_table": 710
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

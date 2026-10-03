@@ -1,0 +1,457 @@
+{
+    "id": 17141,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "toulon-sochaux-amical-05-01-2000",
+    "path": "/matchs/1999-2000/toulon-sochaux-amical-05-01-2000/",
+    "title": "Amical – Toulon (DH) / Sochaux (D2) – 05/01/2000 – 1-1",
+    "categories": [
+        "1999-2000",
+        "a-la-une",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/10/19_janvier.jpg",
+    "date": "2025-10-21T22:26:48",
+    "modified": "2025-11-28T10:38:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Après un stage de quelques jours à Bandol, Sochaux achève sa préparation par un match amical face au Sporting Club de Toulon.</li>\n<li>Après de graves déboires financiers, le club du Var a été rétrogradé en division d'honneur. </li>\n<li><strong>TRANSFERT/RUMEUR</strong></li>\n<li>Durant le mois de décembre, <strong>Franck Durix</strong> a rejoint Sochaux en provenance du Servette de Genève. Il a signé pour 18 mois. </li>\n<li>Sochaux piste l'attaquant auxerrois <strong>Lilian Compan.</strong> </li>\n<li>Durix en vacances à Cannes chez lui a rejoint ses nouveaux coéquipiers à Bandol en stage. Il jouera son premier match avec Sochaux contre Toulon. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>7' :</strong> <strong>Sur un bon centre, Noku reprend et ouvre le score pour Toulon ! (1-0)</strong></li>\n<li><strong>29' :</strong> Bon mouvement collectif sochalien qui s'achève par un tir de Dedebant stoppé par Ferraud. </li>\n<li><strong>37' :</strong> Bengo l'attaquant toulonnais se retrouve seul face au but vide mais il ne cadre pas ! </li>\n<li><strong>54' :</strong> Coup franc de Ljuboja repoussé par Ferraud. </li>\n<li><strong>64' : Ljuboja déborde côté gauche se défait de plusieurs défenseurs et sert Drobnjak qui conclut de près ! (1-1)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Jean Fernandez : </strong><em>\" Nous avons pêché en matière de percussion. Il est vrai que les joueurs étaient fatigués et que des garçons comme Ferri et Drobnjak n'avaient pas joué depuis un bon moment, Durix n'ayant lui que deux ou trois entraînements dans les jambes. Je n'ai donc pas énormément d'informations à retirer de ce match \".</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Toulon réussit un petit exploit en tenant tête à des Sochaliens fatigués qui évoluent en D2.</li>\n<li>Drobnjak a remarqué avec l'équipe première sur un bon service de Ljuboja. </li>\n<li>Les Sochaliens ont poussé dans les 30 dernières minutes mais ils n'ont pas réussi à faire la différence face à une défense regroupée et solide. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "1 nouvelle recrue alignée pour ce premier match amical de l'année 2000 : Franck Durix."
+    },
+    "gallery": [
+        {
+            "image": "2025/10/19_janvier.jpg",
+            "caption": "Jean Fernandez",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean Fernandez – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17141,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-toulon-dh-sochaux-d2-05-01-2000-1-1/",
+        "path": "/a-la-une/amical-toulon-dh-sochaux-d2-05-01-2000-1-1/",
+        "slug": "amical-toulon-dh-sochaux-d2-05-01-2000-1-1",
+        "seo_title": "Amical - Toulon (DH) / Sochaux (D2) - 05/01/2000 - 1-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Toulon (DH) / Sochaux (D2) : 1-1<br></strong></h2>\n<h4><strong>Match amical </strong></h4>\n<h4><strong>Mercredi 5 janvier 2000</strong></h4>\n<h4><strong>Stade de Bon rencontre</strong></h4>\n<h4><strong>100 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. xx<br></strong></h4>\n<p>Buts : Nuko 7' pour Toulon ; Drobnjak 64' pour Sochaux</p>",
+        "header_lines": [
+            "Toulon (DH) / Sochaux (D2) : 1-1",
+            "Match amical",
+            "Mercredi 5 janvier 2000",
+            "Stade de Bon rencontre",
+            "100 spectateurs",
+            "Arbitre : M. xx",
+            "Buts : Nuko 7' pour Toulon ; Drobnjak 64' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-01-05",
+        "date_text": "Mercredi 5 janvier 2000",
+        "season": "1999-2000",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Toulon",
+            "level": "DH"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-1",
+        "score_line": "Toulon (DH) / Sochaux (D2) : 1-1",
+        "result": "N",
+        "stadium": "Stade de Bon rencontre",
+        "spectators": 100,
+        "spectators_text": "100 spectateurs",
+        "referee": "M. xx",
+        "goals_text": "Nuko 7' pour Toulon ; Drobnjak 64' pour Sochaux",
+        "goals": [
+            {
+                "team": "Toulon",
+                "scorers": "Nuko 7'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Drobnjak 64'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "7",
+                "text": "Sur un bon centre, Noku reprend et ouvre le score pour Toulon ! (1-0)",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "29",
+                "text": "Bon mouvement collectif sochalien qui s'achève par un tir de Dedebant stoppé par Ferraud.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "37",
+                "text": "Bengo l'attaquant toulonnais se retrouve seul face au but vide mais il ne cadre pas !",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "54",
+                "text": "Coup franc de Ljuboja repoussé par Ferraud.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "64",
+                "text": "Ljuboja déborde côté gauche se défait de plusieurs défenseurs et sert Drobnjak qui conclut de près ! (1-1)",
+                "goal": true,
+                "score": "1-1"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Jean Fernandez",
+                "text": "Nous avons pêché en matière de percussion. Il est vrai que les joueurs étaient fatigués et que des garçons comme Ferri et Drobnjak n'avaient pas joué depuis un bon moment, Durix n'ayant lui que deux ou trois entraînements dans les jambes. Je n'ai donc pas énormément d'informations à retirer de ce match \"."
+            }
+        ],
+        "breves": [
+            "Toulon réussit un petit exploit en tenant tête à des Sochaliens fatigués qui évoluent en D2.",
+            "Drobnjak a remarqué avec l'équipe première sur un bon service de Ljuboja.",
+            "Les Sochaliens ont poussé dans les 30 dernières minutes mais ils n'ont pas réussi à faire la différence face à une défense regroupée et solide."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SANTINI Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MARAVAL Bernard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MARTIN Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERRI Jean-Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DEDEBANT Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAUDRY Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DROBNJAK Anto",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "64"
+                    ],
+                    "goals_text": "64'",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RAVAUX Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "TASSALI Kamal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LJUBOJA Danijel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DALLET Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1576
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

@@ -1,0 +1,289 @@
+{
+    "id": 10539,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "loic-poujol",
+    "path": "/joueurs/loic-poujol/",
+    "title": "Loïc Poujol",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5ede40f3a8981_poujol.jpg",
+    "date": "2025-01-17T09:26:18",
+    "modified": "2025-01-17T09:38:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "77",
+        "text": "Loïc Poujol a joué 77 matchs (3 buts et 1 passe décisive) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/loic-poujol-1484128395.jpg",
+            "caption": "Loïc Poujol",
+            "credit": "L’est républicain",
+            "caption_raw": "Loïc Poujol – L’est républicain"
+        },
+        {
+            "image": "2025/01/le-ruthenois-a-droite-a-l-ambition-d-enchainer-photo-afp-1535381106.jpg",
+            "caption": "Loïc Poujol",
+            "credit": "Le Progrès",
+            "caption_raw": "Loïc Poujol – Le Progrès"
+        },
+        {
+            "image": "2025/01/fc-sochaux-loic-poujol-passe-de-l-ombre-a-la-lumiere-tamisee-1295347966.jpg",
+            "caption": "Loïc Poujol",
+            "credit": "DNA",
+            "caption_raw": "Loïc Poujol – DNA"
+        },
+        {
+            "image": "2025/01/5ede40f3a8981_poujol.jpg",
+            "caption": "Loïc Poujol",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Loïc Poujol – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10539,
+        "url": "https://www.fcsochauxretro.com/a-la-une/loic-poujol/",
+        "path": "/a-la-une/loic-poujol/",
+        "slug": "loic-poujol",
+        "seo_title": "Loïc Poujol - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Loïc Poujol</h2>\n<h4><strong>né le 27 février 1989 à Rodez (12)</strong></h4>\n<p><strong>Taille : </strong>1m87</p>\n<p><strong>Poids : </strong>84 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif ou défenseur central<strong><br></strong></p>\n<p><strong>International français U16, U17, U18, U19 et U20</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2004</p>\n<p><strong>Départ de Sochaux :</strong> juin 2014</p>\n<p><strong>Premier match joué :</strong> Auxerre - Sochaux du 08/08/2009 : 0-1 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Nantes du 01/02/2014 : 1-0</p>\n<p><strong>Premier but marqué :</strong> Caen - Sochaux du 13/05/2012 : 1-3 - But à la 39'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2007</li>\n</ul>",
+        "header_lines": [
+            "Loïc Poujol",
+            "né le 27 février 1989 à Rodez (12)",
+            "Taille : 1m87",
+            "Poids : 84 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif ou défenseur central",
+            "International français U16, U17, U18, U19 et U20",
+            "Arrivée à Sochaux : juillet 2004",
+            "Départ de Sochaux : juin 2014",
+            "Premier match joué : Auxerre - Sochaux du 08/08/2009 : 0-1",
+            "Dernier match joué : Sochaux - Nantes du 01/02/2014 : 1-0",
+            "Premier but marqué : Caen - Sochaux du 13/05/2012 : 1-3 - But à la 39'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Loïc",
+        "last_name": "Poujol",
+        "display_name": "Loïc Poujol",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1989-02-27",
+                "precision": "day",
+                "text": "27 février 1989"
+            },
+            "place": {
+                "text": "Rodez (12)",
+                "city": "Rodez",
+                "department": "12",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 27 février 1989 à Rodez (12)"
+        },
+        "death": null,
+        "height": "1m87",
+        "height_cm": 187,
+        "weight": "84 kg",
+        "weight_kg": 84,
+        "foot": "droitier",
+        "position": "milieu défensif ou défenseur central",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français U16, U17, U18, U19 et U20"
+        ],
+        "arrival": {
+            "iso": "2004-07",
+            "precision": "month",
+            "text": "juillet 2004"
+        },
+        "departure": {
+            "iso": "2014-06",
+            "precision": "month",
+            "text": "juin 2014"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Auxerre - Sochaux du 08/08/2009 : 0-1",
+        "last_match": "Sochaux - Nantes du 01/02/2014 : 1-0",
+        "first_goal": "Caen - Sochaux du 13/05/2012 : 1-3 - But à la 39'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Loïc Poujol"
+            },
+            {
+                "label": null,
+                "value": "né le 27 février 1989 à Rodez (12)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m87"
+            },
+            {
+                "label": "Poids",
+                "value": "84 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif ou défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U17, U18, U19 et U20"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2004"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2014"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Auxerre - Sochaux du 08/08/2009 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nantes du 01/02/2014 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Caen - Sochaux du 13/05/2012 : 1-3 - But à la 39'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

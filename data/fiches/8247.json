@@ -1,0 +1,250 @@
+{
+    "id": 8247,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "romain-habran",
+    "path": "/joueurs/romain-habran/",
+    "title": "Romain Habran",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/3-12.jpg",
+    "date": "2024-12-10T11:47:34",
+    "modified": "2024-12-11T08:08:03",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "25",
+        "text": "Romain Habran a joué 25 matchs (2 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/la-premiere-demi-heure-de-romain-habran-brillante-a-ete-a-l-image-du-debut-de-match-de-sochaux-la-suite-fut-moins-emballante-1430594554.jpg",
+            "caption": "Romain Habran",
+            "credit": "L’est républicain",
+            "caption_raw": "Romain Habran – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8247,
+        "url": "https://www.fcsochauxretro.com/a-la-une/romain-habran/",
+        "path": "/a-la-une/romain-habran/",
+        "slug": "romain-habran",
+        "seo_title": "Romain Habran - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Romain Habran</h2>\n<h4><strong>né le 14 juin 1994 à Villeneuve-le-Garenne (92) </strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>International français U20 (5 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2014</p>\n<p><strong>Départ de Sochaux : </strong>juin 2015</p>\n<p><strong>Premier match joué </strong>: Sochaux - Orléans du 02/08/2014 : 0-1</p>\n<p><strong>Dernier match joué : </strong>Orléans -  Sochaux du 22/05/2015 : 1-0 </p>\n<p><strong>Premier but et premier doublé marqué :</strong> Sochaux - Niort du 01/05/2015 : 2-3 - But à la 3' et 14'</p>",
+        "header_lines": [
+            "Romain Habran",
+            "né le 14 juin 1994 à Villeneuve-le-Garenne (92)",
+            "Taille : 1m76",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "International français U20 (5 sélections, 1 but)",
+            "Arrivée à Sochaux : juillet 2014",
+            "Départ de Sochaux : juin 2015",
+            "Premier match joué : Sochaux - Orléans du 02/08/2014 : 0-1",
+            "Dernier match joué : Orléans - Sochaux du 22/05/2015 : 1-0",
+            "Premier but et premier doublé marqué : Sochaux - Niort du 01/05/2015 : 2-3 - But à la 3' et 14'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Romain",
+        "last_name": "Habran",
+        "display_name": "Romain Habran",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1994-06-14",
+                "precision": "day",
+                "text": "14 juin 1994"
+            },
+            "place": {
+                "text": "Villeneuve-le-Garenne (92)",
+                "city": "Villeneuve-le-Garenne",
+                "department": "92",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 juin 1994 à Villeneuve-le-Garenne (92)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U20 (5 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2014-07",
+            "precision": "month",
+            "text": "juillet 2014"
+        },
+        "departure": {
+            "iso": "2015-06",
+            "precision": "month",
+            "text": "juin 2015"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Orléans du 02/08/2014 : 0-1",
+        "last_match": "Orléans - Sochaux du 22/05/2015 : 1-0",
+        "first_goal": "Sochaux - Niort du 01/05/2015 : 2-3 - But à la 3' et 14'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Romain Habran"
+            },
+            {
+                "label": null,
+                "value": "né le 14 juin 1994 à Villeneuve-le-Garenne (92)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International français U20 (5 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2014"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2015"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Orléans du 02/08/2014 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Orléans - Sochaux du 22/05/2015 : 1-0"
+            },
+            {
+                "label": "Premier but et premier doublé marqué",
+                "value": "Sochaux - Niort du 01/05/2015 : 2-3 - But à la 3' et 14'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

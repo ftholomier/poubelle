@@ -1,0 +1,263 @@
+{
+    "id": 9965,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "marcelo-trapasso",
+    "path": "/joueurs/marcelo-trapasso/",
+    "title": "Marcelo Trapasso",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-109.jpg",
+    "date": "2025-01-02T13:39:27",
+    "modified": "2025-01-02T13:50:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>.</p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "61",
+        "text": "Marcelo Trapasso a joué 61 matchs (6 buts et 3 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/photo-1682791236.jpg",
+            "caption": "Marcelo Trapasso",
+            "credit": "L’est républicain",
+            "caption_raw": "Marcelo Trapasso – L’est républicain"
+        },
+        {
+            "image": "2025/01/marcelo-trapasso-ici-lors-d-un-match-contre-les-anglais-de-fulham-photo-er-archives-1619597623.jpg",
+            "caption": "Marcelo Trapasso",
+            "credit": "L’est républicain",
+            "caption_raw": "Marcelo Trapasso – L’est républicain"
+        },
+        {
+            "image": "2025/01/8.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9965,
+        "url": "https://www.fcsochauxretro.com/a-la-une/marcelo-trapasso/",
+        "path": "/a-la-une/marcelo-trapasso/",
+        "slug": "marcelo-trapasso",
+        "seo_title": "Marcelo Trapasso - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Marcelo Trapasso</h2>\n<h4><strong>né le 30 avril 1976 à Buenos Aires (Argentine)  </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2001</p>\n<p><strong>Départ de Sochaux : </strong>juin 2005</p>\n<p><strong>Premier match joué et premier but marqué :</strong> Monaco - Sochaux du 28/07/2001 : 0-1 - But à la 75'</p>\n<p><strong>Dernier match joué :</strong> AC Ajaccio - Sochaux du 28/05/2005 : 3-1</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Demi finaliste de la coupe Intertoto 2003</li>\n<li>Finaliste de la coupe de la ligue 2003</li>\n<li>Vainqueur de la coupe de la ligue 2004</li>\n</ul>",
+        "header_lines": [
+            "Marcelo Trapasso",
+            "né le 30 avril 1976 à Buenos Aires (Argentine)",
+            "Taille : 1m75",
+            "Poids : 68 kg",
+            "Pied : ambidextre",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : juillet 2001",
+            "Départ de Sochaux : juin 2005",
+            "Premier match joué et premier but marqué : Monaco - Sochaux du 28/07/2001 : 0-1 - But à la 75'",
+            "Dernier match joué : AC Ajaccio - Sochaux du 28/05/2005 : 3-1",
+            "Palmarès avec Sochaux :",
+            "Demi finaliste de la coupe Intertoto 2003",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Marcelo",
+        "last_name": "Trapasso",
+        "display_name": "Marcelo Trapasso",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1976-04-30",
+                "precision": "day",
+                "text": "30 avril 1976"
+            },
+            "place": {
+                "text": "Buenos Aires (Argentine)",
+                "city": "Buenos Aires",
+                "department": null,
+                "country": "Argentine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 avril 1976 à Buenos Aires (Argentine)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "ambidextre",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2001-07",
+            "precision": "month",
+            "text": "juillet 2001"
+        },
+        "departure": {
+            "iso": "2005-06",
+            "precision": "month",
+            "text": "juin 2005"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Monaco - Sochaux du 28/07/2001 : 0-1 - But à la 75'",
+        "last_match": "AC Ajaccio - Sochaux du 28/05/2005 : 3-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Demi finaliste de la coupe Intertoto 2003",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Marcelo Trapasso"
+            },
+            {
+                "label": null,
+                "value": "né le 30 avril 1976 à Buenos Aires (Argentine)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2001"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2005"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Monaco - Sochaux du 28/07/2001 : 0-1 - But à la 75'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "AC Ajaccio - Sochaux du 28/05/2005 : 3-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Demi finaliste de la coupe Intertoto 2003"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de la ligue 2004"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

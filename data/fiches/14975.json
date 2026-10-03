@@ -1,0 +1,179 @@
+{
+    "id": 14975,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "dylan-tavares",
+    "path": "/joueurs/dylan-tavares/",
+    "title": "Dylan Tavares",
+    "categories": [
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/telechargement.jpg",
+    "date": "2025-07-02T17:50:21",
+    "modified": "2025-07-02T17:55:33",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Dylan Tavares a signé un contrat de deux saisons à l'été 2025."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/telechargement.jpg",
+            "caption": "Dylan Tavares",
+            "credit": "L’est républicain",
+            "caption_raw": "Dylan Tavares – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 14975,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/dylan-tavares/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/dylan-tavares/",
+        "slug": "dylan-tavares",
+        "seo_title": "Dylan Tavares - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Dylan Tavares</h2>\n<h4><strong>né le 30 aout 1996 à Genève (Suisse)</strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>61 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche</p>\n<p><strong>International cap verdien (20 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2025</p>\n<p><strong>Départ de Sochaux :</strong> </p>\n<p><strong>Premier match :</strong> </p>",
+        "header_lines": [
+            "Dylan Tavares",
+            "né le 30 aout 1996 à Genève (Suisse)",
+            "Taille : 1m72",
+            "Poids : 61 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "International cap verdien (20 sélections, 1 but)",
+            "Arrivée à Sochaux : juillet 2025",
+            "Départ de Sochaux :",
+            "Premier match :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Dylan",
+        "last_name": "Tavares",
+        "display_name": "Dylan Tavares",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1996-08-30",
+                "precision": "day",
+                "text": "30 aout 1996"
+            },
+            "place": {
+                "text": "Genève (Suisse)",
+                "city": "Genève",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 aout 1996 à Genève (Suisse)"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "61 kg",
+        "weight_kg": 61,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International cap verdien (20 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2025-07",
+            "precision": "month",
+            "text": "juillet 2025"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "",
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Dylan Tavares"
+            },
+            {
+                "label": null,
+                "value": "né le 30 aout 1996 à Genève (Suisse)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "61 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": null,
+                "value": "International cap verdien (20 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2025"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match",
+                "value": ""
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

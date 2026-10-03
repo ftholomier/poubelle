@@ -1,0 +1,242 @@
+{
+    "id": 7932,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "raoul-giraudo",
+    "path": "/joueurs/raoul-giraudo/",
+    "title": "Raoul Giraudo",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/telechargement.webp",
+    "date": "2024-11-24T09:05:54",
+    "modified": "2024-11-24T09:15:09",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "11",
+        "text": "Raoul Giraudo a joué 11 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/telechargement.webp",
+            "caption": "Raoul Giraudo",
+            "credit": "dr",
+            "caption_raw": "Raoul Giraudo – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7932,
+        "url": "https://www.fcsochauxretro.com/a-la-une/raoul-giraudo/",
+        "path": "/a-la-une/raoul-giraudo/",
+        "slug": "raoul-giraudo",
+        "seo_title": "Raoul Giraudo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Raoul Giraudo<br></h2>\n<h4><strong>né le 19 mai 1932 à Aix-en-Provence (13)</strong></h4>\n<p><strong>Décédé le 26 octobre 1995 à Cerizay (79)</strong></p>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>71 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1961</p>\n<p><strong>Départ de Sochaux : </strong>juin 1962</p>\n<p><strong>Premier match joué :</strong> Sochaux - Rennes du 19/11/1961 : 1-2</p>\n<p><strong>Dernier match joué : </strong>Toulouse - Sochaux du 22/04/1962 : 6-1</p>",
+        "header_lines": [
+            "Raoul Giraudo",
+            "né le 19 mai 1932 à Aix-en-Provence (13)",
+            "Décédé le 26 octobre 1995 à Cerizay (79)",
+            "Taille : 1m72",
+            "Poids : 71 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "Arrivée à Sochaux : juillet 1961",
+            "Départ de Sochaux : juin 1962",
+            "Premier match joué : Sochaux - Rennes du 19/11/1961 : 1-2",
+            "Dernier match joué : Toulouse - Sochaux du 22/04/1962 : 6-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Raoul",
+        "last_name": "Giraudo",
+        "display_name": "Raoul Giraudo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1932-05-19",
+                "precision": "day",
+                "text": "19 mai 1932"
+            },
+            "place": {
+                "text": "Aix-en-Provence (13)",
+                "city": "Aix-en-Provence",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 mai 1932 à Aix-en-Provence (13)"
+        },
+        "death": {
+            "date": {
+                "iso": "1995-10-26",
+                "precision": "day",
+                "text": "26 octobre 1995"
+            },
+            "place": {
+                "text": "Cerizay (79)",
+                "city": "Cerizay",
+                "department": "79",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 26 octobre 1995 à Cerizay (79)"
+        },
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1961-07",
+            "precision": "month",
+            "text": "juillet 1961"
+        },
+        "departure": {
+            "iso": "1962-06",
+            "precision": "month",
+            "text": "juin 1962"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Rennes du 19/11/1961 : 1-2",
+        "last_match": "Toulouse - Sochaux du 22/04/1962 : 6-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Raoul Giraudo"
+            },
+            {
+                "label": null,
+                "value": "né le 19 mai 1932 à Aix-en-Provence (13)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 26 octobre 1995 à Cerizay (79)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1961"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1962"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Rennes du 19/11/1961 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Toulouse - Sochaux du 22/04/1962 : 6-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "14",
+                    "",
+                    "",
+                    "",
+                    "14",
+                    ""
+                ],
+                [
+                    "Total",
+                    "14",
+                    "",
+                    "",
+                    "",
+                    "14",
+                    ""
+                ]
+            ],
+            "source_table": 222
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

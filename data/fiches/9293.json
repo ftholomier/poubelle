@@ -1,0 +1,245 @@
+{
+    "id": 9293,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-volbert",
+    "path": "/joueurs/jean-volbert/",
+    "title": "Jean Volbert",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/5-90.jpg",
+    "date": "2024-12-29T15:30:57",
+    "modified": "2025-07-16T22:14:02",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        },
+        {
+            "title": "Fiche d'identité",
+            "html": "<h2>Jean Volbert</h2>\n<h4><strong>né le 27 avril 1944 à Montbéliard (25)</strong></h4>\n<p><strong>Taille :</strong> 1m71</p>\n<p><strong>Poids :</strong> 66 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> arrière latéral droit</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1964</p>\n<p><strong>Départ de Sochaux :</strong> juin 1971</p>\n<p><strong>Premier match joué :</strong> FC Rouen - Sochaux du 29/09/1968 : 2-1</p>\n<p><strong>Dernier match joué : </strong>AC Ajaccio - Sochaux du 05/11/1969 : 1-0</p>\n<p><strong>Premier but marqué :</strong> Nice - Sochaux du 13/10/1968 : 0-3 - But à la 90'</p>"
+        },
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "32",
+        "text": "Jean Volbert a joué 32 matchs (1 but) pour Sochaux son club formateur."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9293,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-volbert/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-volbert/",
+        "slug": "jean-volbert",
+        "seo_title": "Jean Volbert - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Volbert</h2>\n<h4><strong>né le 27 avril 1944 à Montbéliard (25)</strong></h4>\n<p><strong>Taille :</strong> 1m71</p>\n<p><strong>Poids :</strong> 66 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> arrière latéral droit</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1964</p>\n<p><strong>Départ de Sochaux :</strong> juin 1971</p>\n<p><strong>Premier match joué :</strong> FC Rouen - Sochaux du 29/09/1968 : 2-1</p>\n<p><strong>Dernier match joué : </strong>AC Ajaccio - Sochaux du 05/11/1969 : 1-0</p>\n<p><strong>Premier but marqué :</strong> Nice - Sochaux du 13/10/1968 : 0-3 - But à la 90'</p>",
+        "header_lines": [
+            "Jean Volbert",
+            "né le 27 avril 1944 à Montbéliard (25)",
+            "Taille : 1m71",
+            "Poids : 66 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "Arrivée à Sochaux : juillet 1964",
+            "Départ de Sochaux : juin 1971",
+            "Premier match joué : FC Rouen - Sochaux du 29/09/1968 : 2-1",
+            "Dernier match joué : AC Ajaccio - Sochaux du 05/11/1969 : 1-0",
+            "Premier but marqué : Nice - Sochaux du 13/10/1968 : 0-3 - But à la 90'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean",
+        "last_name": "Volbert",
+        "display_name": "Jean Volbert",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1944-04-27",
+                "precision": "day",
+                "text": "27 avril 1944"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 27 avril 1944 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m71",
+        "height_cm": 171,
+        "weight": "66 kg",
+        "weight_kg": 66,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1964-07",
+            "precision": "month",
+            "text": "juillet 1964"
+        },
+        "departure": {
+            "iso": "1971-06",
+            "precision": "month",
+            "text": "juin 1971"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "FC Rouen - Sochaux du 29/09/1968 : 2-1",
+        "last_match": "AC Ajaccio - Sochaux du 05/11/1969 : 1-0",
+        "first_goal": "Nice - Sochaux du 13/10/1968 : 0-3 - But à la 90'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Volbert"
+            },
+            {
+                "label": null,
+                "value": "né le 27 avril 1944 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m71"
+            },
+            {
+                "label": "Poids",
+                "value": "66 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1964"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1971"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "FC Rouen - Sochaux du 29/09/1968 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "AC Ajaccio - Sochaux du 05/11/1969 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Nice - Sochaux du 13/10/1968 : 0-3 - But à la 90'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1991-1992",
+                    "23",
+                    "4",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "24",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "23",
+                    "4",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "24",
+                    "4"
+                ]
+            ],
+            "source_table": 200
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

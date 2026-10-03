@@ -1,0 +1,248 @@
+{
+    "id": 12319,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "merot",
+    "path": "/joueurs/merot/",
+    "title": "? Mérot (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-02-27T20:20:49",
+    "modified": "2025-11-12T14:01:09",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Mérot a joué 2 matchs officiels pour Sochaux en 1930."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12319,
+        "url": "https://www.fcsochauxretro.com/uncategorized/merot/",
+        "path": "/uncategorized/merot/",
+        "slug": "merot",
+        "seo_title": "? Mérot (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Mérot</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>défenseur<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1929</p>\n<p><strong>Départ de Sochaux :</strong> juin 1930</p>\n<p><strong>Premier match joué :</strong> Sochaux - Méziré du 06/04/1930 : 6-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Beaucourt du 18/05/1930 : 5-0</p>\n<p><strong>Palmarès avec Sochaux :</strong> </p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n</ul>",
+        "header_lines": [
+            "? Mérot",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1929",
+            "Départ de Sochaux : juin 1930",
+            "Premier match joué : Sochaux - Méziré du 06/04/1930 : 6-1",
+            "Dernier match joué : Sochaux - Beaucourt du 18/05/1930 : 5-0",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1930"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Mérot",
+        "display_name": "? Mérot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1929-07",
+            "precision": "month",
+            "text": "juillet 1929"
+        },
+        "departure": {
+            "iso": "1930-06",
+            "precision": "month",
+            "text": "juin 1930"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Méziré du 06/04/1930 : 6-1",
+        "last_match": "Sochaux - Beaucourt du 18/05/1930 : 5-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1930"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Mérot"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1929"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1930"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Méziré du 06/04/1930 : 6-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Beaucourt du 18/05/1930 : 5-0"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ]
+            ],
+            "source_table": 462
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

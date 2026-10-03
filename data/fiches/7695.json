@@ -1,0 +1,288 @@
+{
+    "id": 7695,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "louis-finot",
+    "path": "/joueurs/louis-finot/",
+    "title": "Louis Finot",
+    "categories": [
+        "a-la-une",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/6c23706f0dcb34b528d3e3b504f176a7.webp",
+    "date": "2024-11-19T23:34:56",
+    "modified": "2025-06-01T19:12:30",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "44",
+        "text": "Louis Finot a joué 44 matchs (11 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/Photographie-Football-Equipe-Sochaux-Fives-Dont-Louis-Finot.webp",
+            "caption": "Louis Finot",
+            "credit": "",
+            "caption_raw": "Louis Finot"
+        },
+        {
+            "image": "2024/11/18259.jpg",
+            "caption": "Louis Finot",
+            "credit": "DR",
+            "caption_raw": "Louis Finot – DR"
+        },
+        {
+            "image": "2024/11/telechargement-11.jpg",
+            "caption": "Lois Finot",
+            "credit": "DR",
+            "caption_raw": "Lois Finot – DR"
+        },
+        {
+            "image": "2024/11/6c23706f0dcb34b528d3e3b504f176a7.webp",
+            "caption": "Louis Finot",
+            "credit": "dr",
+            "caption_raw": "Louis Finot – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7695,
+        "url": "https://www.fcsochauxretro.com/a-la-une/louis-finot/",
+        "path": "/a-la-une/louis-finot/",
+        "slug": "louis-finot",
+        "seo_title": "Louis Finot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Louis Finot</h2>\n<h4><strong>né le 8 juillet 1903 à Saint-Maur-des-Fossés (94) </strong></h4>\n<h4><strong>Décédé le 14 février 1996 à Bry-sur-Marne (94) </strong></h4>\n<p><strong>Taille :</strong> 1m80</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>International français (7 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1934</p>\n<p><strong>Départ de Sochaux : </strong>juin 1936</p>\n<p><strong>Premier match joué :</strong> Sochaux - Excelsior Roubaix du 26/08/1934 : 0-2</p>\n<p><strong>Dernier match joué :</strong> Strasbourg - Sochaux du 17/05/1936 : 2-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Red Star du 07/10/1934 : 4-3 - But à la 55'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France 1935</li>\n</ul>",
+        "header_lines": [
+            "Louis Finot",
+            "né le 8 juillet 1903 à Saint-Maur-des-Fossés (94)",
+            "Décédé le 14 février 1996 à Bry-sur-Marne (94)",
+            "Taille : 1m80",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "International français (7 sélections)",
+            "Arrivée à Sochaux : juillet 1934",
+            "Départ de Sochaux : juin 1936",
+            "Premier match joué : Sochaux - Excelsior Roubaix du 26/08/1934 : 0-2",
+            "Dernier match joué : Strasbourg - Sochaux du 17/05/1936 : 2-1",
+            "Premier but marqué : Sochaux - Red Star du 07/10/1934 : 4-3 - But à la 55'",
+            "Palmarès avec Sochaux :",
+            "Champion de France 1935"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Louis",
+        "last_name": "Finot",
+        "display_name": "Louis Finot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1903-07-08",
+                "precision": "day",
+                "text": "8 juillet 1903"
+            },
+            "place": {
+                "text": "Saint-Maur-des-Fossés (94)",
+                "city": "Saint-Maur-des-Fossés",
+                "department": "94",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 8 juillet 1903 à Saint-Maur-des-Fossés (94)"
+        },
+        "death": {
+            "date": {
+                "iso": "1996-02-14",
+                "precision": "day",
+                "text": "14 février 1996"
+            },
+            "place": {
+                "text": "Bry-sur-Marne (94)",
+                "city": "Bry-sur-Marne",
+                "department": "94",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 14 février 1996 à Bry-sur-Marne (94)"
+        },
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français (7 sélections)"
+        ],
+        "arrival": {
+            "iso": "1934-07",
+            "precision": "month",
+            "text": "juillet 1934"
+        },
+        "departure": {
+            "iso": "1936-06",
+            "precision": "month",
+            "text": "juin 1936"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Excelsior Roubaix du 26/08/1934 : 0-2",
+        "last_match": "Strasbourg - Sochaux du 17/05/1936 : 2-1",
+        "first_goal": "Sochaux - Red Star du 07/10/1934 : 4-3 - But à la 55'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France 1935"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Louis Finot"
+            },
+            {
+                "label": null,
+                "value": "né le 8 juillet 1903 à Saint-Maur-des-Fossés (94)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 14 février 1996 à Bry-sur-Marne (94)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International français (7 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1934"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1936"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Excelsior Roubaix du 26/08/1934 : 0-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Strasbourg - Sochaux du 17/05/1936 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Red Star du 07/10/1934 : 4-3 - But à la 55'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France 1935"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1934 - 1935",
+                    "28",
+                    "9",
+                    "5",
+                    "3",
+                    "33",
+                    "12"
+                ],
+                [
+                    "1935 - 1936",
+                    "16",
+                    "2",
+                    "3",
+                    "0",
+                    "19",
+                    "2"
+                ],
+                [
+                    "TOTAL",
+                    "44",
+                    "11",
+                    "8",
+                    "3",
+                    "52",
+                    "15"
+                ]
+            ],
+            "source_table": 1099
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

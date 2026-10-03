@@ -1,0 +1,268 @@
+{
+    "id": 7354,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacques-cousin",
+    "path": "/joueurs/jacques-cousin/",
+    "title": "Jacques Cousin",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound1560330398680131963.jpg",
+    "date": "2024-11-13T21:09:13",
+    "modified": "2025-03-06T22:59:06",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques incomplètes.</p>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Jacques Cousin a joué deux saisons pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/inbound7597543385436044634.jpg",
+            "caption": "Autographe Jacques Cousin",
+            "credit": "",
+            "caption_raw": "Autographe Jacques Cousin"
+        },
+        {
+            "image": "2025/02/inbound7563280925973447108.jpg",
+            "caption": "1942-1943",
+            "credit": "",
+            "caption_raw": "1942-1943"
+        },
+        {
+            "image": "2025/02/inbound3538469100307056757.jpg",
+            "caption": "Jacques Cousin",
+            "credit": "dr",
+            "caption_raw": "Jacques Cousin – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7354,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jacques-cousin/",
+        "path": "/a-la-une/jacques-cousin/",
+        "slug": "jacques-cousin",
+        "seo_title": "Jacques Cousin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacques Cousin</h2>\n<h4><strong>né le 6 mai 1921 à Paris (75)</strong></h4>\n<h4><strong>Décédé le 21 mars 1984 à Caen (14)   </strong></h4>\n<p><strong>Poste :</strong> attaquant</p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1942 </p>\n<p><strong>Départ de Sochaux :</strong> juin 1943</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1945 </p>\n<p><strong>Départ de Sochaux :</strong> juin 1946 </p>\n<p><strong>Premier match joué :</strong> Sochaux - Bordeaux du 30/08/1942 : 3-0</p>\n<p><strong>Dernier match joué :</strong> ?</p>",
+        "header_lines": [
+            "Jacques Cousin",
+            "né le 6 mai 1921 à Paris (75)",
+            "Décédé le 21 mars 1984 à Caen (14)",
+            "Poste : attaquant",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1942",
+            "Départ de Sochaux : juin 1943",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1945",
+            "Départ de Sochaux : juin 1946",
+            "Premier match joué : Sochaux - Bordeaux du 30/08/1942 : 3-0",
+            "Dernier match joué : ?"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jacques",
+        "last_name": "Cousin",
+        "display_name": "Jacques Cousin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1921-05-06",
+                "precision": "day",
+                "text": "6 mai 1921"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 mai 1921 à Paris (75)"
+        },
+        "death": {
+            "date": {
+                "iso": "1984-03-21",
+                "precision": "day",
+                "text": "21 mars 1984"
+            },
+            "place": {
+                "text": "Caen (14)",
+                "city": "Caen",
+                "department": "14",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 21 mars 1984 à Caen (14)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1942-07",
+            "precision": "month",
+            "text": "juillet 1942"
+        },
+        "departure": {
+            "iso": "1943-06",
+            "precision": "month",
+            "text": "juin 1943"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Bordeaux du 30/08/1942 : 3-0",
+        "last_match": "?",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacques Cousin"
+            },
+            {
+                "label": null,
+                "value": "né le 6 mai 1921 à Paris (75)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 21 mars 1984 à Caen (14)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1942"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1943"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1945"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1946"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Bordeaux du 30/08/1942 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "?"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1942 - 1943",
+                    "18",
+                    "19",
+                    "?",
+                    "?",
+                    "18",
+                    "19"
+                ],
+                [
+                    "1945 - 1946",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?"
+                ],
+                [
+                    "TOTAL",
+                    "18",
+                    "19",
+                    "?",
+                    "?",
+                    "18",
+                    "19"
+                ]
+            ],
+            "source_table": 906
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

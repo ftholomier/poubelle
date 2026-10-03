@@ -1,0 +1,291 @@
+{
+    "id": 10380,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "damien-perquis",
+    "path": "/joueurs/damien-perquis/",
+    "title": "Damien Perquis",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/telechargement-1.jpg",
+    "date": "2025-01-16T12:34:48",
+    "modified": "2025-01-16T12:46:52",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "163",
+        "text": "Damien Perquis a joué 163 matchs (11 buts et 2 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/damien-perquis-a-laisse-une-image-de-guerrier-a-sochaux-qu-il-n-a-pas-perdue-avec-l-age-photos-francis-reinoso-1504716902.jpg",
+            "caption": "Damien Perquis",
+            "credit": "L’est républicain",
+            "caption_raw": "Damien Perquis – L’est républicain"
+        },
+        {
+            "image": "2025/01/damien-perquis-photo-damien-gautier-1314914142.jpg",
+            "caption": "Damien Perquis",
+            "credit": "L’Alsace",
+            "caption_raw": "Damien Perquis – L’Alsace"
+        },
+        {
+            "image": "2025/01/damien-perquis-photo-lionel-vadam-1419569121.jpg",
+            "caption": "Damien Perquis",
+            "credit": "L’est républicain",
+            "caption_raw": "Damien Perquis – L’est républicain"
+        },
+        {
+            "image": "2025/01/telechargement-1.jpg",
+            "caption": "Damien Perquis",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Damien Perquis – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10380,
+        "url": "https://www.fcsochauxretro.com/a-la-une/damien-perquis/",
+        "path": "/a-la-une/damien-perquis/",
+        "slug": "damien-perquis",
+        "seo_title": "Damien Perquis - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Damien Perquis</h2>\n<h4><strong>Né le 10 avril 1984 à Troyes (10)  </strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>81 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International polonais (14 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>août 2007</p>\n<p><strong>Départ de Sochaux : </strong>août 2012</p>\n<p><strong>Premier match joué :</strong> Sochaux - Lyon du 29/08/2007 : 1-2</p>\n<p><strong>Dernier match joué :</strong>  Sochaux - Valenciennes du 03/03/2012 : 1-1</p>\n<p><strong>Premier but marqué </strong>: Auxerre - Sochaux du 05/04/2008 : 0-1 - But à la 44'</p>",
+        "header_lines": [
+            "Damien Perquis",
+            "Né le 10 avril 1984 à Troyes (10)",
+            "Taille : 1m85",
+            "Poids : 81 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International polonais (14 sélections, 1 but)",
+            "Arrivée à Sochaux : août 2007",
+            "Départ de Sochaux : août 2012",
+            "Premier match joué : Sochaux - Lyon du 29/08/2007 : 1-2",
+            "Dernier match joué : Sochaux - Valenciennes du 03/03/2012 : 1-1",
+            "Premier but marqué : Auxerre - Sochaux du 05/04/2008 : 0-1 - But à la 44'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Damien",
+        "last_name": "Perquis",
+        "display_name": "Damien Perquis",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1984-04-10",
+                "precision": "day",
+                "text": "10 avril 1984"
+            },
+            "place": {
+                "text": "Troyes (10)",
+                "city": "Troyes",
+                "department": "10",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 10 avril 1984 à Troyes (10)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "81 kg",
+        "weight_kg": 81,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International polonais (14 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2007-08",
+            "precision": "month",
+            "text": "août 2007"
+        },
+        "departure": {
+            "iso": "2012-08",
+            "precision": "month",
+            "text": "août 2012"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Lyon du 29/08/2007 : 1-2",
+        "last_match": "Sochaux - Valenciennes du 03/03/2012 : 1-1",
+        "first_goal": "Auxerre - Sochaux du 05/04/2008 : 0-1 - But à la 44'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Damien Perquis"
+            },
+            {
+                "label": null,
+                "value": "Né le 10 avril 1984 à Troyes (10)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "81 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International polonais (14 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "août 2007"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "août 2012"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Lyon du 29/08/2007 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Valenciennes du 03/03/2012 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Auxerre - Sochaux du 05/04/2008 : 0-1 - But à la 44'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

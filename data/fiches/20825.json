@@ -1,0 +1,182 @@
+{
+    "id": 20825,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ethan-cortes",
+    "path": "/joueurs/ethan-cortes/",
+    "title": "Ethan Cortes",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/04/6a3bfe26a39a5329425408.jpg",
+    "date": "2026-04-14T11:49:19",
+    "modified": "2026-06-27T10:18:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": "<ul>\n<li>\n<p>Ethan Cortes est un enfant de Marseille. Il débute le football au club des Caillols dès l’âge de 4 ans, club où son père évoluait.</p>\n</li>\n<li>\n<p>Après avoir fait ses gammes dans les clubs locaux, il rejoint l’OM en équipes de jeunes en 2015, à l’âge de 8 ans, puis intègre la préformation de l’Olympique Lyonnais en 2018 pour suivre son père, muté dans la région.</p>\n</li>\n<li>\n<p>À l’été 2019, il revient à Marseille et entre dans la foulée au centre de formation. Il y reste jusqu’en 2023. Alors âgé de 16 ans et barré à l’OM, il décide de rejoindre les U17 de l’AC Ajaccio.</p>\n</li>\n<li>\n<p>Il reste deux ans en Corse, où il progresse. Mais à l’été 2025, le club ajaccien dépose le bilan et il se retrouve sans club.</p>\n</li>\n<li>\n<p>Il signe alors son premier contrat professionnel, d’une saison, avec l’Olympiakos Le Pirée, en Grèce.</p>\n</li>\n<li>\n<p>D’abord promis aux équipes de jeunes, il dispute 18 matchs, dont 4 de Youth League, inscrit 4 buts (dont un contre les U19 d’Arsenal) et délivre 3 passes décisives. Le centre de formation grec est dirigé par un certain Romain Pitau l'ancien sochalien. </p>\n</li>\n<li>\n<p>En février 2026, il quitte le club grec et se met à la recherche d’un point de chute.</p>\n</li>\n<li>\n<p>Son grand frère, Sasha Cortes, évolue comme gardien de but à Biesheim, un club alsacien dirigé par un actionnaire du FC Sochaux. Par ailleurs, José Anigo qui l'a couvé, le recommande au club. La connexion se fait et le jeune avant-centre d’1,83 m est mis à l’essai à Sochaux en avril 2026.</p>\n</li>\n<li>\n<p>Le club, alors en National, cherche des opportunités de marché pour compléter son effectif en vue d’une remontée en Ligue 2.</p>\n</li>\n<li><strong>Sa signature</strong></li>\n<li>Son essai est concluant et quelques semaines plus tard Sochaux est promu en ligue 2. Le club en fin de saison propose alors à Cortes un contrat de 3 saisons et il signe officiellement en juin 2026. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li><strong>Saison 2026/2027</strong></li>\n<li> </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "18",
+        "text": "Ethan Cortes a été mis à l'essai 1 semaine en avril 2026."
+    },
+    "gallery": [
+        {
+            "image": "2026/04/ethan-cortes-au-centre-a-l-essai-au-fc-sochaux-photo-remi-farge-1775663270.jpg",
+            "caption": "Ethan Cortes à l’entraînement en avril 2026",
+            "credit": "Rémi Farge L’est républicain",
+            "caption_raw": "Ethan Cortes à l’entraînement en avril 2026 – Photo Rémi Farge L’est républicain"
+        },
+        {
+            "image": "2026/04/6a3bfe26a39a5329425408.jpg",
+            "caption": "Ethan Cortes",
+            "credit": "FCSM",
+            "caption_raw": "Ethan Cortes – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20825,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ethan-cortes-a-lessai-20825/",
+        "path": "/a-la-une/ethan-cortes-a-lessai-20825/",
+        "slug": "ethan-cortes-a-lessai-20825",
+        "seo_title": "Ethan Cortes - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ethan Cortes</h2>\n<h4><strong>né le 29 juin 2007 à Marseille (13)</strong><strong>  </strong></h4>\n<p><strong>Taille :</strong> 1m83</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>attaquant ou milieu offensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 2026 </p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match joué :</strong> </p>",
+        "header_lines": [
+            "Ethan Cortes",
+            "né le 29 juin 2007 à Marseille (13)",
+            "Taille : 1m83",
+            "Poids : 73 kg",
+            "Pied : gaucher",
+            "Poste : attaquant ou milieu offensif",
+            "Arrivée à Sochaux : juin 2026",
+            "Départ de Sochaux :",
+            "Premier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ethan",
+        "last_name": "Cortes",
+        "display_name": "Ethan Cortes",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2007-06-29",
+                "precision": "day",
+                "text": "29 juin 2007"
+            },
+            "place": {
+                "text": "Marseille (13)",
+                "city": "Marseille",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 juin 2007 à Marseille (13)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "gaucher",
+        "position": "attaquant ou milieu offensif",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2026-06",
+            "precision": "month",
+            "text": "juin 2026"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "",
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ethan Cortes"
+            },
+            {
+                "label": null,
+                "value": "né le 29 juin 2007 à Marseille (13)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant ou milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 2026"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": ""
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

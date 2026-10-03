@@ -1,0 +1,223 @@
+{
+    "id": 13642,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "enzo-noel-dode",
+    "path": "/joueurs/enzo-noel-dode/",
+    "title": "Enzo-Noël Dodé",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/5-1.jpg",
+    "date": "2025-04-23T15:13:07",
+    "modified": "2025-07-16T21:20:01",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2023",
+        "text": "Enzo Dodé est arrivé à Sochaux à l'été 2023 au centre de formation."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/66.jpg",
+            "caption": "Enzo Dodé – Villefranche-Sochaux",
+            "credit": "L’est républicain",
+            "caption_raw": "Enzo Dodé – Villefranche-Sochaux – L’est républicain"
+        },
+        {
+            "image": "2025/04/5-1.jpg",
+            "caption": "Enzo Dodé",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Enzo Dodé – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13642,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/enzo-noel-dode/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/enzo-noel-dode/",
+        "slug": "enzo-noel-dode",
+        "seo_title": "Enzo-Noël Dodé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Enzo Dodé</h2>\n<h4><strong>né le 7 novembre 2006 à Pontoise (95)</strong></h4>\n<p><strong>Taille :</strong> 1m69</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche</p>\n<p><strong>Arrivée au club :</strong> juillet 2023</p>\n<p><strong>Départ du club :</strong> </p>\n<p><strong>Premier match joué : </strong>Villefranche - Sochaux du 11/04/2025 : 0-1</p>\n<p><strong>Dernier match joué : </strong></p>",
+        "header_lines": [
+            "Enzo Dodé",
+            "né le 7 novembre 2006 à Pontoise (95)",
+            "Taille : 1m69",
+            "Poids : 65 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "Arrivée au club : juillet 2023",
+            "Départ du club :",
+            "Premier match joué : Villefranche - Sochaux du 11/04/2025 : 0-1",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Enzo-Noël",
+        "last_name": "Dodé",
+        "display_name": "Enzo-Noël Dodé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2006-11-07",
+                "precision": "day",
+                "text": "7 novembre 2006"
+            },
+            "place": {
+                "text": "Pontoise (95)",
+                "city": "Pontoise",
+                "department": "95",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 novembre 2006 à Pontoise (95)"
+        },
+        "death": null,
+        "height": "1m69",
+        "height_cm": 169,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2023-07",
+            "precision": "month",
+            "text": "juillet 2023"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Villefranche - Sochaux du 11/04/2025 : 0-1",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Enzo Dodé"
+            },
+            {
+                "label": null,
+                "value": "né le 7 novembre 2006 à Pontoise (95)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m69"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": "Arrivée au club",
+                "value": "juillet 2023"
+            },
+            {
+                "label": "Départ du club",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Villefranche - Sochaux du 11/04/2025 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "National 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2024 - 2025",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "3",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "3",
+                    "0"
+                ]
+            ],
+            "source_table": 1085
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,433 @@
+{
+    "id": 16828,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-selection-de-franche-comte-amical-23-06-2017",
+    "path": "/matchs/2017-2018/sochaux-selection-de-franche-comte-amical-23-06-2017/",
+    "title": "Amical – Sochaux / Sélection de Franche-Comté – 23/06/2017 – 5-1",
+    "categories": [
+        "2017-2018",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/joie-FCSMNFC.jpg",
+    "date": "2026-06-14T13:44:05",
+    "modified": "2026-08-14T13:13:16",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "3 saisons de suite que Sochaux démarre sa saison face à une sélection de joueurs amateurs locaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/joie-FCSMNFC.jpg",
+            "caption": "Sochaux-Sélection de Franche-Comté en pré-saison 2017/2018",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Sélection de Franche-Comté en pré-saison 2017/2018 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16828,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-selection-de-franche-comte-23-06-2017-5-1/",
+        "path": "/a-la-une/amical-sochaux-selection-de-franche-comte-23-06-2017-5-1/",
+        "slug": "amical-sochaux-selection-de-franche-comte-23-06-2017-5-1",
+        "seo_title": "Amical - Sochaux / Sélection de Franche-Comté - 23/06/2017 - 5-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Sélection de Franche-Comté : 5-1</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Vendredi 23 juin 2017</strong></h4>\n<h4><strong>Stade René Blum de Montbéliard (25)<br></strong></h4>\n<h4><strong>700 spectateurs</strong></h4>\n<h4><strong>Arbitre : xx</strong></h4>\n<p>Buts : Touzghar 1', Andriatsima 21' et 43', Fuchs 71' et Aktas 81' pour Sochaux ; xx pour la Sélection de Franche-Comté</p>",
+        "header_lines": [
+            "Sochaux / Sélection de Franche-Comté : 5-1",
+            "Match amical",
+            "Vendredi 23 juin 2017",
+            "Stade René Blum de Montbéliard (25)",
+            "700 spectateurs",
+            "Arbitre : xx",
+            "Buts : Touzghar 1', Andriatsima 21' et 43', Fuchs 71' et Aktas 81' pour Sochaux ; xx pour la Sélection de Franche-Comté"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2017-06-23",
+        "date_text": "Vendredi 23 juin 2017",
+        "season": "2017-2018",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "away": {
+            "name": "Sélection de Franche-Comté",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 5,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "5-1",
+        "score_line": "Sochaux / Sélection de Franche-Comté : 5-1",
+        "result": "V",
+        "stadium": "Stade René Blum de Montbéliard (25)",
+        "spectators": 700,
+        "spectators_text": "700 spectateurs",
+        "referee": "xx",
+        "goals_text": "Touzghar 1', Andriatsima 21' et 43', Fuchs 71' et Aktas 81' pour Sochaux ; xx pour la Sélection de Franche-Comté",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Touzghar 1', Andriatsima 21' et 43', Fuchs 71' et Aktas 81'"
+            },
+            {
+                "team": "la Sélection de Franche-Comté",
+                "scorers": "xx"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "PREVOT Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "66",
+                    "sub_text": "↓ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OGIER Florent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "KAPP Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PENDANT Jason",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 61'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "RUIZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "AKTAS Aksel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "81"
+                    ],
+                    "goals_text": "⚽ 81'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MARTIN Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "66",
+                    "sub_text": "↓ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "TOUZGHAR Yohann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "1"
+                    ],
+                    "goals_text": "⚽ 1'",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ANDRIATSIMA Faneva",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "21",
+                        "43"
+                    ],
+                    "goals_text": "⚽ 21' ⚽ 43'",
+                    "sub_in": null,
+                    "sub_out": "66",
+                    "sub_text": "↓ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LONG Aubin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SENHADJI Rayan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SEZEMBA Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FRANCOIS Martin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↑ 46' ↓ 61'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FUCHS Jeando",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "71"
+                    ],
+                    "goals_text": "⚽ 71'",
+                    "sub_in": "66",
+                    "sub_out": null,
+                    "sub_text": "↑ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ZEIDLER Peter",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1926
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

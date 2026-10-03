@@ -1,0 +1,228 @@
+{
+    "id": 7327,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rene-collin",
+    "path": "/joueurs/rene-collin/",
+    "title": "René Collin",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/Rene-Collin-FF.png",
+    "date": "2024-11-10T18:29:55",
+    "modified": "2026-01-30T21:56:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "René Collin a joué 1 match pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/Rene-Collin-FF.png",
+            "caption": "René Collin",
+            "credit": "FF",
+            "caption_raw": "René Collin – FF"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7327,
+        "url": "https://www.fcsochauxretro.com/a-la-une/rene-collin/",
+        "path": "/a-la-une/rene-collin/",
+        "slug": "rene-collin",
+        "seo_title": "René Collin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>René Collin</h2>\n<h4><strong>né le 25 septembre 1929 à Rougegoutte (90)</strong></h4>\n<h4><strong>Décédé le 29/10/2011 à Bourbourg (59)  </strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>mai 1952</p>\n<p><strong>Départ de Sochaux : </strong>juin 1952</p>\n<p><strong>Premier et dernier match joué :</strong> Reims - Sochaux du 18/05/1952 : 1-5</p>",
+        "header_lines": [
+            "René Collin",
+            "né le 25 septembre 1929 à Rougegoutte (90)",
+            "Décédé le 29/10/2011 à Bourbourg (59)",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : mai 1952",
+            "Départ de Sochaux : juin 1952",
+            "Premier et dernier match joué : Reims - Sochaux du 18/05/1952 : 1-5"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "René",
+        "last_name": "Collin",
+        "display_name": "René Collin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1929-09-25",
+                "precision": "day",
+                "text": "25 septembre 1929"
+            },
+            "place": {
+                "text": "Rougegoutte (90)",
+                "city": "Rougegoutte",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 septembre 1929 à Rougegoutte (90)"
+        },
+        "death": {
+            "date": {
+                "iso": "2011-10-29",
+                "precision": "day",
+                "text": "29/10/2011"
+            },
+            "place": {
+                "text": "Bourbourg (59)",
+                "city": "Bourbourg",
+                "department": "59",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 29/10/2011 à Bourbourg (59)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1952-05",
+            "precision": "month",
+            "text": "mai 1952"
+        },
+        "departure": {
+            "iso": "1952-06",
+            "precision": "month",
+            "text": "juin 1952"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "René Collin"
+            },
+            {
+                "label": null,
+                "value": "né le 25 septembre 1929 à Rougegoutte (90)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 29/10/2011 à Bourbourg (59)"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "mai 1952"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1952"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Reims - Sochaux du 18/05/1952 : 1-5"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1951 - 1952",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ]
+            ],
+            "source_table": 896
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

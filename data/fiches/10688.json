@@ -1,0 +1,246 @@
+{
+    "id": 10688,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mart-ristl",
+    "path": "/joueurs/mart-ristl/",
+    "title": "Mart Ristl",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-79.jpg",
+    "date": "2025-01-26T17:40:05",
+    "modified": "2025-01-26T17:49:10",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Mart Ristl a joué 6 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/football-ligue-2-encore-une-faute-d-inattention-qui-coute-cher-pour-le-fc-sochaux-1505855210.jpg",
+            "caption": "Mart Ristl",
+            "credit": "L’est républicain",
+            "caption_raw": "Mart Ristl – L’est républicain"
+        },
+        {
+            "image": "2025/01/amical-en-autriche-sochaux-retourne-ce-samedi-apres-midi-sur-le-banc-d-essais-1498843435.jpg",
+            "caption": "Mart Ristl",
+            "credit": "L’est républicain",
+            "caption_raw": "Mart Ristl – L’est républicain"
+        },
+        {
+            "image": "2025/01/mart-ristl-a-presente-son-nouveau-maillot-hier-au-stade-bonal-il-porte-desormais-le-n-13-du-fc-socaux-photo-lionel-vadam-1504206557.jpg",
+            "caption": "Mart Ristl",
+            "credit": "L’est républicain",
+            "caption_raw": "Mart Ristl – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10688,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mart-ristl/",
+        "path": "/a-la-une/mart-ristl/",
+        "slug": "mart-ristl",
+        "seo_title": "Mart Ristl - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mart Ristl</h2>\n<h4><strong>né le 7 juillet 1996 à  Schwäbisch Gmünd (Allemagne)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>77 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>International allemand U15, U16, U17, U18, U19 (24 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2017</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2018</p>\n<p><strong>Premier match joué :</strong> Le Havre - Sochaux du 19/09/2017 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Amiens du 07/01/2018 : 6-0</p>",
+        "header_lines": [
+            "Mart Ristl",
+            "né le 7 juillet 1996 à Schwäbisch Gmünd (Allemagne)",
+            "Taille : 1m78",
+            "Poids : 77 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International allemand U15, U16, U17, U18, U19 (24 sélections)",
+            "Arrivée à Sochaux : aout 2017",
+            "Départ de Sochaux : juillet 2018",
+            "Premier match joué : Le Havre - Sochaux du 19/09/2017 : 1-0",
+            "Dernier match joué : Sochaux - Amiens du 07/01/2018 : 6-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mart",
+        "last_name": "Ristl",
+        "display_name": "Mart Ristl",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1996-07-07",
+                "precision": "day",
+                "text": "7 juillet 1996"
+            },
+            "place": {
+                "text": "Schwäbisch Gmünd (Allemagne)",
+                "city": "Schwäbisch Gmünd",
+                "department": null,
+                "country": "Allemagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 juillet 1996 à Schwäbisch Gmünd (Allemagne)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "77 kg",
+        "weight_kg": 77,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International allemand U15, U16, U17, U18, U19 (24 sélections)"
+        ],
+        "arrival": {
+            "iso": "2017-08",
+            "precision": "month",
+            "text": "aout 2017"
+        },
+        "departure": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Le Havre - Sochaux du 19/09/2017 : 1-0",
+        "last_match": "Sochaux - Amiens du 07/01/2018 : 6-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mart Ristl"
+            },
+            {
+                "label": null,
+                "value": "né le 7 juillet 1996 à Schwäbisch Gmünd (Allemagne)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "77 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International allemand U15, U16, U17, U18, U19 (24 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2017"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Le Havre - Sochaux du 19/09/2017 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Amiens du 07/01/2018 : 6-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

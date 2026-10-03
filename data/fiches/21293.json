@@ -1,0 +1,564 @@
+{
+    "id": 21293,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-lorient-amical-03-08-2013",
+    "path": "/matchs/2013-2014/sochaux-lorient-amical-03-08-2013/",
+    "title": "Amical – Sochaux (L1) / Lorient (L1) – 03/08/2013 – 0-1",
+    "categories": [
+        "2013-2014",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/lorient_sochaux_display2-1.jpg",
+    "date": "2026-06-13T11:13:54",
+    "modified": "2026-06-28T13:49:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "4 matchs sur 6 sans marquer pour Sochaux en préparation."
+    },
+    "gallery": [
+        {
+            "image": "2026/06/10-1.jpg",
+            "caption": "Kanté – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Kanté – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/5ede7701261aa_130803mdl8613-scaled.jpg",
+            "caption": "Carlao et Boudebouz lors de Sochaux-Lorient 2013-2014 en pré-saison",
+            "credit": "F Frey",
+            "caption_raw": "Carlao et Boudebouz lors de Sochaux-Lorient 2013-2014 en pré-saison – Photo : F Frey"
+        },
+        {
+            "image": "2026/06/lorient-et-kone-etaient-un-cran-au-dessus-de-privat-et-sochaux-photopqr-l-alsace-j-f-frey-1484127103.jpg",
+            "caption": "Privat lors de Sochaux-Lorient 2013-2014 en préparation",
+            "credit": "F Frey",
+            "caption_raw": "Privat lors de Sochaux-Lorient 2013-2014 en préparation – Photo : F Frey"
+        },
+        {
+            "image": "2026/06/12-1.jpg",
+            "caption": "Eickmayer – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Eickmayer – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/13-2.jpg",
+            "caption": "Bakambu – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Bakambu – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/16-2.jpg",
+            "caption": "Boudebouz – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Boudebouz – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/21-3.jpg",
+            "caption": "Corchia – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Corchia – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/23-1.jpg",
+            "caption": "Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/24-3.jpg",
+            "caption": "Carlao – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Carlao – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/26-1.jpg",
+            "caption": "Faussurier – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Faussurier – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/27-1.jpg",
+            "caption": "Peybernes – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Peybernes – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/29-2.jpg",
+            "caption": "Carlao – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Carlao – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/36.jpg",
+            "caption": "Contout – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Contout – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/37.jpg",
+            "caption": "Hély – Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Hély – Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        },
+        {
+            "image": "2026/06/38-1.jpg",
+            "caption": "Sochaux-Lorient en pré-saison 2013/2014",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Lorient en pré-saison 2013/2014 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 21293,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l1-lorient-l1-03-08-2013-0-1/",
+        "path": "/a-la-une/amical-sochaux-l1-lorient-l1-03-08-2013-0-1/",
+        "slug": "amical-sochaux-l1-lorient-l1-03-08-2013-0-1",
+        "seo_title": "Amical - Sochaux (L1) / Lorient (L1) - 03/08/2013 - 0-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Lorient (L1) / Sochaux (L1) : 1-0</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 3 août 2013</strong></h4>\n<h4><strong>Stade l'Ille à Mulhouse (68)</strong></h4>\n<h4><strong>1 500 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Schneider</strong></h4>\n<p>But : Aboubakar 67' pour Lorient</p>",
+        "header_lines": [
+            "Lorient (L1) / Sochaux (L1) : 1-0",
+            "Match amical",
+            "Samedi 3 août 2013",
+            "Stade l'Ille à Mulhouse (68)",
+            "1 500 spectateurs",
+            "Arbitre : M. Schneider",
+            "But : Aboubakar 67' pour Lorient"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2013-08-03",
+        "date_text": "Samedi 3 août 2013",
+        "season": "2013-2014",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L1"
+        },
+        "away": {
+            "name": "Lorient",
+            "level": "L1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 0,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-1",
+        "score_line": "Lorient (L1) / Sochaux (L1) : 1-0",
+        "result": "D",
+        "stadium": "Stade l'Ille à Mulhouse (68)",
+        "spectators": 1500,
+        "spectators_text": "1 500 spectateurs",
+        "referee": "M. Schneider",
+        "goals_text": "Aboubakar 67' pour Lorient",
+        "goals": [
+            {
+                "team": "Lorient",
+                "scorers": "Aboubakar 67'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "POUPLIN Simon",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CORCHIA Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CARLAO",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "KANTE Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FAUSSURIER Julien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "71",
+                    "sub_text": "↓ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BOUDEBOUZ Ryad",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "EICKMAYER Joachim",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "81",
+                    "sub_text": "↓ 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CONTOUT Roy",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PRIVAT Sloan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "↓ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "BAKAMBU Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CROS Pierrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SAUGET David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ZOUMA Lonel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "NOGUEIRA Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOUMAL Petrus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIAS Rafaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "81",
+                    "sub_out": null,
+                    "sub_text": "↑ 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CAMARA Abdoul",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "↑ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DOUBAÏ Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "71",
+                    "sub_out": null,
+                    "sub_text": "↑ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "HELY Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1886
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

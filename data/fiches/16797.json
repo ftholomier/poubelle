@@ -1,0 +1,552 @@
+{
+    "id": 16797,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-nancy-amical-11-07-2015",
+    "path": "/matchs/2015-2016/sochaux-nancy-amical-11-07-2015/",
+    "title": "Amical – Sochaux (L2) / Nancy (L2) – 11/07/2015 – 0-0",
+    "categories": [
+        "2015-2016",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/06/28.jpg",
+    "date": "2026-06-13T18:40:16",
+    "modified": "2026-07-18T14:21:35",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Score nul et vierge pour cette deuxième sortie de la saison."
+    },
+    "gallery": [
+        {
+            "image": "2026/06/04.jpg",
+            "caption": "Aziz Bouras et Olivier Werner – Sochaux-Nancy 2015-2016 pré-saison",
+            "credit": "FCSM",
+            "caption_raw": "Aziz Bouras et Olivier Werner – Sochaux-Nancy 2015-2016 pré-saison – FCSM"
+        },
+        {
+            "image": "2026/06/07.jpg",
+            "caption": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "credit": "",
+            "caption_raw": "Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/08.jpg",
+            "caption": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "credit": "",
+            "caption_raw": "Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/28.jpg",
+            "caption": "Toko Ekambi",
+            "credit": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "caption_raw": "Toko Ekambi – Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/24.jpg",
+            "caption": "Ruben Rayos",
+            "credit": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "caption_raw": "Ruben Rayos – Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/18.jpg",
+            "caption": "Onguéné",
+            "credit": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "caption_raw": "Onguéné – Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/16.jpg",
+            "caption": "Werner",
+            "credit": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "caption_raw": "Werner – Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/15.jpg",
+            "caption": "Sao",
+            "credit": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "caption_raw": "Sao – Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/14.jpg",
+            "caption": "Robinet",
+            "credit": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "caption_raw": "Robinet – Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/21.jpg",
+            "caption": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "credit": "",
+            "caption_raw": "Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/13-1.jpg",
+            "caption": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "credit": "",
+            "caption_raw": "Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/10.jpg",
+            "caption": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "credit": "",
+            "caption_raw": "Sochaux Nancy 2015-2016 en présaison. FCSM"
+        },
+        {
+            "image": "2026/06/09.jpg",
+            "caption": "Sochaux Nancy 2015-2016 en présaison. FCSM",
+            "credit": "",
+            "caption_raw": "Sochaux Nancy 2015-2016 en présaison. FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16797,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l2-nancy-l2-11-07-2015-0-0/",
+        "path": "/a-la-une/amical-sochaux-l2-nancy-l2-11-07-2015-0-0/",
+        "slug": "amical-sochaux-l2-nancy-l2-11-07-2015-0-0",
+        "seo_title": "Amical - Sochaux (L2) / Nancy (L2) - 11/07/2015 - 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (L2) / Nancy (L2) : 0-0</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 11 juillet 2015</strong></h4>\n<h4><strong>Stade Jean Bouloumié de Vittel (88)<br></strong></h4>\n<h4><strong>1 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : Ben El Hadj</strong></h4>",
+        "header_lines": [
+            "Sochaux (L2) / Nancy (L2) : 0-0",
+            "Match amical",
+            "Samedi 11 juillet 2015",
+            "Stade Jean Bouloumié de Vittel (88)",
+            "1 000 spectateurs",
+            "Arbitre : Ben El Hadj"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2015-07-11",
+        "date_text": "Samedi 11 juillet 2015",
+        "season": "2015-2016",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "away": {
+            "name": "Nancy",
+            "level": "L2"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "Sochaux (L2) / Nancy (L2) : 0-0",
+        "result": "N",
+        "stadium": "Stade Jean Bouloumié de Vittel (88)",
+        "spectators": 1000,
+        "spectators_text": "1 000 spectateurs",
+        "referee": "Ben El Hadj",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "WERNER Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ONGUENE Jérôme",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 64'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "VIVIAN Mateus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "64",
+                    "sub_text": "↓ 64'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "COLLACO Bruno",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ILHAIMARITRA Marco",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAO Moussa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "↓ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "64",
+                    "sub_text": "↓ 64'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TRICHARD Driss (A l'essai)",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "↓ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CACERES Raphaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "↓ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CAMARA Papa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MIGNOT Jean-Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FUCHS Jeando",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RAMARE Johann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MARTIN François",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "64",
+                    "sub_out": null,
+                    "sub_text": "↑ 64'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FAUSSURIER Julien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "TOKO EKAMBI Karl",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [
+                        "57"
+                    ],
+                    "red": [],
+                    "cards_text": "🟨 57'",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAHAM Sofiane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "↑ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RAYOS Ruben",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "↑ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ECHOUAFNI Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1911
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

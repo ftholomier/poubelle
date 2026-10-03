@@ -1,0 +1,255 @@
+{
+    "id": 7846,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-pierre-guinot",
+    "path": "/joueurs/jean-pierre-guinot/",
+    "title": "Jean-Pierre Guinot",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/10/guinot-foot-mag-juin-74.png",
+    "date": "2024-11-26T00:29:54",
+    "modified": "2025-11-17T03:51:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "83",
+        "text": "Jean-Pierre Guinot a joué 83 matchs (15 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/10/foot-mag-73-74-n2.png",
+            "caption": "Guinot",
+            "credit": "Football magazine saison 1973-1974",
+            "caption_raw": "Guinot – Football magazine saison 1973-1974"
+        },
+        {
+            "image": "2025/10/guinot-foot-mag-juin-74.png",
+            "caption": "Guinot",
+            "credit": "Foot Mag juin 1974",
+            "caption_raw": "Guinot – Foot Mag juin 1974"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7846,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-pierre-guinot/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-pierre-guinot/",
+        "slug": "jean-pierre-guinot",
+        "seo_title": "Jean-Pierre Guinot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Pierre Guinot</h2>\n<h4><strong>né le 9 février 1943 à Clamecy (58)</strong></h4>\n<p><strong>Taille : </strong>1m70</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International français équipe B</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1971</p>\n<p><strong>Départ de Sochaux : </strong>juin 1974</p>\n<p><strong>Premier match joué</strong> : Nice - Sochaux du 09/08/1972 : 4-1</p>\n<p><strong>Dernier match joué :</strong> Monaco - Sochaux du 31/05/1974 : 1-0</p>\n<p><strong>Premier but marqué : </strong>Paris FC - Sochaux du 17/10/1972 : 0-2 - But à la 69'</p>",
+        "header_lines": [
+            "Jean-Pierre Guinot",
+            "né le 9 février 1943 à Clamecy (58)",
+            "Taille : 1m70",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International français équipe B",
+            "Arrivée à Sochaux : juillet 1971",
+            "Départ de Sochaux : juin 1974",
+            "Premier match joué : Nice - Sochaux du 09/08/1972 : 4-1",
+            "Dernier match joué : Monaco - Sochaux du 31/05/1974 : 1-0",
+            "Premier but marqué : Paris FC - Sochaux du 17/10/1972 : 0-2 - But à la 69'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Pierre",
+        "last_name": "Guinot",
+        "display_name": "Jean-Pierre Guinot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1943-02-09",
+                "precision": "day",
+                "text": "9 février 1943"
+            },
+            "place": {
+                "text": "Clamecy (58)",
+                "city": "Clamecy",
+                "department": "58",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 février 1943 à Clamecy (58)"
+        },
+        "death": null,
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français équipe B"
+        ],
+        "arrival": {
+            "iso": "1971-07",
+            "precision": "month",
+            "text": "juillet 1971"
+        },
+        "departure": {
+            "iso": "1974-06",
+            "precision": "month",
+            "text": "juin 1974"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Nice - Sochaux du 09/08/1972 : 4-1",
+        "last_match": "Monaco - Sochaux du 31/05/1974 : 1-0",
+        "first_goal": "Paris FC - Sochaux du 17/10/1972 : 0-2 - But à la 69'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Pierre Guinot"
+            },
+            {
+                "label": null,
+                "value": "né le 9 février 1943 à Clamecy (58)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français équipe B"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1971"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1974"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Nice - Sochaux du 09/08/1972 : 4-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Monaco - Sochaux du 31/05/1974 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Paris FC - Sochaux du 17/10/1972 : 0-2 - But à la 69'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

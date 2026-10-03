@@ -1,0 +1,126 @@
+{
+    "id": 16430,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "roger-dirand",
+    "path": "/personnages-emblematiques/roger-dirand/",
+    "title": "Roger Dirand",
+    "categories": [
+        "la-pelouse",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/274521960_638131560628605_7473136499093911966_n.jpg",
+    "date": "2025-09-06T16:52:21",
+    "modified": "2026-09-17T11:32:23",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<h5><strong><em>Roger Dirand : le jardinier mythique !</em></strong></h5>\n<p>Malgré toutes les qualités naturelles, cette pelouse ne serait jamais devenue la « plus belle de France voire d’Europe » sans un maître jardinier passionné et entièrement dévoué : Monsieur Roger Dirand. Il entretiendra avec sa pelouse une passion de près de 40 ans entre 1959 et 1996, n’hésitant pas à faire les gros yeux aux enfants lorsqu’ils s’approchaient d’un peu trop près de son joyau. Faut dire que sa carrure en impressionnait plus d’un ! Pourtant l’homme est modeste quand il évoque cette pelouse qui aurait fait saliver d’envie des Britanniques : <em>« Je suis sur cette pelouse depuis 1959. Je la connais. Je l’aime. Si elle est aussi belle c’est parce que la nature fait un beau travail en sous-sol. Moi je l’aide du mieux que je peux, car il n’y a pas d’entretien miracle. C’est la richesse naturelle qui apporte l’essentiel. De plus, la pelouse de Bonal n’est pas saturée comme celle du Parc des Princes à Paris</em>.»<a href=\"#_ftn1\" name=\"_ftnref1\">[1]</a> Il ajoutait en 2000 lors de l’inauguration du nouveau stade Bonal : « <em>il n’y a pas de secret ! Il faut juste être là au bon moment. Le jour et… la nuit. Mais je crois qu’à Bonal le terrain a toujours été très facile à remettre en état. Particulièrement souple, il bénéficie d’une bonne terre végétale. Après chaque rencontre, notre équipe n’avait besoin que de quelques heures pour lui redonner de l’allure. Une allure que tout le monde appréciait à sa juste valeur. Lors de la demi-finale de la coupe d’Europe 1980/81, le directeur sportif des Hollandais de l’AZ Alkmaar 67 souhaitait absolument me rencontrer. Il voulait savoir comment nous faisions pour avoir l’une des plus belles pelouses d’Europe. La pelouse de Bonal, c’est le cachet du stade !</em> »</p>\n<p><a href=\"#_ftnref1\" name=\"_ftn1\"></a></p>\n<p>C’est peut-être de cette rencontre qu’est née la réputation de plus belle pelouse d’Europe. En tout cas, le jardinier du club aimantait toute une série de légendes à son sujet. Certains racontaient comment il se levait au milieu des nuits d’été pour aller incliner les systèmes d’arrosages afin d’éviter que la pelouse ne brule sous le soleil et le temps sec qui peut caractériser l’est de la France en juillet aout. Il dormait dans le vestiaire pour être sur place et intervenir à intervalles réguliers ! Un sacerdoce pour ce travailleur infatigable. « <em>Beaucoup se sont amusés à dire qu'il dormait sur la pelouse en été. D'autres expliquent que les joueurs enlevaient leurs chaussures avant de faire leur tour de repérage d'avant-match. C'était une forme de respect pour le jardinier.\" </em>Les images le prouvent, les joueurs locaux mais aussi les visiteurs n’hésitaient pas à remettre en place les mottes de terre quand ils avaient taclé un peu trop fort sur ce véritable billard.  </p>\n<p>Un tapis qui faisait référence pendant presque 4 décennies et dont les architectes du nouveau stade Bonal disent avoir tenu compte. Mais la future pelouse ne sera plus jamais pareil. </p>"
+        }
+    ],
+    "key_figure": {
+        "number": "37",
+        "text": "Roger Dirand a veillé sur la pelouse de Bonal comme sur son \"bébé\" durant 37 années."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/274094973_301126902084891_6005320117604502418_n.jpg",
+            "caption": "Roger Dirand",
+            "credit": "",
+            "caption_raw": "Roger Dirand"
+        },
+        {
+            "image": "2025/03/roger_dirand_title-1576597214.jpg",
+            "caption": "Roger Dirand lors de son départ en retraite en 1997.",
+            "credit": "",
+            "caption_raw": "Roger Dirand lors de son départ en retraite en 1997."
+        },
+        {
+            "image": "2025/03/274521960_638131560628605_7473136499093911966_n.jpg",
+            "caption": "Roger Dirand bichonne sa pelouse",
+            "credit": "",
+            "caption_raw": "Roger Dirand bichonne sa pelouse"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16430,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/roger-dirand-2-2/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/roger-dirand-2-2/",
+        "slug": "roger-dirand-2-2",
+        "seo_title": "Roger Dirand - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Roger Dirand</h2>\n<h4><strong>Jardinier du club de 1959 à 1997.  </strong><strong> </strong></h4>",
+        "header_lines": [
+            "Roger Dirand",
+            "Jardinier du club de 1959 à 1997."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Roger",
+        "last_name": "Dirand",
+        "display_name": "Roger Dirand",
+        "nickname": "",
+        "subtitle": "Jardinier du club de 1959 à 1997.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Roger Dirand"
+            },
+            {
+                "label": null,
+                "value": "Jardinier du club de 1959 à 1997."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

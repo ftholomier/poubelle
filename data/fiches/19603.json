@@ -1,0 +1,473 @@
+{
+    "id": 19603,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "strasbourg-sochaux-amical-02-01-1993",
+    "path": "/matchs/1992-1993/strasbourg-sochaux-amical-02-01-1993/",
+    "title": "Amical – Strasbourg (D1) / Sochaux (D1) – 2/01/1993 – 1-2",
+    "categories": [
+        "1992-1993",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/Yakovenko-Gillme.png",
+    "date": "2025-12-21T15:42:35",
+    "modified": "2026-01-25T15:56:57",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux est 11e à la trêve avec 19 points. </li>\n<li>Strasbourg est 7e avec 21 points en 19 rencontres. </li>\n<li>En championnat, Strasbourg reste sur un succès 6-1 face au FCSM à l'automne dernier. </li>\n<li>A Sochaux , Blanc, Frotey et Darras sont absents. Silvestre lui aussi est préservé. </li>\n<li>Yakovenko sera titularisé au milieu du terrain avec Henry, Bazdarevic et Robert. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>30' :</strong> coup franc de Caveglia qui frôle la barre. </li>\n<li><strong>32' :</strong> Henry sollicite Bazdarevic qui frappe. Sansone arrête en deux temps. </li>\n<li><strong>34' :</strong> frappe de Bouafia que Ferrand contre in extrémis. </li>\n<li><strong>46' : frappe de Caveglia déviée par Leboeuf. Sansone est battu. 1-0</strong></li>\n<li><strong>70' :</strong> nouvelle frappe de Caveglia qui termine sur le poteau. </li>\n<li><strong>83' : beau mouvement sochalien. Caveglia part à la limite du hors jeu puis il lobe Sansone parfaitement. 2-0</strong></li>\n<li>87' : Baudry trompe Sansone de près. L'arbitre annule le but pour une faute peu évidente d'un attaquant sochalien. </li>\n<li><strong>90' : faute peu évidente sur Bouafia dans la surface. Le pénalty est transformé par Keller. 2-1</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>Pas de réactions sur cette rencontre. </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Touché à la cuisse, Yakovenko ne sera pas opérationnel face au PSG. Il souffre d'un saignement à un muscle. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "première victoire en match amical pour le FCSM"
+    },
+    "gallery": [
+        {
+            "image": "2025/07/Yakovenko-Gillme.png",
+            "caption": "Yakovenko",
+            "credit": "Gillmé",
+            "caption_raw": "Yakovenko – Gillmé"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19603,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/amical-strasbourg-d1-sochaux-d1-2-01-1993-1-2/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/amical-strasbourg-d1-sochaux-d1-2-01-1993-1-2/",
+        "slug": "amical-strasbourg-d1-sochaux-d1-2-01-1993-1-2",
+        "seo_title": "Amical - Strasbourg (D1) / Sochaux (D1) - 2/01/1993 - 1-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Strasbourg (D1) / Sochaux (D1) : 1-2</strong></h2>\n<h4><strong>match amical</strong></h4>\n<h4><strong>Samedi 2 janvier 1993</strong></h4>\n<h4><strong>Stade de Rhinau (67)</strong></h4>\n<h4><strong>1 850 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Tournegros</strong></h4>\n<p>Buts : Caveglia 46' et 83' pour Sochaux ; Keller 90' pour Strasbourg </p>",
+        "header_lines": [
+            "Strasbourg (D1) / Sochaux (D1) : 1-2",
+            "match amical",
+            "Samedi 2 janvier 1993",
+            "Stade de Rhinau (67)",
+            "1 850 spectateurs",
+            "Arbitrage : M. Tournegros",
+            "Buts : Caveglia 46' et 83' pour Sochaux ; Keller 90' pour Strasbourg"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1993-01-02",
+        "date_text": "Samedi 2 janvier 1993",
+        "season": "1992-1993",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "match amical",
+        "home": {
+            "name": "Strasbourg",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-2",
+        "score_line": "Strasbourg (D1) / Sochaux (D1) : 1-2",
+        "result": "V",
+        "stadium": "Stade de Rhinau (67)",
+        "spectators": 1850,
+        "spectators_text": "1 850 spectateurs",
+        "referee": "M. Tournegros",
+        "goals_text": "Caveglia 46' et 83' pour Sochaux ; Keller 90' pour Strasbourg",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Caveglia 46' et 83'"
+            },
+            {
+                "team": "Strasbourg",
+                "scorers": "Keller 90'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "30",
+                "text": "coup franc de Caveglia qui frôle la barre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "32",
+                "text": "Henry sollicite Bazdarevic qui frappe. Sansone arrête en deux temps.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "34",
+                "text": "frappe de Bouafia que Ferrand contre in extrémis.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "46",
+                "text": "frappe de Caveglia déviée par Leboeuf. Sansone est battu. 1-0",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "70",
+                "text": "nouvelle frappe de Caveglia qui termine sur le poteau.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "83",
+                "text": "beau mouvement sochalien. Caveglia part à la limite du hors jeu puis il lobe Sansone parfaitement. 2-0",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "87",
+                "text": "Baudry trompe Sansone de près. L'arbitre annule le but pour une faute peu évidente d'un attaquant sochalien.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "90",
+                "text": "faute peu évidente sur Bouafia dans la surface. Le pénalty est transformé par Keller. 2-1",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Pas de réactions sur cette rencontre."
+            }
+        ],
+        "breves": [
+            "Touché à la cuisse, Yakovenko ne sera pas opérationnel face au PSG. Il souffre d'un saignement à un muscle."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERRAND Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DEWILDER Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PITON Bertrand",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WEBER Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "YAKOVENKO Pavel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "22",
+                    "sub_text": "Sortie 22'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BADAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ROBERT David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PRAT Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "59",
+                    "sub_text": "Sortie 59'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CLEMENT Benjamin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CAVEGLIA Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "46",
+                        "83"
+                    ],
+                    "goals_text": "46', 83'",
+                    "sub_in": "22",
+                    "sub_out": null,
+                    "sub_text": "Entrée 22'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAUDRY Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "59",
+                    "sub_out": null,
+                    "sub_text": "Entrée 59'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GARANDE Patrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CASSARD Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1684
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

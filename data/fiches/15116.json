@@ -1,0 +1,171 @@
+{
+    "id": 15116,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "eric-deloumeaux",
+    "path": "/joueurs/eric-deloumeaux/",
+    "title": "Eric Deloumeaux",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/deloumeaux.jpg",
+    "date": "2025-07-10T17:08:47",
+    "modified": "2025-07-12T10:48:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Eric Deloumeaux est né à Montbéliard le 12 mai 1973. Enfant du Pays de Montbéliard, il signe sa première licence à l'AS Montbéliard. Il y reste de ses 8 ans à ses 10 ans. A l'âge de 10 ans il rejoint le FC Sochaux-Montbéliard d'abord en préformation puis au centre de formation jusqu'à l'âge de 18 ans. Il grandit à la Petite-Hollande, est élève au collège Brossolette puis au lycée Cuvier.</li>\n<li>Défenseur latéral, il n'est pas conservé par le club à l'été 1991 et s'oriente vers une carrière semi-pro ou amateur. Mais il fera finalement une très bonne carrière professionnelle. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière",
+            "html": "<ul>\n<li>Après le choc de l'annonce, Eric Deloumeaux rebondit d'abord à l'US Vermondans durant deux saisons dans l'équivalent de la N3 d'aujourd'hui. Il y reste deux saisons durant lesquelles il se montre très performant à son poste. </li>\n<li>Il est alors repéré par Lons-le-Saunier qui évolue aussi en N3 mais aspire à monter en N2. Il signe dans le Jura et parvient à faire remonter le club en N2 avec ses coéquipiers. Après 3 saisons dont une dernière remarquable, il est repéré par Dijon en N2. </li>\n<li>Il reste un an dans la capitale de la Bourgogne et réalise une très bonne saison. Si bien qu'il est repéré par Gueugnon qui lui propose son premier contrat professionnel en D2 à l'âge de 24 ans en 1997. Il s'impose comme une pièce maitresse de la défense des Forgerons durant 2 saisons. </li>\n<li>A l'été 1999, il est recruté par Le Havre en première division. Il joue 28 matchs mais Le Havre descend en ligue 2. Les 18 mois suivant il joue en ligue 2 une cinquantaine de matchs et marque 3 buts. </li>\n<li>En novembre 2001, il est recruté par le club écossais de Motherwell. </li>\n<li>Repéré pour ses bonnes performances il rejoint Aberdeen toujours en première division écossaise. Il y reste un an et demi, joue une cinquantaine de matchs, marque 4 buts et dispute 4 matchs de coupe UEFA. </li>\n<li>En janvier 2004 il s'engage avec Coventry en deuxième division anglaise. Il reste un an là-bas, joue  24 matchs et marque 1 but. </li>\n<li>Sa fin de carrière approche et en janvier 2005 il signe à Linvingston en deuxième division écossaise. Il reste 6 mois, marque 1 but en 14 matchs. </li>\n<li>Il termine sa carrière en France d'abord en Normandie à l'US Quevilly puis à Oissel. Et enfin en région parisienne à Aubervilliers en 2011 où il joue pour son ami d'enfance Abdellah Mourine avec qui il a été formé à Sochaux. </li>\n<li>Depuis, il vit en Normandie, garde un pied dans le football et travaille dans le commerce. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "237",
+        "text": "Eric Deloumeaux a joué 237 matchs pros mais aucun avec Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/deloumeaux.jpg",
+            "caption": "Eric Deloumeaux",
+            "credit": "DR",
+            "caption_raw": "Eric Deloumeaux – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15116,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/eric-deloumeaux/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/eric-deloumeaux/",
+        "slug": "eric-deloumeaux",
+        "seo_title": "Eric Deloumeaux - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Eric Deloumeaux</h2>\n<h4><strong>né le 12 mai 1973 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur latéral</p>\n<p><strong>Arrivée à Sochaux : </strong>septembre 1983</p>\n<p><strong>Départ de Sochaux : </strong>juin 1991</p>",
+        "header_lines": [
+            "Eric Deloumeaux",
+            "né le 12 mai 1973 à Montbéliard (25)",
+            "Taille : 1m77",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Poste : défenseur latéral",
+            "Arrivée à Sochaux : septembre 1983",
+            "Départ de Sochaux : juin 1991"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Eric",
+        "last_name": "Deloumeaux",
+        "display_name": "Eric Deloumeaux",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1973-05-12",
+                "precision": "day",
+                "text": "12 mai 1973"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 12 mai 1973 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": "défenseur latéral",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1983-09",
+            "precision": "month",
+            "text": "septembre 1983"
+        },
+        "departure": {
+            "iso": "1991-06",
+            "precision": "month",
+            "text": "juin 1991"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Eric Deloumeaux"
+            },
+            {
+                "label": null,
+                "value": "né le 12 mai 1973 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur latéral"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 1983"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1991"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

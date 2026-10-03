@@ -1,0 +1,161 @@
+{
+    "id": 17125,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "renato-rodrigues-pereira",
+    "path": "/joueurs/renato-rodrigues-pereira/",
+    "title": "Renato Rodrigues Pereira (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/10/18632_med_renato_pereira.jpg",
+    "date": "2025-10-13T21:26:32",
+    "modified": "2026-02-04T20:50:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>A l'été 1999, Sochaux redescend en deuxième division. Le libéro de l'équipe Jean-Guy Wallemme quitte le club pour Saint-Etienne. Joueur d'expérience il avait stabilisé la défense sochalienne en deuxième partie de saison grâce à son expérience. </li>\n<li>Sochaux démarre la saison sans libéro de métier comptant seulement deux défenseurs centraux Erwan Manac'h et Maxence Flachez. Philippe Anziani l'entraîneur réclame le recrutement d'un défenseur central d'expérience mais le Président Gilles Daget ne le souhaite pas. </li>\n<li>Le début de saison des Sochaliens est mauvais et la défense manque d'expérience et d'équilibre. Hubert Fournier est une cible de Philippe Anziani mais Gilles Daget refuse. </li>\n<li>Le club met alors à l'essai un défenseur central brésilien athlétique de 24 ans : Renato Rodrigues. Il s'entraîne principalement avec l'équipe réserve de Stéphane Paille et Mecha Bazdarevic. </li>\n<li>Mais il ne convainc pas les dirigeants et quelques jours après son essai c'est Jean Fernandez qui arrive comme entraîneur et qui fixe comme priorité de recrutement un meneur de jeu et non un défenseur central.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Lors de son essai, il était un joueur du Williams Connection FC à Trinidad et Tobago. Il y restera jusqu'en  remportant notamment la coupe des Caraïbes. </li>\n<li>En janvier il signe en D2  Suédoise à Carlstad United.</li>\n<li>En janvier 2006 il signe à Degerfor toujours en D2 suédoise. </li>\n<li>La saison suivante, il rentre au Brésil dans des clubs secondaires et rejoue quelques saisons pour le Williams Connection FC.</li>\n<li>Il met fin à sa carrière en 2012 à l'âge de 36 ans. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Renato Rodrigues est resté jours à l'essai à Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/10/18632_med_renato_pereira.jpg",
+            "caption": "Renato Periera Rodrigues Junior",
+            "credit": "",
+            "caption_raw": "Renato Periera Rodrigues Junior"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17125,
+        "url": "https://www.fcsochauxretro.com/uncategorized/renato-rodrigues-pereira-a-lessai/",
+        "path": "/uncategorized/renato-rodrigues-pereira-a-lessai/",
+        "slug": "renato-rodrigues-pereira-a-lessai",
+        "seo_title": "Renato Rodrigues Pereira (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Renato Rodrigues Pereira Junior</h2>\n<h4><strong>né le 24 janvier 1976 à Valparaiso (Brésil) </strong></h4>\n<p><strong>Taille :</strong> 1m88</p>\n<p><strong>Poids : </strong>88 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>A l'essai à Sochaux en : </strong>septembre 1999</p>",
+        "header_lines": [
+            "Renato Rodrigues Pereira Junior",
+            "né le 24 janvier 1976 à Valparaiso (Brésil)",
+            "Taille : 1m88",
+            "Poids : 88 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "A l'essai à Sochaux en : septembre 1999"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Renato Rodrigues",
+        "last_name": "Pereira",
+        "display_name": "Renato Rodrigues Pereira",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1999-09",
+            "precision": "month",
+            "text": "septembre 1999"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1976-01-24",
+                "precision": "day",
+                "text": "24 janvier 1976"
+            },
+            "place": {
+                "text": "Valparaiso (Brésil)",
+                "city": "Valparaiso",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 janvier 1976 à Valparaiso (Brésil)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "88 kg",
+        "weight_kg": 88,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Renato Rodrigues Pereira Junior"
+            },
+            {
+                "label": null,
+                "value": "né le 24 janvier 1976 à Valparaiso (Brésil)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "88 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "A l'essai à Sochaux en",
+                "value": "septembre 1999"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

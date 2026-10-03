@@ -1,0 +1,114 @@
+{
+    "id": 13317,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alain-cordier",
+    "path": "/dirigeants/alain-cordier/",
+    "title": "Alain Cordier",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/61d5dbac267b8834734810.webp",
+    "date": "2025-04-05T09:02:50",
+    "modified": "2025-11-12T21:12:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Alain Cordier, le président loyal de l'ombre : 2000 - 2014</strong></h4>\n<h4><strong> </strong></h4>\n<ul>\n<li>En 2000, le FC Sochaux-Montbéliard change de statut pour devenir une société anonyme sportive professionnelle. Jean-Claude Plessis reste alors président exécutif mais c'est Alain Cordier qui devient Président de la SASP.</li>\n<li>Homme de l'ombre, il dirigera les finances du club du mieux possible sous l'égide des dirigeants de PSA.</li>\n<li>En 2014, alors que PSA vient de traverser une crise économique grave, Carlos Tavares prend la tête de l'entreprise. Ce \"cost killer\" veut supprimer toutes les branches non rentables de l'entreprise et décide de se séparer du club.</li>\n<li>Alain Cordier n'étant pas en accord avec cette décision laisse son siège. Il sera remplacé par Denis Worbe qui sera chargé d'assurer la vente et de passer le témoin au futur propriétaire.</li>\n<li>Sous sa présidence, Sochaux a remporté un titre de champion de ligue 2 (2001), une coupe de la ligue (2004), une coupe de France (2007), et une coupe Gambardella (2007). Le club a aussi atteint la finale de la coupe de la ligue 2003, du Trophée des champions 2007, et de la coupe Gambardella 2010.   </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "14",
+        "text": "Alain Cordier reste 14 ans à la présidence de la SASP. En désaccord avec la vente du club, il laisse son siège en 2014."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/61d5dbac267b8834734810.webp",
+            "caption": "Alain Cordier, président de la SASP de 2000 à 2014. L’homme de l’ombre qui quittera son poste car en désaccord avec la vente du club par PSA.",
+            "credit": "",
+            "caption_raw": "Alain Cordier, président de la SASP de 2000 à 2014. L’homme de l’ombre qui quittera son poste car en désaccord avec la vente du club par PSA."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13317,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/alain-cordier/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/alain-cordier/",
+        "slug": "alain-cordier",
+        "seo_title": "Alain Cordier - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alain Cordier </h2>\n<h4><strong>Président de la SASP de 2000 à 2014 </strong></h4>",
+        "header_lines": [
+            "Alain Cordier",
+            "Président de la SASP de 2000 à 2014"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Alain",
+        "last_name": "Cordier",
+        "display_name": "Alain Cordier",
+        "nickname": "",
+        "subtitle": "Président de la SASP de 2000 à 2014",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alain Cordier"
+            },
+            {
+                "label": null,
+                "value": "Président de la SASP de 2000 à 2014"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

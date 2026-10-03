@@ -1,0 +1,286 @@
+{
+    "id": 6452,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "andre-bouteiller",
+    "path": "/joueurs/andre-bouteiller/",
+    "title": "André Bouteiller",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/05/Bouteillier-FCSM.jpg",
+    "date": "2024-11-09T13:05:58",
+    "modified": "2026-05-08T13:04:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "57",
+        "text": "André Bouteiller a joué 57 matchs (1 but) avec Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/05/Bouteillier-FCSM.jpg",
+            "caption": "Pas de sponsors maillot avant 1969 et pas d’équipementier avant 1973 – Henri Bouteiller",
+            "credit": "FCSM",
+            "caption_raw": "Pas de sponsors maillot avant 1969 et pas d’équipementier avant 1973 – Henri Bouteiller – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6452,
+        "url": "https://www.fcsochauxretro.com/a-la-une/andre-bouteiller/",
+        "path": "/a-la-une/andre-bouteiller/",
+        "slug": "andre-bouteiller",
+        "seo_title": "André Bouteiller - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>André Bouteiller</strong></h2>\n<h4><strong>né le 1er février 1932 à Romainville (93) </strong></h4>\n<h4><strong>Décédé le 7 mai 2006 à Monaco  </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>milieu droit</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1960 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1963</p>\n<p><strong>Premier match joué :</strong> Sochaux - Monaco du 27/08/1961 : 1-4</p>\n<p><strong>Dernier match joué :</strong> Sochaux - CS Sedan Torcy du 15/06/1963 : 5-2 </p>\n<p><strong>Premier but avec Sochaux : Metz - </strong>Sochaux du 10/11/1961 : 1-1 - But à la 55'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Charles Drago 1963</li>\n</ul>",
+        "header_lines": [
+            "André Bouteiller",
+            "né le 1er février 1932 à Romainville (93)",
+            "Décédé le 7 mai 2006 à Monaco",
+            "Taille : 1m82",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : milieu droit",
+            "Arrivée à Sochaux : juillet 1960",
+            "Départ de Sochaux : juin 1963",
+            "Premier match joué : Sochaux - Monaco du 27/08/1961 : 1-4",
+            "Dernier match joué : Sochaux - CS Sedan Torcy du 15/06/1963 : 5-2",
+            "Premier but avec Sochaux : Metz - Sochaux du 10/11/1961 : 1-1 - But à la 55'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Charles Drago 1963"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "André",
+        "last_name": "Bouteiller",
+        "display_name": "André Bouteiller",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1932-02-01",
+                "precision": "day",
+                "text": "1er février 1932"
+            },
+            "place": {
+                "text": "Romainville (93)",
+                "city": "Romainville",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er février 1932 à Romainville (93)"
+        },
+        "death": {
+            "date": {
+                "iso": "2006-05-07",
+                "precision": "day",
+                "text": "7 mai 2006"
+            },
+            "place": {
+                "text": "Monaco",
+                "city": "Monaco",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 7 mai 2006 à Monaco"
+        },
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "milieu droit",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1960-07",
+            "precision": "month",
+            "text": "juillet 1960"
+        },
+        "departure": {
+            "iso": "1963-06",
+            "precision": "month",
+            "text": "juin 1963"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Monaco du 27/08/1961 : 1-4",
+        "last_match": "Sochaux - CS Sedan Torcy du 15/06/1963 : 5-2",
+        "first_goal": "Metz - Sochaux du 10/11/1961 : 1-1 - But à la 55'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Charles Drago 1963"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "André Bouteiller"
+            },
+            {
+                "label": null,
+                "value": "né le 1er février 1932 à Romainville (93)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 7 mai 2006 à Monaco"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1960"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1963"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Monaco du 27/08/1961 : 1-4"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - CS Sedan Torcy du 15/06/1963 : 5-2"
+            },
+            {
+                "label": "Premier but avec Sochaux",
+                "value": "Metz - Sochaux du 10/11/1961 : 1-1 - But à la 55'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago 1963"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe Drago",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1960 - 1961",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "1961 - 1962",
+                    "22",
+                    "1",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "25",
+                    "1"
+                ],
+                [
+                    "1962 - 1963",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "4",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "22",
+                    "1",
+                    "2",
+                    "0",
+                    "7",
+                    "0",
+                    "31",
+                    "1"
+                ]
+            ],
+            "source_table": 857
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

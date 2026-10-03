@@ -1,0 +1,289 @@
+{
+    "id": 8798,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sidy-diagne",
+    "path": "/joueurs/sidy-diagne/",
+    "title": "Sidy Diagne",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-11.jpg",
+    "date": "2024-12-13T19:41:33",
+    "modified": "2025-03-31T19:40:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "8",
+        "text": "Sidy Diagne a joué 8 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/sidy-diagne-jouera-en-n2-cette-saison-photo-christian-lemontey-1727773600.jpg",
+            "caption": "Sidy Diagne",
+            "credit": "L’est républicain",
+            "caption_raw": "Sidy Diagne – L’est républicain"
+        },
+        {
+            "image": "2024/12/402508.jpg",
+            "caption": "Sidy Diagne",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Sidy Diagne – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/12/5-11.jpg",
+            "caption": "Sidy Diagne",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Sidy Diagne – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8798,
+        "url": "https://www.fcsochauxretro.com/a-la-une/sidy-diagne/",
+        "path": "/a-la-une/sidy-diagne/",
+        "slug": "sidy-diagne",
+        "seo_title": "Sidy Diagne - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Sidy Diagne</h2>\n<h4><strong>né le 11 janvier 2002 à Montbéliard (25)</strong></h4>\n<p><strong>Taille :</strong> 1m82</p>\n<p><strong>Poids :</strong> 80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> arrière latéral droit</p>\n<p><strong>International suisse U18 (1 sélection)</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2010</p>\n<p><strong>Départ de Sochaux :</strong> juin 2022 </p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2010</p>\n<p><strong>Départ de Sochaux :</strong> juin 2022 </p>\n<p><strong>Premier match joué :</strong> Sochaux - Paris FC du 18/09/2021 : 2-0</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Versailles du 18/05/2024 : 1-1</p>",
+        "header_lines": [
+            "Sidy Diagne",
+            "né le 11 janvier 2002 à Montbéliard (25)",
+            "Taille : 1m82",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "International suisse U18 (1 sélection)",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 2010",
+            "Départ de Sochaux : juin 2022",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 2010",
+            "Départ de Sochaux : juin 2022",
+            "Premier match joué : Sochaux - Paris FC du 18/09/2021 : 2-0",
+            "Dernier match joué : Sochaux - Versailles du 18/05/2024 : 1-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Sidy",
+        "last_name": "Diagne",
+        "display_name": "Sidy Diagne",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2002-01-11",
+                "precision": "day",
+                "text": "11 janvier 2002"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 11 janvier 2002 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International suisse U18 (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "2010-07",
+            "precision": "month",
+            "text": "juillet 2010"
+        },
+        "departure": {
+            "iso": "2022-06",
+            "precision": "month",
+            "text": "juin 2022"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Paris FC du 18/09/2021 : 2-0",
+        "last_match": "Sochaux - Versailles du 18/05/2024 : 1-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sidy Diagne"
+            },
+            {
+                "label": null,
+                "value": "né le 11 janvier 2002 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": null,
+                "value": "International suisse U18 (1 sélection)"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2010"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2022"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2010"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2022"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Paris FC du 18/09/2021 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Versailles du 18/05/2024 : 1-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2020 - 2021",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ],
+                [
+                    "2021 - 2022",
+                    "2",
+                    "0",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "2023 - 2024",
+                    "-",
+                    "-",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "2",
+                    "0",
+                    "3",
+                    "0",
+                    "3",
+                    "0",
+                    "8",
+                    "0"
+                ]
+            ],
+            "source_table": 972
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

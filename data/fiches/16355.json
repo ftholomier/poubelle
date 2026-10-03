@@ -1,0 +1,160 @@
+{
+    "id": 16355,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "roland-peugeot",
+    "path": "/dirigeants/roland-peugeot/",
+    "title": "Roland Peugeot",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-dhonneur"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/66telechargement.jpg",
+    "date": "2025-09-05T22:40:13",
+    "modified": "2025-11-12T21:42:57",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<ul>\n<li><strong>Président d'honneur bâtisseur, il mise très tôt sur la formation</strong></li>\n<li>Roland Peugeot a occupé le rôle de président d’honneur du Football Club Sochaux‑Montbéliard (FCSM) à la suite du décès de son père, Jean‑Pierre Peugeot, en octobre 1966. En tant que président d’honneur, il incarnait la continuité de l’implication de la famille Peugeot dans le club et jouait un rôle symbolique mais influent, notamment sur des décisions stratégiques majeures comme le recrutement du directeur sportif René Hauss et l’ancrage du club dans une politique de formation de ses propres jeunes joueurs.</li>\n<li>Ce rôle lui permit de préserver l’héritage familial dans la gouvernance du club et de promouvoir des projets structurants. Il défendit avec conviction le développement du centre de formation, considéré par lui comme essentiel pour le futur du club, déclarant notamment : <em>\" Je me battrai pour que nous fabriquions nous-mêmes nos footballeurs \".</em></li>\n<li>Pour couronner cet engagement, il a été récompensé en janvier 1976 par la <em>«  grande plaquette d’or du Groupement du football professionnel  »</em> français, distinction honorifique qu’avait également reçue son père. </li>\n<li>Plus tard, il fera don du château familial du Banot à Seloncourt pour y installer le centre de formation du club qui lui tient tant à cœur.</li>\n<li>Le <strong>centre de formation aux métiers du football à Seloncourt</strong>, inauguré le 8 juin 2000, portera son nom en hommage à son action et à sa vision. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "50",
+        "text": "Roland Peugeot est resté Président d'honneur du club durant 50 ans."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/1200x680.jpg",
+            "caption": "Sous les applaudissements nourris des supporters de Bonal, Roland Peugeot donne le coup d’envoi fictif du match des 80 ans du club en 2008 aux côtés de son fils Eric et de son petit fils Romain.",
+            "credit": "",
+            "caption_raw": "Sous les applaudissements nourris des supporters de Bonal, Roland Peugeot donne le coup d’envoi fictif du match des 80 ans du club en 2008 aux côtés de son fils Eric et de son petit fils Romain."
+        },
+        {
+            "image": "2025/09/le-chateau-familial-de-seloncourt-abrite-le-centre-de-formation-du-fc-sochaux-baptise-roland-peugeot-photo-er-1452198914.jpg",
+            "caption": "Le centre de formation du club porte le nom de Roland Peugeot.",
+            "credit": "",
+            "caption_raw": "Le centre de formation du club porte le nom de Roland Peugeot."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16355,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/roland-peugeot/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/roland-peugeot/",
+        "slug": "roland-peugeot",
+        "seo_title": "Roland Peugeot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Roland Peugeot    </h2>\n<p><strong>Né le 20 mars 1926 à Valentigney (25)</strong></p>\n<p><strong>Décédé le 6 janvier 2016 à Neuilly-sur-Seine (92)</strong></p>\n<h4><strong>Président d'honneur du FC Sochaux-Montbéliard à partir de 1966. </strong></h4>",
+        "header_lines": [
+            "Roland Peugeot",
+            "Né le 20 mars 1926 à Valentigney (25)",
+            "Décédé le 6 janvier 2016 à Neuilly-sur-Seine (92)",
+            "Président d'honneur du FC Sochaux-Montbéliard à partir de 1966."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Roland",
+        "last_name": "Peugeot",
+        "display_name": "Roland Peugeot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1926-03-20",
+                "precision": "day",
+                "text": "20 mars 1926"
+            },
+            "place": {
+                "text": "Valentigney (25)",
+                "city": "Valentigney",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 20 mars 1926 à Valentigney (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "2016-01-06",
+                "precision": "day",
+                "text": "6 janvier 2016"
+            },
+            "place": {
+                "text": "Neuilly-sur-Seine (92)",
+                "city": "Neuilly-sur-Seine",
+                "department": "92",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 6 janvier 2016 à Neuilly-sur-Seine (92)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Roland Peugeot"
+            },
+            {
+                "label": null,
+                "value": "Né le 20 mars 1926 à Valentigney (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 6 janvier 2016 à Neuilly-sur-Seine (92)"
+            },
+            {
+                "label": null,
+                "value": "Président d'honneur du FC Sochaux-Montbéliard à partir de 1966."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

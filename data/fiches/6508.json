@@ -1,0 +1,188 @@
+{
+    "id": 6508,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "camille-beurier",
+    "path": "/joueurs/camille-beurier/",
+    "title": "Camille Beurier",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-11-06T16:34:51",
+    "modified": "2025-02-24T10:53:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques non connues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Camille Beurier a joué 2 matchs pour Sochaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6508,
+        "url": "https://www.fcsochauxretro.com/a-la-une/camille-beurier/",
+        "path": "/a-la-une/camille-beurier/",
+        "slug": "camille-beurier",
+        "seo_title": "Camille Beurier - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Camille Beurier</strong></h2>\n<h4><strong>né le 27/01/1919 à Champagney (70)</strong></h4>\n<h4><strong>Décédé le 19 juin 2011 à Lure (70) </strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1939 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1941</p>\n<p><strong>Premier match joué :</strong> Sochaux - Belfort du 28/04/1940 : 5-2</p>\n<p><strong>Dernier match joué :</strong> RCFC Besançon - Sochaux du 05/05/1940 : 3-5 </p>",
+        "header_lines": [
+            "Camille Beurier",
+            "né le 27/01/1919 à Champagney (70)",
+            "Décédé le 19 juin 2011 à Lure (70)",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1939",
+            "Départ de Sochaux : juin 1941",
+            "Premier match joué : Sochaux - Belfort du 28/04/1940 : 5-2",
+            "Dernier match joué : RCFC Besançon - Sochaux du 05/05/1940 : 3-5"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Camille",
+        "last_name": "Beurier",
+        "display_name": "Camille Beurier",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1919-01-27",
+                "precision": "day",
+                "text": "27/01/1919"
+            },
+            "place": {
+                "text": "Champagney (70)",
+                "city": "Champagney",
+                "department": "70",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 27/01/1919 à Champagney (70)"
+        },
+        "death": {
+            "date": {
+                "iso": "2011-06-19",
+                "precision": "day",
+                "text": "19 juin 2011"
+            },
+            "place": {
+                "text": "Lure (70)",
+                "city": "Lure",
+                "department": "70",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 19 juin 2011 à Lure (70)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1939-07",
+            "precision": "month",
+            "text": "juillet 1939"
+        },
+        "departure": {
+            "iso": "1941-06",
+            "precision": "month",
+            "text": "juin 1941"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Belfort du 28/04/1940 : 5-2",
+        "last_match": "RCFC Besançon - Sochaux du 05/05/1940 : 3-5",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Camille Beurier"
+            },
+            {
+                "label": null,
+                "value": "né le 27/01/1919 à Champagney (70)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 19 juin 2011 à Lure (70)"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1939"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1941"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Belfort du 28/04/1940 : 5-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "RCFC Besançon - Sochaux du 05/05/1940 : 3-5"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

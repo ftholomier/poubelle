@@ -1,0 +1,251 @@
+{
+    "id": 8301,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "eduardo-ithurbide",
+    "path": "/joueurs/eduardo-ithurbide/",
+    "title": "Eduardo Ithurbide",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/telechargement-23.jpg",
+    "date": "2024-12-13T10:52:59",
+    "modified": "2024-12-13T11:04:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Eduardo Ithurbide a joué 13 matchs (5 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/telechargement-23.jpg",
+            "caption": "Eduardo Ithurbide",
+            "credit": "footballdatabase",
+            "caption_raw": "Eduardo Ithurbide – footballdatabase"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8301,
+        "url": "https://www.fcsochauxretro.com/a-la-une/eduardo-ithurbide/",
+        "path": "/a-la-une/eduardo-ithurbide/",
+        "slug": "eduardo-ithurbide",
+        "seo_title": "Eduardo Ithurbide - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Eduardo Ithurbide</h2>\n<h4><strong>né le 10 mars 1908 à Montevideo (Uruguay)</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>International uruguayen (7 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1937</p>\n<p><strong>Départ de Sochaux : </strong>juin 1938</p>\n<p><strong>Premier match joué et premir but marqué :</strong> Red-Star - -Sochaux du 07/11/1937 : 0-1 - But à la 74'</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Sète du 24/04/1938 : 0-1</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de première division 1938</li>\n</ul>",
+        "header_lines": [
+            "Eduardo Ithurbide",
+            "né le 10 mars 1908 à Montevideo (Uruguay)",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "International uruguayen (7 sélections, 1 but)",
+            "Arrivée à Sochaux : juillet 1937",
+            "Départ de Sochaux : juin 1938",
+            "Premier match joué et premir but marqué : Red-Star - -Sochaux du 07/11/1937 : 0-1 - But à la 74'",
+            "Dernier match joué : Sochaux - Sète du 24/04/1938 : 0-1",
+            "Palmarès avec Sochaux :",
+            "Champion de France de première division 1938"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Eduardo",
+        "last_name": "Ithurbide",
+        "display_name": "Eduardo Ithurbide",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1908-03-10",
+                "precision": "day",
+                "text": "10 mars 1908"
+            },
+            "place": {
+                "text": "Montevideo (Uruguay)",
+                "city": "Montevideo",
+                "department": null,
+                "country": "Uruguay",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 mars 1908 à Montevideo (Uruguay)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International uruguayen (7 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "1937-07",
+            "precision": "month",
+            "text": "juillet 1937"
+        },
+        "departure": {
+            "iso": "1938-06",
+            "precision": "month",
+            "text": "juin 1938"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Red-Star - -Sochaux du 07/11/1937 : 0-1 - But à la 74'",
+        "last_match": "Sochaux - Sète du 24/04/1938 : 0-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de première division 1938"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Eduardo Ithurbide"
+            },
+            {
+                "label": null,
+                "value": "né le 10 mars 1908 à Montevideo (Uruguay)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International uruguayen (7 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1937"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1938"
+            },
+            {
+                "label": "Premier match joué et premir but marqué",
+                "value": "Red-Star - -Sochaux du 07/11/1937 : 0-1 - But à la 74'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Sète du 24/04/1938 : 0-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1938"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

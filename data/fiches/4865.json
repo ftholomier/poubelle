@@ -1,0 +1,283 @@
+{
+    "id": 4865,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "eric-dewilder",
+    "path": "/joueurs/eric-dewilder/",
+    "title": "Eric Dewilder",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/Dewilder-FCSM.png",
+    "date": "2024-12-07T09:01:33",
+    "modified": "2026-01-30T17:44:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "93",
+        "text": "Eric Dewilder a joué 93 matchs (3 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/Dewilder-FCSM.png",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2025/10/oiu-v.png",
+            "caption": "Dewilder",
+            "credit": "Reinoso",
+            "caption_raw": "Dewilder – Reinoso"
+        },
+        {
+            "image": "2025/07/ginola-sochaux-11.jpg",
+            "caption": "Dewilder",
+            "credit": "AFP",
+            "caption_raw": "Dewilder – AFP"
+        },
+        {
+            "image": "2025/08/Dewilder-AFP.png",
+            "caption": "Dewilder",
+            "credit": "AFP",
+            "caption_raw": "Dewilder – AFP"
+        },
+        {
+            "image": "2025/10/trrffgb-v.png",
+            "caption": "Dewilder",
+            "credit": "AFP",
+            "caption_raw": "Dewilder – AFP"
+        },
+        {
+            "image": "2025/01/Dewilder-Reinoso-1.png",
+            "caption": "Dewilder",
+            "credit": "Reinoso",
+            "caption_raw": "Dewilder – Reinoso"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4865,
+        "url": "https://www.fcsochauxretro.com/a-la-une/eric-dewilder/",
+        "path": "/a-la-une/eric-dewilder/",
+        "slug": "eric-dewilder",
+        "seo_title": "Eric Dewilder - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Eric Dewilder</h2>\n<h4><strong>né le 10 avril 1964 à Portel (62) </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche ou milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>octobre 1990</p>\n<p><strong>Départ de Sochaux : </strong>juin 1994</p>\n<p><strong>Premier match joué :</strong> Sochaux - Marseille du 20/10/1990 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Toulouse - Sochaux du 23/04/1994 : 3-2</p>\n<p><strong>Premier but marqué</strong> : Cannes - Sochaux du 27/10/1990 : 1-1 - But à la 25'</p>",
+        "header_lines": [
+            "Eric Dewilder",
+            "né le 10 avril 1964 à Portel (62)",
+            "Taille : 1m82",
+            "Poids : 76 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche ou milieu défensif",
+            "Arrivée à Sochaux : octobre 1990",
+            "Départ de Sochaux : juin 1994",
+            "Premier match joué : Sochaux - Marseille du 20/10/1990 : 2-1",
+            "Dernier match joué : Toulouse - Sochaux du 23/04/1994 : 3-2",
+            "Premier but marqué : Cannes - Sochaux du 27/10/1990 : 1-1 - But à la 25'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Eric",
+        "last_name": "Dewilder",
+        "display_name": "Eric Dewilder",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1964-04-10",
+                "precision": "day",
+                "text": "10 avril 1964"
+            },
+            "place": {
+                "text": "Portel (62)",
+                "city": "Portel",
+                "department": "62",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 avril 1964 à Portel (62)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche ou milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1990-10",
+            "precision": "month",
+            "text": "octobre 1990"
+        },
+        "departure": {
+            "iso": "1994-06",
+            "precision": "month",
+            "text": "juin 1994"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Marseille du 20/10/1990 : 2-1",
+        "last_match": "Toulouse - Sochaux du 23/04/1994 : 3-2",
+        "first_goal": "Cannes - Sochaux du 27/10/1990 : 1-1 - But à la 25'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Eric Dewilder"
+            },
+            {
+                "label": null,
+                "value": "né le 10 avril 1964 à Portel (62)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche ou milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "octobre 1990"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1994"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Marseille du 20/10/1990 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Toulouse - Sochaux du 23/04/1994 : 3-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Cannes - Sochaux du 27/10/1990 : 1-1 - But à la 25'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990 - 1991",
+                    "21",
+                    "3",
+                    "2",
+                    "0",
+                    "23",
+                    "3"
+                ],
+                [
+                    "1991 - 1992",
+                    "24",
+                    "0",
+                    "0",
+                    "0",
+                    "24",
+                    "0"
+                ],
+                [
+                    "1992 - 1993",
+                    "17",
+                    "0",
+                    "0",
+                    "0",
+                    "17",
+                    "0"
+                ],
+                [
+                    "1993 - 1994",
+                    "28",
+                    "0",
+                    "1",
+                    "0",
+                    "29",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "90",
+                    "3",
+                    "3",
+                    "0",
+                    "93",
+                    "3"
+                ]
+            ],
+            "source_table": 963
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

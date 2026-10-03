@@ -1,0 +1,244 @@
+{
+    "id": 7280,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "raphael-caceres",
+    "path": "/joueurs/raphael-caceres/",
+    "title": "Raphaël Caceres",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/title-1422383440.jpg",
+    "date": "2024-11-10T17:57:10",
+    "modified": "2025-03-05T18:24:38",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "48",
+        "text": "Raphaël Caceres a joué 48 matches (11 buts et 4 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/mince-consolation-raphael-caceres-a-retrouve-le-chemin-du-but-1449953344.jpg",
+            "caption": "Raphaël Caceres",
+            "credit": "L’est républicain",
+            "caption_raw": "Raphaël Caceres – L’est républicain"
+        },
+        {
+            "image": "2024/11/title-1422383440.jpg",
+            "caption": "Raphaël Caceres",
+            "credit": "L’est républicain",
+            "caption_raw": "Raphaël Caceres – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7280,
+        "url": "https://www.fcsochauxretro.com/a-la-une/raphael-caceres/",
+        "path": "/a-la-une/raphael-caceres/",
+        "slug": "raphael-caceres",
+        "seo_title": "Raphaël Caceres - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Raphaël Caceres</h2>\n<h4><strong>né le 1er septembre 1987 à Carpentras (84) </strong></h4>\n<p><strong>Taille : </strong>1m87</p>\n<p><strong>Poids : </strong>79 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2014</p>\n<p><strong>Départ de Sochaux : </strong>juin 2016</p>\n<p><strong>Premier match et premier but avec Sochaux :</strong> Nancy - Sochaux du 31/03/2012 : 1-1 - But à la 85'</p>\n<p><strong>Dernier match : </strong>Sochaux - Auxerre du 29/04/2016 : 2-3</p>",
+        "header_lines": [
+            "Raphaël Caceres",
+            "né le 1er septembre 1987 à Carpentras (84)",
+            "Taille : 1m87",
+            "Poids : 79 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : aout 2014",
+            "Départ de Sochaux : juin 2016",
+            "Premier match et premier but avec Sochaux : Nancy - Sochaux du 31/03/2012 : 1-1 - But à la 85'",
+            "Dernier match : Sochaux - Auxerre du 29/04/2016 : 2-3"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Raphaël",
+        "last_name": "Caceres",
+        "display_name": "Raphaël Caceres",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1987-09-01",
+                "precision": "day",
+                "text": "1er septembre 1987"
+            },
+            "place": {
+                "text": "Carpentras (84)",
+                "city": "Carpentras",
+                "department": "84",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er septembre 1987 à Carpentras (84)"
+        },
+        "death": null,
+        "height": "1m87",
+        "height_cm": 187,
+        "weight": "79 kg",
+        "weight_kg": 79,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2014-08",
+            "precision": "month",
+            "text": "aout 2014"
+        },
+        "departure": {
+            "iso": "2016-06",
+            "precision": "month",
+            "text": "juin 2016"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Nancy - Sochaux du 31/03/2012 : 1-1 - But à la 85'",
+        "last_match": "Sochaux - Auxerre du 29/04/2016 : 2-3",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Raphaël Caceres"
+            },
+            {
+                "label": null,
+                "value": "né le 1er septembre 1987 à Carpentras (84)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m87"
+            },
+            {
+                "label": "Poids",
+                "value": "79 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2014"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2016"
+            },
+            {
+                "label": "Premier match et premier but avec Sochaux",
+                "value": "Nancy - Sochaux du 31/03/2012 : 1-1 - But à la 85'"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - Auxerre du 29/04/2016 : 2-3"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2014 - 2015",
+                    "22",
+                    "4",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "4"
+                ],
+                [
+                    "2015 - 2016",
+                    "19",
+                    "2",
+                    "5",
+                    "3",
+                    "1",
+                    "2",
+                    "25",
+                    "7"
+                ],
+                [
+                    "TOTAL",
+                    "41",
+                    "6",
+                    "6",
+                    "3",
+                    "1",
+                    "2",
+                    "48",
+                    "11"
+                ]
+            ],
+            "source_table": 874
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

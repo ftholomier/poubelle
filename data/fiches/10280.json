@@ -1,0 +1,195 @@
+{
+    "id": 10280,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "markus-pavic",
+    "path": "/joueurs/markus-pavic/",
+    "title": "Markus Pavic",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-5.jpg",
+    "date": "2025-01-04T19:56:55",
+    "modified": "2025-02-03T00:05:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Markus Pavic a joué 2 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/montbeliard-le-20-06-18-presentation-d-un-nouveau-joueur-du-football-club-sochaux-montbeliard-fcsm-markus-pavic-photo-lionel-vadam-1529519703.jpg",
+            "caption": "Markus Pavic",
+            "credit": "L’est républicain",
+            "caption_raw": "Markus Pavic – L’est républicain"
+        },
+        {
+            "image": "2025/01/5-5.jpg",
+            "caption": "Markus Pavic",
+            "credit": "fcsm",
+            "caption_raw": "Markus Pavic – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10280,
+        "url": "https://www.fcsochauxretro.com/a-la-une/markus-pavic/",
+        "path": "/a-la-une/markus-pavic/",
+        "slug": "markus-pavic",
+        "seo_title": "Markus Pavic - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Markus Pavic</h2>\n<h4><strong>né le 25 mars 1995 à Viennes (Autriche)</strong></h4>\n<p><strong>Taille : </strong>1m84</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018</p>\n<p><strong>Départ de Sochaux : </strong>janvier 2019</p>\n<p><strong>Premier match joué :</strong> Haguenau - Sochaux du 17/11/2018 : 3-4 a.p</p>\n<p><strong>Dernier match joué : </strong>Illkirch Graffenstaden - Sochaux du 08/12/2018 : 0-1</p>",
+        "header_lines": [
+            "Markus Pavic",
+            "né le 25 mars 1995 à Viennes (Autriche)",
+            "Taille : 1m84",
+            "Poids : 74 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : janvier 2019",
+            "Premier match joué : Haguenau - Sochaux du 17/11/2018 : 3-4 a.p",
+            "Dernier match joué : Illkirch Graffenstaden - Sochaux du 08/12/2018 : 0-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Markus",
+        "last_name": "Pavic",
+        "display_name": "Markus Pavic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1995-03-25",
+                "precision": "day",
+                "text": "25 mars 1995"
+            },
+            "place": {
+                "text": "Viennes (Autriche)",
+                "city": "Viennes",
+                "department": null,
+                "country": "Autriche",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 mars 1995 à Viennes (Autriche)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2019-01",
+            "precision": "month",
+            "text": "janvier 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Haguenau - Sochaux du 17/11/2018 : 3-4 a.p",
+        "last_match": "Illkirch Graffenstaden - Sochaux du 08/12/2018 : 0-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Markus Pavic"
+            },
+            {
+                "label": null,
+                "value": "né le 25 mars 1995 à Viennes (Autriche)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Haguenau - Sochaux du 17/11/2018 : 3-4 a.p"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Illkirch Graffenstaden - Sochaux du 08/12/2018 : 0-1"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

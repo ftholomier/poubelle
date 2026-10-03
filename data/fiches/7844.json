@@ -1,0 +1,277 @@
+{
+    "id": 7844,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "serdar-gurler",
+    "path": "/joueurs/serdar-gurler/",
+    "title": "Serdar Gurler",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/2-37.jpg",
+    "date": "2024-11-25T23:26:55",
+    "modified": "2026-02-27T16:54:13",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Serdar Gurler a joué 3 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/serdar-gurler-et-les-sochaliens-auront-des-choses-a-se-faire-pardonner-demain-photo-francis-reinoso-1424949237.jpg",
+            "caption": "Gurler",
+            "credit": "Reinoso",
+            "caption_raw": "Gurler – Reinoso"
+        },
+        {
+            "image": "2024/11/2-37.jpg",
+            "caption": "Serdar Gurler",
+            "credit": "fcsm",
+            "caption_raw": "Serdar Gurler – fcsm"
+        },
+        {
+            "image": "2026/02/154836_463958609772_706889772_5614419_3779178_n1.jpg",
+            "caption": "Gurler",
+            "credit": "Collection privée",
+            "caption_raw": "Gurler – Collection privée"
+        },
+        {
+            "image": "2025/09/Gurler_Evian1.jpg",
+            "caption": "Gurler – Sochaux-Evian TG 2010/2011",
+            "credit": "Reinoso",
+            "caption_raw": "Gurler – Sochaux-Evian TG 2010/2011 – Reinoso"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7844,
+        "url": "https://www.fcsochauxretro.com/a-la-une/serdar-gurler/",
+        "path": "/a-la-une/serdar-gurler/",
+        "slug": "serdar-gurler",
+        "seo_title": "Serdar Gurler - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Serdar Gurler</h2>\n<h4><strong>né le 14 septembre 1991 à Haguenau (67)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>International turc (8 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>octobre 1995</p>\n<p><strong>Départ de Sochaux : </strong>juin 1997</p>\n<p><strong>Premier match joué</strong> : Sochaux - Saint-Etienne du 10/04/2010 : 0-2</p>\n<p><strong>Dernier match joué :</strong> Saint-Etienne - Sochaux du 14/01/2012 : 1-0</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe Gambardella 2010</li>\n</ul>",
+        "header_lines": [
+            "Serdar Gurler",
+            "né le 14 septembre 1991 à Haguenau (67)",
+            "Taille : 1m75",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "International turc (8 sélections, 1 but)",
+            "Arrivée à Sochaux : octobre 1995",
+            "Départ de Sochaux : juin 1997",
+            "Premier match joué : Sochaux - Saint-Etienne du 10/04/2010 : 0-2",
+            "Dernier match joué : Saint-Etienne - Sochaux du 14/01/2012 : 1-0",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe Gambardella 2010"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Serdar",
+        "last_name": "Gurler",
+        "display_name": "Serdar Gurler",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1991-09-14",
+                "precision": "day",
+                "text": "14 septembre 1991"
+            },
+            "place": {
+                "text": "Haguenau (67)",
+                "city": "Haguenau",
+                "department": "67",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 septembre 1991 à Haguenau (67)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International turc (8 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "1995-10",
+            "precision": "month",
+            "text": "octobre 1995"
+        },
+        "departure": {
+            "iso": "1997-06",
+            "precision": "month",
+            "text": "juin 1997"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Saint-Etienne du 10/04/2010 : 0-2",
+        "last_match": "Saint-Etienne - Sochaux du 14/01/2012 : 1-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe Gambardella 2010"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Serdar Gurler"
+            },
+            {
+                "label": null,
+                "value": "né le 14 septembre 1991 à Haguenau (67)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International turc (8 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "octobre 1995"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1997"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Saint-Etienne du 10/04/2010 : 0-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Saint-Etienne - Sochaux du 14/01/2012 : 1-0"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe Gambardella 2010"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

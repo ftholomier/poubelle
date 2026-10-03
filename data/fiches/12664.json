@@ -1,0 +1,168 @@
+{
+    "id": 12664,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alain-mosely-n-kong",
+    "path": "/joueurs/alain-mosely-n-kong/",
+    "title": "Alain Mosely N’Kong (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "a-la-une"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/03/5-27.jpg",
+    "date": "2025-03-08T18:45:40",
+    "modified": "2025-11-18T23:04:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Après un début de saison moyen, Sochaux cherche à se renforcer au milieu du terrain et met à l'essai Alain Mosely N'Kong. L'international camerounais a déjà beaucoup voyagé dans sa carrière (Cameroun, Mexique, Uruguay, Etats-Unis, Portugal, Espagne). </li>\n<li>Malgré des qualités indéniables, il ne parvient pas à convaincre les dirigeants. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il signera finalement à Boulogne-sur-Mer 2 mois plus tard jusqu'à la fin de la saison. </li>\n<li>Agé de 30 ans, il retourne au Mexique avant de terminer son périple par plusieurs saisons dans le championnat indonésien. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Alain Mosely N'Kong a été mis à l'essai 1 semaine en septembre 2008."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-27.jpg",
+            "caption": "Alain Mosely N’Kong",
+            "credit": "Boulogne-sur-Mer",
+            "caption_raw": "Alain Mosely N’Kong – Boulogne-sur-Mer"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12664,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alain-mosely-nkong/",
+        "path": "/a-la-une/alain-mosely-nkong/",
+        "slug": "alain-mosely-nkong",
+        "seo_title": "Alain Mosely N'Kong (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Aalin Mosely N'Kong</h2>\n<h4><strong>né le 6 avril 1979 à Yaoundé (Cameroun)</strong></h4>\n<p><strong>Taille : </strong>1m79</p>\n<p><strong>Poids</strong> : 75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International camerounais (23 sélections, 10 buts)</strong></p>\n<p><strong>A l'essai en : </strong>septembre 2008</p>",
+        "header_lines": [
+            "Aalin Mosely N'Kong",
+            "né le 6 avril 1979 à Yaoundé (Cameroun)",
+            "Taille : 1m79",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International camerounais (23 sélections, 10 buts)",
+            "A l'essai en : septembre 2008"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alain Mosely",
+        "last_name": "N’Kong",
+        "display_name": "Alain Mosely N’Kong",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2008-09",
+            "precision": "month",
+            "text": "septembre 2008"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1979-04-06",
+                "precision": "day",
+                "text": "6 avril 1979"
+            },
+            "place": {
+                "text": "Yaoundé (Cameroun)",
+                "city": "Yaoundé",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 avril 1979 à Yaoundé (Cameroun)"
+        },
+        "death": null,
+        "height": "1m79",
+        "height_cm": 179,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International camerounais (23 sélections, 10 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Aalin Mosely N'Kong"
+            },
+            {
+                "label": null,
+                "value": "né le 6 avril 1979 à Yaoundé (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m79"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International camerounais (23 sélections, 10 buts)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "septembre 2008"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

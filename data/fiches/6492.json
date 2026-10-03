@@ -1,0 +1,188 @@
+{
+    "id": 6492,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gaston-boguet",
+    "path": "/joueurs/gaston-boguet/",
+    "title": "Gaston Boguet",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-11-07T21:20:28",
+    "modified": "2025-02-24T20:35:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques non connues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Gaston Boguet a joué matchs pour Sochaux durant la guerre."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6492,
+        "url": "https://www.fcsochauxretro.com/a-la-une/gaston-boguet/",
+        "path": "/a-la-une/gaston-boguet/",
+        "slug": "gaston-boguet",
+        "seo_title": "Gaston Boguet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Gaston Boguet</strong></h2>\n<h4><strong>né le 25 mars 1916 à Audincourt (25)</strong></h4>\n<h4><strong>Décédé le 22 octobre 1993 à Dijon (à confirmer)</strong></h4>\n<p><strong>Poste : </strong>défenseur</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1940</p>\n<p><strong>Départ de Sochaux : </strong>juin 1942</p>\n<p><strong>Premier match joué :</strong> Sochaux - Bethoncourt du 08/12/1940 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Beaucourt du 12/10/1941 : 11-2 </p>",
+        "header_lines": [
+            "Gaston Boguet",
+            "né le 25 mars 1916 à Audincourt (25)",
+            "Décédé le 22 octobre 1993 à Dijon (à confirmer)",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1940",
+            "Départ de Sochaux : juin 1942",
+            "Premier match joué : Sochaux - Bethoncourt du 08/12/1940 : 2-1",
+            "Dernier match joué : Sochaux - Beaucourt du 12/10/1941 : 11-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Gaston",
+        "last_name": "Boguet",
+        "display_name": "Gaston Boguet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1916-03-25",
+                "precision": "day",
+                "text": "25 mars 1916"
+            },
+            "place": {
+                "text": "Audincourt (25)",
+                "city": "Audincourt",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 mars 1916 à Audincourt (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1993-10-22",
+                "precision": "day",
+                "text": "22 octobre 1993"
+            },
+            "place": {
+                "text": "Dijon (à confirmer)",
+                "city": "Dijon",
+                "department": null,
+                "country": "à confirmer",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 22 octobre 1993 à Dijon (à confirmer)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1940-07",
+            "precision": "month",
+            "text": "juillet 1940"
+        },
+        "departure": {
+            "iso": "1942-06",
+            "precision": "month",
+            "text": "juin 1942"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Bethoncourt du 08/12/1940 : 2-1",
+        "last_match": "Sochaux - Beaucourt du 12/10/1941 : 11-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gaston Boguet"
+            },
+            {
+                "label": null,
+                "value": "né le 25 mars 1916 à Audincourt (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 22 octobre 1993 à Dijon (à confirmer)"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1940"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1942"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Bethoncourt du 08/12/1940 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Beaucourt du 12/10/1941 : 11-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

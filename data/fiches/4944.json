@@ -1,0 +1,266 @@
+{
+    "id": 4944,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "koffi-fiawoo",
+    "path": "/joueurs/koffi-fiawoo/",
+    "title": "Koffi Fiawoo",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/08/2-1.jpg",
+    "date": "2024-11-19T21:34:24",
+    "modified": "2025-05-21T20:49:23",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "38",
+        "text": "Koffi Fiawoo a joué 38 matchs (12 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/08/2-1.jpg",
+            "caption": "Koffi Fiawoo",
+            "credit": "FCSM",
+            "caption_raw": "Koffi Fiawoo – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4944,
+        "url": "https://www.fcsochauxretro.com/a-la-une/koffi-fiawoo/",
+        "path": "/a-la-une/koffi-fiawoo/",
+        "slug": "koffi-fiawoo",
+        "seo_title": "Koffi Fiawoo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Koffi Fiawoo</h2>\n<h4><strong>né le 3 octobre 1969 à Tsevié (Togo)</strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>83 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International togolais (3 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1997</p>\n<p><strong>Départ de Sochaux : </strong>juin 1999</p>\n<p><strong>Premier match joué et premier but marqué :</strong> Sochaux - Martigues du 02/08/97 : 4-1 - But à la 79'</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Nancy du 29/05/1999 : 1-1</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur du Tournoi de Portsmouth 1998</li>\n</ul>",
+        "header_lines": [
+            "Koffi Fiawoo",
+            "né le 3 octobre 1969 à Tsevié (Togo)",
+            "Taille : 1m82",
+            "Poids : 83 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International togolais (3 sélections)",
+            "Arrivée à Sochaux : juillet 1997",
+            "Départ de Sochaux : juin 1999",
+            "Premier match joué et premier but marqué : Sochaux - Martigues du 02/08/97 : 4-1 - But à la 79'",
+            "Dernier match joué : Sochaux - Nancy du 29/05/1999 : 1-1",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Tournoi de Portsmouth 1998"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Koffi",
+        "last_name": "Fiawoo",
+        "display_name": "Koffi Fiawoo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1969-10-03",
+                "precision": "day",
+                "text": "3 octobre 1969"
+            },
+            "place": {
+                "text": "Tsevié (Togo)",
+                "city": "Tsevié",
+                "department": null,
+                "country": "Togo",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 octobre 1969 à Tsevié (Togo)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "83 kg",
+        "weight_kg": 83,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International togolais (3 sélections)"
+        ],
+        "arrival": {
+            "iso": "1997-07",
+            "precision": "month",
+            "text": "juillet 1997"
+        },
+        "departure": {
+            "iso": "1999-06",
+            "precision": "month",
+            "text": "juin 1999"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Martigues du 02/08/97 : 4-1 - But à la 79'",
+        "last_match": "Sochaux - Nancy du 29/05/1999 : 1-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Tournoi de Portsmouth 1998"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Koffi Fiawoo"
+            },
+            {
+                "label": null,
+                "value": "né le 3 octobre 1969 à Tsevié (Togo)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "83 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International togolais (3 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1997"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1999"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Sochaux - Martigues du 02/08/97 : 4-1 - But à la 79'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nancy du 29/05/1999 : 1-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Tournoi de Portsmouth 1998"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997 - 1998",
+                    "-",
+                    "-",
+                    "17",
+                    "9",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "17",
+                    "9"
+                ],
+                [
+                    "1998 - 1999",
+                    "17",
+                    "2",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "2",
+                    "1",
+                    "21",
+                    "3"
+                ],
+                [
+                    "TOTAL",
+                    "17",
+                    "2",
+                    "17",
+                    "9",
+                    "2",
+                    "0",
+                    "2",
+                    "1",
+                    "38",
+                    "12"
+                ]
+            ],
+            "source_table": 1095
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

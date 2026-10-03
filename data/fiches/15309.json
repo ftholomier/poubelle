@@ -1,0 +1,158 @@
+{
+    "id": 15309,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "emmanuel-fluck",
+    "path": "/joueurs/emmanuel-fluck/",
+    "title": "Emmanuel Fluck",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/IMG_2196.jpeg",
+    "date": "2025-07-17T21:48:22",
+    "modified": "2025-07-31T19:06:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Natif de Montbéliard, Emmanuel Fluck a été formé au centre de formation sochalien jusqu'à ses 16 ans. Milieu de terrain rapide, il n'est pas conservé par les formateurs sochaliens et il quitte le Doubs. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il va d'abord rejoindre Louhans-Cuiseaux avec qui il va faire ses débuts en professionnel en deuxième division en 1988. Il marque ses deux premiers buts en octobre et novembre 1989 contre Nancy et le Red Star. Deux buts précieux car ils permettent à chaque fois à Louhans-Cuiseaux de ramener le match nul. </li>\n<li>En 1990/91 il rejoint le CS Sedan Ardennes en national 1. A partir de là il va enchainer les club entre N1 et CFA : Brive, Charleville, Angoulême, Istres, Châtellerault, Joué-les-Tours, Cholet.</li>\n<li>A l'été 1997, il effectue un essai à Besançon et joue notamment quelques minutes en amical face à Sochaux y retrouvant notamment Jacky Nardin l'un de ses formateurs qui l'appréciait beaucoup. Mais il ne s'entend pas avec les dirigeants bisontins et signe finalement à Châtellerault. </li>\n<li>En janvier 1998, la hasard veut que Sochaux se rende à Châtellerault en 32è de finale de la coupe de France. Et c'est Fluck qui ouvre le score à la 6è minute contre son club formateur. </li>\n<li>Après avoir pas mal bourlingué, il met un terme à sa carrière à l'été 2001 à l'âge de 30 ans. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "16",
+        "text": "Le Montbéliardais Emmanuel Fluck a été formé à Sochaux jusqu'à ses 16 ans avant de partir faire carrière ailleurs."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/IMG_2196.jpeg",
+            "caption": "Emmanuel Fluck",
+            "credit": "L’est républicain",
+            "caption_raw": "Emmanuel Fluck – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15309,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/emmanuel-fluck/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/emmanuel-fluck/",
+        "slug": "emmanuel-fluck",
+        "seo_title": "Emmanuel Fluck - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Emmanuel Fluck</h2>\n<h4><strong>né le 6 mai 1971 à Montbéliard (25) </strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids :</strong> 72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Formé à Sochaux jusqu'en juin 1987. </strong></p>",
+        "header_lines": [
+            "Emmanuel Fluck",
+            "né le 6 mai 1971 à Montbéliard (25)",
+            "Taille : 1m76",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Formé à Sochaux jusqu'en juin 1987."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Emmanuel",
+        "last_name": "Fluck",
+        "display_name": "Emmanuel Fluck",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1971-05-06",
+                "precision": "day",
+                "text": "6 mai 1971"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 mai 1971 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Emmanuel Fluck"
+            },
+            {
+                "label": null,
+                "value": "né le 6 mai 1971 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": null,
+                "value": "Formé à Sochaux jusqu'en juin 1987."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

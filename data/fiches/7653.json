@@ -1,0 +1,262 @@
+{
+    "id": 7653,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "charlie-davies",
+    "path": "/joueurs/charlie-davies/",
+    "title": "Charlie Davies",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/5ede434b53a44_image_71836935.jpg",
+    "date": "2024-11-14T22:04:41",
+    "modified": "2025-03-08T22:12:11",
+    "author": "aurelie",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Victime d'un grave accident de la route, Charlie Davies n'aura joué que 10 matchs (2 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [],
+    "images": [
+        {
+            "image": "2024/12/photo-d-archives-1484129445-1.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7653,
+        "url": "https://www.fcsochauxretro.com/a-la-une/charlie-davies-7653/",
+        "path": "/a-la-une/charlie-davies-7653/",
+        "slug": "charlie-davies-7653",
+        "seo_title": "Charlie Davies - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Charlie Davies</h2>\n<h4><strong>né le 25 juin 1986 à Manchester (Etats-Unis)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>avant-centre</p>\n<p><strong>International américain (17 sélections, 4 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2009</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2012 </p>\n<p><strong>Premier match joué :</strong> Auxerre - Sochaux le 8/08/2009 : 0-1</p>\n<p><strong>Dernier match joué :</strong> Toulouse - Sochaux le 26/02/2012 : 2-0</p>\n<p><strong>Premier but et premier doublé marqué : </strong>Sochaux - Bordeaux du 15/08/2009 : 2-3 - Buts à la 62' et 92'</p>",
+        "header_lines": [
+            "Charlie Davies",
+            "né le 25 juin 1986 à Manchester (Etats-Unis)",
+            "Taille : 1m78",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : avant-centre",
+            "International américain (17 sélections, 4 buts)",
+            "Arrivée à Sochaux : juillet 2009",
+            "Départ de Sochaux : juillet 2012",
+            "Premier match joué : Auxerre - Sochaux le 8/08/2009 : 0-1",
+            "Dernier match joué : Toulouse - Sochaux le 26/02/2012 : 2-0",
+            "Premier but et premier doublé marqué : Sochaux - Bordeaux du 15/08/2009 : 2-3 - Buts à la 62' et 92'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Charlie",
+        "last_name": "Davies",
+        "display_name": "Charlie Davies",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1986-06-25",
+                "precision": "day",
+                "text": "25 juin 1986"
+            },
+            "place": {
+                "text": "Manchester (Etats-Unis)",
+                "city": "Manchester",
+                "department": null,
+                "country": "Etats-Unis",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 juin 1986 à Manchester (Etats-Unis)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "avant-centre",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International américain (17 sélections, 4 buts)"
+        ],
+        "arrival": {
+            "iso": "2009-07",
+            "precision": "month",
+            "text": "juillet 2009"
+        },
+        "departure": {
+            "iso": "2012-07",
+            "precision": "month",
+            "text": "juillet 2012"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Auxerre - Sochaux le 8/08/2009 : 0-1",
+        "last_match": "Toulouse - Sochaux le 26/02/2012 : 2-0",
+        "first_goal": "Sochaux - Bordeaux du 15/08/2009 : 2-3 - Buts à la 62' et 92'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Charlie Davies"
+            },
+            {
+                "label": null,
+                "value": "né le 25 juin 1986 à Manchester (Etats-Unis)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "avant-centre"
+            },
+            {
+                "label": null,
+                "value": "International américain (17 sélections, 4 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2009"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2012"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Auxerre - Sochaux le 8/08/2009 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Toulouse - Sochaux le 26/02/2012 : 2-0"
+            },
+            {
+                "label": "Premier but et premier doublé marqué",
+                "value": "Sochaux - Bordeaux du 15/08/2009 : 2-3 - Buts à la 62' et 92'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2009 - 2010",
+                    "8",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "8",
+                    "2"
+                ],
+                [
+                    "2010 - 2011",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ],
+                [
+                    "2011 - 2012",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "10",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "10",
+                    "2"
+                ]
+            ],
+            "source_table": 931
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,195 @@
+{
+    "id": 13632,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "etienne-gredy",
+    "path": "/dirigeants/etienne-gredy/",
+    "title": "Etienne Grédy",
+    "categories": [
+        "a-la-une",
+        "directeurs-sportifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/04/Etienne-Gredy-FCSM.png",
+    "date": "2025-04-30T13:30:21",
+    "modified": "2026-02-06T17:42:29",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Etienne Grédy - Directeur sportif - 1934-1941 </strong></h4>\n<ul>\n<li><strong>Étienne Grédy – Directeur sportif – 1934-1941</strong><br>D’abord joueur du club au début des années 1930, Étienne Grédy ne parvient pas à percer au niveau professionnel. Il ne dispute qu’un seul match en 1932.</li>\n<li>Mais rapidement, Étienne Grédy change de casquette pour devenir dirigeant. À partir de 1934, il s’impose comme un directeur sportif brillant. Il est l’un des hommes forts des trois premiers titres nationaux obtenus avant-guerre. Il restera à son poste jusqu’en 1941. Il sera remplacé par Auguste Bonal. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "Etienne Grédy est resté 7 ans au poste de directeur sportif."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/Etienne-Gredy-FCSM.png",
+            "caption": "Etienne Grédy",
+            "credit": "FCSM",
+            "caption_raw": "Etienne Grédy – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13632,
+        "url": "https://www.fcsochauxretro.com/a-la-une/etienne-gredy-2/",
+        "path": "/a-la-une/etienne-gredy-2/",
+        "slug": "etienne-gredy-2",
+        "seo_title": "Etienne Grédy - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Etienne Grédy  </h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Puis :</strong> Directeur sportif</p>\n<p><strong>Joueur</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1932</p>\n<p><strong>Départ de Sochaux : </strong>juin 1934</p>\n<p><strong>Directeur sportif de 1934 à 1941</strong></p>\n<p><strong>Premier et dernier match joué</strong> : Sochaux - Bischwiller du 18/12/1932 : 8-0</p>",
+        "header_lines": [
+            "Etienne Grédy",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : milieu de terrain",
+            "Puis : Directeur sportif",
+            "Joueur",
+            "Arrivée à Sochaux : juillet 1932",
+            "Départ de Sochaux : juin 1934",
+            "Directeur sportif de 1934 à 1941",
+            "Premier et dernier match joué : Sochaux - Bischwiller du 18/12/1932 : 8-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Etienne",
+        "last_name": "Grédy",
+        "display_name": "Etienne Grédy",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1932-07",
+            "precision": "month",
+            "text": "juillet 1932"
+        },
+        "departure": {
+            "iso": "1934-06",
+            "precision": "month",
+            "text": "juin 1934"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [
+            "Directeur sportif"
+        ],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Etienne Grédy"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Puis",
+                "value": "Directeur sportif"
+            },
+            {
+                "label": null,
+                "value": "Joueur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1932"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1934"
+            },
+            {
+                "label": null,
+                "value": "Directeur sportif de 1934 à 1941"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Sochaux - Bischwiller du 18/12/1932 : 8-0"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,185 @@
+{
+    "id": 8517,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "moussa-diabate",
+    "path": "/joueurs/moussa-diabate/",
+    "title": "Moussa Diabaté",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/3-5.jpg",
+    "date": "2024-12-07T12:42:54",
+    "modified": "2025-03-31T19:36:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Moussa Diabaté n'a joué aucun match avec l'équipe professionnelle de Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/6.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2024/12/7de9746fcbe769d5103b11864d9a2552.jpg",
+            "caption": "Moussa Daibaté",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Moussa Daibaté – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8517,
+        "url": "https://www.fcsochauxretro.com/a-la-une/moussa-diabate/",
+        "path": "/a-la-une/moussa-diabate/",
+        "slug": "moussa-diabate",
+        "seo_title": "Moussa Diabaté - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Moussa Diabaté</h2>\n<h4><strong>né le 29 décembre 1988 à Bouaké (Côte d'Ivoire)</strong></h4>\n<p><strong>Taille :</strong> 1m65</p>\n<p><strong>Poids :</strong> 64 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> milieu offensif</p>\n<p><strong>International français U15 et U16 (4 sélections) </strong></p>\n<p><strong>Arrivée à Sochaux : </strong>décembre 2004</p>\n<p><strong>Départ de Sochaux :</strong> juin 2007 </p>",
+        "header_lines": [
+            "Moussa Diabaté",
+            "né le 29 décembre 1988 à Bouaké (Côte d'Ivoire)",
+            "Taille : 1m65",
+            "Poids : 64 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "International français U15 et U16 (4 sélections)",
+            "Arrivée à Sochaux : décembre 2004",
+            "Départ de Sochaux : juin 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Moussa",
+        "last_name": "Diabaté",
+        "display_name": "Moussa Diabaté",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1988-12-29",
+                "precision": "day",
+                "text": "29 décembre 1988"
+            },
+            "place": {
+                "text": "Bouaké (Côte d'Ivoire)",
+                "city": "Bouaké",
+                "department": null,
+                "country": "Côte d'Ivoire",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 décembre 1988 à Bouaké (Côte d'Ivoire)"
+        },
+        "death": null,
+        "height": "1m65",
+        "height_cm": 165,
+        "weight": "64 kg",
+        "weight_kg": 64,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français U15 et U16 (4 sélections)"
+        ],
+        "arrival": {
+            "iso": "2004-12",
+            "precision": "month",
+            "text": "décembre 2004"
+        },
+        "departure": {
+            "iso": "2007-06",
+            "precision": "month",
+            "text": "juin 2007"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Moussa Diabaté"
+            },
+            {
+                "label": null,
+                "value": "né le 29 décembre 1988 à Bouaké (Côte d'Ivoire)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m65"
+            },
+            {
+                "label": "Poids",
+                "value": "64 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français U15 et U16 (4 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "décembre 2004"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2007"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

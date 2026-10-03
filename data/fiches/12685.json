@@ -1,0 +1,173 @@
+{
+    "id": 12685,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "samba-n-diaye",
+    "path": "/joueurs/samba-n-diaye/",
+    "title": "Samba N’Diaye (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-29.jpg",
+    "date": "2025-03-08T21:11:33",
+    "modified": "2026-02-04T20:50:55",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Au printemps 1994, les dirigeants sochaliens mettent à l'essai des joueurs pour préparer la saison 1994-1995. </li>\n<li>Juste avant la fin de la saison ils disputent un match amical à Mulhouse et testent deux joueurs : Samba N'Diaye et un ailier droit brésilien nommé Emerval. </li>\n<li>Bien qu'à cours d'entraînement, Samba N'Diaye brille et score deux fois. </li>\n<li>Sochaux convaincu par son profil souhaite le mettre à nouveau à l'essai 15 jours plus tard en coupe de la ligue contre Strasbourg mais le FC Metz fait finalement volte face et décide de le garder dans son effectif. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Samba N'Diaye a joué 1 match amical et marqué 2 buts pour Sochaux en mai 1994."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-29.jpg",
+            "caption": "Samba N’Diaye",
+            "credit": "FC Metz",
+            "caption_raw": "Samba N’Diaye – FC Metz"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12685,
+        "url": "https://www.fcsochauxretro.com/uncategorized/samba-ndiaye/",
+        "path": "/uncategorized/samba-ndiaye/",
+        "slug": "samba-ndiaye",
+        "seo_title": "Samba N'Diaye (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Samba N'Diaye</h2>\n<h4><strong>Né le 30 novembre 1972 à Dakar (Sénégal) <br></strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Position: </strong>attaquant<strong><br></strong></p>\n<p>International français espoir (1 sélection)</p>\n<p><strong>A l'essai à en : </strong>mai 1994<strong><br></strong></p>\n<p><strong>Premier et dernier match amical joué et premier doublé :</strong> FC Mulhouse - Sochaux du 11/05/1994 : 1-3 - But à la 26' et 43' </p>",
+        "header_lines": [
+            "Samba N'Diaye",
+            "Né le 30 novembre 1972 à Dakar (Sénégal)",
+            "Taille : 1m77",
+            "Poids : 70 kg",
+            "Pied : gaucher",
+            "Position: attaquant",
+            "International français espoir (1 sélection)",
+            "A l'essai à en : mai 1994",
+            "Premier et dernier match amical joué et premier doublé : FC Mulhouse - Sochaux du 11/05/1994 : 1-3 - But à la 26' et 43'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Samba",
+        "last_name": "N'Diaye",
+        "display_name": "Samba N'Diaye",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1994-05",
+            "precision": "month",
+            "text": "mai 1994"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1972-11-30",
+                "precision": "day",
+                "text": "30 novembre 1972"
+            },
+            "place": {
+                "text": "Dakar (Sénégal)",
+                "city": "Dakar",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 30 novembre 1972 à Dakar (Sénégal)"
+        },
+        "death": null,
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "gaucher",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International français espoir (1 sélection)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Samba N'Diaye"
+            },
+            {
+                "label": null,
+                "value": "Né le 30 novembre 1972 à Dakar (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Position",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français espoir (1 sélection)"
+            },
+            {
+                "label": "A l'essai à en",
+                "value": "mai 1994"
+            },
+            {
+                "label": "Premier et dernier match amical joué et premier doublé",
+                "value": "FC Mulhouse - Sochaux du 11/05/1994 : 1-3 - But à la 26' et 43'"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

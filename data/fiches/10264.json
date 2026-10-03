@@ -1,0 +1,206 @@
+{
+    "id": 10264,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "fabrice-pancrate",
+    "path": "/joueurs/fabrice-pancrate/",
+    "title": "Fabrice Pancrate",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-10.jpg",
+    "date": "2025-01-08T23:19:51",
+    "modified": "2025-01-08T23:33:55",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "23",
+        "text": "Fabrice Pancrate a joué 23 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/revele-au-mans-au-debut-des-annees-2000-fabrice-pancrate-n-a-pas-laisse-un-souvenir-imperrissable-lors-de-sa-saison-2007-08-a-sochaux-photo-lionel-vadam-1709895741.jpg",
+            "caption": "Fabrice Pancrate",
+            "credit": "L’est républicain",
+            "caption_raw": "Fabrice Pancrate – L’est républicain"
+        },
+        {
+            "image": "2025/01/fabrice-pancrate-a-notamment-fait-sa-carriere-au-psg-a-sochaux-et-a-nantes-photo-d-archives-le-progres-1479020841.jpg",
+            "caption": "Fabrice Pancrate",
+            "credit": "Le Progrès",
+            "caption_raw": "Fabrice Pancrate – Le Progrès"
+        },
+        {
+            "image": "2025/01/fabrice-pancrate-a-guingamp-de-2000-a-2002-puis-a-sochaux-en-2007-2008-photo-er-lionel-vadam-1632139602.jpg",
+            "caption": "Fabrice Pancrate",
+            "credit": "L’est républicain",
+            "caption_raw": "Fabrice Pancrate – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10264,
+        "url": "https://www.fcsochauxretro.com/a-la-une/fabrice-pancrate/",
+        "path": "/a-la-une/fabrice-pancrate/",
+        "slug": "fabrice-pancrate",
+        "seo_title": "Fabrice Pancrate - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Fabrice Pancrate</h2>\n<h4><strong>né le 2 mai 1980 à Paris (75)</strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2007</p>\n<p><strong>Départ de Sochaux : </strong>juin 2008</p>\n<p><strong>Premier match :</strong> Sochaux - Strasbourg du 15/09/2007 : 0-0</p>\n<p><strong>Dernier match : </strong>Sochaux - Paris SG du 17/05/2008 : 1-2</p>\n<p><strong>Premier but marqué :</strong> Lyon - Sochaux du 09/02/2008 : 4-1 - But à la 52'</p>",
+        "header_lines": [
+            "Fabrice Pancrate",
+            "né le 2 mai 1980 à Paris (75)",
+            "Taille : 1m85",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "Arrivée à Sochaux : aout 2007",
+            "Départ de Sochaux : juin 2008",
+            "Premier match : Sochaux - Strasbourg du 15/09/2007 : 0-0",
+            "Dernier match : Sochaux - Paris SG du 17/05/2008 : 1-2",
+            "Premier but marqué : Lyon - Sochaux du 09/02/2008 : 4-1 - But à la 52'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Fabrice",
+        "last_name": "Pancrate",
+        "display_name": "Fabrice Pancrate",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1980-05-02",
+                "precision": "day",
+                "text": "2 mai 1980"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 2 mai 1980 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2007-08",
+            "precision": "month",
+            "text": "aout 2007"
+        },
+        "departure": {
+            "iso": "2008-06",
+            "precision": "month",
+            "text": "juin 2008"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Strasbourg du 15/09/2007 : 0-0",
+        "last_match": "Sochaux - Paris SG du 17/05/2008 : 1-2",
+        "first_goal": "Lyon - Sochaux du 09/02/2008 : 4-1 - But à la 52'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Fabrice Pancrate"
+            },
+            {
+                "label": null,
+                "value": "né le 2 mai 1980 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2007"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2008"
+            },
+            {
+                "label": "Premier match",
+                "value": "Sochaux - Strasbourg du 15/09/2007 : 0-0"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - Paris SG du 17/05/2008 : 1-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Lyon - Sochaux du 09/02/2008 : 4-1 - But à la 52'"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

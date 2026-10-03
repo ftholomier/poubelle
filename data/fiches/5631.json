@@ -1,0 +1,265 @@
+{
+    "id": 5631,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "stephane-santini",
+    "path": "/joueurs/stephane-santini/",
+    "title": "Stéphane Santini",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Santini-FCSM.png",
+    "date": "2025-01-20T10:21:51",
+    "modified": "2026-02-01T11:25:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "56",
+        "text": "Stéphane Santini a joué 56 matchs (1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/stephane-santini-sochalien-de-1997-a-2000-photo-er-1592384223.jpg",
+            "caption": "Stéphane Santini",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Stéphane Santini – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2026/02/Santini-FCSM.png",
+            "caption": "Santini",
+            "credit": "FCSM",
+            "caption_raw": "Santini – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 5631,
+        "url": "https://www.fcsochauxretro.com/a-la-une/stephane-santini/",
+        "path": "/a-la-une/stephane-santini/",
+        "slug": "stephane-santini",
+        "seo_title": "Stéphane Santini - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Stéphane Santini</h2>\n<h4><strong>Né le 15 avril 1973 à Saint-Etienne (42)<br></strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>milieu de terrain défensif<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1997<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juillet 2000<strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Sochaux - Martigues du 02/08/1997 : 4-1 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Wasquehal du 02/02/2000 : 2-1 </p>",
+        "header_lines": [
+            "Stéphane Santini",
+            "Né le 15 avril 1973 à Saint-Etienne (42)",
+            "Taille : 1m80",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Position : milieu de terrain défensif",
+            "Arrivée à Sochaux : juillet 1997",
+            "Départ de Sochaux : juillet 2000",
+            "Premier match joué : Sochaux - Martigues du 02/08/1997 : 4-1",
+            "Dernier match joué : Sochaux - Wasquehal du 02/02/2000 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Stéphane",
+        "last_name": "Santini",
+        "display_name": "Stéphane Santini",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1973-04-15",
+                "precision": "day",
+                "text": "15 avril 1973"
+            },
+            "place": {
+                "text": "Saint-Etienne (42)",
+                "city": "Saint-Etienne",
+                "department": "42",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 15 avril 1973 à Saint-Etienne (42)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1997-07",
+            "precision": "month",
+            "text": "juillet 1997"
+        },
+        "departure": {
+            "iso": "2000-07",
+            "precision": "month",
+            "text": "juillet 2000"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Martigues du 02/08/1997 : 4-1",
+        "last_match": "Sochaux - Wasquehal du 02/02/2000 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Stéphane Santini"
+            },
+            {
+                "label": null,
+                "value": "Né le 15 avril 1973 à Saint-Etienne (42)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "milieu de terrain défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1997"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2000"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Martigues du 02/08/1997 : 4-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Wasquehal du 02/02/2000 : 2-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

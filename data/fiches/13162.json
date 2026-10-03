@@ -1,0 +1,184 @@
+{
+    "id": 13162,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "andre-boillat",
+    "path": "/personnages-emblematiques/andre-boillat/",
+    "title": "André Boillat",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/03/5-42.jpg",
+    "date": "2025-03-25T10:39:51",
+    "modified": "2025-11-12T20:26:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son engagement associatif",
+            "html": "<p>Né en Suisse, André Boillat arrive dans le Pays de Montbéliard en 1945 pour travailler chez Peugeot où il fera toute sa carrière jusqu'en 1983.</p>\n<p>Homme chaleureux, optimiste, et dynamique, va entrainer les enfants du club dès 1949 et débute comme footballeur amateur dans l'équipe réserve. Attaché à la réconciliation franco-allemande, il sera à l'origine d’un match de football entre jeunes des deux pays en 1951 à Ludwigsbourg la ville jumelée avec Montbéliard. Une première depuis la fin de la deuxième guerre mondiale. D'autres matchs suivront toujours dans cette ambition d'éducation au sport et à la paix. </p>\n<p>Un engagement qui lui a valu d’être nommé citoyen d’honneur de la cité germanique. </p>\n<p>Passionné d’histoire locale, il a ensuite été longtemps guide à l’office du tourisme de Montbéliard.</p>\n<p>Amoureux de sport, il pratique aussi le ski, le handball, le cross et la natation et souvent avec les différentes sections du FC Sochaux-Montbéliard omnisport. </p>\n<p>Ce formateur dans l'âme aura vu passer des centaines d'enfants dans ses équipes parmi lesquels Wassmer, Crucet, Baudry ou encore Collin.</p>\n<p>Père de deux enfants et grand-père de deux petits enfants, il a été distingué à de nombreuses reprises. Médaille d’or de la FFF et la médaille de chevalier dans l’Ordre du mérite étant les deux plus importantes.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "1951",
+        "text": "En 1951, André Boillat engagé pour la réconciliation franco-allemande, organise le premier match de football franco-allemand d'après guerre."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/andre-boillat-franco-suisse-ne-le-29-juillet-1923educateur-sochalien-de-1945-a-2011si-le-principe-d.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2025/03/640x340_sc_zkp8wkw9.jpg",
+            "caption": "André Boillat",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "André Boillat – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2025/03/5-42.jpg",
+            "caption": "André Boillat",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "André Boillat – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13162,
+        "url": "https://www.fcsochauxretro.com/a-la-une/andre-boillat/",
+        "path": "/a-la-une/andre-boillat/",
+        "slug": "andre-boillat",
+        "seo_title": "André Boillat - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>André Boillat</h2>\n<h4><strong>Né le 29 juillet 1923 à Bienne (Suisse)</strong></h4>\n<h4><strong>Décédé le 20 novembre 2011 à Montbéliard (25)</strong></h4>\n<h4><strong>Educateur du club </strong></h4>\n<p><strong>Arrivée au club : </strong>1949</p>\n<p><strong>Départ du club : </strong>1983</p>",
+        "header_lines": [
+            "André Boillat",
+            "Né le 29 juillet 1923 à Bienne (Suisse)",
+            "Décédé le 20 novembre 2011 à Montbéliard (25)",
+            "Educateur du club",
+            "Arrivée au club : 1949",
+            "Départ du club : 1983"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "André",
+        "last_name": "Boillat",
+        "display_name": "André Boillat",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1923-07-29",
+                "precision": "day",
+                "text": "29 juillet 1923"
+            },
+            "place": {
+                "text": "Bienne (Suisse)",
+                "city": "Bienne",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 29 juillet 1923 à Bienne (Suisse)"
+        },
+        "death": {
+            "date": {
+                "iso": "2011-11-20",
+                "precision": "day",
+                "text": "20 novembre 2011"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 20 novembre 2011 à Montbéliard (25)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1949",
+            "precision": "year",
+            "text": "1949"
+        },
+        "departure": {
+            "iso": "1983",
+            "precision": "year",
+            "text": "1983"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "André Boillat"
+            },
+            {
+                "label": null,
+                "value": "Né le 29 juillet 1923 à Bienne (Suisse)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 20 novembre 2011 à Montbéliard (25)"
+            },
+            {
+                "label": null,
+                "value": "Educateur du club"
+            },
+            {
+                "label": "Arrivée au club",
+                "value": "1949"
+            },
+            {
+                "label": "Départ du club",
+                "value": "1983"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

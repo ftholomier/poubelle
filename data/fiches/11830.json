@@ -1,0 +1,239 @@
+{
+    "id": 11830,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "florian-marange",
+    "path": "/joueurs/florian-marange/",
+    "title": "Florian Marange",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-52.jpg",
+    "date": "2025-02-16T16:02:40",
+    "modified": "2025-02-16T16:17:29",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Florian Marange a joué 15 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/florian-marange-ici-contre-le-psg-de-lucas-n-est-pas-reste-longtemps-sous-le-maillot-sochalien-mais-il-a-laisse-de-bons-souvenirs-photo-er-lionel-vadam-1677773538.jpg",
+            "caption": "Florian Marange",
+            "credit": "L’est républicain",
+            "caption_raw": "Florian Marange – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11830,
+        "url": "https://www.fcsochauxretro.com/a-la-une/florian-marange/",
+        "path": "/a-la-une/florian-marange/",
+        "slug": "florian-marange",
+        "seo_title": "Florian Marange - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Florian Marange</h2>\n<h4><strong>né le 3 mars 1986 à Talence (33) </strong></h4>\n<p><strong>Taille :</strong> 1m80</p>\n<p><strong>Poids :</strong> 78 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste :</strong> arrière latéral gauche</p>\n<p><strong>International français U17, U19 (Champion d'Europe), U20 (Vainqueur tournoi de Toulon) espoirs (25 sélections, 4 buts)</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> janvier 2014</p>\n<p><strong>Départ de Sochaux :</strong> juin 2014</p>\n<p><strong>Premier match joué :</strong> Lille - Sochaux du 08/02/2014 : 2-0</p>\n<p><strong>Dernier match joué :</strong> Evian TG - Sochaux du 17/05/2014 : 0-3</p>\n<p><strong>Premier but marqué</strong> : Valenciennes - Sochaux du 22/02/2014 : 2-2 - But à la 89'</p>",
+        "header_lines": [
+            "Florian Marange",
+            "né le 3 mars 1986 à Talence (33)",
+            "Taille : 1m80",
+            "Poids : 78 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "International français U17, U19 (Champion d'Europe), U20 (Vainqueur tournoi de Toulon) espoirs (25 sélections, 4 buts)",
+            "Arrivée à Sochaux : janvier 2014",
+            "Départ de Sochaux : juin 2014",
+            "Premier match joué : Lille - Sochaux du 08/02/2014 : 2-0",
+            "Dernier match joué : Evian TG - Sochaux du 17/05/2014 : 0-3",
+            "Premier but marqué : Valenciennes - Sochaux du 22/02/2014 : 2-2 - But à la 89'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Florian",
+        "last_name": "Marange",
+        "display_name": "Florian Marange",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1986-03-03",
+                "precision": "day",
+                "text": "3 mars 1986"
+            },
+            "place": {
+                "text": "Talence (33)",
+                "city": "Talence",
+                "department": "33",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 mars 1986 à Talence (33)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International français U17, U19 (Champion d'Europe), U20 (Vainqueur tournoi de Toulon) espoirs (25 sélections, 4 buts)"
+        ],
+        "arrival": {
+            "iso": "2014-01",
+            "precision": "month",
+            "text": "janvier 2014"
+        },
+        "departure": {
+            "iso": "2014-06",
+            "precision": "month",
+            "text": "juin 2014"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lille - Sochaux du 08/02/2014 : 2-0",
+        "last_match": "Evian TG - Sochaux du 17/05/2014 : 0-3",
+        "first_goal": "Valenciennes - Sochaux du 22/02/2014 : 2-2 - But à la 89'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Florian Marange"
+            },
+            {
+                "label": null,
+                "value": "né le 3 mars 1986 à Talence (33)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": null,
+                "value": "International français U17, U19 (Champion d'Europe), U20 (Vainqueur tournoi de Toulon) espoirs (25 sélections, 4 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2014"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2014"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Lille - Sochaux du 08/02/2014 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Evian TG - Sochaux du 17/05/2014 : 0-3"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Valenciennes - Sochaux du 22/02/2014 : 2-2 - But à la 89'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

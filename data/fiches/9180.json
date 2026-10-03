@@ -1,0 +1,218 @@
+{
+    "id": 9180,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "aleksandar-zivkovic",
+    "path": "/joueurs/aleksandar-zivkovic/",
+    "title": "Aleksandar Zivkovic",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/55-2.jpg",
+    "date": "2024-12-24T13:03:07",
+    "modified": "2024-12-27T17:07:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "Aleksandar Zivkovic a joué 7 matchs (3 buts)."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/55-2.jpg",
+            "caption": "Alexsandar Zivkovic",
+            "credit": "dr",
+            "caption_raw": "Alexsandar Zivkovic – dr"
+        },
+        {
+            "image": "2024/12/147035.jpg",
+            "caption": "Aleksandar Zivkovic",
+            "credit": "Footballdatabase",
+            "caption_raw": "Aleksandar Zivkovic – Footballdatabase"
+        },
+        {
+            "image": "2024/12/Outlook-dy3jrja3-1024x553-1.jpg",
+            "caption": "Sochaux 1938-1939",
+            "credit": "",
+            "caption_raw": "Sochaux 1938-1939"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9180,
+        "url": "https://www.fcsochauxretro.com/a-la-une/aleksandar-zivkovic/",
+        "path": "/a-la-une/aleksandar-zivkovic/",
+        "slug": "aleksandar-zivkovic",
+        "seo_title": "Aleksandar Zivkovic - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Aleksandar Zivkovic</h2>\n<h4><strong>né le 25 avril 1912 à Orasje (Bosnie-Herzégovine) </strong></h4>\n<h4><strong>Décédé le 22 avril 2000 (Zagreb) </strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International yougoslave (15 sélections) - </strong></p>\n<p><strong>International croate (1 sélection)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1939</p>\n<p><strong>Départ de Sochaux : </strong>juin 1940</p>\n<p><strong>Premier match joué :</strong> Antibes - Sochaux du 12/02/1938 : 3-0</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Le Havre du 07/05/1939 : 8-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Excelsior Roubaix-Tourcoing du 26/02/1939 : 8-0 - But à la 31'</p>",
+        "header_lines": [
+            "Aleksandar Zivkovic",
+            "né le 25 avril 1912 à Orasje (Bosnie-Herzégovine)",
+            "Décédé le 22 avril 2000 (Zagreb)",
+            "Poste : attaquant",
+            "International yougoslave (15 sélections) -",
+            "International croate (1 sélection)",
+            "Arrivée à Sochaux : juillet 1939",
+            "Départ de Sochaux : juin 1940",
+            "Premier match joué : Antibes - Sochaux du 12/02/1938 : 3-0",
+            "Dernier match joué : Sochaux - Le Havre du 07/05/1939 : 8-0",
+            "Premier but marqué : Sochaux - Excelsior Roubaix-Tourcoing du 26/02/1939 : 8-0 - But à la 31'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Aleksandar",
+        "last_name": "Zivkovic",
+        "display_name": "Aleksandar Zivkovic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1912-04-25",
+                "precision": "day",
+                "text": "25 avril 1912"
+            },
+            "place": {
+                "text": "Orasje (Bosnie-Herzégovine)",
+                "city": "Orasje",
+                "department": null,
+                "country": "Bosnie-Herzégovine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 avril 1912 à Orasje (Bosnie-Herzégovine)"
+        },
+        "death": {
+            "date": {
+                "iso": "2000-04-22",
+                "precision": "day",
+                "text": "22 avril 2000 (Zagreb)"
+            },
+            "place": null,
+            "text": "Décédé le 22 avril 2000 (Zagreb)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International yougoslave (15 sélections) -",
+            "International croate (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "1939-07",
+            "precision": "month",
+            "text": "juillet 1939"
+        },
+        "departure": {
+            "iso": "1940-06",
+            "precision": "month",
+            "text": "juin 1940"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Antibes - Sochaux du 12/02/1938 : 3-0",
+        "last_match": "Sochaux - Le Havre du 07/05/1939 : 8-0",
+        "first_goal": "Sochaux - Excelsior Roubaix-Tourcoing du 26/02/1939 : 8-0 - But à la 31'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Aleksandar Zivkovic"
+            },
+            {
+                "label": null,
+                "value": "né le 25 avril 1912 à Orasje (Bosnie-Herzégovine)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 22 avril 2000 (Zagreb)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International yougoslave (15 sélections) -"
+            },
+            {
+                "label": null,
+                "value": "International croate (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1939"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1940"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Antibes - Sochaux du 12/02/1938 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Le Havre du 07/05/1939 : 8-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Excelsior Roubaix-Tourcoing du 26/02/1939 : 8-0 - But à la 31'"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,148 @@
+{
+    "id": 16150,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "laurent-truqui",
+    "path": "/joueurs/laurent-truqui/",
+    "title": "Laurent Truqui (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-08-22T08:51:47",
+    "modified": "2025-11-12T13:41:45",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Formé à Nice, il rejoint Strasbourg en 1998-1999. Il reste une seule saison en Alsace. </li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>En novembre 1999, Jean Fernandez le nouvel entraîneur cherche un meneur de jeu. Camel Meriem est blessé et Olivier Baudry ne lui donne pas pleinement satisfaction. </li>\n<li>Le club met donc à l'essai le jeune Laurent Truqui formé à Nice et qui a joué 4 matchs de D1 avec le RC Strasbourg la saison précédente. </li>\n<li>Mais le club cherche un joueur plus aguerris et ne donne pas suite à cette période d'essai.   </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il jouera principalement dans des clubs amateurs dans le Jura notamment à Jura Lacs. Il possède une entreprise dans le domaine automobile dans le Jura d'après internet. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "Laurent Truqui a été mis à l'essai à Sochaux durant 7 jours en novembre 1999."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16150,
+        "url": "https://www.fcsochauxretro.com/uncategorized/laurent-truqui-a-lessai/",
+        "path": "/uncategorized/laurent-truqui-a-lessai/",
+        "slug": "laurent-truqui-a-lessai",
+        "seo_title": "Laurent Truqui (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Laurent Truqui</h2>\n<h4><strong>né le 25 septembre 1981 à ? </strong></h4>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>A l'essai à Sochaux en : </strong>novembre 1999</p>",
+        "header_lines": [
+            "Laurent Truqui",
+            "né le 25 septembre 1981 à ?",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "A l'essai à Sochaux en : novembre 1999"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Laurent",
+        "last_name": "Truqui",
+        "display_name": "Laurent Truqui",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1999-11",
+            "precision": "month",
+            "text": "novembre 1999"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1981-09-25",
+                "precision": "day",
+                "text": "25 septembre 1981"
+            },
+            "place": {
+                "text": "?",
+                "city": "?",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 septembre 1981 à ?"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Laurent Truqui"
+            },
+            {
+                "label": null,
+                "value": "né le 25 septembre 1981 à ?"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "A l'essai à Sochaux en",
+                "value": "novembre 1999"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

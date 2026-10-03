@@ -1,0 +1,248 @@
+{
+    "id": 11824,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mickael-malsa",
+    "path": "/joueurs/mickael-malsa/",
+    "title": "Mickaël Malsa",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-42.jpg",
+    "date": "2025-02-15T23:00:14",
+    "modified": "2025-02-15T23:10:16",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Mickaël Malsa a joué 10 matchs (1 passe décisive) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/title-1415389783.jpg",
+            "caption": "Mickaël Malsa",
+            "credit": "L’est républicain",
+            "caption_raw": "Mickaël Malsa – L’est républicain"
+        },
+        {
+            "image": "2025/02/mickael-malsa-doit-demontrer-son-envie-de-figurer-a-nouveau-a-l-etage-superieur-photo-lionel-vadam-1427577791.jpg",
+            "caption": "Mickaël Malsa",
+            "credit": "L’est républicain",
+            "caption_raw": "Mickaël Malsa – L’est républicain"
+        },
+        {
+            "image": "2025/02/5-42.jpg",
+            "caption": "Mickaël Malsa",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Mickaël Malsa – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11824,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mickael-malsa/",
+        "path": "/a-la-une/mickael-malsa/",
+        "slug": "mickael-malsa",
+        "seo_title": "Mickaël Malsa - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mickaël Malsa</h2>\n<h4><strong>né le 12 octobre 1995 à Paris (75) </strong></h4>\n<p><strong>Taille : </strong>1m79</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>International martiniquais (3 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2009</p>\n<p><strong>Départ de Sochaux : </strong>juin 2015</p>\n<p><strong>Premier match joué :</strong> Lille - Sochaux du 08/02/2014 : 2-0 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Dijon du 29/08/2014 : 0-1</p>",
+        "header_lines": [
+            "Mickaël Malsa",
+            "né le 12 octobre 1995 à Paris (75)",
+            "Taille : 1m79",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International martiniquais (3 sélections)",
+            "Arrivée à Sochaux : juillet 2009",
+            "Départ de Sochaux : juin 2015",
+            "Premier match joué : Lille - Sochaux du 08/02/2014 : 2-0",
+            "Dernier match joué : Sochaux - Dijon du 29/08/2014 : 0-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mickaël",
+        "last_name": "Malsa",
+        "display_name": "Mickaël Malsa",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1995-10-12",
+                "precision": "day",
+                "text": "12 octobre 1995"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 12 octobre 1995 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m79",
+        "height_cm": 179,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International martiniquais (3 sélections)"
+        ],
+        "arrival": {
+            "iso": "2009-07",
+            "precision": "month",
+            "text": "juillet 2009"
+        },
+        "departure": {
+            "iso": "2015-06",
+            "precision": "month",
+            "text": "juin 2015"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lille - Sochaux du 08/02/2014 : 2-0",
+        "last_match": "Sochaux - Dijon du 29/08/2014 : 0-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mickaël Malsa"
+            },
+            {
+                "label": null,
+                "value": "né le 12 octobre 1995 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m79"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International martiniquais (3 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2009"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2015"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Lille - Sochaux du 08/02/2014 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Dijon du 29/08/2014 : 0-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

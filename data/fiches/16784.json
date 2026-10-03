@@ -1,0 +1,487 @@
+{
+    "id": 16784,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-dijon-amical-19-07-2014",
+    "path": "/matchs/2014-2015/sochaux-dijon-amical-19-07-2014/",
+    "title": "Amical – Sochaux (L2) / Dijon (L2) – 19/07/2014 – 2-2",
+    "categories": [
+        "2014-2015",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/display2-4.jpg",
+    "date": "2026-06-13T15:34:15",
+    "modified": "2026-07-22T15:34:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Après 4 match c'est la première fois que Sochaux ne perd pas dans cette préparation."
+    },
+    "gallery": [
+        {
+            "image": "2025/12/display2-4.jpg",
+            "caption": "Sochaux-Dijon 2014-2015 en pré-saison",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon 2014-2015 en pré-saison – FCSM"
+        },
+        {
+            "image": "2025/12/andre-brisard-president-batisseur-au-fc4r-a-retrouve-avec-plaisir-son-neveu-edouard-butin-attaquant-du-fc-sochaux-montbeliard-et-double-buteur-samedi-soir-contre-dijon-1424945882.jpg",
+            "caption": "Edouard Butin double buteur avec son oncle André Brisard Président fondateur du FC 4 Rivières avant le match Sochaux-Dijon 2014-2015",
+            "credit": "L’est républicain",
+            "caption_raw": "Edouard Butin double buteur avec son oncle André Brisard Président fondateur du FC 4 Rivières avant le match Sochaux-Dijon 2014-2015 – L’est républicain"
+        },
+        {
+            "image": "2026/06/Pele-contre-Dijon-Collection-privee-.png",
+            "caption": "Pelé contre Dijon",
+            "credit": "Collection privée",
+            "caption_raw": "Pelé contre Dijon – Collection privée"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16784,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l2-dijon-l2-19-07-2014-2-2/",
+        "path": "/a-la-une/amical-sochaux-l2-dijon-l2-19-07-2014-2-2/",
+        "slug": "amical-sochaux-l2-dijon-l2-19-07-2014-2-2",
+        "seo_title": "Amical - Sochaux (L2) / Dijon (L2) - 19/07/2014 - 2-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (L2) / Dijon (L2) : 2-2</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 19 juillet 2014</strong></h4>\n<h4><strong>Stade municipal de Dampierre-sur-Salon (70)<br></strong></h4>\n<h4><strong>1 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Moreira<br></strong></h4>\n<p>But : Butin 33' et 49' pour Sochaux ; Philipoteaux 28' (s.p) et Babit 64' pour Dijon</p>",
+        "header_lines": [
+            "Sochaux (L2) / Dijon (L2) : 2-2",
+            "Match amical",
+            "Samedi 19 juillet 2014",
+            "Stade municipal de Dampierre-sur-Salon (70)",
+            "1 000 spectateurs",
+            "Arbitre : M. Moreira",
+            "But : Butin 33' et 49' pour Sochaux ; Philipoteaux 28' (s.p) et Babit 64' pour Dijon"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2014-07-19",
+        "date_text": "Samedi 19 juillet 2014",
+        "season": "2014-2015",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "away": {
+            "name": "Dijon",
+            "level": "L2"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-2",
+        "score_line": "Sochaux (L2) / Dijon (L2) : 2-2",
+        "result": "N",
+        "stadium": "Stade municipal de Dampierre-sur-Salon (70)",
+        "spectators": 1000,
+        "spectators_text": "1 000 spectateurs",
+        "referee": "M. Moreira",
+        "goals_text": "Butin 33' et 49' pour Sochaux ; Philipoteaux 28' (s.p) et Babit 64' pour Dijon",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Butin 33' et 49'"
+            },
+            {
+                "team": "Dijon",
+                "scorers": "Philipoteaux 28' (s.p) et Babit 64'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "PELE Yoann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FAUSSURIER Julien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MIGNOT Jean-Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "79",
+                    "sub_text": "↓ 79'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ZOUMA Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "82",
+                    "sub_text": "↓ 82'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PRCIC Sanjin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MALSA Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "TOKO EKAMBI Karl",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "67",
+                    "sub_text": "↓ 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DIEDHIOU Famara",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "BUTIN Edouard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "33",
+                        "49"
+                    ],
+                    "goals_text": "⚽ 33' ⚽ 49'",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CAMARA Papa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CROS Guillaume",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "79",
+                    "sub_out": null,
+                    "sub_text": "↑ 79'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LOPY Joseph",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "82",
+                    "sub_out": null,
+                    "sub_text": "↑ 82'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CHIKHAOUI Haykeul",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "HABRAN Romain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAKAMBU Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIALLO Mamadou",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "67",
+                    "sub_out": null,
+                    "sub_text": "↑ 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ILAIMAHARITRA Marco",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ECHOUAFNI Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1896
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

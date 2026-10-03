@@ -1,0 +1,442 @@
+{
+    "id": 17877,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-etoile-du-sahel-de-sousse-amical-21-07-2000",
+    "path": "/matchs/2000-2001/sochaux-etoile-du-sahel-de-sousse-amical-21-07-2000/",
+    "title": "Amical – Sochaux (D2) / Etoile du Sahel de Sousse (D1 Tun) – 21/07/2000 – 1-1",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "amical",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/Sochaux-Etoile_du_Sahel-scaled.jpg",
+    "date": "2025-11-08T22:14:21",
+    "modified": "2025-12-19T13:23:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Premier nul de la préparation."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/Sochaux-Etoile_du_Sahel-scaled.jpg",
+            "caption": "Frau lors de Sochaux-Etoile du Sahel de Sousse 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Frau lors de Sochaux-Etoile du Sahel de Sousse 2000/2001 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17877,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-d2-etoile-du-sahel-de-sousse-d1-tun-21-07-2000-1-1/",
+        "path": "/a-la-une/amical-sochaux-d2-etoile-du-sahel-de-sousse-d1-tun-21-07-2000-1-1/",
+        "slug": "amical-sochaux-d2-etoile-du-sahel-de-sousse-d1-tun-21-07-2000-1-1",
+        "seo_title": "Amical - Sochaux (D2) / Etoile du Sahel de Sousse (D1 Tun) - 21/07/2000 - 1-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Etoile du Sahel de Sousse (D1 Tunisie) : 1-1<br></strong></h2>\n<h4><strong>6è match amical de préparation</strong></h4>\n<h4><strong>Vendredi 21 juillet 2000</strong></h4>\n<h4><strong>Parc des sports de Sochaux</strong></h4>\n<h4><strong>500 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. xx<br></strong></h4>\n<p>Buts : Santos 48' pour Sochaux ; Oualhazi 12' pour l'Etoile du Sahel. </p>",
+        "header_lines": [
+            "Sochaux / Etoile du Sahel de Sousse (D1 Tunisie) : 1-1",
+            "6è match amical de préparation",
+            "Vendredi 21 juillet 2000",
+            "Parc des sports de Sochaux",
+            "500 spectateurs",
+            "Arbitre : M. xx",
+            "Buts : Santos 48' pour Sochaux ; Oualhazi 12' pour l'Etoile du Sahel."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-07-21",
+        "date_text": "Vendredi 21 juillet 2000",
+        "season": "2000-2001",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "6è match amical de préparation",
+        "home": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "away": {
+            "name": "Etoile du Sahel de Sousse",
+            "level": "D1 Tun"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 1,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-1",
+        "score_line": "Sochaux / Etoile du Sahel de Sousse (D1 Tunisie) : 1-1",
+        "result": "N",
+        "stadium": "Parc des sports de Sochaux",
+        "spectators": 500,
+        "spectators_text": "500 spectateurs",
+        "referee": "M. xx",
+        "goals_text": "Santos 48' pour Sochaux ; Oualhazi 12' pour l'Etoile du Sahel.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Santos 48'"
+            },
+            {
+                "team": "l'Etoile du Sahel",
+                "scorers": "Oualhazi 12'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LECLERC Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERRI Jean-Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "78",
+                    "sub_text": "Sortie 78'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "48"
+                    ],
+                    "goals_text": "48'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "85",
+                    "sub_text": "Sortie 85'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FINAZZI Alessandro",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ISABEY Michaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "78",
+                    "sub_out": null,
+                    "sub_text": "Entrée 78'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOULANGER Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "85",
+                    "sub_out": null,
+                    "sub_text": "Entrée 85'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1650
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

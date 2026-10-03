@@ -1,0 +1,262 @@
+{
+    "id": 7847,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "patrick-guillou",
+    "path": "/joueurs/patrick-guillou/",
+    "title": "Patrick Guillou",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound1255287301501218157.jpg",
+    "date": "2024-11-26T00:15:20",
+    "modified": "2026-02-02T21:26:08",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "30",
+        "text": "Patrick Guillou a joué 30 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/2-39.jpg",
+            "caption": "Patrick Guillou",
+            "credit": "L’est républicain",
+            "caption_raw": "Patrick Guillou – L’est républicain"
+        },
+        {
+            "image": "2025/01/inbound5903636135541942506.jpg",
+            "caption": "Patrick Guillou – Saison 2000-2001",
+            "credit": "fcsm",
+            "caption_raw": "Patrick Guillou – Saison 2000-2001 – fcsm"
+        },
+        {
+            "image": "2026/02/Patrick20Guillou.jpg",
+            "caption": "Patrick Guillou",
+            "credit": "AFP",
+            "caption_raw": "Patrick Guillou – AFP"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7847,
+        "url": "https://www.fcsochauxretro.com/a-la-une/patrick-guillou/",
+        "path": "/a-la-une/patrick-guillou/",
+        "slug": "patrick-guillou",
+        "seo_title": "Patrick Guillou - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Patrick Guillou</h2>\n<h4><strong>né le 16 avril 1970 à Villingen (Allemagne)</strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>83 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche ou milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2000</p>\n<p><strong>Départ de Sochaux : </strong>juin 2001</p>\n<p><strong>Premier match joué</strong> <strong>et premier but</strong> : Sochaux - Châteauroux du 05/08/2000 : 5-0 - But à la 79'</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Nîmes du 18/05/2001 : 4-1</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de deuxième division 2001</li>\n</ul>",
+        "header_lines": [
+            "Patrick Guillou",
+            "né le 16 avril 1970 à Villingen (Allemagne)",
+            "Taille : 1m83",
+            "Poids : 83 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche ou milieu défensif",
+            "Arrivée à Sochaux : juillet 2000",
+            "Départ de Sochaux : juin 2001",
+            "Premier match joué et premier but : Sochaux - Châteauroux du 05/08/2000 : 5-0 - But à la 79'",
+            "Dernier match joué : Sochaux - Nîmes du 18/05/2001 : 4-1",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Patrick",
+        "last_name": "Guillou",
+        "display_name": "Patrick Guillou",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1970-04-16",
+                "precision": "day",
+                "text": "16 avril 1970"
+            },
+            "place": {
+                "text": "Villingen (Allemagne)",
+                "city": "Villingen",
+                "department": null,
+                "country": "Allemagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 16 avril 1970 à Villingen (Allemagne)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "83 kg",
+        "weight_kg": 83,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche ou milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2000-07",
+            "precision": "month",
+            "text": "juillet 2000"
+        },
+        "departure": {
+            "iso": "2001-06",
+            "precision": "month",
+            "text": "juin 2001"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Châteauroux du 05/08/2000 : 5-0 - But à la 79'",
+        "last_match": "Sochaux - Nîmes du 18/05/2001 : 4-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division 2001"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Patrick Guillou"
+            },
+            {
+                "label": null,
+                "value": "né le 16 avril 1970 à Villingen (Allemagne)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "83 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche ou milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2000"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2001"
+            },
+            {
+                "label": "Premier match joué et premier but",
+                "value": "Sochaux - Châteauroux du 05/08/2000 : 5-0 - But à la 79'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nîmes du 18/05/2001 : 4-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 2001"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

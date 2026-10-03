@@ -1,0 +1,327 @@
+{
+    "id": 11556,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gerard-leroy",
+    "path": "/joueurs/gerard-leroy/",
+    "title": "Gérard Leroy",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Gerard-Le-Roy-Miroir.png",
+    "date": "2025-02-10T14:20:24",
+    "modified": "2026-02-01T13:58:19",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "175",
+        "text": "Gérard Leroy a joué 175 matchs (45 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/55-1.jpg",
+            "caption": "Gérard Leroy",
+            "credit": "footballdatabse.com",
+            "caption_raw": "Gérard Leroy – footballdatabse.com"
+        },
+        {
+            "image": "2026/02/Gerard-Le-Roy-Miroir.png",
+            "caption": "Gérard Leroy",
+            "credit": "Miroir",
+            "caption_raw": "Gérard Leroy – Miroir"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11556,
+        "url": "https://www.fcsochauxretro.com/a-la-une/gerard-leroy/",
+        "path": "/a-la-une/gerard-leroy/",
+        "slug": "gerard-leroy",
+        "seo_title": "Gérard Leroy - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Gérard Leroy</h2>\n<h4><strong>né le 23 aout 1935 à Lorient (56)</strong></h4>\n<h4><strong>Décédé le 10 février 2018 à Lanester ? (56)  </strong></h4>\n<p><strong>Taille : </strong>1m67</p>\n<p><strong>Poids : </strong>67 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>ailier gauche</p>\n<p><strong>International français junior et militaire</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1953 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1965</p>\n<p><strong>Premier match joué :</strong> AS Troyes-Savigny - Sochaux du 30/01/1955 : 2-0</p>\n<p><strong>Dernier match joué :</strong> Stade français - Sochaux du 30/05/1965 : 3-3 </p>\n<p><strong>Premier but marqué : </strong>Sochaux - Saint-Etienne 29/08/1959 : 2-0 - But à la 67'</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Finaliste de la coupe de France 1959</li>\n<li>Vainqueur de la coupe Charles Drago 1963</li>\n<li>Vice-champion de France de deuxième division 1964</li>\n<li>Vainqueur de la coupe Charles Drago 1964</li>\n</ul>",
+        "header_lines": [
+            "Gérard Leroy",
+            "né le 23 aout 1935 à Lorient (56)",
+            "Décédé le 10 février 2018 à Lanester ? (56)",
+            "Taille : 1m67",
+            "Poids : 67 kg",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "International français junior et militaire",
+            "Arrivée à Sochaux : juillet 1953",
+            "Départ de Sochaux : juin 1965",
+            "Premier match joué : AS Troyes-Savigny - Sochaux du 30/01/1955 : 2-0",
+            "Dernier match joué : Stade français - Sochaux du 30/05/1965 : 3-3",
+            "Premier but marqué : Sochaux - Saint-Etienne 29/08/1959 : 2-0 - But à la 67'",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1959",
+            "Vainqueur de la coupe Charles Drago 1963",
+            "Vice-champion de France de deuxième division 1964",
+            "Vainqueur de la coupe Charles Drago 1964"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Gérard",
+        "last_name": "Leroy",
+        "display_name": "Gérard Leroy",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1935-08-23",
+                "precision": "day",
+                "text": "23 aout 1935"
+            },
+            "place": {
+                "text": "Lorient (56)",
+                "city": "Lorient",
+                "department": "56",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 aout 1935 à Lorient (56)"
+        },
+        "death": {
+            "date": {
+                "iso": "2018-02-10",
+                "precision": "day",
+                "text": "10 février 2018"
+            },
+            "place": {
+                "text": "Lanester ? (56)",
+                "city": "Lanester ?",
+                "department": "56",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 10 février 2018 à Lanester ? (56)"
+        },
+        "height": "1m67",
+        "height_cm": 167,
+        "weight": "67 kg",
+        "weight_kg": 67,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français junior et militaire"
+        ],
+        "arrival": {
+            "iso": "1953-07",
+            "precision": "month",
+            "text": "juillet 1953"
+        },
+        "departure": {
+            "iso": "1965-06",
+            "precision": "month",
+            "text": "juin 1965"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "AS Troyes-Savigny - Sochaux du 30/01/1955 : 2-0",
+        "last_match": "Stade français - Sochaux du 30/05/1965 : 3-3",
+        "first_goal": "Sochaux - Saint-Etienne 29/08/1959 : 2-0 - But à la 67'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de France 1959",
+            "Vainqueur de la coupe Charles Drago 1963",
+            "Vice-champion de France de deuxième division 1964",
+            "Vainqueur de la coupe Charles Drago 1964"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gérard Leroy"
+            },
+            {
+                "label": null,
+                "value": "né le 23 aout 1935 à Lorient (56)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 10 février 2018 à Lanester ? (56)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m67"
+            },
+            {
+                "label": "Poids",
+                "value": "67 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": null,
+                "value": "International français junior et militaire"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1953"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1965"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "AS Troyes-Savigny - Sochaux du 30/01/1955 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Stade français - Sochaux du 30/05/1965 : 3-3"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Saint-Etienne 29/08/1959 : 2-0 - But à la 67'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1959"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago 1963"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de deuxième division 1964"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago 1964"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "1",
+                    "1",
+                    "0",
+                    "0",
+                    "9",
+                    "1"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "1",
+                    "0",
+                    "8",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "11",
+                    "1"
+                ]
+            ],
+            "source_table": 438
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,302 @@
+{
+    "id": 11836,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alain-marconnet",
+    "path": "/joueurs/alain-marconnet/",
+    "title": "Alain Marconnet",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/8-2.jpg",
+    "date": "2025-02-16T15:00:47",
+    "modified": "2025-02-16T15:15:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "74",
+        "text": "Alain Marconnet a joué 74 matchs (2 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/FC-Sochaux-1966-1967-2.jpg",
+            "caption": "Sochaux 1966/1967",
+            "credit": "",
+            "caption_raw": "Sochaux 1966/1967"
+        },
+        {
+            "image": "2025/02/50704.jpg",
+            "caption": "Alain Marconnet",
+            "credit": "dr",
+            "caption_raw": "Alain Marconnet – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11836,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alain-marconnet/",
+        "path": "/a-la-une/alain-marconnet/",
+        "slug": "alain-marconnet",
+        "seo_title": "Alain Marconnet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alain Marconnet</h2>\n<h4><strong>Né le 6 septembre 1945 à Bavans (25)</strong></h4>\n<h4><strong>Décédé le 5 novembre 1990 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids: </strong>68 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>défenseur <strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1965<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 1970<strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Toulouse - Sochaux du 02/03/1966 :  1-1 </p>\n<p><strong>Dernier match joué :</strong> Rennes - Sochaux du 20/05/1970 : 2-4</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Lens du 23/09/1966 : 2-5 - But à la 15'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe de France 1967</li>\n</ul>",
+        "header_lines": [
+            "Alain Marconnet",
+            "Né le 6 septembre 1945 à Bavans (25)",
+            "Décédé le 5 novembre 1990 à Montbéliard (25)",
+            "Taille : 1m72",
+            "Poids: 68 kg",
+            "Pied : droitier",
+            "Position : défenseur",
+            "Arrivée à Sochaux : juillet 1965",
+            "Départ de Sochaux : juin 1970",
+            "Premier match joué : Toulouse - Sochaux du 02/03/1966 : 1-1",
+            "Dernier match joué : Rennes - Sochaux du 20/05/1970 : 2-4",
+            "Premier but marqué : Sochaux - Lens du 23/09/1966 : 2-5 - But à la 15'",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1967"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alain",
+        "last_name": "Marconnet",
+        "display_name": "Alain Marconnet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1945-09-06",
+                "precision": "day",
+                "text": "6 septembre 1945"
+            },
+            "place": {
+                "text": "Bavans (25)",
+                "city": "Bavans",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 6 septembre 1945 à Bavans (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1990-11-05",
+                "precision": "day",
+                "text": "5 novembre 1990"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 5 novembre 1990 à Montbéliard (25)"
+        },
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1965-07",
+            "precision": "month",
+            "text": "juillet 1965"
+        },
+        "departure": {
+            "iso": "1970-06",
+            "precision": "month",
+            "text": "juin 1970"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Toulouse - Sochaux du 02/03/1966 : 1-1",
+        "last_match": "Rennes - Sochaux du 20/05/1970 : 2-4",
+        "first_goal": "Sochaux - Lens du 23/09/1966 : 2-5 - But à la 15'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de France 1967"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alain Marconnet"
+            },
+            {
+                "label": null,
+                "value": "Né le 6 septembre 1945 à Bavans (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 5 novembre 1990 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1965"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1970"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Toulouse - Sochaux du 02/03/1966 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Rennes - Sochaux du 20/05/1970 : 2-4"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Lens du 23/09/1966 : 2-5 - But à la 15'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1967"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

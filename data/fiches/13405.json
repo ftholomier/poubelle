@@ -1,0 +1,114 @@
+{
+    "id": 13405,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "samuel-laurent",
+    "path": "/dirigeants/samuel-laurent/",
+    "title": "Samuel Laurent",
+    "categories": [
+        "administratifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/samuel-laurent-directeur-general-du-fc-sochaux-frustration-mais-fierte-aussi-1653084893.jpg",
+    "date": "2025-04-17T22:51:46",
+    "modified": "2025-11-13T11:21:57",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Samuel Laurent : directeur général honnis : 2019-2023</strong></h4>\n<ul>\n<li>Il restera comme le directeur général qui aura failli couler le club. Les dépenses qu'il aura validé lors de la dernière saison généreront un déficit de plus de 20 millions d'euros que les actionnaires du club, le groupe chinois Nenking, refuseront de combler.</li>\n<li>Un directeur général relativement absent du Pays de Montbéliard, il laissera une image sombre en raison de ses nombreuses frasques extra sportives. Une bagarre avec un restaurateur dans le centre ville de Montbéliard, des débats tendus avec les élus locaux mais aussi un match non reporté face à Caen alors que l'épouse de l'entraîneur adverse venait de décéder. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Samuel Laurent a conduit le club durant 4 saisons l'amenant au bord du gouffre financièrement."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/samuel-laurent-directeur-general-du-fc-sochaux-frustration-mais-fierte-aussi-1653084893.jpg",
+            "caption": "Samuel Laurent",
+            "credit": "DR",
+            "caption_raw": "Samuel Laurent – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13405,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/samuel-laurent/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/samuel-laurent/",
+        "slug": "samuel-laurent",
+        "seo_title": "Samuel Laurent - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Samuel Laurent  </h2>\n<h4><strong>Directeur général du club de 2019 à 2023</strong></h4>",
+        "header_lines": [
+            "Samuel Laurent",
+            "Directeur général du club de 2019 à 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Samuel",
+        "last_name": "Laurent",
+        "display_name": "Samuel Laurent",
+        "nickname": "",
+        "subtitle": "Directeur général du club de 2019 à 2023",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Samuel Laurent"
+            },
+            {
+                "label": null,
+                "value": "Directeur général du club de 2019 à 2023"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

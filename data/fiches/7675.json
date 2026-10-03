@@ -1,0 +1,244 @@
+{
+    "id": 7675,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "noah-fatar",
+    "path": "/joueurs/noah-fatar/",
+    "title": "Noah Fatar",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/2-15.jpg",
+    "date": "2024-11-18T12:24:47",
+    "modified": "2025-05-19T21:02:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "65",
+        "text": "Noah Fatar a joué 65 matchs (7 buts et 10 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/noah-fatar-espere-venir-a-bout-du-red-star-ce-vendredi-photo-michael-desprez-1706812464.jpg",
+            "caption": "Noah Fatar",
+            "credit": "L’est républicain",
+            "caption_raw": "Noah Fatar – L’est républicain"
+        },
+        {
+            "image": "2024/11/noah-fatar-apres-la-victoire-face-a-dijon-photo-christian-lemontey-1703178058.jpg",
+            "caption": "Noah Fatar",
+            "credit": "L’est républicain",
+            "caption_raw": "Noah Fatar – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7675,
+        "url": "https://www.fcsochauxretro.com/a-la-une/noah-fatar/",
+        "path": "/a-la-une/noah-fatar/",
+        "slug": "noah-fatar",
+        "seo_title": "Noah Fatar - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Noah Fatar</h2>\n<h4><strong>né le 15 février 2002 à l'Isle-Adam (95)</strong></h4>\n<p><strong>Taille :</strong> 1m70</p>\n<p><strong>Poids :</strong> 62 kg</p>\n<p><strong>Pied :</strong> gauche</p>\n<p><strong>Poste : </strong>ailier droit </p>\n<p><strong>International français U20 (2 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2023</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match joué :</strong> Epinal - Sochaux 08/09/2023 : 0-3</p>\n<p><strong>Dernier match joué :</strong> </p>\n<p><strong>Premier but marqué :</strong> Sochaux - Orléans du 25/10/2023 : 4-2 - But à la 34'</p>",
+        "header_lines": [
+            "Noah Fatar",
+            "né le 15 février 2002 à l'Isle-Adam (95)",
+            "Taille : 1m70",
+            "Poids : 62 kg",
+            "Pied : gauche",
+            "Poste : ailier droit",
+            "International français U20 (2 sélections)",
+            "Arrivée à Sochaux : aout 2023",
+            "Départ de Sochaux :",
+            "Premier match joué : Epinal - Sochaux 08/09/2023 : 0-3",
+            "Dernier match joué :",
+            "Premier but marqué : Sochaux - Orléans du 25/10/2023 : 4-2 - But à la 34'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Noah",
+        "last_name": "Fatar",
+        "display_name": "Noah Fatar",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2002-02-15",
+                "precision": "day",
+                "text": "15 février 2002"
+            },
+            "place": {
+                "text": "l'Isle-Adam (95)",
+                "city": "l'Isle-Adam",
+                "department": "95",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 février 2002 à l'Isle-Adam (95)"
+        },
+        "death": null,
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "62 kg",
+        "weight_kg": 62,
+        "foot": "gauche",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U20 (2 sélections)"
+        ],
+        "arrival": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "aout 2023"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Epinal - Sochaux 08/09/2023 : 0-3",
+        "last_match": "",
+        "first_goal": "Sochaux - Orléans du 25/10/2023 : 4-2 - But à la 34'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Noah Fatar"
+            },
+            {
+                "label": null,
+                "value": "né le 15 février 2002 à l'Isle-Adam (95)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "62 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gauche"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International français U20 (2 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Epinal - Sochaux 08/09/2023 : 0-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Orléans du 25/10/2023 : 4-2 - But à la 34'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "National 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023 - 2024",
+                    "30",
+                    "5",
+                    "7",
+                    "1",
+                    "37",
+                    "6"
+                ],
+                [
+                    "2024 - 2025",
+                    "24",
+                    "1",
+                    "4",
+                    "0",
+                    "28",
+                    "1"
+                ],
+                [
+                    "TOTAL",
+                    "54",
+                    "6",
+                    "11",
+                    "1",
+                    "65",
+                    "7"
+                ]
+            ],
+            "source_table": 1084
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

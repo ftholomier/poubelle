@@ -1,0 +1,454 @@
+{
+    "id": 17853,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pont-de-roide-sochaux-coupe-de-france-25-11-2000",
+    "path": "/matchs/2000-2001/pont-de-roide-sochaux-coupe-de-france-25-11-2000/",
+    "title": "7e tour – Pont-de-Roide (DH) / Sochaux (D2) – CDF – 25/11/2000 – 2-3",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "coupe-de-france",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/55-4.jpg",
+    "date": "2025-11-08T21:42:40",
+    "modified": "2025-12-21T08:57:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2800",
+        "text": "2 800 spectateurs pour ce derby en coupe de France."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/3241080499_1_15_wK44XsnY.jpg",
+            "caption": "Manac’h – Pont-de-Roide-Sochaux – Coupe de France 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Manac’h – Pont-de-Roide-Sochaux – Coupe de France 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/55-29.jpg",
+            "caption": "Chedli – Pont-de-Roide-Sochaux – Coupe de France 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Chedli – Pont-de-Roide-Sochaux – Coupe de France 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/44-5.jpg",
+            "caption": "Drobnjak – Pont-de-Roide-Sochaux – Coupe de France 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Drobnjak – Pont-de-Roide-Sochaux – Coupe de France 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/22-4-scaled.jpg",
+            "caption": "Santos – Pont-de-Roide-Sochaux – Coupe de France 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Santos – Pont-de-Roide-Sochaux – Coupe de France 2000-2001 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "tm-89drwKxM",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17853,
+        "url": "https://www.fcsochauxretro.com/a-la-une/7e-tour-pont-de-roide-dh-sochaux-d2-cdf-25-11-2000-2-3/",
+        "path": "/a-la-une/7e-tour-pont-de-roide-dh-sochaux-d2-cdf-25-11-2000-2-3/",
+        "slug": "7e-tour-pont-de-roide-dh-sochaux-d2-cdf-25-11-2000-2-3",
+        "seo_title": "7e tour - Pont-de-Roide (DH) / Sochaux (D2) - CDF - 25/11/2000 - 2-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Pont-de-Roide (DH) / Sochaux (D2) : 2-3<br></strong></h2>\n<h4><strong>7è tour de la coupe de France</strong></h4>\n<h4><strong>Samedi 25 novembre 2000</strong></h4>\n<h4><strong>Stade municipal de Pont-de-Roide</strong></h4>\n<h4><strong>2 800 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Castro<br></strong></h4>\n<p>Buts : Moniot 82' et Faivre 86' pour Pont-de-Roide ; Drobnjak 1', Frau 37' et Crucet 42' pour Sochaux</p>",
+        "header_lines": [
+            "Pont-de-Roide (DH) / Sochaux (D2) : 2-3",
+            "7è tour de la coupe de France",
+            "Samedi 25 novembre 2000",
+            "Stade municipal de Pont-de-Roide",
+            "2 800 spectateurs",
+            "Arbitre : M. Castro",
+            "Buts : Moniot 82' et Faivre 86' pour Pont-de-Roide ; Drobnjak 1', Frau 37' et Crucet 42' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-11-25",
+        "date_text": "Samedi 25 novembre 2000",
+        "season": "2000-2001",
+        "competition": "Coupe de France",
+        "competition_label": "Coupe de France",
+        "competition_code": "CDF",
+        "round": "7e tour",
+        "round_text": "7è tour de la coupe de France",
+        "home": {
+            "name": "Pont-de-Roide",
+            "level": "DH"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-3",
+        "score_line": "Pont-de-Roide (DH) / Sochaux (D2) : 2-3",
+        "result": "V",
+        "stadium": "Stade municipal de Pont-de-Roide",
+        "spectators": 2800,
+        "spectators_text": "2 800 spectateurs",
+        "referee": "M. Castro",
+        "goals_text": "Moniot 82' et Faivre 86' pour Pont-de-Roide ; Drobnjak 1', Frau 37' et Crucet 42' pour Sochaux",
+        "goals": [
+            {
+                "team": "Pont-de-Roide",
+                "scorers": "Moniot 82' et Faivre 86'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Drobnjak 1', Frau 37' et Crucet 42'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "53",
+                    "sub_text": "Sortie 53'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "72",
+                    "sub_text": "Sortie 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DROBNKAK Anto",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "1"
+                    ],
+                    "goals_text": "1'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "41"
+                    ],
+                    "goals_text": "41'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "37"
+                    ],
+                    "goals_text": "37'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "63",
+                    "sub_text": "Sortie 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "53",
+                    "sub_out": null,
+                    "sub_text": "Entrée 53'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "UCAR Kendal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "72",
+                    "sub_out": null,
+                    "sub_text": "Entrée 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ISABEY Michaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "63",
+                    "sub_out": null,
+                    "sub_text": "Entrée 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOULANGER Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1677
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

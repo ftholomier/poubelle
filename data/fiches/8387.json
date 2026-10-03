@@ -1,0 +1,180 @@
+{
+    "id": 8387,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mickael-anis",
+    "path": "/joueurs/mickael-anis/",
+    "title": "Mickaël Anis",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/inbound6593649588821931322.jpg",
+    "date": "2024-12-02T21:47:24",
+    "modified": "2026-03-26T14:05:02",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation et sa carrière",
+            "html": "<ul>\n<li>Originaire du Maine, Mickaël Anis est formé à Sochaux durant quatre saisons. Il fait partie de la génération Silvestre, Crucet, Hélion, Schreiner, Cassard, Madar et Frotey, avec laquelle il atteint à deux reprises les quarts de finale de la Coupe Gambardella. Malgré deux présélections en équipe de France U17, où il côtoie notamment Vikash Dhorasoo, il n’obtiendra jamais sa chance en équipe première.</li>\n<li>À l’été 1993, il quitte Sochaux et s’engage au Mans, où il dispute quelques matches en deuxième division. Il rejoint ensuite Libourne, puis Segré en National, avant de terminer sa carrière dans sa région d’origine, en cinquième division (N3).</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Mickaël Anis n'a joué aucun match en équipe première avec Sochaux. Il quittera le club pour Le Mans avec qui il évoluera en deuxième division dans les années 90."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/2.jpg",
+            "caption": "Mickaël Anis",
+            "credit": "Actu.fr",
+            "caption_raw": "Mickaël Anis – Actu.fr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8387,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mickael-anis/",
+        "path": "/a-la-une/mickael-anis/",
+        "slug": "mickael-anis",
+        "seo_title": "Mickaël Anis - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mickaël Anis</h2>\n<h4><strong>né le 14 avril 1974 à Paris (75) </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International français U17 (2 présélections)</strong></p>\n<p><strong>Carrière de joueur</strong></p>\n<p><strong>Arrivée :</strong> juillet 1989</p>\n<p><strong>Départ :</strong> juin 1993</p>",
+        "header_lines": [
+            "Mickaël Anis",
+            "né le 14 avril 1974 à Paris (75)",
+            "Taille : 1m75",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International français U17 (2 présélections)",
+            "Carrière de joueur",
+            "Arrivée : juillet 1989",
+            "Départ : juin 1993"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mickaël",
+        "last_name": "Anis",
+        "display_name": "Mickaël Anis",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1974-04-14",
+                "precision": "day",
+                "text": "14 avril 1974"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 avril 1974 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U17 (2 présélections)"
+        ],
+        "arrival": {
+            "iso": "1989-07",
+            "precision": "month",
+            "text": "juillet 1989"
+        },
+        "departure": {
+            "iso": "1993-06",
+            "precision": "month",
+            "text": "juin 1993"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mickaël Anis"
+            },
+            {
+                "label": null,
+                "value": "né le 14 avril 1974 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français U17 (2 présélections)"
+            },
+            {
+                "label": null,
+                "value": "Carrière de joueur"
+            },
+            {
+                "label": "Arrivée",
+                "value": "juillet 1989"
+            },
+            {
+                "label": "Départ",
+                "value": "juin 1993"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

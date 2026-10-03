@@ -1,0 +1,261 @@
+{
+    "id": 18764,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "assane-n-diaye",
+    "path": "/joueurs/assane-n-diaye/",
+    "title": "Assane N’Diaye (A l’essai)",
+    "categories": [
+        "a-lessai"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/11/33007.jpg",
+    "date": "2025-11-16T20:24:12",
+    "modified": "2026-02-04T20:50:10",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Joueur de l'ASC Jeanne D'Arc de Dakar de 1995 à 2001, le plus grand club du Sénégal, Assane N'Diaye est recommandé à Sochaux par son compatriote en sélection Omar Daf. </li>\n<li>Malgré des qualités évidentes et une carrure athlétique impressionnante il n'est pas recruté par le club à l'été 2000 après avoir participé au stage du Petit Colbert en Alsace lors de la préparation.  </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Quelques semaines plus tard, il s'engage au Shaktar Donetsk avec qui il remporte le premier titre de champion d'Ukraine du club en 2001. Il récidive en 2002.  </li>\n<li>Il y reste 3 saisons, joue 79 matchs et marque 7 buts pour 6 passes décisives. </li>\n<li>A la fin de son contrat il rentre au Sénégal où il termine sa carrière à l'ASC Diaraf et à l'ASC Jeanne D'Arc son premier club, en 2006. </li>\n<li>Il est connu des amateurs du site Football manager car il avait des qualités hors du commun dans le jeu vidéo au début des années 2000. </li>\n<li>En 2008, il décède tragiquement à Dakar après une courte maladie. </li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Assane N'Diaye a été à l'essai 1 semaine en juillet 2000."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/33007.jpg",
+            "caption": "Assane N’Diaye",
+            "credit": "footballdatabase",
+            "caption_raw": "Assane N’Diaye – footballdatabase"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 18764,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/a-lessai/assane-ndiaye-a-lessai/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/a-lessai/assane-ndiaye-a-lessai/",
+        "slug": "assane-ndiaye-a-lessai",
+        "seo_title": "Assane N'Diaye (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Assane N'Diaye</h2>\n<h4><strong>Né le 1er aout 1974 à Nguekoh (Sénégal)<br></strong></h4>\n<h4><strong>Décédé le 13 février 2008 à Dakar (Sénégal)</strong></h4>\n<p><strong>International sénégalais (37 sélections, 3 buts)</strong></p>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>79 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>défenseur central<strong><br></strong></p>\n<p><strong>A l'essai à Sochaux en : </strong>juillet 2000</p>",
+        "header_lines": [
+            "Assane N'Diaye",
+            "Né le 1er aout 1974 à Nguekoh (Sénégal)",
+            "Décédé le 13 février 2008 à Dakar (Sénégal)",
+            "International sénégalais (37 sélections, 3 buts)",
+            "Taille : 1m88",
+            "Poids : 79 kg",
+            "Pied : droitier",
+            "Position : défenseur central",
+            "A l'essai à Sochaux en : juillet 2000"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Assane",
+        "last_name": "N'Diaye",
+        "display_name": "Assane N'Diaye",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2000-07",
+            "precision": "month",
+            "text": "juillet 2000"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1974-08-01",
+                "precision": "day",
+                "text": "1er aout 1974"
+            },
+            "place": {
+                "text": "Nguekoh (Sénégal)",
+                "city": "Nguekoh",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 1er aout 1974 à Nguekoh (Sénégal)"
+        },
+        "death": {
+            "date": {
+                "iso": "2008-02-13",
+                "precision": "day",
+                "text": "13 février 2008"
+            },
+            "place": {
+                "text": "Dakar (Sénégal)",
+                "city": "Dakar",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 13 février 2008 à Dakar (Sénégal)"
+        },
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "79 kg",
+        "weight_kg": 79,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International sénégalais (37 sélections, 3 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Assane N'Diaye"
+            },
+            {
+                "label": null,
+                "value": "Né le 1er aout 1974 à Nguekoh (Sénégal)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 13 février 2008 à Dakar (Sénégal)"
+            },
+            {
+                "label": null,
+                "value": "International sénégalais (37 sélections, 3 buts)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "79 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "défenseur central"
+            },
+            {
+                "label": "A l'essai à Sochaux en",
+                "value": "juillet 2000"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

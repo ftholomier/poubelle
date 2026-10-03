@@ -1,0 +1,260 @@
+{
+    "id": 9316,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "robert-varechon",
+    "path": "/joueurs/robert-varechon/",
+    "title": "Robert (?) Varechon",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-12-29T23:15:12",
+    "modified": "2024-12-30T00:59:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1928",
+        "text": "M.Varechon faisait partie des 16 joueurs qui ont disputé la première saison de l'histoire du club en 1928/1929."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/1928-FC-Sochaux3b1-1536x992-2.jpg",
+            "caption": "FC Sochaux",
+            "credit": "1928/1929",
+            "caption_raw": "FC Sochaux – 1928/1929"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9316,
+        "url": "https://www.fcsochauxretro.com/a-la-une/robert-varechon/",
+        "path": "/a-la-une/robert-varechon/",
+        "slug": "robert-varechon",
+        "seo_title": "Robert (?) Varechon - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Robert (?) Varechon</h2>\n<h4><strong>Né en 1906 à Arbois (39) ?</strong></h4>\n<h4><strong>Décédé le 20 février 1994 à Mesnay (39) ?  </strong></h4>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1928 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1930</p>\n<p><strong>Premier match joué :</strong> ? </p>\n<p><strong>Dernier match joué : ?</strong> </p>",
+        "header_lines": [
+            "Robert (?) Varechon",
+            "Né en 1906 à Arbois (39) ?",
+            "Décédé le 20 février 1994 à Mesnay (39) ?",
+            "Arrivée à Sochaux : juillet 1928",
+            "Départ de Sochaux : juin 1930",
+            "Premier match joué : ?",
+            "Dernier match joué : ?"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Robert (?)",
+        "last_name": "Varechon",
+        "display_name": "Robert (?) Varechon",
+        "nickname": "",
+        "subtitle": "Né en 1906 à Arbois (39) ?",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1906",
+                "precision": "year",
+                "text": "1906"
+            },
+            "place": {
+                "text": "Arbois (39) ?",
+                "city": "Arbois (39) ?",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né en 1906 à Arbois (39) ?"
+        },
+        "death": {
+            "date": {
+                "iso": "1994-02-20",
+                "precision": "day",
+                "text": "20 février 1994"
+            },
+            "place": {
+                "text": "Mesnay (39) ?",
+                "city": "Mesnay (39) ?",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 20 février 1994 à Mesnay (39) ?"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1928-07",
+            "precision": "month",
+            "text": "juillet 1928"
+        },
+        "departure": {
+            "iso": "1930-06",
+            "precision": "month",
+            "text": "juin 1930"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "?",
+        "last_match": "?",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Robert (?) Varechon"
+            },
+            {
+                "label": null,
+                "value": "Né en 1906 à Arbois (39) ?"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 20 février 1994 à Mesnay (39) ?"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1928"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1930"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "?"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "?"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

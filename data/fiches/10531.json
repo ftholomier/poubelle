@@ -1,0 +1,273 @@
+{
+    "id": 10531,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jozef-plesiak",
+    "path": "/joueurs/jozef-plesiak/",
+    "title": "Jozef Plesiak",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-41.jpg",
+    "date": "2025-01-18T21:10:23",
+    "modified": "2025-01-19T10:23:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Jozef Pleziak a joué 3 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-41.jpg",
+            "caption": "Jozef Pleziak",
+            "credit": "Girondins de Bordeaux",
+            "caption_raw": "Jozef Pleziak – Girondins de Bordeaux"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10531,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jozef-plesiak/",
+        "path": "/a-la-une/jozef-plesiak/",
+        "slug": "jozef-plesiak",
+        "seo_title": "Jozef Plesiak - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jozef Pleziak</h2>\n<h4><strong>né le 7 janvier 1917 à Gelsenkirchen (Allemagne)</strong></h4>\n<h4><strong>Décédé le 26 septembre 1999 à Colmar (68)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1937</p>\n<p><strong>Départ de Sochaux :</strong> juin 1939</p>\n<p><strong>Premier match joué :</strong> Sochaux - Saint-Etienne du 01/11/1938 : 1-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Metz du 11/11/1938 : 0-1</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Champion de France 1938</li>\n</ul>",
+        "header_lines": [
+            "Jozef Pleziak",
+            "né le 7 janvier 1917 à Gelsenkirchen (Allemagne)",
+            "Décédé le 26 septembre 1999 à Colmar (68)",
+            "Taille : 1m80",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1937",
+            "Départ de Sochaux : juin 1939",
+            "Premier match joué : Sochaux - Saint-Etienne du 01/11/1938 : 1-2",
+            "Dernier match joué : Sochaux - Metz du 11/11/1938 : 0-1",
+            "Palmarès avec Sochaux :",
+            "Champion de France 1938"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jozef",
+        "last_name": "Plesiak",
+        "display_name": "Jozef Plesiak",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1917-01-07",
+                "precision": "day",
+                "text": "7 janvier 1917"
+            },
+            "place": {
+                "text": "Gelsenkirchen (Allemagne)",
+                "city": "Gelsenkirchen",
+                "department": null,
+                "country": "Allemagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 janvier 1917 à Gelsenkirchen (Allemagne)"
+        },
+        "death": {
+            "date": {
+                "iso": "1999-09-26",
+                "precision": "day",
+                "text": "26 septembre 1999"
+            },
+            "place": {
+                "text": "Colmar (68)",
+                "city": "Colmar",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 26 septembre 1999 à Colmar (68)"
+        },
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1937-07",
+            "precision": "month",
+            "text": "juillet 1937"
+        },
+        "departure": {
+            "iso": "1939-06",
+            "precision": "month",
+            "text": "juin 1939"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Saint-Etienne du 01/11/1938 : 1-2",
+        "last_match": "Sochaux - Metz du 11/11/1938 : 0-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France 1938"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jozef Pleziak"
+            },
+            {
+                "label": null,
+                "value": "né le 7 janvier 1917 à Gelsenkirchen (Allemagne)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 26 septembre 1999 à Colmar (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1937"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1939"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Saint-Etienne du 01/11/1938 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Metz du 11/11/1938 : 0-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France 1938"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

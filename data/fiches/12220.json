@@ -1,0 +1,248 @@
+{
+    "id": 12220,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-monange",
+    "path": "/joueurs/jean-monange/",
+    "title": "Jean Monange",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/02/5-74.jpg",
+    "date": "2025-02-27T12:25:07",
+    "modified": "2025-09-10T07:19:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "31",
+        "text": "Jean Monange aurait joué 31 matchs (amicaux compris) pour FC Sochaux-Valentigney."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/1943-44-sochaux194344-der-1.jpg",
+            "caption": "Sochaux 1943/1944",
+            "credit": "fcsmstory.com",
+            "caption_raw": "Sochaux 1943/1944 – fcsmstory.com"
+        },
+        {
+            "image": "2025/02/5-74.jpg",
+            "caption": "Jean Monange",
+            "credit": "fcsmstory.com",
+            "caption_raw": "Jean Monange – fcsmstory.com"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12220,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-monange/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-monange/",
+        "slug": "jean-monange",
+        "seo_title": "Jean Monange - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Monange </h2>\n<h4><strong>né le 20 septembre 1909 à Châtenois-les-Forges (90)</strong></h4>\n<h4><strong>Décédé le 9 février 2000 à Montbéliard (25)</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain ? </p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1941 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1944</p>\n<p><strong>Premier match joué : </strong>FC Sochaux-Valentigney - Bousbotte Besançon du 19/10/1941 : 3-1</p>\n<p><strong>Dernier match joué : </strong>PS Besançon - Sochaux du 26/03/1944 : 2-1</p>",
+        "header_lines": [
+            "Jean Monange",
+            "né le 20 septembre 1909 à Châtenois-les-Forges (90)",
+            "Décédé le 9 février 2000 à Montbéliard (25)",
+            "Poste : milieu de terrain ?",
+            "Arrivée à Sochaux : juillet 1941",
+            "Départ de Sochaux : juin 1944",
+            "Premier match joué : FC Sochaux-Valentigney - Bousbotte Besançon du 19/10/1941 : 3-1",
+            "Dernier match joué : PS Besançon - Sochaux du 26/03/1944 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean",
+        "last_name": "Monange",
+        "display_name": "Jean Monange",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1909-09-20",
+                "precision": "day",
+                "text": "20 septembre 1909"
+            },
+            "place": {
+                "text": "Châtenois-les-Forges (90)",
+                "city": "Châtenois-les-Forges",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 20 septembre 1909 à Châtenois-les-Forges (90)"
+        },
+        "death": {
+            "date": {
+                "iso": "2000-02-09",
+                "precision": "day",
+                "text": "9 février 2000"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 9 février 2000 à Montbéliard (25)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain ?",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1941-07",
+            "precision": "month",
+            "text": "juillet 1941"
+        },
+        "departure": {
+            "iso": "1944-06",
+            "precision": "month",
+            "text": "juin 1944"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "FC Sochaux-Valentigney - Bousbotte Besançon du 19/10/1941 : 3-1",
+        "last_match": "PS Besançon - Sochaux du 26/03/1944 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Monange"
+            },
+            {
+                "label": null,
+                "value": "né le 20 septembre 1909 à Châtenois-les-Forges (90)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 9 février 2000 à Montbéliard (25)"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain ?"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1941"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1944"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "FC Sochaux-Valentigney - Bousbotte Besançon du 19/10/1941 : 3-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "PS Besançon - Sochaux du 26/03/1944 : 2-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

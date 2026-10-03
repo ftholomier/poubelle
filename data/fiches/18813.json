@@ -1,0 +1,179 @@
+{
+    "id": 18813,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "oumar-kalabane",
+    "path": "/joueurs/oumar-kalabane/",
+    "title": "Oumar Kalabane (A l’essai)",
+    "categories": [
+        "a-lessai"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/11/kalabane_images.jpg",
+    "date": "2025-11-17T02:59:08",
+    "modified": "2026-02-04T20:50:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Oumar Kalabane démarre le football aux Hirondelles de Conakry puis à l'Etoile de Guinée. </li>\n<li>En 1999, il signe à l'Etoile du Sahel et joue sous les ordres de Jean Fernandez alors qu'il n'a que 18 ans. </li>\n<li>2 ans plus tard, Jean Fernandez se souvient de son potentiel et le met à l'essai une semaine quelques jours avant le match du titre de champion de Division 2 face à Nîmes (4-1). </li>\n<li>Malgré d'évidentes qualités athlétiques il ne signe pas au club et repart à l'Etoile du Sahel. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il restera à l'Etoile du Sahel jusqu'en 2005 entrecoupé d'un prêt d'une saison à l'ES Beni Khalled en première division tunisienne.  </li>\n<li>En juillet 2005, il signe à l'AJ Auxerre entraîné par l'ancien entraîneur de Sochaux Jacques Santini. Il joue 9 matchs la première saison dont un de coupe d'Europe. </li>\n<li>En 2006/2007, il retrouve Jean Fernandez qui prend les rênes d'Auxerre. Comme il l'avait dit à Sochaux, Fernandez croit fort en son potentiel et il en fait un titulaire. Il dispute 19 matchs en première partie de saison dont 5 de coupe d'Europe. </li>\n<li>En janvier 2007, Auxerre le vend 2 millions d'euros au club turc de Manniaspor. </li>\n<li>Il y reste 4 ans et demi, dispute 107 matchs et marque 4 buts. </li>\n<li>A l'été 2011 il signe dans le club de Persepolis en Iran pour une saison. </li>\n<li>En 2012/2013, il signe à Al Dhafra en première division des Emirats Arabes Unis.</li>\n<li>Il termine sa carrière la saison suivante en Azerbaïdjan à Qarabag en 2014. </li>\n<li>Il compte 46 sélections avec la Guinée et a marqué 5 buts. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Oumar Kalabane est resté 1 semaine à l'essai en mai 2001."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/kalabane_images.jpg",
+            "caption": "Oumar Kalabane",
+            "credit": "L’équipe",
+            "caption_raw": "Oumar Kalabane – L’équipe"
+        },
+        {
+            "image": "2025/11/SAM_2176.jpg",
+            "caption": "Oumar Kalabane",
+            "credit": "L’est républicain",
+            "caption_raw": "Oumar Kalabane – L’est républicain"
+        },
+        {
+            "image": "2025/11/Oumar_Kalabane_2006.jpg",
+            "caption": "Oumar Kalabane",
+            "credit": "Sélection de Guinée",
+            "caption_raw": "Oumar Kalabane – Sélection de Guinée"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 18813,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/a-lessai/oumar-kalabane-a-lessai/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/a-lessai/oumar-kalabane-a-lessai/",
+        "slug": "oumar-kalabane-a-lessai",
+        "seo_title": "Oumar Kalabane (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Oumar Kalabane</h2>\n<h4><strong>né le 8 avril 1981 à Conakry (Guinée)  </strong></h4>\n<p><strong>Taille : </strong>1m91</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International guinéen (46 sélections, 5 buts)</strong></p>\n<p><strong>A l'essai à Sochaux en :</strong> mai 2001</p>",
+        "header_lines": [
+            "Oumar Kalabane",
+            "né le 8 avril 1981 à Conakry (Guinée)",
+            "Taille : 1m91",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International guinéen (46 sélections, 5 buts)",
+            "A l'essai à Sochaux en : mai 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Oumar",
+        "last_name": "Kalabane",
+        "display_name": "Oumar Kalabane",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2001-05",
+            "precision": "month",
+            "text": "mai 2001"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1981-04-08",
+                "precision": "day",
+                "text": "8 avril 1981"
+            },
+            "place": {
+                "text": "Conakry (Guinée)",
+                "city": "Conakry",
+                "department": null,
+                "country": "Guinée",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 8 avril 1981 à Conakry (Guinée)"
+        },
+        "death": null,
+        "height": "1m91",
+        "height_cm": 191,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International guinéen (46 sélections, 5 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Oumar Kalabane"
+            },
+            {
+                "label": null,
+                "value": "né le 8 avril 1981 à Conakry (Guinée)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m91"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International guinéen (46 sélections, 5 buts)"
+            },
+            {
+                "label": "A l'essai à Sochaux en",
+                "value": "mai 2001"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

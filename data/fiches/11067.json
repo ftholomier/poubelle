@@ -1,0 +1,251 @@
+{
+    "id": 11067,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "moussa-sao",
+    "path": "/joueurs/moussa-sao/",
+    "title": "Moussa Sao",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/8-10.jpg",
+    "date": "2025-02-03T19:56:01",
+    "modified": "2025-02-03T20:15:23",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "96",
+        "text": "Moussa Sao a joué 96 matchs (13 buts et 7 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/Sao-Sochaux.jpg",
+            "caption": "Moussa Sao",
+            "credit": "fcsm",
+            "caption_raw": "Moussa Sao – fcsm"
+        },
+        {
+            "image": "2025/02/comme-il-nous-l-avait-annonce-moussa-sao-a-fait-sa-reapparition-a-l-entrainement-1472144657.jpg",
+            "caption": "Moussa Sao",
+            "credit": "L’est républicain",
+            "caption_raw": "Moussa Sao – L’est républicain"
+        },
+        {
+            "image": "2025/01/8-10.jpg",
+            "caption": "Moussa Sao",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Moussa Sao – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11067,
+        "url": "https://www.fcsochauxretro.com/a-la-une/moussa-sao/",
+        "path": "/a-la-une/moussa-sao/",
+        "slug": "moussa-sao",
+        "seo_title": "Moussa Sao - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Moussa Sao</h2>\n<h4><strong>né le 17 octobre 1989 à Fontenay-aux-Roses (92) </strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>ailier gauche</p>\n<p><strong>International français en futsal (10 sélections, 14 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2015</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2018</p>\n<p><strong>Premier match joué :</strong> Dijon - Sochaux du 07/02/2015 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1</p>\n<p><strong>Premier but marqué :</strong> Laval - Sochaux du 08/04/2015 : 1-2 - But à la 91'</p>",
+        "header_lines": [
+            "Moussa Sao",
+            "né le 17 octobre 1989 à Fontenay-aux-Roses (92)",
+            "Taille : 1m86",
+            "Poids : 74 kg",
+            "Pied : ambidextre",
+            "Poste : ailier gauche",
+            "International français en futsal (10 sélections, 14 buts)",
+            "Arrivée à Sochaux : janvier 2015",
+            "Départ de Sochaux : juillet 2018",
+            "Premier match joué : Dijon - Sochaux du 07/02/2015 : 1-0",
+            "Dernier match joué : Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1",
+            "Premier but marqué : Laval - Sochaux du 08/04/2015 : 1-2 - But à la 91'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Moussa",
+        "last_name": "Sao",
+        "display_name": "Moussa Sao",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1989-10-17",
+                "precision": "day",
+                "text": "17 octobre 1989"
+            },
+            "place": {
+                "text": "Fontenay-aux-Roses (92)",
+                "city": "Fontenay-aux-Roses",
+                "department": "92",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 17 octobre 1989 à Fontenay-aux-Roses (92)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "ambidextre",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français en futsal (10 sélections, 14 buts)"
+        ],
+        "arrival": {
+            "iso": "2015-01",
+            "precision": "month",
+            "text": "janvier 2015"
+        },
+        "departure": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Dijon - Sochaux du 07/02/2015 : 1-0",
+        "last_match": "Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1",
+        "first_goal": "Laval - Sochaux du 08/04/2015 : 1-2 - But à la 91'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Moussa Sao"
+            },
+            {
+                "label": null,
+                "value": "né le 17 octobre 1989 à Fontenay-aux-Roses (92)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": null,
+                "value": "International français en futsal (10 sélections, 14 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2015"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Dijon - Sochaux du 07/02/2015 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Laval - Sochaux du 08/04/2015 : 1-2 - But à la 91'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,445 @@
+{
+    "id": 17842,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nice-sochaux-division-2-04-11-2000",
+    "path": "/matchs/2000-2001/nice-sochaux-division-2-04-11-2000/",
+    "title": "J18 – Nice / Sochaux – D2 – 04/11/2000 – 2-2",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/Sochaux2000-1-3.jpg",
+    "date": "2025-11-08T20:43:53",
+    "modified": "2025-12-21T08:36:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "2 buts dans les 2 dernières minutes du match pour un score nul 2-2."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/Sochaux2000-1-1.jpg",
+            "caption": "Flachez",
+            "credit": "Nice-Sochaux 2000-2001- DR",
+            "caption_raw": "Flachez – Nice-Sochaux 2000-2001- DR"
+        },
+        {
+            "image": "2025/11/Sochaux2000-1-3-1.jpg",
+            "caption": "Flachez",
+            "credit": "Nice-Sochaux 2000-2001- DR",
+            "caption_raw": "Flachez – Nice-Sochaux 2000-2001- DR"
+        },
+        {
+            "image": "2025/11/Sochaux2000-1-2.jpg",
+            "caption": "Flachez et Chedli -Nice-Sochaux 2000-2001- DR",
+            "credit": "",
+            "caption_raw": "Flachez et Chedli -Nice-Sochaux 2000-2001- DR"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "ZfXaXm2isjE",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17842,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j18-nice-sochaux-d2-04-11-2000-2-2/",
+        "path": "/a-la-une/j18-nice-sochaux-d2-04-11-2000-2-2/",
+        "slug": "j18-nice-sochaux-d2-04-11-2000-2-2",
+        "seo_title": "J18 - Nice / Sochaux - D2 - 04/11/2000 - 2-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Nice / Sochaux : 2-2<br></strong></h2>\n<h4><strong>18è journée de championnat de D2</strong></h4>\n<h4><strong>Samedi 4 novembre 2000</strong></h4>\n<h4><strong>Stade du Ray (06)</strong></h4>\n<h4><strong>3 165 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Kalt<br></strong></h4>\n<p>Buts : Aulanier 66' et Romay 91' pour Nice ; Santos 50' et Durix 89' pour Sochaux</p>",
+        "header_lines": [
+            "Nice / Sochaux : 2-2",
+            "18è journée de championnat de D2",
+            "Samedi 4 novembre 2000",
+            "Stade du Ray (06)",
+            "3 165 spectateurs",
+            "Arbitre : M. Kalt",
+            "Buts : Aulanier 66' et Romay 91' pour Nice ; Santos 50' et Durix 89' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-11-04",
+        "date_text": "Samedi 4 novembre 2000",
+        "season": "2000-2001",
+        "competition": "Championnat",
+        "competition_label": "Division 2",
+        "competition_code": "D2",
+        "round": "J18",
+        "round_text": "18è journée de championnat de D2",
+        "home": {
+            "name": "Nice",
+            "level": null
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-2",
+        "score_line": "Nice / Sochaux : 2-2",
+        "result": "N",
+        "stadium": "Stade du Ray (06)",
+        "spectators": 3165,
+        "spectators_text": "3 165 spectateurs",
+        "referee": "M. Kalt",
+        "goals_text": "Aulanier 66' et Romay 91' pour Nice ; Santos 50' et Durix 89' pour Sochaux",
+        "goals": [
+            {
+                "team": "Nice",
+                "scorers": "Aulanier 66' et Romay 91'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Santos 50' et Durix 89'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MONSOREAU Sylvain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "82",
+                    "sub_text": "Sortie 82'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "89",
+                    "sub_text": "Sortie 89'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "50"
+                    ],
+                    "goals_text": "50'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "91"
+                    ],
+                    "goals_text": "91'",
+                    "sub_in": "82",
+                    "sub_out": null,
+                    "sub_text": "Entrée 82'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DEDEBANT Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "89",
+                    "sub_out": null,
+                    "sub_text": "Entrée 89'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOULANGER Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1674
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

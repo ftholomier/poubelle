@@ -1,0 +1,287 @@
+{
+    "id": 7922,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gerard-gnanhouan",
+    "path": "/joueurs/gerard-gnanhouan/",
+    "title": "Gérard Gnanhouan",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/11695.jpg",
+    "date": "2024-11-24T18:34:41",
+    "modified": "2024-11-24T18:51:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "36",
+        "text": "Gérard Gnanhouan a joué 36 matchs (15 clean sheets) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/03-12-2008-12-24gnanhouan.jpg",
+            "caption": "Gérard Gnanhouan",
+            "credit": "L’est républicain",
+            "caption_raw": "Gérard Gnanhouan – L’est républicain"
+        },
+        {
+            "image": "2024/11/64a51eb62f73e869323108.jpg",
+            "caption": "Gérard Gnanhouan",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Gérard Gnanhouan – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/11/le-18-janvier-2003-gerard-gnanhouan-gardait-le-but-sochalien-face-a-lyon-photo-er-francis-reinoso-1614851597.jpg",
+            "caption": "Gérard Gnanhouan",
+            "credit": "L’est républicain",
+            "caption_raw": "Gérard Gnanhouan – L’est républicain"
+        },
+        {
+            "image": "2024/11/unnamed-1.jpg",
+            "caption": "Gérard Gnanhouan –",
+            "credit": "",
+            "caption_raw": "Gérard Gnanhouan –"
+        },
+        {
+            "image": "2024/11/unnamed-2.jpg",
+            "caption": "Gérard Gnanhouan",
+            "credit": "",
+            "caption_raw": "Gérard Gnanhouan"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7922,
+        "url": "https://www.fcsochauxretro.com/a-la-une/gerard-gnanhouan/",
+        "path": "/a-la-une/gerard-gnanhouan/",
+        "slug": "gerard-gnanhouan",
+        "seo_title": "Gérard Gnanhouan - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Gérard Gnanhouan</h2>\n<h4><strong>né le 12 février 1979 à Adzopé (Côte d'Ivoire) </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>77 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>International ivoirien (10 sélections) </strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2002</p>\n<p><strong>Départ de Sochaux : </strong>juin 2005</p>\n<p><strong>Premier match joué</strong> : Lens - Sochaux du 10/08/2002 : 1-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Caen du 22/12/2004 : 0-0 a.p (3-4 tab)</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe de la ligue 2003</li>\n<li>Vainqueur de la coupe de la ligue 2004</li>\n</ul>",
+        "header_lines": [
+            "Gérard Gnanhouan",
+            "né le 12 février 1979 à Adzopé (Côte d'Ivoire)",
+            "Taille : 1m82",
+            "Poids : 77 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "International ivoirien (10 sélections)",
+            "Arrivée à Sochaux : juillet 2002",
+            "Départ de Sochaux : juin 2005",
+            "Premier match joué : Lens - Sochaux du 10/08/2002 : 1-1",
+            "Dernier match joué : Sochaux - Caen du 22/12/2004 : 0-0 a.p (3-4 tab)",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Gérard",
+        "last_name": "Gnanhouan",
+        "display_name": "Gérard Gnanhouan",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1979-02-12",
+                "precision": "day",
+                "text": "12 février 1979"
+            },
+            "place": {
+                "text": "Adzopé (Côte d'Ivoire)",
+                "city": "Adzopé",
+                "department": null,
+                "country": "Côte d'Ivoire",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 12 février 1979 à Adzopé (Côte d'Ivoire)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "77 kg",
+        "weight_kg": 77,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [
+            "International ivoirien (10 sélections)"
+        ],
+        "arrival": {
+            "iso": "2002-07",
+            "precision": "month",
+            "text": "juillet 2002"
+        },
+        "departure": {
+            "iso": "2005-06",
+            "precision": "month",
+            "text": "juin 2005"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lens - Sochaux du 10/08/2002 : 1-1",
+        "last_match": "Sochaux - Caen du 22/12/2004 : 0-0 a.p (3-4 tab)",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gérard Gnanhouan"
+            },
+            {
+                "label": null,
+                "value": "né le 12 février 1979 à Adzopé (Côte d'Ivoire)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "77 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": null,
+                "value": "International ivoirien (10 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2005"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Lens - Sochaux du 10/08/2002 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Caen du 22/12/2004 : 0-0 a.p (3-4 tab)"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de la ligue 2004"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

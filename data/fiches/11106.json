@@ -1,0 +1,297 @@
+{
+    "id": 11106,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nathan-sinkala",
+    "path": "/joueurs/nathan-sinkala/",
+    "title": "Nathan Sinkala",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-109.jpg",
+    "date": "2025-01-29T13:34:00",
+    "modified": "2025-01-29T13:43:30",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Nathan Sinkala a joué 15 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/66-1.jpg",
+            "caption": "Nathan Sinkala",
+            "credit": "L’est républicain",
+            "caption_raw": "Nathan Sinkala – L’est républicain"
+        },
+        {
+            "image": "2025/01/nathan-sinkala-au-duel-avec-un-joueur-adverse-photo-lionel-vadam-1715852338.jpg",
+            "caption": "Nathan Sinkala",
+            "credit": "L’est républicain",
+            "caption_raw": "Nathan Sinkala – L’est républicain"
+        },
+        {
+            "image": "2025/01/nathan-sinkala-fcsm-stoppila-sunzu-fcsmphoto-christian-lemontey-1433140936.jpg",
+            "caption": "Nathan Sinkala",
+            "credit": "L’est républicain",
+            "caption_raw": "Nathan Sinkala – L’est républicain"
+        },
+        {
+            "image": "2025/01/nathan-sinkala-a-gauche-et-stoppila-sunzu-a-droite-les-deux-zambiens-venus-pour-sauver-le-fc-sochaux-photo-jean-luc-gillme-1424948190-1.jpg",
+            "caption": "Nathan Sinkala",
+            "credit": "L’est républicain",
+            "caption_raw": "Nathan Sinkala – L’est républicain"
+        },
+        {
+            "image": "2025/01/l-international-zambien-nathan-sinkala-recrute-a-la-treve-hivernale-par-l-entraineur-savoyard-herve-renard-ex-selectionneur-de-la-zambie-peine-a-contenir-modou-sougou-prete-par-l.jpg",
+            "caption": "Nathan Sinkala",
+            "credit": "L’est républicain",
+            "caption_raw": "Nathan Sinkala – L’est républicain"
+        },
+        {
+            "image": "2025/01/5-109.jpg",
+            "caption": "Nathan Sinkala",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Nathan Sinkala – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11106,
+        "url": "https://www.fcsochauxretro.com/a-la-une/nathan-sinkala/",
+        "path": "/a-la-une/nathan-sinkala/",
+        "slug": "nathan-sinkala",
+        "seo_title": "Nathan Sinkala - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Nathan Sinkala</h2>\n<h4><strong>né le 22 novembre 1990 à Chingola (Zambie)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>milieu défensif </p>\n<p><strong>International zambien (58 sélections, 3 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2014 </p>\n<p><strong>Départ de Sochaux : </strong>juin 2014</p>\n<p><strong>Premier match joué :</strong> Lyon - Sochaux du 11/01/2014 : 2-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Evian TG du 17/05/2014 : 0-3 </p>",
+        "header_lines": [
+            "Nathan Sinkala",
+            "né le 22 novembre 1990 à Chingola (Zambie)",
+            "Taille : 1m75",
+            "Poids : 74 kg",
+            "Pied : ambidextre",
+            "Poste : milieu défensif",
+            "International zambien (58 sélections, 3 buts)",
+            "Arrivée à Sochaux : janvier 2014",
+            "Départ de Sochaux : juin 2014",
+            "Premier match joué : Lyon - Sochaux du 11/01/2014 : 2-0",
+            "Dernier match joué : Sochaux - Evian TG du 17/05/2014 : 0-3"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Nathan",
+        "last_name": "Sinkala",
+        "display_name": "Nathan Sinkala",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1990-11-22",
+                "precision": "day",
+                "text": "22 novembre 1990"
+            },
+            "place": {
+                "text": "Chingola (Zambie)",
+                "city": "Chingola",
+                "department": null,
+                "country": "Zambie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 novembre 1990 à Chingola (Zambie)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "ambidextre",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International zambien (58 sélections, 3 buts)"
+        ],
+        "arrival": {
+            "iso": "2014-01",
+            "precision": "month",
+            "text": "janvier 2014"
+        },
+        "departure": {
+            "iso": "2014-06",
+            "precision": "month",
+            "text": "juin 2014"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lyon - Sochaux du 11/01/2014 : 2-0",
+        "last_match": "Sochaux - Evian TG du 17/05/2014 : 0-3",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Nathan Sinkala"
+            },
+            {
+                "label": null,
+                "value": "né le 22 novembre 1990 à Chingola (Zambie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International zambien (58 sélections, 3 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2014"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2014"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Lyon - Sochaux du 11/01/2014 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Evian TG du 17/05/2014 : 0-3"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "0"
+                ]
+            ],
+            "source_table": 459
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,125 @@
+{
+    "id": 15819,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "tournoi-de-foot-en-salle-de-mulhouse-13-01-1999",
+    "path": "/matchs/1998-1999/tournoi-de-foot-en-salle-de-mulhouse-13-01-1999/",
+    "title": "Tournoi de foot en salle de Mulhouse – 13/01/1999",
+    "categories": [
+        "1998-1999",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "coupes-diverses",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/08/55-9.jpg",
+    "date": "2025-08-16T15:09:06",
+    "modified": "2025-10-02T21:27:25",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux participe traditionnellement au tournoi de foot en salle de Besançon. Cette année changement de destination avec le tournoi de Mulhouse. </li>\n<li>La participation à ce tournoi symbolise aussi le rapprochement en cours entre le club et le FC Mulhouse.</li>\n<li>Face à l'état déplorable de la pelouse de Bonal, Sochaux devrait jouer à Mulhouse en coupe de France contre Beauvais. Le club de Mulhouse, la ligue d’Alsace et la ville de Mulhouse sont d’accord. Mais la ligue de Franche-Comté ne semble pas d’accord.</li>\n<li>Une réunion doit se tenir à Mulhouse, entre les dirigeants du club, les collectivités et des investisseurs lyonnais intéressés pour racheter le club. Sochaux pourrait participer à ce tour de table pour sauver le club et sceller un partenariat. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé du Tournoi",
+            "html": "<p><strong>Poule 1 :</strong></p>\n<p>F.C Sochaux-Montbéliard (D1)</p>\n<p>R.C Strasbourg (D1) (équipe 2)</p>\n<p>F.C Mulhouse (N1)</p>\n<p>Emmedingen (D4 Allemagne)</p>\n<p><strong>Poule 2 :</strong></p>\n<p>R.C Strasbourg (D1) (équipe 1)</p>\n<p>F.C Sochaux-Montbéliard (D1 (équipe 2)</p>\n<p>F.C Mulhouse (N1) (équipe 2)</p>\n<p>Sélection du Maghreb</p>\n<p><strong><u>Finale :</u></strong></p>\n<p><strong>F.C Sochaux-Montbéliard</strong> – R.C Strasbourg : <strong>4 – 1</strong></p>\n<p><u>Buts</u> : Daf (2), Maraval (2) pour Sochaux ; Wallemme (CSC) pour Strasbourg. </p>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><b>Néant. </b></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Premier titre pour Philippe Anziani avec cette coupe Mulhouse.</li>\n<li>Omar Daf termine meilleur buteur du Tournoi avec 7 buts et il est élu meilleur joueur du tournoi.  </li>\n<li><strong>TRANSFERT</strong></li>\n<li>Rebondissement dans le transfert de <strong>Mickael Isabey</strong> à Mulhouse. Son contrat n’a pas été homologué par la ligue, car le club Alsacien bien qu’il possède le statut pro, évolue en National. Ainsi, il n’avait que jusqu’au 31 décembre 1998 pour recruter un joker au contraire des clubs pro de D1 et D2 qui ont jusqu’au 31 janvier. De plus, le club Alsacien connaît des difficultés financières. Ainsi, pour pouvoir valider le contrat de Jean-Guy Wallemme, Gilles Daget a réussit à prêter le jeune ailier sochalien à Valence en D2.</li>\n<li>Le transfert de <strong>Benoit Pansier</strong> le gardien numéro 4 du club à Mulhouse a lui aussi capoté.  </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "Omar Daf termine meilleur joueur et meilleur buteur du tournoi avec 7 buts."
+    },
+    "gallery": [
+        {
+            "image": "2025/08/55-9.jpg",
+            "caption": "Omar Daf 1998-1999",
+            "credit": "L’est républicain",
+            "caption_raw": "Omar Daf 1998-1999 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15819,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/tournoi-de-foot-en-salle-de-mulhouse-13-01-1999/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/tournoi-de-foot-en-salle-de-mulhouse-13-01-1999/",
+        "slug": "tournoi-de-foot-en-salle-de-mulhouse-13-01-1999",
+        "seo_title": "Tournoi de foot en salle de Mulhouse – 13/01/1999 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Tournoi de foot en salle de Mulhouse</strong></h2>\n<h4><strong>Mercredi 13 janvier 1999</strong></h4>\n<h4><strong>Salle municipale de Mulhouse</strong></h4>\n<h4><strong>600 spectateurs</strong></h4>\n<h4><strong> Sochaux remporte le Tournoi en salle de Mulhouse en battant Strasbourg en finale. </strong>  </h4>",
+        "header_lines": [
+            "Tournoi de foot en salle de Mulhouse",
+            "Mercredi 13 janvier 1999",
+            "Salle municipale de Mulhouse",
+            "600 spectateurs",
+            "Sochaux remporte le Tournoi en salle de Mulhouse en battant Strasbourg en finale."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1999-01-13",
+        "date_text": "Mercredi 13 janvier 1999",
+        "season": "1998-1999",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": null,
+        "round_text": "Salle municipale de Mulhouse",
+        "home": {
+            "name": "",
+            "level": null
+        },
+        "away": {
+            "name": "",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": null,
+        "score_raw": "",
+        "score_line": "Tournoi de foot en salle de Mulhouse",
+        "result": null,
+        "stadium": "Sochaux remporte le Tournoi en salle de Mulhouse en battant Strasbourg en finale.",
+        "spectators": 600,
+        "spectators_text": "600 spectateurs",
+        "referee": null,
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Néant."
+            }
+        ],
+        "breves": [
+            "Premier titre pour Philippe Anziani avec cette coupe Mulhouse.",
+            "Omar Daf termine meilleur buteur du Tournoi avec 7 buts et il est élu meilleur joueur du tournoi.",
+            "TRANSFERT",
+            "Rebondissement dans le transfert de Mickael Isabey à Mulhouse. Son contrat n’a pas été homologué par la ligue, car le club Alsacien bien qu’il possède le statut pro, évolue en National. Ainsi, il n’avait que jusqu’au 31 décembre 1998 pour recruter un joker au contraire des clubs pro de D1 et D2 qui ont jusqu’au 31 janvier. De plus, le club Alsacien connaît des difficultés financières. Ainsi, pour pouvoir valider le contrat de Jean-Guy Wallemme, Gilles Daget a réussit à prêter le jeune ailier sochalien à Valence en D2.",
+            "Le transfert de Benoit Pansier le gardien numéro 4 du club à Mulhouse a lui aussi capoté."
+        ],
+        "lineup": null,
+        "other_lineups": [],
+        "event": "Tournoi de foot en salle de Mulhouse",
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

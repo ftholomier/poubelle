@@ -1,0 +1,218 @@
+{
+    "id": 11820,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "stephane-malloyer",
+    "path": "/joueurs/stephane-malloyer/",
+    "title": "Stéphane Malloyer",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Stephane-Malloyer-Pierre-Lorius.png",
+    "date": "2025-02-15T20:24:25",
+    "modified": "2026-02-01T15:08:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>. Arrivé de Châtellerault en 1986 au centre de formation. </p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Stéphane Malloyer a été formé durant 4 saisons à Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Stephane-Malloyer-Pierre-Lorius.png",
+            "caption": "Stéphane Malloyer",
+            "credit": "Pierre Lorius",
+            "caption_raw": "Stéphane Malloyer – Pierre Lorius"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11820,
+        "url": "https://www.fcsochauxretro.com/a-la-une/stephane-malloyer/",
+        "path": "/a-la-une/stephane-malloyer/",
+        "slug": "stephane-malloyer",
+        "seo_title": "Stéphane Malloyer - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Stéphane Malloyer</h2>\n<h4><strong>né le 22 septembre 1970 à Châtellerault (86) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>66 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1986</p>\n<p><strong>Départ de Sochaux : </strong>juin 1990</p>",
+        "header_lines": [
+            "Stéphane Malloyer",
+            "né le 22 septembre 1970 à Châtellerault (86)",
+            "Taille : 1m80",
+            "Poids : 66 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1986",
+            "Départ de Sochaux : juin 1990"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Stéphane",
+        "last_name": "Malloyer",
+        "display_name": "Stéphane Malloyer",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1970-09-22",
+                "precision": "day",
+                "text": "22 septembre 1970"
+            },
+            "place": {
+                "text": "Châtellerault (86)",
+                "city": "Châtellerault",
+                "department": "86",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 septembre 1970 à Châtellerault (86)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "66 kg",
+        "weight_kg": 66,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1986-07",
+            "precision": "month",
+            "text": "juillet 1986"
+        },
+        "departure": {
+            "iso": "1990-06",
+            "precision": "month",
+            "text": "juin 1990"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Stéphane Malloyer"
+            },
+            {
+                "label": null,
+                "value": "né le 22 septembre 1970 à Châtellerault (86)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "66 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1986"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1990"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,604 @@
+{
+    "id": 16494,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-strasbourg-amical-24-07-2010",
+    "path": "/matchs/2010-2011/sochaux-strasbourg-amical-24-07-2010/",
+    "title": "Amical – Sochaux (L1) / Strasbourg (N1) – 24/07/2010 – 2-0",
+    "categories": [
+        "2010-2011",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/38037_1510260953225_1135390979_31502132_2770643_n1.jpg",
+    "date": "2025-09-12T13:04:39",
+    "modified": "2025-12-13T15:26:07",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux doit se reprendre et battre Strasbourg qui évolue en National.</li>\n<li>Ce match a été organisé par le club de Guebwiller en Alsace qui fête ses 100 ans d'existence. </li>\n<li>Teddy Richert est encore absent. Dreyer le remplace. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>3' : </strong>Frappe de Ledy captée facilement par Dreyer.</li>\n<li><strong>24' : Centre de Butin qui arrive dans les pieds de Martin qui allume Gurtner et ouvre le score. (1-0)</strong></li>\n<li><strong>27' : Coup franc de Boudebouz prolongé au premier poteau de la tête pour Perquis vers Faty seul au deuxième qui marque de près. (2-0)</strong></li>\n<li><strong>38' :</strong> Benjamin Genghini l'ancien sochalien prend sa chance à 20 mètres mais ça passe au-dessus du but de Dreyer. </li>\n<li><strong>43' :</strong> Coup franc de Martin dégagé par un défenseur sur Sverkos qui arme une belle volée du droit que Gurtner dévie en corner du pied. </li>\n<li><strong>50' :</strong> Frappe de Correia au-dessus. </li>\n<li><strong>67' :</strong> Correia récupère un ballon au milieu, s'avance et frappe de 30 mètres en force. Dreyer dégage des deux poings. </li>\n<li><strong>73' :</strong> Boudebouz et Martin combinent. Ce dernier tire mais Gurtner sauve son camp. </li>\n<li><strong>90' :</strong> Maurice-Belay pique un ballon vers Tulasne qui reprend juste à côté du montant de Gurtner. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><b>Francis Gillot</b> : <em>\" Nous avons fait une bonne première mi-temps. Il y'a pas mal de motifs de satisfactions et de choses à retenir. En deuxième mi-temps, nous aurions dû enfoncer le clou mais il y'a eu pas mal de changements et cela a cassé le rythme de la partie. Les trois jours de repos vont faire du bien à tout le monde. \"</em></li>\n<li><b>Matthieu Dreyer </b>: <em>\" Avant le match, on s'était dit que nous voulions faire les choses avec application. Cela nous a plutôt bien réussi dans l'ensemble. Nous avons tous fait les efforts nécessaires et cela a payé. Il ne faut pas non plus s'enflammer car ce n'était que Strasbourg en face. \"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>La logique a été respectée et Sochaux l'a emporté logiquement.  </li>\n<li>Martin et Faty sont les deux nouveaux buteurs de cette préparation. Mais aucun attaquant n'a encore marqué. </li>\n<li>Place à un ultime match face à un concurrent direct de ligue 1 : l'AS Nancy. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Deuxième victoire 2 à 0."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/38037_1510260953225_1135390979_31502132_2770643_n1.jpg",
+            "caption": "Sochaux – Strasbourg 2010/2011",
+            "credit": "DR",
+            "caption_raw": "Sochaux – Strasbourg 2010/2011 – DR"
+        },
+        {
+            "image": "2025/09/38037_1510260913224_1135390979_31502131_6127582_n1.jpg",
+            "caption": "Sochaux-Strasbourg 2010/2011",
+            "credit": "",
+            "caption_raw": "Sochaux-Strasbourg 2010/2011"
+        },
+        {
+            "image": "2025/09/39061_1510261633242_1135390979_31502144_2468763_n1.jpg",
+            "caption": "Bréchet – Sochaux-Strasbourg 2010/2011",
+            "credit": "Jean-François Frey",
+            "caption_raw": "Bréchet – Sochaux-Strasbourg 2010/2011 – Jean-François Frey"
+        },
+        {
+            "image": "2025/09/20100816150810082182841.jpg",
+            "caption": "Maurice-Belay – Sochaux-Strasbourg 2010/2011",
+            "credit": "Jean-François Frey",
+            "caption_raw": "Maurice-Belay – Sochaux-Strasbourg 2010/2011 – Jean-François Frey"
+        },
+        {
+            "image": "2025/09/photo-jean-francois-frey-1295381174.jpg",
+            "caption": "Ideye – Sochaux-Strasbourg 2010/2011",
+            "credit": "Jean-François Frey",
+            "caption_raw": "Ideye – Sochaux-Strasbourg 2010/2011 – Jean-François Frey"
+        },
+        {
+            "image": "2025/09/photos-jean-francois-frey-1295381175.jpg",
+            "caption": "Butin – Sochaux-Strasbourg 2010/2011",
+            "credit": "Jean-François Frey",
+            "caption_raw": "Butin – Sochaux-Strasbourg 2010/2011 – Jean-François Frey"
+        },
+        {
+            "image": "2025/09/title-1295381175.jpg",
+            "caption": "Sochaux-Strasbourg 2010/2011",
+            "credit": "Jean-François Frey",
+            "caption_raw": "Sochaux-Strasbourg 2010/2011 – Jean-François Frey"
+        },
+        {
+            "image": "2025/09/title-1295381176-1.jpg",
+            "caption": "Perquis – Sochaux-Strasbourg 2010/2011",
+            "credit": "Jean-François Frey",
+            "caption_raw": "Perquis – Sochaux-Strasbourg 2010/2011 – Jean-François Frey"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16494,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l1-strasbourg-n1-24-07-2010-2-0/",
+        "path": "/a-la-une/amical-sochaux-l1-strasbourg-n1-24-07-2010-2-0/",
+        "slug": "amical-sochaux-l1-strasbourg-n1-24-07-2010-2-0",
+        "seo_title": "Amical - Sochaux (L1) / Strasbourg (N1) - 24/07/2010 - 2-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Strasbourg (Nat) / Sochaux (L1) : 0-2<br></strong></h2>\n<h4><strong>7è match amical de préparation</strong></h4>\n<h4><strong>Stade François Throo à Guebwiller (68)<br></strong></h4>\n<h4><strong>2 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Kalt<br></strong></h4>\n<p>Buts : Martin 24' et Faty 27' pour Sochaux.  </p>",
+        "header_lines": [
+            "Strasbourg (Nat) / Sochaux (L1) : 0-2",
+            "7è match amical de préparation",
+            "Stade François Throo à Guebwiller (68)",
+            "2 000 spectateurs",
+            "Arbitre : M. Kalt",
+            "Buts : Martin 24' et Faty 27' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2010-07-24",
+        "date_text": null,
+        "season": "2010-2011",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "7è match amical de préparation",
+        "home": {
+            "name": "Sochaux",
+            "level": "L1"
+        },
+        "away": {
+            "name": "Strasbourg",
+            "level": "N1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-0",
+        "score_line": "Strasbourg (Nat) / Sochaux (L1) : 0-2",
+        "result": "V",
+        "stadium": "Stade François Throo à Guebwiller (68)",
+        "spectators": 2000,
+        "spectators_text": "2 000 spectateurs",
+        "referee": "M. Kalt",
+        "goals_text": "Martin 24' et Faty 27' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Martin 24' et Faty 27'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "3",
+                "text": "Frappe de Ledy captée facilement par Dreyer.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "24",
+                "text": "Centre de Butin qui arrive dans les pieds de Martin qui allume Gurtner et ouvre le score. (1-0)",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "27",
+                "text": "Coup franc de Boudebouz prolongé au premier poteau de la tête pour Perquis vers Faty seul au deuxième qui marque de près. (2-0)",
+                "goal": true,
+                "score": "2-0"
+            },
+            {
+                "minute": "38",
+                "text": "Benjamin Genghini l'ancien sochalien prend sa chance à 20 mètres mais ça passe au-dessus du but de Dreyer.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "43",
+                "text": "Coup franc de Martin dégagé par un défenseur sur Sverkos qui arme une belle volée du droit que Gurtner dévie en corner du pied.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "50",
+                "text": "Frappe de Correia au-dessus.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "67",
+                "text": "Correia récupère un ballon au milieu, s'avance et frappe de 30 mètres en force. Dreyer dégage des deux poings.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "73",
+                "text": "Boudebouz et Martin combinent. Ce dernier tire mais Gurtner sauve son camp.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "90",
+                "text": "Maurice-Belay pique un ballon vers Tulasne qui reprend juste à côté du montant de Gurtner.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Francis Gillot",
+                "text": "Nous avons fait une bonne première mi-temps. Il y'a pas mal de motifs de satisfactions et de choses à retenir. En deuxième mi-temps, nous aurions dû enfoncer le clou mais il y'a eu pas mal de changements et cela a cassé le rythme de la partie. Les trois jours de repos vont faire du bien à tout le monde."
+            },
+            {
+                "who": "Matthieu Dreyer",
+                "text": "Avant le match, on s'était dit que nous voulions faire les choses avec application. Cela nous a plutôt bien réussi dans l'ensemble. Nous avons tous fait les efforts nécessaires et cela a payé. Il ne faut pas non plus s'enflammer car ce n'était que Strasbourg en face."
+            }
+        ],
+        "breves": [
+            "La logique a été respectée et Sochaux l'a emporté logiquement.",
+            "Martin et Faty sont les deux nouveaux buteurs de cette préparation. Mais aucun attaquant n'a encore marqué.",
+            "Place à un ultime match face à un concurrent direct de ligue 1 : l'AS Nancy."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "DREYER Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PERQUIS Damien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "Sortie 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRECHET Jérémy",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FATY Jacques",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "27"
+                    ],
+                    "goals_text": "27'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MIKARI Yassin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CARLAO",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MARTIN Marvin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "24"
+                    ],
+                    "goals_text": "24'",
+                    "sub_in": null,
+                    "sub_out": "87",
+                    "sub_text": "Sortie 87'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BOUDEBOUZ Ryad",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "81",
+                    "sub_text": "Sortie 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "BUTIN Edouard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "IDEYE Brown",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SVERKOS Vaclav",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "81",
+                    "sub_text": "Sortie 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CROS Pierrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DUPLUS Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DRAME Boukary",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MAURICE-BELAY Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "JOSSE Maxime",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIAS Rafael",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "81",
+                    "sub_out": null,
+                    "sub_text": "Entrée 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAVIES Charlie",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "81",
+                    "sub_out": null,
+                    "sub_text": "Entrée 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "TULASNE Geoffrey",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "Entrée 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GURLER Serdar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "87",
+                    "sub_out": null,
+                    "sub_text": "Entrée 87'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "GILLOT Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1479
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

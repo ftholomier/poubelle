@@ -1,0 +1,172 @@
+{
+    "id": 8449,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "florent-cabassud",
+    "path": "/joueurs/florent-cabassud/",
+    "title": "Florent Cabassud",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/telechargement-2.jpg",
+    "date": "2024-12-03T21:08:47",
+    "modified": "2026-07-31T21:59:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Florent Cabassud débute le football dans sa région natale, le Vaucluse. Il intègre le centre de formation de Sochaux à l'âge de 16 ans. Il y fait ses gammes durant quatre années. Il s'entraîne régulièrement avec l'effectif professionnel, mais une grave blessure à la cheville le tient éloigné des terrains et il ne réintègre plus le groupe professionnel.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>En 2006, Sochaux ne lui propose pas de contrat professionnel et il s'engage en National 2 à Vesoul. Pendant dix ans, il écume les pelouses de National 2, passant tour à tour par Vesoul, Compiègne, Dunkerque, Tarbes, Trélissac et Arles-Avignon. Lorsque ce dernier club dépose le bilan, il est recruté, en novembre 2016, par Épinal pour évoluer en championnat de National. Il n'y dispute toutefois que deux matches avant de repartir dans le Sud.</li>\n<li>Aujourd'hui, il entraîne les gardiens de but à Saint-Rémy-de-Provence et évolue en Régional 2 sous les couleurs du SPC Jonquiérois.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Florent Cabassud n'a jamais joué en professionnel avec Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/telechargement-2.jpg",
+            "caption": "Florent Cabassud",
+            "credit": "Vosges Matin",
+            "caption_raw": "Florent Cabassud – Vosges Matin"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8449,
+        "url": "https://www.fcsochauxretro.com/a-la-une/florent-cabassud/",
+        "path": "/a-la-une/florent-cabassud/",
+        "slug": "florent-cabassud",
+        "seo_title": "Florent Cabassud - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Florent Cabassud</h2>\n<h4><strong>né le 9 juillet 1986 à Orange (84)</strong></h4>\n<p><strong>Taille : </strong>1m93</p>\n<p><strong>Poids :</strong> 82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2002</p>\n<p><strong>Départ de Sochaux : </strong>juin 2006</p>",
+        "header_lines": [
+            "Florent Cabassud",
+            "né le 9 juillet 1986 à Orange (84)",
+            "Taille : 1m93",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 2002",
+            "Départ de Sochaux : juin 2006"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Florent",
+        "last_name": "Cabassud",
+        "display_name": "Florent Cabassud",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1986-07-09",
+                "precision": "day",
+                "text": "9 juillet 1986"
+            },
+            "place": {
+                "text": "Orange (84)",
+                "city": "Orange",
+                "department": "84",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 juillet 1986 à Orange (84)"
+        },
+        "death": null,
+        "height": "1m93",
+        "height_cm": 193,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2002-07",
+            "precision": "month",
+            "text": "juillet 2002"
+        },
+        "departure": {
+            "iso": "2006-06",
+            "precision": "month",
+            "text": "juin 2006"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Florent Cabassud"
+            },
+            {
+                "label": null,
+                "value": "né le 9 juillet 1986 à Orange (84)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m93"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2006"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

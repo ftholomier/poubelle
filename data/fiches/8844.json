@@ -1,0 +1,313 @@
+{
+    "id": 8844,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rafael-dias",
+    "path": "/joueurs/rafael-dias/",
+    "title": "Rafaël Dias",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/rafael-dias-estime-que-le-penalty-concede-en-premiere-periode-a-marque-le-tournant-de-ce-match-a-bordeaux-1484126988.jpg",
+    "date": "2024-12-13T21:00:06",
+    "modified": "2025-03-31T19:57:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "37",
+        "text": "Rafaël Dias a joué 37 matchs (1 but et 5 passes décisives) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/sddefault.jpg",
+            "caption": "Rafaël Dias",
+            "credit": "Youtube",
+            "caption_raw": "Rafaël Dias – Youtube"
+        },
+        {
+            "image": "2024/12/rafael-dias-est-fou-de-joie-le-fc-sochaux-vient-de-marquer-et-peut-continuer-de-croire-au-maintien-en-ligue-1-c-etait-en-2013-photo-lionel-vadam-1552322799.jpg",
+            "caption": "Rafaël Dias",
+            "credit": "L’est républicain",
+            "caption_raw": "Rafaël Dias – L’est républicain"
+        },
+        {
+            "image": "2024/12/fc-sochaux-dias-prete-a-arles-avignon-1433141066.jpg",
+            "caption": "Rafaël Dias",
+            "credit": "L’est républicain",
+            "caption_raw": "Rafaël Dias – L’est républicain"
+        },
+        {
+            "image": "2024/12/BweRI9wCQAExEaC.jpg",
+            "caption": "Rafaël Dias",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Rafaël Dias – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/12/rafael-dias-estime-que-le-penalty-concede-en-premiere-periode-a-marque-le-tournant-de-ce-match-a-bordeaux-1484126988.jpg",
+            "caption": "Rafaël Dias",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Rafaël Dias – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8844,
+        "url": "https://www.fcsochauxretro.com/a-la-une/rafael-dias/",
+        "path": "/a-la-une/rafael-dias/",
+        "slug": "rafael-dias",
+        "seo_title": "Rafaël Dias - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Rafaël Dias</h2>\n<h4><strong>né le 29 janvier 1991 à Covilha (Portugal)</strong></h4>\n<p><strong>Taille :</strong> 1m81</p>\n<p><strong>Poids :</strong> 71 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> milieu offensif</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2003</p>\n<p><strong>Départ de Sochaux :</strong> janvier 2014</p>\n<p><strong>Premier match joué : </strong>Marseille - Sochaux du 07/04/2010 : 3-0</p>\n<p><strong>Dernier match joué : </strong>Bressuire - Sochaux du 04/01/2014 : 0-3</p>\n<p><strong>Premier but marqué : </strong>Bordeaux - Sochaux du 01/01/2012 : 2-2 - But à la 87'</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Finaliste de la coupe Gambardella 2010</li>\n</ul>",
+        "header_lines": [
+            "Rafaël Dias",
+            "né le 29 janvier 1991 à Covilha (Portugal)",
+            "Taille : 1m81",
+            "Poids : 71 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : juillet 2003",
+            "Départ de Sochaux : janvier 2014",
+            "Premier match joué : Marseille - Sochaux du 07/04/2010 : 3-0",
+            "Dernier match joué : Bressuire - Sochaux du 04/01/2014 : 0-3",
+            "Premier but marqué : Bordeaux - Sochaux du 01/01/2012 : 2-2 - But à la 87'",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe Gambardella 2010"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Rafaël",
+        "last_name": "Dias",
+        "display_name": "Rafaël Dias",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1991-01-29",
+                "precision": "day",
+                "text": "29 janvier 1991"
+            },
+            "place": {
+                "text": "Covilha (Portugal)",
+                "city": "Covilha",
+                "department": null,
+                "country": "Portugal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 janvier 1991 à Covilha (Portugal)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2003-07",
+            "precision": "month",
+            "text": "juillet 2003"
+        },
+        "departure": {
+            "iso": "2014-01",
+            "precision": "month",
+            "text": "janvier 2014"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Marseille - Sochaux du 07/04/2010 : 3-0",
+        "last_match": "Bressuire - Sochaux du 04/01/2014 : 0-3",
+        "first_goal": "Bordeaux - Sochaux du 01/01/2012 : 2-2 - But à la 87'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe Gambardella 2010"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Rafaël Dias"
+            },
+            {
+                "label": null,
+                "value": "né le 29 janvier 1991 à Covilha (Portugal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2003"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2014"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Marseille - Sochaux du 07/04/2010 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Bressuire - Sochaux du 04/01/2014 : 0-3"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Bordeaux - Sochaux du 01/01/2012 : 2-2 - But à la 87'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe Gambardella 2010"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2009 - 2010",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2010 - 2011",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "2011 - 2012",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "2012 - 2013",
+                    "14",
+                    "1",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "17",
+                    "1"
+                ],
+                [
+                    "2013 - 2014",
+                    "7",
+                    "0",
+                    "1",
+                    "0",
+                    "2",
+                    "0",
+                    "10",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "29",
+                    "1",
+                    "6",
+                    "0",
+                    "2",
+                    "0",
+                    "37",
+                    "1"
+                ]
+            ],
+            "source_table": 976
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

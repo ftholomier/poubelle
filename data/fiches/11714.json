@@ -1,0 +1,358 @@
+{
+    "id": 11714,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "antonio-lozes",
+    "path": "/joueurs/antonio-lozes/",
+    "title": "Antonio Lozes",
+    "categories": [
+        "a-la-une",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/03/Lozes.jpg",
+    "date": "2025-02-14T11:53:37",
+    "modified": "2025-03-04T15:10:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "145",
+        "text": "Antonio Lozes aurait gardé les buts de Sochaux à 145 reprises (amicaux compris)."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/6371c372d3e6947f63297a1bb0d3517a.jpg",
+            "caption": "Antonio Lozes",
+            "credit": "lemuseedesgardiensdebut.com",
+            "caption_raw": "Antonio Lozes – lemuseedesgardiensdebut.com"
+        },
+        {
+            "image": "2025/02/92c3666de694b7624b86e9ea61a0b537.jpg",
+            "caption": "Antonio Lozes",
+            "credit": "lemuseedesgardiensdebut.com",
+            "caption_raw": "Antonio Lozes – lemuseedesgardiensdebut.com"
+        },
+        {
+            "image": "2025/02/59c3a62f7f5dbc708625ce91882cb020.jpg",
+            "caption": "Antonio Lozes",
+            "credit": "lemuseedesgardiensdebut.com",
+            "caption_raw": "Antonio Lozes – lemuseedesgardiensdebut.com"
+        },
+        {
+            "image": "2025/02/5-33.jpg",
+            "caption": "Antonio Lozes",
+            "credit": "dr",
+            "caption_raw": "Antonio Lozes – dr"
+        },
+        {
+            "image": "2025/03/Lozes.jpg",
+            "caption": "Lozes –",
+            "credit": "DR",
+            "caption_raw": "Lozes – – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11714,
+        "url": "https://www.fcsochauxretro.com/a-la-une/antonio-lozes/",
+        "path": "/a-la-une/antonio-lozes/",
+        "slug": "antonio-lozes",
+        "seo_title": "Antonio Lozes - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Antonio Lozes</h2>\n<h4><strong>né le 19 mai 1905 à San Sebastian (Espagne)</strong></h4>\n<h4><strong>Décédé le 1er janvier 1945 à xx</strong></h4>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>International français (3 sélections)</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1929</p>\n<p><strong>Départ de Sochaux : </strong>juin 1934</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1935</p>\n<p><strong>Départ de Sochaux : </strong>juin 1936</p>\n<p><strong>Premier match joué :</strong> Sochaux - USCA Pontarlier du 15/09/1929 : 8-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - SC Fives du 30/04/1933 : 5-3</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Champion de première série (DH) du District du Pays de Montbéliard 1930</li>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n<li>Vainqueur du Challenge de Turckheim 1931</li>\n<li>Vainqueur de la coupe Peugeot 1931</li>\n</ul>",
+        "header_lines": [
+            "Antonio Lozes",
+            "né le 19 mai 1905 à San Sebastian (Espagne)",
+            "Décédé le 1er janvier 1945 à xx",
+            "Poste : gardien de but",
+            "International français (3 sélections)",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1929",
+            "Départ de Sochaux : juin 1934",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1935",
+            "Départ de Sochaux : juin 1936",
+            "Premier match joué : Sochaux - USCA Pontarlier du 15/09/1929 : 8-1",
+            "Dernier match joué : Sochaux - SC Fives du 30/04/1933 : 5-3",
+            "Palmarès avec Sochaux :",
+            "Champion de première série (DH) du District du Pays de Montbéliard 1930",
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Vainqueur de la coupe Peugeot 1931"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Antonio",
+        "last_name": "Lozes",
+        "display_name": "Antonio Lozes",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1905-05-19",
+                "precision": "day",
+                "text": "19 mai 1905"
+            },
+            "place": {
+                "text": "San Sebastian (Espagne)",
+                "city": "San Sebastian",
+                "department": null,
+                "country": "Espagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 mai 1905 à San Sebastian (Espagne)"
+        },
+        "death": {
+            "date": {
+                "iso": "1945-01-01",
+                "precision": "day",
+                "text": "1er janvier 1945"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 1er janvier 1945 à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [
+            "International français (3 sélections)"
+        ],
+        "arrival": {
+            "iso": "1929-07",
+            "precision": "month",
+            "text": "juillet 1929"
+        },
+        "departure": {
+            "iso": "1934-06",
+            "precision": "month",
+            "text": "juin 1934"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - USCA Pontarlier du 15/09/1929 : 8-1",
+        "last_match": "Sochaux - SC Fives du 30/04/1933 : 5-3",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de première série (DH) du District du Pays de Montbéliard 1930",
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Vainqueur de la coupe Peugeot 1931"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Antonio Lozes"
+            },
+            {
+                "label": null,
+                "value": "né le 19 mai 1905 à San Sebastian (Espagne)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 1er janvier 1945 à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": null,
+                "value": "International français (3 sélections)"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1929"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1934"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1935"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1936"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - USCA Pontarlier du 15/09/1929 : 8-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - SC Fives du 30/04/1933 : 5-3"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de première série (DH) du District du Pays de Montbéliard 1930"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1931"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Peugeot 1931"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1986-1987",
+                    "8",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "8",
+                    "0"
+                ],
+                [
+                    "1987-1988",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "17",
+                    "8",
+                    "25",
+                    "8"
+                ],
+                [
+                    "1988-1989",
+                    "6",
+                    "0",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "8",
+                    "1"
+                ],
+                [
+                    "1990-1991",
+                    "19",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "21",
+                    "5"
+                ],
+                [
+                    "1991-1992",
+                    "21",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "54",
+                    "6",
+                    "13",
+                    "2",
+                    "17",
+                    "8",
+                    "85",
+                    "16"
+                ]
+            ],
+            "source_table": 289
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

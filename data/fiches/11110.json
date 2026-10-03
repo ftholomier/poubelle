@@ -1,0 +1,285 @@
+{
+    "id": 11110,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mohamed-sissoko",
+    "path": "/joueurs/mohamed-sissoko/",
+    "title": "Mohamed Sissoko",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-102.jpg",
+    "date": "2025-01-28T19:25:46",
+    "modified": "2025-01-28T19:42:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Mohamed Sissoko a joué 13 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/momo-sissoko-il-faut-continuer-ainsi-mais-surtout-ne-pas-s-enflammer-savourer-bien-evidemment-mais-toujours-garder-les-pieds-sur-terre-photo-er-lionel-vadam-1554575547.jpg",
+            "caption": "Mohamed Sissoko",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Sissoko – L’est républicain"
+        },
+        {
+            "image": "2025/01/momo-sissoko-cette-ligue-2-est-completement-differente-de-ce-que-j-ai-pu-connaitre-mais-je-m-adapte-photo-christian-lemontey-1552417229.jpg",
+            "caption": "Mohamed Sissoko",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Sissoko – L’est républicain"
+        },
+        {
+            "image": "2025/01/DxDk8KAXQAIy0EA.jpg",
+            "caption": "Mohamed Sissoko",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Sissoko – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11110,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mohamed-sissoko/",
+        "path": "/a-la-une/mohamed-sissoko/",
+        "slug": "mohamed-sissoko",
+        "seo_title": "Mohamed Sissoko - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mohamed Sissoko</h2>\n<h4><strong>né le 22 janvier 1985 à Mont-Saint-Aignan (76)</strong></h4>\n<p><strong>Taille : </strong>1m90</p>\n<p><strong>Poids : </strong>81 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif<strong><br></strong></p>\n<p><strong>International malien (34 sélections, 2 buts)</strong></p>\n<p><strong>International français U16, U17 et U18 (7 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2019</p>\n<p><strong>Départ de Sochaux : </strong>juin 2019</p>\n<p><strong>Premier match joué :</strong> Béziers - Sochaux du 08/02/2019 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Grenoble du 17/05/2019 : 3-1</p>",
+        "header_lines": [
+            "Mohamed Sissoko",
+            "né le 22 janvier 1985 à Mont-Saint-Aignan (76)",
+            "Taille : 1m90",
+            "Poids : 81 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International malien (34 sélections, 2 buts)",
+            "International français U16, U17 et U18 (7 sélections)",
+            "Arrivée à Sochaux : janvier 2019",
+            "Départ de Sochaux : juin 2019",
+            "Premier match joué : Béziers - Sochaux du 08/02/2019 : 0-0",
+            "Dernier match joué : Sochaux - Grenoble du 17/05/2019 : 3-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mohamed",
+        "last_name": "Sissoko",
+        "display_name": "Mohamed Sissoko",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1985-01-22",
+                "precision": "day",
+                "text": "22 janvier 1985"
+            },
+            "place": {
+                "text": "Mont-Saint-Aignan (76)",
+                "city": "Mont-Saint-Aignan",
+                "department": "76",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 janvier 1985 à Mont-Saint-Aignan (76)"
+        },
+        "death": null,
+        "height": "1m90",
+        "height_cm": 190,
+        "weight": "81 kg",
+        "weight_kg": 81,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International malien (34 sélections, 2 buts)",
+            "International français U16, U17 et U18 (7 sélections)"
+        ],
+        "arrival": {
+            "iso": "2019-01",
+            "precision": "month",
+            "text": "janvier 2019"
+        },
+        "departure": {
+            "iso": "2019-06",
+            "precision": "month",
+            "text": "juin 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Béziers - Sochaux du 08/02/2019 : 0-0",
+        "last_match": "Sochaux - Grenoble du 17/05/2019 : 3-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mohamed Sissoko"
+            },
+            {
+                "label": null,
+                "value": "né le 22 janvier 1985 à Mont-Saint-Aignan (76)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m90"
+            },
+            {
+                "label": "Poids",
+                "value": "81 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International malien (34 sélections, 2 buts)"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U17 et U18 (7 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Béziers - Sochaux du 08/02/2019 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Grenoble du 17/05/2019 : 3-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1993-1994",
+                    "28",
+                    "2",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "2"
+                ],
+                [
+                    "1994-1995",
+                    "30",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "32",
+                    "0"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "27",
+                    "2",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "31",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "58",
+                    "2",
+                    "27",
+                    "2",
+                    "6",
+                    "0",
+                    "2",
+                    "0",
+                    "93",
+                    "4"
+                ]
+            ],
+            "source_table": 434
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

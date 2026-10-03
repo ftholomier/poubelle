@@ -1,0 +1,417 @@
+{
+    "id": 17861,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ac-ajaccio-sochaux-division-2-02-12-2000",
+    "path": "/matchs/2000-2001/ac-ajaccio-sochaux-division-2-02-12-2000/",
+    "title": "J22 – AC Ajaccio / Sochaux – D2 – 02/12/2000 – 0-0",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/60326421_1189415671220441_725965772148441088_n-a-ne-pas-publier.jpg",
+    "date": "2025-11-08T21:52:00",
+    "modified": "2025-12-21T09:12:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "24",
+        "text": "Meilleure attaque et meilleure défense du championnat pour Sochaux avec une différence de buts de +24"
+    },
+    "gallery": [
+        {
+            "image": "2025/11/60326421_1189415671220441_725965772148441088_n-a-ne-pas-publier.jpg",
+            "caption": "Chedli – AC Ajaccio – Sochaux 2000/2001",
+            "credit": "DR",
+            "caption_raw": "Chedli – AC Ajaccio – Sochaux 2000/2001 – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17861,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j22-ac-ajaccio-sochaux-d2-02-12-2000-0-0/",
+        "path": "/a-la-une/j22-ac-ajaccio-sochaux-d2-02-12-2000-0-0/",
+        "slug": "j22-ac-ajaccio-sochaux-d2-02-12-2000-0-0",
+        "seo_title": "J22 - AC Ajaccio / Sochaux - D2 - 02/12/2000 - 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>AC Ajaccio / Sochaux : 0-0<br></strong></h2>\n<h4><strong>22è journée de championnat de D2</strong></h4>\n<h4><strong>Samedi 2 décembre 2000</strong></h4>\n<h4><strong>Stade François Coty (2A)</strong></h4>\n<h4><strong>1 071 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Bonnichon</strong></h4>",
+        "header_lines": [
+            "AC Ajaccio / Sochaux : 0-0",
+            "22è journée de championnat de D2",
+            "Samedi 2 décembre 2000",
+            "Stade François Coty (2A)",
+            "1 071 spectateurs",
+            "Arbitre : M. Bonnichon"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-12-02",
+        "date_text": "Samedi 2 décembre 2000",
+        "season": "2000-2001",
+        "competition": "Championnat",
+        "competition_label": "Division 2",
+        "competition_code": "D2",
+        "round": "J22",
+        "round_text": "22è journée de championnat de D2",
+        "home": {
+            "name": "AC Ajaccio",
+            "level": null
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "AC Ajaccio / Sochaux : 0-0",
+        "result": "N",
+        "stadium": "Stade François Coty (2A)",
+        "spectators": 1071,
+        "spectators_text": "1 071 spectateurs",
+        "referee": "M. Bonnichon",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MERIEM Camel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "65",
+                    "sub_text": "Sortie 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "88",
+                    "sub_text": "Sortie 88'",
+                    "yellow": [
+                        "11"
+                    ],
+                    "red": [],
+                    "cards_text": "J 11'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "Sortie 75'",
+                    "yellow": [
+                        "14"
+                    ],
+                    "red": [],
+                    "cards_text": "J 14'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "65",
+                    "sub_out": null,
+                    "sub_text": "Entrée 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DROBNJAK Anto",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "Entrée 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ISABEY Michaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "88",
+                    "sub_out": null,
+                    "sub_text": "Entrée 88'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MONSOREAU Sylvain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1679
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

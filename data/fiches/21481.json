@@ -1,0 +1,496 @@
+{
+    "id": 21481,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-selection-de-franche-comte-amical-29-06-2019",
+    "path": "/matchs/2019-2020/sochaux-selection-de-franche-comte-amical-29-06-2019/",
+    "title": "Amical – Sochaux / Sélection de Franche-Comté – 29/06/2019 – 6-0",
+    "categories": [
+        "2019-2020",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/06/Mbakata-FCSMNFC.jpg",
+    "date": "2026-06-14T22:38:35",
+    "modified": "2026-08-14T22:52:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "4è année de suite que Sochaux reprend sa saison par un match amical contre des joueurs locaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/06/Mbakata-FCSMNFC.jpg",
+            "caption": "M’Bakata lors d’un match amical face à une sélection du Nord Franche-Comté",
+            "credit": "FCSM",
+            "caption_raw": "M’Bakata lors d’un match amical face à une sélection du Nord Franche-Comté – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 21481,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-selection-de-franche-comte-29-06-2019-6-0/",
+        "path": "/a-la-une/amical-sochaux-selection-de-franche-comte-29-06-2019-6-0/",
+        "slug": "amical-sochaux-selection-de-franche-comte-29-06-2019-6-0",
+        "seo_title": "Amical – Sochaux / Sélection de Franche-Comté – 29/06/2019 – 6-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Sélection du Nord Franche-Comté : 6-0</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 29 juin 2019</strong></h4>\n<h4><strong>Stade René Blum à Montbéliard (25)</strong></h4>\n<h4><strong>300 spectateurs</strong></h4>\n<h4><strong>Arbitre : xx</strong></h4>\n<p>Buts : Moltenis 9', Sané 34' (s.p), N'Diaye 55', Glaentzlin 58', Lasme 65' et N'Tolla 87' pour Sochaux</p>",
+        "header_lines": [
+            "Sochaux / Sélection du Nord Franche-Comté : 6-0",
+            "Match amical",
+            "Samedi 29 juin 2019",
+            "Stade René Blum à Montbéliard (25)",
+            "300 spectateurs",
+            "Arbitre : xx",
+            "Buts : Moltenis 9', Sané 34' (s.p), N'Diaye 55', Glaentzlin 58', Lasme 65' et N'Tolla 87' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2019-06-29",
+        "date_text": "Samedi 29 juin 2019",
+        "season": "2019-2020",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "away": {
+            "name": "Sélection de Franche-Comté",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 6,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "6-0",
+        "score_line": "Sochaux / Sélection du Nord Franche-Comté : 6-0",
+        "result": "V",
+        "stadium": "Stade René Blum à Montbéliard (25)",
+        "spectators": 300,
+        "spectators_text": "300 spectateurs",
+        "referee": "xx",
+        "goals_text": "Moltenis 9', Sané 34' (s.p), N'Diaye 55', Glaentzlin 58', Lasme 65' et N'Tolla 87' pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Moltenis 9', Sané 34' (s.p), N'Diaye 55', Glaentzlin 58', Lasme 65' et N'Tolla 87'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "LONG Aubin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "61",
+                    "sub_text": "↓ 61'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MBAKATA Salem",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "↓ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MOLTENIS Boris",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "9"
+                    ],
+                    "goals_text": "⚽ 9'",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LACROIX Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PENDANT Jason",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "KAABOUNI Younes",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FRANCOIS Martin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "UMBDENSTOCK Isaak",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "OBADEYI Tope",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANE Abdoulaye",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "34"
+                    ],
+                    "goals_text": "⚽ 34'",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LASME Bryan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "65"
+                    ],
+                    "goals_text": "⚽ 65'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GALVEZ-DIARRA Quentin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "61",
+                    "sub_out": null,
+                    "sub_text": "↑ 61'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SEZEMBA Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ZOHORE Nathan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SENHADJI Rayan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "N'DIAYE Rassoul",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "55"
+                    ],
+                    "goals_text": "⚽ 55'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SITTI Melvin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "WEISSBECK Gaëtan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "NTOLLA Nathanaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "87"
+                    ],
+                    "goals_text": "⚽ 87'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GLAENTZLIN Victor",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "58"
+                    ],
+                    "goals_text": "⚽ 58'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1956
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

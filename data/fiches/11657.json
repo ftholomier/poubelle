@@ -1,0 +1,272 @@
+{
+    "id": 11657,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "dimitri-lienard",
+    "path": "/joueurs/dimitri-lienard/",
+    "title": "Dimitri Liénard",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-21.jpg",
+    "date": "2025-02-10T22:37:27",
+    "modified": "2025-02-10T22:51:10",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "21",
+        "text": "Dimitri Liénard est revenu à Sochaux 21 ans après son départ du centre de formation."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/tele44chargement.jpg",
+            "caption": "Dimitri Liénard",
+            "credit": "L’est républicain",
+            "caption_raw": "Dimitri Liénard – L’est républicain"
+        },
+        {
+            "image": "2025/02/dimitri-lienard-etait-a-l-arret-depuis-deux-semaines-photo-lionel-vadam-1732390682.jpg",
+            "caption": "Dimitri Liénard",
+            "credit": "L’est républicain",
+            "caption_raw": "Dimitri Liénard – L’est républicain"
+        },
+        {
+            "image": "2025/02/dimitri-lienard-cumule-75-minutes-avec-le-fcsm-depuis-son-arrivee-photo-christian-lemontey-1707501161.jpg",
+            "caption": "Dimitri Liénard",
+            "credit": "L’est républicain",
+            "caption_raw": "Dimitri Liénard – L’est républicain"
+        },
+        {
+            "image": "2025/02/dimitri-lienard-a-signe-jusqu-en-juin-2025-avec-le-football-club-sochaux-montbeliard-national-1-photo-lionel-vadam-1705007790.jpg",
+            "caption": "Dimitri Liénard",
+            "credit": "L’est républicain",
+            "caption_raw": "Dimitri Liénard – L’est républicain"
+        },
+        {
+            "image": "2025/02/5-21.jpg",
+            "caption": "Dimitri Liénard",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Dimitri Liénard – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11657,
+        "url": "https://www.fcsochauxretro.com/a-la-une/dimitri-lienard/",
+        "path": "/a-la-une/dimitri-lienard/",
+        "slug": "dimitri-lienard",
+        "seo_title": "Dimitri Liénard - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Dimitri Liénard</h2>\n<h4><strong>né le 13 février 1988 à Belfort (90)</strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids : </strong>77 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu relayeur</p>\n<p><strong>Premier passage en formation</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2000</p>\n<p><strong>Départ de Sochaux : </strong>juin 2003</p>\n<p><strong>Deuxième passage joueur</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2024</p>\n<p><strong>Départ de Sochaux : </strong>juin 2025</p>\n<p><strong>Premier match joué :</strong> Sochaux - Reims du 21/01/2024 : 2-2 (5-4 tab)</p>\n<p><strong>Dernier match joué : </strong></p>",
+        "header_lines": [
+            "Dimitri Liénard",
+            "né le 13 février 1988 à Belfort (90)",
+            "Taille : 1m81",
+            "Poids : 77 kg",
+            "Pied : gaucher",
+            "Poste : milieu relayeur",
+            "Premier passage en formation",
+            "Arrivée à Sochaux : juillet 2000",
+            "Départ de Sochaux : juin 2003",
+            "Deuxième passage joueur",
+            "Arrivée à Sochaux : janvier 2024",
+            "Départ de Sochaux : juin 2025",
+            "Premier match joué : Sochaux - Reims du 21/01/2024 : 2-2 (5-4 tab)",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Dimitri",
+        "last_name": "Liénard",
+        "display_name": "Dimitri Liénard",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1988-02-13",
+                "precision": "day",
+                "text": "13 février 1988"
+            },
+            "place": {
+                "text": "Belfort (90)",
+                "city": "Belfort",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 13 février 1988 à Belfort (90)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "77 kg",
+        "weight_kg": 77,
+        "foot": "gaucher",
+        "position": "milieu relayeur",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2000-07",
+            "precision": "month",
+            "text": "juillet 2000"
+        },
+        "departure": {
+            "iso": "2003-06",
+            "precision": "month",
+            "text": "juin 2003"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Reims du 21/01/2024 : 2-2 (5-4 tab)",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Dimitri Liénard"
+            },
+            {
+                "label": null,
+                "value": "né le 13 février 1988 à Belfort (90)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "77 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu relayeur"
+            },
+            {
+                "label": null,
+                "value": "Premier passage en formation"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2000"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2003"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage joueur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2024"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2025"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Reims du 21/01/2024 : 2-2 (5-4 tab)"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1991-1992",
+                    "23",
+                    "4",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "24",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "23",
+                    "4",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "24",
+                    "4"
+                ]
+            ],
+            "source_table": 200
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,269 @@
+{
+    "id": 11665,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jeremy-livolant",
+    "path": "/joueurs/jeremy-livolant/",
+    "title": "Jérémy Livolant",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-22.jpg",
+    "date": "2025-02-10T22:56:29",
+    "modified": "2025-02-10T23:07:42",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "26",
+        "text": "Jérémy Livolant a joué 26 matchs (4 buts et 4 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/jeremy-livolant-a-de-grosses-ambitions-sur-ce-match-etre-4-e-ou-5-e-au-moment-de-cette-treve-ce-serait-bon-pour-la-confiance-photo-er-christian-lemontey-1570115688.jpg",
+            "caption": "Jérémy Livolant",
+            "credit": "L’est républicain",
+            "caption_raw": "Jérémy Livolant – L’est républicain"
+        },
+        {
+            "image": "2025/02/jeremy-livolant-avait-joue-26-matchs-avec-sochaux-photo-christian-lemontey-1726754208.jpg",
+            "caption": "Jérémy Livolant",
+            "credit": "L’est républicain",
+            "caption_raw": "Jérémy Livolant – L’est républicain"
+        },
+        {
+            "image": "2025/02/jeremy-livolant-c-est-vraiment-avec-sochaux-que-j-ai-pu-franchir-ce-gros-palier-en-ligue-2-photo-er-lionel-vadam-1591446255.jpg",
+            "caption": "Jérémy Livolant",
+            "credit": "L’est républicain",
+            "caption_raw": "Jérémy Livolant – L’est républicain"
+        },
+        {
+            "image": "2025/02/jeremy-livolant-pourquoi-pas-ne-pas-rester-et-signer-ici-l-an-prochain-photo-er-lionel-vadam-1582830205.jpg",
+            "caption": "Jérémy Livolant",
+            "credit": "L’est républicain",
+            "caption_raw": "Jérémy Livolant – L’est républicain"
+        },
+        {
+            "image": "2025/02/photo-1563797945.jpg",
+            "caption": "Jérémy Livolant",
+            "credit": "L’est républicain",
+            "caption_raw": "Jérémy Livolant – L’est républicain"
+        },
+        {
+            "image": "2025/02/5-22.jpg",
+            "caption": "Jérémy Livolant",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Jérémy Livolant – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11665,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jeremy-livolant/",
+        "path": "/a-la-une/jeremy-livolant/",
+        "slug": "jeremy-livolant",
+        "seo_title": "Jérémy Livolant - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jérémy Livolant</h2>\n<h4><strong>né le 9 janvier 1998 à Morlaix (29)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>International français U16, U19 et U20 (16 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2019</p>\n<p><strong>Départ de Sochaux : </strong>juin 2020</p>\n<p><strong>Premier match joué :</strong> Sochaux - Caen du 26/07/2019 : 0-0</p>\n<p><strong>Dernier match joué : </strong>Clermont - Sochaux du 06/03/2020 : 2-0</p>\n<p><strong>Premier but marqué :</strong> Niort - Sochaux du 02/11/2019 : 0-2  - Buts à la 64'</p>",
+        "header_lines": [
+            "Jérémy Livolant",
+            "né le 9 janvier 1998 à Morlaix (29)",
+            "Taille : 1m75",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "International français U16, U19 et U20 (16 sélections)",
+            "Arrivée à Sochaux : juillet 2019",
+            "Départ de Sochaux : juin 2020",
+            "Premier match joué : Sochaux - Caen du 26/07/2019 : 0-0",
+            "Dernier match joué : Clermont - Sochaux du 06/03/2020 : 2-0",
+            "Premier but marqué : Niort - Sochaux du 02/11/2019 : 0-2 - Buts à la 64'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jérémy",
+        "last_name": "Livolant",
+        "display_name": "Jérémy Livolant",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1998-01-09",
+                "precision": "day",
+                "text": "9 janvier 1998"
+            },
+            "place": {
+                "text": "Morlaix (29)",
+                "city": "Morlaix",
+                "department": "29",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 janvier 1998 à Morlaix (29)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U16, U19 et U20 (16 sélections)"
+        ],
+        "arrival": {
+            "iso": "2019-07",
+            "precision": "month",
+            "text": "juillet 2019"
+        },
+        "departure": {
+            "iso": "2020-06",
+            "precision": "month",
+            "text": "juin 2020"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Caen du 26/07/2019 : 0-0",
+        "last_match": "Clermont - Sochaux du 06/03/2020 : 2-0",
+        "first_goal": "Niort - Sochaux du 02/11/2019 : 0-2 - Buts à la 64'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jérémy Livolant"
+            },
+            {
+                "label": null,
+                "value": "né le 9 janvier 1998 à Morlaix (29)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U19 et U20 (16 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2020"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Caen du 26/07/2019 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Clermont - Sochaux du 06/03/2020 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Niort - Sochaux du 02/11/2019 : 0-2 - Buts à la 64'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1991-1992",
+                    "23",
+                    "4",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "24",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "23",
+                    "4",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "24",
+                    "4"
+                ]
+            ],
+            "source_table": 200
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

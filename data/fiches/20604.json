@@ -1,0 +1,163 @@
+{
+    "id": 20604,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "eric-eglin",
+    "path": "/joueurs/eric-eglin/",
+    "title": "Eric Eglin",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2026-02-15T21:14:05",
+    "modified": "2026-02-15T21:34:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Enfant de Besançon, Eric Eglin arrive à Sochaux en 1981. Il joue avec des joueurs comme Sauzée, Lestrade, Nicol, Brucato notamment. </li>\n<li>Mais il n'aura pas sa chance en professionnel à Sochaux. </li>\n<li>En 1982, à l'âge de 16 ans, il retourne au RCFC Besançon qui évolue en D2. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>A 16 ans et demi à peine, il débute en deuxième division avec le RCFC Besançon. </li>\n<li>Milieu offensif ou attaquant il marque même pour son deuxième match à ce niveau contre Cannes (3-0). </li>\n<li>Malgré son jeune âge, Paul Orsatti l'entraîneur Corse de Besançon lui fait confiance. Il joue 18 matchs de D2 dont 14 comme titulaire et marque 1 but. </li>\n<li>On le perd ensuite de vue à partir de la fin de la saison 1982/1983 dans le monde professionnel.</li>\n<li>On retrouve trace de lui en 1992/1993. Il joue 12 matchs de 3è division suisse avec le SR Delémont. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Eric Eglin est resté 1 an au centre de formation de Sochaux de 15 à 16 ans."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20604,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/eric-eglin/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/eric-eglin/",
+        "slug": "eric-eglin",
+        "seo_title": "Eric Eglin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Eric Eglin</h2>\n<h4><strong>né le 20 janvier 1966 à Besançon (25) </strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong>xx kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux en formation : </strong>juillet 1981</p>\n<p><strong>Départ de Sochaux : </strong>juin 1982</p>",
+        "header_lines": [
+            "Eric Eglin",
+            "né le 20 janvier 1966 à Besançon (25)",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux en formation : juillet 1981",
+            "Départ de Sochaux : juin 1982"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Eric",
+        "last_name": "Eglin",
+        "display_name": "Eric Eglin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1966-01-20",
+                "precision": "day",
+                "text": "20 janvier 1966"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 20 janvier 1966 à Besançon (25)"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1981-07",
+            "precision": "month",
+            "text": "juillet 1981"
+        },
+        "departure": {
+            "iso": "1982-06",
+            "precision": "month",
+            "text": "juin 1982"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Eric Eglin"
+            },
+            {
+                "label": null,
+                "value": "né le 20 janvier 1966 à Besançon (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux en formation",
+                "value": "juillet 1981"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1982"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

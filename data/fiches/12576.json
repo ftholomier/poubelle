@@ -1,0 +1,225 @@
+{
+    "id": 12576,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "franck-guela",
+    "path": "/joueurs/franck-guela/",
+    "title": "Franck Guela (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-19.jpg",
+    "date": "2025-03-06T22:28:44",
+    "modified": "2025-11-12T14:08:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Franck Guela a été à l'essai 2 jours à Sochaux en septembre 2008."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-19.jpg",
+            "caption": "Franck Guela",
+            "credit": "FCSM",
+            "caption_raw": "Franck Guela – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12576,
+        "url": "https://www.fcsochauxretro.com/uncategorized/franck-guela/",
+        "path": "/uncategorized/franck-guela/",
+        "slug": "franck-guela",
+        "seo_title": "Franck Guela (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Franck Guela</h2>\n<h4><strong>né le 19 juin 1986 à Abidjan (Côte d'Ivoire)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu offensif, ailier gauche</p>\n<p><strong>International ivoirien (3 sélections, 1 but)</strong></p>\n<p><strong>A l'essai en : </strong>septembre 2008</p>",
+        "header_lines": [
+            "Franck Guela",
+            "né le 19 juin 1986 à Abidjan (Côte d'Ivoire)",
+            "Taille : 1m78",
+            "Poids : 70 kg",
+            "Pied : gaucher",
+            "Poste : milieu offensif, ailier gauche",
+            "International ivoirien (3 sélections, 1 but)",
+            "A l'essai en : septembre 2008"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Franck",
+        "last_name": "Guela",
+        "display_name": "Franck Guela",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2008-09",
+            "precision": "month",
+            "text": "septembre 2008"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1986-06-19",
+                "precision": "day",
+                "text": "19 juin 1986"
+            },
+            "place": {
+                "text": "Abidjan (Côte d'Ivoire)",
+                "city": "Abidjan",
+                "department": null,
+                "country": "Côte d'Ivoire",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 juin 1986 à Abidjan (Côte d'Ivoire)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "gaucher",
+        "position": "milieu offensif, ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International ivoirien (3 sélections, 1 but)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Franck Guela"
+            },
+            {
+                "label": null,
+                "value": "né le 19 juin 1986 à Abidjan (Côte d'Ivoire)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif, ailier gauche"
+            },
+            {
+                "label": null,
+                "value": "International ivoirien (3 sélections, 1 but)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "septembre 2008"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

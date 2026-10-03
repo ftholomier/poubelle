@@ -1,0 +1,176 @@
+{
+    "id": 8622,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gabriel-junior-eteme",
+    "path": "/joueurs/gabriel-junior-eteme/",
+    "title": "Gabriel-Junior Etémé",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/91352.jpg",
+    "date": "2024-12-08T10:48:29",
+    "modified": "2025-05-19T20:11:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Gabriel Junior Etémé n'a joué aucun match pour l'équipe professionnelle de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/91352.jpg",
+            "caption": "Gabriel Junior Etemé",
+            "credit": "football database",
+            "caption_raw": "Gabriel Junior Etemé – football database"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8622,
+        "url": "https://www.fcsochauxretro.com/a-la-une/gabriel-junior-eteme/",
+        "path": "/a-la-une/gabriel-junior-eteme/",
+        "slug": "gabriel-junior-eteme",
+        "seo_title": "Gabriel-Junior Etémé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Gabriel Junior Etémé</h2>\n<h4><strong>né le 30 août 1990 à Douala (Cameroun) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2010</p>\n<p><strong>Départ de Sochaux : </strong>juin 2013</p>",
+        "header_lines": [
+            "Gabriel Junior Etémé",
+            "né le 30 août 1990 à Douala (Cameroun)",
+            "Taille : 1m80",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juillet 2010",
+            "Départ de Sochaux : juin 2013"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Gabriel Junior",
+        "last_name": "Etémé",
+        "display_name": "Gabriel Junior Etémé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1990-08-30",
+                "precision": "day",
+                "text": "30 août 1990"
+            },
+            "place": {
+                "text": "Douala (Cameroun)",
+                "city": "Douala",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 août 1990 à Douala (Cameroun)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2010-07",
+            "precision": "month",
+            "text": "juillet 2010"
+        },
+        "departure": {
+            "iso": "2013-06",
+            "precision": "month",
+            "text": "juin 2013"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gabriel Junior Etémé"
+            },
+            {
+                "label": null,
+                "value": "né le 30 août 1990 à Douala (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2010"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2013"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

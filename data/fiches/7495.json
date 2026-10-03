@@ -1,0 +1,320 @@
+{
+    "id": 7495,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "moumouni-dagano",
+    "path": "/joueurs/moumouni-dagano/",
+    "title": "Moumouni Dagano",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound8772143656681025110.jpg",
+    "date": "2024-11-11T21:14:03",
+    "modified": "2025-03-08T21:22:53",
+    "author": "aurelie",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "76",
+        "text": "Moumouni Dagano a joué 76 matchs (13 buts et 4 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/inbound1922055737558347177.jpg",
+            "caption": "Moumouni Dagano – Saison 2007-2008",
+            "credit": "fcsm",
+            "caption_raw": "Moumouni Dagano – Saison 2007-2008 – fcsm"
+        },
+        {
+            "image": "2025/01/inbound3434616191578912648.jpg",
+            "caption": "Moumouni Dagano – Saison 2006-2007",
+            "credit": "fcsm",
+            "caption_raw": "Moumouni Dagano – Saison 2006-2007 – fcsm"
+        },
+        {
+            "image": "2025/01/inbound2856142661117541472.jpg",
+            "caption": "Saison 2006-2007",
+            "credit": "fcsm",
+            "caption_raw": "Saison 2006-2007 – fcsm"
+        },
+        {
+            "image": "2024/11/dagano-vignette.jpg",
+            "caption": "Moumouni Dagano",
+            "credit": "FCSM",
+            "caption_raw": "Moumouni Dagano Photo: FCSM"
+        },
+        {
+            "image": "2024/11/moumouni-dagano-debarque-en-france-a-guingamp-entre-2003-et-2005-puis-joue-a-sochaux-de-2005-a-2008-photo-er-lionel-vadam-1632139601.jpg",
+            "caption": "Moumouni Dagano Photo: ER",
+            "credit": "Lionel Vadam",
+            "caption_raw": "Moumouni Dagano Photo: ER – Lionel Vadam"
+        },
+        {
+            "image": "2024/11/montbeliard-le-18-fevrier-2006-fc-sochaux-auxerre-mezague-iasbey-n-daw-et-dagano-1542650547-ER.jpg",
+            "caption": "Mezague; Isabey; NDaw; Dagano",
+            "credit": "Est républicain",
+            "caption_raw": "Mezague; Isabey; NDaw; Dagano Photo: Est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7495,
+        "url": "https://www.fcsochauxretro.com/a-la-une/moumouni-dagano-7495/",
+        "path": "/a-la-une/moumouni-dagano-7495/",
+        "slug": "moumouni-dagano-7495",
+        "seo_title": "Moumouni Dagano - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Moumouni Dagano</h2>\n<h4><strong>né le 1er janvier 1981 à Bobo Dioulasso (Burkina Faso)</strong></h4>\n<p><strong>Taille : </strong>1m87</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>avant-centre</p>\n<p><strong>International burkinabé (83 sélections, 34 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2005</p>\n<p><strong>Départ de Sochaux : </strong>juin 2008</p>\n<p><strong>Premier match joué :</strong> Sochaux - Lille du 20/08/2005 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - PSG du 17/05/2008 : 1-2</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Nantes du 21/09/2005 : 1-0 - But à la 51'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe de France 2007</li>\n<li>Finaliste du Trophée des champions 2007</li>\n</ul>",
+        "header_lines": [
+            "Moumouni Dagano",
+            "né le 1er janvier 1981 à Bobo Dioulasso (Burkina Faso)",
+            "Taille : 1m87",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : avant-centre",
+            "International burkinabé (83 sélections, 34 buts)",
+            "Arrivée à Sochaux : juillet 2005",
+            "Départ de Sochaux : juin 2008",
+            "Premier match joué : Sochaux - Lille du 20/08/2005 : 0-0",
+            "Dernier match joué : Sochaux - PSG du 17/05/2008 : 1-2",
+            "Premier but marqué : Sochaux - Nantes du 21/09/2005 : 1-0 - But à la 51'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe de France 2007",
+            "Finaliste du Trophée des champions 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Moumouni",
+        "last_name": "Dagano",
+        "display_name": "Moumouni Dagano",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1981-01-01",
+                "precision": "day",
+                "text": "1er janvier 1981"
+            },
+            "place": {
+                "text": "Bobo Dioulasso (Burkina Faso)",
+                "city": "Bobo Dioulasso",
+                "department": null,
+                "country": "Burkina Faso",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er janvier 1981 à Bobo Dioulasso (Burkina Faso)"
+        },
+        "death": null,
+        "height": "1m87",
+        "height_cm": 187,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "avant-centre",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International burkinabé (83 sélections, 34 buts)"
+        ],
+        "arrival": {
+            "iso": "2005-07",
+            "precision": "month",
+            "text": "juillet 2005"
+        },
+        "departure": {
+            "iso": "2008-06",
+            "precision": "month",
+            "text": "juin 2008"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Lille du 20/08/2005 : 0-0",
+        "last_match": "Sochaux - PSG du 17/05/2008 : 1-2",
+        "first_goal": "Sochaux - Nantes du 21/09/2005 : 1-0 - But à la 51'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe de France 2007",
+            "Finaliste du Trophée des champions 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Moumouni Dagano"
+            },
+            {
+                "label": null,
+                "value": "né le 1er janvier 1981 à Bobo Dioulasso (Burkina Faso)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m87"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "avant-centre"
+            },
+            {
+                "label": null,
+                "value": "International burkinabé (83 sélections, 34 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2005"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2008"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Lille du 20/08/2005 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - PSG du 17/05/2008 : 1-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Nantes du 21/09/2005 : 1-0 - But à la 51'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 2007"
+            },
+            {
+                "label": null,
+                "value": "Finaliste du Trophée des champions 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2005 - 2006",
+                    "32",
+                    "7",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "35",
+                    "7"
+                ],
+                [
+                    "2006 - 2007",
+                    "13",
+                    "2",
+                    "-",
+                    "-",
+                    "3",
+                    "2",
+                    "0",
+                    "0",
+                    "16",
+                    "4"
+                ],
+                [
+                    "2007 - 2008",
+                    "21",
+                    "0",
+                    "2",
+                    "0",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "25",
+                    "2"
+                ],
+                [
+                    "TOTAL",
+                    "66",
+                    "9",
+                    "2",
+                    "0",
+                    "6",
+                    "4",
+                    "2",
+                    "0",
+                    "76",
+                    "13"
+                ]
+            ],
+            "source_table": 922
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

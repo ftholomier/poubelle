@@ -1,0 +1,232 @@
+{
+    "id": 8763,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "franchel-ibara",
+    "path": "/joueurs/franchel-ibara/",
+    "title": "Franchel Ibara",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/inbound6189762606593626291.jpg",
+    "date": "2024-12-13T07:51:13",
+    "modified": "2025-02-01T10:15:33",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Franchel Ibara est resté 1 saison à Sochaux au centre de formation."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/20965.jpg",
+            "caption": "Franchel Ibara",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Franchel Ibara – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/12/inbound6907136296883422263.jpg",
+            "caption": "Franchel Ibara – Saison 2008-2009",
+            "credit": "fcsm",
+            "caption_raw": "Franchel Ibara – Saison 2008-2009 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8763,
+        "url": "https://www.fcsochauxretro.com/a-la-une/franchel-ibara/",
+        "path": "/a-la-une/franchel-ibara/",
+        "slug": "franchel-ibara",
+        "seo_title": "Franchel Ibara - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Franchel Ibara</h2>\n<h4><strong>né le 27 juillet 1989 à Brazzaville (République démocratique du Congo)</strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>attaquant ou milieu offensif<strong><br></strong></p>\n<p><strong>International congolais (2 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2007</p>\n<p><strong>Départ de Sochaux : </strong>juin 2008</p>",
+        "header_lines": [
+            "Franchel Ibara",
+            "né le 27 juillet 1989 à Brazzaville (République démocratique du Congo)",
+            "Taille : 1m85",
+            "Poids : 78 kg",
+            "Pied : ambidextre",
+            "Poste : attaquant ou milieu offensif",
+            "International congolais (2 sélections, 1 but)",
+            "Arrivée à Sochaux : juillet 2007",
+            "Départ de Sochaux : juin 2008"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Franchel",
+        "last_name": "Ibara",
+        "display_name": "Franchel Ibara",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1989-07-27",
+                "precision": "day",
+                "text": "27 juillet 1989"
+            },
+            "place": {
+                "text": "Brazzaville (République démocratique du Congo)",
+                "city": "Brazzaville",
+                "department": null,
+                "country": "République démocratique du Congo",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 27 juillet 1989 à Brazzaville (République démocratique du Congo)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "ambidextre",
+        "position": "attaquant ou milieu offensif",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International congolais (2 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2007-07",
+            "precision": "month",
+            "text": "juillet 2007"
+        },
+        "departure": {
+            "iso": "2008-06",
+            "precision": "month",
+            "text": "juin 2008"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Franchel Ibara"
+            },
+            {
+                "label": null,
+                "value": "né le 27 juillet 1989 à Brazzaville (République démocratique du Congo)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant ou milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International congolais (2 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2007"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2008"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

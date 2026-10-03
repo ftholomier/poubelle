@@ -1,0 +1,113 @@
+{
+    "id": 16429,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierre-emonin",
+    "path": "/personnages-emblematiques/pierre-emonin/",
+    "title": "Pierre Emonin",
+    "categories": [
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/6787c6b4a9136021794861.webp",
+    "date": "2025-09-06T16:53:26",
+    "modified": "2025-11-12T20:22:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<p><strong>Le communiqué que le club lui a consacré lors de son décès en janvier 2025 : </strong></p>\n<p><strong>\" Le FCSM a appris avec une immense tristesse le décès de Pierre Emonin, à l’âge de 81 ans. Salarié multi-tâches, dévoué et au grand cœur, il a œuvré pendant de nombreuses années au service du club.</strong></p>\n<p>Pierre faisait partie de ces personnes essentielles qui, dans l’ombre, contribuent au bon fonctionnement du FCSM. Impliqué et investi dans tout ce qu’il accomplissait pour le club, il est difficile de résumer tout ce qu’il apportait au quotidien.</p>\n<p>Passionné de football, Pierre a longtemps officié comme arbitre tout en exerçant son métier chez Peugeot. Il a fait ses débuts au club en tant que bénévole dans les années 1980 et avait pris des responsabilités à l’arrivée du nouveau Stade.</p>\n<p>S’en sont suivies de nombreuses années de service auprès du FCSM, où Pierre répondait toujours présent pour accompagner joueurs, arbitres, délégués et bien d’autres.</p>\n<p>Pierre faisait partie des visages qui incarnent le club et ses valeurs. Apprécié de tous pour son implication et sa joie de vivre, sa disparition laisse un grand vide dans le cœur des collaborateurs et des supporters. Il restera à jamais dans l’histoire du FCSM et laissera derrière lui des souvenirs impérissables.</p>\n<p>Les pensées de l’ensemble du FC Sochaux-Montbéliard accompagnent sa famille et ses proches en ces moments douloureux.</p>\n<p>Une minute de silence sera respectée en sa mémoire lors de la prochaine rencontre au Stade Bonal.\"</p>\n<ul>\n<li>Celui que de nombreux fidèle du club surnommaient « Pierrot » vivait à Grand-Charmont. Responsable des contrôleurs, il s'occupait aussi de la réception des arbitres officiels les soirs de match. </li>\n<li>Passionné par le club, il n'a pas compté ses heures lors de ses différents engagements. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "45",
+        "text": "Pierre Emonin a été un bénévole puis un salarié fidèle et engagé durant 45 ans au sein du club."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/6787c6b4a9136021794861.webp",
+            "caption": "Pierre Emonin",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Pierre Emonin – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16429,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/pierre-emonin/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/pierre-emonin/",
+        "slug": "pierre-emonin",
+        "seo_title": "Pierre Emonin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pierre Emonin</h2>\n<h4><strong>Bénévole puis salarié multi-tâches du club durant 45 ans.    </strong></h4>",
+        "header_lines": [
+            "Pierre Emonin",
+            "Bénévole puis salarié multi-tâches du club durant 45 ans."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Pierre",
+        "last_name": "Emonin",
+        "display_name": "Pierre Emonin",
+        "nickname": "",
+        "subtitle": "Bénévole puis salarié multi-tâches du club durant 45 ans.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierre Emonin"
+            },
+            {
+                "label": null,
+                "value": "Bénévole puis salarié multi-tâches du club durant 45 ans."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

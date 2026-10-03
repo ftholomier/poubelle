@@ -1,0 +1,259 @@
+{
+    "id": 7294,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "serge-cardot",
+    "path": "/joueurs/serge-cardot/",
+    "title": "Serge Cardot",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-11-10T18:07:05",
+    "modified": "2025-11-17T03:47:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Serge Cardot a joué 5 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7294,
+        "url": "https://www.fcsochauxretro.com/a-la-une/serge-cardot/",
+        "path": "/a-la-une/serge-cardot/",
+        "slug": "serge-cardot",
+        "seo_title": "Serge Cardot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Serge Cardot</h2>\n<h4><strong>né le 7 avril 1932 à Saint-Barthélémy d'Anjou (49)</strong></h4>\n<h4><strong>Décédé le 9 novembre 2013 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m74</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1957</p>\n<p><strong>Départ de Sochaux : </strong>juin 1961</p>\n<p><strong>Premier match :</strong> Sochaux - Limoges du 02/03/1958 : 1-2</p>\n<p><strong>Dernier match : </strong>RCFC Besançon - Sochaux du 02/10/1960 : 2-2</p>",
+        "header_lines": [
+            "Serge Cardot",
+            "né le 7 avril 1932 à Saint-Barthélémy d'Anjou (49)",
+            "Décédé le 9 novembre 2013 à Montbéliard (25)",
+            "Taille : 1m74",
+            "Poids : 74 kg",
+            "Pied : droitier",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1957",
+            "Départ de Sochaux : juin 1961",
+            "Premier match : Sochaux - Limoges du 02/03/1958 : 1-2",
+            "Dernier match : RCFC Besançon - Sochaux du 02/10/1960 : 2-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Serge",
+        "last_name": "Cardot",
+        "display_name": "Serge Cardot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1932-04-07",
+                "precision": "day",
+                "text": "7 avril 1932"
+            },
+            "place": {
+                "text": "Saint-Barthélémy d'Anjou (49)",
+                "city": "Saint-Barthélémy d'Anjou",
+                "department": "49",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 avril 1932 à Saint-Barthélémy d'Anjou (49)"
+        },
+        "death": {
+            "date": {
+                "iso": "2013-11-09",
+                "precision": "day",
+                "text": "9 novembre 2013"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 9 novembre 2013 à Montbéliard (25)"
+        },
+        "height": "1m74",
+        "height_cm": 174,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "droitier",
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1957-07",
+            "precision": "month",
+            "text": "juillet 1957"
+        },
+        "departure": {
+            "iso": "1961-06",
+            "precision": "month",
+            "text": "juin 1961"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Limoges du 02/03/1958 : 1-2",
+        "last_match": "RCFC Besançon - Sochaux du 02/10/1960 : 2-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Serge Cardot"
+            },
+            {
+                "label": null,
+                "value": "né le 7 avril 1932 à Saint-Barthélémy d'Anjou (49)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 9 novembre 2013 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m74"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1957"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1961"
+            },
+            {
+                "label": "Premier match",
+                "value": "Sochaux - Limoges du 02/03/1958 : 1-2"
+            },
+            {
+                "label": "Dernier match",
+                "value": "RCFC Besançon - Sochaux du 02/10/1960 : 2-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe Drago",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1957 - 1958",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1960 - 1961",
+                    "-",
+                    "-",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "0",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "5",
+                    "0"
+                ]
+            ],
+            "source_table": 881
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

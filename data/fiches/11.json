@@ -1,0 +1,65 @@
+{
+    "id": 11,
+    "type": "page",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "contact",
+    "path": "/contact/",
+    "title": "Contact",
+    "categories": [],
+    "a_la_une": false,
+    "featured_image": null,
+    "date": "2023-06-13T10:38:34",
+    "modified": "2024-01-16T22:41:57",
+    "author": "kantik",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "FC Sochaux Rétro",
+            "html": ""
+        },
+        {
+            "title": "Contact",
+            "html": ""
+        },
+        {
+            "title": "Téléphone",
+            "html": ""
+        },
+        {
+            "title": "06 00 00 00 00",
+            "html": ""
+        },
+        {
+            "title": "Formulaire de contact",
+            "html": ""
+        }
+    ],
+    "key_figure": null,
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11,
+        "url": "https://www.fcsochauxretro.com/contact/",
+        "path": "/contact/",
+        "slug": "contact",
+        "seo_title": "Contact - FC Sochaux Retro - FCSM",
+        "header_html": "",
+        "header_lines": []
+    },
+    "i18n": [],
+    "article": {
+        "kind": "article",
+        "heading": "",
+        "subtitle": "",
+        "header_html": "",
+        "season": null
+    },
+    "tables": []
+}

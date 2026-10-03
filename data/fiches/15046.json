@@ -1,0 +1,204 @@
+{
+    "id": 15046,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "victor-monthieu",
+    "path": "/joueurs/victor-monthieu/",
+    "title": "Victor Monthieu",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/07/6866ae74b7987673614894.jpg",
+    "date": "2025-07-06T21:36:04",
+    "modified": "2025-07-06T21:45:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "16",
+        "text": "Victor Monthieu a signé son premier contrat professionnel avec Sochaux son club formateur à l'âge de 16 ans."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/6866ae74b7987673614894.jpg",
+            "caption": "Victor Monthieu",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Victor Monthieu – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2025/07/fc-sochaux-victor-monthieu-signe-a-16-ans-son-premier-contrat-professionnel-1751569292-1.jpg",
+            "caption": "Victor Monthieu",
+            "credit": "L’est républicain",
+            "caption_raw": "Victor Monthieu – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15046,
+        "url": "https://www.fcsochauxretro.com/a-la-une/victor-monthieu/",
+        "path": "/a-la-une/victor-monthieu/",
+        "slug": "victor-monthieu",
+        "seo_title": "Victor Monthieu - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Victor Monthieu</h2>\n<h4><strong>né le 19 juillet 2008 à Clamart (92)</strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : xx</strong> kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> attaquant</p>\n<p><strong>International français U17 </strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2023</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match joué : </strong>Sochaux - xx du xx/08/2025 : x-x</p>\n<p><strong>Dernier match joué : </strong></p>\n<p><strong>Premier but marqué : </strong></p>",
+        "header_lines": [
+            "Victor Monthieu",
+            "né le 19 juillet 2008 à Clamart (92)",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International français U17",
+            "Arrivée à Sochaux : juillet 2023",
+            "Départ de Sochaux :",
+            "Premier match joué : Sochaux - xx du xx/08/2025 : x-x",
+            "Dernier match joué :",
+            "Premier but marqué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Victor",
+        "last_name": "Monthieu",
+        "display_name": "Victor Monthieu",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2008-07-19",
+                "precision": "day",
+                "text": "19 juillet 2008"
+            },
+            "place": {
+                "text": "Clamart (92)",
+                "city": "Clamart",
+                "department": "92",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 juillet 2008 à Clamart (92)"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U17"
+        ],
+        "arrival": {
+            "iso": "2023-07",
+            "precision": "month",
+            "text": "juillet 2023"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - xx du xx/08/2025 : x-x",
+        "last_match": "",
+        "first_goal": "",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Victor Monthieu"
+            },
+            {
+                "label": null,
+                "value": "né le 19 juillet 2008 à Clamart (92)"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français U17"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - xx du xx/08/2025 : x-x"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            },
+            {
+                "label": "Premier but marqué",
+                "value": ""
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

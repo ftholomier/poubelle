@@ -1,0 +1,156 @@
+{
+    "id": 20214,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "walter-koleznik",
+    "path": "/joueurs/walter-koleznik/",
+    "title": "Walter Koleznik (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/01/walter_koleznik.jpg",
+    "date": "2026-01-20T18:11:45",
+    "modified": "2026-02-04T20:48:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Walter Koleznik débute sa carrière au Graz AK en première division autrichienne en 1961. </li>\n<li>Milieu de terrain technique et rapide il se distingue en championnat d'Autriche et obtient sa première sélection en 1963 contre l'Irlande. A cette occasion il marque son premier et seul but en sélection. </li>\n<li>Fin 1967 et au printemps 1968 il retrouve sa place en sélection nationale. Quelques semaines plus tard il a l'occasion d'effectuer un essai à Sochaux.  </li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>En juillet 1968, Sochaux cherche à se renforcer au milieu du terrain. Les dirigeants repèrent Walter Koleznik et lui proposent un essai. Il dispute un match amical contre le club suisse de La Chaux de Fonds. </li>\n<li>Le joueur donne satisfaction aux dirigeants et Dobrosav Krstic le jeune entraîneur sochalien. Mais les négociations achoppent au niveau du salaire et le joueur repart à Graz. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Finalement Walter Koleznik fera toute sa carrière au Graz AK avec qui il jouera 401 matchs. </li>\n<li>Après sa retraite en 1978, il devient entraîneur intérimaire du club. Il termine en 1979 et redeviendra adjoint puis entraineur principal dans les années 80. Son fils Gernot et son petit fils Kei deviendront aussi des joueurs du Graz AK. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Walter Koleznik a disputé un match amical contre La Chaux de Fonds (Suisse) en 1968."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/walter_koleznik.jpg",
+            "caption": "Walter Koleznik",
+            "credit": "DR",
+            "caption_raw": "Walter Koleznik – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20214,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/walter-koleznik-a-lessai/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/walter-koleznik-a-lessai/",
+        "slug": "walter-koleznik-a-lessai",
+        "seo_title": "Walter Koleznik (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Walter Koleznik</h2>\n<h4><strong>né le 17 octobre 1942 en Autriche</strong></h4>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>International autrichien (6 sélections, 1 but)</strong></p>\n<p><strong>A l'essai à Sochaux : </strong>juillet 2001</p>",
+        "header_lines": [
+            "Walter Koleznik",
+            "né le 17 octobre 1942 en Autriche",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "International autrichien (6 sélections, 1 but)",
+            "A l'essai à Sochaux : juillet 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Walter",
+        "last_name": "Koleznik",
+        "display_name": "Walter Koleznik",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2001-07",
+            "precision": "month",
+            "text": "juillet 2001"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1942-10-17",
+                "precision": "day",
+                "text": "17 octobre 1942 en Autriche"
+            },
+            "place": null,
+            "text": "né le 17 octobre 1942 en Autriche"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International autrichien (6 sélections, 1 but)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Walter Koleznik"
+            },
+            {
+                "label": null,
+                "value": "né le 17 octobre 1942 en Autriche"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": null,
+                "value": "International autrichien (6 sélections, 1 but)"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "juillet 2001"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

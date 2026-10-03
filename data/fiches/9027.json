@@ -1,0 +1,280 @@
+{
+    "id": 9027,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "anto-drobnjak",
+    "path": "/joueurs/anto-drobnjak/",
+    "title": "Anto Drobnjak",
+    "categories": [
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/inbound7085574454123354754.jpg",
+    "date": "2024-12-15T16:54:24",
+    "modified": "2025-07-16T21:44:38",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "39",
+        "text": "Anto Drobnjak a joué 39 matchs (9 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/ancien-joueur-du-fc-sochaux-montbeliard-anto-drobnjak-s-est-illustre-dans-son-pays-d-origine-apres-sa-carriere-photo-er-archive-1620813990.jpg",
+            "caption": "Anto Drobjnak",
+            "credit": "L’est républicain",
+            "caption_raw": "Anto Drobjnak – L’est républicain"
+        },
+        {
+            "image": "2024/12/inbound3566125552818073835.jpg",
+            "caption": "Anto Drobnjak Saison 2000-2001",
+            "credit": "fcsm",
+            "caption_raw": "Anto Drobnjak Saison 2000-2001 – fcsm"
+        },
+        {
+            "image": "2024/12/inbound7760091339543363496.jpg",
+            "caption": "Anto Drobnjak fcsmSaison 1999-2000",
+            "credit": "",
+            "caption_raw": "Anto Drobnjak fcsmSaison 1999-2000"
+        },
+        {
+            "image": "2024/12/inbound7085574454123354754.jpg",
+            "caption": "Anto Drobnjak Saison 2000-2001",
+            "credit": "fcsm",
+            "caption_raw": "Anto Drobnjak Saison 2000-2001 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9027,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/anto-drobnjak/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/anto-drobnjak/",
+        "slug": "anto-drobnjak",
+        "seo_title": "Anto Drobnjak - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Anto Drobnjak</h2>\n<h4><strong>né le 21 septembre 1968 à Bijelo Polje (Monténégro)</strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids :</strong> 78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International yougolsave (7 sélections, 4 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1999</p>\n<p><strong>Départ de Sochaux : </strong>juin 2001</p>\n<p><strong>Premier match joué </strong>: Nîmes - Sochaux du 31/07/1999 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Nîmes du 18/05/2001 : 4-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Nice du 06/08/1999 : 2-1 - But à la 83'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de deuxième division 2001</li>\n</ul>",
+        "header_lines": [
+            "Anto Drobnjak",
+            "né le 21 septembre 1968 à Bijelo Polje (Monténégro)",
+            "Taille : 1m86",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International yougolsave (7 sélections, 4 buts)",
+            "Arrivée à Sochaux : juillet 1999",
+            "Départ de Sochaux : juin 2001",
+            "Premier match joué : Nîmes - Sochaux du 31/07/1999 : 2-1",
+            "Dernier match joué : Sochaux - Nîmes du 18/05/2001 : 4-1",
+            "Premier but marqué : Sochaux - Nice du 06/08/1999 : 2-1 - But à la 83'",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Anto",
+        "last_name": "Drobnjak",
+        "display_name": "Anto Drobnjak",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1968-09-21",
+                "precision": "day",
+                "text": "21 septembre 1968"
+            },
+            "place": {
+                "text": "Bijelo Polje (Monténégro)",
+                "city": "Bijelo Polje",
+                "department": null,
+                "country": "Monténégro",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 septembre 1968 à Bijelo Polje (Monténégro)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International yougolsave (7 sélections, 4 buts)"
+        ],
+        "arrival": {
+            "iso": "1999-07",
+            "precision": "month",
+            "text": "juillet 1999"
+        },
+        "departure": {
+            "iso": "2001-06",
+            "precision": "month",
+            "text": "juin 2001"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Nîmes - Sochaux du 31/07/1999 : 2-1",
+        "last_match": "Sochaux - Nîmes du 18/05/2001 : 4-1",
+        "first_goal": "Sochaux - Nice du 06/08/1999 : 2-1 - But à la 83'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division 2001"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Anto Drobnjak"
+            },
+            {
+                "label": null,
+                "value": "né le 21 septembre 1968 à Bijelo Polje (Monténégro)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International yougolsave (7 sélections, 4 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1999"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2001"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Nîmes - Sochaux du 31/07/1999 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nîmes du 18/05/2001 : 4-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Nice du 06/08/1999 : 2-1 - But à la 83'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 2001"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1999 - 2000",
+                    "18",
+                    "3",
+                    "1",
+                    "1",
+                    "2",
+                    "1",
+                    "21",
+                    "5"
+                ],
+                [
+                    "2000 - 2001",
+                    "15",
+                    "1",
+                    "2",
+                    "3",
+                    "1",
+                    "0",
+                    "18",
+                    "4"
+                ],
+                [
+                    "TOTAL",
+                    "33",
+                    "4",
+                    "3",
+                    "4",
+                    "3",
+                    "1",
+                    "39",
+                    "9"
+                ]
+            ],
+            "source_table": 1013
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

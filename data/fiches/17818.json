@@ -1,0 +1,467 @@
+{
+    "id": 17818,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-le-havre-division-2-23-09-2000",
+    "path": "/matchs/2000-2001/sochaux-le-havre-division-2-23-09-2000/",
+    "title": "J11 – Sochaux / Le Havre – D2 – 23/09/2000 – 3-0",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/img378-f.jpg",
+    "date": "2025-11-08T20:10:37",
+    "modified": "2025-12-20T21:46:04",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "5 matchs à domicile et 5 victoires."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/img378-f-1.jpg",
+            "caption": "Meriem – Sochaux – Le Havre 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Meriem – Sochaux – Le Havre 2000/2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/99-1.jpg",
+            "caption": "Pedretti – Sochaux – Le Havre 2000/2001",
+            "credit": "DR",
+            "caption_raw": "Pedretti – Sochaux – Le Havre 2000/2001 – DR"
+        },
+        {
+            "image": "2025/11/66-5-scaled.jpg",
+            "caption": "Crucet – Sochaux – Le Havre 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Crucet – Sochaux – Le Havre 2000/2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/55-21.jpg",
+            "caption": "Guillou – Sochaux – Le Havre 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Guillou – Sochaux – Le Havre 2000/2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/35-scaled.jpg",
+            "caption": "Meriem – Sochaux – Le Havre 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Meriem – Sochaux – Le Havre 2000/2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/22-1.jpg",
+            "caption": "Meriem – Sochaux – Le Havre 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Meriem – Sochaux – Le Havre 2000/2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/11-3.jpg",
+            "caption": "Sochaux – Le Havre 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Sochaux – Le Havre 2000/2001 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "wV9G6HZ--_0",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17818,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j11-sochaux-le-havre-d2-23-09-2000-3-0/",
+        "path": "/a-la-une/j11-sochaux-le-havre-d2-23-09-2000-3-0/",
+        "slug": "j11-sochaux-le-havre-d2-23-09-2000-3-0",
+        "seo_title": "J11 - Sochaux / Le Havre - D2 - 23/09/2000 - 3-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Le Havre : 3-0<br></strong></h2>\n<h4><strong>11è journée de championnat de D2</strong></h4>\n<h4><strong>Samedi 23 septembre 2000</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>15 780 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Ledentu<br></strong></h4>\n<p>Buts : Durix 17', Flachez 27' et Meriem 40' pour Sochaux</p>",
+        "header_lines": [
+            "Sochaux / Le Havre : 3-0",
+            "11è journée de championnat de D2",
+            "Samedi 23 septembre 2000",
+            "Stade Auguste Bonal",
+            "15 780 spectateurs",
+            "Arbitre : M. Ledentu",
+            "Buts : Durix 17', Flachez 27' et Meriem 40' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-09-23",
+        "date_text": "Samedi 23 septembre 2000",
+        "season": "2000-2001",
+        "competition": "Championnat",
+        "competition_label": "Division 2",
+        "competition_code": "D2",
+        "round": "J11",
+        "round_text": "11è journée de championnat de D2",
+        "home": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "away": {
+            "name": "Le Havre",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 3,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "3-0",
+        "score_line": "Sochaux / Le Havre : 3-0",
+        "result": "V",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 15780,
+        "spectators_text": "15 780 spectateurs",
+        "referee": "M. Ledentu",
+        "goals_text": "Durix 17', Flachez 27' et Meriem 40' pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Durix 17', Flachez 27' et Meriem 40'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "27"
+                    ],
+                    "goals_text": "27'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "77",
+                    "sub_text": "Sortie 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "17"
+                    ],
+                    "goals_text": "17'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MERIEM Camel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "40"
+                    ],
+                    "goals_text": "40'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "84",
+                    "sub_text": "Sortie 84'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "87",
+                    "sub_text": "Sortie 87'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DROBNJAK Anton",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "87",
+                    "sub_out": null,
+                    "sub_text": "Entrée 87'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOULANGER Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "84",
+                    "sub_out": null,
+                    "sub_text": "Entrée 84'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ISABEY Michael",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "77",
+                    "sub_out": null,
+                    "sub_text": "Entrée 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1666
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

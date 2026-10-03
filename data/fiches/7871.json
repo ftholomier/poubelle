@@ -1,0 +1,243 @@
+{
+    "id": 7871,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "isaak-umbdenstock",
+    "path": "/joueurs/isaak-umbdenstock/",
+    "title": "Isaak Umbdenstock",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/55.jpg",
+    "date": "2024-12-08T23:13:07",
+    "modified": "2024-12-28T18:24:27",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Isaak Umbdenstock a joué 3 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/photo-lionel-vadam-1542307319.jpg",
+            "caption": "Isaak Umbdenstock",
+            "credit": "L’est républicain",
+            "caption_raw": "Isaak Umbdenstock – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7871,
+        "url": "https://www.fcsochauxretro.com/a-la-une/isaak-umbdenstock/",
+        "path": "/a-la-une/isaak-umbdenstock/",
+        "slug": "isaak-umbdenstock",
+        "seo_title": "Isaak Umbdenstock - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Isaak Umbdenstock </h2>\n<h4><strong>né le 18 février 1999 à Colmar (68)</strong></h4>\n<p><strong>Taille : </strong>1m79</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>août 2014</p>\n<p><strong>Départ de Sochaux :</strong> janvier 2020</p>\n<p><strong>Premier match joué :</strong> Sochaux - Troyes du 15/03/2019 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Epinal - Sochaux du 16/11/2019 : 2-0</p>",
+        "header_lines": [
+            "Isaak Umbdenstock",
+            "né le 18 février 1999 à Colmar (68)",
+            "Taille : 1m79",
+            "Poids : 70 kg",
+            "Pied : gaucher",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : août 2014",
+            "Départ de Sochaux : janvier 2020",
+            "Premier match joué : Sochaux - Troyes du 15/03/2019 : 0-0",
+            "Dernier match joué : Epinal - Sochaux du 16/11/2019 : 2-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Isaak",
+        "last_name": "Umbdenstock",
+        "display_name": "Isaak Umbdenstock",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1999-02-18",
+                "precision": "day",
+                "text": "18 février 1999"
+            },
+            "place": {
+                "text": "Colmar (68)",
+                "city": "Colmar",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 février 1999 à Colmar (68)"
+        },
+        "death": null,
+        "height": "1m79",
+        "height_cm": 179,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "gaucher",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2014-08",
+            "precision": "month",
+            "text": "août 2014"
+        },
+        "departure": {
+            "iso": "2020-01",
+            "precision": "month",
+            "text": "janvier 2020"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Troyes du 15/03/2019 : 0-0",
+        "last_match": "Epinal - Sochaux du 16/11/2019 : 2-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Isaak Umbdenstock"
+            },
+            {
+                "label": null,
+                "value": "né le 18 février 1999 à Colmar (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m79"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "août 2014"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2020"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Troyes du 15/03/2019 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Epinal - Sochaux du 16/11/2019 : 2-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "National",
+                "Buts encaissés",
+                "Clean Sheet",
+                "Coupe de france",
+                "Buts encaissés",
+                "Clean Sheet",
+                "Total matches",
+                "Total Buts",
+                "Clean Sheet"
+            ],
+            "rows": [
+                [
+                    "203-2024",
+                    "11",
+                    "16",
+                    "1",
+                    "1",
+                    "1",
+                    "0",
+                    "12",
+                    "17",
+                    "1"
+                ],
+                [
+                    "2024-2025",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "11",
+                    "16",
+                    "1",
+                    "1",
+                    "1",
+                    "0",
+                    "12",
+                    "17",
+                    "1"
+                ]
+            ],
+            "source_table": 514
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

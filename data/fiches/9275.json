@@ -1,0 +1,301 @@
+{
+    "id": 9275,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "koffi-n-dri",
+    "path": "/joueurs/koffi-n-dri/",
+    "title": "Koffi N’Dri",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-100.jpg",
+    "date": "2024-12-30T17:21:23",
+    "modified": "2024-12-30T17:44:03",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "24",
+        "text": "Koffi N'Dri a joué 24 matchs (3 buts et 4 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/en-difficulte-contre-rennes-n-dri-koffi-n-a-pas-ete-retenu-par-oswald-tanchot-ce-week-end-photo-christian-lemontey-1707556657.jpg",
+            "caption": "Koffi N’Dri",
+            "credit": "L’est républicain",
+            "caption_raw": "Koffi N’Dri – L’est républicain"
+        },
+        {
+            "image": "2024/12/1200x680_sc_maxsportsworldthree218063.jpg",
+            "caption": "Koffi N’Dri",
+            "credit": "L’est républicain",
+            "caption_raw": "Koffi N’Dri – L’est républicain"
+        },
+        {
+            "image": "2024/12/tentative-de-n-dri-koffi-1698507051.jpg",
+            "caption": "Koffi N’Dri",
+            "credit": "L’est républicain",
+            "caption_raw": "Koffi N’Dri – L’est républicain"
+        },
+        {
+            "image": "2024/12/en-championnat-koffi-se-contente-depuis-deux-mois-d-entrees-en-jeu-en-fin-de-match-photo-lionel-vadam-1702062114.jpg",
+            "caption": "Koffi N’Dri",
+            "credit": "L’est républicain",
+            "caption_raw": "Koffi N’Dri – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-100.jpg",
+            "caption": "Koffi N’Dri",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Koffi N’Dri – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9275,
+        "url": "https://www.fcsochauxretro.com/a-la-une/koffi-ndri/",
+        "path": "/a-la-une/koffi-ndri/",
+        "slug": "koffi-ndri",
+        "seo_title": "Koffi N'Dri - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Koffi N'Dri</h2>\n<h4><strong>Né le 9 mars 2002 à Abidjan (Côte d'Ivoire)<br></strong></h4>\n<p><strong>Taille : </strong>1m87</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>avant-centre<strong><br></strong></p>\n<p><strong>International ivoirien espoir (2 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : septembre 2020</strong><strong><br></strong></p>\n<p><strong>Départ de Sochaux : janvier 2022<br></strong></p>\n<p><strong>International malien (7 sélections)  </strong></p>\n<p><strong>Premier match joué :</strong> Red Star - Sochaux du 25/08/2023 : 3-0 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Quevilly-Rouen M du 16/08/2024 : 2-0  </p>\n<p><strong>Premier but marqué :</strong> Epinal - Sochaux du 03/10/2020 : 0-3 - But à la 28'</p>",
+        "header_lines": [
+            "Koffi N'Dri",
+            "Né le 9 mars 2002 à Abidjan (Côte d'Ivoire)",
+            "Taille : 1m87",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Position : avant-centre",
+            "International ivoirien espoir (2 sélections)",
+            "Arrivée à Sochaux : septembre 2020",
+            "Départ de Sochaux : janvier 2022",
+            "International malien (7 sélections)",
+            "Premier match joué : Red Star - Sochaux du 25/08/2023 : 3-0",
+            "Dernier match joué : Sochaux - Quevilly-Rouen M du 16/08/2024 : 2-0",
+            "Premier but marqué : Epinal - Sochaux du 03/10/2020 : 0-3 - But à la 28'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Koffi",
+        "last_name": "N'Dri",
+        "display_name": "Koffi N'Dri",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2002-03-09",
+                "precision": "day",
+                "text": "9 mars 2002"
+            },
+            "place": {
+                "text": "Abidjan (Côte d'Ivoire)",
+                "city": "Abidjan",
+                "department": null,
+                "country": "Côte d'Ivoire",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 9 mars 2002 à Abidjan (Côte d'Ivoire)"
+        },
+        "death": null,
+        "height": "1m87",
+        "height_cm": 187,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International ivoirien espoir (2 sélections)",
+            "International malien (7 sélections)"
+        ],
+        "arrival": {
+            "iso": "2020-09",
+            "precision": "month",
+            "text": "septembre 2020"
+        },
+        "departure": {
+            "iso": "2022-01",
+            "precision": "month",
+            "text": "janvier 2022"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Red Star - Sochaux du 25/08/2023 : 3-0",
+        "last_match": "Sochaux - Quevilly-Rouen M du 16/08/2024 : 2-0",
+        "first_goal": "Epinal - Sochaux du 03/10/2020 : 0-3 - But à la 28'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Koffi N'Dri"
+            },
+            {
+                "label": null,
+                "value": "Né le 9 mars 2002 à Abidjan (Côte d'Ivoire)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m87"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "avant-centre"
+            },
+            {
+                "label": null,
+                "value": "International ivoirien espoir (2 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 2020"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2022"
+            },
+            {
+                "label": null,
+                "value": "International malien (7 sélections)"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Red Star - Sochaux du 25/08/2023 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Quevilly-Rouen M du 16/08/2024 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Epinal - Sochaux du 03/10/2020 : 0-3 - But à la 28'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

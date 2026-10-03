@@ -1,0 +1,270 @@
+{
+    "id": 9299,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alan-virginius",
+    "path": "/joueurs/alan-virginius/",
+    "title": "Alan Virginius",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-91.jpg",
+    "date": "2024-12-29T19:10:54",
+    "modified": "2024-12-29T19:26:45",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "50",
+        "text": "Alan Virginius a joué 50 matchs (8 buts et 4 passes décisives) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/alan-virginius-un-premier-match-un-premier-but-a-17-ans-photo-er-christian-lemontey-1595063795.jpg",
+            "caption": "Alan Virginius",
+            "credit": "L’est républicain",
+            "caption_raw": "Alan Virginius – L’est républicain"
+        },
+        {
+            "image": "2024/12/alan-virginius-ex-fc-sochaux-prete-a-clermont-par-lille-1704880780.jpg",
+            "caption": "Alan Virginius",
+            "credit": "L’est républicain",
+            "caption_raw": "Alan Virginius – L’est républicain"
+        },
+        {
+            "image": "2024/12/virginius-sous-le-maillot-sochalien-lors-de-la-saison-2021-2022-photo-christian-lemontey-1722705413.jpg",
+            "caption": "Alan Virginius",
+            "credit": "L’est républicain",
+            "caption_raw": "Alan Virginius – L’est républicain"
+        },
+        {
+            "image": "2024/12/alan-virginius-un-premier-but-pour-le-fc-sochaux-qui-va-compter-dans-cette-belle-carriere-promise-qui-ne-fait-que-commencer-photo-er-lionel-vadam-1607267297.jpg",
+            "caption": "Alan Virginius",
+            "credit": "L’est républicain",
+            "caption_raw": "Alan Virginius – L’est républicain"
+        },
+        {
+            "image": "2024/12/appele-dans-un-premier-temps-l-attaquant-du-fc-sochaux-est-finalement-au-repos-photo-er-lionel-vadam-1633533155.jpg",
+            "caption": "Alan Virginius",
+            "credit": "L’est républicain",
+            "caption_raw": "Alan Virginius – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-91.jpg",
+            "caption": "Alan Virginius",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Alan Virginius – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9299,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alan-virginius/",
+        "path": "/a-la-une/alan-virginius/",
+        "slug": "alan-virginius",
+        "seo_title": "Alan Virginius - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alan Virginius</h2>\n<h4><strong>né le 3 janvier 2003 à Soisy-sous-Montmorency (95) </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>International français U16, U17, U19, U20 et espoir (29 sélections, 11 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018</p>\n<p><strong>Départ de Sochaux : </strong>août 2022</p>\n<p><strong>Premier match joué :</strong> Sochaux - Rodez du 19/09/2020 : 2-2</p>\n<p><strong>Dernier match joué : </strong>Auxerre - Sochaux du 20/05/2022 : 0-0 a.p (5-4 tab)</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Nancy du 05/12/2020 : 1-1 - But à la 51'</p>",
+        "header_lines": [
+            "Alan Virginius",
+            "né le 3 janvier 2003 à Soisy-sous-Montmorency (95)",
+            "Taille : 1m82",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "International français U16, U17, U19, U20 et espoir (29 sélections, 11 buts)",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : août 2022",
+            "Premier match joué : Sochaux - Rodez du 19/09/2020 : 2-2",
+            "Dernier match joué : Auxerre - Sochaux du 20/05/2022 : 0-0 a.p (5-4 tab)",
+            "Premier but marqué : Sochaux - Nancy du 05/12/2020 : 1-1 - But à la 51'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alan",
+        "last_name": "Virginius",
+        "display_name": "Alan Virginius",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2003-01-03",
+                "precision": "day",
+                "text": "3 janvier 2003"
+            },
+            "place": {
+                "text": "Soisy-sous-Montmorency (95)",
+                "city": "Soisy-sous-Montmorency",
+                "department": "95",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 janvier 2003 à Soisy-sous-Montmorency (95)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U16, U17, U19, U20 et espoir (29 sélections, 11 buts)"
+        ],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2022-08",
+            "precision": "month",
+            "text": "août 2022"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Rodez du 19/09/2020 : 2-2",
+        "last_match": "Auxerre - Sochaux du 20/05/2022 : 0-0 a.p (5-4 tab)",
+        "first_goal": "Sochaux - Nancy du 05/12/2020 : 1-1 - But à la 51'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alan Virginius"
+            },
+            {
+                "label": null,
+                "value": "né le 3 janvier 2003 à Soisy-sous-Montmorency (95)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U17, U19, U20 et espoir (29 sélections, 11 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "août 2022"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Rodez du 19/09/2020 : 2-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Auxerre - Sochaux du 20/05/2022 : 0-0 a.p (5-4 tab)"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Nancy du 05/12/2020 : 1-1 - But à la 51'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

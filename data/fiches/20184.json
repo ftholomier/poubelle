@@ -1,0 +1,157 @@
+{
+    "id": 20184,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "aldair",
+    "path": "/joueurs/aldair/",
+    "title": "Aldaïr (A l’essai)",
+    "categories": [
+        "a-lessai"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2026-01-19T20:01:32",
+    "modified": "2026-03-28T17:14:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière",
+            "html": "<ul>\n<li>Robenilson Passos Costa dit Aldaïr a débuté sa carrière à Goiana. Il est  mis à l'essai à Sochaux à l'été 2001 avec deux autres Brésiliens, Barrosso et Weino.</li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>Il reste une semaine à Sochaux avec ses deux compatriotes. Il remplace Maxence Flachez à la 68è minute lors d'un amical de pré-saison contre Nancy.</li>\n<li>Il ne convainc pas les dirigeants sochaliens comme ses deux compatriotes du reste et il rentre au Brésil.  </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il fera une carrière modeste. Il quitte Goiana pour Villa Nova en 2002. </li>\n<li>En 2005, il rejoint Sao Bento et on perd sa trace à ce moment-là. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "22",
+        "text": "Aldaïr a joué 22 minutes en amical contre Nancy à l'été 2001."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20184,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/a-lessai/aldair-a-lessai/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/a-lessai/aldair-a-lessai/",
+        "slug": "aldair-a-lessai",
+        "seo_title": "Aldaïr (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Robenilson Passos Costa \"Aldaïr\"</h2>\n<h4><strong>né le 24 mars 1977 à Feira da Santana (Bré) </strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong>xx kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>A l'essai à Sochaux : </strong>juillet 2001</p>",
+        "header_lines": [
+            "Robenilson Passos Costa \"Aldaïr\"",
+            "né le 24 mars 1977 à Feira da Santana (Bré)",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "A l'essai à Sochaux : juillet 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "",
+        "last_name": "Aldaïr",
+        "display_name": "Aldaïr",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2001-07",
+            "precision": "month",
+            "text": "juillet 2001"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1977-03-24",
+                "precision": "day",
+                "text": "24 mars 1977"
+            },
+            "place": {
+                "text": "Feira da Santana (Bré)",
+                "city": "Feira da Santana",
+                "department": null,
+                "country": "Bré",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 mars 1977 à Feira da Santana (Bré)"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Robenilson Passos Costa \"Aldaïr\""
+            },
+            {
+                "label": null,
+                "value": "né le 24 mars 1977 à Feira da Santana (Bré)"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "juillet 2001"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

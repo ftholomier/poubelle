@@ -1,0 +1,168 @@
+{
+    "id": 7705,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "georges-french",
+    "path": "/joueurs/georges-french/",
+    "title": "Georges French (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-11-20T21:55:10",
+    "modified": "2025-11-12T14:10:15",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Georges French a joué 1 match amical avec Sochaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7705,
+        "url": "https://www.fcsochauxretro.com/uncategorized/georges-french/",
+        "path": "/uncategorized/georges-french/",
+        "slug": "georges-french",
+        "seo_title": "Georges French (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Georges French </h2>\n<h4><strong>Né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx </strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>A l'essai en : </strong>décembre 1930</p>\n<p><strong>Premier et dernier match joué :</strong> Sochaux - Sète du 07/12/1930 : 1-3</p>",
+        "header_lines": [
+            "Georges French",
+            "Né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "A l'essai en : décembre 1930",
+            "Premier et dernier match joué : Sochaux - Sète du 07/12/1930 : 1-3"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Georges",
+        "last_name": "French",
+        "display_name": "Georges French",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1930-12",
+            "precision": "month",
+            "text": "décembre 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Georges French"
+            },
+            {
+                "label": null,
+                "value": "Né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "décembre 1930"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Sochaux - Sète du 07/12/1930 : 1-3"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

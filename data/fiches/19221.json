@@ -1,0 +1,132 @@
+{
+    "id": 19221,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "louis-gaiffe",
+    "path": "/dirigeants/louis-gaiffe/",
+    "title": "Louis Gaiffe",
+    "categories": [
+        "directeurs-sportifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/12/Louis_Gaiffe_.jpg",
+    "date": "2025-12-06T09:50:48",
+    "modified": "2025-12-06T10:48:04",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Louis Gaiffe : éphémère directeur sportif</strong></h4>\n<ul>\n<li>En juin 1960, Louis Deur, directeur du Cercle Hôtel Peugeot prend la tête du club. Il s'entoure d'un nouvel entraîneur Louis Dupal et d'un proche, journaliste local, Louis Gaiffe pour tenir le rôle de directeur sportif.</li>\n<li>Le début de saison 1960/1961 en deuxième division se passe bien puisque Sochaux caracole en tête en début d'année. Mais en février, des tensions internes et des résultats sportifs en berne conduisent le comité directeur à supprimer le poste de directeur sportif occupé par Louis Gaiffe pur le confier à Louis Deur.</li>\n<li>En fin de saison, Sochaux assure finalement sa remontée dans l'élite in extremis. Il aura été un éphémère directeur sportif. A sn actif, les arrivées de Henri Skiba, Victor Nuremberg, Ramon Muller et un gardien Pablo Hernandez.  </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "9",
+        "text": "Louis Gaiffe sera resté directeur sportif du club durant 9 mois."
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Louis_Gaiffe_.jpg",
+            "caption": "Louis Gaiffe",
+            "credit": "Directeur sportif du club en 1960-1961",
+            "caption_raw": "Louis Gaiffe – Directeur sportif du club en 1960-1961"
+        },
+        {
+            "image": "2025/12/1960-61.jpg",
+            "caption": "Sochaux 1960/1961",
+            "credit": "",
+            "caption_raw": "Sochaux 1960/1961"
+        },
+        {
+            "image": "2025/12/Comite_directeur_1960_1961.jpg",
+            "caption": "Comité directeur du FC Sochaux-Montbéliard 1960-1961 : René Bouquet (Président à partir de 1961), René Blum, Alfred Baruffaldi, Jules Croissant, Jacques Benoit (Secrétaire à partir de février 1961), et Louis Gaiffe (directeur sportif de juin 1960 à février 1961). Assis : Louis Deur (président de la section professionnelle), Gaston Turin (président jusqu’en 961) et un dirigeant Peugeot. Crédit : Livre Mémoire du football FC Sochaux-Montbéliard",
+            "credit": "Fabien Dorier",
+            "caption_raw": "Comité directeur du FC Sochaux-Montbéliard 1960-1961 : René Bouquet (Président à partir de 1961), René Blum, Alfred Baruffaldi, Jules Croissant, Jacques Benoit (Secrétaire à partir de février 1961), et Louis Gaiffe (directeur sportif de juin 1960 à février 1961). Assis : Louis Deur (président de la section professionnelle), Gaston Turin (président jusqu’en 961) et un dirigeant Peugeot. Crédit : Livre Mémoire du football FC Sochaux-Montbéliard – Fabien Dorier"
+        },
+        {
+            "image": "2025/12/Louis_Gaiffe.jpg",
+            "caption": "Louis Gaiffe",
+            "credit": "",
+            "caption_raw": "Louis Gaiffe"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19221,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/louis-gaiffe/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/louis-gaiffe/",
+        "slug": "louis-gaiffe",
+        "seo_title": "Louis Gaiffe - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Louis Gaiffe </h2>\n<h4><strong>Directeur sportif de juin 1960 à février 1961 </strong></h4>",
+        "header_lines": [
+            "Louis Gaiffe",
+            "Directeur sportif de juin 1960 à février 1961"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Louis",
+        "last_name": "Gaiffe",
+        "display_name": "Louis Gaiffe",
+        "nickname": "",
+        "subtitle": "Directeur sportif de juin 1960 à février 1961",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Louis Gaiffe"
+            },
+            {
+                "label": null,
+                "value": "Directeur sportif de juin 1960 à février 1961"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

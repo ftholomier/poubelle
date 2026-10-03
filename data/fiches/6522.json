@@ -1,0 +1,351 @@
+{
+    "id": 6522,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "eric-benoit",
+    "path": "/joueurs/eric-benoit/",
+    "title": "Eric Benoit",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/406_0011.jpg",
+    "date": "2024-11-05T17:57:09",
+    "modified": "2026-01-31T13:59:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "195",
+        "text": "Eric Benoit a joué 195 matchs (25 buts et 4 passes décisives) avec Sochaux où il a été formé."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/inbound1866939771709638420.jpg",
+            "caption": "Eric Benoit",
+            "credit": "Saison 1982-1983",
+            "caption_raw": "Eric Benoit – Saison 1982-1983"
+        },
+        {
+            "image": "2026/01/406_0011.jpg",
+            "caption": "Eric Benoit",
+            "credit": "Pierre Lorius",
+            "caption_raw": "Eric Benoit – Pierre Lorius"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6522,
+        "url": "https://www.fcsochauxretro.com/a-la-une/eric-benoit/",
+        "path": "/a-la-une/eric-benoit/",
+        "slug": "eric-benoit",
+        "seo_title": "Eric Benoit - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Eric Benoit</strong></h2>\n<h4><strong>né le 15 septembre 1956 à Montbéliard (25)  </strong></h4>\n<p><strong>Taille : </strong>1m71</p>\n<p><strong>Poids : </strong>67 kg</p>\n<p><strong>Pied : </strong>ambidextre</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2020 </p>\n<p><strong>Départ de Sochaux : </strong>juin 2021</p>\n<p><strong>Premier match joué :</strong> Sochaux - Metz du 01/04/1975 : 1-1</p>\n<p><strong>Dernier match joué :</strong> Lyon - Sochaux du 24/05/1983 : 3-1 </p>\n<p><strong>Premier but marqué :</strong> Sochaux - La Rochelle du 19/03/1977 : 2-0 - But à la 71'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>\n<p>Finaliste de la coupe Gambardella 1975</p>\n</li>\n<li>\n<p>Vice-champion de France 1980</p>\n</li>\n<li>\n<p>Demi-finaliste de la coupe UEFA 1981</p>\n</li>\n</ul>",
+        "header_lines": [
+            "Eric Benoit",
+            "né le 15 septembre 1956 à Montbéliard (25)",
+            "Taille : 1m71",
+            "Poids : 67 kg",
+            "Pied : ambidextre",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : aout 2020",
+            "Départ de Sochaux : juin 2021",
+            "Premier match joué : Sochaux - Metz du 01/04/1975 : 1-1",
+            "Dernier match joué : Lyon - Sochaux du 24/05/1983 : 3-1",
+            "Premier but marqué : Sochaux - La Rochelle du 19/03/1977 : 2-0 - But à la 71'",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe Gambardella 1975",
+            "Vice-champion de France 1980",
+            "Demi-finaliste de la coupe UEFA 1981"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Eric",
+        "last_name": "Benoit",
+        "display_name": "Eric Benoit",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1956-09-15",
+                "precision": "day",
+                "text": "15 septembre 1956"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 septembre 1956 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m71",
+        "height_cm": 171,
+        "weight": "67 kg",
+        "weight_kg": 67,
+        "foot": "ambidextre",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2020-08",
+            "precision": "month",
+            "text": "aout 2020"
+        },
+        "departure": {
+            "iso": "2021-06",
+            "precision": "month",
+            "text": "juin 2021"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Metz du 01/04/1975 : 1-1",
+        "last_match": "Lyon - Sochaux du 24/05/1983 : 3-1",
+        "first_goal": "Sochaux - La Rochelle du 19/03/1977 : 2-0 - But à la 71'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe Gambardella 1975",
+            "Vice-champion de France 1980",
+            "Demi-finaliste de la coupe UEFA 1981"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Eric Benoit"
+            },
+            {
+                "label": null,
+                "value": "né le 15 septembre 1956 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m71"
+            },
+            {
+                "label": "Poids",
+                "value": "67 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2020"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2021"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Metz du 01/04/1975 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Lyon - Sochaux du 24/05/1983 : 3-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - La Rochelle du 19/03/1977 : 2-0 - But à la 71'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe Gambardella 1975"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France 1980"
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe UEFA 1981"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1974 - 1975",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1975 - 1976",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "1976 - 1977",
+                    "18",
+                    "1",
+                    "1",
+                    "0",
+                    "6",
+                    "1",
+                    "25",
+                    "2"
+                ],
+                [
+                    "1977 - 1978",
+                    "24",
+                    "1",
+                    "-",
+                    "-",
+                    "6",
+                    "0",
+                    "30",
+                    "1"
+                ],
+                [
+                    "1978 - 1979",
+                    "29",
+                    "7",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "30",
+                    "7"
+                ],
+                [
+                    "1979 - 1980",
+                    "37",
+                    "11",
+                    "-",
+                    "-",
+                    "6",
+                    "0",
+                    "43",
+                    "11"
+                ],
+                [
+                    "1980 - 1981",
+                    "13",
+                    "2",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "18",
+                    "2"
+                ],
+                [
+                    "1981 - 1982",
+                    "15",
+                    "2",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "15",
+                    "2"
+                ],
+                [
+                    "1982 - 1983",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "31",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "167",
+                    "24",
+                    "7",
+                    "0",
+                    "21",
+                    "1",
+                    "195",
+                    "25"
+                ]
+            ],
+            "source_table": 817
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

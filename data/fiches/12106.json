@@ -1,0 +1,247 @@
+{
+    "id": 12106,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "abdelkader-fouad-missoum",
+    "path": "/joueurs/abdelkader-fouad-missoum/",
+    "title": "Abdelkader Fouad Missoum",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/55-3.jpg",
+    "date": "2025-02-22T21:14:37",
+    "modified": "2025-03-08T17:28:38",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "8",
+        "text": "Abdelkader Fouad Missoum a joué 8 matchs (3 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/Outlook-dy3jrja3-1024x553-1.jpg",
+            "caption": "Sochaux 1938-1939",
+            "credit": "",
+            "caption_raw": "Sochaux 1938-1939"
+        },
+        {
+            "image": "2025/02/55-3.jpg",
+            "caption": "Abdelkader Fouad Missoum",
+            "credit": "DR",
+            "caption_raw": "Abdelkader Fouad Missoum – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12106,
+        "url": "https://www.fcsochauxretro.com/a-la-une/abdelkader-fouad-missoum/",
+        "path": "/a-la-une/abdelkader-fouad-missoum/",
+        "slug": "abdelkader-fouad-missoum",
+        "seo_title": "Abdelkader Fouad Missoum - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Abdelkader Fouad Missoum</h2>\n<h4><strong>né le xx en Algérie ? </strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1938</p>\n<p><strong>Départ de Sochaux : </strong>juin 1939</p>\n<p><strong>Premier match joué : </strong>Cannes - Sochaux du 11/09/1938 : 0-0</p>\n<p><strong>Dernier match joué : </strong>Excelsior Roubaix-Tourcoing - Sochaux du 21/05/1939 : 3-2</p>\n<p><strong>Premier but et premier doublé marqué : </strong>Sochaux - SC Fives du 06/07/2002 : 5-2 - But à la xx et à la 89'</p>",
+        "header_lines": [
+            "Abdelkader Fouad Missoum",
+            "né le xx en Algérie ?",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1938",
+            "Départ de Sochaux : juin 1939",
+            "Premier match joué : Cannes - Sochaux du 11/09/1938 : 0-0",
+            "Dernier match joué : Excelsior Roubaix-Tourcoing - Sochaux du 21/05/1939 : 3-2",
+            "Premier but et premier doublé marqué : Sochaux - SC Fives du 06/07/2002 : 5-2 - But à la xx et à la 89'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Abdelkader Fouad",
+        "last_name": "Missoum",
+        "display_name": "Abdelkader Fouad Missoum",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx en Algérie ?"
+            },
+            "place": null,
+            "text": "né le xx en Algérie ?"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1938-07",
+            "precision": "month",
+            "text": "juillet 1938"
+        },
+        "departure": {
+            "iso": "1939-06",
+            "precision": "month",
+            "text": "juin 1939"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Cannes - Sochaux du 11/09/1938 : 0-0",
+        "last_match": "Excelsior Roubaix-Tourcoing - Sochaux du 21/05/1939 : 3-2",
+        "first_goal": "Sochaux - SC Fives du 06/07/2002 : 5-2 - But à la xx et à la 89'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Abdelkader Fouad Missoum"
+            },
+            {
+                "label": null,
+                "value": "né le xx en Algérie ?"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1938"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1939"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Cannes - Sochaux du 11/09/1938 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Excelsior Roubaix-Tourcoing - Sochaux du 21/05/1939 : 3-2"
+            },
+            {
+                "label": "Premier but et premier doublé marqué",
+                "value": "Sochaux - SC Fives du 06/07/2002 : 5-2 - But à la xx et à la 89'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

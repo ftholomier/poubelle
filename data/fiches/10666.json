@@ -1,0 +1,244 @@
+{
+    "id": 10666,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rene-rebibo",
+    "path": "/joueurs/rene-rebibo/",
+    "title": "René Rebibo",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/OM_1899.jpg",
+    "date": "2025-01-26T18:43:57",
+    "modified": "2026-02-17T23:12:16",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "René Rebibo a été prêté une saison par Bordeaux mais n'a joué aucun match pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/OM_1899.jpg",
+            "caption": "René Rebido",
+            "credit": "OM1899.com",
+            "caption_raw": "René Rebido – OM1899.com"
+        },
+        {
+            "image": "2026/02/182803-1.jpg",
+            "caption": "René Rebibo",
+            "credit": "football database",
+            "caption_raw": "René Rebibo – football database"
+        },
+        {
+            "image": "2026/02/182803.jpg",
+            "caption": "René Rebibo",
+            "credit": "football database",
+            "caption_raw": "René Rebibo – football database"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10666,
+        "url": "https://www.fcsochauxretro.com/a-la-une/rene-rebibo/",
+        "path": "/a-la-une/rene-rebibo/",
+        "slug": "rene-rebibo",
+        "seo_title": "René Rebibo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>René Rebibo</h2>\n<h4><strong>né le 11 novembre 1917 à Oran (Algérie)</strong></h4>\n<h4><strong>Décédé le 03 mai 1998 à Nice (06) </strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>66 kg</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1938</p>\n<p><strong>Départ de Sochaux : </strong>juin 1939</p>",
+        "header_lines": [
+            "René Rebibo",
+            "né le 11 novembre 1917 à Oran (Algérie)",
+            "Décédé le 03 mai 1998 à Nice (06)",
+            "Taille : 1m77",
+            "Poids : 66 kg",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1938",
+            "Départ de Sochaux : juin 1939"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "René",
+        "last_name": "Rebibo",
+        "display_name": "René Rebibo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1917-11-11",
+                "precision": "day",
+                "text": "11 novembre 1917"
+            },
+            "place": {
+                "text": "Oran (Algérie)",
+                "city": "Oran",
+                "department": null,
+                "country": "Algérie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 11 novembre 1917 à Oran (Algérie)"
+        },
+        "death": {
+            "date": {
+                "iso": "1998-05-03",
+                "precision": "day",
+                "text": "03 mai 1998"
+            },
+            "place": {
+                "text": "Nice (06)",
+                "city": "Nice",
+                "department": "06",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 03 mai 1998 à Nice (06)"
+        },
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "66 kg",
+        "weight_kg": 66,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1938-07",
+            "precision": "month",
+            "text": "juillet 1938"
+        },
+        "departure": {
+            "iso": "1939-06",
+            "precision": "month",
+            "text": "juin 1939"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "René Rebibo"
+            },
+            {
+                "label": null,
+                "value": "né le 11 novembre 1917 à Oran (Algérie)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 03 mai 1998 à Nice (06)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "66 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1938"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1939"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

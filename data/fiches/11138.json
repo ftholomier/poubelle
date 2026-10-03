@@ -1,0 +1,309 @@
+{
+    "id": 11138,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "janos-szabo",
+    "path": "/joueurs/janos-szabo/",
+    "title": "Janos Szabo",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/janos_szabo.jpg",
+    "date": "2025-01-27T13:32:28",
+    "modified": "2025-09-10T08:52:06",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "95",
+        "text": "Janos Szabo a joué 95 matchs (5 buts) pour Sochaux. Il a remporté les 3 trophées nationaux d'avant-guerre."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/janos_szabo.jpg",
+            "caption": "Janos Szabo",
+            "credit": "Pari et gagne",
+            "caption_raw": "Janos Szabo – Pari et gagne"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11138,
+        "url": "https://www.fcsochauxretro.com/a-la-une/janos-szabo/",
+        "path": "/a-la-une/janos-szabo/",
+        "slug": "janos-szabo",
+        "seo_title": "Janos Szabo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Janos Szabo</h2>\n<h4><strong>né le 1er octobre 1912 à Miskolc (Hongrie)</strong></h4>\n<h4><strong>Décédé le 11 avril 1983 à xx</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Poste : </strong>milieu défensif<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1934</p>\n<p><strong>Départ de Sochaux : </strong>octobre 1938</p>\n<p><strong>Premier match joué :</strong> Sochaux - Cannes du 30/12/1934 : 4-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux - RC Roubaix du 04/09/1938 : 3-1</p>\n<p><strong>Premier but marqué : </strong>Valenciennes - Sochaux du 19/01/1936 : 0-5 - But à la 60'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de première division 1935</li>\n<li>Vice-champion de France de première division 1937</li>\n<li>Vainqueur de la coupe de France 1937</li>\n<li>Champion de France de première division 1938</li>\n</ul>",
+        "header_lines": [
+            "Janos Szabo",
+            "né le 1er octobre 1912 à Miskolc (Hongrie)",
+            "Décédé le 11 avril 1983 à xx",
+            "Taille : 1m75",
+            "Poids : 75 kg",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juillet 1934",
+            "Départ de Sochaux : octobre 1938",
+            "Premier match joué : Sochaux - Cannes du 30/12/1934 : 4-2",
+            "Dernier match joué : Sochaux - RC Roubaix du 04/09/1938 : 3-1",
+            "Premier but marqué : Valenciennes - Sochaux du 19/01/1936 : 0-5 - But à la 60'",
+            "Palmarès avec Sochaux :",
+            "Champion de France de première division 1935",
+            "Vice-champion de France de première division 1937",
+            "Vainqueur de la coupe de France 1937",
+            "Champion de France de première division 1938"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Janos",
+        "last_name": "Szabo",
+        "display_name": "Janos Szabo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1912-10-01",
+                "precision": "day",
+                "text": "1er octobre 1912"
+            },
+            "place": {
+                "text": "Miskolc (Hongrie)",
+                "city": "Miskolc",
+                "department": null,
+                "country": "Hongrie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er octobre 1912 à Miskolc (Hongrie)"
+        },
+        "death": {
+            "date": {
+                "iso": "1983-04-11",
+                "precision": "day",
+                "text": "11 avril 1983"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 11 avril 1983 à xx"
+        },
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": null,
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1934-07",
+            "precision": "month",
+            "text": "juillet 1934"
+        },
+        "departure": {
+            "iso": "1938-10",
+            "precision": "month",
+            "text": "octobre 1938"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Cannes du 30/12/1934 : 4-2",
+        "last_match": "Sochaux - RC Roubaix du 04/09/1938 : 3-1",
+        "first_goal": "Valenciennes - Sochaux du 19/01/1936 : 0-5 - But à la 60'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de première division 1935",
+            "Vice-champion de France de première division 1937",
+            "Vainqueur de la coupe de France 1937",
+            "Champion de France de première division 1938"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Janos Szabo"
+            },
+            {
+                "label": null,
+                "value": "né le 1er octobre 1912 à Miskolc (Hongrie)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 11 avril 1983 à xx"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1934"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "octobre 1938"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Cannes du 30/12/1934 : 4-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - RC Roubaix du 04/09/1938 : 3-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Valenciennes - Sochaux du 19/01/1936 : 0-5 - But à la 60'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1935"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de première division 1937"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 1937"
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1938"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1993-1994",
+                    "28",
+                    "2",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "2"
+                ],
+                [
+                    "1994-1995",
+                    "30",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "32",
+                    "0"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "27",
+                    "2",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "31",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "58",
+                    "2",
+                    "27",
+                    "2",
+                    "6",
+                    "0",
+                    "2",
+                    "0",
+                    "93",
+                    "4"
+                ]
+            ],
+            "source_table": 434
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

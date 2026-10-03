@@ -1,0 +1,237 @@
+{
+    "id": 6482,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "henri-borowski",
+    "path": "/joueurs/henri-borowski/",
+    "title": "Henri Borowski",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/66364.jpg",
+    "date": "2024-11-08T23:08:55",
+    "modified": "2025-03-04T15:26:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        },
+        {
+            "title": "Statistiques incomplètes",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Henri Borowski a joué 13 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/66364-1.jpg",
+            "caption": "Henri Borowski",
+            "credit": "DR",
+            "caption_raw": "Henri Borowski – DR"
+        },
+        {
+            "image": "2025/03/Henri-Borowski.jpg",
+            "caption": "Henri Borowski",
+            "credit": "DR",
+            "caption_raw": "Henri Borowski – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6482,
+        "url": "https://www.fcsochauxretro.com/a-la-une/henri-borowski/",
+        "path": "/a-la-une/henri-borowski/",
+        "slug": "henri-borowski",
+        "seo_title": "Henri Borowski - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Henri Borowski</strong></h2>\n<h4><strong>né le 18 décembre 1937 à Giraumont (54)  </strong></h4>\n<p><strong>Taille :</strong> 1m82</p>\n<p><strong>Poids : </strong>85 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1960  </p>\n<p><strong>Départ de Sochaux : </strong>juin 1961</p>\n<p><strong>Premier match joué :</strong> SO Montpellier - Sochaux du 21/08/1960 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Strasbourg du 07/05/1961 : 0-2 </p>",
+        "header_lines": [
+            "Henri Borowski",
+            "né le 18 décembre 1937 à Giraumont (54)",
+            "Taille : 1m82",
+            "Poids : 85 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juillet 1960",
+            "Départ de Sochaux : juin 1961",
+            "Premier match joué : SO Montpellier - Sochaux du 21/08/1960 : 1-0",
+            "Dernier match joué : Sochaux - Strasbourg du 07/05/1961 : 0-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Henri",
+        "last_name": "Borowski",
+        "display_name": "Henri Borowski",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1937-12-18",
+                "precision": "day",
+                "text": "18 décembre 1937"
+            },
+            "place": {
+                "text": "Giraumont (54)",
+                "city": "Giraumont",
+                "department": "54",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 décembre 1937 à Giraumont (54)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "85 kg",
+        "weight_kg": 85,
+        "foot": "gaucher",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1960-07",
+            "precision": "month",
+            "text": "juillet 1960"
+        },
+        "departure": {
+            "iso": "1961-06",
+            "precision": "month",
+            "text": "juin 1961"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "SO Montpellier - Sochaux du 21/08/1960 : 1-0",
+        "last_match": "Sochaux - Strasbourg du 07/05/1961 : 0-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Henri Borowski"
+            },
+            {
+                "label": null,
+                "value": "né le 18 décembre 1937 à Giraumont (54)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "85 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1960"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1961"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "SO Montpellier - Sochaux du 21/08/1960 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Strasbourg du 07/05/1961 : 0-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe Drago",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1960 - 1961",
+                    "?",
+                    "?",
+                    "1",
+                    "0",
+                    "2",
+                    "0",
+                    "3",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "?",
+                    "?",
+                    "1",
+                    "0",
+                    "2",
+                    "0",
+                    "3",
+                    "0"
+                ]
+            ],
+            "source_table": 829
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

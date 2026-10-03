@@ -1,0 +1,221 @@
+{
+    "id": 7292,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierre-canton",
+    "path": "/joueurs/pierre-canton/",
+    "title": "Pierre Canton",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/Canton-But.png",
+    "date": "2024-11-10T18:05:59",
+    "modified": "2026-01-30T21:15:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Pierre Canton a joué 2 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/Canton-But.png",
+            "caption": "Canton",
+            "credit": "But",
+            "caption_raw": "Canton – But"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7292,
+        "url": "https://www.fcsochauxretro.com/a-la-une/pierre-canton/",
+        "path": "/a-la-une/pierre-canton/",
+        "slug": "pierre-canton",
+        "seo_title": "Pierre Canton - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pierre Canton</h2>\n<h4><strong>né le 11 mars 1964 à Anglet (64)</strong></h4>\n<p><strong>Taille : </strong>1m78 </p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur </p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1985</p>\n<p><strong>Départ de Sochaux : </strong>juin 1987</p>\n<p><strong>Premier match :</strong> Lille - Sochaux du 02/08/1985 : 2-1</p>\n<p><strong>Dernier match :</strong> Nancy - Sochaux du 23/02/1986 : 3-0</p>",
+        "header_lines": [
+            "Pierre Canton",
+            "né le 11 mars 1964 à Anglet (64)",
+            "Taille : 1m78",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1985",
+            "Départ de Sochaux : juin 1987",
+            "Premier match : Lille - Sochaux du 02/08/1985 : 2-1",
+            "Dernier match : Nancy - Sochaux du 23/02/1986 : 3-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Pierre",
+        "last_name": "Canton",
+        "display_name": "Pierre Canton",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1964-03-11",
+                "precision": "day",
+                "text": "11 mars 1964"
+            },
+            "place": {
+                "text": "Anglet (64)",
+                "city": "Anglet",
+                "department": "64",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 11 mars 1964 à Anglet (64)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1985-07",
+            "precision": "month",
+            "text": "juillet 1985"
+        },
+        "departure": {
+            "iso": "1987-06",
+            "precision": "month",
+            "text": "juin 1987"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lille - Sochaux du 02/08/1985 : 2-1",
+        "last_match": "Nancy - Sochaux du 23/02/1986 : 3-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierre Canton"
+            },
+            {
+                "label": null,
+                "value": "né le 11 mars 1964 à Anglet (64)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1985"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1987"
+            },
+            {
+                "label": "Premier match",
+                "value": "Lille - Sochaux du 02/08/1985 : 2-1"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Nancy - Sochaux du 23/02/1986 : 3-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1985 - 1986",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ]
+            ],
+            "source_table": 880
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

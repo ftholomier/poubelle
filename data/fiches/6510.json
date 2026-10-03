@@ -1,0 +1,177 @@
+{
+    "id": 6510,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "karl-bert",
+    "path": "/joueurs/karl-bert/",
+    "title": "Karl Bert",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-11-06T12:32:56",
+    "modified": "2025-02-24T10:48:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques non connues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Karl Bert a joué 6 matchs (3 buts) avec Sochaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6510,
+        "url": "https://www.fcsochauxretro.com/a-la-une/karl-bert/",
+        "path": "/a-la-une/karl-bert/",
+        "slug": "karl-bert",
+        "seo_title": "Karl Bert - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Karl Bert</strong></h2>\n<h4><strong>né xx en Ecosse ? </strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1930</p>\n<p><strong>Départ de Sochaux : </strong>novembre 1930</p>\n<p><strong>Premier match joué :</strong> Sochaux - Sélection du sud-ouest du 19/10/1930 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Rennes - Sochaux du 16/11/1930 : 1-0 </p>\n<p><strong>Premier but marqué :</strong> Nîmes - Sochaux du 11/11/1930 : 3-1</p>",
+        "header_lines": [
+            "Karl Bert",
+            "né xx en Ecosse ?",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1930",
+            "Départ de Sochaux : novembre 1930",
+            "Premier match joué : Sochaux - Sélection du sud-ouest du 19/10/1930 : 1-0",
+            "Dernier match joué : Rennes - Sochaux du 16/11/1930 : 1-0",
+            "Premier but marqué : Nîmes - Sochaux du 11/11/1930 : 3-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Karl",
+        "last_name": "Bert",
+        "display_name": "Karl Bert",
+        "nickname": "",
+        "subtitle": "né xx en Ecosse ?",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1930-07",
+            "precision": "month",
+            "text": "juillet 1930"
+        },
+        "departure": {
+            "iso": "1930-11",
+            "precision": "month",
+            "text": "novembre 1930"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Sélection du sud-ouest du 19/10/1930 : 1-0",
+        "last_match": "Rennes - Sochaux du 16/11/1930 : 1-0",
+        "first_goal": "Nîmes - Sochaux du 11/11/1930 : 3-1",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Karl Bert"
+            },
+            {
+                "label": null,
+                "value": "né xx en Ecosse ?"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1930"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "novembre 1930"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Sélection du sud-ouest du 19/10/1930 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Rennes - Sochaux du 16/11/1930 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Nîmes - Sochaux du 11/11/1930 : 3-1"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

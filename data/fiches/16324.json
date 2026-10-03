@@ -1,0 +1,148 @@
+{
+    "id": 16324,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rene-cedolin",
+    "path": "/dirigeants/rene-cedolin/",
+    "title": "René Cédolin",
+    "categories": [
+        "a-la-une",
+        "directeurs-du-centre-de-formation",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/telechargement.jpg",
+    "date": "2025-09-04T06:43:36",
+    "modified": "2025-11-14T17:11:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Né en région parisienne, il démarre le football en Normandie d'abord à Douvres-la-Délivrande puis à  Caen. </li>\n<li><strong>Carrière de joueur</strong></li>\n<li>A l'âge de 19 ans, il rejoint le stade Rennais et y fait une carrière professionnelle dense. Il dispute 367 matchs en défense et remporte trois titres nationaux : 2 coupes de France en 1965 et 1971 et le trophée des champions en 1971 également. </li>\n<li>Il connait une sélection en équipe de France B sous la direction de Just Fontaine.</li>\n<li>Il met un terme à sa carrière de joueur en 1971. Il n'aura connu qu'un seul club professionnel : le Stade Rennais. </li>\n<li><strong>Carrière d'entraîneur</strong></li>\n<li>En 1972 il devient entraîneur de Rennes son club de toujours durant 3 saisons. </li>\n<li>En 1975, cap à l'est où il prend le banc de Troyes. Il y reste encore 3 saisons jusqu'en 1978. </li>\n<li>Il retourne alors en Bretagne et prend les rênes de Guingamp jusqu'en 1981. </li>\n<li>Il gagne alors Angers, mais l'aventure tourne cours seulement 19 matchs.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Il prend la suite de Pierre Tournier en 1982 parti à Monaco. Il reste directeur du centre de formation de 1982 à 1992.</li>\n<li>Sous la direction, les jeunes remporteront leur première coupe Gambardella en 1983 emmené par des joueurs comme Hély, Paille, Rousset, Silvestre, Thomas. </li>\n<li>Il quitte le club en 1992 alors que le club est dans un creux au niveau de la formation, que les installations sont vieillissantes et la concurrence des autres clubs plus vive. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>On le retrouvera entraineur par intérim à Niort en 1999 puis il exerce quelques missions au Havre et à Alès.</li>\n<li>Il vit désormais dans le sud de la France. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "René Cédolin ancien joueur de première division a dirigé le centre de formation de Sochaux durant 10 saisons de 1982 à 1992."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/telechargement.jpg",
+            "caption": "René Cédolin",
+            "credit": "Site rouge mémoire",
+            "caption_raw": "René Cédolin – Site rouge mémoire"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16324,
+        "url": "https://www.fcsochauxretro.com/a-la-une/rene-cedolin/",
+        "path": "/a-la-une/rene-cedolin/",
+        "slug": "rene-cedolin",
+        "seo_title": "René Cédolin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>René Cédolin</h2>\n<h4><strong>né le 13 juillet 1940 à Mantes-la-Jolie (78)</strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poste :</strong> Directeur du centre de formation de 1982 à 1992</p>",
+        "header_lines": [
+            "René Cédolin",
+            "né le 13 juillet 1940 à Mantes-la-Jolie (78)",
+            "Taille : 1m72",
+            "Poste : Directeur du centre de formation de 1982 à 1992"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "René",
+        "last_name": "Cédolin",
+        "display_name": "René Cédolin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1940-07-13",
+                "precision": "day",
+                "text": "13 juillet 1940"
+            },
+            "place": {
+                "text": "Mantes-la-Jolie (78)",
+                "city": "Mantes-la-Jolie",
+                "department": "78",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 13 juillet 1940 à Mantes-la-Jolie (78)"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Directeur du centre de formation de 1982 à 1992",
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "René Cédolin"
+            },
+            {
+                "label": null,
+                "value": "né le 13 juillet 1940 à Mantes-la-Jolie (78)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poste",
+                "value": "Directeur du centre de formation de 1982 à 1992"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

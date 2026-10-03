@@ -1,0 +1,58 @@
+{
+    "id": 5120,
+    "type": "page",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "joueurs",
+    "path": "/joueurs/",
+    "title": "Joueurs",
+    "categories": [],
+    "a_la_une": false,
+    "featured_image": null,
+    "date": "2024-09-04T20:56:11",
+    "modified": "2024-09-05T19:52:23",
+    "author": "fcsochauxretro",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "FC Sochaux Rétro",
+            "html": ""
+        },
+        {
+            "title": "Contact",
+            "html": ""
+        }
+    ],
+    "key_figure": null,
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 5120,
+        "url": "https://www.fcsochauxretro.com/joueurs/",
+        "path": "/joueurs/",
+        "slug": "joueurs",
+        "seo_title": "Joueurs - FC Sochaux Retro - FCSM",
+        "header_html": "",
+        "header_lines": []
+    },
+    "i18n": [],
+    "article": {
+        "kind": "article",
+        "heading": "",
+        "subtitle": "",
+        "header_html": "",
+        "season": null
+    },
+    "tables": [],
+    "listing": {
+        "module": "blog",
+        "category": "nos-lions-fc-sochaux-retro-fcsm",
+        "links": 1113
+    }
+}

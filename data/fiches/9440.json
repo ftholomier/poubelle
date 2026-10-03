@@ -1,0 +1,277 @@
+{
+    "id": 9440,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "houssine-kharja",
+    "path": "/joueurs/houssine-kharja/",
+    "title": "Houssine Kharja",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/224548_med_houssine_kharja.png",
+    "date": "2024-12-22T18:54:42",
+    "modified": "2024-12-22T19:06:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "24",
+        "text": "Houssine Kharja a joué 24 matchs (1 but et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/la-vie-ne-s-arrete-pas-la-il-faut-se-retrousser-les-manches-il-y-a-encore-des-choses-a-faire-1429384275.jpg",
+            "caption": "Houssine Kharja",
+            "credit": "L’est républicain",
+            "caption_raw": "Houssine Kharja – L’est républicain"
+        },
+        {
+            "image": "2024/12/photo-1427132845.jpg",
+            "caption": "Houssine Kharja",
+            "credit": "L’est républicain",
+            "caption_raw": "Houssine Kharja – L’est républicain"
+        },
+        {
+            "image": "2024/12/houssine-kharja-retrouve-petit-a-petit-toutes-ses-sensations-1427656243.jpg",
+            "caption": "Houssine Kharja",
+            "credit": "L’est républicain",
+            "caption_raw": "Houssine Kharja – L’est républicain"
+        },
+        {
+            "image": "2024/12/houssine-kharja-a-un-projet-clair-en-venant-a-sochaux-faire-remonter-le-club-en-ligue-1-photo-francis-reinoso-1413224278.jpg",
+            "caption": "Houssine Kharja",
+            "credit": "L’est républicain",
+            "caption_raw": "Houssine Kharja – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9440,
+        "url": "https://www.fcsochauxretro.com/a-la-une/houssine-kharja/",
+        "path": "/a-la-une/houssine-kharja/",
+        "slug": "houssine-kharja",
+        "seo_title": "Houssine Kharja - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Houssine Kharja</h2>\n<h4><strong>né le 9 novembre 1982 à Poissy (78) </strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids :</strong> 78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu relayeur</p>\n<p><strong>International marocain (79 sélections, 13 buts)</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> octobre 2014</p>\n<p><strong>Départ de Sochaux : </strong>juin 2015</p>\n<p><strong>Premier match joué : </strong>Sochaux - Gazélec Ajaccio du 07/11/2014 : 2-1</p>\n<p><strong>Dernier match joué : </strong>Angers - Sochaux du 11/05/2015 : 0-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Tours du 06/03/2015 : 2-1 - But à la 52'</p>",
+        "header_lines": [
+            "Houssine Kharja",
+            "né le 9 novembre 1982 à Poissy (78)",
+            "Taille : 1m81",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : milieu relayeur",
+            "International marocain (79 sélections, 13 buts)",
+            "Arrivée à Sochaux : octobre 2014",
+            "Départ de Sochaux : juin 2015",
+            "Premier match joué : Sochaux - Gazélec Ajaccio du 07/11/2014 : 2-1",
+            "Dernier match joué : Angers - Sochaux du 11/05/2015 : 0-0",
+            "Premier but marqué : Sochaux - Tours du 06/03/2015 : 2-1 - But à la 52'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Houssine",
+        "last_name": "Kharja",
+        "display_name": "Houssine Kharja",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1982-11-09",
+                "precision": "day",
+                "text": "9 novembre 1982"
+            },
+            "place": {
+                "text": "Poissy (78)",
+                "city": "Poissy",
+                "department": "78",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 novembre 1982 à Poissy (78)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "milieu relayeur",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International marocain (79 sélections, 13 buts)"
+        ],
+        "arrival": {
+            "iso": "2014-10",
+            "precision": "month",
+            "text": "octobre 2014"
+        },
+        "departure": {
+            "iso": "2015-06",
+            "precision": "month",
+            "text": "juin 2015"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Gazélec Ajaccio du 07/11/2014 : 2-1",
+        "last_match": "Angers - Sochaux du 11/05/2015 : 0-0",
+        "first_goal": "Sochaux - Tours du 06/03/2015 : 2-1 - But à la 52'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Houssine Kharja"
+            },
+            {
+                "label": null,
+                "value": "né le 9 novembre 1982 à Poissy (78)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu relayeur"
+            },
+            {
+                "label": null,
+                "value": "International marocain (79 sélections, 13 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "octobre 2014"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2015"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Gazélec Ajaccio du 07/11/2014 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Angers - Sochaux du 11/05/2015 : 0-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Tours du 06/03/2015 : 2-1 - But à la 52'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "3"
+                ],
+                [
+                    "1998-1999",
+                    "14",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "14",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "14",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "24",
+                    "3"
+                ]
+            ],
+            "source_table": 456
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,454 @@
+{
+    "id": 1884,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "la-roche-sur-yon-sochaux-amical-21-02-1987",
+    "path": "/matchs/1986-1987/la-roche-sur-yon-sochaux-amical-21-02-1987/",
+    "title": "Amical – La Roche-sur-Yon (D2) / Sochaux (D1) – Amical – 21/02/1987 – 1-1",
+    "categories": [
+        "1986-1987",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/02/Stage-Carnac-Sochaux-Sprint.png",
+    "date": "2024-02-24T12:53:41",
+    "modified": "2025-12-06T18:18:40",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Thomas et Fernier sont de retour. Sauzée  est absent car malade. Lucas et Brisson, blessés, sont rentrés en Franche-Comté. </li>\n<li>On retrouve deux anciens Sochaliens dans l'équipe vendéenne avec Daniel Lubin et Jean-Claude Hagenbach.   </li>\n<li>La Roche-sur-Yon évolue en deuxième division. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>3' :</strong> Frappe de Mantecon détournée en corner par Rousset.  </li>\n<li><strong>4' :</strong> Frappe de Pasquereau qui manque de peu le cadre.     </li>\n<li><strong>15' :</strong> Festival de Lada dans la surface. La défense vendéenne se dégage en catastrophe.  </li>\n<li><strong>19' :</strong> Tir de Blanchard dans les bras de Rousset. </li>\n<li><strong>30' : Centre de Lada pour Paille dont la tête lobée trompe Hagenbach. (0-1) </strong></li>\n<li><strong>50' :</strong> Coup franc de Lubin sur la barre transversale de Rousset. </li>\n<li><strong>58' :</strong> Lancé par Lubin, Boissinot croise trop sa frappe. </li>\n<li><strong>60' :</strong> Fernier profite d'une erreur de Blachon pour filer au but. Bousculé dans la surface, il n'obtient pas le pénalty pourtant évident ! </li>\n<li><strong>85' : Lancé par Lubin, Mantecon trompe Rousset. (1-1) </strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Jean Fauvergue :</strong> <em>\" Le résultat est flatteur. Le manque de fraîcheur physique était pénalisant pour mon équipe. \"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>De retour en Franche-Comté, Sochaux doit composer avec les blessés, les malades, les terrains enneigés et les divers bobos pour préparer la reprise du championnat face au Racing Club de Paris. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": null,
+    "gallery": [
+        {
+            "image": "2024/02/Stage-Carnac-Sochaux-Sprint.png",
+            "caption": "Stage Carnac",
+            "credit": "Sochaux Sprint",
+            "caption_raw": "Stage Carnac – Sochaux Sprint"
+        },
+        {
+            "image": "2024/02/FB_IMG_1697660390754.jpg",
+            "caption": "Thomas -Crédit Lorius",
+            "credit": "",
+            "caption_raw": "Thomas -Crédit Lorius"
+        },
+        {
+            "image": "2024/02/414012215_7414394428573073_4096683104904921224_n.jpg",
+            "caption": "Helt",
+            "credit": "Crédit Lorius",
+            "caption_raw": "Helt – Crédit Lorius"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 1884,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-la-roche-sur-yon-d2-sochaux-d1-amical-21-02-1987-1-1/",
+        "path": "/a-la-une/amical-la-roche-sur-yon-d2-sochaux-d1-amical-21-02-1987-1-1/",
+        "slug": "amical-la-roche-sur-yon-d2-sochaux-d1-amical-21-02-1987-1-1",
+        "seo_title": "Amical - La Roche-sur-Yon (D2) / Sochaux (D1) - Amical - 21/02/1987 - 1-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>La Roche-sur-Yon (D2) / Sochaux : 1-1</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 21 février 1987</strong></h4>\n<h4><strong>Stade Henri Desgrange (85)</strong></h4>\n<p>Buts : Mantecon 85' pour la Roche-sur-Yon ; Paille 30' pour Sochaux. </p>",
+        "header_lines": [
+            "La Roche-sur-Yon (D2) / Sochaux : 1-1",
+            "Match amical",
+            "Samedi 21 février 1987",
+            "Stade Henri Desgrange (85)",
+            "Buts : Mantecon 85' pour la Roche-sur-Yon ; Paille 30' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1987-02-21",
+        "date_text": "Samedi 21 février 1987",
+        "season": "1986-1987",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": "Amical",
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "La Roche-sur-Yon",
+            "level": "D2"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-1",
+        "score_line": "La Roche-sur-Yon (D2) / Sochaux : 1-1",
+        "result": "N",
+        "stadium": "Stade Henri Desgrange (85)",
+        "spectators": null,
+        "spectators_text": null,
+        "referee": null,
+        "goals_text": "Mantecon 85' pour la Roche-sur-Yon ; Paille 30' pour Sochaux.",
+        "goals": [
+            {
+                "team": "la Roche-sur-Yon",
+                "scorers": "Mantecon 85'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Paille 30'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "3",
+                "text": "Frappe de Mantecon détournée en corner par Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "4",
+                "text": "Frappe de Pasquereau qui manque de peu le cadre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "15",
+                "text": "Festival de Lada dans la surface. La défense vendéenne se dégage en catastrophe.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "19",
+                "text": "Tir de Blanchard dans les bras de Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "30",
+                "text": "Centre de Lada pour Paille dont la tête lobée trompe Hagenbach. (0-1)",
+                "goal": true,
+                "score": "0-1"
+            },
+            {
+                "minute": "50",
+                "text": "Coup franc de Lubin sur la barre transversale de Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "58",
+                "text": "Lancé par Lubin, Boissinot croise trop sa frappe.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "60",
+                "text": "Fernier profite d'une erreur de Blachon pour filer au but. Bousculé dans la surface, il n'obtient pas le pénalty pourtant évident !",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "85",
+                "text": "Lancé par Lubin, Mantecon trompe Rousset. (1-1)",
+                "goal": true,
+                "score": "1-1"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Jean Fauvergue",
+                "text": "Le résultat est flatteur. Le manque de fraîcheur physique était pénalisant pour mon équipe."
+            }
+        ],
+        "breves": [
+            "De retour en Franche-Comté, Sochaux doit composer avec les blessés, les malades, les terrains enneigés et les divers bobos pour préparer la reprise du championnat face au Racing Club de Paris."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MORIN Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "80",
+                    "sub_text": "Sortie 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HELT John",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "86",
+                    "sub_text": "Sortie 86'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "30"
+                    ],
+                    "goals_text": "30'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "86",
+                    "sub_out": null,
+                    "sub_text": "Entrée 86'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "THOMAS Jean-Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "80",
+                    "sub_out": null,
+                    "sub_text": "Entrée 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 158
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

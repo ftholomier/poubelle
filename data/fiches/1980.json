@@ -1,0 +1,414 @@
+{
+    "id": 1980,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "auxerre-sochaux-amical-10-01-1995",
+    "path": "/matchs/1994-1995/auxerre-sochaux-amical-10-01-1995/",
+    "title": "Amical – Auxerre (2) / Sochaux (D1) – 10/01/1995 – 1-2",
+    "categories": [
+        "1994-1995",
+        "a-la-une",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/01/417936984_1367826000419168_2236388837374027825_n-1.jpg",
+    "date": "2024-03-01T22:19:17",
+    "modified": "2025-07-31T10:50:37",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Suite à l'annulation du match face au Paris SG Jacques Santini cherchait un match amical de préparation avant le match de coupe de France face à Marseille. Il cherchait un match à 2 heures de bus maximum de Sochaux. Guy Roux a accepté de mettre à disposition les installations du centre de formation d'Auxerre et l'équipe réserve renforcée de quelques néo pros et de Sabri Lamouchi. </li>\n<li>L'équipe réserve d'Auxerre entrainée par Daniel Rolland est leader de son championnat de CN2. Elle sera renforcée par les professionnels qui n'ont pas joué avec l'AJA contre Bastia en championnat. </li>\n<li>Laurent Croce sera absent victime d'une élongation et Benjamin Clément accompagnera les jeunes qui disputeront le tournoi de foot en salle de Besançon le soir même. </li>\n<li>Les services techniques œuvrent pour déblayer la pelouse du stade Bonal afin que le match face à Marseille ait bien lieu en coupe de France. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>25' : Belle action collective auxerroise conclut de près par Sabri Lamouchi (1-0). </strong></li>\n<li><strong>32' : Prat déborde et centre en retrait pour Cuervo qui reprend victorieusement (1-1). </strong></li>\n<li><strong>47' : Corner en direction de Prat seul qui marque de la tête (1-2).</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<p><strong>Jacques Santini :</strong> \" <em>Les joueurs manquaient de rythme et ont eu du mal à se mettre en jambe. Ce match était justement programmé pour remédier à la coupure provoquée par le report du match contre le PSG </em>\". </p>"
+        },
+        {
+            "title": "Brèves du match",
+            "html": "<ul>\n<li>Sochaux a été dominé pendant 30 minutes par l'équipe réserve d'Auxerre avant de prendre le dessus. En deuxième mi-temps, Auxerre a fait entrer les jeunes joueurs de l'équipe Gambardella. Outre le deuxième but de Prat sur une erreur de marquage, ils ont dominé la fin de match forçant Cassard à deux parades pour préserver la victoire. Inquiétant pour Sochaux avant la réception de l'OM en coupe de France. </li>\n<li>L'équipe qui a joué à Auxerre sera intégralement reconduite en coupe de France en y ajoutant Laurent Croci et Franck Chaumin. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "12",
+        "text": "heures. L'horaire du match inhabituel face à l'équipe réserve d'Auxerre."
+    },
+    "gallery": [
+        {
+            "image": "2024/03/telechargement.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 1980,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-auxerre-2-sochaux-d1-10-01-1995-1-2/",
+        "path": "/a-la-une/amical-auxerre-2-sochaux-d1-10-01-1995-1-2/",
+        "slug": "amical-auxerre-2-sochaux-d1-10-01-1995-1-2",
+        "seo_title": "Amical – Auxerre (2) / Sochaux (D1) – 10/01/1995 - 1-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h4><strong>Auxerre (2) / Sochaux : 1-2</strong></h4>\n<h4><strong>Mardi 10 janvier 1995</strong></h4>\n<h4><strong>Amical - </strong></h4>\n<h4><strong>Centre de formation de l'AJ Auxerre </strong></h4>\n<p><strong>30 spectateurs</strong></p>\n<p><strong>Arbitre : M. Da Silva</strong></p>\n<p>Buts :  Lamouchi 25', pour Auxerre ;  Cuervo 32' et Prat 47' pour Sochaux. </p>",
+        "header_lines": [
+            "Auxerre (2) / Sochaux : 1-2",
+            "Mardi 10 janvier 1995",
+            "Amical -",
+            "Centre de formation de l'AJ Auxerre",
+            "30 spectateurs",
+            "Arbitre : M. Da Silva",
+            "Buts : Lamouchi 25', pour Auxerre ; Cuervo 32' et Prat 47' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1995-01-10",
+        "date_text": "Mardi 10 janvier 1995",
+        "season": "1994-1995",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Amical -",
+        "home": {
+            "name": "Auxerre",
+            "level": "2"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-2",
+        "score_line": "Auxerre (2) / Sochaux : 1-2",
+        "result": "V",
+        "stadium": "Centre de formation de l'AJ Auxerre",
+        "spectators": 30,
+        "spectators_text": "30 spectateurs",
+        "referee": "M. Da Silva",
+        "goals_text": "Lamouchi 25', pour Auxerre ; Cuervo 32' et Prat 47' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Auxerre",
+                "scorers": "Lamouchi 25',"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Cuervo 32' et Prat 47'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "25",
+                "text": "Belle action collective auxerroise conclut de près par Sabri Lamouchi (1-0).",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "32",
+                "text": "Prat déborde et centre en retrait pour Cuervo qui reprend victorieusement (1-1).",
+                "goal": true,
+                "score": "1-1"
+            },
+            {
+                "minute": "47",
+                "text": "Corner en direction de Prat seul qui marque de la tête (1-2).",
+                "goal": true,
+                "score": "1-2"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Jacques Santini",
+                "text": "Les joueurs manquaient de rythme et ont eu du mal à se mettre en jambe. Ce match était justement programmé pour remédier à la coupure provoquée par le report du match contre le PSG \"."
+            }
+        ],
+        "breves": [
+            "Sochaux a été dominé pendant 30 minutes par l'équipe réserve d'Auxerre avant de prendre le dessus. En deuxième mi-temps, Auxerre a fait entrer les jeunes joueurs de l'équipe Gambardella. Outre le deuxième but de Prat sur une erreur de marquage, ils ont dominé la fin de match forçant Cassard à deux parades pour préserver la victoire. Inquiétant pour Sochaux avant la réception de l'OM en coupe de France.",
+            "L'équipe qui a joué à Auxerre sera intégralement reconduite en coupe de France en y ajoutant Laurent Croci et Franck Chaumin."
+        ],
+        "lineup": {
+            "title": "COMPOSITIONComposition SochauxN° / Poste / Nom / Buteur / Age",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "CASSARD Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CUERVO Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "32"
+                    ],
+                    "goals_text": "32'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PITON Bertrand",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HERNANDEZ Jean-François",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WEBER Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LAURENT Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAUDRY Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BLANC André",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PRAT Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "47"
+                    ],
+                    "goals_text": "47'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DE LA QUINTINIE Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SZEWCZYK Roman",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "HELION Herman",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "SANTINI Jacques",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1201
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

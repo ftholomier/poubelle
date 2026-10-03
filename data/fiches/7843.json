@@ -1,0 +1,251 @@
+{
+    "id": 7843,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "andre-guttierez",
+    "path": "/joueurs/andre-guttierez/",
+    "title": "André Guttierez",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/c2cdd80a-2f30-4769-8da4-ad72c8e62b1e.jpg",
+    "date": "2024-11-26T13:05:42",
+    "modified": "2026-02-26T18:00:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "175",
+        "text": "André Guttierez a joué 175 matchs (22 buts) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/c2cdd80a-2f30-4769-8da4-ad72c8e62b1e.jpg",
+            "caption": "Guttierez",
+            "credit": "Pierre Lorius",
+            "caption_raw": "Guttierez – Pierre Lorius"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7843,
+        "url": "https://www.fcsochauxretro.com/a-la-une/andre-guttierez/",
+        "path": "/a-la-une/andre-guttierez/",
+        "slug": "andre-guttierez",
+        "seo_title": "André Guttierez - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>André Guttierez</h2>\n<h4><strong>né le 9 juillet 1950 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1966</p>\n<p><strong>Départ de Sochaux : </strong>juin 1978</p>\n<p><strong>Premier match joué et premier but marqué</strong> : Sochaux - Rouen du 05/07/1968 : 3-0 - But à la 78'</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Marseille du 14/04/1978 : 0-0</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de troisième division en 1978</li>\n</ul>",
+        "header_lines": [
+            "André Guttierez",
+            "né le 9 juillet 1950 à Montbéliard (25)",
+            "Taille : 1m77",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : juillet 1966",
+            "Départ de Sochaux : juin 1978",
+            "Premier match joué et premier but marqué : Sochaux - Rouen du 05/07/1968 : 3-0 - But à la 78'",
+            "Dernier match joué : Sochaux - Marseille du 14/04/1978 : 0-0",
+            "Palmarès avec Sochaux :",
+            "Champion de France de troisième division en 1978"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "André",
+        "last_name": "Guttierez",
+        "display_name": "André Guttierez",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1950-07-09",
+                "precision": "day",
+                "text": "9 juillet 1950"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 juillet 1950 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1966-07",
+            "precision": "month",
+            "text": "juillet 1966"
+        },
+        "departure": {
+            "iso": "1978-06",
+            "precision": "month",
+            "text": "juin 1978"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Rouen du 05/07/1968 : 3-0 - But à la 78'",
+        "last_match": "Sochaux - Marseille du 14/04/1978 : 0-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de troisième division en 1978"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "André Guttierez"
+            },
+            {
+                "label": null,
+                "value": "né le 9 juillet 1950 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1966"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1978"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Sochaux - Rouen du 05/07/1968 : 3-0 - But à la 78'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Marseille du 14/04/1978 : 0-0"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de troisième division en 1978"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

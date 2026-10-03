@@ -1,0 +1,318 @@
+{
+    "id": 7499,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sofiane-daham",
+    "path": "/joueurs/sofiane-daham/",
+    "title": "Sofiane Daham",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/3-4.jpg",
+    "date": "2024-11-11T21:51:39",
+    "modified": "2025-11-17T03:50:14",
+    "author": "aurelie",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "100",
+        "text": "Sofiane Daham a joué 100 matchs (7 buts et 4 passes décisives) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/3-4.jpg",
+            "caption": "Sofiane Daham",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Sofiane Daham – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7499,
+        "url": "https://www.fcsochauxretro.com/a-la-une/sofiane-daham-7499/",
+        "path": "/a-la-une/sofiane-daham-7499/",
+        "slug": "sofiane-daham-7499",
+        "seo_title": "Sofiane Daham - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Sofiane Daham</h2>\n<h4><strong>né le 15 janvier 1996 à Saïda (Algérie)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>70kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu central / milieu offensif</p>\n<p><strong>International algérien</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2011</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2021</p>\n<p><strong>Premier match joué :</strong> Créteil -Sochaux du 02/02/2016 : 1-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Pau du 17/04/2021 : 1-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Bourg-en-Bresse du 28/07/2017 : 2-0 - But à la 51'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2015</li>\n</ul>",
+        "header_lines": [
+            "Sofiane Daham",
+            "né le 15 janvier 1996 à Saïda (Algérie)",
+            "Taille : 1m80",
+            "Poids : 70kg",
+            "Pied : droitier",
+            "Poste : milieu central / milieu offensif",
+            "International algérien",
+            "Arrivée à Sochaux : juillet 2011",
+            "Départ de Sochaux : juillet 2021",
+            "Premier match joué : Créteil -Sochaux du 02/02/2016 : 1-1",
+            "Dernier match joué : Sochaux - Pau du 17/04/2021 : 1-1",
+            "Premier but marqué : Sochaux - Bourg-en-Bresse du 28/07/2017 : 2-0 - But à la 51'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2015"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Sofiane",
+        "last_name": "Daham",
+        "display_name": "Sofiane Daham",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1996-01-15",
+                "precision": "day",
+                "text": "15 janvier 1996"
+            },
+            "place": {
+                "text": "Saïda (Algérie)",
+                "city": "Saïda",
+                "department": null,
+                "country": "Algérie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 janvier 1996 à Saïda (Algérie)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "70kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": "milieu central / milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International algérien"
+        ],
+        "arrival": {
+            "iso": "2011-07",
+            "precision": "month",
+            "text": "juillet 2011"
+        },
+        "departure": {
+            "iso": "2021-07",
+            "precision": "month",
+            "text": "juillet 2021"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Créteil -Sochaux du 02/02/2016 : 1-1",
+        "last_match": "Sochaux - Pau du 17/04/2021 : 1-1",
+        "first_goal": "Sochaux - Bourg-en-Bresse du 28/07/2017 : 2-0 - But à la 51'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2015"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sofiane Daham"
+            },
+            {
+                "label": null,
+                "value": "né le 15 janvier 1996 à Saïda (Algérie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "70kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu central / milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International algérien"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2011"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2021"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Créteil -Sochaux du 02/02/2016 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Pau du 17/04/2021 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Bourg-en-Bresse du 28/07/2017 : 2-0 - But à la 51'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2015"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2014 - 2015",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "0",
+                    "0"
+                ],
+                [
+                    "2015 - 2016",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "3",
+                    "0"
+                ],
+                [
+                    "2016 - 2017",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "3",
+                    "0",
+                    "6",
+                    "0"
+                ],
+                [
+                    "2017 - 2018",
+                    "28",
+                    "1",
+                    "4",
+                    "1",
+                    "1",
+                    "1",
+                    "33",
+                    "3"
+                ],
+                [
+                    "2018 - 2019",
+                    "24",
+                    "3",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "25",
+                    "3"
+                ],
+                [
+                    "2019 - 2020",
+                    "17",
+                    "1",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "19",
+                    "1"
+                ],
+                [
+                    "2020 - 2021",
+                    "11",
+                    "0",
+                    "3",
+                    "0",
+                    "-",
+                    "-",
+                    "14",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "84",
+                    "5",
+                    "11",
+                    "1",
+                    "5",
+                    "1",
+                    "100",
+                    "7"
+                ]
+            ],
+            "source_table": 924
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

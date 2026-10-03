@@ -1,0 +1,271 @@
+{
+    "id": 12396,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "branislav-sekulic",
+    "path": "/joueurs/branislav-sekulic/",
+    "title": "Branislav Sekulic (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5.jpg",
+    "date": "2025-03-02T16:58:41",
+    "modified": "2025-11-12T13:46:38",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "L'attaquant international yousoslave Branislav Sekulic a joué 3 matchs amicaux pour Sochaux en 1930."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5.jpg",
+            "caption": "Branislav Sekulic",
+            "credit": "DR",
+            "caption_raw": "Branislav Sekulic – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12396,
+        "url": "https://www.fcsochauxretro.com/uncategorized/branislav-sekulic/",
+        "path": "/uncategorized/branislav-sekulic/",
+        "slug": "branislav-sekulic",
+        "seo_title": "Branislav Sekulic (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Branislav Sekulic</h2>\n<h4><strong>né le 29 octobre 1906 à Belgrade (Serbie)</strong></h4>\n<h4><strong>Décédé le 24 septembre 1968 à Fribourg (Suisse)  </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International yougoslave (17 sélections, 8 buts)</strong></p>\n<p><strong>A l'essai en : </strong>février/mars 1930</p>\n<p><strong>Premier match amical joué :</strong> Sélection nationale de Belgique - Sochaux du 09/02/1930 : 1-2</p>\n<p><strong>Dernier match amical joué :</strong> Entente Bastidienne - Sochaux du 05/03/1930 : 1-1 </p>",
+        "header_lines": [
+            "Branislav Sekulic",
+            "né le 29 octobre 1906 à Belgrade (Serbie)",
+            "Décédé le 24 septembre 1968 à Fribourg (Suisse)",
+            "Taille : 1m75",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International yougoslave (17 sélections, 8 buts)",
+            "A l'essai en : février/mars 1930",
+            "Premier match amical joué : Sélection nationale de Belgique - Sochaux du 09/02/1930 : 1-2",
+            "Dernier match amical joué : Entente Bastidienne - Sochaux du 05/03/1930 : 1-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Branislav",
+        "last_name": "Sekulic",
+        "display_name": "Branislav Sekulic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1930-03",
+            "precision": "month",
+            "text": "février/mars 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1906-10-29",
+                "precision": "day",
+                "text": "29 octobre 1906"
+            },
+            "place": {
+                "text": "Belgrade (Serbie)",
+                "city": "Belgrade",
+                "department": null,
+                "country": "Serbie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 octobre 1906 à Belgrade (Serbie)"
+        },
+        "death": {
+            "date": {
+                "iso": "1968-09-24",
+                "precision": "day",
+                "text": "24 septembre 1968"
+            },
+            "place": {
+                "text": "Fribourg (Suisse)",
+                "city": "Fribourg",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 24 septembre 1968 à Fribourg (Suisse)"
+        },
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International yougoslave (17 sélections, 8 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sélection nationale de Belgique - Sochaux du 09/02/1930 : 1-2",
+        "last_match": "Entente Bastidienne - Sochaux du 05/03/1930 : 1-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Branislav Sekulic"
+            },
+            {
+                "label": null,
+                "value": "né le 29 octobre 1906 à Belgrade (Serbie)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 24 septembre 1968 à Fribourg (Suisse)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International yougoslave (17 sélections, 8 buts)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "février/mars 1930"
+            },
+            {
+                "label": "Premier match amical joué",
+                "value": "Sélection nationale de Belgique - Sochaux du 09/02/1930 : 1-2"
+            },
+            {
+                "label": "Dernier match amical joué",
+                "value": "Entente Bastidienne - Sochaux du 05/03/1930 : 1-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "0"
+                ]
+            ],
+            "source_table": 459
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

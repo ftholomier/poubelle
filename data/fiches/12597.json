@@ -1,0 +1,212 @@
+{
+    "id": 12597,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jeremy-malherbe",
+    "path": "/joueurs/jeremy-malherbe/",
+    "title": "Jérémy Malherbe (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-24.jpg",
+    "date": "2025-03-07T09:20:17",
+    "modified": "2025-11-18T23:04:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>A l'été 2016, Sochaux cherche un gardien remplaçant. Le club met à l'essai l'imposant Jérémy Malherbe formé à Strasbourg. Malgré de bonnes dispositions, et un match amical contre une sélection locale durant lequel il réalise un clean-sheet, Sochaux lui préférera Christopher Dilo.</li>\n<li>Il poursuivra sa carrière à travers l'Europe dans différents pays (Ecosse, Biélorussie, Grèce...)</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Jérémy Malherbe a gardé les buts de Sochaux à 1 reprise en amical à l'été 2016."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-24.jpg",
+            "caption": "Jérémy Malherbe – BBC",
+            "credit": "Dundee United",
+            "caption_raw": "Jérémy Malherbe – BBC – Dundee United"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12597,
+        "url": "https://www.fcsochauxretro.com/uncategorized/jeremy-malherbe/",
+        "path": "/uncategorized/jeremy-malherbe/",
+        "slug": "jeremy-malherbe",
+        "seo_title": "Jérémy Malherbe (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jérémy Malherbe</h2>\n<h4><strong>né le 15 mars 1991 à Strasbourg (67) </strong></h4>\n<p><strong>Taille : </strong>1m96</p>\n<p><strong>Poids : </strong>91 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>A l'essai en : </strong>juin 2016</p>\n<p><strong>Premier et dernier match amical joué : </strong>Sochaux - Sélection de Franche-Comté du 24/06/2016 : 5-0</p>",
+        "header_lines": [
+            "Jérémy Malherbe",
+            "né le 15 mars 1991 à Strasbourg (67)",
+            "Taille : 1m96",
+            "Poids : 91 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "A l'essai en : juin 2016",
+            "Premier et dernier match amical joué : Sochaux - Sélection de Franche-Comté du 24/06/2016 : 5-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jérémy",
+        "last_name": "Malherbe",
+        "display_name": "Jérémy Malherbe",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2016-06",
+            "precision": "month",
+            "text": "juin 2016"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1991-03-15",
+                "precision": "day",
+                "text": "15 mars 1991"
+            },
+            "place": {
+                "text": "Strasbourg (67)",
+                "city": "Strasbourg",
+                "department": "67",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 mars 1991 à Strasbourg (67)"
+        },
+        "death": null,
+        "height": "1m96",
+        "height_cm": 196,
+        "weight": "91 kg",
+        "weight_kg": 91,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jérémy Malherbe"
+            },
+            {
+                "label": null,
+                "value": "né le 15 mars 1991 à Strasbourg (67)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m96"
+            },
+            {
+                "label": "Poids",
+                "value": "91 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juin 2016"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sochaux - Sélection de Franche-Comté du 24/06/2016 : 5-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

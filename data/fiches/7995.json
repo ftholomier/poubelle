@@ -1,0 +1,175 @@
+{
+    "id": 7995,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "andre-wilson-barroso",
+    "path": "/joueurs/andre-wilson-barroso/",
+    "title": "André Wilson Barroso",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/Scan21112024204730_0013.jpg",
+    "date": "2024-11-21T20:18:35",
+    "modified": "2026-03-31T09:20:06",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>André Wilson Barroso est mis à l’essai pendant une semaine par Sochaux à l’été 2001, avec deux autres Brésiliens. Monsieur Garcia, un émissaire brésilien, recommande des joueurs à Sochaux, dont lui.</li>\n<li>Il évolue alors au poste de milieu offensif au sein du club de l’Atlético Goianiense, en première division brésilienne. En 2000/2001, il est élu meilleur milieu offensif de la province de Goiás, où il a marqué 7 buts les mois précédents. C’est de cette région que sortiront plus tard les deux Brésiliens de Saint-Étienne, Alex et Aloísio. Auparavant, Barroso est également passé par Flamengo.</li>\n<li><strong>Sa signature</strong></li>\n<li>Surnommé « Goiano », il effectue un essai d’une dizaine de jours en juillet 2001 avec deux de ses compatriotes : Weino et Aldaïr. Tous les trois disputent un match amical, et Barroso est le seul à taper dans l’œil des dirigeants. Quelques semaines plus tard, Sochaux le fait revenir et lui propose un contrat professionnel de trois saisons afin qu’il devienne la doublure de Camel Meriem.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li><strong>Saison 2001/2002</strong></li>\n<li>Sochaux retrouve la première division et réalise un très bon début de saison. Wilson Barroso arrive à Sochaux le 21 août, dans une équipe qui tourne bien.</li>\n<li>Le 1er septembre 2001, il entre en jeu à la 64e minute lors d’un match amical face à Lucerne, à la place de Trapasso.</li>\n<li>Il ne parvient pas à s’imposer et évolue principalement avec la réserve sochalienne, sous les ordres de Mecha Bazdarevic. Il s’entraîne toutefois avec les professionnels dirigés par Jean Fernandez.</li>\n<li>À l’été 2002, Sochaux part effectuer une tournée de fin de saison en Tunisie. Barroso dispute deux matchs contre l’ES Sahel et le Stade de Tunis.</li>\n<li>À l’été 2002, le joueur et le club s’entendent pour une rupture à l’amiable de son contrat, Guy Lacombe et le staff technique ne comptant pas sur lui dans une période où la concurrence est vive et l’effectif très dense.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il retourne au Brésil. On trouve peu d’informations à son sujet, si ce n’est qu’il devient, après sa carrière, directeur du football amateur au sein du club de Villa Nova, au Brésil.</li>\n<li>Actuellement, il serait conseiller sportif dans une structure privée au Brésil.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "André Wilson Barroso n'a joué aucun match officiel pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/Scan21112024204730_0012.jpg",
+            "caption": "André Wilson Barroso Saison 2001-2002",
+            "credit": "FCSM",
+            "caption_raw": "André Wilson Barroso Saison 2001-2002 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7995,
+        "url": "https://www.fcsochauxretro.com/a-la-une/andre-wilson-barroso/",
+        "path": "/a-la-une/andre-wilson-barroso/",
+        "slug": "andre-wilson-barroso",
+        "seo_title": "André Wilson Barroso - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>André Wilson Barroso</strong></h2>\n<h4><strong>né le 9 mars 1974 à Goiania (Brésil)  </strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2001 </p>\n<p><strong>Départ de Sochaux : </strong>juin 2002</p>",
+        "header_lines": [
+            "André Wilson Barroso",
+            "né le 9 mars 1974 à Goiania (Brésil)",
+            "Taille : 1m83",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : aout 2001",
+            "Départ de Sochaux : juin 2002"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "André Wilson",
+        "last_name": "Barroso",
+        "display_name": "André Wilson Barroso",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1974-03-09",
+                "precision": "day",
+                "text": "9 mars 1974"
+            },
+            "place": {
+                "text": "Goiania (Brésil)",
+                "city": "Goiania",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 mars 1974 à Goiania (Brésil)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2001-08",
+            "precision": "month",
+            "text": "aout 2001"
+        },
+        "departure": {
+            "iso": "2002-06",
+            "precision": "month",
+            "text": "juin 2002"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "André Wilson Barroso"
+            },
+            {
+                "label": null,
+                "value": "né le 9 mars 1974 à Goiania (Brésil)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2001"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2002"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

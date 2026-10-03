@@ -1,0 +1,226 @@
+{
+    "id": 8586,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "degane",
+    "path": "/joueurs/degane/",
+    "title": "? Degane",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-12-07T21:46:57",
+    "modified": "2025-03-23T21:12:19",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques incomplètes.</p>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Degane a joué 1 match de Coupe de France pour Sochaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8586,
+        "url": "https://www.fcsochauxretro.com/a-la-une/degane/",
+        "path": "/a-la-une/degane/",
+        "slug": "degane",
+        "seo_title": "? Degane - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Degane </h2>\n<h4><strong>né le xx à xx </strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>défenseur</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1929</p>\n<p><strong>Départ de Sochaux : </strong>juin 1930</p>\n<p><strong>Premier et dernier match joué :</strong> CA Mulhouse - Sochaux du 06/10/1929 : 4-0</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n</ul>",
+        "header_lines": [
+            "? Degane",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1929",
+            "Départ de Sochaux : juin 1930",
+            "Premier et dernier match joué : CA Mulhouse - Sochaux du 06/10/1929 : 4-0",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1930"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Degane",
+        "display_name": "? Degane",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1929-07",
+            "precision": "month",
+            "text": "juillet 1929"
+        },
+        "departure": {
+            "iso": "1930-06",
+            "precision": "month",
+            "text": "juin 1930"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1930"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Degane"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1929"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1930"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "CA Mulhouse - Sochaux du 06/10/1929 : 4-0"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1929 - 1930",
+                    "?",
+                    "?",
+                    "1",
+                    "?",
+                    "1",
+                    "?"
+                ],
+                [
+                    "TOTAL",
+                    "?",
+                    "?",
+                    "1",
+                    "?",
+                    "1",
+                    "?"
+                ]
+            ],
+            "source_table": 957
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

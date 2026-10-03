@@ -1,0 +1,114 @@
+{
+    "id": 13337,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "laurent-pernet",
+    "path": "/dirigeants/laurent-pernet/",
+    "title": "Laurent Pernet",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-executifs"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/55.jpg",
+    "date": "2025-04-05T16:29:40",
+    "modified": "2025-11-12T22:10:54",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Le dernier président de l'ère PSA : 2013-2015 </strong></h4>\n<ul>\n<li>Laurent Pernet succède à Alexandre Lacombe en mai 2013. Laurent Pernet exerçait les fonctions de directeur général du groupe PSA en Autriche.</li>\n<li>Sa première saison est compliquée puisque le club descend en deuxième division. Dans la foulée, le groupe PSA annonce son intention de vendre le club.</li>\n<li>Laurent Pernet doit assurer la transition avec le groupe Ledus au cours de la saison 2014-2015. Durant cette saison-là, le club échoue à remonter en ligue 1 après une deuxième partie de saison calamiteuse. </li>\n<li>Malgré tout, sous sa présidence, les jeunes du club remportent la coupe Gambardella 2015 au stade de France. </li>\n<li>Il quitte définitivement le club le 14 aout 2015 et reste le dernier président de l'ère Peugeot/PSA à la tête du club. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Laurent Pernet sera resté un peu plus de deux ans à la tête du club devenant le dernier président de l'ère Peugeot/PSA."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/55.jpg",
+            "caption": "Laurent Pernet – Le dernier président exécutif de l’ère PSA.",
+            "credit": "",
+            "caption_raw": "Laurent Pernet – Le dernier président exécutif de l’ère PSA."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13337,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/laurent-pernet/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/laurent-pernet/",
+        "slug": "laurent-pernet",
+        "seo_title": "Laurent Pernet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Laurent Pernet </h2>\n<h4><strong>Président exécutif de 2013 à 2015 </strong></h4>",
+        "header_lines": [
+            "Laurent Pernet",
+            "Président exécutif de 2013 à 2015"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Laurent",
+        "last_name": "Pernet",
+        "display_name": "Laurent Pernet",
+        "nickname": "",
+        "subtitle": "Président exécutif de 2013 à 2015",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Laurent Pernet"
+            },
+            {
+                "label": null,
+                "value": "Président exécutif de 2013 à 2015"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

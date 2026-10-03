@@ -1,0 +1,120 @@
+{
+    "id": 13329,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gaston-turin",
+    "path": "/dirigeants/gaston-turin/",
+    "title": "Gaston Turin",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/61d5d48610912701546890.webp",
+    "date": "2025-04-04T11:06:16",
+    "modified": "2025-11-12T20:47:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Gaston Turin - Le président de la délicate reconstruction d'après-guerre : 1945 - 1960 </strong></h4>\n<ul>\n<li>Après guerre, les usines Peugeot sont à reconstruire et l'argent est très précieux pour relancer l'activité économique. Aussi, la politique d'avant-guerre qui consistait à acheter les meilleurs joueurs à prix d'or est abandonnée. Gaston Turin directeur du site industriel en sera le garant. Le grand argentier ne souhaite pas participer à la surenchère qui commence à voir le jour dans les clubs professionnels français.</li>\n<li>Sous sa présidence, il déléguera de nombreuses fonctions à son homme de terrain Fortuné Chabrier.</li>\n<li>En 1950, il crée un \"pré-centre\" de formation pour les meilleurs jeunes repérés en France, avec la phalange des lionceaux. Une première en France qui fera des émules. </li>\n<li>Durant sa présidence, le club gagne une tribune dans le virage côté Bungalow et le stade de la Forge est renommé stade Auguste Bonal. </li>\n<li>Au niveau sportif, Sochaux remportera le titre de champion de France de deuxième division (1947), de vice-champion de France de première division (1953), vainqueur de la coupe Charles Drago (1953) et finaliste de la coupe de France (1959). Le club remportera aussi deux fois la coupe nationale corporative sous le nom du FC Auto Peugeot (1950 et 1958) et sera finaliste en 1952. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Gaston Turin qui déléguera une grande partie de ses mission à Fortuné Chabrier, sera président du club lors de la reconstruction juste après guerre durant 15 ans."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/61d5d48610912701546890.webp",
+            "caption": "Gaston Turin – Troisième président du FC Sochaux-Montbéliard. Il sera l’homme de la difficile reconstruction d’après-guerre.",
+            "credit": "",
+            "caption_raw": "Gaston Turin – Troisième président du FC Sochaux-Montbéliard. Il sera l’homme de la difficile reconstruction d’après-guerre."
+        },
+        {
+            "image": "2025/04/Gaston-Turin-FCSM.png",
+            "caption": "Gaston Turin",
+            "credit": "FCSM",
+            "caption_raw": "Gaston Turin – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13329,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/gaston-turin/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/gaston-turin/",
+        "slug": "gaston-turin",
+        "seo_title": "Gaston Turin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Gaston Turin </h2>\n<h4><strong>Président de 1945 à 1960</strong> </h4>",
+        "header_lines": [
+            "Gaston Turin",
+            "Président de 1945 à 1960"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Gaston",
+        "last_name": "Turin",
+        "display_name": "Gaston Turin",
+        "nickname": "",
+        "subtitle": "Président de 1945 à 1960",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gaston Turin"
+            },
+            {
+                "label": null,
+                "value": "Président de 1945 à 1960"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

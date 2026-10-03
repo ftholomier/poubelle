@@ -1,0 +1,244 @@
+{
+    "id": 11540,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "amine-lecomte",
+    "path": "/joueurs/amine-lecomte/",
+    "title": "Amine Lecomte",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/211259.jpg",
+    "date": "2025-02-09T12:12:22",
+    "modified": "2025-02-09T12:17:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Amine Lecomte a été formé durant 4 saisons au centre de formation de Sochaux avant de faire carrière ailleurs."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/35767_med_amine_lecomte_addani.jpg",
+            "caption": "Amine Lecomte",
+            "credit": "leballonrond.fr",
+            "caption_raw": "Amine Lecomte – leballonrond.fr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11540,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amine-lecomte/",
+        "path": "/a-la-une/amine-lecomte/",
+        "slug": "amine-lecomte",
+        "seo_title": "Amine Lecomte - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Amine Lecomte</h2>\n<h4><strong>né le 26 avril 1990 Reims (51)  </strong></h4>\n<p><strong>Taille : </strong>1m94</p>\n<p><strong>Poids : </strong>89 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2006</p>\n<p><strong>Départ de Sochaux : </strong>juin 2010</p>",
+        "header_lines": [
+            "Amine Lecomte",
+            "né le 26 avril 1990 Reims (51)",
+            "Taille : 1m94",
+            "Poids : 89 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 2006",
+            "Départ de Sochaux : juin 2010"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Amine",
+        "last_name": "Lecomte",
+        "display_name": "Amine Lecomte",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1990-04-26",
+                "precision": "day",
+                "text": "26 avril 1990 Reims (51)"
+            },
+            "place": null,
+            "text": "né le 26 avril 1990 Reims (51)"
+        },
+        "death": null,
+        "height": "1m94",
+        "height_cm": 194,
+        "weight": "89 kg",
+        "weight_kg": 89,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2006-07",
+            "precision": "month",
+            "text": "juillet 2006"
+        },
+        "departure": {
+            "iso": "2010-06",
+            "precision": "month",
+            "text": "juin 2010"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Amine Lecomte"
+            },
+            {
+                "label": null,
+                "value": "né le 26 avril 1990 Reims (51)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m94"
+            },
+            {
+                "label": "Poids",
+                "value": "89 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2006"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2010"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "1",
+                    "1",
+                    "0",
+                    "0",
+                    "9",
+                    "1"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "1",
+                    "0",
+                    "8",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "11",
+                    "1"
+                ]
+            ],
+            "source_table": 438
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

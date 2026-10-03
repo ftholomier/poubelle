@@ -1,0 +1,253 @@
+{
+    "id": 8581,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "karl-decker",
+    "path": "/joueurs/karl-decker/",
+    "title": "Karl Decker",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/image.png",
+    "date": "2024-12-07T20:41:50",
+    "modified": "2025-03-23T21:02:04",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "38",
+        "text": "Karl Decker a joué 38 matchs (18 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/image.png",
+            "caption": "Karl Decker",
+            "credit": "dr",
+            "caption_raw": "Karl Decker – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8581,
+        "url": "https://www.fcsochauxretro.com/a-la-une/karl-decker/",
+        "path": "/a-la-une/karl-decker/",
+        "slug": "karl-decker",
+        "seo_title": "Karl Decker - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Karl Decker</h2>\n<h4><strong>né le 5 septembre 1921 à Vienne (Autriche)</strong></h4>\n<h4><strong>Décédé le 27 septembre 2005 à Vienne (Autriche)</strong></h4>\n<p><strong>Poste :</strong> attaquant</p>\n<p><strong>International Allemagne nazi (8 sélections, 7 buts)</strong></p>\n<p><strong>International autrichien (25 sélections, 19 buts)</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1954</p>\n<p><strong>Départ de Sochaux :</strong> juin 1956</p>\n<p><strong>Premier match joué :</strong> Marseille - Sochaux du 22/08/1954 : 3-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Strasbourg du 03/06/1956 : 2-2</p>\n<p><strong>Premier but marqué :</strong> Bordeaux - Sochaux du 05/09/1954 : 1-2 - But à la 51'</p>",
+        "header_lines": [
+            "Karl Decker",
+            "né le 5 septembre 1921 à Vienne (Autriche)",
+            "Décédé le 27 septembre 2005 à Vienne (Autriche)",
+            "Poste : attaquant",
+            "International Allemagne nazi (8 sélections, 7 buts)",
+            "International autrichien (25 sélections, 19 buts)",
+            "Arrivée à Sochaux : juillet 1954",
+            "Départ de Sochaux : juin 1956",
+            "Premier match joué : Marseille - Sochaux du 22/08/1954 : 3-0",
+            "Dernier match joué : Sochaux - Strasbourg du 03/06/1956 : 2-2",
+            "Premier but marqué : Bordeaux - Sochaux du 05/09/1954 : 1-2 - But à la 51'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Karl",
+        "last_name": "Decker",
+        "display_name": "Karl Decker",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1921-09-05",
+                "precision": "day",
+                "text": "5 septembre 1921"
+            },
+            "place": {
+                "text": "Vienne (Autriche)",
+                "city": "Vienne",
+                "department": null,
+                "country": "Autriche",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 5 septembre 1921 à Vienne (Autriche)"
+        },
+        "death": {
+            "date": {
+                "iso": "2005-09-27",
+                "precision": "day",
+                "text": "27 septembre 2005"
+            },
+            "place": {
+                "text": "Vienne (Autriche)",
+                "city": "Vienne",
+                "department": null,
+                "country": "Autriche",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 27 septembre 2005 à Vienne (Autriche)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International Allemagne nazi (8 sélections, 7 buts)",
+            "International autrichien (25 sélections, 19 buts)"
+        ],
+        "arrival": {
+            "iso": "1954-07",
+            "precision": "month",
+            "text": "juillet 1954"
+        },
+        "departure": {
+            "iso": "1956-06",
+            "precision": "month",
+            "text": "juin 1956"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Marseille - Sochaux du 22/08/1954 : 3-0",
+        "last_match": "Sochaux - Strasbourg du 03/06/1956 : 2-2",
+        "first_goal": "Bordeaux - Sochaux du 05/09/1954 : 1-2 - But à la 51'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Karl Decker"
+            },
+            {
+                "label": null,
+                "value": "né le 5 septembre 1921 à Vienne (Autriche)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 27 septembre 2005 à Vienne (Autriche)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International Allemagne nazi (8 sélections, 7 buts)"
+            },
+            {
+                "label": null,
+                "value": "International autrichien (25 sélections, 19 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1954"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1956"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Marseille - Sochaux du 22/08/1954 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Strasbourg du 03/06/1956 : 2-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Bordeaux - Sochaux du 05/09/1954 : 1-2 - But à la 51'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1954 - 1955",
+                    "21",
+                    "9",
+                    "3",
+                    "3",
+                    "24",
+                    "12"
+                ],
+                [
+                    "1955 - 1956",
+                    "14",
+                    "6",
+                    "0",
+                    "0",
+                    "14",
+                    "6"
+                ],
+                [
+                    "TOTAL",
+                    "35",
+                    "15",
+                    "3",
+                    "3",
+                    "38",
+                    "18"
+                ]
+            ],
+            "source_table": 955
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

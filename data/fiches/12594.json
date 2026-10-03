@@ -1,0 +1,170 @@
+{
+    "id": 12594,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alexei-kurilenko",
+    "path": "/joueurs/alexei-kurilenko/",
+    "title": "Alexeï Kurilenko (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-23.jpg",
+    "date": "2025-03-07T00:13:28",
+    "modified": "2025-11-12T14:04:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Après un essai de quelques jours Alexeï Kurilenko a joué 1 match amical contre Gueugnon à l'été 1997."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-23.jpg",
+            "caption": "Alexeï Kurilenko",
+            "credit": "Ennergie Cottbus",
+            "caption_raw": "Alexeï Kurilenko – Ennergie Cottbus"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12594,
+        "url": "https://www.fcsochauxretro.com/uncategorized/alexei-kurilenko/",
+        "path": "/uncategorized/alexei-kurilenko/",
+        "slug": "alexei-kurilenko",
+        "seo_title": "Alexeï Kurilenko (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alexeï Kurilenko</h2>\n<h4><strong>né le 29 aout 1972 à XX (Ukraine) </strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids :</strong> 74 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant ou milieu offensif</p>\n<p><strong>A l'essai en : </strong>juillet 1997</p>\n<p><strong>Premier et dernier match amical joué :</strong> Sochaux - Gueugnon du 23/07/1997 : 3-2</p>",
+        "header_lines": [
+            "Alexeï Kurilenko",
+            "né le 29 aout 1972 à XX (Ukraine)",
+            "Taille : 1m76",
+            "Poids : 74 kg",
+            "Pied : droitier",
+            "Poste : attaquant ou milieu offensif",
+            "A l'essai en : juillet 1997",
+            "Premier et dernier match amical joué : Sochaux - Gueugnon du 23/07/1997 : 3-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alexeï",
+        "last_name": "Kurilenko",
+        "display_name": "Alexeï Kurilenko",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1997-07",
+            "precision": "month",
+            "text": "juillet 1997"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1972-08-29",
+                "precision": "day",
+                "text": "29 aout 1972"
+            },
+            "place": {
+                "text": "XX (Ukraine)",
+                "city": "XX",
+                "department": null,
+                "country": "Ukraine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 aout 1972 à XX (Ukraine)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "droitier",
+        "position": "attaquant ou milieu offensif",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alexeï Kurilenko"
+            },
+            {
+                "label": null,
+                "value": "né le 29 aout 1972 à XX (Ukraine)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant ou milieu offensif"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 1997"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sochaux - Gueugnon du 23/07/1997 : 3-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

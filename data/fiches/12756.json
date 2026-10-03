@@ -1,0 +1,219 @@
+{
+    "id": 12756,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mor-talla-gaye",
+    "path": "/joueurs/mor-talla-gaye/",
+    "title": "Mor Talla Gaye (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-35.jpg",
+    "date": "2025-03-09T15:18:04",
+    "modified": "2025-11-12T13:44:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>En janvier 2020, Sochaux est sur une phase sportive compliquée. Le manque de moyens oblige Omar Daf à être malin et à faire jouer son réseau. Il met à l'essai le jeune Sénégalais Mor Talla Gaye (20 ans). Ce joueur de Diambars a été élu homme du match lors de la finale de la Coupe de la Ligue de son pays au point d’être surnommé « le Messi de Diambars ». Joueur de petite taille (1,64 m) Mor Talla est réputé pour sa vitesse impressionnante et son pied gauche. Les joueurs sochaliens n’ont pas tardé à le vérifier durant sa semaine d'essai.</li>\n<li>Mais à l'issue d'un match amical à Metz Omar Daf fait le choix de ne pas le conserver le jugeant trop juste physiquement dans un championnat de ligue 2 réputé pour son engagement physique. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Mor Talla Gaye a joué 1 match amical avec Sochaux en janvier 2020."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/mor-talla-gaye-jeune-senegalais-a-l-essai-au-fcsm-photo-er-mickael-desprez-1579160907.jpg",
+            "caption": "Mor Talla Gaye",
+            "credit": "L’est républicain",
+            "caption_raw": "Mor Talla Gaye – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12756,
+        "url": "https://www.fcsochauxretro.com/uncategorized/mor-talla-gaye-a-lessai/",
+        "path": "/uncategorized/mor-talla-gaye-a-lessai/",
+        "slug": "mor-talla-gaye-a-lessai",
+        "seo_title": "Mor Talla Gaye (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mor Talla Gaye</h2>\n<h4><strong>né le 7 janvier 1999 à Guinaws Rails (Sénégal)</strong></h4>\n<p><strong>Taille : </strong>1m64</p>\n<p><strong>Poids : </strong>61 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>International sénégalais U20 </strong></p>\n<p><strong>A l'essai en : </strong>janvier 2020</p>\n<p><strong>Premier et dernier match amical joué :</strong> Metz - Sochaux du 17/01/2020 : 0-0</p>",
+        "header_lines": [
+            "Mor Talla Gaye",
+            "né le 7 janvier 1999 à Guinaws Rails (Sénégal)",
+            "Taille : 1m64",
+            "Poids : 61 kg",
+            "Pied : gaucher",
+            "Poste : ailier droit",
+            "International sénégalais U20",
+            "A l'essai en : janvier 2020",
+            "Premier et dernier match amical joué : Metz - Sochaux du 17/01/2020 : 0-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mor Talla",
+        "last_name": "Gaye",
+        "display_name": "Mor Talla Gaye",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2020-01",
+            "precision": "month",
+            "text": "janvier 2020"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1999-01-07",
+                "precision": "day",
+                "text": "7 janvier 1999"
+            },
+            "place": {
+                "text": "Guinaws Rails (Sénégal)",
+                "city": "Guinaws Rails",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 janvier 1999 à Guinaws Rails (Sénégal)"
+        },
+        "death": null,
+        "height": "1m64",
+        "height_cm": 164,
+        "weight": "61 kg",
+        "weight_kg": 61,
+        "foot": "gaucher",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International sénégalais U20"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mor Talla Gaye"
+            },
+            {
+                "label": null,
+                "value": "né le 7 janvier 1999 à Guinaws Rails (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m64"
+            },
+            {
+                "label": "Poids",
+                "value": "61 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International sénégalais U20"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "janvier 2020"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Metz - Sochaux du 17/01/2020 : 0-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

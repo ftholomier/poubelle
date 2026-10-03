@@ -1,0 +1,542 @@
+{
+    "id": 16827,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sc-rheindorf-altach-sochaux-amical-01-07-2017",
+    "path": "/matchs/2017-2018/sc-rheindorf-altach-sochaux-amical-01-07-2017/",
+    "title": "Amical – SC Rheindorf Altach (L1 Aut) / Sochaux (L2) – 01/07/2017 – 0-5",
+    "categories": [
+        "2017-2018",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/fc-sochaux-match-amical-contre-altach-lemontey-christian-1498933072.jpg",
+    "date": "2026-06-14T13:46:20",
+    "modified": "2026-08-14T13:11:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "10 buts en deux matchs amicaux de pré-saison."
+    },
+    "gallery": [
+        {
+            "image": "2026/06/fc-sochaux-match-amical-contre-altach-lemontey-christian-1579097977.jpg",
+            "caption": "Altach-Sochaux pré-saison 2017/2018",
+            "credit": "FCSM",
+            "caption_raw": "Altach-Sochaux pré-saison 2017/2018 – FCSM"
+        },
+        {
+            "image": "2026/06/fc-sochaux-match-amical-contre-altach-lemontey-christian-1498931660.jpg",
+            "caption": "Altach-Sochaux pré-saison 2017/2018",
+            "credit": "FCSM",
+            "caption_raw": "Altach-Sochaux pré-saison 2017/2018 – FCSM"
+        },
+        {
+            "image": "2026/06/fc-sochaux-match-amical-contre-altach-lemontey-christian-1579097977-1.jpg",
+            "caption": "Altach-Sochaux pré-saison 2017/2018",
+            "credit": "FCSM",
+            "caption_raw": "Altach-Sochaux pré-saison 2017/2018 – FCSM"
+        },
+        {
+            "image": "2025/12/fc-sochaux-match-amical-contre-altach-lemontey-christian-1498933072.jpg",
+            "caption": "Altach-Sochaux pré-saison 2017/2018",
+            "credit": "FCSM",
+            "caption_raw": "Altach-Sochaux pré-saison 2017/2018 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16827,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sc-rheindorf-altach-l1-aut-sochaux-l1-01-07-2017-0-5/",
+        "path": "/a-la-une/amical-sc-rheindorf-altach-l1-aut-sochaux-l1-01-07-2017-0-5/",
+        "slug": "amical-sc-rheindorf-altach-l1-aut-sochaux-l1-01-07-2017-0-5",
+        "seo_title": "Amical - SC Rheindorf Altach (L1 Aut) / Sochaux (L2) - 01/07/2017 - 0-5 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Rheindorf Altach (L1 Aut) / Sochaux (L2) : 0-5</strong><strong><br></strong></h2>\n<h4><strong>Match amical<br></strong></h4>\n<h4><strong>Samedi 1er juillet 2017</strong></h4>\n<h4><strong>Stade Sportplatz Golm de Schrun (Autriche)<br></strong></h4>\n<h4><strong>200 spectateurs</strong></h4>\n<h4><strong>Arbitre : xx</strong></h4>\n<p>Buts : Robinet 58' et 79', Aktas 65' et 81', Rosier 85' pour Sochaux. </p>",
+        "header_lines": [
+            "Rheindorf Altach (L1 Aut) / Sochaux (L2) : 0-5",
+            "Match amical",
+            "Samedi 1er juillet 2017",
+            "Stade Sportplatz Golm de Schrun (Autriche)",
+            "200 spectateurs",
+            "Arbitre : xx",
+            "Buts : Robinet 58' et 79', Aktas 65' et 81', Rosier 85' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2017-07-01",
+        "date_text": "Samedi 1er juillet 2017",
+        "season": "2017-2018",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "SC Rheindorf Altach",
+            "level": "L1 Aut"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 5,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-5",
+        "score_line": "Rheindorf Altach (L1 Aut) / Sochaux (L2) : 0-5",
+        "result": "V",
+        "stadium": "Stade Sportplatz Golm de Schrun (Autriche)",
+        "spectators": 200,
+        "spectators_text": "200 spectateurs",
+        "referee": "xx",
+        "goals_text": "Robinet 58' et 79', Aktas 65' et 81', Rosier 85' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Robinet 58' et 79', Aktas 65' et 81', Rosier 85'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "PREVOT Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ALPHONSE Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "62",
+                    "sub_text": "↓ 62'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OGIER Florent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RUIZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PENDANT Jason",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FUCHS Jeando",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "RISTL Mart",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "67",
+                    "sub_text": "↓ 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MARTIN Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "TOUZGHAR Yohann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ANDRIATSIMA Faneva",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BERTRAND Benjamin (A l'essai)",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MBAKATA Salem",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "62",
+                    "sub_out": null,
+                    "sub_text": "↑ 62'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "KAPP Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RZEPECKI Emile",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "67",
+                    "sub_out": null,
+                    "sub_text": "↑ 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAHAM Sofiane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROSIER Loreintz",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "85"
+                    ],
+                    "goals_text": "⚽ 85'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "AKTAS Aksel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "65",
+                        "81"
+                    ],
+                    "goals_text": "⚽ 65' ⚽ 81'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "58",
+                        "79"
+                    ],
+                    "goals_text": "⚽ 58' ⚽ 79'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "THURAM Marcus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LASME Bryan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ZEIDLER Peter",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1949
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

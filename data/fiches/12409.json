@@ -1,0 +1,172 @@
+{
+    "id": 12409,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "hertzog",
+    "path": "/joueurs/hertzog/",
+    "title": "? Hertzog (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-02T20:51:53",
+    "modified": "2025-11-12T14:07:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Hertzog a joué 1 match amical pour Sochaux en 1930."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12409,
+        "url": "https://www.fcsochauxretro.com/uncategorized/hertzog/",
+        "path": "/uncategorized/hertzog/",
+        "slug": "hertzog",
+        "seo_title": "? Hertzog (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Hertzog</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>A l'essai en : </strong>novembre 1930</p>\n<p><strong>Premier et dernier match amical joué </strong>: Sochaux - Lille du 29/11/1930 : 4-4</p>",
+        "header_lines": [
+            "? Hertzog",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "A l'essai en : novembre 1930",
+            "Premier et dernier match amical joué : Sochaux - Lille du 29/11/1930 : 4-4"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Hertzog",
+        "display_name": "? Hertzog",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1930-11",
+            "precision": "month",
+            "text": "novembre 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Hertzog"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "novembre 1930"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sochaux - Lille du 29/11/1930 : 4-4"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,277 @@
+{
+    "id": 4940,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "david-sauget",
+    "path": "/joueurs/david-sauget/",
+    "title": "David Sauget",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/155841_463958049772_706889772_5614393_7889880_n1.jpg",
+    "date": "2025-01-12T22:57:26",
+    "modified": "2026-02-27T16:42:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "107",
+        "text": "David Sauget a joué 107 matchs (1 but et 3 passes décisives) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/title-1484128407.jpg",
+            "caption": "David Sauget",
+            "credit": "L’est républicain",
+            "caption_raw": "David Sauget – L’est républicain"
+        },
+        {
+            "image": "2025/01/david-sauget-estime-sochaux-bien-plus-mur-que-voici-un-an-lors-de-la-campagne-de-matches-preparatoires-photo-bruno-grandjean-1484129135.jpg",
+            "caption": "David Sauget",
+            "credit": "L’est républicain",
+            "caption_raw": "David Sauget – L’est républicain"
+        },
+        {
+            "image": "2025/01/david-sauget-quot-qu-on-evite-tous-de-se-prendre-pour-des-numeros-10-quot-1419828434.jpg",
+            "caption": "David Sauget",
+            "credit": "L’est républicain",
+            "caption_raw": "David Sauget – L’est républicain"
+        },
+        {
+            "image": "2025/01/david-sauget-entend-renforcer-son-role-de-cadre-dans-les-deux-prochaines-saisons-a-venir-photo-d-archives-francis-reinoso-1404273214.jpg",
+            "caption": "David Sauget",
+            "credit": "L’est républicain",
+            "caption_raw": "David Sauget – L’est républicain"
+        },
+        {
+            "image": "2026/02/155841_463958049772_706889772_5614393_7889880_n1.jpg",
+            "caption": "Sauget",
+            "credit": "Collection privée",
+            "caption_raw": "Sauget – Collection privée"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4940,
+        "url": "https://www.fcsochauxretro.com/a-la-une/david-sauget/",
+        "path": "/a-la-une/david-sauget/",
+        "slug": "david-sauget",
+        "seo_title": "David Sauget - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>David Sauget</h2>\n<h4><strong>né le 23 novembre 1979 à Champagnole (39) </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>arrière latéral</p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1995</p>\n<p><strong>Départ de Sochaux : </strong>juin 2000</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2010</p>\n<p><strong>Départ de Sochaux : </strong>juin 2014</p>\n<p><strong>Premier match joué :</strong> Sochaux - Arles-Avignon du 07/08/2010 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Bastia - Sochaux du 26/05/2013 : 0-0</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Monaco du 11/05/2011 : 3-0 - But à la 22'</p>",
+        "header_lines": [
+            "David Sauget",
+            "né le 23 novembre 1979 à Champagnole (39)",
+            "Taille : 1m75",
+            "Poids : 75 kg",
+            "Pied : ambidextre",
+            "Poste : arrière latéral",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1995",
+            "Départ de Sochaux : juin 2000",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 2010",
+            "Départ de Sochaux : juin 2014",
+            "Premier match joué : Sochaux - Arles-Avignon du 07/08/2010 : 2-1",
+            "Dernier match joué : Bastia - Sochaux du 26/05/2013 : 0-0",
+            "Premier but marqué : Sochaux - Monaco du 11/05/2011 : 3-0 - But à la 22'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "David",
+        "last_name": "Sauget",
+        "display_name": "David Sauget",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1979-11-23",
+                "precision": "day",
+                "text": "23 novembre 1979"
+            },
+            "place": {
+                "text": "Champagnole (39)",
+                "city": "Champagnole",
+                "department": "39",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 novembre 1979 à Champagnole (39)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "ambidextre",
+        "position": "arrière latéral",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1995-07",
+            "precision": "month",
+            "text": "juillet 1995"
+        },
+        "departure": {
+            "iso": "2000-06",
+            "precision": "month",
+            "text": "juin 2000"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Arles-Avignon du 07/08/2010 : 2-1",
+        "last_match": "Bastia - Sochaux du 26/05/2013 : 0-0",
+        "first_goal": "Sochaux - Monaco du 11/05/2011 : 3-0 - But à la 22'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "David Sauget"
+            },
+            {
+                "label": null,
+                "value": "né le 23 novembre 1979 à Champagnole (39)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1995"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2000"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2010"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2014"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Arles-Avignon du 07/08/2010 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Bastia - Sochaux du 26/05/2013 : 0-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Monaco du 11/05/2011 : 3-0 - But à la 22'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

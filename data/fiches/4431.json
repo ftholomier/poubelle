@@ -1,0 +1,483 @@
+{
+    "id": 4431,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "laval-sochaux-coupe-de-la-ligue-12-08-2014",
+    "path": "/matchs/2014-2015/laval-sochaux-coupe-de-la-ligue-12-08-2014/",
+    "title": "1er tour – Laval (L2) / Sochaux (L2) – CDL – 12/08/2014 – 2-0",
+    "categories": [
+        "2014-2015",
+        "a-la-une",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "coupe-de-la-ligue",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/07/LAVAL-FCSM-2014-2015-CDL-4-PQR-Ouest-France.jpg",
+    "date": "2024-07-21T16:56:45",
+    "modified": "2026-07-22T15:30:30",
+    "author": "gsanchez",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Olivier Echouafni a fait tourner l'effectif pour ce math de Coupe de la Ligue avec 6 changements par rapport au match de championnat : Camara, Onguéné, Vivian, Ilaimaharitra, Diallo et Diedhiou sont titulaires.</li>\n<li>Pelé, Faussurier, Sunzu et Mignot ont été préservés et ne figurent pas sur la feuille de match.</li>\n<li>Jérôme Roussillon, de retour de blessure, est sur le banc. </li><li>En championnat, Laval a débuté sa saison par 2 matchs nuls. Quant à Sochaux, après une défaite initiale à domicile, l'équipe s'est bien reprise en l'emportant à Ajaccio. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>7' : </strong>Sur un centre venu de la gauche, Chafik reprend de la tête mais c'est sauvé sur la ligne par Zouma.</li>\n<li><strong>11' : Déboulé côté droit de Chafik qui centre en retrait pour Antony Robic qui frappe dans le cadre. (1</strong><b>-0)</b></li>\n<li><strong>15' : </strong>Sur un corner rapidement joué Onguéné reprend de la tête un centre. Cappone sauve son équipe.</li>\n<li><strong>23' : </strong>Romain Habran, dribble quatre joueurs lavallois et entre dans la surface. Sa frappe est détournée in extremis par un défenseur.</li>\n<li><strong>30' :</strong> Onguéné effectue un centre-tir qui surprend le portier lavallois. La balle file quelques centimètres au-dessus de la cage.</li>\n<li><strong>42' : </strong>A la suite d'un centre, Martin Mimoun, seul devant le but, frappe de la tête. La balle est captée par Papa Camara.</li>\n<li><strong>43' :</strong> Romain Habran fait une chevauchée en solitaire et frappe depuis les trente mètres. La balle passe juste au-dessus de la cage.</li>\n<li><strong>49' :</strong> Malsa d'une grosse frappe appuyée bute sur Cappone.</li>\n<li><strong>56' :</strong> Centre de Gonçalves pour Renouard qui frappe aux 6 mètres. La balle passe à 2 centimètres du poteau de Camara.</li>\n<li><strong>60' :</strong> Frappe de Romain Habran de loin, Cappone doit plonger pour la capter.</li>\n<li><strong>90'+3</strong> : <strong>Zeoula centre en retrait pour Antony Gonçalves qui ajuste Camara. (2-0)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Olivier Echouafni :</strong>  « <em>C'est l'expérience qui a parlé face à la jeunesse</em> »</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Jérôme Onguéné a fait ses grands débuts en équipe première. Mamadou Diallo est titularisé pour la 1ere fois après un 1er match en tant que remplaçant l'an dernier contre Bastia en novembre 2013.</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "C'est la 1ere rencontre entre Sochaux et Laval en Coupe (Coupe de la Ligue et Coupe de France confondues)."
+    },
+    "gallery": [
+        {
+            "image": "2024/07/LAVAL-FCSM-2014-2015-CDL-2-FCSM.jpg",
+            "caption": "Onguéné, Berenguer, Malsa Photo FCSM",
+            "credit": "",
+            "caption_raw": "Onguéné, Berenguer, Malsa Photo FCSM"
+        },
+        {
+            "image": "2024/07/LAVAL-FCSM-2014-2015-CDL-5-PQR-Ouest-France-scaled.jpg",
+            "caption": "Onguéné Photo PQR Ouest France",
+            "credit": "",
+            "caption_raw": "Onguéné Photo PQR Ouest France"
+        },
+        {
+            "image": "2024/07/LAVAL-FCSM-2014-2015-CDL-4-PQR-Ouest-France.jpg",
+            "caption": "Senzemba Photo PQR Ouest France",
+            "credit": "",
+            "caption_raw": "Senzemba Photo PQR Ouest France"
+        },
+        {
+            "image": "2024/07/LAVAL-FCSM-2014-2015-CDL-3-PQR-Ouest-France.jpg",
+            "caption": "Vivian Photo PQR Ouest France",
+            "credit": "",
+            "caption_raw": "Vivian Photo PQR Ouest France"
+        },
+        {
+            "image": "2024/07/LAVAL-FCSM-2014-2015-CDL-1-FCSM.jpg",
+            "caption": "Ilaimaharitra Photo FCSM",
+            "credit": "",
+            "caption_raw": "Ilaimaharitra Photo FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4431,
+        "url": "https://www.fcsochauxretro.com/a-la-une/1er-tour-laval-l2-sochaux-l2-cdl-12-08-2014-2-0/",
+        "path": "/a-la-une/1er-tour-laval-l2-sochaux-l2-cdl-12-08-2014-2-0/",
+        "slug": "1er-tour-laval-l2-sochaux-l2-cdl-12-08-2014-2-0",
+        "seo_title": "1er tour - Laval (L2) / Sochaux (L2) - CDL - 12/08/2014 - 2-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Laval / Sochaux : 2-0</strong><strong><br></strong></h2>\n<h4><strong>1er tour de Coupe de la Ligue<br></strong></h4>\n<h4><strong>Mardi 12 août 2014</strong></h4>\n<h4><strong>Stade Francis Le Basser<br></strong></h4>\n<h4><strong>5 732 spectateurs</strong></h4>\n<h4><strong>Arbitre : A. Castro<br></strong></h4>\n<p>Buts : Robic 11', Goncalves 90'+3 pour Laval</p>",
+        "header_lines": [
+            "Laval / Sochaux : 2-0",
+            "1er tour de Coupe de la Ligue",
+            "Mardi 12 août 2014",
+            "Stade Francis Le Basser",
+            "5 732 spectateurs",
+            "Arbitre : A. Castro",
+            "Buts : Robic 11', Goncalves 90'+3 pour Laval"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2014-08-12",
+        "date_text": "Mardi 12 août 2014",
+        "season": "2014-2015",
+        "competition": "Coupe de la Ligue",
+        "competition_label": "Coupe de la Ligue",
+        "competition_code": "CDL",
+        "round": "1er tour",
+        "round_text": "1er tour de Coupe de la Ligue",
+        "home": {
+            "name": "Laval",
+            "level": "L2"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-0",
+        "score_line": "Laval / Sochaux : 2-0",
+        "result": "D",
+        "stadium": "Stade Francis Le Basser",
+        "spectators": 5732,
+        "spectators_text": "5 732 spectateurs",
+        "referee": "A. Castro",
+        "goals_text": "Robic 11', Goncalves 90'+3 pour Laval",
+        "goals": [
+            {
+                "team": "Laval",
+                "scorers": "Robic 11', Goncalves 90'+3"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "7",
+                "text": "Sur un centre venu de la gauche, Chafik reprend de la tête mais c'est sauvé sur la ligne par Zouma.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "11",
+                "text": "Déboulé côté droit de Chafik qui centre en retrait pour Antony Robic qui frappe dans le cadre. (1-0)",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "15",
+                "text": "Sur un corner rapidement joué Onguéné reprend de la tête un centre. Cappone sauve son équipe.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "23",
+                "text": "Romain Habran, dribble quatre joueurs lavallois et entre dans la surface. Sa frappe est détournée in extremis par un défenseur.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "30",
+                "text": "Onguéné effectue un centre-tir qui surprend le portier lavallois. La balle file quelques centimètres au-dessus de la cage.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "42",
+                "text": "A la suite d'un centre, Martin Mimoun, seul devant le but, frappe de la tête. La balle est captée par Papa Camara.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "43",
+                "text": "Romain Habran fait une chevauchée en solitaire et frappe depuis les trente mètres. La balle passe juste au-dessus de la cage.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "49",
+                "text": "Malsa d'une grosse frappe appuyée bute sur Cappone.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "56",
+                "text": "Centre de Gonçalves pour Renouard qui frappe aux 6 mètres. La balle passe à 2 centimètres du poteau de Camara.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "60",
+                "text": "Frappe de Romain Habran de loin, Cappone doit plonger pour la capter.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "90+3",
+                "text": "Zeoula centre en retrait pour Antony Gonçalves qui ajuste Camara. (2-0)",
+                "goal": true,
+                "score": "2-0"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Olivier Echouafni",
+                "text": "C'est l'expérience qui a parlé face à la jeunesse"
+            }
+        ],
+        "breves": [
+            "Jérôme Onguéné a fait ses grands débuts en équipe première. Mamadou Diallo est titularisé pour la 1ere fois après un 1er match en tant que remplaçant l'an dernier contre Bastia en novembre 2013."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "CAMARA Papa Demba",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SENZEMBA Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "VIVIAN Matheus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "90+2"
+                    ],
+                    "red": [],
+                    "cards_text": "J 90'+2",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ONGUÉNÉ Jérôme",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ZOUMA Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "73"
+                    ],
+                    "red": [],
+                    "cards_text": "J 73'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ILAIMAHARITRA Marco",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MALSA Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "84",
+                    "sub_text": "Sortie 84'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DIALLO Mamadou",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HABRAN Romain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DIEDHIOU Famara",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "71",
+                    "sub_text": "Sortie 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "TOKO EKAMBI Karl",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "71",
+                    "sub_out": null,
+                    "sub_text": "Entrée 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROUSSILLON Jérôme",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "79",
+                    "sub_out": null,
+                    "sub_text": "Entrée 79'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GUERBERT Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "84",
+                    "sub_out": null,
+                    "sub_text": "Entrée 84'",
+                    "yellow": [
+                        "90+2"
+                    ],
+                    "red": [],
+                    "cards_text": "J 90'+2",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ECHOUAFNI Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 400
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

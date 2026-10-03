@@ -1,0 +1,482 @@
+{
+    "id": 19531,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nantes-sochaux-amical-24-01-1989",
+    "path": "/matchs/1988-1989/nantes-sochaux-amical-24-01-1989/",
+    "title": "Amical – Nantes (D1) / Sochaux (D1) – 24/01/1989 – 1-2",
+    "categories": [
+        "1988-1989",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/Henry-BUT.png",
+    "date": "2025-12-10T13:19:00",
+    "modified": "2026-01-10T13:34:16",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux est 4e de D1 après 24 journées. Le FCSM reste sur un nul 1-1 à Dijon en match amical. </li>\n<li>Nantes est 7e de D1 à 3 points du FCSM qui est 4e. </li>\n<li>En championnat, Nantes l'a emporté 1-0 à Bonal pour la seule et unique défaite du FCSM à domicile. </li>\n<li>Nantes reste sur un nul 2-2 face à Montpellier en amical après un stage à la Réunion. </li>\n<li>Pour affronter le FCSM, Ayache et Youm seront absents car blessés. </li>\n<li>A Sochaux, Bricon, Tihy et Morin sont toujours blessés. </li>\n<li>Le FCSM enregistre le retour de Paille qui ne souffre plus du genou. </li>\n<li>Le match se disputera à Fontenay le Comte. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>2' :</strong> frappe de Thomas repoussée par Marraud. </li>\n<li><strong>5' :</strong> coup franc d'Hadzibegic juste au dessus. </li>\n<li><strong>7' : lancé par Thomas, Lada prend de vitesse la défense nantaise avant de tromper Marraud d'un tir en coin. 0-1</strong></li>\n<li><strong>28' :</strong> Rousset bloque une tentative de Vercauteren. </li>\n<li><strong>35' :</strong> frappe trop croisée de Paille. </li>\n<li><strong>45' : Vercauteren sert Débotté dont la frappe déviée de l'entrée de la surface trompe Rousset. 1-1</strong></li>\n<li><strong>53' :</strong> Rousset arrête en deux temps un tir cadré de Vercauteren. </li>\n<li><strong>67' : longue ouverture de Bazdarevic pour Paille qui fixe Marraud avant de servir Frotey sur un plateau. 1-2</strong></li>\n<li><strong>80' :</strong> tête de Johnston qui manque la cible. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Sylvester Takac :</strong> <em>\"</em> <em>Ce succès est mérité et notre prestation confirme notre montée en puissance.\"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Le brouillard a perturbé le déplacement du FCSM. L'équipe a dû faire une escale aérienne forcée à Paris avant de rallier Nantes puis Fontenay pour y disputer son match amical. </li>\n<li>Morin, Bricon et Tihy seront sans doute absents devant le PSG. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "premier but de la saison avec l'équipe professionnelle pour Jean-Marc Frotey"
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Henry-BUT.png",
+            "caption": "Henry",
+            "credit": "BUT",
+            "caption_raw": "Henry – BUT"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19531,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-nantes-d1-sochaux-d1-24-01-1989-1-2/",
+        "path": "/a-la-une/amical-nantes-d1-sochaux-d1-24-01-1989-1-2/",
+        "slug": "amical-nantes-d1-sochaux-d1-24-01-1989-1-2",
+        "seo_title": "Amical - Nantes (D1) / Sochaux (D1) - 24/01/1989 - 1-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Nantes (D1) / Sochaux (D1) : 1-2</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Mardi 24 janvier 1989</strong></h4>\n<h4><strong>Stade de Fontenay le Comte</strong></h4>\n<h4><strong>2 000 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Quiniou</strong></h4>\n<p>Buts : Lada 7', Frotey 67' pour Sochaux ; Debotté 45' pour Nantes. </p>",
+        "header_lines": [
+            "Nantes (D1) / Sochaux (D1) : 1-2",
+            "Match amical",
+            "Mardi 24 janvier 1989",
+            "Stade de Fontenay le Comte",
+            "2 000 spectateurs",
+            "Arbitrage : M. Quiniou",
+            "Buts : Lada 7', Frotey 67' pour Sochaux ; Debotté 45' pour Nantes."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1989-01-24",
+        "date_text": "Mardi 24 janvier 1989",
+        "season": "1988-1989",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Nantes",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-2",
+        "score_line": "Nantes (D1) / Sochaux (D1) : 1-2",
+        "result": "V",
+        "stadium": "Stade de Fontenay le Comte",
+        "spectators": 2000,
+        "spectators_text": "2 000 spectateurs",
+        "referee": "M. Quiniou",
+        "goals_text": "Lada 7', Frotey 67' pour Sochaux ; Debotté 45' pour Nantes.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Lada 7', Frotey 67'"
+            },
+            {
+                "team": "Nantes",
+                "scorers": "Debotté 45'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "2",
+                "text": "frappe de Thomas repoussée par Marraud.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "5",
+                "text": "coup franc d'Hadzibegic juste au dessus.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "7",
+                "text": "lancé par Thomas, Lada prend de vitesse la défense nantaise avant de tromper Marraud d'un tir en coin. 0-1",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "28",
+                "text": "Rousset bloque une tentative de Vercauteren.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "35",
+                "text": "frappe trop croisée de Paille.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "45",
+                "text": "Vercauteren sert Débotté dont la frappe déviée de l'entrée de la surface trompe Rousset. 1-1",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "53",
+                "text": "Rousset arrête en deux temps un tir cadré de Vercauteren.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "67",
+                "text": "longue ouverture de Bazdarevic pour Paille qui fixe Marraud avant de servir Frotey sur un plateau. 1-2",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "80",
+                "text": "tête de Johnston qui manque la cible.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Sylvester Takac",
+                "text": "Ce succès est mérité et notre prestation confirme notre montée en puissance."
+            }
+        ],
+        "breves": [
+            "Le brouillard a perturbé le déplacement du FCSM. L'équipe a dû faire une escale aérienne forcée à Paris avant de rallier Nantes puis Fontenay pour y disputer son match amical.",
+            "Morin, Bricon et Tihy seront sans doute absents devant le PSG."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DUFOURNET Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "65",
+                    "sub_text": "Sortie 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LAUREY Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "65",
+                    "sub_text": "Sortie 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "80",
+                    "sub_text": "Sortie 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "7"
+                    ],
+                    "goals_text": "7'",
+                    "sub_in": null,
+                    "sub_out": "80",
+                    "sub_text": "Sortie 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FROTEY Jean Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "67"
+                    ],
+                    "goals_text": "67'",
+                    "sub_in": "65",
+                    "sub_out": null,
+                    "sub_text": "Entrée 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROBIN Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "80",
+                    "sub_out": null,
+                    "sub_text": "Entrée 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "65",
+                    "sub_out": null,
+                    "sub_text": "Entrée 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MADAR Mickael",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "80",
+                    "sub_out": null,
+                    "sub_text": "Entrée 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FERRAND Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1637
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

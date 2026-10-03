@@ -1,0 +1,514 @@
+{
+    "id": 16846,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "la-chaux-de-fond-sochaux-amical-03-07-2018",
+    "path": "/matchs/2018-2019/la-chaux-de-fond-sochaux-amical-03-07-2018/",
+    "title": "Amical – La Chaux-de-Fond (L3 Sui) / Sochaux (L2) – 03/07/2018 – 1-3",
+    "categories": [
+        "2018-2019",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/Robinet-FCCFCSM.jpg",
+    "date": "2026-06-14T22:13:05",
+    "modified": "2026-08-15T06:13:07",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "4 buts pour le jeune Victor Glaentzlin déjà dans cette préparation."
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Robinet-FCCFCSM.jpg",
+            "caption": "Thomas Robinet contre La Chaux de Fond en pré-saison 2018-2019",
+            "credit": "FCSM",
+            "caption_raw": "Thomas Robinet contre La Chaux de Fond en pré-saison 2018-2019 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16846,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-la-chaux-de-fond-l3-sui-sochaux-l2-03-07-2018-1-3/",
+        "path": "/a-la-une/amical-la-chaux-de-fond-l3-sui-sochaux-l2-03-07-2018-1-3/",
+        "slug": "amical-la-chaux-de-fond-l3-sui-sochaux-l2-03-07-2018-1-3",
+        "seo_title": "Amical - La Chaux-de-Fond (L3 Sui) / Sochaux (L2) - 03/07/2018 - 1-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>La Chaux-de-Fond (L3 Sui) / Sochaux (L2) : 1-3</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Mardi 3 juillet 2018</strong></h4>\n<h4><strong>Stade de la Charrière de La Chaux-de-Fond (Suisse)</strong></h4>\n<h4><strong>150 spectateurs</strong></h4>\n<h4><strong>Arbitre : xx</strong></h4>\n<p>Buts : Zinguarelli 50' (s.p) pour La Chaux de Fond ; Glaentzlin 9', Budkivskyi 45' et Robinet 84' pour Sochaux</p>",
+        "header_lines": [
+            "La Chaux-de-Fond (L3 Sui) / Sochaux (L2) : 1-3",
+            "Match amical",
+            "Mardi 3 juillet 2018",
+            "Stade de la Charrière de La Chaux-de-Fond (Suisse)",
+            "150 spectateurs",
+            "Arbitre : xx",
+            "Buts : Zinguarelli 50' (s.p) pour La Chaux de Fond ; Glaentzlin 9', Budkivskyi 45' et Robinet 84' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2018-07-03",
+        "date_text": "Mardi 3 juillet 2018",
+        "season": "2018-2019",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "La Chaux-de-Fond",
+            "level": "L3 Sui"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-3",
+        "score_line": "La Chaux-de-Fond (L3 Sui) / Sochaux (L2) : 1-3",
+        "result": "V",
+        "stadium": "Stade de la Charrière de La Chaux-de-Fond (Suisse)",
+        "spectators": 150,
+        "spectators_text": "150 spectateurs",
+        "referee": "xx",
+        "goals_text": "Zinguarelli 50' (s.p) pour La Chaux de Fond ; Glaentzlin 9', Budkivskyi 45' et Robinet 84' pour Sochaux",
+        "goals": [
+            {
+                "team": "La Chaux de Fond",
+                "scorers": "Zinguarelli 50' (s.p)"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Glaentzlin 9', Budkivskyi 45' et Robinet 84'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "PREVOT Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MBAKATA Salem",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "JOSEMA",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LACROIX Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PAVIC Markus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DAHAM Sofiane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MADGER Gomes",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LASME Bryan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANE Abdoulaye",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "84"
+                    ],
+                    "goals_text": "⚽ 84'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "GLAENTZLIN Victor",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "9"
+                    ],
+                    "goals_text": "⚽ 9'",
+                    "sub_in": null,
+                    "sub_out": "34",
+                    "sub_text": "↓ 34'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LONG Aubin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BUDKIVSKYI Pylyp",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "45"
+                    ],
+                    "goals_text": "⚽ 45'",
+                    "sub_in": "34",
+                    "sub_out": "34",
+                    "sub_text": "↑ 34' ↓ 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MOLTENIS Boris",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PAEZ Rafa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PENDANT Jason",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FUCHS Jeando",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ANDERSON CRUZ Emmanuel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GALILEA Einar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SANE Abdoulaye",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GLAENTZLIN Victor",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "79",
+                        "84",
+                        "87"
+                    ],
+                    "goals_text": "⚽ 79' ⚽ 84' ⚽ 87'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "AIRA José Manuel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1963
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

@@ -1,0 +1,297 @@
+{
+    "id": 11108,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "giovanni-sio",
+    "path": "/joueurs/giovanni-sio/",
+    "title": "Giovanni Sio",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-107.jpg",
+    "date": "2025-01-29T12:19:38",
+    "modified": "2025-01-29T12:35:27",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Giovanni Sio a joué 13 matchs (4 buts et 3 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/c-est-clair-qu-on-a-vraiment-souffert-on-s-est-beaucoup-depense-et-on-a-ete-recompense-pour-nos-efforts-on-y-a-cru-jusqu-au-bout-confie-giovanni-sio-photos-francis-reinoso-14841272.jpg",
+            "caption": "Giovanni Sio",
+            "credit": "L’est républicain",
+            "caption_raw": "Giovanni Sio – L’est républicain"
+        },
+        {
+            "image": "2025/01/giovanni-sio-a-eu-droit-a-une-surveillance-particuliere-de-la-defense-ajaccienne-photos-francis-reinoso-1432739856.jpg",
+            "caption": "Giovanni Sio",
+            "credit": "L’est républicain",
+            "caption_raw": "Giovanni Sio – L’est républicain"
+        },
+        {
+            "image": "2025/01/giovanni-sio-de-nouveau-buteur-a-bonal-le-concept-n-est-peut-etre-pas-mort-photo-francis-reinoso-1484127104.jpg",
+            "caption": "Giovanni Sio",
+            "credit": "L’est républicain",
+            "caption_raw": "Giovanni Sio – L’est républicain"
+        },
+        {
+            "image": "2025/01/giovanni-sio-ne-reviendra-pas-a-sochaux-les-dirigeants-de-wolfsburg-l-ont-declare-intransferable-1484127133.jpg",
+            "caption": "Giovanni Sio",
+            "credit": "L’est républicain",
+            "caption_raw": "Giovanni Sio – L’est républicain"
+        },
+        {
+            "image": "2025/01/lavezzi-a-ete-cadenasse-par-lopy-et-sio-photos-jean-luc-gillme-1429712376.jpg",
+            "caption": "Giovanni Sio",
+            "credit": "L’est républicain",
+            "caption_raw": "Giovanni Sio – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11108,
+        "url": "https://www.fcsochauxretro.com/a-la-une/giovanni-sio/",
+        "path": "/a-la-une/giovanni-sio/",
+        "slug": "giovanni-sio",
+        "seo_title": "Giovanni Sio - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Giovanni Sio</h2>\n<h4><strong>né le 31 mars 1989 à Saint-Sébastien -sur-Loire (44)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International ivoirien (25 sélections, 3 buts)</strong></p>\n<p><strong>International français U16, U17 et U18 (39 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2013 </p>\n<p><strong>Départ de Sochaux : </strong>juin 2013</p>\n<p><strong>Premier match joué et premier but marqué :</strong> Sochaux - Paris SG du 17/02/2013 : 3-2 - But à la 54'</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Toulouse du 18/05/2013 : 1-2</p>",
+        "header_lines": [
+            "Giovanni Sio",
+            "né le 31 mars 1989 à Saint-Sébastien -sur-Loire (44)",
+            "Taille : 1m80",
+            "Poids : 78 kg",
+            "Pied : gaucher",
+            "Poste : attaquant",
+            "International ivoirien (25 sélections, 3 buts)",
+            "International français U16, U17 et U18 (39 sélections, 1 but)",
+            "Arrivée à Sochaux : janvier 2013",
+            "Départ de Sochaux : juin 2013",
+            "Premier match joué et premier but marqué : Sochaux - Paris SG du 17/02/2013 : 3-2 - But à la 54'",
+            "Dernier match joué : Sochaux - Toulouse du 18/05/2013 : 1-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Giovanni",
+        "last_name": "Sio",
+        "display_name": "Giovanni Sio",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1989-03-31",
+                "precision": "day",
+                "text": "31 mars 1989"
+            },
+            "place": {
+                "text": "Saint-Sébastien -sur-Loire (44)",
+                "city": "Saint-Sébastien -sur-Loire",
+                "department": "44",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 31 mars 1989 à Saint-Sébastien -sur-Loire (44)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "gaucher",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International ivoirien (25 sélections, 3 buts)",
+            "International français U16, U17 et U18 (39 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2013-01",
+            "precision": "month",
+            "text": "janvier 2013"
+        },
+        "departure": {
+            "iso": "2013-06",
+            "precision": "month",
+            "text": "juin 2013"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Paris SG du 17/02/2013 : 3-2 - But à la 54'",
+        "last_match": "Sochaux - Toulouse du 18/05/2013 : 1-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Giovanni Sio"
+            },
+            {
+                "label": null,
+                "value": "né le 31 mars 1989 à Saint-Sébastien -sur-Loire (44)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International ivoirien (25 sélections, 3 buts)"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U17 et U18 (39 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2013"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2013"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Sochaux - Paris SG du 17/02/2013 : 3-2 - But à la 54'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Toulouse du 18/05/2013 : 1-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "0"
+                ]
+            ],
+            "source_table": 459
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,231 @@
+{
+    "id": 7315,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "haykeul-chikhaoui",
+    "path": "/joueurs/haykeul-chikhaoui/",
+    "title": "Haykeul Chikhaoui",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/76148.png",
+    "date": "2024-11-10T18:21:53",
+    "modified": "2025-03-06T20:51:06",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Haykeul Chikhaoui a joué 4 minutes lors de son seul match avec Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/images-4.jpg",
+            "caption": "Haykeul Chikhaoui",
+            "credit": "L’est républicain",
+            "caption_raw": "Haykeul Chikhaoui – L’est républicain"
+        },
+        {
+            "image": "2024/11/haykeul-chikhaoui-comme-tous-ses-camarades-est-pret-a-affronter-le-psg-photo-lionel-vadam-1428945981.jpg",
+            "caption": "Haykeul Chikhaoui",
+            "credit": "L’est républicain",
+            "caption_raw": "Haykeul Chikhaoui – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7315,
+        "url": "https://www.fcsochauxretro.com/a-la-une/haykeul-chikhaoui/",
+        "path": "/a-la-une/haykeul-chikhaoui/",
+        "slug": "haykeul-chikhaoui",
+        "seo_title": "Haykeul Chikhaoui - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Haykeul Chikhaoui</h2>\n<h4><strong>né le 4 septembre 1996 à Marseille (13)  </strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International tunisien (1 sélection)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2013</p>\n<p><strong>Départ de Sochaux : </strong>juin 2016</p>\n<p><strong>Premier et dernier match joué :</strong> Sochaux - Dijon du 29/08/2014 : 0-1</p>",
+        "header_lines": [
+            "Haykeul Chikhaoui",
+            "né le 4 septembre 1996 à Marseille (13)",
+            "Taille : 1m72",
+            "Poids : 65 kg",
+            "Pied : ambidextre",
+            "Poste : milieu offensif",
+            "International tunisien (1 sélection)",
+            "Arrivée à Sochaux : juillet 2013",
+            "Départ de Sochaux : juin 2016",
+            "Premier et dernier match joué : Sochaux - Dijon du 29/08/2014 : 0-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Haykeul",
+        "last_name": "Chikhaoui",
+        "display_name": "Haykeul Chikhaoui",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1996-09-04",
+                "precision": "day",
+                "text": "4 septembre 1996"
+            },
+            "place": {
+                "text": "Marseille (13)",
+                "city": "Marseille",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 4 septembre 1996 à Marseille (13)"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "ambidextre",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International tunisien (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "2013-07",
+            "precision": "month",
+            "text": "juillet 2013"
+        },
+        "departure": {
+            "iso": "2016-06",
+            "precision": "month",
+            "text": "juin 2016"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Haykeul Chikhaoui"
+            },
+            {
+                "label": null,
+                "value": "né le 4 septembre 1996 à Marseille (13)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International tunisien (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2013"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2016"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Sochaux - Dijon du 29/08/2014 : 0-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2014 - 2015",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ]
+            ],
+            "source_table": 892
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

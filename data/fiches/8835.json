@@ -1,0 +1,228 @@
+{
+    "id": 8835,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "amadou-dia-n-diaye",
+    "path": "/joueurs/amadou-dia-n-diaye/",
+    "title": "Amadou Dia N’Diaye",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/6-2.jpg",
+    "date": "2024-12-13T20:24:23",
+    "modified": "2026-02-22T18:14:46",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Amadou Dia N'Diaye a joué 5 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/amadou-dia-ndiaye-vu-par-son-formateur-a-generation-foot-1581934764.jpg",
+            "caption": "Amadou Dia N’Diaye",
+            "credit": "L’est républicain",
+            "caption_raw": "Amadou Dia N’Diaye – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-13.jpg",
+            "caption": "Amadou Dia N’Diaye",
+            "credit": "L’est républicain",
+            "caption_raw": "Amadou Dia N’Diaye – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8835,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amadou-dia-ndiaye/",
+        "path": "/a-la-une/amadou-dia-ndiaye/",
+        "slug": "amadou-dia-ndiaye",
+        "seo_title": "Amadou Dia N'Diaye - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Amadou Dia N'Diaye</h2>\n<h4><strong>né le 2 janvier 2000 à Thiès (Sénégal)</strong></h4>\n<p><strong>Taille :</strong> 1m86</p>\n<p><strong>Poids :</strong> 76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> attaquant</p>\n<p><strong>International sénégalais U20 (9 sélections, 3 buts)</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> janvier 2020</p>\n<p><strong>Départ de Sochaux :</strong> juin 2020 </p>\n<p><strong>Premier match  joué : </strong>Sochaux - Lorient du 01/02/2020 : 0-4</p>\n<p><strong>Dernier match joué :</strong>Clermont - Sochaux du 06/03/2020 : 2-0</p>",
+        "header_lines": [
+            "Amadou Dia N'Diaye",
+            "né le 2 janvier 2000 à Thiès (Sénégal)",
+            "Taille : 1m86",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International sénégalais U20 (9 sélections, 3 buts)",
+            "Arrivée à Sochaux : janvier 2020",
+            "Départ de Sochaux : juin 2020",
+            "Premier match joué : Sochaux - Lorient du 01/02/2020 : 0-4",
+            "Dernier match joué :Clermont - Sochaux du 06/03/2020 : 2-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Amadou Dia",
+        "last_name": "N'Diaye",
+        "display_name": "Amadou Dia N'Diaye",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2000-01-02",
+                "precision": "day",
+                "text": "2 janvier 2000"
+            },
+            "place": {
+                "text": "Thiès (Sénégal)",
+                "city": "Thiès",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 2 janvier 2000 à Thiès (Sénégal)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International sénégalais U20 (9 sélections, 3 buts)"
+        ],
+        "arrival": {
+            "iso": "2020-01",
+            "precision": "month",
+            "text": "janvier 2020"
+        },
+        "departure": {
+            "iso": "2020-06",
+            "precision": "month",
+            "text": "juin 2020"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Lorient du 01/02/2020 : 0-4",
+        "last_match": "Clermont - Sochaux du 06/03/2020 : 2-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Amadou Dia N'Diaye"
+            },
+            {
+                "label": null,
+                "value": "né le 2 janvier 2000 à Thiès (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International sénégalais U20 (9 sélections, 3 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2020"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2020"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Lorient du 01/02/2020 : 0-4"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Clermont - Sochaux du 06/03/2020 : 2-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2019 - 2020",
+                    "5",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "5",
+                    "0",
+                    "5",
+                    "0"
+                ]
+            ],
+            "source_table": 974
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,489 @@
+{
+    "id": 19606,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "dynamo-kiev-sochaux-amical-13-02-1993",
+    "path": "/matchs/1992-1993/dynamo-kiev-sochaux-amical-13-02-1993/",
+    "title": "Amical – Dynamo Kiev (D1 UK) / Sochaux (D1) – 13/02/1993 – 1-0",
+    "categories": [
+        "1992-1993",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/12/Dynamo-Kiev-1992-1993.png",
+    "date": "2025-12-21T16:56:00",
+    "modified": "2026-01-25T16:36:35",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux est 11e de D1 avec 25 points après 25 journées. </li>\n<li>Le FCSM reste sur un succès retentissant 3-0 à Auxerre. </li>\n<li>Le Dynamo Kiev est en stage dans le sud de la France pour préparer la reprise de sa saison. L'ancienne équipe de Yakovenko compte 4 internationaux ukrainiens. </li>\n<li>A Sochaux Blanc est absent comme Yakovenko qui est <em>\" trop juste  pour jouer ce match \"</em> dixit Takac. </li>\n<li>Souffrant du mollet, Silvestre sera aussi au repos. </li>\n<li>Maraval, Billong et Provost sont convoqués pour compléter l'effectif. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>10' :</strong> tête de Kovalets stoppée par Ferrand. </li>\n<li><strong>30' :</strong> remise de Garande pour Caveglia dont la frappe rase la lucarne. </li>\n<li><strong>33' :</strong> frappe de Garande repoussée par la gardien. </li>\n<li><strong>40' :</strong> frappe de Weber dans le petit filet. </li>\n<li><strong>47' :</strong> belle sortie de Ferrand devant Doptchiev. </li>\n<li><strong>55' :</strong> frappe de Leonenko sauvée par Ferrand. </li>\n<li><strong>62' :</strong> frappe de Kovalets juste au dessus. </li>\n<li><strong>79' : lancé côté gauche, Soukiasian enroule une frappe victorieuse. 1-0</strong></li>\n<li><strong>88' :</strong> frappe de Prat repoussée par le gardien. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>Pas de réactions pour cette rencontre. </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Yakovenko accompagnait la délégation sochalienne. </li>\n<li>Après le décrassage, les Sochaliens auront 3 jours de vacances avant de préparer la réception de Nîmes en championnat. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "première confrontation de l'histoire entre les deux équipes"
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Dynamo-Kiev-1992-1993.png",
+            "caption": "Dynamo Kiev 1992-1993",
+            "credit": "",
+            "caption_raw": "Dynamo Kiev 1992-1993"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19606,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/amical-dynamo-kiev-d1-uk-sochaux-d1-13-02-1993-1-0/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/amical-dynamo-kiev-d1-uk-sochaux-d1-13-02-1993-1-0/",
+        "slug": "amical-dynamo-kiev-d1-uk-sochaux-d1-13-02-1993-1-0",
+        "seo_title": "Amical - Dynamo Kiev (D1 UK) / Sochaux (D1) - 13/02/1993 - 1-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Dynamo Kiev (D1 Ukraine) / Sochaux (D1) : 1-0</strong></h2>\n<h4><strong>match amical</strong></h4>\n<h4><strong>Samedi 13 février 1993</strong></h4>\n<h4><strong>Stade Georges Pompidou, Valence (26)</strong></h4>\n<h4><strong>1 000 spectateurs</strong></h4>\n<h4><strong>Arbitrage : ?</strong></h4>\n<p>But : Soukiasian 79' pour le Dynamo de Kiev </p>",
+        "header_lines": [
+            "Dynamo Kiev (D1 Ukraine) / Sochaux (D1) : 1-0",
+            "match amical",
+            "Samedi 13 février 1993",
+            "Stade Georges Pompidou, Valence (26)",
+            "1 000 spectateurs",
+            "Arbitrage : ?",
+            "But : Soukiasian 79' pour le Dynamo de Kiev"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1993-02-13",
+        "date_text": "Samedi 13 février 1993",
+        "season": "1992-1993",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "match amical",
+        "home": {
+            "name": "Dynamo Kiev",
+            "level": "D1 UK"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-0",
+        "score_line": "Dynamo Kiev (D1 Ukraine) / Sochaux (D1) : 1-0",
+        "result": "D",
+        "stadium": "Stade Georges Pompidou, Valence (26)",
+        "spectators": 1000,
+        "spectators_text": "1 000 spectateurs",
+        "referee": "?",
+        "goals_text": "Soukiasian 79' pour le Dynamo de Kiev",
+        "goals": [
+            {
+                "team": "le Dynamo de Kiev",
+                "scorers": "Soukiasian 79'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "10",
+                "text": "tête de Kovalets stoppée par Ferrand.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "30",
+                "text": "remise de Garande pour Caveglia dont la frappe rase la lucarne.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "33",
+                "text": "frappe de Garande repoussée par la gardien.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "40",
+                "text": "frappe de Weber dans le petit filet.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "47",
+                "text": "belle sortie de Ferrand devant Doptchiev.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "55",
+                "text": "frappe de Leonenko sauvée par Ferrand.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "62",
+                "text": "frappe de Kovalets juste au dessus.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "79",
+                "text": "lancé côté gauche, Soukiasian enroule une frappe victorieuse. 1-0",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "88",
+                "text": "frappe de Prat repoussée par le gardien.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Pas de réactions pour cette rencontre."
+            }
+        ],
+        "breves": [
+            "Yakovenko accompagnait la délégation sochalienne.",
+            "Après le décrassage, les Sochaliens auront 3 jours de vacances avant de préparer la réception de Nîmes en championnat."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERRAND Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DARRAS Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PITON Bertrand",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WEBER Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DEWILDER Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CAVEGLIA Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BADAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ROBERT David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "GARANDE Patrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CLEMENT Benjamin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAUDRY Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MARAVAL Bernard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PROVOST Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PRAT Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BILLONG Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1685
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

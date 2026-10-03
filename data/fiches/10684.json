@@ -1,0 +1,229 @@
+{
+    "id": 10684,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "andre-ribis",
+    "path": "/joueurs/andre-ribis/",
+    "title": "André Ribis (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-01-26T21:51:41",
+    "modified": "2025-11-12T13:49:01",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "André Ribis aurait joué 7 matchs (amicaux compris) pour 6 buts marqués avec Sochaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10684,
+        "url": "https://www.fcsochauxretro.com/uncategorized/andre-ribis/",
+        "path": "/uncategorized/andre-ribis/",
+        "slug": "andre-ribis",
+        "seo_title": "André Ribis (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>André Ribis</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx </strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : juin 1990</strong></p>\n<p><strong>Départ de Sochaux : juillet 1991</strong></p>\n<p><strong>Premier match joué :</strong> Bethoncourt - Sochaux-Valentigney du 08/10/1940 : 1-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux-Valentigney - RC Maiche (amical) du 07/12/1941 : 7-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux-Valentigney - Bethoncourt du 28/09/1941 : 4-0 - But à la ?</p>",
+        "header_lines": [
+            "André Ribis",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juin 1990",
+            "Départ de Sochaux : juillet 1991",
+            "Premier match joué : Bethoncourt - Sochaux-Valentigney du 08/10/1940 : 1-2",
+            "Dernier match joué : Sochaux-Valentigney - RC Maiche (amical) du 07/12/1941 : 7-1",
+            "Premier but marqué : Sochaux-Valentigney - Bethoncourt du 28/09/1941 : 4-0 - But à la ?"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "André",
+        "last_name": "Ribis",
+        "display_name": "André Ribis",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1990-06",
+            "precision": "month",
+            "text": "juin 1990"
+        },
+        "departure": {
+            "iso": "1991-07",
+            "precision": "month",
+            "text": "juillet 1991"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Bethoncourt - Sochaux-Valentigney du 08/10/1940 : 1-2",
+        "last_match": "Sochaux-Valentigney - RC Maiche (amical) du 07/12/1941 : 7-1",
+        "first_goal": "Sochaux-Valentigney - Bethoncourt du 28/09/1941 : 4-0 - But à la ?",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "André Ribis"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1990"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 1991"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Bethoncourt - Sochaux-Valentigney du 08/10/1940 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux-Valentigney - RC Maiche (amical) du 07/12/1941 : 7-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux-Valentigney - Bethoncourt du 28/09/1941 : 4-0 - But à la ?"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

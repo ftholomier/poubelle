@@ -1,0 +1,264 @@
+{
+    "id": 6393,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "georges-amanieu",
+    "path": "/joueurs/georges-amanieu/",
+    "title": "Georges Amanieu",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/inbound2971947555196014812.jpg",
+    "date": "2024-10-26T16:39:31",
+    "modified": "2025-09-20T15:36:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "32",
+        "text": "Georges Amanieu a joué 32 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/amanieu_telechargement.jpg",
+            "caption": "Georges Amanieu",
+            "credit": "",
+            "caption_raw": "Georges Amanieu"
+        },
+        {
+            "image": "2025/09/Amanieu-contre-Di-Nallo-en-1964-FF.png",
+            "caption": "Amanieu contre Di Nallo en 1964",
+            "credit": "FF",
+            "caption_raw": "Amanieu contre Di Nallo en 1964 – FF"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6393,
+        "url": "https://www.fcsochauxretro.com/a-la-une/georges-amanieu/",
+        "path": "/a-la-une/georges-amanieu/",
+        "slug": "georges-amanieu",
+        "seo_title": "Georges Amanieu - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Georges Amanieu</h2>\n<h4><strong>né le 27 mars 1934 à Paris (75)</strong></h4>\n<h4><strong>Décédé le 28 mai 2016 à Aussonne (31)</strong></h4>\n<p><strong>Taille : </strong>1m71</p>\n<p><strong>Poids : </strong>71 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 1964</p>\n<p><strong>Départ de Sochaux : </strong>juillet 1966</p>\n<p><strong>Premier match :</strong> Strasbourg - Sochaux du 19/09/1964 : 0-0</p>\n<p><strong>Dernier match : </strong>Lille - Sochaux du 27/05/1966 : 2-1</p>",
+        "header_lines": [
+            "Georges Amanieu",
+            "né le 27 mars 1934 à Paris (75)",
+            "Décédé le 28 mai 2016 à Aussonne (31)",
+            "Taille : 1m71",
+            "Poids : 71 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juin 1964",
+            "Départ de Sochaux : juillet 1966",
+            "Premier match : Strasbourg - Sochaux du 19/09/1964 : 0-0",
+            "Dernier match : Lille - Sochaux du 27/05/1966 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Georges",
+        "last_name": "Amanieu",
+        "display_name": "Georges Amanieu",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1934-03-27",
+                "precision": "day",
+                "text": "27 mars 1934"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 27 mars 1934 à Paris (75)"
+        },
+        "death": {
+            "date": {
+                "iso": "2016-05-28",
+                "precision": "day",
+                "text": "28 mai 2016"
+            },
+            "place": {
+                "text": "Aussonne (31)",
+                "city": "Aussonne",
+                "department": "31",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 28 mai 2016 à Aussonne (31)"
+        },
+        "height": "1m71",
+        "height_cm": 171,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1964-06",
+            "precision": "month",
+            "text": "juin 1964"
+        },
+        "departure": {
+            "iso": "1966-07",
+            "precision": "month",
+            "text": "juillet 1966"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Strasbourg - Sochaux du 19/09/1964 : 0-0",
+        "last_match": "Lille - Sochaux du 27/05/1966 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Georges Amanieu"
+            },
+            {
+                "label": null,
+                "value": "né le 27 mars 1934 à Paris (75)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 28 mai 2016 à Aussonne (31)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m71"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1964"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 1966"
+            },
+            {
+                "label": "Premier match",
+                "value": "Strasbourg - Sochaux du 19/09/1964 : 0-0"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Lille - Sochaux du 27/05/1966 : 2-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe Drago",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1964-1965",
+                    "21",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "25",
+                    "0"
+                ],
+                [
+                    "1965-1966",
+                    "7",
+                    "0",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "7",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "28",
+                    "2",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "32",
+                    "0"
+                ]
+            ],
+            "source_table": 715
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,442 @@
+{
+    "id": 17839,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nancy-sochaux-coupe-de-la-ligue-01-11-2000",
+    "path": "/matchs/2000-2001/nancy-sochaux-coupe-de-la-ligue-01-11-2000/",
+    "title": "1er tour – Nancy (D2) / Sochaux (D2) – CDL – 01/11/2000 – 1-0",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "coupe-de-la-ligue",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/cdl-nanc-soch-2000-2001.jpg-2.jpg",
+    "date": "2025-11-08T20:41:18",
+    "modified": "2025-12-20T23:13:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Première fois depuis 4 ans que Sochaux est éliminé au 1er tour de la coupe de la ligue."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/cdl-nanc-soch-2000-2001-1.jpg-2-1.jpg",
+            "caption": "Guillou – Nancy-Sochaux Coupe de la ligue 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Guillou – Nancy-Sochaux Coupe de la ligue 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/cdl-nanc-soch-2000-2001.jpg-3.jpg",
+            "caption": "Nancy-Sochaux Coupe de la ligue 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Nancy-Sochaux Coupe de la ligue 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/cdl-nanc-soch-2000-2001.jpg",
+            "caption": "Chedli – Nancy-Sochaux Coupe de la ligue 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Chedli – Nancy-Sochaux Coupe de la ligue 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/5566-1.jpg",
+            "caption": "Guillou – Nancy-Sochaux Coupe de la ligue 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Guillou – Nancy-Sochaux Coupe de la ligue 2000-2001 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17839,
+        "url": "https://www.fcsochauxretro.com/a-la-une/1er-tour-nancy-d2-sochaux-d2-cdl-01-11-2000-1-0/",
+        "path": "/a-la-une/1er-tour-nancy-d2-sochaux-d2-cdl-01-11-2000-1-0/",
+        "slug": "1er-tour-nancy-d2-sochaux-d2-cdl-01-11-2000-1-0",
+        "seo_title": "1er tour - Nancy (D2) / Sochaux (D2) - CDL - 01/11/2000 - 1-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Nancy / Sochaux : 1-0<br></strong></h2>\n<h4><strong>1er tour de la coupe de la ligue</strong></h4>\n<h4><strong>Mercredi 1er novembre 2000</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>5 548 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Coué<br></strong></h4>\n<p>But : Hadji 74' pour Nancy</p>",
+        "header_lines": [
+            "Nancy / Sochaux : 1-0",
+            "1er tour de la coupe de la ligue",
+            "Mercredi 1er novembre 2000",
+            "Stade Auguste Bonal",
+            "5 548 spectateurs",
+            "Arbitre : M. Coué",
+            "But : Hadji 74' pour Nancy"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-11-01",
+        "date_text": "Mercredi 1er novembre 2000",
+        "season": "2000-2001",
+        "competition": "Coupe de la Ligue",
+        "competition_label": "Coupe de la Ligue",
+        "competition_code": "CDL",
+        "round": "1er tour",
+        "round_text": "1er tour de la coupe de la ligue",
+        "home": {
+            "name": "Nancy",
+            "level": "D2"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-0",
+        "score_line": "Nancy / Sochaux : 1-0",
+        "result": "D",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 5548,
+        "spectators_text": "5 548 spectateurs",
+        "referee": "M. Coué",
+        "goals_text": "Hadji 74' pour Nancy",
+        "goals": [
+            {
+                "team": "Nancy",
+                "scorers": "Hadji 74'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "77",
+                    "sub_text": "Sortie 77'",
+                    "yellow": [
+                        "75"
+                    ],
+                    "red": [],
+                    "cards_text": "J 75'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MONSOREAU Sylvain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ISABEY Michaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "69"
+                    ],
+                    "red": [],
+                    "cards_text": "J 69'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "67",
+                    "sub_text": "Sortie 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DROBNJAK Anto",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "77",
+                    "sub_out": null,
+                    "sub_text": "Entrée 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOULANGER Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "67",
+                    "sub_out": null,
+                    "sub_text": "Entrée 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DEDEBANT Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1673
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

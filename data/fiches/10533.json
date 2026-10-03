@@ -1,0 +1,261 @@
+{
+    "id": 10533,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "walter-pollard",
+    "path": "/joueurs/walter-pollard/",
+    "title": "Walter Pollard",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/telechargement-2.jpg",
+    "date": "2025-01-19T10:25:14",
+    "modified": "2025-01-19T10:35:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Walter Pollard a joué 2 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/telechargement-2.jpg",
+            "caption": "Walter Pollard",
+            "credit": "Wikipedia",
+            "caption_raw": "Walter Pollard – Wikipedia"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10533,
+        "url": "https://www.fcsochauxretro.com/a-la-une/walter-pollard/",
+        "path": "/a-la-une/walter-pollard/",
+        "slug": "walter-pollard",
+        "seo_title": "Walter Pollard - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Walter Pollard</h2>\n<h4><strong>né le 26 septembre 1906 à Burnley (Angleterre)</strong></h4>\n<h4><strong>Décédé le 26 juillet 1945 à Ilford (Angleterre)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1933</p>\n<p><strong>Départ de Sochaux :</strong> juin 1934</p>\n<p><strong>Premier match joué :</strong> Sochaux - Cannes du 29/10/1933 : 3-3 </p>\n<p><strong>Dernier match joué et premier but marqué :</strong> Sochaux - Rennes du 26/11/1933 : 6-2 - But à la ? </p>",
+        "header_lines": [
+            "Walter Pollard",
+            "né le 26 septembre 1906 à Burnley (Angleterre)",
+            "Décédé le 26 juillet 1945 à Ilford (Angleterre)",
+            "Taille : 1m75",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1933",
+            "Départ de Sochaux : juin 1934",
+            "Premier match joué : Sochaux - Cannes du 29/10/1933 : 3-3",
+            "Dernier match joué et premier but marqué : Sochaux - Rennes du 26/11/1933 : 6-2 - But à la ?"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Walter",
+        "last_name": "Pollard",
+        "display_name": "Walter Pollard",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1906-09-26",
+                "precision": "day",
+                "text": "26 septembre 1906"
+            },
+            "place": {
+                "text": "Burnley (Angleterre)",
+                "city": "Burnley",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 26 septembre 1906 à Burnley (Angleterre)"
+        },
+        "death": {
+            "date": {
+                "iso": "1945-07-26",
+                "precision": "day",
+                "text": "26 juillet 1945"
+            },
+            "place": {
+                "text": "Ilford (Angleterre)",
+                "city": "Ilford",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 26 juillet 1945 à Ilford (Angleterre)"
+        },
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1933-07",
+            "precision": "month",
+            "text": "juillet 1933"
+        },
+        "departure": {
+            "iso": "1934-06",
+            "precision": "month",
+            "text": "juin 1934"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Cannes du 29/10/1933 : 3-3",
+        "last_match": "Sochaux - Rennes du 26/11/1933 : 6-2 - But à la ?",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Walter Pollard"
+            },
+            {
+                "label": null,
+                "value": "né le 26 septembre 1906 à Burnley (Angleterre)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 26 juillet 1945 à Ilford (Angleterre)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1933"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1934"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Cannes du 29/10/1933 : 3-3"
+            },
+            {
+                "label": "Dernier match joué et premier but marqué",
+                "value": "Sochaux - Rennes du 26/11/1933 : 6-2 - But à la ?"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

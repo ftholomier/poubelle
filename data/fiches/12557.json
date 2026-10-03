@@ -1,0 +1,150 @@
+{
+    "id": 12557,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "hans-eric-ekonga",
+    "path": "/joueurs/hans-eric-ekonga/",
+    "title": "Hans-Eric Ekonga (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/02/Hans-Eric-Ekonga-Jaune-et-Bleu.png",
+    "date": "2025-03-06T19:52:47",
+    "modified": "2026-02-08T15:49:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>\n<p>Hans-Eric Ekonga est mis à l'essai en janvier 1998. Faruk Hadzibegic cherche un attaquant pour remplacer Koffi Fiawoo qui s'est gravement blessé au genou. Il s’agit d’un jeune camerounais de 20 ans qui a terminé meilleur buteur du dernier championnat du Cameroun avec 27 buts. Il a obtenu du sélectionneur camerounais qu’il ne soit pas sélectionné pour la coupe d’Afrique des nations en janvier s’il devait signer à Sochaux. Mais son profil différent de Fiawoo ne convainc pas Hadzibegic qui jettera son dévolu sur Laszlo Klausz. </p>\n</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "Hans-Eric Ekonga a été à l'essai 7 jours à Sochaux en janvier 1998."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Hans-Eric-Ekonga-Jaune-et-Bleu.png",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12557,
+        "url": "https://www.fcsochauxretro.com/uncategorized/hans-eric-ekonga/",
+        "path": "/uncategorized/hans-eric-ekonga/",
+        "slug": "hans-eric-ekonga",
+        "seo_title": "Hans-Eric Ekonga (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Hans-Eric Ekonga</h2>\n<h4><strong>né en 1978  au Cameroun</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International camerounais</strong></p>\n<p><strong>A l'essai en : </strong>janvier 1998</p>",
+        "header_lines": [
+            "Hans-Eric Ekonga",
+            "né en 1978 au Cameroun",
+            "Poste : attaquant",
+            "International camerounais",
+            "A l'essai en : janvier 1998"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Hans-Eric",
+        "last_name": "Ekonga",
+        "display_name": "Hans-Eric Ekonga",
+        "nickname": "",
+        "subtitle": "né en 1978 au Cameroun",
+        "trial": {
+            "iso": "1998-01",
+            "precision": "month",
+            "text": "janvier 1998"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1978",
+                "precision": "year",
+                "text": "1978 au Cameroun"
+            },
+            "place": null,
+            "text": "né en 1978 au Cameroun"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International camerounais"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Hans-Eric Ekonga"
+            },
+            {
+                "label": null,
+                "value": "né en 1978 au Cameroun"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International camerounais"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "janvier 1998"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

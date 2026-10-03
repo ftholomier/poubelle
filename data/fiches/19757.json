@@ -1,0 +1,368 @@
+{
+    "id": 19757,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "tournoi-de-foot-en-salle-de-besancon-31-01-1989",
+    "path": "/matchs/1988-1989/tournoi-de-foot-en-salle-de-besancon-31-01-1989/",
+    "title": "Tournoi de foot en salle de Besançon – 31/01/1989",
+    "categories": [
+        "1988-1989",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/06/jjjhhygt-mv.png",
+    "date": "2026-01-04T18:13:23",
+    "modified": "2026-01-04T23:55:23",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Après avoir fait un stage de reprise au Maroc du 8 au 18 janvier, remporté le tournoi de Casablanca et joué 3 amicaux face à Dijon, Nantes et Mulhouse, Sochaux s'offre une parenthèse ludique avec le traditionnel tournoi de foot en salle de Besançon au Palais des Sports. </li>\n<li>Les Sochaliens seront directement qualifiés en quart de finale où ils affronteront le club bisontin de Montrapon. </li>\n<li>Sochaux se présentera avec l'équipe suivante : Ferrand, Lucas, Paille, Hadzibegic, Croci, Thomas et Henry. </li>\n<li>Les autres clubs de cette phase finale : Mulhouse (D2), Montlebon, Dampierre, Pontarlier, Besançon, Dole et Montrapon donc. </li>\n<li>Silvestre et Bazdarevic légèrement touchés ont préféré faire l'impasse sur ce tournoi. </li>\n<li>Silvester Takac avant le tournoi : <em>\" Je ne peux exiger des joueurs qu'ils participent à ce tournoi \"</em>. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé du tournoi",
+            "html": ""
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": ""
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>12è match sans défaite pour Sochaux qui fait tomber le leader parisien à Bonal dans un grand match. Les Sochaliens ont été à la hauteur devant les caméras de Canal+ et continuent d'impressionner la France du football. </li>\n<li>Seul Gilles Rousset n'a pas prolongé son contrat. Il expire en juin 1990. </li>\n<li>Stéphane Paille quittera le FCSM en fin de saison. Le prix fixé par les dirigeants est de 15 millions de francs. </li>\n<li>Forfait juste avant la rencontre, Morin était remplacé par Frotey sur le banc. </li>\n<li>Jean Todt était présent à Bonal. Il a assisté au tour d'honneur de la 405 d'Ari Vatanen qui s'est illustrée, il y a un mois sur le Paris-Dakar. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Sochaux comme il y a deux ans face à Belfort, a été éliminé prématurément du tournoi de foot salle de Besançon dont il était le favoris."
+    },
+    "gallery": [
+        {
+            "image": "2024/06/jjjhhygt-mv.png",
+            "caption": "Paille",
+            "credit": "Une saison de football",
+            "caption_raw": "Paille – Une saison de football"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "nbkTVQR9R5Y",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19757,
+        "url": "https://www.fcsochauxretro.com/a-la-une/tournoi-de-foot-en-salle-de-besancon-31-01-1989-19757/",
+        "path": "/a-la-une/tournoi-de-foot-en-salle-de-besancon-31-01-1989-19757/",
+        "slug": "tournoi-de-foot-en-salle-de-besancon-31-01-1989-19757",
+        "seo_title": "Tournoi de foot en salle de Besançon – 31/01/1989 - FC Sochaux Retro - FCSM",
+        "header_html": "<h3><strong>Tournoi de futsal de Besançon</strong></h3>\n<p><strong>Mardi 31 janvier 1989</strong></p>\n<p><strong>Palais des sports de Besançon (25)</strong></p>\n<p><strong>1 300 spectateurs</strong></p>\n<p><strong>Sochaux termine à la xxè place du tournoi. </strong></p>",
+        "header_lines": [
+            "Tournoi de futsal de Besançon",
+            "Mardi 31 janvier 1989",
+            "Palais des sports de Besançon (25)",
+            "1 300 spectateurs",
+            "Sochaux termine à la xxè place du tournoi."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1989-01-31",
+        "date_text": "Mardi 31 janvier 1989",
+        "season": "1988-1989",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": null,
+        "round_text": "Palais des sports de Besançon (25)",
+        "home": {
+            "name": "",
+            "level": null
+        },
+        "away": {
+            "name": "",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": null,
+        "score_raw": "",
+        "score_line": "Tournoi de futsal de Besançon",
+        "result": null,
+        "stadium": "Sochaux termine à la xxè place du tournoi.",
+        "spectators": 1300,
+        "spectators_text": "1 300 spectateurs",
+        "referee": null,
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [],
+        "breves": [
+            "12è match sans défaite pour Sochaux qui fait tomber le leader parisien à Bonal dans un grand match. Les Sochaliens ont été à la hauteur devant les caméras de Canal+ et continuent d'impressionner la France du football.",
+            "Seul Gilles Rousset n'a pas prolongé son contrat. Il expire en juin 1990.",
+            "Stéphane Paille quittera le FCSM en fin de saison. Le prix fixé par les dirigeants est de 15 millions de francs.",
+            "Forfait juste avant la rencontre, Morin était remplacé par Frotey sur le banc.",
+            "Jean Todt était présent à Bonal. Il a assisté au tour d'honneur de la 405 d'Ari Vatanen qui s'est illustrée, il y a un mois sur le Paris-Dakar."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DUFOURNET Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "THOMAS Jean-Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LAUREY Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "85"
+                    ],
+                    "red": [],
+                    "cards_text": "J 85'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "50"
+                    ],
+                    "goals_text": "50'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "16"
+                    ],
+                    "goals_text": "16'",
+                    "sub_in": null,
+                    "sub_out": "76",
+                    "sub_text": "Sortie 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "76",
+                    "sub_out": null,
+                    "sub_text": "Entrée 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FROTEY Jean-Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Silvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 375
+        },
+        "other_lineups": [],
+        "event": "Tournoi de foot en salle de Besançon",
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

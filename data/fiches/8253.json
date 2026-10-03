@@ -1,0 +1,258 @@
+{
+    "id": 8253,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "emile-hartong",
+    "path": "/joueurs/emile-hartong/",
+    "title": "Emile Hartong",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/telechargement-21.jpg",
+    "date": "2024-12-10T14:40:13",
+    "modified": "2024-12-11T08:08:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Emile Hartong a disputé 4 matches (3 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/telechargement-21.jpg",
+            "caption": "Emile Hartong",
+            "credit": "Racingstub.com",
+            "caption_raw": "Emile Hartong – Racingstub.com"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8253,
+        "url": "https://www.fcsochauxretro.com/a-la-une/emile-hartong/",
+        "path": "/a-la-une/emile-hartong/",
+        "slug": "emile-hartong",
+        "seo_title": "Emile Hartong - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Emile Hartong</h2>\n<h4><strong>né le 1er janvier 1908 à ?</strong></h4>\n<h4>Décédé le xx à xx</h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 1936</p>\n<p><strong>Départ de Sochaux : </strong>juin 1937</p>\n<p><strong>Premier match joué et premier but marqué </strong>: Sochaux - Marseille du 06/12/1937 : 3-1 - But à la 3'</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Sète du 07/02/1937 : 3-2 a.p </p>\n<p><strong>Palmarès avec Sochaux</strong></p>\n<ul>\n<li>Vainqueur de la coupe de France 1937</li>\n<li>Vice-champion de France de première division 1937</li>\n</ul>",
+        "header_lines": [
+            "Emile Hartong",
+            "né le 1er janvier 1908 à ?",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juin 1936",
+            "Départ de Sochaux : juin 1937",
+            "Premier match joué et premier but marqué : Sochaux - Marseille du 06/12/1937 : 3-1 - But à la 3'",
+            "Dernier match joué : Sochaux - Sète du 07/02/1937 : 3-2 a.p",
+            "Palmarès avec Sochaux",
+            "Vainqueur de la coupe de France 1937",
+            "Vice-champion de France de première division 1937"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Emile",
+        "last_name": "Hartong",
+        "display_name": "Emile Hartong",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1908-01-01",
+                "precision": "day",
+                "text": "1er janvier 1908"
+            },
+            "place": {
+                "text": "?",
+                "city": "?",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er janvier 1908 à ?"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1936-06",
+            "precision": "month",
+            "text": "juin 1936"
+        },
+        "departure": {
+            "iso": "1937-06",
+            "precision": "month",
+            "text": "juin 1937"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Marseille du 06/12/1937 : 3-1 - But à la 3'",
+        "last_match": "Sochaux - Sète du 07/02/1937 : 3-2 a.p",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Emile Hartong"
+            },
+            {
+                "label": null,
+                "value": "né le 1er janvier 1908 à ?"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1936"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1937"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Sochaux - Marseille du 06/12/1937 : 3-1 - But à la 3'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Sète du 07/02/1937 : 3-2 a.p"
+            },
+            {
+                "label": null,
+                "value": "Palmarès avec Sochaux"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 1937"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de première division 1937"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

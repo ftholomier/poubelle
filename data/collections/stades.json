@@ -1,0 +1,4011 @@
+[
+    {
+        "id": "auguste-bonal",
+        "name": "Stade Auguste Bonal",
+        "aliases": [
+            "Stade Bonal",
+            "Stade Auguste Bonal (25)",
+            "Stade AugusteBonal"
+        ],
+        "city": "Montbéliard",
+        "department": "",
+        "country": "",
+        "lat": 47.5119,
+        "lng": 6.8116,
+        "auto": true
+    },
+    {
+        "id": "louis-ii",
+        "name": "Stade Louis II",
+        "aliases": [
+            "Stade Louis II"
+        ],
+        "city": "Monaco",
+        "department": "Monaco",
+        "country": "MC",
+        "lat": 43.7276,
+        "lng": 7.4155,
+        "auto": true
+    },
+    {
+        "id": "princes",
+        "name": "Parc des Princes",
+        "aliases": [
+            "Parc des Princes"
+        ],
+        "city": "Paris",
+        "department": "75",
+        "country": "FR",
+        "lat": 48.8414,
+        "lng": 2.253,
+        "auto": true
+    },
+    {
+        "id": "route-lorient",
+        "name": "Stade de la Route de Lorient",
+        "aliases": [
+            "Stade de la Route de Lorient",
+            "Stade de la route de Lorient (56)",
+            "Stade de la Route de Lorient (35)",
+            "Stade de la route de Lorient (35)",
+            "Stade de la route de Lorient"
+        ],
+        "city": "Rennes",
+        "department": "56",
+        "country": "FR",
+        "lat": 48.1075,
+        "lng": -1.713,
+        "auto": true
+    },
+    {
+        "id": "marcel-picot",
+        "name": "Stade Marcel Picot",
+        "aliases": [
+            "Stade Marcel Picot (54)"
+        ],
+        "city": "Nancy",
+        "department": "54",
+        "country": "FR",
+        "lat": 48.6953,
+        "lng": 6.2108,
+        "auto": true
+    },
+    {
+        "id": "toulouse",
+        "name": "Stadium de Toulouse",
+        "aliases": [
+            "Toulouse Stadium",
+            "Stadium Toulouse (31)",
+            "Stadium municipal de Toulouse (31)",
+            "Toulouse Stadium (31)",
+            "Stade municipal de Toulouse",
+            "Stadium municipal Toulouse (31)"
+        ],
+        "city": "",
+        "department": "31",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "serzian-a-belfort",
+        "name": "Stade Serzian à Belfort",
+        "aliases": [],
+        "city": "",
+        "department": "90",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "golbey",
+        "name": "Stade de Golbey",
+        "aliases": [],
+        "city": "",
+        "department": "88",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "morges",
+        "name": "Stade de Morges",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "grimonprez-jooris",
+        "name": "Stade Grimonprez-Jooris",
+        "aliases": [
+            "Stade Grimonprez Jooris (59)"
+        ],
+        "city": "",
+        "department": "59",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "felix-bollaert",
+        "name": "Stade Félix Bollaert",
+        "aliases": [
+            "Stade Felix Bollaert (62)",
+            "Stade Félix Bollaert (59)",
+            "Stade Félix Bollaert"
+        ],
+        "city": "Lens",
+        "department": "62",
+        "country": "FR",
+        "lat": 50.4329,
+        "lng": 2.815,
+        "auto": true
+    },
+    {
+        "id": "lescure",
+        "name": "Stade Lescure",
+        "aliases": [
+            "Parc Lescure (33)",
+            "Parc Lescure",
+            "Stade du Parc Lescure (33)"
+        ],
+        "city": "Bordeaux",
+        "department": "33",
+        "country": "FR",
+        "lat": 44.829,
+        "lng": -0.598,
+        "auto": true
+    },
+    {
+        "id": "rene-fenouillere",
+        "name": "Stade René-Fénouillère",
+        "aliases": [
+            "Stade René Fenouillère"
+        ],
+        "city": "",
+        "department": "50",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "abbe-deschamps",
+        "name": "Stade de l'Abbé Deschamps",
+        "aliases": [
+            "Stade Abbé Deschamps (89)",
+            "Stade de l'Abbé Deschamps (89)",
+            "Stade de l'Abbé-Deschamps"
+        ],
+        "city": "Auxerre",
+        "department": "89",
+        "country": "FR",
+        "lat": 47.787,
+        "lng": 3.5887,
+        "auto": true
+    },
+    {
+        "id": "velodrome",
+        "name": "Stade Vélodrome",
+        "aliases": [
+            "Stade Vélodrome"
+        ],
+        "city": "Marseille",
+        "department": "13",
+        "country": "FR",
+        "lat": 43.2698,
+        "lng": 5.3959,
+        "auto": true
+    },
+    {
+        "id": "geoffroy-guichard",
+        "name": "Stade Geoffroy Guichard",
+        "aliases": [
+            "Stade Geoffroy Guichard",
+            "Stade Geoffroy-Guichard",
+            "Stade Geoffroy-Guichard (42)"
+        ],
+        "city": "Saint-Étienne",
+        "department": "42",
+        "country": "FR",
+        "lat": 45.4608,
+        "lng": 4.3903,
+        "auto": true
+    },
+    {
+        "id": "armand-chouffet",
+        "name": "Stade Armand Chouffet",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "beaujoire",
+        "name": "Stade de la Beaujoire",
+        "aliases": [
+            "Stade de la Beaujoire"
+        ],
+        "city": "Nantes",
+        "department": "44",
+        "country": "FR",
+        "lat": 47.256,
+        "lng": -1.5245,
+        "auto": true
+    },
+    {
+        "id": "saint-symphorien",
+        "name": "Stade Saint-Symphorien",
+        "aliases": [
+            "Stade Saint-Symphorien",
+            "Stade Saint Symphorien (57)",
+            "Stade Saint Symphorien"
+        ],
+        "city": "Metz",
+        "department": "57",
+        "country": "FR",
+        "lat": 49.1098,
+        "lng": 6.1594,
+        "auto": true
+    },
+    {
+        "id": "paul-lignon",
+        "name": "Stade Paul Lignon",
+        "aliases": [
+            "Stade Paul Lignon (12)"
+        ],
+        "city": "",
+        "department": "12",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "francis-ble",
+        "name": "Stade Francis Le Blé",
+        "aliases": [
+            "Stade Francis Le Blé (29)",
+            "Stade Francis-le-Blé (29)"
+        ],
+        "city": "",
+        "department": "29",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jean-bouloumie-vittel",
+        "name": "Stade Jean Bouloumié de Vittel",
+        "aliases": [],
+        "city": "",
+        "department": "88",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "fontenay",
+        "name": "Fontenay",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sainte-croix-loveys",
+        "name": "Sainte-Croix , terrain des Loveys",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "saint-loup-sur-semouse",
+        "name": "Saint-Loup-sur-Semouse",
+        "aliases": [
+            "Stade municipal de Saint-Loup-sur-Semouse (70)",
+            "Stade de Saint-Loup-sur-Semouse (70)"
+        ],
+        "city": "",
+        "department": "70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jules-deschaseaux",
+        "name": "Stade Jules Deschaseaux",
+        "aliases": [],
+        "city": "",
+        "department": "76",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mosson",
+        "name": "Stade de la Mosson",
+        "aliases": [
+            "Stade de la Mosson",
+            "Stade de La Mosson (34)",
+            "Stade de La Mosson"
+        ],
+        "city": "Montpellier",
+        "department": "",
+        "country": "FR",
+        "lat": 43.6222,
+        "lng": 3.812,
+        "auto": true
+    },
+    {
+        "id": "pierre-coubertin",
+        "name": "Stade Pierre de Coubertin",
+        "aliases": [
+            "Stade Pierre de Coubertin (Carpentras, 84)"
+        ],
+        "city": "",
+        "department": "06",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mayol",
+        "name": "Stade Mayol",
+        "aliases": [],
+        "city": "",
+        "department": "83",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "venoix",
+        "name": "Stade de Venoix",
+        "aliases": [],
+        "city": "",
+        "department": "14",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "palais-sports-besancon",
+        "name": "Palais des sports de Besançon",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gerland",
+        "name": "Stade Gerland",
+        "aliases": [
+            "Stade de Gerland",
+            "Stade de Gerland (69)",
+            "Stade Gerland"
+        ],
+        "city": "Lyon",
+        "department": "69",
+        "country": "FR",
+        "lat": 45.7238,
+        "lng": 4.8322,
+        "auto": true
+    },
+    {
+        "id": "costieres",
+        "name": "Stade des Costières",
+        "aliases": [
+            "Stade des Costières (30)"
+        ],
+        "city": "",
+        "department": "30",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "colombiere",
+        "name": "Stade de la Colombière",
+        "aliases": [
+            "Stade de la Colombière"
+        ],
+        "city": "",
+        "department": "88",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "georges-pompidou",
+        "name": "Stade Georges Pompidou",
+        "aliases": [],
+        "city": "",
+        "department": "26",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "moustoir",
+        "name": "Stade du Moustoir",
+        "aliases": [
+            "Stade du Moustoir",
+            "Stade du Moustoir (57)"
+        ],
+        "city": "",
+        "department": "56",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "florange",
+        "name": "Stade Municipal Florange",
+        "aliases": [],
+        "city": "",
+        "department": "57",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "michel-ornano",
+        "name": "Stade Michel D'Ornano",
+        "aliases": [
+            "Stade Michel d'Ornano (14)",
+            "Stade Michel d'Ornano",
+            "Stade Michel D'Ornano (14)"
+        ],
+        "city": "",
+        "department": "14",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "ill",
+        "name": "Stade de l'Ill",
+        "aliases": [
+            "Stade de l'Ill"
+        ],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "vittel",
+        "name": "Stade de Vittel .",
+        "aliases": [
+            "Stade de Vittel"
+        ],
+        "city": "",
+        "department": "88",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rene-blum-montbeliard",
+        "name": "Stade René Blum de Montbéliard.",
+        "aliases": [
+            "Stade René Blum de Montbéliard (25)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leon-masson-tarare",
+        "name": "Stade Léon Masson Tarare",
+        "aliases": [],
+        "city": "",
+        "department": "69",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "neuves-maisons",
+        "name": "Stade de Neuves Maisons",
+        "aliases": [],
+        "city": "",
+        "department": "54",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "riedisheim",
+        "name": "Stade de Riedisheim",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "francis-basser",
+        "name": "Stade Francis Le Basser",
+        "aliases": [
+            "Stade Francis Le Basser"
+        ],
+        "city": "",
+        "department": "53",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rene-gaillard",
+        "name": "Stade René Gaillard",
+        "aliases": [
+            "Stade René Gaillard (79)",
+            "Stade Réné Gaillard"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "felix-mayol",
+        "name": "Stade Felix Mayol",
+        "aliases": [
+            "Stade Félix Mayol (83)"
+        ],
+        "city": "",
+        "department": "83",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bram",
+        "name": "Stade du Bram",
+        "aliases": [],
+        "city": "",
+        "department": "71",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-brisson",
+        "name": "Stade Pierre Brisson",
+        "aliases": [
+            "Stade Pierre Brisson (60)",
+            "Stade Pierre Brisson"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sergez-saint-claude",
+        "name": "Stade Sergez de Saint-Claude",
+        "aliases": [],
+        "city": "",
+        "department": "39",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "cluses-scionzier",
+        "name": "Stade Cluses Scionzier",
+        "aliases": [],
+        "city": "",
+        "department": "74",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leo-lagrange-besancon",
+        "name": "Stade Léo Lagrange de Besançon",
+        "aliases": [
+            "Stade Léo Lagrange Besançon (25)",
+            "Stade Léo Lagrange de Besançon"
+        ],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sochaux-remporte-tournoi-en-battant-vesoul-en-finale",
+        "name": "Sochaux remporte le tournoi en battant Vesoul en finale.",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "montee-rouge",
+        "name": "Stade de la Montée rouge",
+        "aliases": [
+            "Stade de la Montée-Rouge (86)"
+        ],
+        "city": "",
+        "department": "86",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leon-bolle",
+        "name": "Stade Léon Bollé",
+        "aliases": [],
+        "city": "",
+        "department": "72",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bel-air-cernay",
+        "name": "Stade du Bel Air Cernay",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bauer",
+        "name": "Stade Bauer",
+        "aliases": [
+            "Stade Bauer (Saint-Ouen, 93)",
+            "Stade Bauer"
+        ],
+        "city": "",
+        "department": "93",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "perigueux",
+        "name": "Stade municipal de Périgueux",
+        "aliases": [],
+        "city": "",
+        "department": "24",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "nord-villeneuve-ascq",
+        "name": "Stadium Nord de Villeneuve d'Ascq",
+        "aliases": [],
+        "city": "",
+        "department": "59",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "aube",
+        "name": "Stade de l'Aube",
+        "aliases": [
+            "Stade de l'Aube (10)"
+        ],
+        "city": "",
+        "department": "10",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jean-laville",
+        "name": "Stade Jean Laville",
+        "aliases": [
+            "Stade Jean Laville",
+            "Stade Jean-Laville"
+        ],
+        "city": "",
+        "department": "71",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "biesheim",
+        "name": "Stade municipal de Biesheim",
+        "aliases": [
+            "Stade municipal de Biesheim",
+            "Stade de Biesheim (68)"
+        ],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "moulonguet",
+        "name": "Stade Moulonguet",
+        "aliases": [
+            "Stade Moulonguet (Amiens)"
+        ],
+        "city": "",
+        "department": "80",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "blancherie",
+        "name": "Stade de la blancherie",
+        "aliases": [],
+        "city": "",
+        "department": "Delémont, Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "ray",
+        "name": "Stade du Ray",
+        "aliases": [
+            "Stade du Ray",
+            "Stade Du Ray (06)"
+        ],
+        "city": "",
+        "department": "06",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "francis-turcan",
+        "name": "Stade Francis Turcan",
+        "aliases": [
+            "Stade Francis Turcan",
+            "Stade Francis-Turcan"
+        ],
+        "city": "",
+        "department": "13",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "berne",
+        "name": "Stade de Berne",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "meinau",
+        "name": "Stade de la Meinau",
+        "aliases": [
+            "Stade de la Meinau",
+            "Stade de La Meinau (67)"
+        ],
+        "city": "Strasbourg",
+        "department": "67",
+        "country": "FR",
+        "lat": 48.5598,
+        "lng": 7.755,
+        "auto": true
+    },
+    {
+        "id": "dampierre-sur-salon",
+        "name": "Stade municipal de Dampierre-sur-Salon",
+        "aliases": [],
+        "city": "",
+        "department": "70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "neufchateau",
+        "name": "Stade de Neufchâteau",
+        "aliases": [
+            "Stade de Neufchâteau (88)"
+        ],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "wissembourg",
+        "name": "Stade municipal de Wissembourg",
+        "aliases": [],
+        "city": "",
+        "department": "67",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mougnot-a-hericourt",
+        "name": "Stade du Mougnot à Héricourt",
+        "aliases": [],
+        "city": "",
+        "department": "70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "craie-a-vercel",
+        "name": "Stade de la Craie à Vercel",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "fratton-park-portsmouth",
+        "name": "Fratton Park de Portsmouth",
+        "aliases": [],
+        "city": "",
+        "department": "Angleterre",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "saint-germain-saviesse",
+        "name": "Stade Saint-Germain de Saviesse",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "stadium-municipal",
+        "name": "Stadium municipal",
+        "aliases": [
+            "Stadium Municipal"
+        ],
+        "city": "",
+        "department": "31",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sochaux-remporte-tournoi-en-salle-mulhouse-en-battant-strasbourg-en-finale",
+        "name": "Sochaux remporte le Tournoi en salle de Mulhouse en battant Strasbourg en finale.",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "marcel-michellin-montferrand",
+        "name": "Stade Marcel Michellin de Montferrand",
+        "aliases": [],
+        "city": "",
+        "department": "63",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rankhof",
+        "name": "Rankhof Stadion",
+        "aliases": [],
+        "city": "",
+        "department": "Bâle, Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "armand-cesari",
+        "name": "Stade Armand Cesari",
+        "aliases": [
+            "Stade Armand Cesari (2B)",
+            "Stade Armand Césari (2B)"
+        ],
+        "city": "",
+        "department": "2B",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "chambon-sur-lignon",
+        "name": "Stade de Chambon-sur-Lignon",
+        "aliases": [
+            "Stade municipal de Chambon-sur-Lignon (42)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "ange-casanova",
+        "name": "Stade Ange Casanova",
+        "aliases": [
+            "Stade Ange Casanova (2A)"
+        ],
+        "city": "",
+        "department": "2A",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "grumbach-durslindorf",
+        "name": "Stade du Grumbach Durslindorf",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "valdahon",
+        "name": "Stade de Valdahon",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-maigret-bethoncourt",
+        "name": "Stade Pierre Maigret de Bethoncourt",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "serzian-belfort",
+        "name": "Stade Serzian de Belfort",
+        "aliases": [
+            "Stade Serzian Belfort (90)"
+        ],
+        "city": "",
+        "department": "90",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "vesoul",
+        "name": "Stade municipal de Vesoul",
+        "aliases": [],
+        "city": "",
+        "department": "70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "nungesser",
+        "name": "Stade Nungesser",
+        "aliases": [],
+        "city": "",
+        "department": "59",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "paul-robbe",
+        "name": "Stade Paul Robbe",
+        "aliases": [
+            "Stade Paul Robbe",
+            "Stade Paul Robbe (Pontarlier)"
+        ],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "patis-saint-loup-sur-semousse",
+        "name": "Stade du Pâtis, Saint-Loup-sur-Semousse",
+        "aliases": [],
+        "city": "",
+        "department": "70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "francois-throo-a-guebwiller",
+        "name": "Stade François Throo à Guebwiller",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mosle-fribourg-en-brigsau",
+        "name": "Stade Mosle de Fribourg-en-Brigsau",
+        "aliases": [],
+        "city": "",
+        "department": "Allemagne",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "universitaire-saint-leonard-a-fribourg",
+        "name": "Stade Universitaire Saint-Léonard à Fribourg",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gaillard",
+        "name": "Stade municipal de Gaillard",
+        "aliases": [],
+        "city": "",
+        "department": "74",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "peuplier-a-bavois",
+        "name": "Stade du Peuplier à Bavois",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pres-domont",
+        "name": "Stade des Prés Domont",
+        "aliases": [],
+        "city": "",
+        "department": "Alle, Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "maurice-lacroix-saignelegier",
+        "name": "Stade Maurice Lacroix Saignelégier .",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "centre-formation-seloncourt",
+        "name": "Terrain du centre de formation de Seloncourt",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "costieres-nimes",
+        "name": "Stade des Costières Nîmes",
+        "aliases": [],
+        "city": "",
+        "department": "30",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "francois-coty-ajaccio",
+        "name": "Stade François Coty Ajaccio",
+        "aliases": [],
+        "city": "",
+        "department": "2A",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bram-louhans",
+        "name": "Stade du Bram Louhans",
+        "aliases": [],
+        "city": "",
+        "department": "71",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bocca-pierre-coubertin",
+        "name": "Stade de la Bocca Pierre de Coubertin",
+        "aliases": [],
+        "city": "",
+        "department": "06",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leon-bollee",
+        "name": "Stade Léon Bollée",
+        "aliases": [
+            "Stade Léon Bollée"
+        ],
+        "city": "",
+        "department": "72",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bocca",
+        "name": "Stade de la Bocca",
+        "aliases": [],
+        "city": "",
+        "department": "06",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "duvauchelle",
+        "name": "Stade Duvauchelle",
+        "aliases": [],
+        "city": "",
+        "department": "94",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "roudourou",
+        "name": "Stade du Roudourou",
+        "aliases": [
+            "Stade du Roudourou (22)",
+            "Stade Municipal du Roudourou",
+            "Stade Roudourou"
+        ],
+        "city": "",
+        "department": "22",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sarrebourg",
+        "name": "Stade municipal de Sarrebourg",
+        "aliases": [],
+        "city": "",
+        "department": "57",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "melun",
+        "name": "Stade municipal de Melun",
+        "aliases": [],
+        "city": "",
+        "department": "77",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gaston-petit",
+        "name": "Stade Gaston Petit",
+        "aliases": [
+            "Stade Gaston Petit (36)",
+            "Stade Gaston-Petit"
+        ],
+        "city": "",
+        "department": "36",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bon-rencontre",
+        "name": "Stade de Bon rencontre",
+        "aliases": [
+            "Stade Bon Rencontre (83)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rene-hologne",
+        "name": "Stade René Hologne",
+        "aliases": [
+            "Stade René Hologne (70)"
+        ],
+        "city": "",
+        "department": "Vesoul, 70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "licorne",
+        "name": "Stade de la Licorne",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "guebwiller",
+        "name": "Stade de Guebwiller",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "hericourt",
+        "name": "Stade d'Héricourt",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "hirsingue",
+        "name": "Stade d'Hirsingue",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "vallorbe",
+        "name": "Stade de Vallorbe",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "delemont",
+        "name": "Stade de Délémont",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "geispolsheim",
+        "name": "Stade Municipal de Geispolsheim",
+        "aliases": [
+            "Complexe sportif de Geispolsheim"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mezire",
+        "name": "Stade municipal de Méziré",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jean-bouin",
+        "name": "Stade Jean Bouin",
+        "aliases": [
+            "Stade Jean-Bouin",
+            "Stade Jean Bouin (49)",
+            "Stade Jean Bouin (Angers)",
+            "Stade Jean Bouin (30)"
+        ],
+        "city": "",
+        "department": "49",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pont-roide",
+        "name": "Stade municipal de Pont-de-Roide",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "francois-coty",
+        "name": "Stade François Coty",
+        "aliases": [
+            "Stade François Coty (2A)"
+        ],
+        "city": "",
+        "department": "2A",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "cluses",
+        "name": "Stade municipal de Cluses",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-sochaux",
+        "name": "Parc des sports de Sochaux",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "six-fourgs",
+        "name": "Stade de Six-Fourgs",
+        "aliases": [],
+        "city": "",
+        "department": "83",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gabriel-montpied",
+        "name": "Stade Gabriel Montpied",
+        "aliases": [
+            "Stade Gabriel Montpied (63)",
+            "Stade Gabriel-Montpied"
+        ],
+        "city": "",
+        "department": "63",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-coubertin-bocca",
+        "name": "Stade Pierre de Coubertin de la Bocca",
+        "aliases": [
+            "Stade Pierre de Coubertin de la Bocca"
+        ],
+        "city": "",
+        "department": "06",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-guerin-macon",
+        "name": "Stade Pierre Guérin de Macon",
+        "aliases": [],
+        "city": "",
+        "department": "71",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "villeneuve-ascq",
+        "name": "Stade municipal de Villeneuve d'Ascq",
+        "aliases": [],
+        "city": "",
+        "department": "59",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "dominique-duvauchelle",
+        "name": "Stade Dominique Duvauchelle",
+        "aliases": [
+            "Stade Dominique Duvauchelle (93)",
+            "Stade Dominique Duvauchelle"
+        ],
+        "city": "",
+        "department": "94",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bauer-saint-ouen",
+        "name": "Stade Bauer de Saint-Ouen",
+        "aliases": [],
+        "city": "",
+        "department": "93",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "tunis",
+        "name": "Stade de Tunis",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "miroslava-valenty-uherske-hradiste",
+        "name": "Stade Miroslava Valenty de Uherské Hradiště",
+        "aliases": [],
+        "city": "",
+        "department": "Rép. Tchèque",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "georges-pompidou-valence",
+        "name": "Stade Georges Pompidou de Valence",
+        "aliases": [
+            "Stade Georges Pompidou, Valence (26)"
+        ],
+        "city": "",
+        "department": "26",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gaston-petit-chateauroux",
+        "name": "Stade Gaston Petit Châteauroux",
+        "aliases": [],
+        "city": "",
+        "department": "36",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leon-bollee-mans",
+        "name": "Stade Léon Bollée Le Mans",
+        "aliases": [],
+        "city": "",
+        "department": "72",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "amberieu",
+        "name": "Stade d'Ambérieu",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "henri-desgrange",
+        "name": "Stade Henri Desgrange",
+        "aliases": [],
+        "city": "",
+        "department": "85",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "colombiere-epinal",
+        "name": "Stade de la Colombière d'Epinal",
+        "aliases": [
+            "Stade de la Colombière Epinal (88)",
+            "Stade de la Colombière, Epinal (88)"
+        ],
+        "city": "",
+        "department": "88",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rabine-a-vannes",
+        "name": "Stade de la Rabine à Vannes",
+        "aliases": [],
+        "city": "",
+        "department": "56",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "alouettes",
+        "name": "Stade des Alouettes",
+        "aliases": [],
+        "city": "",
+        "department": "71",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "annonay",
+        "name": "Stade d'Annonay",
+        "aliases": [],
+        "city": "",
+        "department": "07",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-pibarot",
+        "name": "Stade Pierre Pibarot",
+        "aliases": [
+            "Stade Pierre Pibarot"
+        ],
+        "city": "",
+        "department": "30",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "camp-nou-barcelona",
+        "name": "Camp Nou Barcelona",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "reipertswiller",
+        "name": "Stade de Reipertswiller",
+        "aliases": [],
+        "city": "",
+        "department": "67",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gaston-gerard",
+        "name": "Stade Gaston Gérard",
+        "aliases": [
+            "Stade Gaston Gérard (21)",
+            "Stade Gaston-Gérard"
+        ],
+        "city": "Dijon",
+        "department": "21",
+        "country": "FR",
+        "lat": 47.3245,
+        "lng": 5.0682,
+        "auto": true
+    },
+    {
+        "id": "fontenay-comte",
+        "name": "Stade de Fontenay le Comte",
+        "aliases": [
+            "Stade de Fontenay le Comte (85)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "us-sochaux",
+        "name": "Stade de l'US Sochaux",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mohamed-v",
+        "name": "Stade Mohamed V",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bavans",
+        "name": "Stade de Bavans",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "thann",
+        "name": "Stade municipal Thann",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "saint-jacques-bale",
+        "name": "Stade Saint Jacques de Bâle",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "blum-montbeliard",
+        "name": "Stade Blum de Montbéliard",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "auguste-delaune",
+        "name": "Stade Auguste Delaune",
+        "aliases": [
+            "Stade Auguste Delaune (51)"
+        ],
+        "city": "",
+        "department": "51",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "saint-jean-monts",
+        "name": "Stade de Saint-Jean de Monts",
+        "aliases": [],
+        "city": "",
+        "department": "85",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "giens",
+        "name": "Stade de Giens",
+        "aliases": [],
+        "city": "",
+        "department": "83",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "illzach",
+        "name": "Stade d' Illzach",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rhinau",
+        "name": "Stade de Rhinau",
+        "aliases": [],
+        "city": "",
+        "department": "67",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "chambery",
+        "name": "Stade de Chambéry",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gaston-gerard-dijon",
+        "name": "Stade Gaston Gérard de Dijon",
+        "aliases": [],
+        "city": "Dijon",
+        "department": "21",
+        "country": "FR",
+        "lat": 47.3245,
+        "lng": 5.0682,
+        "auto": true
+    },
+    {
+        "id": "lure",
+        "name": "Stade de Lure",
+        "aliases": [],
+        "city": "",
+        "department": "70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-annecy",
+        "name": "Parc des Sports d'Annecy",
+        "aliases": [
+            "Parc des sports d'Annecy",
+            "Stade des sports d'Annecy",
+            "Parc des Sports d'Annecy (74)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "franconville",
+        "name": "Stade de Franconville",
+        "aliases": [],
+        "city": "",
+        "department": "95",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jarny",
+        "name": "Stade de Jarny",
+        "aliases": [],
+        "city": "",
+        "department": "54",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rombas",
+        "name": "Stade de Rombas",
+        "aliases": [],
+        "city": "",
+        "department": "57",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sochaux-elimine-en-demi-finale-par-besancon-rc-termine-troisieme-tournoi",
+        "name": "Sochaux éliminé en demi-finale par le Besançon RC termine troisième du tournoi.",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "poissy",
+        "name": "Stade de Poissy",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "clairefontaine",
+        "name": "Stade de Clairefontaine",
+        "aliases": [
+            "Clairefontaine (78)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sochaux-termine-a-xxe-place-tournoi",
+        "name": "Sochaux termine à la xxè place du tournoi.",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sochaux-remporte-tournoi-fot-en-salle-besancon-en-battant-vesoul-en-finale",
+        "name": "Sochaux remporte le tournoi de fot en salle de Besançon en battant Vesoul en finale.",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sochaux-remporte-tournoi-foot-en-salle-besancon-en-battant-mulhouse-en-finale",
+        "name": "Sochaux remporte le tournoi de foot en salle de Besançon en battant Mulhouse en finale.",
+        "aliases": [],
+        "city": "",
+        "department": "D2",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "centre-formation-aj-auxerre",
+        "name": "Centre de formation de l'AJ Auxerre",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "annexe-leo-lagrange",
+        "name": "Terrain annexe du stade Léo Lagrange",
+        "aliases": [],
+        "city": "",
+        "department": "Besançon",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "charles-massot",
+        "name": "Stade Charles Massot",
+        "aliases": [
+            "Stade Charles Massot (43)"
+        ],
+        "city": "",
+        "department": "43",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "marcel-tribut",
+        "name": "Stade Marcel Tribut",
+        "aliases": [
+            "Stade Marcel Tribut (Dunkerque)"
+        ],
+        "city": "",
+        "department": "Dunkerque",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "metalist",
+        "name": "Metalist Stadion",
+        "aliases": [],
+        "city": "",
+        "department": "Kharkov, Ukraine",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-bram",
+        "name": "Parc des sports de Bram",
+        "aliases": [
+            "Parc des sports de Bram",
+            "Parc des sports du Bram (71)"
+        ],
+        "city": "",
+        "department": "71",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pepiniere-a-buxerolles",
+        "name": "Stade de la pépinière à Buxerolles",
+        "aliases": [],
+        "city": "",
+        "department": "86",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mezzavia",
+        "name": "Stade de Mezzavia",
+        "aliases": [],
+        "city": "",
+        "department": "2A",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "louaitaux",
+        "name": "Complexe sportif des Louaitaux",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "marcel-levindrey",
+        "name": "Stade Marcel Levindrey",
+        "aliases": [],
+        "city": "",
+        "department": "02",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "georges-carcasonne",
+        "name": "Stade Georges Carcasonne",
+        "aliases": [],
+        "city": "",
+        "department": "Aix-en-Provence",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "petit-bois",
+        "name": "Stade du Petit bois",
+        "aliases": [
+            "Stade du Petit Bois (08)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bernard-bardin",
+        "name": "Stade Bernard Bardin",
+        "aliases": [],
+        "city": "",
+        "department": "13",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "vallee-cher",
+        "name": "Stade de la Vallée du Cher",
+        "aliases": [
+            "Stade de la Vallée du Cher (37)"
+        ],
+        "city": "",
+        "department": "37",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-gaston-gerard",
+        "name": "Parc des Sports Gaston Gérard",
+        "aliases": [
+            "Parc des Sports Gaston Gérard (21)"
+        ],
+        "city": "Dijon",
+        "department": "21",
+        "country": "FR",
+        "lat": 47.3245,
+        "lng": 5.0682,
+        "auto": true
+    },
+    {
+        "id": "malesherbes-caen",
+        "name": "Stade Malesherbes de Caen",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "hector-rolland-montlucon",
+        "name": "Stade Hector-Rolland de Montluçon",
+        "aliases": [],
+        "city": "",
+        "department": "03",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jean-laffon-perpignan",
+        "name": "Stade Jean Laffon de Perpignan",
+        "aliases": [],
+        "city": "",
+        "department": "66",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "georges-bayrou",
+        "name": "Stade Georges-Bayrou",
+        "aliases": [],
+        "city": "",
+        "department": "34",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "source",
+        "name": "Stade de la Source",
+        "aliases": [
+            "Stade de La Source (45)"
+        ],
+        "city": "",
+        "department": "45",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "paul-robbe-pontarlier",
+        "name": "Stade Paul Robbe de Pontarlier",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mommenheim",
+        "name": "Stade municipal de Mommenheim",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "selestat",
+        "name": "Stade municipal de Sélestat",
+        "aliases": [],
+        "city": "",
+        "department": "67",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jean-laville-gueugnon",
+        "name": "Stade Jean Laville de Gueugnon",
+        "aliases": [],
+        "city": "",
+        "department": "71",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jean-laffon",
+        "name": "Stade Jean Laffon",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "fred-aubert-saint-brieuc",
+        "name": "Stade Fred Aubert de Saint-Brieuc",
+        "aliases": [],
+        "city": "",
+        "department": "22",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "ill-a-mulhouse",
+        "name": "Stade de l'Ill à Mulhouse",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jacques-level",
+        "name": "Stade Jacques Level",
+        "aliases": [],
+        "city": "",
+        "department": "73",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "chaban-delmas",
+        "name": "Stade Chaban-Delmas",
+        "aliases": [
+            "Stade Chaban-Delmas"
+        ],
+        "city": "Bordeaux",
+        "department": "33",
+        "country": "FR",
+        "lat": 44.829,
+        "lng": -0.598,
+        "auto": true
+    },
+    {
+        "id": "lille-metropole",
+        "name": "Stadium Lille Métropole",
+        "aliases": [],
+        "city": "",
+        "department": "59",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-avignon",
+        "name": "Parc des Sports d'Avignon",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jean-jaures",
+        "name": "Stade Jean Jaurès",
+        "aliases": [],
+        "city": "",
+        "department": "69",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "argente",
+        "name": "Stade de l'Argenté",
+        "aliases": [],
+        "city": "",
+        "department": "40",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "grionprez-jooris",
+        "name": "Stade Grionprez-Jooris",
+        "aliases": [],
+        "city": "",
+        "department": "59",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "frontiere",
+        "name": "Stade de la Frontière",
+        "aliases": [
+            "Stade de la Frontière (Esch, Luxembourg)"
+        ],
+        "city": "",
+        "department": "Esch, Luxembourg",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "renato-curi",
+        "name": "Stade Renato Curi",
+        "aliases": [],
+        "city": "",
+        "department": "Pérouse, Italie",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leo-lagrange-chalon-sur-saone",
+        "name": "Stade Léo Lagrange de Chalon-sur-Saône",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "armand-cesari-furiani",
+        "name": "Stade Armand Cesari de Furiani",
+        "aliases": [
+            "Stade Armand-Cesari - Furiani (2B)",
+            "Stade Armand Cesari de Furiani (2B)"
+        ],
+        "city": "",
+        "department": "2B",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "geffroy-guichard",
+        "name": "Stade Geffroy Guichard",
+        "aliases": [],
+        "city": "",
+        "department": "42",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "brumath",
+        "name": "Complexe sportif de Brumath",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "vercel",
+        "name": "Stade municipal de Vercel",
+        "aliases": [
+            "Stade de Vercel (25)"
+        ],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "villers-lac",
+        "name": "Stade de Villers-le-Lac",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "inauguration-louis-klipfel-a-barr",
+        "name": "Inauguration du stade Louis Klipfel à Barr",
+        "aliases": [],
+        "city": "",
+        "department": "67",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "marcel-verchere",
+        "name": "Stade Marcel Verchère",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "charlety-a-paris",
+        "name": "Stade Charléty à Paris",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mm-arena",
+        "name": "MM Arena",
+        "aliases": [],
+        "city": "",
+        "department": "Le Mans",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "hainaut",
+        "name": "Stade du Hainaut",
+        "aliases": [
+            "Stade du Hainaut (59)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "louis-klipfel-a-barr",
+        "name": "Stade Louis Klipfel à Barr",
+        "aliases": [],
+        "city": "",
+        "department": "67",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "oceane",
+        "name": "Stade Océane",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "lederlin",
+        "name": "Stade Lederlin",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "yves-allainmat",
+        "name": "Stade Yves Allainmat",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "capitany",
+        "name": "Stade de Capitany",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bollaert",
+        "name": "Stade Bollaert",
+        "aliases": [],
+        "city": "Lens",
+        "department": "",
+        "country": "FR",
+        "lat": 50.4329,
+        "lng": 2.815,
+        "auto": true
+    },
+    {
+        "id": "charlety",
+        "name": "Stade Charléty",
+        "aliases": [
+            "Stade Charlety"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "alpes",
+        "name": "Stade des Alpes",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports",
+        "name": "Parc des Sports",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-mauroy",
+        "name": "Stade Pierre Mauroy",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mediterranee",
+        "name": "Stade de la Méditerranée",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "princes-paris",
+        "name": "Parc des Princes Paris",
+        "aliases": [],
+        "city": "Paris",
+        "department": "75",
+        "country": "FR",
+        "lat": 48.8414,
+        "lng": 2.253,
+        "auto": true
+    },
+    {
+        "id": "mmarena",
+        "name": "MMArena",
+        "aliases": [
+            "Stade MMArena"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-guerin",
+        "name": "Stade Pierre Guerin",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "michel-vautrot",
+        "name": "Complexe Sportif Michel Vautrot",
+        "aliases": [],
+        "city": "",
+        "department": "Saint-Vit",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "albert-berchem",
+        "name": "Stade Albert Berchem",
+        "aliases": [],
+        "city": "",
+        "department": "Kehlen, LUX",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "robert-diochon",
+        "name": "Stade Robert Diochon",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pele",
+        "name": "Stade Pelé",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "doussot-saint-vit",
+        "name": "Stade Doussot de Saint-Vit",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "niederbronn-les-bains",
+        "name": "Stade municipal de Niederbronn-les-Bains",
+        "aliases": [],
+        "city": "",
+        "department": "67",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "paul-martin-tavaux",
+        "name": "Stade Paul Martin de Tavaux",
+        "aliases": [],
+        "city": "",
+        "department": "39",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "serzian",
+        "name": "Stade Serzian",
+        "aliases": [
+            "Stade Serzian"
+        ],
+        "city": "",
+        "department": "90",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leymel-a-munster",
+        "name": "Stade du Leymel à Munster",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "kaiserstuhlstadion",
+        "name": "Stade Kaiserstuhlstadion de",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "georges-pequegnot-lure",
+        "name": "Stade Georges Pequegnot de Lure",
+        "aliases": [],
+        "city": "",
+        "department": "70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "colmar",
+        "name": "Stade municipal de Colmar",
+        "aliases": [
+            "Stadium municipal de Colmar (68)"
+        ],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "doussot-a-saint-vit",
+        "name": "Stade Doussot à Saint-Vit",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "arberes-a-meyrin",
+        "name": "Stade des Arbères à Meyrin",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "samoens",
+        "name": "Stade municipal de Samoëns",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "colombere-a-epinal",
+        "name": "Stade de la Colombère à Epinal",
+        "aliases": [],
+        "city": "",
+        "department": "88",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sportplatz-liebefeld-konitz",
+        "name": "Stade Sportplatz Liebefeld de Könitz",
+        "aliases": [],
+        "city": "",
+        "department": "Sui",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "centre-formation-roland-peugeot-a-seloncourt",
+        "name": "Centre de formation Roland Peugeot à Seloncourt",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "fromentaux-delle",
+        "name": "Stade des Fromentaux de Delle",
+        "aliases": [],
+        "city": "",
+        "department": "90",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leo-lagrange-a-besancon",
+        "name": "Stade Léo Lagrange à Besançon",
+        "aliases": [
+            "Stade Léo Lagrange à Besançon (25)"
+        ],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "montceau-a-valdoie",
+        "name": "Stade du Montceau à Valdoie",
+        "aliases": [],
+        "city": "",
+        "department": "90",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "centre-couvet",
+        "name": "Centre sportif de Couvet",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "divonne-les-bains",
+        "name": "Stade municipal de Divonne-les-Bains",
+        "aliases": [],
+        "city": "",
+        "department": "01",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "lumes-a-isle-sur-doubs",
+        "name": "Stade des Lumes à L'Isle-sur-le-Doubs",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gc-campus-a-niederhasli",
+        "name": "GC Campus à Niederhasli",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "joseph-biechlin-ilzach",
+        "name": "Stade Joseph Biechlin d'Ilzach",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sportplatz-golm-schrun",
+        "name": "Stade Sportplatz Golm de Schrun",
+        "aliases": [],
+        "city": "",
+        "department": "Autriche",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "blancherie-a-delemont",
+        "name": "Stade de la Blancherie à Delémont",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "fromentaux-a-delle",
+        "name": "Stade des Fromentaux à Delle",
+        "aliases": [
+            "Stade des Fromentaux à Delle"
+        ],
+        "city": "",
+        "department": "90",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "charriere-chaux-fond",
+        "name": "Stade de la Charrière de La Chaux-de-Fond",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "andre-brey-a-ornans",
+        "name": "Stade André Brey à Ornans",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mendizorrotza-a-vitoria-gasteiz",
+        "name": "Stade de Mendizorrotza à Vitoria-Gasteiz",
+        "aliases": [],
+        "city": "",
+        "department": "Espagne",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mendizorrotza-vitoria-gasteiz",
+        "name": "Stade Mendizorrotza de Vitoria-Gasteiz",
+        "aliases": [],
+        "city": "",
+        "department": "Espagne",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "robert-bobin-dole",
+        "name": "Stade Robert Bobin de Dole",
+        "aliases": [],
+        "city": "",
+        "department": "39",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "cantons-a-audincourt",
+        "name": "Stade des Cantons à Audincourt",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "saint-symphorien-metz",
+        "name": "Stade Saint Symphorien de Metz",
+        "aliases": [],
+        "city": "Metz",
+        "department": "57",
+        "country": "FR",
+        "lat": 49.1098,
+        "lng": 6.1594,
+        "auto": true
+    },
+    {
+        "id": "guy-piriou",
+        "name": "Stade Guy Piriou",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "robert-bobin-a-dole",
+        "name": "Stade Robert Bobin à Dole",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "roger-serzian",
+        "name": "Stade Roger Serzian",
+        "aliases": [
+            "Stade Roger-Serzian",
+            "Stade Roger Serzian (Belfort)"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "maladiere-port-sur-saone",
+        "name": "Stade de la Maladière Port-sur-Saône",
+        "aliases": [],
+        "city": "",
+        "department": "70",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "omnisport-niederbronn-les-bains",
+        "name": "Stade omnisport de Niederbronn-les-Bains",
+        "aliases": [],
+        "city": "",
+        "department": "67",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mathay",
+        "name": "Stade municipal de Mathay",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "ill-mulhouse",
+        "name": "Stade de l'Ill Mulhouse",
+        "aliases": [
+            "Stade de l'Ill Mulhouse"
+        ],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sierentz",
+        "name": "Stade municipal de Sierentz",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "lyss",
+        "name": "Stade municipal de Lyss",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "liberation",
+        "name": "Stade de la Libération",
+        "aliases": [
+            "Stade de la Libération"
+        ],
+        "city": "",
+        "department": "59",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "louis-duguauguez",
+        "name": "Stade Louis Duguauguez",
+        "aliases": [],
+        "city": "",
+        "department": "08",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-poussots-dijon",
+        "name": "Parc des sports des Poussots Dijon",
+        "aliases": [],
+        "city": "",
+        "department": "21",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "robert-bobin",
+        "name": "Stade Robert Bobin",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "omnisport",
+        "name": "Stade Omnisport",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "hermant-deprez",
+        "name": "Stade Hermant Deprez",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "hameau",
+        "name": "Stade du Hameau",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "marcel-verchere-bourg-perronas",
+        "name": "Stade Marcel Verchère de Bourg-Perronas",
+        "aliases": [],
+        "city": "",
+        "department": "01",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "grand-lille-metropole",
+        "name": "Grand Stade Lille Métropole",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "groupama",
+        "name": "Groupama Stadium",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "fred-aubert",
+        "name": "Stade Fred Aubert",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jacky-nardin",
+        "name": "Stade Jacky Nardin",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "lattre-tassigny",
+        "name": "Stade de Lattre-de-Tassigny",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "camp-loges",
+        "name": "Camp des Loges",
+        "aliases": [],
+        "city": "",
+        "department": "St-Germain-en-Laye",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "christ-roi",
+        "name": "Stade du Christ-Roi",
+        "aliases": [],
+        "city": "",
+        "department": "Crans-Montana",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "yverdon",
+        "name": "Stade Municipal d'Yverdon",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "gaston-gerard-a-dijon",
+        "name": "Stade Gaston Gérard à Dijon",
+        "aliases": [],
+        "city": "Dijon",
+        "department": "",
+        "country": "FR",
+        "lat": 47.3245,
+        "lng": 5.0682,
+        "auto": true
+    },
+    {
+        "id": "ille-a-mulhouse",
+        "name": "Stade l'Ille à Mulhouse",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rene-blum-a-montbeliard",
+        "name": "Stade René Blum à Montbéliard",
+        "aliases": [],
+        "city": "",
+        "department": "25",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-bram-a-louhans",
+        "name": "Parc des Sports du Bram à Louhans",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "georges-vuillermet",
+        "name": "Stade Georges Vuillermet",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "entrainement-fc-zurich",
+        "name": "Terrain d'entraînement du FC Zurich",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "biescheim",
+        "name": "Stade municipal de Biescheim",
+        "aliases": [],
+        "city": "",
+        "department": "68",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "marie-marvingt-mans",
+        "name": "Stade Marie Marvingt du Mans",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "fromeanteaux-delle",
+        "name": "Stade des Fromeanteaux de Delle",
+        "aliases": [],
+        "city": "",
+        "department": "90",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jacques-forestier-a-aix-les-bains",
+        "name": "Stade Jacques Forestier à Aix-les-Bains",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "centre-colovray-a-nyons",
+        "name": "Stade Centre Sportif de Colovray à Nyons",
+        "aliases": [],
+        "city": "",
+        "department": "Sui",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "nouste-camp",
+        "name": "Stade Nouste Camp",
+        "aliases": [
+            "Nouste Camp"
+        ],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "robert-sayer",
+        "name": "Stade Robert Sayer",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "atlantique-bordeaux",
+        "name": "Stade Atlantique de Bordeaux",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "oceane-havre",
+        "name": "Stade Océane du Havre",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pinatar-arena",
+        "name": "Pinatar Arena",
+        "aliases": [],
+        "city": "",
+        "department": "Espagne",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "groupama-ol-training-center",
+        "name": "Stade Groupama OL Training Center",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "municipale-roanne",
+        "name": "Stade municipale de Roanne",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "antonins-nimes",
+        "name": "Stade des Antonins Nîmes",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "charlety-paris",
+        "name": "Stade Charléty de Paris",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bourtzwiller",
+        "name": "Stade de Bourtzwiller",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "bart",
+        "name": "Stade de Bart",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "olten",
+        "name": "Stade d'Olten",
+        "aliases": [],
+        "city": "",
+        "department": "Suisse",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "frontiere-a-saint-louis",
+        "name": "Stade de la Frontière à Saint-Louis",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "suisse-wankdorf-berne",
+        "name": "Stade de Suisse Wankdorf de Berne",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "marcel-saupin",
+        "name": "Stade Marcel Saupin",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "lesdiguieres",
+        "name": "Stade Lesdiguières",
+        "aliases": [],
+        "city": "",
+        "department": "38",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "ludovic-giuly",
+        "name": "Stade Municipal Ludovic Giuly",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "omnisports-source",
+        "name": "Stade Omnisports de la Source",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-a-annecy",
+        "name": "Parc des Sports à Annecy",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "allianz-riviera",
+        "name": "Allianz Riviera",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "mercrei-18-decembre-2013",
+        "name": "Mercrei 18 décembre 2013",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "rene-gaillard-a-niort",
+        "name": "Stade René Gaillard à Niort",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-blouen",
+        "name": "Stade Pierre Blouen",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "antoine-saint-exupery",
+        "name": "Stade Antoine de Saint Exupéry",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "antonins",
+        "name": "Stade des Antonins",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "22-juillet-2023",
+        "name": "22 juillet 2023",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "melisey",
+        "name": "Stade municipal de Mélisey",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "porte-basse",
+        "name": "Stade de la Porte Basse",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "stockhorn-arena",
+        "name": "Stockhorn Arena",
+        "aliases": [],
+        "city": "",
+        "department": "Thoune",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "paul-chandon",
+        "name": "Stade Paul Chandon",
+        "aliases": [],
+        "city": "",
+        "department": "Epernay",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "ford-mervelier",
+        "name": "Stade du Ford, Mervelier",
+        "aliases": [],
+        "city": "",
+        "department": "SUI",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "christian-doussot",
+        "name": "Stade Christian Doussot",
+        "aliases": [],
+        "city": "",
+        "department": "Saint-Vit",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "sports-courtois-fillot",
+        "name": "Parc des Sports Courtois Fillot",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "jean-laville-a-gueugnon",
+        "name": "Stade Jean Laville à Gueugnon",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "pierre-brisson-a-beauvais",
+        "name": "Stade Pierre Brisson à Beauvais",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "fonderies",
+        "name": "Stade des Fonderies",
+        "aliases": [],
+        "city": "",
+        "department": "Blénod",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "saint-exupery",
+        "name": "Stade Saint-Exupéry",
+        "aliases": [],
+        "city": "",
+        "department": "Marignane",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "leon-laurent",
+        "name": "Stade Léon Laurent",
+        "aliases": [],
+        "city": "",
+        "department": "",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    },
+    {
+        "id": "thonon-les-bains",
+        "name": "Thonon-les-Bains",
+        "aliases": [],
+        "city": "",
+        "department": "74",
+        "country": "",
+        "lat": null,
+        "lng": null,
+        "auto": true
+    }
+]

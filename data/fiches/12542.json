@@ -1,0 +1,214 @@
+{
+    "id": 12542,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "kenley-dede",
+    "path": "/joueurs/kenley-dede/",
+    "title": "Kenley Dédé (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-12.jpg",
+    "date": "2025-03-06T11:32:22",
+    "modified": "2025-11-12T14:15:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Kenley Dédé a été à l'essai 15 jours en avril 2016 mais n'a pas été retenu par les dirigeants du club."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-12.jpg",
+            "caption": "Kenley Dédé",
+            "credit": "DR",
+            "caption_raw": "Kenley Dédé – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12542,
+        "url": "https://www.fcsochauxretro.com/uncategorized/kenley-dede/",
+        "path": "/uncategorized/kenley-dede/",
+        "slug": "kenley-dede",
+        "seo_title": "Kenley Dédé (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Kenley Dédé</h2>\n<h4><strong>né le 18 mai 1998 à Carrefour (Haïti)</strong></h4>\n<p><strong>Taille :</strong> 1m80</p>\n<p><strong>Poids :</strong> 68 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste :</strong> milieu offensif</p>\n<p><strong>International haïtien U17, U20, U21 et U23</strong></p>\n<p><strong>A l'essai en :</strong> avril 2016</p>",
+        "header_lines": [
+            "Kenley Dédé",
+            "né le 18 mai 1998 à Carrefour (Haïti)",
+            "Taille : 1m80",
+            "Poids : 68 kg",
+            "Pied : ambidextre",
+            "Poste : milieu offensif",
+            "International haïtien U17, U20, U21 et U23",
+            "A l'essai en : avril 2016"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Kenley",
+        "last_name": "Dédé",
+        "display_name": "Kenley Dédé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2016-04",
+            "precision": "month",
+            "text": "avril 2016"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1998-05-18",
+                "precision": "day",
+                "text": "18 mai 1998"
+            },
+            "place": {
+                "text": "Carrefour (Haïti)",
+                "city": "Carrefour",
+                "department": null,
+                "country": "Haïti",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 mai 1998 à Carrefour (Haïti)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "ambidextre",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International haïtien U17, U20, U21 et U23"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Kenley Dédé"
+            },
+            {
+                "label": null,
+                "value": "né le 18 mai 1998 à Carrefour (Haïti)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International haïtien U17, U20, U21 et U23"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "avril 2016"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

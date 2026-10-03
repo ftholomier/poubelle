@@ -1,0 +1,178 @@
+{
+    "id": 12465,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "edmond-bally",
+    "path": "/joueurs/edmond-bally/",
+    "title": "Edmond Bally (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-3.jpg",
+    "date": "2025-03-03T22:11:14",
+    "modified": "2026-03-29T18:34:42",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Edmond Bailly, international suisse, évolue comme milieu de terrain ou attaquant au Servette Genève. Il participe notamment aux Jeux Olympiques de 1928 à Amsterdam, aux Pays-Bas.</li>\n<li>En octobre 1929, Sochaux, en plein développement, recherche des joueurs expérimentés. Sur recommandation, le club met à l’essai Edmond Bailly, 31 ans, alors attaquant international. Il joue à Pontarlier contre une sélection de joueurs du Doubs et du Jura. Sochaux s’impose 9-1, mais Bailly ne signera finalement pas avec le club.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>On ne retrouve plus aucune trace d’Edmond Bailly après l’année 1929.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Edmond Bailly a joué 1 match amical pour Sochaux en 1929."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-3.jpg",
+            "caption": "Edmond Bally –",
+            "credit": "DR",
+            "caption_raw": "Edmond Bally – – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12465,
+        "url": "https://www.fcsochauxretro.com/uncategorized/edmond-bally/",
+        "path": "/uncategorized/edmond-bally/",
+        "slug": "edmond-bally",
+        "seo_title": "Edmond Bally (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Edmond Bailly</h2>\n<h4><strong>né le 07/09/1898 à Payerne (Suisse)</strong></h4>\n<h4><strong>Décédé le xx à xx (Suisse)</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International suisse (7 sélections)</strong></p>\n<p><strong>A l'essai en : </strong>octobre 1929</p>\n<p><strong>Premier et dernier match amical joué : </strong>Sélection Doubs-Jura - FC Sochaux du 20/10/1929 : 1-9 </p>",
+        "header_lines": [
+            "Edmond Bailly",
+            "né le 07/09/1898 à Payerne (Suisse)",
+            "Décédé le xx à xx (Suisse)",
+            "Poste : attaquant",
+            "International suisse (7 sélections)",
+            "A l'essai en : octobre 1929",
+            "Premier et dernier match amical joué : Sélection Doubs-Jura - FC Sochaux du 20/10/1929 : 1-9"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Edmond",
+        "last_name": "Bally",
+        "display_name": "Edmond Bally",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1929-10",
+            "precision": "month",
+            "text": "octobre 1929"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1898-09-07",
+                "precision": "day",
+                "text": "07/09/1898"
+            },
+            "place": {
+                "text": "Payerne (Suisse)",
+                "city": "Payerne",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 07/09/1898 à Payerne (Suisse)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx (Suisse)",
+                "city": "xx",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx (Suisse)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International suisse (7 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Edmond Bailly"
+            },
+            {
+                "label": null,
+                "value": "né le 07/09/1898 à Payerne (Suisse)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx (Suisse)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International suisse (7 sélections)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "octobre 1929"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sélection Doubs-Jura - FC Sochaux du 20/10/1929 : 1-9"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

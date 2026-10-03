@@ -1,0 +1,186 @@
+{
+    "id": 6552,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierre-ballay",
+    "path": "/joueurs/pierre-ballay/",
+    "title": "Pierre Ballay",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/1943-44-sochaux194344-der3.jpg",
+    "date": "2024-11-02T11:28:50",
+    "modified": "2026-03-29T21:29:35",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Peu d’informations existent sur ce jeune joueur, qui était peut-être issu de l’AS Valentigney au moment de la fusion avec le FC Sochaux-Montbéliard, donnant naissance au FC Sochaux-Valentigney durant la guerre à partir de 1943.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Ce jeune joueur offensif ne disputa qu’une seule rencontre dans sa carrière avec l’équipe amateur du FC Sochaux-Valentigney. Ce jour-là, il évoluait aux côtés de joueurs comme Mattler, Williams, Sarrieux, Germain, Truchot ou encore Zurcher.</li>\n<li>Sochaux s’imposa largement 6-0 en championnat régional face à Chalon-sur-Saône, et la presse salua sa prestation : « la belle partie réussie par le jeune Ballay ».</li>\n<li>En fin de saison, Sochaux termina 2ᵉ du classement, derrière le RCFC Besançon.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Aucune information. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "1 seul match joué pour le jeune Pierre Ballay avec Sochaux pendant la guerre."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/ballay_.jpg",
+            "caption": "Ballay –",
+            "credit": "",
+            "caption_raw": "Ballay –"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6552,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ballay/",
+        "path": "/a-la-une/ballay/",
+        "slug": "ballay",
+        "seo_title": "Pierre Ballay - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Pierre Ballay</strong></h2>\n<h2><strong>né le 10 novembre 1927 à Besançon (25) </strong></h2>\n<h2><strong>Décédé le 27 décembre 1997 à Besançon (25)</strong></h2>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 1943 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1944</p>\n<p><strong>Premier et dernier match joué :</strong> FC Sochaux-Valentigney - Châlon-sur-Saône du 19/09/1943 : 6-0</p>",
+        "header_lines": [
+            "Pierre Ballay",
+            "né le 10 novembre 1927 à Besançon (25)",
+            "Décédé le 27 décembre 1997 à Besançon (25)",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juin 1943",
+            "Départ de Sochaux : juin 1944",
+            "Premier et dernier match joué : FC Sochaux-Valentigney - Châlon-sur-Saône du 19/09/1943 : 6-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Pierre",
+        "last_name": "Ballay",
+        "display_name": "Pierre Ballay",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1927-11-10",
+                "precision": "day",
+                "text": "10 novembre 1927"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 novembre 1927 à Besançon (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1997-12-27",
+                "precision": "day",
+                "text": "27 décembre 1997"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 27 décembre 1997 à Besançon (25)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1943-06",
+            "precision": "month",
+            "text": "juin 1943"
+        },
+        "departure": {
+            "iso": "1944-06",
+            "precision": "month",
+            "text": "juin 1944"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierre Ballay"
+            },
+            {
+                "label": null,
+                "value": "né le 10 novembre 1927 à Besançon (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 27 décembre 1997 à Besançon (25)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1943"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1944"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "FC Sochaux-Valentigney - Châlon-sur-Saône du 19/09/1943 : 6-0"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

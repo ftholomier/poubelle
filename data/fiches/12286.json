@@ -1,0 +1,232 @@
+{
+    "id": 12286,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "yven-moyo",
+    "path": "/joueurs/yven-moyo/",
+    "title": "Yven Moyo",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/55-4.jpg",
+    "date": "2025-02-27T19:57:25",
+    "modified": "2025-02-27T20:06:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Yven Moyo est resté 5 saisons au centre de formation de Sochaux de signer professionnel ailleurs."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/55-4.jpg",
+            "caption": "Yven Moyo – Equipe de France",
+            "credit": "FFF",
+            "caption_raw": "Yven Moyo – Equipe de France – FFF"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12286,
+        "url": "https://www.fcsochauxretro.com/a-la-une/yven-moyo/",
+        "path": "/a-la-une/yven-moyo/",
+        "slug": "yven-moyo",
+        "seo_title": "Yven Moyo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Yven Moyo</h2>\n<h4><strong>né le 15 mars 1992 à Orléans (45)</strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>77 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Poste : </strong>milieu offensif gauche</p>\n<p><strong>International français U18 (4 sélections)</strong></p>\n<p><strong>International congolais (3 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2005</p>\n<p><strong>Départ de Sochaux : </strong>juin 2010</p>",
+        "header_lines": [
+            "Yven Moyo",
+            "né le 15 mars 1992 à Orléans (45)",
+            "Taille : 1m86",
+            "Poids : 77 kg",
+            "Pied : gaucher",
+            "Poste : milieu offensif gauche",
+            "International français U18 (4 sélections)",
+            "International congolais (3 sélections)",
+            "Arrivée à Sochaux : juillet 2005",
+            "Départ de Sochaux : juin 2010"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Yven",
+        "last_name": "Moyo",
+        "display_name": "Yven Moyo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1992-03-15",
+                "precision": "day",
+                "text": "15 mars 1992"
+            },
+            "place": {
+                "text": "Orléans (45)",
+                "city": "Orléans",
+                "department": "45",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 mars 1992 à Orléans (45)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "77 kg",
+        "weight_kg": 77,
+        "foot": "gaucher",
+        "position": "milieu offensif gauche",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français U18 (4 sélections)",
+            "International congolais (3 sélections)"
+        ],
+        "arrival": {
+            "iso": "2005-07",
+            "precision": "month",
+            "text": "juillet 2005"
+        },
+        "departure": {
+            "iso": "2010-06",
+            "precision": "month",
+            "text": "juin 2010"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Yven Moyo"
+            },
+            {
+                "label": null,
+                "value": "né le 15 mars 1992 à Orléans (45)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "77 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif gauche"
+            },
+            {
+                "label": null,
+                "value": "International français U18 (4 sélections)"
+            },
+            {
+                "label": null,
+                "value": "International congolais (3 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2005"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2010"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

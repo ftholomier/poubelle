@@ -1,0 +1,299 @@
+{
+    "id": 7298,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "francisco-carrasco",
+    "path": "/joueurs/francisco-carrasco/",
+    "title": "Francisco Carrasco",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/2.jpg",
+    "date": "2024-11-10T18:09:37",
+    "modified": "2025-10-16T20:30:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "77",
+        "text": "Francisco \"Lobo\" Carrasco a joué 77 matchs (5 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/paco-carrasco-ici-marque-de-pres-par-bernard-pardo-bordelais-a-l-epoque-connait-bien-le-fc-sochaux-mais-aussi-le-foot-espagnol-lui-qui-a-joue-au-barca-et-a-ete-international-photo-dr-1538583.jpg",
+            "caption": "Francisco Carrasco",
+            "credit": "L’est républicain",
+            "caption_raw": "Francisco Carrasco – L’est républicain"
+        },
+        {
+            "image": "2024/11/2.jpg",
+            "caption": "Francisco Carrasco",
+            "credit": "FCSM",
+            "caption_raw": "Francisco Carrasco – FCSM"
+        },
+        {
+            "image": "2025/10/img123.jpg",
+            "caption": "Carrasco sur le départ",
+            "credit": "BUT",
+            "caption_raw": "Carrasco sur le départ – BUT"
+        },
+        {
+            "image": "2025/01/img056-f.jpg",
+            "caption": "Carrasco",
+            "credit": "Onze Mondial",
+            "caption_raw": "Carrasco – Onze Mondial"
+        },
+        {
+            "image": "2025/01/Carrasco-ffedd-f.jpg",
+            "caption": "Carrasco, Tihy, Bricon",
+            "credit": "Onze Mondial",
+            "caption_raw": "Carrasco, Tihy, Bricon – Onze Mondial"
+        },
+        {
+            "image": "2024/09/43879184_1914256065356593_4105941185393065984_n.jpg",
+            "caption": "Carrasco",
+            "credit": "L’année du football",
+            "caption_raw": "Carrasco – L’année du football"
+        },
+        {
+            "image": "2024/09/FB_IMG_1652938697367.jpg",
+            "caption": "Carrasco",
+            "credit": "AFP",
+            "caption_raw": "Carrasco – AFP"
+        },
+        {
+            "image": "2024/09/Lucas-et-Carrasco-Le-Pays.png",
+            "caption": "Lucas et Carrasco",
+            "credit": "Le Pays",
+            "caption_raw": "Lucas et Carrasco – Le Pays"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7298,
+        "url": "https://www.fcsochauxretro.com/a-la-une/francisco-carrasco/",
+        "path": "/a-la-une/francisco-carrasco/",
+        "slug": "francisco-carrasco",
+        "seo_title": "Francisco Carrasco - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Francisco Carrasco</h2>\n<h4><strong>né le 6 mars 1959 à Alcoy (Espagne)</strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids : </strong>71 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>attaquant - ailier droit</p>\n<p><strong>International espagnol (35 sélections, 5 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1989</p>\n<p><strong>Départ de Sochaux : </strong>janvier 1992</p>\n<p><strong>Premier match et premier but :</strong> Sochaux - Brest du 22/07/1989 : 1-0 - But à la 34'</p>\n<p><strong>Dernier match : </strong>Sochaux - Toulouse du 07/12/1991 : 0-0</p>",
+        "header_lines": [
+            "Francisco Carrasco",
+            "né le 6 mars 1959 à Alcoy (Espagne)",
+            "Taille : 1m81",
+            "Poids : 71 kg",
+            "Pied : ambidextre",
+            "Poste : attaquant - ailier droit",
+            "International espagnol (35 sélections, 5 buts)",
+            "Arrivée à Sochaux : juillet 1989",
+            "Départ de Sochaux : janvier 1992",
+            "Premier match et premier but : Sochaux - Brest du 22/07/1989 : 1-0 - But à la 34'",
+            "Dernier match : Sochaux - Toulouse du 07/12/1991 : 0-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Francisco",
+        "last_name": "Carrasco",
+        "display_name": "Francisco Carrasco",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1959-03-06",
+                "precision": "day",
+                "text": "6 mars 1959"
+            },
+            "place": {
+                "text": "Alcoy (Espagne)",
+                "city": "Alcoy",
+                "department": null,
+                "country": "Espagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 mars 1959 à Alcoy (Espagne)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "ambidextre",
+        "position": "attaquant - ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International espagnol (35 sélections, 5 buts)"
+        ],
+        "arrival": {
+            "iso": "1989-07",
+            "precision": "month",
+            "text": "juillet 1989"
+        },
+        "departure": {
+            "iso": "1992-01",
+            "precision": "month",
+            "text": "janvier 1992"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Brest du 22/07/1989 : 1-0 - But à la 34'",
+        "last_match": "Sochaux - Toulouse du 07/12/1991 : 0-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Francisco Carrasco"
+            },
+            {
+                "label": null,
+                "value": "né le 6 mars 1959 à Alcoy (Espagne)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant - ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International espagnol (35 sélections, 5 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1989"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 1992"
+            },
+            {
+                "label": "Premier match et premier but",
+                "value": "Sochaux - Brest du 22/07/1989 : 1-0 - But à la 34'"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - Toulouse du 07/12/1991 : 0-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1989 - 1990",
+                    "27",
+                    "2",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "32",
+                    "4"
+                ],
+                [
+                    "1990 - 1991",
+                    "27",
+                    "0",
+                    "-",
+                    "-",
+                    "2",
+                    "1",
+                    "29",
+                    "1"
+                ],
+                [
+                    "1991 - 1992",
+                    "16",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "16",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "70",
+                    "2",
+                    "4",
+                    "2",
+                    "3",
+                    "1",
+                    "77",
+                    "5"
+                ]
+            ],
+            "source_table": 883
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

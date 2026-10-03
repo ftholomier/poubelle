@@ -1,0 +1,476 @@
+{
+    "id": 16825,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-dijon-fco-amical-12-07-2017",
+    "path": "/matchs/2017-2018/sochaux-dijon-fco-amical-12-07-2017/",
+    "title": "Amical – Sochaux (L2) / Dijon FCO (L1) – Trophée Lotto – 12/07/2017 – 2-3",
+    "categories": [
+        "2017-2018",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/Tardieu-FCSMDFCO.jpg",
+    "date": "2026-06-14T13:49:30",
+    "modified": "2026-08-14T16:22:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Première défaite après 4 matchs de préparation."
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Tardieu-FCSMDFCO.jpg",
+            "caption": "Tardieu – Sochaux-Dijon pré-saison 2017/2018",
+            "credit": "FCSM",
+            "caption_raw": "Tardieu – Sochaux-Dijon pré-saison 2017/2018 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16825,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l2-dijon-fco-l1-trophee-lotto-12-07-2017-2-3/",
+        "path": "/a-la-une/amical-sochaux-l2-dijon-fco-l1-trophee-lotto-12-07-2017-2-3/",
+        "slug": "amical-sochaux-l2-dijon-fco-l1-trophee-lotto-12-07-2017-2-3",
+        "seo_title": "Amical - Sochaux (L2) / Dijon FCO (L1) - Trophée Lotto - 12/07/2017 - 2-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (L2) / Dijon (L1) : 2-3</strong><strong><br></strong></h2>\n<h4><strong>Match amical - Challenge Lotto<br></strong></h4>\n<h4><strong>Mercredi 12 juillet 2017</strong></h4>\n<h4><strong>Stade Léo Lagrange de Besançon (25)<br></strong></h4>\n<h4><strong>3 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Dechepy</strong></h4>\n<p>Buts : Meïté 72' (s.p) et Touzghar 81' pour Sochaux ; Benet 13', Belmonte 59' et 62' pour Dijon</p>",
+        "header_lines": [
+            "Sochaux (L2) / Dijon (L1) : 2-3",
+            "Match amical - Challenge Lotto",
+            "Mercredi 12 juillet 2017",
+            "Stade Léo Lagrange de Besançon (25)",
+            "3 000 spectateurs",
+            "Arbitre : M. Dechepy",
+            "Buts : Meïté 72' (s.p) et Touzghar 81' pour Sochaux ; Benet 13', Belmonte 59' et 62' pour Dijon"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2017-07-12",
+        "date_text": "Mercredi 12 juillet 2017",
+        "season": "2017-2018",
+        "competition": "Amical",
+        "competition_label": "Trophée Lotto",
+        "competition_code": "Trophée Lotto",
+        "round": "Amical",
+        "round_text": "Match amical - Challenge Lotto",
+        "home": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "away": {
+            "name": "Dijon FCO",
+            "level": "L1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-3",
+        "score_line": "Sochaux (L2) / Dijon (L1) : 2-3",
+        "result": "D",
+        "stadium": "Stade Léo Lagrange de Besançon (25)",
+        "spectators": 3000,
+        "spectators_text": "3 000 spectateurs",
+        "referee": "M. Dechepy",
+        "goals_text": "Meïté 72' (s.p) et Touzghar 81' pour Sochaux ; Benet 13', Belmonte 59' et 62' pour Dijon",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Meïté 72' (s.p) et Touzghar 81'"
+            },
+            {
+                "team": "Dijon",
+                "scorers": "Benet 13', Belmonte 59' et 62'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "PREVOT Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ALPHONSE Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OGIER Florent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RUIZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "81",
+                    "sub_text": "↓ 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FUCHS Jeando",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DAHAM Sofiane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "78",
+                    "sub_text": "↓ 78'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LASME Bryan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "67",
+                    "sub_text": "↓ 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ANDRIATSIMA Faneva",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LONG Aubin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MBAKATA Salem",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "81",
+                    "sub_out": null,
+                    "sub_text": "↑ 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "TEIKEU Adolphe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MEÏTE Yakou",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "72"
+                    ],
+                    "goals_text": "⚽ 72'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FRANCOIS Martin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "78",
+                    "sub_out": null,
+                    "sub_text": "↑ 78'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAYAKOYO Axel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "67",
+                    "sub_out": null,
+                    "sub_text": "↑ 67'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "TOUZGHAR Yohann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "81"
+                    ],
+                    "goals_text": "⚽ 81'",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ZEIDLER Peter",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1951
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

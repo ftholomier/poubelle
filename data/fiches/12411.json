@@ -1,0 +1,168 @@
+{
+    "id": 12411,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sydney-regan",
+    "path": "/joueurs/sydney-regan/",
+    "title": "Sydney Regan  (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/55.jpg",
+    "date": "2025-03-02T21:20:16",
+    "modified": "2025-11-12T13:50:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "L'Anglais Sydney Regan a joué un match amical pour Sochaux en 1930."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/55.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12411,
+        "url": "https://www.fcsochauxretro.com/uncategorized/regan/",
+        "path": "/uncategorized/regan/",
+        "slug": "regan",
+        "seo_title": "Sydney Regan (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Sydney Regan</h2>\n<h4><strong>né le xx en Angleterre</strong></h4>\n<h4><strong>Décédé le xx à xx </strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>A l'essai en : </strong>juin 1930</p>\n<p><strong>Premier et dernier match amical joué :</strong> RU Alger - Sochaux du 13/06/1930 : 1-4</p>",
+        "header_lines": [
+            "Sydney Regan",
+            "né le xx en Angleterre",
+            "Décédé le xx à xx",
+            "Poste : attaquant",
+            "A l'essai en : juin 1930",
+            "Premier et dernier match amical joué : RU Alger - Sochaux du 13/06/1930 : 1-4"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Sydney",
+        "last_name": "Regan",
+        "display_name": "Sydney Regan",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1930-06",
+            "precision": "month",
+            "text": "juin 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx en Angleterre"
+            },
+            "place": null,
+            "text": "né le xx en Angleterre"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sydney Regan"
+            },
+            {
+                "label": null,
+                "value": "né le xx en Angleterre"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juin 1930"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "RU Alger - Sochaux du 13/06/1930 : 1-4"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

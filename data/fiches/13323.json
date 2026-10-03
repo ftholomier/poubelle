@@ -1,0 +1,114 @@
+{
+    "id": 13323,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "denis-worbe",
+    "path": "/dirigeants/denis-worbe/",
+    "title": "Denis Worbe",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/61d5dc8cb3b37649804130.jpg",
+    "date": "2025-04-05T09:24:43",
+    "modified": "2025-11-12T21:13:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Denis Worbe, l'homme de la vente du club : 2014-2015 </strong></h4>\n<p>En 2014, Carlos Tavares le nouveau dirigeant du Groupe PSA décide de la vente du club. Alain Cordier, en désaccord laisse son siège et c'est Denis Worbe qui est désigné pour assurer la vente. </p>\n<p>Il restera un an à la tête de la SASP le temps de passer le témoin à l'entreprise chinoise Tech Pro/LEDUS dirigée par Wing Sang Li. </p>\n<p>Sous sa présidence le club remporte tout de même la coupe Gambardella 2015. </p>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Denis Worbe reste 1 an à la tête du club le temps de vendre à l'entreprise chinoise TECH PRO/LEDUS."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/61d5dc8cb3b37649804130.jpg",
+            "caption": "Denis Worbe, l’homme de la vente du club.",
+            "credit": "",
+            "caption_raw": "Denis Worbe, l’homme de la vente du club."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13323,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/denis-worbe/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/denis-worbe/",
+        "slug": "denis-worbe",
+        "seo_title": "Denis Worbe - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Denis Worbe  </h2>\n<h4><strong>Président de la SASP en 2014-2015</strong></h4>",
+        "header_lines": [
+            "Denis Worbe",
+            "Président de la SASP en 2014-2015"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Denis",
+        "last_name": "Worbe",
+        "display_name": "Denis Worbe",
+        "nickname": "",
+        "subtitle": "Président de la SASP en 2014-2015",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Denis Worbe"
+            },
+            {
+                "label": null,
+                "value": "Président de la SASP en 2014-2015"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,224 @@
+{
+    "id": 10700,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jeremie-rodrigues",
+    "path": "/joueurs/jeremie-rodrigues/",
+    "title": "Jérémie Rodrigues",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/45099-1655554319.webp",
+    "date": "2025-01-26T18:57:02",
+    "modified": "2025-01-26T19:02:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Jérémie Rodrigues a été formé durant 6 saisons au centre de formation de Sochaux mais a fait carrière ailleurs."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/jeremie-rodrigues-ici-en-rouge-vous-raconte-son-parcours_73767.webp",
+            "caption": "Jérémie Rodrigues",
+            "credit": "Besançon RC",
+            "caption_raw": "Jérémie Rodrigues – Besançon RC"
+        },
+        {
+            "image": "2025/01/45099-1655554319.webp",
+            "caption": "Jérémie Rodrigues",
+            "credit": "Transfermarket",
+            "caption_raw": "Jérémie Rodrigues – Transfermarket"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10700,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jeremie-rodrigues/",
+        "path": "/a-la-une/jeremie-rodrigues/",
+        "slug": "jeremie-rodrigues",
+        "seo_title": "Jérémie Rodrigues - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jérémie Rodrigues</h2>\n<h4><strong>né le 1er novembre 1980 à Schiltigheim (67) </strong></h4>\n<p><strong>Taille :</strong> 1m75</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière latéral droit</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1995</p>\n<p><strong>Départ de Sochaux : </strong>juin 2001</p>",
+        "header_lines": [
+            "Jérémie Rodrigues",
+            "né le 1er novembre 1980 à Schiltigheim (67)",
+            "Taille : 1m75",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "Arrivée à Sochaux : juillet 1995",
+            "Départ de Sochaux : juin 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jérémie",
+        "last_name": "Rodrigues",
+        "display_name": "Jérémie Rodrigues",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1980-11-01",
+                "precision": "day",
+                "text": "1er novembre 1980"
+            },
+            "place": {
+                "text": "Schiltigheim (67)",
+                "city": "Schiltigheim",
+                "department": "67",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er novembre 1980 à Schiltigheim (67)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1995-07",
+            "precision": "month",
+            "text": "juillet 1995"
+        },
+        "departure": {
+            "iso": "2001-06",
+            "precision": "month",
+            "text": "juin 2001"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jérémie Rodrigues"
+            },
+            {
+                "label": null,
+                "value": "né le 1er novembre 1980 à Schiltigheim (67)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1995"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2001"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

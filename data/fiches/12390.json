@@ -1,0 +1,229 @@
+{
+    "id": 12390,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "massa",
+    "path": "/joueurs/massa/",
+    "title": "? Massa (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-02T16:22:38",
+    "modified": "2025-11-12T14:02:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Mass a joué 1 match amical pour Sochaux en 1931."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12390,
+        "url": "https://www.fcsochauxretro.com/uncategorized/massa/",
+        "path": "/uncategorized/massa/",
+        "slug": "massa",
+        "seo_title": "? Massa (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Massa</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>attaquant ?<strong><br></strong></p>\n<p><strong>A l'essai en :</strong> octobre 1931</p>\n<p><strong>Premier et dernier match amical joué : </strong>Cannes - Sochaux du 11/10/1931 : 1-1 </p>",
+        "header_lines": [
+            "? Massa",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : attaquant ?",
+            "A l'essai en : octobre 1931",
+            "Premier et dernier match amical joué : Cannes - Sochaux du 11/10/1931 : 1-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Massa",
+        "display_name": "? Massa",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1931-10",
+            "precision": "month",
+            "text": "octobre 1931"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant ?",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Massa"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant ?"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "octobre 1931"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Cannes - Sochaux du 11/10/1931 : 1-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

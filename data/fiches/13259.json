@@ -1,0 +1,44 @@
+{
+    "id": 13259,
+    "type": "page",
+    "status": "brouillon",
+    "publish_at": null,
+    "slug": "test-elfsight",
+    "path": "/test-elfsight/",
+    "title": "Test elfsight",
+    "categories": [],
+    "a_la_une": false,
+    "featured_image": null,
+    "date": "2025-03-29T14:35:46",
+    "modified": "2025-03-29T14:36:10",
+    "author": "fcsochauxretro",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [],
+    "key_figure": null,
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13259,
+        "url": "https://www.fcsochauxretro.com/test-elfsight/",
+        "path": "/test-elfsight/",
+        "slug": "test-elfsight",
+        "seo_title": "Test elfsight - FC Sochaux Retro - FCSM",
+        "header_html": "<!-- Elfsight RSS Feed | Untitled RSS Feed -->\n<div data-elfsight-app-lazy></div>",
+        "header_lines": []
+    },
+    "i18n": [],
+    "article": {
+        "kind": "article",
+        "heading": "",
+        "subtitle": "",
+        "header_html": "<!-- Elfsight RSS Feed | Untitled RSS Feed -->\n<div data-elfsight-app-lazy></div>",
+        "season": null
+    },
+    "tables": []
+}

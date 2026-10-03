@@ -1,0 +1,308 @@
+{
+    "id": 7497,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-baptiste-daguet",
+    "path": "/joueurs/jean-baptiste-daguet/",
+    "title": "Jean-Baptiste Daguet",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/11/inbound5689531048840289523.jpg",
+    "date": "2024-11-11T21:36:43",
+    "modified": "2025-07-16T22:27:43",
+    "author": "aurelie",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Jean-Baptiste Daguet a gardé les buts de Sochaux son club formateur lors de 2 matchs."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/Daguet-FF.png",
+            "caption": "Jean-Baptiste Daguet",
+            "credit": "France Football",
+            "caption_raw": "Jean-Baptiste Daguet – France Football"
+        },
+        {
+            "image": "2025/01/inbound2327265248299316008.jpg",
+            "caption": "Jean-Baptiste Daguet – Saison 2002-2003",
+            "credit": "fcsm",
+            "caption_raw": "Jean-Baptiste Daguet – Saison 2002-2003 – fcsm"
+        },
+        {
+            "image": "2025/01/inbound1399411357316826709.jpg",
+            "caption": "Jean-Baptiste Daguet – Saison 2000-2001",
+            "credit": "fcsm",
+            "caption_raw": "Jean-Baptiste Daguet – Saison 2000-2001 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7497,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-baptiste-daguet-7497/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-baptiste-daguet-7497/",
+        "slug": "jean-baptiste-daguet-7497",
+        "seo_title": "Jean-Baptiste Daguet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Baptiste Daguet</h2>\n<h4><strong>né le 12 mai 1980 à La Rochelle (17)</strong></h4>\n<p><strong>Taille : </strong>1m87</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1997 </p>\n<p><strong>Départ de Sochaux : </strong>juin 2003</p>\n<p><strong>Premier match joué :</strong> Lorient -Sochaux du 07/10/1999 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Fulham (Coupe Intertoto) du 07/08/2002 : 0-2</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de deuxième division en 2001</li>\n<li>Demi-finaliste de la coupe Intertoto 2002</li>\n<li>Finaliste de la coupe de la ligue 2003</li>\n</ul>",
+        "header_lines": [
+            "Jean-Baptiste Daguet",
+            "né le 12 mai 1980 à La Rochelle (17)",
+            "Taille : 1m87",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1997",
+            "Départ de Sochaux : juin 2003",
+            "Premier match joué : Lorient -Sochaux du 07/10/1999 : 0-0",
+            "Dernier match joué : Sochaux - Fulham (Coupe Intertoto) du 07/08/2002 : 0-2",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division en 2001",
+            "Demi-finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Baptiste",
+        "last_name": "Daguet",
+        "display_name": "Jean-Baptiste Daguet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1980-05-12",
+                "precision": "day",
+                "text": "12 mai 1980"
+            },
+            "place": {
+                "text": "La Rochelle (17)",
+                "city": "La Rochelle",
+                "department": "17",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 12 mai 1980 à La Rochelle (17)"
+        },
+        "death": null,
+        "height": "1m87",
+        "height_cm": 187,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1997-07",
+            "precision": "month",
+            "text": "juillet 1997"
+        },
+        "departure": {
+            "iso": "2003-06",
+            "precision": "month",
+            "text": "juin 2003"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lorient -Sochaux du 07/10/1999 : 0-0",
+        "last_match": "Sochaux - Fulham (Coupe Intertoto) du 07/08/2002 : 0-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division en 2001",
+            "Demi-finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Baptiste Daguet"
+            },
+            {
+                "label": null,
+                "value": "né le 12 mai 1980 à La Rochelle (17)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m87"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1997"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2003"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Lorient -Sochaux du 07/10/1999 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Fulham (Coupe Intertoto) du 07/08/2002 : 0-2"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division en 2001"
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe Intertoto 2002"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe Intertoto",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1999 - 2000",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "1",
+                    "0"
+                ],
+                [
+                    "2000 - 2001",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "0",
+                    "0"
+                ],
+                [
+                    "2001 - 2002",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "0",
+                    "0"
+                ],
+                [
+                    "2002 - 2003",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ]
+            ],
+            "source_table": 923
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,464 @@
+{
+    "id": 16811,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "neuchatel-xamax-sochaux-amical-09-07-2016",
+    "path": "/matchs/2016-2017/neuchatel-xamax-sochaux-amical-09-07-2016/",
+    "title": "Amical – Neuchâtel Xamax (L2 Sui) / Sochaux (L2) – 09/07/2016 – 2-2",
+    "categories": [
+        "2016-2017",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/Berenguer-Xamax.jpg",
+    "date": "2026-06-14T13:39:17",
+    "modified": "2026-07-23T08:30:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "2 nuls de suite."
+    },
+    "gallery": [
+        {
+            "image": "2026/06/Berenguer-Xamax.jpg",
+            "caption": "Florin Berenguer – Sochaux-Neuchâtel Xamax en pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Florin Berenguer – Sochaux-Neuchâtel Xamax en pré-saison 2016/2017 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16811,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-neuchatel-xamax-l2-sui-sochaux-l2-09-07-2016-2-2/",
+        "path": "/a-la-une/amical-neuchatel-xamax-l2-sui-sochaux-l2-09-07-2016-2-2/",
+        "slug": "amical-neuchatel-xamax-l2-sui-sochaux-l2-09-07-2016-2-2",
+        "seo_title": "Amical - Neuchâtel Xamax (L2 Sui) / Sochaux (L2) - 09/07/2016 - 2-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (L2) / Neuchâtel Xamax (L2 Sui) : 2-2</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 9 juillet 2016</strong></h4>\n<h4><strong>Centre sportif de Couvet (Suisse)<br></strong></h4>\n<h4><strong>450 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Tschudi<br></strong></h4>\n<p>Buts : Corbaz 4' et Doudin 8' pour Neuchâtel ; Honorat 11' et Robinet 31' pour Sochaux</p>",
+        "header_lines": [
+            "Sochaux (L2) / Neuchâtel Xamax (L2 Sui) : 2-2",
+            "Match amical",
+            "Samedi 9 juillet 2016",
+            "Centre sportif de Couvet (Suisse)",
+            "450 spectateurs",
+            "Arbitre : M. Tschudi",
+            "Buts : Corbaz 4' et Doudin 8' pour Neuchâtel ; Honorat 11' et Robinet 31' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2016-07-09",
+        "date_text": "Samedi 9 juillet 2016",
+        "season": "2016-2017",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Neuchâtel Xamax",
+            "level": "L2 Sui"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-2",
+        "score_line": "Sochaux (L2) / Neuchâtel Xamax (L2 Sui) : 2-2",
+        "result": "N",
+        "stadium": "Centre sportif de Couvet (Suisse)",
+        "spectators": 450,
+        "spectators_text": "450 spectateurs",
+        "referee": "M. Tschudi",
+        "goals_text": "Corbaz 4' et Doudin 8' pour Neuchâtel ; Honorat 11' et Robinet 31' pour Sochaux",
+        "goals": [
+            {
+                "team": "Neuchâtel",
+                "scorers": "Corbaz 4' et Doudin 8'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Honorat 11' et Robinet 31'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "WERNER Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OGIER Florent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "TEIKEU Adolphe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "87"
+                    ],
+                    "red": [],
+                    "cards_text": "🟨 87'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ALPHONSE Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "RAMARE Johann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "↓ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HONORAT Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "11"
+                    ],
+                    "goals_text": "⚽ 11'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "31"
+                    ],
+                    "goals_text": "⚽ 31'",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ANDRIATSIMA Faneva",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "33"
+                    ],
+                    "red": [],
+                    "cards_text": "🟨 33'",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PREVOT Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SENHADJI Rayan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ILAIMAHARITRA Marco",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MARTIN Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAHAM Sofiane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FRANCOIS Martin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "↑ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SAO Moussa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "CARTIER Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1919
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

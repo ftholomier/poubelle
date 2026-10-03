@@ -1,0 +1,249 @@
+{
+    "id": 6405,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierre-arnold",
+    "path": "/joueurs/pierre-arnold/",
+    "title": "Pierre Arnold",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/2-e1740154869185.jpg",
+    "date": "2024-10-26T21:51:36",
+    "modified": "2026-03-28T17:15:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": "<ul>\n<li>Pierre Arnold est un gardien local qui évoluait à l’AS Audincourt jusqu’en 1942.</li>\n<li>En juillet 1942, Sochaux, qui vient de fusionner avec l’AS Valentigney, recherche un bon gardien local pour devenir le remplaçant du titulaire, Coulon.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li><strong>Saison 1942/1943</strong></li>\n<li>Remplaçant de Roger Guérin-Coulon, Pierre Arnold joue le plus souvent avec l’équipe réserve.<br>Il dispute son premier match le 10 janvier 1943 contre le RCFC Besançon, en Coupe de France (zone interdite). Un premier clean sheet, puisque Sochaux l’emporte 1 à 0.</li>\n<li>Le 23 février 1943, en championnat face à Troyes, il est de nouveau titularisé. Un deuxième clean sheet, puisque Sochaux-Valentigney s’impose 6 à 0 ! Il est bien à l’abri derrière une défense Mattler-Grizetti-Rué, qui le protège efficacement.</li>\n<li>Le 7 mars, c’est encore lui qui est dans les buts face à Lens en demi-finale. Sochaux subit une débâcle 5 à 0, et il commet une faute de main sur le troisième but.</li>\n<li>Il profite de la blessure de Coulon pour enchaîner. Il joue à Rennes en championnat le 21 mars pour un match nul 2-2. Mais sa taille fait défaut sur le premier but rennais. Il semble en effet mesurer moins de 1,70 m, ce qui est peu pour un gardien, même à cette époque.</li>\n<li>Ce sera son 4e et dernier match avec Sochaux.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>On ne connaît pas précisément son parcours après son départ de Sochaux, mais on le retrouve en 1951 comme gardien de but du club d’Arc-lès-Gray, qui évolue alors en troisième division nationale. C’est le plus grand club de Haute-Saône à cette époque, et il y joue notamment avec Guichardan et Hublard, deux autres anciens Sochaliens. On perd sa trace après cela.</li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Pierre Arnold a joué 4 matchs pour le FC Sochaux-Valentigney durant la guerre. Il a notamment disputé deux rencontres officielles en coupe de France de la zone interdite."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/2-e1740154869185.jpg",
+            "caption": "Pierre Arnold",
+            "credit": "Espérance Arc-les-Gray",
+            "caption_raw": "Pierre Arnold – Espérance Arc-les-Gray"
+        },
+        {
+            "image": "2024/10/1943-03-11-Le_Miroir_des_sports-photos-match-Lens-2.jpg",
+            "caption": "Pierre Arnold",
+            "credit": "Le miroir des sports",
+            "caption_raw": "Pierre Arnold – Le miroir des sports"
+        },
+        {
+            "image": "2024/10/1943-03-11-Le_Miroir_des_sports-photos-match-Lens-17.jpg",
+            "caption": "Pierre Arnold",
+            "credit": "Le miroir des sports",
+            "caption_raw": "Pierre Arnold – Le miroir des sports"
+        },
+        {
+            "image": "2026/03/Arc-les-Gray-1951-Pierre-Arnold-debout-deuxieme-en-partant-de-la-droite.jpg",
+            "caption": "Pierre Arnold avec Arc-les-Gray en 1951. C’est le deuxième en partant de la droite, debout au second rang.",
+            "credit": "",
+            "caption_raw": "Pierre Arnold avec Arc-les-Gray en 1951. C’est le deuxième en partant de la droite, debout au second rang."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6405,
+        "url": "https://www.fcsochauxretro.com/a-la-une/pierre-arnold/",
+        "path": "/a-la-une/pierre-arnold/",
+        "slug": "pierre-arnold",
+        "seo_title": "Pierre Arnold - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pierre Arnold</h2>\n<h4><strong>né le 30 juin 1923 à Audincourt (?) </strong></h4>\n<h4><strong>Décédé le ? à ? </strong></h4>\n<p><strong>Taille : </strong>1m70 ?</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1942</p>\n<p><strong>Départ de Sochaux : </strong>juillet 1943</p>\n<p><strong>Premier match :</strong> RCFC Besançon - Sochaux du 10/01/1943 : 0-1</p>\n<p><strong>Dernier match : </strong>Sochaux - Reims du 11/04/1943 : 2-1</p>",
+        "header_lines": [
+            "Pierre Arnold",
+            "né le 30 juin 1923 à Audincourt (?)",
+            "Décédé le ? à ?",
+            "Taille : 1m70 ?",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1942",
+            "Départ de Sochaux : juillet 1943",
+            "Premier match : RCFC Besançon - Sochaux du 10/01/1943 : 0-1",
+            "Dernier match : Sochaux - Reims du 11/04/1943 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Pierre",
+        "last_name": "Arnold",
+        "display_name": "Pierre Arnold",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1923-06-30",
+                "precision": "day",
+                "text": "30 juin 1923"
+            },
+            "place": {
+                "text": "Audincourt (?)",
+                "city": "Audincourt",
+                "department": null,
+                "country": "?",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 juin 1923 à Audincourt (?)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "?"
+            },
+            "place": {
+                "text": "?",
+                "city": "?",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le ? à ?"
+        },
+        "height": "1m70 ?",
+        "height_cm": 170,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1942-07",
+            "precision": "month",
+            "text": "juillet 1942"
+        },
+        "departure": {
+            "iso": "1943-07",
+            "precision": "month",
+            "text": "juillet 1943"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "RCFC Besançon - Sochaux du 10/01/1943 : 0-1",
+        "last_match": "Sochaux - Reims du 11/04/1943 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierre Arnold"
+            },
+            {
+                "label": null,
+                "value": "né le 30 juin 1923 à Audincourt (?)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le ? à ?"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70 ?"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1942"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 1943"
+            },
+            {
+                "label": "Premier match",
+                "value": "RCFC Besançon - Sochaux du 10/01/1943 : 0-1"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - Reims du 11/04/1943 : 2-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1942-1943",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "3",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "3",
+                    "0"
+                ]
+            ],
+            "source_table": 726
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

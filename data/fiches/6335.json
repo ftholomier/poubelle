@@ -1,0 +1,483 @@
+{
+    "id": 6335,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "auxerre-sochaux-division-1-11-02-1990",
+    "path": "/matchs/1989-1990/auxerre-sochaux-division-1-11-02-1990/",
+    "title": "J25 – Auxerre / Sochaux – D1 – 11/02/1990 – 1-1",
+    "categories": [
+        "1989-1990",
+        "a-la-une",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/onzmond-mars-90.png",
+    "date": "2024-10-21T20:06:49",
+    "modified": "2025-12-30T14:23:07",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Pour le déplacement en Bourgogne, Takac récupère Thierry Laurey de retour de suspension. En revanche, Henry, Thomas et Lucas sont toujours blessés.</li>\n<li>Point commun entre Auxerre et Sochaux : en coupe UEFA les 2 équipes ont ou vont affronter la Fiorentina. </li>\n<li>Auxerre est 12e du championnat à 7 points du FCSM 3e</li>\n<li>Guy Roux espère une réaction contre Sochaux après la défaite 3-1 concédée au Parc par son équipe face au Racing Paris 1.  </li>\n<li>Pour conserver sa 3e place au général, le FCSM compte bien faire un résultat à Auxerre et y prendre un ou plusieurs points. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>11' :</strong> Frappe trop croisée de Tihy de 25 mètres. </li>\n<li><strong>24' :</strong> Frappe sèche de Dutuel bloquée par Rousset. </li>\n<li><strong>29' :</strong> Perte de balle de Boli que Carrasco récupère. Il lance Morin lequel fusille Martini. L'arbitre annule le but pour un hors-jeu ! </li>\n<li><strong>38' :</strong> Contre rapide sochalien. Morin rate sa passe pour Carrasco et Boli sauve son camp de justesse. </li>\n<li><strong>49' :</strong> Frappe de Scifo sur Rousset. </li>\n<li><strong>55' :</strong> Kovacs croise trop son tir dans la surface. </li>\n<li><strong>61' :</strong> Décalé par Carrasco, Morin croise trop son tir.</li>\n<li><strong>62' : Ouverture de Laurey pour Carrasco qui transmet à Lada lequel bat Martini d'un tir à ras de terre. (0-1)</strong></li>\n<li><strong>75' : Centre de Guerreiro pour Kovacs. Sa première reprise de la tête est touchée par Rousset. Le ballon lui revient sur la tête et il marque. (1-1)</strong></li>\n<li><strong>88' :</strong> Boli hérite d'une balle au second poteau sur un coup franc. Son tir est bloqué par Rousset. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Sylvester Takac :</strong> <em>\" Nous avons retrouvé rigueur et discipline. Je suis satisfait \". </em></li>\n<li><strong>Mecha Bazdarevic :</strong> <em>\" Ce fut un match tendu. Je me sens mieux. Je souffre moins des adducteurs. \" </em></li>\n<li><strong>Eric Lada :</strong> <em>\" Il y a longtemps que je n'avais pas marqué. Ce but va me faire du bien \".</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Hadzibegic est convaincu que Sochaux est <em>\" un candidat sérieux à l'Europe \".</em></li>\n<li>La Fiorentina vient de se qualifier en quart de finale de la coupe UEFA. L'équipe affrontera Auxerre  après l'élimination du Dynamo Kiev. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1980",
+        "text": "c'est la premiçre fois depuis 1980, et un but de Yannick Stopyra, que Sochaux ouvre le score sur la pelouse d'Auxerre."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/onzmond-mars-90-n3.png",
+            "caption": "Rousset",
+            "credit": "Onze Mondial",
+            "caption_raw": "Rousset – Onze Mondial"
+        },
+        {
+            "image": "2024/10/onze-mond-juin-91.png",
+            "caption": "Carrasco",
+            "credit": "Onze Mondial",
+            "caption_raw": "Carrasco – Onze Mondial"
+        },
+        {
+            "image": "2024/10/er-aux-soch.png",
+            "caption": "Laurey, Bricon , Lada",
+            "credit": "Est Républicain",
+            "caption_raw": "Laurey, Bricon , Lada – Est Républicain"
+        },
+        {
+            "image": "2024/10/onzmond-mars-90-n2.png",
+            "caption": "Tihy",
+            "credit": "Onze Mondial",
+            "caption_raw": "Tihy – Onze Mondial"
+        },
+        {
+            "image": "2024/10/onzmond-mars-90.png",
+            "caption": "Croci et Tihy",
+            "credit": "Onze Mondial",
+            "caption_raw": "Croci et Tihy – Onze Mondial"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "I4K2Nu4UylM",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6335,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j-25-auxerre-sochaux-d1-11-02-1990-1-1/",
+        "path": "/a-la-une/j-25-auxerre-sochaux-d1-11-02-1990-1-1/",
+        "slug": "j-25-auxerre-sochaux-d1-11-02-1990-1-1",
+        "seo_title": "J25 - Auxerre / Sochaux - D1 - 11/02/1990 - 1-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Auxerre / Sochaux : 1-1</strong></h2>\n<h4><strong>25e journée de D1</strong></h4>\n<h4><strong>Dimanche 11 février 1990</strong></h4>\n<h4><strong>Stade Abbé Deschamps (89)</strong></h4>\n<h4><strong>5 000  spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Veniel</strong></h4>\n<p>But : Kovacs 75' pour Auxerre ; Lada 62' pour Sochaux.  </p>",
+        "header_lines": [
+            "Auxerre / Sochaux : 1-1",
+            "25e journée de D1",
+            "Dimanche 11 février 1990",
+            "Stade Abbé Deschamps (89)",
+            "5 000 spectateurs",
+            "Arbitrage : M. Veniel",
+            "But : Kovacs 75' pour Auxerre ; Lada 62' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1990-02-11",
+        "date_text": "Dimanche 11 février 1990",
+        "season": "1989-1990",
+        "competition": "Championnat",
+        "competition_label": "Division 1",
+        "competition_code": "D1",
+        "round": "J25",
+        "round_text": "25e journée de D1",
+        "home": {
+            "name": "Auxerre",
+            "level": null
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-1",
+        "score_line": "Auxerre / Sochaux : 1-1",
+        "result": "N",
+        "stadium": "Stade Abbé Deschamps (89)",
+        "spectators": 5000,
+        "spectators_text": "5 000 spectateurs",
+        "referee": "M. Veniel",
+        "goals_text": "Kovacs 75' pour Auxerre ; Lada 62' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Auxerre",
+                "scorers": "Kovacs 75'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Lada 62'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "11",
+                "text": "Frappe trop croisée de Tihy de 25 mètres.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "24",
+                "text": "Frappe sèche de Dutuel bloquée par Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "29",
+                "text": "Perte de balle de Boli que Carrasco récupère. Il lance Morin lequel fusille Martini. L'arbitre annule le but pour un hors-jeu !",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "38",
+                "text": "Contre rapide sochalien. Morin rate sa passe pour Carrasco et Boli sauve son camp de justesse.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "49",
+                "text": "Frappe de Scifo sur Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "55",
+                "text": "Kovacs croise trop son tir dans la surface.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "61",
+                "text": "Décalé par Carrasco, Morin croise trop son tir.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "62",
+                "text": "Ouverture de Laurey pour Carrasco qui transmet à Lada lequel bat Martini d'un tir à ras de terre. (0-1)",
+                "goal": true,
+                "score": "0-1"
+            },
+            {
+                "minute": "75",
+                "text": "Centre de Guerreiro pour Kovacs. Sa première reprise de la tête est touchée par Rousset. Le ballon lui revient sur la tête et il marque. (1-1)",
+                "goal": true,
+                "score": "1-1"
+            },
+            {
+                "minute": "88",
+                "text": "Boli hérite d'une balle au second poteau sur un coup franc. Son tir est bloqué par Rousset.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Sylvester Takac",
+                "text": "Nous avons retrouvé rigueur et discipline. Je suis satisfait \"."
+            },
+            {
+                "who": "Mecha Bazdarevic",
+                "text": "Ce fut un match tendu. Je me sens mieux. Je souffre moins des adducteurs."
+            },
+            {
+                "who": "Eric Lada",
+                "text": "Il y a longtemps que je n'avais pas marqué. Ce but va me faire du bien \"."
+            }
+        ],
+        "breves": [
+            "Hadzibegic est convaincu que Sochaux est \" un candidat sérieux à l'Europe \".",
+            "La Fiorentina vient de se qualifier en quart de finale de la coupe UEFA. L'équipe affrontera Auxerre après l'élimination du Dynamo Kiev."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "80"
+                    ],
+                    "red": [],
+                    "cards_text": "J 80'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRICON Pierre-Yves",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TIHY Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "22"
+                    ],
+                    "red": [],
+                    "cards_text": "J 22'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LAUREY Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "62"
+                    ],
+                    "goals_text": "62'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "60"
+                    ],
+                    "red": [],
+                    "cards_text": "J 60'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CARRASCO Francisco",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "81",
+                    "sub_text": "Sortie 81'",
+                    "yellow": [
+                        "65"
+                    ],
+                    "red": [],
+                    "cards_text": "J 65'",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DUFOURNET Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "OUDJANI Chérif",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "81",
+                    "sub_out": null,
+                    "sub_text": "Entrée 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Silvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 576
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

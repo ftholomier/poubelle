@@ -1,0 +1,274 @@
+{
+    "id": 8607,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "louis-dessonet",
+    "path": "/joueurs/louis-dessonet/",
+    "title": "Louis Dessonet",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/35.jpg",
+    "date": "2024-12-08T00:49:20",
+    "modified": "2026-01-31T13:39:07",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques incomplètes.</p>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "32",
+        "text": "Louis Dessonet aurait joué 32 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/35.jpg",
+            "caption": "Louis Dessonet",
+            "credit": "Le Musée des gardiens de but",
+            "caption_raw": "Louis Dessonet – Le Musée des gardiens de but"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8607,
+        "url": "https://www.fcsochauxretro.com/a-la-une/louis-dessonet/",
+        "path": "/a-la-une/louis-dessonet/",
+        "slug": "louis-dessonet",
+        "seo_title": "Louis Dessonet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Louis Dessonet</h2>\n<h4><strong>né le 25 mai 1915 à Colmar (68) </strong></h4>\n<h4><strong>Décédé le 27 mars 2019 à La Seyne-sur-Mer (83)</strong></h4>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1945</p>\n<p><strong>Départ de Sochaux : </strong>juin 1950</p>\n<p><strong>Premier match joué :</strong> Marseille - Sochaux du 27/01/1946 : 3-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Nice du 12/03/1950 : 0-3</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de deuxième division 1946</li>\n</ul>",
+        "header_lines": [
+            "Louis Dessonet",
+            "né le 25 mai 1915 à Colmar (68)",
+            "Décédé le 27 mars 2019 à La Seyne-sur-Mer (83)",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1945",
+            "Départ de Sochaux : juin 1950",
+            "Premier match joué : Marseille - Sochaux du 27/01/1946 : 3-1",
+            "Dernier match joué : Sochaux - Nice du 12/03/1950 : 0-3",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division 1946"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Louis",
+        "last_name": "Dessonet",
+        "display_name": "Louis Dessonet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1915-05-25",
+                "precision": "day",
+                "text": "25 mai 1915"
+            },
+            "place": {
+                "text": "Colmar (68)",
+                "city": "Colmar",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 mai 1915 à Colmar (68)"
+        },
+        "death": {
+            "date": {
+                "iso": "2019-03-27",
+                "precision": "day",
+                "text": "27 mars 2019"
+            },
+            "place": {
+                "text": "La Seyne-sur-Mer (83)",
+                "city": "La Seyne-sur-Mer",
+                "department": "83",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 27 mars 2019 à La Seyne-sur-Mer (83)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1945-07",
+            "precision": "month",
+            "text": "juillet 1945"
+        },
+        "departure": {
+            "iso": "1950-06",
+            "precision": "month",
+            "text": "juin 1950"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Marseille - Sochaux du 27/01/1946 : 3-1",
+        "last_match": "Sochaux - Nice du 12/03/1950 : 0-3",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division 1946"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Louis Dessonet"
+            },
+            {
+                "label": null,
+                "value": "né le 25 mai 1915 à Colmar (68)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 27 mars 2019 à La Seyne-sur-Mer (83)"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1945"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1950"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Marseille - Sochaux du 27/01/1946 : 3-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nice du 12/03/1950 : 0-3"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 1946"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1945 - 1946",
+                    "-",
+                    "-",
+                    "?",
+                    "?",
+                    "?",
+                    "?"
+                ],
+                [
+                    "1946 - 1947",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?"
+                ],
+                [
+                    "1947 - 1948",
+                    "11",
+                    "0",
+                    "-",
+                    "-",
+                    "11",
+                    "0"
+                ],
+                [
+                    "1948 - 1949",
+                    "2",
+                    "0",
+                    "-",
+                    "-",
+                    "2",
+                    "0"
+                ],
+                [
+                    "1949 - 1950",
+                    "7",
+                    "0",
+                    "-",
+                    "-",
+                    "7",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "20",
+                    "0",
+                    "?",
+                    "?",
+                    "20",
+                    "0"
+                ]
+            ],
+            "source_table": 962
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

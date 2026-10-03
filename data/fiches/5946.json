@@ -1,0 +1,395 @@
+{
+    "id": 5946,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "paul-wartel",
+    "path": "/joueurs/paul-wartel/",
+    "title": "Paul Wartel",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-principaux",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/61b22f3a0725b688078667.webp",
+    "date": "2024-10-11T22:33:27",
+    "modified": "2025-09-10T10:49:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Carrière de joueur",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "346",
+        "text": "Paul Wartel a disputé 346 matches pour Sochaux, 126 comme joueur et 220 comme entraîneur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-80.jpg",
+            "caption": "Paul Wartel",
+            "credit": "dr",
+            "caption_raw": "Paul Wartel – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 5946,
+        "url": "https://www.fcsochauxretro.com/a-la-une/paul-wartel/",
+        "path": "/a-la-une/paul-wartel/",
+        "slug": "paul-wartel",
+        "seo_title": "Paul Wartel - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Paul Wartel</h2>\n<h4><strong>né le 26 avril 1902 à Puteaux (92) </strong></h4>\n<h4><strong>Décédé le 27 avril 1976 à Antibes (06)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>défenseur ou milieu de terrain</p>\n<p><strong>Puis : </strong>Entraîneur</p>\n<p><strong>Carrière de joueur</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juin 1929</p>\n<p><strong>Départ de Sochaux : </strong>juin 1933</p>\n<p><strong>Premier match joué :</strong> Dasle - Sochaux du 08/09/1929 : 2-8</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Cannes du 30/04/1933 : 2-1</p>\n<p><strong>Carrière d'entraîneur</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juin 1946</p>\n<p><strong>Départ de Sochaux : </strong>juin 1947</p>\n<p><strong>Premier match entraîné :</strong> Angers - Sochaux du 18/08/1946 : 0-2</p>\n<p><strong>Dernier match entraîné :</strong> Sochaux - Antibes du 15/06/1947 : 8-0</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juin 1947</p>\n<p><strong>Départ de Sochaux : </strong>mars 1952</p>\n<p><strong>Premier match entraîné :</strong> Stade Français - Sochaux du 24/08/1947 : 2-2</p>\n<p><strong>Dernier match entraîné :</strong> Sochaux - Marseille du 23/03/1952 : 1-1</p>\n<p><strong>Troisième passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> octobre 1959</p>\n<p><strong>Départ de Sochaux : </strong>juin 1960</p>\n<p><strong>Premier match entraîné :</strong> Sochaux - Toulouse du 25/10/1959 : 0-2</p>\n<p><strong>Dernier match entraîné :</strong> Sochaux - Racing Paris du 28/05/1960 : 3-6</p>\n<p><strong>Palmarès avec Sochaux</strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1930 et 1931 (joueur)</li>\n<li>Finaliste du tournoi de l'Exposition de Bruxelles 1930 (joueur)</li>\n<li>Champion de Première série du District du Pays de Montbéliard 1931 (joueur)</li>\n<li>Vainqueur de la Coupe Peugeot 1931 (joueur)</li>\n<li>Champion de Division d'honneur de la Ligue de Bourgogne Franche-Comté 1932 (joueur)</li>\n<li>Champion de deuxième division 1947 (entraîneur)</li>\n</ul>",
+        "header_lines": [
+            "Paul Wartel",
+            "né le 26 avril 1902 à Puteaux (92)",
+            "Décédé le 27 avril 1976 à Antibes (06)",
+            "Taille : 1m80",
+            "Pied : droitier",
+            "Poste : défenseur ou milieu de terrain",
+            "Puis : Entraîneur",
+            "Carrière de joueur",
+            "Arrivée à Sochaux : juin 1929",
+            "Départ de Sochaux : juin 1933",
+            "Premier match joué : Dasle - Sochaux du 08/09/1929 : 2-8",
+            "Dernier match joué : Sochaux - Cannes du 30/04/1933 : 2-1",
+            "Carrière d'entraîneur",
+            "Premier passage",
+            "Arrivée à Sochaux : juin 1946",
+            "Départ de Sochaux : juin 1947",
+            "Premier match entraîné : Angers - Sochaux du 18/08/1946 : 0-2",
+            "Dernier match entraîné : Sochaux - Antibes du 15/06/1947 : 8-0",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juin 1947",
+            "Départ de Sochaux : mars 1952",
+            "Premier match entraîné : Stade Français - Sochaux du 24/08/1947 : 2-2",
+            "Dernier match entraîné : Sochaux - Marseille du 23/03/1952 : 1-1",
+            "Troisième passage",
+            "Arrivée à Sochaux : octobre 1959",
+            "Départ de Sochaux : juin 1960",
+            "Premier match entraîné : Sochaux - Toulouse du 25/10/1959 : 0-2",
+            "Dernier match entraîné : Sochaux - Racing Paris du 28/05/1960 : 3-6",
+            "Palmarès avec Sochaux",
+            "Vainqueur du Challenge de Turckheim 1930 et 1931 (joueur)",
+            "Finaliste du tournoi de l'Exposition de Bruxelles 1930 (joueur)",
+            "Champion de Première série du District du Pays de Montbéliard 1931 (joueur)",
+            "Vainqueur de la Coupe Peugeot 1931 (joueur)",
+            "Champion de Division d'honneur de la Ligue de Bourgogne Franche-Comté 1932 (joueur)",
+            "Champion de deuxième division 1947 (entraîneur)"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur",
+            "entraineur"
+        ],
+        "first_name": "Paul",
+        "last_name": "Wartel",
+        "display_name": "Paul Wartel",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1902-04-26",
+                "precision": "day",
+                "text": "26 avril 1902"
+            },
+            "place": {
+                "text": "Puteaux (92)",
+                "city": "Puteaux",
+                "department": "92",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 26 avril 1902 à Puteaux (92)"
+        },
+        "death": {
+            "date": {
+                "iso": "1976-04-27",
+                "precision": "day",
+                "text": "27 avril 1976"
+            },
+            "place": {
+                "text": "Antibes (06)",
+                "city": "Antibes",
+                "department": "06",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 27 avril 1976 à Antibes (06)"
+        },
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "défenseur ou milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1929-06",
+            "precision": "month",
+            "text": "juin 1929"
+        },
+        "departure": {
+            "iso": "1933-06",
+            "precision": "month",
+            "text": "juin 1933"
+        },
+        "arrival_coach": {
+            "iso": "1946-06",
+            "precision": "month",
+            "text": "juin 1946"
+        },
+        "departure_coach": {
+            "iso": "1947-06",
+            "precision": "month",
+            "text": "juin 1947"
+        },
+        "first_match": "Dasle - Sochaux du 08/09/1929 : 2-8",
+        "last_match": "Sochaux - Cannes du 30/04/1933 : 2-1",
+        "first_goal": null,
+        "first_match_coached": "Angers - Sochaux du 18/08/1946 : 0-2",
+        "last_match_coached": "Sochaux - Antibes du 15/06/1947 : 8-0",
+        "honours": [],
+        "then": [
+            "Entraîneur"
+        ],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Paul Wartel"
+            },
+            {
+                "label": null,
+                "value": "né le 26 avril 1902 à Puteaux (92)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 27 avril 1976 à Antibes (06)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur ou milieu de terrain"
+            },
+            {
+                "label": "Puis",
+                "value": "Entraîneur"
+            },
+            {
+                "label": null,
+                "value": "Carrière de joueur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1929"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1933"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Dasle - Sochaux du 08/09/1929 : 2-8"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Cannes du 30/04/1933 : 2-1"
+            },
+            {
+                "label": null,
+                "value": "Carrière d'entraîneur"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1946"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1947"
+            },
+            {
+                "label": "Premier match entraîné",
+                "value": "Angers - Sochaux du 18/08/1946 : 0-2"
+            },
+            {
+                "label": "Dernier match entraîné",
+                "value": "Sochaux - Antibes du 15/06/1947 : 8-0"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1947"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "mars 1952"
+            },
+            {
+                "label": "Premier match entraîné",
+                "value": "Stade Français - Sochaux du 24/08/1947 : 2-2"
+            },
+            {
+                "label": "Dernier match entraîné",
+                "value": "Sochaux - Marseille du 23/03/1952 : 1-1"
+            },
+            {
+                "label": null,
+                "value": "Troisième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "octobre 1959"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1960"
+            },
+            {
+                "label": "Premier match entraîné",
+                "value": "Sochaux - Toulouse du 25/10/1959 : 0-2"
+            },
+            {
+                "label": "Dernier match entraîné",
+                "value": "Sochaux - Racing Paris du 28/05/1960 : 3-6"
+            },
+            {
+                "label": null,
+                "value": "Palmarès avec Sochaux"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930 et 1931 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Finaliste du tournoi de l'Exposition de Bruxelles 1930 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Champion de Première série du District du Pays de Montbéliard 1931 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la Coupe Peugeot 1931 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Champion de Division d'honneur de la Ligue de Bourgogne Franche-Comté 1932 (joueur)"
+            },
+            {
+                "label": null,
+                "value": "Champion de deuxième division 1947 (entraîneur)"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

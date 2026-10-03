@@ -1,0 +1,161 @@
+{
+    "id": 12523,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "abdessamed-bounacer",
+    "path": "/joueurs/abdessamed-bounacer/",
+    "title": "Abdessamed Bounacer (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/8-1.jpg",
+    "date": "2025-03-04T20:48:09",
+    "modified": "2026-05-16T19:34:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>Né le 11 décembre 2004 à Staouéli, dans la banlieue d’Alger, Abdessamed Bounacer est un défenseur central algérien considéré comme l’un des talents les plus prometteurs de sa génération en Algérie.</li>\n<li>Grand gabarit capable d’évoluer des deux pieds, il se démarque par sa sérénité dans la relance, son intelligence de placement et sa qualité technique inhabituelle pour un joueur défensif.</li>\n<li>Il effectue toute sa formation à l’USM Alger, où il gravit rapidement les échelons. Repéré pour sa maturité et son aisance balle au pied, il intègre régulièrement les catégories supérieures avant de découvrir l’équipe première à l’âge de 19 ans.</li>\n<li>En 2023, il dispute ses premières rencontres professionnelles et entre dans l’histoire du club en devenant le plus jeune joueur de l’USMA à participer à une compétition continentale africaine, lors d’un match face au Saint-Éloi Lupopo en Coupe de la Confédération.</li>\n<li>Une précocité qui attire rapidement l’attention des recruteurs européens. Plusieurs clubs français suivent alors son évolution et il est notamment évoqué du côté du Paris FC ainsi que du FC Sochaux-Montbéliard.</li>\n<li>En avril 2023, il est convié pour une semaine d’essai à Sochaux. Le club anticipe alors sa saison suivante en Ligue 2. Mais le club ne donne pas suite immédiatement et, deux mois plus tard, il se retrouve proche de la disparition.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Malgré son jeune âge, il participe aux succès de l’USM Alger sur la scène africaine. Le club algérois remporte la Coupe de la Confédération CAF en 2023 puis la Supercoupe de la CAF quelques mois plus tard contre Al Ahly, offrant à Bounacer une expérience précieuse du haut niveau continental.</li>\n<li><strong>Saison 2024/2025</strong></li>\n<li>À l’été 2024, il signe au Qatar à Al-Sadd. En raison d'une blessure à la cheville il joue peu. Quelques mmois après son arrivée il est prêté à Al-Shamal.</li>\n<li>International algérien chez les jeunes, d’abord avec les U18 puis les U23, Abdessamed Bounacer a disputé 26 matchs en 2025/2026.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "2023",
+        "text": "Abdessamed Bounacer a été à l'essai à Sochaux en avril 2023."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/8-1.jpg",
+            "caption": "Abdessamed Bounacer",
+            "credit": "footballdatabase.eu",
+            "caption_raw": "Abdessamed Bounacer – footballdatabase.eu"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12523,
+        "url": "https://www.fcsochauxretro.com/uncategorized/abdessamed-bounacer/",
+        "path": "/uncategorized/abdessamed-bounacer/",
+        "slug": "abdessamed-bounacer",
+        "seo_title": "Abdessamed Bounacer (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Abdessamed Bounacer</strong></h2>\n<h4><strong>né le 11 décembre 2004 à Staoueli (Algérie)</strong><strong>  </strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>83 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>défenseur central </p>\n<p><strong>A l'essai en : </strong> avril  2023</p>",
+        "header_lines": [
+            "Abdessamed Bounacer",
+            "né le 11 décembre 2004 à Staoueli (Algérie)",
+            "Taille : 1m88",
+            "Poids : 83 kg",
+            "Pied : ambidextre",
+            "Poste : défenseur central",
+            "A l'essai en : avril 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Abdessamed",
+        "last_name": "Bounacer",
+        "display_name": "Abdessamed Bounacer",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2023-04",
+            "precision": "month",
+            "text": "avril 2023"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2004-12-11",
+                "precision": "day",
+                "text": "11 décembre 2004"
+            },
+            "place": {
+                "text": "Staoueli (Algérie)",
+                "city": "Staoueli",
+                "department": null,
+                "country": "Algérie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 11 décembre 2004 à Staoueli (Algérie)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "83 kg",
+        "weight_kg": 83,
+        "foot": "ambidextre",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Abdessamed Bounacer"
+            },
+            {
+                "label": null,
+                "value": "né le 11 décembre 2004 à Staoueli (Algérie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "83 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "avril 2023"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

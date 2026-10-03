@@ -1,0 +1,250 @@
+{
+    "id": 8810,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "zygmunt-janczewski",
+    "path": "/joueurs/zygmunt-janczewski/",
+    "title": "Zygmunt Janczewski",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/66395.jpg",
+    "date": "2024-12-18T22:43:39",
+    "modified": "2025-07-08T06:53:43",
+    "author": "tanguy",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "132",
+        "text": "Zygmunt Janczewski a joué 132 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/66395.jpg",
+            "caption": "Janczewski",
+            "credit": "dr",
+            "caption_raw": "Janczewski – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8810,
+        "url": "https://www.fcsochauxretro.com/a-la-une/zygmunt-janczewski/",
+        "path": "/a-la-une/zygmunt-janczewski/",
+        "slug": "zygmunt-janczewski",
+        "seo_title": "Zygmunt Janczewski - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Zygmunt Janczewski</h2>\n<h4><strong>né le 26 janvier 1926 à Reims (51)</strong></h4>\n<h4><strong>Décédé le 5 janvier 1989 à Pessac (33)</strong></h4>\n<p><strong>Taille : </strong>1m74</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière latéral droit</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1948</p>\n<p><strong>Départ de Sochaux : </strong>juin 1953</p>\n<p><strong>Premier match joué :</strong> SO Montpellier - Sochaux 09/09/1948 : 2-1</p>\n<p><strong>Dernier match joué :</strong>  Metz - Sochaux du 24/05/1953 : 1-2</p>",
+        "header_lines": [
+            "Zygmunt Janczewski",
+            "né le 26 janvier 1926 à Reims (51)",
+            "Décédé le 5 janvier 1989 à Pessac (33)",
+            "Taille : 1m74",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "Arrivée à Sochaux : juillet 1948",
+            "Départ de Sochaux : juin 1953",
+            "Premier match joué : SO Montpellier - Sochaux 09/09/1948 : 2-1",
+            "Dernier match joué : Metz - Sochaux du 24/05/1953 : 1-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Zygmunt",
+        "last_name": "Janczewski",
+        "display_name": "Zygmunt Janczewski",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1926-01-26",
+                "precision": "day",
+                "text": "26 janvier 1926"
+            },
+            "place": {
+                "text": "Reims (51)",
+                "city": "Reims",
+                "department": "51",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 26 janvier 1926 à Reims (51)"
+        },
+        "death": {
+            "date": {
+                "iso": "1989-01-05",
+                "precision": "day",
+                "text": "5 janvier 1989"
+            },
+            "place": {
+                "text": "Pessac (33)",
+                "city": "Pessac",
+                "department": "33",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 5 janvier 1989 à Pessac (33)"
+        },
+        "height": "1m74",
+        "height_cm": 174,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1948-07",
+            "precision": "month",
+            "text": "juillet 1948"
+        },
+        "departure": {
+            "iso": "1953-06",
+            "precision": "month",
+            "text": "juin 1953"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "SO Montpellier - Sochaux 09/09/1948 : 2-1",
+        "last_match": "Metz - Sochaux du 24/05/1953 : 1-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Zygmunt Janczewski"
+            },
+            {
+                "label": null,
+                "value": "né le 26 janvier 1926 à Reims (51)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 5 janvier 1989 à Pessac (33)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m74"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1948"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1953"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "SO Montpellier - Sochaux 09/09/1948 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Metz - Sochaux du 24/05/1953 : 1-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1938-1939",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "1945-1946",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "Total",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            ],
+            "source_table": 231
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

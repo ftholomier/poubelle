@@ -1,0 +1,237 @@
+{
+    "id": 9400,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "amine-karam",
+    "path": "/joueurs/amine-karam/",
+    "title": "Amine Karam",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/telechargement-19.jpg",
+    "date": "2024-12-22T11:17:55",
+    "modified": "2024-12-22T11:28:05",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Amine Karam a joué 3 saisons avec la réserve de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/telechargement-19.jpg",
+            "caption": "Amine Karam",
+            "credit": "Saint-Vit",
+            "caption_raw": "Amine Karam – Saint-Vit"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9400,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amine-karam/",
+        "path": "/a-la-une/amine-karam/",
+        "slug": "amine-karam",
+        "seo_title": "Amine Karam - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Amine Karam</h2>\n<h4><strong>né le 3 janvier 1984 à Besançon (25) </strong></h4>\n<p><strong>Taille : </strong>1m71</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2002</p>\n<p><strong>Départ de Sochaux : </strong>juin 2005</p>",
+        "header_lines": [
+            "Amine Karam",
+            "né le 3 janvier 1984 à Besançon (25)",
+            "Taille : 1m71",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : juillet 2002",
+            "Départ de Sochaux : juin 2005"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Amine",
+        "last_name": "Karam",
+        "display_name": "Amine Karam",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1984-01-03",
+                "precision": "day",
+                "text": "3 janvier 1984"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 janvier 1984 à Besançon (25)"
+        },
+        "death": null,
+        "height": "1m71",
+        "height_cm": 171,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2002-07",
+            "precision": "month",
+            "text": "juillet 2002"
+        },
+        "departure": {
+            "iso": "2005-06",
+            "precision": "month",
+            "text": "juin 2005"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Amine Karam"
+            },
+            {
+                "label": null,
+                "value": "né le 3 janvier 1984 à Besançon (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m71"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2005"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "3"
+                ],
+                [
+                    "1998-1999",
+                    "14",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "14",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "14",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "24",
+                    "3"
+                ]
+            ],
+            "source_table": 456
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,243 @@
+{
+    "id": 8267,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-claude-hernandez",
+    "path": "/joueurs/jean-claude-hernandez/",
+    "title": "Jean-Claude Hernandez",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/jeanclaude_hernandez.jpg",
+    "date": "2024-12-11T22:03:14",
+    "modified": "2025-07-16T22:22:05",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Jean-Claude Hernandez a gardé les buts de Sochaux à 5 reprises."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/artfichier_790899_8409140_201911110741119.jpg",
+            "caption": "Jean-Claude Hernandez",
+            "credit": "DR",
+            "caption_raw": "Jean-Claude Hernandez – DR"
+        },
+        {
+            "image": "2024/12/jeanclaude_hernandez.jpg",
+            "caption": "Jean-Claude Hernandez",
+            "credit": "dr",
+            "caption_raw": "Jean-Claude Hernandez – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8267,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-claude-hernandez/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-claude-hernandez/",
+        "slug": "jean-claude-hernandez",
+        "seo_title": "Jean-Claude Hernandez - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Claude  Hernandez</h2>\n<h4><strong>né le 15 décembre 1936 à Oran (Algérie)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1960</p>\n<p><strong>Départ de Sochaux : </strong>décembre 1960</p>\n<p><strong>Premier match joué </strong>: RCFC Besançon - Sochaux du 02/10/1960 : 2-2</p>\n<p><strong>Dernier match joué : </strong>Strasbourg<strong> - </strong>Sochaux du 13/11/1960 : 4-0 </p>",
+        "header_lines": [
+            "Jean-Claude Hernandez",
+            "né le 15 décembre 1936 à Oran (Algérie)",
+            "Taille : 1m78",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1960",
+            "Départ de Sochaux : décembre 1960",
+            "Premier match joué : RCFC Besançon - Sochaux du 02/10/1960 : 2-2",
+            "Dernier match joué : Strasbourg - Sochaux du 13/11/1960 : 4-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Claude",
+        "last_name": "Hernandez",
+        "display_name": "Jean-Claude Hernandez",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1936-12-15",
+                "precision": "day",
+                "text": "15 décembre 1936"
+            },
+            "place": {
+                "text": "Oran (Algérie)",
+                "city": "Oran",
+                "department": null,
+                "country": "Algérie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 décembre 1936 à Oran (Algérie)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1960-07",
+            "precision": "month",
+            "text": "juillet 1960"
+        },
+        "departure": {
+            "iso": "1960-12",
+            "precision": "month",
+            "text": "décembre 1960"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "RCFC Besançon - Sochaux du 02/10/1960 : 2-2",
+        "last_match": "Strasbourg - Sochaux du 13/11/1960 : 4-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Claude Hernandez"
+            },
+            {
+                "label": null,
+                "value": "né le 15 décembre 1936 à Oran (Algérie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1960"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "décembre 1960"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "RCFC Besançon - Sochaux du 02/10/1960 : 2-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Strasbourg - Sochaux du 13/11/1960 : 4-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

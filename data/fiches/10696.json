@@ -1,0 +1,222 @@
+{
+    "id": 10696,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-pierre-roca",
+    "path": "/joueurs/jean-pierre-roca/",
+    "title": "Jean-Pierre Roca",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/01/55-5.jpg",
+    "date": "2025-01-26T22:59:58",
+    "modified": "2025-07-16T22:12:27",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Jean-Pierre Roca est resté 3 saisons à Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/8-7.jpg",
+            "caption": "Jean-Pierre Roca",
+            "credit": "Collection privée famille Barret",
+            "caption_raw": "Jean-Pierre Roca – Collection privée famille Barret"
+        },
+        {
+            "image": "2025/01/55-5.jpg",
+            "caption": "Jean-Pierre Roca",
+            "credit": "Collection privée famille Barret",
+            "caption_raw": "Jean-Pierre Roca – Collection privée famille Barret"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10696,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-pierre-roca/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-pierre-roca/",
+        "slug": "jean-pierre-roca",
+        "seo_title": "Jean-Pierre Roca - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Pierre Roca</h2>\n<h4><strong>né le xx xx 1940 à Montpellier (34) </strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong>xx kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1963</p>\n<p><strong>Départ de Sochaux : </strong>juin 1966</p>",
+        "header_lines": [
+            "Jean-Pierre Roca",
+            "né le xx xx 1940 à Montpellier (34)",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1963",
+            "Départ de Sochaux : juin 1966"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Pierre",
+        "last_name": "Roca",
+        "display_name": "Jean-Pierre Roca",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1940",
+                "precision": "year",
+                "text": "xx xx 1940"
+            },
+            "place": {
+                "text": "Montpellier (34)",
+                "city": "Montpellier",
+                "department": "34",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx xx 1940 à Montpellier (34)"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1963-07",
+            "precision": "month",
+            "text": "juillet 1963"
+        },
+        "departure": {
+            "iso": "1966-06",
+            "precision": "month",
+            "text": "juin 1966"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Pierre Roca"
+            },
+            {
+                "label": null,
+                "value": "né le xx xx 1940 à Montpellier (34)"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1963"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1966"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

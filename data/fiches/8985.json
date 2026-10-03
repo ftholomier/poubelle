@@ -1,0 +1,279 @@
+{
+    "id": 8985,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-jacques-domoraud",
+    "path": "/joueurs/jean-jacques-domoraud/",
+    "title": "Jean-Jacques Domoraud",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/inbound240215983256666507.jpg",
+    "date": "2024-12-15T11:59:03",
+    "modified": "2025-07-16T22:22:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "16",
+        "text": "Jean-Jacques Domoraud a joué 16 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/si-cela-fait-longtemps-que-jean-jacques-domoraud-n-est-plus-sur-les-terrains-de-football-il-s-etait-un-temps-adonne-a-sa-passion-de-la-musique-photo-er-1622625923.jpg",
+            "caption": "Jean-Jacques Domoraud",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean-Jacques Domoraud – L’est républicain"
+        },
+        {
+            "image": "2024/12/inbound3257581370099645865.jpg",
+            "caption": "Jean-Jacques Domoraud – Saison 2001-2002",
+            "credit": "fcsm",
+            "caption_raw": "Jean-Jacques Domoraud – Saison 2001-2002 – fcsm"
+        },
+        {
+            "image": "2024/12/inbound504544017744401581.jpg",
+            "caption": "Jean-Jacques Domoraud – Saison 2002-2003",
+            "credit": "fcsm",
+            "caption_raw": "Jean-Jacques Domoraud – Saison 2002-2003 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8985,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-jacques-domoraud/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-jacques-domoraud/",
+        "slug": "jean-jacques-domoraud",
+        "seo_title": "Jean-Jacques Domoraud - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Jacques  Domoraud</h2>\n<h4><strong>né le 1er mars 1981 à Man (Côte d'Ivoire)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids :</strong> 80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>International ivoirien (2 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2001</p>\n<p><strong>Départ de Sochaux : </strong>juin 2003</p>\n<p><strong>Premier match joué </strong>: Bordeaux - Sochaux du 23/01/2002 : 0-1</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Sedan du 24/05/2003 : 2-1</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Demi-finaliste de la coupe Intertoto 2002</li>\n<li>Finaliste de la coupe de la ligue 2003</li>\n</ul>",
+        "header_lines": [
+            "Jean-Jacques Domoraud",
+            "né le 1er mars 1981 à Man (Côte d'Ivoire)",
+            "Taille : 1m80",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "International ivoirien (2 sélections)",
+            "Arrivée à Sochaux : juillet 2001",
+            "Départ de Sochaux : juin 2003",
+            "Premier match joué : Bordeaux - Sochaux du 23/01/2002 : 0-1",
+            "Dernier match joué : Sochaux - Sedan du 24/05/2003 : 2-1",
+            "Palmarès avec Sochaux :",
+            "Demi-finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Jacques",
+        "last_name": "Domoraud",
+        "display_name": "Jean-Jacques Domoraud",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1981-03-01",
+                "precision": "day",
+                "text": "1er mars 1981"
+            },
+            "place": {
+                "text": "Man (Côte d'Ivoire)",
+                "city": "Man",
+                "department": null,
+                "country": "Côte d'Ivoire",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er mars 1981 à Man (Côte d'Ivoire)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International ivoirien (2 sélections)"
+        ],
+        "arrival": {
+            "iso": "2001-07",
+            "precision": "month",
+            "text": "juillet 2001"
+        },
+        "departure": {
+            "iso": "2003-06",
+            "precision": "month",
+            "text": "juin 2003"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Bordeaux - Sochaux du 23/01/2002 : 0-1",
+        "last_match": "Sochaux - Sedan du 24/05/2003 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Demi-finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Jacques Domoraud"
+            },
+            {
+                "label": null,
+                "value": "né le 1er mars 1981 à Man (Côte d'Ivoire)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": null,
+                "value": "International ivoirien (2 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2001"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2003"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Bordeaux - Sochaux du 23/01/2002 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Sedan du 24/05/2003 : 2-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe Intertoto 2002"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1 / Ligue 1",
+                "Buts",
+                "Coupe Intertoto",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2001 - 2002",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "2002 - 2003",
+                    "12",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "2",
+                    "0",
+                    "15",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "13",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "2",
+                    "0",
+                    "16",
+                    "0"
+                ]
+            ],
+            "source_table": 1005
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

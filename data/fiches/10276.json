@@ -1,0 +1,222 @@
+{
+    "id": 10276,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mathieu-patouillet",
+    "path": "/joueurs/mathieu-patouillet/",
+    "title": "Mathieu Patouillet",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-15.jpg",
+    "date": "2025-01-10T06:51:09",
+    "modified": "2025-01-10T07:00:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "Mathieu Patouillet a joué xx matchs pour Sochaux.",
+        "text": ""
+    },
+    "gallery": [
+        {
+            "image": "2025/01/plus-de-peur-que-de-mal-pour-mathieu-patouillet-photo-christian-lemontey-1720293487.jpg",
+            "caption": "Mathieu Patouillet",
+            "credit": "L’est républicain",
+            "caption_raw": "Mathieu Patouillet – L’est républicain"
+        },
+        {
+            "image": "2025/01/mathieu-patouillet-s-est-blesse-ce-vendredi-photo-lionel-vadam-1720172500.jpg",
+            "caption": "Mathieu Patouillet",
+            "credit": "L’est républicain",
+            "caption_raw": "Mathieu Patouillet – L’est républicain"
+        },
+        {
+            "image": "2025/01/mathieu-patouillet-fait-l-unanimite-depuis-qu-il-est-le-gardien-titulaire-du-fcsm-photo-lionel-vadam-1702403274.jpg",
+            "caption": "Mathieu Patouillet",
+            "credit": "L’est républicain",
+            "caption_raw": "Mathieu Patouillet – L’est républicain"
+        },
+        {
+            "image": "2025/01/mathieu-patouillet-et-sa-defense-progressent-nettement-en-matiere-de-communication-depuis-deux-mois-photo-lionel-vadam-1705776873.jpg",
+            "caption": "Mathieu Patouillet",
+            "credit": "L’est républicain",
+            "caption_raw": "Mathieu Patouillet – L’est républicain"
+        },
+        {
+            "image": "2025/01/mathieu-patouillet-a-enfile-pour-la-premiere-fois-la-tunique-sochalienne-ce-mercredi-photo-lionel-vadam-1694627218.jpg",
+            "caption": "Mathieu Patouillet",
+            "credit": "L’est républicain",
+            "caption_raw": "Mathieu Patouillet – L’est républicain"
+        },
+        {
+            "image": "2025/01/GD9rcOjWMAAgjED.jpg",
+            "caption": "Mathieu Patouillet – “Mat Patouille”",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Mathieu Patouillet – “Mat Patouille” – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10276,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mathieu-patouillet/",
+        "path": "/a-la-une/mathieu-patouillet/",
+        "slug": "mathieu-patouillet",
+        "seo_title": "Mathieu Patouillet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mathieu Patouillet</h2>\n<h4><strong>né le 20 février 2004 à Lyon (69)</strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>International français U18, U19, U20 (12 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>septembre 2023</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match :</strong> Mélisey-Saint Barthélémy - Sochaux du 15/10/2023 : 0-4</p>\n<p><strong>Dernier match : </strong></p>",
+        "header_lines": [
+            "Mathieu Patouillet",
+            "né le 20 février 2004 à Lyon (69)",
+            "Taille : 1m88",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "International français U18, U19, U20 (12 sélections)",
+            "Arrivée à Sochaux : septembre 2023",
+            "Départ de Sochaux :",
+            "Premier match : Mélisey-Saint Barthélémy - Sochaux du 15/10/2023 : 0-4",
+            "Dernier match :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mathieu",
+        "last_name": "Patouillet",
+        "display_name": "Mathieu Patouillet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2004-02-20",
+                "precision": "day",
+                "text": "20 février 2004"
+            },
+            "place": {
+                "text": "Lyon (69)",
+                "city": "Lyon",
+                "department": "69",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 20 février 2004 à Lyon (69)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [
+            "International français U18, U19, U20 (12 sélections)"
+        ],
+        "arrival": {
+            "iso": "2023-09",
+            "precision": "month",
+            "text": "septembre 2023"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Mélisey-Saint Barthélémy - Sochaux du 15/10/2023 : 0-4",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mathieu Patouillet"
+            },
+            {
+                "label": null,
+                "value": "né le 20 février 2004 à Lyon (69)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": null,
+                "value": "International français U18, U19, U20 (12 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match",
+                "value": "Mélisey-Saint Barthélémy - Sochaux du 15/10/2023 : 0-4"
+            },
+            {
+                "label": "Dernier match",
+                "value": ""
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

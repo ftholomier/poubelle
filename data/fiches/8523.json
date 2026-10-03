@@ -1,0 +1,181 @@
+{
+    "id": 8523,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "georges-dorget",
+    "path": "/joueurs/georges-dorget/",
+    "title": "Georges Dorget",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/34.jpg",
+    "date": "2024-12-07T13:40:39",
+    "modified": "2025-07-16T21:20:29",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "11",
+        "text": "Georges Dorget a joué 11 matchs avec la réserve de Sochaux en deuxième division avant de repartir à Vittel puis Blénod où il fera toute sa carrière."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/34.jpg",
+            "caption": "Georges Dorget",
+            "credit": "CS Blénod",
+            "caption_raw": "Georges Dorget – CS Blénod"
+        },
+        {
+            "image": "2024/12/3-7.jpg",
+            "caption": "Georges Dorget",
+            "credit": "L’est républicain",
+            "caption_raw": "Georges Dorget – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8523,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/georges-dorget/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/georges-dorget/",
+        "slug": "georges-dorget",
+        "seo_title": "Georges Dorget - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Georges Dorget</h2>\n<h4><strong>né le 22 aout 1949 à Villers-sous-Prény (54)</strong></h4>\n<p><strong>Taille :</strong> 1m76</p>\n<p><strong>Poids :</strong> 72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> gardien de but</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1970</p>\n<p><strong>Départ de Sochaux :</strong> juin 1972</p>",
+        "header_lines": [
+            "Georges Dorget",
+            "né le 22 aout 1949 à Villers-sous-Prény (54)",
+            "Taille : 1m76",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1970",
+            "Départ de Sochaux : juin 1972"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Georges",
+        "last_name": "Dorget",
+        "display_name": "Georges Dorget",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1949-08-22",
+                "precision": "day",
+                "text": "22 aout 1949"
+            },
+            "place": {
+                "text": "Villers-sous-Prény (54)",
+                "city": "Villers-sous-Prény",
+                "department": "54",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 aout 1949 à Villers-sous-Prény (54)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1970-07",
+            "precision": "month",
+            "text": "juillet 1970"
+        },
+        "departure": {
+            "iso": "1972-06",
+            "precision": "month",
+            "text": "juin 1972"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Georges Dorget"
+            },
+            {
+                "label": null,
+                "value": "né le 22 aout 1949 à Villers-sous-Prény (54)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1970"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1972"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

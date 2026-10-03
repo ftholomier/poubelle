@@ -1,0 +1,270 @@
+{
+    "id": 10392,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-paul-pfertzel",
+    "path": "/joueurs/jean-paul-pfertzel/",
+    "title": "Jean-Paul Pfertzel",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/01/5-32.jpg",
+    "date": "2025-01-17T07:49:23",
+    "modified": "2025-07-16T22:13:30",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "80",
+        "text": "Jean-Paul Pfertzel a joué 80 matchs (8 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-32.jpg",
+            "caption": "Jean-Paul Pfertzel",
+            "credit": "dr",
+            "caption_raw": "Jean-Paul Pfertzel – dr"
+        },
+        {
+            "image": "2025/01/4.jpg",
+            "caption": "Jean-Paul Pfertzel",
+            "credit": "dr",
+            "caption_raw": "Jean-Paul Pfertzel – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10392,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-paul-pfertzel/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-paul-pfertzel/",
+        "slug": "jean-paul-pfertzel",
+        "seo_title": "Jean-Paul Pfertzel - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Paul Pfertzel</h2>\n<h4><strong>Né le 27 novembre 1950 à Kingersheim (68)  </strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids : </strong>71 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1973</p>\n<p><strong>Départ de Sochaux : </strong>juin 1977</p>\n<p><strong>Premier match joué :</strong> Sochaux - Amiens du 06/01/1974 : 2-2</p>\n<p><strong>Dernier match joué :</strong> Nice - Sochaux du 08/06/1977 : 1-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Bordeaux du 07/13/1975 : 3-0 - But à la 7'</p>",
+        "header_lines": [
+            "Jean-Paul Pfertzel",
+            "Né le 27 novembre 1950 à Kingersheim (68)",
+            "Taille : 1m81",
+            "Poids : 71 kg",
+            "Pied : droitier",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1973",
+            "Départ de Sochaux : juin 1977",
+            "Premier match joué : Sochaux - Amiens du 06/01/1974 : 2-2",
+            "Dernier match joué : Nice - Sochaux du 08/06/1977 : 1-0",
+            "Premier but marqué : Sochaux - Bordeaux du 07/13/1975 : 3-0 - But à la 7'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Paul",
+        "last_name": "Pfertzel",
+        "display_name": "Jean-Paul Pfertzel",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1950-11-27",
+                "precision": "day",
+                "text": "27 novembre 1950"
+            },
+            "place": {
+                "text": "Kingersheim (68)",
+                "city": "Kingersheim",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 27 novembre 1950 à Kingersheim (68)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "droitier",
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1973-07",
+            "precision": "month",
+            "text": "juillet 1973"
+        },
+        "departure": {
+            "iso": "1977-06",
+            "precision": "month",
+            "text": "juin 1977"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Amiens du 06/01/1974 : 2-2",
+        "last_match": "Nice - Sochaux du 08/06/1977 : 1-0",
+        "first_goal": "Sochaux - Bordeaux du 07/13/1975 : 3-0 - But à la 7'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Paul Pfertzel"
+            },
+            {
+                "label": null,
+                "value": "Né le 27 novembre 1950 à Kingersheim (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1973"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1977"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Amiens du 06/01/1974 : 2-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Nice - Sochaux du 08/06/1977 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Bordeaux du 07/13/1975 : 3-0 - But à la 7'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

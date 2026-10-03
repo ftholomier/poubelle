@@ -1,0 +1,242 @@
+{
+    "id": 10710,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "remi-rousseau",
+    "path": "/joueurs/remi-rousseau/",
+    "title": "Rémi Rousseau",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/rousseau_remy_ugocapeto.jpg",
+    "date": "2025-01-26T13:30:17",
+    "modified": "2025-01-26T20:57:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Rémy Rousseau a joué 6 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/rousseau_remy_ugocapeto.jpg",
+            "caption": "Rémy Rousseau – SCO Angers 1919",
+            "credit": "Hugo Capeto L’équipe",
+            "caption_raw": "Rémy Rousseau – SCO Angers 1919 – Hugo Capeto L’équipe"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10710,
+        "url": "https://www.fcsochauxretro.com/a-la-une/remi-rousseau/",
+        "path": "/a-la-une/remi-rousseau/",
+        "slug": "remi-rousseau",
+        "seo_title": "Rémi Rousseau - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Rémi Rousseau</strong></h2>\n<h4><strong>né le 13 octobre 1931 à Lion-en-Beauce (45) </strong></h4>\n<h4><strong>Décédé le 28 octobre 2006 à Béziers (34)</strong></h4>\n<p><strong>Taille : </strong>1m68</p>\n<p><strong>Poids : </strong>68kg</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1954</p>\n<p><strong>Départ de Sochaux : </strong>juin 1955</p>\n<p><strong>Premier match joué :</strong> Sochaux - AS Troyes-Savigny du 26/09/1954 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Angers - Sochaux du 17/04/1955 : 3-2</p>",
+        "header_lines": [
+            "Rémi Rousseau",
+            "né le 13 octobre 1931 à Lion-en-Beauce (45)",
+            "Décédé le 28 octobre 2006 à Béziers (34)",
+            "Taille : 1m68",
+            "Poids : 68kg",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1954",
+            "Départ de Sochaux : juin 1955",
+            "Premier match joué : Sochaux - AS Troyes-Savigny du 26/09/1954 : 0-0",
+            "Dernier match joué : Angers - Sochaux du 17/04/1955 : 3-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Rémi",
+        "last_name": "Rousseau",
+        "display_name": "Rémi Rousseau",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1931-10-13",
+                "precision": "day",
+                "text": "13 octobre 1931"
+            },
+            "place": {
+                "text": "Lion-en-Beauce (45)",
+                "city": "Lion-en-Beauce",
+                "department": "45",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 13 octobre 1931 à Lion-en-Beauce (45)"
+        },
+        "death": {
+            "date": {
+                "iso": "2006-10-28",
+                "precision": "day",
+                "text": "28 octobre 2006"
+            },
+            "place": {
+                "text": "Béziers (34)",
+                "city": "Béziers",
+                "department": "34",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 28 octobre 2006 à Béziers (34)"
+        },
+        "height": "1m68",
+        "height_cm": 168,
+        "weight": "68kg",
+        "weight_kg": 68,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1954-07",
+            "precision": "month",
+            "text": "juillet 1954"
+        },
+        "departure": {
+            "iso": "1955-06",
+            "precision": "month",
+            "text": "juin 1955"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - AS Troyes-Savigny du 26/09/1954 : 0-0",
+        "last_match": "Angers - Sochaux du 17/04/1955 : 3-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Rémi Rousseau"
+            },
+            {
+                "label": null,
+                "value": "né le 13 octobre 1931 à Lion-en-Beauce (45)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 28 octobre 2006 à Béziers (34)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m68"
+            },
+            {
+                "label": "Poids",
+                "value": "68kg"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1954"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1955"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - AS Troyes-Savigny du 26/09/1954 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Angers - Sochaux du 17/04/1955 : 3-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

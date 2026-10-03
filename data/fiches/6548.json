@@ -1,0 +1,207 @@
+{
+    "id": 6548,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "maurice-banide",
+    "path": "/joueurs/maurice-banide/",
+    "title": "Maurice Banide (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/11/Carte-Racing-Club-de-Paris-Football-Maurice-Banide2.jpg",
+    "date": "2024-11-02T21:55:28",
+    "modified": "2026-03-29T21:59:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière avant le FCSM",
+            "html": "<ul>\n<li><strong>Saisons 1928 à 1930</strong><br>Maurice Banide débute à l’AS Strasbourg au plus haut niveau entre 1928 et 1930.<br>C’est également à cette époque qu’il est sélectionné pour la première fois en équipe de France. Il totalisera 9 sélections pour 1 but, inscrit face à la Hongrie.</li>\n<li>A l'intersaison il part dans le club alsacien rival du FC Mulhouse. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Il ne dispute qu’un seul match amical avec Sochaux, le 29 novembre 1930. Prêté par le FC Mulhouse, l’international français réalise une bonne prestation face à Lille (4-4) et inscrit même un but. Il ne reste toutefois pas au club et retourne ensuite au FC Mulhouse.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li><strong>Saisons 1930 à 1932</strong><br>En 1930, il rejoint le club de Mulhouse pour deux saisons. C’est durant cette période qu’il est prêté pour un match à Sochaux. Avec le club du Haut-Rhin, il remporte le championnat d’Alsace en 1931 et 1932, ainsi que la Coupe Peugeot en 1932.</li>\n<li><strong>Saisons 1932 à 1934</strong><br>Il rejoint la région parisienne et évolue au CA Paris, d’abord en D2 puis en D1.</li>\n<li><strong>Saisons 1934 à 1942</strong><br>Il signe au Racing Club de Paris, où il reste huit saisons et termine sa carrière en 1942, en pleine guerre.<br>Il devient champion de France en 1936 et remporte la Coupe de France à trois reprises : en 1936, 1939 et 1940.</li>\n<li><strong>Carrière d’entraîneur</strong><br>Il devient entraîneur-joueur du RC Paris durant deux saisons pendant la guerre, jusqu’en 1943.</li>\n<li><strong>Saison 1947/1948</strong><br>Il devient entraîneur du CA Paris en troisième division.</li>\n<li><strong>Saisons 1948 à 1950</strong><br>Il entraîne les Chamois Niortais, également en troisième division.</li>\n<li>Par la suite, il poursuit sa carrière d’entraîneur en région parisienne, à l’AS Poissy puis à Villiers.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Maurice Banide a joué 1 match et marqué 1 but pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/Maurice_Banide.jpg",
+            "caption": "Maurice Banide",
+            "credit": "",
+            "caption_raw": "Maurice Banide"
+        },
+        {
+            "image": "2024/11/Carte-Racing-Club-de-Paris-Football-Maurice-Banide.webp",
+            "caption": "Maurice Banide",
+            "credit": "Image publicitaire “La Pie qui chante”",
+            "caption_raw": "Maurice Banide – Image publicitaire “La Pie qui chante”"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6548,
+        "url": "https://www.fcsochauxretro.com/uncategorized/maurice-banide-6548/",
+        "path": "/uncategorized/maurice-banide-6548/",
+        "slug": "maurice-banide-6548",
+        "seo_title": "Maurice Banide (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Maurice Banide</strong></h2>\n<h4><strong>né le 19 mai 1905 à Montpellier (34)</strong></h4>\n<h4><strong>Décédé le 20 mai 1995 à Montmorency (95)  </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>International français (9 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>novembre 1930 </p>\n<p><strong>Départ de Sochaux : </strong>novembre 1930 </p>\n<p><strong>Premier et dernier match joué et premier but marqué :</strong> Sochaux - Lille du 29/11/1930 : 4-4</p>",
+        "header_lines": [
+            "Maurice Banide",
+            "né le 19 mai 1905 à Montpellier (34)",
+            "Décédé le 20 mai 1995 à Montmorency (95)",
+            "Taille : 1m80",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "International français (9 sélections)",
+            "Arrivée à Sochaux : novembre 1930",
+            "Départ de Sochaux : novembre 1930",
+            "Premier et dernier match joué et premier but marqué : Sochaux - Lille du 29/11/1930 : 4-4"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Maurice",
+        "last_name": "Banide",
+        "display_name": "Maurice Banide",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1905-05-19",
+                "precision": "day",
+                "text": "19 mai 1905"
+            },
+            "place": {
+                "text": "Montpellier (34)",
+                "city": "Montpellier",
+                "department": "34",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 mai 1905 à Montpellier (34)"
+        },
+        "death": {
+            "date": {
+                "iso": "1995-05-20",
+                "precision": "day",
+                "text": "20 mai 1995"
+            },
+            "place": {
+                "text": "Montmorency (95)",
+                "city": "Montmorency",
+                "department": "95",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 20 mai 1995 à Montmorency (95)"
+        },
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français (9 sélections)"
+        ],
+        "arrival": {
+            "iso": "1930-11",
+            "precision": "month",
+            "text": "novembre 1930"
+        },
+        "departure": {
+            "iso": "1930-11",
+            "precision": "month",
+            "text": "novembre 1930"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Maurice Banide"
+            },
+            {
+                "label": null,
+                "value": "né le 19 mai 1905 à Montpellier (34)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 20 mai 1995 à Montmorency (95)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": null,
+                "value": "International français (9 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "novembre 1930"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "novembre 1930"
+            },
+            {
+                "label": "Premier et dernier match joué et premier but marqué",
+                "value": "Sochaux - Lille du 29/11/1930 : 4-4"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

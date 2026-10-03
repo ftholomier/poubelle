@@ -1,0 +1,177 @@
+{
+    "id": 10489,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "zakaria-fdaouch",
+    "path": "/joueurs/zakaria-fdaouch/",
+    "title": "Zakaria Fdaouch (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-17.jpg",
+    "date": "2025-03-06T21:25:25",
+    "modified": "2025-11-12T14:10:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Alors que son club belge connait de graves difficultés financières, Zakaria Fdaouch est laissé libre. Son frère négocie pour lui avec plusieurs clubs dont Sochaux et Nancy. </li>\n<li>Joueur et dirigeants sochaliens se mettent d'accord oralement pour une signature le 1er janvier à l'ouverture du mercato d'hiver. Mais après 10 jours d'entrainement avec ses futurs coéquipiers et une remise à niveau physique, le joueur et son agent ont de nouvelles exigences hors du deal de départ. Le club fini par refuser la dernière demande et coupe les ponts. Le joueur part signer à Nancy quelques jours plus tard...  </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Après 10 jours d'entraînement avec Sochaux, Zakaria Fdaouch fait volte-face et refuse de signer à Sochaux malgré un engagement oral."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/zakaria-fdaouch-s-entrainait-avec-le-reste-du-groupe-sochalien-ce-11-decembre-a-bonal-photo-lionel-vadam-1733942781.jpg",
+            "caption": "Zakaria Fdaouch",
+            "credit": "L’est républicain",
+            "caption_raw": "Zakaria Fdaouch – L’est républicain"
+        },
+        {
+            "image": "2025/03/zakaria-fdaouch-s-entrainait-avec-le-reste-du-groupe-sochalien-ce-11-decembre-a-bonal-photo-lionel-vadam-1733942752.jpg",
+            "caption": "Zakaria Fdaouch",
+            "credit": "L’est républicain",
+            "caption_raw": "Zakaria Fdaouch – L’est républicain"
+        },
+        {
+            "image": "2025/03/coup-de-theatre-zakaria-fdaouch-ne-signera-pas-au-fc-sochaux-1734802939.jpg",
+            "caption": "Zakaria Fdaouch",
+            "credit": "L’est républicain",
+            "caption_raw": "Zakaria Fdaouch – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10489,
+        "url": "https://www.fcsochauxretro.com/uncategorized/zakaria-fdaouch/",
+        "path": "/uncategorized/zakaria-fdaouch/",
+        "slug": "zakaria-fdaouch",
+        "seo_title": "Zakaria Fdaouch (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Zakaria Fdaouch</h2>\n<h4><strong>Né le 11 mars 1997 à Mont-de-Marsan (40)</strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>69 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>ailier gauche</p>\n<p><strong>A l'essai en : </strong>décembre 2024 </p>",
+        "header_lines": [
+            "Zakaria Fdaouch",
+            "Né le 11 mars 1997 à Mont-de-Marsan (40)",
+            "Taille : 1m72",
+            "Poids : 69 kg",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "A l'essai en : décembre 2024"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Zakaria",
+        "last_name": "Fdaouch",
+        "display_name": "Zakaria Fdaouch",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2024-12",
+            "precision": "month",
+            "text": "décembre 2024"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1997-03-11",
+                "precision": "day",
+                "text": "11 mars 1997"
+            },
+            "place": {
+                "text": "Mont-de-Marsan (40)",
+                "city": "Mont-de-Marsan",
+                "department": "40",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 11 mars 1997 à Mont-de-Marsan (40)"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "69 kg",
+        "weight_kg": 69,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Zakaria Fdaouch"
+            },
+            {
+                "label": null,
+                "value": "Né le 11 mars 1997 à Mont-de-Marsan (40)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "69 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "décembre 2024"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

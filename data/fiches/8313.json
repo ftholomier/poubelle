@@ -1,0 +1,202 @@
+{
+    "id": 8313,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "liassine-cadamuro",
+    "path": "/joueurs/liassine-cadamuro/",
+    "title": "Liassine Cadamuro",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/images-12.jpg",
+    "date": "2024-11-29T23:53:04",
+    "modified": "2025-03-05T15:39:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Liassine Cadamuro a gagné la coupe Gambardella 2007 mais n'a joué aucun match avec l'équipe professionnelle de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/images-12.jpg",
+            "caption": "Liassine Cadamuro",
+            "credit": "dr",
+            "caption_raw": "Liassine Cadamuro – dr"
+        },
+        {
+            "image": "2024/11/fc-sochaux.jpg",
+            "caption": "Finale Gambardella 2007",
+            "credit": "AFP",
+            "caption_raw": "Finale Gambardella 2007 – AFP"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8313,
+        "url": "https://www.fcsochauxretro.com/a-la-une/liassine-cadamuro/",
+        "path": "/a-la-une/liassine-cadamuro/",
+        "slug": "liassine-cadamuro",
+        "seo_title": "Liassine Cadamuro - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Liassine Cadamuro Bentaïba</h2>\n<h4><strong>né le 5 mars 1988 à Toulouse (31) </strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>81 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Poste : </strong>Arrière droit ou défenseur central</p>\n<p><strong>International algérien (15 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2005</p>\n<p><strong>Départ de Sochaux : </strong>juin 2008</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2007</li>\n</ul>",
+        "header_lines": [
+            "Liassine Cadamuro Bentaïba",
+            "né le 5 mars 1988 à Toulouse (31)",
+            "Taille : 1m88",
+            "Poids : 81 kg",
+            "Pied : gaucher",
+            "Poste : Arrière droit ou défenseur central",
+            "International algérien (15 sélections, 1 but)",
+            "Arrivée à Sochaux : juillet 2005",
+            "Départ de Sochaux : juin 2008",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Liassine",
+        "last_name": "Cadamuro",
+        "display_name": "Liassine Cadamuro",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1988-03-05",
+                "precision": "day",
+                "text": "5 mars 1988"
+            },
+            "place": {
+                "text": "Toulouse (31)",
+                "city": "Toulouse",
+                "department": "31",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 5 mars 1988 à Toulouse (31)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "81 kg",
+        "weight_kg": 81,
+        "foot": "gaucher",
+        "position": "Arrière droit ou défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International algérien (15 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2005-07",
+            "precision": "month",
+            "text": "juillet 2005"
+        },
+        "departure": {
+            "iso": "2008-06",
+            "precision": "month",
+            "text": "juin 2008"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Liassine Cadamuro Bentaïba"
+            },
+            {
+                "label": null,
+                "value": "né le 5 mars 1988 à Toulouse (31)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "81 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "Arrière droit ou défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International algérien (15 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2005"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2008"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2007"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,180 @@
+{
+    "id": 14967,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "stone-mambo",
+    "path": "/joueurs/stone-mambo/",
+    "title": "Stone Mambo (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/Stone_Mambo.jpg",
+    "date": "2025-07-02T16:40:59",
+    "modified": "2025-11-18T23:07:49",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<p>Au chômage après avoir quitté Orléans, Stone Mambo est en stage à l'UNFP quand il accepte un essai à Sochaux. Il reste une semaine, s'apprête à s'engager avec le club mais Rodez alors en ligue 2 le contacte et lui offre un contrat de deux saisons. Il stoppe son essai et s'y engage. </p>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<p>Après deux bonnes saisons en ligue 2 avec Rodez il s'engage à Grenoble toujours en ligue 2 à l'été 2025. </p>"
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "Stone Mambo est resté à l'essai 7 jours à l'été 2023."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/Stone_Mambo.jpg",
+            "caption": "Stone Mambo",
+            "credit": "L’est républicain",
+            "caption_raw": "Stone Mambo – L’est républicain"
+        },
+        {
+            "image": "2025/07/jeffrey-quarshie-en-bleu-et-stone-mambo-en-jaune-photo-christian-lemontey-1692225162.jpg",
+            "caption": "Jeffrey Quarshie et Stone Mambo – Aout 2023",
+            "credit": "L’est républicain",
+            "caption_raw": "Jeffrey Quarshie et Stone Mambo – Aout 2023 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 14967,
+        "url": "https://www.fcsochauxretro.com/uncategorized/stone-mambo/",
+        "path": "/uncategorized/stone-mambo/",
+        "slug": "stone-mambo",
+        "seo_title": "Stone Mambo (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Stone Mambo</h2>\n<h2><strong>né le 25 mars 1999 à Kinshasa (Congo) </strong></h2>\n<p><strong>Taille : </strong>1m84</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux :</strong> aout 2023</p>\n<p><strong>Départ de Sochaux : </strong>aout 2023</p>",
+        "header_lines": [
+            "Stone Mambo",
+            "né le 25 mars 1999 à Kinshasa (Congo)",
+            "Taille : 1m84",
+            "Poids : 76 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : aout 2023",
+            "Départ de Sochaux : aout 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Stone",
+        "last_name": "Mambo",
+        "display_name": "Stone Mambo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1999-03-25",
+                "precision": "day",
+                "text": "25 mars 1999"
+            },
+            "place": {
+                "text": "Kinshasa (Congo)",
+                "city": "Kinshasa",
+                "department": null,
+                "country": "Congo",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 mars 1999 à Kinshasa (Congo)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "gaucher",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "aout 2023"
+        },
+        "departure": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "aout 2023"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Stone Mambo"
+            },
+            {
+                "label": null,
+                "value": "né le 25 mars 1999 à Kinshasa (Congo)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "aout 2023"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

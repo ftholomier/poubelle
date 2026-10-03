@@ -1,0 +1,266 @@
+{
+    "id": 11844,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alexandre-martinovic",
+    "path": "/joueurs/alexandre-martinovic/",
+    "title": "Alexandre Martinovic",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-47.jpg",
+    "date": "2025-02-16T12:17:42",
+    "modified": "2025-02-16T12:33:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Alexandre Martinovic a gardé les buts de Sochaux son club formateur à 3 reprises."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/ca-a-ete-un-soulagement-pour-moi-de-voir-mon-club-formateur-rester-en-ligue-1-coach-hely-a-vraiment-assure-souffle-l-ancien-gardien-sochalien-alexandre-martinovic-photo-d-a.jpg",
+            "caption": "Alexandre Martinovic",
+            "credit": "L’est républicain",
+            "caption_raw": "Alexandre Martinovic – L’est républicain"
+        },
+        {
+            "image": "2025/02/5-47.jpg",
+            "caption": "Alexandre Martinovic",
+            "credit": "L’est républicain",
+            "caption_raw": "Alexandre Martinovic – L’est républicain"
+        },
+        {
+            "image": "2025/02/unnamed.jpg",
+            "caption": "Alexandre Martinovic",
+            "credit": "cving.chez.com",
+            "caption_raw": "Alexandre Martinovic – cving.chez.com"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11844,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alexandre-martinovic/",
+        "path": "/a-la-une/alexandre-martinovic/",
+        "slug": "alexandre-martinovic",
+        "seo_title": "Alexandre Martinovic - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alexandre Martinovic</h2>\n<h4><strong>né le 31 mai 1985 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m93</p>\n<p><strong>Poids : </strong>85 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but<strong><br></strong></p>\n<p><strong>International français espoir (1 sélection (Victoire au Tournoi de Toulon 2006)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>septembre 1995</p>\n<p><strong>Départ de Sochaux :</strong> juin 2006</p>\n<p><strong>Premier match joué : </strong>Sochaux - Metz du 10/12/2005 : 1-1 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Lyon du 18/03/2006 : 0-4</p>",
+        "header_lines": [
+            "Alexandre Martinovic",
+            "né le 31 mai 1985 à Montbéliard (25)",
+            "Taille : 1m93",
+            "Poids : 85 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "International français espoir (1 sélection (Victoire au Tournoi de Toulon 2006)",
+            "Arrivée à Sochaux : septembre 1995",
+            "Départ de Sochaux : juin 2006",
+            "Premier match joué : Sochaux - Metz du 10/12/2005 : 1-1",
+            "Dernier match joué : Sochaux - Lyon du 18/03/2006 : 0-4"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alexandre",
+        "last_name": "Martinovic",
+        "display_name": "Alexandre Martinovic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1985-05-31",
+                "precision": "day",
+                "text": "31 mai 1985"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 31 mai 1985 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m93",
+        "height_cm": 193,
+        "weight": "85 kg",
+        "weight_kg": 85,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [
+            "International français espoir (1 sélection (Victoire au Tournoi de Toulon 2006)"
+        ],
+        "arrival": {
+            "iso": "1995-09",
+            "precision": "month",
+            "text": "septembre 1995"
+        },
+        "departure": {
+            "iso": "2006-06",
+            "precision": "month",
+            "text": "juin 2006"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Metz du 10/12/2005 : 1-1",
+        "last_match": "Sochaux - Lyon du 18/03/2006 : 0-4",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alexandre Martinovic"
+            },
+            {
+                "label": null,
+                "value": "né le 31 mai 1985 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m93"
+            },
+            {
+                "label": "Poids",
+                "value": "85 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": null,
+                "value": "International français espoir (1 sélection (Victoire au Tournoi de Toulon 2006)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 1995"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2006"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Metz du 10/12/2005 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Lyon du 18/03/2006 : 0-4"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

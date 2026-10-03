@@ -1,0 +1,298 @@
+{
+    "id": 10003,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "raphael-tellechea",
+    "path": "/joueurs/raphael-tellechea/",
+    "title": "Raphaël Tellechea",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/telechargement-27.jpg",
+    "date": "2025-01-03T23:51:23",
+    "modified": "2026-02-08T13:01:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "229",
+        "text": "Raphaël Tellechea a joué 229 matchs (16 buts)."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/312_001.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2026/02/mdf-13-10-58-n2.png",
+            "caption": "R Tellechea",
+            "credit": "Miroir du Football",
+            "caption_raw": "R Tellechea – Miroir du Football"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10003,
+        "url": "https://www.fcsochauxretro.com/a-la-une/raphael-tellechea/",
+        "path": "/a-la-une/raphael-tellechea/",
+        "slug": "raphael-tellechea",
+        "seo_title": "Raphaël Tellechea - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Raphaël Tellechea</h2>\n<h4><strong>né le 4 mai 1930 à Drancy (93)</strong></h4>\n<h4><strong>Décédé le 9 novembre 2008 à Alès (30)  </strong></h4>\n<p><strong>Taille : </strong>1m69</p>\n<p><strong>Poids : </strong>66 kg</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>International français B</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1949</p>\n<p><strong>Départ de Sochaux : </strong>juin 1951</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1952</p>\n<p><strong>Départ de Sochaux : </strong>juin 1959</p>\n<p><strong>Premier match joué :</strong> Toulouse - Sochaux du 22/09/1949 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Lens - Sochaux du 17/01/1960 : 3-1</p>\n<p><strong>Premier but marqué : </strong>Sochaux - FC Nancy du 18/12/1949 : 3-4 - But à la 63'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Charles Drago 1951</li>\n<li>Finaliste de la coupe de France 1959</li>\n</ul>",
+        "header_lines": [
+            "Raphaël Tellechea",
+            "né le 4 mai 1930 à Drancy (93)",
+            "Décédé le 9 novembre 2008 à Alès (30)",
+            "Taille : 1m69",
+            "Poids : 66 kg",
+            "Poste : milieu défensif",
+            "International français B",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1949",
+            "Départ de Sochaux : juin 1951",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1952",
+            "Départ de Sochaux : juin 1959",
+            "Premier match joué : Toulouse - Sochaux du 22/09/1949 : 0-0",
+            "Dernier match joué : Lens - Sochaux du 17/01/1960 : 3-1",
+            "Premier but marqué : Sochaux - FC Nancy du 18/12/1949 : 3-4 - But à la 63'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Charles Drago 1951",
+            "Finaliste de la coupe de France 1959"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Raphaël",
+        "last_name": "Tellechea",
+        "display_name": "Raphaël Tellechea",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1930-05-04",
+                "precision": "day",
+                "text": "4 mai 1930"
+            },
+            "place": {
+                "text": "Drancy (93)",
+                "city": "Drancy",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 4 mai 1930 à Drancy (93)"
+        },
+        "death": {
+            "date": {
+                "iso": "2008-11-09",
+                "precision": "day",
+                "text": "9 novembre 2008"
+            },
+            "place": {
+                "text": "Alès (30)",
+                "city": "Alès",
+                "department": "30",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 9 novembre 2008 à Alès (30)"
+        },
+        "height": "1m69",
+        "height_cm": 169,
+        "weight": "66 kg",
+        "weight_kg": 66,
+        "foot": null,
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français B"
+        ],
+        "arrival": {
+            "iso": "1949-07",
+            "precision": "month",
+            "text": "juillet 1949"
+        },
+        "departure": {
+            "iso": "1951-06",
+            "precision": "month",
+            "text": "juin 1951"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Toulouse - Sochaux du 22/09/1949 : 0-0",
+        "last_match": "Lens - Sochaux du 17/01/1960 : 3-1",
+        "first_goal": "Sochaux - FC Nancy du 18/12/1949 : 3-4 - But à la 63'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Charles Drago 1951",
+            "Finaliste de la coupe de France 1959"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Raphaël Tellechea"
+            },
+            {
+                "label": null,
+                "value": "né le 4 mai 1930 à Drancy (93)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 9 novembre 2008 à Alès (30)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m69"
+            },
+            {
+                "label": "Poids",
+                "value": "66 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International français B"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1949"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1951"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1952"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1959"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Toulouse - Sochaux du 22/09/1949 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Lens - Sochaux du 17/01/1960 : 3-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - FC Nancy du 18/12/1949 : 3-4 - But à la 63'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago 1951"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1959"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

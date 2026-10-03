@@ -1,0 +1,431 @@
+{
+    "id": 319,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "racing-paris-sochaux-division-1-26-08-1986",
+    "path": "/matchs/1986-1987/racing-paris-sochaux-division-1-26-08-1986/",
+    "title": "J06 – Racing Paris / Sochaux – D1 – 26/08/1986 – 0-2",
+    "categories": [
+        "1986-1987",
+        "a-la-une",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2023/12/Brisson-et-Littbarski.png",
+    "date": "2023-12-29T20:10:08",
+    "modified": "2025-05-21T09:19:05",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Le FCSM affrontait son ancien entraîneur, Sylvester Takac, alors sur le banc du Racing Paris. René Hauss est quant à lui le nouveau directeur sportif du Racing Club de Paris. </li>\n<li>Le Racing, pourtant parmi les favoris compte tenu de son effectif, pointe à la dernière place du classement ! </li>\n<li>Philippe Morin et Francis Peltier sont particulièrement motivés à l'idée d'affronter leurs anciens coéquipiers du Racing. </li>\n<li>Privé de Bossis, le Racing retrouve Luis Fernandez dans son onze de départ. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>9' : Frappe de 20 mètres de Fernier repoussée par Olmeta. Paille, opportuniste, récupère le ballon pour ouvrir le score pour Sochaux. (0-1)</strong></li>\n<li><strong>18' : </strong>Bureau élimine deux Sochaliens avant de tirer sur la barre. </li>\n<li><strong>20' : </strong>Arrêt difficile d'Olmeta sur une frappe de Paille. </li>\n<li><strong>30' : </strong>Faute bénigne de Zandona sur Francescoli. L'arbitre accorde un pénalty généreux que l'Uruguayen tente de transformer. Rust arrête la frappe trop molle. </li>\n<li><strong>68' : </strong>Belle parade de Rust sur un tir d'Avenet. </li>\n<li><strong>75' : </strong>Frappe de Fernier qui manque de peu le cadre. </li>\n<li><strong>86' : Contre sochalien mené par Morin qui prend de vitesse la défense parisienne avant d'ajuster Olmeta. (0-2)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Laurent Croci : </strong><em>\" Cela fait 4 matches que nous jouons sans prendre le moindre but. Nous sommes solidaires \".</em></li>\n<li><strong>Philippe Morin </strong>: <em>\" Voilà un but qui me fait particulièrement plaisir \".  </em></li>\n<li><strong>Stéphane Paille : </strong><em>\" C'est revenu, j'ai renoué avec l'efficacité\".</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves du match",
+            "html": "<ul>\n<li>Après cette nouvelle défaite du Racing, le tandem Hauss-Takac est sur un siège éjectable ! </li>\n<li>A cause d'un problème d'avion les sochaliens sont rentrés plus tard que prévu. Pas l'idéal avant de préparer la visite du leader Nantais dans 3 jours à Bonal. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "1ère victoire à l'extérieur de la saison pour le FCSM"
+    },
+    "gallery": [
+        {
+            "image": "2023/12/Numerisation_20200709.png",
+            "caption": "Francis Peltier. Crédit l’Equipe",
+            "credit": "",
+            "caption_raw": "Francis Peltier. Crédit l’Equipe"
+        },
+        {
+            "image": "2023/12/Brisson-et-Littbarski.png",
+            "caption": "Brisson et Littbarski. Crédit Est Républicain",
+            "credit": "",
+            "caption_raw": "Brisson et Littbarski. Crédit Est Républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 319,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j06-racing-paris-sochaux-d1-26-08-1986-0-2-319/",
+        "path": "/a-la-une/j06-racing-paris-sochaux-d1-26-08-1986-0-2-319/",
+        "slug": "j06-racing-paris-sochaux-d1-26-08-1986-0-2-319",
+        "seo_title": "J06 - Racing Paris / Sochaux - D1 - 26/08/1986 - 0-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h4><strong>Racing Paris / Sochaux : 0-2</strong></h4>\n<h4><strong>6ème journée de D1</strong></h4>\n<h4><strong>Mardi 26 août 1986</strong></h4>\n<h4><strong>Parc des Princes (75)</strong></h4>\n<h4><strong>7 655 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Sculfort</strong></h4>\n<p>Buts : Paille 8' et Morin 86' pour Sochaux. </p>",
+        "header_lines": [
+            "Racing Paris / Sochaux : 0-2",
+            "6ème journée de D1",
+            "Mardi 26 août 1986",
+            "Parc des Princes (75)",
+            "7 655 spectateurs",
+            "Arbitrage : M. Sculfort",
+            "Buts : Paille 8' et Morin 86' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1986-08-26",
+        "date_text": "Mardi 26 août 1986",
+        "season": "1986-1987",
+        "competition": "Championnat",
+        "competition_label": "Division 1",
+        "competition_code": "D1",
+        "round": "J06",
+        "round_text": "6ème journée de D1",
+        "home": {
+            "name": "Racing Paris",
+            "level": null
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-2",
+        "score_line": "Racing Paris / Sochaux : 0-2",
+        "result": "V",
+        "stadium": "Parc des Princes (75)",
+        "spectators": 7655,
+        "spectators_text": "7 655 spectateurs",
+        "referee": "M. Sculfort",
+        "goals_text": "Paille 8' et Morin 86' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Paille 8' et Morin 86'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "9",
+                "text": "Frappe de 20 mètres de Fernier repoussée par Olmeta. Paille, opportuniste, récupère le ballon pour ouvrir le score pour Sochaux. (0-1)",
+                "goal": true,
+                "score": "0-1"
+            },
+            {
+                "minute": "18",
+                "text": "Bureau élimine deux Sochaliens avant de tirer sur la barre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "20",
+                "text": "Arrêt difficile d'Olmeta sur une frappe de Paille.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "30",
+                "text": "Faute bénigne de Zandona sur Francescoli. L'arbitre accorde un pénalty généreux que l'Uruguayen tente de transformer. Rust arrête la frappe trop molle.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "68",
+                "text": "Belle parade de Rust sur un tir d'Avenet.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "75",
+                "text": "Frappe de Fernier qui manque de peu le cadre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "86",
+                "text": "Contre sochalien mené par Morin qui prend de vitesse la défense parisienne avant d'ajuster Olmeta. (0-2)",
+                "goal": true,
+                "score": "0-2"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Laurent Croci",
+                "text": "Cela fait 4 matches que nous jouons sans prendre le moindre but. Nous sommes solidaires \"."
+            },
+            {
+                "who": "Philippe Morin",
+                "text": "Voilà un but qui me fait particulièrement plaisir \"."
+            },
+            {
+                "who": "Stéphane Paille",
+                "text": "C'est revenu, j'ai renoué avec l'efficacité\"."
+            }
+        ],
+        "breves": [
+            "Après cette nouvelle défaite du Racing, le tandem Hauss-Takac est sur un siège éjectable !",
+            "A cause d'un problème d'avion les sochaliens sont rentrés plus tard que prévu. Pas l'idéal avant de préparer la visite du leader Nantais dans 3 jours à Bonal."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ZANDONA Romain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZÉE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "82",
+                    "sub_text": "Sortie 82'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "8"
+                    ],
+                    "goals_text": "8'",
+                    "sub_in": null,
+                    "sub_out": "89",
+                    "sub_text": "Sortie 89'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "88"
+                    ],
+                    "goals_text": "88'",
+                    "sub_in": "82",
+                    "sub_out": null,
+                    "sub_text": "Entrée 82'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "89",
+                    "sub_out": null,
+                    "sub_text": "Entrée 89'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 9
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

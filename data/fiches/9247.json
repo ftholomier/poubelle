@@ -1,0 +1,252 @@
+{
+    "id": 9247,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rene-olive",
+    "path": "/joueurs/rene-olive/",
+    "title": "René Olive",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-12-28T14:26:30",
+    "modified": "2024-12-29T15:35:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Arrivée à l'été 1939 comme un junior prometteur, René Olive n'aurait disputé qu'un seul math avec l'équipe première de Sochaux avant de repartir dans le sud de la France après le déclenchement de la guerre."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9247,
+        "url": "https://www.fcsochauxretro.com/a-la-une/rene-olive/",
+        "path": "/a-la-une/rene-olive/",
+        "slug": "rene-olive",
+        "seo_title": "René Olive - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>René Olive</h2>\n<h4><strong>Né en 1920 à Noves (13) <br></strong></h4>\n<h4><strong>Décédé le 27 septembre 2012 à Saint-Rémy de Provence (13)</strong></h4>\n<p><strong>Position: </strong>milieu de terrain<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1939<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>aout 1939<strong><br></strong></p>\n<p><strong>Premier et dernier match joué :</strong> Le Havre - Sochaux du 04/06/1939 : 1-2   </p>",
+        "header_lines": [
+            "René Olive",
+            "Né en 1920 à Noves (13)",
+            "Décédé le 27 septembre 2012 à Saint-Rémy de Provence (13)",
+            "Position: milieu de terrain",
+            "Arrivée à Sochaux : juillet 1939",
+            "Départ de Sochaux : aout 1939",
+            "Premier et dernier match joué : Le Havre - Sochaux du 04/06/1939 : 1-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "René",
+        "last_name": "Olive",
+        "display_name": "René Olive",
+        "nickname": "",
+        "subtitle": "Né en 1920 à Noves (13)",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1920",
+                "precision": "year",
+                "text": "1920"
+            },
+            "place": {
+                "text": "Noves (13)",
+                "city": "Noves",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né en 1920 à Noves (13)"
+        },
+        "death": {
+            "date": {
+                "iso": "2012-09-27",
+                "precision": "day",
+                "text": "27 septembre 2012"
+            },
+            "place": {
+                "text": "Saint-Rémy de Provence (13)",
+                "city": "Saint-Rémy de Provence",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 27 septembre 2012 à Saint-Rémy de Provence (13)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1939-07",
+            "precision": "month",
+            "text": "juillet 1939"
+        },
+        "departure": {
+            "iso": "1939-08",
+            "precision": "month",
+            "text": "aout 1939"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "René Olive"
+            },
+            {
+                "label": null,
+                "value": "Né en 1920 à Noves (13)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 27 septembre 2012 à Saint-Rémy de Provence (13)"
+            },
+            {
+                "label": "Position",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1939"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "aout 1939"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Le Havre - Sochaux du 04/06/1939 : 1-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

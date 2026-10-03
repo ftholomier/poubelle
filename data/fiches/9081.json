@@ -1,0 +1,227 @@
+{
+    "id": 9081,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "raymond-joly",
+    "path": "/joueurs/raymond-joly/",
+    "title": "Raymond Joly",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-28.jpg",
+    "date": "2024-12-16T18:29:37",
+    "modified": "2024-12-16T19:53:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "9",
+        "text": "Raymond Joly a été joueur de Sochaux par intermittence durant 9 ans de 1939 à 1948 mais il a très peu joué pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-28.jpg",
+            "caption": "Raymond Joly",
+            "credit": "FCSM Story",
+            "caption_raw": "Raymond Joly – FCSM Story"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9081,
+        "url": "https://www.fcsochauxretro.com/a-la-une/raymond-joly/",
+        "path": "/a-la-une/raymond-joly/",
+        "slug": "raymond-joly",
+        "seo_title": "Raymond Joly - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Raymond Joly</h2>\n<h4><strong>né le 9 janvier 1918 à Le Tréport (76) </strong> </h4>\n<p><strong>Poste : </strong>défenseur</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1939</p>\n<p><strong>Départ de Sochaux : </strong>juin 1948</p>\n<p><strong>Premier match joué :</strong> Toulon - Sochaux du 06/04/1947 : 1-1</p>\n<p><strong>Dernier match joué :</strong> Lille - Sochaux du 18/01/1948 : 6-1 </p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de deuxième division 1947</li>\n</ul>",
+        "header_lines": [
+            "Raymond Joly",
+            "né le 9 janvier 1918 à Le Tréport (76)",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1939",
+            "Départ de Sochaux : juin 1948",
+            "Premier match joué : Toulon - Sochaux du 06/04/1947 : 1-1",
+            "Dernier match joué : Lille - Sochaux du 18/01/1948 : 6-1",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division 1947"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Raymond",
+        "last_name": "Joly",
+        "display_name": "Raymond Joly",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1918-01-09",
+                "precision": "day",
+                "text": "9 janvier 1918"
+            },
+            "place": {
+                "text": "Le Tréport (76)",
+                "city": "Le Tréport",
+                "department": "76",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 janvier 1918 à Le Tréport (76)"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1939-07",
+            "precision": "month",
+            "text": "juillet 1939"
+        },
+        "departure": {
+            "iso": "1948-06",
+            "precision": "month",
+            "text": "juin 1948"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Toulon - Sochaux du 06/04/1947 : 1-1",
+        "last_match": "Lille - Sochaux du 18/01/1948 : 6-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division 1947"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Raymond Joly"
+            },
+            {
+                "label": null,
+                "value": "né le 9 janvier 1918 à Le Tréport (76)"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1939"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1948"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Toulon - Sochaux du 06/04/1947 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Lille - Sochaux du 18/01/1948 : 6-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 1947"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1938-1939",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "1945-1946",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "Total",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            ],
+            "source_table": 231
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

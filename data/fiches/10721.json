@@ -1,0 +1,236 @@
+{
+    "id": 10721,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alain-ruiz",
+    "path": "/joueurs/alain-ruiz/",
+    "title": "Alain Ruiz",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-54.jpg",
+    "date": "2025-01-20T21:44:21",
+    "modified": "2025-01-20T22:04:21",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Alain Ruiz aurait été formé durant trois saisons à Sochaux avant de faire carrière ailleurs."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/444964679_8039098572769319_2854094418871396985_n.jpg",
+            "caption": "Vainqueurs de la coupe Gambardella 1983",
+            "credit": "",
+            "caption_raw": "Vainqueurs de la coupe Gambardella 1983"
+        },
+        {
+            "image": "2025/01/5-54.jpg",
+            "caption": "Alain Ruiz",
+            "credit": "USL Dunkerque",
+            "caption_raw": "Alain Ruiz – USL Dunkerque"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10721,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alain-ruiz/",
+        "path": "/a-la-une/alain-ruiz/",
+        "slug": "alain-ruiz",
+        "seo_title": "Alain Ruiz - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alain Ruiz</h2>\n<h4><strong>né le 5 février 1964 à Foulassi (Cameroun)</strong></h4>\n<p><strong>Taille : </strong>1m69</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière latéral droit</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1980 ?</p>\n<p><strong>Départ de Sochaux : </strong>juin 1983</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 1983</li>\n</ul>",
+        "header_lines": [
+            "Alain Ruiz",
+            "né le 5 février 1964 à Foulassi (Cameroun)",
+            "Taille : 1m69",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "Arrivée à Sochaux : juillet 1980 ?",
+            "Départ de Sochaux : juin 1983",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 1983"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alain",
+        "last_name": "Ruiz",
+        "display_name": "Alain Ruiz",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1964-02-05",
+                "precision": "day",
+                "text": "5 février 1964"
+            },
+            "place": {
+                "text": "Foulassi (Cameroun)",
+                "city": "Foulassi",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 5 février 1964 à Foulassi (Cameroun)"
+        },
+        "death": null,
+        "height": "1m69",
+        "height_cm": 169,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1980-07",
+            "precision": "month",
+            "text": "juillet 1980 ?"
+        },
+        "departure": {
+            "iso": "1983-06",
+            "precision": "month",
+            "text": "juin 1983"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 1983"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alain Ruiz"
+            },
+            {
+                "label": null,
+                "value": "né le 5 février 1964 à Foulassi (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m69"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1980 ?"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1983"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 1983"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

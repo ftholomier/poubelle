@@ -1,0 +1,232 @@
+{
+    "id": 10807,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-michel-labeyrie",
+    "path": "/joueurs/jean-michel-labeyrie/",
+    "title": "Jean-Michel Labeyrie",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/10/Labeyrie-Onze.png",
+    "date": "2025-01-22T17:07:53",
+    "modified": "2025-10-16T17:03:08",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "37",
+        "text": "Jean-Michel Labeyrie a joué 37 minutes pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/10/ceurope-junior-80-1.png",
+            "caption": "Onze 1980.",
+            "credit": "",
+            "caption_raw": "Onze 1980."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10807,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-michel-labeyrie/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-michel-labeyrie/",
+        "slug": "jean-michel-labeyrie",
+        "seo_title": "Jean-Michel Labeyrie - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Michel Labeyrie</h2>\n<h4><strong>né le 28 novembre 1961 à Dax (40)</strong></h4>\n<p><strong>Taille : </strong>1m68</p>\n<p><strong>Poids : </strong>62 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1978 ?</p>\n<p><strong>Départ de Sochaux : </strong>juin 1981</p>\n<p><strong>Premier et dernier match joué :</strong> Lens - Sochaux du 02/06/1981 : 5-1</p>\n<p><strong>Palmarès avec Sochaux</strong></p>\n<ul>\n<li>Demi-finaliste de la coupe UEFA 1981</li>\n</ul>",
+        "header_lines": [
+            "Jean-Michel Labeyrie",
+            "né le 28 novembre 1961 à Dax (40)",
+            "Taille : 1m68",
+            "Poids : 62 kg",
+            "Pied : droitier",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1978 ?",
+            "Départ de Sochaux : juin 1981",
+            "Premier et dernier match joué : Lens - Sochaux du 02/06/1981 : 5-1",
+            "Palmarès avec Sochaux",
+            "Demi-finaliste de la coupe UEFA 1981"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Michel",
+        "last_name": "Labeyrie",
+        "display_name": "Jean-Michel Labeyrie",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1961-11-28",
+                "precision": "day",
+                "text": "28 novembre 1961"
+            },
+            "place": {
+                "text": "Dax (40)",
+                "city": "Dax",
+                "department": "40",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 28 novembre 1961 à Dax (40)"
+        },
+        "death": null,
+        "height": "1m68",
+        "height_cm": 168,
+        "weight": "62 kg",
+        "weight_kg": 62,
+        "foot": "droitier",
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1978-07",
+            "precision": "month",
+            "text": "juillet 1978 ?"
+        },
+        "departure": {
+            "iso": "1981-06",
+            "precision": "month",
+            "text": "juin 1981"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Michel Labeyrie"
+            },
+            {
+                "label": null,
+                "value": "né le 28 novembre 1961 à Dax (40)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m68"
+            },
+            {
+                "label": "Poids",
+                "value": "62 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1978 ?"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1981"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Lens - Sochaux du 02/06/1981 : 5-1"
+            },
+            {
+                "label": null,
+                "value": "Palmarès avec Sochaux"
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe UEFA 1981"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

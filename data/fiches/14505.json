@@ -1,0 +1,236 @@
+{
+    "id": 14505,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jonathan-mexique",
+    "path": "/joueurs/jonathan-mexique/",
+    "title": "Jonathan Mexique",
+    "categories": [
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/06/684c452aea8f4045665954.jpg",
+    "date": "2025-06-13T18:53:41",
+    "modified": "2025-06-13T19:07:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>A l'été 2025, au sortir d'une saison décevante sportivement en National, Sochaux cherche à renforcer son milieu de terrain avec des joueurs d'expérience qui connaissent bien le championnat et sont réguliers. </p>\n<p>Les dirigeants jettent leur dévolu sur Jonathan Mexique qui est le premier milieu de terrain à s'engager avec Sochaux lors de l'intersaison 2025/2026. </p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Jonathan Mexique porte le numéro 15 lors de son arrivée à Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/06/684c452aea8f4045665954.jpg",
+            "caption": "Jonathan Mexique",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Jonathan Mexique – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2025/06/684c448884965015105477.jpg",
+            "caption": "Julien Cordonnier Jonathan Mexique et Clément Calvez",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Julien Cordonnier Jonathan Mexique et Clément Calvez – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 14505,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jonathan-mexique/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jonathan-mexique/",
+        "slug": "jonathan-mexique",
+        "seo_title": "Jonathan Mexique - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jonathan Mexique</h2>\n<h4><strong>né le 10 mars 1995 au Mans (72)</strong></h4>\n<p><strong>Taille :</strong> 1m75</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2025</p>\n<p><strong>Départ de Sochaux :</strong> </p>\n<p><strong>International martiniquais (9 sélections, 1 but)</strong></p>\n<p><strong>Premier match joué :</strong> Sochaux - xx du xx/xx/2025 : </p>",
+        "header_lines": [
+            "Jonathan Mexique",
+            "né le 10 mars 1995 au Mans (72)",
+            "Taille : 1m75",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 2025",
+            "Départ de Sochaux :",
+            "International martiniquais (9 sélections, 1 but)",
+            "Premier match joué : Sochaux - xx du xx/xx/2025 :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jonathan",
+        "last_name": "Mexique",
+        "display_name": "Jonathan Mexique",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1995-03-10",
+                "precision": "day",
+                "text": "10 mars 1995 au Mans (72)"
+            },
+            "place": null,
+            "text": "né le 10 mars 1995 au Mans (72)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International martiniquais (9 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2025-07",
+            "precision": "month",
+            "text": "juillet 2025"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - xx du xx/xx/2025 :",
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jonathan Mexique"
+            },
+            {
+                "label": null,
+                "value": "né le 10 mars 1995 au Mans (72)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2025"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "International martiniquais (9 sélections, 1 but)"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - xx du xx/xx/2025 :"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ]
+            ],
+            "source_table": 462
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

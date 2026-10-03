@@ -1,0 +1,168 @@
+{
+    "id": 7278,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alfred-james-cable",
+    "path": "/joueurs/alfred-james-cable/",
+    "title": "Alfred James Cable (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-11-10T17:55:55",
+    "modified": "2025-11-12T14:18:05",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Alfred James Cable a joué un match amical avec Sochaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7278,
+        "url": "https://www.fcsochauxretro.com/uncategorized/alfred-james-cable/",
+        "path": "/uncategorized/alfred-james-cable/",
+        "slug": "alfred-james-cable",
+        "seo_title": "Alfred James Cable (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alfred James Cable</h2>\n<h4><strong>né en 1911 à Londres ? (Angleterre)</strong></h4>\n<h4><strong>Décédé en août 1995 à Londres (Angleterre)</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>A l'essai en : </strong>avril 1932</p>\n<p><strong>Premier et dernier match amical joué :</strong> Red Star - Sochaux du 23/04/1932 : 3-2</p>",
+        "header_lines": [
+            "Alfred James Cable",
+            "né en 1911 à Londres ? (Angleterre)",
+            "Décédé en août 1995 à Londres (Angleterre)",
+            "Poste : milieu de terrain",
+            "A l'essai en : avril 1932",
+            "Premier et dernier match amical joué : Red Star - Sochaux du 23/04/1932 : 3-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alfred James",
+        "last_name": "Cable",
+        "display_name": "Alfred James Cable",
+        "nickname": "",
+        "subtitle": "né en 1911 à Londres ? (Angleterre)",
+        "trial": {
+            "iso": "1932-04",
+            "precision": "month",
+            "text": "avril 1932"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1911",
+                "precision": "year",
+                "text": "1911"
+            },
+            "place": {
+                "text": "Londres ? (Angleterre)",
+                "city": "Londres ?",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né en 1911 à Londres ? (Angleterre)"
+        },
+        "death": {
+            "date": {
+                "iso": "1995-08",
+                "precision": "month",
+                "text": "août 1995"
+            },
+            "place": {
+                "text": "Londres (Angleterre)",
+                "city": "Londres",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé en août 1995 à Londres (Angleterre)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alfred James Cable"
+            },
+            {
+                "label": null,
+                "value": "né en 1911 à Londres ? (Angleterre)"
+            },
+            {
+                "label": null,
+                "value": "Décédé en août 1995 à Londres (Angleterre)"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "avril 1932"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Red Star - Sochaux du 23/04/1932 : 3-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

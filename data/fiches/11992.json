@@ -1,0 +1,260 @@
+{
+    "id": 11992,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mourad-meghni",
+    "path": "/joueurs/mourad-meghni/",
+    "title": "Mourad Meghni",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-55.jpg",
+    "date": "2025-02-18T12:30:41",
+    "modified": "2025-02-18T12:52:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "18",
+        "text": "Mourad Meghni a joué 18 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-55.jpg",
+            "caption": "Mourad Meghni",
+            "credit": "L’est républicain",
+            "caption_raw": "Mourad Meghni – L’est républicain"
+        },
+        {
+            "image": "2025/02/mourad-meghni-arrive-d-italie-pour-venir-renfrocer-le-fcsm-aura-connu-une-saison-difficile-avec-sochaux-avant-de-quitter-la-france-photo-er-1615366698.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11992,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mourad-meghni/",
+        "path": "/a-la-une/mourad-meghni/",
+        "slug": "mourad-meghni",
+        "seo_title": "Mourad Meghni - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mourad Meghni</h2>\n<h4><strong>né le 16 avril 1984 à Paris (75)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif<strong><br></strong></p>\n<p><strong>International français U16 (finaliste de l'Euro 2001) U17 (Champion du Monde 2001), U19, espoirs (22 sélections, 1 but) - International algérien (9 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2005</p>\n<p><strong>Départ de Sochaux :</strong> juin 2006</p>\n<p><strong>Premier match joué :</strong> Saint-Etienne - Sochaux du 27/08/2005 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Toulouse - Sochaux du 13/05/2006 : 1-2</p>",
+        "header_lines": [
+            "Mourad Meghni",
+            "né le 16 avril 1984 à Paris (75)",
+            "Taille : 1m80",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "International français U16 (finaliste de l'Euro 2001) U17 (Champion du Monde 2001), U19, espoirs (22 sélections, 1 but) - International algérien (9 sélections)",
+            "Arrivée à Sochaux : aout 2005",
+            "Départ de Sochaux : juin 2006",
+            "Premier match joué : Saint-Etienne - Sochaux du 27/08/2005 : 0-0",
+            "Dernier match joué : Toulouse - Sochaux du 13/05/2006 : 1-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mourad",
+        "last_name": "Meghni",
+        "display_name": "Mourad Meghni",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1984-04-16",
+                "precision": "day",
+                "text": "16 avril 1984"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 16 avril 1984 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français U16 (finaliste de l'Euro 2001) U17 (Champion du Monde 2001), U19, espoirs (22 sélections, 1 but) - International algérien (9 sélections)"
+        ],
+        "arrival": {
+            "iso": "2005-08",
+            "precision": "month",
+            "text": "aout 2005"
+        },
+        "departure": {
+            "iso": "2006-06",
+            "precision": "month",
+            "text": "juin 2006"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Saint-Etienne - Sochaux du 27/08/2005 : 0-0",
+        "last_match": "Toulouse - Sochaux du 13/05/2006 : 1-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mourad Meghni"
+            },
+            {
+                "label": null,
+                "value": "né le 16 avril 1984 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français U16 (finaliste de l'Euro 2001) U17 (Champion du Monde 2001), U19, espoirs (22 sélections, 1 but) - International algérien (9 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2005"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2006"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Saint-Etienne - Sochaux du 27/08/2005 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Toulouse - Sochaux du 13/05/2006 : 1-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

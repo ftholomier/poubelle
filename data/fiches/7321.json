@@ -1,0 +1,413 @@
+{
+    "id": 7321,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacky-colin",
+    "path": "/joueurs/jacky-colin/",
+    "title": "Jacky Colin",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound2517063944464282593.jpg",
+    "date": "2024-11-10T18:25:53",
+    "modified": "2026-03-15T17:26:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Après",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Après</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Après",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "255",
+        "text": "Jacky Colin a joué 255 matchs (18 buts) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/inbound5549338519790413193.jpg",
+            "caption": "Jacky Collin – Saison 1982-1983",
+            "credit": "fcsm",
+            "caption_raw": "Jacky Collin – Saison 1982-1983 – fcsm"
+        },
+        {
+            "image": "2024/02/img121-fv.jpg",
+            "caption": "Jacky Colin",
+            "credit": "Livre Téléfoot",
+            "caption_raw": "Jacky Colin – Livre Téléfoot"
+        },
+        {
+            "image": "2024/02/Colin-et-Peltier-France-Football.png",
+            "caption": "Colin et Peltier",
+            "credit": "France Football",
+            "caption_raw": "Colin et Peltier – France Football"
+        },
+        {
+            "image": "2023/12/20170913-fvm.png",
+            "caption": "Jacky Colin contre Garande. Crédit Est Républicain.",
+            "credit": "",
+            "caption_raw": "Jacky Colin contre Garande. Crédit Est Républicain."
+        },
+        {
+            "image": "2024/02/colin-soch-sprint.jpg",
+            "caption": "Colin Sochaux sprint",
+            "credit": "",
+            "caption_raw": "Colin Sochaux sprint"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7321,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jacky-colin/",
+        "path": "/a-la-une/jacky-colin/",
+        "slug": "jacky-colin",
+        "seo_title": "Jacky Colin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacky Colin</h2>\n<h4><strong>né le 18 août 1963 à Chagny (71)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Poste : </strong>milieu de terrain défensif</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>International français amateur</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1979 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1988</p>\n<p><strong>Premier match joué :</strong> Valenciennes - Sochaux du 15/04/1981 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Orléans - Sochaux du 21/05/1988 : 1-0</p>\n<p><strong>Premier but marqué :</strong> Metz - Sochaux du 05/05/1981 : 4-2 - But à la 85'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Demi-finaliste de la coupe UEFA 1981</li>\n<li>Vice-champion de France 1988</li>\n<li>Finaliste de la coupe de France 1988</li>\n</ul>",
+        "header_lines": [
+            "Jacky Colin",
+            "né le 18 août 1963 à Chagny (71)",
+            "Taille : 1m75",
+            "Poids : 72 kg",
+            "Poste : milieu de terrain défensif",
+            "Pied : droitier",
+            "International français amateur",
+            "Arrivée à Sochaux : juillet 1979",
+            "Départ de Sochaux : juin 1988",
+            "Premier match joué : Valenciennes - Sochaux du 15/04/1981 : 2-1",
+            "Dernier match joué : Orléans - Sochaux du 21/05/1988 : 1-0",
+            "Premier but marqué : Metz - Sochaux du 05/05/1981 : 4-2 - But à la 85'",
+            "Palmarès avec Sochaux :",
+            "Demi-finaliste de la coupe UEFA 1981",
+            "Vice-champion de France 1988",
+            "Finaliste de la coupe de France 1988"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jacky",
+        "last_name": "Colin",
+        "display_name": "Jacky Colin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1963-08-18",
+                "precision": "day",
+                "text": "18 août 1963"
+            },
+            "place": {
+                "text": "Chagny (71)",
+                "city": "Chagny",
+                "department": "71",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 août 1963 à Chagny (71)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu de terrain défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français amateur"
+        ],
+        "arrival": {
+            "iso": "1979-07",
+            "precision": "month",
+            "text": "juillet 1979"
+        },
+        "departure": {
+            "iso": "1988-06",
+            "precision": "month",
+            "text": "juin 1988"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Valenciennes - Sochaux du 15/04/1981 : 2-1",
+        "last_match": "Orléans - Sochaux du 21/05/1988 : 1-0",
+        "first_goal": "Metz - Sochaux du 05/05/1981 : 4-2 - But à la 85'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Demi-finaliste de la coupe UEFA 1981",
+            "Vice-champion de France 1988",
+            "Finaliste de la coupe de France 1988"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacky Colin"
+            },
+            {
+                "label": null,
+                "value": "né le 18 août 1963 à Chagny (71)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain défensif"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": null,
+                "value": "International français amateur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1979"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1988"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Valenciennes - Sochaux du 15/04/1981 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Orléans - Sochaux du 21/05/1988 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Metz - Sochaux du 05/05/1981 : 4-2 - But à la 85'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe UEFA 1981"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France 1988"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1988"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Barrages Division 1 / Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1980 - 1981",
+                    "5",
+                    "1",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "2",
+                    "0",
+                    "9",
+                    "1"
+                ],
+                [
+                    "1981 - 1982",
+                    "20",
+                    "1",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "21",
+                    "1"
+                ],
+                [
+                    "1982 - 1983",
+                    "36",
+                    "3",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "39",
+                    "3"
+                ],
+                [
+                    "1983 - 1984",
+                    "35",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "5",
+                    "1",
+                    "40",
+                    "1"
+                ],
+                [
+                    "1984 - 1985",
+                    "32",
+                    "3",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "6",
+                    "2",
+                    "38",
+                    "5"
+                ],
+                [
+                    "1985 - 1986",
+                    "35",
+                    "4",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "3",
+                    "0",
+                    "38",
+                    "4"
+                ],
+                [
+                    "1986 - 1987",
+                    "34",
+                    "2",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "37",
+                    "2"
+                ],
+                [
+                    "1987 - 1988",
+                    "-",
+                    "-",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "8",
+                    "0",
+                    "33",
+                    "1"
+                ],
+                [
+                    "TOTAL",
+                    "197",
+                    "14",
+                    "24",
+                    "1",
+                    "3",
+                    "0",
+                    "4",
+                    "0",
+                    "27",
+                    "3",
+                    "255",
+                    "18"
+                ]
+            ],
+            "source_table": 921
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,254 @@
+{
+    "id": 20621,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "paul-mikowski",
+    "path": "/joueurs/paul-mikowski/",
+    "title": "Paul Mikowski",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/619072.jpg",
+    "date": "2026-02-17T22:40:06",
+    "modified": "2026-02-19T22:16:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Il signe à Sochaux à l'été 1938 et y reste jusqu'à la fin de la saison 1941. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>En 1942, il signe au RCFC Besançon. Il reste au club de la capitale comtoise jusqu'en 1946 disputant notamment la première saison professionnelle du club en D2 en 1945/1946. </li>\n<li>On perd sa trace ensuite. </li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Paul Mikowski est resté 3 saisons à Sochaux de 1938 à 1941."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/619072.jpg",
+            "caption": "Paul Mikowski",
+            "credit": "football database",
+            "caption_raw": "Paul Mikowski – football database"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20621,
+        "url": "https://www.fcsochauxretro.com/a-la-une/paul-mikowski/",
+        "path": "/a-la-une/paul-mikowski/",
+        "slug": "paul-mikowski",
+        "seo_title": "Paul Mikowski - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Paul Mikowski</h2>\n<h4><strong>né le xx à xx </strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong>xx kg</p>\n<p><strong>Poste : </strong>défenseur<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1938</p>\n<p><strong>Départ de Sochaux :</strong> juin 1941</p>\n<p><strong>Premier match joué :</strong> Sochaux - xx du xx/xx/xxxx : x-x</p>\n<p><strong>Dernier match joué :</strong> xx - Sochaux du xx/xx/xxxx : x-x</p>",
+        "header_lines": [
+            "Paul Mikowski",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1938",
+            "Départ de Sochaux : juin 1941",
+            "Premier match joué : Sochaux - xx du xx/xx/xxxx : x-x",
+            "Dernier match joué : xx - Sochaux du xx/xx/xxxx : x-x"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Paul",
+        "last_name": "Mikowski",
+        "display_name": "Paul Mikowski",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1938-07",
+            "precision": "month",
+            "text": "juillet 1938"
+        },
+        "departure": {
+            "iso": "1941-06",
+            "precision": "month",
+            "text": "juin 1941"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - xx du xx/xx/xxxx : x-x",
+        "last_match": "xx - Sochaux du xx/xx/xxxx : x-x",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Paul Mikowski"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1938"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1941"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - xx du xx/xx/xxxx : x-x"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "xx - Sochaux du xx/xx/xxxx : x-x"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ]
+            ],
+            "source_table": 462
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

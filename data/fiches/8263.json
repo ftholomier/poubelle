@@ -1,0 +1,243 @@
+{
+    "id": 8263,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "bela-herczeg",
+    "path": "/joueurs/bela-herczeg/",
+    "title": "Bela Herczeg",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/5-3.jpg",
+    "date": "2024-12-11T07:30:33",
+    "modified": "2024-12-11T08:10:46",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Béla Herczeg aurait joué 15 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/5-3.jpg",
+            "caption": "Béla Herczeg",
+            "credit": "footballdatabase",
+            "caption_raw": "Béla Herczeg – footballdatabase"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8263,
+        "url": "https://www.fcsochauxretro.com/a-la-une/bela-herczeg/",
+        "path": "/a-la-une/bela-herczeg/",
+        "slug": "bela-herczeg",
+        "seo_title": "Bela Herczeg - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Béla Herczeg</h2>\n<h4><strong>né le 6 décembre 1911 à Budapest (Hongrie)</strong></h4>\n<p><strong>Décédé le 2 juin 2004 à Aix-en-Provence (13)</strong></p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1938</p>\n<p><strong>Départ de Sochaux : </strong>juin 1939</p>\n<p><strong>Premier match joué </strong>: Le Havre - Sochaux du 25/12/1938 : 2-1</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Le Havre du 07/05/1939 : 8-0 </p>",
+        "header_lines": [
+            "Béla Herczeg",
+            "né le 6 décembre 1911 à Budapest (Hongrie)",
+            "Décédé le 2 juin 2004 à Aix-en-Provence (13)",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1938",
+            "Départ de Sochaux : juin 1939",
+            "Premier match joué : Le Havre - Sochaux du 25/12/1938 : 2-1",
+            "Dernier match joué : Sochaux - Le Havre du 07/05/1939 : 8-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Béla",
+        "last_name": "Herczeg",
+        "display_name": "Béla Herczeg",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1911-12-06",
+                "precision": "day",
+                "text": "6 décembre 1911"
+            },
+            "place": {
+                "text": "Budapest (Hongrie)",
+                "city": "Budapest",
+                "department": null,
+                "country": "Hongrie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 décembre 1911 à Budapest (Hongrie)"
+        },
+        "death": {
+            "date": {
+                "iso": "2004-06-02",
+                "precision": "day",
+                "text": "2 juin 2004"
+            },
+            "place": {
+                "text": "Aix-en-Provence (13)",
+                "city": "Aix-en-Provence",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 2 juin 2004 à Aix-en-Provence (13)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1938-07",
+            "precision": "month",
+            "text": "juillet 1938"
+        },
+        "departure": {
+            "iso": "1939-06",
+            "precision": "month",
+            "text": "juin 1939"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Le Havre - Sochaux du 25/12/1938 : 2-1",
+        "last_match": "Sochaux - Le Havre du 07/05/1939 : 8-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Béla Herczeg"
+            },
+            {
+                "label": null,
+                "value": "né le 6 décembre 1911 à Budapest (Hongrie)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 2 juin 2004 à Aix-en-Provence (13)"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1938"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1939"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Le Havre - Sochaux du 25/12/1938 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Le Havre du 07/05/1939 : 8-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

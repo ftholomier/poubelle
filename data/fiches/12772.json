@@ -1,0 +1,139 @@
+{
+    "id": 12772,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "samuel-topmann",
+    "path": "/joueurs/samuel-topmann/",
+    "title": "Samuel Topmann (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-09T21:27:56",
+    "modified": "2025-11-12T13:43:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>En mai 1996, sur une fin de saison morose où l'entraîneur en place Didier Notheaux apprend qu'il ne sera pas reconduit dans ses missions, Sochaux cherche à anticiper la saison suivante.</li>\n<li>Dans cette optique ils mettent à l'essai le jeune milieu offensif nigérian Samuel Topmann. Mais il ne parviendra pas convaincre les dirigeants de le recruter. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Samuel Topmann a été mis à l'essai 1 semaine en mai 1996."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12772,
+        "url": "https://www.fcsochauxretro.com/uncategorized/samuel-topmann-a-lessai/",
+        "path": "/uncategorized/samuel-topmann-a-lessai/",
+        "slug": "samuel-topmann-a-lessai",
+        "seo_title": "Samuel Topmann (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Samuel Topmann</h2>\n<h4><strong>né le xx à (Nigéria)</strong></h4>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>A l'essai en : </strong>mai 1996</p>",
+        "header_lines": [
+            "Samuel Topmann",
+            "né le xx à (Nigéria)",
+            "Poste : milieu offensif",
+            "A l'essai en : mai 1996"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Samuel",
+        "last_name": "Topmann",
+        "display_name": "Samuel Topmann",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1996-05",
+            "precision": "month",
+            "text": "mai 1996"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "(Nigéria)",
+                "city": "",
+                "department": null,
+                "country": "Nigéria",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à (Nigéria)"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Samuel Topmann"
+            },
+            {
+                "label": null,
+                "value": "né le xx à (Nigéria)"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "mai 1996"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

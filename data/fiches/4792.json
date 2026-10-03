@@ -1,0 +1,181 @@
+{
+    "id": 4792,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "franck-chaumin",
+    "path": "/joueurs/franck-chaumin/",
+    "title": "Franck Chaumin",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/08/inbound586654378776370182.jpg",
+    "date": "2024-08-25T16:11:11",
+    "modified": "2025-03-05T20:59:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Franck Chaumin, gardien remplaçant n'a joué aucun match officiel pour Sochaux en deux saisons."
+    },
+    "gallery": [
+        {
+            "image": "2024/08/2chaumin-franckllk_26022013.jpg",
+            "caption": "Franck Chaumin",
+            "credit": "FCSM",
+            "caption_raw": "Franck Chaumin – FCSM"
+        },
+        {
+            "image": "2024/08/inbound2744355458865669987.jpg",
+            "caption": "Chaumin – Saison 1993-1994",
+            "credit": "fcsm",
+            "caption_raw": "Chaumin – Saison 1993-1994 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4792,
+        "url": "https://www.fcsochauxretro.com/a-la-une/franck-chaumin/",
+        "path": "/a-la-une/franck-chaumin/",
+        "slug": "franck-chaumin",
+        "seo_title": "Franck Chaumin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Franck Chaumin</h2>\n<h4><strong>Né le 2 novembre 1969 à Blois (41)  </strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1993</p>\n<p><strong>Départ de Sochaux : </strong>juin 1995 </p>",
+        "header_lines": [
+            "Franck Chaumin",
+            "Né le 2 novembre 1969 à Blois (41)",
+            "Taille : 1m85",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1993",
+            "Départ de Sochaux : juin 1995"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Franck",
+        "last_name": "Chaumin",
+        "display_name": "Franck Chaumin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1969-11-02",
+                "precision": "day",
+                "text": "2 novembre 1969"
+            },
+            "place": {
+                "text": "Blois (41)",
+                "city": "Blois",
+                "department": "41",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 2 novembre 1969 à Blois (41)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1993-07",
+            "precision": "month",
+            "text": "juillet 1993"
+        },
+        "departure": {
+            "iso": "1995-06",
+            "precision": "month",
+            "text": "juin 1995"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Franck Chaumin"
+            },
+            {
+                "label": null,
+                "value": "Né le 2 novembre 1969 à Blois (41)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1993"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1995"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

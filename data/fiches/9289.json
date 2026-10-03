@@ -1,0 +1,284 @@
+{
+    "id": 9289,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "georges-vuillaume",
+    "path": "/joueurs/georges-vuillaume/",
+    "title": "Georges Vuillaume",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-principaux",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/61b23031f2465391167572.jpg",
+    "date": "2024-12-29T15:00:01",
+    "modified": "2025-09-10T10:44:29",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "39",
+        "text": "Georges Vuillaume a disputé 39 matchs (4 comme joueur + 35 comme entraîneur) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/61b23031f2465391167572.jpg",
+            "caption": "Georges Vuillaume",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Georges Vuillaume – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9289,
+        "url": "https://www.fcsochauxretro.com/a-la-une/georges-vuillaume-2/",
+        "path": "/a-la-une/georges-vuillaume-2/",
+        "slug": "georges-vuillaume-2",
+        "seo_title": "Georges Vuillaume - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Georges Vuillaume</h2>\n<h4><strong>né le 22 mai 1928 à Drancy (93)</strong></h4>\n<h4><strong>Décédé le 3 juin 2006 à Montreuil (93) </strong></h4>\n<p><strong>Poste :</strong> milieu de terrain</p>\n<p><strong>Puis :</strong> entraîneur</p>\n<p><strong>Comme joueur</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1947</p>\n<p><strong>Départ de Sochaux :</strong> juin 1948</p>\n<p><strong>Comme entraîneur : </strong></p>\n<p><strong>Arrivée à Sochaux :</strong> octobre 1966</p>\n<p><strong>Départ de Sochaux :</strong> juin 1967</p>\n<p><strong>Premier match joué :</strong> Red Star - Sochaux du 03/03/1948 : 0-0</p>\n<p><strong>Dernier match joué :</strong> RC Paris - Sochaux du 08/04/1948 : 2-1</p>\n<p><strong>Premier match entrainé : </strong>Saint-Etienne - Sochaux du 01/11/1966 : 1-0</p>\n<p><strong>Dernier match entraîné : </strong>Toulouse - Sochaux du 10/06/1967 : 1-2</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Finaliste de la coupe de France 1967 (entraîneur)</li>\n</ul>",
+        "header_lines": [
+            "Georges Vuillaume",
+            "né le 22 mai 1928 à Drancy (93)",
+            "Décédé le 3 juin 2006 à Montreuil (93)",
+            "Poste : milieu de terrain",
+            "Puis : entraîneur",
+            "Comme joueur",
+            "Arrivée à Sochaux : juillet 1947",
+            "Départ de Sochaux : juin 1948",
+            "Comme entraîneur :",
+            "Arrivée à Sochaux : octobre 1966",
+            "Départ de Sochaux : juin 1967",
+            "Premier match joué : Red Star - Sochaux du 03/03/1948 : 0-0",
+            "Dernier match joué : RC Paris - Sochaux du 08/04/1948 : 2-1",
+            "Premier match entrainé : Saint-Etienne - Sochaux du 01/11/1966 : 1-0",
+            "Dernier match entraîné : Toulouse - Sochaux du 10/06/1967 : 1-2",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1967 (entraîneur)"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur",
+            "entraineur"
+        ],
+        "first_name": "Georges",
+        "last_name": "Vuillaume",
+        "display_name": "Georges Vuillaume",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1928-05-22",
+                "precision": "day",
+                "text": "22 mai 1928"
+            },
+            "place": {
+                "text": "Drancy (93)",
+                "city": "Drancy",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 mai 1928 à Drancy (93)"
+        },
+        "death": {
+            "date": {
+                "iso": "2006-06-03",
+                "precision": "day",
+                "text": "3 juin 2006"
+            },
+            "place": {
+                "text": "Montreuil (93)",
+                "city": "Montreuil",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 3 juin 2006 à Montreuil (93)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1947-07",
+            "precision": "month",
+            "text": "juillet 1947"
+        },
+        "departure": {
+            "iso": "1948-06",
+            "precision": "month",
+            "text": "juin 1948"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Red Star - Sochaux du 03/03/1948 : 0-0",
+        "last_match": "RC Paris - Sochaux du 08/04/1948 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": "Toulouse - Sochaux du 10/06/1967 : 1-2",
+        "honours": [
+            "Finaliste de la coupe de France 1967 (entraîneur)"
+        ],
+        "then": [
+            "entraîneur"
+        ],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Georges Vuillaume"
+            },
+            {
+                "label": null,
+                "value": "né le 22 mai 1928 à Drancy (93)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 3 juin 2006 à Montreuil (93)"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Puis",
+                "value": "entraîneur"
+            },
+            {
+                "label": null,
+                "value": "Comme joueur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1947"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1948"
+            },
+            {
+                "label": "Comme entraîneur",
+                "value": ""
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "octobre 1966"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1967"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Red Star - Sochaux du 03/03/1948 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "RC Paris - Sochaux du 08/04/1948 : 2-1"
+            },
+            {
+                "label": "Premier match entrainé",
+                "value": "Saint-Etienne - Sochaux du 01/11/1966 : 1-0"
+            },
+            {
+                "label": "Dernier match entraîné",
+                "value": "Toulouse - Sochaux du 10/06/1967 : 1-2"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1967 (entraîneur)"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1998-1999",
+                    "13",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "13",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0",
+                    "18",
+                    "0"
+                ]
+            ],
+            "source_table": 257
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

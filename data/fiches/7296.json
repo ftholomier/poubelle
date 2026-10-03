@@ -1,0 +1,321 @@
+{
+    "id": 7296,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "carlao-roberto-da-cruz",
+    "path": "/joueurs/carlao-roberto-da-cruz/",
+    "title": "Carlao Roberto Da Cruz",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/Scan21112024204508_0016.jpg",
+    "date": "2024-11-10T18:08:34",
+    "modified": "2025-03-05T17:59:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "Carlao a joué 145 matchs (2 buts) pour Sochaux.",
+        "text": ""
+    },
+    "gallery": [
+        {
+            "image": "2024/11/photo-1484129395.jpg",
+            "caption": "Carlao",
+            "credit": "L’est républicain",
+            "caption_raw": "Carlao – L’est républicain"
+        },
+        {
+            "image": "2024/11/Scan21112024204508_0016.jpg",
+            "caption": "Carlao",
+            "credit": "FCSM",
+            "caption_raw": "Carlao – FCSM"
+        },
+        {
+            "image": "2024/11/Scan21112024204508_0012.jpg",
+            "caption": "Carlos Alberto Carlao Saison 2009-2010",
+            "credit": "FCSM",
+            "caption_raw": "Carlos Alberto Carlao Saison 2009-2010 – FCSM"
+        },
+        {
+            "image": "2024/11/Scan21112024204508_0013.jpg",
+            "caption": "Carlos Alberto Carlao Saison 2008-2009",
+            "credit": "FCSM",
+            "caption_raw": "Carlos Alberto Carlao Saison 2008-2009 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7296,
+        "url": "https://www.fcsochauxretro.com/a-la-une/carlao-roberto-da-cruz/",
+        "path": "/a-la-une/carlao-roberto-da-cruz/",
+        "slug": "carlao-roberto-da-cruz",
+        "seo_title": "Carlao Roberto Da Cruz - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Carlao </h2>\n<h4><strong>né le 19 janvier 1986 à Sao Paulo (Brésil)</strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>défenseur central, milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2008</p>\n<p><strong>Départ de Sochaux : </strong>juin 2014</p>\n<p><strong>Premier match :</strong> Sochaux - Grenoble du 08/08/2008 : 1-2</p>\n<p><strong>Dernier match : </strong>Sochaux - Nice du 04/05/2014 : 2-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Valenciennes du 12/04/2010 : 2-1 - But à la 15'</p>",
+        "header_lines": [
+            "Carlao",
+            "né le 19 janvier 1986 à Sao Paulo (Brésil)",
+            "Taille : 1m83",
+            "Poids : 73 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central, milieu défensif",
+            "Arrivée à Sochaux : juillet 2008",
+            "Départ de Sochaux : juin 2014",
+            "Premier match : Sochaux - Grenoble du 08/08/2008 : 1-2",
+            "Dernier match : Sochaux - Nice du 04/05/2014 : 2-0",
+            "Premier but marqué : Sochaux - Valenciennes du 12/04/2010 : 2-1 - But à la 15'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Carlao Roberto",
+        "last_name": "Da Cruz",
+        "display_name": "Carlao Roberto Da Cruz",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1986-01-19",
+                "precision": "day",
+                "text": "19 janvier 1986"
+            },
+            "place": {
+                "text": "Sao Paulo (Brésil)",
+                "city": "Sao Paulo",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 janvier 1986 à Sao Paulo (Brésil)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "gaucher",
+        "position": "défenseur central, milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2008-07",
+            "precision": "month",
+            "text": "juillet 2008"
+        },
+        "departure": {
+            "iso": "2014-06",
+            "precision": "month",
+            "text": "juin 2014"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Grenoble du 08/08/2008 : 1-2",
+        "last_match": "Sochaux - Nice du 04/05/2014 : 2-0",
+        "first_goal": "Sochaux - Valenciennes du 12/04/2010 : 2-1 - But à la 15'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Carlao"
+            },
+            {
+                "label": null,
+                "value": "né le 19 janvier 1986 à Sao Paulo (Brésil)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central, milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2008"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2014"
+            },
+            {
+                "label": "Premier match",
+                "value": "Sochaux - Grenoble du 08/08/2008 : 1-2"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - Nice du 04/05/2014 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Valenciennes du 12/04/2010 : 2-1 - But à la 15'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Qualification ligue Europa",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2008 - 2009",
+                    "25",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "2",
+                    "0",
+                    "28",
+                    "0"
+                ],
+                [
+                    "2009 - 2010",
+                    "16",
+                    "0",
+                    "-",
+                    "-",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "2010 - 2011",
+                    "24",
+                    "1",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "27",
+                    "1"
+                ],
+                [
+                    "2011 - 2012",
+                    "21",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "0"
+                ],
+                [
+                    "2012 - 2013",
+                    "15",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "17",
+                    "0"
+                ],
+                [
+                    "2013 - 2014",
+                    "27",
+                    "1",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "29",
+                    "1"
+                ],
+                [
+                    "TOTAL",
+                    "128",
+                    "2",
+                    "2",
+                    "0",
+                    "9",
+                    "0",
+                    "5",
+                    "0",
+                    "144",
+                    "2"
+                ]
+            ],
+            "source_table": 882
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

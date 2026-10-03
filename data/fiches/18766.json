@@ -1,0 +1,163 @@
+{
+    "id": 18766,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alassane-n-diaye",
+    "path": "/joueurs/alassane-n-diaye/",
+    "title": "Alassane N’Diaye",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/123136-1639161923.webp",
+    "date": "2025-11-16T16:42:27",
+    "modified": "2025-11-16T20:15:46",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Natif du Pays de Montbéliard, Alassane N'Diaye joue à Audincourt puis au FC Sochaux-Montbéliard. </li>\n<li>Le joueur doté d'un gabarit physique impressionnant joue en équipe jeune mais ne perce pas. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Le joueur doté d'un gabarit physique impressionnant joue en équipe jeune mais ne perce pas. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il poursuit à Audincourt puis Alle en Suisse. </li>\n<li>En 2008, il passe des tests concluant en Angleterre et il intègre le centre de formation de Crystal Palace. </li>\n<li>Il jouera 42 matchs et marquera 3 buts pour Palace en deux saisons. Il sera ensuite prêté à plusieurs clubs de divisions inférieures : Swindon Town, Southend United, Barnet FC, Hayes and Yeading United, Hastings United. </li>\n<li>En 2013 il quitte l'Anlgeterre et jouera tour à tour en Bulgarie (Lokomotiv Plovdiv, Beroe Stara Zagora), au Kazakhstan (Irtych Pavlodar, Tobol Kostanaï). </li>\n<li>En 2016, il revient dans la région et signe à l'ASM Belfort en National. Il n'y reste que 3 mois et en septembre 2016 il signe en première division ukrainienne au Tchernomorets Odessa. </li>\n<li>En janvier 2018, il signe en première division lituanienne au FK Suduva avec qui il devient champion national. </li>\n<li>En 2019/2020, il revient en Franche-Comté et signe à Grandvillars en Régional 1. </li>\n<li>Une saison et puis s'en va, direction la première division bulgare et le club du Botev Vrasta. </li>\n<li>En 2021/2022, il signe au Khaïtan SC en première division du Koweït. </li>\n<li>Retour dans la région du côté du FC Vesoul en 2022/2023. </li>\n<li>En 2023, il rejoint le club du FC Haute Ajoie en Suisse où il joue toujours en 2025. </li>\n<li>Dans sa carrière il a joué 216 matchs professionnels, marqué 22 buts et délivré 9 passes décisives. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Alassane N'Diaye a été formé à Sochaux jusqu'à l'âge de 16 ans avant de partir à Alle en Suisse puis à Crystal Place où il a démaré sa carrière professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/photo-1668356041.jpg",
+            "caption": "Alassane N’Diaye – ASM Belfort",
+            "credit": "L’est républicain",
+            "caption_raw": "Alassane N’Diaye – ASM Belfort – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 18766,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alassane-ndiaye/",
+        "path": "/a-la-une/alassane-ndiaye/",
+        "slug": "alassane-ndiaye",
+        "seo_title": "Alassane N'Diaye - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alassane N'Diaye</h2>\n<h4><strong>né le 25 février 1990 à Audincourt (25)</strong></h4>\n<p><strong>Taille :</strong> 1m96</p>\n<p><strong>Poids :</strong> 90 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> milieu défensif</p>\n<p><strong>Formé à Sochaux jusqu'en :</strong> juin 2007</p>",
+        "header_lines": [
+            "Alassane N'Diaye",
+            "né le 25 février 1990 à Audincourt (25)",
+            "Taille : 1m96",
+            "Poids : 90 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "Formé à Sochaux jusqu'en : juin 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alassane",
+        "last_name": "N'Diaye",
+        "display_name": "Alassane N'Diaye",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1990-02-25",
+                "precision": "day",
+                "text": "25 février 1990"
+            },
+            "place": {
+                "text": "Audincourt (25)",
+                "city": "Audincourt",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 février 1990 à Audincourt (25)"
+        },
+        "death": null,
+        "height": "1m96",
+        "height_cm": 196,
+        "weight": "90 kg",
+        "weight_kg": 90,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alassane N'Diaye"
+            },
+            {
+                "label": null,
+                "value": "né le 25 février 1990 à Audincourt (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m96"
+            },
+            {
+                "label": "Poids",
+                "value": "90 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Formé à Sochaux jusqu'en",
+                "value": "juin 2007"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

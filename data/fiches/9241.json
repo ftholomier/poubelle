@@ -1,0 +1,259 @@
+{
+    "id": 9241,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "king-osanga",
+    "path": "/joueurs/king-osanga/",
+    "title": "King Osanga",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/64885Osanga.jpg",
+    "date": "2024-12-27T23:40:14",
+    "modified": "2024-12-28T17:56:02",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "King Osanga a joué 1 match pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/45.jpg",
+            "caption": "King Osanga",
+            "credit": "L’est républicain",
+            "caption_raw": "King Osanga – L’est républicain"
+        },
+        {
+            "image": "2024/12/king-osanga-a-signe-un-contrat-de-18-mois-en-faveur-du-fcsm-1484128849.jpg",
+            "caption": "King Osanga",
+            "credit": "L’est républicain",
+            "caption_raw": "King Osanga – L’est républicain"
+        },
+        {
+            "image": "2024/12/91460.jpg",
+            "caption": "King Osanga",
+            "credit": "L’est républicain",
+            "caption_raw": "King Osanga – L’est républicain"
+        },
+        {
+            "image": "2024/12/64885Osanga.jpg",
+            "caption": "King Osanga",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "King Osanga – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9241,
+        "url": "https://www.fcsochauxretro.com/a-la-une/king-osanga/",
+        "path": "/a-la-une/king-osanga/",
+        "slug": "king-osanga",
+        "seo_title": "King Osanga - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>King Osanga</h2>\n<h4><strong>né le 6 octobre 1990 à Jos (Nigéria)</strong></h4>\n<p><strong>Taille : </strong>1m68</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>International nigérian U17 et U20 (9 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2012</p>\n<p><strong>Départ de Sochaux : </strong>juin 2013</p>\n<p><strong>Premier et dernier match joué :</strong> Sochaux - Evian TG du 26/09/2012 : 3-2 a.p</p>",
+        "header_lines": [
+            "King Osanga",
+            "né le 6 octobre 1990 à Jos (Nigéria)",
+            "Taille : 1m68",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "International nigérian U17 et U20 (9 sélections)",
+            "Arrivée à Sochaux : janvier 2012",
+            "Départ de Sochaux : juin 2013",
+            "Premier et dernier match joué : Sochaux - Evian TG du 26/09/2012 : 3-2 a.p"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "King",
+        "last_name": "Osanga",
+        "display_name": "King Osanga",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1990-10-06",
+                "precision": "day",
+                "text": "6 octobre 1990"
+            },
+            "place": {
+                "text": "Jos (Nigéria)",
+                "city": "Jos",
+                "department": null,
+                "country": "Nigéria",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 octobre 1990 à Jos (Nigéria)"
+        },
+        "death": null,
+        "height": "1m68",
+        "height_cm": 168,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International nigérian U17 et U20 (9 sélections)"
+        ],
+        "arrival": {
+            "iso": "2012-01",
+            "precision": "month",
+            "text": "janvier 2012"
+        },
+        "departure": {
+            "iso": "2013-06",
+            "precision": "month",
+            "text": "juin 2013"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "King Osanga"
+            },
+            {
+                "label": null,
+                "value": "né le 6 octobre 1990 à Jos (Nigéria)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m68"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International nigérian U17 et U20 (9 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2012"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2013"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Sochaux - Evian TG du 26/09/2012 : 3-2 a.p"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "29",
+                    "10",
+                    "0",
+                    "0",
+                    "34",
+                    "12"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "29",
+                    "10",
+                    "0",
+                    "0",
+                    "34",
+                    "12"
+                ]
+            ],
+            "source_table": 429
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,257 @@
+{
+    "id": 11045,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "louis-sahm",
+    "path": "/joueurs/louis-sahm/",
+    "title": "Louis Sahm",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-01-28T11:08:39",
+    "modified": "2025-09-10T13:06:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Sahm aurait joué 10 matchs pour Sochaux dont 2 officiels."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11045,
+        "url": "https://www.fcsochauxretro.com/a-la-une/louis-sahm/",
+        "path": "/a-la-une/louis-sahm/",
+        "slug": "louis-sahm",
+        "seo_title": "Louis Sahm - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Louis Sahm</h2>\n<h4><strong>Né le 2 mars 1910 à Audincourt (25)<br></strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Position : </strong>milieu de terrain <strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1939<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 1941<strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Sochaux - Héricourt du 25/02/1940 : 11-0 </p>\n<p><strong>Dernier match joué :</strong> Quand même Belfort - Sochaux du 30/03/1941 : 2-0</p>",
+        "header_lines": [
+            "Louis Sahm",
+            "Né le 2 mars 1910 à Audincourt (25)",
+            "Décédé le xx à xx",
+            "Position : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1939",
+            "Départ de Sochaux : juin 1941",
+            "Premier match joué : Sochaux - Héricourt du 25/02/1940 : 11-0",
+            "Dernier match joué : Quand même Belfort - Sochaux du 30/03/1941 : 2-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Louis",
+        "last_name": "Sahm",
+        "display_name": "Louis Sahm",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1910-03-02",
+                "precision": "day",
+                "text": "2 mars 1910"
+            },
+            "place": {
+                "text": "Audincourt (25)",
+                "city": "Audincourt",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 2 mars 1910 à Audincourt (25)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1939-07",
+            "precision": "month",
+            "text": "juillet 1939"
+        },
+        "departure": {
+            "iso": "1941-06",
+            "precision": "month",
+            "text": "juin 1941"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Héricourt du 25/02/1940 : 11-0",
+        "last_match": "Quand même Belfort - Sochaux du 30/03/1941 : 2-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Louis Sahm"
+            },
+            {
+                "label": null,
+                "value": "Né le 2 mars 1910 à Audincourt (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Position",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1939"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1941"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Héricourt du 25/02/1940 : 11-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Quand même Belfort - Sochaux du 30/03/1941 : 2-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

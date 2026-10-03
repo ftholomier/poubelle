@@ -1,0 +1,253 @@
+{
+    "id": 10851,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mohamed-larbi",
+    "path": "/joueurs/mohamed-larbi/",
+    "title": "Mohamed Larbi",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/66.jpg",
+    "date": "2025-01-23T08:49:50",
+    "modified": "2025-01-23T08:58:54",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Mohamed Larbi a joué 13 matchs (3 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/sport-foot-football-ligue-2-l2-montbeliard-le-21-04-17-34e-journee-de-ligue-2-de-football-entre-le-fc-sochaux-montbeliard-fcsm-et-le-gazelec-fc-ajaccio-rafik-boujedra-et-moham.jpg",
+            "caption": "Mohamed Larbi",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Larbi – L’est républicain"
+        },
+        {
+            "image": "2025/01/officiel-mohamed-larbi-quitte-le-fc-sochaux-larbi-resiliation186873.webp",
+            "caption": "Mohamed Larbi",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Larbi – L’est républicain"
+        },
+        {
+            "image": "2025/01/5a4ed86a469a45f2628b47d4.jpg",
+            "caption": "Mohamed Larbi",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Larbi – L’est républicain"
+        },
+        {
+            "image": "2025/01/66.jpg",
+            "caption": "Mohamed Larbi",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Larbi – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10851,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mohamed-larbi/",
+        "path": "/a-la-une/mohamed-larbi/",
+        "slug": "mohamed-larbi",
+        "seo_title": "Mohamed Larbi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mohamed Larbi</h2>\n<h4><strong>né le 2 septembre 1987 à Soliman (Tunisie) </strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>milieu offensif </p>\n<p><strong>International tunisien (4 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2017</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2017</p>\n<p><strong>Premier match joué :</strong> Brest - Sochaux du 4/02/2017 : 2-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Troyes du 19/05/2017 : 2-3</p>",
+        "header_lines": [
+            "Mohamed Larbi",
+            "né le 2 septembre 1987 à Soliman (Tunisie)",
+            "Taille : 1m85",
+            "Poids : 75 kg",
+            "Pied : ambidextre",
+            "Poste : milieu offensif",
+            "International tunisien (4 sélections)",
+            "Arrivée à Sochaux : janvier 2017",
+            "Départ de Sochaux : juillet 2017",
+            "Premier match joué : Brest - Sochaux du 4/02/2017 : 2-0",
+            "Dernier match joué : Sochaux - Troyes du 19/05/2017 : 2-3"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mohamed",
+        "last_name": "Larbi",
+        "display_name": "Mohamed Larbi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1987-09-02",
+                "precision": "day",
+                "text": "2 septembre 1987"
+            },
+            "place": {
+                "text": "Soliman (Tunisie)",
+                "city": "Soliman",
+                "department": null,
+                "country": "Tunisie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 2 septembre 1987 à Soliman (Tunisie)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "ambidextre",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International tunisien (4 sélections)"
+        ],
+        "arrival": {
+            "iso": "2017-01",
+            "precision": "month",
+            "text": "janvier 2017"
+        },
+        "departure": {
+            "iso": "2017-07",
+            "precision": "month",
+            "text": "juillet 2017"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Brest - Sochaux du 4/02/2017 : 2-0",
+        "last_match": "Sochaux - Troyes du 19/05/2017 : 2-3",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mohamed Larbi"
+            },
+            {
+                "label": null,
+                "value": "né le 2 septembre 1987 à Soliman (Tunisie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International tunisien (4 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2017"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2017"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Brest - Sochaux du 4/02/2017 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Troyes du 19/05/2017 : 2-3"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

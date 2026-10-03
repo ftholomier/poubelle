@@ -1,0 +1,313 @@
+{
+    "id": 10384,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-pessonneaux",
+    "path": "/joueurs/jean-pessonneaux/",
+    "title": "Jean Pessonneaux",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/02/Jean-Pessoneaux-FCSM.jpg",
+    "date": "2025-01-16T13:04:56",
+    "modified": "2026-02-04T21:09:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "9",
+        "text": "Jean Pessonneaux a joué 9 saisons à Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/6-1.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2026/02/Jean-Pessoneaux-FCSM.jpg",
+            "caption": "Jean Pessoneaux",
+            "credit": "",
+            "caption_raw": "Jean Pessoneaux"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10384,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-pessonneaux/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-pessonneaux/",
+        "slug": "jean-pessonneaux",
+        "seo_title": "Jean Pessonneaux - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Pessonneaux</h2>\n<h4><strong>Né le 10 janvier 1919 à Montbéliard (25)  </strong></h4>\n<h4><strong>Décédé le 6 juin 1996 à Montbéliard (25)</strong></h4>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur ou milieu droit</p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1938</p>\n<p><strong>Départ de Sochaux : </strong>juin 1943</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1945</p>\n<p><strong>Départ de Sochaux : </strong>juin 1949</p>\n<p><strong>Premier match joué :</strong> Sochaux-Valentigney - Red Star du 13/09/1942 : 4-3</p>\n<p><strong>Dernier match joué :</strong>  Saint-Etienne - Sochaux du 07/11/1948 : 1-1</p>\n<p><strong>Premier but marqué </strong>: Sochaux-Valentigney - Le Havre du 30/05/1943 : 3-1 - But à la 50'</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Champion de France de deuxième division 1947</li>\n</ul>",
+        "header_lines": [
+            "Jean Pessonneaux",
+            "Né le 10 janvier 1919 à Montbéliard (25)",
+            "Décédé le 6 juin 1996 à Montbéliard (25)",
+            "Pied : droitier",
+            "Poste : défenseur ou milieu droit",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1938",
+            "Départ de Sochaux : juin 1943",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1945",
+            "Départ de Sochaux : juin 1949",
+            "Premier match joué : Sochaux-Valentigney - Red Star du 13/09/1942 : 4-3",
+            "Dernier match joué : Saint-Etienne - Sochaux du 07/11/1948 : 1-1",
+            "Premier but marqué : Sochaux-Valentigney - Le Havre du 30/05/1943 : 3-1 - But à la 50'",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division 1947"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean",
+        "last_name": "Pessonneaux",
+        "display_name": "Jean Pessonneaux",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1919-01-10",
+                "precision": "day",
+                "text": "10 janvier 1919"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 10 janvier 1919 à Montbéliard (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1996-06-06",
+                "precision": "day",
+                "text": "6 juin 1996"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 6 juin 1996 à Montbéliard (25)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "défenseur ou milieu droit",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1938-07",
+            "precision": "month",
+            "text": "juillet 1938"
+        },
+        "departure": {
+            "iso": "1943-06",
+            "precision": "month",
+            "text": "juin 1943"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux-Valentigney - Red Star du 13/09/1942 : 4-3",
+        "last_match": "Saint-Etienne - Sochaux du 07/11/1948 : 1-1",
+        "first_goal": "Sochaux-Valentigney - Le Havre du 30/05/1943 : 3-1 - But à la 50'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division 1947"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Pessonneaux"
+            },
+            {
+                "label": null,
+                "value": "Né le 10 janvier 1919 à Montbéliard (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 6 juin 1996 à Montbéliard (25)"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur ou milieu droit"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1938"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1943"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1945"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1949"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux-Valentigney - Red Star du 13/09/1942 : 4-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Saint-Etienne - Sochaux du 07/11/1948 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux-Valentigney - Le Havre du 30/05/1943 : 3-1 - But à la 50'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 1947"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

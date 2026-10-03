@@ -1,0 +1,274 @@
+{
+    "id": 7362,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierrick-cros",
+    "path": "/joueurs/pierrick-cros/",
+    "title": "Pierrick Cros",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/Scan21112024204508_0015-1.jpg",
+    "date": "2024-11-14T10:08:09",
+    "modified": "2025-03-06T23:47:04",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "39",
+        "text": "Pierrick Cros a joué 39 matchs (6 clean sheet) avec Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/Scan21112024204508_0014-1.jpg",
+            "caption": "Pierrick Cros Saison 2012-2013",
+            "credit": "",
+            "caption_raw": "Pierrick Cros Saison 2012-2013"
+        },
+        {
+            "image": "2024/11/Scan21112024204508_0015-1.jpg",
+            "caption": "Pierrick Cros",
+            "credit": "FCSM",
+            "caption_raw": "Pierrick Cros – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7362,
+        "url": "https://www.fcsochauxretro.com/a-la-une/pierrick-cros/",
+        "path": "/a-la-une/pierrick-cros/",
+        "slug": "pierrick-cros",
+        "seo_title": "Pierrick Cros - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pierrick Cros</h2>\n<h4><strong>né le 23 juin 1991 à Albi (81)</strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>78kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>International français U16, U17, U18, U19 et U20 (20 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2006</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2014</p>\n<p><strong>Premier match joué :</strong> Lyon - Sochaux du 30/10/2010 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Nantes du 01/02/2014 : 1-0 </p>",
+        "header_lines": [
+            "Pierrick Cros",
+            "né le 23 juin 1991 à Albi (81)",
+            "Taille : 1m86",
+            "Poids : 78kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "International français U16, U17, U18, U19 et U20 (20 sélections)",
+            "Arrivée à Sochaux : juillet 2006",
+            "Départ de Sochaux : juillet 2014",
+            "Premier match joué : Lyon - Sochaux du 30/10/2010 : 2-1",
+            "Dernier match joué : Sochaux - Nantes du 01/02/2014 : 1-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Pierrick",
+        "last_name": "Cros",
+        "display_name": "Pierrick Cros",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1991-06-23",
+                "precision": "day",
+                "text": "23 juin 1991"
+            },
+            "place": {
+                "text": "Albi (81)",
+                "city": "Albi",
+                "department": "81",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 juin 1991 à Albi (81)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "78kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [
+            "International français U16, U17, U18, U19 et U20 (20 sélections)"
+        ],
+        "arrival": {
+            "iso": "2006-07",
+            "precision": "month",
+            "text": "juillet 2006"
+        },
+        "departure": {
+            "iso": "2014-07",
+            "precision": "month",
+            "text": "juillet 2014"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lyon - Sochaux du 30/10/2010 : 2-1",
+        "last_match": "Sochaux - Nantes du 01/02/2014 : 1-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierrick Cros"
+            },
+            {
+                "label": null,
+                "value": "né le 23 juin 1991 à Albi (81)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "78kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U17, U18, U19 et U20 (20 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2006"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2014"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Lyon - Sochaux du 30/10/2010 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nantes du 01/02/2014 : 1-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2010 - 2011",
+                    "13",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "16",
+                    "0"
+                ],
+                [
+                    "2011 - 2012",
+                    "7",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "9",
+                    "0"
+                ],
+                [
+                    "2012 - 2013",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2013 - 2014",
+                    "6",
+                    "0",
+                    "1",
+                    "0",
+                    "2",
+                    "0",
+                    "9",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "30",
+                    "0",
+                    "5",
+                    "0",
+                    "4",
+                    "0",
+                    "39",
+                    "0"
+                ]
+            ],
+            "source_table": 910
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

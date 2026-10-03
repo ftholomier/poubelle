@@ -1,0 +1,233 @@
+{
+    "id": 7897,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "leon-grenier",
+    "path": "/joueurs/leon-grenier/",
+    "title": "Léon Grenier",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/64928.jpg",
+    "date": "2024-11-25T12:01:07",
+    "modified": "2024-11-25T12:19:29",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "9",
+        "text": "Léon Grenier a joué 9 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/64928.jpg",
+            "caption": "Léon Grenier",
+            "credit": "dr",
+            "caption_raw": "Léon Grenier – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7897,
+        "url": "https://www.fcsochauxretro.com/a-la-une/leon-grenier/",
+        "path": "/a-la-une/leon-grenier/",
+        "slug": "leon-grenier",
+        "seo_title": "Léon Grenier - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Léon Grenier</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 1949</p>\n<p><strong>Départ de Sochaux : </strong>juin 1949</p>\n<p><strong>Premier match joué</strong> : Marseille - Sochaux du 16/01/1949 : 3-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Saint-Etienne du 14/04/1949 : 6-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - CO Roubaix-Tourcoing du 23/01/1949 : 5-1 - But à la 22'</p>",
+        "header_lines": [
+            "Léon Grenier",
+            "né le xx à xx",
+            "Taille : 1m82",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : janvier 1949",
+            "Départ de Sochaux : juin 1949",
+            "Premier match joué : Marseille - Sochaux du 16/01/1949 : 3-1",
+            "Dernier match joué : Sochaux - Saint-Etienne du 14/04/1949 : 6-0",
+            "Premier but marqué : Sochaux - CO Roubaix-Tourcoing du 23/01/1949 : 5-1 - But à la 22'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Léon",
+        "last_name": "Grenier",
+        "display_name": "Léon Grenier",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1949-01",
+            "precision": "month",
+            "text": "janvier 1949"
+        },
+        "departure": {
+            "iso": "1949-06",
+            "precision": "month",
+            "text": "juin 1949"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Marseille - Sochaux du 16/01/1949 : 3-1",
+        "last_match": "Sochaux - Saint-Etienne du 14/04/1949 : 6-0",
+        "first_goal": "Sochaux - CO Roubaix-Tourcoing du 23/01/1949 : 5-1 - But à la 22'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Léon Grenier"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 1949"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1949"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Marseille - Sochaux du 16/01/1949 : 3-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Saint-Etienne du 14/04/1949 : 6-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - CO Roubaix-Tourcoing du 23/01/1949 : 5-1 - But à la 22'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

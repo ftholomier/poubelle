@@ -1,0 +1,120 @@
+{
+    "id": 16415,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "robert-szpyrka",
+    "path": "/personnages-emblematiques/robert-szpyrka/",
+    "title": "Robert Szpyrka",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/robert-szpyrka-photo-fc-sochaux-montbeliard-1665651743.jpg",
+    "date": "2025-09-06T16:07:20",
+    "modified": "2025-11-12T20:28:25",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Robert Szpyrka entraîne les enfants du club depuis plusieurs décennies. Désormais responsable de l'école de football (jeunes joueurs jusqu'à l'âge de 15 ans), il est aussi l'intendant du centre de formation depuis 2007.  </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "2007",
+        "text": "Depuis 2007 Robert Szpyrka est l'intendant du centre de formation. Il est aussi responsable de l'école de foot du club depuis 2017."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/en-l-absence-du-coach-de-l-equipe-de-france-feminine-andre-schnoebelen-a-remis-le-diplome-a-robert-szpyrka-1444765016.jpg",
+            "caption": "En 2015 Sochaux reçoit le label r pour son école de foot.",
+            "credit": "",
+            "caption_raw": "En 2015 Sochaux reçoit le label r pour son école de foot."
+        },
+        {
+            "image": "2025/09/robert-szpyrka-photo-fc-sochaux-montbeliard-1665651743.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16415,
+        "url": "https://www.fcsochauxretro.com/a-la-une/robert-szpyrka/",
+        "path": "/a-la-une/robert-szpyrka/",
+        "slug": "robert-szpyrka",
+        "seo_title": "Robert Szpyrka - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Robert Szpyrka</h2>\n<h4><strong>Responsable de l'école de football du FC Sochaux-Montbéliard.   </strong></h4>",
+        "header_lines": [
+            "Robert Szpyrka",
+            "Responsable de l'école de football du FC Sochaux-Montbéliard."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Robert",
+        "last_name": "Szpyrka",
+        "display_name": "Robert Szpyrka",
+        "nickname": "",
+        "subtitle": "Responsable de l'école de football du FC Sochaux-Montbéliard.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Robert Szpyrka"
+            },
+            {
+                "label": null,
+                "value": "Responsable de l'école de football du FC Sochaux-Montbéliard."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

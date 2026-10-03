@@ -1,0 +1,578 @@
+{
+    "id": 16744,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-reims-amical-31-07-2013",
+    "path": "/matchs/2013-2014/sochaux-reims-amical-31-07-2013/",
+    "title": "Amical – Sochaux (L1) / Reims (L1) – 31/07/2013 – 0-0",
+    "categories": [
+        "2013-2014",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/sochaux_reims_display2-1.jpg",
+    "date": "2026-06-13T11:14:27",
+    "modified": "2026-06-22T21:33:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "2 matchs de suite sans marquer."
+    },
+    "gallery": [
+        {
+            "image": "2026/06/08-1.jpg",
+            "caption": "Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2025/12/sochaux_reims_display2-1.jpg",
+            "caption": "Prcic lors de Sochaux-Reims pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Prcic lors de Sochaux-Reims pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/15-2.jpg",
+            "caption": "Butin – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Butin – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/18-2.jpg",
+            "caption": "Prcic – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Prcic – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/20.jpg",
+            "caption": "Peybernes – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Peybernes – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/23.jpg",
+            "caption": "Bakambu – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Bakambu – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/24-2.jpg",
+            "caption": "Bakambu – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Bakambu – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/27.jpg",
+            "caption": "Carlao – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Carlao – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/29-1.jpg",
+            "caption": "Boumal – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Boumal – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/31.jpg",
+            "caption": "Prcic – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Prcic – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/32-1.jpg",
+            "caption": "Dias – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Dias – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/33-1.jpg",
+            "caption": "Boumal – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Boumal – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        },
+        {
+            "image": "2026/06/34.jpg",
+            "caption": "Sauget – Sochaux-Reims en pré-saison 2013-2014",
+            "credit": "FCSM",
+            "caption_raw": "Sauget – Sochaux-Reims en pré-saison 2013-2014 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16744,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l1-reims-l1-31-07-2013-0-0/",
+        "path": "/a-la-une/amical-sochaux-l1-reims-l1-31-07-2013-0-0/",
+        "slug": "amical-sochaux-l1-reims-l1-31-07-2013-0-0",
+        "seo_title": "Amical - Sochaux (L1) / Reims (L1) - 31/07/2013 - 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Reims : 0-0</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Mercredi 31 juillet 2013</strong></h4>\n<h4><strong>Stade Jean Bouloumié de Vittel (88)<br></strong></h4>\n<h4><strong>200 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Schneider</strong></h4>",
+        "header_lines": [
+            "Sochaux / Reims : 0-0",
+            "Match amical",
+            "Mercredi 31 juillet 2013",
+            "Stade Jean Bouloumié de Vittel (88)",
+            "200 spectateurs",
+            "Arbitre : M. Schneider"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2013-07-31",
+        "date_text": "Mercredi 31 juillet 2013",
+        "season": "2013-2014",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L1"
+        },
+        "away": {
+            "name": "Reims",
+            "level": "L1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "Sochaux / Reims : 0-0",
+        "result": "N",
+        "stadium": "Stade Jean Bouloumié de Vittel (88)",
+        "spectators": 200,
+        "spectators_text": "200 spectateurs",
+        "referee": "M. Schneider",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "POUPLIN Simon",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CORCHIA Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "71",
+                    "sub_text": "↓ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CARLAO",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "KANTE Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FAUSSURIER Julien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "71",
+                    "sub_text": "↓ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PRCIC Sanjin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "EICKMAYER Joachim",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "66",
+                    "sub_text": "↓ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CONTOUT Roy",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "BUTIN Edouard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "BAKAMBU Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "71",
+                    "sub_text": "↓ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CROS Pierrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SAUGET David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "71",
+                    "sub_out": null,
+                    "sub_text": "↑ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ZOUMA Lonel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "NOGUEIRA Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "71",
+                    "sub_out": null,
+                    "sub_text": "↑ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOUMAL Petrus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIAS Rafaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "66",
+                    "sub_out": null,
+                    "sub_text": "↑ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PRIVAT Sloan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CAMARA Abdoul",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↑ 46'↓ 86'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DOUBAÏ Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "86",
+                    "sub_out": null,
+                    "sub_text": "↑ 86'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOUDEBOUZ Ryad",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "71",
+                    "sub_out": null,
+                    "sub_text": "↑ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "HELY Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1885
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

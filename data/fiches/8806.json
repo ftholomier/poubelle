@@ -1,0 +1,247 @@
+{
+    "id": 8806,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "andre-jacquin",
+    "path": "/joueurs/andre-jacquin/",
+    "title": "André Jacquin",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5.jpeg",
+    "date": "2024-12-17T23:22:17",
+    "modified": "2025-07-08T06:53:47",
+    "author": "tanguy",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "C'est le nombre de buts qu'il a inscrit en seulement 9 matchs avec la sélection autrichienne, avant que celle-ci ne soit dissoute, suite à l'annexion allemande."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5.jpeg",
+            "caption": "André Jacquin",
+            "credit": "dr",
+            "caption_raw": "André Jacquin – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8806,
+        "url": "https://www.fcsochauxretro.com/a-la-une/andre-jacquin/",
+        "path": "/a-la-une/andre-jacquin/",
+        "slug": "andre-jacquin",
+        "seo_title": "André Jacquin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>André Jacquin</h2>\n<h4><strong>né le xx 1907 à Delme-en-Moselle (57)</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Taille : </strong></p>\n<p><strong>Poids : </strong></p>\n<p><strong>Pied :</strong> </p>\n<p><strong>Poste : </strong><strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong></p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match joué :</strong> </p>\n<p><strong>Dernier match joué :</strong> </p>\n<p><strong>Premier but marqué :</strong> </p>",
+        "header_lines": [
+            "André Jacquin",
+            "né le xx 1907 à Delme-en-Moselle (57)",
+            "Décédé le xx à xx",
+            "Taille :",
+            "Poids :",
+            "Pied :",
+            "Poste :",
+            "Arrivée à Sochaux :",
+            "Départ de Sochaux :",
+            "Premier match joué :",
+            "Dernier match joué :",
+            "Premier but marqué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "André",
+        "last_name": "Jacquin",
+        "display_name": "André Jacquin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1907",
+                "precision": "year",
+                "text": "xx 1907"
+            },
+            "place": {
+                "text": "Delme-en-Moselle (57)",
+                "city": "Delme-en-Moselle",
+                "department": "57",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx 1907 à Delme-en-Moselle (57)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": "",
+        "height_cm": null,
+        "weight": "",
+        "weight_kg": null,
+        "foot": "",
+        "position": "",
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "",
+        "last_match": "",
+        "first_goal": "",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "André Jacquin"
+            },
+            {
+                "label": null,
+                "value": "né le xx 1907 à Delme-en-Moselle (57)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Taille",
+                "value": ""
+            },
+            {
+                "label": "Poids",
+                "value": ""
+            },
+            {
+                "label": "Pied",
+                "value": ""
+            },
+            {
+                "label": "Poste",
+                "value": ""
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": ""
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            },
+            {
+                "label": "Premier but marqué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1938-1939",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "1945-1946",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "Total",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            ],
+            "source_table": 231
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

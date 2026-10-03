@@ -1,0 +1,233 @@
+{
+    "id": 8281,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "l-hooper",
+    "path": "/joueurs/l-hooper/",
+    "title": "L. Hooper (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/11/3-3.jpeg",
+    "date": "2024-12-17T23:19:11",
+    "modified": "2025-11-12T14:07:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "L.Hooper a gardé les buts de Sochaux à 2 reprises en amical."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/3-3.jpeg",
+            "caption": "Hooper",
+            "credit": "dr",
+            "caption_raw": "Hooper – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8281,
+        "url": "https://www.fcsochauxretro.com/uncategorized/l-hooper/",
+        "path": "/uncategorized/l-hooper/",
+        "slug": "l-hooper",
+        "seo_title": "L. Hooper (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>L. Hooper</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>A l'essai en : </strong>avril 1932</p>\n<p><strong>Premier match amical joué :</strong> Saint-Chamond - Sochaux du 09/04/1932 : 1-3</p>\n<p><strong>Dernier match amical joué :</strong> Sète - Sochaux du 10/04/1932 : 4-2</p>",
+        "header_lines": [
+            "L. Hooper",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : gardien de but",
+            "A l'essai en : avril 1932",
+            "Premier match amical joué : Saint-Chamond - Sochaux du 09/04/1932 : 1-3",
+            "Dernier match amical joué : Sète - Sochaux du 10/04/1932 : 4-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "L.",
+        "last_name": "Hooper",
+        "display_name": "L. Hooper",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1932-04",
+            "precision": "month",
+            "text": "avril 1932"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Saint-Chamond - Sochaux du 09/04/1932 : 1-3",
+        "last_match": "Sète - Sochaux du 10/04/1932 : 4-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "L. Hooper"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "avril 1932"
+            },
+            {
+                "label": "Premier match amical joué",
+                "value": "Saint-Chamond - Sochaux du 09/04/1932 : 1-3"
+            },
+            {
+                "label": "Dernier match amical joué",
+                "value": "Sète - Sochaux du 10/04/1932 : 4-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

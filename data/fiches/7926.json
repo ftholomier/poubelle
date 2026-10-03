@@ -1,0 +1,239 @@
+{
+    "id": 7926,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "victor-glaentzlin",
+    "path": "/joueurs/victor-glaentzlin/",
+    "title": "Victor Glaentzlin",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/2121.jpg",
+    "date": "2024-11-24T18:09:06",
+    "modified": "2024-11-24T18:25:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "9",
+        "text": "Victor Glaentzlin a joué 9 matchs (1 but) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/victor-glaentzlin-a-dispute-six-matchs-avec-sochaux-cette-saison-pour-un-but-inscrit-a-niort-photo-er-christian-lemontey-1592487533.jpg",
+            "caption": "Victor Glaentzlin",
+            "credit": "L’est républicain",
+            "caption_raw": "Victor Glaentzlin – L’est républicain"
+        },
+        {
+            "image": "2024/11/un-sacre-bapteme-du-feu-en-pro-pour-l-attaquant-sochalien-victor-glaentzlin-supporter-du-club-depuis-son-plus-jeune-age-et-qui-a-debute-son-parcours-par-un-triple-express-photo-christian-l.jpg",
+            "caption": "Victor Glaentzlin",
+            "credit": "L’est républicain",
+            "caption_raw": "Victor Glaentzlin – L’est républicain"
+        },
+        {
+            "image": "2024/11/2121.jpg",
+            "caption": "Victor Glaentzlin",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Victor Glaentzlin – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7926,
+        "url": "https://www.fcsochauxretro.com/a-la-une/victor-glaentzlin/",
+        "path": "/a-la-une/victor-glaentzlin/",
+        "slug": "victor-glaentzlin",
+        "seo_title": "Victor Glaentzlin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Victor Glaentzlin<br></h2>\n<h4><strong>né le 23 avril 1998 à Guebwiller (68)</strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2015</p>\n<p><strong>Départ de Sochaux : </strong>juin 2020</p>\n<p><strong>Premier match joué :</strong> Sochaux - Valenciennes du 03/08/2018 : 0-1</p>\n<p><strong>Dernier match joué : </strong>Epinal - Sochaux du 16/11/2019 : 2-0</p>\n<p><strong>Premier but marqué :</strong> Niort - Sochaux du 02/11/2019 : 0-2 - But à la 60'</p>",
+        "header_lines": [
+            "Victor Glaentzlin",
+            "né le 23 avril 1998 à Guebwiller (68)",
+            "Taille : 1m86",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 2015",
+            "Départ de Sochaux : juin 2020",
+            "Premier match joué : Sochaux - Valenciennes du 03/08/2018 : 0-1",
+            "Dernier match joué : Epinal - Sochaux du 16/11/2019 : 2-0",
+            "Premier but marqué : Niort - Sochaux du 02/11/2019 : 0-2 - But à la 60'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Victor",
+        "last_name": "Glaentzlin",
+        "display_name": "Victor Glaentzlin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1998-04-23",
+                "precision": "day",
+                "text": "23 avril 1998"
+            },
+            "place": {
+                "text": "Guebwiller (68)",
+                "city": "Guebwiller",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 avril 1998 à Guebwiller (68)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2015-07",
+            "precision": "month",
+            "text": "juillet 2015"
+        },
+        "departure": {
+            "iso": "2020-06",
+            "precision": "month",
+            "text": "juin 2020"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Valenciennes du 03/08/2018 : 0-1",
+        "last_match": "Epinal - Sochaux du 16/11/2019 : 2-0",
+        "first_goal": "Niort - Sochaux du 02/11/2019 : 0-2 - But à la 60'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Victor Glaentzlin"
+            },
+            {
+                "label": null,
+                "value": "né le 23 avril 1998 à Guebwiller (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2015"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2020"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Valenciennes du 03/08/2018 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Epinal - Sochaux du 16/11/2019 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Niort - Sochaux du 02/11/2019 : 0-2 - But à la 60'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "14",
+                    "",
+                    "",
+                    "",
+                    "14",
+                    ""
+                ],
+                [
+                    "Total",
+                    "14",
+                    "",
+                    "",
+                    "",
+                    "14",
+                    ""
+                ]
+            ],
+            "source_table": 222
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

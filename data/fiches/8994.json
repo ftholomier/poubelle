@@ -1,0 +1,181 @@
+{
+    "id": 8994,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "charly-dosso",
+    "path": "/joueurs/charly-dosso/",
+    "title": "Charly Dosso",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/5-21.jpg",
+    "date": "2024-12-15T14:49:28",
+    "modified": "2025-07-16T21:20:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "18",
+        "text": "Charly Dosso est resté 18 mois à Sochaux où il a été en post formation mais n'a jamais joué pour l'équipe première."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/charly-dosso-a-paraphe-un-premier-contrat-professionnel-avec-son-club-formateur-photo-christian-lemontey-1706387577.jpg",
+            "caption": "Charly Dosso",
+            "credit": "L’est républicain",
+            "caption_raw": "Charly Dosso – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-21.jpg",
+            "caption": "Charly Dosso",
+            "credit": "L’est républicain",
+            "caption_raw": "Charly Dosso – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8994,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/charly-dosso/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/charly-dosso/",
+        "slug": "charly-dosso",
+        "seo_title": "Charly Dosso - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Charly Dosso</h2>\n<h4><strong>né le 9 avril 2003 à Saint-Denis (93) </strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2022</p>\n<p><strong>Départ de Sochaux : </strong>juin 2024</p>",
+        "header_lines": [
+            "Charly Dosso",
+            "né le 9 avril 2003 à Saint-Denis (93)",
+            "Taille : 1m88",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : janvier 2022",
+            "Départ de Sochaux : juin 2024"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Charly",
+        "last_name": "Dosso",
+        "display_name": "Charly Dosso",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2003-04-09",
+                "precision": "day",
+                "text": "9 avril 2003"
+            },
+            "place": {
+                "text": "Saint-Denis (93)",
+                "city": "Saint-Denis",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 avril 2003 à Saint-Denis (93)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2022-01",
+            "precision": "month",
+            "text": "janvier 2022"
+        },
+        "departure": {
+            "iso": "2024-06",
+            "precision": "month",
+            "text": "juin 2024"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Charly Dosso"
+            },
+            {
+                "label": null,
+                "value": "né le 9 avril 2003 à Saint-Denis (93)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2022"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2024"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

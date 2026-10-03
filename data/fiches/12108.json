@@ -1,0 +1,252 @@
+{
+    "id": 12108,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-santos-muntubile",
+    "path": "/joueurs/jean-santos-muntubile/",
+    "title": "Jean-Santos Muntubile",
+    "categories": [
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/02/421037127_903905105072461_3797375080567541443_n.jpg",
+    "date": "2025-02-23T23:33:00",
+    "modified": "2026-02-03T20:49:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "57",
+        "text": "Jean Santos Muntubile a joué 57 matchs (2 buts et 3 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/421037127_903905105072461_3797375080567541443_n.jpg",
+            "caption": "Jean Santos Muntubile",
+            "credit": "France Football",
+            "caption_raw": "Jean Santos Muntubile – France Football"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12108,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-santos-muntubile/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-santos-muntubile/",
+        "slug": "jean-santos-muntubile",
+        "seo_title": "Jean-Santos Muntubile - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Santos Muntubile</h2>\n<h4><strong>né le 20 décembre 1958 à Kinshasa (RD Congo)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1980</p>\n<p><strong>Départ de Sochaux : </strong>juin 1981</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1982</p>\n<p><strong>Départ de Sochaux : </strong>juin 1984</p>\n<p><strong>Premier match joué : </strong>Laval - Sochaux du 10/08/1982 : 3-1</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Bastia du 31/03/1984 : 2-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Metz du 30/01/1983 : 4-3 - But à la 86'</p>",
+        "header_lines": [
+            "Jean Santos Muntubile",
+            "né le 20 décembre 1958 à Kinshasa (RD Congo)",
+            "Taille : 1m75",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1980",
+            "Départ de Sochaux : juin 1981",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1982",
+            "Départ de Sochaux : juin 1984",
+            "Premier match joué : Laval - Sochaux du 10/08/1982 : 3-1",
+            "Dernier match joué : Sochaux - Bastia du 31/03/1984 : 2-0",
+            "Premier but marqué : Sochaux - Metz du 30/01/1983 : 4-3 - But à la 86'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean Santos",
+        "last_name": "Muntubile",
+        "display_name": "Jean Santos Muntubile",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1958-12-20",
+                "precision": "day",
+                "text": "20 décembre 1958"
+            },
+            "place": {
+                "text": "Kinshasa (RD Congo)",
+                "city": "Kinshasa",
+                "department": null,
+                "country": "RD Congo",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 20 décembre 1958 à Kinshasa (RD Congo)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1980-07",
+            "precision": "month",
+            "text": "juillet 1980"
+        },
+        "departure": {
+            "iso": "1981-06",
+            "precision": "month",
+            "text": "juin 1981"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Laval - Sochaux du 10/08/1982 : 3-1",
+        "last_match": "Sochaux - Bastia du 31/03/1984 : 2-0",
+        "first_goal": "Sochaux - Metz du 30/01/1983 : 4-3 - But à la 86'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Santos Muntubile"
+            },
+            {
+                "label": null,
+                "value": "né le 20 décembre 1958 à Kinshasa (RD Congo)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1980"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1981"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1982"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1984"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Laval - Sochaux du 10/08/1982 : 3-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Bastia du 31/03/1984 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Metz du 30/01/1983 : 4-3 - But à la 86'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

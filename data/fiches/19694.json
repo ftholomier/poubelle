@@ -1,0 +1,172 @@
+{
+    "id": 19694,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "eric-sosa",
+    "path": "/joueurs/eric-sosa/",
+    "title": "Eric Sosa",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Gabriel-Sosa-P-Lorius.png",
+    "date": "2025-12-30T16:03:08",
+    "modified": "2026-02-01T15:23:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Formé à Sochaux le jeune Eric Sosa disputera un match amical face à Dijon avec l'équipe professionnelle en 1989/1990. Il est formé aux côtés de Crucet, Boniface, Robert ou encore Ferrand. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>En juin 1991, il quitte Sochaux où il n'aura jamais joué en match officiel, pour signer au Besançon RC en National où il disputera 16 matchs. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Eric Sosa a été formé à Sochaux et n'a disputé qu'un match amical avec l'équipe professionnelle en 1990."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Gabriel-Sosa-P-Lorius.png",
+            "caption": "Eric Sosa",
+            "credit": "P Lorius",
+            "caption_raw": "Eric Sosa – P Lorius"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19694,
+        "url": "https://www.fcsochauxretro.com/a-la-une/eric-sosa/",
+        "path": "/a-la-une/eric-sosa/",
+        "slug": "eric-sosa",
+        "seo_title": "Eric Sosa - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Eric Sosa</h2>\n<h4><strong>né le 31 01 1972 à xx</strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong>xx kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1987 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1991</p>",
+        "header_lines": [
+            "Eric Sosa",
+            "né le 31 01 1972 à xx",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : gaucher",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1987",
+            "Départ de Sochaux : juin 1991"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Eric",
+        "last_name": "Sosa",
+        "display_name": "Eric Sosa",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1972",
+                "precision": "year",
+                "text": "31 01 1972"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 31 01 1972 à xx"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "gaucher",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1987-07",
+            "precision": "month",
+            "text": "juillet 1987"
+        },
+        "departure": {
+            "iso": "1991-06",
+            "precision": "month",
+            "text": "juin 1991"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Eric Sosa"
+            },
+            {
+                "label": null,
+                "value": "né le 31 01 1972 à xx"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1987"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1991"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

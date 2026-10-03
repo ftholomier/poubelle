@@ -1,0 +1,236 @@
+{
+    "id": 8714,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "valentin-hayoz",
+    "path": "/joueurs/valentin-hayoz/",
+    "title": "Valentin Hayoz",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/telechargement-9.jpg",
+    "date": "2024-12-10T15:22:02",
+    "modified": "2024-12-11T08:09:19",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Valentin Hayoz est resté une saison au centre de formation de Sochaux mais n'a jamais joué pour l'équipe première."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/telechargement-9.jpg",
+            "caption": "Valentin Hayoz",
+            "credit": "Footballdatabase",
+            "caption_raw": "Valentin Hayoz – Footballdatabase"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8714,
+        "url": "https://www.fcsochauxretro.com/a-la-une/valentin-hayoz/",
+        "path": "/a-la-une/valentin-hayoz/",
+        "slug": "valentin-hayoz",
+        "seo_title": "Valentin Hayoz - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Valentin Hayoz</h2>\n<h4><strong>né le 10 février 1995 à Porrentruy (Suisse)</strong></h4>\n<p><strong>Taille : </strong>1m73</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche</p>\n<p><strong>International suisse U15, U16, U17, U18 et U19 (18 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juin 2012</p>\n<p><strong>Départ de Sochaux : </strong>juin 2013</p>",
+        "header_lines": [
+            "Valentin Hayoz",
+            "né le 10 février 1995 à Porrentruy (Suisse)",
+            "Taille : 1m73",
+            "Poids : 65 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "International suisse U15, U16, U17, U18 et U19 (18 sélections, 1 but)",
+            "Arrivée à Sochaux : juin 2012",
+            "Départ de Sochaux : juin 2013"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Valentin",
+        "last_name": "Hayoz",
+        "display_name": "Valentin Hayoz",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1995-02-10",
+                "precision": "day",
+                "text": "10 février 1995"
+            },
+            "place": {
+                "text": "Porrentruy (Suisse)",
+                "city": "Porrentruy",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 février 1995 à Porrentruy (Suisse)"
+        },
+        "death": null,
+        "height": "1m73",
+        "height_cm": 173,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International suisse U15, U16, U17, U18 et U19 (18 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2012-06",
+            "precision": "month",
+            "text": "juin 2012"
+        },
+        "departure": {
+            "iso": "2013-06",
+            "precision": "month",
+            "text": "juin 2013"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Valentin Hayoz"
+            },
+            {
+                "label": null,
+                "value": "né le 10 février 1995 à Porrentruy (Suisse)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m73"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": null,
+                "value": "International suisse U15, U16, U17, U18 et U19 (18 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 2012"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2013"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

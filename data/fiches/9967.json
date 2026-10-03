@@ -1,0 +1,246 @@
+{
+    "id": 9967,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "kandia-traore",
+    "path": "/joueurs/kandia-traore/",
+    "title": "Kandia Traoré",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-110.jpg",
+    "date": "2025-01-02T13:54:16",
+    "modified": "2025-01-02T14:09:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>.</p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "17",
+        "text": "Kandia Traoré a joué 17 matchs (1 but et 2 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/montbeliard-le-03-05-08-ligue-1-football-sochaux-metz-1-1-vivian-gueye-et-kandia-traore-l-alsace-le-pays-1538992138.jpg",
+            "caption": "Kandia Traoré",
+            "credit": "Le Pays",
+            "caption_raw": "Kandia Traoré – Le Pays"
+        },
+        {
+            "image": "2025/01/1444x920_20mn-51965.webp",
+            "caption": "Kandia Traoré",
+            "credit": "L’est républicain",
+            "caption_raw": "Kandia Traoré – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9967,
+        "url": "https://www.fcsochauxretro.com/a-la-une/kandia-traore/",
+        "path": "/a-la-une/kandia-traore/",
+        "slug": "kandia-traore",
+        "seo_title": "Kandia Traoré - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Kandia Traoré</h2>\n<h4><strong>né le 5 juillet 1980 à Abidjan (Côte d'Ivoire)  </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>84 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International ivoirien (21 sélections, 8 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2008</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2008</p>\n<p><strong>Premier match joué :</strong> Sochaux - Valenciennes du 26/01/2008 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Paris SG du 17/05/2008 : 1-2</p>\n<p><strong>Premier but marqué :</strong> Lyon - Sochaux du 18/03/2008 : 2-1 - But à la 89'</p>",
+        "header_lines": [
+            "Kandia Traoré",
+            "né le 5 juillet 1980 à Abidjan (Côte d'Ivoire)",
+            "Taille : 1m80",
+            "Poids : 84 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International ivoirien (21 sélections, 8 buts)",
+            "Arrivée à Sochaux : janvier 2008",
+            "Départ de Sochaux : juillet 2008",
+            "Premier match joué : Sochaux - Valenciennes du 26/01/2008 : 1-0",
+            "Dernier match joué : Sochaux - Paris SG du 17/05/2008 : 1-2",
+            "Premier but marqué : Lyon - Sochaux du 18/03/2008 : 2-1 - But à la 89'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Kandia",
+        "last_name": "Traoré",
+        "display_name": "Kandia Traoré",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1980-07-05",
+                "precision": "day",
+                "text": "5 juillet 1980"
+            },
+            "place": {
+                "text": "Abidjan (Côte d'Ivoire)",
+                "city": "Abidjan",
+                "department": null,
+                "country": "Côte d'Ivoire",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 5 juillet 1980 à Abidjan (Côte d'Ivoire)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "84 kg",
+        "weight_kg": 84,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International ivoirien (21 sélections, 8 buts)"
+        ],
+        "arrival": {
+            "iso": "2008-01",
+            "precision": "month",
+            "text": "janvier 2008"
+        },
+        "departure": {
+            "iso": "2008-07",
+            "precision": "month",
+            "text": "juillet 2008"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Valenciennes du 26/01/2008 : 1-0",
+        "last_match": "Sochaux - Paris SG du 17/05/2008 : 1-2",
+        "first_goal": "Lyon - Sochaux du 18/03/2008 : 2-1 - But à la 89'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Kandia Traoré"
+            },
+            {
+                "label": null,
+                "value": "né le 5 juillet 1980 à Abidjan (Côte d'Ivoire)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "84 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International ivoirien (21 sélections, 8 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2008"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2008"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Valenciennes du 26/01/2008 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Paris SG du 17/05/2008 : 1-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Lyon - Sochaux du 18/03/2008 : 2-1 - But à la 89'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,237 @@
+{
+    "id": 8669,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "fode-guirassy",
+    "path": "/joueurs/fode-guirassy/",
+    "title": "Fodé Guirassy",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/telechargement-7.jpg",
+    "date": "2024-12-08T13:56:59",
+    "modified": "2024-12-08T14:03:10",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Fodé Guirassy a été formé à Sochaux durant 1 saison mais n'a jamais joué avec l'équipe professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/passeur-et-buteur-sur-son-cote-droit-fode-guirassy-a-fait-souffrir-sofiane-el-achak-et-les-bisontins-photo-christian-lemontey-1472330100.jpg",
+            "caption": "Fodé Guirassy",
+            "credit": "L’est républicain",
+            "caption_raw": "Fodé Guirassy – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8669,
+        "url": "https://www.fcsochauxretro.com/a-la-une/fode-guirassy/",
+        "path": "/a-la-une/fode-guirassy/",
+        "slug": "fode-guirassy",
+        "seo_title": "Fodé Guirassy - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Fodé Guirassy</h2>\n<h4><strong>né le 6 janvier 1996 à Aix-en-Provence (13)</strong></h4>\n<p><strong>Taille : </strong>1m89</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>ailier gauche</p>\n<p><strong>International guinéen</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2016</p>\n<p><strong>Départ de Sochaux : </strong>juin 2017</p>",
+        "header_lines": [
+            "Fodé Guirassy",
+            "né le 6 janvier 1996 à Aix-en-Provence (13)",
+            "Taille : 1m89",
+            "Poids : 72 kg",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "International guinéen",
+            "Arrivée à Sochaux : juillet 2016",
+            "Départ de Sochaux : juin 2017"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Fodé",
+        "last_name": "Guirassy",
+        "display_name": "Fodé Guirassy",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1996-01-06",
+                "precision": "day",
+                "text": "6 janvier 1996"
+            },
+            "place": {
+                "text": "Aix-en-Provence (13)",
+                "city": "Aix-en-Provence",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 janvier 1996 à Aix-en-Provence (13)"
+        },
+        "death": null,
+        "height": "1m89",
+        "height_cm": 189,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International guinéen"
+        ],
+        "arrival": {
+            "iso": "2016-07",
+            "precision": "month",
+            "text": "juillet 2016"
+        },
+        "departure": {
+            "iso": "2017-06",
+            "precision": "month",
+            "text": "juin 2017"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Fodé Guirassy"
+            },
+            {
+                "label": null,
+                "value": "né le 6 janvier 1996 à Aix-en-Provence (13)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m89"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": null,
+                "value": "International guinéen"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2016"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2017"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

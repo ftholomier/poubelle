@@ -1,0 +1,391 @@
+{
+    "id": 23103,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-belo-horizonte-amical-20-07-1980",
+    "path": "/matchs/1980-1981/sochaux-belo-horizonte-amical-20-07-1980/",
+    "title": "Amical – Sochaux (D1) / Belo Horizonte ( D1 Brésil) – Amical – 20/07/1980 – 1-2",
+    "categories": [
+        "1980-1981",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/09/effectif-sochalien-en-stage-collection-privee.png",
+    "date": "2026-09-26T15:54:05",
+    "modified": "2026-09-27T15:07:24",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>4' : </strong>à venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Albert Rust :</strong> <em>à venir</em></li>\n<li> </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "deux défaites en 4 rencontres amicales pour Sochaux"
+    },
+    "gallery": [
+        {
+            "image": "2026/09/effectif-sochalien-en-stage-collection-privee.png",
+            "caption": "effectif sochalien en stage",
+            "credit": "collection privée",
+            "caption_raw": "effectif sochalien en stage – collection privée"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 23103,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-d1-belo-horizonte-d1-amical-20-07-1980-1-2/",
+        "path": "/a-la-une/amical-sochaux-d1-belo-horizonte-d1-amical-20-07-1980-1-2/",
+        "slug": "amical-sochaux-d1-belo-horizonte-d1-amical-20-07-1980-1-2",
+        "seo_title": "Amical - Sochaux (D1) / Belo Horizonte ( D1 Brésil) - Amical - 20/07/1980 - 1-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Belo Horizonte  : 1-2</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Dimanche 20 juillet 1980</strong></h4>\n<h4><strong>Stade de Vittel</strong></h4>\n<h4><strong>1 500 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M Lerognon</strong></h4>\n<p>Buts : Ivezic 60' pour Sochaux; Cerezzo 25', Reinaldo 75' pour Belo Horizonte. </p>",
+        "header_lines": [
+            "Sochaux / Belo Horizonte : 1-2",
+            "Match amical",
+            "Dimanche 20 juillet 1980",
+            "Stade de Vittel",
+            "1 500 spectateurs",
+            "Arbitrage : M Lerognon",
+            "Buts : Ivezic 60' pour Sochaux; Cerezzo 25', Reinaldo 75' pour Belo Horizonte."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1980-07-20",
+        "date_text": "Dimanche 20 juillet 1980",
+        "season": "1980-1981",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": "Amical",
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Belo Horizonte",
+            "level": "D1 Brésil"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 1,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-2",
+        "score_line": "Sochaux / Belo Horizonte : 1-2",
+        "result": "D",
+        "stadium": "Stade de Vittel",
+        "spectators": 1500,
+        "spectators_text": "1 500 spectateurs",
+        "referee": "M Lerognon",
+        "goals_text": "Ivezic 60' pour Sochaux; Cerezzo 25', Reinaldo 75' pour Belo Horizonte.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Ivezic 60'"
+            },
+            {
+                "team": "Belo Horizonte",
+                "scorers": "Cerezzo 25', Reinaldo 75'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "4",
+                "text": "à venir",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Albert Rust",
+                "text": "à venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "52"
+                    ],
+                    "goals_text": "52'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZÉE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "26"
+                    ],
+                    "goals_text": "26'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "18"
+                    ],
+                    "goals_text": "18'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "57",
+                    "sub_text": "Sortie 57'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "57",
+                    "sub_out": null,
+                    "sub_text": "Entrée 57'",
+                    "yellow": [
+                        "69"
+                    ],
+                    "red": [],
+                    "cards_text": "J 69'",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

@@ -1,0 +1,298 @@
+{
+    "id": 11094,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "badara-sene",
+    "path": "/joueurs/badara-sene/",
+    "title": "Badara Sène",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/33932-1734542503.webp",
+    "date": "2025-01-28T21:56:00",
+    "modified": "2025-01-29T12:25:10",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "55",
+        "text": "Badara Sène a joué 55 matchs (5 buts et 2 passes décisives) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/pour-l-instant-badara-sene-se-soigne-avant-de-rebondir-photo-d-archives-1484126984.jpg",
+            "caption": "Badara Sène",
+            "credit": "L’est républicain",
+            "caption_raw": "Badara Sène – L’est républicain"
+        },
+        {
+            "image": "2025/01/badara-sene-forme-a-sochaux-quitte-le-club-en-2008-et-rejoint-guingamp-ou-il-reste-jusqu-en-2009-vainqueur-d-une-coupe-de-france-avec-les-deux-clubs-photo-er-lionel-vadam-16321396.jpg",
+            "caption": "Badara Sène",
+            "credit": "L’est républicain",
+            "caption_raw": "Badara Sène – L’est républicain"
+        },
+        {
+            "image": "2025/01/33932-1734542503.webp",
+            "caption": "Badara Sène",
+            "credit": "fcsm",
+            "caption_raw": "Badara Sène – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11094,
+        "url": "https://www.fcsochauxretro.com/a-la-une/badara-sene/",
+        "path": "/a-la-une/badara-sene/",
+        "slug": "badara-sene",
+        "seo_title": "Badara Sène - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Badara Sène</h2>\n<h4><strong>né le 19 novembre 1984 à Dakar (Sénégal)</strong></h4>\n<p><strong>Taille : </strong>1m90</p>\n<p><strong>Poids : </strong>77 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>International sénégalais (4 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2000</p>\n<p><strong>Départ de Sochaux : </strong>juin 2011</p>\n<p><strong>Premier match joué et premier but marqué :</strong> Paris SG - Sochaux du 04/01/2006 : 3-1 - But à la 56'</p>\n<p><strong>Dernier match joué :</strong> Lyon - Sochaux du 18/03/2008 : 2-1  </p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe de France 2007</li>\n<li>Finaliste du Trophée des champions 2007</li>\n</ul>",
+        "header_lines": [
+            "Badara Sène",
+            "né le 19 novembre 1984 à Dakar (Sénégal)",
+            "Taille : 1m90",
+            "Poids : 77 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International sénégalais (4 sélections)",
+            "Arrivée à Sochaux : aout 2000",
+            "Départ de Sochaux : juin 2011",
+            "Premier match joué et premier but marqué : Paris SG - Sochaux du 04/01/2006 : 3-1 - But à la 56'",
+            "Dernier match joué : Lyon - Sochaux du 18/03/2008 : 2-1",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe de France 2007",
+            "Finaliste du Trophée des champions 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Badara",
+        "last_name": "Sène",
+        "display_name": "Badara Sène",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1984-11-19",
+                "precision": "day",
+                "text": "19 novembre 1984"
+            },
+            "place": {
+                "text": "Dakar (Sénégal)",
+                "city": "Dakar",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 novembre 1984 à Dakar (Sénégal)"
+        },
+        "death": null,
+        "height": "1m90",
+        "height_cm": 190,
+        "weight": "77 kg",
+        "weight_kg": 77,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International sénégalais (4 sélections)"
+        ],
+        "arrival": {
+            "iso": "2000-08",
+            "precision": "month",
+            "text": "aout 2000"
+        },
+        "departure": {
+            "iso": "2011-06",
+            "precision": "month",
+            "text": "juin 2011"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Paris SG - Sochaux du 04/01/2006 : 3-1 - But à la 56'",
+        "last_match": "Lyon - Sochaux du 18/03/2008 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe de France 2007",
+            "Finaliste du Trophée des champions 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Badara Sène"
+            },
+            {
+                "label": null,
+                "value": "né le 19 novembre 1984 à Dakar (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m90"
+            },
+            {
+                "label": "Poids",
+                "value": "77 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International sénégalais (4 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2000"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2011"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Paris SG - Sochaux du 04/01/2006 : 3-1 - But à la 56'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Lyon - Sochaux du 18/03/2008 : 2-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 2007"
+            },
+            {
+                "label": null,
+                "value": "Finaliste du Trophée des champions 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "0"
+                ]
+            ],
+            "source_table": 459
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

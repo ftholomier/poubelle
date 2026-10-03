@@ -1,0 +1,284 @@
+{
+    "id": 11134,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "vaclav-sverkos",
+    "path": "/joueurs/vaclav-sverkos/",
+    "title": "Vaclav Sverkos",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/n1567125383_216661_16140471.jpg",
+    "date": "2025-01-28T13:57:35",
+    "modified": "2026-02-03T21:42:15",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "51",
+        "text": "Vaclav Sverkos a joué 51 matchs (10 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/vaclav-sverkos-si-on-fait-du-bon-travail-comme-samedi-on-peut-esperer-au-moins-gagner-deux-de-nos-trois-prochains-matchs-a-la-maison-le-premier-des-ce-soir-photo-francis-reinoso-.jpg",
+            "caption": "Vaclav Sverkos",
+            "credit": "L’est républicain",
+            "caption_raw": "Vaclav Sverkos – L’est républicain"
+        },
+        {
+            "image": "2025/01/vaclav-sverkos-a-bien-aide-le-fcsm-a-se-maintenir-lors-de-son-arrivee-la-suite-sera-moins-interessante-photo-er-le-pays-1601910592.jpg",
+            "caption": "Vaclav Sverkos",
+            "credit": "L’est républicain",
+            "caption_raw": "Vaclav Sverkos – L’est républicain"
+        },
+        {
+            "image": "2026/02/n1567125383_216661_16140471.jpg",
+            "caption": "Sverkos",
+            "credit": "collection privée",
+            "caption_raw": "Sverkos – collection privée"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11134,
+        "url": "https://www.fcsochauxretro.com/a-la-une/vaclav-sverkos/",
+        "path": "/a-la-une/vaclav-sverkos/",
+        "slug": "vaclav-sverkos",
+        "seo_title": "Vaclav Sverkos - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Vaclav Sverkos<br></h2>\n<h4><strong>né le 1er novembre 1983 à Trinec (République Tchèque)</strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>International tchèque (11 sélections, 3 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2009</p>\n<p><strong>Départ de Sochaux : </strong>janvier 2011</p>\n<p><strong>Premier match joué :</strong> Sochaux - Saint-Etienne du 10/01/2009 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Lens du 02/10/2010 : 3-0</p>\n<p><strong>Premier but marqué :</strong> Paris SG - Sochaux du 18/01/2009 : 2-1 - But à la 51'</p>",
+        "header_lines": [
+            "Vaclav Sverkos",
+            "né le 1er novembre 1983 à Trinec (République Tchèque)",
+            "Taille : 1m85",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International tchèque (11 sélections, 3 buts)",
+            "Arrivée à Sochaux : janvier 2009",
+            "Départ de Sochaux : janvier 2011",
+            "Premier match joué : Sochaux - Saint-Etienne du 10/01/2009 : 1-0",
+            "Dernier match joué : Sochaux - Lens du 02/10/2010 : 3-0",
+            "Premier but marqué : Paris SG - Sochaux du 18/01/2009 : 2-1 - But à la 51'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Vaclav",
+        "last_name": "Sverkos",
+        "display_name": "Vaclav Sverkos",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1983-11-01",
+                "precision": "day",
+                "text": "1er novembre 1983"
+            },
+            "place": {
+                "text": "Trinec (République Tchèque)",
+                "city": "Trinec",
+                "department": null,
+                "country": "République Tchèque",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er novembre 1983 à Trinec (République Tchèque)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International tchèque (11 sélections, 3 buts)"
+        ],
+        "arrival": {
+            "iso": "2009-01",
+            "precision": "month",
+            "text": "janvier 2009"
+        },
+        "departure": {
+            "iso": "2011-01",
+            "precision": "month",
+            "text": "janvier 2011"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Saint-Etienne du 10/01/2009 : 1-0",
+        "last_match": "Sochaux - Lens du 02/10/2010 : 3-0",
+        "first_goal": "Paris SG - Sochaux du 18/01/2009 : 2-1 - But à la 51'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Vaclav Sverkos"
+            },
+            {
+                "label": null,
+                "value": "né le 1er novembre 1983 à Trinec (République Tchèque)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International tchèque (11 sélections, 3 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2009"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2011"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Saint-Etienne du 10/01/2009 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Lens du 02/10/2010 : 3-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Paris SG - Sochaux du 18/01/2009 : 2-1 - But à la 51'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1993-1994",
+                    "28",
+                    "2",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "2"
+                ],
+                [
+                    "1994-1995",
+                    "30",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "32",
+                    "0"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "27",
+                    "2",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "31",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "58",
+                    "2",
+                    "27",
+                    "2",
+                    "6",
+                    "0",
+                    "2",
+                    "0",
+                    "93",
+                    "4"
+                ]
+            ],
+            "source_table": 434
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

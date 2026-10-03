@@ -1,0 +1,189 @@
+{
+    "id": 8620,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "marcel-essombe",
+    "path": "/joueurs/marcel-essombe/",
+    "title": "Marcel Essombé",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/crbst_essombe-dinamo.jpg",
+    "date": "2024-12-08T10:29:13",
+    "modified": "2025-05-19T20:11:21",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Marcel Essombé a été formé à Sochaux mais n'a joué aucun match pour l'équipe première du club."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/unnamed.jpg",
+            "caption": "Marcel Essombé",
+            "credit": "Allezredstar.com",
+            "caption_raw": "Marcel Essombé – Allezredstar.com"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8620,
+        "url": "https://www.fcsochauxretro.com/a-la-une/marcel-essombe/",
+        "path": "/a-la-une/marcel-essombe/",
+        "slug": "marcel-essombe",
+        "seo_title": "Marcel Essombé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Marcel Essombé</h2>\n<h4><strong>né le 6 mai 1988 à Douala (Cameroun) </strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>87 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2006</p>\n<p><strong>Départ de Sochaux : </strong>juin 2008</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2007</li>\n</ul>",
+        "header_lines": [
+            "Marcel Essombé",
+            "né le 6 mai 1988 à Douala (Cameroun)",
+            "Taille : 1m86",
+            "Poids : 87 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 2006",
+            "Départ de Sochaux : juin 2008",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Marcel",
+        "last_name": "Essombé",
+        "display_name": "Marcel Essombé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1988-05-06",
+                "precision": "day",
+                "text": "6 mai 1988"
+            },
+            "place": {
+                "text": "Douala (Cameroun)",
+                "city": "Douala",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 mai 1988 à Douala (Cameroun)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "87 kg",
+        "weight_kg": 87,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2006-07",
+            "precision": "month",
+            "text": "juillet 2006"
+        },
+        "departure": {
+            "iso": "2008-06",
+            "precision": "month",
+            "text": "juin 2008"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Marcel Essombé"
+            },
+            {
+                "label": null,
+                "value": "né le 6 mai 1988 à Douala (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "87 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2006"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2008"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2007"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

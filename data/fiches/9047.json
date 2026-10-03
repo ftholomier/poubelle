@@ -1,0 +1,229 @@
+{
+    "id": 9047,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-dumas",
+    "path": "/joueurs/jean-dumas/",
+    "title": "Jean Dumas",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-12-17T17:25:58",
+    "modified": "2025-07-16T22:21:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Jean Dumas a joué 2 matchs pour Sochaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9047,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-dumas/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-dumas/",
+        "slug": "jean-dumas",
+        "seo_title": "Jean Dumas - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Dumas</h2>\n<h4><strong>né le xx à xx </strong></h4>\n<p><strong>Décédé le xx à xx</strong></p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1934</p>\n<p><strong>Départ de Sochaux : </strong>juin 1935</p>\n<p><strong>Premier match joué : </strong>Sochaux - Rennes du 02/09/1935 : 2-1</p>\n<p><strong>Dernier match joué : </strong>Cannes - Sochaux du 09/09/1934 : 0-2 </p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de première division 1935</li>\n</ul>",
+        "header_lines": [
+            "Jean Dumas",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1934",
+            "Départ de Sochaux : juin 1935",
+            "Premier match joué : Sochaux - Rennes du 02/09/1935 : 2-1",
+            "Dernier match joué : Cannes - Sochaux du 09/09/1934 : 0-2",
+            "Palmarès avec Sochaux :",
+            "Champion de France de première division 1935"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean",
+        "last_name": "Dumas",
+        "display_name": "Jean Dumas",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1934-07",
+            "precision": "month",
+            "text": "juillet 1934"
+        },
+        "departure": {
+            "iso": "1935-06",
+            "precision": "month",
+            "text": "juin 1935"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Rennes du 02/09/1935 : 2-1",
+        "last_match": "Cannes - Sochaux du 09/09/1934 : 0-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de première division 1935"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Dumas"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1934"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1935"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Rennes du 02/09/1935 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Cannes - Sochaux du 09/09/1934 : 0-2"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1935"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1934 - 1935",
+                    "2",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "2",
+                    "0",
+                    "2",
+                    "0"
+                ]
+            ],
+            "source_table": 1060
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

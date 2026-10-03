@@ -1,0 +1,164 @@
+{
+    "id": 12573,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "antoine-griezmann",
+    "path": "/joueurs/antoine-griezmann/",
+    "title": "Antoine Griezmann (A l’essai formation)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-18.jpg",
+    "date": "2025-03-06T21:59:20",
+    "modified": "2026-03-03T14:26:38",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement manqué",
+            "html": "<ul>\n<li>Extrait So foot : Christian Walgenwitz (éducateur préformation à l’époque à Sochaux) « <em>Fabien Ozubko, qui était conseiller technique régional du Jura, m’appelle un jour et il me dit : « Christian écoute, il y a un super joueur à Mâcon, le fils d’un copain, il s’appelle Antoine Griezmann. Tu verras, c’est un petit blond, un petit gabarit, mais vraiment un très bon joueur. » Ensuite, j’ai signalé le gamin, car Fabien était un mec fiable. J’ai relayé l’info chez nous, mais cela n’a pas été suivi d’effet. Quand un CTR, avec qui en général on a de bonnes relations, nous signale un joueur, c’est vraiment qu’il s’agit d’un top joueur. Eux, ils en voient beaucoup, donc ce n’est pas toutes les semaines qu’ils vont nous appeler pour nous dire qu’untel a le potentiel pour devenir pro, c’était un signal fort.</em> »</li>\n<li>Fabien Ozubko (ancien CTR du Jura) : <em>« On était à l’époque dans la mouvance du joueur athlète, et Antoine Griezmann ne rentrait pas dans les cases. Pourtant, il allait très vite avec le ballon, il était tout petit, mais endurant… C’était un pari, il avait du talent. Les premières fois que je l’ai vu jouer, contrairement aux autres pas très sûrs de leur technique, lui avait tout le temps la tête levée. Il lisait le jeu plus vite et avait un pied plus rapide. Le constat, c’est qu’à chaque endroit, on lui a fait comprendre que c’était un bon joueur de foot, mais que le pari était trop risqué. ». </em></li>\n<li>Petit et frêle pour son âge, le joueur était coché sur les listes des recruteurs d'Auxerre, Metz, Lyon ou Sochaux mais aucun ne l'a recruté avant qu'il ne signe à la Real Sociedad après avoir disputé un tournoi avec les jeunes de Montpellier où il a été repéré. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "A l'âge de 13 ans Antoine Griezmann est signalé à Sochaux qui ne donne pas suite comme Metz, Auxerre ou Lyon. Il deviendra l'un des meilleurs joueurs du monde."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-18.jpg",
+            "caption": "Antoine Griezmann – 18 ans – Real Sociedad",
+            "credit": "footballdatabase.eu",
+            "caption_raw": "Antoine Griezmann – 18 ans – Real Sociedad – footballdatabase.eu"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12573,
+        "url": "https://www.fcsochauxretro.com/uncategorized/antoine-griezmann/",
+        "path": "/uncategorized/antoine-griezmann/",
+        "slug": "antoine-griezmann",
+        "seo_title": "Antoine Griezmann (A l'essai formation) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Antoine Griezmann</h2>\n<h4><strong>né le 21 mars 1991 à Mâcon (71)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International français (137 sélections, 44 buts et 38 passes décisives) - Finaliste de l'Euro 2016 - Champion du monde 2018 - Finaliste de la coupe du monde 2022 </strong></p>\n<p><strong>A l'essai au centre de formation de Sochaux en : </strong>fin 2004</p>",
+        "header_lines": [
+            "Antoine Griezmann",
+            "né le 21 mars 1991 à Mâcon (71)",
+            "Taille : 1m75",
+            "Poids : 73 kg",
+            "Pied : gaucher",
+            "Poste : attaquant",
+            "International français (137 sélections, 44 buts et 38 passes décisives) - Finaliste de l'Euro 2016 - Champion du monde 2018 - Finaliste de la coupe du monde 2022",
+            "A l'essai au centre de formation de Sochaux en : fin 2004"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Antoine",
+        "last_name": "Griezmann",
+        "display_name": "Antoine Griezmann",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2004",
+            "precision": "year",
+            "text": "fin 2004"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1991-03-21",
+                "precision": "day",
+                "text": "21 mars 1991"
+            },
+            "place": {
+                "text": "Mâcon (71)",
+                "city": "Mâcon",
+                "department": "71",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 mars 1991 à Mâcon (71)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "gaucher",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français (137 sélections, 44 buts et 38 passes décisives) - Finaliste de l'Euro 2016 - Champion du monde 2018 - Finaliste de la coupe du monde 2022"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Antoine Griezmann"
+            },
+            {
+                "label": null,
+                "value": "né le 21 mars 1991 à Mâcon (71)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français (137 sélections, 44 buts et 38 passes décisives) - Finaliste de l'Euro 2016 - Champion du monde 2018 - Finaliste de la coupe du monde 2022"
+            },
+            {
+                "label": "A l'essai au centre de formation de Sochaux en",
+                "value": "fin 2004"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

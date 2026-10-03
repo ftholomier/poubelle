@@ -1,0 +1,124 @@
+{
+    "id": 16403,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "freddy-vandekerkhove",
+    "path": "/personnages-emblematiques/freddy-vandekerkhove/",
+    "title": "Freddy Vandekerkhove",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/03/les-joueurs-me-font-confiance-et-le-staff-aussi-j-ai-un-peu-un-role-de-mediateur-raconte-freddy-vandekerkhove-photo-er.jpg",
+    "date": "2025-09-06T16:02:08",
+    "modified": "2025-11-12T20:33:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<p>Freddy Vandekerkhove que de nombreux habitués de Bonal appelle affectueusement \"Freddy\" est entré au service du club comme intendant de l'équipe professionnelle à l'âge de 24 ans en 1999. </p>\n<p>Apprécié pour sa bonne humeur, il a toujours un mot gentil pour tout le monde joueurs, comme spectateurs. </p>\n<p>Celui qui a tout connu avec le club (montée en ligue 1, descente en ligue 2, victoire en coupe de France, en coupe de la ligue, coupe d'Europe, vente du club, déboires économiques etc.) est également entraîneur des gardiens du club voisin de l'ASM Belfort. Ce club ami évoluait en National entre 2015 et 2017 et a connu une magnifique épopée en coupe de France en 2020, grâce notamment à Eddy Ehlinger, le brillant gardien formé à Sochaux et entraîné par Freddy. Il fait aussi profiter le club du 90 de son réseau d'adresse puisque de nombreux anciens joueurs de Sochaux sont venus s'entretenir ou signer à Belfort grâce à lui. </p>"
+        }
+    ],
+    "key_figure": {
+        "number": "1999",
+        "text": "Freddy Vandekerkhove est arrivée à Sochaux comme intendant de l'équipe professionnelle en 1999."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/l-avis-de-freddy-vandekerkhove-1579552766.jpg",
+            "caption": "Freddy Vandekerkhove",
+            "credit": "L’est républicain",
+            "caption_raw": "Freddy Vandekerkhove – L’est républicain"
+        },
+        {
+            "image": "2025/03/les-joueurs-me-font-confiance-et-le-staff-aussi-j-ai-un-peu-un-role-de-mediateur-raconte-freddy-vandekerkhove-photo-er.jpg",
+            "caption": "Freddy Vandekerkhove",
+            "credit": "L’est républicain",
+            "caption_raw": "Freddy Vandekerkhove – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16403,
+        "url": "https://www.fcsochauxretro.com/a-la-une/freddy-vandekerkhove/",
+        "path": "/a-la-une/freddy-vandekerkhove/",
+        "slug": "freddy-vandekerkhove",
+        "seo_title": "Freddy Vandekerkhove - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Freddy Vandekerkhove</h2>\n<h4><strong>Intendant de l'équipe professionnelle depuis 1999. </strong></h4>",
+        "header_lines": [
+            "Freddy Vandekerkhove",
+            "Intendant de l'équipe professionnelle depuis 1999."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Freddy",
+        "last_name": "Vandekerkhove",
+        "display_name": "Freddy Vandekerkhove",
+        "nickname": "",
+        "subtitle": "Intendant de l'équipe professionnelle depuis 1999.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Freddy Vandekerkhove"
+            },
+            {
+                "label": null,
+                "value": "Intendant de l'équipe professionnelle depuis 1999."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

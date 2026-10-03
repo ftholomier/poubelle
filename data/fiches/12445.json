@@ -1,0 +1,173 @@
+{
+    "id": 12445,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "bressin",
+    "path": "/joueurs/bressin/",
+    "title": "? Bressin (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-03T19:40:02",
+    "modified": "2026-03-02T14:00:54",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Bressin a joué 4 matchs amicaux pour Sochaux en 1945/1946."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12445,
+        "url": "https://www.fcsochauxretro.com/uncategorized/bressin/",
+        "path": "/uncategorized/bressin/",
+        "slug": "bressin",
+        "seo_title": "? Bressin (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Bressin</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>défenseur</p>\n<p><strong>A l'essai en : </strong>mars à mai 1945 et mars 1946</p>\n<p><strong>Premier match amical joué :</strong> Sochaux - Porrentruy (Suisse) du 11/03/1945 : 5-1</p>\n<p><strong>Dernier match amical joué :</strong> FC Nancy - Sochaux du 17/03/1946 : 2-2</p>",
+        "header_lines": [
+            "? Bressin",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : défenseur",
+            "A l'essai en : mars à mai 1945 et mars 1946",
+            "Premier match amical joué : Sochaux - Porrentruy (Suisse) du 11/03/1945 : 5-1",
+            "Dernier match amical joué : FC Nancy - Sochaux du 17/03/1946 : 2-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Bressin",
+        "display_name": "? Bressin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1945-05",
+            "precision": "month",
+            "text": "mars à mai 1945 et mars 1946"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Porrentruy (Suisse) du 11/03/1945 : 5-1",
+        "last_match": "FC Nancy - Sochaux du 17/03/1946 : 2-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Bressin"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "mars à mai 1945 et mars 1946"
+            },
+            {
+                "label": "Premier match amical joué",
+                "value": "Sochaux - Porrentruy (Suisse) du 11/03/1945 : 5-1"
+            },
+            {
+                "label": "Dernier match amical joué",
+                "value": "FC Nancy - Sochaux du 17/03/1946 : 2-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

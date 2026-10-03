@@ -1,0 +1,195 @@
+{
+    "id": 19219,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "fernand-menegaux",
+    "path": "/entraineurs/fernand-menegaux/",
+    "title": "Fernand Ménégaux",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-adjoints",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/Fernand_Menegaux.jpg",
+    "date": "2025-12-06T11:04:43",
+    "modified": "2026-07-29T22:25:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Fernand Ménégaux rejoint le FC Sochaux dès 1929 en tant que soigneur. Il est le kiné du club avant l'heure. </li>\n<li>Fidèle du club, il restera plus de 42 ans au sein du club. </li>\n<li>Il décède le 17 février 1982 un jour de Sochaux-Paris SG 2-1. </li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "42",
+        "text": "Fernand Ménégaux longtemps kiné du club devient l'adjint de Maurice Bailly en charge de la préparation physique en 1939."
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Fernand_Menegaux.jpg",
+            "caption": "Fernand Ménégaux",
+            "credit": "",
+            "caption_raw": "Fernand Ménégaux"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19219,
+        "url": "https://www.fcsochauxretro.com/a-la-une/fernand-menegaux/",
+        "path": "/a-la-une/fernand-menegaux/",
+        "slug": "fernand-menegaux",
+        "seo_title": "Fernand Ménégaux - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Fernand Ménégaux</h2>\n<p><strong>Entraineur adjoint de 1939 à 1946</strong></p>\n<p><strong>Soigneur / Préparateur physique de 1929 à 1971. </strong></p>",
+        "header_lines": [
+            "Fernand Ménégaux",
+            "Entraineur adjoint de 1939 à 1946",
+            "Soigneur / Préparateur physique de 1929 à 1971."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "entraineur"
+        ],
+        "first_name": "Fernand",
+        "last_name": "Ménégaux",
+        "display_name": "Fernand Ménégaux",
+        "nickname": "",
+        "subtitle": "Entraineur adjoint de 1939 à 1946",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": "E",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Fernand Ménégaux"
+            },
+            {
+                "label": null,
+                "value": "Entraineur adjoint de 1939 à 1946"
+            },
+            {
+                "label": null,
+                "value": "Soigneur / Préparateur physique de 1929 à 1971."
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1976-1977",
+                    "16",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "1977-1978",
+                    "16",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "1978-1979",
+                    "21",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "21",
+                    "0"
+                ],
+                [
+                    "1979-1980",
+                    "13",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "13",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "66",
+                    "0",
+                    "4",
+                    "0",
+                    "2",
+                    "0",
+                    "72",
+                    "0"
+                ]
+            ],
+            "source_table": 283
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

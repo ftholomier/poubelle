@@ -1,0 +1,412 @@
+{
+    "id": 1864,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "brest-sochaux-amical-16-02-1987",
+    "path": "/matchs/1986-1987/brest-sochaux-amical-16-02-1987/",
+    "title": "Amical – Brest (D1) / Sochaux (D1) – Amical – 16/02/1987 – 2-1",
+    "categories": [
+        "1986-1987",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/02/Stage-Carnac-Sochaux-Sprint.png",
+    "date": "2024-02-22T14:37:47",
+    "modified": "2025-12-31T15:21:14",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Le temps froid et humide en Bretagne perturbe la préparation sochalienne. Plusieurs entraînements furent annulés à cause du mauvais temps. </li>\n<li>Brisson et Lucas sont touchés par des élongations. </li>\n<li>Le groupe sochalien est victime d'un virus. 50 % de l'effectif est alité ou touché par la fièvre.   </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>11' :</strong> Belle action collective sochalienne. Fernier se présente seul devant Chaslerie qui détourne sa frappe en corner. </li>\n<li><strong>28' :</strong> Belle claquette de Rust sur une frappe lointaine.   </li>\n<li><strong>61' : Coup franc de Buscher qui transperce le mur sochalien. (1-0)</strong></li>\n<li><strong>69' : Bon ballon de Helt pour Lada qui égalise d'une frappe croisée. (1-1)</strong></li>\n<li><strong>81' : Frappe puissante de Bouquet que Rust repousse difficilement. Buscher récupère et centre pour Goudet qui, seul, marque de la tête. (2-1)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Jean Fauvergue :</strong> <em>\" Notre effectif est décimé. Nous avions un contrat à remplir et nous l'avons fait. Mais les conditions n'étaient pas idéales. La moitié de l'équipe alignée face à Brest avait de la fièvre. \"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Pour le médecin du club, les joueurs sont victimes d'angine et non pas de la grippe traditionnelle.  </li>\n<li>Thierry Fernier qui devait rejoindre l'équipe de France Olympique est forfait à cause...de la fièvre.  </li>\n<li>En comptant les amicaux, Sochaux reste sur 10 matchs sans victoire ! </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": null,
+    "gallery": [
+        {
+            "image": "2024/02/RUST-2.jpg",
+            "caption": "Rust",
+            "credit": "France Football",
+            "caption_raw": "Rust – France Football"
+        },
+        {
+            "image": "2024/02/Stage-Carnac-Sochaux-Sprint.png",
+            "caption": "Stage Carnac",
+            "credit": "Sochaux Sprint",
+            "caption_raw": "Stage Carnac – Sochaux Sprint"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 1864,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-brest-d1-sochaux-d1-amical-16-02-1987-2-1/",
+        "path": "/a-la-une/amical-brest-d1-sochaux-d1-amical-16-02-1987-2-1/",
+        "slug": "amical-brest-d1-sochaux-d1-amical-16-02-1987-2-1",
+        "seo_title": "Amical - Brest (D1) / Sochaux (D1) - Amical - 16/02/1987 - 2-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Brest (D1) / Sochaux : 2-1</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Lundi 16 février 1987</strong></h4>\n<h4><strong>Stade Francis Le Blé (29)</strong></h4>\n<h4><strong>1 200 spectateurs</strong></h4>\n<h4><strong>Arbitrage : inconnu </strong></h4>\n<p>Buts : Buscher 61', Goudet 81' pour Brest ; Lada 69' pour Sochaux. </p>",
+        "header_lines": [
+            "Brest (D1) / Sochaux : 2-1",
+            "Match amical",
+            "Lundi 16 février 1987",
+            "Stade Francis Le Blé (29)",
+            "1 200 spectateurs",
+            "Arbitrage : inconnu",
+            "Buts : Buscher 61', Goudet 81' pour Brest ; Lada 69' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1987-02-16",
+        "date_text": "Lundi 16 février 1987",
+        "season": "1986-1987",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": "Amical",
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Brest",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-1",
+        "score_line": "Brest (D1) / Sochaux : 2-1",
+        "result": "D",
+        "stadium": "Stade Francis Le Blé (29)",
+        "spectators": 1200,
+        "spectators_text": "1 200 spectateurs",
+        "referee": "inconnu",
+        "goals_text": "Buscher 61', Goudet 81' pour Brest ; Lada 69' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Brest",
+                "scorers": "Buscher 61', Goudet 81'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Lada 69'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "11",
+                "text": "Belle action collective sochalienne. Fernier se présente seul devant Chaslerie qui détourne sa frappe en corner.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "28",
+                "text": "Belle claquette de Rust sur une frappe lointaine.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "61",
+                "text": "Coup franc de Buscher qui transperce le mur sochalien. (1-0)",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "69",
+                "text": "Bon ballon de Helt pour Lada qui égalise d'une frappe croisée. (1-1)",
+                "goal": true,
+                "score": "1-1"
+            },
+            {
+                "minute": "81",
+                "text": "Frappe puissante de Bouquet que Rust repousse difficilement. Buscher récupère et centre pour Goudet qui, seul, marque de la tête. (2-1)",
+                "goal": true,
+                "score": "2-1"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Jean Fauvergue",
+                "text": "Notre effectif est décimé. Nous avions un contrat à remplir et nous l'avons fait. Mais les conditions n'étaient pas idéales. La moitié de l'équipe alignée face à Brest avait de la fièvre."
+            }
+        ],
+        "breves": [
+            "Pour le médecin du club, les joueurs sont victimes d'angine et non pas de la grippe traditionnelle.",
+            "Thierry Fernier qui devait rejoindre l'équipe de France Olympique est forfait à cause...de la fièvre.",
+            "En comptant les amicaux, Sochaux reste sur 10 matchs sans victoire !"
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HELT John",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "69"
+                    ],
+                    "goals_text": "69'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "82",
+                    "sub_text": "Sortie 82'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "82",
+                    "sub_out": null,
+                    "sub_text": "Entrée 82'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 153
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

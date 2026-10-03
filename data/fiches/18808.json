@@ -1,0 +1,167 @@
+{
+    "id": 18808,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "innocent-hamga",
+    "path": "/joueurs/innocent-hamga/",
+    "title": "Innocent Hamga (A l’essai)",
+    "categories": [
+        "a-lessai"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/11/images.jpg",
+    "date": "2025-11-17T02:25:49",
+    "modified": "2026-02-04T20:50:05",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Il démarre le football au Rail de Douala puis au Coton Sport Garoua dans son pays natal le Cameroun. </li>\n<li>En 1999, il devient champion du monde junior au Nigéria avec la sélection du Cameroun.</li>\n<li>Repéré par le FC Barcelone qui compte dans ses rangs un autre illustre joueur camerounais Samuel Eto'o, il reste une saison et évolue avec l'équipe réserve. En janvier 2000, il remporte la Coupe d'Afrique des nations avec le sélectionneur Pierre Lechantre un ancien sochalien. </li>\n<li>En 2000-2001, il est prêté à l'Espagnol Barcelone le voisin. Il y dispute 9 matchs de première division espagnole. </li>\n<li>Il apprend qu'il ne sera pas conservé par ses dirigeants et part en France effectuer des essais. C'est comme cela que Sochaux le teste durant plusieurs jours en avril 2001. </li>\n<li>Au sortir de quelques jours d'entraînement, Jean Fernandez l'intègre à l'équipe qui doit disputer un match amical face au Paris SG à Bonal le 20 avril 2001. </li>\n<li>Innocent Hamga joue toute la deuxième mi-temps. Mais il manque de rythme en raison notamment d'une blessure au genou quelques mois auparavant qui a freiné sa progression. Il reste en stage encore quelques jours avec Sochaux mais le club ne lui propose finalement pas de contrat. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Après Sochaux il effectue un essai à Martigues où il est recruté en ligue 2. Il y reste deux saisons et joue 31 matchs. </li>\n<li>Puis il signe en 2003-2004 au Lech Poznan en première division polonaise. </li>\n<li>Puis il revient dans le sud jouer avec la réserve de l'OM en 2004-2005 et à Cassis-Carnoux en CFA la saison suivante. </li>\n<li>En 2006-2007, il joue pour Evian Thonon Gaillard en national durant 1 an avant de rentrer au Cameroun terminer sa carrière là où il l'avait commencé au Cotton Sport de Garoua. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Innocent Hamga a été mis à l'essai 1 semaine en avril 2001. Il a notamment joué contre le Paris SG en amical."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/images.jpg",
+            "caption": "Innocent Hamga – La Tannière du Lion",
+            "credit": "Sélection du Cameroun",
+            "caption_raw": "Innocent Hamga – La Tannière du Lion – Sélection du Cameroun"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 18808,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/a-lessai/innocent-hamga/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/a-lessai/innocent-hamga/",
+        "slug": "innocent-hamga",
+        "seo_title": "Innocent Hamga (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Innocent Hamga</h2>\n<h4><strong>né le 8 mai 1981 à Edea (Cameroun)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Poste : </strong>arrière gauche</p>\n<p><strong>International camerounais (22 sélections, 2 buts)</strong></p>\n<p><strong>A l'essai à Sochaux en : </strong>avril 2001 </p>",
+        "header_lines": [
+            "Innocent Hamga",
+            "né le 8 mai 1981 à Edea (Cameroun)",
+            "Taille : 1m78",
+            "Poids : 65 kg",
+            "Pied : gaucher",
+            "Poste : arrière gauche",
+            "International camerounais (22 sélections, 2 buts)",
+            "A l'essai à Sochaux en : avril 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Innocent",
+        "last_name": "Hamga",
+        "display_name": "Innocent Hamga",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2001-04",
+            "precision": "month",
+            "text": "avril 2001"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1981-05-08",
+                "precision": "day",
+                "text": "8 mai 1981"
+            },
+            "place": {
+                "text": "Edea (Cameroun)",
+                "city": "Edea",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 8 mai 1981 à Edea (Cameroun)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "gaucher",
+        "position": "arrière gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International camerounais (22 sélections, 2 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Innocent Hamga"
+            },
+            {
+                "label": null,
+                "value": "né le 8 mai 1981 à Edea (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière gauche"
+            },
+            {
+                "label": null,
+                "value": "International camerounais (22 sélections, 2 buts)"
+            },
+            {
+                "label": "A l'essai à Sochaux en",
+                "value": "avril 2001"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,480 @@
+{
+    "id": 18047,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-lens-amical-29-03-2002",
+    "path": "/matchs/2001-2002/sochaux-lens-amical-29-03-2002/",
+    "title": "Amical – Sochaux (D1) / Lens (D1) – 29/03/2002 – 2-2",
+    "categories": [
+        "2001-2002",
+        "a-la-une",
+        "amical",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/J0720Lens-Sochaux.jpg",
+    "date": "2026-01-14T16:09:52",
+    "modified": "2026-09-19T07:19:57",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>\n<p>Le match amical a lieu à Dijon, au stade Gaston Gérard, et Lens est actuellement leader de D1.</p>\n</li>\n<li>\n<p>Face aux Nordistes, Sochaux comptabilise deux défaites (3-0 à Lens et 2-0 au stade Bonal) en championnat.</p>\n</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>\n<p>7’ : Frappe de Rodriguez au ras du poteau.</p>\n</li>\n<li>\n<p><strong>8’ : Sibierski slalomme dans la défense sochalienne, et tire en pleine lucarne. 1-0.</strong></p>\n</li>\n<li>\n<p><strong>18’ : Chedli lance Crucet dans l'axe. Celui-ci devance Warmuz, loin de son but, et marque dans le but vide. 1-1.</strong></p>\n</li>\n<li>\n<p><strong>44’ : Centre de Sikora sur Moreira, qui marque. 2-1.</strong></p>\n</li>\n<li>\n<p>58’ : Isabey tente un lob lointain, mais Warmuz revient in-extremis sur sa ligne pour dégager.</p>\n</li>\n<li>\n<p>xx’ : Un joueur lensois trouve la transversale.</p>\n</li>\n<li>\n<p>74’ : Isabey centre sur Pagis, mais la tête de l’attaquant finit sur le poteau.</p>\n</li>\n<li>\n<p><strong>83’ : Isabey, sur corner, place la balle sur la tête de Mathieu qui trompe Warmuz. 2-2</strong></p>\n</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>\n<p>Néant.</p>\n</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>\n<p>Pierre-Alain Frau est sorti à la 44<sup>ème</sup> minute, souffrant de douleurs derrière la cuisse.</p>\n</li>\n<li>\n<p>Benoît Pedretti était bien présent dans les tribunes. Souffrant de la cheville, il a préféré se ménager pour aborder la fin du championnat de D1 dans de bonnes conditions.</p>\n</li>\n<li>\n<p>Fabien Boudarène est resté à Montbéliard, puisqu’il est devenu papa d’une petite fille, Fanny.</p>\n</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Mené à 2 reprises, Sochaux est parvenu à égaliser à chaque fois."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 18047,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-d1-lens-d1-29-03-2002-2-2/",
+        "path": "/a-la-une/amical-sochaux-d1-lens-d1-29-03-2002-2-2/",
+        "slug": "amical-sochaux-d1-lens-d1-29-03-2002-2-2",
+        "seo_title": "Amical - Sochaux (D1) / Lens (D1) - 29/03/2002 - 2-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (D1) / Lens (D1) : 2-2<br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Vendredi 29 mars 2002</strong></h4>\n<h4><strong>Parc des sports des Poussots Dijon (21)</strong></h4>\n<h4><strong>5 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Badet<br></strong></h4>\n<p>Buts : Crucet 18' et Mathieu 83' pour Sochaux ; Sibierski 8' et Moreira 44' pour Lens</p>",
+        "header_lines": [
+            "Sochaux (D1) / Lens (D1) : 2-2",
+            "Match amical",
+            "Vendredi 29 mars 2002",
+            "Parc des sports des Poussots Dijon (21)",
+            "5 000 spectateurs",
+            "Arbitre : M. Badet",
+            "Buts : Crucet 18' et Mathieu 83' pour Sochaux ; Sibierski 8' et Moreira 44' pour Lens"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2002-03-29",
+        "date_text": "Vendredi 29 mars 2002",
+        "season": "2001-2002",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Lens",
+            "level": "D1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-2",
+        "score_line": "Sochaux (D1) / Lens (D1) : 2-2",
+        "result": "N",
+        "stadium": "Parc des sports des Poussots Dijon (21)",
+        "spectators": 5000,
+        "spectators_text": "5 000 spectateurs",
+        "referee": "M. Badet",
+        "goals_text": "Crucet 18' et Mathieu 83' pour Sochaux ; Sibierski 8' et Moreira 44' pour Lens",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Crucet 18' et Mathieu 83'"
+            },
+            {
+                "team": "Lens",
+                "scorers": "Sibierski 8' et Moreira 44'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "7",
+                "text": "Frappe de Rodriguez au ras du poteau.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "8",
+                "text": "Sibierski slalomme dans la défense sochalienne, et tire en pleine lucarne. 1-0.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "18",
+                "text": "Chedli lance Crucet dans l'axe. Celui-ci devance Warmuz, loin de son but, et marque dans le but vide. 1-1.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "44",
+                "text": "Centre de Sikora sur Moreira, qui marque. 2-1.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "58",
+                "text": "Isabey tente un lob lointain, mais Warmuz revient in-extremis sur sa ligne pour dégager. xx’ : Un joueur lensois trouve la transversale.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "74",
+                "text": "Isabey centre sur Pagis, mais la tête de l’attaquant finit sur le poteau.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "83",
+                "text": "Isabey, sur corner, place la balle sur la tête de Mathieu qui trompe Warmuz. 2-2",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Néant."
+            }
+        ],
+        "breves": [
+            "Pierre-Alain Frau est sorti à la 44ème minute, souffrant de douleurs derrière la cuisse.",
+            "Benoît Pedretti était bien présent dans les tribunes. Souffrant de la cheville, il a préféré se ménager pour aborder la fin du championnat de D1 dans de bonnes conditions.",
+            "Fabien Boudarène est resté à Montbéliard, puisqu’il est devenu papa d’une petite fille, Fanny."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RICHERT Teddy",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ALGERINO Jimmy",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SAVELJIC Nisa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MONSOREAU Sylvain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "18"
+                    ],
+                    "goals_text": "⚽ 18'",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ISABEY Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAGUET Jean-Baptiste",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "QUEVEDO William",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DOMORAUD Jean-Jacques",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ZAIRI Jaouad",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PAGIS Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MATHIEU Jérémy",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "83"
+                    ],
+                    "goals_text": "⚽ 83'",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1783
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

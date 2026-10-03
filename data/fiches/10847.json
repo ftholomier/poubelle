@@ -1,0 +1,290 @@
+{
+    "id": 10847,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gabriel-lalloue",
+    "path": "/joueurs/gabriel-lalloue/",
+    "title": "Gabriel Lalloué",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-68.jpg",
+    "date": "2025-01-23T08:23:33",
+    "modified": "2026-04-18T15:46:55",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Après",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Après</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Après",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "117",
+        "text": "Gabriel Lalloué a joué 117 matchs (1 but) pour Sochaux. Il a remporté 2 championnats et 1 coupe de France avec le club."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/Gabriel_Lalloue_1930_Saint_Ouen_novembre.jpg",
+            "caption": "Gabriel Lalloué",
+            "credit": "Wikipedia",
+            "caption_raw": "Gabriel Lalloué – Wikipedia"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10847,
+        "url": "https://www.fcsochauxretro.com/a-la-une/gabriel-lalloue/",
+        "path": "/a-la-une/gabriel-lalloue/",
+        "slug": "gabriel-lalloue",
+        "seo_title": "Gabriel Lalloué - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Gabriel Lalloué</h2>\n<h4><strong>né le 29 décembre 1908 à Thaon-les-Vosges (88)</strong></h4>\n<h4><strong>Décédé le 18 février 1967 à La Bourboule (63)</strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1934</p>\n<p><strong>Départ de Sochaux : </strong>juin 1938</p>\n<p><strong>Premier match joué :</strong> Sochaux - Excelsior Roubaix Tourcoing du 26/08/1934 : 0-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Excelsior Roubaix Tourcoing du 06/03/1938 : 1-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Antibes du 28/0/1935 : 3-7 - But à la 72'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de première division 1935</li>\n<li>Vainqueur de la coupe de France 1937</li>\n<li>Vice-champion de France de première division 1937</li>\n<li>Champion de France de première division 1938</li>\n</ul>",
+        "header_lines": [
+            "Gabriel Lalloué",
+            "né le 29 décembre 1908 à Thaon-les-Vosges (88)",
+            "Décédé le 18 février 1967 à La Bourboule (63)",
+            "Taille : 1m77",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1934",
+            "Départ de Sochaux : juin 1938",
+            "Premier match joué : Sochaux - Excelsior Roubaix Tourcoing du 26/08/1934 : 0-2",
+            "Dernier match joué : Sochaux - Excelsior Roubaix Tourcoing du 06/03/1938 : 1-1",
+            "Premier but marqué : Sochaux - Antibes du 28/0/1935 : 3-7 - But à la 72'",
+            "Palmarès avec Sochaux :",
+            "Champion de France de première division 1935",
+            "Vainqueur de la coupe de France 1937",
+            "Vice-champion de France de première division 1937",
+            "Champion de France de première division 1938"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Gabriel",
+        "last_name": "Lalloué",
+        "display_name": "Gabriel Lalloué",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1908-12-29",
+                "precision": "day",
+                "text": "29 décembre 1908"
+            },
+            "place": {
+                "text": "Thaon-les-Vosges (88)",
+                "city": "Thaon-les-Vosges",
+                "department": "88",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 décembre 1908 à Thaon-les-Vosges (88)"
+        },
+        "death": {
+            "date": {
+                "iso": "1967-02-18",
+                "precision": "day",
+                "text": "18 février 1967"
+            },
+            "place": {
+                "text": "La Bourboule (63)",
+                "city": "La Bourboule",
+                "department": "63",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 18 février 1967 à La Bourboule (63)"
+        },
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1934-07",
+            "precision": "month",
+            "text": "juillet 1934"
+        },
+        "departure": {
+            "iso": "1938-06",
+            "precision": "month",
+            "text": "juin 1938"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Excelsior Roubaix Tourcoing du 26/08/1934 : 0-2",
+        "last_match": "Sochaux - Excelsior Roubaix Tourcoing du 06/03/1938 : 1-1",
+        "first_goal": "Sochaux - Antibes du 28/0/1935 : 3-7 - But à la 72'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de première division 1935",
+            "Vainqueur de la coupe de France 1937",
+            "Vice-champion de France de première division 1937",
+            "Champion de France de première division 1938"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gabriel Lalloué"
+            },
+            {
+                "label": null,
+                "value": "né le 29 décembre 1908 à Thaon-les-Vosges (88)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 18 février 1967 à La Bourboule (63)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1934"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1938"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Excelsior Roubaix Tourcoing du 26/08/1934 : 0-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Excelsior Roubaix Tourcoing du 06/03/1938 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Antibes du 28/0/1935 : 3-7 - But à la 72'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1935"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 1937"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de première division 1937"
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1938"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

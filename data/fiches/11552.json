@@ -1,0 +1,280 @@
+{
+    "id": 11552,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-baptiste-leo",
+    "path": "/joueurs/jean-baptiste-leo/",
+    "title": "Jean-Baptiste Léo",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/02/5-14.jpg",
+    "date": "2025-02-09T15:58:43",
+    "modified": "2025-07-16T22:12:03",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Jean-Baptiste Léo a joué 1 seul match pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-14.jpg",
+            "caption": "Jean-Baptiste Léo",
+            "credit": "",
+            "caption_raw": "Jean-Baptiste Léo"
+        },
+        {
+            "image": "2025/02/jean-baptiste-leo-a-une-annee-devant-lui-pour-continuer-a-progresser-photo-samuel-coulon-1464965214.jpg",
+            "caption": "Jean-Baptiste Léo",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean-Baptiste Léo – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11552,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-baptiste-leo/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-baptiste-leo/",
+        "slug": "jean-baptiste-leo",
+        "seo_title": "Jean-Baptiste Léo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Baptiste Léo</h2>\n<h4><strong>né le 3 mai 1996 à Lyon (69)  </strong></h4>\n<p><strong>Taille : </strong>1m92</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International Saint-Martin (2 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2013</p>\n<p><strong>Départ de Sochaux : </strong>juin 2017</p>\n<p><strong>Premier et dernier match joué :</strong> Sochaux - Gazélec Ajaccio du 09/08/2016 : 0-0 a.p (4-2 tab)</p>\n<p><strong>Palmarès avec Sochaux :</strong> </p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2015</li>\n</ul>",
+        "header_lines": [
+            "Jean-Baptiste Léo",
+            "né le 3 mai 1996 à Lyon (69)",
+            "Taille : 1m92",
+            "Poids : 80 kg",
+            "Pied : gaucher",
+            "Poste : attaquant",
+            "International Saint-Martin (2 sélections)",
+            "Arrivée à Sochaux : juillet 2013",
+            "Départ de Sochaux : juin 2017",
+            "Premier et dernier match joué : Sochaux - Gazélec Ajaccio du 09/08/2016 : 0-0 a.p (4-2 tab)",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2015"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Baptiste",
+        "last_name": "Léo",
+        "display_name": "Jean-Baptiste Léo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1996-05-03",
+                "precision": "day",
+                "text": "3 mai 1996"
+            },
+            "place": {
+                "text": "Lyon (69)",
+                "city": "Lyon",
+                "department": "69",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 mai 1996 à Lyon (69)"
+        },
+        "death": null,
+        "height": "1m92",
+        "height_cm": 192,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "gaucher",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International Saint-Martin (2 sélections)"
+        ],
+        "arrival": {
+            "iso": "2013-07",
+            "precision": "month",
+            "text": "juillet 2013"
+        },
+        "departure": {
+            "iso": "2017-06",
+            "precision": "month",
+            "text": "juin 2017"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2015"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Baptiste Léo"
+            },
+            {
+                "label": null,
+                "value": "né le 3 mai 1996 à Lyon (69)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m92"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International Saint-Martin (2 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2013"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2017"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Sochaux - Gazélec Ajaccio du 09/08/2016 : 0-0 a.p (4-2 tab)"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2015"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "1",
+                    "1",
+                    "0",
+                    "0",
+                    "9",
+                    "1"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "1",
+                    "0",
+                    "8",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "11",
+                    "1"
+                ]
+            ],
+            "source_table": 438
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,265 @@
+{
+    "id": 10857,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacques-largouet",
+    "path": "/joueurs/jacques-largouet/",
+    "title": "Jacques Largouët",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-69.jpg",
+    "date": "2025-01-23T09:14:51",
+    "modified": "2026-04-18T15:54:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Après</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Après",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Après",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "82",
+        "text": "Jacques Largouët a joué 82 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-69.jpg",
+            "caption": "Jacques Largouët",
+            "credit": "fcsm",
+            "caption_raw": "Jacques Largouët – fcsm"
+        },
+        {
+            "image": "2025/01/f2a428705f303686c27d5f78b1fa32be.jpg",
+            "caption": "Sochaux 1972",
+            "credit": "",
+            "caption_raw": "Sochaux 1972"
+        },
+        {
+            "image": "2025/01/48612.jpg",
+            "caption": "Jacques Largouet",
+            "credit": "fcsm",
+            "caption_raw": "Jacques Largouet – fcsm"
+        },
+        {
+            "image": "2025/01/fc-sochaux-1971-72.jpg",
+            "caption": "Sochaux 1971/1972",
+            "credit": "",
+            "caption_raw": "Sochaux 1971/1972"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10857,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jacques-largouet/",
+        "path": "/a-la-une/jacques-largouet/",
+        "slug": "jacques-largouet",
+        "seo_title": "Jacques Largouët - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacques Largouët</h2>\n<h4><strong>né le 8 septembre 1945 à Tourlaville (50) </strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur </p>\n<p><strong>International français junior, espoir et militaire</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1970</p>\n<p><strong>Départ de Sochaux : </strong>juin 1973</p>\n<p><strong>Premier match joué :</strong> Bordeaux - Sochaux du 12/08/1970 : 1-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Nice du 02/06/1973 : 5-1</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Red Star du 19/08/1970 : 2-1 - But à la 89'</p>",
+        "header_lines": [
+            "Jacques Largouët",
+            "né le 8 septembre 1945 à Tourlaville (50)",
+            "Taille : 1m76",
+            "Poids : 73 kg",
+            "Pied : droitier",
+            "Poste : défenseur",
+            "International français junior, espoir et militaire",
+            "Arrivée à Sochaux : juillet 1970",
+            "Départ de Sochaux : juin 1973",
+            "Premier match joué : Bordeaux - Sochaux du 12/08/1970 : 1-2",
+            "Dernier match joué : Sochaux - Nice du 02/06/1973 : 5-1",
+            "Premier but marqué : Sochaux - Red Star du 19/08/1970 : 2-1 - But à la 89'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jacques",
+        "last_name": "Largouët",
+        "display_name": "Jacques Largouët",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1945-09-08",
+                "precision": "day",
+                "text": "8 septembre 1945"
+            },
+            "place": {
+                "text": "Tourlaville (50)",
+                "city": "Tourlaville",
+                "department": "50",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 8 septembre 1945 à Tourlaville (50)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droitier",
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International français junior, espoir et militaire"
+        ],
+        "arrival": {
+            "iso": "1970-07",
+            "precision": "month",
+            "text": "juillet 1970"
+        },
+        "departure": {
+            "iso": "1973-06",
+            "precision": "month",
+            "text": "juin 1973"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Bordeaux - Sochaux du 12/08/1970 : 1-2",
+        "last_match": "Sochaux - Nice du 02/06/1973 : 5-1",
+        "first_goal": "Sochaux - Red Star du 19/08/1970 : 2-1 - But à la 89'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacques Largouët"
+            },
+            {
+                "label": null,
+                "value": "né le 8 septembre 1945 à Tourlaville (50)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": null,
+                "value": "International français junior, espoir et militaire"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1970"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1973"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Bordeaux - Sochaux du 12/08/1970 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nice du 02/06/1973 : 5-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Red Star du 19/08/1970 : 2-1 - But à la 89'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

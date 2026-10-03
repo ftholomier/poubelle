@@ -1,0 +1,277 @@
+{
+    "id": 10382,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "andre-perrin",
+    "path": "/joueurs/andre-perrin/",
+    "title": "André Perrin",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/8-3.jpg",
+    "date": "2025-01-16T14:10:44",
+    "modified": "2025-01-16T14:30:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "61",
+        "text": "André Perrin a joué 61 matchs (5 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/fc-sochaux-1971-72.jpg",
+            "caption": "Sochaux 1971/1972",
+            "credit": "",
+            "caption_raw": "Sochaux 1971/1972"
+        },
+        {
+            "image": "2025/01/7-7.jpg",
+            "caption": "André Perrin",
+            "credit": "DR",
+            "caption_raw": "André Perrin – DR"
+        },
+        {
+            "image": "2025/01/5-27.jpg",
+            "caption": "André Perrin",
+            "credit": "DR",
+            "caption_raw": "André Perrin – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10382,
+        "url": "https://www.fcsochauxretro.com/a-la-une/andre-perrin/",
+        "path": "/a-la-une/andre-perrin/",
+        "slug": "andre-perrin",
+        "seo_title": "André Perrin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>André Perrin</h2>\n<h4><strong>Né le 28 août 1941 à L'Absie (79)  </strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>69 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1971</p>\n<p><strong>Départ de Sochaux : </strong>juin 1973</p>\n<p><strong>Premier match joué :</strong> Red Star - Sochaux du 25/08/1971 : 2-1</p>\n<p><strong>Dernier match joué : </strong>Strasbourg - Sochaux du 29/05/1973 : 4-2</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Monaco du 17/11/1971 : 3-1 - But à la 63'</p>",
+        "header_lines": [
+            "André Perrin",
+            "Né le 28 août 1941 à L'Absie (79)",
+            "Taille : 1m72",
+            "Poids : 69 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1971",
+            "Départ de Sochaux : juin 1973",
+            "Premier match joué : Red Star - Sochaux du 25/08/1971 : 2-1",
+            "Dernier match joué : Strasbourg - Sochaux du 29/05/1973 : 4-2",
+            "Premier but marqué : Sochaux - Monaco du 17/11/1971 : 3-1 - But à la 63'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "André",
+        "last_name": "Perrin",
+        "display_name": "André Perrin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1941-08-28",
+                "precision": "day",
+                "text": "28 août 1941"
+            },
+            "place": {
+                "text": "L'Absie (79)",
+                "city": "L'Absie",
+                "department": "79",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 28 août 1941 à L'Absie (79)"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "69 kg",
+        "weight_kg": 69,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1971-07",
+            "precision": "month",
+            "text": "juillet 1971"
+        },
+        "departure": {
+            "iso": "1973-06",
+            "precision": "month",
+            "text": "juin 1973"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Red Star - Sochaux du 25/08/1971 : 2-1",
+        "last_match": "Strasbourg - Sochaux du 29/05/1973 : 4-2",
+        "first_goal": "Sochaux - Monaco du 17/11/1971 : 3-1 - But à la 63'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "André Perrin"
+            },
+            {
+                "label": null,
+                "value": "Né le 28 août 1941 à L'Absie (79)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "69 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1971"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1973"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Red Star - Sochaux du 25/08/1971 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Strasbourg - Sochaux du 29/05/1973 : 4-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Monaco du 17/11/1971 : 3-1 - But à la 63'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

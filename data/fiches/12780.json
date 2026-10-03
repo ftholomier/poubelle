@@ -1,0 +1,171 @@
+{
+    "id": 12780,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jorge-vazquez",
+    "path": "/joueurs/jorge-vazquez/",
+    "title": "Jorge Vazquez (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-2.png",
+    "date": "2025-03-09T22:35:48",
+    "modified": "2025-11-12T13:40:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Après une deuxième saison décevante en D2, Faruk Hadzibegic souhaite renouveler son effectif dans les grandes largeurs. Pour se faire, il cherche plusieurs joueurs à vocation offensive dont un meneur de jeu. </li>\n<li>Le club a l'opportunité de mettre à l'essai Jorge Vazquez un meneur de jeu argentin formé à River Plate et qui a déjà une belle carrière derrière lui. Agé de 28 ans, il débarque en juillet 1997. Il se prépare avec le club et dispute deux matchs amicaux. Si techniquement le joueur est très bon, Hadzibegic juge qu'il aura du mal d'exister physiquement dans cet exigeant championnat de D2. Le club ne lui propose donc pas de contrat. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Jorge Vazquez a joué 2 matchs amicaux pour Sochaux à l'été 1997."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-2.png",
+            "caption": "Jorge Vazquez",
+            "credit": "",
+            "caption_raw": "Jorge Vazquez"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12780,
+        "url": "https://www.fcsochauxretro.com/uncategorized/jorge-vazquez/",
+        "path": "/uncategorized/jorge-vazquez/",
+        "slug": "jorge-vazquez",
+        "seo_title": "Jorge Vazquez (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jorge Vazquez</h2>\n<h4><strong>Né le 28 novembre 1969 à Buenos-Aires (Argentine)  </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>meneur de jeu</p>\n<p><strong>A l'essai en : </strong>juillet 1997 </p>\n<p><strong>Premier match amical joué :</strong> Troyes - Sochaux du 18/07/1997 : 1-1</p>\n<p><strong>Dernier match amical joué : </strong>Sochaux - Gueugnon du  23/07/1997 : 3-2</p>",
+        "header_lines": [
+            "Jorge Vazquez",
+            "Né le 28 novembre 1969 à Buenos-Aires (Argentine)",
+            "Taille : 1m75",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : meneur de jeu",
+            "A l'essai en : juillet 1997",
+            "Premier match amical joué : Troyes - Sochaux du 18/07/1997 : 1-1",
+            "Dernier match amical joué : Sochaux - Gueugnon du 23/07/1997 : 3-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jorge",
+        "last_name": "Vazquez",
+        "display_name": "Jorge Vazquez",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1997-07",
+            "precision": "month",
+            "text": "juillet 1997"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1969-11-28",
+                "precision": "day",
+                "text": "28 novembre 1969"
+            },
+            "place": {
+                "text": "Buenos-Aires (Argentine)",
+                "city": "Buenos-Aires",
+                "department": null,
+                "country": "Argentine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 28 novembre 1969 à Buenos-Aires (Argentine)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "meneur de jeu",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Troyes - Sochaux du 18/07/1997 : 1-1",
+        "last_match": "Sochaux - Gueugnon du 23/07/1997 : 3-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jorge Vazquez"
+            },
+            {
+                "label": null,
+                "value": "Né le 28 novembre 1969 à Buenos-Aires (Argentine)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "meneur de jeu"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 1997"
+            },
+            {
+                "label": "Premier match amical joué",
+                "value": "Troyes - Sochaux du 18/07/1997 : 1-1"
+            },
+            {
+                "label": "Dernier match amical joué",
+                "value": "Sochaux - Gueugnon du 23/07/1997 : 3-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

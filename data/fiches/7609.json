@@ -1,0 +1,195 @@
+{
+    "id": 7609,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "edwards",
+    "path": "/joueurs/edwards/",
+    "title": "? Edwards (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/11/3-1.jpeg",
+    "date": "2024-11-14T12:45:11",
+    "modified": "2025-11-12T14:12:57",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Edwards a joué 5 matchs amicaux (2 buts) avec Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/3-1.jpeg",
+            "caption": "Edwards",
+            "credit": "FCSM",
+            "caption_raw": "Edwards – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7609,
+        "url": "https://www.fcsochauxretro.com/uncategorized/edwards-7609/",
+        "path": "/uncategorized/edwards-7609/",
+        "slug": "edwards-7609",
+        "seo_title": "? Edwards (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Edwards</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>A l'essai en :</strong> septembre 1930</p>\n<p><strong>A l'essai en :</strong> avril 1931</p>\n<p><strong>A l'essai en : </strong>juin 1932</p>\n<p><strong>Premier match amical joué :</strong> Servette Genêve (Suisse) - Sochaux du 22/09/1930 : 3-1</p>\n<p><strong>Dernier match amical joué :</strong> Porrentruy (Suisse) - Sochaux du 19/06/1932 : 1-1</p>\n<p><strong>Premier but et premier doublé marqués en amical :</strong> SR Colmar - Sochaux du 03/04/1931 : 3-6 - Buts à la ?</p>",
+        "header_lines": [
+            "? Edwards",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : milieu de terrain",
+            "A l'essai en : septembre 1930",
+            "A l'essai en : avril 1931",
+            "A l'essai en : juin 1932",
+            "Premier match amical joué : Servette Genêve (Suisse) - Sochaux du 22/09/1930 : 3-1",
+            "Dernier match amical joué : Porrentruy (Suisse) - Sochaux du 19/06/1932 : 1-1",
+            "Premier but et premier doublé marqués en amical : SR Colmar - Sochaux du 03/04/1931 : 3-6 - Buts à la ?"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Edwards",
+        "display_name": "? Edwards",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1930-09",
+            "precision": "month",
+            "text": "septembre 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Servette Genêve (Suisse) - Sochaux du 22/09/1930 : 3-1",
+        "last_match": "Porrentruy (Suisse) - Sochaux du 19/06/1932 : 1-1",
+        "first_goal": "SR Colmar - Sochaux du 03/04/1931 : 3-6 - Buts à la ?",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Edwards"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "septembre 1930"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "avril 1931"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juin 1932"
+            },
+            {
+                "label": "Premier match amical joué",
+                "value": "Servette Genêve (Suisse) - Sochaux du 22/09/1930 : 3-1"
+            },
+            {
+                "label": "Dernier match amical joué",
+                "value": "Porrentruy (Suisse) - Sochaux du 19/06/1932 : 1-1"
+            },
+            {
+                "label": "Premier but et premier doublé marqués en amical",
+                "value": "SR Colmar - Sochaux du 03/04/1931 : 3-6 - Buts à la ?"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

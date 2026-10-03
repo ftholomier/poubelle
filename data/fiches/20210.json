@@ -1,0 +1,178 @@
+{
+    "id": 20210,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "fabien-raddas",
+    "path": "/joueurs/fabien-raddas/",
+    "title": "Fabien Raddas (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/01/20394.jpg",
+    "date": "2026-01-20T16:35:10",
+    "modified": "2026-02-04T20:49:04",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Pure produit du club de Poissy dans les Yvelines, Fabien Raddas fait une très bonne saison 2000-2001. Son club, partenaire du FCSM, accède au CFA sous la conduite d'Eric Dewilder un ancien sochalien. </li>\n<li>Ce dernier le recommande donc à Sochaux en même temps que son coéquipier tchadien Madji Baidomti. </li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>Son coéquipier joue défenseur central et lui joue ailier gauche. Malgré de belles qualités il ne convainc pas les dirigeants de lui offrir un contrat professionnel. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Retour à Poissy ou après une belle saison en CFA il rejoint Rouen avec son coéquipier Baidomti en National. Une seule saison puis direction Brest ambitieux club de National. </li>\n<li>Malgré une saison honorable il n'est pas conservé par Brest et revient à Poissy en CFA toujours. Il y reste 3 saisons dont une dernière très bonne en matière de statistiques. Elles lui permettent de signer au Paris FC en National puis à Laval toujours dans le même championnat. </li>\n<li>A Laval il est titulaire et l'un des artisans de la montée en Ligue 2 en 2009. En L2 il fait encore une saison correcte avant de signer à Cannes en National en 2011. </li>\n<li>Il rejoint ensuite Beauvais toujours en National mais les blessures l'oblige à quitter le club après une seule saison. </li>\n<li>Il revient en région parisienne et signe au FC Mantois pour une saison en CFA. Il y a fait une très bonne saison et rejoint l'ambitieux club de Chambly. </li>\n<li>Dès sa première saison Chambly monte en National. Une saison supplémentaire en National à 35 ans. </li>\n<li>Il boucle la boucle ensuite en signant à Poissy son club de cœur où il reste 5 saisons en CFA.</li>\n<li>A plus de 40 ans, il rejoint le niveau amateur et signe à Cergy club de R1 Ile de France en 2022/2023. </li>\n<li>Dans l'intervalle il est devenu international guadeloupéen depuis 2007 disputant 12 sélections et marquant 2 buts. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Fabien Raddas est resté 1 semaine à l'essai à l'été 2001."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/raddasSAM_2222.jpg",
+            "caption": "Fabien Raddas à l’entraînement à l’été 2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Fabien Raddas à l’entraînement à l’été 2001 – L’est républicain"
+        },
+        {
+            "image": "2026/01/20394.jpg",
+            "caption": "Fabien Raddas – Footballdatabase",
+            "credit": "DR",
+            "caption_raw": "Fabien Raddas – Footballdatabase – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20210,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/fabien-raddas-a-lessai/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/fabien-raddas-a-lessai/",
+        "slug": "fabien-raddas-a-lessai",
+        "seo_title": "Fabien Raddas (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Fabien Raddas </h2>\n<h4><strong>né le 7 mars 1980 à Poissy (78)</strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>ailier gauche<strong><br></strong></p>\n<p><strong>International guadeloupéen (12 sélections, 2 buts)</strong></p>\n<p><strong>A l'essai à Sochaux : </strong>juillet 2001</p>",
+        "header_lines": [
+            "Fabien Raddas",
+            "né le 7 mars 1980 à Poissy (78)",
+            "Taille : 1m88",
+            "Poids : 78 kg",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "International guadeloupéen (12 sélections, 2 buts)",
+            "A l'essai à Sochaux : juillet 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Fabien",
+        "last_name": "Raddas",
+        "display_name": "Fabien Raddas",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2001-07",
+            "precision": "month",
+            "text": "juillet 2001"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1980-03-07",
+                "precision": "day",
+                "text": "7 mars 1980"
+            },
+            "place": {
+                "text": "Poissy (78)",
+                "city": "Poissy",
+                "department": "78",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 mars 1980 à Poissy (78)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International guadeloupéen (12 sélections, 2 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Fabien Raddas"
+            },
+            {
+                "label": null,
+                "value": "né le 7 mars 1980 à Poissy (78)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": null,
+                "value": "International guadeloupéen (12 sélections, 2 buts)"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "juillet 2001"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,121 @@
+{
+    "id": 13341,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierre-wantiez",
+    "path": "/dirigeants/pierre-wantiez/",
+    "title": "Pierre Wantiez",
+    "categories": [
+        "administratifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-executifs"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/c500f.jpg",
+    "date": "2025-04-05T15:50:28",
+    "modified": "2025-11-13T11:28:02",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Pierre Wantiez, un retour salvateur pour le club : 2023-2024 </strong></h4>\n<ul>\n<li>Pierre Wantiez débute sa carrière à la ligue de football de Franche-Comté durant 7 ans. De 1993 à 2000 il fait parti des dirigeants de la ligue régionale.</li>\n<li>En 2000, il intègre le club comme directeur administratif. Sous la présidence de Jean-Claude Plessis il restera jusqu'à son départ en 2008. </li>\n<li>Il rejoint alors Grenoble en qualité de président délégué. Le club vient d'accéder en première division. La première saison, malgré des moyens limités, le club se maintient aisément à la 13è place. La saison suivante le club termine lanterne rouge de ligue 1 et descend en ligue 2. Pierre Wantiez quitte alors le club.</li>\n<li>En 2011, il rejoint Valenciennes comme directeur général. Il y restera 5 ans et demi.</li>\n<li>En 2018, on le retrouve au Havre où il devient directeur général durant 4 saisons.</li>\n<li>Il est en pré-retraite lorsque Jean-Claude Plessis l'appelle pour reformer le duo de la grande époque et tenter de sauver le club d'une mort annoncée.</li>\n<li>Durant l'été 2023, ancien membre de la DNCG, il parvient à monter un dossier solide pour passer devant l'instance et permettre au club de survivre en repartant en National.</li>\n<li>Durant 1 an, il restructure le club qui a été laissé à la dérive depuis près de 10 ans par les différents propriétaires chinois.</li>\n<li>Fin mai 2024, sur demande du conseil de surveillance, il quitte son poste de président délégué du club.</li>\n<li>Un mois plus tard, il rebondit et devient président du FC Martigues en ligue 2. A la fin de la saison 2024-2025, le club de Martigues est relégué sportivement et l'actionnaire américain qui détient le club provençale n'honore pas ses engagements et le club de Martigues disparait des championnats nationaux en raison de son déficit budgétaire. </li>\n<li>Il reste dans la mémoire des supporters sochaliens comme l'un des artisans du sauvetage financier et administratif du club lors de l'été 2023.   </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Pierre Wantiez fut président délégué du club après le sauvetage qu'il a orchestré à l'été 2023."
+    },
+    "gallery": [
+        {
+            "image": "2024/03/1.-remise-prix.jpg",
+            "caption": "Jean-Claude Plessis et Pierre Wantiez diplômés Citoyen d’honneur de la ville de Montbéliard (FCSM)",
+            "credit": "",
+            "caption_raw": "Jean-Claude Plessis et Pierre Wantiez diplômés Citoyen d’honneur de la ville de Montbéliard (FCSM)"
+        },
+        {
+            "image": "2025/04/c500f.jpg",
+            "caption": "Pierre Wantiez, président délégué du club en 2023-224, il est l’un des grands artisans qui ont permis le sauvetage du club à l’été 2023.",
+            "credit": "",
+            "caption_raw": "Pierre Wantiez, président délégué du club en 2023-224, il est l’un des grands artisans qui ont permis le sauvetage du club à l’été 2023."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13341,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/pierre-wantiez/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/pierre-wantiez/",
+        "slug": "pierre-wantiez",
+        "seo_title": "Pierre Wantiez - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pierre Wantiez </h2>\n<h4><strong>Directeur administratif de 2000 à 2008 puis Président exécutif en 2023-2024 </strong></h4>",
+        "header_lines": [
+            "Pierre Wantiez",
+            "Directeur administratif de 2000 à 2008 puis Président exécutif en 2023-2024"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Pierre",
+        "last_name": "Wantiez",
+        "display_name": "Pierre Wantiez",
+        "nickname": "",
+        "subtitle": "Directeur administratif de 2000 à 2008 puis Président exécutif en 2023-2024",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierre Wantiez"
+            },
+            {
+                "label": null,
+                "value": "Directeur administratif de 2000 à 2008 puis Président exécutif en 2023-2024"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

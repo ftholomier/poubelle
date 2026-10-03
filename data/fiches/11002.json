@@ -1,0 +1,190 @@
+{
+    "id": 11002,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "bouvet",
+    "path": "/joueurs/bouvet/",
+    "title": "? Bouvet",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-81.jpg",
+    "date": "2025-01-26T18:06:15",
+    "modified": "2025-03-04T22:49:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques inconnues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Bouvet aurait joué 1 seul match pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/1941-05-24-Le-petit-Comtois-photo-equipe-1b.jpg",
+            "caption": "Sochaux 1940/1941",
+            "credit": "",
+            "caption_raw": "Sochaux 1940/1941"
+        },
+        {
+            "image": "2025/01/5-81.jpg",
+            "caption": "Bouvet",
+            "credit": "dr",
+            "caption_raw": "Bouvet – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11002,
+        "url": "https://www.fcsochauxretro.com/a-la-une/bouvet/",
+        "path": "/a-la-une/bouvet/",
+        "slug": "bouvet",
+        "seo_title": "? Bouvet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>? Bouvet</strong></h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx  </strong></h4>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1940 ? </p>\n<p><strong>Départ de Sochaux : </strong>juin 1941</p>\n<p><strong>Premier et dernier match joué :</strong> AS Valentigney - Sochaux du 22/05/1941 : 4-2</p>",
+        "header_lines": [
+            "? Bouvet",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Arrivée à Sochaux : juillet 1940 ?",
+            "Départ de Sochaux : juin 1941",
+            "Premier et dernier match joué : AS Valentigney - Sochaux du 22/05/1941 : 4-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Bouvet",
+        "display_name": "? Bouvet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1940-07",
+            "precision": "month",
+            "text": "juillet 1940 ?"
+        },
+        "departure": {
+            "iso": "1941-06",
+            "precision": "month",
+            "text": "juin 1941"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Bouvet"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1940 ?"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1941"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "AS Valentigney - Sochaux du 22/05/1941 : 4-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

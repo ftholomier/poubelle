@@ -1,0 +1,266 @@
+{
+    "id": 8826,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "josema",
+    "path": "/joueurs/josema/",
+    "title": "Josema",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-46.jpg",
+    "date": "2024-12-18T22:04:05",
+    "modified": "2024-12-18T22:15:48",
+    "author": "tanguy",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Josema a joué 15 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/montbeliard-le-26-10-18-12e-journee-du-championnat-de-france-de-ligue-2-l2-de-football-entre-le-football-club-sochaux-montbeliard-fcsm-et-les-chamois-niortais-fc-valentin-jacob-et-jo.jpg",
+            "caption": "Josema",
+            "credit": "L’est républicain",
+            "caption_raw": "Josema – L’est républicain"
+        },
+        {
+            "image": "2024/12/le-sochalien-salmier-g-et-josema-photo-l-alsace-vincent-voegtlin-1531298981.jpg",
+            "caption": "Josema",
+            "credit": "L’est républicain",
+            "caption_raw": "Josema – L’est républicain"
+        },
+        {
+            "image": "2024/12/josema-1547653475.jpg",
+            "caption": "Josema",
+            "credit": "L’est républicain",
+            "caption_raw": "Josema – L’est républicain"
+        },
+        {
+            "image": "2024/12/avec-un-peu-de-chance-on-va-pouvoir-l-avoir-pour-plusieurs-annees-disait-david-vizcaino-au-sujet-de-josema-mais-le-joueur-a-souhaite-repartir-en-espagne-des-maintenant-photo-lionel-vadam.jpg",
+            "caption": "Josema",
+            "credit": "L’est républicain",
+            "caption_raw": "Josema – L’est républicain"
+        },
+        {
+            "image": "2024/12/josema-devrait-rapidement-trouver-ses-marques-au-sein-de-la-charniere-centrale-sochalienne-photo-lionel-vadam-1530473872.jpg",
+            "caption": "Josema",
+            "credit": "L’est républicain",
+            "caption_raw": "Josema – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8826,
+        "url": "https://www.fcsochauxretro.com/a-la-une/josema/",
+        "path": "/a-la-une/josema/",
+        "slug": "josema",
+        "seo_title": "Josema - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Josema</h2>\n<h4><strong>né le 6 juin 1996 à Lorqui (Espagne) </strong></h4>\n<p><strong>Taille : </strong>1m84</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>défenseur central ou arrière latéral gauche</p>\n<p><strong>International espagnol U17 (2 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018</p>\n<p><strong>Départ de Sochaux : </strong>janvier 2019</p>\n<p><strong>Premier match joué :</strong> Grenoble - Sochaux du 27/07/2018 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Ilkirch-Graffenstaden - Sochaux du 08/12/2018 : 0-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Brest du 17/08/2018 : 2-0 - But à la 19'</p>",
+        "header_lines": [
+            "Josema",
+            "né le 6 juin 1996 à Lorqui (Espagne)",
+            "Taille : 1m84",
+            "Poids : 82 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central ou arrière latéral gauche",
+            "International espagnol U17 (2 sélections)",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : janvier 2019",
+            "Premier match joué : Grenoble - Sochaux du 27/07/2018 : 1-0",
+            "Dernier match joué : Ilkirch-Graffenstaden - Sochaux du 08/12/2018 : 0-1",
+            "Premier but marqué : Sochaux - Brest du 17/08/2018 : 2-0 - But à la 19'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "",
+        "last_name": "Josema",
+        "display_name": "Josema",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1996-06-06",
+                "precision": "day",
+                "text": "6 juin 1996"
+            },
+            "place": {
+                "text": "Lorqui (Espagne)",
+                "city": "Lorqui",
+                "department": null,
+                "country": "Espagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 juin 1996 à Lorqui (Espagne)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "gaucher",
+        "position": "défenseur central ou arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International espagnol U17 (2 sélections)"
+        ],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2019-01",
+            "precision": "month",
+            "text": "janvier 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Grenoble - Sochaux du 27/07/2018 : 1-0",
+        "last_match": "Ilkirch-Graffenstaden - Sochaux du 08/12/2018 : 0-1",
+        "first_goal": "Sochaux - Brest du 17/08/2018 : 2-0 - But à la 19'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Josema"
+            },
+            {
+                "label": null,
+                "value": "né le 6 juin 1996 à Lorqui (Espagne)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central ou arrière latéral gauche"
+            },
+            {
+                "label": null,
+                "value": "International espagnol U17 (2 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Grenoble - Sochaux du 27/07/2018 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Ilkirch-Graffenstaden - Sochaux du 08/12/2018 : 0-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Brest du 17/08/2018 : 2-0 - But à la 19'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1938-1939",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "1945-1946",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "Total",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            ],
+            "source_table": 231
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

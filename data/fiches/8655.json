@@ -1,0 +1,196 @@
+{
+    "id": 8655,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "raphael-garcia",
+    "path": "/joueurs/raphael-garcia/",
+    "title": "Raphaël Garcia",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/garcia_raphael_ugocapeto.jpg",
+    "date": "2024-12-08T12:54:08",
+    "modified": "2025-08-10T21:52:16",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Raphaël Garcia a été formé durant 3 saisons à Sochaux avant de faire une carrière professionnelle dans la région angevine."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/garcia_raphael_ugocapeto.jpg",
+            "caption": "Raphaël Garcia",
+            "credit": "SCO Angers",
+            "caption_raw": "Raphaël Garcia – SCO Angers"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8655,
+        "url": "https://www.fcsochauxretro.com/a-la-une/raphael-garcia/",
+        "path": "/a-la-une/raphael-garcia/",
+        "slug": "raphael-garcia",
+        "seo_title": "Raphaël Garcia - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Raphaël Garcia</h2>\n<h4><strong>né le 30 janvier 1972 à Angers (49)</strong></h4>\n<h4><strong>Décédé le 24 novembre 1999 à Angers (49) </strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif </p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1988</p>\n<p><strong>Départ de Sochaux :</strong> juin 1991</p>",
+        "header_lines": [
+            "Raphaël Garcia",
+            "né le 30 janvier 1972 à Angers (49)",
+            "Décédé le 24 novembre 1999 à Angers (49)",
+            "Taille : 1m77",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juillet 1988",
+            "Départ de Sochaux : juin 1991"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Raphaël",
+        "last_name": "Garcia",
+        "display_name": "Raphaël Garcia",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1972-01-30",
+                "precision": "day",
+                "text": "30 janvier 1972"
+            },
+            "place": {
+                "text": "Angers (49)",
+                "city": "Angers",
+                "department": "49",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 janvier 1972 à Angers (49)"
+        },
+        "death": {
+            "date": {
+                "iso": "1999-11-24",
+                "precision": "day",
+                "text": "24 novembre 1999"
+            },
+            "place": {
+                "text": "Angers (49)",
+                "city": "Angers",
+                "department": "49",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 24 novembre 1999 à Angers (49)"
+        },
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1988-07",
+            "precision": "month",
+            "text": "juillet 1988"
+        },
+        "departure": {
+            "iso": "1991-06",
+            "precision": "month",
+            "text": "juin 1991"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Raphaël Garcia"
+            },
+            {
+                "label": null,
+                "value": "né le 30 janvier 1972 à Angers (49)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 24 novembre 1999 à Angers (49)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1988"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1991"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

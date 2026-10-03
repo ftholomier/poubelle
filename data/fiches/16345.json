@@ -1,0 +1,171 @@
+{
+    "id": 16345,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "noureddine-baskar",
+    "path": "/joueurs/noureddine-baskar/",
+    "title": "Noureddine Baskar (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/telechargement-1.jpg",
+    "date": "2025-09-05T11:30:53",
+    "modified": "2026-03-30T08:40:56",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière avant son essai",
+            "html": "<ul>\n<li>Jeune défenseur central, il débute très tôt en première division marocaine au Raja Casablanca.</li>\n<li>En 2017, il rejoint Lormont, un petit club amateur du Sud-Ouest de la France évoluant en National 3. Après une bonne saison, il signe à Amiens.</li>\n<li>Là-bas, il n’évolue qu’avec l’équipe réserve durant un an.</li>\n</ul>"
+        },
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>À l’été 2019, suite aux déboires financiers de l’été, le club est exsangue financièrement. Omar Daf, alors entraîneur, fait jouer tout son réseau pour tenter de bâtir un effectif.</li>\n<li>Sur recommandation de son ami Lamine Diatta, ex-international sénégalais comme lui, il met à l’essai Noureddine Baskar, un jeune défenseur central marocain de 24 ans évoluant à Amiens. Formé au Raja Casablanca, l’un des grands clubs marocains, il tarde à s’imposer au niveau professionnel en France.</li>\n<li>L’essai est prometteur, mais dans le même temps, Sochaux entre en négociation avec son ancien défenseur central international camerounais Adolphe Teikeu. Le club choisit finalement de le faire signer, car il possède l’expérience de la Ligue 2, connaît déjà le club et dispose d’un véritable leadership dans le vestiaire. Le club met ainsi fin à l’essai de Baskar sans lui proposer de contrat.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après son essai",
+            "html": "<ul>\n<li>Il poursuit sa carrière en amateur, d’abord avec l’équipe réserve d’Amiens, puis avec celles du Stade Bordelais, de Libourne et enfin du FC Bassin d’Arcachon.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Noureddine Bascar est resté une petite semaine à l'essai à l'été 2019."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/telechargement-1.jpg",
+            "caption": "Noureddine Baskar",
+            "credit": "DR",
+            "caption_raw": "Noureddine Baskar – DR"
+        },
+        {
+            "image": "2025/09/noureddine-bascar-a-ete-mis-a-l-essai-ce-lundi-photo-er-1566223109.jpg",
+            "caption": "Noureddine Baskar",
+            "credit": "L’est républicain",
+            "caption_raw": "Noureddine Baskar – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16345,
+        "url": "https://www.fcsochauxretro.com/uncategorized/noureddine-baskar-a-lessai/",
+        "path": "/uncategorized/noureddine-baskar-a-lessai/",
+        "slug": "noureddine-baskar-a-lessai",
+        "seo_title": "Noureddine Baskar (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Noureddine Baskar</strong></h2>\n<h4><strong>né le 25 avril 1995 à Agadir (Maroc)  </strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>A l'essai à Sochaux : </strong>aout 2019 </p>",
+        "header_lines": [
+            "Noureddine Baskar",
+            "né le 25 avril 1995 à Agadir (Maroc)",
+            "Taille : 1m86",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "A l'essai à Sochaux : aout 2019"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Noureddine",
+        "last_name": "Baskar",
+        "display_name": "Noureddine Baskar",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2019-08",
+            "precision": "month",
+            "text": "aout 2019"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1995-04-25",
+                "precision": "day",
+                "text": "25 avril 1995"
+            },
+            "place": {
+                "text": "Agadir (Maroc)",
+                "city": "Agadir",
+                "department": null,
+                "country": "Maroc",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 avril 1995 à Agadir (Maroc)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Noureddine Baskar"
+            },
+            {
+                "label": null,
+                "value": "né le 25 avril 1995 à Agadir (Maroc)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "aout 2019"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

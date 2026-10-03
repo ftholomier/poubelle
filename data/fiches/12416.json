@@ -1,0 +1,160 @@
+{
+    "id": 12416,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "bohrer",
+    "path": "/joueurs/bohrer/",
+    "title": "? Bohrer (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-02T21:59:15",
+    "modified": "2025-11-12T14:19:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Bohrer a joué 1 match amical pour Sochaux fin 1930."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12416,
+        "url": "https://www.fcsochauxretro.com/uncategorized/bohrer/",
+        "path": "/uncategorized/bohrer/",
+        "slug": "bohrer",
+        "seo_title": "? Bohrer (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Bohrer</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>défenseur ? </p>\n<p><strong>A l'essai en : </strong>novembre 1930</p>\n<p><strong>Premier et dernier match amical joué : </strong>Sochaux - 158è RI de Strasbourg : 1-2</p>",
+        "header_lines": [
+            "? Bohrer",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : défenseur ?",
+            "A l'essai en : novembre 1930",
+            "Premier et dernier match amical joué : Sochaux - 158è RI de Strasbourg : 1-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Bohrer",
+        "display_name": "? Bohrer",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1930-11",
+            "precision": "month",
+            "text": "novembre 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur ?",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Bohrer"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur ?"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "novembre 1930"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sochaux - 158è RI de Strasbourg : 1-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

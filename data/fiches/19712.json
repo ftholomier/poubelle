@@ -1,0 +1,503 @@
+{
+    "id": 19712,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "lens-sochaux-amical-11-01-1992",
+    "path": "/matchs/1991-1992/lens-sochaux-amical-11-01-1992/",
+    "title": "Amical – Lens (D1) / Sochaux (D1) – Amical – 11/01/1992 – 1-1",
+    "categories": [
+        "1991-1992",
+        "a-la-une",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/Vujovic-BUT.png",
+    "date": "2025-12-30T21:39:54",
+    "modified": "2026-01-25T11:15:41",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Après 24 journées, Sochaux est 19e de D1 avec 15 points. Le FCSM est à 3 points de la 17e place occupée par Cannes. </li>\n<li>Lens est 12 de D1 avec 24 points. </li>\n<li>En championnat, Lens a concédé le nul 1-1 à Bollaert devant le FCSM avant de s'imposer 2-1 à Bonal en décembre. </li>\n<li>Croci, Bazdarevic et Vujovic seront absents contre Le Havre pour cause de suspension. ils seront sur la banc contre Lens. </li>\n<li>Bricon sera de retour pour affronter Lens. Dewilder lui sera de retour sur le banc. </li>\n<li>Malade depuis mercredi matin , Carrasco ne sera peut-être pas aligné contre Lens. Weber lui aussi a souffert de la gastro en début de semaine. </li>\n<li>Takac compte aligner l'équipe qui débutera en championnat dimanche prochain. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>8' : </strong>frappe de Laigle et belle parade de Ferrand. </li>\n<li><strong>19' : corner sochalien repoussé par la défense sur Robert qui place un tir du gauche puissant en pleine lucarne. 0-1</strong></li>\n<li><strong>28' : coup franc victorieux d'El Hadaoui. 1-1</strong></li>\n<li><strong>32' :</strong> Boli tire sur Ferrand bien sorti. </li>\n<li><strong>38' :</strong> frappe sèche de Slater déviée par Ferrand. </li>\n<li><strong>42' :</strong> frappe de Prat captée par Lama. </li>\n<li><strong>44' :</strong> frappe en pivot de Boli sur Ferrand bien placé. </li>\n<li><strong>53' :</strong> frappe lointaine de François qui manque la cible. </li>\n<li><strong>66' :</strong> Lama se couche sur un tir puissant de Caveglia. </li>\n<li><strong>75' :</strong> Madar déborde et centre en retrait pour Caveglia dont la frappe passait au dessus de la barre. </li>\n<li><strong>78' :</strong> centre contré de Madar qui termine sur le poteau de Lens. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Sylvester Takac :</strong> <em>\" Je pense que nos trois matches amicaux, c'est celui qui présente la meilleure qualité. C'est un bon test qui nous prouve que nous sommes prêts malgré trois joueurs suspendus. Nous avons bien terminé la rencontre.\"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>De retour en Franche Comté samedi après la rencontre, les Sochaliens ne reprendront l'entraînement que mardi pour préparer la venue du Havre dimanche. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "3 rencontres amicales en une semaine et 3 nuls sur le score de 1-1 pour le FCSM"
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Vujovic-BUT.png",
+            "caption": "Vujovic",
+            "credit": "BUT",
+            "caption_raw": "Vujovic – BUT"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19712,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-lens-d1-sochaux-d1-amical-11-01-1992-1-1/",
+        "path": "/a-la-une/amical-lens-d1-sochaux-d1-amical-11-01-1992-1-1/",
+        "slug": "amical-lens-d1-sochaux-d1-amical-11-01-1992-1-1",
+        "seo_title": "Amical - Lens (D1) / Sochaux (D1) - Amical - 11/01/1992 - 1-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Lens (D1) / Sochaux (D1): 1-1</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 11 janvier 1992</strong></h4>\n<h4>Stade de Poissy</h4>\n<h4><strong> 2 000  spectateurs</strong></h4>\n<h4><strong>Arbitrage : M Véniel</strong></h4>\n<p>Buts : Robert 19' pour Sochaux. El Haddaoui 28' pour Lens.</p>",
+        "header_lines": [
+            "Lens (D1) / Sochaux (D1): 1-1",
+            "Match amical",
+            "Samedi 11 janvier 1992",
+            "Stade de Poissy",
+            "2 000 spectateurs",
+            "Arbitrage : M Véniel",
+            "Buts : Robert 19' pour Sochaux. El Haddaoui 28' pour Lens."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1992-01-11",
+        "date_text": "Samedi 11 janvier 1992",
+        "season": "1991-1992",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": "Amical",
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Lens",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-1",
+        "score_line": "Lens (D1) / Sochaux (D1): 1-1",
+        "result": "N",
+        "stadium": "Stade de Poissy",
+        "spectators": 2000,
+        "spectators_text": "2 000 spectateurs",
+        "referee": "M Véniel",
+        "goals_text": "Robert 19' pour Sochaux. El Haddaoui 28' pour Lens.",
+        "goals": [
+            {
+                "team": "Lens",
+                "scorers": "Robert 19' pour Sochaux. El Haddaoui 28'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "8",
+                "text": "frappe de Laigle et belle parade de Ferrand.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "19",
+                "text": "corner sochalien repoussé par la défense sur Robert qui place un tir du gauche puissant en pleine lucarne. 0-1",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "28",
+                "text": "coup franc victorieux d'El Hadaoui. 1-1",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "32",
+                "text": "Boli tire sur Ferrand bien sorti.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "38",
+                "text": "frappe sèche de Slater déviée par Ferrand.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "42",
+                "text": "frappe de Prat captée par Lama.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "44",
+                "text": "frappe en pivot de Boli sur Ferrand bien placé.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "53",
+                "text": "frappe lointaine de François qui manque la cible.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "66",
+                "text": "Lama se couche sur un tir puissant de Caveglia.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "75",
+                "text": "Madar déborde et centre en retrait pour Caveglia dont la frappe passait au dessus de la barre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "78",
+                "text": "centre contré de Madar qui termine sur le poteau de Lens.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Sylvester Takac",
+                "text": "Je pense que nos trois matches amicaux, c'est celui qui présente la meilleure qualité. C'est un bon test qui nous prouve que nous sommes prêts malgré trois joueurs suspendus. Nous avons bien terminé la rencontre."
+            }
+        ],
+        "breves": [
+            "De retour en Franche Comté samedi après la rencontre, les Sochaliens ne reprendront l'entraînement que mardi pour préparer la venue du Havre dimanche."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERRAND Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRICON Pierre-Yves",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "80",
+                    "sub_text": "Sortie 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WEBER Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CAVEGLIA Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ROBERT David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "19"
+                    ],
+                    "goals_text": "19'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "THOMAS Jean-Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "Sortie 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PRAT Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "80",
+                    "sub_text": "Sortie 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "OUDJANI Chérif",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "80",
+                    "sub_out": null,
+                    "sub_text": "Entrée 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DEWILDER Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "80",
+                    "sub_out": null,
+                    "sub_text": "Entrée 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VUJOVIC Zlatko",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "Entrée 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MADAR Mickael",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GARDIE Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1721
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

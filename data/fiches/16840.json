@@ -1,0 +1,478 @@
+{
+    "id": 16840,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-dijon-amical-06-10-2017",
+    "path": "/matchs/2017-2018/sochaux-dijon-amical-06-10-2017/",
+    "title": "Amical – Sochaux (L2) / Dijon (L1) – 06/10/2017 – 3-2",
+    "categories": [
+        "2017-2018",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/les-sochaliens-ici-yakou-meite-debordant-le-dijonnais-cedric-yambere-se-sont-imposes-hier-soir-sur-la-pelouse-de-besancon-photo-ludovic-laude-1507320157.jpg",
+    "date": "2026-06-14T21:58:16",
+    "modified": "2026-08-14T17:02:13",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Sochaux prend sa revanche sur Dijon qui l'avait battu sur le même score en été."
+    },
+    "gallery": [
+        {
+            "image": "2025/12/les-sochaliens-ici-yakou-meite-debordant-le-dijonnais-cedric-yambere-se-sont-imposes-hier-soir-sur-la-pelouse-de-besancon-photo-ludovic-laude-1507320157.jpg",
+            "caption": "Yakou Meïté lors de Sochaux-Dijon en amical en octobre 2017",
+            "credit": "L’est républicain",
+            "caption_raw": "Yakou Meïté lors de Sochaux-Dijon en amical en octobre 2017 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16840,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l2-dijon-l1-06-10-2017-3-2/",
+        "path": "/a-la-une/amical-sochaux-l2-dijon-l1-06-10-2017-3-2/",
+        "slug": "amical-sochaux-l2-dijon-l1-06-10-2017-3-2",
+        "seo_title": "Amical - Sochaux (L2) / Dijon (L1) - 06/10/2017 - 3-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (L2) / Dijon (L1) : 3-2</strong><strong><br></strong></h2>\n<h4><strong>En amical<br></strong></h4>\n<h4><strong>Vendredi 6 octobre 2017</strong></h4>\n<h4><strong>Stade Léo Lagrange de Besançon (25)<br></strong></h4>\n<h4><strong>1 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Valnet<br></strong></h4>\n<p>Buts : Robinet 32', Lasme 80' et Sao 84' pour Sochaux ; Abdeldjelil 47' et Rüfli 72' pour Dijon</p>",
+        "header_lines": [
+            "Sochaux (L2) / Dijon (L1) : 3-2",
+            "En amical",
+            "Vendredi 6 octobre 2017",
+            "Stade Léo Lagrange de Besançon (25)",
+            "1 000 spectateurs",
+            "Arbitre : M. Valnet",
+            "Buts : Robinet 32', Lasme 80' et Sao 84' pour Sochaux ; Abdeldjelil 47' et Rüfli 72' pour Dijon"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2017-10-06",
+        "date_text": "Vendredi 6 octobre 2017",
+        "season": "2017-2018",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "En amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "away": {
+            "name": "Dijon",
+            "level": "L1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 3,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "3-2",
+        "score_line": "Sochaux (L2) / Dijon (L1) : 3-2",
+        "result": "V",
+        "stadium": "Stade Léo Lagrange de Besançon (25)",
+        "spectators": 1000,
+        "spectators_text": "1 000 spectateurs",
+        "referee": "M. Valnet",
+        "goals_text": "Robinet 32', Lasme 80' et Sao 84' pour Sochaux ; Abdeldjelil 47' et Rüfli 72' pour Dijon",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Robinet 32', Lasme 80' et Sao 84'"
+            },
+            {
+                "team": "Dijon",
+                "scorers": "Abdeldjelil 47' et Rüfli 72'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "LONG Aubin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ALPHONSE Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OGIER Florent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RUIZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "77",
+                    "sub_text": "↓ 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BERGDICH Zakarya",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FUCHS Jeando",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAKAYOKO Axel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "32"
+                    ],
+                    "goals_text": "⚽ 32'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "KALULU Aldo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "77",
+                    "sub_text": "↓ 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MEÏTE Yakou",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PREVOT Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "KAPP Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "77",
+                    "sub_out": null,
+                    "sub_text": "↑ 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PENDANT Jason",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MART Ristl",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "AKTAS Aksel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LASME Bryan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "80"
+                    ],
+                    "goals_text": "⚽ 80'",
+                    "sub_in": "77",
+                    "sub_out": null,
+                    "sub_text": "↑ 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SAO Moussa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "84"
+                    ],
+                    "goals_text": "⚽ 84'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ZEIDLER Peter",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1955
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

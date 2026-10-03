@@ -1,0 +1,139 @@
+{
+    "id": 16717,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-nancy-amical-20-01-2012",
+    "path": "/matchs/2011-2012/sochaux-nancy-amical-20-01-2012/",
+    "title": "Amical – Sochaux (L1) / Nancy (L1) – 20/01/2012 – 2-1",
+    "categories": [
+        "2011-2012",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/yohan-mollo-a-inscrit-son-premier-but-sous-le-maillot-nanceien-hier-meme-si-ce-n-etait-qu-un-match-amical-c-est-toujours-bon-pour-la-confiance-photo-d-archives-alexandre-marchi-1428582917.jpg",
+    "date": "2025-09-25T20:17:48",
+    "modified": "2025-12-06T23:39:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux et Nancy étant éliminés en coupe de France ils décident de se rencontrer dans un match amical.</li>\n<li>Initialement prévu à Belfort au stade Serzian, le match se tiendra finalement sur un terrain annexe du centre de formation à Seloncourt en raison des intempéries et de l'état du terrain belfortain. Les dirigeants et le staff sochaliens ont préféré disputer cette rencontre à huis clos, à l'abris des regards et de la presse.  </li>\n<li>Sochaux mettra à l'essai l'attaquant nigérian King Osanga qui a très peu de références. Il possède le même agent que le stoppeur camerounais Yaya Banana sur lequel Sochaux s'est positionné. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<p>Pas d'informations match à huis clos. </p>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Néant. </strong></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Victoire qui fait du bien au moral dans une période morose. </li>\n<li>Jean Fernandez l'entraîneur de Nancy a pu tester plusieurs joueurs de retour de blessures comme Niculae. Ce match a confirmé la montée en puissance du jeune Yohan Mollo prêté par Grenade.  </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Les trois buts ont été marqués en première mi-temps."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/yohan-mollo-a-inscrit-son-premier-but-sous-le-maillot-nanceien-hier-meme-si-ce-n-etait-qu-un-match-amical-c-est-toujours-bon-pour-la-confiance-photo-d-archives-alexandre-marchi-1428582917.jpg",
+            "caption": "Yohan Mollo",
+            "credit": "L’est républicain",
+            "caption_raw": "Yohan Mollo – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16717,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l1-nancy-l1-20-01-2012-2-1/",
+        "path": "/a-la-une/amical-sochaux-l1-nancy-l1-20-01-2012-2-1/",
+        "slug": "amical-sochaux-l1-nancy-l1-20-01-2012-2-1",
+        "seo_title": "Amical - Sochaux (L1) / Nancy (L1) - 20/01/2012 - 2-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Nancy : 2-1<br></strong></h2>\n<h4><strong>Match amical<br></strong></h4>\n<h4><strong>Vendredi 20 janvier 2012</strong></h4>\n<h4><strong>Terrain du centre de formation de Seloncourt (25)<br></strong></h4>\n<h4><strong>Huis clos</strong></h4>\n<h4><strong>Arbitre : xx<br></strong></h4>\n<p>Buts : Martin et Privat pour Sochaux ; Mollo pour Nancy. </p>",
+        "header_lines": [
+            "Sochaux / Nancy : 2-1",
+            "Match amical",
+            "Vendredi 20 janvier 2012",
+            "Terrain du centre de formation de Seloncourt (25)",
+            "Huis clos",
+            "Arbitre : xx",
+            "Buts : Martin et Privat pour Sochaux ; Mollo pour Nancy."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2012-01-20",
+        "date_text": "Vendredi 20 janvier 2012",
+        "season": "2011-2012",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L1"
+        },
+        "away": {
+            "name": "Nancy",
+            "level": "L1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-1",
+        "score_line": "Sochaux / Nancy : 2-1",
+        "result": "V",
+        "stadium": "Terrain du centre de formation de Seloncourt (25)",
+        "spectators": null,
+        "spectators_text": "Huis clos",
+        "referee": "xx",
+        "goals_text": "Martin et Privat pour Sochaux ; Mollo pour Nancy.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Martin et Privat"
+            },
+            {
+                "team": "Nancy",
+                "scorers": "Mollo"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Néant."
+            }
+        ],
+        "breves": [
+            "Victoire qui fait du bien au moral dans une période morose.",
+            "Jean Fernandez l'entraîneur de Nancy a pu tester plusieurs joueurs de retour de blessures comme Niculae. Ce match a confirmé la montée en puissance du jeune Yohan Mollo prêté par Grenade."
+        ],
+        "lineup": null,
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

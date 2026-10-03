@@ -1,0 +1,248 @@
+{
+    "id": 9273,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ernest-webjne-n-for",
+    "path": "/joueurs/ernest-webjne-n-for/",
+    "title": "Ernest Webjne N’For (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/53548.jpg",
+    "date": "2024-12-30T18:32:15",
+    "modified": "2025-11-12T14:00:07",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Sochaux mal en point en championnat cherche à se renforcer à l'hiver 2016. Ils mettent à l'essai Ernest N'For, 29 ans alors. Il retrouve son compatriote Adolphe Teikeu. Mais après une semaine d'essai il ne convainc pas les dirigeants de lui faire signer un contrat. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Ernest N'For est resté 1 semaine à l'essai à Sochaux en janvier 2016."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/ernest-webnje-nfor-va-devoir-faire-ses-preuves-photo-lionel-vadam-1452606569.jpg",
+            "caption": "Ernest N’For",
+            "credit": "L’est républicain",
+            "caption_raw": "Ernest N’For – L’est républicain"
+        },
+        {
+            "image": "2024/12/53548.jpg",
+            "caption": "Ernest N’For",
+            "credit": "",
+            "caption_raw": "Ernest N’For"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9273,
+        "url": "https://www.fcsochauxretro.com/uncategorized/ernest-webjne-nfor/",
+        "path": "/uncategorized/ernest-webjne-nfor/",
+        "slug": "ernest-webjne-nfor",
+        "seo_title": "Ernest Webjne N'For (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ernest Webnje N'For</h2>\n<h4><strong>Né le 28 avril 1986 à Bertoua (Cameroun)<br></strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>attaquant<strong><br></strong></p>\n<p><strong>International camerounais (1 sélection)</strong></p>\n<p><strong>A l'essai en : </strong>janvier 2016</p>",
+        "header_lines": [
+            "Ernest Webnje N'For",
+            "Né le 28 avril 1986 à Bertoua (Cameroun)",
+            "Taille : 1m80",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Position : attaquant",
+            "International camerounais (1 sélection)",
+            "A l'essai en : janvier 2016"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ernest Webjne",
+        "last_name": "N’For",
+        "display_name": "Ernest Webjne N’For",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2016-01",
+            "precision": "month",
+            "text": "janvier 2016"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1986-04-28",
+                "precision": "day",
+                "text": "28 avril 1986"
+            },
+            "place": {
+                "text": "Bertoua (Cameroun)",
+                "city": "Bertoua",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 28 avril 1986 à Bertoua (Cameroun)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International camerounais (1 sélection)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ernest Webnje N'For"
+            },
+            {
+                "label": null,
+                "value": "Né le 28 avril 1986 à Bertoua (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International camerounais (1 sélection)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "janvier 2016"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

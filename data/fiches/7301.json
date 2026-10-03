@@ -1,0 +1,221 @@
+{
+    "id": 7301,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "romuald-castellani",
+    "path": "/joueurs/romuald-castellani/",
+    "title": "Romuald Castellani",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/70703.jpg",
+    "date": "2024-11-10T18:11:03",
+    "modified": "2025-03-05T18:21:57",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques inconnues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "22",
+        "text": "Romuald Castellani a marqué 22 buts pour Sochaux durant la guerre."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/70703.jpg",
+            "caption": "Romuald Castellani",
+            "credit": "DR",
+            "caption_raw": "Romuald Castellani – DR"
+        },
+        {
+            "image": "2024/11/1941-05-24-Le-petit-Comtois-photo-equipe-1b.jpg",
+            "caption": "Le Petit Comtois",
+            "credit": "FC Sochaux-Montbéliard 1940/1941",
+            "caption_raw": "Le Petit Comtois – FC Sochaux-Montbéliard 1940/1941"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7301,
+        "url": "https://www.fcsochauxretro.com/a-la-une/romuald-castellani/",
+        "path": "/a-la-une/romuald-castellani/",
+        "slug": "romuald-castellani",
+        "seo_title": "Romuald Castellani - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Romuald Castellani</h2>\n<h4><strong>né le 7 février 1922 à Autechaux (25)</strong></h4>\n<h4><strong>Décédé le 4 juin 2005 à Montluçon (03) </strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif </p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1938</p>\n<p><strong>Départ de Sochaux : </strong>juin 1946</p>\n<p><strong>Premier match joué :</strong> Sochaux - Annemasse du 14/01/1940 : 1-1</p>\n<p><strong>Dernier match joué :</strong> 1946 ? </p>\n<p><strong>Premier but et premier doublé avec Sochaux :</strong> RCFC Besançon - Sochaux du 24/03/1940 : 4-7</p>",
+        "header_lines": [
+            "Romuald Castellani",
+            "né le 7 février 1922 à Autechaux (25)",
+            "Décédé le 4 juin 2005 à Montluçon (03)",
+            "Taille : 1m78",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : juillet 1938",
+            "Départ de Sochaux : juin 1946",
+            "Premier match joué : Sochaux - Annemasse du 14/01/1940 : 1-1",
+            "Dernier match joué : 1946 ?",
+            "Premier but et premier doublé avec Sochaux : RCFC Besançon - Sochaux du 24/03/1940 : 4-7"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Romuald",
+        "last_name": "Castellani",
+        "display_name": "Romuald Castellani",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1922-02-07",
+                "precision": "day",
+                "text": "7 février 1922"
+            },
+            "place": {
+                "text": "Autechaux (25)",
+                "city": "Autechaux",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 février 1922 à Autechaux (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "2005-06-04",
+                "precision": "day",
+                "text": "4 juin 2005"
+            },
+            "place": {
+                "text": "Montluçon (03)",
+                "city": "Montluçon",
+                "department": "03",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 4 juin 2005 à Montluçon (03)"
+        },
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1938-07",
+            "precision": "month",
+            "text": "juillet 1938"
+        },
+        "departure": {
+            "iso": "1946-06",
+            "precision": "month",
+            "text": "juin 1946"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Annemasse du 14/01/1940 : 1-1",
+        "last_match": "1946 ?",
+        "first_goal": "RCFC Besançon - Sochaux du 24/03/1940 : 4-7",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Romuald Castellani"
+            },
+            {
+                "label": null,
+                "value": "né le 7 février 1922 à Autechaux (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 4 juin 2005 à Montluçon (03)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1938"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1946"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Annemasse du 14/01/1940 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "1946 ?"
+            },
+            {
+                "label": "Premier but et premier doublé avec Sochaux",
+                "value": "RCFC Besançon - Sochaux du 24/03/1940 : 4-7"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

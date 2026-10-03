@@ -1,0 +1,381 @@
+{
+    "id": 4700,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "leslie-miller",
+    "path": "/joueurs/leslie-miller/",
+    "title": "Leslie Miller",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/08/L_Miller_2_300x300.jpg",
+    "date": "2024-08-22T15:46:05",
+    "modified": "2025-02-22T17:50:11",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son arrivée à Sochaux",
+            "html": "<ul>\n<li>Formé à Barking, il signe à Northampton en 1929. Il a 18 ans et il pense découvrir le monde professionnel. Mais en 1930, il est contraint de retourner au FC Barking Town. En effet, Northampton ne lui a pas proposé de contrat et il a dû se contenter des matches amateurs seulement. </li>\n<li>A la recherche de joueurs Anglais pour renforcer le FCSM, Victor Gibson, l'entraîneur de l'équipe, entend parler de Leslie Miller, jeune ailer gauche prometteur. </li>\n<li>Au printemps 1930, Leslie Miller débarque à Sochaux à 19 ans. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Miller débute avec le FCSM en avril 1930 lors du tournoi de Pâques, face au PSV Eindhoven. Il s'illustre lors de cette rencontre en délivrant une passe décisive. </li>\n<li>En mai 1930, il marque son 1er but contre le Red Star en match amical. </li>\n<li>Lors de la saison 1930-1931 Leslie Miller dispute avec le FCSM le championnat d'Honneur du Pays de Montbéliard, des rencontres amicales, la coupe Sochaux et la coupe de France. Le FCSM remporte d'ailleurs la première coupe Peugeot de l'histoire contre Lille. Leslie Miller est d'ailleurs l'un des grands artisans de cette victoire.</li>\n<li>La saison 1931-1932 est la dernière avant l'arrivée du professionnalisme. Sochaux dispute les mêmes compétitions que l'année précédente et Leslie Miller devient même le meilleur buteur de l'équipe.</li>\n<li>La saison 1932-1933 voit le début du professionnalisme en France. Pour le premier match dans l'élite de son histoire, Sochaux, grand favori de la compétition, chute 3-1 à domicile face au CA Paris. Le coup est rude pour le FCSM. Néanmoins, Leslie Miller devient, lors de ce match, le premier buteur de l'histoire du club dans le monde pro.</li>\n<li>En 1933-1934, il dispute l'intégralité des rencontres du FCSM en championnat et en coupe de France. </li>\n<li>La saison 1934-1935 voit le FCSM recruter plusieurs stars étrangères comme Duhart ou Abegglen. De plus la fédération fait le choix de réduire le nombre de joueurs étrangers de 4 à 3 sur les feuilles de matches. Marié à une Française de Belfort, le club le pousse à devenir français comme Bernard Williams. Miller refuse et joue moins mais participe tout de même activement au titre de champion de France du FCSM.</li>\n<li>En 1935-1936 Leslie Miller est davantage utilisé. En effet la blessure au ménisque d'Abegglen lui permet de faire un saison presque complète. </li>\n<li>Lors de l'été 1936, il est placé sur la liste des transferts après 6 saison au club. Les dirigeants lui reprochent son refus de devenir Français.  </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>En septembre 1936, Leslie Miller est transféré à Tottenham. Longtemps en contact avec le CA Paris, il décide finalement de rentrer en Angleterre. </li>\n<li>En deuxième division anglaise, Leslie s'impose très vite et réalise une très belle première saison. </li>\n<li>Après Tottenham, il évolue à Chesterfield en 1939, puis à Mansfield où il stoppe sa carrière suite à une blessure pendant la seconde guerre mondiale.</li>\n<li>Il décède subitement en 1959. </li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "104",
+        "text": "Leslie Miller a joué 104 matchs officiels avec Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/08/Leslie-Miller-Miroir-des-sports.png",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2024/08/britaniques-de-sochaux-1931-1932.jpg",
+            "caption": "les Britaniques de Sochaux 1931-1932",
+            "credit": "MS",
+            "caption_raw": "les Britaniques de Sochaux 1931-1932 – MS"
+        },
+        {
+            "image": "2024/08/336735850_1281043049436122_5002022631166757625_n-1.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2024/08/1935-03-11-Le_Journal-Leslie-miller-photo.jpg",
+            "caption": "Leslie Miller",
+            "credit": "Le Journal",
+            "caption_raw": "Leslie Miller – Le Journal"
+        },
+        {
+            "image": "2024/08/1932-02-09-Le_Miroir_des_sports-CDF-Racing-Sochaux-3-1-photo.jpg",
+            "caption": "1932-02-09-Le_Miroir_des_sports-CDF-Racing-Sochaux-3-1-photo",
+            "credit": "",
+            "caption_raw": "1932-02-09-Le_Miroir_des_sports-CDF-Racing-Sochaux-3-1-photo"
+        },
+        {
+            "image": "2024/08/Leslie-1932-02-14-Le_Dimanche_du_Journal_de-Roubaix-Racing-Sochaux-CDF-photos-Maschinot-Leslie.jpg",
+            "caption": "Maschinot et Leslie Le_Dimanche_du_Journal_de-Roubaix-Racing-Sochaux-CDF- 1932",
+            "credit": "",
+            "caption_raw": "Maschinot et Leslie Le_Dimanche_du_Journal_de-Roubaix-Racing-Sochaux-CDF- 1932"
+        },
+        {
+            "image": "2024/10/inbound5311924106606656491.jpg",
+            "caption": "Leslie Miller",
+            "credit": "",
+            "caption_raw": "Leslie Miller"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4700,
+        "url": "https://www.fcsochauxretro.com/a-la-une/leslie-miller/",
+        "path": "/a-la-une/leslie-miller/",
+        "slug": "leslie-miller",
+        "seo_title": "Leslie Miller - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Leslie Miller</h2>\n<h4><strong>né le 30 mars 1911 à Barking ( Angleterre)</strong></h4>\n<h4><strong>Décédé le 1er octobre 1959 à XX</strong></h4>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Poste : </strong>ailier gauche</p>\n<p><strong>Arrivée à Sochaux : </strong>printemps 1930</p>\n<p><strong>Départ de Sochaux : </strong>septembre 1936 </p>\n<p><strong>Premier match joué</strong> : PSV Eindhoven (Hollande) - Sochaux du 20/04/1930 : 1-3</p>\n<p><strong>Dernier match joué</strong> : Rennes - Sochaux du 22/03/1936 : 1-1</p>\n<p><strong>Premier but marqué </strong>: Sochaux - CA Paris du 11/09/1932 : 1-3 - But à la 87'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n<li>Vainqueur de la coupe Sochaux  1931</li>\n<li>Vainqueur du Challenge de Turckheim 1931</li>\n<li>Champion de ligue régionale Bourgogne Franche-Comté 1931</li>\n<li>Premier buteur de l'histoire du club en première division</li>\n<li>\n<p>Champion de France de première division 1935</p>\n</li>\n<li>Vainqueur de la coupe de France 1937</li>\n</ul>",
+        "header_lines": [
+            "Leslie Miller",
+            "né le 30 mars 1911 à Barking ( Angleterre)",
+            "Décédé le 1er octobre 1959 à XX",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "Arrivée à Sochaux : printemps 1930",
+            "Départ de Sochaux : septembre 1936",
+            "Premier match joué : PSV Eindhoven (Hollande) - Sochaux du 20/04/1930 : 1-3",
+            "Dernier match joué : Rennes - Sochaux du 22/03/1936 : 1-1",
+            "Premier but marqué : Sochaux - CA Paris du 11/09/1932 : 1-3 - But à la 87'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur de la coupe Sochaux 1931",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Champion de ligue régionale Bourgogne Franche-Comté 1931",
+            "Premier buteur de l'histoire du club en première division",
+            "Champion de France de première division 1935",
+            "Vainqueur de la coupe de France 1937"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Leslie",
+        "last_name": "Miller",
+        "display_name": "Leslie Miller",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1911-03-30",
+                "precision": "day",
+                "text": "30 mars 1911"
+            },
+            "place": {
+                "text": "Barking ( Angleterre)",
+                "city": "Barking",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 mars 1911 à Barking ( Angleterre)"
+        },
+        "death": {
+            "date": {
+                "iso": "1959-10-01",
+                "precision": "day",
+                "text": "1er octobre 1959"
+            },
+            "place": {
+                "text": "XX",
+                "city": "XX",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 1er octobre 1959 à XX"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1930",
+            "precision": "year",
+            "text": "printemps 1930"
+        },
+        "departure": {
+            "iso": "1936-09",
+            "precision": "month",
+            "text": "septembre 1936"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "PSV Eindhoven (Hollande) - Sochaux du 20/04/1930 : 1-3",
+        "last_match": "Rennes - Sochaux du 22/03/1936 : 1-1",
+        "first_goal": "Sochaux - CA Paris du 11/09/1932 : 1-3 - But à la 87'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur de la coupe Sochaux 1931",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Champion de ligue régionale Bourgogne Franche-Comté 1931",
+            "Premier buteur de l'histoire du club en première division",
+            "Champion de France de première division 1935",
+            "Vainqueur de la coupe de France 1937"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Leslie Miller"
+            },
+            {
+                "label": null,
+                "value": "né le 30 mars 1911 à Barking ( Angleterre)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 1er octobre 1959 à XX"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "printemps 1930"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "septembre 1936"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "PSV Eindhoven (Hollande) - Sochaux du 20/04/1930 : 1-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Rennes - Sochaux du 22/03/1936 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - CA Paris du 11/09/1932 : 1-3 - But à la 87'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Sochaux 1931"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1931"
+            },
+            {
+                "label": null,
+                "value": "Champion de ligue régionale Bourgogne Franche-Comté 1931"
+            },
+            {
+                "label": null,
+                "value": "Premier buteur de l'histoire du club en première division"
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1935"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 1937"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe Sochaux",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1930-1931",
+                    "0",
+                    "0",
+                    "7",
+                    "3",
+                    "7",
+                    "7",
+                    "14",
+                    "10"
+                ],
+                [
+                    "1931-1932",
+                    "0",
+                    "0",
+                    "3",
+                    "1",
+                    "5",
+                    "7",
+                    "8",
+                    "8"
+                ],
+                [
+                    "1932-1933",
+                    "17",
+                    "8",
+                    "4",
+                    "2",
+                    "0",
+                    "0",
+                    "21",
+                    "10"
+                ],
+                [
+                    "1933-1934",
+                    "26",
+                    "12",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "28",
+                    "13"
+                ],
+                [
+                    "1934-1935",
+                    "16",
+                    "6",
+                    "3",
+                    "3",
+                    "0",
+                    "0",
+                    "19",
+                    "9"
+                ],
+                [
+                    "1935-1936",
+                    "18",
+                    "3",
+                    "5",
+                    "3",
+                    "0",
+                    "0",
+                    "36",
+                    "1"
+                ],
+                [
+                    "Total",
+                    "77",
+                    "29",
+                    "24",
+                    "13",
+                    "12",
+                    "14",
+                    "126",
+                    "51"
+                ]
+            ],
+            "source_table": 432
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

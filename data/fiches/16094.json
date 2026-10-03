@@ -1,0 +1,171 @@
+{
+    "id": 16094,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "djordje-indic",
+    "path": "/joueurs/djordje-indic/",
+    "title": "Djordje Indic (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/08/Djordje-Indic.jpg",
+    "date": "2025-08-20T08:38:16",
+    "modified": "2025-11-12T14:06:51",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Formé à Banja Luka dans le club de sa ville natale, il débute en première division bosniaque en 1994 avec son club.</li>\n<li>Durant trois saisons à partir de 1996, il score entre 8 et 12 buts et réalise de nombreuses passes décisives pour son club de Zemun à Belgrade. </li>\n<li>C'est à ce moment-là que Mecha Bazdarevic le repère. </li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>Jean Fernandez arrive sur le banc de Sochaux en septembre 1999. Il essaye d'organiser son animation offensive mais la méforme d'Olivier Baudry et la blessure aux ligaments croisés de Camel Meriem le prive d'un meneur capable d'orienter le jeu. </li>\n<li>Le club prospecte donc pour trouver un meneur de jeu et Mecha Bazdarevic avec son réseau entend parler de Djordje Indic au FK Zemun le troisième club de Belgrade. Il a 24 ans et réalise une bonne saison avec 8 buts marqués dont certains sur coup franc direct et des passes décisives. </li>\n<li>Bazdarevic est allé le superviser plusieurs fois en Yougoslavie et s'entend bien avec Sasha Radovic son agent qui a fait venir Jestrovic à Metz et Becanovic à Lille récemment. Il est également en contact avec Montpellier. </li>\n<li>Il dispute un match amical avec la réserve face à Vesoul et montre de belles qualités techniques. Jean Fernandez s'exprime à son sujet : <em>\" Il possède de bonnes qualités techniques. Il est adroit devant le but. Son profil est intéressant. Mais on a la chance de l'avoir 15 jours avec nous. On ne va donc pas précipiter les choses. Il faut être sûr de ne pas se tromper \". </em></li>\n<li>Malheureusement lors du match amical face à Vesoul il reçoit un coup sévère sur la cheville après seulement 5 minutes de jeu. Il tient sa place une mi-temps mais dit sortir à la pause. </li>\n<li>Un deuxième match amical est prévu quelques jours plus tard avec la réserve renforcée de 6 joueurs pros. Mais toujours blessé il ne peut pas participer.</li>\n<li>Il repart finalement en Bosnie après 10 jours d'essai. Malgré d'évidentes qualités, le club ne le recrutera pas et jettera son dévolu sur Franck Durix un meneur de jeu que Jean Fernandez connaissait bien. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il fera une carrière honnête à Zemun, puis au Maribor Branik en Slovénie avec qui il disputera les qualifications pour la Ligue des champions. Il jouera ensuite en Ukraine et en Russie. </li>\n<li>En 2014 il devient entraineur du Sloboda Mrkonjic Grad en première division bosniaque durant 6 mois. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Djordje Indic a été mis à l'essai 10 jours en novembre 1999."
+    },
+    "gallery": [
+        {
+            "image": "2025/08/Djordje-Indic.jpg",
+            "caption": "Djordje Indic à l’essai",
+            "credit": "L’est républicain",
+            "caption_raw": "Djordje Indic à l’essai – L’est républicain"
+        },
+        {
+            "image": "2025/08/indic_2.jpg",
+            "caption": "Djordje Indic à l’essai",
+            "credit": "L’est républicain",
+            "caption_raw": "Djordje Indic à l’essai – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16094,
+        "url": "https://www.fcsochauxretro.com/uncategorized/djordje-indic-a-lessai/",
+        "path": "/uncategorized/djordje-indic-a-lessai/",
+        "slug": "djordje-indic-a-lessai",
+        "seo_title": "Djordje Indic (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Djordje Indic</h2>\n<p><strong>né le 1er mars 1975 à Banja Luka (Bosnie-Herzegovine)</strong></p>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif<strong><br></strong></p>\n<p><strong>A l'essai à Sochaux : </strong>du 16 au 26 novembre 1999</p>",
+        "header_lines": [
+            "Djordje Indic",
+            "né le 1er mars 1975 à Banja Luka (Bosnie-Herzegovine)",
+            "Taille : 1m82",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "A l'essai à Sochaux : du 16 au 26 novembre 1999"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Djordje",
+        "last_name": "Indic",
+        "display_name": "Djordje Indic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1999-11-26",
+            "precision": "day",
+            "text": "du 16 au 26 novembre 1999"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1975-03-01",
+                "precision": "day",
+                "text": "1er mars 1975"
+            },
+            "place": {
+                "text": "Banja Luka (Bosnie-Herzegovine)",
+                "city": "Banja Luka",
+                "department": null,
+                "country": "Bosnie-Herzegovine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er mars 1975 à Banja Luka (Bosnie-Herzegovine)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Djordje Indic"
+            },
+            {
+                "label": null,
+                "value": "né le 1er mars 1975 à Banja Luka (Bosnie-Herzegovine)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "du 16 au 26 novembre 1999"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

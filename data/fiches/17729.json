@@ -1,0 +1,464 @@
+{
+    "id": 17729,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-dinamo-zagreb-amical-14-07-2000",
+    "path": "/matchs/2000-2001/sochaux-dinamo-zagreb-amical-14-07-2000/",
+    "title": "Amical – Sochaux (D2) / Dinamo Zagreb (D1 Cro) – 14/07/2000 – 0-3",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "amical",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/Sochaux_Dynamo-Zagreb-scaled.jpg",
+    "date": "2025-11-08T18:37:33",
+    "modified": "2025-12-19T13:15:06",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Première défaite de la préparation."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/Sochaux-Dynamo-Zagreb-scaled.jpg",
+            "caption": "Santos lors de Sochaux-Dinamo Zagreb 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Santos lors de Sochaux-Dinamo Zagreb 2000/2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/Sochaux_Dynamo-Zagreb-scaled.jpg",
+            "caption": "Omar Daf lors de Sochaux-Dinamo Zagreb 2000/2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Omar Daf lors de Sochaux-Dinamo Zagreb 2000/2001 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17729,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-d2-dinamo-zagreb-d1-cro-14-07-2000-0-3/",
+        "path": "/a-la-une/amical-sochaux-d2-dinamo-zagreb-d1-cro-14-07-2000-0-3/",
+        "slug": "amical-sochaux-d2-dinamo-zagreb-d1-cro-14-07-2000-0-3",
+        "seo_title": "Amical - Sochaux (D2) / Dinamo Zagreb (D1 Cro) - 14/07/2000 - 0-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Dinamo Zagreb (D1 Croatie) : 0-3<br></strong></h2>\n<h4><strong>5è match amical de préparation</strong></h4>\n<h4><strong>Vendredi 14 juillet 2000</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>2 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Vincent<br></strong></h4>\n<p>Buts : Balaban 43', Mikic 60' et Sokota 75' pour le Dinamo Zagreb</p>",
+        "header_lines": [
+            "Sochaux / Dinamo Zagreb (D1 Croatie) : 0-3",
+            "5è match amical de préparation",
+            "Vendredi 14 juillet 2000",
+            "Stade Auguste Bonal",
+            "2 000 spectateurs",
+            "Arbitre : M. Vincent",
+            "Buts : Balaban 43', Mikic 60' et Sokota 75' pour le Dinamo Zagreb"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-07-14",
+        "date_text": "Vendredi 14 juillet 2000",
+        "season": "2000-2001",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "5è match amical de préparation",
+        "home": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "away": {
+            "name": "Dinamo Zagreb",
+            "level": "D1 Cro"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 0,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-3",
+        "score_line": "Sochaux / Dinamo Zagreb (D1 Croatie) : 0-3",
+        "result": "D",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 2000,
+        "spectators_text": "2 000 spectateurs",
+        "referee": "M. Vincent",
+        "goals_text": "Balaban 43', Mikic 60' et Sokota 75' pour le Dinamo Zagreb",
+        "goals": [
+            {
+                "team": "le Dinamo Zagreb",
+                "scorers": "Balaban 43', Mikic 60' et Sokota 75'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LECLERC Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "82"
+                    ],
+                    "red": [],
+                    "cards_text": "J 82'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "30"
+                    ],
+                    "red": [],
+                    "cards_text": "J 30'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERRI Jean-Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [
+                        "87"
+                    ],
+                    "cards_text": "R 87'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAGUET Jean-Baptiste",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MERIEM Camel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ISABEY Michael",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "UCAR Kendal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MONSOREAU Sylvain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1649
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

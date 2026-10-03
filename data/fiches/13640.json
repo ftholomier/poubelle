@@ -1,0 +1,114 @@
+{
+    "id": 13640,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "david-vizcaino",
+    "path": "/dirigeants/david-vizcaino/",
+    "title": "David Vizcaino",
+    "categories": [
+        "directeurs-sportifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/1200x680_img_20180525_174527_resized_20180525_054542135.jpg",
+    "date": "2025-05-07T12:53:46",
+    "modified": "2025-11-13T10:34:02",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>David Vizcaino - Directeur sportif mai 2018 à janvier 2019 </strong></h4>\n<ul>\n<li>Au printemps 2018, Wing Sang Li aux abois financièrement décide de mettre le club en gestion au groupe basque Baskonia Alavès. Première pierre de l'édifice, l'arrivée de David Vizcaino au poste de directeur sportif. </li>\n<li>Membre du groupe Baskonia, il fera venir une cohorte de joueurs exotiques dans un système de multipropriété au rabais.</li>\n<li>Les résultats sont catastrophiques, l'entraîneur qu'il a choisi José Aira est limogé et il n'a plus vraiment la main sur la partie sportive avec l'arrivée de Wing Sang Li. En décembre 2018, le groupe Baskonia décide de se retirer du club et embarque une partie de ses joueurs. David Vizcaino suivra quelques semaines plus tard.</li>\n<li>Il sera resté au club 8 mois. Le directeur sportif le plus éphémère de l'histoire du club.</li>\n<li>Il deviendra par la suite directeur sportif de clubs mineurs en Espagne : CD Badajoz et San Fernando CD. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "8",
+        "text": "Envoyé par le groupe Baskonia à Sochaux, David Vizcaino restera comme le directeur sportif le plus éphémère de l'histoire du club : 8 mois."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/1200x680_img_20180525_174527_resized_20180525_054542135.jpg",
+            "caption": "David Vizcaino",
+            "credit": "France Bleu",
+            "caption_raw": "David Vizcaino – France Bleu"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13640,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/david-vizcaino/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/david-vizcaino/",
+        "slug": "david-vizcaino",
+        "seo_title": "David Vizcaino - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>David Vizcaino </h2>\n<h4><strong>Directeur sportif de mai 2018 à janvier 2019 </strong></h4>",
+        "header_lines": [
+            "David Vizcaino",
+            "Directeur sportif de mai 2018 à janvier 2019"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "David",
+        "last_name": "Vizcaino",
+        "display_name": "David Vizcaino",
+        "nickname": "",
+        "subtitle": "Directeur sportif de mai 2018 à janvier 2019",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "David Vizcaino"
+            },
+            {
+                "label": null,
+                "value": "Directeur sportif de mai 2018 à janvier 2019"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

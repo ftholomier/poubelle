@@ -1,0 +1,166 @@
+{
+    "id": 12688,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "emerval",
+    "path": "/joueurs/emerval/",
+    "title": "Emerval (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-30.jpg",
+    "date": "2025-03-08T21:49:00",
+    "modified": "2025-11-12T14:11:42",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Les dirigeants sochaliens testent des joueurs au printemps 1994en vu de la saison suivante. Parmi-eux, l'ailier droit brésilien Emerval qui arrive de Sao Paulo.</li>\n<li>Après une semaine d'essai et un amical contre Mulhouse les dirigeants ne sont pas convaincus par son potentiel et ne le font pas signer au club. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Emerval a joué 1 match amical pour Sochaux en mai 1994."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/8-2.jpg",
+            "caption": "Emerval",
+            "credit": "L’est répulicain",
+            "caption_raw": "Emerval – L’est répulicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12688,
+        "url": "https://www.fcsochauxretro.com/uncategorized/emerval/",
+        "path": "/uncategorized/emerval/",
+        "slug": "emerval",
+        "seo_title": "Emerval (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Emerval</h2>\n<h4><strong>né le xx à Sao Paulo (Brésil)</strong></h4>\n<p><strong>Taille : </strong>1m72 ? </p>\n<p><strong>Poids : </strong>68 kg ?</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste :</strong> ailier droit</p>\n<p><strong>A l'essai en : </strong>mai 1994</p>\n<p><strong>Premier et dernier match amical joué : </strong>Mulhouse - Sochaux - du 11/05/1994 : 1-3</p>",
+        "header_lines": [
+            "Emerval",
+            "né le xx à Sao Paulo (Brésil)",
+            "Taille : 1m72 ?",
+            "Poids : 68 kg ?",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "A l'essai en : mai 1994",
+            "Premier et dernier match amical joué : Mulhouse - Sochaux - du 11/05/1994 : 1-3"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "",
+        "last_name": "Emerval",
+        "display_name": "Emerval",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1994-05",
+            "precision": "month",
+            "text": "mai 1994"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "Sao Paulo (Brésil)",
+                "city": "Sao Paulo",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à Sao Paulo (Brésil)"
+        },
+        "death": null,
+        "height": "1m72 ?",
+        "height_cm": 172,
+        "weight": "68 kg ?",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Emerval"
+            },
+            {
+                "label": null,
+                "value": "né le xx à Sao Paulo (Brésil)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72 ?"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg ?"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "mai 1994"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Mulhouse - Sochaux - du 11/05/1994 : 1-3"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

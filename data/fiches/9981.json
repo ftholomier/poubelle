@@ -1,0 +1,276 @@
+{
+    "id": 9981,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "dusko-tosic",
+    "path": "/joueurs/dusko-tosic/",
+    "title": "Dusko Tosic",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/4918460951.jpg",
+    "date": "2025-01-02T17:49:48",
+    "modified": "2026-02-03T21:01:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>.</p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "50",
+        "text": "Dusko Tosic a joué 50 matchs (1 but et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/mamadou-niang-niang-deborde-dusko-tosic-c-est-l-om-qui-prend-les-devants-photo-maxppp-felix-golesi-1589306142.jpg",
+            "caption": "Dusko Tosic et Mamadou Niang",
+            "credit": "",
+            "caption_raw": "Dusko Tosic et Mamadou Niang"
+        },
+        {
+            "image": "2025/01/dusko-tosic-a-gagne-la-coupe-de-france-avec-le-fc-sochaux-photo-er-le-pays-1607799941.jpg",
+            "caption": "Dusko Tosic",
+            "credit": "L’est républicain",
+            "caption_raw": "Dusko Tosic – L’est républicain"
+        },
+        {
+            "image": "2025/01/370.webp",
+            "caption": "Dusko Tosic aux prises avec Franck Ribéry",
+            "credit": "",
+            "caption_raw": "Dusko Tosic aux prises avec Franck Ribéry"
+        },
+        {
+            "image": "2025/01/FC-Sochaux-2006-2007.jpg",
+            "caption": "Finale de la coupe de France 2007 Sochaux-OM",
+            "credit": "",
+            "caption_raw": "Finale de la coupe de France 2007 Sochaux-OM"
+        },
+        {
+            "image": "2026/02/4918460951.jpg",
+            "caption": "Tosic",
+            "credit": "Collection privée",
+            "caption_raw": "Tosic – Collection privée"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9981,
+        "url": "https://www.fcsochauxretro.com/a-la-une/dusko-tosic/",
+        "path": "/a-la-une/dusko-tosic/",
+        "slug": "dusko-tosic",
+        "seo_title": "Dusko Tosic - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Dusko Tosic</h2>\n<h4><strong>né le 19 janvier 1985 à Orlovat (Serbie)  </strong></h4>\n<p><strong>Taille : </strong>1m84</p>\n<p><strong>Poids :</strong> 82 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche</p>\n<p><strong>International serbe (26 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2006</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2007</p>\n<p><strong>Premier match joué :</strong> Sochaux - Saint-Etienne du 21/01/2006 : 4-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Saint-Etienne du 26/05/2007 : 1-0</p>\n<p><strong>Premier but marqué :</strong> Lens - Sochaux du 11/02/2007 : 3-1 - But à la 85'</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Vainqueur de la coupe de France 2007</li>\n</ul>",
+        "header_lines": [
+            "Dusko Tosic",
+            "né le 19 janvier 1985 à Orlovat (Serbie)",
+            "Taille : 1m84",
+            "Poids : 82 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "International serbe (26 sélections, 1 but)",
+            "Arrivée à Sochaux : janvier 2006",
+            "Départ de Sochaux : juillet 2007",
+            "Premier match joué : Sochaux - Saint-Etienne du 21/01/2006 : 4-0",
+            "Dernier match joué : Sochaux - Saint-Etienne du 26/05/2007 : 1-0",
+            "Premier but marqué : Lens - Sochaux du 11/02/2007 : 3-1 - But à la 85'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe de France 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Dusko",
+        "last_name": "Tosic",
+        "display_name": "Dusko Tosic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1985-01-19",
+                "precision": "day",
+                "text": "19 janvier 1985"
+            },
+            "place": {
+                "text": "Orlovat (Serbie)",
+                "city": "Orlovat",
+                "department": null,
+                "country": "Serbie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 janvier 1985 à Orlovat (Serbie)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International serbe (26 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2006-01",
+            "precision": "month",
+            "text": "janvier 2006"
+        },
+        "departure": {
+            "iso": "2007-07",
+            "precision": "month",
+            "text": "juillet 2007"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Saint-Etienne du 21/01/2006 : 4-0",
+        "last_match": "Sochaux - Saint-Etienne du 26/05/2007 : 1-0",
+        "first_goal": "Lens - Sochaux du 11/02/2007 : 3-1 - But à la 85'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe de France 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Dusko Tosic"
+            },
+            {
+                "label": null,
+                "value": "né le 19 janvier 1985 à Orlovat (Serbie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": null,
+                "value": "International serbe (26 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2006"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2007"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Saint-Etienne du 21/01/2006 : 4-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Saint-Etienne du 26/05/2007 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Lens - Sochaux du 11/02/2007 : 3-1 - But à la 85'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

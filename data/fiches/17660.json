@@ -1,0 +1,155 @@
+{
+    "id": 17660,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "oumar-traore",
+    "path": "/joueurs/oumar-traore/",
+    "title": "Oumar Traoré (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-10-31T21:56:11",
+    "modified": "2026-02-04T20:50:18",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière avant Sochaux",
+            "html": "<ul>\n<li>Joueur formé au Sénégal qui a fait tout son début de carrière dans son pays natal. </li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>Sochaux lancé dans son sprint final pour tenter de remonter immédiatement en D1 en 1999/2000, met à l'essai plusieurs joueurs pour préparer la saison suivante. </li>\n<li>Oumar Traoré, milieu offensif est mis à l'essai durant une semaine. International sénégalais il est recommandé notamment par Omar Daf son compatriote. Il fait plutôt bonne impression aux dirigeants malheureusement son statut de joueur hors Union européenne contraint le club à ne pas le recruter. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Avec 4 sélections en équipe nationale du Sénégal au compteur, il attire la lumière sur lui. </li>\n<li>Il disputera l'essentiel de sa carrière au Sénégal, en Arabie Saoudite, puis au club chypriote de Larnaca. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Oumar Traoré a été à l'essai 1 semaine à Sochaux en avril 2000."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17660,
+        "url": "https://www.fcsochauxretro.com/uncategorized/oumar-traore-a-lessai/",
+        "path": "/uncategorized/oumar-traore-a-lessai/",
+        "slug": "oumar-traore-a-lessai",
+        "seo_title": "Oumar Traoré (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Oumar Traoré</h2>\n<h4><strong>né le 27 février 1975 à Dakar (Sénégal)</strong><strong>  </strong></h4>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International sénégalais (25 sélections)</strong></p>\n<p><strong>A l'essai à Sochaux en : </strong>avril 2000</p>",
+        "header_lines": [
+            "Oumar Traoré",
+            "né le 27 février 1975 à Dakar (Sénégal)",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "International sénégalais (25 sélections)",
+            "A l'essai à Sochaux en : avril 2000"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Oumar",
+        "last_name": "Traoré",
+        "display_name": "Oumar Traoré",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2000-04",
+            "precision": "month",
+            "text": "avril 2000"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1975-02-27",
+                "precision": "day",
+                "text": "27 février 1975"
+            },
+            "place": {
+                "text": "Dakar (Sénégal)",
+                "city": "Dakar",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 27 février 1975 à Dakar (Sénégal)"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International sénégalais (25 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Oumar Traoré"
+            },
+            {
+                "label": null,
+                "value": "né le 27 février 1975 à Dakar (Sénégal)"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International sénégalais (25 sélections)"
+            },
+            {
+                "label": "A l'essai à Sochaux en",
+                "value": "avril 2000"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

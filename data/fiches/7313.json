@@ -1,0 +1,188 @@
+{
+    "id": 7313,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "edmond-chavey",
+    "path": "/joueurs/edmond-chavey/",
+    "title": "Edmond Chavey (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/11/3.jpeg",
+    "date": "2024-11-10T18:20:31",
+    "modified": "2025-11-12T14:16:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques inconnues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Edmond Chavey a joué 5 matchs (3 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/3.jpeg",
+            "caption": "Edmond Chavey",
+            "credit": "DR",
+            "caption_raw": "Edmond Chavey – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7313,
+        "url": "https://www.fcsochauxretro.com/uncategorized/edmond-chavey-7313/",
+        "path": "/uncategorized/edmond-chavey-7313/",
+        "slug": "edmond-chavey-7313",
+        "seo_title": "Edmond Chavey (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Edmond Chavey</h2>\n<h4><strong>Né le 27 avril 1903 à Valentigney (25)<br></strong></h4>\n<h4><strong>Décédé le 13 septembre 1978 à Bavilliers (90)</strong></h4>\n<p><strong>Arrivée à Sochaux : </strong>janvier 1930<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 1931</p>\n<p><strong>Premier match et premier but :</strong> Marseille - Sochaux du 26/01/1930 : 1-3</p>\n<p><strong>Dernier match :</strong> Sochaux - FC Attila (Hongrie) du 11/04/1931 : 1-2</p>",
+        "header_lines": [
+            "Edmond Chavey",
+            "Né le 27 avril 1903 à Valentigney (25)",
+            "Décédé le 13 septembre 1978 à Bavilliers (90)",
+            "Arrivée à Sochaux : janvier 1930",
+            "Départ de Sochaux : juin 1931",
+            "Premier match et premier but : Marseille - Sochaux du 26/01/1930 : 1-3",
+            "Dernier match : Sochaux - FC Attila (Hongrie) du 11/04/1931 : 1-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Edmond",
+        "last_name": "Chavey",
+        "display_name": "Edmond Chavey",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1903-04-27",
+                "precision": "day",
+                "text": "27 avril 1903"
+            },
+            "place": {
+                "text": "Valentigney (25)",
+                "city": "Valentigney",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 27 avril 1903 à Valentigney (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1978-09-13",
+                "precision": "day",
+                "text": "13 septembre 1978"
+            },
+            "place": {
+                "text": "Bavilliers (90)",
+                "city": "Bavilliers",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 13 septembre 1978 à Bavilliers (90)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1930-01",
+            "precision": "month",
+            "text": "janvier 1930"
+        },
+        "departure": {
+            "iso": "1931-06",
+            "precision": "month",
+            "text": "juin 1931"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Marseille - Sochaux du 26/01/1930 : 1-3",
+        "last_match": "Sochaux - FC Attila (Hongrie) du 11/04/1931 : 1-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Edmond Chavey"
+            },
+            {
+                "label": null,
+                "value": "Né le 27 avril 1903 à Valentigney (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 13 septembre 1978 à Bavilliers (90)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 1930"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1931"
+            },
+            {
+                "label": "Premier match et premier but",
+                "value": "Marseille - Sochaux du 26/01/1930 : 1-3"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - FC Attila (Hongrie) du 11/04/1931 : 1-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

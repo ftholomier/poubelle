@@ -1,0 +1,142 @@
+{
+    "id": 16331,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "francois-blaquart",
+    "path": "/dirigeants/francois-blaquart/",
+    "title": "François Blaquart",
+    "categories": [
+        "directeurs-du-centre-de-formation",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/Francois_BLAQUART.jpg",
+    "date": "2025-09-04T07:09:16",
+    "modified": "2025-11-13T18:54:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Joueur de football à la carrière modeste, il passe et réussit ses concours de professeur d'EPS et de Gestion des entreprises. Né dans une famille de footeux, son frère n'est autre que Bernard Blaquart l'ancien entraîneur du Nîmes Olympique. </li>\n<li>En 1978, il est recruté par le FC Nantes pour mettre en place le centre sportif de la Jonelière. Il œuvre pendant une saison à cette installation.  </li>\n<li>En 1979, il devient conseiller technique de la ligue de football d'Ile de France-Paris. Il y reste 9 années. </li>\n<li>En 1988, il saisit une opportunité qui se présente à lui et devient directeur technique national de la fédération de Mauritanie. Il reste 5 ans sur place, structure le football et la formation et bâti le centre technique national qui porte désormais son nom. </li>\n<li>En 1993, il rentre en France et dirige le centre de formation de l'AS Saint-Etienne. Il collabore aussi avec Jacques Santini auprès de l'équipe première des Verts. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>En 1996, il succède à Luc Bruder parti au Havre. Il prend la tête d'un centre de formation sochalien vieillissant mais avec un beau projet de renouveau. Durant cette période, les résultats sportifs des équipes jeunes s'améliorent ainsi que le recrutement. Sous sa houlette sortiront des joueurs professionnels comme Diouf, Meriem, Pedretti, Frau, Daf, Mathieu, Monsoreau etc. </li>\n<li>Les U19 atteignent la demi-finale de la coupe Gambardella ce qui n'était pas arrivé depuis très longtemps et les U17 deviennent vice-champion de France en perdant en finale face aux Girondins de Bordeaux mené par l'attaquant Pascal Feindouno. </li>\n<li>En 1999, Aimé Jacquet lui propose d'intégrer la direction technique nationale du football à Clairefontaine.  Il quitte le club et sera remplacé quelques semaines plus tard par Jean-Luc Ruty. </li>\n</ul>"
+        },
+        {
+            "title": "La suite de sa carrière",
+            "html": "<ul>\n<li>De 1999 à 2002, il entraîne plusieurs sélections nationales de jeunes. </li>\n<li>En 2002, il retrouve Jacques Santini et devient son adjoint en équipe de France. Il remporte notamment la coupe des confédérations 2003 et échoue en quart de finale de l'Euro 2004. </li>\n<li>Après le départ de Santini il reprend en main des sélections jeunes. </li>\n<li>En 2007, Gérard Houiller l'affecte à la sélection des joueurs élite et à la formation des entraîneurs. </li>\n<li>En 2010, suite au cataclysme de la coupe du monde en Afrique du Sud, il est nommé directeur technique national. </li>\n<li>Avec Laurent Blanc il est pris dans la tourmente des \"quotas\" de footballeurs binationaux dans les centres de formation français. L'enregistrement d'une conversation secrète est révélé par médiapart et entache sa carrière. </li>\n<li>Il poursuit ses missions qui le verront former plus de 45 000 éducateurs chaque année dans ses ateliers nationaux jusqu'en 2017. Il prend alors sa retraite. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "François Blaquart est resté 3 saisons à la tête du centre de formation de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/Francois_BLAQUART.jpg",
+            "caption": "François Blaquart",
+            "credit": "Wikipedia",
+            "caption_raw": "François Blaquart – Wikipedia"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16331,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/francois-blaquart/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/francois-blaquart/",
+        "slug": "francois-blaquart",
+        "seo_title": "François Blaquart - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>François Blaquart</h2>\n<h4><strong>né le 21 janvier 1954 à Romazières-Loubert (16)</strong></h4>\n<p><strong>Poste : </strong>Directeur du centre de formation de 1996 à 1999</p>",
+        "header_lines": [
+            "François Blaquart",
+            "né le 21 janvier 1954 à Romazières-Loubert (16)",
+            "Poste : Directeur du centre de formation de 1996 à 1999"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "François",
+        "last_name": "Blaquart",
+        "display_name": "François Blaquart",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1954-01-21",
+                "precision": "day",
+                "text": "21 janvier 1954"
+            },
+            "place": {
+                "text": "Romazières-Loubert (16)",
+                "city": "Romazières-Loubert",
+                "department": "16",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 janvier 1954 à Romazières-Loubert (16)"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Directeur du centre de formation de 1996 à 1999",
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "François Blaquart"
+            },
+            {
+                "label": null,
+                "value": "né le 21 janvier 1954 à Romazières-Loubert (16)"
+            },
+            {
+                "label": "Poste",
+                "value": "Directeur du centre de formation de 1996 à 1999"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

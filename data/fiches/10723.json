@@ -1,0 +1,281 @@
+{
+    "id": 10723,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-ruiz",
+    "path": "/joueurs/jean-ruiz/",
+    "title": "Jean Ruiz",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/01/5-52.jpg",
+    "date": "2025-01-20T09:25:19",
+    "modified": "2025-07-16T22:13:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "57",
+        "text": "Jean Ruiz a joué 57 matchs (3 buts) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/jean-ruiz-a-ecope-de-trois-matches-avec-sursis-plus-500-d-amende-photo-lionel-vadam-1490971746.jpg",
+            "caption": "Jean Ruiz",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean Ruiz – L’est républicain"
+        },
+        {
+            "image": "2025/01/jean-ruiz-devrait-se-retrouver-sous-le-maillot-de-sion-photo-er-lionel-vadam-1560785784.jpg",
+            "caption": "Jean Ruiz",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean Ruiz – L’est républicain"
+        },
+        {
+            "image": "2025/01/jean-ruiz-a-droite-apprend-le-mtier-de-defenseur-central-a-vitesse-grand-v-photo-alexandre-marchi-1503597493.jpg",
+            "caption": "Jean Ruiz",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean Ruiz – L’est républicain"
+        },
+        {
+            "image": "2025/01/c-est-jean-ruiz-qui-palliera-la-suspension-de-josema-1541076931.jpg",
+            "caption": "Jean Ruiz",
+            "credit": "L’est républicain",
+            "caption_raw": "Jean Ruiz – L’est républicain"
+        },
+        {
+            "image": "2025/01/5-52.jpg",
+            "caption": "Jean Ruiz",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Jean Ruiz – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10723,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-ruiz/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-ruiz/",
+        "slug": "jean-ruiz",
+        "seo_title": "Jean Ruiz - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Ruiz</h2>\n<h4><strong>né le 6 avril 1998 à Guebwiller (68) </strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central ou milieu défensif</p>\n<p><strong>International français U17, U18, U19 et U20 (31 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2012</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2019</p>\n<p><strong>Premier match joué :</strong> Sochaux - Gazélec Ajaccio du 09/08/2016 : 0-0 a.p (4-2 tab)</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Grenoble du 17/05/2019 : 3-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Châteauroux du 25/08/2017 : 1-5 - But à la 68'</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2015</li>\n<li>Vainqueur de l'Euro U17 avec l'équipe de France 2015</li>\n</ul>",
+        "header_lines": [
+            "Jean Ruiz",
+            "né le 6 avril 1998 à Guebwiller (68)",
+            "Taille : 1m88",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : défenseur central ou milieu défensif",
+            "International français U17, U18, U19 et U20 (31 sélections)",
+            "Arrivée à Sochaux : juillet 2012",
+            "Départ de Sochaux : juillet 2019",
+            "Premier match joué : Sochaux - Gazélec Ajaccio du 09/08/2016 : 0-0 a.p (4-2 tab)",
+            "Dernier match joué : Sochaux - Grenoble du 17/05/2019 : 3-1",
+            "Premier but marqué : Sochaux - Châteauroux du 25/08/2017 : 1-5 - But à la 68'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2015",
+            "Vainqueur de l'Euro U17 avec l'équipe de France 2015"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean",
+        "last_name": "Ruiz",
+        "display_name": "Jean Ruiz",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1998-04-06",
+                "precision": "day",
+                "text": "6 avril 1998"
+            },
+            "place": {
+                "text": "Guebwiller (68)",
+                "city": "Guebwiller",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 avril 1998 à Guebwiller (68)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "défenseur central ou milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français U17, U18, U19 et U20 (31 sélections)"
+        ],
+        "arrival": {
+            "iso": "2012-07",
+            "precision": "month",
+            "text": "juillet 2012"
+        },
+        "departure": {
+            "iso": "2019-07",
+            "precision": "month",
+            "text": "juillet 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Gazélec Ajaccio du 09/08/2016 : 0-0 a.p (4-2 tab)",
+        "last_match": "Sochaux - Grenoble du 17/05/2019 : 3-1",
+        "first_goal": "Sochaux - Châteauroux du 25/08/2017 : 1-5 - But à la 68'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2015",
+            "Vainqueur de l'Euro U17 avec l'équipe de France 2015"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Ruiz"
+            },
+            {
+                "label": null,
+                "value": "né le 6 avril 1998 à Guebwiller (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central ou milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International français U17, U18, U19 et U20 (31 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2012"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Gazélec Ajaccio du 09/08/2016 : 0-0 a.p (4-2 tab)"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Grenoble du 17/05/2019 : 3-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Châteauroux du 25/08/2017 : 1-5 - But à la 68'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2015"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de l'Euro U17 avec l'équipe de France 2015"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

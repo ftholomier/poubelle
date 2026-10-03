@@ -1,0 +1,564 @@
+{
+    "id": 16747,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-sr-colmar-amical-17-07-2013",
+    "path": "/matchs/2013-2014/sochaux-sr-colmar-amical-17-07-2013/",
+    "title": "Amical – Sochaux (L1) / SR Colmar (N) – 17/07/2013 – 2-0",
+    "categories": [
+        "2013-2014",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/display2-2.jpg",
+    "date": "2026-06-13T11:18:37",
+    "modified": "2026-07-22T12:49:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "1ère victoire de la saison pour ce deuxième match de réparation."
+    },
+    "gallery": [
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633.jpg",
+            "caption": "Privat",
+            "credit": "H Kielwasser",
+            "caption_raw": "Privat – H Kielwasser"
+        },
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633-5.jpg",
+            "caption": "Privat buteur",
+            "credit": "H Kielwasser",
+            "caption_raw": "Privat buteur – H Kielwasser"
+        },
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633-4.jpg",
+            "caption": "But de Privat",
+            "credit": "H Kielwasser",
+            "caption_raw": "But de Privat – H Kielwasser"
+        },
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633-1.jpg",
+            "caption": "Privat",
+            "credit": "H Kielwasser",
+            "caption_raw": "Privat – H Kielwasser"
+        },
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633-3.jpg",
+            "caption": "Privat",
+            "credit": "H Kielwasser",
+            "caption_raw": "Privat – H Kielwasser"
+        },
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633-7.jpg",
+            "caption": "Peybernes",
+            "credit": "H Kielwasser",
+            "caption_raw": "Peybernes – H Kielwasser"
+        },
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633-9.jpg",
+            "caption": "Peybernes",
+            "credit": "H Kielwasser",
+            "caption_raw": "Peybernes – H Kielwasser"
+        },
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633-12.jpg",
+            "caption": "Boudebouz",
+            "credit": "H Kielwasser",
+            "caption_raw": "Boudebouz – H Kielwasser"
+        },
+        {
+            "image": "2026/06/photo-herve-kielwasser-1404360633-6.jpg",
+            "caption": "Kanté, Sauget et Doubai",
+            "credit": "H Kielwasser",
+            "caption_raw": "Kanté, Sauget et Doubai – H Kielwasser"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16747,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l1-sr-colmar-n-17-07-2013-2-0/",
+        "path": "/a-la-une/amical-sochaux-l1-sr-colmar-n-17-07-2013-2-0/",
+        "slug": "amical-sochaux-l1-sr-colmar-n-17-07-2013-2-0",
+        "seo_title": "Amical - Sochaux (L1) / SR Colmar (N) - 17/07/2013 - 2-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Colmar (N) / Sochaux (L1) : 0-2</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Mercredi 17 juillet 2013</strong></h4>\n<h4><strong>Stade du Leymel à Munster (68)</strong></h4>\n<h4><strong>700 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Leleu</strong></h4>\n<p>Buts : Privat 28' et Bakambu 78' pour Sochaux</p>",
+        "header_lines": [
+            "Colmar (N) / Sochaux (L1) : 0-2",
+            "Match amical",
+            "Mercredi 17 juillet 2013",
+            "Stade du Leymel à Munster (68)",
+            "700 spectateurs",
+            "Arbitre : M. Leleu",
+            "Buts : Privat 28' et Bakambu 78' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2013-07-17",
+        "date_text": "Mercredi 17 juillet 2013",
+        "season": "2013-2014",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L1"
+        },
+        "away": {
+            "name": "SR Colmar",
+            "level": "N"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-0",
+        "score_line": "Colmar (N) / Sochaux (L1) : 0-2",
+        "result": "V",
+        "stadium": "Stade du Leymel à Munster (68)",
+        "spectators": 700,
+        "spectators_text": "700 spectateurs",
+        "referee": "M. Leleu",
+        "goals_text": "Privat 28' et Bakambu 78' pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Privat 28' et Bakambu 78'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "POUPLIN Simon",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CORCHIA Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "KANTE Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SAUGET David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "78",
+                    "sub_text": "↓ 78'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 85'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DOUBAÏ Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BOUDEBOUZ Ryad",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ROUDET Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CONTOUT Roy",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "78",
+                    "sub_text": "↓ 78'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PRIVAT Sloan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "28"
+                    ],
+                    "goals_text": "⚽ 28'",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CAMARA Papa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ZOUMA Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FAUSSURIER Julien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CARLAO",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAKAMBU Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "78"
+                    ],
+                    "goals_text": "⚽ 78'",
+                    "sub_in": "78",
+                    "sub_out": null,
+                    "sub_text": "↑ 78'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LOPY Joseph",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↑ 46' ↓ 85'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIEDHIOU Famara",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "78",
+                    "sub_out": null,
+                    "sub_text": "↑ 78'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "JOACHIM Eickmayer",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BUTIN Edouard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIAS Rafaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PRCIC Sanjin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "HELY Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1882
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

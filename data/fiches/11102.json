@@ -1,0 +1,278 @@
+{
+    "id": 11102,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "didier-simon",
+    "path": "/joueurs/didier-simon/",
+    "title": "Didier Simon",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-112.jpg",
+    "date": "2025-01-30T15:34:44",
+    "modified": "2025-01-30T15:44:37",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "42",
+        "text": "Didier Simon a joué 42 matchs (14 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/71624437-49893274-scaled.jpg",
+            "caption": "Didier Simon",
+            "credit": "fcsm",
+            "caption_raw": "Didier Simon – fcsm"
+        },
+        {
+            "image": "2025/01/5-112.jpg",
+            "caption": "Didier Simon",
+            "credit": "fcsm",
+            "caption_raw": "Didier Simon – fcsm"
+        },
+        {
+            "image": "2025/01/d1a0b0875f235688f4949d30492194d3.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11102,
+        "url": "https://www.fcsochauxretro.com/a-la-une/didier-simon/",
+        "path": "/a-la-une/didier-simon/",
+        "slug": "didier-simon",
+        "seo_title": "Didier Simon - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Didier Simon</h2>\n<h4><strong>né le 9 septembre 1953 à Arques-le-Bataille (76)</strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>67 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International français Espoir (4 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1982 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1985</p>\n<p><strong>Premier match joué et premier but marqué :</strong> Laval - Sochaux du 10/08/1982 : 3-1 - But à la 66'</p>\n<p><strong>Dernier match joué :</strong> Bordeaux - Sochaux du 27/10/1984 : 1-0 </p>",
+        "header_lines": [
+            "Didier Simon",
+            "né le 9 septembre 1953 à Arques-le-Bataille (76)",
+            "Taille : 1m76",
+            "Poids : 67 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "International français Espoir (4 sélections)",
+            "Arrivée à Sochaux : juillet 1982",
+            "Départ de Sochaux : juin 1985",
+            "Premier match joué et premier but marqué : Laval - Sochaux du 10/08/1982 : 3-1 - But à la 66'",
+            "Dernier match joué : Bordeaux - Sochaux du 27/10/1984 : 1-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Didier",
+        "last_name": "Simon",
+        "display_name": "Didier Simon",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1953-09-09",
+                "precision": "day",
+                "text": "9 septembre 1953"
+            },
+            "place": {
+                "text": "Arques-le-Bataille (76)",
+                "city": "Arques-le-Bataille",
+                "department": "76",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 septembre 1953 à Arques-le-Bataille (76)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "67 kg",
+        "weight_kg": 67,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français Espoir (4 sélections)"
+        ],
+        "arrival": {
+            "iso": "1982-07",
+            "precision": "month",
+            "text": "juillet 1982"
+        },
+        "departure": {
+            "iso": "1985-06",
+            "precision": "month",
+            "text": "juin 1985"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Laval - Sochaux du 10/08/1982 : 3-1 - But à la 66'",
+        "last_match": "Bordeaux - Sochaux du 27/10/1984 : 1-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Didier Simon"
+            },
+            {
+                "label": null,
+                "value": "né le 9 septembre 1953 à Arques-le-Bataille (76)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "67 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français Espoir (4 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1982"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1985"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Laval - Sochaux du 10/08/1982 : 3-1 - But à la 66'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Bordeaux - Sochaux du 27/10/1984 : 1-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "0"
+                ]
+            ],
+            "source_table": 459
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

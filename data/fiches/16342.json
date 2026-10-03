@@ -1,0 +1,214 @@
+{
+    "id": 16342,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ante-puljic",
+    "path": "/joueurs/ante-puljic/",
+    "title": "Ante Puljic (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/Ante_Puljic.jpg",
+    "date": "2025-09-05T10:08:16",
+    "modified": "2025-11-12T13:51:01",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière",
+            "html": ""
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après son essai",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Ante Puljic a été mis à l'essai 1 semaine en juillet 2015."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/Ante_Puljic.jpg",
+            "caption": "Ante Puljic",
+            "credit": "leballonrond.fr",
+            "caption_raw": "Ante Puljic – leballonrond.fr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16342,
+        "url": "https://www.fcsochauxretro.com/uncategorized/ante-puljic-a-lessai/",
+        "path": "/uncategorized/ante-puljic-a-lessai/",
+        "slug": "ante-puljic-a-lessai",
+        "seo_title": "Ante Puljic (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ante Puljic</h2>\n<h4><strong>né le 5 novembre 1987 à Ljubuski (Bosnie-Herzegovine)</strong></h4>\n<p><strong>Taille : </strong>1m87</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>défenseur central<strong><br></strong></p>\n<p><strong>International croate U21</strong></p>\n<p><strong>A l'essai à Sochaux : </strong>juillet 2015</p>",
+        "header_lines": [
+            "Ante Puljic",
+            "né le 5 novembre 1987 à Ljubuski (Bosnie-Herzegovine)",
+            "Taille : 1m87",
+            "Poids : 80 kg",
+            "Pied : ambidextre",
+            "Poste : défenseur central",
+            "International croate U21",
+            "A l'essai à Sochaux : juillet 2015"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ante",
+        "last_name": "Puljic",
+        "display_name": "Ante Puljic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2015-07",
+            "precision": "month",
+            "text": "juillet 2015"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1987-11-05",
+                "precision": "day",
+                "text": "5 novembre 1987"
+            },
+            "place": {
+                "text": "Ljubuski (Bosnie-Herzegovine)",
+                "city": "Ljubuski",
+                "department": null,
+                "country": "Bosnie-Herzegovine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 5 novembre 1987 à Ljubuski (Bosnie-Herzegovine)"
+        },
+        "death": null,
+        "height": "1m87",
+        "height_cm": 187,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "ambidextre",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International croate U21"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ante Puljic"
+            },
+            {
+                "label": null,
+                "value": "né le 5 novembre 1987 à Ljubuski (Bosnie-Herzegovine)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m87"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International croate U21"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "juillet 2015"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

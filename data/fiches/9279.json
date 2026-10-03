@@ -1,0 +1,262 @@
+{
+    "id": 9279,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "bassirou-n-diaye",
+    "path": "/joueurs/bassirou-n-diaye/",
+    "title": "Bassirou N’Diaye",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-98.jpg",
+    "date": "2024-12-30T16:30:30",
+    "modified": "2024-12-30T17:44:35",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Bassirou N'Diaye est resté 15 mois à Sochaux avant de décider de signer professionnel dans un autre club."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/bassirou-ndiaye-20-buts-photo-er-lionel-vadam-1684141868.jpg",
+            "caption": "Bassirou N’Diaye",
+            "credit": "L’est républicain",
+            "caption_raw": "Bassirou N’Diaye – L’est républicain"
+        },
+        {
+            "image": "2024/12/images-17.jpg",
+            "caption": "Bassirou N’Diaye",
+            "credit": "",
+            "caption_raw": "Bassirou N’Diaye"
+        },
+        {
+            "image": "2024/12/5-98.jpg",
+            "caption": "Bassirou N’Diaye",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Bassirou N’Diaye – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9279,
+        "url": "https://www.fcsochauxretro.com/a-la-une/bassirou-ndiaye/",
+        "path": "/a-la-une/bassirou-ndiaye/",
+        "slug": "bassirou-ndiaye",
+        "seo_title": "Bassirou N'Diaye - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Bassirou N'Diaye</h2>\n<h4><strong>Né le 15 février 2002 à Darou Salam (Sénégal)<br></strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>avant-centre<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>mars 2021<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2023</p>",
+        "header_lines": [
+            "Bassirou N'Diaye",
+            "Né le 15 février 2002 à Darou Salam (Sénégal)",
+            "Taille : 1m81",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Position : avant-centre",
+            "Arrivée à Sochaux : mars 2021",
+            "Départ de Sochaux : juin 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Bassirou",
+        "last_name": "N'Diaye",
+        "display_name": "Bassirou N'Diaye",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2002-02-15",
+                "precision": "day",
+                "text": "15 février 2002"
+            },
+            "place": {
+                "text": "Darou Salam (Sénégal)",
+                "city": "Darou Salam",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 15 février 2002 à Darou Salam (Sénégal)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2021-03",
+            "precision": "month",
+            "text": "mars 2021"
+        },
+        "departure": {
+            "iso": "2023-06",
+            "precision": "month",
+            "text": "juin 2023"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Bassirou N'Diaye"
+            },
+            {
+                "label": null,
+                "value": "Né le 15 février 2002 à Darou Salam (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "avant-centre"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "mars 2021"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2023"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

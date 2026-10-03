@@ -1,0 +1,303 @@
+{
+    "id": 10376,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jason-pendant",
+    "path": "/joueurs/jason-pendant/",
+    "title": "Jason Pendant",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-20.jpg",
+    "date": "2025-01-12T20:13:36",
+    "modified": "2025-01-12T22:37:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "73",
+        "text": "Jason Pendant a joué 73 matchs (1 but et 1 passe décisive) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/sortie-sur-civiere-et-21-points-de-suture-la-grosse-frayeur-de-jason-pendant-ancien-du-fc-sochaux-1672129488.jpg",
+            "caption": "Jason Pendant",
+            "credit": "L’est républicain",
+            "caption_raw": "Jason Pendant – L’est républicain"
+        },
+        {
+            "image": "2025/01/jason-pendant-n-est-plus-sochalien-photo-er-cedric-jacquot-1583411263.jpg",
+            "caption": "Jason Pendant",
+            "credit": "L’est républicain",
+            "caption_raw": "Jason Pendant – L’est républicain"
+        },
+        {
+            "image": "2025/01/jason-pendant-determines-a-sauver-le-fc-sochaux-1557431752.jpg",
+            "caption": "Jason Pendant",
+            "credit": "L’est républicain",
+            "caption_raw": "Jason Pendant – L’est républicain"
+        },
+        {
+            "image": "2025/01/5-20.jpg",
+            "caption": "Jason Pendant",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Jason Pendant – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10376,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jason-pendant/",
+        "path": "/a-la-une/jason-pendant/",
+        "slug": "jason-pendant",
+        "seo_title": "Jason Pendant - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jason Pendant</h2>\n<h4><strong>Né le 9 février 1997 à Sarcelles (93)  </strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche</p>\n<p><strong>International français U16, U18 (18 sélections, 2 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2011</p>\n<p><strong>Départ de Sochaux : </strong>juin 2020</p>\n<p><strong>Premier match joué :</strong> CA Pontarlier - Sochaux du 12/11/2016 : 2-0</p>\n<p><strong>Dernier match joué :</strong>  Guingamp - Sochaux du 21/02/2020 : 1-1</p>\n<p><strong>Premier but marqué : </strong>US Colomiers - Sochaux du 23/01/2018 : 1-2 - But à la 12'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2015</li>\n</ul>",
+        "header_lines": [
+            "Jason Pendant",
+            "Né le 9 février 1997 à Sarcelles (93)",
+            "Taille : 1m77",
+            "Poids : 65 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche",
+            "International français U16, U18 (18 sélections, 2 buts)",
+            "Arrivée à Sochaux : juillet 2011",
+            "Départ de Sochaux : juin 2020",
+            "Premier match joué : CA Pontarlier - Sochaux du 12/11/2016 : 2-0",
+            "Dernier match joué : Guingamp - Sochaux du 21/02/2020 : 1-1",
+            "Premier but marqué : US Colomiers - Sochaux du 23/01/2018 : 1-2 - But à la 12'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2015"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jason",
+        "last_name": "Pendant",
+        "display_name": "Jason Pendant",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1997-02-09",
+                "precision": "day",
+                "text": "9 février 1997"
+            },
+            "place": {
+                "text": "Sarcelles (93)",
+                "city": "Sarcelles",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 9 février 1997 à Sarcelles (93)"
+        },
+        "death": null,
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International français U16, U18 (18 sélections, 2 buts)"
+        ],
+        "arrival": {
+            "iso": "2011-07",
+            "precision": "month",
+            "text": "juillet 2011"
+        },
+        "departure": {
+            "iso": "2020-06",
+            "precision": "month",
+            "text": "juin 2020"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "CA Pontarlier - Sochaux du 12/11/2016 : 2-0",
+        "last_match": "Guingamp - Sochaux du 21/02/2020 : 1-1",
+        "first_goal": "US Colomiers - Sochaux du 23/01/2018 : 1-2 - But à la 12'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2015"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jason Pendant"
+            },
+            {
+                "label": null,
+                "value": "Né le 9 février 1997 à Sarcelles (93)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U18 (18 sélections, 2 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2011"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2020"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "CA Pontarlier - Sochaux du 12/11/2016 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Guingamp - Sochaux du 21/02/2020 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "US Colomiers - Sochaux du 23/01/2018 : 1-2 - But à la 12'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2015"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

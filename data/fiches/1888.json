@@ -1,0 +1,444 @@
+{
+    "id": 1888,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rennes-sochaux-amical-18-02-1987",
+    "path": "/matchs/1986-1987/rennes-sochaux-amical-18-02-1987/",
+    "title": "Amical – Rennes (D1) / Sochaux (D1) – Amical – 18/02/1987 – 0-1",
+    "categories": [
+        "1986-1987",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/02/Stage-Carnac-Sochaux-Sprint.png",
+    "date": "2024-02-24T15:37:04",
+    "modified": "2025-12-06T18:14:24",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Thomas et Fernier sont malades. Lucas et Brisson, blessés, sont rentrés en Franche-Comté. </li>\n<li>Jean Fauvergue ne dispose que de 13 joueurs valides dont 2 gardiens. </li>\n<li>A Vannes Sochaux va retrouver son ancien attaquant Gérad Soler.  </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>8' :</strong> Frappe de Doaré de 25 mètres bien captée par Rousset. </li>\n<li><strong>23' :</strong> Bon service de Soler pour Solsona qui échoue sur Rousset.</li>\n<li><strong>24' :</strong> Lourde frappe de Sauzée repoussée du poing par Hiard. </li>\n<li><strong>28' :</strong> Bien lancé dans la surface, Colin tire sur Hiard. </li>\n<li><strong>32' :</strong> Coup franc de Solsona qui frôle la lucarne de Rousset. </li>\n<li><strong>38' : Contre attaque rapide des Sochaliens. A droite, Morin dépose son adversaire et centre pour Paille dont la reprise de volée est imparable. (0-1) </strong></li>\n<li><strong>50' :</strong> Nouvelle chevauchée de Morin qui échoue sur Hiard bien sorti. </li>\n<li><strong>58' :</strong> Superbe service d'Henry pour Morin dont le tir fracasse la transversale. </li>\n<li><strong>60' :</strong> Belle frappe de Reinders bien détournée par Rousset en corner. </li>\n<li><strong>72' :</strong> Solsona, bien placé dans la surface, écrase trop sa frappe. </li>\n</ul>"
+        },
+        {
+            "title": "Réaction d'après match",
+            "html": "<ul>\n<li><strong>Jean Fauvergue :</strong> <em>\" L'équipe a fait preuve d'une solidarité et d'un état d'esprit remarquables. C'est très encourageant pour la suite. \"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Lucas et Brisson sont rentrés en Franche-Comté pour se soigner.  </li>\n<li>Thomas et Fernier viennent de reprendre la course. Ils seront disponibles pour le dernier match amical.   </li>\n<li>Première victoire après 11 matchs (amicaux compris). Elle fait du bien aux têtes avant le dernier match amical et la reprise du championnat. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": null,
+    "gallery": [
+        {
+            "image": "2024/02/Stage-Carnac-Sochaux-Sprint.png",
+            "caption": "Stage Carnac",
+            "credit": "Sochaux Sprint",
+            "caption_raw": "Stage Carnac – Sochaux Sprint"
+        },
+        {
+            "image": "2024/02/colin-soch-sprint.jpg",
+            "caption": "Colin Sochaux sprint",
+            "credit": "",
+            "caption_raw": "Colin Sochaux sprint"
+        },
+        {
+            "image": "2024/02/croci-soch-sprint.jpg",
+            "caption": "Croci Sochaux sprint",
+            "credit": "",
+            "caption_raw": "Croci Sochaux sprint"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 1888,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-rennes-d1-sochaux-d1-amical-18-02-1987-0-1/",
+        "path": "/a-la-une/amical-rennes-d1-sochaux-d1-amical-18-02-1987-0-1/",
+        "slug": "amical-rennes-d1-sochaux-d1-amical-18-02-1987-0-1",
+        "seo_title": "Amical - Rennes (D1) / Sochaux (D1) - Amical - 18/02/1987 - 0-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Rennes / Sochaux : 0-1</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Mercredi 18 février 1987</strong></h4>\n<h4><strong>Stade de la Rabine à Vannes (56)</strong></h4>\n<h4><strong>4 000 spectateurs</strong></h4>\n<h4><strong>Arbitrage : inconnu </strong></h4>\n<p>But : Paille 38' pour Sochaux. </p>",
+        "header_lines": [
+            "Rennes / Sochaux : 0-1",
+            "Match amical",
+            "Mercredi 18 février 1987",
+            "Stade de la Rabine à Vannes (56)",
+            "4 000 spectateurs",
+            "Arbitrage : inconnu",
+            "But : Paille 38' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1987-02-18",
+        "date_text": "Mercredi 18 février 1987",
+        "season": "1986-1987",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": "Amical",
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Rennes",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-1",
+        "score_line": "Rennes / Sochaux : 0-1",
+        "result": "V",
+        "stadium": "Stade de la Rabine à Vannes (56)",
+        "spectators": 4000,
+        "spectators_text": "4 000 spectateurs",
+        "referee": "inconnu",
+        "goals_text": "Paille 38' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Paille 38'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "8",
+                "text": "Frappe de Doaré de 25 mètres bien captée par Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "23",
+                "text": "Bon service de Soler pour Solsona qui échoue sur Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "24",
+                "text": "Lourde frappe de Sauzée repoussée du poing par Hiard.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "28",
+                "text": "Bien lancé dans la surface, Colin tire sur Hiard.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "32",
+                "text": "Coup franc de Solsona qui frôle la lucarne de Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "38",
+                "text": "Contre attaque rapide des Sochaliens. A droite, Morin dépose son adversaire et centre pour Paille dont la reprise de volée est imparable. (0-1)",
+                "goal": true,
+                "score": "0-1"
+            },
+            {
+                "minute": "50",
+                "text": "Nouvelle chevauchée de Morin qui échoue sur Hiard bien sorti.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "58",
+                "text": "Superbe service d'Henry pour Morin dont le tir fracasse la transversale.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "60",
+                "text": "Belle frappe de Reinders bien détournée par Rousset en corner.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "72",
+                "text": "Solsona, bien placé dans la surface, écrase trop sa frappe.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Jean Fauvergue",
+                "text": "L'équipe a fait preuve d'une solidarité et d'un état d'esprit remarquables. C'est très encourageant pour la suite."
+            }
+        ],
+        "breves": [
+            "Lucas et Brisson sont rentrés en Franche-Comté pour se soigner.",
+            "Thomas et Fernier viennent de reprendre la course. Ils seront disponibles pour le dernier match amical.",
+            "Première victoire après 11 matchs (amicaux compris). Elle fait du bien aux têtes avant le dernier match amical et la reprise du championnat."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZEE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MORIN Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HELT John",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "Sortie 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "38"
+                    ],
+                    "goals_text": "38'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "Entrée 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 156
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

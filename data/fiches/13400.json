@@ -1,0 +1,114 @@
+{
+    "id": 13400,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "clement-calvez",
+    "path": "/dirigeants/clement-calvez/",
+    "title": "Clément Calvez",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-executifs"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/le-nouveau-president-clement-calvez-pose-dans-le-stade-bonal-photo-lionel-vadam-172.jpg",
+    "date": "2025-04-05T16:15:43",
+    "modified": "2026-06-05T11:29:30",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Clément Calvez, le président exécutif actuel : 2024- ....</strong></h4>\n<ul>\n<li>Après un DUT à Belfort-Montbéliard, Clément Calvez démarre sa carrière au FC Sochaux-Montbéliard dans la cellule commerciale. Son beau-père est Jean-Claude Plessis alors président exécutif du club. Il est commercial de 2003 à 2009 puis devient responsable commercial du club de 2009 à 2016. </li>\n<li>En 2016, il quitte le club pour devenir responsable commercial du Racing Club de Strasbourg qui renait de ses cendres. Il y reste 4 années. </li>\n<li>En 2020 cap à l'ouest puisqu'il devient directeur du développement du Havre avant de devenir directeur général adjoint en charge du développement jusqu'à l'été 2024. </li>\n<li>A l'été 2024, Jean-Claude Plessis annonce son départ et le conseil de surveillance ne renouvelle pas le mandat de Pierre Wantiez. Quelques jours plus tard, Clément Calvez est nommé président exécutif du club. </li>\n<li>Après une première saison d'adaptation délicate en 2024/2025, il participe à ramener le club en ligue 2 à l'issue de la saison 2025/2026. Il permet aussi au club d'améliorer ses finances et de s'approcher de l'équilibre budgétaire recherché par les actionnaires du club.  </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Clément Calvez a passé 13 ans dans la cellule commerciale du club avant de faire son retour à l'été 2024."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/le-nouveau-president-clement-calvez-pose-dans-le-stade-bonal-photo-lionel-vadam-172.jpg",
+            "caption": "Clément Calvez président exécutif du club depuis l’été 2024.",
+            "credit": "",
+            "caption_raw": "Clément Calvez président exécutif du club depuis l’été 2024."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13400,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/clement-calvez/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/clement-calvez/",
+        "slug": "clement-calvez",
+        "seo_title": "Clément Calvez - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Clément Calvez  </h2>\n<h4><strong>Président exécutif depuis octobre 2024</strong></h4>",
+        "header_lines": [
+            "Clément Calvez",
+            "Président exécutif depuis octobre 2024"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Clément",
+        "last_name": "Calvez",
+        "display_name": "Clément Calvez",
+        "nickname": "",
+        "subtitle": "Président exécutif depuis octobre 2024",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Clément Calvez"
+            },
+            {
+                "label": null,
+                "value": "Président exécutif depuis octobre 2024"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

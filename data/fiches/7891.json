@@ -1,0 +1,253 @@
+{
+    "id": 7891,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "angelo-grizetti",
+    "path": "/joueurs/angelo-grizetti/",
+    "title": "Angelo Grizetti (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/11/telechargement-15.jpg",
+    "date": "2024-11-25T13:20:34",
+    "modified": "2025-11-12T14:08:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "35",
+        "text": "Angelo Grizzetti aurait joué 35 matchs (2 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/telechargement-15.jpg",
+            "caption": "Angelo Grizzetti",
+            "credit": "dr",
+            "caption_raw": "Angelo Grizzetti – dr"
+        },
+        {
+            "image": "2024/11/1942-1943-sochaux-fcsv-1.jpg",
+            "caption": "Sochaux-Valentigney – 1942/1943",
+            "credit": "FCSM Story",
+            "caption_raw": "Sochaux-Valentigney – 1942/1943 – FCSM Story"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7891,
+        "url": "https://www.fcsochauxretro.com/uncategorized/angelo-grizetti/",
+        "path": "/uncategorized/angelo-grizetti/",
+        "slug": "angelo-grizetti",
+        "seo_title": "Angelo Grizetti (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Angelo Grizetti</h2>\n<h4><strong>né le 14 mai 1916 à Vedano Olona (Italie)</strong></h4>\n<h4><strong>Décédé le 20 décembre 1998 à Bry-sur-Marne (94)</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1942</p>\n<p><strong>Départ de Sochaux : </strong>juin 1943</p>\n<p><strong>Premier match joué</strong> : Sochaux-Valentigney - Bordeaux du 30/08/1942 : 3-0</p>\n<p><strong>Dernier match joué :</strong> Stade Français - Sochaux-Valentigney du 02/05/1943 : 5-1</p>\n<p><strong>Premier but marqué : </strong>Sochaux-Valentigney - Belfort du 13/12/1942 : 10-0</p>",
+        "header_lines": [
+            "Angelo Grizetti",
+            "né le 14 mai 1916 à Vedano Olona (Italie)",
+            "Décédé le 20 décembre 1998 à Bry-sur-Marne (94)",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1942",
+            "Départ de Sochaux : juin 1943",
+            "Premier match joué : Sochaux-Valentigney - Bordeaux du 30/08/1942 : 3-0",
+            "Dernier match joué : Stade Français - Sochaux-Valentigney du 02/05/1943 : 5-1",
+            "Premier but marqué : Sochaux-Valentigney - Belfort du 13/12/1942 : 10-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Angelo",
+        "last_name": "Grizetti",
+        "display_name": "Angelo Grizetti",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1916-05-14",
+                "precision": "day",
+                "text": "14 mai 1916"
+            },
+            "place": {
+                "text": "Vedano Olona (Italie)",
+                "city": "Vedano Olona",
+                "department": null,
+                "country": "Italie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 mai 1916 à Vedano Olona (Italie)"
+        },
+        "death": {
+            "date": {
+                "iso": "1998-12-20",
+                "precision": "day",
+                "text": "20 décembre 1998"
+            },
+            "place": {
+                "text": "Bry-sur-Marne (94)",
+                "city": "Bry-sur-Marne",
+                "department": "94",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 20 décembre 1998 à Bry-sur-Marne (94)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1942-07",
+            "precision": "month",
+            "text": "juillet 1942"
+        },
+        "departure": {
+            "iso": "1943-06",
+            "precision": "month",
+            "text": "juin 1943"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux-Valentigney - Bordeaux du 30/08/1942 : 3-0",
+        "last_match": "Stade Français - Sochaux-Valentigney du 02/05/1943 : 5-1",
+        "first_goal": "Sochaux-Valentigney - Belfort du 13/12/1942 : 10-0",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Angelo Grizetti"
+            },
+            {
+                "label": null,
+                "value": "né le 14 mai 1916 à Vedano Olona (Italie)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 20 décembre 1998 à Bry-sur-Marne (94)"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1942"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1943"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux-Valentigney - Bordeaux du 30/08/1942 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Stade Français - Sochaux-Valentigney du 02/05/1943 : 5-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux-Valentigney - Belfort du 13/12/1942 : 10-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

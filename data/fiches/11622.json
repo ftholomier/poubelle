@@ -1,0 +1,269 @@
+{
+    "id": 11622,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "quentin-pereira-leite",
+    "path": "/joueurs/quentin-pereira-leite/",
+    "title": "Quentin Pereira Leite",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-12.jpg",
+    "date": "2025-02-09T15:25:27",
+    "modified": "2025-02-09T15:34:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Quentin Pereira a été formé à Sochaux mais n'a pas joué avec l'équipe première."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-12.jpg",
+            "caption": "Quentin Pereira Leite",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Quentin Pereira Leite – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2025/02/l-equipe-du-fc-sochaux-montbeliard-aujourd-hui-au-stade-de-france-photo-lionel-vadam-1295377405.jpg",
+            "caption": "Finale Gambardella 2010",
+            "credit": "",
+            "caption_raw": "Finale Gambardella 2010"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11622,
+        "url": "https://www.fcsochauxretro.com/a-la-une/quentin-pereira-leite/",
+        "path": "/a-la-une/quentin-pereira-leite/",
+        "slug": "quentin-pereira-leite",
+        "seo_title": "Quentin Pereira Leite - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Quentin Pereira Leite</h2>\n<h4><strong>Né le 21 avril 1992 à Reims (51)  </strong></h4>\n<p><strong>Taille : </strong>1m74</p>\n<p><strong>Poids : </strong>66 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2009</p>\n<p><strong>Départ de Sochaux : </strong>janvier 2012</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Finaliste de la coupe Gambardella 2010</li>\n</ul>",
+        "header_lines": [
+            "Quentin Pereira Leite",
+            "Né le 21 avril 1992 à Reims (51)",
+            "Taille : 1m74",
+            "Poids : 66 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : juillet 2009",
+            "Départ de Sochaux : janvier 2012",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe Gambardella 2010"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Quentin Pereira",
+        "last_name": "Leite",
+        "display_name": "Quentin Pereira Leite",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1992-04-21",
+                "precision": "day",
+                "text": "21 avril 1992"
+            },
+            "place": {
+                "text": "Reims (51)",
+                "city": "Reims",
+                "department": "51",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 21 avril 1992 à Reims (51)"
+        },
+        "death": null,
+        "height": "1m74",
+        "height_cm": 174,
+        "weight": "66 kg",
+        "weight_kg": 66,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2009-07",
+            "precision": "month",
+            "text": "juillet 2009"
+        },
+        "departure": {
+            "iso": "2012-01",
+            "precision": "month",
+            "text": "janvier 2012"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe Gambardella 2010"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Quentin Pereira Leite"
+            },
+            {
+                "label": null,
+                "value": "Né le 21 avril 1992 à Reims (51)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m74"
+            },
+            {
+                "label": "Poids",
+                "value": "66 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2009"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2012"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe Gambardella 2010"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

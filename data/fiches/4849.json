@@ -1,0 +1,278 @@
+{
+    "id": 4849,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "christophe-chaintreuil",
+    "path": "/joueurs/christophe-chaintreuil/",
+    "title": "Christophe Chaintreuil",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/08/v2s-l1200.jpg",
+    "date": "2024-11-10T13:33:51",
+    "modified": "2025-03-05T20:55:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "127",
+        "text": "Christophe Chaintreuil a joué 127 matchs (4 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/1998.jpg",
+            "caption": "Christophe Chaintreuil",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Christophe Chaintreuil – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/08/v2s-l1200.jpg",
+            "caption": "Christophe Chaintreuil",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Christophe Chaintreuil – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4849,
+        "url": "https://www.fcsochauxretro.com/a-la-une/christophe-chaintreuil/",
+        "path": "/a-la-une/christophe-chaintreuil/",
+        "slug": "christophe-chaintreuil",
+        "seo_title": "Christophe Chaintreuil - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Christophe Chaintreuil</strong></h2>\n<h4><strong>né le 4 mai 1964 à Bagnols-sur-Cèze (30)  </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>79 kg</p>\n<p><strong>Poste : </strong>milieu relayeur</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1995</p>\n<p><strong>Départ de Sochaux : </strong>juin 1999</p>\n<p><strong>Premier match joué :</strong> Red Star - Sochaux du 19/07/1995 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Metz du 17/10/1998 : 1-1</p>\n<p><strong>Premier but marqué avec Sochaux :</strong> Châteauroux - Sochaux du 09/08/1995 : 1-1 - But à la 90'</p>",
+        "header_lines": [
+            "Christophe Chaintreuil",
+            "né le 4 mai 1964 à Bagnols-sur-Cèze (30)",
+            "Taille : 1m82",
+            "Poids : 79 kg",
+            "Poste : milieu relayeur",
+            "Arrivée à Sochaux : juillet 1995",
+            "Départ de Sochaux : juin 1999",
+            "Premier match joué : Red Star - Sochaux du 19/07/1995 : 0-0",
+            "Dernier match joué : Sochaux - Metz du 17/10/1998 : 1-1",
+            "Premier but marqué avec Sochaux : Châteauroux - Sochaux du 09/08/1995 : 1-1 - But à la 90'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Christophe",
+        "last_name": "Chaintreuil",
+        "display_name": "Christophe Chaintreuil",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1964-05-04",
+                "precision": "day",
+                "text": "4 mai 1964"
+            },
+            "place": {
+                "text": "Bagnols-sur-Cèze (30)",
+                "city": "Bagnols-sur-Cèze",
+                "department": "30",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 4 mai 1964 à Bagnols-sur-Cèze (30)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "79 kg",
+        "weight_kg": 79,
+        "foot": null,
+        "position": "milieu relayeur",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1995-07",
+            "precision": "month",
+            "text": "juillet 1995"
+        },
+        "departure": {
+            "iso": "1999-06",
+            "precision": "month",
+            "text": "juin 1999"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Red Star - Sochaux du 19/07/1995 : 0-0",
+        "last_match": "Sochaux - Metz du 17/10/1998 : 1-1",
+        "first_goal": "Châteauroux - Sochaux du 09/08/1995 : 1-1 - But à la 90'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Christophe Chaintreuil"
+            },
+            {
+                "label": null,
+                "value": "né le 4 mai 1964 à Bagnols-sur-Cèze (30)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "79 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu relayeur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1995"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1999"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Red Star - Sochaux du 19/07/1995 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Metz du 17/10/1998 : 1-1"
+            },
+            {
+                "label": "Premier but marqué avec Sochaux",
+                "value": "Châteauroux - Sochaux du 09/08/1995 : 1-1 - But à la 90'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995 - 1996",
+                    "-",
+                    "-",
+                    "32",
+                    "3",
+                    "4",
+                    "0",
+                    "1",
+                    "0",
+                    "37",
+                    "3"
+                ],
+                [
+                    "1996 - 1997",
+                    "-",
+                    "-",
+                    "37",
+                    "0",
+                    "4",
+                    "0",
+                    "1",
+                    "0",
+                    "42",
+                    "0"
+                ],
+                [
+                    "1997 - 1998",
+                    "-",
+                    "-",
+                    "35",
+                    "1",
+                    "2",
+                    "0",
+                    "2",
+                    "0",
+                    "39",
+                    "1"
+                ],
+                [
+                    "1998 - 1999",
+                    "9",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "9",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "9",
+                    "0",
+                    "104",
+                    "4",
+                    "10",
+                    "0",
+                    "4",
+                    "0",
+                    "127",
+                    "4"
+                ]
+            ],
+            "source_table": 888
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

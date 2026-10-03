@@ -1,0 +1,340 @@
+{
+    "id": 22931,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "la-chaux-de-fonds-sochaux-amical-08-08-1970",
+    "path": "/matchs/1970-1971/la-chaux-de-fonds-sochaux-amical-08-08-1970/",
+    "title": "Amical – La Chaux De Fonds (D1 SUI) / Sochaux (D1) – 08/08/1970 – 0-1",
+    "categories": [
+        "1970-1971",
+        "amical",
+        "annees-70-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/09/Lech_Chaux_Aout70.jpg",
+    "date": "2026-09-01T18:08:00",
+    "modified": "2026-09-05T08:05:03",
+    "author": "gsanchez",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Dernier match de préparation pour les sochaliens à Olten (Suisse) contre La Chaux de Fonds (D1 Suisse).</li>\n<li>L'équipe est au complet, Andrieux et Goutte étant les 12e et 13e hommes.</li>\n<li>Paul Barret reconduit donc exactement la même équipe que contre Sochaux B. Ce sera vraisemblablement l'équipe qui débutera le championnat à Bordeaux.</li>\n<li>La Chaux-de-Fonds a terminé 9e du championnat suisse la saison dernière et en match amical, ils viennent de battre 3-1 les Young Boys de Berne (premier adversaire de la préparation sochalienne).</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<p>Après un premier quart d'heure décevant, Sochaux pris le dessus sur son adversaire et imprima un rythme enlevé et construisit un bon jeu collectif.</p>\n<p>Le seul but du match arriva à la 25e minute et fut l'œuvre de Terrier sur une bonne passe de Watteau après un bon mouvement collectif.</p>\n<p>Plus aucun but ne sera marqué malgré la domination sochalienne, que le public suisse soutenait. Melic aurait pu doubler la mise sur une action personnelle mais la barre transversale en décida autrement.</p>\n<p>Les suisses eurent également quelques occasions mais ils tombèrent sur un Battmann des grands soirs.</p>\n<p>Tout le collectif eut un rendement satisfaisant. Mention spécial à Georges Lech en grande forme. Terrier monte en puissance et Lechantre donne pleine satisfaction.</p>"
+        },
+        {
+            "title": "Réaction d'après match",
+            "html": "<ul>\n<li><strong>Paul Barret (à ses joueurs) </strong>: «<em> Je suis satisfait de votre comportement. Seul le premier quart d'heure à laisser à désirer. J'espère que vous vous en souviendrez mercredi soir à Bordeaux. » </em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Sochaux termine ses matches de préparation par une nouvelle victoire, la quatrième et quatre matches.</li>\n<li>Les sochaliens auront marqué 14 buts et encaissé seulement 3 (dans un seul match).</li>\n<li>Les buteurs sont Piat (5 buts), Lech, Terrier et Watteau (2 buts), Andrieux, Lechantre et Melic (1 but)</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "4e match de prépation de la saison 1970/1971."
+    },
+    "gallery": [
+        {
+            "image": "2026/09/Lech_Chaux_Aout70.jpg",
+            "caption": "Georges Lech",
+            "credit": "",
+            "caption_raw": "Georges Lech"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 22931,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/amical-la-chaux-de-fonds-d1-sui-sochaux-d1-08-08-1970-0-1/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/amical-la-chaux-de-fonds-d1-sui-sochaux-d1-08-08-1970-0-1/",
+        "slug": "amical-la-chaux-de-fonds-d1-sui-sochaux-d1-08-08-1970-0-1",
+        "seo_title": "Amical - La Chaux De Fonds (D1 SUI) / Sochaux (D1) - 08/08/1970 - 0-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>La Chaux de Fonds (D1 Suisse) / Sochaux : 0-1</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 8 août 1970</strong></h4>\n<h4><strong>Stade d'Olten (Suisse)</strong></h4>\n<h4><strong>2 500 spectateurs</strong></h4>\n<p>But : Terrier 25'</p>",
+        "header_lines": [
+            "La Chaux de Fonds (D1 Suisse) / Sochaux : 0-1",
+            "Match amical",
+            "Samedi 8 août 1970",
+            "Stade d'Olten (Suisse)",
+            "2 500 spectateurs",
+            "But : Terrier 25'"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1970-08-08",
+        "date_text": "Samedi 8 août 1970",
+        "season": "1970-1971",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "La Chaux De Fonds",
+            "level": "D1 SUI"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-1",
+        "score_line": "La Chaux de Fonds (D1 Suisse) / Sochaux : 0-1",
+        "result": "V",
+        "stadium": "Stade d'Olten (Suisse)",
+        "spectators": 2500,
+        "spectators_text": "2 500 spectateurs",
+        "referee": null,
+        "goals_text": "Terrier 25'",
+        "goals": [
+            {
+                "team": null,
+                "scorers": "Terrier 25'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "Paul Barret (à ses joueurs)",
+                "text": "Je suis satisfait de votre comportement. Seul le premier quart d'heure à laisser à désirer. J'espère que vous vous en souviendrez mercredi soir à Bordeaux."
+            }
+        ],
+        "breves": [
+            "Sochaux termine ses matches de préparation par une nouvelle victoire, la quatrième et quatre matches.",
+            "Les sochaliens auront marqué 14 buts et encaissé seulement 3 (dans un seul match).",
+            "Les buteurs sont Piat (5 buts), Lech, Terrier et Watteau (2 buts), Andrieux, Lechantre et Melic (1 but)"
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "BATTMANN Eugène",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LARGOUET Jacques",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SELES Laszlo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BURCKLÉ Gérard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WASSMER Marcel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "WATTEAU Michel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MELIC Vojislav",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "TERRIER Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "25"
+                    ],
+                    "goals_text": "⚽ 25'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LECH Georges",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PIAT Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LECHANTRE Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "BARRET Paul",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1990
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

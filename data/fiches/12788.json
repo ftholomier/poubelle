@@ -1,0 +1,161 @@
+{
+    "id": 12788,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "yannis-verdier",
+    "path": "/joueurs/yannis-verdier/",
+    "title": "Yannis Verdier (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/456.jpg",
+    "date": "2025-03-09T22:58:40",
+    "modified": "2025-11-12T13:40:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>\n<p>Avant ses problèmes financiers de l'été 2023, Yannis Verdier un jeune attaquant de 20 ans en provenance de Châteauroux est mis à l'essai par Julien Cordonnier. En même temps Yann Beaka un autre attaquant est aussi mis à l'essai. </p>\n</li>\n<li>\n<p>Extrait d'un article de L'est républicain : \"<em>Originaire de l’Hérault, il a commencé le foot au Crès FC puis à l’AS Béziers. L’été dernier, le milieu de terrain franco-algérien a été transféré à La Berrichonne de Châteauroux où il a crevé l’écran avec la réserve. Auteur de 7 buts en 17 matchs (dont 14 titularisations), il a été appelé en fin de saison dans l’équipe première en National (4 matchs, 1 but). Ayant fait preuve de belles qualités techniques, il serait pisté par plusieurs clubs français. Ses performances n’ont pas échappé à Julien Cordonnier, le directeur sportif du FCSM, qui est lui-même un ancien de la Berrichonne… Comme Beaka, Yannis Verdier est grand (1,89 m) et pourrait apporter un plus en termes d’impact physique.\"</em></p>\n</li>\n<li>Malgré de belles qualités, le club n'a pas les moyens de lui faire un contrat en raison des problèmes financiers qui surviennent. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "14",
+        "text": "Yannis Verdier est resté 14 jours à l'essai à Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/yannis-verdier-est-arrive-au-bout-de-son-contrat-a-chateauroux-photo-jean-baptiste-bornier-1688408014.jpg",
+            "caption": "Yannis Verdier",
+            "credit": "L’est républicain",
+            "caption_raw": "Yannis Verdier – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12788,
+        "url": "https://www.fcsochauxretro.com/uncategorized/yannis-verdier-a-lessai/",
+        "path": "/uncategorized/yannis-verdier-a-lessai/",
+        "slug": "yannis-verdier-a-lessai",
+        "seo_title": "Yannis Verdier (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Yannis Verdier</h2>\n<h4><strong>Né le 29 juillet 2003 à xx </strong></h4>\n<p><strong>Taille : </strong>1m89</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>A l'essai en : </strong>juillet 2023</p>",
+        "header_lines": [
+            "Yannis Verdier",
+            "Né le 29 juillet 2003 à xx",
+            "Taille : 1m89",
+            "Poids : 80 kg",
+            "Pied : ambidextre",
+            "Poste : attaquant",
+            "A l'essai en : juillet 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Yannis",
+        "last_name": "Verdier",
+        "display_name": "Yannis Verdier",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2023-07",
+            "precision": "month",
+            "text": "juillet 2023"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2003-07-29",
+                "precision": "day",
+                "text": "29 juillet 2003"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 29 juillet 2003 à xx"
+        },
+        "death": null,
+        "height": "1m89",
+        "height_cm": 189,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "ambidextre",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Yannis Verdier"
+            },
+            {
+                "label": null,
+                "value": "Né le 29 juillet 2003 à xx"
+            },
+            {
+                "label": "Taille",
+                "value": "1m89"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 2023"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

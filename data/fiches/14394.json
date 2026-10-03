@@ -1,0 +1,166 @@
+{
+    "id": 14394,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "franck-azzopardi",
+    "path": "/entraineurs/franck-azzopardi/",
+    "title": "Franck Azzopardi",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-adjoints",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/06/14779.jpg",
+    "date": "2025-07-17T10:27:54",
+    "modified": "2026-09-17T11:44:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Créateur du club",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2025",
+        "text": "Franck Azzopardi devient l'entraîneur adjoint de Vincent Hognon à l'été 2025."
+    },
+    "gallery": [
+        {
+            "image": "2025/06/14779.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 14394,
+        "url": "https://www.fcsochauxretro.com/a-la-une/franck-azzopardi/",
+        "path": "/a-la-une/franck-azzopardi/",
+        "slug": "franck-azzopardi",
+        "seo_title": "Franck Azzopardi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Franck Azzopardi</h2>\n<h4><strong>né le 12 mai 1970 à Châtellerault (86) </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poste : Entraineur adjoint</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2025</p>\n<p><strong>Départ de Sochaux : </strong></p>",
+        "header_lines": [
+            "Franck Azzopardi",
+            "né le 12 mai 1970 à Châtellerault (86)",
+            "Taille : 1m75",
+            "Poste : Entraineur adjoint",
+            "Arrivée à Sochaux : juillet 2025",
+            "Départ de Sochaux :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "entraineur"
+        ],
+        "first_name": "Franck",
+        "last_name": "Azzopardi",
+        "display_name": "Franck Azzopardi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1970-05-12",
+                "precision": "day",
+                "text": "12 mai 1970"
+            },
+            "place": {
+                "text": "Châtellerault (86)",
+                "city": "Châtellerault",
+                "department": "86",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 12 mai 1970 à Châtellerault (86)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Entraineur adjoint",
+        "line": "E",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2025-07",
+            "precision": "month",
+            "text": "juillet 2025"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Franck Azzopardi"
+            },
+            {
+                "label": null,
+                "value": "né le 12 mai 1970 à Châtellerault (86)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poste",
+                "value": "Entraineur adjoint"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2025"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

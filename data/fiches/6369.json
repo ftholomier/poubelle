@@ -1,0 +1,224 @@
+{
+    "id": 6369,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "stanley-abbott",
+    "path": "/joueurs/stanley-abbott/",
+    "title": "Stanley Abbott",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/inbound7686023370349161112.jpg",
+    "date": "2024-10-24T21:56:49",
+    "modified": "2026-03-24T12:46:33",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": "<ul>\n<li>On dispose de peu d’informations sur Stanley Abbott, si ce n’est qu’il était anglais. Il serait originaire de Londres et aurait probablement évolué à Barking, un club amateur de la grande banlieue londonienne. À l’époque, seuls les joueurs issus de clubs amateurs anglais étaient autorisés à disputer des matches officiels ; dans le cas contraire, la Fédération française de football amateur les suspendait.</li>\n<li>Il évoluait au poste de défenseur central ou d’arrière, comme on disait alors, et signe à Sochaux en janvier 1932.</li>\n<li>Les défenseurs anglais jouissaient à cette époque d’une réputation de joueurs au style très viril.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li><strong>Janvier 1932 – avril 1932</strong></li>\n<li>Il signe pour évoluer en défense aux côtés d’Étienne Mattler, mais Victor Gibson, l’entraîneur anglais de l’époque — pourtant son compatriote — lui préfère manifestement Paul Wartel et Jean Boguet, si l’on en croit les feuilles de match.</li>\n<li>Il ne dispute aucun match officiel et ne s’illustre que lors de six rencontres amicales, ponctuées de victoires contre le CA Messin (7-0), Charleville (5-0), Juvisy (8-0), Mulhouse (4-2) et Saint-Chamond (3-1), pour une seule défaite à Alès (4-2), lors de son dernier match sous la tunique jaune et bleue.</li>\n<li>Fin avril 1932, il quitte Sochaux et s’engage plus au nord, dans les Ardennes, au sein de l’un des rares clubs qu’il a affrontés avec Sochaux : Charleville. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il aurait signé au FCO Charleville mais pas d'informations supplémentaires. Les deux clubs communaux de Charleville viennent alors de fusionner pour devenir le FCO Charleville. L’objectif de cette fusion est de viser plus haut pour les Carolomacériens, qui atteindront la Division d’Honneur Nord-Est deux ans plus tard et disputeront la finale de la Coupe de France 1936 face au RC Paris.</li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques inconnues.</p>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Seulement 6 matchs et tous amicaux disputés par l'Anglais Stanley Abbott en défense avec l'équipe \"exhibition\" de Sochaux en 1931/1932."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/inbound5257161905683977639.jpg",
+            "caption": "Stanley Abbott",
+            "credit": "",
+            "caption_raw": "Stanley Abbott"
+        },
+        {
+            "image": "2024/10/inbound7686023370349161112.jpg",
+            "caption": "Stanley Abbott",
+            "credit": "DR",
+            "caption_raw": "Stanley Abbott – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6369,
+        "url": "https://www.fcsochauxretro.com/a-la-une/stanley-abbott-6369/",
+        "path": "/a-la-une/stanley-abbott-6369/",
+        "slug": "stanley-abbott-6369",
+        "seo_title": "Stanley Abbott - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Stanley Abbott</h2>\n<h4><strong>né le ? à Londres ? (Angleterre) </strong></h4>\n<p><strong>Poste : </strong>arrière central</p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 1932</p>\n<p><strong>Départ de Sochaux : </strong>avril 1932</p>\n<p><strong>Premier match joué :</strong> CA Metz - Sochaux du 21/02/1932 : 0-7</p>\n<p><strong>Dernier match joué : </strong>Alès - Sochaux du 10/04/1932 : 4-2</p>",
+        "header_lines": [
+            "Stanley Abbott",
+            "né le ? à Londres ? (Angleterre)",
+            "Poste : arrière central",
+            "Arrivée à Sochaux : janvier 1932",
+            "Départ de Sochaux : avril 1932",
+            "Premier match joué : CA Metz - Sochaux du 21/02/1932 : 0-7",
+            "Dernier match joué : Alès - Sochaux du 10/04/1932 : 4-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Stanley",
+        "last_name": "Abbott",
+        "display_name": "Stanley Abbott",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "?"
+            },
+            "place": {
+                "text": "Londres ? (Angleterre)",
+                "city": "Londres ?",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le ? à Londres ? (Angleterre)"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "arrière central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1932-01",
+            "precision": "month",
+            "text": "janvier 1932"
+        },
+        "departure": {
+            "iso": "1932-04",
+            "precision": "month",
+            "text": "avril 1932"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "CA Metz - Sochaux du 21/02/1932 : 0-7",
+        "last_match": "Alès - Sochaux du 10/04/1932 : 4-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Stanley Abbott"
+            },
+            {
+                "label": null,
+                "value": "né le ? à Londres ? (Angleterre)"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 1932"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "avril 1932"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "CA Metz - Sochaux du 21/02/1932 : 0-7"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Alès - Sochaux du 10/04/1932 : 4-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Championnat de France professionnel",
+                "Buts",
+                "Division d'honneur de Bourgogne et France-Comté",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe Sochaux",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1932-1933",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?"
+                ],
+                [
+                    "Total",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?",
+                    "?"
+                ]
+            ],
+            "source_table": 699
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

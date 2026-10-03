@@ -1,0 +1,232 @@
+{
+    "id": 7333,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "camille-cottin",
+    "path": "/joueurs/camille-cottin/",
+    "title": "Camille Cottin",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/83615.jpg",
+    "date": "2024-11-13T07:54:57",
+    "modified": "2025-03-06T22:04:55",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "18",
+        "text": "Camille Cottin aurait joué 18 matchs (10 buts) avec Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/Cottin.jpg",
+            "caption": "Cottin –",
+            "credit": "DR",
+            "caption_raw": "Cottin – – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7333,
+        "url": "https://www.fcsochauxretro.com/a-la-une/camille-cottin/",
+        "path": "/a-la-une/camille-cottin/",
+        "slug": "camille-cottin",
+        "seo_title": "Camille Cottin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Camille Cottin</h2>\n<h4><strong>né le 10 février 1910 à Paris l'Hôpital (71) </strong></h4>\n<h4><strong>Décédé le 18 avril 1988 à Hyères (83)  </strong></h4>\n<p><strong>Poste : </strong>défenseur latéral ou milieu</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1932 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1933</p>\n<p><strong>Premier match joué :</strong> Sochaux - CA Paris du 11/09/1932 : 1-3</p>\n<p><strong>Dernier match joué :</strong> Sochaux - SC Fives du 30/04/1933 : 6-4 </p>\n<p><strong>Premier but marque :</strong> Sochaux - Stade de Rennes UC du 11/11/1932 : 2-1 - But à la 30'</p>",
+        "header_lines": [
+            "Camille Cottin",
+            "né le 10 février 1910 à Paris l'Hôpital (71)",
+            "Décédé le 18 avril 1988 à Hyères (83)",
+            "Poste : défenseur latéral ou milieu",
+            "Arrivée à Sochaux : juillet 1932",
+            "Départ de Sochaux : juin 1933",
+            "Premier match joué : Sochaux - CA Paris du 11/09/1932 : 1-3",
+            "Dernier match joué : Sochaux - SC Fives du 30/04/1933 : 6-4",
+            "Premier but marque : Sochaux - Stade de Rennes UC du 11/11/1932 : 2-1 - But à la 30'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Camille",
+        "last_name": "Cottin",
+        "display_name": "Camille Cottin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1910-02-10",
+                "precision": "day",
+                "text": "10 février 1910"
+            },
+            "place": {
+                "text": "Paris l'Hôpital (71)",
+                "city": "Paris l'Hôpital",
+                "department": "71",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 février 1910 à Paris l'Hôpital (71)"
+        },
+        "death": {
+            "date": {
+                "iso": "1988-04-18",
+                "precision": "day",
+                "text": "18 avril 1988"
+            },
+            "place": {
+                "text": "Hyères (83)",
+                "city": "Hyères",
+                "department": "83",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 18 avril 1988 à Hyères (83)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur latéral ou milieu",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1932-07",
+            "precision": "month",
+            "text": "juillet 1932"
+        },
+        "departure": {
+            "iso": "1933-06",
+            "precision": "month",
+            "text": "juin 1933"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - CA Paris du 11/09/1932 : 1-3",
+        "last_match": "Sochaux - SC Fives du 30/04/1933 : 6-4",
+        "first_goal": "Sochaux - Stade de Rennes UC du 11/11/1932 : 2-1 - But à la 30'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Camille Cottin"
+            },
+            {
+                "label": null,
+                "value": "né le 10 février 1910 à Paris l'Hôpital (71)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 18 avril 1988 à Hyères (83)"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur latéral ou milieu"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1932"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1933"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - CA Paris du 11/09/1932 : 1-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - SC Fives du 30/04/1933 : 6-4"
+            },
+            {
+                "label": "Premier but marque",
+                "value": "Sochaux - Stade de Rennes UC du 11/11/1932 : 2-1 - But à la 30'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1932 - 1933",
+                    "9",
+                    "3",
+                    "3",
+                    "1",
+                    "12",
+                    "4"
+                ],
+                [
+                    "TOTAL",
+                    "9",
+                    "3",
+                    "3",
+                    "1",
+                    "12",
+                    "4"
+                ]
+            ],
+            "source_table": 900
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

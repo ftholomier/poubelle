@@ -1,0 +1,268 @@
+{
+    "id": 12010,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "diego-michel",
+    "path": "/joueurs/diego-michel/",
+    "title": "Diego Michel",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-63.jpg",
+    "date": "2025-02-22T20:48:14",
+    "modified": "2025-02-22T20:56:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2023",
+        "text": "Diego Michel a signé à Sochaux à l'été 2023."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/photo-1738259602.jpg",
+            "caption": "Diego Michel",
+            "credit": "L’est républicain",
+            "caption_raw": "Diego Michel – L’est républicain"
+        },
+        {
+            "image": "2025/02/diego-michel-s-etait-fait-une-entorse-a-la-cheville-au-debut-du-mois-de-mars-photo-lionel-vadam-1712496554.jpg",
+            "caption": "Diego Michel",
+            "credit": "L’est républicain",
+            "caption_raw": "Diego Michel – L’est républicain"
+        },
+        {
+            "image": "2025/02/diego-michel-avait-inscrit-le-premier-des-deux-buts-sochaliens-contre-reims-en-16es-photo-christian-lemontey-1708079372.jpg",
+            "caption": "Diego Michel",
+            "credit": "L’est républicain",
+            "caption_raw": "Diego Michel – L’est républicain"
+        },
+        {
+            "image": "2025/02/670f74ba4b331703536354.jpg",
+            "caption": "Diego Michel",
+            "credit": "L’est républicain",
+            "caption_raw": "Diego Michel – L’est républicain"
+        },
+        {
+            "image": "2025/02/5-63.jpg",
+            "caption": "Diego Michel",
+            "credit": "L’est républicain",
+            "caption_raw": "Diego Michel – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12010,
+        "url": "https://www.fcsochauxretro.com/a-la-une/diego-michel/",
+        "path": "/a-la-une/diego-michel/",
+        "slug": "diego-michel",
+        "seo_title": "Diego Michel - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Diego Michel </h2>\n<h4><strong>né le 16 octobre 1997 à Rennes (56)</strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2023</p>\n<p><strong>Départ de Sochaux :</strong> juin 2025</p>\n<p><strong>Premier match joué :</strong> Red Star - Sochaux du 25/08/2023 : 2-0</p>\n<p><strong>Dernier match joué :</strong> </p>\n<p><strong>Premier but marqué :</strong> Epinal - Sochaux du 08/09/2023 : 0-3 - But à la 81'</p>",
+        "header_lines": [
+            "Diego Michel",
+            "né le 16 octobre 1997 à Rennes (56)",
+            "Taille : 1m81",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : aout 2023",
+            "Départ de Sochaux : juin 2025",
+            "Premier match joué : Red Star - Sochaux du 25/08/2023 : 2-0",
+            "Dernier match joué :",
+            "Premier but marqué : Epinal - Sochaux du 08/09/2023 : 0-3 - But à la 81'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Diego",
+        "last_name": "Michel",
+        "display_name": "Diego Michel",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1997-10-16",
+                "precision": "day",
+                "text": "16 octobre 1997"
+            },
+            "place": {
+                "text": "Rennes (56)",
+                "city": "Rennes",
+                "department": "56",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 16 octobre 1997 à Rennes (56)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "aout 2023"
+        },
+        "departure": {
+            "iso": "2025-06",
+            "precision": "month",
+            "text": "juin 2025"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Red Star - Sochaux du 25/08/2023 : 2-0",
+        "last_match": "",
+        "first_goal": "Epinal - Sochaux du 08/09/2023 : 0-3 - But à la 81'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Diego Michel"
+            },
+            {
+                "label": null,
+                "value": "né le 16 octobre 1997 à Rennes (56)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2025"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Red Star - Sochaux du 25/08/2023 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Epinal - Sochaux du 08/09/2023 : 0-3 - But à la 81'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ]
+            ],
+            "source_table": 462
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

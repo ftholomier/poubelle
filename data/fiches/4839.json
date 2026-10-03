@@ -1,0 +1,231 @@
+{
+    "id": 4839,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sebastien-dailly",
+    "path": "/joueurs/sebastien-dailly/",
+    "title": "Sébastien Dailly",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/telechargement-20.jpg",
+    "date": "2024-11-14T20:50:47",
+    "modified": "2025-03-08T21:48:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "99",
+        "text": "nombre de minutes jouées en équipe première"
+    },
+    "gallery": [
+        {
+            "image": "2024/11/telechargement-20.jpg",
+            "caption": "Sébastien Dailly",
+            "credit": "dr",
+            "caption_raw": "Sébastien Dailly – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4839,
+        "url": "https://www.fcsochauxretro.com/a-la-une/sebastien-dailly-4839/",
+        "path": "/a-la-une/sebastien-dailly-4839/",
+        "slug": "sebastien-dailly-4839",
+        "seo_title": "Sébastien Dailly - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Sébastien Dailly</h2>\n<p><strong>né le 6 décembre 1976 à Amiens  (80)</strong></p>\n<p><strong>Taille :</strong> 1m85</p>\n<p><strong>Poids :</strong> 85 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>1er juillet 1992 </p>\n<p><strong>Départ de Sochaux : </strong>juillet 1996</p>\n<p><strong>Premier match joué :</strong> Caen - Sochaux du 31/05/1995 : 3-1</p>\n<p><strong>Dernier match joué :</strong> Nancy - Sochaux du 03/05/1996 : 2-0 </p>",
+        "header_lines": [
+            "Sébastien Dailly",
+            "né le 6 décembre 1976 à Amiens (80)",
+            "Taille : 1m85",
+            "Poids : 85 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : 1er juillet 1992",
+            "Départ de Sochaux : juillet 1996",
+            "Premier match joué : Caen - Sochaux du 31/05/1995 : 3-1",
+            "Dernier match joué : Nancy - Sochaux du 03/05/1996 : 2-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Sébastien",
+        "last_name": "Dailly",
+        "display_name": "Sébastien Dailly",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1976-12-06",
+                "precision": "day",
+                "text": "6 décembre 1976"
+            },
+            "place": {
+                "text": "Amiens (80)",
+                "city": "Amiens",
+                "department": "80",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 décembre 1976 à Amiens (80)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "85 kg",
+        "weight_kg": 85,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1992-07-01",
+            "precision": "day",
+            "text": "1er juillet 1992"
+        },
+        "departure": {
+            "iso": "1996-07",
+            "precision": "month",
+            "text": "juillet 1996"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Caen - Sochaux du 31/05/1995 : 3-1",
+        "last_match": "Nancy - Sochaux du 03/05/1996 : 2-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sébastien Dailly"
+            },
+            {
+                "label": null,
+                "value": "né le 6 décembre 1976 à Amiens (80)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "85 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "1er juillet 1992"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 1996"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Caen - Sochaux du 31/05/1995 : 3-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Nancy - Sochaux du 03/05/1996 : 2-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994 - 1995",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1995 - 1996",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "2",
+                    "0"
+                ]
+            ],
+            "source_table": 926
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

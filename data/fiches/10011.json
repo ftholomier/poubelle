@@ -1,0 +1,272 @@
+{
+    "id": 10011,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "adolphe-teikeu",
+    "path": "/joueurs/adolphe-teikeu/",
+    "title": "Adolphe Teikeu",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5.jpg",
+    "date": "2025-01-04T00:55:57",
+    "modified": "2025-01-04T19:08:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "104",
+        "text": "Adolphe Teikeu a joué 104 matchs (6 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/adolphe-teikeu-fc-sochaux-les-trois-points-avec-ou-sans-la-maniere-1489690837-1.jpg",
+            "caption": "Adolphe Teikeu",
+            "credit": "L’est républicain",
+            "caption_raw": "Adolphe Teikeu – L’est républicain"
+        },
+        {
+            "image": "2025/01/adolphe-teikeu-retrouvera-son-maillot-frappe-du-n-4-photo-er-christian-lemontey-1566318508-1.jpg",
+            "caption": "Adolphe Teikeu",
+            "credit": "L’est républicain",
+            "caption_raw": "Adolphe Teikeu – L’est républicain"
+        },
+        {
+            "image": "2025/01/adolphe-teikeu-va-connaitre-son-huitieme-club-le-bb-erzurumspor-photo-er-lionel-vadam-1599146338-1.jpg",
+            "caption": "Adolphe Teikeu",
+            "credit": "L’est républicain",
+            "caption_raw": "Adolphe Teikeu – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10011,
+        "url": "https://www.fcsochauxretro.com/a-la-une/adolphe-teikeu/",
+        "path": "/a-la-une/adolphe-teikeu/",
+        "slug": "adolphe-teikeu",
+        "seo_title": "Adolphe Teikeu - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Adolphe Teikeu</h2>\n<h4><strong>né le 23 juin 1990 à Bandjoun (Cameroun)  </strong></h4>\n<p><strong>Taille : </strong>1m89</p>\n<p><strong>Poids : </strong>85 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International camerounais (23 sélections)</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2015</p>\n<p><strong>Départ de Sochaux : </strong>juin 2018</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2019</p>\n<p><strong>Départ de Sochaux : </strong>juin 2020</p>\n<p><strong>Premier match joué :</strong> Red Star - Sochaux du 18/09/2015 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Clermont - Sochaux du 06/03/2020 : 2-0</p>\n<p><strong>Premier but marqué :</strong> Bastia - Sochaux du 19/01/2016 : 1-2 - But à la 27' </p>",
+        "header_lines": [
+            "Adolphe Teikeu",
+            "né le 23 juin 1990 à Bandjoun (Cameroun)",
+            "Taille : 1m89",
+            "Poids : 85 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central",
+            "International camerounais (23 sélections)",
+            "Premier passage",
+            "Arrivée à Sochaux : aout 2015",
+            "Départ de Sochaux : juin 2018",
+            "Deuxième passage",
+            "Arrivée à Sochaux : aout 2019",
+            "Départ de Sochaux : juin 2020",
+            "Premier match joué : Red Star - Sochaux du 18/09/2015 : 0-0",
+            "Dernier match joué : Clermont - Sochaux du 06/03/2020 : 2-0",
+            "Premier but marqué : Bastia - Sochaux du 19/01/2016 : 1-2 - But à la 27'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Adolphe",
+        "last_name": "Teikeu",
+        "display_name": "Adolphe Teikeu",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1990-06-23",
+                "precision": "day",
+                "text": "23 juin 1990"
+            },
+            "place": {
+                "text": "Bandjoun (Cameroun)",
+                "city": "Bandjoun",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 juin 1990 à Bandjoun (Cameroun)"
+        },
+        "death": null,
+        "height": "1m89",
+        "height_cm": 189,
+        "weight": "85 kg",
+        "weight_kg": 85,
+        "foot": "gaucher",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International camerounais (23 sélections)"
+        ],
+        "arrival": {
+            "iso": "2015-08",
+            "precision": "month",
+            "text": "aout 2015"
+        },
+        "departure": {
+            "iso": "2018-06",
+            "precision": "month",
+            "text": "juin 2018"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Red Star - Sochaux du 18/09/2015 : 0-0",
+        "last_match": "Clermont - Sochaux du 06/03/2020 : 2-0",
+        "first_goal": "Bastia - Sochaux du 19/01/2016 : 1-2 - But à la 27'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Adolphe Teikeu"
+            },
+            {
+                "label": null,
+                "value": "né le 23 juin 1990 à Bandjoun (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m89"
+            },
+            {
+                "label": "Poids",
+                "value": "85 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International camerounais (23 sélections)"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2015"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2018"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2020"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Red Star - Sochaux du 18/09/2015 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Clermont - Sochaux du 06/03/2020 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Bastia - Sochaux du 19/01/2016 : 1-2 - But à la 27'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,83 @@
+{
+    "id": 3,
+    "type": "page",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "accueil-wordpress",
+    "path": "/accueil-wordpress/",
+    "title": "Accueil",
+    "categories": [],
+    "a_la_une": false,
+    "featured_image": "2023/10/fcsm_retro.png",
+    "date": "2023-06-13T10:37:06",
+    "modified": "2024-09-05T20:28:11",
+    "author": "kantik",
+    "seo": {
+        "title": "",
+        "description": "Sochaux Rétro : l'histoire de notre club s'écrit maintenant ! Musée numérique du Football Club Sochaux-Montbéliard FCSM."
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Musée numérique FCSM - Sochaux Rétro",
+            "html": ""
+        },
+        {
+            "title": "Sochaux Rétro : l'histoire de notre club s'écrit maintenant ! Bienvenue au musée numérique de notre club, le Football Club Sochaux Montbéliard - FCSM. Un projet de Sochaux Rétro !",
+            "html": "<div><div><div>1696</div></div></div>\n<h6>matchs</h6>"
+        },
+        {
+            "title": "C'est le nombre de matchs renseignés dans la base de données de Sochaux Rétro.",
+            "html": "<div>\r\n    <div>\r\n        <div>\r\n            997\r\n            \r\n        </div>\r\n    </div>\r\n</div>\n<h6>joueurs</h6>"
+        },
+        {
+            "title": "C'est le nombre de joueurs renseignés dans la base de données de Sochaux Rétro.",
+            "html": ""
+        },
+        {
+            "title": "C'est le nombre de membres de la communauté Sochaux Rétro tous réseaux sociaux confondus.",
+            "html": ""
+        },
+        {
+            "title": "C'est le nombre de vidéos présentes sur la chaine YouTube de Sochaux Rétro.",
+            "html": ""
+        },
+        {
+            "title": "C'est le nombre de joueurs présents dans la base de données de Sochaux Rétro.",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1000+",
+        "text": ""
+    },
+    "gallery": [],
+    "images": [
+        {
+            "image": "2023/09/logo.png",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 3,
+        "url": "https://www.fcsochauxretro.com/",
+        "path": "/",
+        "slug": "sochaux-retro-musee-numerique-football-club-sochaux-montbeliard-fcsm",
+        "seo_title": "Sochaux Rétro - Musée numérique - Football Club Sochaux Montbéliard FCSM",
+        "header_html": "",
+        "header_lines": []
+    },
+    "i18n": [],
+    "article": {
+        "kind": "article",
+        "heading": "",
+        "subtitle": "",
+        "header_html": "",
+        "season": null
+    },
+    "tables": []
+}

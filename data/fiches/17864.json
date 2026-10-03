@@ -1,0 +1,459 @@
+{
+    "id": 17864,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-niort-division-2-08-12-2000",
+    "path": "/matchs/2000-2001/sochaux-niort-division-2-08-12-2000/",
+    "title": "J23 – Sochaux / Niort – D2 – 08/12/2000 – 3-0",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/55-6.jpg",
+    "date": "2025-11-08T21:56:28",
+    "modified": "2025-12-21T09:19:09",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "28",
+        "text": "28 buts marqués en 11 matchs à domicile sur cette année 2000."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/55-30.jpg",
+            "caption": "Frau – Sochaux-Niort 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Frau – Sochaux-Niort 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/44-6-scaled.jpg",
+            "caption": "Manac’h – Sochaux-Niort 2000-2001",
+            "credit": "France football",
+            "caption_raw": "Manac’h – Sochaux-Niort 2000-2001 – France football"
+        },
+        {
+            "image": "2025/11/88.png",
+            "caption": "Sochaux-Niort 2000-2001",
+            "credit": "France football",
+            "caption_raw": "Sochaux-Niort 2000-2001 – France football"
+        },
+        {
+            "image": "2025/11/33-10-scaled.jpg",
+            "caption": "Santos lors de Sochaux-Niort 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Santos lors de Sochaux-Niort 2000-2001 – L’est républicain"
+        },
+        {
+            "image": "2025/11/22-5-scaled.jpg",
+            "caption": "Santos – Sochaux-Niort 2000-2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Santos – Sochaux-Niort 2000-2001 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "en2QxyL2Rw0",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17864,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j23-sochaux-niort-d2-08-12-2000-3-0/",
+        "path": "/a-la-une/j23-sochaux-niort-d2-08-12-2000-3-0/",
+        "slug": "j23-sochaux-niort-d2-08-12-2000-3-0",
+        "seo_title": "J23 - Sochaux / Niort - D2 - 08/12/2000 - 3-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Niort : 3-0<br></strong></h2>\n<h4><strong>23è journée de championnat de D2</strong></h4>\n<h4><strong>Vendredi 8 décembre 2000</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>11 426 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Poulat<br></strong></h4>\n<p>Buts : Crucet 21', Frau 34' et Santos 57' pour Sochaux</p>",
+        "header_lines": [
+            "Sochaux / Niort : 3-0",
+            "23è journée de championnat de D2",
+            "Vendredi 8 décembre 2000",
+            "Stade Auguste Bonal",
+            "11 426 spectateurs",
+            "Arbitre : M. Poulat",
+            "Buts : Crucet 21', Frau 34' et Santos 57' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-12-08",
+        "date_text": "Vendredi 8 décembre 2000",
+        "season": "2000-2001",
+        "competition": "Championnat",
+        "competition_label": "Division 2",
+        "competition_code": "D2",
+        "round": "J23",
+        "round_text": "23è journée de championnat de D2",
+        "home": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "away": {
+            "name": "Niort",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 3,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "3-0",
+        "score_line": "Sochaux / Niort : 3-0",
+        "result": "V",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 11426,
+        "spectators_text": "11 426 spectateurs",
+        "referee": "M. Poulat",
+        "goals_text": "Crucet 21', Frau 34' et Santos 57' pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Crucet 21', Frau 34' et Santos 57'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [
+                        "44"
+                    ],
+                    "red": [],
+                    "cards_text": "J 44'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHEDLI Adel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [
+                        "40"
+                    ],
+                    "cards_text": "R 40'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "20"
+                    ],
+                    "goals_text": "20'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FRAU Pierre-Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "34"
+                    ],
+                    "goals_text": "34'",
+                    "sub_in": null,
+                    "sub_out": "80",
+                    "sub_text": "Sortie 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "57"
+                    ],
+                    "goals_text": "57'",
+                    "sub_in": null,
+                    "sub_out": "80",
+                    "sub_text": "Sortie 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAGUET Jean-Baptiste",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MERIEM Camel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DROBNJAK Anto",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "80",
+                    "sub_out": null,
+                    "sub_text": "Entrée 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "80",
+                    "sub_out": null,
+                    "sub_text": "Entrée 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MONSOREAU Sylvain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1680
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

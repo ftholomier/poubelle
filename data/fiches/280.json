@@ -1,0 +1,430 @@
+{
+    "id": 280,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "toulon-sochaux-division-1-15-08-1986",
+    "path": "/matchs/1986-1987/toulon-sochaux-division-1-15-08-1986/",
+    "title": "J04 – Toulon / Sochaux – D1 – 15/08/1986 – 0-0",
+    "categories": [
+        "1986-1987",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2023/12/Var-matin.png",
+    "date": "2023-12-28T20:31:40",
+    "modified": "2025-07-20T22:47:10",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Comme face à Lille, Sochaux repasse en marquage individuel en défense à la place du marquage en zone. </li>\n<li>De nombreux supporters de Sochaux en vacances étaient présents dans les tribunes. </li>\n<li>Ecarté du 11 type de l'OM, Jacky Bonnevay était dans les tribunes pour soutenir son ancienne équipe. </li>\n<li>C'est Paul Orsatti, l'ancien entraîneur du RCFC, qui entraînait Toulon. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>4' : </strong>Frappe de Ramos et arrêt de Rust.</li>\n<li><strong>25' :</strong> Le gardien de Toulon dégage en catastrophe un ballon convoité par Lada. </li>\n<li><strong>36' : </strong>Frappe de l'ex Bisontin Salou sur le poteau de Rust. </li>\n<li><strong>52' :</strong> Lob de Paille qui manque de peu le cadre. </li>\n<li><strong>54' : </strong>Tir appuyé de Testa et parade de Rust. </li>\n<li><strong>66' : </strong>Centre de Lada et tête de Thomas qui force Mottet à une parade. </li>\n<li><strong>85' : </strong>Casoni est expulsé pour un violent tacle par derrière sur Paille. </li>\n<li><strong>88' :</strong> Centre de Ramos et but de Mendy au second poteau que l'arbitre annule pour un hors jeu violement contesté par les Toulonnais.   </li>\n<li><strong>90' :</strong> En contre, la frappe de Thomas manque de peu de faire mouche pour Sochaux. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><b>Francis Peltier : </b><em>\" Le marquage individuel nous convient davantage\"</em></li>\n<li><strong>Jean Fauvergue : \" </strong><em>Ce résultat confirme l'excellent état d'esprit exprimé contre Lille \"</em></li>\n<li><strong>Paul Osatti (entraîneur de Toulon) </strong>: <em>\" Je ne comprends pas pourquoi l'arbitre nous a refusé le but de la 88ème... Sochaux a su parfaitement quadriller le terrain. Ses contres ont même été dangereux\"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves du match",
+            "html": "<ul>\n<li>2ème rencontre sans encaisser de but pour le FCSM.  </li>\n<li>1er point glané à l'extérieur par les lionceaux. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Premier point de la saison à l'extérieur pour le FCSM"
+    },
+    "gallery": [
+        {
+            "image": "2023/12/Var-matin.png",
+            "caption": "Sauzée. Crédit Var Matin",
+            "credit": "",
+            "caption_raw": "Sauzée. Crédit Var Matin"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 280,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/j04-toulon-sochaux-d1-15-08-1986-0-0-280/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/j04-toulon-sochaux-d1-15-08-1986-0-0-280/",
+        "slug": "j04-toulon-sochaux-d1-15-08-1986-0-0-280",
+        "seo_title": "J04 - Toulon / Sochaux - D1 - 15/08/1986 - 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Toulon / Sochaux : 0-0</strong></h2>\n<h4><strong>4ème journée de D1</strong></h4>\n<h4><strong>15 août 1986</strong></h4>\n<h4><strong>Stade Mayol (83)</strong></h4>\n<h4><strong>6 500 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Rideau</strong></h4>",
+        "header_lines": [
+            "Toulon / Sochaux : 0-0",
+            "4ème journée de D1",
+            "15 août 1986",
+            "Stade Mayol (83)",
+            "6 500 spectateurs",
+            "Arbitrage : M. Rideau"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1986-08-15",
+        "date_text": null,
+        "season": "1986-1987",
+        "competition": "Championnat",
+        "competition_label": "Division 1",
+        "competition_code": "D1",
+        "round": "J04",
+        "round_text": "4ème journée de D1",
+        "home": {
+            "name": "Toulon",
+            "level": null
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "Toulon / Sochaux : 0-0",
+        "result": "N",
+        "stadium": "Stade Mayol (83)",
+        "spectators": 6500,
+        "spectators_text": "6 500 spectateurs",
+        "referee": "M. Rideau",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "4",
+                "text": "Frappe de Ramos et arrêt de Rust.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "25",
+                "text": "Le gardien de Toulon dégage en catastrophe un ballon convoité par Lada.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "36",
+                "text": "Frappe de l'ex Bisontin Salou sur le poteau de Rust.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "52",
+                "text": "Lob de Paille qui manque de peu le cadre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "54",
+                "text": "Tir appuyé de Testa et parade de Rust.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "66",
+                "text": "Centre de Lada et tête de Thomas qui force Mottet à une parade.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "85",
+                "text": "Casoni est expulsé pour un violent tacle par derrière sur Paille.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "88",
+                "text": "Centre de Ramos et but de Mendy au second poteau que l'arbitre annule pour un hors jeu violement contesté par les Toulonnais.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "90",
+                "text": "En contre, la frappe de Thomas manque de peu de faire mouche pour Sochaux.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Francis Peltier",
+                "text": "Le marquage individuel nous convient davantage"
+            },
+            {
+                "who": "Jean Fauvergue",
+                "text": "Ce résultat confirme l'excellent état d'esprit exprimé contre Lille"
+            },
+            {
+                "who": "Paul Osatti (entraîneur de Toulon)",
+                "text": "Je ne comprends pas pourquoi l'arbitre nous a refusé le but de la 88ème... Sochaux a su parfaitement quadriller le terrain. Ses contres ont même été dangereux"
+            }
+        ],
+        "breves": [
+            "2ème rencontre sans encaisser de but pour le FCSM.",
+            "1er point glané à l'extérieur par les lionceaux."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ZANDONA Romain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZÉE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "88",
+                    "sub_text": "Sortie 88'",
+                    "yellow": [
+                        "88"
+                    ],
+                    "red": [],
+                    "cards_text": "J 88'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "41"
+                    ],
+                    "red": [],
+                    "cards_text": "J 41'",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "88",
+                    "sub_out": null,
+                    "sub_text": "Entrée 88'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 7
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

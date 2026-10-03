@@ -1,0 +1,168 @@
+{
+    "id": 12763,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "allan-tchaptchet",
+    "path": "/joueurs/allan-tchaptchet/",
+    "title": "Allan Tchaptchet (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-36.jpg",
+    "date": "2025-03-09T17:07:40",
+    "modified": "2025-11-12T13:44:04",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Allan Tchaptchet a été mis à l'essai à Sochaux en janvier 2022."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/61e85b4b580ad142142550.webp",
+            "caption": "Allan Tchaptchet",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Allan Tchaptchet – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12763,
+        "url": "https://www.fcsochauxretro.com/uncategorized/allan-tchaptchet-a-lessai/",
+        "path": "/uncategorized/allan-tchaptchet-a-lessai/",
+        "slug": "allan-tchaptchet-a-lessai",
+        "seo_title": "Allan Tchaptchet (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Allan Tchaptchet</h2>\n<h4><strong>né le 21 décembre 2001 à Besançon (25)</strong></h4>\n<p><strong>Taille : </strong>1m93</p>\n<p><strong>Poids : </strong>95 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International français U16 (2 sélections)</strong></p>\n<p><strong>A l'essai en : </strong>janvier 2022</p>",
+        "header_lines": [
+            "Allan Tchaptchet",
+            "né le 21 décembre 2001 à Besançon (25)",
+            "Taille : 1m93",
+            "Poids : 95 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International français U16 (2 sélections)",
+            "A l'essai en : janvier 2022"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Allan",
+        "last_name": "Tchaptchet",
+        "display_name": "Allan Tchaptchet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2022-01",
+            "precision": "month",
+            "text": "janvier 2022"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2001-12-21",
+                "precision": "day",
+                "text": "21 décembre 2001"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 décembre 2001 à Besançon (25)"
+        },
+        "death": null,
+        "height": "1m93",
+        "height_cm": 193,
+        "weight": "95 kg",
+        "weight_kg": 95,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International français U16 (2 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Allan Tchaptchet"
+            },
+            {
+                "label": null,
+                "value": "né le 21 décembre 2001 à Besançon (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m93"
+            },
+            {
+                "label": "Poids",
+                "value": "95 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International français U16 (2 sélections)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "janvier 2022"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

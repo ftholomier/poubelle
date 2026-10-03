@@ -1,0 +1,424 @@
+{
+    "id": 565,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nice-sochaux-division-1-21-12-1986",
+    "path": "/matchs/1986-1987/nice-sochaux-division-1-21-12-1986/",
+    "title": "J23 – Nice / Sochaux – D1 – 21/12/1986 – 1-0",
+    "categories": [
+        "1986-1987",
+        "a-la-une",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/01/261215268_1956719161156793_7244852440322645325_n.jpg",
+    "date": "2024-01-17T17:19:06",
+    "modified": "2025-05-21T17:27:33",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>La défaite face à Toulon provoque des remous à Sochaux. En effet, 4 joueurs sont écartés pour le déplacement à Nice : Albert Rust le capitaine, Gilles Brisson, Thierry Fernier et Eric Lada. Des hommes dont le rendement est jugé insuffisant. </li>\n<li>Après le match de Nice, le championnat fera une pause de presque 2 mois puisque le prochain match aura lieu le 28 février 1987. </li>\n<li>Colin, Rousset, Croci et Sundstrup sont de retour dans le groupe. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>11' : </strong>Centre fort de Joel Henry devant le but. Aucun Niçois ne peut reprendre le ballon.   </li>\n<li><strong>43' : </strong>Tir appuyé d'Oleksiak bien arrêté par Rousset. </li>\n<li><strong>46' : </strong>Déboulé de Dréossi dans la surface. Rousset se couche bien sur son centre tir. </li>\n<li><strong>50' : </strong>Action litigieuse dans la surface de Nice où Paille réclame une main de Dréossi. </li>\n<li><strong>55' : </strong>A la lutte avec Silvestre, N'Dioro ne peut tromper Rousset. </li>\n<li><strong>67' : Belle action collective niçoise. Mège, dans un angle fermé, surprend Rousset. (1-0) </strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<p><strong>Jean Fauvergue : </strong><em>\" Depuis un certain temps nous commettons trop d'erreurs techniques. Nous n'arrivons pas à nous montrer dangereux. \" </em></p>\n<p><strong>Stéphane Paille : </strong><em>\" Tout a été question de chance et de malchance et en ce moment la chance n'est pas de notre côté. Le but a été marqué dans un angle impossible. Dés la reprise il va falloir nous accrocher \".</em></p>"
+        },
+        {
+            "title": "Brèves du match",
+            "html": "<ul>\n<li>Les Sochaliens se sont déplacés en avion à Nice et sont rentrés en train au retour. </li>\n<li>La reprise est fixée au mardi 20 janvier pour le FCSM avec au programme ski et stage en Bretagne.  </li>\n<li>Sochaux atteint donc la trêve en 16è position après 8 matchs de suite sans victoire ! Avec seulement 2 points d'avance sur le barragiste, la situation devient inquiétante. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "16",
+        "text": "C'est le classement de Sochaux à la trêve après 23 journées. Sochaux ne compte que deux points de plus que le barragiste."
+    },
+    "gallery": [
+        {
+            "image": "2024/01/261215268_1956719161156793_7244852440322645325_n.jpg",
+            "caption": "La défense sochalienne sous pression. Nice Matin",
+            "credit": "",
+            "caption_raw": "La défense sochalienne sous pression. Nice Matin"
+        },
+        {
+            "image": "2024/01/Numerisation_20160804-f.png",
+            "caption": "Jacky Colin. France football",
+            "credit": "",
+            "caption_raw": "Jacky Colin. France football"
+        },
+        {
+            "image": "2024/01/nhggg-f.png",
+            "caption": "Jacky Colin. France football",
+            "credit": "",
+            "caption_raw": "Jacky Colin. France football"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 565,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j23-nice-sochaux-d1-21-12-1986-1-0/",
+        "path": "/a-la-une/j23-nice-sochaux-d1-21-12-1986-1-0/",
+        "slug": "j23-nice-sochaux-d1-21-12-1986-1-0",
+        "seo_title": "J23 - Nice / Sochaux - D1 - 21/12/1986 - 1-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h4><strong>Nice / Sochaux : 1-0</strong></h4>\n<h4><strong>23ème journée de D1</strong></h4>\n<h4><strong>Dimanche 21 décembre 1986</strong></h4>\n<h4><strong>Stade Du Ray (06)</strong></h4>\n<h4><strong>8 982 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M.  Hirtz</strong></h4>\n<p> But: Mège 67' pour Nice. </p>",
+        "header_lines": [
+            "Nice / Sochaux : 1-0",
+            "23ème journée de D1",
+            "Dimanche 21 décembre 1986",
+            "Stade Du Ray (06)",
+            "8 982 spectateurs",
+            "Arbitrage : M. Hirtz",
+            "But: Mège 67' pour Nice."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1986-12-21",
+        "date_text": "Dimanche 21 décembre 1986",
+        "season": "1986-1987",
+        "competition": "Championnat",
+        "competition_label": "Division 1",
+        "competition_code": "D1",
+        "round": "J23",
+        "round_text": "23ème journée de D1",
+        "home": {
+            "name": "Nice",
+            "level": null
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-0",
+        "score_line": "Nice / Sochaux : 1-0",
+        "result": "D",
+        "stadium": "Stade Du Ray (06)",
+        "spectators": 8982,
+        "spectators_text": "8 982 spectateurs",
+        "referee": "M. Hirtz",
+        "goals_text": "Mège 67' pour Nice.",
+        "goals": [
+            {
+                "team": "Nice",
+                "scorers": "Mège 67'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "11",
+                "text": "Centre fort de Joel Henry devant le but. Aucun Niçois ne peut reprendre le ballon.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "43",
+                "text": "Tir appuyé d'Oleksiak bien arrêté par Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "46",
+                "text": "Déboulé de Dréossi dans la surface. Rousset se couche bien sur son centre tir.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "50",
+                "text": "Action litigieuse dans la surface de Nice où Paille réclame une main de Dréossi.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "55",
+                "text": "A la lutte avec Silvestre, N'Dioro ne peut tromper Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "67",
+                "text": "Belle action collective niçoise. Mège, dans un angle fermé, surprend Rousset. (1-0)",
+                "goal": true,
+                "score": "1-0"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Jean Fauvergue",
+                "text": "Depuis un certain temps nous commettons trop d'erreurs techniques. Nous n'arrivons pas à nous montrer dangereux."
+            },
+            {
+                "who": "Stéphane Paille",
+                "text": "Tout a été question de chance et de malchance et en ce moment la chance n'est pas de notre côté. Le but a été marqué dans un angle impossible. Dés la reprise il va falloir nous accrocher \"."
+            }
+        ],
+        "breves": [
+            "Les Sochaliens se sont déplacés en avion à Nice et sont rentrés en train au retour.",
+            "La reprise est fixée au mardi 20 janvier pour le FCSM avec au programme ski et stage en Bretagne.",
+            "Sochaux atteint donc la trêve en 16è position après 8 matchs de suite sans victoire ! Avec seulement 2 points d'avance sur le barragiste, la situation devient inquiétante."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZÉE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HELT John",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "74",
+                    "sub_text": "Sortie 74'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "79",
+                    "sub_text": "Sortie 79'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "74",
+                    "sub_out": null,
+                    "sub_text": "Entrée 74'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "79",
+                    "sub_out": null,
+                    "sub_text": "Entrée 79'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 27
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

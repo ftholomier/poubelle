@@ -1,0 +1,274 @@
+{
+    "id": 9208,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ferenc-wagenhoffer",
+    "path": "/joueurs/ferenc-wagenhoffer/",
+    "title": "Ferenc Wagenhoffer",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-12-28T20:46:33",
+    "modified": "2024-12-28T21:15:54",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Ferenc Wagenhoffer aurait joué 13 matchs (1 but) pour Sochaux mais essentiellement des matchs amicaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9208,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ferenc-wagenhoffer/",
+        "path": "/a-la-une/ferenc-wagenhoffer/",
+        "slug": "ferenc-wagenhoffer",
+        "seo_title": "Ferenc Wagenhoffer - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ferenc Wagenhoffer</h2>\n<h4><strong>né le xx à xx </strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste :</strong> milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>novembre 1930</p>\n<p><strong>Départ de Sochaux : </strong>novembre 1931</p>\n<p><strong>Premier match joué :</strong>  Sochaux - 158è RI de Strasbourg (amical) du 11/11/1930 : 1-2</p>\n<p><strong>Dernier match joué :</strong> Audincourt - Sochaux (amical) du 08/11/1930 : 1-2</p>\n<p><strong>Premier but marqué :</strong> Sochaux - US Suisse (amical) du 29/03/1931 : 3-0</p>",
+        "header_lines": [
+            "Ferenc Wagenhoffer",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : novembre 1930",
+            "Départ de Sochaux : novembre 1931",
+            "Premier match joué : Sochaux - 158è RI de Strasbourg (amical) du 11/11/1930 : 1-2",
+            "Dernier match joué : Audincourt - Sochaux (amical) du 08/11/1930 : 1-2",
+            "Premier but marqué : Sochaux - US Suisse (amical) du 29/03/1931 : 3-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ferenc",
+        "last_name": "Wagenhoffer",
+        "display_name": "Ferenc Wagenhoffer",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1930-11",
+            "precision": "month",
+            "text": "novembre 1930"
+        },
+        "departure": {
+            "iso": "1931-11",
+            "precision": "month",
+            "text": "novembre 1931"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - 158è RI de Strasbourg (amical) du 11/11/1930 : 1-2",
+        "last_match": "Audincourt - Sochaux (amical) du 08/11/1930 : 1-2",
+        "first_goal": "Sochaux - US Suisse (amical) du 29/03/1931 : 3-0",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ferenc Wagenhoffer"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "novembre 1930"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "novembre 1931"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - 158è RI de Strasbourg (amical) du 11/11/1930 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Audincourt - Sochaux (amical) du 08/11/1930 : 1-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - US Suisse (amical) du 29/03/1931 : 3-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "1991-1992",
+                    "28",
+                    "1",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "29",
+                    "1"
+                ],
+                [
+                    "1992-1993",
+                    "35",
+                    "1",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "37",
+                    "1"
+                ],
+                [
+                    "1993-1994",
+                    "36",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "38",
+                    "2"
+                ],
+                [
+                    "1994-1995",
+                    "31",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "33",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "131",
+                    "3",
+                    "7",
+                    "1",
+                    "1",
+                    "0",
+                    "139",
+                    "4"
+                ]
+            ],
+            "source_table": 513
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

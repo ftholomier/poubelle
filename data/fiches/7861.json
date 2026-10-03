@@ -1,0 +1,255 @@
+{
+    "id": 7861,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "thomas-guerbert",
+    "path": "/joueurs/thomas-guerbert/",
+    "title": "Thomas Guerbert",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/73666.jpg",
+    "date": "2024-11-25T13:51:15",
+    "modified": "2024-11-25T14:01:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "59",
+        "text": "Thomas Guerbert a joué 59 matchs (1 but et 4 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/kurt-zouma-vient-de-le-tacler-thomas-guerbert-prend-alors-conscience-que-sa-blessure-est-grave-photo-francis-reinoso-1433141257.jpg",
+            "caption": "Thomas Guerbert",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Guerbert – L’est républicain"
+        },
+        {
+            "image": "2024/11/le-souhait-de-thomas-revenir-au-plus-vite-qu-il-n-y-ait-pas-de-complication-et-que-je-marque-le-but-du-maintien-a-l-avant-derniere-journee-1484126890.jpg",
+            "caption": "Thomas Guerbert",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Guerbert – L’est républicain"
+        },
+        {
+            "image": "2024/11/thomas-guerbert-passe-des-examens-medicaux-a-clermont-1467035164.jpg",
+            "caption": "Thomas Guerbert",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Guerbert – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7861,
+        "url": "https://www.fcsochauxretro.com/a-la-une/thomas-guerbert/",
+        "path": "/a-la-une/thomas-guerbert/",
+        "slug": "thomas-guerbert",
+        "seo_title": "Thomas Guerbert - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Thomas Guerbert</h2>\n<h4><strong>né le 6 avril 1989 à Meaux (77)</strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2013</p>\n<p><strong>Départ de Sochaux : </strong>juin 2016</p>\n<p><strong>Premier match joué</strong> : Nantes - Sochaux du 14/09/2013 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Dijon - Sochaux du 12/02/2016 : 2-2</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Tours du 06/03/2015 : 2-1 - But marqué à la 49'</p>",
+        "header_lines": [
+            "Thomas Guerbert",
+            "né le 6 avril 1989 à Meaux (77)",
+            "Taille : 1m72",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : aout 2013",
+            "Départ de Sochaux : juin 2016",
+            "Premier match joué : Nantes - Sochaux du 14/09/2013 : 1-0",
+            "Dernier match joué : Dijon - Sochaux du 12/02/2016 : 2-2",
+            "Premier but marqué : Sochaux - Tours du 06/03/2015 : 2-1 - But marqué à la 49'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Thomas",
+        "last_name": "Guerbert",
+        "display_name": "Thomas Guerbert",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1989-04-06",
+                "precision": "day",
+                "text": "6 avril 1989"
+            },
+            "place": {
+                "text": "Meaux (77)",
+                "city": "Meaux",
+                "department": "77",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 avril 1989 à Meaux (77)"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2013-08",
+            "precision": "month",
+            "text": "aout 2013"
+        },
+        "departure": {
+            "iso": "2016-06",
+            "precision": "month",
+            "text": "juin 2016"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Nantes - Sochaux du 14/09/2013 : 1-0",
+        "last_match": "Dijon - Sochaux du 12/02/2016 : 2-2",
+        "first_goal": "Sochaux - Tours du 06/03/2015 : 2-1 - But marqué à la 49'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Thomas Guerbert"
+            },
+            {
+                "label": null,
+                "value": "né le 6 avril 1989 à Meaux (77)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2013"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2016"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Nantes - Sochaux du 14/09/2013 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Dijon - Sochaux du 12/02/2016 : 2-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Tours du 06/03/2015 : 2-1 - But marqué à la 49'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

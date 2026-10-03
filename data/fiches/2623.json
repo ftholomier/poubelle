@@ -1,0 +1,484 @@
+{
+    "id": 2623,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "paris-sg-sochaux-coupe-de-france-30-03-1988",
+    "path": "/matchs/1987-1988/paris-sg-sochaux-coupe-de-france-30-03-1988/",
+    "title": "1/16e aller – Paris SG (D1) / Sochaux (D2) – CDF – 30/03/1988 – 1-3",
+    "categories": [
+        "1987-1988",
+        "a-la-une",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "coupe-de-france",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/04/kjuyytr-fv.png",
+    "date": "2024-04-06T17:14:45",
+    "modified": "2025-12-29T20:03:24",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux est au complet pour se déplacer au Parc. La coupe devient un objectif pour le groupe puisque le championnat est quasiment plié. </li>\n<li>Déclaration de Sylvester Takac : <em>\" Nous sommes irrésistibles mais en D2. La D1 c'est autre chose. L'objectif est de faire un bon résultat et de passer ce tour\".</em> </li>\n<li>Le PSG enregistre le retour de Jeannol qui revient de blessure et de Susic, écarté depuis presque...4 mois. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>3' :</strong> Centre de Croci dégagée de justesse par la défense du PSG. </li>\n<li><strong>8' : Coup franc de Jeannol repoussé par le mur sur Charbonnier dont la frappe de 20 mètres fait mouche. (1-0) </strong></li>\n<li><strong>9' :</strong> Centre de Morin pour Paille dont la reprise est sauvée de justesse par Bats.  </li>\n<li><strong>20' :</strong> Belle sortie de Rousset dans les pieds de Xuereb. </li>\n<li><strong>25' :</strong> Hadzibegic transperce la défense parisienne. Contré au dernier moment, le ballon est récupéré par Paille dont la frappe termine sur le poteau.  </li>\n<li><strong>36' :</strong> Sauzée gagne son duel avec Poullain et trompe Bats. Son but est refusé pour une faute au préalable sur le défenseur. </li>\n<li><strong>50' : Splendide action collective sochalienne amorcée par Henry et Bazdarevic. Sur la droite, Lucas centre pour Sauzée qui amortit de la poitrine avant de battre Bats. (1-1)</strong></li>\n<li><strong>63' : Nouvelle superbe action collective sochalienne. Lucas, lancé sur la gauche, repique au centre, élimine Bibard avant de tromper Bats avec l'aide du poteau. (1-2)</strong></li>\n<li>83' : Susic hérite d'un ballon au second poteau mais son tir est capté par Rousset.  </li>\n<li><strong>87' : Long centre de Peltier pour Paille qui contrôle avant de remiser pour Sauzée qui marque aux 6 mètres. (1-3)</strong></li>\n<li><strong>89' :</strong> Corner de Bazdarevic. Silvestre devance la sortie de Bats de la tête mais sa reprise manque de peu le cadre !</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Sylvester Takac :</strong> <em>\" Je pense que nous avons fait ce qu'il fallait c'est à dire la démonstration de notre valeur. Nous aurions mérité d'autres buts. \"</em></li>\n<li><strong>Jean Todt (Directeur de Peugeot Sport) :</strong> <em>\" C'est formidable \"</em></li>\n<li><strong>Gilles Rousset :</strong> <em>\" A l'exception du premier quart d'heure, le PSG ne nous a pas posé de gros problèmes. Le PSG ne pouvait suivre notre rythme \". </em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>L'état major de Peugeot était présent lors de cette rencontre : Jean Todt, Roland et Eric Peugeot.  </li>\n<li>Faruk Hadzibegic a retrouvé avec plaisir Safet Susic son ancien coéquipier à Sarajevo. </li>\n<li>Confidence de l'ancien sochalien Philippe Piat, président de l'UNFP, à son ami Enrico Macias croisé dans les couloirs du Parc : <em>\" Si tu chantais comme Sochaux joue au football, tu ferais un tabac\". </em></li>\n<li><strong>TRANSFERT</strong></li>\n<li>L'OM est très intéressé par le profil de Frank Sauzée.</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "1ère victoire en coupe de France au Parc pour Sochaux face au PSG"
+    },
+    "gallery": [
+        {
+            "image": "2024/04/kjuyytr-fv.png",
+            "caption": "La joie des Sochaliens",
+            "credit": "Presse sport",
+            "caption_raw": "La joie des Sochaliens – Presse sport"
+        },
+        {
+            "image": "2024/04/Franck20Sauzee-f.jpg",
+            "caption": "Sauzée",
+            "credit": "Crédit Presse sport",
+            "caption_raw": "Sauzée – Crédit Presse sport"
+        },
+        {
+            "image": "2024/04/8788_psg_sochaux_cdf_susic-f.jpg",
+            "caption": "Peltier -Crédit Presse Sport",
+            "credit": "",
+            "caption_raw": "Peltier -Crédit Presse Sport"
+        },
+        {
+            "image": "2024/04/76816ebe7ca6354df05e3139ab19944b.jpg",
+            "caption": "Sauzée",
+            "credit": "Crédit Presse sport",
+            "caption_raw": "Sauzée – Crédit Presse sport"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "E0Om8RPdfnc",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 2623,
+        "url": "https://www.fcsochauxretro.com/a-la-une/1-16e-aller-paris-sg-d1-sochaux-d2-cdf-30-03-1988-1-3/",
+        "path": "/a-la-une/1-16e-aller-paris-sg-d1-sochaux-d2-cdf-30-03-1988-1-3/",
+        "slug": "1-16e-aller-paris-sg-d1-sochaux-d2-cdf-30-03-1988-1-3",
+        "seo_title": "1/16e aller - Paris SG (D1) / Sochaux (D2) - CDF - 30/03/1988 - 1-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Paris SG (D1) / Sochaux (D2) : 1-3</strong></h2>\n<h4><strong>16ème aller de coupe de France</strong></h4>\n<h4><strong>Mercredi 30 Mars 1988</strong></h4>\n<h4><strong>Parc des Princes (75)</strong></h4>\n<h4><strong>9 600 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Sculfort</strong></h4>\n<p>Buts : Charbonnier 8' pour Paris SG ;  Sauzée 50' et 87', Lucas 63' pour Sochaux. </p>",
+        "header_lines": [
+            "Paris SG (D1) / Sochaux (D2) : 1-3",
+            "16ème aller de coupe de France",
+            "Mercredi 30 Mars 1988",
+            "Parc des Princes (75)",
+            "9 600 spectateurs",
+            "Arbitrage : M. Sculfort",
+            "Buts : Charbonnier 8' pour Paris SG ; Sauzée 50' et 87', Lucas 63' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1988-03-30",
+        "date_text": "Mercredi 30 Mars 1988",
+        "season": "1987-1988",
+        "competition": "Coupe de France",
+        "competition_label": "Coupe de France",
+        "competition_code": "CDF",
+        "round": "1/16e aller",
+        "round_text": "16ème aller de coupe de France",
+        "home": {
+            "name": "Paris SG",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-3",
+        "score_line": "Paris SG (D1) / Sochaux (D2) : 1-3",
+        "result": "V",
+        "stadium": "Parc des Princes (75)",
+        "spectators": 9600,
+        "spectators_text": "9 600 spectateurs",
+        "referee": "M. Sculfort",
+        "goals_text": "Charbonnier 8' pour Paris SG ; Sauzée 50' et 87', Lucas 63' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Paris SG",
+                "scorers": "Charbonnier 8'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Sauzée 50' et 87', Lucas 63'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "3",
+                "text": "Centre de Croci dégagée de justesse par la défense du PSG.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "8",
+                "text": "Coup franc de Jeannol repoussé par le mur sur Charbonnier dont la frappe de 20 mètres fait mouche. (1-0)",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "9",
+                "text": "Centre de Morin pour Paille dont la reprise est sauvée de justesse par Bats.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "20",
+                "text": "Belle sortie de Rousset dans les pieds de Xuereb.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "25",
+                "text": "Hadzibegic transperce la défense parisienne. Contré au dernier moment, le ballon est récupéré par Paille dont la frappe termine sur le poteau.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "36",
+                "text": "Sauzée gagne son duel avec Poullain et trompe Bats. Son but est refusé pour une faute au préalable sur le défenseur.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "50",
+                "text": "Splendide action collective sochalienne amorcée par Henry et Bazdarevic. Sur la droite, Lucas centre pour Sauzée qui amortit de la poitrine avant de battre Bats. (1-1)",
+                "goal": true,
+                "score": "1-1"
+            },
+            {
+                "minute": "63",
+                "text": "Nouvelle superbe action collective sochalienne. Lucas, lancé sur la gauche, repique au centre, élimine Bibard avant de tromper Bats avec l'aide du poteau. (1-2)",
+                "goal": true,
+                "score": "1-2"
+            },
+            {
+                "minute": "83",
+                "text": "Susic hérite d'un ballon au second poteau mais son tir est capté par Rousset.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "87",
+                "text": "Long centre de Peltier pour Paille qui contrôle avant de remiser pour Sauzée qui marque aux 6 mètres. (1-3)",
+                "goal": true,
+                "score": "1-3"
+            },
+            {
+                "minute": "89",
+                "text": "Corner de Bazdarevic. Silvestre devance la sortie de Bats de la tête mais sa reprise manque de peu le cadre !",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Sylvester Takac",
+                "text": "Je pense que nous avons fait ce qu'il fallait c'est à dire la démonstration de notre valeur. Nous aurions mérité d'autres buts."
+            },
+            {
+                "who": "Jean Todt (Directeur de Peugeot Sport)",
+                "text": "C'est formidable"
+            },
+            {
+                "who": "Gilles Rousset",
+                "text": "A l'exception du premier quart d'heure, le PSG ne nous a pas posé de gros problèmes. Le PSG ne pouvait suivre notre rythme \"."
+            }
+        ],
+        "breves": [
+            "L'état major de Peugeot était présent lors de cette rencontre : Jean Todt, Roland et Eric Peugeot.",
+            "Faruk Hadzibegic a retrouvé avec plaisir Safet Susic son ancien coéquipier à Sarajevo.",
+            "Confidence de l'ancien sochalien Philippe Piat, président de l'UNFP, à son ami Enrico Macias croisé dans les couloirs du Parc : \" Si tu chantais comme Sochaux joue au football, tu ferais un tabac\".",
+            "TRANSFERT",
+            "L'OM est très intéressé par le profil de Frank Sauzée."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "18"
+                    ],
+                    "red": [],
+                    "cards_text": "J 18'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "80",
+                    "sub_text": "Sortie 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZEE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "50",
+                        "87"
+                    ],
+                    "goals_text": "50' et 87'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "63"
+                    ],
+                    "goals_text": "63'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mécha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "68",
+                    "sub_text": "Sortie 68'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "THOMAS Jean-Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "68",
+                    "sub_out": null,
+                    "sub_text": "Entrée 68'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "80",
+                    "sub_out": null,
+                    "sub_text": "Entrée 80'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Silvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 237
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

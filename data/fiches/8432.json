@@ -1,0 +1,172 @@
+{
+    "id": 8432,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "benjamin-boisseau",
+    "path": "/joueurs/benjamin-boisseau/",
+    "title": "Benjamin Boisseau",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/2222.jpg",
+    "date": "2024-12-03T14:10:30",
+    "modified": "2026-04-14T16:54:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>\n<p>Originaire de Saône et Loire, Benjamin Boisseau évolue comme arrière droit au centre de formation à Sochaux de 2004 à 2007. Il reste trois saisons mais ne se voit pas proposer de contrat professionnel dans une période faste pour le club qui vient de remporter la coupe de France et la coupe Gambardella.</p>\n</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li><strong>Saison 2007/2008</strong></li>\n<li>A l'été 2007, il s'engage donc pour une saison avec le Paris FC en National.</li>\n<li>Mais il ne s'y imposera pas ne jouant que 7 matchs.  </li>\n<li><strong>Saisons 2008 à 2020</strong></li>\n<li>Il jouera ensuite toute sa carrière aux 4è et 5è échelons national aux Herbiers, à Fleury 91 à Saint-Geneviève ou encore à Moissy-Cramayel. Il stoppera son parcours en 2020 au moment du COVID. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Benjamin Boisseau n'a joué aucun match pour l'équipe professionnelle de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/2222.jpg",
+            "caption": "Benjamin Boisseau",
+            "credit": "Footballdatabase",
+            "caption_raw": "Benjamin Boisseau – Footballdatabase"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8432,
+        "url": "https://www.fcsochauxretro.com/a-la-une/benjamin-boisseau-8432/",
+        "path": "/a-la-une/benjamin-boisseau-8432/",
+        "slug": "benjamin-boisseau-8432",
+        "seo_title": "Benjamin Boisseau - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Benjamin Boisseau</h2>\n<h4><strong>né le 6 février 1986 à Saint-Vallier (71)</strong></h4>\n<p><strong>Taille : </strong>1m79</p>\n<p><strong>Poids : </strong>69 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>défenseur latéral droit</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2004</p>\n<p><strong>Départ de Sochaux : </strong>juin 2007</p>",
+        "header_lines": [
+            "Benjamin Boisseau",
+            "né le 6 février 1986 à Saint-Vallier (71)",
+            "Taille : 1m79",
+            "Poids : 69 kg",
+            "Pied : droitier",
+            "Poste : défenseur latéral droit",
+            "Arrivée à Sochaux : juillet 2004",
+            "Départ de Sochaux : juin 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Benjamin",
+        "last_name": "Boisseau",
+        "display_name": "Benjamin Boisseau",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1986-02-06",
+                "precision": "day",
+                "text": "6 février 1986"
+            },
+            "place": {
+                "text": "Saint-Vallier (71)",
+                "city": "Saint-Vallier",
+                "department": "71",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 février 1986 à Saint-Vallier (71)"
+        },
+        "death": null,
+        "height": "1m79",
+        "height_cm": 179,
+        "weight": "69 kg",
+        "weight_kg": 69,
+        "foot": "droitier",
+        "position": "défenseur latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2004-07",
+            "precision": "month",
+            "text": "juillet 2004"
+        },
+        "departure": {
+            "iso": "2007-06",
+            "precision": "month",
+            "text": "juin 2007"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Benjamin Boisseau"
+            },
+            {
+                "label": null,
+                "value": "né le 6 février 1986 à Saint-Vallier (71)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m79"
+            },
+            {
+                "label": "Poids",
+                "value": "69 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2004"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2007"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

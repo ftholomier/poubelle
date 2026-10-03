@@ -1,0 +1,239 @@
+{
+    "id": 9079,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-claude-hagenbach",
+    "path": "/joueurs/jean-claude-hagenbach/",
+    "title": "Jean-Claude Hagenbach",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/67880.jpg",
+    "date": "2024-12-16T19:54:09",
+    "modified": "2025-07-16T22:21:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Jean-Claude Hagenbach est resté une seule saison à Sochaux comme gardien remplaçant mais n'a joué qu'avec la réserve en troisième division."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/67880.jpg",
+            "caption": "Jean-Claude Hagenbach",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Jean-Claude Hagenbach – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9079,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-claude-hagenbach/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-claude-hagenbach/",
+        "slug": "jean-claude-hagenbach",
+        "seo_title": "Jean-Claude Hagenbach - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Claude Hagenbach</h2>\n<h4><strong>né le 2 octobre 1959 à Cernay (51) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied : </strong>droitier </p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1980</p>\n<p><strong>Départ de Sochaux : </strong>juin 1981 </p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Demi-finaliste de la coupe UEFA 1981</li>\n</ul>",
+        "header_lines": [
+            "Jean-Claude Hagenbach",
+            "né le 2 octobre 1959 à Cernay (51)",
+            "Taille : 1m80",
+            "Poids : 73 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1980",
+            "Départ de Sochaux : juin 1981",
+            "Palmarès avec Sochaux :",
+            "Demi-finaliste de la coupe UEFA 1981"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Claude",
+        "last_name": "Hagenbach",
+        "display_name": "Jean-Claude Hagenbach",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1959-10-02",
+                "precision": "day",
+                "text": "2 octobre 1959"
+            },
+            "place": {
+                "text": "Cernay (51)",
+                "city": "Cernay",
+                "department": "51",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 2 octobre 1959 à Cernay (51)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1980-07",
+            "precision": "month",
+            "text": "juillet 1980"
+        },
+        "departure": {
+            "iso": "1981-06",
+            "precision": "month",
+            "text": "juin 1981"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Demi-finaliste de la coupe UEFA 1981"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Claude Hagenbach"
+            },
+            {
+                "label": null,
+                "value": "né le 2 octobre 1959 à Cernay (51)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1980"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1981"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe UEFA 1981"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

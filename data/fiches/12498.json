@@ -1,0 +1,165 @@
+{
+    "id": 12498,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "paulo-americo",
+    "path": "/joueurs/paulo-americo/",
+    "title": "Paulo Americo (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-6.jpg",
+    "date": "2025-03-04T13:17:46",
+    "modified": "2026-03-26T13:10:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière",
+            "html": "<ul>\n<li>Né en 1970 à Rio de Janeiro, Paulo Américo commence le football très jeune. Il débute au Villanova Este, puis enchaîne avec l’Independente FC et enfin l’America FC Limassol.</li>\n<li>À l’été 1997, à l’âge de 27 ans, il débarque pour la première fois en Europe. Milieu offensif, rapide et puissant, il signe au Royal Antwerp, en première division belge.</li>\n<li>Il réalise une très bonne première partie de saison, inscrivant notamment 4 buts et délivrant une passe décisive. Il est repéré en Belgique par un agent qui le propose à Sochaux en décembre 1997.</li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>Sochaux est en course pour remonter en première division, mais vient de perdre son attaquant n°1, Koffi Fiawoo, victime d’une rupture des ligaments croisés lors d’un match de championnat à Saint-Étienne. L’attaque repose alors principalement sur Bernard Bouger, mais le club s’active pour lui trouver un coéquipier à la hauteur. De nombreuses pistes circulent et Paulo Américo débarque à Sochaux pour une semaine d’entraînement en décembre 1997.</li>\n<li>Malgré ses belles qualités et sa bonne frappe, il ne correspond pas au profil que souhaite recruter Faruk Hadžibegić, qui recherche un joueur grand capable de remettre solidement dans la surface et possédant un bon jeu de tête. Quelques semaines plus tard, c’est le Hongrois Laszlo Klausz, en provenance d’Autriche, qui sera finalement recruté.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li><strong>Saison 1998/1999</strong><br>A Anvers les statistiques diffèrent selon les sources : il aurait inscrit jusqu’à 4 buts en 12 matchs et délivré plusieurs passes décisives.</li>\n<li>Toujours est-il qu'il quitte le club pour rejoindre l’Espérance de Tunis. Selon diverses sources, il aurait joué 12 matchs sous les ordres de Jean Fernandez et remporte le titre de champion de Tunisie aux côtés, notamment, d’un jeune compatriote nommé Francileudo Santos. </li>\n<li>En janvier 1999, il quitte la Tunisie après six mois sur place et signe en Allemagne au club de Koblenz, évoluant en deuxième division. Il y dispute 62 matchs et inscrit 11 buts en 30 mois.</li>\n<li><strong>Saison 2001/2002</strong><br>Il signe à Pfullendorf, en troisième ou quatrième division allemande. Il y joue 9 matchs et marque 1 but.</li>\n<li><strong>Saisons 2002 à 2005</strong><br>Il s’engage ensuite à Engers, en troisième division allemande. Sur trois saisons, il dispute 78 matchs et inscrit 9 buts, évoluant dans un rôle plus reculé sur le terrain.</li>\n<li><strong>Saisons 2005 à 2007</strong><br>Il termine sa carrière en division régionale allemande, à Worsdorf, où il reste jusqu’en 2007, à l’âge de 37 ans.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Paulo Americo a été mis à l'essai une semaine en décembre 1997 mais les dirigeants ne l'ont pas recrutés."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-6.jpg",
+            "caption": "Paulo Americo",
+            "credit": "Royal Antwerp (Belgique)",
+            "caption_raw": "Paulo Americo – Royal Antwerp (Belgique)"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12498,
+        "url": "https://www.fcsochauxretro.com/uncategorized/paulo-americo/",
+        "path": "/uncategorized/paulo-americo/",
+        "slug": "paulo-americo",
+        "seo_title": "Paulo Americo (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Paulo Americo (A l'essai)</h2>\n<h4><strong>né le 10 aout 1970 à Rio de Janeiro (Brésil)</strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>A l'essai en : </strong>décembre 1997</p>",
+        "header_lines": [
+            "Paulo Americo (A l'essai)",
+            "né le 10 aout 1970 à Rio de Janeiro (Brésil)",
+            "Taille : 1m76",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "A l'essai en : décembre 1997"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Paulo",
+        "last_name": "Americo",
+        "display_name": "Paulo Americo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1997-12",
+            "precision": "month",
+            "text": "décembre 1997"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1970-08-10",
+                "precision": "day",
+                "text": "10 aout 1970"
+            },
+            "place": {
+                "text": "Rio de Janeiro (Brésil)",
+                "city": "Rio de Janeiro",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 aout 1970 à Rio de Janeiro (Brésil)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Paulo Americo (A l'essai)"
+            },
+            {
+                "label": null,
+                "value": "né le 10 aout 1970 à Rio de Janeiro (Brésil)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "décembre 1997"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,230 @@
+{
+    "id": 9979,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mohamed-lamine-toure",
+    "path": "/joueurs/mohamed-lamine-toure/",
+    "title": "Mohamed Lamine Touré",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-113.jpg",
+    "date": "2025-01-02T18:16:16",
+    "modified": "2026-07-19T14:08:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Né le 21 juillet 2002 à Conakry, en Guinée, Mohamed Lamine Touré a effectué ses premières années de formation dans le nord de la France. Défenseur puissant au grand gabarit, il est repéré lors d’une détection par l’AC Ajaccio. Il évolue d’abord avec les U19 Nationaux lors de sa première saison, avant d’intégrer la réserve du club la saison suivante.</li>\n<li>Après deux années passées en Corse, il rejoint Moulins Yzeure Foot en National 3. Repéré par le FCSM, il arrive à l’été 2024 et débute avec l’équipe réserve, tout en intégrant rapidement les séances du groupe professionnel.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li><strong>Saison 2024/2025</strong></li>\n<li>Alors qu'il est devenu un titulaire indiscutable en équipe réserve, il est convoqué cinq fois dans le groupe de National par Karim Mokeddem. Mais il n'entre pas en jeu.</li>\n<li>Il dispute néanmoins ses premières minutes en professionnel en Coupe de France, face à l’Avallon FCO et il marque son premier but à cette occasion !</li>\n<li>Malheureusement, une grave blessure le tient éloigné des terrains durant la deuxième partie de saison.</li>\n<li>A l'été 2025, son contrat professionnel est prolongé et il est prêté dans la foulée au FC Montlouis en Alsace qui évolue en National 2. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li><strong>Saison 2025/2026</strong></li>\n<li>Prêté en Alsace, il réussit une bonne saison disputant 27 matchs, pour 1 but marqué et 1 passe décisive. </li>\n<li><strong>Saison 2026/2027</strong></li>\n<li>Malgré cette bonne saison, le joueur arrive sur ses 25 ans et il n'a aucune certitude d'avoir du temps de jeu à Sochaux qui vient de monter en ligue 2. Le club décide donc de le laisser libre et il signe en première division luxembourgeoise au FC Una Strassen. </li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2024",
+        "text": "Lamine Touré est arrivé à Sochaux à l'été 2024."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/671e51d9e7cba144660912.jpg",
+            "caption": "Mohamed Lamine Touré",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Lamine Touré – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-113.jpg",
+            "caption": "Mohamed Lamine Touré",
+            "credit": "L’est républicain",
+            "caption_raw": "Mohamed Lamine Touré – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9979,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mohamed-lamine-toure/",
+        "path": "/a-la-une/mohamed-lamine-toure/",
+        "slug": "mohamed-lamine-toure",
+        "seo_title": "Mohamed Lamine Touré - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Lamine Touré</h2>\n<h4><strong>né le 21 juillet 2002 à Conakry (Guinée)  </strong></h4>\n<p><strong>Taille : </strong>1m90</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 2024</p>\n<p><strong>Départ de Sochaux :</strong></p>\n<p><strong>Premier match joué et premier but marqué :</strong> Avallon - Sochaux du 27/10/2024 : 1-3 - But à la 47'</p>\n<p><strong>Dernier match joué :</strong> </p>",
+        "header_lines": [
+            "Lamine Touré",
+            "né le 21 juillet 2002 à Conakry (Guinée)",
+            "Taille : 1m90",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juin 2024",
+            "Départ de Sochaux :",
+            "Premier match joué et premier but marqué : Avallon - Sochaux du 27/10/2024 : 1-3 - But à la 47'",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mohamed Lamine",
+        "last_name": "Touré",
+        "display_name": "Mohamed Lamine Touré",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2002-07-21",
+                "precision": "day",
+                "text": "21 juillet 2002"
+            },
+            "place": {
+                "text": "Conakry (Guinée)",
+                "city": "Conakry",
+                "department": null,
+                "country": "Guinée",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 juillet 2002 à Conakry (Guinée)"
+        },
+        "death": null,
+        "height": "1m90",
+        "height_cm": 190,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2024-06",
+            "precision": "month",
+            "text": "juin 2024"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Avallon - Sochaux du 27/10/2024 : 1-3 - But à la 47'",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Lamine Touré"
+            },
+            {
+                "label": null,
+                "value": "né le 21 juillet 2002 à Conakry (Guinée)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m90"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 2024"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Avallon - Sochaux du 27/10/2024 : 1-3 - But à la 47'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

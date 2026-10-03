@@ -1,0 +1,262 @@
+{
+    "id": 7677,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacques-faty",
+    "path": "/joueurs/jacques-faty/",
+    "title": "Jacques Faty",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/96f46.jpg",
+    "date": "2024-11-18T12:41:01",
+    "modified": "2025-05-21T20:09:21",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "92",
+        "text": "Jacques Faty a joué 92 matchs (3 buts et 7 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/faty.jpg",
+            "caption": "Jacques Faty -L’est républicain",
+            "credit": "",
+            "caption_raw": "Jacques Faty -L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7677,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jacques-faty/",
+        "path": "/a-la-une/jacques-faty/",
+        "slug": "jacques-faty",
+        "seo_title": "Jacques Faty - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacques Faty </h2>\n<h4><strong>né le 25 février 1984 à Villeneuve-Saint-Georges (94) </strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids :</strong> 75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International sénégalais (12 sélections) </strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2008</p>\n<p><strong>Départ de Sochaux : </strong>juin 2011</p>\n<p><strong>Premier match joué :</strong> Sochaux -  Grenoble du 09/08/2008 : 1-2</p>\n<p><strong>Dernier match joué :</strong> Valenciennes - Sochaux du 24/04/2011 : 1-1</p>\n<p><strong>Premier but marqué : </strong>Le Havre - Sochaux du 08/03/2009 : 2-1 - But à la 12'</p>",
+        "header_lines": [
+            "Jacques Faty",
+            "né le 25 février 1984 à Villeneuve-Saint-Georges (94)",
+            "Taille : 1m83",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International sénégalais (12 sélections)",
+            "Arrivée à Sochaux : juillet 2008",
+            "Départ de Sochaux : juin 2011",
+            "Premier match joué : Sochaux - Grenoble du 09/08/2008 : 1-2",
+            "Dernier match joué : Valenciennes - Sochaux du 24/04/2011 : 1-1",
+            "Premier but marqué : Le Havre - Sochaux du 08/03/2009 : 2-1 - But à la 12'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jacques",
+        "last_name": "Faty",
+        "display_name": "Jacques Faty",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1984-02-25",
+                "precision": "day",
+                "text": "25 février 1984"
+            },
+            "place": {
+                "text": "Villeneuve-Saint-Georges (94)",
+                "city": "Villeneuve-Saint-Georges",
+                "department": "94",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 février 1984 à Villeneuve-Saint-Georges (94)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International sénégalais (12 sélections)"
+        ],
+        "arrival": {
+            "iso": "2008-07",
+            "precision": "month",
+            "text": "juillet 2008"
+        },
+        "departure": {
+            "iso": "2011-06",
+            "precision": "month",
+            "text": "juin 2011"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Grenoble du 09/08/2008 : 1-2",
+        "last_match": "Valenciennes - Sochaux du 24/04/2011 : 1-1",
+        "first_goal": "Le Havre - Sochaux du 08/03/2009 : 2-1 - But à la 12'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacques Faty"
+            },
+            {
+                "label": null,
+                "value": "né le 25 février 1984 à Villeneuve-Saint-Georges (94)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International sénégalais (12 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2008"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2011"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Grenoble du 09/08/2008 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Valenciennes - Sochaux du 24/04/2011 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Le Havre - Sochaux du 08/03/2009 : 2-1 - But à la 12'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2008 - 2009",
+                    "26",
+                    "1",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "28",
+                    "1"
+                ],
+                [
+                    "2009 - 2010",
+                    "33",
+                    "1",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "36",
+                    "1"
+                ],
+                [
+                    "2010 - 2011",
+                    "24",
+                    "1",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "28",
+                    "1"
+                ],
+                [
+                    "TOTAL",
+                    "83",
+                    "3",
+                    "6",
+                    "0",
+                    "3",
+                    "0",
+                    "92",
+                    "3"
+                ]
+            ],
+            "source_table": 1088
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

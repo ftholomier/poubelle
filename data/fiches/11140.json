@@ -1,0 +1,255 @@
+{
+    "id": 11140,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "abderrezzek-saidi",
+    "path": "/joueurs/abderrezzek-saidi/",
+    "title": "Abderrezzek Saidi",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-90.jpg",
+    "date": "2025-01-28T11:44:43",
+    "modified": "2026-02-03T20:50:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2025",
+        "text": "Abderrezzek Saidi a signé à Sochaux en janvier 2025."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-90.jpg",
+            "caption": "Abderrezzek Saïdi",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Abderrezzek Saïdi – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11140,
+        "url": "https://www.fcsochauxretro.com/a-la-une/abderrezzek-saidi/",
+        "path": "/a-la-une/abderrezzek-saidi/",
+        "slug": "abderrezzek-saidi",
+        "seo_title": "Abderrezzek Saidi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Abderrezzek Saidi</h2>\n<h4><strong>Né le 25 juillet 2005 à Sidi Bel Abbès (Algérie)</strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>arrière latéral droit<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2025<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong><strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Sochaux - xx du xx/xx/2025 : </p>\n<p><strong>Dernier match joué :</strong>  </p>",
+        "header_lines": [
+            "Abderrezzek Saidi",
+            "Né le 25 juillet 2005 à Sidi Bel Abbès (Algérie)",
+            "Taille : 1m83",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Position : arrière latéral droit",
+            "Arrivée à Sochaux : janvier 2025",
+            "Départ de Sochaux :",
+            "Premier match joué : Sochaux - xx du xx/xx/2025 :",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Abderrezzek",
+        "last_name": "Saidi",
+        "display_name": "Abderrezzek Saidi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2005-07-25",
+                "precision": "day",
+                "text": "25 juillet 2005"
+            },
+            "place": {
+                "text": "Sidi Bel Abbès (Algérie)",
+                "city": "Sidi Bel Abbès",
+                "department": null,
+                "country": "Algérie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 25 juillet 2005 à Sidi Bel Abbès (Algérie)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2025-01",
+            "precision": "month",
+            "text": "janvier 2025"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - xx du xx/xx/2025 :",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Abderrezzek Saidi"
+            },
+            {
+                "label": null,
+                "value": "Né le 25 juillet 2005 à Sidi Bel Abbès (Algérie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2025"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - xx du xx/xx/2025 :"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

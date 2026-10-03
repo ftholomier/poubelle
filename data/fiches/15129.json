@@ -1,0 +1,158 @@
+{
+    "id": 15129,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "abdellah-mourine",
+    "path": "/joueurs/abdellah-mourine/",
+    "title": "Abdellah Mourine",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/4467UZNTYRO4QYV7CJOXYG46O4.jpg",
+    "date": "2025-07-12T09:05:29",
+    "modified": "2025-07-12T09:41:56",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Abdellah Mourine né en Haute-Saône en 1973. Il fait sa formation au FC Sochaux avec notamment Eric Deloumeaux. </li>\n<li>Au début des années 90, le club ne lui propose pas de contrat professionnel et il part terminer sa formation en région parisienne au Red Star.  </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Après sa formation au Red Star, Abdellah Mourine qui évolue au poste de milieu de terrain ou de défenseur central, va évoluer en National. D'abord à Noisy-le-Sec et à Aubervilliers en National puis en D2 portugaise à l'Uniao de Madeira. Puis retour à Noisy-le-Sec, au Paris FC et au RC Paris avant de terminer à Aubervilliers en R1 en 2007.</li>\n<li>En 2009 il débute sa carrière d'entraîneur à Aubervilliers. Il fait remonter le club de CFA 2 (N3) à CFA (N2) dès sa première saison. Il maintient le club ensuite durant 4 saisons. </li>\n<li>Il signe ensuite au Racing CFF, l'équipe est deuxième du championnat de CFA 2 quand il est limogé. </li>\n<li>Il entraîne ensuite Saint-Leu toujours en région parisienne.  </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "33",
+        "text": "Abdellah Mourine aurait notamment joué 33 matchs de National dans sa carrière."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/4467UZNTYRO4QYV7CJOXYG46O4.jpg",
+            "caption": "Abdellah Mourine",
+            "credit": "Le Parisien",
+            "caption_raw": "Abdellah Mourine – Le Parisien"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15129,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/abdellah-mourine/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/abdellah-mourine/",
+        "slug": "abdellah-mourine",
+        "seo_title": "Abdellah Mourine - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Abdellah Mourine</h2>\n<h4><strong>né le 24 février 1974 à Luxeuil-les-Bains (70)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied : </strong>droit</p>\n<p><strong>Poste : </strong>milieu défensif ou défenseur central</p>\n<p><strong>Formé au club : </strong>jusqu'à juin 1991</p>",
+        "header_lines": [
+            "Abdellah Mourine",
+            "né le 24 février 1974 à Luxeuil-les-Bains (70)",
+            "Taille : 1m80",
+            "Poids : 73 kg",
+            "Pied : droit",
+            "Poste : milieu défensif ou défenseur central",
+            "Formé au club : jusqu'à juin 1991"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Abdellah",
+        "last_name": "Mourine",
+        "display_name": "Abdellah Mourine",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1974-02-24",
+                "precision": "day",
+                "text": "24 février 1974"
+            },
+            "place": {
+                "text": "Luxeuil-les-Bains (70)",
+                "city": "Luxeuil-les-Bains",
+                "department": "70",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 février 1974 à Luxeuil-les-Bains (70)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droit",
+        "position": "milieu défensif ou défenseur central",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Abdellah Mourine"
+            },
+            {
+                "label": null,
+                "value": "né le 24 février 1974 à Luxeuil-les-Bains (70)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droit"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif ou défenseur central"
+            },
+            {
+                "label": "Formé au club",
+                "value": "jusqu'à juin 1991"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

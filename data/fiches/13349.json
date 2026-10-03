@@ -1,0 +1,114 @@
+{
+    "id": 13349,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ilja-kaenzig",
+    "path": "/dirigeants/ilja-kaenzig/",
+    "title": "Ilja Kaenzig",
+    "categories": [
+        "administratifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/ilja-kaenzig-il-va-nous-falloir-3-ou-4-tops-joueurs-pour-la-saison-prochaine-photo-lionel-vadam-1488998921.jpg",
+    "date": "2025-03-29T23:04:58",
+    "modified": "2025-11-13T10:56:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Ilja Kaenzig : le directeur général au salaire démesuré : 2015-2017 </strong></h4>\n<ul>\n<li>A l'été 2015, PSA vend le club au Chinois Wing Sang Li. Ce dernier nomme Ilja Kaenzig à la tête du club à la place de Laurent Pernet. Sur le papier le CV de ce Suisse-Allemand est intéressant puisqu'il a occupé des fonctions à responsabilité dans des clubs huppés comme les Grashoppers de Zurich, le Bayer Leverkusen ou encore Hanovre 06 ainsi qu'à la fédération suisse de football.  </li>\n<li>Il ne fera pas de miracle et ne laissera pas une trace indélébile dans l'histoire du club sauf pour une chose. En 2017, on apprend qu'il perçoit 663 087 € de salaire annuel, faisant de lui le deuxième directeur de club le mieux payé de France après celui du... Paris Saint-Germain des Qataris. Sochaux se morfond alors en ligue 2...</li>\n<li>Il quittera le club en décembre 2017 après l'audition devant la DNCG. </li>\n<li>On le retrouvera ensuite à Bochum en Allemagne comme directeur financier du club à partir de mars 2018. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "29",
+        "text": "Ilja Kaenzig dirigea le club durant 29 mois."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/ilja-kaenzig-il-va-nous-falloir-3-ou-4-tops-joueurs-pour-la-saison-prochaine-photo-lionel-vadam-1488998921.jpg",
+            "caption": "Ilja Kaenzig",
+            "credit": "L’est républicain",
+            "caption_raw": "Ilja Kaenzig – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13349,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/ilja-kaenzig/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/ilja-kaenzig/",
+        "slug": "ilja-kaenzig",
+        "seo_title": "Ilja Kaenzig - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ilja Kaenzig  </h2>\n<h4><strong>Directeur général de 2015 à 2018</strong></h4>",
+        "header_lines": [
+            "Ilja Kaenzig",
+            "Directeur général de 2015 à 2018"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Ilja",
+        "last_name": "Kaenzig",
+        "display_name": "Ilja Kaenzig",
+        "nickname": "",
+        "subtitle": "Directeur général de 2015 à 2018",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ilja Kaenzig"
+            },
+            {
+                "label": null,
+                "value": "Directeur général de 2015 à 2018"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

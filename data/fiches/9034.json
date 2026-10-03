@@ -1,0 +1,222 @@
+{
+    "id": 9034,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "denis-duarte",
+    "path": "/joueurs/denis-duarte/",
+    "title": "Denis Duarte",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/430650.webp",
+    "date": "2024-12-15T23:52:01",
+    "modified": "2025-05-11T19:42:52",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Denis Duarte a joué 2 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/430650.webp",
+            "caption": "Denis Duarte",
+            "credit": "Viadeo",
+            "caption_raw": "Denis Duarte – Viadeo"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9034,
+        "url": "https://www.fcsochauxretro.com/a-la-une/denis-duarte/",
+        "path": "/a-la-une/denis-duarte/",
+        "slug": "denis-duarte",
+        "seo_title": "Denis Duarte - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Denis Duarte</h2>\n<h4><strong>né le xx à xx </strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids :</strong> xx kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1990</p>\n<p><strong>Départ de Sochaux : </strong>juin 1996</p>\n<p><strong>Premier match joué :</strong> Cannes - Sochaux du 03/02/1996 : 0-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Le Mans du 07/02/1996 : 0-0 </p>",
+        "header_lines": [
+            "Denis Duarte",
+            "né le xx à xx",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juillet 1990",
+            "Départ de Sochaux : juin 1996",
+            "Premier match joué : Cannes - Sochaux du 03/02/1996 : 0-1",
+            "Dernier match joué : Sochaux - Le Mans du 07/02/1996 : 0-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Denis",
+        "last_name": "Duarte",
+        "display_name": "Denis Duarte",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1990-07",
+            "precision": "month",
+            "text": "juillet 1990"
+        },
+        "departure": {
+            "iso": "1996-06",
+            "precision": "month",
+            "text": "juin 1996"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Cannes - Sochaux du 03/02/1996 : 0-1",
+        "last_match": "Sochaux - Le Mans du 07/02/1996 : 0-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Denis Duarte"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1990"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1996"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Cannes - Sochaux du 03/02/1996 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Le Mans du 07/02/1996 : 0-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995 - 1996",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "2",
+                    "0"
+                ]
+            ],
+            "source_table": 1054
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

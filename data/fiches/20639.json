@@ -1,0 +1,184 @@
+{
+    "id": 20639,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "yvon-laine",
+    "path": "/joueurs/yvon-laine/",
+    "title": "Yvon Lainé",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Yvon_Laine.jpg",
+    "date": "2026-02-19T21:18:40",
+    "modified": "2026-02-19T21:38:51",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Originaire d'Evian en Savoie, Yvon Lainé est sélectionné en équipe régionale du lyonnais et il débarque dans la première promotion du centre de formation en 1974.</li>\n<li>En concurrence avec Bernard Genghini sur le poste de meneur de jeu, il est titulaire lors de la défaite en finale de la coupe Gambardella 1975 perdue contre Nantes.</li>\n<li>A l'été 1975, il rentre dans sa région d'origine et signe à Gaillard. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il joue d'abord à Gaillard en 4è division puis à Thonon en troisième division. </li>\n<li><strong>De la saison 1979 à 1984</strong></li>\n<li>Il dispute 5 saisons avec Thonon en deuxième division. Il joue 136 matchs et marque 7 buts. </li>\n<li>En 1982, Thonon termine 2è de sa poule de deuxième division et perd en barrage d'accession en première division contre Mulhouse ! </li>\n<li>On perd sa trace dans le football professionnel à partir de l'été 1984. </li>\n<li>En 2026, il vivait toujours en Savoie. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Yvon Lainé meneur de jeu en concurrence avec Bernard Genghini, n'est resté qu'un an au centre de formation de Sochaux avant de retourner en Savoie."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Yvon_Laine.jpg",
+            "caption": "Yvon Lainé",
+            "credit": "L’est républicain 1974",
+            "caption_raw": "Yvon Lainé – L’est républicain 1974"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20639,
+        "url": "https://www.fcsochauxretro.com/a-la-une/yvon-laine/",
+        "path": "/a-la-une/yvon-laine/",
+        "slug": "yvon-laine",
+        "seo_title": "Yvon Lainé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Yvon Lainé</h2>\n<h4><strong>né le 19 septembre 1956 à Evian (74)</strong></h4>\n<p><strong>Taille : </strong>1m70</p>\n<p><strong>Poids : </strong>69 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1974</p>\n<p><strong>Départ de Sochaux : </strong>juin 1975</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe Gambardella 1975</li>\n</ul>",
+        "header_lines": [
+            "Yvon Lainé",
+            "né le 19 septembre 1956 à Evian (74)",
+            "Taille : 1m70",
+            "Poids : 69 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : juillet 1974",
+            "Départ de Sochaux : juin 1975",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe Gambardella 1975"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Yvon",
+        "last_name": "Lainé",
+        "display_name": "Yvon Lainé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1956-09-19",
+                "precision": "day",
+                "text": "19 septembre 1956"
+            },
+            "place": {
+                "text": "Evian (74)",
+                "city": "Evian",
+                "department": "74",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 septembre 1956 à Evian (74)"
+        },
+        "death": null,
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "69 kg",
+        "weight_kg": 69,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1974-07",
+            "precision": "month",
+            "text": "juillet 1974"
+        },
+        "departure": {
+            "iso": "1975-06",
+            "precision": "month",
+            "text": "juin 1975"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe Gambardella 1975"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Yvon Lainé"
+            },
+            {
+                "label": null,
+                "value": "né le 19 septembre 1956 à Evian (74)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "69 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1974"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1975"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe Gambardella 1975"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

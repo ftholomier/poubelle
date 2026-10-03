@@ -1,0 +1,115 @@
+{
+    "id": 16437,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacques-benoit",
+    "path": "/dirigeants/jacques-benoit/",
+    "title": "Jacques Benoit",
+    "categories": [
+        "a-la-une",
+        "administratifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/7788.jpg",
+    "date": "2025-09-06T21:33:25",
+    "modified": "2025-11-13T11:32:02",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Secrétaire général du club jusqu'en 1981",
+            "html": "<ul>\n<li>Jacques Benoit a été un très bon secrétaire général du club. Durant sa période, le club s'est structuré et a notamment crée son centre de formation en 1974.</li>\n<li>Le club a également remporté en 1953, 1963 et 1964 la coupe Charles Drago, a été finaliste de la coupe de France 1959 et 1967 et a atteint la demi-finale de la coupe UEFA 1981 juste après avoir été vice-champion de France 1980.  </li>\n<li>Son fils Eric Benoit entre au club en 1967 à l'âge de 11 ans. Il gravira tous les échelons et intègre la première promotion du centre de formation du club en 1974. Milieu défensif travailleur il entre dans l'équipe professionnelle et dispute son premier match en 1975 avec les pros. Il défendra le maillot sochalien à près de 200 reprises, marquera 25 buts et sera notamment vice-champion de France 1980 et demi-finaliste de la coupe UEFA 1981.</li>\n<li>Jacques Benoit prend sa retraite en 1981 et cède son fauteuil à Silvio Croci. Tout comme lui, Silvio Croci a son fils qui sortira du centre de formation et fera une longue carrière avec Sochaux. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "20",
+        "text": "Jacques Benoit est resté secrétaire général du club durant 20 saisons."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/7788.jpg",
+            "caption": "Jacques Benoit",
+            "credit": "",
+            "caption_raw": "Jacques Benoit"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16437,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jacques-benoit/",
+        "path": "/a-la-une/jacques-benoit/",
+        "slug": "jacques-benoit",
+        "seo_title": "Jacques Benoit - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacques Benoit </h2>\n<h4><strong>Secrétaire général du club de 1960 à 1981. </strong></h4>",
+        "header_lines": [
+            "Jacques Benoit",
+            "Secrétaire général du club de 1960 à 1981."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Jacques",
+        "last_name": "Benoit",
+        "display_name": "Jacques Benoit",
+        "nickname": "",
+        "subtitle": "Secrétaire général du club de 1960 à 1981.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacques Benoit"
+            },
+            {
+                "label": null,
+                "value": "Secrétaire général du club de 1960 à 1981."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,253 @@
+{
+    "id": 9961,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "roger-truchot",
+    "path": "/joueurs/roger-truchot/",
+    "title": "Roger Truchot",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-108.jpg",
+    "date": "2025-01-02T12:54:12",
+    "modified": "2025-01-02T13:35:08",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "40",
+        "text": "Roger Truchot aurait joué 40 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-108.jpg",
+            "caption": "Roger Truchot",
+            "credit": "dr",
+            "caption_raw": "Roger Truchot – dr"
+        },
+        {
+            "image": "2025/01/1943-44-sochaux194344-der.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9961,
+        "url": "https://www.fcsochauxretro.com/a-la-une/roger-truchot/",
+        "path": "/a-la-une/roger-truchot/",
+        "slug": "roger-truchot",
+        "seo_title": "Roger Truchot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Roger Truchot</h2>\n<h4><strong>né le 14 mai 1919 à Montbéliard (25)</strong></h4>\n<h4><strong>Décédé le 14 janvier 1998 à Montbéliard (25)  </strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong> xx kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur </p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1942</p>\n<p><strong>Départ de Sochaux : </strong>juin 1946</p>\n<p><strong>Premier match joué :</strong> Sochaux - Bordeaux du 30/08/1942 : 3-0</p>\n<p><strong>Dernier match joué :</strong> Marseille - Sochaux du 03/03/1946 : 2-1</p>",
+        "header_lines": [
+            "Roger Truchot",
+            "né le 14 mai 1919 à Montbéliard (25)",
+            "Décédé le 14 janvier 1998 à Montbéliard (25)",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1942",
+            "Départ de Sochaux : juin 1946",
+            "Premier match joué : Sochaux - Bordeaux du 30/08/1942 : 3-0",
+            "Dernier match joué : Marseille - Sochaux du 03/03/1946 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Roger",
+        "last_name": "Truchot",
+        "display_name": "Roger Truchot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1919-05-14",
+                "precision": "day",
+                "text": "14 mai 1919"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 mai 1919 à Montbéliard (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1998-01-14",
+                "precision": "day",
+                "text": "14 janvier 1998"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 14 janvier 1998 à Montbéliard (25)"
+        },
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1942-07",
+            "precision": "month",
+            "text": "juillet 1942"
+        },
+        "departure": {
+            "iso": "1946-06",
+            "precision": "month",
+            "text": "juin 1946"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Bordeaux du 30/08/1942 : 3-0",
+        "last_match": "Marseille - Sochaux du 03/03/1946 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Roger Truchot"
+            },
+            {
+                "label": null,
+                "value": "né le 14 mai 1919 à Montbéliard (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 14 janvier 1998 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1942"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1946"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Bordeaux du 30/08/1942 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Marseille - Sochaux du 03/03/1946 : 2-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,271 @@
+{
+    "id": 8259,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "john-helt",
+    "path": "/joueurs/john-helt/",
+    "title": "John Helt",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/5-2.jpg",
+    "date": "2024-12-11T07:07:43",
+    "modified": "2026-02-18T12:39:27",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Le départ précipité du duo Takac-Hauss en juin 1985 avait entraîné une saison blanche au niveau du recrutement pour le FCSM qui avait peiné toute l'année en championnat. Pour la saison 1986-1987, les dirigeants décidèrent de recruter très tôt afin de compenser les départs de Krause, Agerbeck et Ruty. </li>\n<li>Dès le moins de décembre 1985, Anders Sundstrup, un attaquant danois signe à Sochaux en provenance de Bröndy. Quelques mois plus tard c'est un autre joueur de Bröndy qui signe à Sochaux : John Helt. </li>\n<li>Il s'agit d'un petit gabarit qui est international danois. Doté d'un gros volume de jeu il évolue dans un registre de récupérateur ou de relayeur au milieu de terrain. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>John Helt, qui était l'un des rares internationaux danois à évoluer encore au pays, effectue toute la préparation  avec le FCSM. </li>\n<li>Il début en coupe d'été contre Auxerre. Sochaux l'emporte 3-2 et Helt est crédité d'une bonne partie. Voici l'analyse de Jean Fauvergue sur son match : <em>\" John s'est mis en évidence, il joue simplement mais peut faire des choses difficiles. Il voit bien le jeu également. En milieu de terrain un joueur doué ne passe jamais inaperçu\". </em></li>\n<li>Malheureusement pour le Danois, le 3e match de coupe de la ligue se termine par une grave blessure. alors que Sochaux  menait 2-0 contre les Verts, le milieu sochalien, très actif jusqu'alors, se blesse dans un cos et doit quitter le terrain; Il souffre d'une fracture du métatarse qui le tient éloigné des terrains presque deux mois. </li>\n<li>John Helt débute en division 1 le 4 octobre 1986 contre l'OM qui est alors le leader invaincu de division 1. Sochaux l'emporte 2-0 et la prestation du Danois est saluée par les journalistes. Il doit apporter de l'expérience à un milieu de terrain assez jeune. </li>\n<li>Le milieu de terrain enchaîne alors les prestations comme titulaire dans une équipe qui cumule les matches nuls. Il est souvent le mieux noté de l'équipe par France Football. </li>\n<li>Au début de l'hiver 1986-1987, le FCSM, après une longue série de matches nuls, plonge dans la crise. Le milieu Danois est moins actif et ses prestations moins tranchantes. </li>\n<li>Quand Paul Barret reprend l'équipe John Helt glisse sur le banc. Une blessure en fin de saison l'empêche de participer aux dernières journées et aux barrages; </li>\n<li>Avec la relégation en D2, John Helt est libéré de son contrat et il retourne au Danemark. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>De retour au Danemark, il signe dans son ancien club formateur le Lyngby BK en D1 danoise. </li>\n<li>Ses performances régulières lui permettent d'être appelé dans le groupe Danois qui dispute l'EURO 1988 en Allemagne. </li>\n<li>Il met un terme à sa carrière en 1992 après notamment 39 sélections en équipe nationale. </li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "19",
+        "text": "John Helt a joué 19 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/5-2.jpg",
+            "caption": "John Helt",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "John Helt – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/02/414012215_7414394428573073_4096683104904921224_n.jpg",
+            "caption": "Helt",
+            "credit": "Crédit Lorius",
+            "caption_raw": "Helt – Crédit Lorius"
+        },
+        {
+            "image": "2024/02/ff-22-07-86.png",
+            "caption": "Helt et Sundstrup",
+            "credit": "France Football",
+            "caption_raw": "Helt et Sundstrup – France Football"
+        },
+        {
+            "image": "2024/01/Helt-contre-Garande.-Photo-Kyriasis.png",
+            "caption": "Helt contre Garande. Photo Kyriasis",
+            "credit": "",
+            "caption_raw": "Helt contre Garande. Photo Kyriasis"
+        },
+        {
+            "image": "2024/01/Helt.-Credit-Est-Republicain.png",
+            "caption": "Helt. Crédit Est Républicain",
+            "credit": "",
+            "caption_raw": "Helt. Crédit Est Républicain"
+        },
+        {
+            "image": "2024/01/Thoms-Helt-Silvestre-et-Sauzee.-Credit-J-Glory.-.png",
+            "caption": "Thomas, Helt, Silvestre et Sauzée. Crédit J Glory.",
+            "credit": "",
+            "caption_raw": "Thomas, Helt, Silvestre et Sauzée. Crédit J Glory."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8259,
+        "url": "https://www.fcsochauxretro.com/a-la-une/john-helt/",
+        "path": "/a-la-une/john-helt/",
+        "slug": "john-helt",
+        "seo_title": "John Helt - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>John Helt</h2>\n<h4><strong>né le 29 décembre 1959 à Virum (Danemark)</strong></h4>\n<p><strong>Taille : </strong>1m67</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>International danois (39 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1986</p>\n<p><strong>Départ de Sochaux : </strong>juin 1987</p>\n<p><strong>Premier match joué </strong>: Sochaux - Marseille du 04/10/1986 : 2-0</p>\n<p><strong>Dernier match joué : </strong>Lens - Sochaux du 09/05/1987 : 0-0 </p>",
+        "header_lines": [
+            "John Helt",
+            "né le 29 décembre 1959 à Virum (Danemark)",
+            "Taille : 1m67",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International danois (39 sélections)",
+            "Arrivée à Sochaux : juillet 1986",
+            "Départ de Sochaux : juin 1987",
+            "Premier match joué : Sochaux - Marseille du 04/10/1986 : 2-0",
+            "Dernier match joué : Lens - Sochaux du 09/05/1987 : 0-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "John",
+        "last_name": "Helt",
+        "display_name": "John Helt",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1959-12-29",
+                "precision": "day",
+                "text": "29 décembre 1959"
+            },
+            "place": {
+                "text": "Virum (Danemark)",
+                "city": "Virum",
+                "department": null,
+                "country": "Danemark",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 décembre 1959 à Virum (Danemark)"
+        },
+        "death": null,
+        "height": "1m67",
+        "height_cm": 167,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International danois (39 sélections)"
+        ],
+        "arrival": {
+            "iso": "1986-07",
+            "precision": "month",
+            "text": "juillet 1986"
+        },
+        "departure": {
+            "iso": "1987-06",
+            "precision": "month",
+            "text": "juin 1987"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Marseille du 04/10/1986 : 2-0",
+        "last_match": "Lens - Sochaux du 09/05/1987 : 0-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "John Helt"
+            },
+            {
+                "label": null,
+                "value": "né le 29 décembre 1959 à Virum (Danemark)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m67"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International danois (39 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1986"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1987"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Marseille du 04/10/1986 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Lens - Sochaux du 09/05/1987 : 0-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Barrages D1/D2",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1986 - 1987",
+                    "18",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "19",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "18",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "19",
+                    "0"
+                ]
+            ],
+            "source_table": 1804
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

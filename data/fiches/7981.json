@@ -1,0 +1,233 @@
+{
+    "id": 7981,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "einar-galilea",
+    "path": "/joueurs/einar-galilea/",
+    "title": "Einar Galilea",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/2-23.jpg",
+    "date": "2024-11-21T23:04:27",
+    "modified": "2025-08-10T21:35:03",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Einar Galilea a joué 6 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/einar-galilea-et-les-sochaliens-pas-aides-par-l-arbitrage-face-a-metz-traversent-une-periode-delicate-photo-pqr-vincent-voetglin-1539101805.jpg",
+            "caption": "Einar Galilea",
+            "credit": "L’est républicain",
+            "caption_raw": "Einar Galilea – L’est républicain"
+        },
+        {
+            "image": "2024/11/title-1539776795.jpg",
+            "caption": "Einar Galilea",
+            "credit": "L’est républicain",
+            "caption_raw": "Einar Galilea – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7981,
+        "url": "https://www.fcsochauxretro.com/a-la-une/einar-galilea/",
+        "path": "/a-la-une/einar-galilea/",
+        "slug": "einar-galilea",
+        "seo_title": "Einar Galilea - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Einar Galilea</h2>\n<h4><strong>né le 22 mai 1994 à Vitoria-Gasteiz (Espagne)</strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>défenseur central ou  milieu défensif </p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018</p>\n<p><strong>Départ de Sochaux :</strong> janvier 2019</p>\n<p><strong>Premier match joué :</strong> Sochaux - Brest du 14/08/2018 : 1-1 (4-3 tab)</p>\n<p><strong>Dernier match joué :</strong> Illkirch-Graffenstaden - Sochaux du 08/12/2018 : 0-1</p>",
+        "header_lines": [
+            "Einar Galilea",
+            "né le 22 mai 1994 à Vitoria-Gasteiz (Espagne)",
+            "Taille : 1m85",
+            "Poids : 73 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central ou milieu défensif",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : janvier 2019",
+            "Premier match joué : Sochaux - Brest du 14/08/2018 : 1-1 (4-3 tab)",
+            "Dernier match joué : Illkirch-Graffenstaden - Sochaux du 08/12/2018 : 0-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Einar",
+        "last_name": "Galilea",
+        "display_name": "Einar Galilea",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1994-05-22",
+                "precision": "day",
+                "text": "22 mai 1994"
+            },
+            "place": {
+                "text": "Vitoria-Gasteiz (Espagne)",
+                "city": "Vitoria-Gasteiz",
+                "department": null,
+                "country": "Espagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 mai 1994 à Vitoria-Gasteiz (Espagne)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "gaucher",
+        "position": "défenseur central ou milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2019-01",
+            "precision": "month",
+            "text": "janvier 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Brest du 14/08/2018 : 1-1 (4-3 tab)",
+        "last_match": "Illkirch-Graffenstaden - Sochaux du 08/12/2018 : 0-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Einar Galilea"
+            },
+            {
+                "label": null,
+                "value": "né le 22 mai 1994 à Vitoria-Gasteiz (Espagne)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central ou milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Brest du 14/08/2018 : 1-1 (4-3 tab)"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Illkirch-Graffenstaden - Sochaux du 08/12/2018 : 0-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2018 - 2019",
+                    "3",
+                    "0",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "6",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "3",
+                    "0",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "6",
+                    "0"
+                ]
+            ],
+            "source_table": 1388
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

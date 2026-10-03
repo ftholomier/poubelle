@@ -1,0 +1,268 @@
+{
+    "id": 4906,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "vincent-faivre",
+    "path": "/joueurs/vincent-faivre/",
+    "title": "Vincent Faivre",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Vincent-Faivre-FCSM.png",
+    "date": "2024-09-24T22:19:32",
+    "modified": "2026-02-01T11:29:42",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "32",
+        "text": "Vincent Faivre a joué 32 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/09/inbound2456461485571168888.jpg",
+            "caption": "Vincent Faivre",
+            "credit": "FCSM",
+            "caption_raw": "Vincent Faivre – FCSM"
+        },
+        {
+            "image": "2024/09/inbound5148129201565796164.jpg",
+            "caption": "Vincent Faivre",
+            "credit": "FCSM",
+            "caption_raw": "Vincent Faivre – FCSM"
+        },
+        {
+            "image": "2026/02/Vincent-Faivre-FCSM.png",
+            "caption": "Vincent Faivre",
+            "credit": "FCSM",
+            "caption_raw": "Vincent Faivre – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4906,
+        "url": "https://www.fcsochauxretro.com/a-la-une/vincent-faivre/",
+        "path": "/a-la-une/vincent-faivre/",
+        "slug": "vincent-faivre",
+        "seo_title": "Vincent Faivre - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Vincent Faivre</h2>\n<h4><strong>né le 16 novembre 1975 à Montbéliard (25) </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1985</p>\n<p><strong>Départ de Sochaux : juin 1999</strong></p>\n<p><strong>Premier match joué :</strong> Mulhouse - Sochaux du 09/04/1996 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Nancy du 29/05/1999 : 1-1</p>",
+        "header_lines": [
+            "Vincent Faivre",
+            "né le 16 novembre 1975 à Montbéliard (25)",
+            "Taille : 1m82",
+            "Poids : 78 kg",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juillet 1985",
+            "Départ de Sochaux : juin 1999",
+            "Premier match joué : Mulhouse - Sochaux du 09/04/1996 : 1-0",
+            "Dernier match joué : Sochaux - Nancy du 29/05/1999 : 1-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Vincent",
+        "last_name": "Faivre",
+        "display_name": "Vincent Faivre",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1975-11-16",
+                "precision": "day",
+                "text": "16 novembre 1975"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 16 novembre 1975 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": null,
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1985-07",
+            "precision": "month",
+            "text": "juillet 1985"
+        },
+        "departure": {
+            "iso": "1999-06",
+            "precision": "month",
+            "text": "juin 1999"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Mulhouse - Sochaux du 09/04/1996 : 1-0",
+        "last_match": "Sochaux - Nancy du 29/05/1999 : 1-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Vincent Faivre"
+            },
+            {
+                "label": null,
+                "value": "né le 16 novembre 1975 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1985"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1999"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Mulhouse - Sochaux du 09/04/1996 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nancy du 29/05/1999 : 1-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995 - 1996",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1996 - 1997",
+                    "-",
+                    "-",
+                    "25",
+                    "0",
+                    "3",
+                    "0",
+                    "28",
+                    "0"
+                ],
+                [
+                    "1997 - 1998",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "1998 - 1999",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "1",
+                    "0",
+                    "26",
+                    "0",
+                    "5",
+                    "0",
+                    "32",
+                    "0"
+                ]
+            ],
+            "source_table": 1081
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

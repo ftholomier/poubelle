@@ -1,0 +1,408 @@
+{
+    "id": 4880,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "adel-chedli",
+    "path": "/joueurs/adel-chedli/",
+    "title": "Adel Chedli",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/Scan21112024204831_0015.jpg",
+    "date": "2024-11-10T14:21:34",
+    "modified": "2025-03-06T20:48:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "177",
+        "text": "Adel Chedli a joué 177 matchs (4 buts et 4 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/08/v2.jpg",
+            "caption": "Adel Chedli",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Adel Chedli – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/11/Scan21112024204831_0013.jpg",
+            "caption": "Adel Chedli Saison 2000-2001",
+            "credit": "",
+            "caption_raw": "Adel Chedli Saison 2000-2001"
+        },
+        {
+            "image": "2024/11/Scan21112024204831_0014.jpg",
+            "caption": "Adel Chedli Saison 2002-2003",
+            "credit": "",
+            "caption_raw": "Adel Chedli Saison 2002-2003"
+        },
+        {
+            "image": "2024/11/Scan21112024204831_0012.jpg",
+            "caption": "Adel Chedli Saison 2001-2002",
+            "credit": "",
+            "caption_raw": "Adel Chedli Saison 2001-2002"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4880,
+        "url": "https://www.fcsochauxretro.com/a-la-une/adel-chedli/",
+        "path": "/a-la-une/adel-chedli/",
+        "slug": "adel-chedli",
+        "seo_title": "Adel Chedli - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Adel Chedli</h2>\n<h4><strong>Né le 16 septembre 1976 à La Ricamarie (42)<br></strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids: </strong>71 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Position: </strong>milieu relayeur<strong><br></strong></p>\n<p><strong>International tunisien (57 sélections, 3 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1997<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2004<strong><br></strong></p>\n<p><strong>Premier match :</strong> Lorient - Sochaux du 20/08/1997 : 2-1 </p>\n<p><strong>Dernier match :</strong> Sochaux - Le Mans du 15/05/2004 : 3-0</p>\n<p><strong>Premier but :</strong> Nîmes - Sochaux du 31/07/1999 : 2-1  - But à la 49'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de deuxième division en 2001</li>\n<li>\n<p>Demi-finaliste de la coupe Intertoto 2002</p>\n</li>\n<li>\n<p>Finaliste de la coupe de la ligue 2003</p>\n</li>\n<li>\n<p>Vainqueur de la coupe de la ligue 2004</p>\n</li>\n</ul>",
+        "header_lines": [
+            "Adel Chedli",
+            "Né le 16 septembre 1976 à La Ricamarie (42)",
+            "Taille : 1m77",
+            "Poids: 71 kg",
+            "Pied : ambidextre",
+            "Position: milieu relayeur",
+            "International tunisien (57 sélections, 3 buts)",
+            "Arrivée à Sochaux : juillet 1997",
+            "Départ de Sochaux : juin 2004",
+            "Premier match : Lorient - Sochaux du 20/08/1997 : 2-1",
+            "Dernier match : Sochaux - Le Mans du 15/05/2004 : 3-0",
+            "Premier but : Nîmes - Sochaux du 31/07/1999 : 2-1 - But à la 49'",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division en 2001",
+            "Demi-finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Adel",
+        "last_name": "Chedli",
+        "display_name": "Adel Chedli",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1976-09-16",
+                "precision": "day",
+                "text": "16 septembre 1976"
+            },
+            "place": {
+                "text": "La Ricamarie (42)",
+                "city": "La Ricamarie",
+                "department": "42",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 16 septembre 1976 à La Ricamarie (42)"
+        },
+        "death": null,
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "ambidextre",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International tunisien (57 sélections, 3 buts)"
+        ],
+        "arrival": {
+            "iso": "1997-07",
+            "precision": "month",
+            "text": "juillet 1997"
+        },
+        "departure": {
+            "iso": "2004-06",
+            "precision": "month",
+            "text": "juin 2004"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lorient - Sochaux du 20/08/1997 : 2-1",
+        "last_match": "Sochaux - Le Mans du 15/05/2004 : 3-0",
+        "first_goal": "Nîmes - Sochaux du 31/07/1999 : 2-1 - But à la 49'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division en 2001",
+            "Demi-finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Adel Chedli"
+            },
+            {
+                "label": null,
+                "value": "Né le 16 septembre 1976 à La Ricamarie (42)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Position",
+                "value": "milieu relayeur"
+            },
+            {
+                "label": null,
+                "value": "International tunisien (57 sélections, 3 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1997"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2004"
+            },
+            {
+                "label": "Premier match",
+                "value": "Lorient - Sochaux du 20/08/1997 : 2-1"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Sochaux - Le Mans du 15/05/2004 : 3-0"
+            },
+            {
+                "label": "Premier but",
+                "value": "Nîmes - Sochaux du 31/07/1999 : 2-1 - But à la 49'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division en 2001"
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe Intertoto 2002"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de la ligue 2004"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1 / Ligue 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Coupe Intertoto",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997 - 1998",
+                    "-",
+                    "-",
+                    "32",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "4",
+                    "0",
+                    "1",
+                    "0",
+                    "37",
+                    "0"
+                ],
+                [
+                    "1998 - 1999",
+                    "14",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "14",
+                    "0"
+                ],
+                [
+                    "1999 - 2000",
+                    "-",
+                    "-",
+                    "30",
+                    "3",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "3",
+                    "1",
+                    "3",
+                    "0",
+                    "36",
+                    "4"
+                ],
+                [
+                    "2000 - 2001",
+                    "-",
+                    "-",
+                    "35",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "38",
+                    "0"
+                ],
+                [
+                    "2001 - 2002",
+                    "28",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "2002 - 2003",
+                    "9",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "15",
+                    "0"
+                ],
+                [
+                    "2003 - 2004",
+                    "5",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "7",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "56",
+                    "0",
+                    "97",
+                    "3",
+                    "1",
+                    "0",
+                    "5",
+                    "0",
+                    "10",
+                    "1",
+                    "8",
+                    "0",
+                    "177",
+                    "4"
+                ]
+            ],
+            "source_table": 891
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

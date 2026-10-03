@@ -1,0 +1,235 @@
+{
+    "id": 6530,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sydney-bazin",
+    "path": "/joueurs/sydney-bazin/",
+    "title": "Sydney Bazin",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound2808834515118152092.png",
+    "date": "2024-11-02T12:17:03",
+    "modified": "2026-04-05T23:04:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>On apprend qu'il aurait été blessé durement  durant la deuxième guerre mondiale. </li>\n</ul>"
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        },
+        {
+            "title": "Statistiques partielles",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "30",
+        "text": "Sydney Bazin aurait joué 30 matchs (sources à vérifier) pour Sochaux (1 but)."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/456131177_1035851634842357_675912361721968702_n.jpg",
+            "caption": "Sydney Bazin",
+            "credit": "",
+            "caption_raw": "Sydney Bazin"
+        },
+        {
+            "image": "2024/11/inbound2808834515118152092.png",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6530,
+        "url": "https://www.fcsochauxretro.com/a-la-une/sydney-bazin/",
+        "path": "/a-la-une/sydney-bazin/",
+        "slug": "sydney-bazin",
+        "seo_title": "Sydney Bazin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sydney Bazin</strong></h2>\n<h4><strong>né le 16 avril 1906 Walthamstow (Nord-Est de Londres - Angleterre) </strong></h4>\n<h4><strong>Décédé en 1985 à Harlow comté d'Essex (Angleterre)  </strong></h4>\n<p><strong>Poste : </strong>défenseur <strong> </strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1932 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1934</p>\n<p><strong>Premier match joué :</strong> Sochaux - CA Paris du 11/09/1932 : 1-3</p>\n<p><strong>Dernier match joué :</strong> Sochaux - RC Paris du 01/05/1934 : 3-2</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Bischwiller du 08/01/1933  : 8-0 - But à la 48'</p>",
+        "header_lines": [
+            "Sydney Bazin",
+            "né le 16 avril 1906 Walthamstow (Nord-Est de Londres - Angleterre)",
+            "Décédé en 1985 à Harlow comté d'Essex (Angleterre)",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juillet 1932",
+            "Départ de Sochaux : juin 1934",
+            "Premier match joué : Sochaux - CA Paris du 11/09/1932 : 1-3",
+            "Dernier match joué : Sochaux - RC Paris du 01/05/1934 : 3-2",
+            "Premier but marqué : Sochaux - Bischwiller du 08/01/1933 : 8-0 - But à la 48'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Sydney",
+        "last_name": "Bazin",
+        "display_name": "Sydney Bazin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1906-04-16",
+                "precision": "day",
+                "text": "16 avril 1906 Walthamstow (Nord-Est de Londres - Angleterre)"
+            },
+            "place": null,
+            "text": "né le 16 avril 1906 Walthamstow (Nord-Est de Londres - Angleterre)"
+        },
+        "death": {
+            "date": {
+                "iso": "1985",
+                "precision": "year",
+                "text": "1985"
+            },
+            "place": {
+                "text": "Harlow comté d'Essex (Angleterre)",
+                "city": "Harlow comté d'Essex",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé en 1985 à Harlow comté d'Essex (Angleterre)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1932-07",
+            "precision": "month",
+            "text": "juillet 1932"
+        },
+        "departure": {
+            "iso": "1934-06",
+            "precision": "month",
+            "text": "juin 1934"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - CA Paris du 11/09/1932 : 1-3",
+        "last_match": "Sochaux - RC Paris du 01/05/1934 : 3-2",
+        "first_goal": "Sochaux - Bischwiller du 08/01/1933 : 8-0 - But à la 48'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sydney Bazin"
+            },
+            {
+                "label": null,
+                "value": "né le 16 avril 1906 Walthamstow (Nord-Est de Londres - Angleterre)"
+            },
+            {
+                "label": null,
+                "value": "Décédé en 1985 à Harlow comté d'Essex (Angleterre)"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1932"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1934"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - CA Paris du 11/09/1932 : 1-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - RC Paris du 01/05/1934 : 3-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Bischwiller du 08/01/1933 : 8-0 - But à la 48'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Total matchs",
+                "Total buts"
+            ],
+            "rows": [
+                [
+                    "1933 - 1934",
+                    "5",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "1934 - 1935",
+                    "3",
+                    "0",
+                    "3",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "8",
+                    "0",
+                    "8",
+                    "0"
+                ]
+            ],
+            "source_table": 812
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

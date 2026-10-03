@@ -1,0 +1,63 @@
+{
+    "id": 14485,
+    "type": "article",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "dvd",
+    "path": "/supporters/dvd/",
+    "title": "DVD",
+    "categories": [
+        "films-documentaires"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/06/telechargement-1.jpg",
+    "date": "2025-06-13T11:05:17",
+    "modified": "2025-10-03T06:12:56",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<p><strong>DVD : D'un coupe à l'autre : 1937 à 2004 <em>- Seppia - France 3 - 2004</em></strong></p>\n<ul>\n<li>DVD qui revient sur l'histoire du club de sa première coupe de France en 1937 à la victoire en coupe de la ligue en 2004 avec une immersion auprès des supporters et des ouvriers de l'usine Peugeot à Sochaux.</li>\n</ul>\n<p><strong>DVD : FC Sochaux-Montbéliard 2003/2004 : une saison en or - </strong><strong><em>2004</em></strong></p>\n<ul>\n<li>Le résumé de tous les matchs de l'historique saison 2003/2004 et notamment ceux face au Borussia Dortmund, à l'Inter de Milan et la finale de la coupe de la ligue victorieuse contre Nantes. </li>\n</ul>\n<p><strong>DVD : FC Sochaux-Montbéliard - Victoire en Coupe de France 2007 -</strong></p>\n<ul>\n<li>Retour sur le parcours en coupe de France de Sochaux avec un résumé de chaque match et un long format sur la finale victorieuse face à l'OM et l'autre victoire juste avant des jeunes en coupe Gambardella sur le même score face à Auxerre. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "3 DVD sortis dans les années 2000 suite aux bons résultats du club."
+    },
+    "gallery": [
+        {
+            "image": "2025/06/telechargement-1.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 14485,
+        "url": "https://www.fcsochauxretro.com/supporters/films-documentaires/dvd/",
+        "path": "/supporters/films-documentaires/dvd/",
+        "slug": "dvd",
+        "seo_title": "DVD - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>DVD  </h2>",
+        "header_lines": [
+            "DVD"
+        ]
+    },
+    "i18n": [],
+    "article": {
+        "kind": "article",
+        "heading": "DVD",
+        "subtitle": "",
+        "header_html": "",
+        "season": null
+    },
+    "tables": []
+}

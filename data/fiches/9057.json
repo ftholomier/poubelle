@@ -1,0 +1,269 @@
+{
+    "id": 9057,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "franck-durix",
+    "path": "/joueurs/franck-durix/",
+    "title": "Franck Durix",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/inbound3569464518334147672.jpg",
+    "date": "2024-12-17T20:29:28",
+    "modified": "2025-11-12T14:30:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "43",
+        "text": "Franck Durix a joué 43 matchs (5 buts et 2 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/l-ancien-prodige-de-cannes-a-ete-champion-de-d2-avec-sochaux-1597826241.jpg",
+            "caption": "Franck Durix",
+            "credit": "L’est républicain",
+            "caption_raw": "Franck Durix – L’est républicain"
+        },
+        {
+            "image": "2025/01/inbound1669299172356957002.jpg",
+            "caption": "Franck Durix, saison 1999-2000",
+            "credit": "fcsm",
+            "caption_raw": "Franck Durix, saison 1999-2000 – fcsm"
+        },
+        {
+            "image": "2025/01/inbound4231528359079494835.jpg",
+            "caption": "Franck Durix, saison 2000-2001",
+            "credit": "fcsm",
+            "caption_raw": "Franck Durix, saison 2000-2001 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9057,
+        "url": "https://www.fcsochauxretro.com/a-la-une/franck-durix/",
+        "path": "/a-la-une/franck-durix/",
+        "slug": "franck-durix",
+        "seo_title": "Franck Durix - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Franck Durix</h2>\n<h4><strong>né le 20 octobre 1965 à Belleville (69)</strong></h4>\n<p><strong>Taille : </strong>1m70</p>\n<p><strong>Poids :</strong> 64 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International français</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2000</p>\n<p><strong>Départ de Sochaux : </strong>juin 2001</p>\n<p><strong>Premier match joué et premier but marqué : </strong>Sochaux - Rennes du 08/01/2000 : 2-0 - But à la 79'  </p>\n<p><strong>Dernier match joué : </strong>Sochaux - Nîmes du 18/05/2001 : 4-1</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de deuxième division en 2001</li>\n</ul>",
+        "header_lines": [
+            "Franck Durix",
+            "né le 20 octobre 1965 à Belleville (69)",
+            "Taille : 1m70",
+            "Poids : 64 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "International français",
+            "Arrivée à Sochaux : janvier 2000",
+            "Départ de Sochaux : juin 2001",
+            "Premier match joué et premier but marqué : Sochaux - Rennes du 08/01/2000 : 2-0 - But à la 79'",
+            "Dernier match joué : Sochaux - Nîmes du 18/05/2001 : 4-1",
+            "Palmarès avec Sochaux :",
+            "Champion de France de deuxième division en 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Franck",
+        "last_name": "Durix",
+        "display_name": "Franck Durix",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1965-10-20",
+                "precision": "day",
+                "text": "20 octobre 1965"
+            },
+            "place": {
+                "text": "Belleville (69)",
+                "city": "Belleville",
+                "department": "69",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 20 octobre 1965 à Belleville (69)"
+        },
+        "death": null,
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "64 kg",
+        "weight_kg": 64,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français"
+        ],
+        "arrival": {
+            "iso": "2000-01",
+            "precision": "month",
+            "text": "janvier 2000"
+        },
+        "departure": {
+            "iso": "2001-06",
+            "precision": "month",
+            "text": "juin 2001"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Rennes du 08/01/2000 : 2-0 - But à la 79'",
+        "last_match": "Sochaux - Nîmes du 18/05/2001 : 4-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de deuxième division en 2001"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Franck Durix"
+            },
+            {
+                "label": null,
+                "value": "né le 20 octobre 1965 à Belleville (69)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "64 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2000"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2001"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Sochaux - Rennes du 08/01/2000 : 2-0 - But à la 79'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nîmes du 18/05/2001 : 4-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division en 2001"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1999 - 2000",
+                    "12",
+                    "1",
+                    "1",
+                    "0",
+                    "2",
+                    "1",
+                    "15",
+                    "2"
+                ],
+                [
+                    "2000 - 2001",
+                    "25",
+                    "2",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "28",
+                    "3"
+                ],
+                [
+                    "TOTAL",
+                    "37",
+                    "3",
+                    "3",
+                    "1",
+                    "3",
+                    "1",
+                    "43",
+                    "5"
+                ]
+            ],
+            "source_table": 1067
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

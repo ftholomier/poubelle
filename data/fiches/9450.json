@@ -1,0 +1,268 @@
+{
+    "id": 9450,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gyula-kittel",
+    "path": "/joueurs/gyula-kittel/",
+    "title": "Gyula Kittel",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-60.jpg",
+    "date": "2024-12-22T22:37:56",
+    "modified": "2024-12-22T23:02:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Guyla Kittel aurait joué une petite dizaine de matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/mfa-0006-kittl.jpg",
+            "caption": "Gyula Kittel",
+            "credit": "dr",
+            "caption_raw": "Gyula Kittel – dr"
+        },
+        {
+            "image": "2024/12/55-1.jpg",
+            "caption": "Gyula Kittel",
+            "credit": "dr",
+            "caption_raw": "Gyula Kittel – dr"
+        },
+        {
+            "image": "2024/12/aT4WJzL.jpg",
+            "caption": "Gyula Kittel",
+            "credit": "",
+            "caption_raw": "Gyula Kittel"
+        },
+        {
+            "image": "2024/12/5-60.jpg",
+            "caption": "Gyula Kittel",
+            "credit": "dr",
+            "caption_raw": "Gyula Kittel – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9450,
+        "url": "https://www.fcsochauxretro.com/a-la-une/gyula-kittel/",
+        "path": "/a-la-une/gyula-kittel/",
+        "slug": "gyula-kittel",
+        "seo_title": "Gyula Kittel - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Gyula Kittel</h2>\n<h4><strong>né en 1903 en Hongrie</strong></h4>\n<h4><strong>Décédé en 1991</strong></h4>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 1934</p>\n<p><strong>Départ de Sochaux : </strong>juin 1935</p>\n<p><strong>International hongrois B </strong></p>\n<p><strong>Premier match joué</strong> : Sochaux - SO Montpellier du 01/01/1934 : 0-0</p>\n<p><strong>Dernier match joué : </strong>Marseille - Sochaux du 27/02/1934 : 4-0</p>",
+        "header_lines": [
+            "Gyula Kittel",
+            "né en 1903 en Hongrie",
+            "Décédé en 1991",
+            "Pied : gaucher",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : janvier 1934",
+            "Départ de Sochaux : juin 1935",
+            "International hongrois B",
+            "Premier match joué : Sochaux - SO Montpellier du 01/01/1934 : 0-0",
+            "Dernier match joué : Marseille - Sochaux du 27/02/1934 : 4-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Gyula",
+        "last_name": "Kittel",
+        "display_name": "Gyula Kittel",
+        "nickname": "",
+        "subtitle": "né en 1903 en Hongrie",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1903",
+                "precision": "year",
+                "text": "1903 en Hongrie"
+            },
+            "place": null,
+            "text": "né en 1903 en Hongrie"
+        },
+        "death": {
+            "date": {
+                "iso": "1991",
+                "precision": "year",
+                "text": "1991"
+            },
+            "place": null,
+            "text": "Décédé en 1991"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "gaucher",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International hongrois B"
+        ],
+        "arrival": {
+            "iso": "1934-01",
+            "precision": "month",
+            "text": "janvier 1934"
+        },
+        "departure": {
+            "iso": "1935-06",
+            "precision": "month",
+            "text": "juin 1935"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - SO Montpellier du 01/01/1934 : 0-0",
+        "last_match": "Marseille - Sochaux du 27/02/1934 : 4-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gyula Kittel"
+            },
+            {
+                "label": null,
+                "value": "né en 1903 en Hongrie"
+            },
+            {
+                "label": null,
+                "value": "Décédé en 1991"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 1934"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1935"
+            },
+            {
+                "label": null,
+                "value": "International hongrois B"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - SO Montpellier du 01/01/1934 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Marseille - Sochaux du 27/02/1934 : 4-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "3"
+                ],
+                [
+                    "1998-1999",
+                    "14",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "14",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "14",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "24",
+                    "3"
+                ]
+            ],
+            "source_table": 456
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

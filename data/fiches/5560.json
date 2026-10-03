@@ -1,0 +1,274 @@
+{
+    "id": 5560,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "mohamed-kader",
+    "path": "/joueurs/mohamed-kader/",
+    "title": "Mohamed Kader",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/5.jpg",
+    "date": "2024-09-22T22:14:45",
+    "modified": "2024-12-21T11:04:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "23",
+        "text": "Mohamed Kader a joué 23 matchs (4 buts et 3 passes décisives) pour l'équipe première de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/426546_10151369702143700_110707581_n.jpg",
+            "caption": "Mohamed Kader",
+            "credit": "",
+            "caption_raw": "Mohamed Kader"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 5560,
+        "url": "https://www.fcsochauxretro.com/a-la-une/mohamed-kader/",
+        "path": "/a-la-une/mohamed-kader/",
+        "slug": "mohamed-kader",
+        "seo_title": "Mohamed Kader - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Mohamed Kader</h2>\n<h4><strong>né le 8 avril 1979 à Sokodé (Togo)  </strong></h4>\n<p><strong>Taille : </strong>1m74</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International togolais</strong> (85 sélections, 15 buts)</p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2005</p>\n<p><strong>Départ de Sochaux : </strong>janvier 2006</p>\n<p><strong>Deuxième passage en réserve</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2013</p>\n<p><strong>Départ de Sochaux : </strong>juin 2017</p>\n<p><strong>Premier match joué</strong> <strong>:</strong> Saint-Etienne - Sochaux du 20/02/2005 : 1-0</p>\n<p><strong>Dernier match joué : </strong>Lyon - Sochaux du 29/10/2005 - 1-0</p>\n<p><strong>Premier but marqué : </strong>AC Ajaccio - Sochaux du 28/05/2005 : 3-1 - But à la 6'</p>",
+        "header_lines": [
+            "Mohamed Kader",
+            "né le 8 avril 1979 à Sokodé (Togo)",
+            "Taille : 1m74",
+            "Poids : 74 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International togolais (85 sélections, 15 buts)",
+            "Arrivée à Sochaux : janvier 2005",
+            "Départ de Sochaux : janvier 2006",
+            "Deuxième passage en réserve",
+            "Arrivée à Sochaux : janvier 2013",
+            "Départ de Sochaux : juin 2017",
+            "Premier match joué : Saint-Etienne - Sochaux du 20/02/2005 : 1-0",
+            "Dernier match joué : Lyon - Sochaux du 29/10/2005 - 1-0",
+            "Premier but marqué : AC Ajaccio - Sochaux du 28/05/2005 : 3-1 - But à la 6'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Mohamed",
+        "last_name": "Kader",
+        "display_name": "Mohamed Kader",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1979-04-08",
+                "precision": "day",
+                "text": "8 avril 1979"
+            },
+            "place": {
+                "text": "Sokodé (Togo)",
+                "city": "Sokodé",
+                "department": null,
+                "country": "Togo",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 8 avril 1979 à Sokodé (Togo)"
+        },
+        "death": null,
+        "height": "1m74",
+        "height_cm": 174,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International togolais (85 sélections, 15 buts)"
+        ],
+        "arrival": {
+            "iso": "2005-01",
+            "precision": "month",
+            "text": "janvier 2005"
+        },
+        "departure": {
+            "iso": "2006-01",
+            "precision": "month",
+            "text": "janvier 2006"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Saint-Etienne - Sochaux du 20/02/2005 : 1-0",
+        "last_match": "Lyon - Sochaux du 29/10/2005 - 1-0",
+        "first_goal": "AC Ajaccio - Sochaux du 28/05/2005 : 3-1 - But à la 6'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Mohamed Kader"
+            },
+            {
+                "label": null,
+                "value": "né le 8 avril 1979 à Sokodé (Togo)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m74"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International togolais (85 sélections, 15 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2005"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2006"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage en réserve"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2013"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2017"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Saint-Etienne - Sochaux du 20/02/2005 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Lyon - Sochaux du 29/10/2005 - 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "AC Ajaccio - Sochaux du 28/05/2005 : 3-1 - But à la 6'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "3"
+                ],
+                [
+                    "1998-1999",
+                    "14",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "14",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "14",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "24",
+                    "3"
+                ]
+            ],
+            "source_table": 456
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

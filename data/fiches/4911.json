@@ -1,0 +1,276 @@
+{
+    "id": 4911,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "paulo-gomes",
+    "path": "/joueurs/paulo-gomes/",
+    "title": "Paulo Gomes",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound5422468759213633287.jpg",
+    "date": "2024-11-24T18:53:51",
+    "modified": "2025-02-14T12:51:42",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "52",
+        "text": "Paulo Gomes a joué 52 matchs (4 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/hqdefault.jpg",
+            "caption": "Paulo Gomes",
+            "credit": "",
+            "caption_raw": "Paulo Gomes"
+        },
+        {
+            "image": "2025/02/inbound5412828818211575268.jpg",
+            "caption": "Paulo Gomes – Saison 1996-1997",
+            "credit": "fcsm",
+            "caption_raw": "Paulo Gomes – Saison 1996-1997 – fcsm"
+        },
+        {
+            "image": "2024/11/inbound5422468759213633287.jpg",
+            "caption": "Paulo Gomes – Saison 1996-1997",
+            "credit": "fcsm",
+            "caption_raw": "Paulo Gomes – Saison 1996-1997 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4911,
+        "url": "https://www.fcsochauxretro.com/a-la-une/paulo-gomes/",
+        "path": "/a-la-une/paulo-gomes/",
+        "slug": "paulo-gomes",
+        "seo_title": "Paulo Gomes - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Paulo Gomes</h2>\n<h4><strong>né le 3 novembre 1970 à Lisbonne (Portugal)</strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu offensif gauche<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1996</p>\n<p><strong>Départ de Sochaux : </strong>juin 1998</p>\n<p><strong>Premier match joué :</strong> Saint-Brieuc - Sochaux du 14/09/1996 : 1-2 </p>\n<p><strong>Dernier match joué :</strong> Martigues - Sochaux du 08/05/1998 : 1-2</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Mulhouse du 15/03/1997 : 3-0 - But à la 37'</p>",
+        "header_lines": [
+            "Paulo Gomes",
+            "né le 3 novembre 1970 à Lisbonne (Portugal)",
+            "Taille : 1m75",
+            "Poids : 73 kg",
+            "Pied : gaucher",
+            "Poste : milieu offensif gauche",
+            "Arrivée à Sochaux : juillet 1996",
+            "Départ de Sochaux : juin 1998",
+            "Premier match joué : Saint-Brieuc - Sochaux du 14/09/1996 : 1-2",
+            "Dernier match joué : Martigues - Sochaux du 08/05/1998 : 1-2",
+            "Premier but marqué : Sochaux - Mulhouse du 15/03/1997 : 3-0 - But à la 37'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Paulo",
+        "last_name": "Gomes",
+        "display_name": "Paulo Gomes",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1970-11-03",
+                "precision": "day",
+                "text": "3 novembre 1970"
+            },
+            "place": {
+                "text": "Lisbonne (Portugal)",
+                "city": "Lisbonne",
+                "department": null,
+                "country": "Portugal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 novembre 1970 à Lisbonne (Portugal)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "gaucher",
+        "position": "milieu offensif gauche",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1996-07",
+            "precision": "month",
+            "text": "juillet 1996"
+        },
+        "departure": {
+            "iso": "1998-06",
+            "precision": "month",
+            "text": "juin 1998"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Saint-Brieuc - Sochaux du 14/09/1996 : 1-2",
+        "last_match": "Martigues - Sochaux du 08/05/1998 : 1-2",
+        "first_goal": "Sochaux - Mulhouse du 15/03/1997 : 3-0 - But à la 37'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Paulo Gomes"
+            },
+            {
+                "label": null,
+                "value": "né le 3 novembre 1970 à Lisbonne (Portugal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1996"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1998"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Saint-Brieuc - Sochaux du 14/09/1996 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Martigues - Sochaux du 08/05/1998 : 1-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Mulhouse du 15/03/1997 : 3-0 - But à la 37'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1993-1994",
+                    "33",
+                    "12",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "35",
+                    "13"
+                ],
+                [
+                    "1994-1995",
+                    "33",
+                    "9",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "33",
+                    "9"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "20",
+                    "5",
+                    "2",
+                    "0",
+                    "1",
+                    "1",
+                    "23",
+                    "6"
+                ],
+                [
+                    "Total",
+                    "66",
+                    "21",
+                    "20",
+                    "5",
+                    "4",
+                    "1",
+                    "1",
+                    "1",
+                    "91",
+                    "28"
+                ]
+            ],
+            "source_table": 436
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,290 @@
+{
+    "id": 11043,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "hadi-sacko",
+    "path": "/joueurs/hadi-sacko/",
+    "title": "Hadi Sacko",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-88.jpg",
+    "date": "2025-01-28T10:20:54",
+    "modified": "2025-01-28T10:34:30",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "14",
+        "text": "Hadi Sacko a joué 14 matchs (2 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/suspendu-face-a-l-om-hadi-sacko-devrait-amener-sa-fraicheur-et-sa-percussion-a-l-attaque-sochalienne-photo-christian-lemontey-1461528153.jpg",
+            "caption": "Hadi Sacko",
+            "credit": "L’est républicain",
+            "caption_raw": "Hadi Sacko – L’est républicain"
+        },
+        {
+            "image": "2025/01/title-1455823659.jpg",
+            "caption": "Hadi Sacko",
+            "credit": "L’est républicain",
+            "caption_raw": "Hadi Sacko – L’est républicain"
+        },
+        {
+            "image": "2025/01/5-88.jpg",
+            "caption": "Hadi Sacko",
+            "credit": "fcsm",
+            "caption_raw": "Hadi Sacko – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11043,
+        "url": "https://www.fcsochauxretro.com/a-la-une/hadi-sacko/",
+        "path": "/a-la-une/hadi-sacko/",
+        "slug": "hadi-sacko",
+        "seo_title": "Hadi Sacko - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Hadi Sacko</h2>\n<h4><strong>Né le 24 mars 1994 à Corbeil-Essonnes (91) <br></strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Position : </strong>ailier droit<strong><br></strong></p>\n<p><strong>International malien (5 sélections)</strong></p>\n<p><strong>International français U16, U18, U19 et U20 (25 sélections, 5 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2016<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2016<strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Sochaux - Red Star du 05/02/2016 : 1-2 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Clermont du 13/05/2016 : 2-0 </p>\n<p><strong>Premier but marqué : </strong>Sochaux - Monaco du 09/02/2016 : 2-1 - But à la 54'</p>",
+        "header_lines": [
+            "Hadi Sacko",
+            "Né le 24 mars 1994 à Corbeil-Essonnes (91)",
+            "Taille : 1m83",
+            "Poids : 82 kg",
+            "Pied : gaucher",
+            "Position : ailier droit",
+            "International malien (5 sélections)",
+            "International français U16, U18, U19 et U20 (25 sélections, 5 buts)",
+            "Arrivée à Sochaux : janvier 2016",
+            "Départ de Sochaux : juin 2016",
+            "Premier match joué : Sochaux - Red Star du 05/02/2016 : 1-2",
+            "Dernier match joué : Sochaux - Clermont du 13/05/2016 : 2-0",
+            "Premier but marqué : Sochaux - Monaco du 09/02/2016 : 2-1 - But à la 54'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Hadi",
+        "last_name": "Sacko",
+        "display_name": "Hadi Sacko",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1994-03-24",
+                "precision": "day",
+                "text": "24 mars 1994"
+            },
+            "place": {
+                "text": "Corbeil-Essonnes (91)",
+                "city": "Corbeil-Essonnes",
+                "department": "91",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 24 mars 1994 à Corbeil-Essonnes (91)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "gaucher",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International malien (5 sélections)",
+            "International français U16, U18, U19 et U20 (25 sélections, 5 buts)"
+        ],
+        "arrival": {
+            "iso": "2016-01",
+            "precision": "month",
+            "text": "janvier 2016"
+        },
+        "departure": {
+            "iso": "2016-06",
+            "precision": "month",
+            "text": "juin 2016"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Red Star du 05/02/2016 : 1-2",
+        "last_match": "Sochaux - Clermont du 13/05/2016 : 2-0",
+        "first_goal": "Sochaux - Monaco du 09/02/2016 : 2-1 - But à la 54'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Hadi Sacko"
+            },
+            {
+                "label": null,
+                "value": "Né le 24 mars 1994 à Corbeil-Essonnes (91)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Position",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International malien (5 sélections)"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U18, U19 et U20 (25 sélections, 5 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2016"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2016"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Red Star du 05/02/2016 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Clermont du 13/05/2016 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Monaco du 09/02/2016 : 2-1 - But à la 54'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

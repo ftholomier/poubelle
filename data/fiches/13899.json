@@ -1,0 +1,259 @@
+{
+    "id": 13899,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alain-benedet",
+    "path": "/entraineurs/alain-benedet/",
+    "title": "Alain Benedet",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-adjoints",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/05/images.jpg",
+    "date": "2025-05-28T11:13:07",
+    "modified": "2026-09-17T11:50:35",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Alain Benedet a été entraineur adjoint de Frédéric Hantz puis de Francis Gillot durant 4 saisons de 2007 à 2011."
+    },
+    "gallery": [
+        {
+            "image": "2025/05/images.jpg",
+            "caption": "Alain Benedet",
+            "credit": "",
+            "caption_raw": "Alain Benedet"
+        },
+        {
+            "image": "2025/07/fc-sochaux-gillot-en-suspension-1484129411.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13899,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alain-benedet-13899/",
+        "path": "/a-la-une/alain-benedet-13899/",
+        "slug": "alain-benedet-13899",
+        "seo_title": "Alain Benedet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alain Benedet</h2>\n<h4><strong>né le 20 octobre 1960 à Albi (81) </strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poste : </strong>Entraineur adjoint</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2007</p>\n<p><strong>Départ de Sochaux :</strong> juin 2011</p>\n<p><strong>Palmarès :</strong></p>\n<ul>\n<li>Finaliste du Trophée des champions 2007</li>\n</ul>",
+        "header_lines": [
+            "Alain Benedet",
+            "né le 20 octobre 1960 à Albi (81)",
+            "Taille : 1m83",
+            "Poste : Entraineur adjoint",
+            "Arrivée à Sochaux : juillet 2007",
+            "Départ de Sochaux : juin 2011",
+            "Palmarès :",
+            "Finaliste du Trophée des champions 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "entraineur"
+        ],
+        "first_name": "Alain",
+        "last_name": "Benedet",
+        "display_name": "Alain Benedet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1960-10-20",
+                "precision": "day",
+                "text": "20 octobre 1960"
+            },
+            "place": {
+                "text": "Albi (81)",
+                "city": "Albi",
+                "department": "81",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 20 octobre 1960 à Albi (81)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Entraineur adjoint",
+        "line": "E",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2007-07",
+            "precision": "month",
+            "text": "juillet 2007"
+        },
+        "departure": {
+            "iso": "2011-06",
+            "precision": "month",
+            "text": "juin 2011"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste du Trophée des champions 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alain Benedet"
+            },
+            {
+                "label": null,
+                "value": "né le 20 octobre 1960 à Albi (81)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poste",
+                "value": "Entraineur adjoint"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2007"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2011"
+            },
+            {
+                "label": "Palmarès",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste du Trophée des champions 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1976-1977",
+                    "16",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "1977-1978",
+                    "16",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "1978-1979",
+                    "21",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "21",
+                    "0"
+                ],
+                [
+                    "1979-1980",
+                    "13",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "13",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "66",
+                    "0",
+                    "4",
+                    "0",
+                    "2",
+                    "0",
+                    "72",
+                    "0"
+                ]
+            ],
+            "source_table": 283
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

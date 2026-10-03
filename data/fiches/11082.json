@@ -1,0 +1,257 @@
+{
+    "id": 11082,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ady-schmit",
+    "path": "/joueurs/ady-schmit/",
+    "title": "Ady Schmit",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-117.jpg",
+    "date": "2025-02-01T12:20:41",
+    "modified": "2025-02-01T12:39:08",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "286",
+        "text": "Ady Schmit a joué 286 matchs (69 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/sochaux196970-.jpg",
+            "caption": "Sochaux 1969/1970",
+            "credit": "",
+            "caption_raw": "Sochaux 1969/1970"
+        },
+        {
+            "image": "2025/01/5-117.jpg",
+            "caption": "Ady Schmit",
+            "credit": "fcsm",
+            "caption_raw": "Ady Schmit – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11082,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ady-schmit/",
+        "path": "/a-la-une/ady-schmit/",
+        "slug": "ady-schmit",
+        "seo_title": "Ady Schmit - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ady Schmit</h2>\n<h4><strong>né le 17 aout 1940 au Luxembourg </strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International luxembourgeois (45 sélections, 7 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 1962</p>\n<p><strong>Départ de Sochaux : </strong>juin 1970</p>\n<p><strong>Premier match joué :</strong> Sochaux - Montreuil du 28/01/1962 : 2-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Metz du 16/05/1970 : 4-1</p>\n<p><strong>Premiers buts marqués : </strong>Béziers - Sochaux du 19/08/1962 : 1-5 - Buts à la 17' et 76' </p>\n<p><strong>Palmarès avec Sochaux :</strong> </p>\n<ul>\n<li>Vainqueur de la Coupe Charles Drago 1963</li>\n<li>Vainqueur de la Coupe Charles Drago 1964</li>\n</ul>",
+        "header_lines": [
+            "Ady Schmit",
+            "né le 17 aout 1940 au Luxembourg",
+            "Taille : 1m72",
+            "Poids : 74 kg",
+            "Pied : gaucher",
+            "Poste : milieu offensif",
+            "International luxembourgeois (45 sélections, 7 buts)",
+            "Arrivée à Sochaux : janvier 1962",
+            "Départ de Sochaux : juin 1970",
+            "Premier match joué : Sochaux - Montreuil du 28/01/1962 : 2-0",
+            "Dernier match joué : Sochaux - Metz du 16/05/1970 : 4-1",
+            "Premiers buts marqués : Béziers - Sochaux du 19/08/1962 : 1-5 - Buts à la 17' et 76'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la Coupe Charles Drago 1963",
+            "Vainqueur de la Coupe Charles Drago 1964"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ady",
+        "last_name": "Schmit",
+        "display_name": "Ady Schmit",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1940-08-17",
+                "precision": "day",
+                "text": "17 aout 1940 au Luxembourg"
+            },
+            "place": null,
+            "text": "né le 17 aout 1940 au Luxembourg"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "gaucher",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International luxembourgeois (45 sélections, 7 buts)"
+        ],
+        "arrival": {
+            "iso": "1962-01",
+            "precision": "month",
+            "text": "janvier 1962"
+        },
+        "departure": {
+            "iso": "1970-06",
+            "precision": "month",
+            "text": "juin 1970"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Montreuil du 28/01/1962 : 2-0",
+        "last_match": "Sochaux - Metz du 16/05/1970 : 4-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la Coupe Charles Drago 1963",
+            "Vainqueur de la Coupe Charles Drago 1964"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ady Schmit"
+            },
+            {
+                "label": null,
+                "value": "né le 17 aout 1940 au Luxembourg"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International luxembourgeois (45 sélections, 7 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 1962"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1970"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Montreuil du 28/01/1962 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Metz du 16/05/1970 : 4-1"
+            },
+            {
+                "label": "Premiers buts marqués",
+                "value": "Béziers - Sochaux du 19/08/1962 : 1-5 - Buts à la 17' et 76'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la Coupe Charles Drago 1963"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la Coupe Charles Drago 1964"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

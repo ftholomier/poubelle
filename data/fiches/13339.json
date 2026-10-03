@@ -1,0 +1,133 @@
+{
+    "id": 13339,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "louis-deur",
+    "path": "/dirigeants/louis-deur/",
+    "title": "Louis Deur",
+    "categories": [
+        "directeurs-sportifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-executifs"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-44.jpg",
+    "date": "2025-04-17T22:08:20",
+    "modified": "2025-12-06T10:48:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Louis Deur, une présidence stable et dans la continuité : 1960-1973 </strong></h4>\n<ul>\n<li>Louis Deur est directeur du Cercle hôtel Peugeot où loge notamment les jeunes joueurs du club et les concessionnaires de la marque Peugeot venus de toute la France et qui recommandent régulièrement des joueurs à Sochaux. Il arrive quand le club redescend en deuxième division en 1960. Il parvient à faire remonter le club et le stabilise en première division. Il occupe aussi la fonction de directeur sportif.</li>\n<li>Il est aussi le président de la section professionnelle qui se qualifiera pour la première fois en coupe d'Europe à l'issue de la saison 1972/1973. Il passera la main en 1973 à René Hauss, tandis que le président officiel René Bouquet cédera son fauteuil quelques mois plus tard à Jacques Thouzery.</li>\n<li>Sous sa présidence, la réserve atteindra la finale de la coupe Jules Rimet qui concerne les réserves professionnelles. Au niveau pro, le club atteindra la finale de la coupe de France 1967 et remportera deux coupes Charles Drago en 1963 et 1964. En 1964 toujours, Sochaux est devenu vice-champion de France de deuxième division et remonta dans l'élite. <em><strong> </strong></em></li>\n<li>Il initiera aussi le projet de centre de formation qui sera inauguré par son successeur Jacques Thouzery. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Louis Deur aura dirigé la section professionnelle durant 13 saisons."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/foot-magasine-oct-70-n2.png",
+            "caption": "Barret et Deur",
+            "credit": "Foot Magazine",
+            "caption_raw": "Barret et Deur – Foot Magazine"
+        },
+        {
+            "image": "2025/04/Barret-et-Deur-Archives-Olivier-Barret.png",
+            "caption": "Barret et Deur",
+            "credit": "Archives Olivier Barret",
+            "caption_raw": "Barret et Deur – Archives Olivier Barret"
+        },
+        {
+            "image": "2025/04/Hauss-Deur-Benoit-J-Parisot.png",
+            "caption": "Le docteur Sautre, Hauss, Deur, Benoit",
+            "credit": "J Parisot",
+            "caption_raw": "Le docteur Sautre, Hauss, Deur, Benoit – J Parisot"
+        },
+        {
+            "image": "2025/12/Comite_directeur_1960_1961.jpg",
+            "caption": "Comité directeur du FC Sochaux-Montbéliard 1960-1961 : René Bouquet (Président à partir de 1961), René Blum, Alfred Baruffaldi, Jules Croissant, Jacques Benoit (Secrétaire à partir de février 1961), et Louis Gaiffe (directeur sportif de juin 1960 à février 1961). Assis : Louis Deur (président de la section professionnelle), Gaston Turin (président jusqu’en 961) et un dirigeant Peugeot. Crédit : Livre Mémoire du football FC Sochaux-Montbéliard",
+            "credit": "Fabien Dorier",
+            "caption_raw": "Comité directeur du FC Sochaux-Montbéliard 1960-1961 : René Bouquet (Président à partir de 1961), René Blum, Alfred Baruffaldi, Jules Croissant, Jacques Benoit (Secrétaire à partir de février 1961), et Louis Gaiffe (directeur sportif de juin 1960 à février 1961). Assis : Louis Deur (président de la section professionnelle), Gaston Turin (président jusqu’en 961) et un dirigeant Peugeot. Crédit : Livre Mémoire du football FC Sochaux-Montbéliard – Fabien Dorier"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13339,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/louis-deur/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/louis-deur/",
+        "slug": "louis-deur",
+        "seo_title": "Louis Deur - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Louis Deur  </h2>\n<h4><strong>Président exécutif de 1960 à 1973 et Directeur sportif de 1961 à à 1973</strong></h4>",
+        "header_lines": [
+            "Louis Deur",
+            "Président exécutif de 1960 à 1973 et Directeur sportif de 1961 à à 1973"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Louis",
+        "last_name": "Deur",
+        "display_name": "Louis Deur",
+        "nickname": "",
+        "subtitle": "Président exécutif de 1960 à 1973 et Directeur sportif de 1961 à à 1973",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Louis Deur"
+            },
+            {
+                "label": null,
+                "value": "Président exécutif de 1960 à 1973 et Directeur sportif de 1961 à à 1973"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

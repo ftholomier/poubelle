@@ -1,0 +1,203 @@
+{
+    "id": 7607,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "georges-eastmann",
+    "path": "/joueurs/georges-eastmann/",
+    "title": "Georges Eastmann",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/telechargement-7.jpg",
+    "date": "2024-11-14T13:05:45",
+    "modified": "2025-05-12T20:25:33",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        },
+        {
+            "title": "Statistiques inconnues",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "52",
+        "text": "Georges Eastmann aurait joué 52 matchs (10 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/telechargement-7.jpg",
+            "caption": "Georges Eastmann",
+            "credit": "DR",
+            "caption_raw": "Georges Eastmann – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7607,
+        "url": "https://www.fcsochauxretro.com/a-la-une/georges-eastmann-7607/",
+        "path": "/a-la-une/georges-eastmann-7607/",
+        "slug": "georges-eastmann-7607",
+        "seo_title": "Georges Eastmann - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Georges Eastmann</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé  le xx à xx</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>mai 1930</p>\n<p><strong>Départ de Sochaux : </strong>juillet 1932</p>\n<p><strong>Premier match joué :</strong> Marseille Sochaux du 25/05/1930 : 2-4</p>\n<p><strong>Dernier match joué :</strong> Entente CA et SU Lorrain - Sochaux du 20/02/1932 : 0-3</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Excelsior Roubaix/Tourcoing du 24/08/1930 : 6-0</p>",
+        "header_lines": [
+            "Georges Eastmann",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : mai 1930",
+            "Départ de Sochaux : juillet 1932",
+            "Premier match joué : Marseille Sochaux du 25/05/1930 : 2-4",
+            "Dernier match joué : Entente CA et SU Lorrain - Sochaux du 20/02/1932 : 0-3",
+            "Premier but marqué : Sochaux - Excelsior Roubaix/Tourcoing du 24/08/1930 : 6-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Georges",
+        "last_name": "Eastmann",
+        "display_name": "Georges Eastmann",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1930-05",
+            "precision": "month",
+            "text": "mai 1930"
+        },
+        "departure": {
+            "iso": "1932-07",
+            "precision": "month",
+            "text": "juillet 1932"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Marseille Sochaux du 25/05/1930 : 2-4",
+        "last_match": "Entente CA et SU Lorrain - Sochaux du 20/02/1932 : 0-3",
+        "first_goal": "Sochaux - Excelsior Roubaix/Tourcoing du 24/08/1930 : 6-0",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Georges Eastmann"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "mai 1930"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 1932"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Marseille Sochaux du 25/05/1930 : 2-4"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Entente CA et SU Lorrain - Sochaux du 20/02/1932 : 0-3"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Excelsior Roubaix/Tourcoing du 24/08/1930 : 6-0"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

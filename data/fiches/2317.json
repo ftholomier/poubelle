@@ -1,0 +1,467 @@
+{
+    "id": 2317,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-valence-division-2-10-01-1996",
+    "path": "/matchs/1995-1996/sochaux-valence-division-2-10-01-1996/",
+    "title": "J23 – Sochaux / Valence – D2 – 10/01/1996 – 2-1",
+    "categories": [
+        "1995-1996",
+        "a-la-une",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/03/IMG_7101.jpeg",
+    "date": "2024-03-23T16:34:42",
+    "modified": "2025-08-01T12:24:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux 4ème reçoit Valence 15è. </li>\n<li>Gunnlaugsson est invaincu avec Sochaux. Espérons que ces vacances passées dans son Islande natale avec sa fiancée (Miss Islande), l’ai revigoré pour la fin de saison, car avec le départ de Vos, le club lui a clairement fait comprendre que l’on comptait beaucoup sur lui.</li>\n<li>Didier Notheaux retrouve son ancien club pour une revanche du match aller.</li>\n<li>\n<p>La presse annonce que le permis de construire du nouveau stade Bonal sera déposé le 15 janvier. On annonce 2 ans et demi de travaux. Le stade serait fini pour la fin de l’année 1998.</p>\n</li>\n<li>Sochaux se méfiera des frères N'Diefi (MacDonald et Pius) qui composent l'attaque valentinoise. Ils ont notamment marqué les 3 buts de la qualification en coupe de France à Lons-le-Saunier au mois de décembre. </li>\n<li>Valence a joué deux matchs amicaux durant la trêve : une défaite face à Alès et une victoire contre Istres. </li>\n<li>Valence comptera plusieurs absents : Gilles Leclerc le libéro, Di Fraya, Lukunku, Ferez et Decruyz. </li>\n<li>Philippe Cuervo fait son retour après ses 4 matchs de suspension. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>12' : </strong>Frappe de Bouafia à côté.</li>\n<li><strong>14' : </strong>Bazdarevic récupère un ballon qu'il transmet à Chaintreuil via Bouafia. Ce dernier tire à côté.</li>\n<li><strong>42' : Chaintreuil récupère un ballon haut et lance Gunnlaugsson qui file au but, élimine Yamadjian qui l'accroche... tombe le nez dans le gazon mais parvient à pousser le ballon dans le but vide (1-0)</strong></li>\n<li><strong>69' : </strong>Pius N'Diefi déborde côté droit et centre pour Moutar seul qui ne parvient pas à marquer.  </li>\n<li><strong>70' : </strong>Arrêt réflexe de Cassard sur le tir d'un Valentinois.</li>\n<li><strong>73' : Cuervo prend son couloir entre dans la surface et vient tromper Yamadjian (2-0)</strong></li>\n<li><strong>83' : </strong>Bel arrêt de Cassard devant Weiss. </li>\n<li><strong>89' : </strong><strong>Rondelaere en bonne position réduit le score. (2-1)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Didier Notheaux :</strong> <em>\" On a passé trop de temps à courir après le ballon, malgré une bonne entame et quelques mouvements intéressants, dont l'occasion offerte à Chaintreuil. Trois heures avant le coup d'envoi je ne sentais pas les joueurs au mieux avec une ambiance plus que calme. Cette équipe possède un vécu et une maturité qui doivent générer une maîtrise bien supérieure \". </em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Match très poussif des Sochaliens mais une victoire quand même qui remet Sochaux sur le podium. </li>\n<li>Pour la première fois Sochaux a joué en match officiel avec une défense centrale à plat donc sans libéro. </li>\n<li>Ali Bouafia a dû sortir à la mi-temps victime d'un coup sur le pied. </li>\n<li>Mecha Bazdarevic a reçu un coup sur le genou. Enfin le buteur Arnar Gunnlaugsson se plaint encore de son tendon d'Achille.</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "ème place après 23 journées avec cette victoire."
+    },
+    "gallery": [
+        {
+            "image": "2024/03/IMG_7033.jpeg",
+            "caption": "Arnar Gunnlaugsson",
+            "credit": "L’est républicain",
+            "caption_raw": "Arnar Gunnlaugsson – L’est républicain"
+        },
+        {
+            "image": "2024/03/IMG_7030.jpeg",
+            "caption": "Mecha Bazdarevic",
+            "credit": "L’est républicain",
+            "caption_raw": "Mecha Bazdarevic – L’est républicain"
+        },
+        {
+            "image": "2024/03/IMG_7029.jpeg",
+            "caption": "Aranr Gunnlaugsson",
+            "credit": "L’est républicain",
+            "caption_raw": "Aranr Gunnlaugsson – L’est républicain"
+        },
+        {
+            "image": "2024/03/IMG_7101.jpeg",
+            "caption": "Lionel Prat",
+            "credit": "L’est républicain",
+            "caption_raw": "Lionel Prat – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "J5yWBjCvovM",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 2317,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j23-sochaux-valence-d2-10-01-1996-2-1-2/",
+        "path": "/a-la-une/j23-sochaux-valence-d2-10-01-1996-2-1-2/",
+        "slug": "j23-sochaux-valence-d2-10-01-1996-2-1-2",
+        "seo_title": "J23 – Sochaux / Valence – D2 – 10/01/1996 – 2-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Valence : 2-1</strong></h2>\n<h4><strong>23è journée de D2</strong></h4>\n<h4><strong>Mardi 10 janvier 1996</strong></h4>\n<h4><strong>Stade Auguste Bonal </strong></h4>\n<h4><strong>2 741 spectateurs</strong></h4>\n<h4><strong>Arbitre : M.Duhamel</strong></h4>\n<p>Buts : Gunnlaugsson 42' et Cuervo 73' pour Sochaux, Rondelaere 89' pour Valence. </p>",
+        "header_lines": [
+            "Sochaux / Valence : 2-1",
+            "23è journée de D2",
+            "Mardi 10 janvier 1996",
+            "Stade Auguste Bonal",
+            "2 741 spectateurs",
+            "Arbitre : M.Duhamel",
+            "Buts : Gunnlaugsson 42' et Cuervo 73' pour Sochaux, Rondelaere 89' pour Valence."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1996-01-10",
+        "date_text": "Mardi 10 janvier 1996",
+        "season": "1995-1996",
+        "competition": "Championnat",
+        "competition_label": "Division 2",
+        "competition_code": "D2",
+        "round": "J23",
+        "round_text": "23è journée de D2",
+        "home": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "away": {
+            "name": "Valence",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-1",
+        "score_line": "Sochaux / Valence : 2-1",
+        "result": "V",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 2741,
+        "spectators_text": "2 741 spectateurs",
+        "referee": "M.Duhamel",
+        "goals_text": "Gunnlaugsson 42' et Cuervo 73' pour Sochaux, Rondelaere 89' pour Valence.",
+        "goals": [
+            {
+                "team": "Valence",
+                "scorers": "Gunnlaugsson 42' et Cuervo 73' pour Sochaux, Rondelaere 89'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "12",
+                "text": "Frappe de Bouafia à côté.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "14",
+                "text": "Bazdarevic récupère un ballon qu'il transmet à Chaintreuil via Bouafia. Ce dernier tire à côté.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "42",
+                "text": "Chaintreuil récupère un ballon haut et lance Gunnlaugsson qui file au but, élimine Yamadjian qui l'accroche... tombe le nez dans le gazon mais parvient à pousser le ballon dans le but vide (1-0)",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "69",
+                "text": "Pius N'Diefi déborde côté droit et centre pour Moutar seul qui ne parvient pas à marquer.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "70",
+                "text": "Arrêt réflexe de Cassard sur le tir d'un Valentinois.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "73",
+                "text": "Cuervo prend son couloir entre dans la surface et vient tromper Yamadjian (2-0)",
+                "goal": true,
+                "score": "2-0"
+            },
+            {
+                "minute": "83",
+                "text": "Bel arrêt de Cassard devant Weiss.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "89",
+                "text": "Rondelaere en bonne position réduit le score. (2-1)",
+                "goal": true,
+                "score": "2-1"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Didier Notheaux",
+                "text": "On a passé trop de temps à courir après le ballon, malgré une bonne entame et quelques mouvements intéressants, dont l'occasion offerte à Chaintreuil. Trois heures avant le coup d'envoi je ne sentais pas les joueurs au mieux avec une ambiance plus que calme. Cette équipe possède un vécu et une maturité qui doivent générer une maîtrise bien supérieure \"."
+            }
+        ],
+        "breves": [
+            "Match très poussif des Sochaliens mais une victoire quand même qui remet Sochaux sur le podium.",
+            "Pour la première fois Sochaux a joué en match officiel avec une défense centrale à plat donc sans libéro.",
+            "Ali Bouafia a dû sortir à la mi-temps victime d'un coup sur le pied.",
+            "Mecha Bazdarevic a reçu un coup sur le genou. Enfin le buteur Arnar Gunnlaugsson se plaint encore de son tendon d'Achille."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "CASSARD Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CUERVO Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "73"
+                    ],
+                    "goals_text": "73'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PITON Bertrand",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SZEWCZYK Roman",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DIRINGER Jean-Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CHAINTREUIL Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "76",
+                    "sub_text": "Sortie 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "55"
+                    ],
+                    "red": [],
+                    "cards_text": "J 55'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MARAVAL Bernard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MENDY Etienne",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "GUNLAUGSSON Arnar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "42"
+                    ],
+                    "goals_text": "42'",
+                    "sub_in": null,
+                    "sub_out": "68",
+                    "sub_text": "Sortie 68'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "BOUAFIA Ali",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAUDRY Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CROCE Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "76",
+                    "sub_out": null,
+                    "sub_text": "Entrée 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PRAT Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "68",
+                    "sub_out": null,
+                    "sub_text": "Entrée 68'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "NOTHEAUX Didier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1242
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

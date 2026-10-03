@@ -1,0 +1,161 @@
+{
+    "id": 12704,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "idir-ouali",
+    "path": "/joueurs/idir-ouali/",
+    "title": "Idir Ouali (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-31.jpg",
+    "date": "2025-03-08T22:53:50",
+    "modified": "2025-11-12T13:54:49",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Alors qu'il est un des meilleurs milieu offensif de Belgique, son club de Mouscron connait de gros problèmes financiers et il se retrouve libre. </li>\n<li>Alors que les dirigeants discutent avec leurs homologues algériens pour recruter l'attaquant Ziaya, Idir Ouali arrive à l'essai alors qu'il était attendu au Standard de Liège. </li>\n<li>Mais l'essai est infructueux et le franco-algérien repart en Belgique. Il signera au Mans quelques jours plus tard.  </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Idir Ouali a été mis à l'essai une semaine en janvier 2010."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-31.jpg",
+            "caption": "Idir Ouali",
+            "credit": "lemondefootball.fr",
+            "caption_raw": "Idir Ouali – lemondefootball.fr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12704,
+        "url": "https://www.fcsochauxretro.com/uncategorized/idir-ouali/",
+        "path": "/uncategorized/idir-ouali/",
+        "slug": "idir-ouali",
+        "seo_title": "Idir Ouali (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Idir Ouali</h2>\n<h4><strong>né le 21 mai 1988 à Roubaix (59)</strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>A l'essai en : </strong>janvier 2010</p>",
+        "header_lines": [
+            "Idir Ouali",
+            "né le 21 mai 1988 à Roubaix (59)",
+            "Taille : 1m76",
+            "Poids : 72 kg",
+            "Pied : gaucher",
+            "Poste : milieu offensif",
+            "A l'essai en : janvier 2010"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Idir",
+        "last_name": "Ouali",
+        "display_name": "Idir Ouali",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2010-01",
+            "precision": "month",
+            "text": "janvier 2010"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1988-05-21",
+                "precision": "day",
+                "text": "21 mai 1988"
+            },
+            "place": {
+                "text": "Roubaix (59)",
+                "city": "Roubaix",
+                "department": "59",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 mai 1988 à Roubaix (59)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "gaucher",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Idir Ouali"
+            },
+            {
+                "label": null,
+                "value": "né le 21 mai 1988 à Roubaix (59)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "janvier 2010"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

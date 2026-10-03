@@ -1,0 +1,268 @@
+{
+    "id": 13754,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "aboubacar-sidibe",
+    "path": "/joueurs/aboubacar-sidibe/",
+    "title": "Aboubacar Sidibé",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/05/5.jpg",
+    "date": "2025-05-02T19:50:40",
+    "modified": "2025-05-02T19:59:33",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "1 passe décisive pour son premier match en professionnel."
+    },
+    "gallery": [
+        {
+            "image": "2025/05/aboubacar-sidibe-est-recompense-de-son-excellente-saison-dans-les-equipe.jpg",
+            "caption": "Aboubacar Sidibé",
+            "credit": "L’est républicain",
+            "caption_raw": "Aboubacar Sidibé – L’est républicain"
+        },
+        {
+            "image": "2025/05/aboubacar-sidibe-a-marque-les-deux-premiers-buts-de-sochaux-photo-christ.jpg",
+            "caption": "Aboubacar Sidibé",
+            "credit": "L’est républicain",
+            "caption_raw": "Aboubacar Sidibé – L’est républicain"
+        },
+        {
+            "image": "2025/05/5.jpg",
+            "caption": "Aboubacar Sidibé",
+            "credit": "",
+            "caption_raw": "Aboubacar Sidibé"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13754,
+        "url": "https://www.fcsochauxretro.com/a-la-une/aboubacar-sidibe/",
+        "path": "/a-la-une/aboubacar-sidibe/",
+        "slug": "aboubacar-sidibe",
+        "seo_title": "Aboubacar Sidibé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Aboubacar Sidibé</h2>\n<h4><strong>né le 7 février 2006 à Bamako (Mali)</strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong>xx kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2024</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match joué :</strong> Boulogne-sur-Mer - Sochaux du 02/05/2025 : 2-3</p>\n<p><strong>Dernier match joué :</strong>  </p>",
+        "header_lines": [
+            "Aboubacar Sidibé",
+            "né le 7 février 2006 à Bamako (Mali)",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : aout 2024",
+            "Départ de Sochaux :",
+            "Premier match joué : Boulogne-sur-Mer - Sochaux du 02/05/2025 : 2-3",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Aboubacar",
+        "last_name": "Sidibé",
+        "display_name": "Aboubacar Sidibé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2006-02-07",
+                "precision": "day",
+                "text": "7 février 2006"
+            },
+            "place": {
+                "text": "Bamako (Mali)",
+                "city": "Bamako",
+                "department": null,
+                "country": "Mali",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 février 2006 à Bamako (Mali)"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2024-08",
+            "precision": "month",
+            "text": "aout 2024"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Boulogne-sur-Mer - Sochaux du 02/05/2025 : 2-3",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Aboubacar Sidibé"
+            },
+            {
+                "label": null,
+                "value": "né le 7 février 2006 à Bamako (Mali)"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2024"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Boulogne-sur-Mer - Sochaux du 02/05/2025 : 2-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "0"
+                ]
+            ],
+            "source_table": 459
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

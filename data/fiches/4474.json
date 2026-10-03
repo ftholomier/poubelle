@@ -1,0 +1,472 @@
+{
+    "id": 4474,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-troyes-ligue-2-18-08-2014",
+    "path": "/matchs/2014-2015/sochaux-troyes-ligue-2-18-08-2014/",
+    "title": "J03 – Sochaux / Troyes – L2 – 18/08/2014 – 0-2",
+    "categories": [
+        "2014-2015",
+        "a-la-une",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/07/19.jpg",
+    "date": "2024-07-24T05:39:57",
+    "modified": "2026-07-22T15:38:52",
+    "author": "gsanchez",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Jérôme Onguéné, Marcus Thuram et Jason Pendant ont été sélectionnés en équipe de France U18 ans le cadre d’un stage à Pralognan du 24 au 30 août où les Bleuets y affronteront le Danemark lors de trois rencontres amicales.</li>\n<li>Olivier Echouafni a reconduit la même équipe qu'à Ajaccio à une exception prêt : le retour de Jérôme Roussillon dans le onze titulaire en arrière gauche à la place de Guillaume Cros.</li>\n<li>Troyes se présente à Bonal en leader du championnat avec ses 2 victoires en 2 matchs.</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>8' :</strong> Guerbert trouve Habran dans la surface. Ce dernier tente la frappe croisée, Petric se couche bien et repousse.</li>\n<li><strong>20' : </strong>Excentré côté gauche à l'angle de la surface Thomas Guerbert adresse une lourde frappe, difficilement repoussée du poing par Petric.</li>\n<li><strong>39' : En contre, Carole s'échappe côté gauche et centre à ras-de-terre pour Jean qui trompe Pelé du plat du pied.</strong><b> (0-1)<br></b></li>\n<li><strong>50' :</strong> Suite à une action bien menée Yoann Court frappe en puissance. Sa frappe passe à côté des buts de Pelé.</li>\n<li><strong>62' : </strong>Court se retrouve seul dans la surface face à Pelé. Sa frappe croisée effleure le montant droit de la cage.</li>\n<li><strong>68' : Thomas Ayasse, après une touche jouée côté droit, adresse une reprise de volée dans un angle très fermé qui termine dans la lucarne de Pelé. (0-2)</strong></li>\n<li><strong>70' : </strong>Suite à un cafouillage dans la surface, Diedhiou frappe à ras de terre. La balle finit dans les gants de Petric.</li>\n<li><strong>90' :</strong> Sur un centre de Carole, Ghislain Gimbert reprend de la tête. La balle passe au-dessus des cages de Pelé.</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Olivier Echouafni :</strong>  « <em>Il ne faut pas se laisser abattre et relever la tête. La physionomie du match aurait pu être autre. Le score était sévère à la pause. On aurait dû marquer les premiers. La deuxième mi-temps a été dure à aborder et c'était insuffisant à la fin. Il faut être plus efficace à Bonal, à défaut de quoi il faudra se rattraper à l'extérieur. C'est à travers un match comme ce soir qu'on se rend compte qu'il reste du travail à accomplir. Il faut essayer de se reconstruire après notre présaison compliquée.</em> »</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Sochaux est 14e au classement avec 3 points. Son adversaire aubois caracole en tête de la Ligue 2 avec 3 victoires en 3 matchs.</li>\n<li>Classement des buteurs : Mignot et Toko Ekambi (1 but).</li>\n<li>Classement des passeurs : Guerbert et Habran (1 passe).</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "2 matchs à Bonal, 2 défaites, 0 but marqué."
+    },
+    "gallery": [
+        {
+            "image": "2024/07/22.jpg",
+            "caption": "Roussillon Photo FCSM",
+            "credit": "",
+            "caption_raw": "Roussillon Photo FCSM"
+        },
+        {
+            "image": "2024/07/20.jpg",
+            "caption": "Sunzu Photo FCSM",
+            "credit": "",
+            "caption_raw": "Sunzu Photo FCSM"
+        },
+        {
+            "image": "2024/07/19.jpg",
+            "caption": "Sunzu, Habran Photo FCSM",
+            "credit": "",
+            "caption_raw": "Sunzu, Habran Photo FCSM"
+        },
+        {
+            "image": "2024/07/14.jpg",
+            "caption": "Guerbert Photo FCSM",
+            "credit": "",
+            "caption_raw": "Guerbert Photo FCSM"
+        },
+        {
+            "image": "2024/07/FCSM-ESTAC-2014-2015-4-FCSM.jpg",
+            "caption": "Zouma, Sunzu, Berenguer Photo FCSM",
+            "credit": "",
+            "caption_raw": "Zouma, Sunzu, Berenguer Photo FCSM"
+        },
+        {
+            "image": "2024/07/FCSM-ESTAC-2014-2015-3-FCSM.jpg",
+            "caption": "Malsa Photo FCSM",
+            "credit": "",
+            "caption_raw": "Malsa Photo FCSM"
+        },
+        {
+            "image": "2024/07/FCSM-ESTAC-2014-2015-2-FCSM.jpg",
+            "caption": "Toko Ekambi Photo FCSM",
+            "credit": "",
+            "caption_raw": "Toko Ekambi Photo FCSM"
+        },
+        {
+            "image": "2024/07/FCSM-ESTAC-2014-2015-1-MaxPPP.jpg",
+            "caption": "Mignot Photo MaxPPP",
+            "credit": "",
+            "caption_raw": "Mignot Photo MaxPPP"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "dailymotion",
+            "id": "x241fv4",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4474,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j03-sochaux-troyes-l2-18-08-2014-0-2/",
+        "path": "/a-la-une/j03-sochaux-troyes-l2-18-08-2014-0-2/",
+        "slug": "j03-sochaux-troyes-l2-18-08-2014-0-2",
+        "seo_title": "J03 - Sochaux / Troyes - L2 - 18/08/2014 - 0-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Troyes : 0-2</strong><strong><br></strong></h2>\n<h4><strong>3e journée de Ligue 2</strong></h4>\n<h4><strong>Lundi 18 août 2014</strong></h4>\n<h4><strong>Stade Auguste Bonal<br></strong></h4>\n<h4><strong>8 608 spectateurs</strong></h4>\n<h4><strong>Arbitre : B. Bastien<br></strong></h4>\n<p>Buts : Jean 39', Ayasse 68' pour Troyes</p>",
+        "header_lines": [
+            "Sochaux / Troyes : 0-2",
+            "3e journée de Ligue 2",
+            "Lundi 18 août 2014",
+            "Stade Auguste Bonal",
+            "8 608 spectateurs",
+            "Arbitre : B. Bastien",
+            "Buts : Jean 39', Ayasse 68' pour Troyes"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2014-08-18",
+        "date_text": "Lundi 18 août 2014",
+        "season": "2014-2015",
+        "competition": "Championnat",
+        "competition_label": "Ligue 2",
+        "competition_code": "L2",
+        "round": "J03",
+        "round_text": "3e journée de Ligue 2",
+        "home": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "away": {
+            "name": "Troyes",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 0,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-2",
+        "score_line": "Sochaux / Troyes : 0-2",
+        "result": "D",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 8608,
+        "spectators_text": "8 608 spectateurs",
+        "referee": "B. Bastien",
+        "goals_text": "Jean 39', Ayasse 68' pour Troyes",
+        "goals": [
+            {
+                "team": "Troyes",
+                "scorers": "Jean 39', Ayasse 68'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "8",
+                "text": "Guerbert trouve Habran dans la surface. Ce dernier tente la frappe croisée, Petric se couche bien et repousse.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "20",
+                "text": "Excentré côté gauche à l'angle de la surface Thomas Guerbert adresse une lourde frappe, difficilement repoussée du poing par Petric.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "39",
+                "text": "En contre, Carole s'échappe côté gauche et centre à ras-de-terre pour Jean qui trompe Pelé du plat du pied. (0-1)",
+                "goal": true,
+                "score": "0-1"
+            },
+            {
+                "minute": "50",
+                "text": "Suite à une action bien menée Yoann Court frappe en puissance. Sa frappe passe à côté des buts de Pelé.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "62",
+                "text": "Court se retrouve seul dans la surface face à Pelé. Sa frappe croisée effleure le montant droit de la cage.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "68",
+                "text": "Thomas Ayasse, après une touche jouée côté droit, adresse une reprise de volée dans un angle très fermé qui termine dans la lucarne de Pelé. (0-2)",
+                "goal": true,
+                "score": "0-2"
+            },
+            {
+                "minute": "70",
+                "text": "Suite à un cafouillage dans la surface, Diedhiou frappe à ras de terre. La balle finit dans les gants de Petric.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "90",
+                "text": "Sur un centre de Carole, Ghislain Gimbert reprend de la tête. La balle passe au-dessus des cages de Pelé.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Olivier Echouafni",
+                "text": "Il ne faut pas se laisser abattre et relever la tête. La physionomie du match aurait pu être autre. Le score était sévère à la pause. On aurait dû marquer les premiers. La deuxième mi-temps a été dure à aborder et c'était insuffisant à la fin. Il faut être plus efficace à Bonal, à défaut de quoi il faudra se rattraper à l'extérieur. C'est à travers un match comme ce soir qu'on se rend compte qu'il reste du travail à accomplir. Il faut essayer de se reconstruire après notre présaison compliquée."
+            }
+        ],
+        "breves": [
+            "Sochaux est 14e au classement avec 3 points. Son adversaire aubois caracole en tête de la Ligue 2 avec 3 victoires en 3 matchs.",
+            "Classement des buteurs : Mignot et Toko Ekambi (1 but).",
+            "Classement des passeurs : Guerbert et Habran (1 passe)."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "PELÉ Yohann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ROUSSILLON Jérôme",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MIGNOT Jean-Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ZOUMA Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "42"
+                    ],
+                    "red": [],
+                    "cards_text": "J 42'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FAUSSURIER Julien",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SUNZU Stoppila",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MALSA Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "GUERBERT Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "77",
+                    "sub_text": "Sortie 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HABRAN Romain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "4"
+                    ],
+                    "red": [],
+                    "cards_text": "J 4'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "TOKO EKAMBI Karl",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "68",
+                    "sub_text": "Sortie 68'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIEDHIOU Famara",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "68",
+                    "sub_out": null,
+                    "sub_text": "Entrée 68'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIALLO Mamadou",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "77",
+                    "sub_out": null,
+                    "sub_text": "Entrée 77'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ECHOUAFNI Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 404
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

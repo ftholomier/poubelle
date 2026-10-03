@@ -1,0 +1,229 @@
+{
+    "id": 8543,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "henri-de-james",
+    "path": "/joueurs/henri-de-james/",
+    "title": "Henri De James",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/3-8.jpg",
+    "date": "2024-12-07T14:44:56",
+    "modified": "2025-03-23T21:17:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques inconnues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "88",
+        "text": "Henri De James a joué 88 matchs (27 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/De-James.jpg",
+            "caption": "De James –",
+            "credit": "DR",
+            "caption_raw": "De James – – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8543,
+        "url": "https://www.fcsochauxretro.com/a-la-une/henri-de-james/",
+        "path": "/a-la-une/henri-de-james/",
+        "slug": "henri-de-james",
+        "seo_title": "Henri De James - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Henri De James </h2>\n<h4><strong>né le 2 novembre 1898 à XX</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>attaquant ou milieu</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1929</p>\n<p><strong>Départ de Sochaux : </strong>juin 1932</p>\n<p><strong>Premier match joué :</strong> Dasle - Sochaux du 08/09/1929 : 2-8</p>\n<p><strong>Dernier match joué :</strong> Roubaix - Sochaux du 07/05/1932 : 0-4</p>\n<p><strong>Premier but et premier doublé marqué ? :</strong> Méziré - Sochaux du 06/04/1930 : 1-6 </p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n<li>Vainqueur du Challenge de Turckheim 1931</li>\n<li>Champion de première série du District du Pays de Montbéliard</li>\n<li>Vainqueur de la coupe Peugeot 1931</li>\n</ul>",
+        "header_lines": [
+            "Henri De James",
+            "né le 2 novembre 1898 à XX",
+            "Décédé le xx à xx",
+            "Poste : attaquant ou milieu",
+            "Arrivée à Sochaux : juillet 1929",
+            "Départ de Sochaux : juin 1932",
+            "Premier match joué : Dasle - Sochaux du 08/09/1929 : 2-8",
+            "Dernier match joué : Roubaix - Sochaux du 07/05/1932 : 0-4",
+            "Premier but et premier doublé marqué ? : Méziré - Sochaux du 06/04/1930 : 1-6",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Champion de première série du District du Pays de Montbéliard",
+            "Vainqueur de la coupe Peugeot 1931"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Henri",
+        "last_name": "De James",
+        "display_name": "Henri De James",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1898-11-02",
+                "precision": "day",
+                "text": "2 novembre 1898"
+            },
+            "place": {
+                "text": "XX",
+                "city": "XX",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 2 novembre 1898 à XX"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant ou milieu",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1929-07",
+            "precision": "month",
+            "text": "juillet 1929"
+        },
+        "departure": {
+            "iso": "1932-06",
+            "precision": "month",
+            "text": "juin 1932"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Dasle - Sochaux du 08/09/1929 : 2-8",
+        "last_match": "Roubaix - Sochaux du 07/05/1932 : 0-4",
+        "first_goal": "Méziré - Sochaux du 06/04/1930 : 1-6",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Champion de première série du District du Pays de Montbéliard",
+            "Vainqueur de la coupe Peugeot 1931"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Henri De James"
+            },
+            {
+                "label": null,
+                "value": "né le 2 novembre 1898 à XX"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant ou milieu"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1929"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1932"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Dasle - Sochaux du 08/09/1929 : 2-8"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Roubaix - Sochaux du 07/05/1932 : 0-4"
+            },
+            {
+                "label": "Premier but et premier doublé marqué ?",
+                "value": "Méziré - Sochaux du 06/04/1930 : 1-6"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1931"
+            },
+            {
+                "label": null,
+                "value": "Champion de première série du District du Pays de Montbéliard"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Peugeot 1931"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

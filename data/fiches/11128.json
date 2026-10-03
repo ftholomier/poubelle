@@ -1,0 +1,292 @@
+{
+    "id": 11128,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "julien-stopyra",
+    "path": "/joueurs/julien-stopyra/",
+    "title": "Julien Stopyra",
+    "categories": [
+        "a-la-une",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-98.jpg",
+    "date": "2025-01-28T17:20:49",
+    "modified": "2025-01-28T17:36:35",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "108",
+        "text": "Julien Stopyra a joué 108 matchs (26 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/images-11.jpg",
+            "caption": "Julien Stopyra",
+            "credit": "dr",
+            "caption_raw": "Julien Stopyra – dr"
+        },
+        {
+            "image": "2025/01/5-98.jpg",
+            "caption": "Julien Stopyra",
+            "credit": "dr",
+            "caption_raw": "Julien Stopyra – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11128,
+        "url": "https://www.fcsochauxretro.com/a-la-une/julien-stopyra/",
+        "path": "/a-la-une/julien-stopyra/",
+        "slug": "julien-stopyra",
+        "seo_title": "Julien Stopyra - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Julien Stopyra</h2>\n<h4><strong>Né le 10 janvier 1933 à Montceau-les-Mines (71) <br></strong></h4>\n<h4><strong>Décédé le 24 janvier 2015 à Guidel (56)</strong></h4>\n<p><strong>Taille : </strong>1m66</p>\n<p><strong>Poids : </strong>66 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>ailier droit</p>\n<p><strong>International français (1 sélection)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1957<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 1960<strong><br></strong></p>\n<p><strong>Premier match joué et premiers buts :</strong> RC Paris - Sochaux du 18/07/1957 : 6-4 - Buts à la 21' et 23' </p>\n<p><strong>Dernier match joué :</strong> Sochaux - RC Paris du 28/05/1960 : 3-6</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe de France 1959</li>\n</ul>",
+        "header_lines": [
+            "Julien Stopyra",
+            "Né le 10 janvier 1933 à Montceau-les-Mines (71)",
+            "Décédé le 24 janvier 2015 à Guidel (56)",
+            "Taille : 1m66",
+            "Poids : 66 kg",
+            "Pied : droitier",
+            "Position : ailier droit",
+            "International français (1 sélection)",
+            "Arrivée à Sochaux : juillet 1957",
+            "Départ de Sochaux : juin 1960",
+            "Premier match joué et premiers buts : RC Paris - Sochaux du 18/07/1957 : 6-4 - Buts à la 21' et 23'",
+            "Dernier match joué : Sochaux - RC Paris du 28/05/1960 : 3-6",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1959"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Julien",
+        "last_name": "Stopyra",
+        "display_name": "Julien Stopyra",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1933-01-10",
+                "precision": "day",
+                "text": "10 janvier 1933"
+            },
+            "place": {
+                "text": "Montceau-les-Mines (71)",
+                "city": "Montceau-les-Mines",
+                "department": "71",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 10 janvier 1933 à Montceau-les-Mines (71)"
+        },
+        "death": {
+            "date": {
+                "iso": "2015-01-24",
+                "precision": "day",
+                "text": "24 janvier 2015"
+            },
+            "place": {
+                "text": "Guidel (56)",
+                "city": "Guidel",
+                "department": "56",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 24 janvier 2015 à Guidel (56)"
+        },
+        "height": "1m66",
+        "height_cm": 166,
+        "weight": "66 kg",
+        "weight_kg": 66,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International français (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "1957-07",
+            "precision": "month",
+            "text": "juillet 1957"
+        },
+        "departure": {
+            "iso": "1960-06",
+            "precision": "month",
+            "text": "juin 1960"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "RC Paris - Sochaux du 18/07/1957 : 6-4 - Buts à la 21' et 23'",
+        "last_match": "Sochaux - RC Paris du 28/05/1960 : 3-6",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de France 1959"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Julien Stopyra"
+            },
+            {
+                "label": null,
+                "value": "Né le 10 janvier 1933 à Montceau-les-Mines (71)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 24 janvier 2015 à Guidel (56)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m66"
+            },
+            {
+                "label": "Poids",
+                "value": "66 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International français (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1957"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1960"
+            },
+            {
+                "label": "Premier match joué et premiers buts",
+                "value": "RC Paris - Sochaux du 18/07/1957 : 6-4 - Buts à la 21' et 23'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - RC Paris du 28/05/1960 : 3-6"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1959"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Ligue 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2013-2014",
+                    "17",
+                    "4",
+                    "",
+                    "",
+                    "1",
+                    "",
+                    "0",
+                    "0",
+                    "18",
+                    "4"
+                ],
+                [
+                    "2014-2015",
+                    "",
+                    "",
+                    "10",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "10",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "17",
+                    "4",
+                    "10",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "28",
+                    "4"
+                ]
+            ],
+            "source_table": 690
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

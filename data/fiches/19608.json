@@ -1,0 +1,478 @@
+{
+    "id": 19608,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sparta-rotterdam-sochaux-amical-24-04-1993",
+    "path": "/matchs/1992-1993/sparta-rotterdam-sochaux-amical-24-04-1993/",
+    "title": "Amical – Sparta Rotterdam (D1 P-B) / Sochaux (D1) – 24/04/1993 – 0-0",
+    "categories": [
+        "1992-1993",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/11/Caveglia-FCSM.png",
+    "date": "2025-12-21T17:23:15",
+    "modified": "2026-01-25T21:39:05",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux est 14e de D1 avec 29 points après 32 journées. </li>\n<li>Sochaux reste sur 4 défaites de suite en division 1 sans marquer. </li>\n<li>Le Sparta Rotterdam est 12e sur 18 après 29 journées. Le club, à égalité avec le 10e du championnat, est assuré de rester dans l'élite. </li>\n<li>A Sochaux Darras, Yakovenko, Blanc sont absents. </li>\n<li>L'objectif de la rencontre pour Sochaux est de retrouver le chemin des buts et du succès avant un déplacement difficile à Saint Etienne. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>5' :</strong> frappe de Caveglia qui passe au dessus. </li>\n<li><strong>8' :</strong> lob subtil de Prat que L'Ami détourne de justesse du bout des doigts. </li>\n<li><strong>15' :</strong> Ferrand claque une belle frappe de Van Mol. </li>\n<li><strong>23' :</strong> sur coup franc, Weber place une belle reprise de la tête sur le poteau. </li>\n<li><strong>38' :</strong> Caveglia décale Prat qui croise trop sa frappe. </li>\n<li><strong>54' :</strong> tir de Robert dévié par L'Ami. </li>\n<li><strong>63' :</strong> frappe de Caveglia dévié devant la ligne par un défenseur. </li>\n<li><strong>64' :</strong> frappe de Garande bloquée par l'Ami. </li>\n<li><strong>68' :</strong> tête de Clément déviée de la main par un défenseur néerlandais. </li>\n<li><strong>76' :</strong> tir de Robert dévié en corner par le gardien. </li>\n<li><strong>84' :</strong> Veldman s'échappe et frappe devant dans le petit filet alors qu'il était seul devant Ferrand. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>Pas de réactions pour cette rencontre. </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Pour l'an prochain, Sochaux est à la recherche d'un attaquant et d'un défenseur axial en priorité. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "première confrontation de l'histoire entre les deux équipes"
+    },
+    "gallery": [
+        {
+            "image": "2025/11/Caveglia-FCSM.png",
+            "caption": "Caveglia",
+            "credit": "FCSM",
+            "caption_raw": "Caveglia – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19608,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/amical-sparta-rotterdam-d1-p-b-sochaux-d1-24-04-1993-0-0/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/amical-sparta-rotterdam-d1-p-b-sochaux-d1-24-04-1993-0-0/",
+        "slug": "amical-sparta-rotterdam-d1-p-b-sochaux-d1-24-04-1993-0-0",
+        "seo_title": "Amical - Sparta Rotterdam (D1 P-B) / Sochaux (D1) - 24/04/1993 - 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sparta Rotterdam (D1 Pays-Bas) / Sochaux (D1) : 0-0</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 24 avril 1993</strong></h4>\n<h4><strong>Stade Auguste Bonal (25)</strong></h4>\n<h4><strong>700 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Sars</strong></h4>",
+        "header_lines": [
+            "Sparta Rotterdam (D1 Pays-Bas) / Sochaux (D1) : 0-0",
+            "Match amical",
+            "Samedi 24 avril 1993",
+            "Stade Auguste Bonal (25)",
+            "700 spectateurs",
+            "Arbitrage : M. Sars"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1993-04-24",
+        "date_text": "Samedi 24 avril 1993",
+        "season": "1992-1993",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sparta Rotterdam",
+            "level": "D1 P-B"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "Sparta Rotterdam (D1 Pays-Bas) / Sochaux (D1) : 0-0",
+        "result": "N",
+        "stadium": "Stade Auguste Bonal (25)",
+        "spectators": 700,
+        "spectators_text": "700 spectateurs",
+        "referee": "M. Sars",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "5",
+                "text": "frappe de Caveglia qui passe au dessus.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "8",
+                "text": "lob subtil de Prat que L'Ami détourne de justesse du bout des doigts.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "15",
+                "text": "Ferrand claque une belle frappe de Van Mol.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "23",
+                "text": "sur coup franc, Weber place une belle reprise de la tête sur le poteau.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "38",
+                "text": "Caveglia décale Prat qui croise trop sa frappe.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "54",
+                "text": "tir de Robert dévié par L'Ami.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "63",
+                "text": "frappe de Caveglia dévié devant la ligne par un défenseur.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "64",
+                "text": "frappe de Garande bloquée par l'Ami.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "68",
+                "text": "tête de Clément déviée de la main par un défenseur néerlandais.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "76",
+                "text": "tir de Robert dévié en corner par le gardien.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "84",
+                "text": "Veldman s'échappe et frappe devant dans le petit filet alors qu'il était seul devant Ferrand.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Pas de réactions pour cette rencontre."
+            }
+        ],
+        "breves": [
+            "Pour l'an prochain, Sochaux est à la recherche d'un attaquant et d'un défenseur axial en priorité."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERRAND Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DEWILDER Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PITON Bertrand",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "Sortie 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WEBER Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CAVEGLIA Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BADAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ROBERT David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "GARANDE Patrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PRAT Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DE LA QUINTINIE Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "Entrée 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BLANC André",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CLEMENT Benjamin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CASSARD Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1686
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

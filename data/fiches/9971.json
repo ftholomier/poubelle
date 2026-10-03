@@ -1,0 +1,252 @@
+{
+    "id": 9971,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "yoann-touzghar",
+    "path": "/joueurs/yoann-touzghar/",
+    "title": "Yoann Touzghar",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/68718-1523617167.webp",
+    "date": "2025-01-02T14:32:20",
+    "modified": "2025-01-02T14:41:58",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>.</p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "49",
+        "text": "Yoann Touzghar a joué 49 matchs (7 buts et 8 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/yoann-touzghar-a-ete-l-un-des-sochaliens-les-plus-actifs-vendredi-soir-dans-le-contexte-plombe-du-match-face-a-chateauroux-une-debauche-d-energie-qu-il-s-agira-de-reproduire-dans.jpg",
+            "caption": "Yoann Touzghar",
+            "credit": "L’est républicain",
+            "caption_raw": "Yoann Touzghar – L’est républicain"
+        },
+        {
+            "image": "2025/01/yoann-touzghar-a-aligne-une-jolie-serie-de-quatre-buts-en-six-matchs-photo-lionel-vadam-1520534026.jpg",
+            "caption": "Yoann Touzghar",
+            "credit": "L’est républicain",
+            "caption_raw": "Yoann Touzghar – L’est républicain"
+        },
+        {
+            "image": "2025/01/photo-a-marchi-1517254463.jpg",
+            "caption": "Yoann Touzghar",
+            "credit": "L’est républicain",
+            "caption_raw": "Yoann Touzghar – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9971,
+        "url": "https://www.fcsochauxretro.com/a-la-une/yoann-touzghar/",
+        "path": "/a-la-une/yoann-touzghar/",
+        "slug": "yoann-touzghar",
+        "seo_title": "Yoann Touzghar - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Yoann Touzghar</h2>\n<h4><strong>né le 28 novembre 1986 à Avignon (84)  </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International tunisien (6 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2017</p>\n<p><strong>Départ de Sochaux : </strong>juin 2018</p>\n<p><strong>Premier match joué :</strong> Brest - Sochaux - du 04/02/2017 : 2-0</p>\n<p><strong>Dernier match joué :</strong> Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Amiens du 05/05/2017 : 1-2 - But à la 2'</p>",
+        "header_lines": [
+            "Yoann Touzghar",
+            "né le 28 novembre 1986 à Avignon (84)",
+            "Taille : 1m80",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International tunisien (6 sélections, 1 but)",
+            "Arrivée à Sochaux : janvier 2017",
+            "Départ de Sochaux : juin 2018",
+            "Premier match joué : Brest - Sochaux - du 04/02/2017 : 2-0",
+            "Dernier match joué : Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1",
+            "Premier but marqué : Sochaux - Amiens du 05/05/2017 : 1-2 - But à la 2'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Yoann",
+        "last_name": "Touzghar",
+        "display_name": "Yoann Touzghar",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1986-11-28",
+                "precision": "day",
+                "text": "28 novembre 1986"
+            },
+            "place": {
+                "text": "Avignon (84)",
+                "city": "Avignon",
+                "department": "84",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 28 novembre 1986 à Avignon (84)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International tunisien (6 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2017-01",
+            "precision": "month",
+            "text": "janvier 2017"
+        },
+        "departure": {
+            "iso": "2018-06",
+            "precision": "month",
+            "text": "juin 2018"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Brest - Sochaux - du 04/02/2017 : 2-0",
+        "last_match": "Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1",
+        "first_goal": "Sochaux - Amiens du 05/05/2017 : 1-2 - But à la 2'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Yoann Touzghar"
+            },
+            {
+                "label": null,
+                "value": "né le 28 novembre 1986 à Avignon (84)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International tunisien (6 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2017"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2018"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Brest - Sochaux - du 04/02/2017 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Amiens du 05/05/2017 : 1-2 - But à la 2'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

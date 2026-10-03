@@ -1,0 +1,432 @@
+{
+    "id": 6456,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "serge-bourdoncle",
+    "path": "/joueurs/serge-bourdoncle/",
+    "title": "Serge Bourdoncle",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Boudoncle-FCSM.png",
+    "date": "2024-11-09T18:19:50",
+    "modified": "2026-07-13T12:50:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "159",
+        "text": "Serge Bourdoncle a joué 159 matchs (29 buts) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/56368.jpg",
+            "caption": "Serge Bourdoncle",
+            "credit": "FCSM",
+            "caption_raw": "Serge Bourdoncle – FCSM"
+        },
+        {
+            "image": "2026/02/Boudoncle-FCSM.png",
+            "caption": "Bourdoncle",
+            "credit": "FCSM",
+            "caption_raw": "Bourdoncle – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6456,
+        "url": "https://www.fcsochauxretro.com/a-la-une/serge-bourdoncle/",
+        "path": "/a-la-une/serge-bourdoncle/",
+        "slug": "serge-bourdoncle",
+        "seo_title": "Serge Bourdoncle - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Serge Bourdoncle</strong></h2>\n<h4><strong>né le 24 janvier 1936 à Milhars (81)</strong></h4>\n<h4><strong>Décédé le 9 octobre 2020 à Trétudans (90)  </strong></h4>\n<p><strong>Taille : </strong>1m67</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1952 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1960</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1962 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1965</p>\n<p><strong>Premier match joué :</strong> Monaco - Sochaux du 08/10/1953 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Monaco - Sochaux du 09/05/1965 : 2-0 </p>\n<p><strong>Premier but marqué :</strong> Sochaux - Lyon du 29/08/1954 : 2-0 - But à la 86'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe nationale corporative 1952</li>\n<li>Vice-champion de France 1953</li>\n<li>Vainqueur de la coupe Charles Drago 1953</li>\n<li>Vainqueur de la coupe nationale corporative 1958</li>\n<li>Finaliste de la coupe de France 1959</li>\n<li>Vice-champion de France de deuxième division 1964</li>\n<li>Vainqueur de la coupe Charles Drago en 1963</li>\n<li>Vainqueur de la coupe Charles Drago en 1964</li>\n</ul>",
+        "header_lines": [
+            "Serge Bourdoncle",
+            "né le 24 janvier 1936 à Milhars (81)",
+            "Décédé le 9 octobre 2020 à Trétudans (90)",
+            "Taille : 1m67",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1952",
+            "Départ de Sochaux : juin 1960",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1962",
+            "Départ de Sochaux : juin 1965",
+            "Premier match joué : Monaco - Sochaux du 08/10/1953 : 0-0",
+            "Dernier match joué : Monaco - Sochaux du 09/05/1965 : 2-0",
+            "Premier but marqué : Sochaux - Lyon du 29/08/1954 : 2-0 - But à la 86'",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe nationale corporative 1952",
+            "Vice-champion de France 1953",
+            "Vainqueur de la coupe Charles Drago 1953",
+            "Vainqueur de la coupe nationale corporative 1958",
+            "Finaliste de la coupe de France 1959",
+            "Vice-champion de France de deuxième division 1964",
+            "Vainqueur de la coupe Charles Drago en 1963",
+            "Vainqueur de la coupe Charles Drago en 1964"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Serge",
+        "last_name": "Bourdoncle",
+        "display_name": "Serge Bourdoncle",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1936-01-24",
+                "precision": "day",
+                "text": "24 janvier 1936"
+            },
+            "place": {
+                "text": "Milhars (81)",
+                "city": "Milhars",
+                "department": "81",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 janvier 1936 à Milhars (81)"
+        },
+        "death": {
+            "date": {
+                "iso": "2020-10-09",
+                "precision": "day",
+                "text": "9 octobre 2020"
+            },
+            "place": {
+                "text": "Trétudans (90)",
+                "city": "Trétudans",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 9 octobre 2020 à Trétudans (90)"
+        },
+        "height": "1m67",
+        "height_cm": 167,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1952-07",
+            "precision": "month",
+            "text": "juillet 1952"
+        },
+        "departure": {
+            "iso": "1960-06",
+            "precision": "month",
+            "text": "juin 1960"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Monaco - Sochaux du 08/10/1953 : 0-0",
+        "last_match": "Monaco - Sochaux du 09/05/1965 : 2-0",
+        "first_goal": "Sochaux - Lyon du 29/08/1954 : 2-0 - But à la 86'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe nationale corporative 1952",
+            "Vice-champion de France 1953",
+            "Vainqueur de la coupe Charles Drago 1953",
+            "Vainqueur de la coupe nationale corporative 1958",
+            "Finaliste de la coupe de France 1959",
+            "Vice-champion de France de deuxième division 1964",
+            "Vainqueur de la coupe Charles Drago en 1963",
+            "Vainqueur de la coupe Charles Drago en 1964"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Serge Bourdoncle"
+            },
+            {
+                "label": null,
+                "value": "né le 24 janvier 1936 à Milhars (81)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 9 octobre 2020 à Trétudans (90)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m67"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1952"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1960"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1962"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1965"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Monaco - Sochaux du 08/10/1953 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Monaco - Sochaux du 09/05/1965 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Lyon du 29/08/1954 : 2-0 - But à la 86'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe nationale corporative 1952"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France 1953"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago 1953"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe nationale corporative 1958"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1959"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de deuxième division 1964"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago en 1963"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago en 1964"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe Drago",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1953 - 1954",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "3",
+                    "0"
+                ],
+                [
+                    "1954 - 1955",
+                    "7",
+                    "1",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "8",
+                    "1"
+                ],
+                [
+                    "1955 - 1956",
+                    "10",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "10",
+                    "2"
+                ],
+                [
+                    "1956 - 1957",
+                    "10",
+                    "2",
+                    "3",
+                    "2",
+                    "0",
+                    "0",
+                    "13",
+                    "4"
+                ],
+                [
+                    "1957 - 1958",
+                    "26",
+                    "4",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "28",
+                    "4"
+                ],
+                [
+                    "1958 - 1959",
+                    "28",
+                    "8",
+                    "8",
+                    "2",
+                    "0",
+                    "0",
+                    "36",
+                    "10"
+                ],
+                [
+                    "1959 - 1960",
+                    "26",
+                    "2",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "28",
+                    "2"
+                ],
+                [
+                    "1962 - 1963",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "4",
+                    "2",
+                    "4",
+                    "2"
+                ],
+                [
+                    "1963 - 1964",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "3",
+                    "1",
+                    "3",
+                    "1"
+                ],
+                [
+                    "1964 - 1965",
+                    "23",
+                    "2",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "26",
+                    "3"
+                ],
+                [
+                    "TOTAL",
+                    "133",
+                    "21",
+                    "16",
+                    "5",
+                    "10",
+                    "3",
+                    "159",
+                    "29"
+                ]
+            ],
+            "source_table": 855
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

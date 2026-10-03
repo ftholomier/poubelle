@@ -1,0 +1,184 @@
+{
+    "id": 8618,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "manasse-enza-yamissi",
+    "path": "/joueurs/manasse-enza-yamissi/",
+    "title": "Manassé Enza-Yamissi",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/images-1.jpg",
+    "date": "2024-12-08T09:47:30",
+    "modified": "2025-05-19T20:02:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Enza-Yamissi a signé professionnel mais n'a joué aucun match pour l'équipe première de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/passe-par-le-fc-sochaux-en-2009-2010-manasse-enza-yamissi-n-avait-evolue-qu-avec-la-reserve-depuis-il-a-affronte-des-joueurs-comme-mohamed-salah-ou-hakim-ziyech-photo-d-archives.jpg",
+            "caption": "Manassé Enza-Yamissi",
+            "credit": "L’est républicain",
+            "caption_raw": "Manassé Enza-Yamissi – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8618,
+        "url": "https://www.fcsochauxretro.com/a-la-une/manasse-enza-yamissi/",
+        "path": "/a-la-une/manasse-enza-yamissi/",
+        "slug": "manasse-enza-yamissi",
+        "seo_title": "Manassé Enza-Yamissi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Manassé Enza-Yamissi</h2>\n<h4><strong>né le 28 septembre 1989 à Bangui (République Centrafricaine)</strong></h4>\n<p><strong>Taille : </strong>1m90</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste :</strong> défenseur central</p>\n<p><strong>International centrafricain (17 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2009</p>\n<p><strong>Départ de Sochaux : </strong>juin 2010</p>",
+        "header_lines": [
+            "Manassé Enza-Yamissi",
+            "né le 28 septembre 1989 à Bangui (République Centrafricaine)",
+            "Taille : 1m90",
+            "Poids : 82 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central",
+            "International centrafricain (17 sélections)",
+            "Arrivée à Sochaux : juillet 2009",
+            "Départ de Sochaux : juin 2010"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Manassé",
+        "last_name": "Enza-Yamissi",
+        "display_name": "Manassé Enza-Yamissi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1989-09-28",
+                "precision": "day",
+                "text": "28 septembre 1989"
+            },
+            "place": {
+                "text": "Bangui (République Centrafricaine)",
+                "city": "Bangui",
+                "department": null,
+                "country": "République Centrafricaine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 28 septembre 1989 à Bangui (République Centrafricaine)"
+        },
+        "death": null,
+        "height": "1m90",
+        "height_cm": 190,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "gaucher",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International centrafricain (17 sélections)"
+        ],
+        "arrival": {
+            "iso": "2009-07",
+            "precision": "month",
+            "text": "juillet 2009"
+        },
+        "departure": {
+            "iso": "2010-06",
+            "precision": "month",
+            "text": "juin 2010"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Manassé Enza-Yamissi"
+            },
+            {
+                "label": null,
+                "value": "né le 28 septembre 1989 à Bangui (République Centrafricaine)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m90"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International centrafricain (17 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2009"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2010"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

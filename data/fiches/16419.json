@@ -1,0 +1,120 @@
+{
+    "id": 16419,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "robert-burchi",
+    "path": "/personnages-emblematiques/robert-burchi/",
+    "title": "Robert Burchi",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/robert-burchi-photo-er-lionel-vadam-1661895034.jpg",
+    "date": "2025-09-06T16:23:18",
+    "modified": "2025-11-12T20:25:37",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Originaire du Gard, Robert Burchi jouait à Alès quand il arrive dans le Pays de Montbéliard en 1969 pour travailler chez Peugeot. </li>\n<li>Fidèle parmi les fidèles, il entraîne les enfants de 8 à 12 ans à l'école de foot du club depuis 1989.  </li>\n<li>Il a entrainé des centaines de jeunes joueurs de la région dont de futurs professionnels comme Maxence Prévôt et Sanjin Prcic. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1989",
+        "text": "Robert Burchi éducateur de l'école de foot du club depuis 1989."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/robert-burchi-a-gauche-et-daniel-brucker-sont-chez-eux-au-centre-de-formation-du-fcsm-photo-er-lionel-vadam-1661863736.jpg",
+            "caption": "Robert Burchi et Daniel Brucker éducateurs de l’école de foot.",
+            "credit": "",
+            "caption_raw": "Robert Burchi et Daniel Brucker éducateurs de l’école de foot."
+        },
+        {
+            "image": "2025/09/robert-burchi-photo-er-lionel-vadam-1661895034.jpg",
+            "caption": "Robert Burchi",
+            "credit": "L’est républicain",
+            "caption_raw": "Robert Burchi – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16419,
+        "url": "https://www.fcsochauxretro.com/a-la-une/robert-burchi/",
+        "path": "/a-la-une/robert-burchi/",
+        "slug": "robert-burchi",
+        "seo_title": "Robert Burchi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Robert Burchi</h2>\n<h4><strong>Educateur à l'école de foot depuis 1989. </strong></h4>",
+        "header_lines": [
+            "Robert Burchi",
+            "Educateur à l'école de foot depuis 1989."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Robert",
+        "last_name": "Burchi",
+        "display_name": "Robert Burchi",
+        "nickname": "",
+        "subtitle": "Educateur à l'école de foot depuis 1989.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Robert Burchi"
+            },
+            {
+                "label": null,
+                "value": "Educateur à l'école de foot depuis 1989."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

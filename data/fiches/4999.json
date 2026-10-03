@@ -1,0 +1,522 @@
+{
+    "id": 4999,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "limonest-sochaux-coupe-de-france-15-11-2014",
+    "path": "/matchs/2014-2015/limonest-sochaux-coupe-de-france-15-11-2014/",
+    "title": "7e tour – Limonest (DH) / Sochaux (L2) – CDF – 15/11/2014 – 2-5",
+    "categories": [
+        "2014-2015",
+        "a-la-une",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "coupe-de-france",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/08/LIMO-FCSM-2014-2015-7-FCSM.jpg",
+    "date": "2024-08-28T16:13:21",
+    "modified": "2026-07-22T16:09:57",
+    "author": "gsanchez",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Le jour du match, le FC Sochaux  annonce avec une grande tristesse le décès de Valéry Mézague, 30 ans et ancien joueur du club de 2006 à 2008.</li>\n<li>Olivier Echouafni a laissé au repos Edouard Butin, Karl Toko Ekambi et Marco Ilaimaharitra. Papa Demba Camara est en sélection. Julien Fausssurier, Florian Tardieu et Julien Faussurier prennent place sur le banc.</li>\n<li>En l'absence de Butin et Faussurier sur la pelouse, c'est Jean-Pascal Mignot qui est capitaine.</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>4' : </strong>Frappe contrée et premier corner de la partie pour les Limonois. Repris d'une tête hors cadre.</li>\n<li><strong>9' :</strong> Habran puis Guerbert s'infiltrent avant un centre qui ne donne rien malgré une tentative de Lopy.</li>\n<li><strong>10' :</strong> Centre côté gauche et reprise de volée d'un attaquant local qui force Pelé à s'employer.</li>\n<li><strong>21' :</strong> Frappe de Kharja détournée en corner.</li>\n<li><strong>22' : Corner de Guerbert et but de la tête de Lionel Zouma. (0-1)</strong></li>\n<li><strong>33' : Mouvement sochalien Roussillon, Cacérès, Gibaud. Ce dernier centre pour la reprise en extension de Diedhiou qui double la mise (0-2)</strong></li>\n<li><strong>37' : Centre de Romain Habran et csc de Draidi. (0-3)</strong></li>\n<li><strong>41' :</strong> Tête limonoise sur la transversale.</li>\n<li><strong>54' :</strong> Frappe de Paysant qui est dégagé par Jérôme Roussillon. Le FCSM a eu chaud.</li>\n<li><strong>56' : Les locaux sont récompensés en réduisant la marque par Goiset, en embuscade au 2e poteau sur un centre. (1-3)</strong></li>\n<li><strong>60' : Coup franc de Guerbert que Cacérès reprend mais le gardien s'interpose et repousse sur Diedhiou à l'affût au point de penalty qui marque. (1-4)</strong></li>\n<li><strong>81' : </strong>Frappe de Roussillon repoussée par le gardien vers Diedhiou qui ne peut reprendre victorieusement.</li>\n<li><strong>82' : Centre de Bérenguer, Faussurier amortit et ajuste le gardien d'un tir croisé. (1-5)</strong></li>\n<li><strong>83' : Penalty en faveur de Limonest après avoir trouvé la transversale et une faute de Zouma. Barlet transforme. (2-5)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Julien Faussurier :</strong>  « <em>On a fait le boulot tout simplement. On a mis beaucoup d'envie. On a réussi à marquer tôt, donc ça a facilité le match. On peut rentrer à la maison tranquillement.</em> »</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Sochaux a su se rendre le match facile en prenant son adversaire au sérieux.</li>\n<li>Sochaux affrontera au prochain tour le RC Strasbourg, pensionnaire de National. Attention match piège car les Alsaciens sont en forme. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "La dernière fois que Sochaux a inscrit 5 buts en Coupe de France, c'était il y a 13 ans à Boulogne, le 15 décembre 2001, avec une victoire 5-1."
+    },
+    "gallery": [
+        {
+            "image": "2024/08/LIMO-FCSM-2014-2015-7-FCSM.jpg",
+            "caption": "Habran",
+            "credit": "FCSM",
+            "caption_raw": "Habran Photo : FCSM"
+        },
+        {
+            "image": "2024/08/LIMO-FCSM-2014-2015-3-MonFoot69.jpg",
+            "caption": "Guerbert Photo MonFoot69",
+            "credit": "",
+            "caption_raw": "Guerbert Photo MonFoot69"
+        },
+        {
+            "image": "2024/08/LIMO-FCSM-2014-2015-6-Joel-Philippon.jpg",
+            "caption": "Kharja, Guerbert Photo Joël Philippon",
+            "credit": "",
+            "caption_raw": "Kharja, Guerbert Photo Joël Philippon"
+        },
+        {
+            "image": "2024/08/LIMO-FCSM-2014-2015-4-Joel-Philippon.jpg",
+            "caption": "Mignot, Zouma, Roussillon Photo Joël Philippon",
+            "credit": "",
+            "caption_raw": "Mignot, Zouma, Roussillon Photo Joël Philippon"
+        },
+        {
+            "image": "2024/08/LIMO-FCSM-2014-2015-2-ER-Christian-Lemontey.jpg",
+            "caption": "Photo Christian Lemontey",
+            "credit": "",
+            "caption_raw": "Photo Christian Lemontey"
+        },
+        {
+            "image": "2024/08/LIMO-FCSM-2014-2015-1-FCSM.jpg",
+            "caption": "Lopy, Diedhiou Photo FCSM",
+            "credit": "",
+            "caption_raw": "Lopy, Diedhiou Photo FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "dailymotion",
+            "id": "x2afb8l",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4999,
+        "url": "https://www.fcsochauxretro.com/a-la-une/7e-tour-limonest-dh-sochaux-l2-cdf-15-11-2014-2-5/",
+        "path": "/a-la-une/7e-tour-limonest-dh-sochaux-l2-cdf-15-11-2014-2-5/",
+        "slug": "7e-tour-limonest-dh-sochaux-l2-cdf-15-11-2014-2-5",
+        "seo_title": "7e tour - Limonest (DH) / Sochaux (L2) - CDF - 15/11/2014 - 2-5 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Limonest (DH) / Sochaux : 2-5</strong><strong><br></strong></h2>\n<h4><strong>7e tour de Coupe de France<br></strong></h4>\n<h4><strong>Samedi 15 novembre 2014</strong></h4>\n<h4><strong>Parc des Sports Courtois Fillot</strong></h4>\n<h4><strong>Arbitre : D. Mezouar<br></strong></h4>\n<p>Buts : Goiset 56', Barlet 83' (s.p) pour Limonest ; Zouma 22', Diedhiou 33' et 60', Draidi 37' (csc) et Faussurier 82' pour Sochaux</p>",
+        "header_lines": [
+            "Limonest (DH) / Sochaux : 2-5",
+            "7e tour de Coupe de France",
+            "Samedi 15 novembre 2014",
+            "Parc des Sports Courtois Fillot",
+            "Arbitre : D. Mezouar",
+            "Buts : Goiset 56', Barlet 83' (s.p) pour Limonest ; Zouma 22', Diedhiou 33' et 60', Draidi 37' (csc) et Faussurier 82' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2014-11-15",
+        "date_text": "Samedi 15 novembre 2014",
+        "season": "2014-2015",
+        "competition": "Coupe de France",
+        "competition_label": "Coupe de France",
+        "competition_code": "CDF",
+        "round": "7e tour",
+        "round_text": "7e tour de Coupe de France",
+        "home": {
+            "name": "Limonest",
+            "level": "DH"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 5,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-5",
+        "score_line": "Limonest (DH) / Sochaux : 2-5",
+        "result": "V",
+        "stadium": "Parc des Sports Courtois Fillot",
+        "spectators": null,
+        "spectators_text": null,
+        "referee": "D. Mezouar",
+        "goals_text": "Goiset 56', Barlet 83' (s.p) pour Limonest ; Zouma 22', Diedhiou 33' et 60', Draidi 37' (csc) et Faussurier 82' pour Sochaux",
+        "goals": [
+            {
+                "team": "Limonest",
+                "scorers": "Goiset 56', Barlet 83' (s.p)"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Zouma 22', Diedhiou 33' et 60', Draidi 37' (csc) et Faussurier 82'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "4",
+                "text": "Frappe contrée et premier corner de la partie pour les Limonois. Repris d'une tête hors cadre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "9",
+                "text": "Habran puis Guerbert s'infiltrent avant un centre qui ne donne rien malgré une tentative de Lopy.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "10",
+                "text": "Centre côté gauche et reprise de volée d'un attaquant local qui force Pelé à s'employer.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "21",
+                "text": "Frappe de Kharja détournée en corner.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "22",
+                "text": "Corner de Guerbert et but de la tête de Lionel Zouma. (0-1)",
+                "goal": true,
+                "score": "0-1"
+            },
+            {
+                "minute": "33",
+                "text": "Mouvement sochalien Roussillon, Cacérès, Gibaud. Ce dernier centre pour la reprise en extension de Diedhiou qui double la mise (0-2)",
+                "goal": true,
+                "score": "0-2"
+            },
+            {
+                "minute": "37",
+                "text": "Centre de Romain Habran et csc de Draidi. (0-3)",
+                "goal": true,
+                "score": "0-3"
+            },
+            {
+                "minute": "41",
+                "text": "Tête limonoise sur la transversale.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "54",
+                "text": "Frappe de Paysant qui est dégagé par Jérôme Roussillon. Le FCSM a eu chaud.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "56",
+                "text": "Les locaux sont récompensés en réduisant la marque par Goiset, en embuscade au 2e poteau sur un centre. (1-3)",
+                "goal": true,
+                "score": "1-3"
+            },
+            {
+                "minute": "60",
+                "text": "Coup franc de Guerbert que Cacérès reprend mais le gardien s'interpose et repousse sur Diedhiou à l'affût au point de penalty qui marque. (1-4)",
+                "goal": true,
+                "score": "1-4"
+            },
+            {
+                "minute": "81",
+                "text": "Frappe de Roussillon repoussée par le gardien vers Diedhiou qui ne peut reprendre victorieusement.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "82",
+                "text": "Centre de Bérenguer, Faussurier amortit et ajuste le gardien d'un tir croisé. (1-5)",
+                "goal": true,
+                "score": "1-5"
+            },
+            {
+                "minute": "83",
+                "text": "Penalty en faveur de Limonest après avoir trouvé la transversale et une faute de Zouma. Barlet transforme. (2-5)",
+                "goal": true,
+                "score": "2-5"
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Julien Faussurier",
+                "text": "On a fait le boulot tout simplement. On a mis beaucoup d'envie. On a réussi à marquer tôt, donc ça a facilité le match. On peut rentrer à la maison tranquillement."
+            }
+        ],
+        "breves": [
+            "Sochaux a su se rendre le match facile en prenant son adversaire au sérieux.",
+            "Sochaux affrontera au prochain tour le RC Strasbourg, pensionnaire de National. Attention match piège car les Alsaciens sont en forme."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "PELÉ Yohann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ROUSSILLON Jérôme",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MIGNOT Jean-Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "90",
+                    "sub_text": "Sortie 90'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ZOUMA Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "22"
+                    ],
+                    "goals_text": "22'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "17"
+                    ],
+                    "red": [],
+                    "cards_text": "J 17'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LOPY Joseph",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "KHARJA Houssine",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "58"
+                    ],
+                    "red": [],
+                    "cards_text": "J 58'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "GUERBERT Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HABRAN Romain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "61",
+                    "sub_text": "Sortie 61'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CACERES Raphaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "81",
+                    "sub_text": "Sortie 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DIEDHIOU Famara",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "33",
+                        "60"
+                    ],
+                    "goals_text": "33' 60'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FAUSSURIER Julien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "82"
+                    ],
+                    "goals_text": "82'",
+                    "sub_in": "81",
+                    "sub_out": null,
+                    "sub_text": "Entrée 81'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "90",
+                    "sub_out": null,
+                    "sub_text": "Entrée 90'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "61",
+                    "sub_out": null,
+                    "sub_text": "Entrée 61'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ECHOUAFNI Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 448
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

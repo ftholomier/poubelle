@@ -1,0 +1,291 @@
+{
+    "id": 11053,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "edouard-salzborn",
+    "path": "/joueurs/edouard-salzborn/",
+    "title": "Edouard Salzborn",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/ab0e7e36b2c08cfe18ab62bf9615590c.jpg",
+    "date": "2025-02-02T13:15:38",
+    "modified": "2025-09-10T08:34:33",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "149",
+        "text": "Edouard Salzborn a joué 149 matchs (51 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/ab0e7e36b2c08cfe18ab62bf9615590c.jpg",
+            "caption": "Edouard Salzborn",
+            "credit": "fcsm",
+            "caption_raw": "Edouard Salzborn – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11053,
+        "url": "https://www.fcsochauxretro.com/a-la-une/edouard-salzborn/",
+        "path": "/a-la-une/edouard-salzborn/",
+        "slug": "edouard-salzborn",
+        "seo_title": "Edouard Salzborn - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Edouard Salzborn</h2>\n<h4><strong>Né le 29 septembre 1927 à Pfastatt (68)</strong></h4>\n<h4><strong>Décédé le 22 février 2013 à Dogneville (88)  </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>milieu offensif<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1951<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 1956<strong><br></strong></p>\n<p><strong>Premier match joué et premier but marqué :</strong> Sochaux - Nice du 26/08/1951 : 2-0 - But à la 1' </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Strasbourg du 03/06/1956 : 2-2 </p>\n<p><strong>Palmarès avec Sochaux :</strong> </p>\n<ul>\n<li>Vainqueur de la coupe Charles Drago 1953</li>\n</ul>",
+        "header_lines": [
+            "Edouard Salzborn",
+            "Né le 29 septembre 1927 à Pfastatt (68)",
+            "Décédé le 22 février 2013 à Dogneville (88)",
+            "Taille : 1m75",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Position : milieu offensif",
+            "Arrivée à Sochaux : juillet 1951",
+            "Départ de Sochaux : juin 1956",
+            "Premier match joué et premier but marqué : Sochaux - Nice du 26/08/1951 : 2-0 - But à la 1'",
+            "Dernier match joué : Sochaux - Strasbourg du 03/06/1956 : 2-2",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Charles Drago 1953"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Edouard",
+        "last_name": "Salzborn",
+        "display_name": "Edouard Salzborn",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1927-09-29",
+                "precision": "day",
+                "text": "29 septembre 1927"
+            },
+            "place": {
+                "text": "Pfastatt (68)",
+                "city": "Pfastatt",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 29 septembre 1927 à Pfastatt (68)"
+        },
+        "death": {
+            "date": {
+                "iso": "2013-02-22",
+                "precision": "day",
+                "text": "22 février 2013"
+            },
+            "place": {
+                "text": "Dogneville (88)",
+                "city": "Dogneville",
+                "department": "88",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 22 février 2013 à Dogneville (88)"
+        },
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1951-07",
+            "precision": "month",
+            "text": "juillet 1951"
+        },
+        "departure": {
+            "iso": "1956-06",
+            "precision": "month",
+            "text": "juin 1956"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Nice du 26/08/1951 : 2-0 - But à la 1'",
+        "last_match": "Sochaux - Strasbourg du 03/06/1956 : 2-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Charles Drago 1953"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Edouard Salzborn"
+            },
+            {
+                "label": null,
+                "value": "Né le 29 septembre 1927 à Pfastatt (68)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 22 février 2013 à Dogneville (88)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1951"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1956"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Sochaux - Nice du 26/08/1951 : 2-0 - But à la 1'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Strasbourg du 03/06/1956 : 2-2"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Charles Drago 1953"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

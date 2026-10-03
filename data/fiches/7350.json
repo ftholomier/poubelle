@@ -1,0 +1,370 @@
+{
+    "id": 7350,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "stephane-crucet",
+    "path": "/joueurs/stephane-crucet/",
+    "title": "Stéphane Crucet",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound6344710411981152840.jpg",
+    "date": "2024-11-14T10:41:00",
+    "modified": "2025-03-07T17:22:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "68",
+        "text": "Stéphane Crucet a joué 68 matchs (19 buts et 8 passes décisives) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/EVZSzPmXsAA5no7.jpg",
+            "caption": "Stéphane Crucet",
+            "credit": "L’est républicain",
+            "caption_raw": "Stéphane Crucet – L’est républicain"
+        },
+        {
+            "image": "2025/01/inbound4454132853780205189.jpg",
+            "caption": "Stéphane Crucet",
+            "credit": "fcsm Saison 2000-2001",
+            "caption_raw": "Stéphane Crucet – fcsm Saison 2000-2001"
+        },
+        {
+            "image": "2025/01/inbound292962070588527571.jpg",
+            "caption": "Stéphane Crucet – Saison 2002-2003",
+            "credit": "fcsm",
+            "caption_raw": "Stéphane Crucet – Saison 2002-2003 – fcsm"
+        },
+        {
+            "image": "2025/01/inbound5231460252152314373.jpg",
+            "caption": "Stéphane Crucet – Saison 1990-1991",
+            "credit": "fcsm",
+            "caption_raw": "Stéphane Crucet – Saison 1990-1991 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7350,
+        "url": "https://www.fcsochauxretro.com/a-la-une/stephane-crucet/",
+        "path": "/a-la-une/stephane-crucet/",
+        "slug": "stephane-crucet",
+        "seo_title": "Stéphane Crucet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Stéphane Crucet </h2>\n<h4><strong>né le 1er septembre 1970 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>77 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu offensif gauche<strong><br></strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1987</p>\n<p><strong>Départ de Sochaux :</strong> juin 1993</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2000</p>\n<p><strong>Départ de Sochaux :</strong> janvier 2003</p>\n<p><strong>Premier match joué :</strong> Sochaux - Châtellerault du 01/08/1987 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Montpellier du 16/11/2002 : 0-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Wasquehal du 06/10/2000 : 1-1 - But à la 30'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vice-champion de deuxième division 1988</li>\n<li>Finaliste de la coupe de France 1988</li>\n<li>Champion de France de deuxième division 2001</li>\n<li>Finaliste de la coupe de la ligue 2003</li>\n</ul>",
+        "header_lines": [
+            "Stéphane Crucet",
+            "né le 1er septembre 1970 à Montbéliard (25)",
+            "Taille : 1m77",
+            "Poids : 77 kg",
+            "Pied : gaucher",
+            "Poste : milieu offensif gauche",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1987",
+            "Départ de Sochaux : juin 1993",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 2000",
+            "Départ de Sochaux : janvier 2003",
+            "Premier match joué : Sochaux - Châtellerault du 01/08/1987 : 1-0",
+            "Dernier match joué : Sochaux - Montpellier du 16/11/2002 : 0-0",
+            "Premier but marqué : Sochaux - Wasquehal du 06/10/2000 : 1-1 - But à la 30'",
+            "Palmarès avec Sochaux :",
+            "Vice-champion de deuxième division 1988",
+            "Finaliste de la coupe de France 1988",
+            "Champion de France de deuxième division 2001",
+            "Finaliste de la coupe de la ligue 2003"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Stéphane",
+        "last_name": "Crucet",
+        "display_name": "Stéphane Crucet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1970-09-01",
+                "precision": "day",
+                "text": "1er septembre 1970"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er septembre 1970 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "77 kg",
+        "weight_kg": 77,
+        "foot": "gaucher",
+        "position": "milieu offensif gauche",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1987-07",
+            "precision": "month",
+            "text": "juillet 1987"
+        },
+        "departure": {
+            "iso": "1993-06",
+            "precision": "month",
+            "text": "juin 1993"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Châtellerault du 01/08/1987 : 1-0",
+        "last_match": "Sochaux - Montpellier du 16/11/2002 : 0-0",
+        "first_goal": "Sochaux - Wasquehal du 06/10/2000 : 1-1 - But à la 30'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vice-champion de deuxième division 1988",
+            "Finaliste de la coupe de France 1988",
+            "Champion de France de deuxième division 2001",
+            "Finaliste de la coupe de la ligue 2003"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Stéphane Crucet"
+            },
+            {
+                "label": null,
+                "value": "né le 1er septembre 1970 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "77 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif gauche"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1987"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1993"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2000"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2003"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Châtellerault du 01/08/1987 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Montpellier du 16/11/2002 : 0-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Wasquehal du 06/10/2000 : 1-1 - But à la 30'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de deuxième division 1988"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1988"
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 2001"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1 / Ligue 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Barrages Division 1 / Division 2",
+                "Buts",
+                "Coupe Intertoto",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1987 - 1988",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2000 - 2001",
+                    "-",
+                    "-",
+                    "32",
+                    "11",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "3",
+                    "3",
+                    "0",
+                    "0",
+                    "35",
+                    "14"
+                ],
+                [
+                    "2001 - 2002",
+                    "26",
+                    "5",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "29",
+                    "5"
+                ],
+                [
+                    "2002 - 2003",
+                    "2",
+                    "0",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "28",
+                    "5",
+                    "33",
+                    "11",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "3",
+                    "1",
+                    "0",
+                    "68",
+                    "19"
+                ]
+            ],
+            "source_table": 912
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

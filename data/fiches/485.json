@@ -1,0 +1,437 @@
+{
+    "id": 485,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "brest-sochaux-division-1-29-11-1986",
+    "path": "/matchs/1986-1987/brest-sochaux-division-1-29-11-1986/",
+    "title": "J19 – Brest / Sochaux – D1 – 29/11/1986 – 0-0",
+    "categories": [
+        "1986-1987",
+        "a-la-une",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/01/Sochaux2086-8720OnzeHS.jpg",
+    "date": "2024-01-05T14:42:13",
+    "modified": "2025-05-21T11:49:58",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Brest est l'équipe en forme du championnat. Elle vient notamment de s'imposer à Bordeaux le leader. </li>\n<li>Retour de Gilles Brisson dans le groupe. Il remplace Laurent Croci.  </li>\n<li>Brest compte un champion du monde Argentin dans son équipe : José Luis Brown. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>18': </strong>Coup franc de Sorin repoussé par Rust sur Goudet qui tire à côté. </li>\n<li><strong>27' : </strong>Frappe de Guérin top croisée pour inquiéter Rust.  </li>\n<li><strong>37' : </strong>Tir trop croisé de Morin qui fait passer un frisson dans le public. </li>\n<li><strong>48' : </strong>Centre manqué de Brisson qui termine sur la transversale de Chaslerie. </li>\n<li><strong>55' : </strong>Tête puissante de Julio César repoussée du bout des doigts par Rust. Goudet récupère mais rate le cadre. </li>\n<li><strong>57' : </strong>Chaslerie doit sortir de sa surface pour dégager un ballon convoité par Paille. </li>\n<li><strong>58' : </strong>Coup franc de Fernier. Tête de Paille détournée sur le poteau par le gardien brestois.</li>\n<li><strong>65' : </strong>Chaslerie sauve son but en sortant devant Fernier.  </li>\n<li><strong>79' : </strong>Nouvelle sortie loin de son but du gardien brestois devant Morin cette fois. </li>\n<li><strong>88' : </strong>Frappe puissante de Julio César qui manque le cadre. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Jean Fauvergue : </strong><em>\" Nous avons livré notre meilleur match de la saison à l'extérieur. Les joueurs se sont fait plaisir avec plusieurs occasions nettes. \"</em></li>\n<li><strong>Philippe Marini (Brest) : </strong><em>\" Sochaux nous a impressionnés par sa solidité collective \"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves du match",
+            "html": "<ul>\n<li>Sochaux termine la phase aller à la 13ème place avec 18 points comme Laval 12ème. </li>\n<li>Le club compte 5 victoires, 8 nuls et 6 défaites. </li>\n<li>12ème attaque du championnat avec 18 buts et 16ème défense avec 22 buts</li>\n<li>Thierry Fernier, avec 5 buts, est le meilleur marqueur du club devant Paille 4 buts et Sauzée 3 buts. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Après le nul à Brest, Sochaux reste sur une série de 4 matches nuls."
+    },
+    "gallery": [
+        {
+            "image": "2024/01/J-C-Thomas.-But.png",
+            "caption": "J-C Thomas. But",
+            "credit": "",
+            "caption_raw": "J-C Thomas. But"
+        },
+        {
+            "image": "2024/01/J19-Brest-Sochaux-0-0-.jpg",
+            "caption": "Résumé FF",
+            "credit": "",
+            "caption_raw": "Résumé FF"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 485,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j19-brest-sochaux-d1-29-11-1986-0-0/",
+        "path": "/a-la-une/j19-brest-sochaux-d1-29-11-1986-0-0/",
+        "slug": "j19-brest-sochaux-d1-29-11-1986-0-0",
+        "seo_title": "J19 - Brest / Sochaux - D1 - 29/11/1986 - 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h4><strong>Brest / Sochaux : 0-0</strong></h4>\n<h4><strong>19ème journée de D1</strong></h4>\n<h4><strong>Samedi 29 Novembre 1986</strong></h4>\n<h4><strong>Stade Francis Le Blé (29)</strong></h4>\n<h4><strong>5 227 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Sculfort</strong></h4>",
+        "header_lines": [
+            "Brest / Sochaux : 0-0",
+            "19ème journée de D1",
+            "Samedi 29 Novembre 1986",
+            "Stade Francis Le Blé (29)",
+            "5 227 spectateurs",
+            "Arbitrage : M. Sculfort"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1986-11-29",
+        "date_text": "Samedi 29 Novembre 1986",
+        "season": "1986-1987",
+        "competition": "Championnat",
+        "competition_label": "Division 1",
+        "competition_code": "D1",
+        "round": "J19",
+        "round_text": "19ème journée de D1",
+        "home": {
+            "name": "Brest",
+            "level": null
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "Brest / Sochaux : 0-0",
+        "result": "N",
+        "stadium": "Stade Francis Le Blé (29)",
+        "spectators": 5227,
+        "spectators_text": "5 227 spectateurs",
+        "referee": "M. Sculfort",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "18",
+                "text": "Coup franc de Sorin repoussé par Rust sur Goudet qui tire à côté.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "27",
+                "text": "Frappe de Guérin top croisée pour inquiéter Rust.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "37",
+                "text": "Tir trop croisé de Morin qui fait passer un frisson dans le public.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "48",
+                "text": "Centre manqué de Brisson qui termine sur la transversale de Chaslerie.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "55",
+                "text": "Tête puissante de Julio César repoussée du bout des doigts par Rust. Goudet récupère mais rate le cadre.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "57",
+                "text": "Chaslerie doit sortir de sa surface pour dégager un ballon convoité par Paille.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "58",
+                "text": "Coup franc de Fernier. Tête de Paille détournée sur le poteau par le gardien brestois.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "65",
+                "text": "Chaslerie sauve son but en sortant devant Fernier.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "79",
+                "text": "Nouvelle sortie loin de son but du gardien brestois devant Morin cette fois.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "88",
+                "text": "Frappe puissante de Julio César qui manque le cadre.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Jean Fauvergue",
+                "text": "Nous avons livré notre meilleur match de la saison à l'extérieur. Les joueurs se sont fait plaisir avec plusieurs occasions nettes."
+            },
+            {
+                "who": "Philippe Marini (Brest)",
+                "text": "Sochaux nous a impressionnés par sa solidité collective"
+            }
+        ],
+        "breves": [
+            "Sochaux termine la phase aller à la 13ème place avec 18 points comme Laval 12ème.",
+            "Le club compte 5 victoires, 8 nuls et 6 défaites.",
+            "12ème attaque du championnat avec 18 buts et 16ème défense avec 22 buts",
+            "Thierry Fernier, avec 5 buts, est le meilleur marqueur du club devant Paille 4 buts et Sauzée 3 buts."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "86",
+                    "sub_text": "Sortie 86'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "THOMAS Jean-Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HELT John",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZÉE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LUCAS Phlippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "86",
+                    "sub_out": null,
+                    "sub_text": "Entrée 86'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 22
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

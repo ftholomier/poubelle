@@ -1,0 +1,168 @@
+{
+    "id": 8485,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "adrien-delphis",
+    "path": "/joueurs/adrien-delphis/",
+    "title": "Adrien Delphis",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/2-13.jpg",
+    "date": "2024-12-06T22:02:06",
+    "modified": "2025-03-23T21:25:53",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Adrien Delphis a débuté le football à Sochaux à l'âge de 6 ans. Il a gravit tous les échelons jusqu'au contrat professionnel."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/FOYEBCsWUAsCUkV.jpg",
+            "caption": "Adrien Delphis",
+            "credit": "L’est républicain",
+            "caption_raw": "Adrien Delphis – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8485,
+        "url": "https://www.fcsochauxretro.com/a-la-une/adrien-delphis/",
+        "path": "/a-la-une/adrien-delphis/",
+        "slug": "adrien-delphis",
+        "seo_title": "Adrien Delphis - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Adrien Delphis</h2>\n<h4><strong>né le 17 juin 2003 à Belfort (90) </strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux : </strong>septembre 2009</p>\n<p><strong>Départ de Sochaux : </strong>juin 2023</p>",
+        "header_lines": [
+            "Adrien Delphis",
+            "né le 17 juin 2003 à Belfort (90)",
+            "Taille : 1m78",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : septembre 2009",
+            "Départ de Sochaux : juin 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Adrien",
+        "last_name": "Delphis",
+        "display_name": "Adrien Delphis",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2003-06-17",
+                "precision": "day",
+                "text": "17 juin 2003"
+            },
+            "place": {
+                "text": "Belfort (90)",
+                "city": "Belfort",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 17 juin 2003 à Belfort (90)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2009-09",
+            "precision": "month",
+            "text": "septembre 2009"
+        },
+        "departure": {
+            "iso": "2023-06",
+            "precision": "month",
+            "text": "juin 2023"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Adrien Delphis"
+            },
+            {
+                "label": null,
+                "value": "né le 17 juin 2003 à Belfort (90)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 2009"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2023"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

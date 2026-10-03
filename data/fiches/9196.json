@@ -1,0 +1,213 @@
+{
+    "id": 9196,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "faycal-yahia",
+    "path": "/joueurs/faycal-yahia/",
+    "title": "Fayçal Yahia",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-74.jpg",
+    "date": "2024-12-27T23:07:36",
+    "modified": "2024-12-27T23:17:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1993",
+        "text": "Fayçal Yahia a été formé à Sochaux jusqu'en 1993 mais a fait l'essentielle de sa carrière professionnelle à Beauvais en deuxième division."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-74.jpg",
+            "caption": "Fayçal Yahia",
+            "credit": "AS Beauvais Oise",
+            "caption_raw": "Fayçal Yahia – AS Beauvais Oise"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9196,
+        "url": "https://www.fcsochauxretro.com/a-la-une/faycal-yahia/",
+        "path": "/a-la-une/faycal-yahia/",
+        "slug": "faycal-yahia",
+        "seo_title": "Fayçal Yahia - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Fayçal Yahia</h2>\n<h4><strong>né le 15 février 1975 à Marseille (68) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1992</p>\n<p><strong>Départ de Sochaux : </strong>juin 1993</p>",
+        "header_lines": [
+            "Fayçal Yahia",
+            "né le 15 février 1975 à Marseille (68)",
+            "Taille : 1m80",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Arrivée à Sochaux : juillet 1992",
+            "Départ de Sochaux : juin 1993"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Fayçal",
+        "last_name": "Yahia",
+        "display_name": "Fayçal Yahia",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1975-02-15",
+                "precision": "day",
+                "text": "15 février 1975"
+            },
+            "place": {
+                "text": "Marseille (68)",
+                "city": "Marseille",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 février 1975 à Marseille (68)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1992-07",
+            "precision": "month",
+            "text": "juillet 1992"
+        },
+        "departure": {
+            "iso": "1993-06",
+            "precision": "month",
+            "text": "juin 1993"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Fayçal Yahia"
+            },
+            {
+                "label": null,
+                "value": "né le 15 février 1975 à Marseille (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1992"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1993"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

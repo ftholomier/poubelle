@@ -1,0 +1,276 @@
+{
+    "id": 9249,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "florent-ogier",
+    "path": "/joueurs/florent-ogier/",
+    "title": "Florent Ogier",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-76.jpg",
+    "date": "2024-12-28T12:59:05",
+    "modified": "2024-12-28T17:55:16",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "78",
+        "text": "Florent Ogier a joué 78 matchs (1 but et 2 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-76.jpg",
+            "caption": "Florent Ogier",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Florent Ogier – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/12/florent-ogier-de-retour-sur-le-terrain-de-son-enfance-photo-lionel-vadam-1510334278.jpg",
+            "caption": "Florent Ogier",
+            "credit": "L’est républicain",
+            "caption_raw": "Florent Ogier – L’est républicain"
+        },
+        {
+            "image": "2024/12/photo-lionel-vadam-1524940660.jpg",
+            "caption": "Florent Ogier",
+            "credit": "L’est républicain",
+            "caption_raw": "Florent Ogier – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9249,
+        "url": "https://www.fcsochauxretro.com/a-la-une/florent-ogier/",
+        "path": "/a-la-une/florent-ogier/",
+        "slug": "florent-ogier",
+        "seo_title": "Florent Ogier - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Florent Ogier</h2>\n<h4><strong>Né le 30 décembre 1976 à Warri (Nigéria)<br></strong></h4>\n<p><strong>Taille :</strong> 1m83</p>\n<p><strong>Poids: </strong>73 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position: </strong>défenseur central<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2016<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2018<strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Troyes - Sochaux du 26/07/2016 : 1-3 </p>\n<p><strong>Dernier match joué :</strong> Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1</p>\n<p><strong>Premier but marqué:</strong> Sochaux - Nantes - 19/05/2017 : 2-3 - But à la 23'</p>",
+        "header_lines": [
+            "Florent Ogier",
+            "Né le 30 décembre 1976 à Warri (Nigéria)",
+            "Taille : 1m83",
+            "Poids: 73 kg",
+            "Pied : droitier",
+            "Position: défenseur central",
+            "Arrivée à Sochaux : juillet 2016",
+            "Départ de Sochaux : juin 2018",
+            "Premier match joué : Troyes - Sochaux du 26/07/2016 : 1-3",
+            "Dernier match joué : Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1",
+            "Premier but marqué: Sochaux - Nantes - 19/05/2017 : 2-3 - But à la 23'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Florent",
+        "last_name": "Ogier",
+        "display_name": "Florent Ogier",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1976-12-30",
+                "precision": "day",
+                "text": "30 décembre 1976"
+            },
+            "place": {
+                "text": "Warri (Nigéria)",
+                "city": "Warri",
+                "department": null,
+                "country": "Nigéria",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 30 décembre 1976 à Warri (Nigéria)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2016-07",
+            "precision": "month",
+            "text": "juillet 2016"
+        },
+        "departure": {
+            "iso": "2018-06",
+            "precision": "month",
+            "text": "juin 2018"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Troyes - Sochaux du 26/07/2016 : 1-3",
+        "last_match": "Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1",
+        "first_goal": "Sochaux - Nantes - 19/05/2017 : 2-3 - But à la 23'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Florent Ogier"
+            },
+            {
+                "label": null,
+                "value": "Né le 30 décembre 1976 à Warri (Nigéria)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2016"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2018"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Troyes - Sochaux du 26/07/2016 : 1-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Bourg-en-Bresse - Sochaux du 11/05/2018 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Nantes - 19/05/2017 : 2-3 - But à la 23'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

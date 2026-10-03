@@ -1,0 +1,248 @@
+{
+    "id": 12268,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jose-ismael-montagnoli",
+    "path": "/joueurs/jose-ismael-montagnoli/",
+    "title": "José Ismaël Montagnoli",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-75.jpg",
+    "date": "2025-02-27T12:56:38",
+    "modified": "2025-03-08T17:33:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "16",
+        "text": "José Montagnoli a joué 16 matchs (3 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/66391.jpg",
+            "caption": "José Montagnoli",
+            "credit": "DR",
+            "caption_raw": "José Montagnoli – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12268,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jose-ismael-montagnoli/",
+        "path": "/a-la-une/jose-ismael-montagnoli/",
+        "slug": "jose-ismael-montagnoli",
+        "seo_title": "José Ismaël Montagnoli - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>José Ismael Montagnoli</h2>\n<h4><strong>né le 30 août 1926 à Magdalena (Buenos-Aires, Argentine)</strong></h4>\n<h4><strong>Décédé le 19 avril 1994 à Paris (75)</strong></h4>\n<p><strong>Poste :</strong> attaquant</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1951</p>\n<p><strong>Départ de Sochaux : </strong>juin 1952</p>\n<p><strong>Premier match joué : </strong>Sochaux - CO Roubaix-Tourcoing du 02/09/1951 : 1-2</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Stade français du 11/09/1952 : 1-3</p>\n<p><strong>Premiers buts marqués : </strong>Sochaux - Rennes du 16/09/1951 : 5-1 - But à la 26' et 87'</p>",
+        "header_lines": [
+            "José Ismael Montagnoli",
+            "né le 30 août 1926 à Magdalena (Buenos-Aires, Argentine)",
+            "Décédé le 19 avril 1994 à Paris (75)",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1951",
+            "Départ de Sochaux : juin 1952",
+            "Premier match joué : Sochaux - CO Roubaix-Tourcoing du 02/09/1951 : 1-2",
+            "Dernier match joué : Sochaux - Stade français du 11/09/1952 : 1-3",
+            "Premiers buts marqués : Sochaux - Rennes du 16/09/1951 : 5-1 - But à la 26' et 87'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "José Ismael",
+        "last_name": "Montagnoli",
+        "display_name": "José Ismael Montagnoli",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1926-08-30",
+                "precision": "day",
+                "text": "30 août 1926"
+            },
+            "place": {
+                "text": "Magdalena (Buenos-Aires, Argentine)",
+                "city": "Magdalena",
+                "department": null,
+                "country": "Buenos-Aires, Argentine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 août 1926 à Magdalena (Buenos-Aires, Argentine)"
+        },
+        "death": {
+            "date": {
+                "iso": "1994-04-19",
+                "precision": "day",
+                "text": "19 avril 1994"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 19 avril 1994 à Paris (75)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1951-07",
+            "precision": "month",
+            "text": "juillet 1951"
+        },
+        "departure": {
+            "iso": "1952-06",
+            "precision": "month",
+            "text": "juin 1952"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - CO Roubaix-Tourcoing du 02/09/1951 : 1-2",
+        "last_match": "Sochaux - Stade français du 11/09/1952 : 1-3",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "José Ismael Montagnoli"
+            },
+            {
+                "label": null,
+                "value": "né le 30 août 1926 à Magdalena (Buenos-Aires, Argentine)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 19 avril 1994 à Paris (75)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1951"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1952"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - CO Roubaix-Tourcoing du 02/09/1951 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Stade français du 11/09/1952 : 1-3"
+            },
+            {
+                "label": "Premiers buts marqués",
+                "value": "Sochaux - Rennes du 16/09/1951 : 5-1 - But à la 26' et 87'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

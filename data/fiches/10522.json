@@ -1,0 +1,319 @@
+{
+    "id": 10522,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pierre-pibarot",
+    "path": "/joueurs/pierre-pibarot/",
+    "title": "Pierre Pibarot",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-38.jpg",
+    "date": "2025-01-17T23:11:43",
+    "modified": "2025-01-18T12:07:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "33",
+        "text": "Pierre Pibarot aurait joué 33 matchs (amicaux compris) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-38.jpg",
+            "caption": "Pierre Pibarot",
+            "credit": "DR",
+            "caption_raw": "Pierre Pibarot – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10522,
+        "url": "https://www.fcsochauxretro.com/a-la-une/pierre-pibarot/",
+        "path": "/a-la-une/pierre-pibarot/",
+        "slug": "pierre-pibarot",
+        "seo_title": "Pierre Pibarot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pierre Pibarot</h2>\n<h4><strong>né le 23 juillet 1916 à Alès (30)</strong></h4>\n<h4><strong>Décédé le 26 novembre 1981 à Montpellier (34) </strong></h4>\n<p><strong>Poste :</strong> gardien de but</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1939</p>\n<p><strong>Départ de Sochaux : </strong>juin 1943</p>\n<p><strong>Premier match joué</strong> : Sochaux - Belfort du 15/02/1942 : 0-1</p>\n<p><strong>Dernier match joué</strong> : Amiens - Sochaux du 24/04/1943 : 5-2</p>",
+        "header_lines": [
+            "Pierre Pibarot",
+            "né le 23 juillet 1916 à Alès (30)",
+            "Décédé le 26 novembre 1981 à Montpellier (34)",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1939",
+            "Départ de Sochaux : juin 1943",
+            "Premier match joué : Sochaux - Belfort du 15/02/1942 : 0-1",
+            "Dernier match joué : Amiens - Sochaux du 24/04/1943 : 5-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Pierre",
+        "last_name": "Pibarot",
+        "display_name": "Pierre Pibarot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1916-07-23",
+                "precision": "day",
+                "text": "23 juillet 1916"
+            },
+            "place": {
+                "text": "Alès (30)",
+                "city": "Alès",
+                "department": "30",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 juillet 1916 à Alès (30)"
+        },
+        "death": {
+            "date": {
+                "iso": "1981-11-26",
+                "precision": "day",
+                "text": "26 novembre 1981"
+            },
+            "place": {
+                "text": "Montpellier (34)",
+                "city": "Montpellier",
+                "department": "34",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 26 novembre 1981 à Montpellier (34)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1939-07",
+            "precision": "month",
+            "text": "juillet 1939"
+        },
+        "departure": {
+            "iso": "1943-06",
+            "precision": "month",
+            "text": "juin 1943"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Belfort du 15/02/1942 : 0-1",
+        "last_match": "Amiens - Sochaux du 24/04/1943 : 5-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pierre Pibarot"
+            },
+            {
+                "label": null,
+                "value": "né le 23 juillet 1916 à Alès (30)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 26 novembre 1981 à Montpellier (34)"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1939"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1943"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Belfort du 15/02/1942 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Amiens - Sochaux du 24/04/1943 : 5-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1989-1990",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1992-1993",
+                    "29",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "31",
+                    "2"
+                ],
+                [
+                    "1993-1994",
+                    "31",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "33",
+                    "2"
+                ],
+                [
+                    "1994-1995",
+                    "23",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "25",
+                    "0"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "5",
+                    "0",
+                    "1",
+                    "0",
+                    "41",
+                    "0",
+                    "0",
+                    "0",
+                    "47",
+                    "0"
+                ],
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "1",
+                    "0",
+                    "0",
+                    "27",
+                    "1"
+                ],
+                [
+                    "Total",
+                    "84",
+                    "4",
+                    "14",
+                    "0",
+                    "2",
+                    "0",
+                    "64",
+                    "1",
+                    "0",
+                    "0",
+                    "164",
+                    "5"
+                ]
+            ],
+            "source_table": 428
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

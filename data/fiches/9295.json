@@ -1,0 +1,277 @@
+{
+    "id": 9295,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "arthur-vitelli",
+    "path": "/joueurs/arthur-vitelli/",
+    "title": "Arthur Vitelli",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-86.jpg",
+    "date": "2024-12-29T01:40:22",
+    "modified": "2025-11-17T04:03:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<p>En septembre 2017, il intègre la formation de manager général de club sportif au célèbre Centre de Droit et d’Economie du Sport (CDES) à Limoges, aux côtés de son ancien coéquipier Rudy Riou. Il y côtoie également des grands noms d’autres sports : Thomas Voekler (cyclisme) et Thierry Omeyer (hand-ball).</p>"
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Arthur Vitelli a joué XX match (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/arthur-vitelli-a-recupere-son-brassard-de-capitaine-vendredi-soir-lionel-vadam-1725737138.jpg",
+            "caption": "Arthur Vitelli",
+            "credit": "L’est républicain",
+            "caption_raw": "Arthur Vitelli – L’est républicain"
+        },
+        {
+            "image": "2024/12/arthur-vitelli-a-aussi-dispute-5-matchs-de-coupe-de-france-inscrivant-meme-un-but-contre-geispolsheim-en-decembre-dernier-photo-lionel-vadam-1717229477.jpg",
+            "caption": "Arthur Vitelli",
+            "credit": "L’est républicain",
+            "caption_raw": "Arthur Vitelli – L’est républicain"
+        },
+        {
+            "image": "2024/12/748c0a33e1bb4cc75f70cb385a1325f4_S.jpg",
+            "caption": "Arthur Vitelli",
+            "credit": "L’est républicain",
+            "caption_raw": "Arthur Vitelli – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9295,
+        "url": "https://www.fcsochauxretro.com/a-la-une/arthur-vitelli/",
+        "path": "/a-la-une/arthur-vitelli/",
+        "slug": "arthur-vitelli",
+        "seo_title": "Arthur Vitelli - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Arthur Vitelli</h2>\n<h4><strong>né le 4 juin 2000 à Dijon (21) </strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2023</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match :</strong> Sochaux - GOAL FC du 01/09/2023 : 0-3</p>\n<p><strong>Dernier match : </strong></p>\n<p><strong>Premier but avec Sochaux :</strong> Geispolsheim - Sochaux du 09/12/2023 : 0-4 - But à la 21'</p>",
+        "header_lines": [
+            "Arthur Vitelli",
+            "né le 4 juin 2000 à Dijon (21)",
+            "Taille : 1m86",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : aout 2023",
+            "Départ de Sochaux :",
+            "Premier match : Sochaux - GOAL FC du 01/09/2023 : 0-3",
+            "Dernier match :",
+            "Premier but avec Sochaux : Geispolsheim - Sochaux du 09/12/2023 : 0-4 - But à la 21'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Arthur",
+        "last_name": "Vitelli",
+        "display_name": "Arthur Vitelli",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2000-06-04",
+                "precision": "day",
+                "text": "4 juin 2000"
+            },
+            "place": {
+                "text": "Dijon (21)",
+                "city": "Dijon",
+                "department": "21",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 4 juin 2000 à Dijon (21)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "aout 2023"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - GOAL FC du 01/09/2023 : 0-3",
+        "last_match": "",
+        "first_goal": "Geispolsheim - Sochaux du 09/12/2023 : 0-4 - But à la 21'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Arthur Vitelli"
+            },
+            {
+                "label": null,
+                "value": "né le 4 juin 2000 à Dijon (21)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match",
+                "value": "Sochaux - GOAL FC du 01/09/2023 : 0-3"
+            },
+            {
+                "label": "Dernier match",
+                "value": ""
+            },
+            {
+                "label": "Premier but avec Sochaux",
+                "value": "Geispolsheim - Sochaux du 09/12/2023 : 0-4 - But à la 21'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1976-1977",
+                    "16",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "1977-1978",
+                    "16",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "1978-1979",
+                    "21",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "21",
+                    "0"
+                ],
+                [
+                    "1979-1980",
+                    "13",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "13",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "66",
+                    "0",
+                    "4",
+                    "0",
+                    "2",
+                    "0",
+                    "72",
+                    "0"
+                ]
+            ],
+            "source_table": 283
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

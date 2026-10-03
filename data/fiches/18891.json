@@ -1,0 +1,507 @@
+{
+    "id": 18891,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "monaco-nantes-amical-22-07-2000",
+    "path": "/matchs/2000-2001/monaco-nantes-amical-22-07-2000/",
+    "title": "Inauguration du nouveau Stade Bonal – Monaco (D1) / Nantes (D1) – Trophée des champions – 22/07/2000 – 0-0 a.p (6-5 tab)",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "amical",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "le-stade",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/519640823_1128725095737251_737815365501537839_n.jpg",
+    "date": "2025-11-18T23:30:52",
+    "modified": "2025-11-18T23:44:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "20000",
+        "text": "Le 22 juillet 2000, le nouveau stade Auguste Bonal d'une capacité de 20 000 places entièrement assises et couvertes est inauguré lors du Trophée des champions."
+    },
+    "gallery": [
+        {
+            "image": "2025/11/519640823_1128725095737251_737815365501537839_n.jpg",
+            "caption": "Pierre Moscovici, Claude Simonet, Gérard Bourgoin, Louis Souvet, Claude Girard – Inauguration du nouveau stade Auguste Bonal",
+            "credit": "22 juillet 2000",
+            "caption_raw": "Pierre Moscovici, Claude Simonet, Gérard Bourgoin, Louis Souvet, Claude Girard – Inauguration du nouveau stade Auguste Bonal – 22 juillet 2000"
+        },
+        {
+            "image": "2025/11/514276691_1128725102403917_1029905396542074829_n.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2025/11/514253305_1128725099070584_1874500204884880404_n.jpg",
+            "caption": "Stade Bonal vu du haut",
+            "credit": "DR",
+            "caption_raw": "Stade Bonal vu du haut – DR"
+        },
+        {
+            "image": "2025/11/27-03-2021-05-29-21-gravelaine3.jpg",
+            "caption": "Trophée des champions 2000 – Nantes-Monaco",
+            "credit": "Damien Meyer pour l’AFP",
+            "caption_raw": "Trophée des champions 2000 – Nantes-Monaco – Photo Damien Meyer pour l’AFP"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "youtube",
+            "id": "vZxIGWTqqTA",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 18891,
+        "url": "https://www.fcsochauxretro.com/a-la-une/inauguration-du-nouveau-stade-bonal-monaco-d1-nantes-d1-trophee-des-champions-22-07-2000-0-0-a-p-6-5-tab/",
+        "path": "/a-la-une/inauguration-du-nouveau-stade-bonal-monaco-d1-nantes-d1-trophee-des-champions-22-07-2000-0-0-a-p-6-5-tab/",
+        "slug": "inauguration-du-nouveau-stade-bonal-monaco-d1-nantes-d1-trophee-des-champions-22-07-2000-0-0-a-p-6-5-tab",
+        "seo_title": "Inauguration du nouveau Stade Bonal - Monaco (D1) / Nantes (D1) - Trophée des champions - 22/07/2000 - 0-0 a.p (6-5 tab) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Monaco (D1) / Nantes (D1) : 0-0 a.p (6-5 tab)</strong></h2>\n<h4><strong>Inauguration du nouveau stade Auguste Bonal</strong></h4>\n<h4><strong>Trophée des champions 2000</strong></h4>\n<h4><strong>Samedi 22 juillet 2000</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>9 918 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Moulin</strong></h4>",
+        "header_lines": [
+            "Monaco (D1) / Nantes (D1) : 0-0 a.p (6-5 tab)",
+            "Inauguration du nouveau stade Auguste Bonal",
+            "Trophée des champions 2000",
+            "Samedi 22 juillet 2000",
+            "Stade Auguste Bonal",
+            "9 918 spectateurs",
+            "Arbitre : M. Moulin"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-07-22",
+        "date_text": "Samedi 22 juillet 2000",
+        "season": "2000-2001",
+        "competition": "Amical",
+        "competition_label": "Trophée des champions",
+        "competition_code": "Trophée des champions",
+        "round": "Inauguration du nouveau Stade Bonal",
+        "round_text": "Inauguration du nouveau stade Auguste Bonal",
+        "home": {
+            "name": "Monaco",
+            "level": "D1"
+        },
+        "away": {
+            "name": "Nantes",
+            "level": "D1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": "a.p (6-5 tab)",
+            "aet": true,
+            "pens": {
+                "home": 6,
+                "away": 5
+            }
+        },
+        "score_raw": "0-0 a.p (6-5 tab)",
+        "score_line": "Monaco (D1) / Nantes (D1) : 0-0 a.p (6-5 tab)",
+        "result": "V",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 9918,
+        "spectators_text": "9 918 spectateurs",
+        "referee": "M. Moulin",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "CROS Pierrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SAUGET David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "JOSSE Maxime",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FATY Jacques",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MIKARI Yassin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PERQUIS Damien",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TULASNE Geoffrey",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ANIN Kévin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DAVIES Charly",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MAURICE-BELAY Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "GURLER Serdar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DREYER Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BUTIN Edouard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DUPLUS Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CARLAO",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "NOGUEIRA Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SVERKOS Vaclav",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MARTIN Marvin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "GILLOT Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1474
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

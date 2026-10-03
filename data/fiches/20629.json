@@ -1,0 +1,184 @@
+{
+    "id": 20629,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "thierry-martin",
+    "path": "/joueurs/thierry-martin/",
+    "title": "Thierry Martin",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Thierry_Martin.jpg",
+    "date": "2026-02-19T10:12:35",
+    "modified": "2026-02-19T11:20:52",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Né à Besançon, Thierry Martin intègre l'école de football de Sochaux en 1967 à l'âge de 10 ans. </li>\n<li>Il entre ensuite au centre de formation. Il sera formé au poste d'arrière latéral droit aux côtés notamment de Joël Bats, Bernard Genghini, Moussa Bezaz ou encore Romain Zandona et Thierry Meyer. </li>\n<li>Il dispute notamment la finale de la coupe Gambardella 1975 perdue face à Nantes lors des tirs au but. </li>\n<li>Arrivée à la fin de sa formation en 1977, ils ne se voient pas proposer de contrat professionnel et il signe un contrat professionnel dans le club de sa ville natale le RCFC Besançon qui évolue en deuxième division. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Au RCFC Besançon il joue principalement avec l'équipe réserve. En novembre 1977 il joue son premier match professionnel contre le Gazélec Ajaccio au stade Léo Lagrange (2-0). </li>\n<li>Pendant 4 ans il ne joue pas. Il rejoue finalement 12 matchs de championnat de D2 à la fin de la saison 1981/1982. </li>\n<li>En 1982 changement de région, il rejoint le club d'Aix en Provence qui évolue en troisième division. Il y reste jusqu'en 1986. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Thierry Martin est resté 10 ans en équipe jeune à Sochaux mais n'a jamais joué avec l'équipe professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Thierry_Martin.jpg",
+            "caption": "Thierry Martin -L’est républicain",
+            "credit": "",
+            "caption_raw": "Thierry Martin -L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20629,
+        "url": "https://www.fcsochauxretro.com/a-la-une/thierry-martin/",
+        "path": "/a-la-une/thierry-martin/",
+        "slug": "thierry-martin",
+        "seo_title": "Thierry Martin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Thierry Martin</h2>\n<h4><strong>né le 22 juillet 1957 à Besançon (25)</strong></h4>\n<p><strong>Taille :</strong> 1m81</p>\n<p><strong>Poids :</strong> 65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière latéral droit<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>septembre 1967</p>\n<p><strong>Départ de Sochaux :</strong> juin 1977</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe Gambardella 1975</li>\n</ul>",
+        "header_lines": [
+            "Thierry Martin",
+            "né le 22 juillet 1957 à Besançon (25)",
+            "Taille : 1m81",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "Arrivée à Sochaux : septembre 1967",
+            "Départ de Sochaux : juin 1977",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe Gambardella 1975"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Thierry",
+        "last_name": "Martin",
+        "display_name": "Thierry Martin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1957-07-22",
+                "precision": "day",
+                "text": "22 juillet 1957"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 juillet 1957 à Besançon (25)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1967-09",
+            "precision": "month",
+            "text": "septembre 1967"
+        },
+        "departure": {
+            "iso": "1977-06",
+            "precision": "month",
+            "text": "juin 1977"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe Gambardella 1975"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Thierry Martin"
+            },
+            {
+                "label": null,
+                "value": "né le 22 juillet 1957 à Besançon (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 1967"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1977"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe Gambardella 1975"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

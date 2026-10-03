@@ -1,0 +1,171 @@
+{
+    "id": 20689,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ilan-daf",
+    "path": "/joueurs/ilan-daf/",
+    "title": "Ilan Daf",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/02/55-1.jpg",
+    "date": "2026-02-28T09:30:59",
+    "modified": "2026-03-22T16:20:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Fils d'Omar Daf, Ilan Daf débute le football très jeune à l'école de foot du FC Sochaux. </li>\n<li>A l'âge de 15 ans, il intègre le centre de formation. A l'été 2022, son père, alors entraîneur principal du club, quitte Sochaux pour Dijon suite à des conflits à répétition avec le directeur général controversé de l'époque. </li>\n<li>Voyant l'avenir footballistique de son fils bouché s'il devait rester à Sochaux, Omar amène son fils avec lui au centre de formation de Dijon. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>De 2022 à 2024, Ilan Daf est formé au poste d'attaquant ou de milieu offensif au Dijon FCO. Il joue dans la belle génération qui ira en finale de la coupe Gambardella 2025 contre Rennes. Mais sans lui car à l'été 2024 il rejoint de nouveau son père au centre de formation d'Amiens. </li>\n<li><strong>Saison 2024/2025</strong></li>\n<li>Il joue en équipe jeune à Amiens. Les Picards font un bon parcours en coupe Gambardella puisqu'ils vont jusqu'en quart de finale. Ilan est replacé arrière droit par son entraîneur. </li>\n<li>Avec plusieurs de ses coéquipiers il est intégré régulièrement à l'entraînement des professionnels. </li>\n<li>Lors de la dernière journée de ligue 2 2024/225, Omar Daf convoque son fils dans le groupe professionnel et le fait débuter en fin de match à Troyes en championnat. </li>\n<li><strong>Saison 2025/2026</strong></li>\n<li>Il joue tantôt en réserve tantôt avec les U19. Il est toujours appelé régulièrement aux entrainements des professionnels. </li>\n<li>En septembre il entre de nouveau en jeu contre Dunkerque. A partir de la fin d'année il est convoqué dans le groupe professionnel mais n'entre pas en jeu en ligue 2.</li>\n<li>En janvier il joue en coupe de France contre Montreuil. Puis en toute fin de match lors d'une défaite à Annecy. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "2022",
+        "text": "Ilan Daf a quitte le centre de formation de Sochaux à l'été 2022 en même temps que son père Omar."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/55-1.jpg",
+            "caption": "Ilan Daf",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Ilan Daf – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20689,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/ilan-daf/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/ilan-daf/",
+        "slug": "ilan-daf",
+        "seo_title": "Ilan Daf - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ilan Daf</h2>\n<h4><strong>né le 24 mai 2007 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m84</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>septembre 2014</p>\n<p><strong>Départ de Sochaux : </strong>juin 2022</p>",
+        "header_lines": [
+            "Ilan Daf",
+            "né le 24 mai 2007 à Montbéliard (25)",
+            "Taille : 1m84",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : septembre 2014",
+            "Départ de Sochaux : juin 2022"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ilan",
+        "last_name": "Daf",
+        "display_name": "Ilan Daf",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2007-05-24",
+                "precision": "day",
+                "text": "24 mai 2007"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 mai 2007 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2014-09",
+            "precision": "month",
+            "text": "septembre 2014"
+        },
+        "departure": {
+            "iso": "2022-06",
+            "precision": "month",
+            "text": "juin 2022"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ilan Daf"
+            },
+            {
+                "label": null,
+                "value": "né le 24 mai 2007 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 2014"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2022"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

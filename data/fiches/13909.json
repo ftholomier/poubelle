@@ -1,0 +1,229 @@
+{
+    "id": 13909,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jerome-monnier",
+    "path": "/entraineurs/jerome-monnier/",
+    "title": "Jérôme Monnier",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-adjoints",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/05/22.jpg",
+    "date": "2025-07-17T10:19:29",
+    "modified": "2026-09-17T11:46:10",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "11",
+        "text": "Jérôme Monnier a été l'entraineur adjoint d'Olivier Guégan durant 11 mois."
+    },
+    "gallery": [
+        {
+            "image": "2025/05/22.jpg",
+            "caption": "Jérôme Monnier",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Jérôme Monnier – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13909,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jerome-monnier/",
+        "path": "/a-la-une/jerome-monnier/",
+        "slug": "jerome-monnier",
+        "seo_title": "Jérôme Monnier - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jérôme Monnier</h2>\n<h4><strong>né le 4 aout 1971 </strong></h4>\n<p><strong>Poste : </strong>Entraineur adjoint</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2022</p>\n<p><strong>Départ de Sochaux :</strong> mai 2023</p>",
+        "header_lines": [
+            "Jérôme Monnier",
+            "né le 4 aout 1971",
+            "Poste : Entraineur adjoint",
+            "Arrivée à Sochaux : juillet 2022",
+            "Départ de Sochaux : mai 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "entraineur"
+        ],
+        "first_name": "Jérôme",
+        "last_name": "Monnier",
+        "display_name": "Jérôme Monnier",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1971-08-04",
+                "precision": "day",
+                "text": "4 aout 1971"
+            },
+            "place": null,
+            "text": "né le 4 aout 1971"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Entraineur adjoint",
+        "line": "E",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2022-07",
+            "precision": "month",
+            "text": "juillet 2022"
+        },
+        "departure": {
+            "iso": "2023-05",
+            "precision": "month",
+            "text": "mai 2023"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jérôme Monnier"
+            },
+            {
+                "label": null,
+                "value": "né le 4 aout 1971"
+            },
+            {
+                "label": "Poste",
+                "value": "Entraineur adjoint"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2022"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "mai 2023"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1976-1977",
+                    "16",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "1977-1978",
+                    "16",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "1978-1979",
+                    "21",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "21",
+                    "0"
+                ],
+                [
+                    "1979-1980",
+                    "13",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "13",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "66",
+                    "0",
+                    "4",
+                    "0",
+                    "2",
+                    "0",
+                    "72",
+                    "0"
+                ]
+            ],
+            "source_table": 283
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

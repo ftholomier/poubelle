@@ -1,0 +1,246 @@
+{
+    "id": 8595,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ermedin-demirovic",
+    "path": "/joueurs/ermedin-demirovic/",
+    "title": "Ermedin Demirovic",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/4.jpg",
+    "date": "2024-12-07T23:35:23",
+    "modified": "2025-03-23T21:28:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "17",
+        "text": "Ermedin Demirovic a joué 17 matchs (4 buts et 2 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/title-1547901510.jpg",
+            "caption": "Ermedin Demirovic",
+            "credit": "L’est républicain",
+            "caption_raw": "Ermedin Demirovic – L’est républicain"
+        },
+        {
+            "image": "2024/12/ermedin-demirovic-archive-lionel-vadam-1540036847.jpg",
+            "caption": "Ermedin Demirovic",
+            "credit": "L’est républicain",
+            "caption_raw": "Ermedin Demirovic – L’est républicain"
+        },
+        {
+            "image": "2024/12/1200x680_maxsportsworldtwo631105.jpg",
+            "caption": "Ermedin Demirovic",
+            "credit": "L’est républicain",
+            "caption_raw": "Ermedin Demirovic – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8595,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ermedin-demirovic/",
+        "path": "/a-la-une/ermedin-demirovic/",
+        "slug": "ermedin-demirovic",
+        "seo_title": "Ermedin Demirovic - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ermedin Demirovic</h2>\n<h4><strong>né le 25 mars 1998 à Hambourg (Allemagne) </strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International bosniaque (31 sélections, 3 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2018</p>\n<p><strong>Départ de Sochaux : </strong>décembre 2018</p>\n<p><strong>Premier match joué : </strong>Sochaux - Valenciennes du 03/08/2018 : 0-1</p>\n<p><strong>Dernier match joué : </strong>Red Star - Sochaux du 14/12/2018 : 3-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Brest du 17/08/2018 : 2-0 - But à la 46'</p>",
+        "header_lines": [
+            "Ermedin Demirovic",
+            "né le 25 mars 1998 à Hambourg (Allemagne)",
+            "Taille : 1m85",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International bosniaque (31 sélections, 3 buts)",
+            "Arrivée à Sochaux : aout 2018",
+            "Départ de Sochaux : décembre 2018",
+            "Premier match joué : Sochaux - Valenciennes du 03/08/2018 : 0-1",
+            "Dernier match joué : Red Star - Sochaux du 14/12/2018 : 3-0",
+            "Premier but marqué : Sochaux - Brest du 17/08/2018 : 2-0 - But à la 46'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ermedin",
+        "last_name": "Demirovic",
+        "display_name": "Ermedin Demirovic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1998-03-25",
+                "precision": "day",
+                "text": "25 mars 1998"
+            },
+            "place": {
+                "text": "Hambourg (Allemagne)",
+                "city": "Hambourg",
+                "department": null,
+                "country": "Allemagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 mars 1998 à Hambourg (Allemagne)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International bosniaque (31 sélections, 3 buts)"
+        ],
+        "arrival": {
+            "iso": "2018-08",
+            "precision": "month",
+            "text": "aout 2018"
+        },
+        "departure": {
+            "iso": "2018-12",
+            "precision": "month",
+            "text": "décembre 2018"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Valenciennes du 03/08/2018 : 0-1",
+        "last_match": "Red Star - Sochaux du 14/12/2018 : 3-0",
+        "first_goal": "Sochaux - Brest du 17/08/2018 : 2-0 - But à la 46'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ermedin Demirovic"
+            },
+            {
+                "label": null,
+                "value": "né le 25 mars 1998 à Hambourg (Allemagne)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International bosniaque (31 sélections, 3 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "décembre 2018"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Valenciennes du 03/08/2018 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Red Star - Sochaux du 14/12/2018 : 3-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Brest du 17/08/2018 : 2-0 - But à la 46'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2018 - 2019",
+                    "16",
+                    "4",
+                    "1",
+                    "0",
+                    "17",
+                    "4"
+                ],
+                [
+                    "TOTAL",
+                    "16",
+                    "4",
+                    "1",
+                    "0",
+                    "17",
+                    "4"
+                ]
+            ],
+            "source_table": 959
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

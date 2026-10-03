@@ -1,0 +1,237 @@
+{
+    "id": 9363,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "abel-khaled",
+    "path": "/joueurs/abel-khaled/",
+    "title": "Abel Khaled",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-52.jpg",
+    "date": "2024-12-21T11:16:02",
+    "modified": "2024-12-21T11:25:27",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Abel Khaled est resté 3 saisons au centre de formation de Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-53.jpg",
+            "caption": "Abel Khaled",
+            "credit": "Brest",
+            "caption_raw": "Abel Khaled – Brest"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9363,
+        "url": "https://www.fcsochauxretro.com/a-la-une/abel-khaled/",
+        "path": "/a-la-une/abel-khaled/",
+        "slug": "abel-khaled",
+        "seo_title": "Abel Khaled - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Abel Khaled</h2>\n<h4><strong>né le 9 novembre 1992 à Luxeuil-les-Bains (70) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>67 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux :</strong> aout 2006</p>\n<p><strong>Départ de Sochaux : </strong>juin 2009</p>",
+        "header_lines": [
+            "Abel Khaled",
+            "né le 9 novembre 1992 à Luxeuil-les-Bains (70)",
+            "Taille : 1m80",
+            "Poids : 67 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : aout 2006",
+            "Départ de Sochaux : juin 2009"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Abel",
+        "last_name": "Khaled",
+        "display_name": "Abel Khaled",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1992-11-09",
+                "precision": "day",
+                "text": "9 novembre 1992"
+            },
+            "place": {
+                "text": "Luxeuil-les-Bains (70)",
+                "city": "Luxeuil-les-Bains",
+                "department": "70",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 novembre 1992 à Luxeuil-les-Bains (70)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "67 kg",
+        "weight_kg": 67,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2006-08",
+            "precision": "month",
+            "text": "aout 2006"
+        },
+        "departure": {
+            "iso": "2009-06",
+            "precision": "month",
+            "text": "juin 2009"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Abel Khaled"
+            },
+            {
+                "label": null,
+                "value": "né le 9 novembre 1992 à Luxeuil-les-Bains (70)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "67 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2006"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2009"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "3"
+                ],
+                [
+                    "1998-1999",
+                    "14",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "14",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "14",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "24",
+                    "3"
+                ]
+            ],
+            "source_table": 456
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,229 @@
+{
+    "id": 7621,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "franck-etoundi",
+    "path": "/joueurs/franck-etoundi/",
+    "title": "Franck Etoundi",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/3-6.jpg",
+    "date": "2024-11-14T13:32:54",
+    "modified": "2025-05-19T20:15:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "12",
+        "text": "Franck Etoundi a joué 12 matchs (1 but et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/bayala-et-etoundi-n-ont-pas-lache-1553970502.jpg",
+            "caption": "Franck Etoundi",
+            "credit": "L’est républicain",
+            "caption_raw": "Franck Etoundi – L’est républicain"
+        },
+        {
+            "image": "2024/11/franck-etoundi-desireux-de-vite-s-installer-dans-l-attaque-sochalienne-photo-g-s-1549299378.jpg",
+            "caption": "Franck Etoundi",
+            "credit": "L’est républicain",
+            "caption_raw": "Franck Etoundi – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7621,
+        "url": "https://www.fcsochauxretro.com/a-la-une/franck-etoundi-7621/",
+        "path": "/a-la-une/franck-etoundi-7621/",
+        "slug": "franck-etoundi-7621",
+        "seo_title": "Franck Etoundi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Franck Etoundi</h2>\n<h4><strong>né le 30 août 1990 à Douala (Cameroun) </strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International camerounais (12 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2019</p>\n<p><strong>Départ de Sochaux : </strong>juin 2019</p>\n<p><strong>Premier match joué :</strong> Sochaux - Lens du 17/02/2019 : 0-1</p>\n<p><strong>Dernier match joué et premier but marqué :</strong> Sochaux - Grenoble du 17/05/2019 : 3-1 - But à la 83'</p>",
+        "header_lines": [
+            "Franck Etoundi",
+            "né le 30 août 1990 à Douala (Cameroun)",
+            "Taille : 1m85",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International camerounais (12 sélections, 1 but)",
+            "Arrivée à Sochaux : janvier 2019",
+            "Départ de Sochaux : juin 2019",
+            "Premier match joué : Sochaux - Lens du 17/02/2019 : 0-1",
+            "Dernier match joué et premier but marqué : Sochaux - Grenoble du 17/05/2019 : 3-1 - But à la 83'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Franck",
+        "last_name": "Etoundi",
+        "display_name": "Franck Etoundi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1990-08-30",
+                "precision": "day",
+                "text": "30 août 1990"
+            },
+            "place": {
+                "text": "Douala (Cameroun)",
+                "city": "Douala",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 août 1990 à Douala (Cameroun)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International camerounais (12 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2019-01",
+            "precision": "month",
+            "text": "janvier 2019"
+        },
+        "departure": {
+            "iso": "2019-06",
+            "precision": "month",
+            "text": "juin 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Lens du 17/02/2019 : 0-1",
+        "last_match": "Sochaux - Grenoble du 17/05/2019 : 3-1 - But à la 83'",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Franck Etoundi"
+            },
+            {
+                "label": null,
+                "value": "né le 30 août 1990 à Douala (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International camerounais (12 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Lens du 17/02/2019 : 0-1"
+            },
+            {
+                "label": "Dernier match joué et premier but marqué",
+                "value": "Sochaux - Grenoble du 17/05/2019 : 3-1 - But à la 83'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2018 - 2019",
+                    "12",
+                    "1",
+                    "12",
+                    "1"
+                ],
+                [
+                    "TOTAL",
+                    "12",
+                    "1",
+                    "12",
+                    "1"
+                ]
+            ],
+            "source_table": 1077
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

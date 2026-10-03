@@ -1,0 +1,223 @@
+{
+    "id": 10680,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "cedric-rey",
+    "path": "/joueurs/cedric-rey/",
+    "title": "Cédric Rey",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-77.jpg",
+    "date": "2025-01-26T15:13:07",
+    "modified": "2025-01-26T15:24:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Cédric Rey a joué 2 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/18752_rey.jpg",
+            "caption": "Cédric Rey",
+            "credit": "cving.chez.com",
+            "caption_raw": "Cédric Rey – cving.chez.com"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10680,
+        "url": "https://www.fcsochauxretro.com/a-la-une/cedric-rey/",
+        "path": "/a-la-une/cedric-rey/",
+        "slug": "cedric-rey",
+        "seo_title": "Cédric Rey - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Cédric Rey</h2>\n<h4><strong>né le 25 aout 1984 à Cluses (74)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Poste : </strong>arrière latéral gauche</p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2005</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2006</p>\n<p><strong>Premier match joué :</strong> Stabaek (Norvège) - Sochaux du 30/09/2004 : 0-5</p>\n<p><strong>Dernier match joué :</strong> AC Ajaccio - Sochaux du 28/05/2005 : 3-1</p>",
+        "header_lines": [
+            "Cédric Rey",
+            "né le 25 aout 1984 à Cluses (74)",
+            "Taille : 1m78",
+            "Poids : 70 kg",
+            "Poste : arrière latéral gauche",
+            "Arrivée à Sochaux : janvier 2005",
+            "Départ de Sochaux : juillet 2006",
+            "Premier match joué : Stabaek (Norvège) - Sochaux du 30/09/2004 : 0-5",
+            "Dernier match joué : AC Ajaccio - Sochaux du 28/05/2005 : 3-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Cédric",
+        "last_name": "Rey",
+        "display_name": "Cédric Rey",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1984-08-25",
+                "precision": "day",
+                "text": "25 aout 1984"
+            },
+            "place": {
+                "text": "Cluses (74)",
+                "city": "Cluses",
+                "department": "74",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 aout 1984 à Cluses (74)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": null,
+        "position": "arrière latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2005-01",
+            "precision": "month",
+            "text": "janvier 2005"
+        },
+        "departure": {
+            "iso": "2006-07",
+            "precision": "month",
+            "text": "juillet 2006"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Stabaek (Norvège) - Sochaux du 30/09/2004 : 0-5",
+        "last_match": "AC Ajaccio - Sochaux du 28/05/2005 : 3-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Cédric Rey"
+            },
+            {
+                "label": null,
+                "value": "né le 25 aout 1984 à Cluses (74)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2005"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2006"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Stabaek (Norvège) - Sochaux du 30/09/2004 : 0-5"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "AC Ajaccio - Sochaux du 28/05/2005 : 3-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,165 @@
+{
+    "id": 20180,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "david-charles-perez",
+    "path": "/joueurs/david-charles-perez/",
+    "title": "David Charles Perez (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/01/153133_david_perez.jpg",
+    "date": "2026-01-18T11:25:44",
+    "modified": "2026-02-04T20:49:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Il est né à Posadas une ville de 250 000 habitants contre le fleuve Parana en face du Paraguay au nord est de l'Argentine.  </li>\n<li>Il est formé au club de Rosario Central ville chère à Lionel Messi, Angel Di Maria, Mario Kempes, César Luis Menotti (sélectionneur argentin  champion du monde) ou encore Che Guevara.  </li>\n<li>Il débute sa carrière professionnelle en 1998 mais n'est pas titulaire et souhaite quitter le club. C'est là qu'il vient effectuer un essai en Europe à Sochaux. </li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>A l'été 2001, pour son retour en D1 Sochaux cherche à recruter des joueurs dans la force de l'âge. Plusieurs joueurs sont mis à l'essai comme 3 Brésiliens. Quelques jours plus tard débarque David Charles Perez un arrière gauche de 25 ans en provenance de Rosario club de première division argentine. </li>\n<li>Il fait deux entrées en jeu contre Gueugnon et Sedan en amical. Mais il ne convainc pas les dirigeants sochaliens de l'embaucher. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il fera une carrière modeste entre D1 et D2 argentine disputant 114 matchs professionnels avec Rosario Centra, Chacarita Junior, Tiro Federal, Argentinos Junior, Almagro Buenos Aires, Central Espagnol (Uruguay) et Platense. </li>\n<li>Il prend sa retraite en 2012 après une dernière expérience à Almagro un club de deuxième division argentine de Buenos Aires. </li>\n<li>Il débute une carrière d'entraîneur à Tiro Federal en 2013 puis à Argentino de Rosario en 2015. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "David Charles Perez a disputé deux matchs amicaux avec Sochaux à l'été 2001."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/David_Charles_Perez.jpg",
+            "caption": "David Charles Perez à l’essai à Sochaux à l’été 2001 – JL Gilmé",
+            "credit": "L’est républicain",
+            "caption_raw": "David Charles Perez à l’essai à Sochaux à l’été 2001 – JL Gilmé – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20180,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/david-charles-perez-a-lessai/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/david-charles-perez-a-lessai/",
+        "slug": "david-charles-perez-a-lessai",
+        "seo_title": "David Charles Perez (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>David Charles Perez</h2>\n<h4><strong>Né le 28 novembre 1975 à Posadas (Argentine)  </strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière gauche</p>\n<p><strong>A l'essai à Sochaux : </strong>juillet 2001</p>",
+        "header_lines": [
+            "David Charles Perez",
+            "Né le 28 novembre 1975 à Posadas (Argentine)",
+            "Taille : 1m85",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : arrière gauche",
+            "A l'essai à Sochaux : juillet 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "David Charles",
+        "last_name": "Perez",
+        "display_name": "David Charles Perez",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2001-07",
+            "precision": "month",
+            "text": "juillet 2001"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1975-11-28",
+                "precision": "day",
+                "text": "28 novembre 1975"
+            },
+            "place": {
+                "text": "Posadas (Argentine)",
+                "city": "Posadas",
+                "department": null,
+                "country": "Argentine",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 28 novembre 1975 à Posadas (Argentine)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "arrière gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "David Charles Perez"
+            },
+            {
+                "label": null,
+                "value": "Né le 28 novembre 1975 à Posadas (Argentine)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière gauche"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "juillet 2001"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,515 @@
+{
+    "id": 16810,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "asm-belfort-sochaux-amical-13-07-2016",
+    "path": "/matchs/2016-2017/asm-belfort-sochaux-amical-13-07-2016/",
+    "title": "Amical – ASM Belfort (N) / Sochaux (L2) – 13/07/2016 – 0-3",
+    "categories": [
+        "2016-2017",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/06/38-2.jpg",
+    "date": "2026-06-14T13:37:54",
+    "modified": "2026-07-23T08:29:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "8",
+        "text": "8 buts marqués contre les adversaires régionaux !"
+    },
+    "gallery": [
+        {
+            "image": "2026/06/38-2.jpg",
+            "caption": "Alphonse – Belfort Sochaux en pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Alphonse – Belfort Sochaux en pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2026/06/06-2.jpg",
+            "caption": "Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/08-4.jpg",
+            "caption": "Ramaré lors de Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Ramaré lors de Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/09-4.jpg",
+            "caption": "Florian Martin – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Florian Martin – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/11-2.jpg",
+            "caption": "Moussa Sao – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Moussa Sao – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/12-3.jpg",
+            "caption": "Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/16-4.jpg",
+            "caption": "Florian Martin – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Florian Martin – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/18-4.jpg",
+            "caption": "Andriatsima – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Andriatsima – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/19-1.jpg",
+            "caption": "Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/22-2.jpg",
+            "caption": "Sao – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Sao – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/25-1.jpg",
+            "caption": "Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/30-2.jpg",
+            "caption": "Sao – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Sao – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/38-3.jpg",
+            "caption": "Alphonse – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Alphonse – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/42.jpg",
+            "caption": "Robinet – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Robinet – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/44.jpg",
+            "caption": "Christopher Dilo – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Christopher Dilo – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        },
+        {
+            "image": "2026/06/Martin-ASMB.jpg",
+            "caption": "Martin – Sochaux-Belfort en pré-saison 2016-2017",
+            "credit": "FCSM",
+            "caption_raw": "Martin – Sochaux-Belfort en pré-saison 2016-2017 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16810,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-asm-belfort-n-sochaux-l2-13-07-2016-0-3/",
+        "path": "/a-la-une/amical-asm-belfort-n-sochaux-l2-13-07-2016-0-3/",
+        "slug": "amical-asm-belfort-n-sochaux-l2-13-07-2016-0-3",
+        "seo_title": "Amical - ASM Belfort (N) / Sochaux (L2) - 13/07/2016 - 0-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Belfort (Nat) / Sochaux (L2) : 0-3</strong><strong><br></strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Mercredi 13 juillet 2016</strong></h4>\n<h4><strong>Stade du Montceau à Valdoie (90)<br></strong></h4>\n<h4><strong>1 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Bouille<br></strong></h4>\n<p>Buts : Sao 27' et 39', Robinet 65' pour Sochaux</p>",
+        "header_lines": [
+            "Belfort (Nat) / Sochaux (L2) : 0-3",
+            "Match amical",
+            "Mercredi 13 juillet 2016",
+            "Stade du Montceau à Valdoie (90)",
+            "1 000 spectateurs",
+            "Arbitre : M. Bouille",
+            "Buts : Sao 27' et 39', Robinet 65' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2016-07-13",
+        "date_text": "Mercredi 13 juillet 2016",
+        "season": "2016-2017",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "ASM Belfort",
+            "level": "N"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-3",
+        "score_line": "Belfort (Nat) / Sochaux (L2) : 0-3",
+        "result": "V",
+        "stadium": "Stade du Montceau à Valdoie (90)",
+        "spectators": 1000,
+        "spectators_text": "1 000 spectateurs",
+        "referee": "M. Bouille",
+        "goals_text": "Sao 27' et 39', Robinet 65' pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Sao 27' et 39', Robinet 65'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "WERNER Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OGIER Florent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "TEIKEU Adolphe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ALPHONSE Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "66",
+                    "sub_text": "↓ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "RAMARE Johann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MARTIN Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "62",
+                    "sub_text": "↓ 62'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HONORAT Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "62",
+                    "sub_text": "↓ 62'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SAO Moussa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "27",
+                        "39"
+                    ],
+                    "goals_text": "⚽ 27' ⚽ 39'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ANDRIATSIMA Faneva",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DILO Christopher",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ILAIMAHARITRA Marco",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "66",
+                    "sub_out": null,
+                    "sub_text": "↑ 66'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "62",
+                    "sub_out": null,
+                    "sub_text": "↑ 62'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "KARANOVIC Goran",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "62",
+                    "sub_out": null,
+                    "sub_text": "↑ 62'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "65"
+                    ],
+                    "goals_text": "⚽ 65'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "CARTIER Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1920
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

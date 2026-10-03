@@ -1,0 +1,266 @@
+{
+    "id": 11812,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "leon-maier",
+    "path": "/joueurs/leon-maier/",
+    "title": "Léon Maier",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/55.jpg.png",
+    "date": "2025-02-15T17:28:05",
+    "modified": "2025-02-15T22:56:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "226",
+        "text": "Léon Maier a joué 226 matchs (40 buts) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/55.jpg.png",
+            "caption": "Léon Maier",
+            "credit": "dr",
+            "caption_raw": "Léon Maier – dr"
+        },
+        {
+            "image": "2025/02/555.jpg",
+            "caption": "Léon Maier",
+            "credit": "",
+            "caption_raw": "Léon Maier"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11812,
+        "url": "https://www.fcsochauxretro.com/a-la-une/leon-maier/",
+        "path": "/a-la-une/leon-maier/",
+        "slug": "leon-maier",
+        "seo_title": "Léon Maier - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Léon Maier</h2>\n<h4><strong>né le 1er avril 1952 à Ensisheim (68) </strong></h4>\n<p><strong>Taille : </strong>1m69</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>ailier gauche </p>\n<p><strong>International français espoirs et B</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1970</p>\n<p><strong>Départ de Sochaux : </strong>juin 1976</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1977</p>\n<p><strong>Départ de Sochaux : </strong>juin 1979</p>\n<p><strong>Premier match joué :</strong> Sochaux - Nantes du 20/03/1971 : 2-0 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Bordeaux du 01/06/1979 : 2-0</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Nantes du 27/03/1971 : 2-0 - But à la 23'</p>",
+        "header_lines": [
+            "Léon Maier",
+            "né le 1er avril 1952 à Ensisheim (68)",
+            "Taille : 1m69",
+            "Poids : 65 kg",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "International français espoirs et B",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1970",
+            "Départ de Sochaux : juin 1976",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1977",
+            "Départ de Sochaux : juin 1979",
+            "Premier match joué : Sochaux - Nantes du 20/03/1971 : 2-0",
+            "Dernier match joué : Sochaux - Bordeaux du 01/06/1979 : 2-0",
+            "Premier but marqué : Sochaux - Nantes du 27/03/1971 : 2-0 - But à la 23'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Léon",
+        "last_name": "Maier",
+        "display_name": "Léon Maier",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1952-04-01",
+                "precision": "day",
+                "text": "1er avril 1952"
+            },
+            "place": {
+                "text": "Ensisheim (68)",
+                "city": "Ensisheim",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 1er avril 1952 à Ensisheim (68)"
+        },
+        "death": null,
+        "height": "1m69",
+        "height_cm": 169,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français espoirs et B"
+        ],
+        "arrival": {
+            "iso": "1970-07",
+            "precision": "month",
+            "text": "juillet 1970"
+        },
+        "departure": {
+            "iso": "1976-06",
+            "precision": "month",
+            "text": "juin 1976"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Nantes du 20/03/1971 : 2-0",
+        "last_match": "Sochaux - Bordeaux du 01/06/1979 : 2-0",
+        "first_goal": "Sochaux - Nantes du 27/03/1971 : 2-0 - But à la 23'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Léon Maier"
+            },
+            {
+                "label": null,
+                "value": "né le 1er avril 1952 à Ensisheim (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m69"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": null,
+                "value": "International français espoirs et B"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1970"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1976"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1977"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1979"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Nantes du 20/03/1971 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Bordeaux du 01/06/1979 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Nantes du 27/03/1971 : 2-0 - But à la 23'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

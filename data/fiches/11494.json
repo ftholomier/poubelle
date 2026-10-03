@@ -1,0 +1,310 @@
+{
+    "id": 11494,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "lucien-laurent",
+    "path": "/joueurs/lucien-laurent/",
+    "title": "Lucien Laurent",
+    "categories": [
+        "a-la-une",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-2.jpg",
+    "date": "2025-02-05T13:11:42",
+    "modified": "2025-02-05T15:01:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Lucien Laurent est à jamais le premier buteur de l'histoire de la coupe du monde de football ! Il jouait à Sochaux à ce moment-là ! Il jouera 76 matchs (amicaux compris) et marquera 38 buts pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-2.jpg",
+            "caption": "Lucien Laurent",
+            "credit": "dr",
+            "caption_raw": "Lucien Laurent – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11494,
+        "url": "https://www.fcsochauxretro.com/a-la-une/lucien-laurent/",
+        "path": "/a-la-une/lucien-laurent/",
+        "slug": "lucien-laurent",
+        "seo_title": "Lucien Laurent - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Lucien Laurent</h2>\n<h4><strong>né le 10 décembre 1907 à Saint-Maur des Fossées (94)</strong></h4>\n<h4><strong>Décédé le 11 avril 2005 à Besançon (25) </strong></h4>\n<p><strong>Taille : </strong>1m62</p>\n<p><strong>Poids : </strong>62 kg</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International français (10 sélections, 2 buts)</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>mai 1930</p>\n<p><strong>Départ de Sochaux : </strong>juin 1932</p>\n<p><strong>Deuxième passage</strong> </p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1935</p>\n<p><strong>Départ de Sochaux : </strong>juin 1936</p>\n<p><strong>Premier match joué</strong> : Sochaux - Red Star du 11/01/1931 : 3-1</p>\n<p><strong>Dernier match joué</strong> : Sochaux - RC Paris du 24/05/1936 : 2-2</p>\n<p><strong>Premier but marqué</strong> : Sochaux - Marseille du 07/05/1931 : 3-0 - But à la ?'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1931</li>\n<li>Vainqueur de la coupe Peugeot 1931</li>\n<li>Champion de la ligue de Bourgogne - Franche-Comté 1932</li>\n</ul>",
+        "header_lines": [
+            "Lucien Laurent",
+            "né le 10 décembre 1907 à Saint-Maur des Fossées (94)",
+            "Décédé le 11 avril 2005 à Besançon (25)",
+            "Taille : 1m62",
+            "Poids : 62 kg",
+            "Poste : attaquant",
+            "International français (10 sélections, 2 buts)",
+            "Premier passage",
+            "Arrivée à Sochaux : mai 1930",
+            "Départ de Sochaux : juin 1932",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1935",
+            "Départ de Sochaux : juin 1936",
+            "Premier match joué : Sochaux - Red Star du 11/01/1931 : 3-1",
+            "Dernier match joué : Sochaux - RC Paris du 24/05/1936 : 2-2",
+            "Premier but marqué : Sochaux - Marseille du 07/05/1931 : 3-0 - But à la ?'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Vainqueur de la coupe Peugeot 1931",
+            "Champion de la ligue de Bourgogne - Franche-Comté 1932"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Lucien",
+        "last_name": "Laurent",
+        "display_name": "Lucien Laurent",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1907-12-10",
+                "precision": "day",
+                "text": "10 décembre 1907"
+            },
+            "place": {
+                "text": "Saint-Maur des Fossées (94)",
+                "city": "Saint-Maur des Fossées",
+                "department": "94",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 décembre 1907 à Saint-Maur des Fossées (94)"
+        },
+        "death": {
+            "date": {
+                "iso": "2005-04-11",
+                "precision": "day",
+                "text": "11 avril 2005"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 11 avril 2005 à Besançon (25)"
+        },
+        "height": "1m62",
+        "height_cm": 162,
+        "weight": "62 kg",
+        "weight_kg": 62,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français (10 sélections, 2 buts)"
+        ],
+        "arrival": {
+            "iso": "1930-05",
+            "precision": "month",
+            "text": "mai 1930"
+        },
+        "departure": {
+            "iso": "1932-06",
+            "precision": "month",
+            "text": "juin 1932"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Red Star du 11/01/1931 : 3-1",
+        "last_match": "Sochaux - RC Paris du 24/05/1936 : 2-2",
+        "first_goal": "Sochaux - Marseille du 07/05/1931 : 3-0 - But à la ?'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Vainqueur de la coupe Peugeot 1931",
+            "Champion de la ligue de Bourgogne - Franche-Comté 1932"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Lucien Laurent"
+            },
+            {
+                "label": null,
+                "value": "né le 10 décembre 1907 à Saint-Maur des Fossées (94)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 11 avril 2005 à Besançon (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m62"
+            },
+            {
+                "label": "Poids",
+                "value": "62 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français (10 sélections, 2 buts)"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "mai 1930"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1932"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1935"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1936"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Red Star du 11/01/1931 : 3-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - RC Paris du 24/05/1936 : 2-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Marseille du 07/05/1931 : 3-0 - But à la ?'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1931"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Peugeot 1931"
+            },
+            {
+                "label": null,
+                "value": "Champion de la ligue de Bourgogne - Franche-Comté 1932"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1988-1989",
+                    "34",
+                    "8",
+                    "9",
+                    "2",
+                    "0",
+                    "0",
+                    "43",
+                    "10"
+                ],
+                [
+                    "1989-1990",
+                    "34",
+                    "4",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "39",
+                    "5"
+                ],
+                [
+                    "Total",
+                    "68",
+                    "0",
+                    "10",
+                    "2",
+                    "4",
+                    "1",
+                    "82",
+                    "15"
+                ]
+            ],
+            "source_table": 269
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

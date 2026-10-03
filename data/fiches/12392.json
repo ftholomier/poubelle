@@ -1,0 +1,234 @@
+{
+    "id": 12392,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "meller",
+    "path": "/joueurs/meller/",
+    "title": "? Meller (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-02T16:31:55",
+    "modified": "2025-11-12T14:01:28",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Meller a joué 1 match amical pour Sochaux en Tunisie en 1930."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12392,
+        "url": "https://www.fcsochauxretro.com/uncategorized/meller/",
+        "path": "/uncategorized/meller/",
+        "slug": "meller",
+        "seo_title": "? Meller (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Meller</h2>\n<h4><strong>né le xx à xx (Angleterre)</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain ?<strong><br></strong></p>\n<p><strong>A l'essai en : </strong>mai 1931</p>\n<p><strong>Premier match amical joué :</strong> RC Tunis - Sochaux du 11/05/1930 : 1-5</p>\n<p><strong>Dernier match amical joué et premier but marqué : </strong>Hérimoncourt - Sochaux du 21/05/1930 : 2-2 - But à la ?</p>",
+        "header_lines": [
+            "? Meller",
+            "né le xx à xx (Angleterre)",
+            "Décédé le xx à xx",
+            "Poste : milieu de terrain ?",
+            "A l'essai en : mai 1931",
+            "Premier match amical joué : RC Tunis - Sochaux du 11/05/1930 : 1-5",
+            "Dernier match amical joué et premier but marqué : Hérimoncourt - Sochaux du 21/05/1930 : 2-2 - But à la ?"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Meller",
+        "display_name": "? Meller",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1931-05",
+            "precision": "month",
+            "text": "mai 1931"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx (Angleterre)",
+                "city": "xx",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx (Angleterre)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain ?",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "RC Tunis - Sochaux du 11/05/1930 : 1-5",
+        "last_match": "Hérimoncourt - Sochaux du 21/05/1930 : 2-2 - But à la ?",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Meller"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx (Angleterre)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain ?"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "mai 1931"
+            },
+            {
+                "label": "Premier match amical joué",
+                "value": "RC Tunis - Sochaux du 11/05/1930 : 1-5"
+            },
+            {
+                "label": "Dernier match amical joué et premier but marqué",
+                "value": "Hérimoncourt - Sochaux du 21/05/1930 : 2-2 - But à la ?"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

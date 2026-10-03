@@ -1,0 +1,219 @@
+{
+    "id": 6514,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "georges-besancon",
+    "path": "/joueurs/georges-besancon/",
+    "title": "Georges Besançon",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/v2_1928-FC-Sochaux3b1-1536x992-1.jpg",
+    "date": "2024-11-06T15:30:08",
+    "modified": "2025-02-24T10:52:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques non connues.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "12",
+        "text": "Georges Besançon aurait (à verifier) joué approximativement 12 matchs avec Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/1928-FC-Sochaux3b1-1536x992-1.jpg",
+            "caption": "Sochaux 1928-1929",
+            "credit": "",
+            "caption_raw": "Sochaux 1928-1929"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6514,
+        "url": "https://www.fcsochauxretro.com/a-la-une/georges-besancon/",
+        "path": "/a-la-une/georges-besancon/",
+        "slug": "georges-besancon",
+        "seo_title": "Georges Besançon - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Georges Besançon</strong></h2>\n<h4><strong>né le 18 aout 1907 à Sochaux (25)</strong></h4>\n<h4><strong>Décédé le 16 mars 1983 à Sochaux (25)</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1928</p>\n<p><strong>Départ de Sochaux : </strong>juin 1930</p>\n<p><strong>Premier match joué et premier match de l'histoire du club :</strong> Sochaux - AS Valentigney B du 02/09/1928 : 3-0</p>\n<p><strong>Dernier match joué :</strong> Méziré - Sochaux du 06/04/1930 : 1-6 </p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de 2è série du District du Pays de Montbéliard 1929</li>\n<li>Vainqueur du Challenge de Turckheim 1929</li>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n</ul>",
+        "header_lines": [
+            "Georges Besançon",
+            "né le 18 aout 1907 à Sochaux (25)",
+            "Décédé le 16 mars 1983 à Sochaux (25)",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1928",
+            "Départ de Sochaux : juin 1930",
+            "Premier match joué et premier match de l'histoire du club : Sochaux - AS Valentigney B du 02/09/1928 : 3-0",
+            "Dernier match joué : Méziré - Sochaux du 06/04/1930 : 1-6",
+            "Palmarès avec Sochaux :",
+            "Champion de 2è série du District du Pays de Montbéliard 1929",
+            "Vainqueur du Challenge de Turckheim 1929",
+            "Vainqueur du Challenge de Turckheim 1930"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Georges",
+        "last_name": "Besançon",
+        "display_name": "Georges Besançon",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1907-08-18",
+                "precision": "day",
+                "text": "18 aout 1907"
+            },
+            "place": {
+                "text": "Sochaux (25)",
+                "city": "Sochaux",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 aout 1907 à Sochaux (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1983-03-16",
+                "precision": "day",
+                "text": "16 mars 1983"
+            },
+            "place": {
+                "text": "Sochaux (25)",
+                "city": "Sochaux",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 16 mars 1983 à Sochaux (25)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1928-07",
+            "precision": "month",
+            "text": "juillet 1928"
+        },
+        "departure": {
+            "iso": "1930-06",
+            "precision": "month",
+            "text": "juin 1930"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - AS Valentigney B du 02/09/1928 : 3-0",
+        "last_match": "Méziré - Sochaux du 06/04/1930 : 1-6",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de 2è série du District du Pays de Montbéliard 1929",
+            "Vainqueur du Challenge de Turckheim 1929",
+            "Vainqueur du Challenge de Turckheim 1930"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Georges Besançon"
+            },
+            {
+                "label": null,
+                "value": "né le 18 aout 1907 à Sochaux (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 16 mars 1983 à Sochaux (25)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1928"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1930"
+            },
+            {
+                "label": "Premier match joué et premier match de l'histoire du club",
+                "value": "Sochaux - AS Valentigney B du 02/09/1928 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Méziré - Sochaux du 06/04/1930 : 1-6"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de 2è série du District du Pays de Montbéliard 1929"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1929"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

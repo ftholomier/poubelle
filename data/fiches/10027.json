@@ -1,0 +1,265 @@
+{
+    "id": 10027,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ibrahim-tall",
+    "path": "/joueurs/ibrahim-tall/",
+    "title": "Ibrahim Tall",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-119.jpg",
+    "date": "2025-01-04T11:28:00",
+    "modified": "2025-01-26T12:34:08",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "84",
+        "text": "Ibrahim Tall a joué 84 matchs (2 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/unnamed.jpg",
+            "caption": "Ibrahim Tall – Sporting Lisbonne",
+            "credit": "Sochaux",
+            "caption_raw": "Ibrahim Tall – Sporting Lisbonne – Sochaux"
+        },
+        {
+            "image": "2025/01/78.jpg",
+            "caption": "Ibrahim Tall",
+            "credit": "Esprit club",
+            "caption_raw": "Ibrahim Tall – Esprit club"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10027,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ibrahim-tall/",
+        "path": "/a-la-une/ibrahim-tall/",
+        "slug": "ibrahim-tall",
+        "seo_title": "Ibrahim Tall - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ibrahim Tall</h2>\n<h4><strong>né le 23 juin 1981 à Aubervilliers (93)  </strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière latéral droit</p>\n<p><strong>International sénégalais (6 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2002</p>\n<p><strong>Départ de Sochaux : </strong>juin 2005</p>\n<p><strong>Premier match joué :</strong> Rennes - Sochaux du 11/09/2002 : 2-2</p>\n<p><strong>Dernier match joué :</strong> Paris SG - Sochaux du 14/05/2005 : 2-2</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Demi-finaliste de la coupe Intertoto 2003</li>\n<li>Finaliste de la coupe de la ligue 2003</li>\n<li>Vainqueur de la coupe de la ligue 2004</li>\n</ul>",
+        "header_lines": [
+            "Ibrahim Tall",
+            "né le 23 juin 1981 à Aubervilliers (93)",
+            "Taille : 1m83",
+            "Poids : 74 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "International sénégalais (6 sélections)",
+            "Arrivée à Sochaux : juillet 2002",
+            "Départ de Sochaux : juin 2005",
+            "Premier match joué : Rennes - Sochaux du 11/09/2002 : 2-2",
+            "Dernier match joué : Paris SG - Sochaux du 14/05/2005 : 2-2",
+            "Palmarès avec Sochaux :",
+            "Demi-finaliste de la coupe Intertoto 2003",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ibrahim",
+        "last_name": "Tall",
+        "display_name": "Ibrahim Tall",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1981-06-23",
+                "precision": "day",
+                "text": "23 juin 1981"
+            },
+            "place": {
+                "text": "Aubervilliers (93)",
+                "city": "Aubervilliers",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 juin 1981 à Aubervilliers (93)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International sénégalais (6 sélections)"
+        ],
+        "arrival": {
+            "iso": "2002-07",
+            "precision": "month",
+            "text": "juillet 2002"
+        },
+        "departure": {
+            "iso": "2005-06",
+            "precision": "month",
+            "text": "juin 2005"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Rennes - Sochaux du 11/09/2002 : 2-2",
+        "last_match": "Paris SG - Sochaux du 14/05/2005 : 2-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Demi-finaliste de la coupe Intertoto 2003",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ibrahim Tall"
+            },
+            {
+                "label": null,
+                "value": "né le 23 juin 1981 à Aubervilliers (93)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": null,
+                "value": "International sénégalais (6 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2005"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Rennes - Sochaux du 11/09/2002 : 2-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Paris SG - Sochaux du 14/05/2005 : 2-2"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe Intertoto 2003"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de la ligue 2004"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,262 @@
+{
+    "id": 12208,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "yohan-mollo",
+    "path": "/joueurs/yohan-mollo/",
+    "title": "Yohan Mollo",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/telechargement-7.jpg",
+    "date": "2025-02-26T13:48:00",
+    "modified": "2025-03-08T17:30:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "16",
+        "text": "Yohan Mollo a joué 16 matchs (2 buts et 3 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/il-vient-apporter-sa-contribution-au-maintien-du-fcsm-puis-reprend-son-baluchon-direction-la-grece-photo-lionel-vadam-1564234821.jpg",
+            "caption": "Yohann Mollo",
+            "credit": "L’est républicain",
+            "caption_raw": "Yohann Mollo – L’est républicain"
+        },
+        {
+            "image": "2025/02/images-12.jpg",
+            "caption": "Yohann Mollo",
+            "credit": "L’est républicain",
+            "caption_raw": "Yohann Mollo – L’est républicain"
+        },
+        {
+            "image": "2025/02/yohan-mollo-a-gauche-fait-partie-du-groupe-affrontera-clermont-photo-christian-lemontey-1548956117.jpg",
+            "caption": "Yohann Mollo",
+            "credit": "L’est républicain",
+            "caption_raw": "Yohann Mollo – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12208,
+        "url": "https://www.fcsochauxretro.com/a-la-une/yohan-mollo/",
+        "path": "/a-la-une/yohan-mollo/",
+        "slug": "yohan-mollo",
+        "seo_title": "Yohan Mollo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Yohan Mollo</h2>\n<h4><strong>né le 18 juillet 1989 à Martigues (13) </strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International français Espoirs (6 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> janvier 2019</p>\n<p><strong>Départ de Sochaux : </strong>juin 2019</p>\n<p><strong>Premier match joué : </strong>Sochaux - Clermont du 01/02/2019 : 2-1</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Grenoble du 17/05/2019 : 3-1</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Le Havre du 12/04/2019 : 1-3 - But à la 76'</p>",
+        "header_lines": [
+            "Yohan Mollo",
+            "né le 18 juillet 1989 à Martigues (13)",
+            "Taille : 1m76",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "International français Espoirs (6 sélections)",
+            "Arrivée à Sochaux : janvier 2019",
+            "Départ de Sochaux : juin 2019",
+            "Premier match joué : Sochaux - Clermont du 01/02/2019 : 2-1",
+            "Dernier match joué : Sochaux - Grenoble du 17/05/2019 : 3-1",
+            "Premier but marqué : Sochaux - Le Havre du 12/04/2019 : 1-3 - But à la 76'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Yohan",
+        "last_name": "Mollo",
+        "display_name": "Yohan Mollo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1989-07-18",
+                "precision": "day",
+                "text": "18 juillet 1989"
+            },
+            "place": {
+                "text": "Martigues (13)",
+                "city": "Martigues",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 juillet 1989 à Martigues (13)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français Espoirs (6 sélections)"
+        ],
+        "arrival": {
+            "iso": "2019-01",
+            "precision": "month",
+            "text": "janvier 2019"
+        },
+        "departure": {
+            "iso": "2019-06",
+            "precision": "month",
+            "text": "juin 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Clermont du 01/02/2019 : 2-1",
+        "last_match": "Sochaux - Grenoble du 17/05/2019 : 3-1",
+        "first_goal": "Sochaux - Le Havre du 12/04/2019 : 1-3 - But à la 76'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Yohan Mollo"
+            },
+            {
+                "label": null,
+                "value": "né le 18 juillet 1989 à Martigues (13)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français Espoirs (6 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Clermont du 01/02/2019 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Grenoble du 17/05/2019 : 3-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Le Havre du 12/04/2019 : 1-3 - But à la 76'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

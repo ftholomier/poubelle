@@ -1,0 +1,248 @@
+{
+    "id": 11818,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "christ-makosso",
+    "path": "/joueurs/christ-makosso/",
+    "title": "Christ Makosso",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-37.jpg",
+    "date": "2025-02-14T21:30:15",
+    "modified": "2025-02-15T22:56:33",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "15",
+        "text": "Christ Makosso a joué 15 matchs pour Sochaux où il a effectué sa post formation."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/christ-makosso-ne-s-etait-pas-impose-au-fcsm-et-l-avait-quitte-en-janvier-dernier-photo-jean-baptiste-bornier-1735729506.jpg",
+            "caption": "Christ Makosso",
+            "credit": "L’est républicain",
+            "caption_raw": "Christ Makosso – L’est républicain"
+        },
+        {
+            "image": "2025/02/christ-makosso-etait-titulaire-pour-la-premiere-fois-samedi-dernier-avec-sochaux-en-pro-contre-guingamp-photo-er-lionel-vadam-1684258477.jpg",
+            "caption": "Christ Makosso",
+            "credit": "L’est républicain",
+            "caption_raw": "Christ Makosso – L’est républicain"
+        },
+        {
+            "image": "2025/02/christ-makosso-a-fait-ses-debuts-en-ligue-en-fin-de-saison-2022-2023-photo-lionel-vadam-1686750447.jpg",
+            "caption": "Christ Makosso",
+            "credit": "L’est républicain",
+            "caption_raw": "Christ Makosso – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11818,
+        "url": "https://www.fcsochauxretro.com/a-la-une/christ-makosso/",
+        "path": "/a-la-une/christ-makosso/",
+        "slug": "christ-makosso",
+        "seo_title": "Christ Makosso - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Christ Makosso</h2>\n<h4><strong>né le 9 mai 2004 à Brazzaville (Congo) </strong></h4>\n<p><strong>Taille : </strong>1m92</p>\n<p><strong>Poids : </strong>85 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International congolais (4 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> janvier 2023</p>\n<p><strong>Départ de Sochaux : </strong>janvier 2024</p>\n<p><strong>Premier match joué :</strong> Amiens - Sochaux du 06/05/2023 : 1-0 </p>\n<p><strong>Dernier match joué :</strong> Niort - Sochaux du 27/11/2023 : 4-2</p>",
+        "header_lines": [
+            "Christ Makosso",
+            "né le 9 mai 2004 à Brazzaville (Congo)",
+            "Taille : 1m92",
+            "Poids : 85 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International congolais (4 sélections)",
+            "Arrivée à Sochaux : janvier 2023",
+            "Départ de Sochaux : janvier 2024",
+            "Premier match joué : Amiens - Sochaux du 06/05/2023 : 1-0",
+            "Dernier match joué : Niort - Sochaux du 27/11/2023 : 4-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Christ",
+        "last_name": "Makosso",
+        "display_name": "Christ Makosso",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "2004-05-09",
+                "precision": "day",
+                "text": "9 mai 2004"
+            },
+            "place": {
+                "text": "Brazzaville (Congo)",
+                "city": "Brazzaville",
+                "department": null,
+                "country": "Congo",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 mai 2004 à Brazzaville (Congo)"
+        },
+        "death": null,
+        "height": "1m92",
+        "height_cm": 192,
+        "weight": "85 kg",
+        "weight_kg": 85,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International congolais (4 sélections)"
+        ],
+        "arrival": {
+            "iso": "2023-01",
+            "precision": "month",
+            "text": "janvier 2023"
+        },
+        "departure": {
+            "iso": "2024-01",
+            "precision": "month",
+            "text": "janvier 2024"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Amiens - Sochaux du 06/05/2023 : 1-0",
+        "last_match": "Niort - Sochaux du 27/11/2023 : 4-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Christ Makosso"
+            },
+            {
+                "label": null,
+                "value": "né le 9 mai 2004 à Brazzaville (Congo)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m92"
+            },
+            {
+                "label": "Poids",
+                "value": "85 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International congolais (4 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2024"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Amiens - Sochaux du 06/05/2023 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Niort - Sochaux du 27/11/2023 : 4-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

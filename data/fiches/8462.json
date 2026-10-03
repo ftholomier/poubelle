@@ -1,0 +1,168 @@
+{
+    "id": 8462,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "johann-culianez",
+    "path": "/joueurs/johann-culianez/",
+    "title": "Johann Culianez",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/2-10.jpg",
+    "date": "2024-12-04T08:20:06",
+    "modified": "2025-03-07T20:42:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Johann Culianez débute le football dans son Ardennes natale à l'Olympique de Charleville Mezières. </li>\n<li>En 1994, il est détecté par les recruteurs du FC Sochaux-Montbéliard et intègre le centre de formation. Il y passe toutes les étapes catégorie après catégorie.</li>\n<li>En 1997, il atteint les huitièmes de finale de la coupe Gambardella face à Lyon (défaite 3-2) dans une génération dorée qui compte Meriem, Ravaux, Daf, Frau, Diouf, Sauget, Domoraud etc.</li>\n<li>En fin de saison 1997, il fait partie des joueurs conservés par le centre de formation et intégré en équipe réserve. Il évolue en CFA 2 durant deux saisons sous les ordres de Françis Blaquart en 1997/1998 puis du duo Stéphane Paille - Mecha Bazdarevic en 1998/1999. </li>\n<li>A l'issue de ces deux saisons, le club ne lui propose pas de contrat professionnel. </li>\n<li>Il revient donc dans les Ardennes et signe à Sedan. Le club évolue en première division et réalise d'excellente performance. Johann joue avec l'équipe réserve et ne parvient pas à se faire une place avec les professionnels durant ces trois années fastes pour le club ardennais. </li>\n<li>A l'été 2002, il part donc à Virton en deuxième division belge. Il y restera 4 saisons pleines.</li>\n<li>En 2006/2007, il rejoint Bleid toujours en D2 belge et joue notamment avec David Zitelli ou David Régis. Deux saisons avant un retour à Amnéville en France en CFA 2 (N3). </li>\n<li>Dans l'ambitieux club lorrain il est un cadre et il participe activement à la montée en CFA (N2). A la fin de sa deuxième saison, il fait le choix de rejoindre le Luxembourg et joue en deuxième division à Mondorf durant 3 saisons avant de mettre un terme à sa carrière. </li>\n<li>En aout 2014, il plonge dans une piscine la tête en avant et heurte le fond avec sa tête. Le choc lui provoque une compression de la moelle épinière au niveau des cervicales et il se retrouve tétraplégique. Après des années de combat, il parvient à rebouger le haut du corps puis à se tenir debout et à faire quelques pas avec des béquilles mais il demeure tétraplégique partiel et s'engage fortement pour l'inclusion des personnes en situation de handicap dans la société et le sport.  </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Johann Culianez a été formé à Sochaux mais n'a pas joué pour l'équipe première."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/2-10.jpg",
+            "caption": "Johann Culianez",
+            "credit": "Virton",
+            "caption_raw": "Johann Culianez – Virton"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8462,
+        "url": "https://www.fcsochauxretro.com/a-la-une/johann-culianez/",
+        "path": "/a-la-une/johann-culianez/",
+        "slug": "johann-culianez",
+        "seo_title": "Johann Culianez - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Johann Culianez</h2>\n<h4><strong>né le 30 septembre 1979 à Charleville (08)</strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>79 kg</p>\n<p><strong>pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1995 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1999</p>",
+        "header_lines": [
+            "Johann Culianez",
+            "né le 30 septembre 1979 à Charleville (08)",
+            "Taille : 1m82",
+            "Poids : 79 kg",
+            "pied : droitier",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juillet 1995",
+            "Départ de Sochaux : juin 1999"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Johann",
+        "last_name": "Culianez",
+        "display_name": "Johann Culianez",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1979-09-30",
+                "precision": "day",
+                "text": "30 septembre 1979"
+            },
+            "place": {
+                "text": "Charleville (08)",
+                "city": "Charleville",
+                "department": "08",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 septembre 1979 à Charleville (08)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "79 kg",
+        "weight_kg": 79,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1995-07",
+            "precision": "month",
+            "text": "juillet 1995"
+        },
+        "departure": {
+            "iso": "1999-06",
+            "precision": "month",
+            "text": "juin 1999"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Johann Culianez"
+            },
+            {
+                "label": null,
+                "value": "né le 30 septembre 1979 à Charleville (08)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "79 kg"
+            },
+            {
+                "label": "pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1995"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1999"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

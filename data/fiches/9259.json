@@ -1,0 +1,257 @@
+{
+    "id": 9259,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alexandre-n-sakala",
+    "path": "/joueurs/alexandre-n-sakala/",
+    "title": "Alexandre N’Sakala",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/alexandre-nsakala-pense-avant-tout-a-la-guerison-de-son-genou-1561280459.jpg",
+    "date": "2024-12-30T01:33:44",
+    "modified": "2024-12-30T17:43:23",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Alexandre N'Sakala est resté 4 saisons pensionnaire du centre de formation de Sochaux mais n'a jamais joué pour l'équipe professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/alexandre-nsakala-pense-avant-tout-a-la-guerison-de-son-genou-1561280459.jpg",
+            "caption": "Alexandre N’Sakala",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Alexandre N’Sakala – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9259,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alexandre-nsakala/",
+        "path": "/a-la-une/alexandre-nsakala/",
+        "slug": "alexandre-nsakala",
+        "seo_title": "Alexandre N'Sakala - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alexandre N'Sakala</h2>\n<h4><strong>Né le 20 mars 2000 à Massy (91)<br></strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>arrière latéral droit<strong><br></strong></p>\n<p><strong>International français U16 et U19 (5 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juin 2015<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juillet 2019 </p>",
+        "header_lines": [
+            "Alexandre N'Sakala",
+            "Né le 20 mars 2000 à Massy (91)",
+            "Taille : 1m80",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Position : arrière latéral droit",
+            "International français U16 et U19 (5 sélections)",
+            "Arrivée à Sochaux : juin 2015",
+            "Départ de Sochaux : juillet 2019"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alexandre",
+        "last_name": "N'Sakala",
+        "display_name": "Alexandre N'Sakala",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2000-03-20",
+                "precision": "day",
+                "text": "20 mars 2000"
+            },
+            "place": {
+                "text": "Massy (91)",
+                "city": "Massy",
+                "department": "91",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 20 mars 2000 à Massy (91)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International français U16 et U19 (5 sélections)"
+        ],
+        "arrival": {
+            "iso": "2015-06",
+            "precision": "month",
+            "text": "juin 2015"
+        },
+        "departure": {
+            "iso": "2019-07",
+            "precision": "month",
+            "text": "juillet 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alexandre N'Sakala"
+            },
+            {
+                "label": null,
+                "value": "Né le 20 mars 2000 à Massy (91)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": null,
+                "value": "International français U16 et U19 (5 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 2015"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2019"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

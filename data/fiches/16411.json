@@ -1,0 +1,114 @@
+{
+    "id": 16411,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "pascal-toth",
+    "path": "/personnages-emblematiques/pascal-toth/",
+    "title": "Pascal Toth",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/1611593191196.jpg",
+    "date": "2025-09-06T16:02:42",
+    "modified": "2025-11-12T20:31:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Animateur radio pour France Bleu Belfort-Montbéliard, Pascal Toth devient le speacker du stade Bonal à l'été 1999. Il restera 7 ans avant de rejoindre le Nord de la France.</li>\n<li><strong>Extrait d'une interview qu'il a donné aux étudiants de l'école de journalisme où il a été formé : </strong><em>\" Le football me passionne, mais pas dans le cadre d'une activité liée à mon métier. À partir du mois d'août 1999 jusqu'à octobre 2006 j'ai eu l'opportunité d'être le speaker « officiel » du FC Sochaux-Montbéliard, l'équipe de football qui est en Ligue 1 aujourd'hui. Pendant 8 saisons, j'ai animé chaque match de foot au stade de Sochaux : seul au micro devant 20 000 spectateurs. J'ai aussi organisé l'ensemble des évènements du club, bref de l'évènementiel : comme je l'avais appris à l'EFAP. Dans cette fonction, j'ai pu approcher de très près les acteurs du football français : coachs, joueurs, dirigeants. J'ai quitté le club en 2006 car j'ai changé de région, je suis passé, à ma demande, de France Bleu Belfort à France Bleu Nord. Le tout dernier match que j'ai animé, que j'ai présenté, s'est déroulé le 11 octobre 2006, l'affiche était : L'équipe de France de football face aux Iles Féroé, un match qualificatif pour l'Euro 2008. Je peux vous dire qu'avoir l'opportunité de présenter et d'accueillir l'équipe de France de Football est l'un des grands moments marquant de ma carrière\".</em></li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "Pascal Toth a été le speacker du stade Bonal durant 7 ans avant de céder sa place à son collègue de France Bleu Belfort-Montbéliard Stéphane Veaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/listing.1518783092.webp",
+            "caption": "Pascal Toth speacker du stade Bonal entre 1999 et 2006.",
+            "credit": "",
+            "caption_raw": "Pascal Toth speacker du stade Bonal entre 1999 et 2006."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16411,
+        "url": "https://www.fcsochauxretro.com/a-la-une/pascal-toth-2/",
+        "path": "/a-la-une/pascal-toth-2/",
+        "slug": "pascal-toth-2",
+        "seo_title": "Pascal Toth - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Pascal Toth</h2>\n<h4><strong>Speacker du stade Auguste Bonal d'aout 1999 à octobre 2006.  </strong></h4>",
+        "header_lines": [
+            "Pascal Toth",
+            "Speacker du stade Auguste Bonal d'aout 1999 à octobre 2006."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Pascal",
+        "last_name": "Toth",
+        "display_name": "Pascal Toth",
+        "nickname": "",
+        "subtitle": "Speacker du stade Auguste Bonal d'aout 1999 à octobre 2006.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Pascal Toth"
+            },
+            {
+                "label": null,
+                "value": "Speacker du stade Auguste Bonal d'aout 1999 à octobre 2006."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

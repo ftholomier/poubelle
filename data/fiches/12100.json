@@ -1,0 +1,283 @@
+{
+    "id": 12100,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "lucien-mille",
+    "path": "/joueurs/lucien-mille/",
+    "title": "Lucien Mille",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/millelucien.jpg",
+    "date": "2025-02-22T17:33:58",
+    "modified": "2025-11-17T03:57:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "93",
+        "text": "Lucien Mille a joué 93 matchs (18 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/millelucien.jpg",
+            "caption": "Lucien Mille- DR",
+            "credit": "",
+            "caption_raw": "Lucien Mille- DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12100,
+        "url": "https://www.fcsochauxretro.com/a-la-une/lucien-mille/",
+        "path": "/a-la-une/lucien-mille/",
+        "slug": "lucien-mille",
+        "seo_title": "Lucien Mille - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Lucien Mille</h2>\n<h4><strong>né le 17 octobre 1927 à Besançon (25)</strong></h4>\n<h4><strong>Décédé le 27 décembre 1976 à Arnould (88)</strong></h4>\n<p><strong>Taille : </strong>1m70</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant ou milieu offensif<strong><br></strong></p>\n<p><strong>International français militaire </strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1956</p>\n<p><strong>Départ de Sochaux :</strong> juin 1959</p>\n<p><strong>Premier match joué :</strong> Sochaux - Reims du 19/08/1956 : 2-0</p>\n<p><strong>Dernier match joué :</strong> Laval - Sochaux du 21/06/1997 : 4-1</p>\n<p><strong>Premier but marqué :</strong> Metz - Sochaux du 16/09/1956 : 1-3 - But à la 84'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe de France 1959</li>\n</ul>",
+        "header_lines": [
+            "Lucien Mille",
+            "né le 17 octobre 1927 à Besançon (25)",
+            "Décédé le 27 décembre 1976 à Arnould (88)",
+            "Taille : 1m70",
+            "Poids : 74 kg",
+            "Pied : droitier",
+            "Poste : attaquant ou milieu offensif",
+            "International français militaire",
+            "Arrivée à Sochaux : juillet 1956",
+            "Départ de Sochaux : juin 1959",
+            "Premier match joué : Sochaux - Reims du 19/08/1956 : 2-0",
+            "Dernier match joué : Laval - Sochaux du 21/06/1997 : 4-1",
+            "Premier but marqué : Metz - Sochaux du 16/09/1956 : 1-3 - But à la 84'",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1959"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Lucien",
+        "last_name": "Mille",
+        "display_name": "Lucien Mille",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1927-10-17",
+                "precision": "day",
+                "text": "17 octobre 1927"
+            },
+            "place": {
+                "text": "Besançon (25)",
+                "city": "Besançon",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 17 octobre 1927 à Besançon (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1976-12-27",
+                "precision": "day",
+                "text": "27 décembre 1976"
+            },
+            "place": {
+                "text": "Arnould (88)",
+                "city": "Arnould",
+                "department": "88",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 27 décembre 1976 à Arnould (88)"
+        },
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "droitier",
+        "position": "attaquant ou milieu offensif",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français militaire"
+        ],
+        "arrival": {
+            "iso": "1956-07",
+            "precision": "month",
+            "text": "juillet 1956"
+        },
+        "departure": {
+            "iso": "1959-06",
+            "precision": "month",
+            "text": "juin 1959"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Reims du 19/08/1956 : 2-0",
+        "last_match": "Laval - Sochaux du 21/06/1997 : 4-1",
+        "first_goal": "Metz - Sochaux du 16/09/1956 : 1-3 - But à la 84'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de France 1959"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Lucien Mille"
+            },
+            {
+                "label": null,
+                "value": "né le 17 octobre 1927 à Besançon (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 27 décembre 1976 à Arnould (88)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant ou milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français militaire"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1956"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1959"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Reims du 19/08/1956 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Laval - Sochaux du 21/06/1997 : 4-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Metz - Sochaux du 16/09/1956 : 1-3 - But à la 84'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1959"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ]
+            ],
+            "source_table": 462
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

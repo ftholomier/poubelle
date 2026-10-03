@@ -1,0 +1,173 @@
+{
+    "id": 12792,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "eric-villa",
+    "path": "/joueurs/eric-villa/",
+    "title": "Eric Villa (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/02/Villa-Onze.png",
+    "date": "2025-03-09T23:16:24",
+    "modified": "2026-02-01T16:54:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>A la fin de la préparation estivale 1995-1996, Sochaux se cherche encore des joueurs dont un libéro. </li>\n<li>Le club met à l'essai Eric Villa qui a une solide expérience de la deuxième division (Auxerre, La Roche-sur-Yon, Le Mans etc.).</li>\n<li>Sans club il arrive à court de forme et de rythme. Lors du dernier match amical de préparation d'avant-saison face à Lausanne, il joue titulaire. Mais son début de match est très compliqué avec deux actions chaudes pour les Suisses sur lesquelles il est impliqué directement. </li>\n<li>Suite à ce match, le club ne donnera pas suite à ce test. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Eric Villa a joué 1 match amical pour Sochaux à l'été 1995."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Villa-Onze.png",
+            "caption": "Villa",
+            "credit": "Onze",
+            "caption_raw": "Villa – Onze"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12792,
+        "url": "https://www.fcsochauxretro.com/uncategorized/eric-villa-a-lessai/",
+        "path": "/uncategorized/eric-villa-a-lessai/",
+        "slug": "eric-villa-a-lessai",
+        "seo_title": "Eric Villa (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Eric Villa </h2>\n<h4><strong>Né le 29 aout 1966 à Pont-de-Beauvoisin (38)  </strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>International français juniors B1</strong> </p>\n<p><strong>A l'essai en : </strong>juillet 1995</p>\n<p><strong>Premier et dernier match amical joué :</strong> Lausanne (Suisse) - Sochaux du 12/07/1995 : 0-2</p>",
+        "header_lines": [
+            "Eric Villa",
+            "Né le 29 aout 1966 à Pont-de-Beauvoisin (38)",
+            "Taille : 1m83",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International français juniors B1",
+            "A l'essai en : juillet 1995",
+            "Premier et dernier match amical joué : Lausanne (Suisse) - Sochaux du 12/07/1995 : 0-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Eric",
+        "last_name": "Villa",
+        "display_name": "Eric Villa",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1995-07",
+            "precision": "month",
+            "text": "juillet 1995"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1966-08-29",
+                "precision": "day",
+                "text": "29 aout 1966"
+            },
+            "place": {
+                "text": "Pont-de-Beauvoisin (38)",
+                "city": "Pont-de-Beauvoisin",
+                "department": "38",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 29 aout 1966 à Pont-de-Beauvoisin (38)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International français juniors B1"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Eric Villa"
+            },
+            {
+                "label": null,
+                "value": "Né le 29 aout 1966 à Pont-de-Beauvoisin (38)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International français juniors B1"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 1995"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Lausanne (Suisse) - Sochaux du 12/07/1995 : 0-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

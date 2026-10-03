@@ -1,0 +1,209 @@
+{
+    "id": 9190,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nelson-zeglio",
+    "path": "/joueurs/nelson-zeglio/",
+    "title": "Nelson Zeglio",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/9-1.jpg",
+    "date": "2024-12-25T11:08:52",
+    "modified": "2024-12-27T17:11:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "7",
+        "text": "Nelson Zeglio a joué 7 matchs (1 but) pour Sochaux. Il est le premier brésilien à avoir joué pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-73.jpg",
+            "caption": "Nelson Zeglio",
+            "credit": "1951-1952",
+            "caption_raw": "Nelson Zeglio – 1951-1952"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9190,
+        "url": "https://www.fcsochauxretro.com/a-la-une/nelson-zeglio/",
+        "path": "/a-la-une/nelson-zeglio/",
+        "slug": "nelson-zeglio",
+        "seo_title": "Nelson Zeglio - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Nelson Zeglio</h2>\n<h4><strong>né le 21 novembre 1926 à Sao Paulo (Brésil)</strong></h4>\n<h4><strong>Décédé le 25 février 2019 à Sao Paulo (Brésil)</strong></h4>\n<p><strong>Taille : </strong>1m70</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif ou attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1951</p>\n<p><strong>Départ de Sochaux :</strong> aout 1952</p>\n<p><strong>Premier match joué et premier but marqué :</strong> Lens - Sochaux du 09/09/1951 : 3-1 - But à la 77'</p>\n<p><strong>Dernier match joué : </strong>Sète - Sochaux du 24/08/1952 : 0-0</p>",
+        "header_lines": [
+            "Nelson Zeglio",
+            "né le 21 novembre 1926 à Sao Paulo (Brésil)",
+            "Décédé le 25 février 2019 à Sao Paulo (Brésil)",
+            "Taille : 1m70",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif ou attaquant",
+            "Arrivée à Sochaux : juillet 1951",
+            "Départ de Sochaux : aout 1952",
+            "Premier match joué et premier but marqué : Lens - Sochaux du 09/09/1951 : 3-1 - But à la 77'",
+            "Dernier match joué : Sète - Sochaux du 24/08/1952 : 0-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Nelson",
+        "last_name": "Zeglio",
+        "display_name": "Nelson Zeglio",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1926-11-21",
+                "precision": "day",
+                "text": "21 novembre 1926"
+            },
+            "place": {
+                "text": "Sao Paulo (Brésil)",
+                "city": "Sao Paulo",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 novembre 1926 à Sao Paulo (Brésil)"
+        },
+        "death": {
+            "date": {
+                "iso": "2019-02-25",
+                "precision": "day",
+                "text": "25 février 2019"
+            },
+            "place": {
+                "text": "Sao Paulo (Brésil)",
+                "city": "Sao Paulo",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 25 février 2019 à Sao Paulo (Brésil)"
+        },
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "milieu offensif ou attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1951-07",
+            "precision": "month",
+            "text": "juillet 1951"
+        },
+        "departure": {
+            "iso": "1952-08",
+            "precision": "month",
+            "text": "aout 1952"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lens - Sochaux du 09/09/1951 : 3-1 - But à la 77'",
+        "last_match": "Sète - Sochaux du 24/08/1952 : 0-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Nelson Zeglio"
+            },
+            {
+                "label": null,
+                "value": "né le 21 novembre 1926 à Sao Paulo (Brésil)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 25 février 2019 à Sao Paulo (Brésil)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif ou attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1951"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "aout 1952"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Lens - Sochaux du 09/09/1951 : 3-1 - But à la 77'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sète - Sochaux du 24/08/1952 : 0-0"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,292 @@
+{
+    "id": 8564,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "basile-de-carvalho",
+    "path": "/joueurs/basile-de-carvalho/",
+    "title": "Basile De Carvalho",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/inbound1552182344704925225.jpg",
+    "date": "2024-12-07T18:44:59",
+    "modified": "2026-02-22T18:13:45",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "14",
+        "text": "Basile De Carvalho a joué 14 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/images.webp",
+            "caption": "Basile De Carvalho",
+            "credit": "",
+            "caption_raw": "Basile De Carvalho"
+        },
+        {
+            "image": "2025/02/inbound7944953167590043080.jpg",
+            "caption": "Basile de Carvalho – Saison 2004-2005",
+            "credit": "fcsm",
+            "caption_raw": "Basile de Carvalho – Saison 2004-2005 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8564,
+        "url": "https://www.fcsochauxretro.com/a-la-une/basile-de-carvalho/",
+        "path": "/a-la-une/basile-de-carvalho/",
+        "slug": "basile-de-carvalho",
+        "seo_title": "Basile De Carvalho - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Basile De Carvalho</h2>\n<h4><strong>né le 31 octobre à Ziguinchor (Sénégal)</strong></h4>\n<p><strong>Taille :</strong> 1m83</p>\n<p><strong>Poids :</strong> 75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> attaquant</p>\n<p><strong>International bissaoguinéen (7 sélections, 3 buts)</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2002</p>\n<p><strong>Départ de Sochaux :</strong> juin 2005</p>\n<p><strong>Premier match joué :</strong> Sochaux - Auxerre du 14/09/2002 : 1-1</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Caen du 22/12/2004 : 0-0 a.p (3-4 tab)</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Demi finaliste de la coupe Intertoto 2002</li>\n<li>Finaliste de la coupe de la ligue 2003</li>\n<li>Vainqueur de la coupe de la ligue 2004</li>\n</ul>",
+        "header_lines": [
+            "Basile De Carvalho",
+            "né le 31 octobre à Ziguinchor (Sénégal)",
+            "Taille : 1m83",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International bissaoguinéen (7 sélections, 3 buts)",
+            "Arrivée à Sochaux : juillet 2002",
+            "Départ de Sochaux : juin 2005",
+            "Premier match joué : Sochaux - Auxerre du 14/09/2002 : 1-1",
+            "Dernier match joué : Sochaux - Caen du 22/12/2004 : 0-0 a.p (3-4 tab)",
+            "Palmarès avec Sochaux :",
+            "Demi finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Basile",
+        "last_name": "De Carvalho",
+        "display_name": "Basile De Carvalho",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "31 octobre"
+            },
+            "place": {
+                "text": "Ziguinchor (Sénégal)",
+                "city": "Ziguinchor",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 31 octobre à Ziguinchor (Sénégal)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International bissaoguinéen (7 sélections, 3 buts)"
+        ],
+        "arrival": {
+            "iso": "2002-07",
+            "precision": "month",
+            "text": "juillet 2002"
+        },
+        "departure": {
+            "iso": "2005-06",
+            "precision": "month",
+            "text": "juin 2005"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Auxerre du 14/09/2002 : 1-1",
+        "last_match": "Sochaux - Caen du 22/12/2004 : 0-0 a.p (3-4 tab)",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Demi finaliste de la coupe Intertoto 2002",
+            "Finaliste de la coupe de la ligue 2003",
+            "Vainqueur de la coupe de la ligue 2004"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Basile De Carvalho"
+            },
+            {
+                "label": null,
+                "value": "né le 31 octobre à Ziguinchor (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International bissaoguinéen (7 sélections, 3 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2005"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Auxerre du 14/09/2002 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Caen du 22/12/2004 : 0-0 a.p (3-4 tab)"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Demi finaliste de la coupe Intertoto 2002"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de la ligue 2003"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de la ligue 2004"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Coupe Intertoto",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002 - 2003",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "5",
+                    "0",
+                    "7",
+                    "0"
+                ],
+                [
+                    "2004 - 2005",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "2",
+                    "0",
+                    "-",
+                    "-",
+                    "7",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "2",
+                    "0",
+                    "5",
+                    "0",
+                    "14",
+                    "0"
+                ]
+            ],
+            "source_table": 954
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

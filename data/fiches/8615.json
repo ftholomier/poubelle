@@ -1,0 +1,263 @@
+{
+    "id": 8615,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "robert-dewilder",
+    "path": "/joueurs/robert-dewilder/",
+    "title": "Robert Dewilder",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/Robert-Dewilder-Football-Magazine.png",
+    "date": "2024-12-08T01:16:35",
+    "modified": "2026-01-31T13:49:25",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "90",
+        "text": "Robert Dewilder a joué 90 matchs (8 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/Robert-Dewilder-Football-Magazine.png",
+            "caption": "Robert Dewilder",
+            "credit": "Football Magazine",
+            "caption_raw": "Robert Dewilder – Football Magazine"
+        },
+        {
+            "image": "2026/01/R-Dewilder-finale-de-la-coupe-horlogere-2-1-de-Sochaux-1966.png",
+            "caption": "R Dewilder finale de la coupe horlogère 2-1 de Sochaux 1966",
+            "credit": "Le Temps",
+            "caption_raw": "R Dewilder finale de la coupe horlogère 2-1 de Sochaux 1966 – Le Temps"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8615,
+        "url": "https://www.fcsochauxretro.com/a-la-une/robert-dewilder/",
+        "path": "/a-la-une/robert-dewilder/",
+        "slug": "robert-dewilder",
+        "seo_title": "Robert Dewilder - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Robert Dewilder</h2>\n<h4><strong>né le 6 mars 1943 à Paris (75) </strong></h4>\n<p><strong>Taille :</strong> 1m80</p>\n<p><strong>Poids :</strong> 72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> milieu de terrain </p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1966</p>\n<p><strong>Départ de Sochaux :</strong> juin 1969</p>\n<p><strong>Premier match joué : </strong>Nice - Sochaux du 21/08/1966 : 1-4</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Saint-Etienne du 14/06/1969 : 1-0</p>\n<p><strong>Premier but marqué : </strong>Rennes - Sochaux du 30/10/1970 : 1-1 - But à la 38'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe de France 1967</li>\n</ul>",
+        "header_lines": [
+            "Robert Dewilder",
+            "né le 6 mars 1943 à Paris (75)",
+            "Taille : 1m80",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1966",
+            "Départ de Sochaux : juin 1969",
+            "Premier match joué : Nice - Sochaux du 21/08/1966 : 1-4",
+            "Dernier match joué : Sochaux - Saint-Etienne du 14/06/1969 : 1-0",
+            "Premier but marqué : Rennes - Sochaux du 30/10/1970 : 1-1 - But à la 38'",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1967"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Robert",
+        "last_name": "Dewilder",
+        "display_name": "Robert Dewilder",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1943-03-06",
+                "precision": "day",
+                "text": "6 mars 1943"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 mars 1943 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1966-07",
+            "precision": "month",
+            "text": "juillet 1966"
+        },
+        "departure": {
+            "iso": "1969-06",
+            "precision": "month",
+            "text": "juin 1969"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Nice - Sochaux du 21/08/1966 : 1-4",
+        "last_match": "Sochaux - Saint-Etienne du 14/06/1969 : 1-0",
+        "first_goal": "Rennes - Sochaux du 30/10/1970 : 1-1 - But à la 38'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de France 1967"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Robert Dewilder"
+            },
+            {
+                "label": null,
+                "value": "né le 6 mars 1943 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1966"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1969"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Nice - Sochaux du 21/08/1966 : 1-4"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Saint-Etienne du 14/06/1969 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Rennes - Sochaux du 30/10/1970 : 1-1 - But à la 38'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1967"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1966 - 1967",
+                    "26",
+                    "1",
+                    "8",
+                    "1",
+                    "34",
+                    "2"
+                ],
+                [
+                    "1967 - 1968",
+                    "25",
+                    "3",
+                    "3",
+                    "0",
+                    "28",
+                    "3"
+                ],
+                [
+                    "1968 - 1969",
+                    "27",
+                    "3",
+                    "1",
+                    "0",
+                    "28",
+                    "3"
+                ],
+                [
+                    "TOTAL",
+                    "78",
+                    "7",
+                    "12",
+                    "1",
+                    "90",
+                    "8"
+                ]
+            ],
+            "source_table": 964
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

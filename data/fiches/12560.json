@@ -1,0 +1,148 @@
+{
+    "id": 12560,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-marc-fahme",
+    "path": "/joueurs/jean-marc-fahme/",
+    "title": "Jean-Marc Fahme (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-06T20:48:39",
+    "modified": "2025-11-12T14:11:02",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Jean-Marc Fahme a joué un match amical pour Sochaux en septembre 1990."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12560,
+        "url": "https://www.fcsochauxretro.com/uncategorized/jean-marc-fahme/",
+        "path": "/uncategorized/jean-marc-fahme/",
+        "slug": "jean-marc-fahme",
+        "seo_title": "Jean-Marc Fahme (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Marc Fahme</h2>\n<h4><strong>né le xx à xx </strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>A l'essai en : </strong>septembre 1990</p>\n<p><strong>Premier et dernier match amical joué : Sochaux - Strasbourg du xx/09/1990 : </strong></p>",
+        "header_lines": [
+            "Jean-Marc Fahme",
+            "né le xx à xx",
+            "Poste : milieu de terrain",
+            "A l'essai en : septembre 1990",
+            "Premier et dernier match amical joué : Sochaux - Strasbourg du xx/09/1990 :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Marc",
+        "last_name": "Fahme",
+        "display_name": "Jean-Marc Fahme",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1990-09",
+            "precision": "month",
+            "text": "septembre 1990"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Marc Fahme"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "septembre 1990"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sochaux - Strasbourg du xx/09/1990 :"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,260 @@
+{
+    "id": 8822,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "patrick-jeskowiak",
+    "path": "/joueurs/patrick-jeskowiak/",
+    "title": "Patrick Jeskowiak",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-45.jpg",
+    "date": "2024-12-18T17:57:38",
+    "modified": "2024-12-18T18:06:35",
+    "author": "tanguy",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "29",
+        "text": "Patrick Jeskowiak a joué 29 matchs (4 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/5-45.jpg",
+            "caption": "Patrick Jeskowiak",
+            "credit": "fcsm",
+            "caption_raw": "Patrick Jeskowiak – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8822,
+        "url": "https://www.fcsochauxretro.com/a-la-une/patrick-jeskowiak/",
+        "path": "/a-la-une/patrick-jeskowiak/",
+        "slug": "patrick-jeskowiak",
+        "seo_title": "Patrick Jeskowiak - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Patrick Jeskowiak</h2>\n<h4><strong>né le 23 octobre 1954 à Trith-Saint-Léger (59)</strong></h4>\n<p><strong>Taille : </strong>1m73</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>International français B (1 sélection)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1978</p>\n<p><strong>Départ de Sochaux : </strong>juin 1981</p>\n<p><strong>Premier match joué :</strong> Sochaux - Nie du 25/07/1978 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Monaco - Sochaux du 04/10/1980 : 2-1</p>\n<p><strong>Premier but marqué :</strong> Nancy - Sochaux du 08/09/1978 : 1-2 - But à la 60'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vice-champion de France de première division 1980</li>\n<li>Demi-finaliste de la coupe UEFA 1981</li>\n</ul>",
+        "header_lines": [
+            "Patrick Jeskowiak",
+            "né le 23 octobre 1954 à Trith-Saint-Léger (59)",
+            "Taille : 1m73",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "International français B (1 sélection)",
+            "Arrivée à Sochaux : juillet 1978",
+            "Départ de Sochaux : juin 1981",
+            "Premier match joué : Sochaux - Nie du 25/07/1978 : 2-1",
+            "Dernier match joué : Monaco - Sochaux du 04/10/1980 : 2-1",
+            "Premier but marqué : Nancy - Sochaux du 08/09/1978 : 1-2 - But à la 60'",
+            "Palmarès avec Sochaux :",
+            "Vice-champion de France de première division 1980",
+            "Demi-finaliste de la coupe UEFA 1981"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Patrick",
+        "last_name": "Jeskowiak",
+        "display_name": "Patrick Jeskowiak",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1954-10-23",
+                "precision": "day",
+                "text": "23 octobre 1954"
+            },
+            "place": {
+                "text": "Trith-Saint-Léger (59)",
+                "city": "Trith-Saint-Léger",
+                "department": "59",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 octobre 1954 à Trith-Saint-Léger (59)"
+        },
+        "death": null,
+        "height": "1m73",
+        "height_cm": 173,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français B (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "1978-07",
+            "precision": "month",
+            "text": "juillet 1978"
+        },
+        "departure": {
+            "iso": "1981-06",
+            "precision": "month",
+            "text": "juin 1981"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Nie du 25/07/1978 : 2-1",
+        "last_match": "Monaco - Sochaux du 04/10/1980 : 2-1",
+        "first_goal": "Nancy - Sochaux du 08/09/1978 : 1-2 - But à la 60'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vice-champion de France de première division 1980",
+            "Demi-finaliste de la coupe UEFA 1981"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Patrick Jeskowiak"
+            },
+            {
+                "label": null,
+                "value": "né le 23 octobre 1954 à Trith-Saint-Léger (59)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m73"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International français B (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1978"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1981"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Nie du 25/07/1978 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Monaco - Sochaux du 04/10/1980 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Nancy - Sochaux du 08/09/1978 : 1-2 - But à la 60'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de première division 1980"
+            },
+            {
+                "label": null,
+                "value": "Demi-finaliste de la coupe UEFA 1981"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1938-1939",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "1945-1946",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "Total",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            ],
+            "source_table": 231
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,356 @@
+{
+    "id": 22988,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "saint-louis-sochaux-amical-06-09-1970",
+    "path": "/matchs/1970-1971/saint-louis-sochaux-amical-06-09-1970/",
+    "title": "Amical – Saint-Louis (D3) / Sochaux (D1) – 06/09/1970 – 0-3",
+    "categories": [
+        "1970-1971",
+        "amical",
+        "annees-70-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/09/StLouis-FCSM-1970-1971-Piat.jpg",
+    "date": "2026-09-07T19:28:02",
+    "modified": "2026-09-09T11:12:48",
+    "author": "gsanchez",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Pendant la trêve internationale, Sochaux a prévu deux matches amicaux : le 4 septembre à Besançon face au Racing Club Franc-Comtois (D2) et le 6 à Saint-Louis (D3).</li>\n<li>14 joueurs par ces deux confrontations. Duffez, initialement en instance de départ, reste finalement au club et est titulaire à Besançon au poste d'arrière gauche. Battmann est toujours blessé, c'est donc Nardin qui est prévu dans les cages. Wassmer, de retour de maladie, Goutte et Sanchez complètent le groupe. </li>\n<li>Le match contre le RCFC se solde par la victoire 1-0 des bisontins.</li>\n<li>D'un commun accord avec le club, Alain Marconnet est reclassé amateur et jouera désormais avec la réserve.</li>\n<li>Enfin, Jean-Marie Zimmermann a été transféré à Mulhouse, où il rejoint Schmit et Kloetty.</li>\n<li>Contre Saint-Louis, Paul Barret revient à son équipe type (à l'exception de Nardin) en réintégrant Wassmer arrière gauche.</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>52' : À la suite de deux dribbles, Piat pénètre dans la surface de réparation et de très près trompe la vigilance du gardien alsacien. (0-1)</strong></li>\n<li><strong>62' : Sur un une-deux entre Lech et Watteau, ce dernier, engagé à toute allure dans la défense adverse, double le mise. (0-2)</strong></li>\n<li><strong>89' : Sur un centre de Lech, Melic triple la mise d'un tir de 25m. (0-3)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Saint-Louis avait choisi de renforcer sa défense pour résister à l'attaque sochalienne. Ça aura tenu une mi-temps.</li>\n<li>Paul Barret était particulièrement satisfait de la paire Melic-Watteau, qui, associé à Lech, imprima un bon tempo.</li>\n<li>Philippe Piat, en délicatesse depuis sa blessure à l'aine en début de saison (on devait lui administrer une piqûre avant chaque rencontre), a retrouvé le chemin des filets. Le staff espère que le déclic va bientôt se produire pour qu'il donne sa pleine mesure. </li>\n<li>En voie de guérison, Battmann est espéré pour le prochain match de championnat à Bonal contre Sedan.</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Philippe Piat a inscrit son 6e but en amical."
+    },
+    "gallery": [
+        {
+            "image": "2026/09/StLouis-FCSM-1970-1971-Piat.jpg",
+            "caption": "Piat",
+            "credit": "",
+            "caption_raw": "Piat"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 22988,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/amical-saint-louis-d3-sochaux-d1-06-09-1970-0-3/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/amical-saint-louis-d3-sochaux-d1-06-09-1970-0-3/",
+        "slug": "amical-saint-louis-d3-sochaux-d1-06-09-1970-0-3",
+        "seo_title": "Amical - Saint-Louis (D3) / Sochaux (D1) - 06/09/1970 - 0-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Saint-Louis (D3) / Sochaux : 0-3</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Dimanche 6 septembre 1970</strong></h4>\n<h4><strong><strong>Stade de la Frontière<!--TgQPHd|||[]--></strong> à Saint-Louis</strong></h4>\n<h4><strong>1 127 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Menetré</strong></h4>\n<p>Buts : Piat 52', Watteau 62', Melic 89'</p>",
+        "header_lines": [
+            "Saint-Louis (D3) / Sochaux : 0-3",
+            "Match amical",
+            "Dimanche 6 septembre 1970",
+            "Stade de la Frontière à Saint-Louis",
+            "1 127 spectateurs",
+            "Arbitre : M. Menetré",
+            "Buts : Piat 52', Watteau 62', Melic 89'"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1970-09-06",
+        "date_text": "Dimanche 6 septembre 1970",
+        "season": "1970-1971",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Saint-Louis",
+            "level": "D3"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-3",
+        "score_line": "Saint-Louis (D3) / Sochaux : 0-3",
+        "result": "V",
+        "stadium": "Stade de la Frontière à Saint-Louis",
+        "spectators": 1127,
+        "spectators_text": "1 127 spectateurs",
+        "referee": "M. Menetré",
+        "goals_text": "Piat 52', Watteau 62', Melic 89'",
+        "goals": [
+            {
+                "team": null,
+                "scorers": "Piat 52', Watteau 62', Melic 89'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "52",
+                "text": "À la suite de deux dribbles, Piat pénètre dans la surface de réparation et de très près trompe la vigilance du gardien alsacien. (0-1)",
+                "goal": true,
+                "score": "0-1"
+            },
+            {
+                "minute": "62",
+                "text": "Sur un une-deux entre Lech et Watteau, ce dernier, engagé à toute allure dans la défense adverse, double le mise. (0-2)",
+                "goal": true,
+                "score": "0-2"
+            },
+            {
+                "minute": "89",
+                "text": "Sur un centre de Lech, Melic triple la mise d'un tir de 25m. (0-3)",
+                "goal": true,
+                "score": "0-3"
+            }
+        ],
+        "reactions": [],
+        "breves": [
+            "Saint-Louis avait choisi de renforcer sa défense pour résister à l'attaque sochalienne. Ça aura tenu une mi-temps.",
+            "Paul Barret était particulièrement satisfait de la paire Melic-Watteau, qui, associé à Lech, imprima un bon tempo.",
+            "Philippe Piat, en délicatesse depuis sa blessure à l'aine en début de saison (on devait lui administrer une piqûre avant chaque rencontre), a retrouvé le chemin des filets. Le staff espère que le déclic va bientôt se produire pour qu'il donne sa pleine mesure.",
+            "En voie de guérison, Battmann est espéré pour le prochain match de championnat à Bonal contre Sedan."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "NARDIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LARGOUËT Jacques",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SELES Laszlo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BURCKLÉ Gérard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WASSMER Marcel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "WATTEAU Michel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "62"
+                    ],
+                    "goals_text": "⚽ 62'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MELIC Vojislav",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [
+                        "89"
+                    ],
+                    "goals_text": "⚽ 89'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "TERRIER Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LECH Georges",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PIAT Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "52"
+                    ],
+                    "goals_text": "⚽ 52'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LECHANTRE Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "BARRET Paul",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1999
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

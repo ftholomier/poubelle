@@ -1,0 +1,168 @@
+{
+    "id": 12774,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "cheikh-traore",
+    "path": "/joueurs/cheikh-traore/",
+    "title": "Cheikh Traoré (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-1.png",
+    "date": "2025-03-09T21:59:09",
+    "modified": "2026-02-04T20:50:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Après le départ de Nolan Galves en fin de mercato à l'été 2024 et la blessure de Julien Da Costa, Sochaux se cherche un arrière latéral droit d'urgence en octobre 2024.  </li>\n<li>Le club met à l'essai Cheikh Traoré qui a une belle expérience et se retrouve sans club après un passage en Roumanie. Mais durant son essai le jeune Nelson Mendes se révèle et le club décide de ne plus recruter sur ce poste pour faire confiance au jeune formé au club. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Cheikh Traoré a été mis à l'essai 1 semaine en octobre 2024."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-1.png",
+            "caption": "Cheikh Traoré",
+            "credit": "Guingamp",
+            "caption_raw": "Cheikh Traoré – Guingamp"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12774,
+        "url": "https://www.fcsochauxretro.com/uncategorized/cheikh-traore-a-lessai/",
+        "path": "/uncategorized/cheikh-traore-a-lessai/",
+        "slug": "cheikh-traore-a-lessai",
+        "seo_title": "Cheikh Traoré (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Cheikh Traoré</h2>\n<h4><strong>né le 31 mars 1995 à Paris (75)  </strong></h4>\n<p><strong>Taille : </strong>1m74</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière latéral droit</p>\n<p><strong>International malien (2 sélections)</strong></p>\n<p><strong>A l'essai en : </strong>octobre 2024</p>",
+        "header_lines": [
+            "Cheikh Traoré",
+            "né le 31 mars 1995 à Paris (75)",
+            "Taille : 1m74",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : arrière latéral droit",
+            "International malien (2 sélections)",
+            "A l'essai en : octobre 2024"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Cheikh",
+        "last_name": "Traoré",
+        "display_name": "Cheikh Traoré",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2024-10",
+            "precision": "month",
+            "text": "octobre 2024"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1995-03-31",
+                "precision": "day",
+                "text": "31 mars 1995"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 31 mars 1995 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m74",
+        "height_cm": 174,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International malien (2 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Cheikh Traoré"
+            },
+            {
+                "label": null,
+                "value": "né le 31 mars 1995 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m74"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": null,
+                "value": "International malien (2 sélections)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "octobre 2024"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

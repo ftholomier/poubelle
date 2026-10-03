@@ -1,0 +1,153 @@
+{
+    "id": 23038,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "julot-du-stade",
+    "path": "/personnages-emblematiques/julot-du-stade/",
+    "title": "“Julot du stade”",
+    "categories": [
+        "la-pelouse",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/09/WhatsApp-Image-2026-09-17-at-09.33.48-1.jpeg",
+    "date": "2026-09-17T11:01:42",
+    "modified": "2026-09-17T11:32:09",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Nous ne connaissons pas encore son identité, mais en 1962, un fasicule du club revient sur les personnages clés qui ont façonné l'histoire du club avant une rencontre amicale pour les célébrer. Pami les portraits réalisés on retrouve un certain \"Julot du stade\". Cet homme surnommé ainsi par les anciens joueurs, était en charge de l'entretien du stade et de la pelouse de 1934 à 1959.</li>\n<li>Né à Liège en Belgique le 23 décembre 1885, Julot est un sportif accomplit. Dans sa jeunesse en Belgique, il pratique la lutte greco-romaine à haut niveau. Il devient même champion national trois années de suite en poids moyen. Des titres qui le conduisent à parcourir l'Europe pour disputer des compétitions. Dans les années 1920, il arrive dans le Pays de Montbéliard pour travailler chez Peugeot à l'heure où l'usine se développe rapidement. Il continue la lutte où il pratique à l'ES Sous-le-Chaux le club très proche du stade de la Forge. Mais Julot pratique d'autres sports comme le handball. Il sera un pilier de l'équipe des \"centraux\" dans le championnat inter-usine en 1949-1950. </li>\n<li>Mais en 1934, il est embauché à l'entretien du stade et de la pelouse du stade de la Forge qui deviendra le stade Bonal après guerre. Il est aussi un peu intendant de l'équipe professionnel et il cotoie tous les jours durant 25 ans, leur rendant régulièrement des services. </li>\n<li>Après son départ en retraite de chez Peugeot, Julot toujours actif et en forme, décide de reprendre un travail à la graineterie Weité-Maillard à Montbéliard où il termine sa carrière à près de 80 ans ! Il avait ses habitudes au café \"Chez Juliette\" au faubourg de Besançon à Montbéliard. </li>\n<li>En 1962, lors d'un match amical hommage aux grands anciens qui ont fait l'histoire du club, il est présenté au public du stade Bonal pour sa plus grande joie. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "25",
+        "text": "Julot s'est occupé du stade et de la pelouse durant 25 ans. Roger Dirand lui succédera en 1959."
+    },
+    "gallery": [
+        {
+            "image": "2026/09/WhatsApp-Image-2026-09-17-at-09.33.48-1.jpeg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2026/09/WhatsApp-Image-2026-09-17-at-12.41.22.jpeg",
+            "caption": "Julot du stade sur un dessin de Michel Moyne",
+            "credit": "",
+            "caption_raw": "Julot du stade sur un dessin de Michel Moyne"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 23038,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/julot-du-stade/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/julot-du-stade/",
+        "slug": "julot-du-stade",
+        "seo_title": "\"Julot du stade\" - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>\"Julot du stade\"</h2>\n<h4><strong>En charge de l'entretien du stade et de la pelouse de 1934 à 1959. </strong></h4>\n<h4><strong>Né le 23 décembre 1885 à Liège (Belgique)</strong></h4>\n<h4><strong>Décédé le XX </strong></h4>",
+        "header_lines": [
+            "\"Julot du stade\"",
+            "En charge de l'entretien du stade et de la pelouse de 1934 à 1959.",
+            "Né le 23 décembre 1885 à Liège (Belgique)",
+            "Décédé le XX"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Julot",
+        "last_name": "du stade",
+        "display_name": "Julot du stade",
+        "nickname": "",
+        "subtitle": "En charge de l'entretien du stade et de la pelouse de 1934 à 1959.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1885-12-23",
+                "precision": "day",
+                "text": "23 décembre 1885"
+            },
+            "place": {
+                "text": "Liège (Belgique)",
+                "city": "Liège",
+                "department": null,
+                "country": "Belgique",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 23 décembre 1885 à Liège (Belgique)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "XX"
+            },
+            "place": null,
+            "text": "Décédé le XX"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "\"Julot du stade\""
+            },
+            {
+                "label": null,
+                "value": "En charge de l'entretien du stade et de la pelouse de 1934 à 1959."
+            },
+            {
+                "label": null,
+                "value": "Né le 23 décembre 1885 à Liège (Belgique)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le XX"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

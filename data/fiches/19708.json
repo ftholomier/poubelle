@@ -1,0 +1,475 @@
+{
+    "id": 19708,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "paris-fc-sochaux-amical-05-01-1992",
+    "path": "/matchs/1991-1992/paris-fc-sochaux-amical-05-01-1992/",
+    "title": "Amical – Paris FC (D3) / Sochaux (D1) – Amical – 5/01/1992 – 1-1",
+    "categories": [
+        "1991-1992",
+        "a-la-une",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/Takac-FF.png",
+    "date": "2025-12-30T20:41:11",
+    "modified": "2026-01-25T09:47:17",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Après 24 journées, Sochaux est 19e de D1 avec 15 points. Le FCSM est à 3 points de la 17e place occupée par Cannes. </li>\n<li>Le PFC est 4e du groupe centre de D3 à 6 points du leader Auxerre. </li>\n<li>Après une reprise à Montbéliard, le FCSM a mis le cap sur Clairefontaine pour y réaliser un stage de préparation et y disputer trois amicaux. </li>\n<li>Pour ce premier match amical, le FCSM est privé de plusieurs joueurs comme Silvestre et Hadzibegic. </li>\n<li>Frotey, Henry et Dufournet sont en phase de reprise. Ils ne joueront pas cet après midi.  </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>17' : lancé en profondeur, Prat est fauché par Poil le gardien du PFC. Caveglia marque le pénalty malgré la belle détente de Poil. 0-1</strong></li>\n<li><strong>34' :</strong> Ferrand sauve de Gbala. </li>\n<li><strong>38' : Da Fonseca trompe Ferrand d'une subtile pichenette. 1-1</strong></li>\n<li><strong>56' :</strong> frappe de Mac Garvey au ras du poteau de Gardié. </li>\n<li><strong>66' :</strong> tête de Vujovic déviée par Poil. </li>\n<li><strong>85' :</strong> Madar enlève trop sa reprise de la tête sur un centre de Thomas. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>Pas de réactions pour cette rencontre. </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Pour Takac, la situation est tellement grave en championnat qu'il n'est plus question de programmer un quelconque tableau de marche : <em>\" Il faut gagner, c'est tout et on ne l'a pas fait depuis longtemps. \"</em></li>\n<li>Silvestre et Hadzibegic seront présents contre Valenciennes. </li>\n<li>Touché contre le PFC, Eric Dewilder est incertain pour le match contre VA. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "premier match d'une série de trois rencontres amicales pour Sochaux"
+    },
+    "gallery": [
+        {
+            "image": "2025/12/Takac-FF.png",
+            "caption": "Takac",
+            "credit": "FF",
+            "caption_raw": "Takac – FF"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19708,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-paris-fc-d3-sochaux-d1-amical-5-01-1992-1-1/",
+        "path": "/a-la-une/amical-paris-fc-d3-sochaux-d1-amical-5-01-1992-1-1/",
+        "slug": "amical-paris-fc-d3-sochaux-d1-amical-5-01-1992-1-1",
+        "seo_title": "Amical - Paris FC (D3) / Sochaux (D1) - Amical - 5/01/1992 - 1-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>PFC (D3) / Sochaux (D1): 1-1</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Dimanche 5 janvier 1992</strong></h4>\n<h4>Stade de Poissy</h4>\n<h4><strong> 456  spectateurs</strong></h4>\n<h4><strong>Arbitrage : Mr Quiniou</strong></h4>\n<p>Buts : Caveglia 17' pour Sochaux. Da Fonseca 38' pour le PFC.</p>",
+        "header_lines": [
+            "PFC (D3) / Sochaux (D1): 1-1",
+            "Match amical",
+            "Dimanche 5 janvier 1992",
+            "Stade de Poissy",
+            "456 spectateurs",
+            "Arbitrage : Mr Quiniou",
+            "Buts : Caveglia 17' pour Sochaux. Da Fonseca 38' pour le PFC."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1992-01-05",
+        "date_text": "Dimanche 5 janvier 1992",
+        "season": "1991-1992",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": "Amical",
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Paris FC",
+            "level": "D3"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 1,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "1-1",
+        "score_line": "PFC (D3) / Sochaux (D1): 1-1",
+        "result": "N",
+        "stadium": "Stade de Poissy",
+        "spectators": 456,
+        "spectators_text": "456 spectateurs",
+        "referee": "Mr Quiniou",
+        "goals_text": "Caveglia 17' pour Sochaux. Da Fonseca 38' pour le PFC.",
+        "goals": [
+            {
+                "team": "le PFC",
+                "scorers": "Caveglia 17' pour Sochaux. Da Fonseca 38'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "17",
+                "text": "lancé en profondeur, Prat est fauché par Poil le gardien du PFC. Caveglia marque le pénalty malgré la belle détente de Poil. 0-1",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "34",
+                "text": "Ferrand sauve de Gbala.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "38",
+                "text": "Da Fonseca trompe Ferrand d'une subtile pichenette. 1-1",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "56",
+                "text": "frappe de Mac Garvey au ras du poteau de Gardié.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "66",
+                "text": "tête de Vujovic déviée par Poil.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "85",
+                "text": "Madar enlève trop sa reprise de la tête sur un centre de Thomas.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Pas de réactions pour cette rencontre."
+            }
+        ],
+        "breves": [
+            "Pour Takac, la situation est tellement grave en championnat qu'il n'est plus question de programmer un quelconque tableau de marche : \" Il faut gagner, c'est tout et on ne l'a pas fait depuis longtemps. \"",
+            "Silvestre et Hadzibegic seront présents contre Valenciennes.",
+            "Touché contre le PFC, Eric Dewilder est incertain pour le match contre VA."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERRAND Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRICON Pierre-Yves",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "WEBER Nicolas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DEWILDER Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CAVEGLIA Alain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "17"
+                    ],
+                    "goals_text": "17'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ROBERT David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "THOMAS Jean-Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PRAT Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "OUDJANI Chérif",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BAUDRY Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VUJOVIC Zlatko",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CARRASCO Franciso",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MADAR Mickael",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GARDIE Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1719
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

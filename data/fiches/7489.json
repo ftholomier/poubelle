@@ -1,0 +1,231 @@
+{
+    "id": 7489,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "julien-dacosta",
+    "path": "/joueurs/julien-dacosta/",
+    "title": "Julien Dacosta",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/dacosta-vignette-e1731357858611.webp",
+    "date": "2024-11-11T20:55:01",
+    "modified": "2025-03-08T20:45:27",
+    "author": "aurelie",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2208",
+        "text": "minutes jouées lors de sa première saison"
+    },
+    "gallery": [
+        {
+            "image": "2024/11/dacosta-vignette-e1731357858611.webp",
+            "caption": "Julien Da Costa",
+            "credit": "FCSM",
+            "caption_raw": "Julien Da Costa – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7489,
+        "url": "https://www.fcsochauxretro.com/a-la-une/julien-dacosta/",
+        "path": "/a-la-une/julien-dacosta/",
+        "slug": "julien-dacosta",
+        "seo_title": "Julien Dacosta - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Julien Dacosta</h2>\n<h4><strong>né le 29 mai 1996 à Marseille (13)</strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids : </strong>81 kg</p>\n<p><strong>Poste : </strong>Arrière latéral droit</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Arrivée à Sochaux : </strong>août 2023</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match joué :</strong> Red Star - Sochaux du 25/08/2023 : 2-0</p>\n<p><strong>Dernier match joué :</strong> </p>\n<p><strong>Premier but et premier doublé avec Sochaux :</strong> FC Geispolsheim - Sochaux du 9/12/2023 : 0-4 (4ème tour Coupe de France). Buts à la 56' et 71'</p>",
+        "header_lines": [
+            "Julien Dacosta",
+            "né le 29 mai 1996 à Marseille (13)",
+            "Taille : 1m81",
+            "Poids : 81 kg",
+            "Poste : Arrière latéral droit",
+            "Pied : droitier",
+            "Arrivée à Sochaux : août 2023",
+            "Départ de Sochaux :",
+            "Premier match joué : Red Star - Sochaux du 25/08/2023 : 2-0",
+            "Dernier match joué :",
+            "Premier but et premier doublé avec Sochaux : FC Geispolsheim - Sochaux du 9/12/2023 : 0-4 (4ème tour Coupe de France). Buts à la 56' et 71'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Julien",
+        "last_name": "Dacosta",
+        "display_name": "Julien Dacosta",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1996-05-29",
+                "precision": "day",
+                "text": "29 mai 1996"
+            },
+            "place": {
+                "text": "Marseille (13)",
+                "city": "Marseille",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 29 mai 1996 à Marseille (13)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "81 kg",
+        "weight_kg": 81,
+        "foot": "droitier",
+        "position": "Arrière latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2023-08",
+            "precision": "month",
+            "text": "août 2023"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Red Star - Sochaux du 25/08/2023 : 2-0",
+        "last_match": "",
+        "first_goal": "FC Geispolsheim - Sochaux du 9/12/2023 : 0-4 (4ème tour Coupe de France). Buts à la 56' et 71'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Julien Dacosta"
+            },
+            {
+                "label": null,
+                "value": "né le 29 mai 1996 à Marseille (13)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "81 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "Arrière latéral droit"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "août 2023"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Red Star - Sochaux du 25/08/2023 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            },
+            {
+                "label": "Premier but et premier doublé avec Sochaux",
+                "value": "FC Geispolsheim - Sochaux du 9/12/2023 : 0-4 (4ème tour Coupe de France). Buts à la 56' et 71'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "National 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023 - 2024",
+                    "26",
+                    "2",
+                    "5",
+                    "2",
+                    "31",
+                    "4"
+                ],
+                [
+                    "2024 - 2025",
+                    "22",
+                    "0",
+                    "2",
+                    "0",
+                    "24",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "48",
+                    "2",
+                    "7",
+                    "2",
+                    "55",
+                    "4"
+                ]
+            ],
+            "source_table": 920
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

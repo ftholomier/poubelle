@@ -1,0 +1,195 @@
+{
+    "id": 7317,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "won-kwang-cho",
+    "path": "/joueurs/won-kwang-cho/",
+    "title": "Won Kwang Cho",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound6712943069332318161.jpg",
+    "date": "2024-11-10T18:23:11",
+    "modified": "2026-03-03T12:52:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Won-Kwang Cho a signé professionnel avec Sochaux mais n'a joué aucun match."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/PicsArt_01-21-12.37.46.jpg",
+            "caption": "Cho Won-Kwang",
+            "credit": "",
+            "caption_raw": "Cho Won-Kwang"
+        },
+        {
+            "image": "2024/11/images-5.jpg",
+            "caption": "Cho Won-Kwang",
+            "credit": "",
+            "caption_raw": "Cho Won-Kwang"
+        },
+        {
+            "image": "2024/11/inbound2617574222848897039.jpg",
+            "caption": "Won Kwang Cho, saison 2005-2006",
+            "credit": "fcsm",
+            "caption_raw": "Won Kwang Cho, saison 2005-2006 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7317,
+        "url": "https://www.fcsochauxretro.com/a-la-une/won-kwang-cho/",
+        "path": "/a-la-une/won-kwang-cho/",
+        "slug": "won-kwang-cho",
+        "seo_title": "Won Kwang Cho - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Won Kwang Cho </h2>\n<h4><strong>né le 23 août 1985 à Séoul (Corée du Sud)  </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International coréen U20 (13 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2003</p>\n<p><strong>Départ de Sochaux : </strong>juin 2006</p>",
+        "header_lines": [
+            "Won Kwang Cho",
+            "né le 23 août 1985 à Séoul (Corée du Sud)",
+            "Taille : 1m82",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International coréen U20 (13 sélections, 1 but)",
+            "Arrivée à Sochaux : juillet 2003",
+            "Départ de Sochaux : juin 2006"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Won Kwang",
+        "last_name": "Cho",
+        "display_name": "Won Kwang Cho",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1985-08-23",
+                "precision": "day",
+                "text": "23 août 1985"
+            },
+            "place": {
+                "text": "Séoul (Corée du Sud)",
+                "city": "Séoul",
+                "department": null,
+                "country": "Corée du Sud",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 août 1985 à Séoul (Corée du Sud)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International coréen U20 (13 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2003-07",
+            "precision": "month",
+            "text": "juillet 2003"
+        },
+        "departure": {
+            "iso": "2006-06",
+            "precision": "month",
+            "text": "juin 2006"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Won Kwang Cho"
+            },
+            {
+                "label": null,
+                "value": "né le 23 août 1985 à Séoul (Corée du Sud)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International coréen U20 (13 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2003"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2006"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

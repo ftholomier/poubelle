@@ -1,0 +1,171 @@
+{
+    "id": 12516,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "yoann-beaka",
+    "path": "/joueurs/yoann-beaka/",
+    "title": "Yoann Beaka (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/55-1.jpg",
+    "date": "2025-03-04T19:57:48",
+    "modified": "2026-03-31T21:31:15",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière avant son essai",
+            "html": "<ul>\n<li>Né à Paris dans une famille d'origine ivoirienne, Yoann Beaka, grand avant-centre d'1,94 m, apprend le football à Trilport puis à Meaux. Il rejoint ensuite le pôle fédéral Espoirs de Reims, puis le centre de formation du Stade de Reims entre 2017 et 2018.</li>\n<li>En 2018/2019, il signe à l'US Torcy.</li>\n<li><strong>Saison 2021/2022</strong><br>Il quitte Reims et signe au Paris FC. Il joue 5 matchs de Ligue 2.</li>\n<li><strong>Saison 2022/2023</strong><br>Le jeune avant-centre signe à Troyes, mais il évolue essentiellement avec la réserve. Il joue 23 matchs et marque 4 buts. En fin de saison, il dispute tout de même 5 bouts de match avec l'équipe première de Troyes, entraînée par Bruno Irles.</li>\n</ul>"
+        },
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>À l'été 2023, Julien Cordonnier met Yoann Beaka et Yannis Verdier à l'essai à Sochaux.</li>\n<li>La crise économique n'a pas encore frappé le club. Mais, dès qu'elle arrive, les deux joueurs quittent le club.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après son essai",
+            "html": "<ul>\n<li><strong>Saison 2023/2024</strong><br>Il signe à Romorantin en National 2. Il y reste un an. En 19 matchs, il marque 7 buts.</li>\n<li><strong>Saison 2024/2025</strong><br>Il signe à Beauvais, toujours en National 2. En 31 matchs, il marque 9 buts.</li>\n<li><strong>Saison 2025/2026</strong><br>Il trouve un point de chute en D2 autrichienne, à Stripfing. En avril 2026, en 17 matchs, il avait marqué 3 buts et délivré 1 passe décisive.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Yoann Beaka a été à l'essai à Sochaux 1 mois à l'été 2023."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/55-1.jpg",
+            "caption": "Yoann Beaka",
+            "credit": "Paris FC",
+            "caption_raw": "Yoann Beaka – Paris FC"
+        },
+        {
+            "image": "2025/03/5-9.jpg",
+            "caption": "Yoann Beaka",
+            "credit": "L’est républicain",
+            "caption_raw": "Yoann Beaka – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12516,
+        "url": "https://www.fcsochauxretro.com/uncategorized/yoann-beaka/",
+        "path": "/uncategorized/yoann-beaka/",
+        "slug": "yoann-beaka",
+        "seo_title": "Yoann Beaka (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Yoann Beaka</strong></h2>\n<h4><strong>né le 6 avril 2003 à Saint-Denis (93)   </strong></h4>\n<p><strong>Taille : </strong>1m95</p>\n<p><strong>Poids : </strong>82 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>avant-centre</p>\n<p><strong>A l'essai en :</strong> juillet 2023 </p>",
+        "header_lines": [
+            "Yoann Beaka",
+            "né le 6 avril 2003 à Saint-Denis (93)",
+            "Taille : 1m95",
+            "Poids : 82 kg",
+            "Pied : gaucher",
+            "Poste : avant-centre",
+            "A l'essai en : juillet 2023"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Yoann",
+        "last_name": "Beaka",
+        "display_name": "Yoann Beaka",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2023-07",
+            "precision": "month",
+            "text": "juillet 2023"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2003-04-06",
+                "precision": "day",
+                "text": "6 avril 2003"
+            },
+            "place": {
+                "text": "Saint-Denis (93)",
+                "city": "Saint-Denis",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 avril 2003 à Saint-Denis (93)"
+        },
+        "death": null,
+        "height": "1m95",
+        "height_cm": 195,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "gaucher",
+        "position": "avant-centre",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Yoann Beaka"
+            },
+            {
+                "label": null,
+                "value": "né le 6 avril 2003 à Saint-Denis (93)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m95"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "avant-centre"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 2023"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

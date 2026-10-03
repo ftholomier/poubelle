@@ -1,0 +1,259 @@
+{
+    "id": 9231,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "didier-ovono",
+    "path": "/joueurs/didier-ovono/",
+    "title": "Didier Ovono",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/petition-img-30604-fr.jpeg",
+    "date": "2024-12-28T17:43:41",
+    "modified": "2024-12-28T17:56:52",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Didier Ovono a gardé les buts de Sochaux à 3 reprises (1 clean sheet)."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/petition-img-30604-fr.jpeg",
+            "caption": "Didier Ovono",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Didier Ovono – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/12/fc-sochaux-pour-ovono-c-est-oui-1424948801.jpg",
+            "caption": "Didier Ovono",
+            "credit": "L’est républicain",
+            "caption_raw": "Didier Ovono – L’est républicain"
+        },
+        {
+            "image": "2024/12/images-13.jpg",
+            "caption": "Didier Ovono",
+            "credit": "L’est républicain",
+            "caption_raw": "Didier Ovono – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9231,
+        "url": "https://www.fcsochauxretro.com/a-la-une/didier-ovono/",
+        "path": "/a-la-une/didier-ovono/",
+        "slug": "didier-ovono",
+        "seo_title": "Didier Ovono - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Didier Ovono</h2>\n<h4><strong>né le 23 janvier 1983 à Port-Gentil (Gabon)</strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>86 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>International gabonais (112 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>novembre 2012</p>\n<p><strong>Départ de Sochaux : </strong>juin 2013</p>\n<p><strong>Premier match joué :</strong> ES Thaon-les-Vosges - Sochaux du 05/01/2013 : 0-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Troyes du 26/02/2013 : 1-2</p>",
+        "header_lines": [
+            "Didier Ovono",
+            "né le 23 janvier 1983 à Port-Gentil (Gabon)",
+            "Taille : 1m86",
+            "Poids : 86 kg",
+            "Pied : droitier",
+            "Poste : gardien de but",
+            "International gabonais (112 sélections)",
+            "Arrivée à Sochaux : novembre 2012",
+            "Départ de Sochaux : juin 2013",
+            "Premier match joué : ES Thaon-les-Vosges - Sochaux du 05/01/2013 : 0-1",
+            "Dernier match joué : Sochaux - Troyes du 26/02/2013 : 1-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Didier",
+        "last_name": "Ovono",
+        "display_name": "Didier Ovono",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1983-01-23",
+                "precision": "day",
+                "text": "23 janvier 1983"
+            },
+            "place": {
+                "text": "Port-Gentil (Gabon)",
+                "city": "Port-Gentil",
+                "department": null,
+                "country": "Gabon",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 janvier 1983 à Port-Gentil (Gabon)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "86 kg",
+        "weight_kg": 86,
+        "foot": "droitier",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [
+            "International gabonais (112 sélections)"
+        ],
+        "arrival": {
+            "iso": "2012-11",
+            "precision": "month",
+            "text": "novembre 2012"
+        },
+        "departure": {
+            "iso": "2013-06",
+            "precision": "month",
+            "text": "juin 2013"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "ES Thaon-les-Vosges - Sochaux du 05/01/2013 : 0-1",
+        "last_match": "Sochaux - Troyes du 26/02/2013 : 1-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Didier Ovono"
+            },
+            {
+                "label": null,
+                "value": "né le 23 janvier 1983 à Port-Gentil (Gabon)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "86 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": null,
+                "value": "International gabonais (112 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "novembre 2012"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2013"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "ES Thaon-les-Vosges - Sochaux du 05/01/2013 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Troyes du 26/02/2013 : 1-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "29",
+                    "10",
+                    "0",
+                    "0",
+                    "34",
+                    "12"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "29",
+                    "10",
+                    "0",
+                    "0",
+                    "34",
+                    "12"
+                ]
+            ],
+            "source_table": 429
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,239 @@
+{
+    "id": 10656,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ismail-raafat",
+    "path": "/joueurs/ismail-raafat/",
+    "title": "Ismail Raafat",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Raafat-FCSM.png",
+    "date": "2025-01-20T23:42:59",
+    "modified": "2026-02-02T21:13:52",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Ismail Raafat a joué 4 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/759a2bb0-d89b-4197-9bd4-52db6ea9e45d.png",
+            "caption": "Ismail Raafat",
+            "credit": "fcsm",
+            "caption_raw": "Ismail Raafat – fcsm"
+        },
+        {
+            "image": "2026/02/Raafat-FCSM.png",
+            "caption": "Raafat",
+            "credit": "FCSM",
+            "caption_raw": "Raafat – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10656,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ismail-raafat/",
+        "path": "/a-la-une/ismail-raafat/",
+        "slug": "ismail-raafat",
+        "seo_title": "Ismail Raafat - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ismail Raäfat</h2>\n<h4><strong>né en 1915 au Caire (Egypte)</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>défenseur <strong><br></strong></p>\n<p><strong>International égyptien</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1935</p>\n<p><strong>Départ de Sochaux : </strong>juin 1936</p>\n<p><strong>Premier match joué :</strong> Mulhouse - Sochaux du 19/04/1936 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - RC Paris du 24/05/1936 : 2-2</p>",
+        "header_lines": [
+            "Ismail Raäfat",
+            "né en 1915 au Caire (Egypte)",
+            "Décédé le xx à xx",
+            "Poste : défenseur",
+            "International égyptien",
+            "Arrivée à Sochaux : juillet 1935",
+            "Départ de Sochaux : juin 1936",
+            "Premier match joué : Mulhouse - Sochaux du 19/04/1936 : 1-0",
+            "Dernier match joué : Sochaux - RC Paris du 24/05/1936 : 2-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ismail",
+        "last_name": "Raäfat",
+        "display_name": "Ismail Raäfat",
+        "nickname": "",
+        "subtitle": "né en 1915 au Caire (Egypte)",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1915",
+                "precision": "year",
+                "text": "1915 au Caire (Egypte)"
+            },
+            "place": null,
+            "text": "né en 1915 au Caire (Egypte)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International égyptien"
+        ],
+        "arrival": {
+            "iso": "1935-07",
+            "precision": "month",
+            "text": "juillet 1935"
+        },
+        "departure": {
+            "iso": "1936-06",
+            "precision": "month",
+            "text": "juin 1936"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Mulhouse - Sochaux du 19/04/1936 : 1-0",
+        "last_match": "Sochaux - RC Paris du 24/05/1936 : 2-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ismail Raäfat"
+            },
+            {
+                "label": null,
+                "value": "né en 1915 au Caire (Egypte)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": null,
+                "value": "International égyptien"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1935"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1936"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Mulhouse - Sochaux du 19/04/1936 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - RC Paris du 24/05/1936 : 2-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

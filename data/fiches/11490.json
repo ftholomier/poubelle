@@ -1,0 +1,285 @@
+{
+    "id": 11490,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-laurent",
+    "path": "/joueurs/jean-laurent/",
+    "title": "Jean Laurent",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-1.jpg",
+    "date": "2025-02-05T12:40:04",
+    "modified": "2025-11-12T14:52:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "67",
+        "text": "Jean Laurent a joué 67 matchs (amicaux compris) et a marqué 5 buts pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-1.jpg",
+            "caption": "Jean Laurent",
+            "credit": "dr",
+            "caption_raw": "Jean Laurent – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11490,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jean-laurent/",
+        "path": "/a-la-une/jean-laurent/",
+        "slug": "jean-laurent",
+        "seo_title": "Jean Laurent - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Laurent</h2>\n<h4><strong>né le 30 décembre 1906 à Maison-Alfort (94) </strong></h4>\n<h4><strong>Décédé le 14 mai 1995 à Bourbon-l'Archambault (03)</strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>71 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain </p>\n<p><strong>International français (9 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>mai 1930</p>\n<p><strong>Départ de Sochaux : </strong>juin 1932</p>\n<p><strong>Premier match joué :</strong> Sochaux - Marseille du Sochaux du 07/05/1931 : 3-0</p>\n<p><strong>Dernier match joué :</strong> Racing club de France - Sochaux du 07/02/1932 : 2-1</p>\n<p><strong>Premier but marqué :</strong> Sochaux - SO Montpellier du 27/09/1931 : 6-1 - But à la ?</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1931</li>\n<li>Vainqueur de la coupe Peugeot 1931</li>\n<li>Champion de la ligue de Bourgogne - Franche-Comté 1932</li>\n</ul>",
+        "header_lines": [
+            "Jean Laurent",
+            "né le 30 décembre 1906 à Maison-Alfort (94)",
+            "Décédé le 14 mai 1995 à Bourbon-l'Archambault (03)",
+            "Taille : 1m76",
+            "Poids : 71 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "International français (9 sélections)",
+            "Arrivée à Sochaux : mai 1930",
+            "Départ de Sochaux : juin 1932",
+            "Premier match joué : Sochaux - Marseille du Sochaux du 07/05/1931 : 3-0",
+            "Dernier match joué : Racing club de France - Sochaux du 07/02/1932 : 2-1",
+            "Premier but marqué : Sochaux - SO Montpellier du 27/09/1931 : 6-1 - But à la ?",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Vainqueur de la coupe Peugeot 1931",
+            "Champion de la ligue de Bourgogne - Franche-Comté 1932"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean",
+        "last_name": "Laurent",
+        "display_name": "Jean Laurent",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1906-12-30",
+                "precision": "day",
+                "text": "30 décembre 1906"
+            },
+            "place": {
+                "text": "Maison-Alfort (94)",
+                "city": "Maison-Alfort",
+                "department": "94",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 décembre 1906 à Maison-Alfort (94)"
+        },
+        "death": {
+            "date": {
+                "iso": "1995-05-14",
+                "precision": "day",
+                "text": "14 mai 1995"
+            },
+            "place": {
+                "text": "Bourbon-l'Archambault (03)",
+                "city": "Bourbon-l'Archambault",
+                "department": "03",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 14 mai 1995 à Bourbon-l'Archambault (03)"
+        },
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français (9 sélections)"
+        ],
+        "arrival": {
+            "iso": "1930-05",
+            "precision": "month",
+            "text": "mai 1930"
+        },
+        "departure": {
+            "iso": "1932-06",
+            "precision": "month",
+            "text": "juin 1932"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Marseille du Sochaux du 07/05/1931 : 3-0",
+        "last_match": "Racing club de France - Sochaux du 07/02/1932 : 2-1",
+        "first_goal": "Sochaux - SO Montpellier du 27/09/1931 : 6-1 - But à la ?",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Vainqueur de la coupe Peugeot 1931",
+            "Champion de la ligue de Bourgogne - Franche-Comté 1932"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Laurent"
+            },
+            {
+                "label": null,
+                "value": "né le 30 décembre 1906 à Maison-Alfort (94)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 14 mai 1995 à Bourbon-l'Archambault (03)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": null,
+                "value": "International français (9 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "mai 1930"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1932"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Marseille du Sochaux du 07/05/1931 : 3-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Racing club de France - Sochaux du 07/02/1932 : 2-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - SO Montpellier du 27/09/1931 : 6-1 - But à la ?"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1931"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Peugeot 1931"
+            },
+            {
+                "label": null,
+                "value": "Champion de la ligue de Bourgogne - Franche-Comté 1932"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,290 @@
+{
+    "id": 11049,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "hamza-sakhi",
+    "path": "/joueurs/hamza-sakhi/",
+    "title": "Hamza Sakhi",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-110.jpg",
+    "date": "2025-01-30T15:02:03",
+    "modified": "2025-01-30T15:11:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "56",
+        "text": "Stéphane Santini a joué 56 matchs (1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/hamza-sakhi-a-apporte-de-la-joie-avec-son-but-contre-clermont-lors-du-dernier-match-a-bonal-photo-christian-lemontey-1550345788.jpg",
+            "caption": "Hamza Sakhi",
+            "credit": "L’est républicain",
+            "caption_raw": "Hamza Sakhi – L’est républicain"
+        },
+        {
+            "image": "2025/01/hamza-sakhi-est-impatient-de-rejouer-en-ligue-2-photo-christian-lemontey-1548177868.jpg",
+            "caption": "Hamza Sakhi",
+            "credit": "L’est républicain",
+            "caption_raw": "Hamza Sakhi – L’est républicain"
+        },
+        {
+            "image": "2025/01/hamza-sakhi-un-but-et-une-activite-qui-ont-bien-aide-le-fcsm-photo-lionel-vadam-1549138925.jpg",
+            "caption": "Hamza Sakhi",
+            "credit": "L’est républicain",
+            "caption_raw": "Hamza Sakhi – L’est républicain"
+        },
+        {
+            "image": "2025/01/match-lourd-de-symbole-pour-hamza-sakhi-il-doit-affronter-son-club-formateur-et-son-petit-frere-photo-er-lionel-vadam-1555959190.jpg",
+            "caption": "Hamza Sakhi",
+            "credit": "L’est républicain",
+            "caption_raw": "Hamza Sakhi – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11049,
+        "url": "https://www.fcsochauxretro.com/a-la-une/hamza-sakhi/",
+        "path": "/a-la-une/hamza-sakhi/",
+        "slug": "hamza-sakhi",
+        "seo_title": "Hamza Sakhi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Hamza Sakhi</h2>\n<h4><strong>Né le 7 juin 1996 à Rabat (Maroc) <br></strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>milieu offensif<strong><br></strong></p>\n<p><strong>International marocain U17 (9 sélections, 4 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2019<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2019<strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Brest - Sochaux du 26/01/2019 : 1-0 </p>\n<p><strong>Dernier match joué :</strong> Lorient - Sochaux du 10/05/2019 : 0-0 </p>\n<p><strong>Premier but marqué : </strong>Sochaux - Clermont du 01/02/2019 : 2-1 - But à la 34'</p>",
+        "header_lines": [
+            "Hamza Sakhi",
+            "Né le 7 juin 1996 à Rabat (Maroc)",
+            "Taille : 1m76",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Position : milieu offensif",
+            "International marocain U17 (9 sélections, 4 buts)",
+            "Arrivée à Sochaux : janvier 2019",
+            "Départ de Sochaux : juin 2019",
+            "Premier match joué : Brest - Sochaux du 26/01/2019 : 1-0",
+            "Dernier match joué : Lorient - Sochaux du 10/05/2019 : 0-0",
+            "Premier but marqué : Sochaux - Clermont du 01/02/2019 : 2-1 - But à la 34'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Hamza",
+        "last_name": "Sakhi",
+        "display_name": "Hamza Sakhi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1996-06-07",
+                "precision": "day",
+                "text": "7 juin 1996"
+            },
+            "place": {
+                "text": "Rabat (Maroc)",
+                "city": "Rabat",
+                "department": null,
+                "country": "Maroc",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 7 juin 1996 à Rabat (Maroc)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International marocain U17 (9 sélections, 4 buts)"
+        ],
+        "arrival": {
+            "iso": "2019-01",
+            "precision": "month",
+            "text": "janvier 2019"
+        },
+        "departure": {
+            "iso": "2019-06",
+            "precision": "month",
+            "text": "juin 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Brest - Sochaux du 26/01/2019 : 1-0",
+        "last_match": "Lorient - Sochaux du 10/05/2019 : 0-0",
+        "first_goal": "Sochaux - Clermont du 01/02/2019 : 2-1 - But à la 34'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Hamza Sakhi"
+            },
+            {
+                "label": null,
+                "value": "Né le 7 juin 1996 à Rabat (Maroc)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International marocain U17 (9 sélections, 4 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Brest - Sochaux du 26/01/2019 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Lorient - Sochaux du 10/05/2019 : 0-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Clermont du 01/02/2019 : 2-1 - But à la 34'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

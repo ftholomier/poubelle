@@ -1,0 +1,296 @@
+{
+    "id": 7617,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "hakim-el-bounadi",
+    "path": "/joueurs/hakim-el-bounadi/",
+    "title": "Hakim El Bounadi",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound479277847671395003.jpg",
+    "date": "2024-11-14T13:25:30",
+    "modified": "2025-05-19T20:00:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Hakim El Bounadi a joué 6 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/telechargement-8.jpg",
+            "caption": "Hakim El Bounadi",
+            "credit": "DR",
+            "caption_raw": "Hakim El Bounadi – DR"
+        },
+        {
+            "image": "2024/11/inbound1008421958919344598.jpg",
+            "caption": "Hakim El Bounadi – Saison 2007-2008",
+            "credit": "fcsm",
+            "caption_raw": "Hakim El Bounadi – Saison 2007-2008 – fcsm"
+        },
+        {
+            "image": "2024/11/inbound7714327755486222321.jpg",
+            "caption": "Hakim El Bounadi – Saison 2006-2007",
+            "credit": "fcsm",
+            "caption_raw": "Hakim El Bounadi – Saison 2006-2007 – fcsm"
+        },
+        {
+            "image": "2025/02/inbound5346272655021660306.jpg",
+            "caption": "Hakim El Bounadi Saison 2008-2009",
+            "credit": "fcsm",
+            "caption_raw": "Hakim El Bounadi Saison 2008-2009 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7617,
+        "url": "https://www.fcsochauxretro.com/a-la-une/hakim-el-bounadi-7617/",
+        "path": "/a-la-une/hakim-el-bounadi-7617/",
+        "slug": "hakim-el-bounadi-7617",
+        "seo_title": "Hakim El Bounadi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Hakim El Bounadi</h2>\n<h4><strong>né le 9 août 1990 à Belfort (90) </strong></h4>\n<p><strong>Taille :</strong> 1m82</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central ou latéral droit</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 2006</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2009</p>\n<p><strong>Premier match joué :</strong> Nantes - Sochaux du 14/10/2006 : 0-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Lyon du 29/10/2008 : 0-2</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe de France 2007</li>\n<li>Finaliste du Trophée des champions 2007</li>\n</ul>",
+        "header_lines": [
+            "Hakim El Bounadi",
+            "né le 9 août 1990 à Belfort (90)",
+            "Taille : 1m82",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : défenseur central ou latéral droit",
+            "Arrivée à Sochaux : juin 2006",
+            "Départ de Sochaux : juillet 2009",
+            "Premier match joué : Nantes - Sochaux du 14/10/2006 : 0-2",
+            "Dernier match joué : Sochaux - Lyon du 29/10/2008 : 0-2",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe de France 2007",
+            "Finaliste du Trophée des champions 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Hakim",
+        "last_name": "El Bounadi",
+        "display_name": "Hakim El Bounadi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1990-08-09",
+                "precision": "day",
+                "text": "9 août 1990"
+            },
+            "place": {
+                "text": "Belfort (90)",
+                "city": "Belfort",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 août 1990 à Belfort (90)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "défenseur central ou latéral droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2006-06",
+            "precision": "month",
+            "text": "juin 2006"
+        },
+        "departure": {
+            "iso": "2009-07",
+            "precision": "month",
+            "text": "juillet 2009"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Nantes - Sochaux du 14/10/2006 : 0-2",
+        "last_match": "Sochaux - Lyon du 29/10/2008 : 0-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe de France 2007",
+            "Finaliste du Trophée des champions 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Hakim El Bounadi"
+            },
+            {
+                "label": null,
+                "value": "né le 9 août 1990 à Belfort (90)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central ou latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 2006"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2009"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Nantes - Sochaux du 14/10/2006 : 0-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Lyon du 29/10/2008 : 0-2"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 2007"
+            },
+            {
+                "label": null,
+                "value": "Finaliste du Trophée des champions 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Trophée des champions",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2006 - 2007",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "-",
+                    "-",
+                    "4",
+                    "0"
+                ],
+                [
+                    "2007 - 2008",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "2008 - 2009",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "6",
+                    "0"
+                ]
+            ],
+            "source_table": 1075
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

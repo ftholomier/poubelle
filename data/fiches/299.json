@@ -1,0 +1,429 @@
+{
+    "id": 299,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-nice-division-1-22-08-1986",
+    "path": "/matchs/1986-1987/sochaux-nice-division-1-22-08-1986/",
+    "title": "J05 – Sochaux / Nice – D1 – 22/08/1986 – 0-0",
+    "categories": [
+        "1986-1987",
+        "a-la-une",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2023/12/soc-sprint-soc-nice-aout-86-2.png",
+    "date": "2023-12-29T13:27:57",
+    "modified": "2025-05-21T09:10:24",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Pour la 1ère fois de la saison le même 11 de départ est reconduit. </li>\n<li>Pour Jean Fauvergue : <em>\" Nice est une équipe solide qui a posé beaucoup de problèmes à Nantes et Bordeaux \". </em></li>\n<li>L'ex Sochalien Pierre Dréossi est de retour à Bonal au poste de stoppeur. A propos de son duel avec Stéphane Paille, dont il aura la responsabilité du marquage, il déclare : <em>\" Il est complet. Au même âge je le crois en avance sur Stopyra \".</em></li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>6' : </strong>Coup franc de Sauzée repoussé par Amitrano.</li>\n<li><strong>34' : </strong>Morales, seul dans la surface sochalienne, tire au dessus. </li>\n<li><strong>50' : </strong>Service de Peltier pour Paille dont le tir est sauvé de justesse par Amitrano. </li>\n<li><strong>61' : </strong>Caviar de Fernier pour Colin qui rate complètement son tir. </li>\n<li><strong>65' : </strong>Amitrano repousse un tir en force de Colin. </li>\n<li><strong>66' : </strong>Nouvelle parade d'Amitrano sur un tir de Lada. </li>\n<li><strong>80' : </strong>Centre de Thomas et reprise de la tête de Paille sauvée sur la ligne par Dréossi.   </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><b>Stéphane Paille : </b><em>\" C'est la réussite qui nous a fait défaut. Il faut dire aussi qu'Amitrano a fait un bon match \"</em></li>\n<li><strong>Jean Fauvergue : </strong><em>\" Si l'on tient compte de notre effectif limité, ce résultat n'est pas mauvais \"</em></li>\n<li><strong>Jacques Zimako (présent dans les tribunes) </strong>: <em>\" Sochaux s'est créé beaucoup d'occasions en 2ème mi-temps \"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves du match",
+            "html": "<ul>\n<li>Jacques Zimako, en stage d'entraîneur dans le Pays de Montbéliard, a profité de l'occasion pour retrouver ses anciens coéquipiers et assister à la rencontre.</li>\n<li>Les nouvelles sont bonnes pour Silvestre et Helt en rééducation. Philippe Lucas boite toujours et son retour n'est pas à l'ordre du jour. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "3ème match de suite sans encaisser de but pour le FCSM"
+    },
+    "gallery": [
+        {
+            "image": "2023/12/soc-sprint-soc-nice-aout-86.png",
+            "caption": "Laurent Croci. Crédit Pierre Lorius.",
+            "credit": "",
+            "caption_raw": "Laurent Croci. Crédit Pierre Lorius."
+        },
+        {
+            "image": "2023/12/soc-sprint-soc-nice-aout-86-2.png",
+            "caption": "Franck Sauzée. Sochaux Sprint",
+            "credit": "",
+            "caption_raw": "Franck Sauzée. Sochaux Sprint"
+        },
+        {
+            "image": "2023/12/IMG_20221228_215937_edit_240656661212755-scaled.jpg",
+            "caption": "Paille. Crédit Est Républicain.",
+            "credit": "",
+            "caption_raw": "Paille. Crédit Est Républicain."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 299,
+        "url": "https://www.fcsochauxretro.com/a-la-une/j05-sochaux-nice-d1-22-08-1986-0-0-299/",
+        "path": "/a-la-une/j05-sochaux-nice-d1-22-08-1986-0-0-299/",
+        "slug": "j05-sochaux-nice-d1-22-08-1986-0-0-299",
+        "seo_title": "J05 - Sochaux / Nice - D1 - 22/08/1986 - 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h4><strong>Sochaux / Nice : 0-0</strong></h4>\n<h4><strong>5ème journée de D1</strong></h4>\n<h4><strong>Vendredi 22 août 1986</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>5 014 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. De Pandis</strong></h4>",
+        "header_lines": [
+            "Sochaux / Nice : 0-0",
+            "5ème journée de D1",
+            "Vendredi 22 août 1986",
+            "Stade Auguste Bonal",
+            "5 014 spectateurs",
+            "Arbitrage : M. De Pandis"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1986-08-22",
+        "date_text": "Vendredi 22 août 1986",
+        "season": "1986-1987",
+        "competition": "Championnat",
+        "competition_label": "Division 1",
+        "competition_code": "D1",
+        "round": "J05",
+        "round_text": "5ème journée de D1",
+        "home": {
+            "name": "Sochaux",
+            "level": null
+        },
+        "away": {
+            "name": "Nice",
+            "level": null
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "Sochaux / Nice : 0-0",
+        "result": "N",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": 5014,
+        "spectators_text": "5 014 spectateurs",
+        "referee": "M. De Pandis",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "6",
+                "text": "Coup franc de Sauzée repoussé par Amitrano.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "34",
+                "text": "Morales, seul dans la surface sochalienne, tire au dessus.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "50",
+                "text": "Service de Peltier pour Paille dont le tir est sauvé de justesse par Amitrano.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "61",
+                "text": "Caviar de Fernier pour Colin qui rate complètement son tir.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "65",
+                "text": "Amitrano repousse un tir en force de Colin.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "66",
+                "text": "Nouvelle parade d'Amitrano sur un tir de Lada.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "80",
+                "text": "Centre de Thomas et reprise de la tête de Paille sauvée sur la ligne par Dréossi.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Stéphane Paille",
+                "text": "C'est la réussite qui nous a fait défaut. Il faut dire aussi qu'Amitrano a fait un bon match"
+            },
+            {
+                "who": "Jean Fauvergue",
+                "text": "Si l'on tient compte de notre effectif limité, ce résultat n'est pas mauvais"
+            },
+            {
+                "who": "Jacques Zimako (présent dans les tribunes)",
+                "text": "Sochaux s'est créé beaucoup d'occasions en 2ème mi-temps"
+            }
+        ],
+        "breves": [
+            "Jacques Zimako, en stage d'entraîneur dans le Pays de Montbéliard, a profité de l'occasion pour retrouver ses anciens coéquipiers et assister à la rencontre.",
+            "Les nouvelles sont bonnes pour Silvestre et Helt en rééducation. Philippe Lucas boite toujours et son retour n'est pas à l'ordre du jour."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "76"
+                    ],
+                    "red": [],
+                    "cards_text": "J 76'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ZANDONA Romain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZÉE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MORIN Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 8
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

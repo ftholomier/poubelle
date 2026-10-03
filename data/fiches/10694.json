@@ -1,0 +1,282 @@
+{
+    "id": 10694,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "thomas-robinet",
+    "path": "/joueurs/thomas-robinet/",
+    "title": "Thomas Robinet",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-87.jpg",
+    "date": "2025-01-26T22:33:30",
+    "modified": "2025-01-26T22:49:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "91",
+        "text": "Thomas Robinet a joué 91 matchs (5 buts et 3 passes décisives) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/thomas-robinet-j-ai-vu-qu-il-y-avait-eu-plus-de-7-000-spectateurs-au-stade-marcel-picot-pour-les-deux-premiers-matches-a-domicile-c-est-beau-en-national-photo-er-christian-lemont.jpg",
+            "caption": "Thomas Robinet",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Robinet – L’est républicain"
+        },
+        {
+            "image": "2025/01/thomas-robinet-en-a-termine-de-son-aventure-avec-le-fc-sochaux-photo-er-lionel-vadam-1559298522.jpg",
+            "caption": "Thomas Robinet",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Robinet – L’est républicain"
+        },
+        {
+            "image": "2025/01/thomas-robinet-ca-fait-deja-quelques-annees-que-c-est-complique-et-je-trouve-qu-on-gere-plutot-pas-mal-photo-alexandre-marchi-1538236695.jpg",
+            "caption": "Thomas Robinet",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Robinet – L’est républicain"
+        },
+        {
+            "image": "2025/01/thomas-robinet-a-joue-les-quinze-dernieres-minutes-a-grenoble-et-n-a-pas-ete-convoque-pour-la-reception-de-valenciennes-debut-d-un-malaise-photo-christian-lemontey-1533659769.jpg",
+            "caption": "Thomas Robinet",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Robinet – L’est républicain"
+        },
+        {
+            "image": "2025/01/5-87.jpg",
+            "caption": "Thomas Robinet",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Thomas Robinet – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10694,
+        "url": "https://www.fcsochauxretro.com/a-la-une/thomas-robinet/",
+        "path": "/a-la-une/thomas-robinet/",
+        "slug": "thomas-robinet",
+        "seo_title": "Thomas Robinet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Thomas Robinet</h2>\n<h4><strong>né le 18 aout 1996 à Saint-Priest (69) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International français U17 et U20 (6 sélections, 1 but)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2011</p>\n<p><strong>Départ de Sochaux : </strong>juin 2019</p>\n<p><strong>Premier match joué :</strong> Clermont - Sochaux du 31/07/2015 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Red Star du 03/05/2019 : 1-2</p>\n<p><strong>Premier but marqué</strong> : Clermont - Sochaux du 12/08/2016 : 1-2 - But à la 37'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Vainqueur de la coupe Gambardella 2015</li>\n<li>Finaliste du Tournoi de Toulon 2016 (équipe de France U20)</li>\n</ul>",
+        "header_lines": [
+            "Thomas Robinet",
+            "né le 18 aout 1996 à Saint-Priest (69)",
+            "Taille : 1m80",
+            "Poids : 73 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International français U17 et U20 (6 sélections, 1 but)",
+            "Arrivée à Sochaux : juillet 2011",
+            "Départ de Sochaux : juin 2019",
+            "Premier match joué : Clermont - Sochaux du 31/07/2015 : 0-0",
+            "Dernier match joué : Sochaux - Red Star du 03/05/2019 : 1-2",
+            "Premier but marqué : Clermont - Sochaux du 12/08/2016 : 1-2 - But à la 37'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe Gambardella 2015",
+            "Finaliste du Tournoi de Toulon 2016 (équipe de France U20)"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Thomas",
+        "last_name": "Robinet",
+        "display_name": "Thomas Robinet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1996-08-18",
+                "precision": "day",
+                "text": "18 aout 1996"
+            },
+            "place": {
+                "text": "Saint-Priest (69)",
+                "city": "Saint-Priest",
+                "department": "69",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 aout 1996 à Saint-Priest (69)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U17 et U20 (6 sélections, 1 but)"
+        ],
+        "arrival": {
+            "iso": "2011-07",
+            "precision": "month",
+            "text": "juillet 2011"
+        },
+        "departure": {
+            "iso": "2019-06",
+            "precision": "month",
+            "text": "juin 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Clermont - Sochaux du 31/07/2015 : 0-0",
+        "last_match": "Sochaux - Red Star du 03/05/2019 : 1-2",
+        "first_goal": "Clermont - Sochaux du 12/08/2016 : 1-2 - But à la 37'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe Gambardella 2015",
+            "Finaliste du Tournoi de Toulon 2016 (équipe de France U20)"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Thomas Robinet"
+            },
+            {
+                "label": null,
+                "value": "né le 18 aout 1996 à Saint-Priest (69)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français U17 et U20 (6 sélections, 1 but)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2011"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Clermont - Sochaux du 31/07/2015 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Red Star du 03/05/2019 : 1-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Clermont - Sochaux du 12/08/2016 : 1-2 - But à la 37'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Gambardella 2015"
+            },
+            {
+                "label": null,
+                "value": "Finaliste du Tournoi de Toulon 2016 (équipe de France U20)"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

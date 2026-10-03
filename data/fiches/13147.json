@@ -1,0 +1,138 @@
+{
+    "id": 13147,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "stephane-veaux",
+    "path": "/personnages-emblematiques/stephane-veaux/",
+    "title": "Stéphane Veaux",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/03/le-speaker-stephane-veaux-photo-lionel-vadam-1696706514.jpg",
+    "date": "2025-03-25T08:36:49",
+    "modified": "2025-11-12T20:34:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>En octobre 2006, Pascal Toth le speacker officiel du club et également animateur sur France Bleu Belfort-Montbéliard quitte la région pour rejoindre le Nord. Il laisse son micro à son collègue de radio Stéphane Veaux qui est un enfant du pays. </li>\n<li>Depuis 20 ans, Stéphane Veaux est donc la voix de Bonal chaque soir de match. Speacker officiel du club, il présente également les après matchs auprès des partenaires dans les salons du Lion. Sa bonne humeur et sa sympathie font l'unanimité et il a toujours été présent dans les bons comme dans les mauvais moments. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "2006",
+        "text": "Stéphane Veaux est la voix de Bonal depuis 2006."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/65dda91ca9cc8195670647.jpg",
+            "caption": "Stéphane Veaux",
+            "credit": "FC Sochaux-Montbéliard.",
+            "caption_raw": "Stéphane Veaux – FC Sochaux-Montbéliard."
+        },
+        {
+            "image": "2025/09/67c03447b8c6f491776057.jpg",
+            "caption": "Stéphane Veaux",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Stéphane Veaux – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2025/09/1650445657257.jpg",
+            "caption": "Stéphane Veaux et Teddy Richert",
+            "credit": "L’est républicain",
+            "caption_raw": "Stéphane Veaux et Teddy Richert – L’est républicain"
+        },
+        {
+            "image": "2025/09/1690715097182.jpg",
+            "caption": "Stéphane Veaux – Freddy Vandekerkhove",
+            "credit": "L’est républicain.",
+            "caption_raw": "Stéphane Veaux – Freddy Vandekerkhove – L’est républicain."
+        },
+        {
+            "image": "2025/03/le-speaker-stephane-veaux-photo-lionel-vadam-1696706514.jpg",
+            "caption": "Stéphane Veaux",
+            "credit": "L’est républicain",
+            "caption_raw": "Stéphane Veaux – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13147,
+        "url": "https://www.fcsochauxretro.com/a-la-une/stephane-veaux/",
+        "path": "/a-la-une/stephane-veaux/",
+        "slug": "stephane-veaux",
+        "seo_title": "Stéphane Veaux - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Stéphane Veaux </h2>\n<h4><strong>Speacker au stade Auguste Bonal depuis 2006.   </strong></h4>",
+        "header_lines": [
+            "Stéphane Veaux",
+            "Speacker au stade Auguste Bonal depuis 2006."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Stéphane",
+        "last_name": "Veaux",
+        "display_name": "Stéphane Veaux",
+        "nickname": "",
+        "subtitle": "Speacker au stade Auguste Bonal depuis 2006.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Stéphane Veaux"
+            },
+            {
+                "label": null,
+                "value": "Speacker au stade Auguste Bonal depuis 2006."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

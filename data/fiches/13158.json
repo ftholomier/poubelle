@@ -1,0 +1,178 @@
+{
+    "id": 13158,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "edgar-despert",
+    "path": "/personnages-emblematiques/edgar-despert/",
+    "title": "Edgar Despert",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/03/edgard-despert-a-oeuvre-comme-secretaire-recruteur-ou-president-de-l-association-fcsm-photo-d-archives-er-16421759.jpg",
+    "date": "2025-03-25T10:06:36",
+    "modified": "2025-11-12T20:23:30",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son engagement au FCSM",
+            "html": "<p>Né en 1934 dans le Pays de Montbéliard et très tôt passionné de football, Edgard Despert signe au FC Sochaux-Montbéliard au sortir de la guerre en 1949 à l'âge de 15 ans. Il joue d'abord avec les juniors puis gravit les échelons avant de jouer en équipe réserve en troisième division puis dans d'autres équipes amateurs locales pendant de nombreuses années. Dans le même temps, il poursuit ses études et devient d'abord instituteur puis professeur de sport et enfin de lettres.</p>\n<p>En 1981, il revient au club pour s'occuper du recrutement des jeunes et il devient secrétaire de la section de football amateur du FCSM. Au fil des années et de son engagement fort, il prend du galon et devient coordinateur du recrutement des jeunes du centre de formation jusqu'en 2002 tout en étant jusqu'en 2015 commissaire du club auprès des délégués les soirs de match au Stade Bonal.</p>\n<p>En 2001, lors de la naissance de la SASP, le club a l'obligation de créer une association pour l'école de football notamment. Edgard Despert devient ainsi le premier président de l’Association FCSM. Il y restera jusqu'en décembre 2014. Par la suite, il continuera son engagement bénévole en restant membre du comité de direction de l'Association FCSM.</p>\n<p>En 2007, il était au stade de France auprès des jeunes joueurs lors de leur victoire en coupe Gambardella 24 ans après la première victoire en 1983.</p>\n<p>Ce dirigeant emblématique et passionné du club, décède en 2022 à l'âge de 87 ans et laisse un grand souvenir dans la mémoire de ceux qui l'ont côtoyés.</p>"
+        }
+    ],
+    "key_figure": {
+        "number": "1949",
+        "text": "Edgar Despert est entré au club comme joueur à l'âge de 15 ans en 1949."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/61e300a64dbf0575495281.jpeg",
+            "caption": "Edgard Despert lors de la finale de la coupe Gambardella 2007",
+            "credit": "L’est républicain",
+            "caption_raw": "Edgard Despert lors de la finale de la coupe Gambardella 2007 – L’est républicain"
+        },
+        {
+            "image": "2025/03/edgard-despert-a-oeuvre-comme-secretaire-recruteur-ou-president-de-l-association-fcsm-photo-d-archives-er-16421759.jpg",
+            "caption": "Edgard Despert",
+            "credit": "L’est républicain",
+            "caption_raw": "Edgard Despert – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13158,
+        "url": "https://www.fcsochauxretro.com/a-la-une/edgar-despert/",
+        "path": "/a-la-une/edgar-despert/",
+        "slug": "edgar-despert",
+        "seo_title": "Edgar Despert - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Edgar Despert</h2>\n<h4><strong>Né le 19 octobre 1934 à Bart (25) </strong></h4>\n<h4><strong>Décédé le 14 janvier 2022 à Montbéliard (25)</strong></h4>\n<h4><strong>Ancien Président de l'association FC Sochaux-Montbéliard</strong></h4>\n<p><strong>Arrivée au club :</strong> 1981</p>\n<p><strong>Départ du club :</strong> 2022</p>",
+        "header_lines": [
+            "Edgar Despert",
+            "Né le 19 octobre 1934 à Bart (25)",
+            "Décédé le 14 janvier 2022 à Montbéliard (25)",
+            "Ancien Président de l'association FC Sochaux-Montbéliard",
+            "Arrivée au club : 1981",
+            "Départ du club : 2022"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Edgar",
+        "last_name": "Despert",
+        "display_name": "Edgar Despert",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1934-10-19",
+                "precision": "day",
+                "text": "19 octobre 1934"
+            },
+            "place": {
+                "text": "Bart (25)",
+                "city": "Bart",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 19 octobre 1934 à Bart (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "2022-01-14",
+                "precision": "day",
+                "text": "14 janvier 2022"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 14 janvier 2022 à Montbéliard (25)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1981",
+            "precision": "year",
+            "text": "1981"
+        },
+        "departure": {
+            "iso": "2022",
+            "precision": "year",
+            "text": "2022"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Edgar Despert"
+            },
+            {
+                "label": null,
+                "value": "Né le 19 octobre 1934 à Bart (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 14 janvier 2022 à Montbéliard (25)"
+            },
+            {
+                "label": null,
+                "value": "Ancien Président de l'association FC Sochaux-Montbéliard"
+            },
+            {
+                "label": "Arrivée au club",
+                "value": "1981"
+            },
+            {
+                "label": "Départ du club",
+                "value": "2022"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,252 @@
+{
+    "id": 11842,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "hugo-martinez",
+    "path": "/joueurs/hugo-martinez/",
+    "title": "Hugo Martinez",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/565.jpg",
+    "date": "2025-02-14T17:40:51",
+    "modified": "2025-02-16T13:06:04",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Hugo Martinez a joué 5 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/c5030daa-d70c-48e3-b258-14850e72256a.jpg",
+            "caption": "Hugo Martinez –",
+            "credit": "",
+            "caption_raw": "Hugo Martinez –"
+        },
+        {
+            "image": "2025/02/565.jpg",
+            "caption": "Hugo Martinez",
+            "credit": "footballdatabase.eu",
+            "caption_raw": "Hugo Martinez – footballdatabase.eu"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11842,
+        "url": "https://www.fcsochauxretro.com/a-la-une/hugo-martinez-11842/",
+        "path": "/a-la-une/hugo-martinez-11842/",
+        "slug": "hugo-martinez-11842",
+        "seo_title": "Hugo Martinez - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Hugo Martinez</h2>\n<h4><strong>né le 26 février 1927 à Treinta y Très (Uruguay)</strong></h4>\n<p><strong>Taille :</strong> 1m82</p>\n<p><strong>Poids :</strong> 80 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>défenseur central ou attaquant<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 1949</p>\n<p><strong>Départ de Sochaux :</strong> juin 1950</p>\n<p><strong>Premier match joué : </strong>Lille - Sochaux du 01/01/1950 : 2-0 </p>\n<p><strong>Dernier match joué :</strong> SO Montpellier - Sochaux du 30/04/1950 : 1-4</p>",
+        "header_lines": [
+            "Hugo Martinez",
+            "né le 26 février 1927 à Treinta y Très (Uruguay)",
+            "Taille : 1m82",
+            "Poids : 80 kg",
+            "Pied : ambidextre",
+            "Poste : défenseur central ou attaquant",
+            "Arrivée à Sochaux : janvier 1949",
+            "Départ de Sochaux : juin 1950",
+            "Premier match joué : Lille - Sochaux du 01/01/1950 : 2-0",
+            "Dernier match joué : SO Montpellier - Sochaux du 30/04/1950 : 1-4"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Hugo",
+        "last_name": "Martinez",
+        "display_name": "Hugo Martinez",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1927-02-26",
+                "precision": "day",
+                "text": "26 février 1927"
+            },
+            "place": {
+                "text": "Treinta y Très (Uruguay)",
+                "city": "Treinta y Très",
+                "department": null,
+                "country": "Uruguay",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 26 février 1927 à Treinta y Très (Uruguay)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "ambidextre",
+        "position": "défenseur central ou attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1949-01",
+            "precision": "month",
+            "text": "janvier 1949"
+        },
+        "departure": {
+            "iso": "1950-06",
+            "precision": "month",
+            "text": "juin 1950"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lille - Sochaux du 01/01/1950 : 2-0",
+        "last_match": "SO Montpellier - Sochaux du 30/04/1950 : 1-4",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Hugo Martinez"
+            },
+            {
+                "label": null,
+                "value": "né le 26 février 1927 à Treinta y Très (Uruguay)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central ou attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 1949"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1950"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Lille - Sochaux du 01/01/1950 : 2-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "SO Montpellier - Sochaux du 30/04/1950 : 1-4"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

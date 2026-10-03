@@ -1,0 +1,314 @@
+{
+    "id": 5940,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "conrad-ross",
+    "path": "/joueurs/conrad-ross/",
+    "title": "Conrad Ross",
+    "categories": [
+        "a-la-une",
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-principaux",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/61b22ed202d5c804590507.webp",
+    "date": "2024-10-11T18:13:11",
+    "modified": "2025-05-28T11:18:21",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Carrière de joueur",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "132",
+        "text": "Conrad Ross a été sur le banc de touche de Sochaux 132 matches (65 victoires - 32 nuls - 35 défaites)."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/Ross.png",
+            "caption": "Conrad Ross",
+            "credit": "FCSM",
+            "caption_raw": "Conrad Ross – FCSM"
+        },
+        {
+            "image": "2024/10/61b22ed202d5c804590507.webp",
+            "caption": "Conrad Ross",
+            "credit": "",
+            "caption_raw": "Conrad Ross"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 5940,
+        "url": "https://www.fcsochauxretro.com/a-la-une/conrad-ross/",
+        "path": "/a-la-une/conrad-ross/",
+        "slug": "conrad-ross",
+        "seo_title": "Conrad Ross - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Conrad Ross</h2>\n<h4><strong>né le 8 aout 1908 à Montevideo (Uruguay) </strong></h4>\n<h4><strong>Décédé le 27 octobre 1970 à Sao Paulo (Brésil).  </strong></h4>\n<p><strong>Poste : </strong>Attaquant</p>\n<p><strong>Puis : </strong>Entraîneur</p>\n<p><strong>Carrière de joueur entraîneur</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juin 1934</p>\n<p><strong>Départ de Sochaux :</strong> juin 1935</p>\n<p><strong>Premier match entraîné/joué </strong>: Sochaux - Excelsior Roubaix du 01/07/1934 : 0-2</p>\n<p><strong>Dernier match entraîné :</strong> Sochaux - Marseille du 19/05/2035 : 4-0 </p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>décembre 1935</p>\n<p><strong>Départ de Sochaux : </strong>mai 1939</p>\n<p><strong>Premier match entraîné </strong>: Valenciennes - Sochaux du 19/01/1936 : 0-5</p>\n<p><strong>Dernier match entraîné :</strong> Excelsior Roubaix - Sochaux du 21/05/1939 : 3-1</p>\n<p><strong>Palmarès avec Sochaux</strong></p>\n<ul>\n<li>Champion de France 1935 et 1938</li>\n<li>Vainqueur de la coupe de France 1937</li>\n</ul>",
+        "header_lines": [
+            "Conrad Ross",
+            "né le 8 aout 1908 à Montevideo (Uruguay)",
+            "Décédé le 27 octobre 1970 à Sao Paulo (Brésil).",
+            "Poste : Attaquant",
+            "Puis : Entraîneur",
+            "Carrière de joueur entraîneur",
+            "Premier passage",
+            "Arrivée à Sochaux : juin 1934",
+            "Départ de Sochaux : juin 1935",
+            "Premier match entraîné/joué : Sochaux - Excelsior Roubaix du 01/07/1934 : 0-2",
+            "Dernier match entraîné : Sochaux - Marseille du 19/05/2035 : 4-0",
+            "Deuxième passage",
+            "Arrivée à Sochaux : décembre 1935",
+            "Départ de Sochaux : mai 1939",
+            "Premier match entraîné : Valenciennes - Sochaux du 19/01/1936 : 0-5",
+            "Dernier match entraîné : Excelsior Roubaix - Sochaux du 21/05/1939 : 3-1",
+            "Palmarès avec Sochaux",
+            "Champion de France 1935 et 1938",
+            "Vainqueur de la coupe de France 1937"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur",
+            "entraineur"
+        ],
+        "first_name": "Conrad",
+        "last_name": "Ross",
+        "display_name": "Conrad Ross",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1908-08-08",
+                "precision": "day",
+                "text": "8 aout 1908"
+            },
+            "place": {
+                "text": "Montevideo (Uruguay)",
+                "city": "Montevideo",
+                "department": null,
+                "country": "Uruguay",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 8 aout 1908 à Montevideo (Uruguay)"
+        },
+        "death": {
+            "date": {
+                "iso": "1970-10-27",
+                "precision": "day",
+                "text": "27 octobre 1970"
+            },
+            "place": {
+                "text": "Sao Paulo (Brésil)",
+                "city": "Sao Paulo",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 27 octobre 1970 à Sao Paulo (Brésil)."
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1934-06",
+            "precision": "month",
+            "text": "juin 1934"
+        },
+        "departure": {
+            "iso": "1935-06",
+            "precision": "month",
+            "text": "juin 1935"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": "Sochaux - Excelsior Roubaix du 01/07/1934 : 0-2",
+        "last_match_coached": "Sochaux - Marseille du 19/05/2035 : 4-0",
+        "honours": [],
+        "then": [
+            "Entraîneur"
+        ],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Conrad Ross"
+            },
+            {
+                "label": null,
+                "value": "né le 8 aout 1908 à Montevideo (Uruguay)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 27 octobre 1970 à Sao Paulo (Brésil)."
+            },
+            {
+                "label": "Poste",
+                "value": "Attaquant"
+            },
+            {
+                "label": "Puis",
+                "value": "Entraîneur"
+            },
+            {
+                "label": null,
+                "value": "Carrière de joueur entraîneur"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1934"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1935"
+            },
+            {
+                "label": "Premier match entraîné/joué",
+                "value": "Sochaux - Excelsior Roubaix du 01/07/1934 : 0-2"
+            },
+            {
+                "label": "Dernier match entraîné",
+                "value": "Sochaux - Marseille du 19/05/2035 : 4-0"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "décembre 1935"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "mai 1939"
+            },
+            {
+                "label": "Premier match entraîné",
+                "value": "Valenciennes - Sochaux du 19/01/1936 : 0-5"
+            },
+            {
+                "label": "Dernier match entraîné",
+                "value": "Excelsior Roubaix - Sochaux du 21/05/1939 : 3-1"
+            },
+            {
+                "label": null,
+                "value": "Palmarès avec Sochaux"
+            },
+            {
+                "label": null,
+                "value": "Champion de France 1935 et 1938"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 1937"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,251 @@
+{
+    "id": 13802,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "matthis-schubler-lecart",
+    "path": "/joueurs/matthis-schubler-lecart/",
+    "title": "Matthis Schübler-Lecart",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/05/5-1.jpg",
+    "date": "2025-05-04T06:10:47",
+    "modified": "2025-05-04T06:20:05",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Il arrive à Sochaux en provenance du club de Bourgoin-Jallieu à l'été 2022. </li>\n<li>En 2024/2025, les U19 du FC Sochaux-Montbéliard font une saison remarquables terminant en tête de leur groupe national et se qualifiant pour les play off. Matthis Schübler est élément clé de cette excellente performance en multipliant les arrêts décisifs. </li>\n<li>En décembre 2024, Karim Mokeddem le récompense de son très bon début de saison avec les jeunes en le convoquant pour le match de coupe de France face à Clermont au stade Bonal. Il observera du banc de touche la belle qualification sochalienne contre le club auvergnat qui évolue une division au-dessus. </li>\n<li>En mai 2025, il signe un contrat de trois saisons avec son club formateur. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2022",
+        "text": "Matthis Schübert-Lecart est arrivé à Sochaux en formation en 2022 en provenance du FC Bourgoin-Jallieu."
+    },
+    "gallery": [
+        {
+            "image": "2025/05/5-1.jpg",
+            "caption": "Matthis Schubler-Lecart",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Matthis Schubler-Lecart – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13802,
+        "url": "https://www.fcsochauxretro.com/a-la-une/matthis-schubler-lecart/",
+        "path": "/a-la-une/matthis-schubler-lecart/",
+        "slug": "matthis-schubler-lecart",
+        "seo_title": "Matthis Schübler-Lecart - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Matthis Schübler-Lecart</h2>\n<h4><strong>né le 18 janvier 2007 à Nice (06)</strong></h4>\n<p><strong>Taille : </strong>1m87</p>\n<p><strong>Poids : </strong>83 kg</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2022</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match joué :</strong> </p>\n<p><strong>Dernier match joué :</strong>  </p>",
+        "header_lines": [
+            "Matthis Schübler-Lecart",
+            "né le 18 janvier 2007 à Nice (06)",
+            "Taille : 1m87",
+            "Poids : 83 kg",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : aout 2022",
+            "Départ de Sochaux :",
+            "Premier match joué :",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Matthis",
+        "last_name": "Schübler-Lecart",
+        "display_name": "Matthis Schübler-Lecart",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2007-01-18",
+                "precision": "day",
+                "text": "18 janvier 2007"
+            },
+            "place": {
+                "text": "Nice (06)",
+                "city": "Nice",
+                "department": "06",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 janvier 2007 à Nice (06)"
+        },
+        "death": null,
+        "height": "1m87",
+        "height_cm": 187,
+        "weight": "83 kg",
+        "weight_kg": 83,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2022-08",
+            "precision": "month",
+            "text": "aout 2022"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Matthis Schübler-Lecart"
+            },
+            {
+                "label": null,
+                "value": "né le 18 janvier 2007 à Nice (06)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m87"
+            },
+            {
+                "label": "Poids",
+                "value": "83 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2022"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": ""
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "0"
+                ]
+            ],
+            "source_table": 459
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

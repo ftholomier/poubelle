@@ -1,0 +1,230 @@
+{
+    "id": 12008,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "samir-meriem",
+    "path": "/joueurs/samir-meriem/",
+    "title": "Samir Meriem",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/101505_samir_meriem.png",
+    "date": "2025-02-20T22:13:52",
+    "modified": "2025-02-20T22:20:46",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Samir Meriem a été formé à Sochaux durant plusieurs saisons mais n'a jamais joué pour l'équipe professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/101505_samir_meriem.png",
+            "caption": "Samir Meriem- DR",
+            "credit": "",
+            "caption_raw": "Samir Meriem- DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12008,
+        "url": "https://www.fcsochauxretro.com/a-la-une/samir-meriem/",
+        "path": "/a-la-une/samir-meriem/",
+        "slug": "samir-meriem",
+        "seo_title": "Samir Meriem - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Samir Meriem</h2>\n<h4><strong>né le 16 juin 1982 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>67 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1990</p>\n<p><strong>Départ de Sochaux :</strong> juin 1997</p>",
+        "header_lines": [
+            "Samir Meriem",
+            "né le 16 juin 1982 à Montbéliard (25)",
+            "Taille : 1m76",
+            "Poids : 67 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juillet 1990",
+            "Départ de Sochaux : juin 1997"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Samir",
+        "last_name": "Meriem",
+        "display_name": "Samir Meriem",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1982-06-16",
+                "precision": "day",
+                "text": "16 juin 1982"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 16 juin 1982 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "67 kg",
+        "weight_kg": 67,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1990-07",
+            "precision": "month",
+            "text": "juillet 1990"
+        },
+        "departure": {
+            "iso": "1997-06",
+            "precision": "month",
+            "text": "juin 1997"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Samir Meriem"
+            },
+            {
+                "label": null,
+                "value": "né le 16 juin 1982 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "67 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1990"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1997"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ],
+                [
+                    "Total",
+                    "0",
+                    "0",
+                    "2",
+                    "1",
+                    "1",
+                    "0",
+                    "38",
+                    "23",
+                    "0",
+                    "0",
+                    "41",
+                    "24"
+                ]
+            ],
+            "source_table": 462
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

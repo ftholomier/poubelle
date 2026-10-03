@@ -1,0 +1,188 @@
+{
+    "id": 8638,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "cherif-faty",
+    "path": "/joueurs/cherif-faty/",
+    "title": "Chérif Faty",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/3-10.jpg",
+    "date": "2024-12-08T11:34:37",
+    "modified": "2025-05-19T21:02:42",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Chérif Faty est resté 3 ans au centre de formation de Sochaux mais n'a joué aucun match avec l'équipe professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/52211_med_cherif_faty.jpg",
+            "caption": "Chérif Faty",
+            "credit": "L’est républicain",
+            "caption_raw": "Chérif Faty – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8638,
+        "url": "https://www.fcsochauxretro.com/a-la-une/cherif-faty/",
+        "path": "/a-la-une/cherif-faty/",
+        "slug": "cherif-faty",
+        "seo_title": "Chérif Faty - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Chérif Faty </h2>\n<h4><strong>né le 19 mai 1990 à Dakar (Sénégal) </strong></h4>\n<p><strong>Taille : </strong>1m90</p>\n<p><strong>Poids :</strong> 84 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2008</p>\n<p><strong>Départ de Sochaux : </strong>juin 2011</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe Gambardella 2010</li>\n</ul>",
+        "header_lines": [
+            "Chérif Faty",
+            "né le 19 mai 1990 à Dakar (Sénégal)",
+            "Taille : 1m90",
+            "Poids : 84 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juillet 2008",
+            "Départ de Sochaux : juin 2011",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe Gambardella 2010"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Chérif",
+        "last_name": "Faty",
+        "display_name": "Chérif Faty",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1990-05-19",
+                "precision": "day",
+                "text": "19 mai 1990"
+            },
+            "place": {
+                "text": "Dakar (Sénégal)",
+                "city": "Dakar",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 mai 1990 à Dakar (Sénégal)"
+        },
+        "death": null,
+        "height": "1m90",
+        "height_cm": 190,
+        "weight": "84 kg",
+        "weight_kg": 84,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2008-07",
+            "precision": "month",
+            "text": "juillet 2008"
+        },
+        "departure": {
+            "iso": "2011-06",
+            "precision": "month",
+            "text": "juin 2011"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe Gambardella 2010"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Chérif Faty"
+            },
+            {
+                "label": null,
+                "value": "né le 19 mai 1990 à Dakar (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m90"
+            },
+            {
+                "label": "Poids",
+                "value": "84 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2008"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2011"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe Gambardella 2010"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

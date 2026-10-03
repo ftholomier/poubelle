@@ -1,0 +1,172 @@
+{
+    "id": 12526,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "salif-cisse",
+    "path": "/joueurs/salif-cisse/",
+    "title": "Salif Cissé",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/03/5-11.jpg",
+    "date": "2025-03-04T21:00:46",
+    "modified": "2025-03-06T20:54:51",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Salif Cissé a joué 1 match amical (2 buts) pour Sochaux en préparation lors de l'été 2016."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-11.jpg",
+            "caption": "Salif Cissé",
+            "credit": "ASM Belfort",
+            "caption_raw": "Salif Cissé – ASM Belfort"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12526,
+        "url": "https://www.fcsochauxretro.com/a-la-une/salif-cisse/",
+        "path": "/a-la-une/salif-cisse/",
+        "slug": "salif-cisse",
+        "seo_title": "Salif Cissé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Salif Cissé</h2>\n<h4><strong>né le 12 juillet 1992 à Dreux (28)  </strong></h4>\n<p><strong>Taille : </strong>1m87</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>A l'essai en : </strong>juin<strong>/ </strong>juillet 2016</p>\n<p><strong>Premier et dernier match joué :</strong> Sélection de Franche-Comté - Sochaux du 24/06/2016 : 0-5 - But à la 30' et à la 46'</p>",
+        "header_lines": [
+            "Salif Cissé",
+            "né le 12 juillet 1992 à Dreux (28)",
+            "Taille : 1m87",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "A l'essai en : juin/ juillet 2016",
+            "Premier et dernier match joué : Sélection de Franche-Comté - Sochaux du 24/06/2016 : 0-5 - But à la 30' et à la 46'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Salif",
+        "last_name": "Cissé",
+        "display_name": "Salif Cissé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2016-07",
+            "precision": "month",
+            "text": "juin/ juillet 2016"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1992-07-12",
+                "precision": "day",
+                "text": "12 juillet 1992"
+            },
+            "place": {
+                "text": "Dreux (28)",
+                "city": "Dreux",
+                "department": "28",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 12 juillet 1992 à Dreux (28)"
+        },
+        "death": null,
+        "height": "1m87",
+        "height_cm": 187,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Salif Cissé"
+            },
+            {
+                "label": null,
+                "value": "né le 12 juillet 1992 à Dreux (28)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m87"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juin/ juillet 2016"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Sélection de Franche-Comté - Sochaux du 24/06/2016 : 0-5 - But à la 30' et à la 46'"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

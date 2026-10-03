@@ -1,0 +1,200 @@
+{
+    "id": 10367,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "renato-pecci",
+    "path": "/joueurs/renato-pecci/",
+    "title": "Renato Pecci",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-17.jpg",
+    "date": "2025-01-12T16:42:42",
+    "modified": "2025-09-10T07:29:52",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Giacomo Pecci a joué 13 matchs (amicaux compris) et a marqué 11 buts pour Sochaux durant la guerre."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-17.jpg",
+            "caption": "Giacomo Pecci",
+            "credit": "dr",
+            "caption_raw": "Giacomo Pecci – dr"
+        },
+        {
+            "image": "2024/12/1943-44-sochaux194344-der.jpg",
+            "caption": "FC Sochaux-Valentigney 1943-1944",
+            "credit": "FCSM Story",
+            "caption_raw": "FC Sochaux-Valentigney 1943-1944 – FCSM Story"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10367,
+        "url": "https://www.fcsochauxretro.com/a-la-une/renato-pecci/",
+        "path": "/a-la-une/renato-pecci/",
+        "slug": "renato-pecci",
+        "seo_title": "Renato Pecci - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Renato (René) Pecci</h2>\n<h4><strong>né le 28 aout 1915 à xx (Italie ?)</strong></h4>\n<h4><strong>Décédé le 2 octobre 2007 à Montbéliard (25)</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1942 ?</p>\n<p><strong>Départ de Sochaux : </strong>juin 1944 ?</p>\n<p><strong>Premier match joué et premier but marqué :</strong> Sochaux - Chalon-sur-Saône du 19/09/1943 : 6-0</p>\n<p><strong>Dernier match joué : </strong>Dijon - Sochaux du 12/03/1944 : 0-6</p>",
+        "header_lines": [
+            "Renato (René) Pecci",
+            "né le 28 aout 1915 à xx (Italie ?)",
+            "Décédé le 2 octobre 2007 à Montbéliard (25)",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1942 ?",
+            "Départ de Sochaux : juin 1944 ?",
+            "Premier match joué et premier but marqué : Sochaux - Chalon-sur-Saône du 19/09/1943 : 6-0",
+            "Dernier match joué : Dijon - Sochaux du 12/03/1944 : 0-6"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Renato",
+        "last_name": "Pecci",
+        "display_name": "Renato Pecci",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1915-08-28",
+                "precision": "day",
+                "text": "28 aout 1915"
+            },
+            "place": {
+                "text": "xx (Italie ?)",
+                "city": "xx",
+                "department": null,
+                "country": "Italie ?",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 28 aout 1915 à xx (Italie ?)"
+        },
+        "death": {
+            "date": {
+                "iso": "2007-10-02",
+                "precision": "day",
+                "text": "2 octobre 2007"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 2 octobre 2007 à Montbéliard (25)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1942-07",
+            "precision": "month",
+            "text": "juillet 1942 ?"
+        },
+        "departure": {
+            "iso": "1944-06",
+            "precision": "month",
+            "text": "juin 1944 ?"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Chalon-sur-Saône du 19/09/1943 : 6-0",
+        "last_match": "Dijon - Sochaux du 12/03/1944 : 0-6",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Renato (René) Pecci"
+            },
+            {
+                "label": null,
+                "value": "né le 28 aout 1915 à xx (Italie ?)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 2 octobre 2007 à Montbéliard (25)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1942 ?"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1944 ?"
+            },
+            {
+                "label": "Premier match joué et premier but marqué",
+                "value": "Sochaux - Chalon-sur-Saône du 19/09/1943 : 6-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Dijon - Sochaux du 12/03/1944 : 0-6"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

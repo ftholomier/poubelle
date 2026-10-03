@@ -1,0 +1,168 @@
+{
+    "id": 12714,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "abderaouf-zarabi",
+    "path": "/joueurs/abderaouf-zarabi/",
+    "title": "Abderaouf Zarabi (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/07/Zarabi-Jean-Paul-Jacques.png",
+    "date": "2025-03-08T23:46:22",
+    "modified": "2026-07-13T11:39:01",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Recruteur pour le club, Abdel Djadaoui propose Zarabi au club en 2003. Un essai d'une semaine pour cet international algérien de 24 ans qui évolue sur le côté gauche de la défense.</li>\n<li>Malgré de belles aptitudes physiques, Guy Lacombe ne le recrutera pas. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Abderaouf Zarabi a été à l'essai à Sochaux une semaine en juillet 2003."
+    },
+    "gallery": [
+        {
+            "image": "2026/07/Zarabi-Jean-Paul-Jacques.png",
+            "caption": "Zarabi",
+            "credit": "Jean-Paul Jacques",
+            "caption_raw": "Zarabi – Jean-Paul Jacques"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12714,
+        "url": "https://www.fcsochauxretro.com/uncategorized/abderaouf-zarabi/",
+        "path": "/uncategorized/abderaouf-zarabi/",
+        "slug": "abderaouf-zarabi",
+        "seo_title": "Abderaouf Zarabi (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Abderaouf Zarabi</h2>\n<h4><strong>né le 26 mars 1979 à Alger (Algérie)</strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>défenseur central ou latéral gauche</p>\n<p><strong>International algérien (22 sélections)</strong></p>\n<p><strong>A l'essai en : </strong>juillet 2003</p>",
+        "header_lines": [
+            "Abderaouf Zarabi",
+            "né le 26 mars 1979 à Alger (Algérie)",
+            "Taille : 1m86",
+            "Poids : 78 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central ou latéral gauche",
+            "International algérien (22 sélections)",
+            "A l'essai en : juillet 2003"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Abderaouf",
+        "last_name": "Zarabi",
+        "display_name": "Abderaouf Zarabi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2003-07",
+            "precision": "month",
+            "text": "juillet 2003"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1979-03-26",
+                "precision": "day",
+                "text": "26 mars 1979"
+            },
+            "place": {
+                "text": "Alger (Algérie)",
+                "city": "Alger",
+                "department": null,
+                "country": "Algérie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 26 mars 1979 à Alger (Algérie)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "gaucher",
+        "position": "défenseur central ou latéral gauche",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International algérien (22 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Abderaouf Zarabi"
+            },
+            {
+                "label": null,
+                "value": "né le 26 mars 1979 à Alger (Algérie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central ou latéral gauche"
+            },
+            {
+                "label": null,
+                "value": "International algérien (22 sélections)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 2003"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

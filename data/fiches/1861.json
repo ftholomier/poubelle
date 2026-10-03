@@ -1,0 +1,461 @@
+{
+    "id": 1861,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "lyon-sochaux-amical-08-02-1987",
+    "path": "/matchs/1986-1987/lyon-sochaux-amical-08-02-1987/",
+    "title": "Amical – Lyon (D2) / Sochaux (D1) – Amical – 8/02/1987 – 2-1",
+    "categories": [
+        "1986-1987",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/02/mondial-janv-87.png",
+    "date": "2024-02-22T13:21:22",
+    "modified": "2025-12-06T16:37:38",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Pour les Sochaliens la reprise se divise en trois temps : un stage de 10 jours de ski de fond à Gaschney dans les Vosges. Puis une semaine de préparation à Montbéliard avec le tournoi en salle de Besançon et le match amical contre Lyon. Puis un stage à Carnac avec 3 rencontres au programme. </li>\n<li>3ème du groupe B de D2, Lyon a déjà disputé un match amical de préparation avec une victoire 3-1 contre Saint-Etienne. </li>\n<li>Victime d'une élongation, Silvestre est absent tout comme Morin, malade. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>7' : Centre de Remark faiblement repoussé par Rust. A l'affut, Orts ouvre le score. (1-0) </strong></li>\n<li><strong>23' :</strong> Lourde frappe de Sauzée juste au-dessus. </li>\n<li><strong>38' :  Sur un centre dévié dans la surface, Orts double la mise pour Lyon. (2-0)</strong></li>\n<li><strong>55' :</strong> Tir en pivot de Priou repoussé par Rust. </li>\n<li><strong>59' :</strong> Isolé dans la surface, Priou croise trop sa reprise du gauche. </li>\n<li><strong>65' :</strong> En contre, Thomas élimine Fugier avant de tromper le gardien lyonnais qui avait déserté son but. Nono, revenu en catastrophe, sauvait sur la ligne ! </li>\n<li><strong>75' : Centre de Fernier, Paille est le plus prompt à la retombée pour réduire le score. (2-1)</strong></li>\n<li><strong>84' :</strong> Tête de Croci repoussée par Topalovic. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Jean Fauvergue :</strong> <em>\" Pas question d'être satisfait. Nous avons perdu. Cette défaite est la conséquence directe d'un manque de force de pénétration et de présence devant le but adverse. Par contre certains points sont positifs comme notre domination physique en seconde période. \"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Direction Carnac pour le FCSM avec une préparation axée sur le \"ballon\" et trois matchs amicaux. </li>\n<li>Le groupe sochalien est constitué de 17 joueurs pour le stage à Carnac. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": null,
+    "gallery": [
+        {
+            "image": "2024/02/318039549_876844943674002_1579249365517702898_n.jpg",
+            "caption": "Laurent Croci",
+            "credit": "magazine AJA",
+            "caption_raw": "Laurent Croci – magazine AJA"
+        },
+        {
+            "image": "2024/02/Breves-Est-Republicain.png",
+            "caption": "Brèves de l’Est Républicain",
+            "credit": "",
+            "caption_raw": "Brèves de l’Est Républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 1861,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-lyon-d2-sochaux-d1-amical-8-02-1987-2-1/",
+        "path": "/a-la-une/amical-lyon-d2-sochaux-d1-amical-8-02-1987-2-1/",
+        "slug": "amical-lyon-d2-sochaux-d1-amical-8-02-1987-2-1",
+        "seo_title": "Amical - Lyon (D2) / Sochaux (D1) - Amical - 8/02/1987 - 2-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Lyon (D2) / Sochaux : 2-1</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Lundi 2 février 1987</strong></h4>\n<h4><strong>Stade d'Ambérieu</strong></h4>\n<h4><strong>1 300 spectateurs</strong></h4>\n<h4><strong>Arbitrage : inconnu </strong></h4>\n<p>Buts : Orts 7' et 38' pour Lyon ; Paille 75' pour Sochaux. </p>",
+        "header_lines": [
+            "Lyon (D2) / Sochaux : 2-1",
+            "Match amical",
+            "Lundi 2 février 1987",
+            "Stade d'Ambérieu",
+            "1 300 spectateurs",
+            "Arbitrage : inconnu",
+            "Buts : Orts 7' et 38' pour Lyon ; Paille 75' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1987-02-08",
+        "date_text": "Lundi 2 février 1987",
+        "season": "1986-1987",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": "Amical",
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Lyon",
+            "level": "D2"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 2,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-1",
+        "score_line": "Lyon (D2) / Sochaux : 2-1",
+        "result": "D",
+        "stadium": "Stade d'Ambérieu",
+        "spectators": 1300,
+        "spectators_text": "1 300 spectateurs",
+        "referee": "inconnu",
+        "goals_text": "Orts 7' et 38' pour Lyon ; Paille 75' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Lyon",
+                "scorers": "Orts 7' et 38'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Paille 75'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "7",
+                "text": "Centre de Remark faiblement repoussé par Rust. A l'affut, Orts ouvre le score. (1-0)",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "23",
+                "text": "Lourde frappe de Sauzée juste au-dessus.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "38",
+                "text": "Sur un centre dévié dans la surface, Orts double la mise pour Lyon. (2-0)",
+                "goal": true,
+                "score": "2-0"
+            },
+            {
+                "minute": "55",
+                "text": "Tir en pivot de Priou repoussé par Rust.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "59",
+                "text": "Isolé dans la surface, Priou croise trop sa reprise du gauche.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "65",
+                "text": "En contre, Thomas élimine Fugier avant de tromper le gardien lyonnais qui avait déserté son but. Nono, revenu en catastrophe, sauvait sur la ligne !",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "75",
+                "text": "Centre de Fernier, Paille est le plus prompt à la retombée pour réduire le score. (2-1)",
+                "goal": true,
+                "score": "2-1"
+            },
+            {
+                "minute": "84",
+                "text": "Tête de Croci repoussée par Topalovic.",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Jean Fauvergue",
+                "text": "Pas question d'être satisfait. Nous avons perdu. Cette défaite est la conséquence directe d'un manque de force de pénétration et de présence devant le but adverse. Par contre certains points sont positifs comme notre domination physique en seconde période."
+            }
+        ],
+        "breves": [
+            "Direction Carnac pour le FCSM avec une préparation axée sur le \"ballon\" et trois matchs amicaux.",
+            "Le groupe sochalien est constitué de 17 joueurs pour le stage à Carnac."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RUST Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FERNIER Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "65",
+                    "sub_text": "Sortie 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZEE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HELT John",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "65",
+                    "sub_text": "Sortie 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "75"
+                    ],
+                    "goals_text": "75'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SUNDSTRUP Anders",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "65",
+                    "sub_text": "Sortie 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "65",
+                    "sub_out": null,
+                    "sub_text": "Entrée 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "65",
+                    "sub_out": null,
+                    "sub_text": "Entrée 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "65",
+                    "sub_out": null,
+                    "sub_text": "Entrée 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FAUVERGUE Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 152
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

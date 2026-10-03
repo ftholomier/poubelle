@@ -1,0 +1,288 @@
+{
+    "id": 10537,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "lionel-potillon",
+    "path": "/joueurs/lionel-potillon/",
+    "title": "Lionel Potillon",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-43.jpg",
+    "date": "2025-01-19T17:21:31",
+    "modified": "2025-01-19T17:50:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "46",
+        "text": "Lionel Potillon a joué 46 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/potillon_sochaux_coupe_france_2007.jpg",
+            "caption": "Lionel Potillon",
+            "credit": "L’est républicain",
+            "caption_raw": "Lionel Potillon – L’est républicain"
+        },
+        {
+            "image": "2025/01/lionel-potillon-ne-lache-plus-la-coupe-photo-d-archives-er-1554996537.jpg",
+            "caption": "Lionel Potillon",
+            "credit": "L’est républicain",
+            "caption_raw": "Lionel Potillon – L’est républicain"
+        },
+        {
+            "image": "2025/01/lionel-potillon-face-aux-nanceien-fortune-en-ligue-1-lors-de-la-saison-2006-2007-photo-er-hdt-sports-1618393695.jpg",
+            "caption": "Lionel Potillon",
+            "credit": "L’est républicain",
+            "caption_raw": "Lionel Potillon – L’est républicain"
+        },
+        {
+            "image": "2025/01/lionel-potillon-buteur-a-gerland-photo-er-le-pays-1597390771.jpg",
+            "caption": "Lionel Potillon",
+            "credit": "L’est républicain",
+            "caption_raw": "Lionel Potillon – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10537,
+        "url": "https://www.fcsochauxretro.com/a-la-une/lionel-potillon/",
+        "path": "/a-la-une/lionel-potillon/",
+        "slug": "lionel-potillon",
+        "seo_title": "Lionel Potillon - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Lionel Potillon</h2>\n<h4><strong>né le 10 février 1994 à Cluny (71)</strong></h4>\n<p><strong>Taille : </strong>1m79</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>arrière latéral gauche ou défenseur central</p>\n<p><strong>International français U18, U19 et militaire</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2004</p>\n<p><strong>Départ de Sochaux :</strong> juin 2007</p>\n<p><strong>Premier match joué :</strong> Sochaux - AC Ajaccio du 07/08/2004 : 1-0 </p>\n<p><strong>Dernier match joué :</strong> Nancy - Sochaux du 19/05/2007 : 5-2</p>\n<p><strong>Premier but marqué :</strong> Lyon - Sochaux du 14/08/2004 : 1-1 - But à la 39'</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Vainqueur de la coupe de France 2007</li>\n</ul>",
+        "header_lines": [
+            "Lionel Potillon",
+            "né le 10 février 1994 à Cluny (71)",
+            "Taille : 1m79",
+            "Poids : 76 kg",
+            "Pied : gaucher",
+            "Poste : arrière latéral gauche ou défenseur central",
+            "International français U18, U19 et militaire",
+            "Arrivée à Sochaux : juillet 2004",
+            "Départ de Sochaux : juin 2007",
+            "Premier match joué : Sochaux - AC Ajaccio du 07/08/2004 : 1-0",
+            "Dernier match joué : Nancy - Sochaux du 19/05/2007 : 5-2",
+            "Premier but marqué : Lyon - Sochaux du 14/08/2004 : 1-1 - But à la 39'",
+            "Palmarès avec Sochaux :",
+            "Vainqueur de la coupe de France 2007"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Lionel",
+        "last_name": "Potillon",
+        "display_name": "Lionel Potillon",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1994-02-10",
+                "precision": "day",
+                "text": "10 février 1994"
+            },
+            "place": {
+                "text": "Cluny (71)",
+                "city": "Cluny",
+                "department": "71",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 février 1994 à Cluny (71)"
+        },
+        "death": null,
+        "height": "1m79",
+        "height_cm": 179,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "gaucher",
+        "position": "arrière latéral gauche ou défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International français U18, U19 et militaire"
+        ],
+        "arrival": {
+            "iso": "2004-07",
+            "precision": "month",
+            "text": "juillet 2004"
+        },
+        "departure": {
+            "iso": "2007-06",
+            "precision": "month",
+            "text": "juin 2007"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - AC Ajaccio du 07/08/2004 : 1-0",
+        "last_match": "Nancy - Sochaux du 19/05/2007 : 5-2",
+        "first_goal": "Lyon - Sochaux du 14/08/2004 : 1-1 - But à la 39'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur de la coupe de France 2007"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Lionel Potillon"
+            },
+            {
+                "label": null,
+                "value": "né le 10 février 1994 à Cluny (71)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m79"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière latéral gauche ou défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International français U18, U19 et militaire"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2004"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2007"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - AC Ajaccio du 07/08/2004 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Nancy - Sochaux du 19/05/2007 : 5-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Lyon - Sochaux du 14/08/2004 : 1-1 - But à la 39'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 2007"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "12",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "12",
+                    "5"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "44",
+                    "21"
+                ],
+                [
+                    "Total",
+                    "12",
+                    "5",
+                    "39",
+                    "17",
+                    "5",
+                    "4",
+                    "0",
+                    "0",
+                    "56",
+                    "26"
+                ]
+            ],
+            "source_table": 435
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

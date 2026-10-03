@@ -1,0 +1,275 @@
+{
+    "id": 11136,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ottokar-sykora",
+    "path": "/joueurs/ottokar-sykora/",
+    "title": "Ottokar Sykora",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-92.jpg",
+    "date": "2025-01-28T12:35:05",
+    "modified": "2025-09-10T08:49:19",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "47",
+        "text": "Ottokar Sykora aurait joué 47 matchs (2 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-92.jpg",
+            "caption": "Ottokar Sykora",
+            "credit": "footballdatabase.com",
+            "caption_raw": "Ottokar Sykora – footballdatabase.com"
+        },
+        {
+            "image": "2025/01/sochaux194748-.jpg",
+            "caption": "Sochaux 1947/1948",
+            "credit": "",
+            "caption_raw": "Sochaux 1947/1948"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11136,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ottokar-sykora/",
+        "path": "/a-la-une/ottokar-sykora/",
+        "slug": "ottokar-sykora",
+        "seo_title": "Ottokar Sykora - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ottokar Sykora<br></h2>\n<h4><strong>né le 22 janvier 1920 à xx (République Tchèque)</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1947</p>\n<p><strong>Départ de Sochaux : </strong>juin 1948</p>\n<p><strong>Premier match joué :</strong> Sochaux - Lille du 07/09/1947 : 1-2 </p>\n<p><strong>Dernier match joué :</strong> Toulouse - Sochaux du 05/12/1948 : 3-0</p>\n<p><strong>Premier but marqué :</strong> Rennes - Sochaux du 05/10/1947 : 0-3 - But à la 23' </p>",
+        "header_lines": [
+            "Ottokar Sykora",
+            "né le 22 janvier 1920 à xx (République Tchèque)",
+            "Décédé le xx à xx",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1947",
+            "Départ de Sochaux : juin 1948",
+            "Premier match joué : Sochaux - Lille du 07/09/1947 : 1-2",
+            "Dernier match joué : Toulouse - Sochaux du 05/12/1948 : 3-0",
+            "Premier but marqué : Rennes - Sochaux du 05/10/1947 : 0-3 - But à la 23'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ottokar",
+        "last_name": "Sykora",
+        "display_name": "Ottokar Sykora",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1920-01-22",
+                "precision": "day",
+                "text": "22 janvier 1920"
+            },
+            "place": {
+                "text": "xx (République Tchèque)",
+                "city": "xx",
+                "department": null,
+                "country": "République Tchèque",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 janvier 1920 à xx (République Tchèque)"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1947-07",
+            "precision": "month",
+            "text": "juillet 1947"
+        },
+        "departure": {
+            "iso": "1948-06",
+            "precision": "month",
+            "text": "juin 1948"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Lille du 07/09/1947 : 1-2",
+        "last_match": "Toulouse - Sochaux du 05/12/1948 : 3-0",
+        "first_goal": "Rennes - Sochaux du 05/10/1947 : 0-3 - But à la 23'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ottokar Sykora"
+            },
+            {
+                "label": null,
+                "value": "né le 22 janvier 1920 à xx (République Tchèque)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1947"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1948"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Lille du 07/09/1947 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Toulouse - Sochaux du 05/12/1948 : 3-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Rennes - Sochaux du 05/10/1947 : 0-3 - But à la 23'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1993-1994",
+                    "28",
+                    "2",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "2"
+                ],
+                [
+                    "1994-1995",
+                    "30",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "32",
+                    "0"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "27",
+                    "2",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "31",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "58",
+                    "2",
+                    "27",
+                    "2",
+                    "6",
+                    "0",
+                    "2",
+                    "0",
+                    "93",
+                    "4"
+                ]
+            ],
+            "source_table": 434
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

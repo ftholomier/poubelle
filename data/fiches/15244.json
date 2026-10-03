@@ -1,0 +1,186 @@
+{
+    "id": 15244,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "kapit-djoco",
+    "path": "/joueurs/kapit-djoco/",
+    "title": "Kapit Djoco",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/2.jpg",
+    "date": "2025-07-16T21:02:23",
+    "modified": "2025-07-16T21:15:54",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2025",
+        "text": "Kapit Djoco a signé pour deux saisons à l'été 2025."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/517353772_18349751293083197_7054487309346473293_n-1.jpg",
+            "caption": "Kapit Djoco",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Kapit Djoco – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2025/07/2.jpg",
+            "caption": "Kapit Djoco",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Kapit Djoco – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15244,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/kapit-djoco/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/kapit-djoco/",
+        "slug": "kapit-djoco",
+        "seo_title": "Kapit Djoco - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Kapit Djoco</h2>\n<h4><strong>né le 9 septembre 1995 à Paris (75) </strong></h4>\n<p><strong>Taille : </strong>1m86</p>\n<p><strong>Poids : </strong>79 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2025</p>\n<p><strong>Départ de Sochaux : </strong></p>\n<p><strong>Premier match avec Sochaux :</strong></p>\n<p><strong>Dernier match avec Sochaux :</strong> </p>",
+        "header_lines": [
+            "Kapit Djoco",
+            "né le 9 septembre 1995 à Paris (75)",
+            "Taille : 1m86",
+            "Poids : 79 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 2025",
+            "Départ de Sochaux :",
+            "Premier match avec Sochaux :",
+            "Dernier match avec Sochaux :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Kapit",
+        "last_name": "Djoco",
+        "display_name": "Kapit Djoco",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1995-09-09",
+                "precision": "day",
+                "text": "9 septembre 1995"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 septembre 1995 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "79 kg",
+        "weight_kg": 79,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2025-07",
+            "precision": "month",
+            "text": "juillet 2025"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Kapit Djoco"
+            },
+            {
+                "label": null,
+                "value": "né le 9 septembre 1995 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "79 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2025"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Dernier match avec Sochaux",
+                "value": ""
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

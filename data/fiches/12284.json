@@ -1,0 +1,251 @@
+{
+    "id": 12284,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "steven-mouyokolo",
+    "path": "/joueurs/steven-mouyokolo/",
+    "title": "Steven Mouyokolo",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/21203.jpg",
+    "date": "2025-02-27T20:09:53",
+    "modified": "2025-02-27T20:19:23",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Steven Mouyokolo a joué 4 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/steven-mouyokolo-n-avait-encore-jamais-enchaine-deux-gros-pepins-musculaires-photo-f-reinoso-1484129018.jpg",
+            "caption": "Steven Mouyokolo",
+            "credit": "L’est républicain",
+            "caption_raw": "Steven Mouyokolo – L’est républicain"
+        },
+        {
+            "image": "2025/02/steven-mouyokolo-1484128822.jpg",
+            "caption": "Steven Mouyokolo",
+            "credit": "L’est républicain",
+            "caption_raw": "Steven Mouyokolo – L’est républicain"
+        },
+        {
+            "image": "2025/02/echaude-par-ses-pepins-precedents-steven-mouyokolo-qui-a-joue-une-heure-vendredi-face-a-nancy-reste-prudent-mais-son-retour-aux-affaires-lui-donne-un-gros-moral-photo-francis-r.jpg",
+            "caption": "Steven Mouyokolo",
+            "credit": "L’est républicain",
+            "caption_raw": "Steven Mouyokolo – L’est républicain"
+        },
+        {
+            "image": "2025/02/steven-mouyokolo-disputera-ses-premieres-minutes-sous-le-maillot-sochalien-ce-soir-face-a-dijon-photojean-luc-gillme-1484129160.jpg",
+            "caption": "Steven Mouyokolo",
+            "credit": "L’est républicain",
+            "caption_raw": "Steven Mouyokolo – L’est républicain"
+        },
+        {
+            "image": "2025/02/21203.jpg",
+            "caption": "Steven Mouyokolo",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Steven Mouyokolo – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12284,
+        "url": "https://www.fcsochauxretro.com/a-la-une/steven-mouyokolo/",
+        "path": "/a-la-une/steven-mouyokolo/",
+        "slug": "steven-mouyokolo",
+        "seo_title": "Steven Mouyokolo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Steven Mouyokolo</h2>\n<h4><strong>né le 24 janvier 1987 à Melun (77)</strong></h4>\n<p><strong>Taille : </strong>1m92</p>\n<p><strong>Poids : </strong>86 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2011</p>\n<p><strong>Départ de Sochaux : </strong>juin 2012</p>\n<p><strong>Premier match joué :</strong> Sochaux - Saint-Etienne du 28/08/2011 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Auxerre du 18/02/2012 : 0-0</p>",
+        "header_lines": [
+            "Steven Mouyokolo",
+            "né le 24 janvier 1987 à Melun (77)",
+            "Taille : 1m92",
+            "Poids : 86 kg",
+            "Pied : gaucher",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juillet 2011",
+            "Départ de Sochaux : juin 2012",
+            "Premier match joué : Sochaux - Saint-Etienne du 28/08/2011 : 2-1",
+            "Dernier match joué : Sochaux - Auxerre du 18/02/2012 : 0-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Steven",
+        "last_name": "Mouyokolo",
+        "display_name": "Steven Mouyokolo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1987-01-24",
+                "precision": "day",
+                "text": "24 janvier 1987"
+            },
+            "place": {
+                "text": "Melun (77)",
+                "city": "Melun",
+                "department": "77",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 janvier 1987 à Melun (77)"
+        },
+        "death": null,
+        "height": "1m92",
+        "height_cm": 192,
+        "weight": "86 kg",
+        "weight_kg": 86,
+        "foot": "gaucher",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2011-07",
+            "precision": "month",
+            "text": "juillet 2011"
+        },
+        "departure": {
+            "iso": "2012-06",
+            "precision": "month",
+            "text": "juin 2012"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Saint-Etienne du 28/08/2011 : 2-1",
+        "last_match": "Sochaux - Auxerre du 18/02/2012 : 0-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Steven Mouyokolo"
+            },
+            {
+                "label": null,
+                "value": "né le 24 janvier 1987 à Melun (77)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m92"
+            },
+            {
+                "label": "Poids",
+                "value": "86 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2011"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2012"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Saint-Etienne du 28/08/2011 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Auxerre du 18/02/2012 : 0-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

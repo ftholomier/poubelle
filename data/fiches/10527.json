@@ -1,0 +1,324 @@
+{
+    "id": 10527,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "louis-pirroni",
+    "path": "/joueurs/louis-pirroni/",
+    "title": "Louis Pirroni",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-39.jpg",
+    "date": "2025-01-18T12:16:16",
+    "modified": "2025-01-18T12:35:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "86",
+        "text": "Louis Pirroni a joué 86 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/5-39.jpg",
+            "caption": "Louis Pirroni",
+            "credit": "dr",
+            "caption_raw": "Louis Pirroni – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10527,
+        "url": "https://www.fcsochauxretro.com/a-la-une/louis-pirroni/",
+        "path": "/a-la-une/louis-pirroni/",
+        "slug": "louis-pirroni",
+        "seo_title": "Louis Pirroni - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Louis Pirroni</h2>\n<h4><strong>né le 6 novembre 1924 à Marseille (13)</strong></h4>\n<h4><strong>Décédé le 3 décembre 1981 à xx </strong></h4>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1947</p>\n<p><strong>Départ de Sochaux : </strong>juin 1950</p>\n<p><strong>Premier match joué</strong> : Stade français - Sochaux du 24/08/1947 : 2-2</p>\n<p><strong>Dernier match joué</strong> : SO Montpellier - Sochaux du 30/04/1950 : 1-4</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Metz du 29/05/1949 : 2-1 - But à la 79'</p>",
+        "header_lines": [
+            "Louis Pirroni",
+            "né le 6 novembre 1924 à Marseille (13)",
+            "Décédé le 3 décembre 1981 à xx",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juillet 1947",
+            "Départ de Sochaux : juin 1950",
+            "Premier match joué : Stade français - Sochaux du 24/08/1947 : 2-2",
+            "Dernier match joué : SO Montpellier - Sochaux du 30/04/1950 : 1-4",
+            "Premier but marqué : Sochaux - Metz du 29/05/1949 : 2-1 - But à la 79'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Louis",
+        "last_name": "Pirroni",
+        "display_name": "Louis Pirroni",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1924-11-06",
+                "precision": "day",
+                "text": "6 novembre 1924"
+            },
+            "place": {
+                "text": "Marseille (13)",
+                "city": "Marseille",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 6 novembre 1924 à Marseille (13)"
+        },
+        "death": {
+            "date": {
+                "iso": "1981-12-03",
+                "precision": "day",
+                "text": "3 décembre 1981"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 3 décembre 1981 à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1947-07",
+            "precision": "month",
+            "text": "juillet 1947"
+        },
+        "departure": {
+            "iso": "1950-06",
+            "precision": "month",
+            "text": "juin 1950"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Stade français - Sochaux du 24/08/1947 : 2-2",
+        "last_match": "SO Montpellier - Sochaux du 30/04/1950 : 1-4",
+        "first_goal": "Sochaux - Metz du 29/05/1949 : 2-1 - But à la 79'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Louis Pirroni"
+            },
+            {
+                "label": null,
+                "value": "né le 6 novembre 1924 à Marseille (13)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 3 décembre 1981 à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1947"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1950"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Stade français - Sochaux du 24/08/1947 : 2-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "SO Montpellier - Sochaux du 30/04/1950 : 1-4"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Metz du 29/05/1949 : 2-1 - But à la 79'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1989-1990",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1992-1993",
+                    "29",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "31",
+                    "2"
+                ],
+                [
+                    "1993-1994",
+                    "31",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "33",
+                    "2"
+                ],
+                [
+                    "1994-1995",
+                    "23",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "25",
+                    "0"
+                ],
+                [
+                    "1995-1996",
+                    "0",
+                    "0",
+                    "5",
+                    "0",
+                    "1",
+                    "0",
+                    "41",
+                    "0",
+                    "0",
+                    "0",
+                    "47",
+                    "0"
+                ],
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "1",
+                    "0",
+                    "0",
+                    "27",
+                    "1"
+                ],
+                [
+                    "Total",
+                    "84",
+                    "4",
+                    "14",
+                    "0",
+                    "2",
+                    "0",
+                    "64",
+                    "1",
+                    "0",
+                    "0",
+                    "164",
+                    "5"
+                ]
+            ],
+            "source_table": 428
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

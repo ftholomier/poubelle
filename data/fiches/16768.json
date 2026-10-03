@@ -1,0 +1,539 @@
+{
+    "id": 16768,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-epinal-amical-07-07-2012",
+    "path": "/matchs/2012-2013/sochaux-epinal-amical-07-07-2012/",
+    "title": "Amical – Sochaux (L1) / Epinal (N) – 07/07/2012 – 2-0",
+    "categories": [
+        "2012-2013",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/06/Image1.png",
+    "date": "2026-06-13T08:42:12",
+    "modified": "2026-06-17T20:59:45",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Premier doublé de Sébastien Roudet sous les couleurs sochaliennes."
+    },
+    "gallery": [
+        {
+            "image": "2026/06/Image1.png",
+            "caption": "Carlao lors de Sochaux-Epinal en match de préparation 2012-2013",
+            "credit": "Crédit : FCSM",
+            "caption_raw": "Carlao lors de Sochaux-Epinal en match de préparation 2012-2013 – Crédit : FCSM"
+        },
+        {
+            "image": "2026/06/contout-roy-attaquant-1344607519.jpg",
+            "caption": "Roy Contout – 2012/2012",
+            "credit": "L’est républicain",
+            "caption_raw": "Roy Contout – 2012/2012 – L’est républicain"
+        },
+        {
+            "image": "2026/06/425171_10150982147469773_1952134030_n1.jpg",
+            "caption": "Sochaux-Epinal pré-saison 2012-2013",
+            "credit": "L’est républicain",
+            "caption_raw": "Sochaux-Epinal pré-saison 2012-2013 – L’est républicain"
+        },
+        {
+            "image": "2026/06/375676_10150982153464773_1663687741_n1.jpg",
+            "caption": "Sochaux-Epinal pré-saison 2012-2013",
+            "credit": "L’est républicain",
+            "caption_raw": "Sochaux-Epinal pré-saison 2012-2013 – L’est républicain"
+        },
+        {
+            "image": "2026/06/8.jpg",
+            "caption": "Roudet lors de Sochaux-Epinal pré-saison 2012-2013",
+            "credit": "L’est républicain",
+            "caption_raw": "Roudet lors de Sochaux-Epinal pré-saison 2012-2013 – L’est républicain"
+        },
+        {
+            "image": "2026/06/12.jpg",
+            "caption": "Sochaux-Epinal pré-saison 2012-2013",
+            "credit": "L’est républicain",
+            "caption_raw": "Sochaux-Epinal pré-saison 2012-2013 – L’est républicain"
+        },
+        {
+            "image": "2026/06/13.jpg",
+            "caption": "Sochaux-Epinal pré-saison 2012-2013",
+            "credit": "L’est républicain",
+            "caption_raw": "Sochaux-Epinal pré-saison 2012-2013 – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16768,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l1-epinal-n-07-07-2012-2-0/",
+        "path": "/a-la-une/amical-sochaux-l1-epinal-n-07-07-2012-2-0/",
+        "slug": "amical-sochaux-l1-epinal-n-07-07-2012-2-0",
+        "seo_title": "Amical - Sochaux (L1) / Epinal (N) - 07/07/2012 - 2-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Epinal (Nat) : 2-0</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 7 juillet 2012</strong></h4>\n<h4><strong>Stade Serzian de Belfort (90)</strong></h4>\n<h4><strong>600 spectateurs</strong></h4>\n<h4><strong>Arbitre : M.Leleu</strong></h4>\n<p>Buts: Roudet 58' et 85' pour Sochaux.</p>",
+        "header_lines": [
+            "Sochaux / Epinal (Nat) : 2-0",
+            "Match amical",
+            "Samedi 7 juillet 2012",
+            "Stade Serzian de Belfort (90)",
+            "600 spectateurs",
+            "Arbitre : M.Leleu",
+            "Buts: Roudet 58' et 85' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2012-07-07",
+        "date_text": "Samedi 7 juillet 2012",
+        "season": "2012-2013",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L1"
+        },
+        "away": {
+            "name": "Epinal",
+            "level": "N"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-0",
+        "score_line": "Sochaux / Epinal (Nat) : 2-0",
+        "result": "V",
+        "stadium": "Stade Serzian de Belfort (90)",
+        "spectators": 600,
+        "spectators_text": "600 spectateurs",
+        "referee": "M.Leleu",
+        "goals_text": "Roudet 58' et 85' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Roudet 58' et 85'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "CROS Pierrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DUPLUS Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "↓ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BANANA Yaya",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "KANTE Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BOUMAL Petrus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "CARLAO",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "NOGUEIRA Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DIAS Rafaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↓ 46' ↑ 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MIKARI Yassine",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "KING Osanga",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DIEDHIOU Famara",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "POUPLIN Simon",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SAUGET David",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LOPY Joseph",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GURLER Serdar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROUDET Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "58",
+                        "85"
+                    ],
+                    "goals_text": "⚽58' ⚽85'",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PRCIC Sanjin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": "46",
+                    "sub_text": "↑ 46' ↓ 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PRIVAT Sloan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ETEME Gabriel Junior",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "HELY Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1873
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

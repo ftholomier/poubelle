@@ -1,0 +1,149 @@
+{
+    "id": 13152,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jeannine-perrin",
+    "path": "/personnages-emblematiques/jeannine-perrin/",
+    "title": "Jeannine Perrin",
+    "categories": [
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/montbeliard-le-14-06-18-les-90-ans-du-football-club-de-sochaux-montbeliard-fcsm-jeannine-perrin-la.jpg",
+    "date": "2025-03-25T09:31:50",
+    "modified": "2025-11-12T20:27:51",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<p>Une fidélité au club à toute épreuve ! Femme douce et amicale, Jeannine Perrin est l’une des personnes les plus attachantes de l'histoire du club.</p>\n<p>Elle est entrée au club par hasard en 1988. Jean Fauvergue qui la connaissait lui a demandé si elle était disponible pour venir faire le service pour la cérémonie des... 60 ans du club. </p>\n<p>Humble, travailleuse et souriante elle a été la lingère du club certes, mais aussi la \"nounou\" des joueurs, et la responsable du bar de la presse dans le « vieux Bonal ».</p>\n<p>Celle qui devait être en retraite dans les années 2010 a prolongé l'aventure avec le club par passion pour le club et amour de son métier. </p>"
+        }
+    ],
+    "key_figure": {
+        "number": "1988",
+        "text": "Jeannine Perrin a intégré le club en 1988."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/montbeliard-le-14-06-18-les-90-ans-du-football-club-de-sochaux-montbeliard-fcsm-jeannine-perrin-la.jpg",
+            "caption": "Jeannine Perrin",
+            "credit": "L’est républicain",
+            "caption_raw": "Jeannine Perrin – L’est républicain"
+        },
+        {
+            "image": "2025/03/jeanine-perrin-la-nounou-1529081372.jpg",
+            "caption": "Jeannine Perrin",
+            "credit": "L’est républicain",
+            "caption_raw": "Jeannine Perrin – L’est républicain"
+        },
+        {
+            "image": "2025/03/jeannine-perrin-est-aux-petits-soins-de-la-lingerie-du-club-depuis-trente-ans-1487794002.jpg",
+            "caption": "Jeannine Perrin",
+            "credit": "L’est républicain",
+            "caption_raw": "Jeannine Perrin – L’est républicain"
+        },
+        {
+            "image": "2025/03/montbeliard-le-14-06-18-les-90-ans-du-football-club-de-sochaux-montbeliard-fcsm-jeannine-perri-1.jpg",
+            "caption": "Jeannine Perrin",
+            "credit": "L’est républicain",
+            "caption_raw": "Jeannine Perrin – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13152,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/jeannine-perrin/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/personnages-emblematiques-fc-sochaux-retro-fcsm/jeannine-perrin/",
+        "slug": "jeannine-perrin",
+        "seo_title": "Jeannine Perrin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jeannine Perrin</h2>\n<h4><strong>Lingère du club depuis 1988  </strong></h4>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1988</p>\n<p><strong>Départ de Sochaux : </strong></p>",
+        "header_lines": [
+            "Jeannine Perrin",
+            "Lingère du club depuis 1988",
+            "Arrivée à Sochaux : juillet 1988",
+            "Départ de Sochaux :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Jeannine",
+        "last_name": "Perrin",
+        "display_name": "Jeannine Perrin",
+        "nickname": "",
+        "subtitle": "Lingère du club depuis 1988",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1988-07",
+            "precision": "month",
+            "text": "juillet 1988"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jeannine Perrin"
+            },
+            {
+                "label": null,
+                "value": "Lingère du club depuis 1988"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1988"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

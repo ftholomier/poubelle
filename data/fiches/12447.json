@@ -1,0 +1,243 @@
+{
+    "id": 12447,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "varin",
+    "path": "/joueurs/varin/",
+    "title": "? Varin  (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-03T19:51:01",
+    "modified": "2025-11-12T13:40:49",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Varin a gardé les buts de Sochaux au cours d'un match amical en mai 1945."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12447,
+        "url": "https://www.fcsochauxretro.com/uncategorized/varin/",
+        "path": "/uncategorized/varin/",
+        "slug": "varin",
+        "seo_title": "? Varin (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Varin</h2>\n<h4><strong>Né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx  </strong></h4>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>A l'essai en : </strong>mai 1945 </p>\n<p><strong>Premier et dernier match amical joué :</strong> Porrentruy (Suisse) - Sochaux du 21/05/1945 : 2-2</p>",
+        "header_lines": [
+            "? Varin",
+            "Né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : gardien de but",
+            "A l'essai en : mai 1945",
+            "Premier et dernier match amical joué : Porrentruy (Suisse) - Sochaux du 21/05/1945 : 2-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Varin",
+        "display_name": "? Varin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1945-05",
+            "precision": "month",
+            "text": "mai 1945"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Varin"
+            },
+            {
+                "label": null,
+                "value": "Né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "mai 1945"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Porrentruy (Suisse) - Sochaux du 21/05/1945 : 2-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,250 @@
+{
+    "id": 8814,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "corentin-jean",
+    "path": "/joueurs/corentin-jean/",
+    "title": "Corentin Jean",
+    "categories": [
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/12/5-43.jpg",
+    "date": "2024-12-18T11:04:46",
+    "modified": "2025-07-16T22:20:36",
+    "author": "tanguy",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "27",
+        "text": "Corentin Jean a joué 27 matchs (3 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/corentin-jean-apres-dijon-fc-sochaux-a-11-contre-10-il-y-avait-moyen-de-mieux-faire-1734129960.jpg",
+            "caption": "Corentin Jean",
+            "credit": "L’est républicain",
+            "caption_raw": "Corentin Jean – L’est républicain"
+        },
+        {
+            "image": "2024/12/depuis-son-arrivee-corentin-jean-illustre-bien-ce-pragmatisme-sochalien-photo-lionel-vadam-1732390680.jpg",
+            "caption": "Corentin Jean",
+            "credit": "L’est républicain",
+            "caption_raw": "Corentin Jean – L’est républicain"
+        },
+        {
+            "image": "2024/12/7-1.jpg",
+            "caption": "Corentin Jean",
+            "credit": "L’est républicain",
+            "caption_raw": "Corentin Jean – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-43.jpg",
+            "caption": "Corentin Jean",
+            "credit": "L’est républicain",
+            "caption_raw": "Corentin Jean – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8814,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/corentin-jean/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/corentin-jean/",
+        "slug": "corentin-jean",
+        "seo_title": "Corentin Jean - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Corentin Jean</h2>\n<h4><strong>né le 15 juillet 1995 à Blois (41)</strong></h4>\n<p><strong>Taille : </strong>1m70</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>International français U16, U17, U18, U19, U20 et espoir (35 sélections, 5 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2024</p>\n<p><strong>Premier match joué :</strong> Aubagne - Sochaux du 20/09/2024 : 0-1</p>\n<p><strong>Dernier match joué : </strong>QRM - Sochaux du 16/05/2025 : 1-0</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Valenciennes du 18/10/2024 : 2-0 - But à la 90+4'</p>",
+        "header_lines": [
+            "Corentin Jean",
+            "né le 15 juillet 1995 à Blois (41)",
+            "Taille : 1m70",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International français U16, U17, U18, U19, U20 et espoir (35 sélections, 5 buts)",
+            "Arrivée à Sochaux : aout 2024",
+            "Premier match joué : Aubagne - Sochaux du 20/09/2024 : 0-1",
+            "Dernier match joué : QRM - Sochaux du 16/05/2025 : 1-0",
+            "Premier but marqué : Sochaux - Valenciennes du 18/10/2024 : 2-0 - But à la 90+4'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Corentin",
+        "last_name": "Jean",
+        "display_name": "Corentin Jean",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1995-07-15",
+                "precision": "day",
+                "text": "15 juillet 1995"
+            },
+            "place": {
+                "text": "Blois (41)",
+                "city": "Blois",
+                "department": "41",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 juillet 1995 à Blois (41)"
+        },
+        "death": null,
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U16, U17, U18, U19, U20 et espoir (35 sélections, 5 buts)"
+        ],
+        "arrival": {
+            "iso": "2024-08",
+            "precision": "month",
+            "text": "aout 2024"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Aubagne - Sochaux du 20/09/2024 : 0-1",
+        "last_match": "QRM - Sochaux du 16/05/2025 : 1-0",
+        "first_goal": "Sochaux - Valenciennes du 18/10/2024 : 2-0 - But à la 90+4'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Corentin Jean"
+            },
+            {
+                "label": null,
+                "value": "né le 15 juillet 1995 à Blois (41)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français U16, U17, U18, U19, U20 et espoir (35 sélections, 5 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2024"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Aubagne - Sochaux du 20/09/2024 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "QRM - Sochaux du 16/05/2025 : 1-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Valenciennes du 18/10/2024 : 2-0 - But à la 90+4'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1938-1939",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "1945-1946",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "Total",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            ],
+            "source_table": 231
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

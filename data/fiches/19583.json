@@ -1,0 +1,120 @@
+{
+    "id": 19583,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "georges-menegaux",
+    "path": "/personnages-emblematiques/georges-menegaux/",
+    "title": "Georges Ménégaux (fils)",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/georges-menegaux-president-des-anciens-joueurs-du-fc-sochaux-en-juin-2018-annee-des-90-ans-du-club-photo-d-archives-lionel-vadam-1765915035.jpg",
+    "date": "2025-12-18T17:45:49",
+    "modified": "2025-12-18T18:00:01",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Georges Ménégaux, alias \"Jojo\" pour les intimes, est le fils de... Georges Ménégaux l'homme à tout faire du staff sochalien chargé notamment des soins et de la préparation physique de l'équipe professionnelle à partir des années 30. Logiquement, il grandit donc dans l'univers du ballon rond autour du stade Bonal. </li>\n<li>Passionné par le club il jouera au football mais ne fera pas de carrière professionnelle. </li>\n<li>En 1988, il décide pur les 60 ans du club, de créer la première association des anciens joueurs du FC Sochaux-Montbéliard. </li>\n<li>En 1998, les relations avec le Président Daget se tendent et ce dernier veut créer une autre association des anciens joueurs. Mais il reste à la tête et poursuit son engagement jusqu'en 2025 à la date de son décès à l'âge de 91 ans.</li>\n<li>L'association des anciens joueurs sera la première de ce type homologuée par la ligue de football professionnelle et fera des émules dans d'autres clubs. Sochaux encore une fois club pionnier et dans ce domaine précis grâce à Georges Ménégaux.  </li>\n<li>Figure bien connu des travées de Bonal et du Pays de Montbéliard, il aura notamment participé à tous les anniversaires du club. </li>\n<li>Il décède le 15 décembre 2025 et le club lui rend hommage : <a href=\"https://www.fcsochaux.fr/actualites/carnet-noir/disparition-de-georges-menegaux\">https://www.fcsochaux.fr/actualites/carnet-noir/disparition-de-georges-menegaux</a></li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1988",
+        "text": "En 1988, Georges Ménégaux décide de créer la première association des anciens joueurs du FC Sochaux-Montbéliard. Elle sera la première association de ce type homologuée par la Ligue de football professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2025/12/georges-menegaux-president-des-anciens-joueurs-du-fc-sochaux-en-juin-2018-annee-des-90-ans-du-club-photo-d-archives-lionel-vadam-1765915035.jpg",
+            "caption": "Georges Menegaux – L’est républicain",
+            "credit": "Lionel Vadam",
+            "caption_raw": "Georges Menegaux – L’est républicain – Lionel Vadam"
+        },
+        {
+            "image": "2025/12/georges-menegaux-president-des-anciens-joueurs-du-fc-sochaux-en-juin-2018-photo-lionel-vadam-1765915035.jpg",
+            "caption": "Georges Menegaux – L’est républicain",
+            "credit": "Lionel Vadam",
+            "caption_raw": "Georges Menegaux – L’est républicain – Lionel Vadam"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19583,
+        "url": "https://www.fcsochauxretro.com/a-la-une/georges-menegaux-fils/",
+        "path": "/a-la-une/georges-menegaux-fils/",
+        "slug": "georges-menegaux-fils",
+        "seo_title": "Georges Ménégaux (fils) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Georges Ménégaux </h2>\n<h4><strong>Créateur et Président de l'association des anciens joueurs du FC Sochaux-Montbéliard de 1988 à 2025.   </strong></h4>",
+        "header_lines": [
+            "Georges Ménégaux",
+            "Créateur et Président de l'association des anciens joueurs du FC Sochaux-Montbéliard de 1988 à 2025."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Georges",
+        "last_name": "Ménégaux",
+        "display_name": "Georges Ménégaux",
+        "nickname": "",
+        "subtitle": "Créateur et Président de l'association des anciens joueurs du FC Sochaux-Montbéliard de 1988 à 2025.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Georges Ménégaux"
+            },
+            {
+                "label": null,
+                "value": "Créateur et Président de l'association des anciens joueurs du FC Sochaux-Montbéliard de 1988 à 2025."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

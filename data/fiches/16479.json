@@ -1,0 +1,260 @@
+{
+    "id": 16479,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-vernay",
+    "path": "/joueurs/jean-vernay/",
+    "title": "Jean Vernay",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/173530.jpg",
+    "date": "2025-09-10T10:04:15",
+    "modified": "2025-09-10T10:38:10",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Jean Vernay a disputé 2 matchs en deux saisons avec Sochaux de 1932 à 1934."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/173530.jpg",
+            "caption": "Jean Vernay",
+            "credit": "Football database",
+            "caption_raw": "Jean Vernay – Football database"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16479,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jean-vernay/",
+        "path": "/a-la-une/jean-vernay/",
+        "slug": "jean-vernay",
+        "seo_title": "Jean Vernay - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean Vernay</h2>\n<h4><strong>Né le 15 avril 1915 à Saint-Germain-le-Châtelet (90)</strong></h4>\n<h4><strong>Décédé le 3 février 1996 à Bavilliers (90)  </strong></h4>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1932 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1934</p>\n<p><strong>Premier match joué :</strong> Sochaux - Antibes du 15/01/1933 : 1-3</p>\n<p><strong>Dernier match joué :</strong> Sochaux - CA Paris du 11/02/1934 : 2-3</p>",
+        "header_lines": [
+            "Jean Vernay",
+            "Né le 15 avril 1915 à Saint-Germain-le-Châtelet (90)",
+            "Décédé le 3 février 1996 à Bavilliers (90)",
+            "Arrivée à Sochaux : juillet 1932",
+            "Départ de Sochaux : juin 1934",
+            "Premier match joué : Sochaux - Antibes du 15/01/1933 : 1-3",
+            "Dernier match joué : Sochaux - CA Paris du 11/02/1934 : 2-3"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean",
+        "last_name": "Vernay",
+        "display_name": "Jean Vernay",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1915-04-15",
+                "precision": "day",
+                "text": "15 avril 1915"
+            },
+            "place": {
+                "text": "Saint-Germain-le-Châtelet (90)",
+                "city": "Saint-Germain-le-Châtelet",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 15 avril 1915 à Saint-Germain-le-Châtelet (90)"
+        },
+        "death": {
+            "date": {
+                "iso": "1996-02-03",
+                "precision": "day",
+                "text": "3 février 1996"
+            },
+            "place": {
+                "text": "Bavilliers (90)",
+                "city": "Bavilliers",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 3 février 1996 à Bavilliers (90)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1932-07",
+            "precision": "month",
+            "text": "juillet 1932"
+        },
+        "departure": {
+            "iso": "1934-06",
+            "precision": "month",
+            "text": "juin 1934"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Antibes du 15/01/1933 : 1-3",
+        "last_match": "Sochaux - CA Paris du 11/02/1934 : 2-3",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean Vernay"
+            },
+            {
+                "label": null,
+                "value": "Né le 15 avril 1915 à Saint-Germain-le-Châtelet (90)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 3 février 1996 à Bavilliers (90)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1932"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1934"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Antibes du 15/01/1933 : 1-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - CA Paris du 11/02/1934 : 2-3"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2023-2024",
+                    "",
+                    "",
+                    "29",
+                    "3",
+                    "6",
+                    "1",
+                    "35",
+                    "4"
+                ],
+                [
+                    "2022-2023",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "2",
+                    "0"
+                ],
+                [
+                    "2021-2022",
+                    "2",
+                    "0",
+                    "",
+                    "",
+                    "3",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2020-2021",
+                    "1",
+                    "0",
+                    "",
+                    "",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "29",
+                    "3",
+                    "9",
+                    "1",
+                    "43",
+                    "4"
+                ]
+            ],
+            "source_table": 355
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

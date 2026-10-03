@@ -1,0 +1,496 @@
+{
+    "id": 16809,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-dijon-amical-16-07-2016",
+    "path": "/matchs/2016-2017/sochaux-dijon-amical-16-07-2016/",
+    "title": "Amical – Sochaux (L2) / Dijon (L1) – 16/07/2016 – 2-0",
+    "categories": [
+        "2016-2017",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/33-1.jpg",
+    "date": "2026-06-14T13:31:35",
+    "modified": "2026-07-23T08:28:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Sochaux remporte le Challenge Lotto pour la deuxième fois."
+    },
+    "gallery": [
+        {
+            "image": "2025/12/06.jpg",
+            "caption": "Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/Sao-DFCO.jpg",
+            "caption": "Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/32.jpg",
+            "caption": "Ramaré soulève la coupe – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Ramaré soulève la coupe – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/31.jpg",
+            "caption": "Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/25.jpg",
+            "caption": "Sochaux-Dijon – Tardieu – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon – Tardieu – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/24.jpg",
+            "caption": "Andriatsima – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Andriatsima – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/20.jpg",
+            "caption": "Alphonse – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Alphonse – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/17.jpg",
+            "caption": "Alphonse – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Alphonse – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/15.jpg",
+            "caption": "Werner – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Werner – Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/13-1.jpg",
+            "caption": "Sochaux-Dijon – Andriatsima au pressing – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon – Andriatsima au pressing – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/09.jpg",
+            "caption": "Sochaux-Dijon – Sao – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon – Sao – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/07.jpg",
+            "caption": "Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        },
+        {
+            "image": "2025/12/33-1.jpg",
+            "caption": "Sochaux-Dijon – Olivier Werner avec le trophée – Challenge Lotto – Pré-saison 2016/2017",
+            "credit": "FCSM",
+            "caption_raw": "Sochaux-Dijon – Olivier Werner avec le trophée – Challenge Lotto – Pré-saison 2016/2017 – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16809,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l2-dijon-l1-16-07-2016-2-0/",
+        "path": "/a-la-une/amical-sochaux-l2-dijon-l1-16-07-2016-2-0/",
+        "slug": "amical-sochaux-l2-dijon-l1-16-07-2016-2-0",
+        "seo_title": "Amical - Sochaux (L2) / Dijon (L1) - 16/07/2016 - 2-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (L2) / Dijon (L2): 2-0</strong><strong><br></strong></h2>\n<h4><strong>Match amical<br></strong></h4>\n<h4><strong>Samedi 16 juillet 2016</strong></h4>\n<h4><strong>Stade Léo Lagrange à Besançon (25)<br></strong></h4>\n<h4><strong>1 500 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Schneider<br></strong></h4>\n<p>Buts : Sao 65' et Andriatsima 68' pour Sochaux</p>",
+        "header_lines": [
+            "Sochaux (L2) / Dijon (L2): 2-0",
+            "Match amical",
+            "Samedi 16 juillet 2016",
+            "Stade Léo Lagrange à Besançon (25)",
+            "1 500 spectateurs",
+            "Arbitre : M. Schneider",
+            "Buts : Sao 65' et Andriatsima 68' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2016-07-16",
+        "date_text": "Samedi 16 juillet 2016",
+        "season": "2016-2017",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "away": {
+            "name": "Dijon",
+            "level": "L1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-0",
+        "score_line": "Sochaux (L2) / Dijon (L2): 2-0",
+        "result": "V",
+        "stadium": "Stade Léo Lagrange à Besançon (25)",
+        "spectators": 1500,
+        "spectators_text": "1 500 spectateurs",
+        "referee": "M. Schneider",
+        "goals_text": "Sao 65' et Andriatsima 68' pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Sao 65' et Andriatsima 68'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "WERNER Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OGIER Florent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "TEIKEU Adolphe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "ALPHONSE Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "87",
+                    "sub_text": "↓ 87'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "RAMARE Johann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HONORAT Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "26",
+                    "sub_text": "↓ 26'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SAO Moussa",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "65"
+                    ],
+                    "goals_text": "⚽ 65'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ANDRIATSIMA Faneva",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "68"
+                    ],
+                    "goals_text": "⚽ 68'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DILO Christopher",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ILAIMAHARITRA Marco",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SENHADJI Rayan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "87",
+                    "sub_out": null,
+                    "sub_text": "↑ 87'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "KARANOVIC Goran",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "26",
+                    "sub_out": null,
+                    "sub_text": "↑ 26'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "CARTIER Albert",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1921
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

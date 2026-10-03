@@ -1,0 +1,258 @@
+{
+    "id": 8861,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "famara-diedhiou",
+    "path": "/joueurs/famara-diedhiou/",
+    "title": "Famara Diédhiou",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/telechargement-12.jpg",
+    "date": "2024-12-14T16:28:49",
+    "modified": "2026-02-22T18:15:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "16",
+        "text": "Famara Diedhiou a joué 16 matchs (3 buts) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/famara-diedhiou-alors-qu-il-portait-les-couleurs-du-fc-sochaux-photo-d-archives-er-christian-lemontey-1595152979.jpg",
+            "caption": "Famara Diedhiou",
+            "credit": "L’est républicain",
+            "caption_raw": "Famara Diedhiou – L’est républicain"
+        },
+        {
+            "image": "2024/12/B81RI09CQAII3WQ.jpg",
+            "caption": "Famara Diedhiou",
+            "credit": "L’est républicain",
+            "caption_raw": "Famara Diedhiou – L’est républicain"
+        },
+        {
+            "image": "2024/12/equipe-du-senegal-famara-diedhiou-en-contrat-avec-sochaux-de-2011-a-2016-il-a-surtout-ete-prete-a-de-nombreux-clubs-dont-clermont-photo-er-lionel-vadam-1669197290.jpg",
+            "caption": "Famara Diedhiou",
+            "credit": "L’est républicain",
+            "caption_raw": "Famara Diedhiou – L’est républicain"
+        },
+        {
+            "image": "2024/12/famara-diedhiou-a-profite-du-temps-de-jeu-donne-a-limonest-pour-retrouver-le-chemin-des-filets-photo-christian-lemontey-1416247668.jpg",
+            "caption": "Famara Diedhiou",
+            "credit": "L’est républicain",
+            "caption_raw": "Famara Diedhiou – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8861,
+        "url": "https://www.fcsochauxretro.com/a-la-une/famara-diedhiou/",
+        "path": "/a-la-une/famara-diedhiou/",
+        "slug": "famara-diedhiou",
+        "seo_title": "Famara Diédhiou - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Famara Diedhiou</h2>\n<h4><strong>né le 15 décembre 1992 à Saint-Louis (Sénégal)</strong></h4>\n<p><strong>Taille :</strong> 1m92</p>\n<p><strong>Poids :</strong> 80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> attaquant</p>\n<p><strong>International sénégalais (26 sélections, 11 buts) </strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 2011</p>\n<p><strong>Départ de Sochaux :</strong> juin 2015</p>\n<p><strong>Premier match joué :</strong> Sochaux - Orléans du 02/08/2014 : 0-1</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Nancy du 29/05/1999 : 1-1 </p>\n<p><strong>Premier but marqué :</strong> Arles-Avignon - Sochaux du 22/08/2014 : 2-2 - But à la 85'</p>",
+        "header_lines": [
+            "Famara Diedhiou",
+            "né le 15 décembre 1992 à Saint-Louis (Sénégal)",
+            "Taille : 1m92",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International sénégalais (26 sélections, 11 buts)",
+            "Arrivée à Sochaux : juillet 2011",
+            "Départ de Sochaux : juin 2015",
+            "Premier match joué : Sochaux - Orléans du 02/08/2014 : 0-1",
+            "Dernier match joué : Sochaux - Nancy du 29/05/1999 : 1-1",
+            "Premier but marqué : Arles-Avignon - Sochaux du 22/08/2014 : 2-2 - But à la 85'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Famara",
+        "last_name": "Diedhiou",
+        "display_name": "Famara Diedhiou",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1992-12-15",
+                "precision": "day",
+                "text": "15 décembre 1992"
+            },
+            "place": {
+                "text": "Saint-Louis (Sénégal)",
+                "city": "Saint-Louis",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 15 décembre 1992 à Saint-Louis (Sénégal)"
+        },
+        "death": null,
+        "height": "1m92",
+        "height_cm": 192,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International sénégalais (26 sélections, 11 buts)"
+        ],
+        "arrival": {
+            "iso": "2011-07",
+            "precision": "month",
+            "text": "juillet 2011"
+        },
+        "departure": {
+            "iso": "2015-06",
+            "precision": "month",
+            "text": "juin 2015"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Orléans du 02/08/2014 : 0-1",
+        "last_match": "Sochaux - Nancy du 29/05/1999 : 1-1",
+        "first_goal": "Arles-Avignon - Sochaux du 22/08/2014 : 2-2 - But à la 85'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Famara Diedhiou"
+            },
+            {
+                "label": null,
+                "value": "né le 15 décembre 1992 à Saint-Louis (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m92"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International sénégalais (26 sélections, 11 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2011"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2015"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Orléans du 02/08/2014 : 0-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Nancy du 29/05/1999 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Arles-Avignon - Sochaux du 22/08/2014 : 2-2 - But à la 85'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2014 - 2015",
+                    "13",
+                    "1",
+                    "2",
+                    "2",
+                    "1",
+                    "0",
+                    "16",
+                    "3"
+                ],
+                [
+                    "TOTAL",
+                    "13",
+                    "1",
+                    "2",
+                    "2",
+                    "1",
+                    "0",
+                    "16",
+                    "3"
+                ]
+            ],
+            "source_table": 981
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

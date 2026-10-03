@@ -1,0 +1,258 @@
+{
+    "id": 7842,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "wladislaw-gutowski",
+    "path": "/joueurs/wladislaw-gutowski/",
+    "title": "Wladislaw Gutowski",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/guttowski_ugocapeto.jpg",
+    "date": "2024-11-26T12:45:57",
+    "modified": "2025-11-17T03:52:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Wladislaw Gutowski a joué 2 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/guttowski_ugocapeto.jpg",
+            "caption": "Wladislaw Gutowski – sco1919.com",
+            "credit": "ugocapeto -L’equipe",
+            "caption_raw": "Wladislaw Gutowski – sco1919.com – ugocapeto -L’equipe"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7842,
+        "url": "https://www.fcsochauxretro.com/a-la-une/wladislaw-gutowski/",
+        "path": "/a-la-une/wladislaw-gutowski/",
+        "slug": "wladislaw-gutowski",
+        "seo_title": "Wladislaw Gutowski - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Wladislaw Gutowski</h2>\n<h4><strong>né le 16 mai 1932 à Gueugnon (71)</strong></h4>\n<h4><strong>Décédé le 26 février 2024 à La Roche-sur-Yon (85)</strong></h4>\n<p><strong>Taille : </strong>1m74</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1951</p>\n<p><strong>Départ de Sochaux : </strong>juin 1953</p>\n<p><strong>Premier match joué</strong> : Sochaux - Bordeaux du 14/02/1952 : 0-2</p>\n<p><strong>Dernier match joué :</strong> RC Paris - Sochaux du 30/03/1952 : 0-4</p>",
+        "header_lines": [
+            "Wladislaw Gutowski",
+            "né le 16 mai 1932 à Gueugnon (71)",
+            "Décédé le 26 février 2024 à La Roche-sur-Yon (85)",
+            "Taille : 1m74",
+            "Poids : 78 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1951",
+            "Départ de Sochaux : juin 1953",
+            "Premier match joué : Sochaux - Bordeaux du 14/02/1952 : 0-2",
+            "Dernier match joué : RC Paris - Sochaux du 30/03/1952 : 0-4"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Wladislaw",
+        "last_name": "Gutowski",
+        "display_name": "Wladislaw Gutowski",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1932-05-16",
+                "precision": "day",
+                "text": "16 mai 1932"
+            },
+            "place": {
+                "text": "Gueugnon (71)",
+                "city": "Gueugnon",
+                "department": "71",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 16 mai 1932 à Gueugnon (71)"
+        },
+        "death": {
+            "date": {
+                "iso": "2024-02-26",
+                "precision": "day",
+                "text": "26 février 2024"
+            },
+            "place": {
+                "text": "La Roche-sur-Yon (85)",
+                "city": "La Roche-sur-Yon",
+                "department": "85",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 26 février 2024 à La Roche-sur-Yon (85)"
+        },
+        "height": "1m74",
+        "height_cm": 174,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1951-07",
+            "precision": "month",
+            "text": "juillet 1951"
+        },
+        "departure": {
+            "iso": "1953-06",
+            "precision": "month",
+            "text": "juin 1953"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Bordeaux du 14/02/1952 : 0-2",
+        "last_match": "RC Paris - Sochaux du 30/03/1952 : 0-4",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Wladislaw Gutowski"
+            },
+            {
+                "label": null,
+                "value": "né le 16 mai 1932 à Gueugnon (71)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 26 février 2024 à La Roche-sur-Yon (85)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m74"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1951"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1953"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Bordeaux du 14/02/1952 : 0-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "RC Paris - Sochaux du 30/03/1952 : 0-4"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

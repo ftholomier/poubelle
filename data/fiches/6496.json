@@ -1,0 +1,208 @@
+{
+    "id": 6496,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "francis-blanc",
+    "path": "/joueurs/francis-blanc/",
+    "title": "Francis Blanc",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Francis-Blanc-FFF-scaled.jpg",
+    "date": "2024-11-07T20:05:03",
+    "modified": "2026-02-01T17:12:24",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "8",
+        "text": "Francis Blanc a joué 8 matchs pour Sochaux."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6496,
+        "url": "https://www.fcsochauxretro.com/a-la-une/francis-blanc/",
+        "path": "/a-la-une/francis-blanc/",
+        "slug": "francis-blanc",
+        "seo_title": "Francis Blanc - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Francis Blanc</strong></h2>\n<h4><strong>né le 8 avril 1941 à La Crau (83)  </strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1969</p>\n<p><strong>Départ de Sochaux : </strong>juin 1970</p>\n<p><strong>Premier match joué :</strong> Marseille - Sochaux du 05/08/1969 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Bordeaux - Sochaux du 24/09/1969 : 3-0</p>",
+        "header_lines": [
+            "Francis Blanc",
+            "né le 8 avril 1941 à La Crau (83)",
+            "Taille : 1m76",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1969",
+            "Départ de Sochaux : juin 1970",
+            "Premier match joué : Marseille - Sochaux du 05/08/1969 : 0-0",
+            "Dernier match joué : Bordeaux - Sochaux du 24/09/1969 : 3-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Francis",
+        "last_name": "Blanc",
+        "display_name": "Francis Blanc",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1941-04-08",
+                "precision": "day",
+                "text": "8 avril 1941"
+            },
+            "place": {
+                "text": "La Crau (83)",
+                "city": "La Crau",
+                "department": "83",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 8 avril 1941 à La Crau (83)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1969-07",
+            "precision": "month",
+            "text": "juillet 1969"
+        },
+        "departure": {
+            "iso": "1970-06",
+            "precision": "month",
+            "text": "juin 1970"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Marseille - Sochaux du 05/08/1969 : 0-0",
+        "last_match": "Bordeaux - Sochaux du 24/09/1969 : 3-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Francis Blanc"
+            },
+            {
+                "label": null,
+                "value": "né le 8 avril 1941 à La Crau (83)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1969"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1970"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Marseille - Sochaux du 05/08/1969 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Bordeaux - Sochaux du 24/09/1969 : 3-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1969 - 1970",
+                    "8",
+                    "0",
+                    "8",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "8",
+                    "0",
+                    "8",
+                    "0"
+                ]
+            ],
+            "source_table": 825
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

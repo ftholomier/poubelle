@@ -1,0 +1,419 @@
+{
+    "id": 19539,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "raja-casablanca-sochaux-amical-14-01-1989",
+    "path": "/matchs/1988-1989/raja-casablanca-sochaux-amical-14-01-1989/",
+    "title": "Amical – Raja Casablanca (D1 Maroc) / Sochaux (D1) – 14/01/1989 – 0-3",
+    "categories": [
+        "1988-1989",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/12/1988-89sochauxRajaTHOMASpt-f.jpg",
+    "date": "2025-12-10T20:55:46",
+    "modified": "2026-01-07T20:27:11",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A la trêve Sochaux est 4e de division 1 avec 42 points à 8 points du leader le PSG que le FCSM recevra pour la reprise du championnat début février. </li>\n<li>Après une reprise à Montbéliard, les Sochaliens ont mis le cap sur le Maroc pour effectuer un stage de préparation de 10 jours. </li>\n<li>Les Sochaliens sont installés au Méridien Riad Salam. </li>\n<li>18 joueurs sont en stage dont deux gardiens. </li>\n<li>Dufournet et Dobraje sont restés à Montbéliard pour se préparer avec la division 3. </li>\n<li>Deux séances sont au programme pendant le stage : travail foncier sur la plage le matin et travail tactique et technique l'après midi. </li>\n<li>Pour clôturer ce stage, le FCSM dispute le tournoi de Casablanca avec le CLAS de Casablanca, actuel leader du championnat, le Raja Casablanca, champion du Maroc en titre, et le Kawkah de Marrakech, détenteur de la coupe du Trône. </li>\n<li>Souffrant d'une entorse du genou, Bricon est au repos forcé. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>Pas de résumé de la rencontre disponible. </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>Pas de réactions pour ce match. </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Blessés, Hadzibegic et Bricon sont restés au repos pour cette rencontre. </li>\n<li>Dans l'autre match du tournoi, c'est le CLAS qui s'est imposé et qui affrontera le FCSM en finale. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "première participation du FCSM au tournoi de Casablanca"
+    },
+    "gallery": [
+        {
+            "image": "2025/12/1988-89sochauxRajaTHOMASpt-f.jpg",
+            "caption": "Thomas",
+            "credit": "France Football",
+            "caption_raw": "Thomas – France Football"
+        },
+        {
+            "image": "2025/12/7157b6d7-21f2-482f-9439-4a23cb59b0e7.jpg",
+            "caption": "Paille",
+            "credit": "France Football",
+            "caption_raw": "Paille – France Football"
+        },
+        {
+            "image": "2025/12/Tournoi-de-Cassablanca-FF.png",
+            "caption": "Tournoi de Cassablanca",
+            "credit": "FF",
+            "caption_raw": "Tournoi de Cassablanca – FF"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19539,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-raja-casablanca-d1-maroc-sochaux-d1-14-01-1989-0-3/",
+        "path": "/a-la-une/amical-raja-casablanca-d1-maroc-sochaux-d1-14-01-1989-0-3/",
+        "slug": "amical-raja-casablanca-d1-maroc-sochaux-d1-14-01-1989-0-3",
+        "seo_title": "Amical - Raja Casablanca (D1 Maroc) / Sochaux (D1) - 14/01/1989 - 0-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Raja Casablanca (D1 Mar) / Sochaux (D1) : 0-3</strong></h2>\n<h4><strong>Demi-finale du tournoi de Casablanca</strong></h4>\n<h4><strong>Samedi 14 janvier 1989</strong></h4>\n<h4><strong>Stade Mohamed V</strong></h4>\n<h4><strong>10 000 spectateurs</strong></h4>\n<h4><strong>Arbitrage : ?</strong></h4>\n<p>Buts : Zerraf 30' (CSC),  Paille 65', Madar 75' pour Sochaux. </p>",
+        "header_lines": [
+            "Raja Casablanca (D1 Mar) / Sochaux (D1) : 0-3",
+            "Demi-finale du tournoi de Casablanca",
+            "Samedi 14 janvier 1989",
+            "Stade Mohamed V",
+            "10 000 spectateurs",
+            "Arbitrage : ?",
+            "Buts : Zerraf 30' (CSC), Paille 65', Madar 75' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1989-01-14",
+        "date_text": "Samedi 14 janvier 1989",
+        "season": "1988-1989",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Demi-finale du tournoi de Casablanca",
+        "home": {
+            "name": "Raja Casablanca",
+            "level": "D1 Maroc"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-3",
+        "score_line": "Raja Casablanca (D1 Mar) / Sochaux (D1) : 0-3",
+        "result": "V",
+        "stadium": "Stade Mohamed V",
+        "spectators": 10000,
+        "spectators_text": "10 000 spectateurs",
+        "referee": "?",
+        "goals_text": "Zerraf 30' (CSC), Paille 65', Madar 75' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Zerraf 30' (CSC), Paille 65', Madar 75'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Pas de réactions pour ce match."
+            }
+        ],
+        "breves": [
+            "Blessés, Hadzibegic et Bricon sont restés au repos pour cette rencontre.",
+            "Dans l'autre match du tournoi, c'est le CLAS qui s'est imposé et qui affrontera le FCSM en finale."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "TIHY Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "76",
+                    "sub_text": "Sortie 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LAUREY Thierry",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "76",
+                    "sub_text": "Sortie 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LADA Eric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "Sortie 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "65"
+                    ],
+                    "goals_text": "65'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FROTEY Jean Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "76",
+                    "sub_out": null,
+                    "sub_text": "Entrée 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MADAR Mickael",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "75"
+                    ],
+                    "goals_text": "75'",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "Entrée 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ROBIN Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "76",
+                    "sub_out": null,
+                    "sub_text": "Entrée 76'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FERRAND Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1639
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

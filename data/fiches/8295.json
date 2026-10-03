@@ -1,0 +1,252 @@
+{
+    "id": 8295,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "araujo-ilan",
+    "path": "/joueurs/araujo-ilan/",
+    "title": "Araujo Ilan",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-9.jpg",
+    "date": "2024-12-13T09:50:58",
+    "modified": "2024-12-13T14:47:27",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "65",
+        "text": "Ilan a joué 65 matchs (29 buts et 5 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/16053005305910883514269681.jpg",
+            "caption": "Ilan",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Ilan – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2024/12/saison-2004-2005-27e-journee-de-ligue-1-16-mars-2005-fc-sochaux-fc-metz-2-1-buts-pour-sochaux-ilan-12e-sp-caillet-60e-csc-pour-metz-proment-17e-le-desarroi-messin-apr.jpg",
+            "caption": "Ilan",
+            "credit": "L’est républicain",
+            "caption_raw": "Ilan – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-9.jpg",
+            "caption": "Ilan",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Ilan – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8295,
+        "url": "https://www.fcsochauxretro.com/a-la-une/araujo-ilan/",
+        "path": "/a-la-une/araujo-ilan/",
+        "slug": "araujo-ilan",
+        "seo_title": "Araujo Ilan - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ilan Araujo D'all'Igna</h2>\n<h4><strong>né le 18 septembre 1980 à Curitiba (Brésil)</strong></h4>\n<p><strong>Taille : </strong>1m81</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant<strong><br></strong></p>\n<p><strong>International brésilien (3 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2004</p>\n<p><strong>Départ de Sochaux : </strong>juin 2005</p>\n<p><strong>Premier match joué :</strong> Sochaux - Auxerre du 21/08/2004 : 1-2</p>\n<p><strong>Dernier match joué :</strong> Toulouse - Sochaux du 13/05/2006 : 1-2</p>\n<p><strong>Premier but marqué :</strong> Sochaux - IF Stabaeck (Norvège) du 16/09/2004 : 4-0 - But à la 69'</p>",
+        "header_lines": [
+            "Ilan Araujo D'all'Igna",
+            "né le 18 septembre 1980 à Curitiba (Brésil)",
+            "Taille : 1m81",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International brésilien (3 sélections)",
+            "Arrivée à Sochaux : juillet 2004",
+            "Départ de Sochaux : juin 2005",
+            "Premier match joué : Sochaux - Auxerre du 21/08/2004 : 1-2",
+            "Dernier match joué : Toulouse - Sochaux du 13/05/2006 : 1-2",
+            "Premier but marqué : Sochaux - IF Stabaeck (Norvège) du 16/09/2004 : 4-0 - But à la 69'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Araujo",
+        "last_name": "Ilan",
+        "display_name": "Araujo Ilan",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1980-09-18",
+                "precision": "day",
+                "text": "18 septembre 1980"
+            },
+            "place": {
+                "text": "Curitiba (Brésil)",
+                "city": "Curitiba",
+                "department": null,
+                "country": "Brésil",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 18 septembre 1980 à Curitiba (Brésil)"
+        },
+        "death": null,
+        "height": "1m81",
+        "height_cm": 181,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International brésilien (3 sélections)"
+        ],
+        "arrival": {
+            "iso": "2004-07",
+            "precision": "month",
+            "text": "juillet 2004"
+        },
+        "departure": {
+            "iso": "2005-06",
+            "precision": "month",
+            "text": "juin 2005"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Auxerre du 21/08/2004 : 1-2",
+        "last_match": "Toulouse - Sochaux du 13/05/2006 : 1-2",
+        "first_goal": "Sochaux - IF Stabaeck (Norvège) du 16/09/2004 : 4-0 - But à la 69'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ilan Araujo D'all'Igna"
+            },
+            {
+                "label": null,
+                "value": "né le 18 septembre 1980 à Curitiba (Brésil)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m81"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International brésilien (3 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2004"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2005"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Auxerre du 21/08/2004 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Toulouse - Sochaux du 13/05/2006 : 1-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - IF Stabaeck (Norvège) du 16/09/2004 : 4-0 - But à la 69'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1994-1995",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "29",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "30",
+                    "0"
+                ]
+            ],
+            "source_table": 433
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

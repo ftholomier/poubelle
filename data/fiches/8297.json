@@ -1,0 +1,187 @@
+{
+    "id": 8297,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alexandre-issanga",
+    "path": "/joueurs/alexandre-issanga/",
+    "title": "Alexandre Issanga",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/Alexandre-Issanga-1.jpg",
+    "date": "2024-12-13T10:52:02",
+    "modified": "2024-12-13T11:11:55",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Alexandre Issanga est resté 2 saisons au centre de formation de Sochaux mais n'a joué aucun match pour l'équipe première."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/Alexandre-Issanga-1.jpg",
+            "caption": "Alexandre Issanga",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Alexandre Issanga – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8297,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alexandre-issanga/",
+        "path": "/a-la-une/alexandre-issanga/",
+        "slug": "alexandre-issanga",
+        "seo_title": "Alexandre Issanga - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alexandre Issanga</h2>\n<h4><strong>né le 25 janvier 2007 à Orsay (91)</strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong>xx kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif<strong><br></strong></p>\n<p><strong>International français U16 (2 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2022</p>\n<p><strong>Départ de Sochaux : </strong>juin 2024</p>",
+        "header_lines": [
+            "Alexandre Issanga",
+            "né le 25 janvier 2007 à Orsay (91)",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "International français U16 (2 sélections)",
+            "Arrivée à Sochaux : juillet 2022",
+            "Départ de Sochaux : juin 2024"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alexandre",
+        "last_name": "Issanga",
+        "display_name": "Alexandre Issanga",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2007-01-25",
+                "precision": "day",
+                "text": "25 janvier 2007"
+            },
+            "place": {
+                "text": "Orsay (91)",
+                "city": "Orsay",
+                "department": "91",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 janvier 2007 à Orsay (91)"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français U16 (2 sélections)"
+        ],
+        "arrival": {
+            "iso": "2022-07",
+            "precision": "month",
+            "text": "juillet 2022"
+        },
+        "departure": {
+            "iso": "2024-06",
+            "precision": "month",
+            "text": "juin 2024"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alexandre Issanga"
+            },
+            {
+                "label": null,
+                "value": "né le 25 janvier 2007 à Orsay (91)"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": null,
+                "value": "International français U16 (2 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2022"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2024"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

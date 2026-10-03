@@ -1,0 +1,252 @@
+{
+    "id": 9975,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "thomas-toure",
+    "path": "/joueurs/thomas-toure/",
+    "title": "Thomas Touré",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-111.jpg",
+    "date": "2025-01-02T17:15:06",
+    "modified": "2025-01-02T17:27:06",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>.</p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "23",
+        "text": "Thomas Touré a joué 23 matchs (2 buts et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/thomas-toure-veut-renouer-avec-la-victoire-ce-vendredi-face-a-grenoble-photo-er-christian-lemontey-1576175788.jpg",
+            "caption": "Thomas Touré",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Touré – L’est républicain"
+        },
+        {
+            "image": "2025/01/1200x680_maxsportsworldtwo773163.jpg",
+            "caption": "Thomas Touré",
+            "credit": "L’est républicain",
+            "caption_raw": "Thomas Touré – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-111.jpg",
+            "caption": "Thomas Touré",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Thomas Touré – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9975,
+        "url": "https://www.fcsochauxretro.com/a-la-une/thomas-toure/",
+        "path": "/a-la-une/thomas-toure/",
+        "slug": "thomas-toure",
+        "seo_title": "Thomas Touré - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Thomas Touré</h2>\n<h4><strong>né le 27 décembre 1993 à Grasse (06)  </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>73 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International ivoirien (1 sélection)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1995</p>\n<p><strong>Départ de Sochaux : </strong>juin 1998</p>\n<p><strong>Premier match joué :</strong> Sochaux - Caen du 26/07/2019 : 0-0</p>\n<p><strong>Dernier match joué :</strong> Guingamp - Sochaux du 21/02/2020 : 1-1</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Guingamp du 20/09/2019 : 3-1 - But à la 53'</p>",
+        "header_lines": [
+            "Thomas Touré",
+            "né le 27 décembre 1993 à Grasse (06)",
+            "Taille : 1m75",
+            "Poids : 73 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "International ivoirien (1 sélection)",
+            "Arrivée à Sochaux : juillet 1995",
+            "Départ de Sochaux : juin 1998",
+            "Premier match joué : Sochaux - Caen du 26/07/2019 : 0-0",
+            "Dernier match joué : Guingamp - Sochaux du 21/02/2020 : 1-1",
+            "Premier but marqué : Sochaux - Guingamp du 20/09/2019 : 3-1 - But à la 53'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Thomas",
+        "last_name": "Touré",
+        "display_name": "Thomas Touré",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1993-12-27",
+                "precision": "day",
+                "text": "27 décembre 1993"
+            },
+            "place": {
+                "text": "Grasse (06)",
+                "city": "Grasse",
+                "department": "06",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 27 décembre 1993 à Grasse (06)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "73 kg",
+        "weight_kg": 73,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International ivoirien (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "1995-07",
+            "precision": "month",
+            "text": "juillet 1995"
+        },
+        "departure": {
+            "iso": "1998-06",
+            "precision": "month",
+            "text": "juin 1998"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Caen du 26/07/2019 : 0-0",
+        "last_match": "Guingamp - Sochaux du 21/02/2020 : 1-1",
+        "first_goal": "Sochaux - Guingamp du 20/09/2019 : 3-1 - But à la 53'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Thomas Touré"
+            },
+            {
+                "label": null,
+                "value": "né le 27 décembre 1993 à Grasse (06)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "73 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International ivoirien (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1995"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1998"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Caen du 26/07/2019 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Guingamp - Sochaux du 21/02/2020 : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Guingamp du 20/09/2019 : 3-1 - But à la 53'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

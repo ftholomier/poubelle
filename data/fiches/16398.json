@@ -1,0 +1,114 @@
+{
+    "id": 16398,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "patrick-carol",
+    "path": "/personnages-emblematiques/patrick-carol/",
+    "title": "Patrick Carol",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/images.jpg",
+    "date": "2025-09-06T13:10:26",
+    "modified": "2025-11-12T20:23:57",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Tout ceux qui on fréquenté le vieux stade Bonal se souviennent inexorablement de Patrick Carol. Si ce n'est de lui, c'est de sa façon de tirer des \"Olé\" hurlés par la foule après chaque but grâce à son air de trompette tiré de la corrida. </li>\n<li>Avec sa mythique trompette, il anima le stade Bonal comme speacker durant une dizaine d'année. La presse locale et nationale ne s'y est d'ailleurs pas trompée avec de nombreux reportages qui lui ont été consacrés sur les chaines nationales comme Téléfoot sur TF1 ou Canal+.  </li>\n<li>Il est aujourd'hui musicien professionnel et exerce dans le sud de la France. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "Patrick Carol a été speacker de Bonal avec sa mythique trompette durant une dizaine d'année."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/images.jpg",
+            "caption": "Patrick Carol –",
+            "credit": "",
+            "caption_raw": "Patrick Carol –"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16398,
+        "url": "https://www.fcsochauxretro.com/a-la-une/patrick-carole/",
+        "path": "/a-la-une/patrick-carole/",
+        "slug": "patrick-carole",
+        "seo_title": "Patrick Carol - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Patrick Carol</h2>\n<h4><strong>Speacker du stade Auguste Bonal dans les années 90. </strong></h4>",
+        "header_lines": [
+            "Patrick Carol",
+            "Speacker du stade Auguste Bonal dans les années 90."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Patrick",
+        "last_name": "Carol",
+        "display_name": "Patrick Carol",
+        "nickname": "",
+        "subtitle": "Speacker du stade Auguste Bonal dans les années 90.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Patrick Carol"
+            },
+            {
+                "label": null,
+                "value": "Speacker du stade Auguste Bonal dans les années 90."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

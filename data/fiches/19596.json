@@ -1,0 +1,441 @@
+{
+    "id": 19596,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "orleans-sochaux-amical-06-02-1988",
+    "path": "/matchs/1987-1988/orleans-sochaux-amical-06-02-1988/",
+    "title": "Amical – Orléans (D2) / Sochaux (D2) – 6/02/1988 – 0-3",
+    "categories": [
+        "1987-1988",
+        "a-la-une",
+        "amical",
+        "annees-80-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/inbound7576852101386301487.jpg",
+    "date": "2025-12-20T16:35:12",
+    "modified": "2026-01-03T16:35:37",
+    "author": "jeanyves",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Sochaux est premier du groupe A de D2 avec 39 points. Orléans est 8e avec 21 points. </li>\n<li>A Orléans nous retrouvons deux anciens joueurs de Sochaux : Soler et Agerbeck. </li>\n<li>En championnat Sochaux a battu 4-0 Orléans à Bonal en match d'ouverture. </li>\n<li>Orléans reste sur un succès 1-0 contre Angers. </li>\n<li>Morin est forfait pour cette rencontre comme Madar. En revanche Bazdarevic est remis de sa contracture. Il disputera donc la rencontre. </li>\n<li>\" <em>J'espère que nous confirmerons notre montée en puissance avec un succès contre Orléans</em> \" déclarait Takac avant la rencontre. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>2' :</strong> frappe lointaine de Sauzée que Le Maux détourne en corner. </li>\n<li><strong>15' : mauvais dégagement de la défense d'Orléans. Bazdarevic élimine deux adversaires avant de tromper Le Maux en finesse. 0-1</strong></li>\n<li><strong>24' :</strong> Rousset capte un essai de Soler. </li>\n<li><strong>30' : beau mouvement collectif sochalien. Paille marque comme à la parade. 0-2</strong></li>\n<li><strong>40' :</strong> Le Maux repousse une frappe croisée de Thomas. </li>\n<li><strong>55' :</strong> frappe de Bazdarevic qui passe de peu à côté. </li>\n<li><strong>60' :</strong> parade de Le Maux sur une frappe sèche de Paille. </li>\n<li><strong>80' : frappe lointaine de Sauzée qui fait mouche. 0-3</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Sylvester Takac :</strong> \" <em>Dans l'ensemble les joueurs ont retrouvé le rythme de décembre dernier. Je les sens en tous cas bien disposés. Nous sommes prêts à bien reprendre le championnat et à faire carrière en coupe de France. </em>\" </li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>En coupe de France, le FCSM affrontera samedi, Saint Quentin, une équipe de D3 à Bonal. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "2 victoires et 2 nuls pour le FCSM en 4 rencontres amicales"
+    },
+    "gallery": [
+        {
+            "image": "2024/10/inbound7576852101386301487.jpg",
+            "caption": "Bazdarevic",
+            "credit": "FCSM",
+            "caption_raw": "Bazdarevic – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 19596,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-orleans-d2-sochaux-d2-6-02-1988-0-3/",
+        "path": "/a-la-une/amical-orleans-d2-sochaux-d2-6-02-1988-0-3/",
+        "slug": "amical-orleans-d2-sochaux-d2-6-02-1988-0-3",
+        "seo_title": "Amical - Orléans (D2) / Sochaux (D2) - 6/02/1988 - 0-3 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Orléans (D2) / Sochaux (D2) : 0-3</strong></h2>\n<h4><strong>Match amical</strong></h4>\n<h4><strong>Samedi 6 février 1988</strong></h4>\n<h4><strong>Stade de Giens (83)</strong></h4>\n<h4><strong>1 100 spectateurs</strong></h4>\n<h4><strong>Arbitrage : ?</strong></h4>\n<p>Buts : Bazdarevic 15', Paille 30', Sauzée 80' pour Sochaux</p>",
+        "header_lines": [
+            "Orléans (D2) / Sochaux (D2) : 0-3",
+            "Match amical",
+            "Samedi 6 février 1988",
+            "Stade de Giens (83)",
+            "1 100 spectateurs",
+            "Arbitrage : ?",
+            "Buts : Bazdarevic 15', Paille 30', Sauzée 80' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1988-02-06",
+        "date_text": "Samedi 6 février 1988",
+        "season": "1987-1988",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Orléans",
+            "level": "D2"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 3,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-3",
+        "score_line": "Orléans (D2) / Sochaux (D2) : 0-3",
+        "result": "V",
+        "stadium": "Stade de Giens (83)",
+        "spectators": 1100,
+        "spectators_text": "1 100 spectateurs",
+        "referee": "?",
+        "goals_text": "Bazdarevic 15', Paille 30', Sauzée 80' pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Bazdarevic 15', Paille 30', Sauzée 80'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "2",
+                "text": "frappe lointaine de Sauzée que Le Maux détourne en corner.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "15",
+                "text": "mauvais dégagement de la défense d'Orléans. Bazdarevic élimine deux adversaires avant de tromper Le Maux en finesse. 0-1",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "24",
+                "text": "Rousset capte un essai de Soler.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "30",
+                "text": "beau mouvement collectif sochalien. Paille marque comme à la parade. 0-2",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "40",
+                "text": "Le Maux repousse une frappe croisée de Thomas.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "55",
+                "text": "frappe de Bazdarevic qui passe de peu à côté.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "60",
+                "text": "parade de Le Maux sur une frappe sèche de Paille.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "80",
+                "text": "frappe lointaine de Sauzée qui fait mouche. 0-3",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Sylvester Takac",
+                "text": "Dans l'ensemble les joueurs ont retrouvé le rythme de décembre dernier. Je les sens en tous cas bien disposés. Nous sommes prêts à bien reprendre le championnat et à faire carrière en coupe de France."
+            }
+        ],
+        "breves": [
+            "En coupe de France, le FCSM affrontera samedi, Saint Quentin, une équipe de D3 à Bonal."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ROUSSET Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CROCI Laurent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "65",
+                    "sub_text": "Sortie 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SILVESTRE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "HADZIBEGIC Faruk",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PELTIER Francis",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LUCAS Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HENRY Fabrice",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "SAUZEE Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "80"
+                    ],
+                    "goals_text": "80'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "15"
+                    ],
+                    "goals_text": "15'",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "Sortie 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PAILLE Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "30"
+                    ],
+                    "goals_text": "30'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "THOMAS Jean Christophe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "Sortie 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FROTEY Jean-Marc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "Entrée 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "COLIN Jacky",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "Entrée 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BRISSON Gilles",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "65",
+                    "sub_out": null,
+                    "sub_text": "Entrée 65'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "TAKAC Sylvester",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1661
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

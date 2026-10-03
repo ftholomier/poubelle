@@ -1,0 +1,397 @@
+{
+    "id": 17867,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "cluses-scionzier-sochaux-coupe-de-france-16-12-2000",
+    "path": "/matchs/2000-2001/cluses-scionzier-sochaux-coupe-de-france-16-12-2000/",
+    "title": "8e tour – Cluses-Scionzier (DH) / Sochaux (D2) – CDF – 16/12/2000 – 0-4",
+    "categories": [
+        "2000-2001",
+        "a-la-une",
+        "annees-2000-fc-sochaux-retro-fcsm",
+        "coupe-de-france",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/11/425679_10150688108309113_1347136481_n.jpg",
+    "date": "2025-11-08T22:03:12",
+    "modified": "2025-12-21T09:35:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "4 buts cette saison pour Anto Drobnjak"
+    },
+    "gallery": [
+        {
+            "image": "2025/11/425679_10150688108309113_1347136481_n.jpg",
+            "caption": "Adel Chedli 2000/2001",
+            "credit": "",
+            "caption_raw": "Adel Chedli 2000/2001"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 17867,
+        "url": "https://www.fcsochauxretro.com/a-la-une/8e-tour-cluses-scionzier-dh-sochaux-d2-cdf-16-12-2000-0-4/",
+        "path": "/a-la-une/8e-tour-cluses-scionzier-dh-sochaux-d2-cdf-16-12-2000-0-4/",
+        "slug": "8e-tour-cluses-scionzier-dh-sochaux-d2-cdf-16-12-2000-0-4",
+        "seo_title": "8e tour - Cluses-Scionzier (DH) / Sochaux (D2) - CDF - 16/12/2000 - 0-4 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Cluses-Scionzier (DH) / Sochaux (D2) : 0-4<br></strong></h2>\n<h4><strong>8è tour de la coupe de France</strong></h4>\n<h4><strong>Samedi 16 décembre 2000</strong></h4>\n<h4><strong>Stade municipal de Cluses</strong></h4>\n<h4><strong>1 500 spectateurs</strong></h4>\n<h4><strong>Arbitre : M. Champet<br></strong></h4>\n<p>Buts : Santos 41', Drobnjak 80' et 85' et Durix 84' pour Sochaux</p>",
+        "header_lines": [
+            "Cluses-Scionzier (DH) / Sochaux (D2) : 0-4",
+            "8è tour de la coupe de France",
+            "Samedi 16 décembre 2000",
+            "Stade municipal de Cluses",
+            "1 500 spectateurs",
+            "Arbitre : M. Champet",
+            "Buts : Santos 41', Drobnjak 80' et 85' et Durix 84' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2000-12-16",
+        "date_text": "Samedi 16 décembre 2000",
+        "season": "2000-2001",
+        "competition": "Coupe de France",
+        "competition_label": "Coupe de France",
+        "competition_code": "CDF",
+        "round": "8e tour",
+        "round_text": "8è tour de la coupe de France",
+        "home": {
+            "name": "Cluses-Scionzier",
+            "level": "DH"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 4,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-4",
+        "score_line": "Cluses-Scionzier (DH) / Sochaux (D2) : 0-4",
+        "result": "V",
+        "stadium": "Stade municipal de Cluses",
+        "spectators": 1500,
+        "spectators_text": "1 500 spectateurs",
+        "referee": "M. Champet",
+        "goals_text": "Santos 41', Drobnjak 80' et 85' et Durix 84' pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Santos 41', Drobnjak 80' et 85' et Durix 84'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GUILLOU Patrick",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "RASCHKE Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "PEDRETTI Benoit",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "83",
+                    "sub_text": "Sortie 83'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MERIEM Camel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ISABEY Michaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "CRUCET Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DROBNJAK Anto",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "80",
+                        "85"
+                    ],
+                    "goals_text": "80' et 85'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "SANTOS Francileudo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "41"
+                    ],
+                    "goals_text": "41'",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [
+                        "37"
+                    ],
+                    "red": [],
+                    "cards_text": "J 37'",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOULANGER Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DURIX Franck",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "84"
+                    ],
+                    "goals_text": "84'",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MONSOREAU Sylvain",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "83",
+                    "sub_out": null,
+                    "sub_text": "Entrée 83'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "FERNANDEZ Jean",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1681
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

@@ -1,0 +1,120 @@
+{
+    "id": 16423,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "daniel-brucker",
+    "path": "/personnages-emblematiques/daniel-brucker/",
+    "title": "Daniel Brucker",
+    "categories": [
+        "a-la-une",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "personnages-emblematiques-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/556677.jpg",
+    "date": "2025-09-06T16:40:40",
+    "modified": "2025-11-12T20:26:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Daniel Brucker, binôme de Robert Burchi est lui originaire de la région. Il a rejoint le club en même temps que son fils qui y était joueur en 1998. </li>\n<li>Il a également entraîné des centaines de jeunes joueurs de 8 à 12 dont Maxence Prévôt et Sanjin Prcic. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1998",
+        "text": "Daniel Brucker est éducateur de l'école de foot du club depuis 1998."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/556677.jpg",
+            "caption": "Daniel Brucker",
+            "credit": "L’est républicain",
+            "caption_raw": "Daniel Brucker – L’est républicain"
+        },
+        {
+            "image": "2025/09/robert-burchi-a-gauche-et-daniel-brucker-sont-chez-eux-au-centre-de-formation-du-fcsm-photo-er-lionel-vadam-1661863736.jpg",
+            "caption": "Robert Burchi et Daniel Brucker éducateurs de l’école de foot.",
+            "credit": "",
+            "caption_raw": "Robert Burchi et Daniel Brucker éducateurs de l’école de foot."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16423,
+        "url": "https://www.fcsochauxretro.com/a-la-une/daniel-brucker/",
+        "path": "/a-la-une/daniel-brucker/",
+        "slug": "daniel-brucker",
+        "seo_title": "Daniel Brucker - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Daniel Brucker</h2>\n<h4><strong>Educateur à l'école de foot depuis 1998. </strong></h4>",
+        "header_lines": [
+            "Daniel Brucker",
+            "Educateur à l'école de foot depuis 1998."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "personnage"
+        ],
+        "first_name": "Daniel",
+        "last_name": "Brucker",
+        "display_name": "Daniel Brucker",
+        "nickname": "",
+        "subtitle": "Educateur à l'école de foot depuis 1998.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Daniel Brucker"
+            },
+            {
+                "label": null,
+                "value": "Educateur à l'école de foot depuis 1998."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

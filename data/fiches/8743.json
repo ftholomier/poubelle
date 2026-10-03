@@ -1,0 +1,231 @@
+{
+    "id": 8743,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacques-hivert",
+    "path": "/joueurs/jacques-hivert/",
+    "title": "Jacques Hivert",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-12-12T17:56:13",
+    "modified": "2024-12-12T18:12:49",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Jacques Hivert a été formé à Sochaux durant 6 saisons mais n'a pas joué de match pour l'équipe première. Il a ensuite fait carrière dans sa région en 3è division."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8743,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jacques-hivert/",
+        "path": "/a-la-une/jacques-hivert/",
+        "slug": "jacques-hivert",
+        "seo_title": "Jacques Hivert - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacques Hivert</h2>\n<h4><strong>né le 20 novembre 1937 à Saint-Julien-le-Vendômois (19)</strong></h4>\n<h4><strong>Décédé le 26 février 2024 à La Châtre (36)</strong></h4>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu gauche </p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1955</p>\n<p><strong>Départ de Sochaux : </strong>juin 1961</p>",
+        "header_lines": [
+            "Jacques Hivert",
+            "né le 20 novembre 1937 à Saint-Julien-le-Vendômois (19)",
+            "Décédé le 26 février 2024 à La Châtre (36)",
+            "Pied : gaucher",
+            "Poste : milieu gauche",
+            "Arrivée à Sochaux : juillet 1955",
+            "Départ de Sochaux : juin 1961"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jacques",
+        "last_name": "Hivert",
+        "display_name": "Jacques Hivert",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1937-11-20",
+                "precision": "day",
+                "text": "20 novembre 1937"
+            },
+            "place": {
+                "text": "Saint-Julien-le-Vendômois (19)",
+                "city": "Saint-Julien-le-Vendômois",
+                "department": "19",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 20 novembre 1937 à Saint-Julien-le-Vendômois (19)"
+        },
+        "death": {
+            "date": {
+                "iso": "2024-02-26",
+                "precision": "day",
+                "text": "26 février 2024"
+            },
+            "place": {
+                "text": "La Châtre (36)",
+                "city": "La Châtre",
+                "department": "36",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 26 février 2024 à La Châtre (36)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": "gaucher",
+        "position": "milieu gauche",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1955-07",
+            "precision": "month",
+            "text": "juillet 1955"
+        },
+        "departure": {
+            "iso": "1961-06",
+            "precision": "month",
+            "text": "juin 1961"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacques Hivert"
+            },
+            {
+                "label": null,
+                "value": "né le 20 novembre 1937 à Saint-Julien-le-Vendômois (19)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 26 février 2024 à La Châtre (36)"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1955"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1961"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

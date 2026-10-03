@@ -1,0 +1,537 @@
+{
+    "id": 15898,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "bale-sochaux-amical-25-03-1999",
+    "path": "/matchs/1998-1999/bale-sochaux-amical-25-03-1999/",
+    "title": "Amical – Bale (D1 Sui) / Sochaux (D1) – 25/03/1999 – 0-0",
+    "categories": [
+        "1998-1999",
+        "amical",
+        "annees-90-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/08/55-3.png",
+    "date": "2025-08-19T21:37:55",
+    "modified": "2025-12-06T19:39:16",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>Pour meubler les 2 semaines de trêve, Sochaux dispute un match amical en Suisse contre le FC Bâle qui joue les premiers rôles dans son championnat national. </li>\n<li>A Bâle Sochaux retrouvera un certain Fabrice Henry. </li>\n<li>Tout comme Sochaux, Bâle a un stade en reconstruction. Ils évoluent donc dans un petit stade de la ville en attendant la fin des travaux. </li>\n<li>En championnat de Suisse ils sont 6è.</li>\n<li>Bâle va profiter de ce match pour mettre à l'essai Davide Taini un jeune gardien de but. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>9' : </strong>Bonne frappe de Dallet repoussée par Sturm.</li>\n<li><strong>30' :</strong> Fernandez réalise la parade sur un tir de Barberis. </li>\n<li><strong>40' :</strong> Potocianu réalise une belle frappe repoussée par Fernandez.</li>\n<li><strong>47' :</strong> Frédéric Martin tout juste entrée en jeu touche le poteau d’une bonne frappe du gauche.</li>\n<li><strong>50'</strong> : Fiawoo manque l’ouverture du score d’un cheveu.</li>\n<li><strong>78' :</strong> Isabey intercepte un ballon et file seul au but, mais Taini sort parfaitement dans ses pieds.</li>\n<li><strong>88' :</strong> Bonne passe d'Abedi pour Veiga dans la profondeur, ce dernier frappe mais le ballon termine sur le poteau de Villechalane !</li>\n<li><strong>Résumé du match sur le site historique du FC Bâle : </strong></li>\n<li><a href=\"https://www.fcb-archiv.ch/saison/spiele?command=detail&amp;id=24872\">https://www.fcb-archiv.ch/saison/spiele?command=detail&amp;id=24872</a></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong><strong>Néant</strong></strong></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Même en amical Sochaux se montre stérile. Plus inquiétant, les Sochaliens se sont crées très peu d'occasions franches notamment en première mi-temps.</li>\n<li>C'est le 5è match nul de suite si l'on compte les 4 matchs de championnat.  </li>\n<li>Le match a permis de faire jouer ou rejouer 21 joueurs. L'idéal pour donner du rythme avant une fin de saison qui s'annonce tendue face à des adversaires directs au maintien. </li>\n<li>\n<p>Mauvaise nouvelle : Bernard Maraval a eu le nez cassé durant le match face à Bâle.</p>\n</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "5 nuls de suite."
+    },
+    "gallery": [
+        {
+            "image": "2025/08/55-3.png",
+            "caption": "Chedli 1998-1999",
+            "credit": "DR",
+            "caption_raw": "Chedli 1998-1999 – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15898,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/amical-bale-d1-sui-sochaux-d1-25-03-1999-0-0/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/amical-bale-d1-sui-sochaux-d1-25-03-1999-0-0/",
+        "slug": "amical-bale-d1-sui-sochaux-d1-25-03-1999-0-0",
+        "seo_title": "Amical – Bale (D1 Sui) / Sochaux (D1) – 25/03/1999 – 0-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Bâle (D1 Suisse) / Sochaux : 0-0</strong></h2>\n<h4><strong>Match amical </strong></h4>\n<h4><strong>Jeudi 25 mars 1999</strong></h4>\n<h4><strong>Rankhof Stadion (Bâle, Suisse)</strong></h4>\n<h4><strong>300 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Andreas Schluchter</strong></h4>",
+        "header_lines": [
+            "Bâle (D1 Suisse) / Sochaux : 0-0",
+            "Match amical",
+            "Jeudi 25 mars 1999",
+            "Rankhof Stadion (Bâle, Suisse)",
+            "300 spectateurs",
+            "Arbitrage : M. Andreas Schluchter"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "1999-03-25",
+        "date_text": "Jeudi 25 mars 1999",
+        "season": "1998-1999",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match amical",
+        "home": {
+            "name": "Bale",
+            "level": "D1 Sui"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "D1"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 0,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "0-0",
+        "score_line": "Bâle (D1 Suisse) / Sochaux : 0-0",
+        "result": "N",
+        "stadium": "Rankhof Stadion (Bâle, Suisse)",
+        "spectators": 300,
+        "spectators_text": "300 spectateurs",
+        "referee": "M. Andreas Schluchter",
+        "goals_text": "",
+        "goals": [],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "9",
+                "text": "Bonne frappe de Dallet repoussée par Sturm.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "30",
+                "text": "Fernandez réalise la parade sur un tir de Barberis.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "40",
+                "text": "Potocianu réalise une belle frappe repoussée par Fernandez.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "47",
+                "text": "Frédéric Martin tout juste entrée en jeu touche le poteau d’une bonne frappe du gauche.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "50",
+                "text": "Fiawoo manque l’ouverture du score d’un cheveu.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "78",
+                "text": "Isabey intercepte un ballon et file seul au but, mais Taini sort parfaitement dans ses pieds.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "88",
+                "text": "Bonne passe d'Abedi pour Veiga dans la profondeur, ce dernier frappe mais le ballon termine sur le poteau de Villechalane ! Résumé du match sur le site historique du FC Bâle : https://www.fcb-archiv.ch/saison/spiele?command=detail&id=24872",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "",
+                "text": "Néant"
+            }
+        ],
+        "breves": [
+            "Même en amical Sochaux se montre stérile. Plus inquiétant, les Sochaliens se sont crées très peu d'occasions franches notamment en première mi-temps.",
+            "C'est le 5è match nul de suite si l'on compte les 4 matchs de championnat.",
+            "Le match a permis de faire jouer ou rejouer 21 joueurs. L'idéal pour donner du rythme avant une fin de saison qui s'annonce tendue face à des adversaires directs au maintien.",
+            "Mauvaise nouvelle : Bernard Maraval a eu le nez cassé durant le match face à Bâle."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Changements",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "FERNANDEZ Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DAF Omar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FLACHEZ Maxence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MANAC'H Erwan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MARAVAL Bernard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "LANG Didier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAUDRY Olivier",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MERIEM Camel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "DALLET Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "LJUBOJA Danijel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "BOUGER Bernard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "Sortie 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "VILLECHALANE Pascal",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "RAVAUX Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SIRUFO Anthony",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FAIVRE Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MARTIN Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "SANTINI Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DEDEBANT Stéphane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ISABEY Mickaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "FIAWOO Koffi",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIOUF El Hadji",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "Entrée 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ANZIANI Philippe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1452
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

@@ -1,0 +1,182 @@
+{
+    "id": 8012,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "claude-chazottes",
+    "path": "/joueurs/claude-chazottes/",
+    "title": "Claude Chazottes",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/615a0c21c5fe8337d79a520a2284f3e7.webp",
+    "date": "2024-11-24T08:54:31",
+    "modified": "2025-03-05T21:01:31",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Après avoir signé à Sochaux à l'été 1968, Claude Chazottes apprend qu'il devra faire son service militaire à Menton. Il quitte alors le club d'un commun accord pour s'engager à Nice et ne jouera aucun match pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/615a0c21c5fe8337d79a520a2284f3e7.webp",
+            "caption": "Claude Chazottes",
+            "credit": "FFF",
+            "caption_raw": "Claude Chazottes – FFF"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8012,
+        "url": "https://www.fcsochauxretro.com/a-la-une/claude-chazottes/",
+        "path": "/a-la-une/claude-chazottes/",
+        "slug": "claude-chazottes",
+        "seo_title": "Claude Chazottes - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Claude Chazottes</h2>\n<h4><strong>Né le 7 janvier 1949 à Epinay-sur-Seine (93)<br></strong></h4>\n<p><strong>Taille : </strong>1m69</p>\n<p><strong>Poids: </strong>69 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Position: </strong>défenseur latéral droit<strong><br></strong></p>\n<p><strong>International français olympique (4 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1968<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juillet 1968</p>",
+        "header_lines": [
+            "Claude Chazottes",
+            "Né le 7 janvier 1949 à Epinay-sur-Seine (93)",
+            "Taille : 1m69",
+            "Poids: 69 kg",
+            "Pied : droitier",
+            "Position: défenseur latéral droit",
+            "International français olympique (4 sélections)",
+            "Arrivée à Sochaux : juillet 1968",
+            "Départ de Sochaux : juillet 1968"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Claude",
+        "last_name": "Chazottes",
+        "display_name": "Claude Chazottes",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1949-01-07",
+                "precision": "day",
+                "text": "7 janvier 1949"
+            },
+            "place": {
+                "text": "Epinay-sur-Seine (93)",
+                "city": "Epinay-sur-Seine",
+                "department": "93",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 7 janvier 1949 à Epinay-sur-Seine (93)"
+        },
+        "death": null,
+        "height": "1m69",
+        "height_cm": 169,
+        "weight": "69 kg",
+        "weight_kg": 69,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International français olympique (4 sélections)"
+        ],
+        "arrival": {
+            "iso": "1968-07",
+            "precision": "month",
+            "text": "juillet 1968"
+        },
+        "departure": {
+            "iso": "1968-07",
+            "precision": "month",
+            "text": "juillet 1968"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Claude Chazottes"
+            },
+            {
+                "label": null,
+                "value": "Né le 7 janvier 1949 à Epinay-sur-Seine (93)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m69"
+            },
+            {
+                "label": "Poids",
+                "value": "69 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "défenseur latéral droit"
+            },
+            {
+                "label": null,
+                "value": "International français olympique (4 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1968"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 1968"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

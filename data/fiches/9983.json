@@ -1,0 +1,264 @@
+{
+    "id": 9983,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "karl-toko-ekambi",
+    "path": "/joueurs/karl-toko-ekambi/",
+    "title": "Karl Toko Ekambi",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/toko-ekambi.jpg",
+    "date": "2025-01-02T18:03:36",
+    "modified": "2025-01-02T18:11:38",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<p>.</p>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "82",
+        "text": "Karl Toko Ekambi a joué 82 matchs (26 buts et 3 passes décisives) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/sur-le-depart-cet-ete-karl-toko-ekambi-interesse-fortement-angers-et-cela-ne-date-pas-d-hier-photo-lionel-vadam-1463434565.jpg",
+            "caption": "Karl Toko Ekambi",
+            "credit": "L’est républicain",
+            "caption_raw": "Karl Toko Ekambi – L’est républicain"
+        },
+        {
+            "image": "2025/01/karl-toko-ekambi-fcsm-photo-er-christian-lemontey-1597057390.jpg",
+            "caption": "Karl Toko Ekambi",
+            "credit": "L’est républicain",
+            "caption_raw": "Karl Toko Ekambi – L’est républicain"
+        },
+        {
+            "image": "2025/01/le-compteur-de-selections-de-karl-toko-ekambi-est-reste-bloque-a-trois-capes-photo-francis-reinoso-1441652365.jpg",
+            "caption": "Karl Toko Ekambi",
+            "credit": "L’est républicain",
+            "caption_raw": "Karl Toko Ekambi – L’est républicain"
+        },
+        {
+            "image": "2025/01/je-pense-qu-on-merite-mieux-confiait-karl-toko-ekambi-ici-avec-son-compere-de-l-attaque-sekou-cisse-apres-le-succes-sur-ajaccio-photo-lionel-vadam-1453408156.jpg",
+            "caption": "Karl Toko Ekambi",
+            "credit": "L’est républicain",
+            "caption_raw": "Karl Toko Ekambi – L’est républicain"
+        },
+        {
+            "image": "2024/12/toko-ekambi.jpg",
+            "caption": "Karl Toko Ekambi",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Karl Toko Ekambi – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9983,
+        "url": "https://www.fcsochauxretro.com/a-la-une/karl-toko-ekambi/",
+        "path": "/a-la-une/karl-toko-ekambi/",
+        "slug": "karl-toko-ekambi",
+        "seo_title": "Karl Toko Ekambi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Karl Toko Ekambi</h2>\n<h4><strong>né le 14 septembre 1992 à Paris (75)  </strong></h4>\n<p><strong>Taille : </strong>1m82</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International camerounais (62 sélections, 14 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2014</p>\n<p><strong>Départ de Sochaux : </strong>juin 2016</p>\n<p><strong>Premier match joué :</strong> Sochaux - Orléans du 02/08/2014 : 0-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Clermont du 13/05/2016 : 2-0</p>\n<p><strong>Premier but marqué : </strong>AC Ajaccio - Sochaux du 09/08/2014 : 0-2 - But à la 41'</p>",
+        "header_lines": [
+            "Karl Toko Ekambi",
+            "né le 14 septembre 1992 à Paris (75)",
+            "Taille : 1m82",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International camerounais (62 sélections, 14 buts)",
+            "Arrivée à Sochaux : juillet 2014",
+            "Départ de Sochaux : juin 2016",
+            "Premier match joué : Sochaux - Orléans du 02/08/2014 : 0-2",
+            "Dernier match joué : Sochaux - Clermont du 13/05/2016 : 2-0",
+            "Premier but marqué : AC Ajaccio - Sochaux du 09/08/2014 : 0-2 - But à la 41'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Karl Toko",
+        "last_name": "Ekambi",
+        "display_name": "Karl Toko Ekambi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1992-09-14",
+                "precision": "day",
+                "text": "14 septembre 1992"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 septembre 1992 à Paris (75)"
+        },
+        "death": null,
+        "height": "1m82",
+        "height_cm": 182,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International camerounais (62 sélections, 14 buts)"
+        ],
+        "arrival": {
+            "iso": "2014-07",
+            "precision": "month",
+            "text": "juillet 2014"
+        },
+        "departure": {
+            "iso": "2016-06",
+            "precision": "month",
+            "text": "juin 2016"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Orléans du 02/08/2014 : 0-2",
+        "last_match": "Sochaux - Clermont du 13/05/2016 : 2-0",
+        "first_goal": "AC Ajaccio - Sochaux du 09/08/2014 : 0-2 - But à la 41'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Karl Toko Ekambi"
+            },
+            {
+                "label": null,
+                "value": "né le 14 septembre 1992 à Paris (75)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m82"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International camerounais (62 sélections, 14 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2014"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2016"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Orléans du 02/08/2014 : 0-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Clermont du 13/05/2016 : 2-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "AC Ajaccio - Sochaux du 09/08/2014 : 0-2 - But à la 41'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

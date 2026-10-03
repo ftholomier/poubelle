@@ -1,0 +1,242 @@
+{
+    "id": 12401,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "m-nollet",
+    "path": "/joueurs/m-nollet/",
+    "title": "M. Nollet (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-02T17:21:17",
+    "modified": "2025-11-12T13:55:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "M.Nollet a joué 1 match amical pour Sochaux en 1930."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12401,
+        "url": "https://www.fcsochauxretro.com/uncategorized/m-nollet/",
+        "path": "/uncategorized/m-nollet/",
+        "slug": "m-nollet",
+        "seo_title": "M. Nollet (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>M. Nollet</h2>\n<h4><strong>Né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Position : </strong>milieu de terrain ? <strong><br></strong></p>\n<p><strong>A l'essai en : </strong>janvier 1930<strong><br></strong></p>\n<p><strong>Premier et dernier match amical joué :</strong> Sochaux - US Giromagny du 12/01/1930 : 12-2 </p>",
+        "header_lines": [
+            "M. Nollet",
+            "Né le xx à xx",
+            "Décédé le xx à xx",
+            "Position : milieu de terrain ?",
+            "A l'essai en : janvier 1930",
+            "Premier et dernier match amical joué : Sochaux - US Giromagny du 12/01/1930 : 12-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "M.",
+        "last_name": "Nollet",
+        "display_name": "M. Nollet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1930-01",
+            "precision": "month",
+            "text": "janvier 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "M. Nollet"
+            },
+            {
+                "label": null,
+                "value": "Né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Position",
+                "value": "milieu de terrain ?"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "janvier 1930"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sochaux - US Giromagny du 12/01/1930 : 12-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

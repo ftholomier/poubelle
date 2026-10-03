@@ -1,0 +1,261 @@
+{
+    "id": 7975,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "nolan-galves",
+    "path": "/joueurs/nolan-galves/",
+    "title": "Nolan Galves",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/nolan-galves-evolue-a-sochaux-depuis-dix-ans-photo-er-christian-lemontey-1683136922.jpg",
+    "date": "2024-11-22T14:46:40",
+    "modified": "2025-08-10T21:43:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "32",
+        "text": "Nolan Galves a joué 32 matchs (1 passe décisive) pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/nolan-galves-a-fait-une-tres-belle-entree-en-jeu-lundi-contre-nancy-4-1-photo-lionel-vadam-1712831005.jpg",
+            "caption": "Nolan Galves",
+            "credit": "L’est républicain",
+            "caption_raw": "Nolan Galves – L’est républicain"
+        },
+        {
+            "image": "2024/11/images-8.jpg",
+            "caption": "Nolan Galves",
+            "credit": "L’est républicain",
+            "caption_raw": "Nolan Galves – L’est républicain"
+        },
+        {
+            "image": "2024/11/nolan-galves-fera-le-voyage-a-thaon-les-vosges-avec-le-groupe-pro-ce-samedi-photo-er-jean-baptiste-bornier-1668791734.jpg",
+            "caption": "Nolan Galves",
+            "credit": "L’est républicain",
+            "caption_raw": "Nolan Galves – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7975,
+        "url": "https://www.fcsochauxretro.com/a-la-une/nolan-galves/",
+        "path": "/a-la-une/nolan-galves/",
+        "slug": "nolan-galves",
+        "seo_title": "Nolan Galves - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Nolan Galves</h2>\n<h4><strong>né le 23 juillet 2003 à Montbéliard (25)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>arrière droit</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2013</p>\n<p><strong>Départ de Sochaux :</strong> aout 2024</p>\n<p><strong>Premier match joué :</strong> AS Montchat-Lyon - Sochaux du 27/11/2021 : 0-3</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Versailles du 18/05/2024 : 1-1</p>",
+        "header_lines": [
+            "Nolan Galves",
+            "né le 23 juillet 2003 à Montbéliard (25)",
+            "Taille : 1m80",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Poste : arrière droit",
+            "Arrivée à Sochaux : aout 2013",
+            "Départ de Sochaux : aout 2024",
+            "Premier match joué : AS Montchat-Lyon - Sochaux du 27/11/2021 : 0-3",
+            "Dernier match joué : Sochaux - Versailles du 18/05/2024 : 1-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Nolan",
+        "last_name": "Galves",
+        "display_name": "Nolan Galves",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2003-07-23",
+                "precision": "day",
+                "text": "23 juillet 2003"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 juillet 2003 à Montbéliard (25)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": "arrière droit",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2013-08",
+            "precision": "month",
+            "text": "aout 2013"
+        },
+        "departure": {
+            "iso": "2024-08",
+            "precision": "month",
+            "text": "aout 2024"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "AS Montchat-Lyon - Sochaux du 27/11/2021 : 0-3",
+        "last_match": "Sochaux - Versailles du 18/05/2024 : 1-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Nolan Galves"
+            },
+            {
+                "label": null,
+                "value": "né le 23 juillet 2003 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "arrière droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2013"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "aout 2024"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "AS Montchat-Lyon - Sochaux du 27/11/2021 : 0-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Versailles du 18/05/2024 : 1-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 2",
+                "Buts",
+                "National 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2021 - 2022",
+                    "0",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "2022 - 2023",
+                    "4",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "2023 - 2024",
+                    "-",
+                    "-",
+                    "23",
+                    "0",
+                    "3",
+                    "0",
+                    "26",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "4",
+                    "0",
+                    "23",
+                    "0",
+                    "5",
+                    "0",
+                    "32",
+                    "0"
+                ]
+            ],
+            "source_table": 1390
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

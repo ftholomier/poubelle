@@ -1,0 +1,172 @@
+{
+    "id": 8428,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "steve-bernardet",
+    "path": "/joueurs/steve-bernardet/",
+    "title": "Steve Bernardet",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/3-1.jpg",
+    "date": "2024-12-03T14:02:51",
+    "modified": "2026-03-02T13:48:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Fils de Gérard Bernardet ancien joueur de D1 ayant évolué notamment à Marseille et Montpellier, Steve Bernardet baigne dans le football depuis tout petit. Lorsque son père devient entraîneur des jeunes à Sochaux il intègre le centre de formation.</li>\n<li>\n<p>Il joue deux saisons en réserve mais ne convainc pas les dirigeants de lui offrir un contrat professionnel.</p>\n</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>\n<p>Il quitte le club pour s'engager avec Pau qui évolue alors en National. Il ne s'y impose pas non plus ne disputant que 8 rencontres en une saison.</p>\n</li>\n<li>Il signe ensuite à Orléans en N2 avant de rejoindre un petit club de Lorient au 7è échelon national où il reste jusqu'en 2016. </li>\n<li>En 2020, il reprend un bar baptisé \"Le Parisien\" à Lorient. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Steve Bernardet fils de Gérard Bernardet (un entraîneur des jeunes du club) a été formé à Sochaux mais n'a joué aucun match avec l'équipe professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/3-1.jpg",
+            "caption": "Steve Bernadet",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Steve Bernadet – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8428,
+        "url": "https://www.fcsochauxretro.com/a-la-une/steve-bernadet-8428/",
+        "path": "/a-la-une/steve-bernadet-8428/",
+        "slug": "steve-bernadet-8428",
+        "seo_title": "Steve Bernardet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Steve Bernardet</h2>\n<h4><strong>né le 21 juin 1985 à Mulhouse (68) </strong></h4>\n<p><strong>Taille : </strong>1m75</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2003</p>\n<p><strong>Départ de Sochaux : </strong>juin 2005</p>",
+        "header_lines": [
+            "Steve Bernardet",
+            "né le 21 juin 1985 à Mulhouse (68)",
+            "Taille : 1m75",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "Arrivée à Sochaux : juillet 2003",
+            "Départ de Sochaux : juin 2005"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Steve",
+        "last_name": "Bernardet",
+        "display_name": "Steve Bernardet",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1985-06-21",
+                "precision": "day",
+                "text": "21 juin 1985"
+            },
+            "place": {
+                "text": "Mulhouse (68)",
+                "city": "Mulhouse",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 juin 1985 à Mulhouse (68)"
+        },
+        "death": null,
+        "height": "1m75",
+        "height_cm": 175,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2003-07",
+            "precision": "month",
+            "text": "juillet 2003"
+        },
+        "departure": {
+            "iso": "2005-06",
+            "precision": "month",
+            "text": "juin 2005"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Steve Bernardet"
+            },
+            {
+                "label": null,
+                "value": "né le 21 juin 1985 à Mulhouse (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m75"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2003"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2005"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

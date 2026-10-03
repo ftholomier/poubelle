@@ -1,0 +1,168 @@
+{
+    "id": 12710,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ante-roguljic",
+    "path": "/joueurs/ante-roguljic/",
+    "title": "Ante Roguljic  (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-33.jpg",
+    "date": "2025-03-08T23:27:00",
+    "modified": "2025-11-12T13:47:45",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Peter Zeidler le nouvel entraîneur allemand de Sochaux cherche à renforcer son effectif. Pour cela il regarde les jeunes joueurs qu'il a eu sous ses ordres en Autriche.</li>\n<li>Il met donc à l'essai Ante Roguljic. Ce milieu de terrain croate de 21 ans a déjà évolué sous les ordres de Peter Zeidler au FC Liefering et au Red Bull Salzbourg. L’international espoir et U19 évolue alors en Autriche après un passage à l’Hajduk Split. Le coach sochalien parle d’un potentiel évident. À l’époque de son éclosion chez les jeunes on l’annonçait comme le nouveau Luka Modric. Le joueur est libre mais à l'issue de son essai le club ne lui fait pas de proposition de contrat. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Ante Roguljic a été mis à l'essai 1 semaine durant l'été 2017."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-33.jpg",
+            "caption": "Ante Roguljic",
+            "credit": "L’est républicain",
+            "caption_raw": "Ante Roguljic – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12710,
+        "url": "https://www.fcsochauxretro.com/uncategorized/ante-roguljic/",
+        "path": "/uncategorized/ante-roguljic/",
+        "slug": "ante-roguljic",
+        "seo_title": "Ante Roguljic (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ante Roguljic</h2>\n<h4><strong>né le 11 mars 1996 à Split (Croatie) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International croate espoir (2 sélections)</strong></p>\n<p><strong>A l'essai en : </strong>juillet 2017</p>",
+        "header_lines": [
+            "Ante Roguljic",
+            "né le 11 mars 1996 à Split (Croatie)",
+            "Taille : 1m80",
+            "Poids : 70 kg",
+            "Pied : gaucher",
+            "Poste : milieu offensif",
+            "International croate espoir (2 sélections)",
+            "A l'essai en : juillet 2017"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ante",
+        "last_name": "Roguljic",
+        "display_name": "Ante Roguljic",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2017-07",
+            "precision": "month",
+            "text": "juillet 2017"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1996-03-11",
+                "precision": "day",
+                "text": "11 mars 1996"
+            },
+            "place": {
+                "text": "Split (Croatie)",
+                "city": "Split",
+                "department": null,
+                "country": "Croatie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 11 mars 1996 à Split (Croatie)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "gaucher",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International croate espoir (2 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ante Roguljic"
+            },
+            {
+                "label": null,
+                "value": "né le 11 mars 1996 à Split (Croatie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International croate espoir (2 sélections)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 2017"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

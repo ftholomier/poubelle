@@ -1,0 +1,168 @@
+{
+    "id": 15386,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "antti-sumiala",
+    "path": "/joueurs/antti-sumiala/",
+    "title": "Antti Sumiala (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/Antti_Sumiala_2379-56cf9b9f6226d.jpeg",
+    "date": "2025-07-20T21:52:17",
+    "modified": "2026-07-13T12:04:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière avant son essai",
+            "html": "<ul>\n<li>Né à Pori ville moyenne de 75 000 habitants à l'époque du sud de la Finlande, Antti Sumiala est un prodige du football dans son pays. A 15 ans à peine, il débute en professionnel avec son club formateur du FC Jazz Pori. </li>\n<li>En 1990, il rejoint les équipes jeunes d'Anderlecht en Belgique où il se forme durant une saison avant de revenir au Jazz Pori. </li>\n<li>En janvier 1992, alors qu'il est déjà international jeune en Finlande, il signe au Ikast FS au Danemark. Dans ce laps, il intègre pour la première fois la sélection de Finlande à 18 ans à peine lors d'un match face à la Turquie (1-1). </li>\n<li>Il reste une saison et c'est à ce moment-là qu'il vient en essai à Sochaux.</li>\n<li>Quelques jours avant son essai, il honore sa deuxième sélection face à la Tunisie (1-1) aux côtés de son idole, Jari Litmanen. </li>\n</ul>"
+        },
+        {
+            "title": "Son essai au FCSM",
+            "html": "<ul>\n<li>A l'automne 1992, Sochaux recherche un joker pour son attaque qui est en berne. Suite à la blessure d'André Blanc, Sochaux souhaite un joker offensif. Ils mettent à l'essai le Polonais Dariusz Gesior, entretiennent des contacts avec plusieurs joueurs et mettent à l'essai Antti Sumiala.</li>\n<li>Mais rapidement, les dirigeants annoncent que l'essai de Sumiala est plutôt dans l'optique d'une signature l'été suivant. </li>\n<li>Malgré d'évidentes qualités athlétiques malgré son très jeune âge (18 ans à peine) le club ne lui proposera pas de contrat. Sochaux embauchera quelques jours plus tard le meneur de jeu ukrainien Pavel Yakovenko.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li>Il retourne en Finlande où il signe en janvier au FC Jazz Pori son club formateur avec qui il termine champion de Finlande et meilleur buteur du championnat avec 20 buts en 30 matchs ! </li>\n<li>En janvier 1994, il s'engage avec le club belge de Lokeren. </li>\n<li>Il finira sa carrière de joueur en 2010 après avoir joué dans 9 pays différents (Finlande, Danemark, Belgique, Pays-Bas, Lichtenstein, Etats-Unis, Turquie, Suède, Allemagne). </li>\n<li>Une carrière plutôt dans des championnats secondaires de 373 matchs (dont 14 de coupe d'Europe pour 3 buts), 131 buts et 17 passes décisives. Il compte aussi 38 sélections avec la Finlande pour 9 buts. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "17",
+        "text": "Antti Sumiala a 18 ans quand il vient faire un essai à Sochaux à l'automne 1992."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/Antti_Sumiala_2379-56cf9b9f6226d.jpeg",
+            "caption": "Antti Sumiala",
+            "credit": "Transfermarket",
+            "caption_raw": "Antti Sumiala – Transfermarket"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15386,
+        "url": "https://www.fcsochauxretro.com/uncategorized/antti-sumiala-a-lessai/",
+        "path": "/uncategorized/antti-sumiala-a-lessai/",
+        "slug": "antti-sumiala-a-lessai",
+        "seo_title": "Antti Sumiala (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Antti Sumiala (A l'essai)</h2>\n<h4><strong>Né le 20 février 1974 à Pori (Finlande)<br></strong></h4>\n<p><strong>Taille : </strong>1m84</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>attaquant</p>\n<p><strong>International finlandais (38 sélections, 9 buts)</strong></p>\n<p><strong>A l'essai à Sochaux en novembre 1992</strong></p>",
+        "header_lines": [
+            "Antti Sumiala (A l'essai)",
+            "Né le 20 février 1974 à Pori (Finlande)",
+            "Taille : 1m84",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Position : attaquant",
+            "International finlandais (38 sélections, 9 buts)",
+            "A l'essai à Sochaux en novembre 1992"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Antti",
+        "last_name": "Sumiala",
+        "display_name": "Antti Sumiala",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1974-02-20",
+                "precision": "day",
+                "text": "20 février 1974"
+            },
+            "place": {
+                "text": "Pori (Finlande)",
+                "city": "Pori",
+                "department": null,
+                "country": "Finlande",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 20 février 1974 à Pori (Finlande)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International finlandais (38 sélections, 9 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Antti Sumiala (A l'essai)"
+            },
+            {
+                "label": null,
+                "value": "Né le 20 février 1974 à Pori (Finlande)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International finlandais (38 sélections, 9 buts)"
+            },
+            {
+                "label": null,
+                "value": "A l'essai à Sochaux en novembre 1992"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

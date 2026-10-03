@@ -1,0 +1,262 @@
+{
+    "id": 11696,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "maxime-loichot",
+    "path": "/joueurs/maxime-loichot/",
+    "title": "Maxime Loichot",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-24.jpg",
+    "date": "2025-02-12T08:02:44",
+    "modified": "2025-02-12T08:10:21",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "13",
+        "text": "Maxime Loichot a été formé à Sochaux durant 13 saisons avant de faire carrière ailleurs."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-24.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11696,
+        "url": "https://www.fcsochauxretro.com/a-la-une/maxime-loichot/",
+        "path": "/a-la-une/maxime-loichot/",
+        "slug": "maxime-loichot",
+        "seo_title": "Maxime Loichot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Maxime Loichot</h2>\n<h4><strong>né le 3 mai 1998 à Belfort (90) </strong></h4>\n<p><strong>Taille : </strong>1m72</p>\n<p><strong>Poids : </strong>64 kg</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Arrivée à Sochaux : </strong>septembre 2005</p>\n<p><strong>Départ de Sochaux : </strong>juin 2018</p>",
+        "header_lines": [
+            "Maxime Loichot",
+            "né le 3 mai 1998 à Belfort (90)",
+            "Taille : 1m72",
+            "Poids : 64 kg",
+            "Poste : milieu de terrain",
+            "Pied : droitier",
+            "Arrivée à Sochaux : septembre 2005",
+            "Départ de Sochaux : juin 2018"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Maxime",
+        "last_name": "Loichot",
+        "display_name": "Maxime Loichot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1998-05-03",
+                "precision": "day",
+                "text": "3 mai 1998"
+            },
+            "place": {
+                "text": "Belfort (90)",
+                "city": "Belfort",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 mai 1998 à Belfort (90)"
+        },
+        "death": null,
+        "height": "1m72",
+        "height_cm": 172,
+        "weight": "64 kg",
+        "weight_kg": 64,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2005-09",
+            "precision": "month",
+            "text": "septembre 2005"
+        },
+        "departure": {
+            "iso": "2018-06",
+            "precision": "month",
+            "text": "juin 2018"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Maxime Loichot"
+            },
+            {
+                "label": null,
+                "value": "né le 3 mai 1998 à Belfort (90)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m72"
+            },
+            {
+                "label": "Poids",
+                "value": "64 kg"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "septembre 2005"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2018"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1986-1987",
+                    "8",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "8",
+                    "0"
+                ],
+                [
+                    "1987-1988",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "17",
+                    "8",
+                    "25",
+                    "8"
+                ],
+                [
+                    "1988-1989",
+                    "6",
+                    "0",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "8",
+                    "1"
+                ],
+                [
+                    "1990-1991",
+                    "19",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "21",
+                    "5"
+                ],
+                [
+                    "1991-1992",
+                    "21",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "54",
+                    "6",
+                    "13",
+                    "2",
+                    "17",
+                    "8",
+                    "85",
+                    "16"
+                ]
+            ],
+            "source_table": 289
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

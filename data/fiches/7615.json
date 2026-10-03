@@ -1,0 +1,228 @@
+{
+    "id": 7615,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "joachim-eickmayer",
+    "path": "/joueurs/joachim-eickmayer/",
+    "title": "Joachim Eickmayer",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/1136055.jpg",
+    "date": "2024-11-14T13:17:36",
+    "modified": "2025-05-19T19:52:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "12",
+        "text": "Joachim Eickmayer a joué 12 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/joachim-eickmayer-a-tout-fait-pour-convaincre-de-son-utilite-premiere-cape-en-l1-ce-soir-photo-lionel-vadam-1484127098.jpg",
+            "caption": "Joachim Eickmayer",
+            "credit": "L’est républicain",
+            "caption_raw": "Joachim Eickmayer – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7615,
+        "url": "https://www.fcsochauxretro.com/a-la-une/joackim-eickmayer-7615/",
+        "path": "/a-la-une/joackim-eickmayer-7615/",
+        "slug": "joackim-eickmayer-7615",
+        "seo_title": "Joachim Eickmayer - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Joachim Eickmayer</h2>\n<h4><strong>né le 11 janvier 1993 à Bully-les-Mines (62) </strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>71 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu défensif</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2012</p>\n<p><strong>Départ de Sochaux : </strong>juin 2014</p>\n<p><strong>Premier match joué :</strong> Evian TG - Sochaux du 10/08/2013 : 1-1</p>\n<p><strong>Dernier match joué :</strong> Valenciennes - Sochaux du 22/02/2014 : 2-2</p>",
+        "header_lines": [
+            "Joachim Eickmayer",
+            "né le 11 janvier 1993 à Bully-les-Mines (62)",
+            "Taille : 1m78",
+            "Poids : 71 kg",
+            "Pied : droitier",
+            "Poste : milieu défensif",
+            "Arrivée à Sochaux : juillet 2012",
+            "Départ de Sochaux : juin 2014",
+            "Premier match joué : Evian TG - Sochaux du 10/08/2013 : 1-1",
+            "Dernier match joué : Valenciennes - Sochaux du 22/02/2014 : 2-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Joachim",
+        "last_name": "Eickmayer",
+        "display_name": "Joachim Eickmayer",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1993-01-11",
+                "precision": "day",
+                "text": "11 janvier 1993"
+            },
+            "place": {
+                "text": "Bully-les-Mines (62)",
+                "city": "Bully-les-Mines",
+                "department": "62",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 11 janvier 1993 à Bully-les-Mines (62)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "droitier",
+        "position": "milieu défensif",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2012-07",
+            "precision": "month",
+            "text": "juillet 2012"
+        },
+        "departure": {
+            "iso": "2014-06",
+            "precision": "month",
+            "text": "juin 2014"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Evian TG - Sochaux du 10/08/2013 : 1-1",
+        "last_match": "Valenciennes - Sochaux du 22/02/2014 : 2-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Joachim Eickmayer"
+            },
+            {
+                "label": null,
+                "value": "né le 11 janvier 1993 à Bully-les-Mines (62)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu défensif"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2012"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2014"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Evian TG - Sochaux du 10/08/2013 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Valenciennes - Sochaux du 22/02/2014 : 2-2"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2013 - 2014",
+                    "10",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "12",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "10",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "12",
+                    "0"
+                ]
+            ],
+            "source_table": 1074
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

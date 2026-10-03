@@ -1,0 +1,265 @@
+{
+    "id": 7952,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "benjamin-gavanon",
+    "path": "/joueurs/benjamin-gavanon/",
+    "title": "Benjamin Gavanon",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/images-9.jpg",
+    "date": "2024-11-22T20:17:10",
+    "modified": "2024-11-22T20:35:38",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "29",
+        "text": "Benjamin Gavanon a joué 29 matchs (1 but et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/avec-quelle-equipe-samedi-21h-au-stade-felix-bollaert-1484129440.jpg",
+            "caption": "Benjamin Gavanon",
+            "credit": "L’est républicain",
+            "caption_raw": "Benjamin Gavanon – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7952,
+        "url": "https://www.fcsochauxretro.com/a-la-une/benjamin-gavanon/",
+        "path": "/a-la-une/benjamin-gavanon/",
+        "slug": "benjamin-gavanon",
+        "seo_title": "Benjamin Gavanon - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Benjamin Gavanon</h2>\n<h4><strong>né le 09 aout 1980 à Marseille (13) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu relayeur</p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2009</p>\n<p><strong>Départ de Sochaux : </strong>juin 2010</p>\n<p><strong>Premier match joué :</strong> Lille - Sochaux du 12/09/2009 : 1-0</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Auxerre du 15/05/2010 : 1-2</p>\n<p><strong>Premier but marqué :</strong> Rennes - Sochaux du 02/05/2010 :  1-0 - But à la 80'</p>",
+        "header_lines": [
+            "Benjamin Gavanon",
+            "né le 09 aout 1980 à Marseille (13)",
+            "Taille : 1m80",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : milieu relayeur",
+            "Arrivée à Sochaux : aout 2009",
+            "Départ de Sochaux : juin 2010",
+            "Premier match joué : Lille - Sochaux du 12/09/2009 : 1-0",
+            "Dernier match joué : Sochaux - Auxerre du 15/05/2010 : 1-2",
+            "Premier but marqué : Rennes - Sochaux du 02/05/2010 : 1-0 - But à la 80'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Benjamin",
+        "last_name": "Gavanon",
+        "display_name": "Benjamin Gavanon",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1980-08-09",
+                "precision": "day",
+                "text": "09 aout 1980"
+            },
+            "place": {
+                "text": "Marseille (13)",
+                "city": "Marseille",
+                "department": "13",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 09 aout 1980 à Marseille (13)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "milieu relayeur",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2009-08",
+            "precision": "month",
+            "text": "aout 2009"
+        },
+        "departure": {
+            "iso": "2010-06",
+            "precision": "month",
+            "text": "juin 2010"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Lille - Sochaux du 12/09/2009 : 1-0",
+        "last_match": "Sochaux - Auxerre du 15/05/2010 : 1-2",
+        "first_goal": "Rennes - Sochaux du 02/05/2010 : 1-0 - But à la 80'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Benjamin Gavanon"
+            },
+            {
+                "label": null,
+                "value": "né le 09 aout 1980 à Marseille (13)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu relayeur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2009"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2010"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Lille - Sochaux du 12/09/2009 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Auxerre du 15/05/2010 : 1-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Rennes - Sochaux du 02/05/2010 : 1-0 - But à la 80'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1976-1977",
+                    "16",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "1977-1978",
+                    "16",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "1978-1979",
+                    "21",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "21",
+                    "0"
+                ],
+                [
+                    "1979-1980",
+                    "13",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "13",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "66",
+                    "0",
+                    "4",
+                    "0",
+                    "2",
+                    "0",
+                    "72",
+                    "0"
+                ]
+            ],
+            "source_table": 283
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

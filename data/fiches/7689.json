@@ -1,0 +1,225 @@
+{
+    "id": 7689,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "per-figved",
+    "path": "/joueurs/per-figved/",
+    "title": "Per Figved",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/66402.jpg",
+    "date": "2024-11-19T21:55:16",
+    "modified": "2025-05-21T20:52:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "9",
+        "text": "Per Figved a joué 9 matchs (2 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/66402.jpg",
+            "caption": "Per Figved",
+            "credit": "dr",
+            "caption_raw": "Per Figved – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7689,
+        "url": "https://www.fcsochauxretro.com/a-la-une/per-figved/",
+        "path": "/a-la-une/per-figved/",
+        "slug": "per-figved",
+        "seo_title": "Per Figved - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Per Figved</h2>\n<h4><strong>né le 17 octobre 1920 à Stavanger (Norvège)</strong></h4>\n<h4><strong>Décédé le 1er juillet 1986 en France</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International norvégien U23</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1950</p>\n<p><strong>Départ de Sochaux : </strong>juin 1951</p>\n<p><strong>Premier match joué :</strong> RC Paris - Sochaux du 27/08/1950 : 4-1</p>\n<p><strong>Dernier match joué :</strong> CO Roubaix-Tourcoing - Sochaux du 01/04/1951 : : 1-1</p>\n<p><strong>Premier but marqué : </strong>Sochaux - Nice du 17/09/1950 : 3-2 - But à la 5'</p>",
+        "header_lines": [
+            "Per Figved",
+            "né le 17 octobre 1920 à Stavanger (Norvège)",
+            "Décédé le 1er juillet 1986 en France",
+            "Poste : attaquant",
+            "International norvégien U23",
+            "Arrivée à Sochaux : juillet 1950",
+            "Départ de Sochaux : juin 1951",
+            "Premier match joué : RC Paris - Sochaux du 27/08/1950 : 4-1",
+            "Dernier match joué : CO Roubaix-Tourcoing - Sochaux du 01/04/1951 : : 1-1",
+            "Premier but marqué : Sochaux - Nice du 17/09/1950 : 3-2 - But à la 5'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Per",
+        "last_name": "Figved",
+        "display_name": "Per Figved",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1920-10-17",
+                "precision": "day",
+                "text": "17 octobre 1920"
+            },
+            "place": {
+                "text": "Stavanger (Norvège)",
+                "city": "Stavanger",
+                "department": null,
+                "country": "Norvège",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 17 octobre 1920 à Stavanger (Norvège)"
+        },
+        "death": {
+            "date": {
+                "iso": "1986-07-01",
+                "precision": "day",
+                "text": "1er juillet 1986 en France"
+            },
+            "place": null,
+            "text": "Décédé le 1er juillet 1986 en France"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International norvégien U23"
+        ],
+        "arrival": {
+            "iso": "1950-07",
+            "precision": "month",
+            "text": "juillet 1950"
+        },
+        "departure": {
+            "iso": "1951-06",
+            "precision": "month",
+            "text": "juin 1951"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "RC Paris - Sochaux du 27/08/1950 : 4-1",
+        "last_match": "CO Roubaix-Tourcoing - Sochaux du 01/04/1951 : : 1-1",
+        "first_goal": "Sochaux - Nice du 17/09/1950 : 3-2 - But à la 5'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Per Figved"
+            },
+            {
+                "label": null,
+                "value": "né le 17 octobre 1920 à Stavanger (Norvège)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 1er juillet 1986 en France"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International norvégien U23"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1950"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1951"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "RC Paris - Sochaux du 27/08/1950 : 4-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "CO Roubaix-Tourcoing - Sochaux du 01/04/1951 : : 1-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Nice du 17/09/1950 : 3-2 - But à la 5'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1950 - 1951",
+                    "9",
+                    "2",
+                    "9",
+                    "2"
+                ],
+                [
+                    "TOTAL",
+                    "9",
+                    "2",
+                    "9",
+                    "2"
+                ]
+            ],
+            "source_table": 1096
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

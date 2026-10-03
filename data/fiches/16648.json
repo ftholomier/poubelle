@@ -1,0 +1,460 @@
+{
+    "id": 16648,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-velez-mostar-amical-27-07-2011",
+    "path": "/matchs/2011-2012/sochaux-velez-mostar-amical-27-07-2011/",
+    "title": "Amical – Sochaux (L1) / Velez Mostar (L1 Bosnie-Herzégovine) – 27/07/2011 – 2-2",
+    "categories": [
+        "2011-2012",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/sloan-privat-a-encore-trouve-le-chemin-des-filets-pour-l-ouverture-du-score-hier-soir-au-stade-serzian-photos-bruno-grandjean-1428590101.jpg",
+    "date": "2025-09-24T21:20:50",
+    "modified": "2026-06-16T11:48:40",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "64",
+        "text": "Sochaux entame sa 64e saison de Ligue 1, record national."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/sloan-privat-a-encore-trouve-le-chemin-des-filets-pour-l-ouverture-du-score-hier-soir-au-stade-serzian-photos-bruno-grandjean-1428590101.jpg",
+            "caption": "Sochaux-Velez Mostar – Privat 2010-2011 – Bruno Grandjean – L’est républicain",
+            "credit": "DR",
+            "caption_raw": "Sochaux-Velez Mostar – Privat 2010-2011 – Bruno Grandjean – L’est républicain – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16648,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l1-velez-mostar-l1-bosnie-herzegovine-27-07-2011-2-2/",
+        "path": "/a-la-une/amical-sochaux-l1-velez-mostar-l1-bosnie-herzegovine-27-07-2011-2-2/",
+        "slug": "amical-sochaux-l1-velez-mostar-l1-bosnie-herzegovine-27-07-2011-2-2",
+        "seo_title": "Amical - Sochaux (L1) / Velez Mostar (L1 Bosnie-Herzégovine) - 27/07/2011 - 2-2 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Velez Mostar (Bos) : 2-2<br></strong></h2>\n<h4><strong>6è match amical de préparation</strong></h4>\n<h4><strong>Jeudi 28 juillet 2011</strong></h4>\n<h4><strong>Stade Serzian (90)</strong></h4>\n<h4><strong>1 000 spectateurs</strong></h4>\n<h4><strong>Arbitre : xx<br></strong></h4>\n<p>Buts : Privat 27' et Dias 85' pour Sochaux ; Rovcanik 30' et Hasanovic 47' pour Velez Mostar</p>",
+        "header_lines": [
+            "Sochaux / Velez Mostar (Bos) : 2-2",
+            "6è match amical de préparation",
+            "Jeudi 28 juillet 2011",
+            "Stade Serzian (90)",
+            "1 000 spectateurs",
+            "Arbitre : xx",
+            "Buts : Privat 27' et Dias 85' pour Sochaux ; Rovcanik 30' et Hasanovic 47' pour Velez Mostar"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2011-07-27",
+        "date_text": "Jeudi 28 juillet 2011",
+        "season": "2011-2012",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "6è match amical de préparation",
+        "home": {
+            "name": "Sochaux",
+            "level": "L1"
+        },
+        "away": {
+            "name": "Velez Mostar",
+            "level": "L1 Bosnie-Herzégovine"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 2,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-2",
+        "score_line": "Sochaux / Velez Mostar (Bos) : 2-2",
+        "result": "N",
+        "stadium": "Stade Serzian (90)",
+        "spectators": 1000,
+        "spectators_text": "1 000 spectateurs",
+        "referee": "xx",
+        "goals_text": "Privat 27' et Dias 85' pour Sochaux ; Rovcanik 30' et Hasanovic 47' pour Velez Mostar",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Privat 27' et Dias 85'"
+            },
+            {
+                "team": "Velez Mostar",
+                "scorers": "Rovcanik 30' et Hasanovic 47'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "CAMARA Papa Demba",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "SAUGET David",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "63",
+                    "sub_text": "↓ 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BOUMAL Petrus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "DUPLUS Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "83",
+                    "sub_text": "↓ 83'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MARTIN Marvin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "71",
+                    "sub_text": "↓ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DIAS Rafaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "85"
+                    ],
+                    "goals_text": "⚽ 85'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MIKARI Yassine",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BUTIN Edouard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "63",
+                    "sub_text": "↓ 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "PRIVAT Sloan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "26"
+                    ],
+                    "goals_text": "⚽ 26'",
+                    "sub_in": null,
+                    "sub_out": "83",
+                    "sub_text": "↓ 83'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "COLAS Yoann",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GAINNET Baptiste",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "63",
+                    "sub_out": null,
+                    "sub_text": "↑ 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "ZOUMA Lionel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "83",
+                    "sub_out": null,
+                    "sub_text": "↑ 83'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PEREIRA Quentin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "71",
+                    "sub_out": null,
+                    "sub_text": "↑ 71'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PRCIC Sanjin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "GURLER Serdar",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "63",
+                    "sub_out": null,
+                    "sub_text": "↑ 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "REY Cédric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "83",
+                    "sub_out": null,
+                    "sub_text": "↑ 83'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1871
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

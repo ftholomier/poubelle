@@ -1,0 +1,160 @@
+{
+    "id": 6534,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jules-baur",
+    "path": "/joueurs/jules-baur/",
+    "title": "Jules Baur",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/telechargement-7.jpg",
+    "date": "2024-11-04T13:55:58",
+    "modified": "2025-06-01T19:08:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Il arrive des Young Boys de Zurich. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Pas de participation à un match officiel sur les feuilles de matchs récoltées."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/telechargement-7.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6534,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jules-baur/",
+        "path": "/a-la-une/jules-baur/",
+        "slug": "jules-baur",
+        "seo_title": "Jules Baur - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Jules Baur</strong></h2>\n<h4><strong>né en 1916 à Bienne (Suisse)</strong></h4>\n<p><strong>Poste : </strong>défenseur </p>\n<p><strong>Arrivée à Sochaux : </strong>juin 1935 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1936</p>",
+        "header_lines": [
+            "Jules Baur",
+            "né en 1916 à Bienne (Suisse)",
+            "Poste : défenseur",
+            "Arrivée à Sochaux : juin 1935",
+            "Départ de Sochaux : juin 1936"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jules",
+        "last_name": "Baur",
+        "display_name": "Jules Baur",
+        "nickname": "",
+        "subtitle": "né en 1916 à Bienne (Suisse)",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1916",
+                "precision": "year",
+                "text": "1916"
+            },
+            "place": {
+                "text": "Bienne (Suisse)",
+                "city": "Bienne",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né en 1916 à Bienne (Suisse)"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "défenseur",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1935-06",
+            "precision": "month",
+            "text": "juin 1935"
+        },
+        "departure": {
+            "iso": "1936-06",
+            "precision": "month",
+            "text": "juin 1936"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jules Baur"
+            },
+            {
+                "label": null,
+                "value": "né en 1916 à Bienne (Suisse)"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1935"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1936"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

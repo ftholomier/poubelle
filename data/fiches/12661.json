@@ -1,0 +1,169 @@
+{
+    "id": 12661,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ally-mitchell",
+    "path": "/joueurs/ally-mitchell/",
+    "title": "Ally Mitchell (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-26.jpg",
+    "date": "2025-03-08T18:07:10",
+    "modified": "2025-11-12T13:57:52",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>\n<p>A l'été 197, Sochaux cherche un attaquant pour compléter sa ligne d'attaque. La filière écossaise marche à plein puisqu'après Stephen Mc Cormick, meilleur buteur de D2 ecossaise, c'est Ally Mitchell un milieu offenssif ou ailier de Kilmarnock qui est pressenti. </p>\n</li>\n<li>\n<p>Mais il ne signera pas puisque Sochaux finalise en quelques jours l'arrivée de Bernard Bouger. </p>\n</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": "<ul>\n<li>Ally Mitchell est connu en Ecosse pour avoir marqué l'unique but du match Glasgow Rangers - Kilmarnock (0-1) en 1998. Ce but offrira le titre de champion d'Ecosse au Celtic Glasgow. Les Rangers, en gagnant ce match aurait pu remporter leur dixième titre de champion d'affilée. Cela aurait été un record. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1997",
+        "text": "Ally Mitchell a été mis à l'essai à l'été 1997."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-26.jpg",
+            "caption": "Ally Mitchell",
+            "credit": "DR",
+            "caption_raw": "Ally Mitchell – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12661,
+        "url": "https://www.fcsochauxretro.com/uncategorized/ally-mitchell/",
+        "path": "/uncategorized/ally-mitchell/",
+        "slug": "ally-mitchell",
+        "seo_title": "Ally Mitchell (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ally Mitchell</h2>\n<h4><strong>né le 3 février 1968 à Kirckaldy (Ecosse) </strong></h4>\n<p><strong>Taille : </strong>1m70</p>\n<p><strong>Poids :</strong> 70 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>milieu offensif ou ailier </p>\n<p><strong>A l'essai en : </strong>aout 1997</p>",
+        "header_lines": [
+            "Ally Mitchell",
+            "né le 3 février 1968 à Kirckaldy (Ecosse)",
+            "Taille : 1m70",
+            "Poids : 70 kg",
+            "Pied : ambidextre",
+            "Poste : milieu offensif ou ailier",
+            "A l'essai en : aout 1997"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ally",
+        "last_name": "Mitchell",
+        "display_name": "Ally Mitchell",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1997-08",
+            "precision": "month",
+            "text": "aout 1997"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1968-02-03",
+                "precision": "day",
+                "text": "3 février 1968"
+            },
+            "place": {
+                "text": "Kirckaldy (Ecosse)",
+                "city": "Kirckaldy",
+                "department": null,
+                "country": "Ecosse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 février 1968 à Kirckaldy (Ecosse)"
+        },
+        "death": null,
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "ambidextre",
+        "position": "milieu offensif ou ailier",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ally Mitchell"
+            },
+            {
+                "label": null,
+                "value": "né le 3 février 1968 à Kirckaldy (Ecosse)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif ou ailier"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "aout 1997"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

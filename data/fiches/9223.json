@@ -1,0 +1,300 @@
+{
+    "id": 9223,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "bernard-williams",
+    "path": "/joueurs/bernard-williams/",
+    "title": "Bernard Williams",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/williams2.jpg",
+    "date": "2024-12-29T00:16:29",
+    "modified": "2025-09-10T10:53:00",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "144",
+        "text": "Bernard Williams a joué 144 matchs (25 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/St_Ouen_7_2_31_football_association_.Agence_Rol_btv1b53240777p.jpeg",
+            "caption": "Bernard Williams",
+            "credit": "AS Valentigney",
+            "caption_raw": "Bernard Williams – AS Valentigney"
+        },
+        {
+            "image": "2024/12/abfa7.jpg",
+            "caption": "Bernard Williams",
+            "credit": "",
+            "caption_raw": "Bernard Williams"
+        },
+        {
+            "image": "2024/12/3.jpeg",
+            "caption": "Bernard Williams",
+            "credit": "dr",
+            "caption_raw": "Bernard Williams – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9223,
+        "url": "https://www.fcsochauxretro.com/a-la-une/bernard-williams/",
+        "path": "/a-la-une/bernard-williams/",
+        "slug": "bernard-williams",
+        "seo_title": "Bernard Williams - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Bernard Williams</h2>\n<h4><strong>né le 25 aout 1908 à Drumanagh (Irlande)</strong></h4>\n<h4><strong>Décédé le 22 janvier 1994 à Montbéliard (25) </strong></h4>\n<p><strong>Taille : </strong>1m70</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1932</p>\n<p><strong>Départ de Sochaux : </strong>juin 1947</p>\n<p><strong>Premier match joué :</strong> Cannes - Sochaux du 16/10/1937 : 1-1</p>\n<p><strong>Dernier match joué :</strong> ?</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Lens du 08/01/1933 : 8-0</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France de première division 1935</li>\n<li>Vainqueur de la coupe de France 1937</li>\n<li>Vice-champion de France de première division 1937</li>\n<li>Champion de France 1938</li>\n<li>Champion de deuxième 1947 division </li>\n</ul>",
+        "header_lines": [
+            "Bernard Williams",
+            "né le 25 aout 1908 à Drumanagh (Irlande)",
+            "Décédé le 22 janvier 1994 à Montbéliard (25)",
+            "Taille : 1m70",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1932",
+            "Départ de Sochaux : juin 1947",
+            "Premier match joué : Cannes - Sochaux du 16/10/1937 : 1-1",
+            "Dernier match joué : ?",
+            "Premier but marqué : Sochaux - Lens du 08/01/1933 : 8-0",
+            "Palmarès avec Sochaux :",
+            "Champion de France de première division 1935",
+            "Vainqueur de la coupe de France 1937",
+            "Vice-champion de France de première division 1937",
+            "Champion de France 1938",
+            "Champion de deuxième 1947 division"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Bernard",
+        "last_name": "Williams",
+        "display_name": "Bernard Williams",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1908-08-25",
+                "precision": "day",
+                "text": "25 aout 1908"
+            },
+            "place": {
+                "text": "Drumanagh (Irlande)",
+                "city": "Drumanagh",
+                "department": null,
+                "country": "Irlande",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 25 aout 1908 à Drumanagh (Irlande)"
+        },
+        "death": {
+            "date": {
+                "iso": "1994-01-22",
+                "precision": "day",
+                "text": "22 janvier 1994"
+            },
+            "place": {
+                "text": "Montbéliard (25)",
+                "city": "Montbéliard",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 22 janvier 1994 à Montbéliard (25)"
+        },
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1932-07",
+            "precision": "month",
+            "text": "juillet 1932"
+        },
+        "departure": {
+            "iso": "1947-06",
+            "precision": "month",
+            "text": "juin 1947"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Cannes - Sochaux du 16/10/1937 : 1-1",
+        "last_match": "?",
+        "first_goal": "Sochaux - Lens du 08/01/1933 : 8-0",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France de première division 1935",
+            "Vainqueur de la coupe de France 1937",
+            "Vice-champion de France de première division 1937",
+            "Champion de France 1938",
+            "Champion de deuxième 1947 division"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Bernard Williams"
+            },
+            {
+                "label": null,
+                "value": "né le 25 aout 1908 à Drumanagh (Irlande)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 22 janvier 1994 à Montbéliard (25)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1932"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1947"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Cannes - Sochaux du 16/10/1937 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "?"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Lens du 08/01/1933 : 8-0"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France de première division 1935"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 1937"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de première division 1937"
+            },
+            {
+                "label": null,
+                "value": "Champion de France 1938"
+            },
+            {
+                "label": null,
+                "value": "Champion de deuxième 1947 division"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

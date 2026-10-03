@@ -1,0 +1,186 @@
+{
+    "id": 16244,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jules-prince-mendy",
+    "path": "/joueurs/jules-prince-mendy/",
+    "title": "Jules “Prince” Mendy",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/08/68b5b17623df5361776271.jpg",
+    "date": "2025-08-28T10:23:51",
+    "modified": "2025-09-02T07:22:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2025",
+        "text": "Jules \"Prince\" Mendy signe un contrat d'une saison en aout 2025 après un essai d'une semaine."
+    },
+    "gallery": [
+        {
+            "image": "2025/08/68b5b17623df5361776271.jpg",
+            "caption": "Jules Prince Mendy",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Jules Prince Mendy – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16244,
+        "url": "https://www.fcsochauxretro.com/a-la-une/jules-prince-mendy/",
+        "path": "/a-la-une/jules-prince-mendy/",
+        "slug": "jules-prince-mendy",
+        "seo_title": "Jules \"Prince\" Mendy - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jules \"Prince\" Mendy</h2>\n<h4><strong>né le 14 novembre 1994 à Boutopa (Sénégal)</strong></h4>\n<p><strong>Taille : </strong>1m90</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>aout 2025</p>\n<p><strong>Départ de Sochaux :</strong> </p>\n<p><strong>Premier match joué : </strong></p>\n<p><strong>Dernier match joué :</strong> </p>",
+        "header_lines": [
+            "Jules \"Prince\" Mendy",
+            "né le 14 novembre 1994 à Boutopa (Sénégal)",
+            "Taille : 1m90",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : aout 2025",
+            "Départ de Sochaux :",
+            "Premier match joué :",
+            "Dernier match joué :"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jules \"Prince\"",
+        "last_name": "Mendy",
+        "display_name": "Jules \"Prince\" Mendy",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1994-11-14",
+                "precision": "day",
+                "text": "14 novembre 1994"
+            },
+            "place": {
+                "text": "Boutopa (Sénégal)",
+                "city": "Boutopa",
+                "department": null,
+                "country": "Sénégal",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 14 novembre 1994 à Boutopa (Sénégal)"
+        },
+        "death": null,
+        "height": "1m90",
+        "height_cm": 190,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2025-08",
+            "precision": "month",
+            "text": "aout 2025"
+        },
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "",
+        "last_match": "",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jules \"Prince\" Mendy"
+            },
+            {
+                "label": null,
+                "value": "né le 14 novembre 1994 à Boutopa (Sénégal)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m90"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "aout 2025"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": ""
+            },
+            {
+                "label": "Premier match joué",
+                "value": ""
+            },
+            {
+                "label": "Dernier match joué",
+                "value": ""
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

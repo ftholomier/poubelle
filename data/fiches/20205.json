@@ -1,0 +1,163 @@
+{
+    "id": 20205,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "madji-bedomti",
+    "path": "/joueurs/madji-bedomti/",
+    "title": "Madji Bedomti (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/01/26813.jpg",
+    "date": "2026-01-20T15:37:10",
+    "modified": "2026-04-05T20:26:15",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation et son essai",
+            "html": "<ul>\n<li>Formé au Paris Saint-Germain, Madji Bedomti évolue en CFA (4e division jusqu’en 1999). Non conservé par le PSG, il reste en région parisienne et rejoint le club de Poissy en CFA 2.</li>\n<li>Après deux bonnes saisons, dont la dernière qui voit le club accéder au CFA, sous la houlette d’Éric Dewilder, ancien joueur de Sochaux, il attire l’attention de plusieurs clubs.</li>\n<li>Le club de Poissy étant un partenaire de longue date de Sochaux, et Éric Dewilder ayant lui-même évolué au club (tout comme son père), deux joueurs sont recommandés au FC Sochaux à l’été 2001, dont Bedomti.</li>\n<li>Plutôt destiné à l’équipe réserve, ce solide défenseur central au physique imposant ne parvient finalement pas à s’imposer et reste à Poissy.</li>\n<li>Il y dispute encore trois saisons avant de s’engager à Rouen, en National, où il évolue pendant deux ans.</li>\n<li>Il termine ensuite sa carrière avec deux saisons à Levallois, puis trois autres à Dreux en CFA 2, mettant un terme à sa carrière en 2011.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Madji Bedmoti reste à l'essai 1 semaine à Sochaux à l'été 2001."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/SAM_2222.jpg",
+            "caption": "Madji Bedomti à l’entrainement à l’été 2001",
+            "credit": "L’est républicain",
+            "caption_raw": "Madji Bedomti à l’entrainement à l’été 2001 – L’est républicain"
+        },
+        {
+            "image": "2026/01/26813.jpg",
+            "caption": "Madji Bedomti FC Rouen",
+            "credit": "DR",
+            "caption_raw": "Madji Bedomti FC Rouen – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 20205,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/madji-bedomti-a-lessai/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/madji-bedomti-a-lessai/",
+        "slug": "madji-bedomti-a-lessai",
+        "seo_title": "Madji Bedomti (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Madji Bedomti</h2>\n<h4><strong>né le 9 janvier 1979 à N'Djamena (Tchad)</strong></h4>\n<p><strong>Taille : </strong>1m88</p>\n<p><strong>Poids : </strong>85 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>A l'essai à Sochaux : </strong>juillet 2001</p>",
+        "header_lines": [
+            "Madji Bedomti",
+            "né le 9 janvier 1979 à N'Djamena (Tchad)",
+            "Taille : 1m88",
+            "Poids : 85 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "A l'essai à Sochaux : juillet 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Madji",
+        "last_name": "Bedomti",
+        "display_name": "Madji Bedomti",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2001-07",
+            "precision": "month",
+            "text": "juillet 2001"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1979-01-09",
+                "precision": "day",
+                "text": "9 janvier 1979"
+            },
+            "place": {
+                "text": "N'Djamena (Tchad)",
+                "city": "N'Djamena",
+                "department": null,
+                "country": "Tchad",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 janvier 1979 à N'Djamena (Tchad)"
+        },
+        "death": null,
+        "height": "1m88",
+        "height_cm": 188,
+        "weight": "85 kg",
+        "weight_kg": 85,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Madji Bedomti"
+            },
+            {
+                "label": null,
+                "value": "né le 9 janvier 1979 à N'Djamena (Tchad)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m88"
+            },
+            {
+                "label": "Poids",
+                "value": "85 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "juillet 2001"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,139 @@
+{
+    "id": 13333,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jacques-thouzery",
+    "path": "/dirigeants/jacques-thouzery/",
+    "title": "Jacques Thouzery",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents",
+        "presidents-dhonneur"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/61d5d46da138b673379186.webp",
+    "date": "2025-04-04T19:27:25",
+    "modified": "2025-11-12T21:49:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Jacques Thouzery : le plus long mandat à la tête du club qui va mettre la formation au service de la performance : 1974 - 1994 </strong></h4>\n<ul>\n<li>Jacques Thouzery aura fait de la formation le barômètre de sa mandature durant 2 décennies. Il devient président en 1974 et lance le premier centre de formation de France. Cette première génération dorée aménera le club en demi finale de la coupe d'Europe 1981 ! Le plus grand exploit sportif du club. Les générations suivantes seront pas mal non plus avec celle amenant le club à la deuxième place du championnat de France 1988 et surtout à la finale de la coupe de France la même année. </li>\n<li>Président bâtisseur, il cédera son poste à son vice-président Gilles Daget en 1994 à l'heure où la formation et le stade avaient besoin d'un dynamisme nouveau pour relancer le club.</li>\n<li>Sous sa présidence, les jeunes ont atteint la finale de la coupe Gambardella 1975 et l'ont emporté en 1983. Plusieurs joueurs du club sont d'ailleurs devenus champions d'Europe junior toujours en 1983. En 1980, avec cette génération de jeunes joueurs talentueux menés par Bernard Genghini le meneur de jeu, le club termine vice-champion de France de première division échouant de peu derrière Nantes. L'année suivante, le club atteindra la demi-finale de la coupe UEFA contre Alkmaar. En 1988, le club, après une saison remarquable, termine vice-champion de France de deuxième division et atteint la finale de la coupe de France. Les jeunes sochaliens forment aussi l'ossature de l'équipe de France espoir qui remporte le championnat d'Europe contre la Grèce à Besançon la même année.</li>\n<li>Dès la fin de son mandat, il devient Président d'honneur du club jusqu'à son décès en février 2016 à l'âge de 89 ans. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "20",
+        "text": "Jacques Thouzery restera 20 ans à la tête du club. Le plus long mandat pour un président à Sochaux. Il va révolutionner la formation et en faire le point fort du club."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/61d5d46da138b673379186.webp",
+            "caption": "Jacques Thouzery – Président du club de 1974 à 1994 – La formation au service de la performance sportive",
+            "credit": "",
+            "caption_raw": "Jacques Thouzery – Président du club de 1974 à 1994 – La formation au service de la performance sportive"
+        },
+        {
+            "image": "2025/04/AZ-Sochaux-8-fv.png",
+            "caption": "Hauss et Thouzery en avril 1981",
+            "credit": "AFP",
+            "caption_raw": "Hauss et Thouzery en avril 1981 – AFP"
+        },
+        {
+            "image": "2025/04/IMG_20211105_181718.jpg",
+            "caption": "Arrivée à la présidence de Jacques Thouzery",
+            "credit": "France Football",
+            "caption_raw": "Arrivée à la présidence de Jacques Thouzery – France Football"
+        },
+        {
+            "image": "2025/04/gggbbbnnjjkk-v.png",
+            "caption": "Takac et Thouzery en 1988",
+            "credit": "Reinoso",
+            "caption_raw": "Takac et Thouzery en 1988 – Reinoso"
+        },
+        {
+            "image": "2025/04/Thouzery-Lorius.png",
+            "caption": "Jacques Thouzery",
+            "credit": "Lorius",
+            "caption_raw": "Jacques Thouzery – Lorius"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13333,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/jacques-thouzery/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/jacques-thouzery/",
+        "slug": "jacques-thouzery",
+        "seo_title": "Jacques Thouzery - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jacques Thouzery</h2>\n<h4><strong>Président de 1974 à 1994  </strong></h4>",
+        "header_lines": [
+            "Jacques Thouzery",
+            "Président de 1974 à 1994"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Jacques",
+        "last_name": "Thouzery",
+        "display_name": "Jacques Thouzery",
+        "nickname": "",
+        "subtitle": "Président de 1974 à 1994",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jacques Thouzery"
+            },
+            {
+                "label": null,
+                "value": "Président de 1974 à 1994"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

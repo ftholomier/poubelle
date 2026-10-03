@@ -1,0 +1,265 @@
+{
+    "id": 11092,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "manuel-semedo",
+    "path": "/joueurs/manuel-semedo/",
+    "title": "Manuel Semedo",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/5-106.jpg",
+    "date": "2025-01-28T21:42:44",
+    "modified": "2025-01-28T21:52:22",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Manuel Semedo a joué 5 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/Edw3YbOWsAQ8Lss.jpg",
+            "caption": "Manuel Semedo",
+            "credit": "L’est républicain",
+            "caption_raw": "Manuel Semedo – L’est républicain"
+        },
+        {
+            "image": "2025/01/manuel-semedo-est-convoque-pour-la-reception-de-troyes-photo-er-christian-lemontey-1598636774.jpg",
+            "caption": "Manuel Semedo",
+            "credit": "L’est républicain",
+            "caption_raw": "Manuel Semedo – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11092,
+        "url": "https://www.fcsochauxretro.com/a-la-une/manuel-semedo/",
+        "path": "/a-la-une/manuel-semedo/",
+        "slug": "manuel-semedo",
+        "seo_title": "Manuel Semedo - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Manuel Semedo</h2>\n<h4><strong>né le 20 janvier 2000 à Maisons-Laffitte (78)  </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>70 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>ailier droit</p>\n<p><strong>Arrivée à Sochaux : </strong>octobre 2019</p>\n<p><strong>Départ de Sochaux : </strong>juillet 2021</p>\n<p><strong>Premier match joué :</strong> Sochaux - Rodez du 19/09/2020 : 2-2</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Caen du 24/04/2021 : 1-0 </p>",
+        "header_lines": [
+            "Manuel Semedo",
+            "né le 20 janvier 2000 à Maisons-Laffitte (78)",
+            "Taille : 1m80",
+            "Poids : 70 kg",
+            "Pied : droitier",
+            "Poste : ailier droit",
+            "Arrivée à Sochaux : octobre 2019",
+            "Départ de Sochaux : juillet 2021",
+            "Premier match joué : Sochaux - Rodez du 19/09/2020 : 2-2",
+            "Dernier match joué : Sochaux - Caen du 24/04/2021 : 1-0"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Manuel",
+        "last_name": "Semedo",
+        "display_name": "Manuel Semedo",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2000-01-20",
+                "precision": "day",
+                "text": "20 janvier 2000"
+            },
+            "place": {
+                "text": "Maisons-Laffitte (78)",
+                "city": "Maisons-Laffitte",
+                "department": "78",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 20 janvier 2000 à Maisons-Laffitte (78)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "70 kg",
+        "weight_kg": 70,
+        "foot": "droitier",
+        "position": "ailier droit",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2019-10",
+            "precision": "month",
+            "text": "octobre 2019"
+        },
+        "departure": {
+            "iso": "2021-07",
+            "precision": "month",
+            "text": "juillet 2021"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Rodez du 19/09/2020 : 2-2",
+        "last_match": "Sochaux - Caen du 24/04/2021 : 1-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Manuel Semedo"
+            },
+            {
+                "label": null,
+                "value": "né le 20 janvier 2000 à Maisons-Laffitte (78)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "70 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "octobre 2019"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juillet 2021"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Rodez du 19/09/2020 : 2-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Caen du 24/04/2021 : 1-0"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "3",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "0"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "5",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "5",
+                    "0",
+                    "3",
+                    "0",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "0"
+                ]
+            ],
+            "source_table": 459
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

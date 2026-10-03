@@ -1,0 +1,183 @@
+{
+    "id": 12585,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jires-kembo-ekoko",
+    "path": "/joueurs/jires-kembo-ekoko/",
+    "title": "Jirès Kembo Ekoko (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-21.jpg",
+    "date": "2025-03-06T23:37:54",
+    "modified": "2025-11-12T14:05:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Sans club, le demi-frère adoptif de Kylian M'Bappé (que Sochaux avait tenté de recruter au centre de formation en 2013 mais n'a pas fait le poids face aux autres clubs) se retrouve sans club en 2020. Il tente de se relancer et vient effectuer un essai d'une semaine avec les hommes d'Omar Daf. Mais vieillissant et à court de rythme il ne convainc pas le staff de le conserver dans l'effectif et de lui faire signer un contrat pro. Il quitte le club après avoir joué 20 minutes en amical contre le SC Lyon à Dôle. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Jirès Kembo Ekoko a disputé 1 match amical pour Sochaux après 1 semaine de stage à l'été 2020."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/jires-kembo-ekoko-n-est-plus-a-sochaux-photo-er-christian-lemontey-1596106848.jpg",
+            "caption": "Jirès Kembo-Ekoko",
+            "credit": "L’est républicain",
+            "caption_raw": "Jirès Kembo-Ekoko – L’est républicain"
+        },
+        {
+            "image": "2025/03/fc-sochaux-l-ex-rennais-jires-kembo-ekoko-a-l-essai-1595497694.jpg",
+            "caption": "Jirès Kembo-Ekoko",
+            "credit": "L’est républicain",
+            "caption_raw": "Jirès Kembo-Ekoko – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12585,
+        "url": "https://www.fcsochauxretro.com/uncategorized/jires-kembo-ekoko/",
+        "path": "/uncategorized/jires-kembo-ekoko/",
+        "slug": "jires-kembo-ekoko",
+        "seo_title": "Jirès Kembo Ekoko (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jirès Kembo-Ekoko</h2>\n<h4><strong>né le 8 janvier 1988 à Kinshasa (RD Congo)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids :</strong> 78 kg</p>\n<p><strong>Pied :</strong> ambidextre</p>\n<p><strong>Poste : </strong>attaquant ou milieu offensif</p>\n<p><strong>International français U20 et espoirs (11 sélections, 2 buts) </strong></p>\n<p><strong>A l'essai en : </strong>juillet 2020</p>\n<p><strong>Premier et dernier match amical joué </strong>: Sochaux - SC Lyon du 24/07/2020 : 2-1</p>",
+        "header_lines": [
+            "Jirès Kembo-Ekoko",
+            "né le 8 janvier 1988 à Kinshasa (RD Congo)",
+            "Taille : 1m78",
+            "Poids : 78 kg",
+            "Pied : ambidextre",
+            "Poste : attaquant ou milieu offensif",
+            "International français U20 et espoirs (11 sélections, 2 buts)",
+            "A l'essai en : juillet 2020",
+            "Premier et dernier match amical joué : Sochaux - SC Lyon du 24/07/2020 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jirès",
+        "last_name": "Kembo-Ekoko",
+        "display_name": "Jirès Kembo-Ekoko",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2020-07",
+            "precision": "month",
+            "text": "juillet 2020"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1988-01-08",
+                "precision": "day",
+                "text": "8 janvier 1988"
+            },
+            "place": {
+                "text": "Kinshasa (RD Congo)",
+                "city": "Kinshasa",
+                "department": null,
+                "country": "RD Congo",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 8 janvier 1988 à Kinshasa (RD Congo)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "ambidextre",
+        "position": "attaquant ou milieu offensif",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français U20 et espoirs (11 sélections, 2 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jirès Kembo-Ekoko"
+            },
+            {
+                "label": null,
+                "value": "né le 8 janvier 1988 à Kinshasa (RD Congo)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "ambidextre"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant ou milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français U20 et espoirs (11 sélections, 2 buts)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 2020"
+            },
+            {
+                "label": "Premier et dernier match amical joué",
+                "value": "Sochaux - SC Lyon du 24/07/2020 : 2-1"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

@@ -1,0 +1,114 @@
+{
+    "id": 13319,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alexandre-lacombe",
+    "path": "/dirigeants/alexandre-lacombe/",
+    "title": "Alexandre Lacombe",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-executifs"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/15-e-ou-5-e-ce-n-est-pas-la-revolution-si-il-y-a-deux-ans-j-avais-tout-fling.jpg",
+    "date": "2025-04-06T10:14:52",
+    "modified": "2025-11-12T22:07:01",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Alexandre Lacombe, un président gestionnaire : 2008-2013 </strong></h4>\n<ul>\n<li>Après une dernière année de présidence dispendieuse les dirigeants de PSA décident de remplacer Jean-Claude Plessis. Ce dernier fait donc valoir ses droits à la retraite. Il est remplacé par Alexandre Lacombe qui a pour mission de redresser les finances et de pérenniser le club en ligue 1. </li>\n<li>Sportivement, le club jouera le maintien 4 saisons sur les 5. Mais il réalisera une saison remarquable en 2010-2011. Autour de la génération Gambardella 2007 (Martin, Boudebouz, Cros, Peybernes, Butin, Tulasne, Nogueira...) s'ajoutent des joueurs de talent comme Richert, Maïga, Ideye, Maurice-Belay, Anin etc. L'équipe terminera 5è de ligue 1 en jouant un jeu offensif très agréable et se qualifiera pour la coupe d'Europe.  </li>\n<li>La saison suivante sera plus délicate à gérer avec des joueurs qui avaient de velléités salariales importantes et des envies de départ du club pour certains. </li>\n<li>Durant sa présidence les jeunes ont aussi atteint la finale de la coupe Gambardella 2010 menés par le prometteur attaquant Cédric Bakambu. </li>\n<li>En mars 2013, il annonce son départ du club. Il sera remplacé par Alain Cordier qui assurera l'intérim quelques mois avant l'arrivée de Laurent Pernet. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Alexandre Lacombe est resté 5 ans à la présidence du club."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/15-e-ou-5-e-ce-n-est-pas-la-revolution-si-il-y-a-deux-ans-j-avais-tout-fling.jpg",
+            "caption": "Alexandre Lacombe, président de 2008 à 2013.",
+            "credit": "",
+            "caption_raw": "Alexandre Lacombe, président de 2008 à 2013."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13319,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/alexandre-lacombe/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/alexandre-lacombe/",
+        "slug": "alexandre-lacombe",
+        "seo_title": "Alexandre Lacombe - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alexandre Lacombe</h2>\n<h4><strong>Président exécutif de 2008 à 2013 </strong> </h4>",
+        "header_lines": [
+            "Alexandre Lacombe",
+            "Président exécutif de 2008 à 2013"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Alexandre",
+        "last_name": "Lacombe",
+        "display_name": "Alexandre Lacombe",
+        "nickname": "",
+        "subtitle": "Président exécutif de 2008 à 2013",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alexandre Lacombe"
+            },
+            {
+                "label": null,
+                "value": "Président exécutif de 2008 à 2013"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

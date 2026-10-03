@@ -1,0 +1,133 @@
+{
+    "id": 16358,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "eric-peugeot",
+    "path": "/dirigeants/eric-peugeot/",
+    "title": "Eric Peugeot",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-dhonneur"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/9583_portrait.jpg",
+    "date": "2025-09-05T22:54:03",
+    "modified": "2025-11-12T21:39:41",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Président d’honneur dès les années 90</strong></h4>\n<p>Éric Peugeot a succédé à son père, Roland Peugeot, comme président d’honneur du FC Sochaux-Montbéliard à la fin des années 1990. Ce titre symbolique constitue une forme d’honneur rendu à sa famille, qui a fondé le club et lui a longtemps donné son impulsion.</p>\n<h4><strong>Héritier d’une tradition familiale</strong></h4>\n<p>Issu de la lignée fondatrice, Éric Peugeot représente la continuité de l’engagement familial auprès du club. Il incarne la passion et l’attachement de la famille Peugeot à l’histoire du FCSM, bien plus que la stratégie industrielle ou financière de PSA. Le club est alors à un tournant avec l'inauguration du nouveau stade Auguste Bonal et du centre de formation dans un château familial offert par sa famille et qui portera le nom de son père Roland. </p>\n<h4><strong>Figure de soutien moral et institutionnel</strong></h4>\n<p>Pendant son mandat de président d’honneur, Éric Peugeot exerce un rôle de caution morale et symbolique, plutôt qu’une gestion opérationnelle. Il incarnait l’esprit familial et la tradition sochalienne, soutenant les valeurs du club et son rayonnement culturel. Il est aussi celui qui repère et recommande Jean-Claude Plessis pour prendre la présidence du club avec le succès sportif que l'on connait. Il est ainsi Président d'honneur durant toute la décennie 2000 avec deux nouveaux titres nationaux la coupe de la ligue 2003 et la coupe de France 2007. </p>\n<h4><strong>Transition difficile et participation au sauvetage du club</strong></h4>\n<p>Lorsque le club a été mis en vente en 2014—après la descente en Ligue 2 et dans un contexte où la famille Peugeot perd son droit de véto à la gouvernance de PSA—Éric Peugeot se retire de la scène footballistique, malgré son attachement évident. Selon Romain Peugeot (son fils), <em>« mon père … a préféré se retirer de la scène footballistique. Mais il était évidemment déçu ». </em></p>\n<p>En 2023, il soutient activement le sauvetage du club. </p>"
+        }
+    ],
+    "key_figure": {
+        "number": "90",
+        "text": "Eric Peugeot est présent aux côtés du club dès les années 90."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/9583_portrait.jpg",
+            "caption": "Eric Peugeot",
+            "credit": "",
+            "caption_raw": "Eric Peugeot"
+        },
+        {
+            "image": "2025/09/1200x680.jpg",
+            "caption": "Sous les applaudissements nourris des supporters de Bonal, Roland Peugeot donne le coup d’envoi fictif du match des 80 ans du club en 2008 aux côtés de son fils Eric et de son petit fils Romain.",
+            "credit": "",
+            "caption_raw": "Sous les applaudissements nourris des supporters de Bonal, Roland Peugeot donne le coup d’envoi fictif du match des 80 ans du club en 2008 aux côtés de son fils Eric et de son petit fils Romain."
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16358,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/eric-peugeot/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/eric-peugeot/",
+        "slug": "eric-peugeot",
+        "seo_title": "Eric Peugeot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Eric Peugeot    </h2>\n<h4><strong>Né en décembre 1955.</strong></h4>\n<h4><strong>Président d'honneur du FC Sochaux-Montbéliard à partir des années 90.  </strong></h4>",
+        "header_lines": [
+            "Eric Peugeot",
+            "Né en décembre 1955.",
+            "Président d'honneur du FC Sochaux-Montbéliard à partir des années 90."
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Eric",
+        "last_name": "Peugeot",
+        "display_name": "Eric Peugeot",
+        "nickname": "",
+        "subtitle": "Né en décembre 1955.",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1955-12",
+                "precision": "month",
+                "text": "décembre 1955."
+            },
+            "place": null,
+            "text": "Né en décembre 1955."
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Eric Peugeot"
+            },
+            {
+                "label": null,
+                "value": "Né en décembre 1955."
+            },
+            {
+                "label": null,
+                "value": "Président d'honneur du FC Sochaux-Montbéliard à partir des années 90."
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

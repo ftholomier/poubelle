@@ -1,0 +1,172 @@
+{
+    "id": 12551,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "felix-eboa-eboa",
+    "path": "/joueurs/felix-eboa-eboa/",
+    "title": "Felix Eboa Eboa (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-15.jpg",
+    "date": "2025-03-06T19:09:12",
+    "modified": "2025-11-12T14:13:25",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Felix Eboa Eboa est resté à l'essai 3 semaines en janvier 2024 mais n'a pas été conservé par les dirigeants."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-15.jpg",
+            "caption": "Felix Eboa Eboa – Guingamp",
+            "credit": "Footballdatabase.eu",
+            "caption_raw": "Felix Eboa Eboa – Guingamp – Footballdatabase.eu"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12551,
+        "url": "https://www.fcsochauxretro.com/uncategorized/felix-eboa-eboa/",
+        "path": "/uncategorized/felix-eboa-eboa/",
+        "slug": "felix-eboa-eboa",
+        "seo_title": "Felix Eboa Eboa (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Felix Eboa Eboa</h2>\n<h4><strong>Né le 19 avril 1997 à Douala (Cameroun)</strong></h4>\n<p><strong>Taille : </strong>1m84</p>\n<p><strong>Poids :</strong> 82 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> défenseur central </p>\n<p><strong>International camerounais (1 sélection)</strong></p>\n<p><strong>A l'essai en : </strong>janvier 2024</p>",
+        "header_lines": [
+            "Felix Eboa Eboa",
+            "Né le 19 avril 1997 à Douala (Cameroun)",
+            "Taille : 1m84",
+            "Poids : 82 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "International camerounais (1 sélection)",
+            "A l'essai en : janvier 2024"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Felix Eboa",
+        "last_name": "Eboa",
+        "display_name": "Felix Eboa Eboa",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2024-01",
+            "precision": "month",
+            "text": "janvier 2024"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1997-04-19",
+                "precision": "day",
+                "text": "19 avril 1997"
+            },
+            "place": {
+                "text": "Douala (Cameroun)",
+                "city": "Douala",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 19 avril 1997 à Douala (Cameroun)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "82 kg",
+        "weight_kg": 82,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [
+            "International camerounais (1 sélection)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Felix Eboa Eboa"
+            },
+            {
+                "label": null,
+                "value": "Né le 19 avril 1997 à Douala (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "82 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": null,
+                "value": "International camerounais (1 sélection)"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "janvier 2024"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

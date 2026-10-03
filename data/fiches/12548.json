@@ -1,0 +1,168 @@
+{
+    "id": 12548,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "youri-djorkaeff",
+    "path": "/joueurs/youri-djorkaeff/",
+    "title": "Youri Djorkaeff (A l’essai formation)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-14.jpg",
+    "date": "2025-03-06T18:32:22",
+    "modified": "2025-11-12T14:14:32",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": "<ul>\n<li>Le fils de Jean Djorkaeff, l'ancien international français, Youri évolue alors en cadets nationaux à Villeurbanne. Il attire l'œil des recruteurs de plusieurs clubs dont Sochaux qui le met à l'essai au centre de formation quelques semaines en 1984-1985 alors qu'il a 15 ans. Si sur le terrain, le joueur semble donner satisfaction, c'est en revanche son patronyme qui aurait fait hésiter les dirigeants sochaliens selon lui<sup></sup>. Dans sa biographie, il estime avoir été victime du racisme des années 80. Par la suite, il restera très marqué par cet échec<sup></sup>.</li>\n<li>Un an plus tard, il rebondit à Grenoble où il démarrera sa carrière professionnelle. </li>\n<li>Il deviendra l'un des plus grands joueurs de l'histoire de l'équipe de France devenant Champion du monde en 1998 et Champion d'Europe en 2000. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1998",
+        "text": "Le futur champion du monde 1998 a été recalé du centre de formation de Sochaux dans les années 80. Cet échec va beaucoup l'affecter."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-14.jpg",
+            "caption": "Youri Djorkaeff – 1986",
+            "credit": "Grenoble",
+            "caption_raw": "Youri Djorkaeff – 1986 – Grenoble"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12548,
+        "url": "https://www.fcsochauxretro.com/uncategorized/youri-djorkaeff/",
+        "path": "/uncategorized/youri-djorkaeff/",
+        "slug": "youri-djorkaeff",
+        "seo_title": "Youri Djorkaeff (A l'essai formation) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Youri Djorkaeff</h2>\n<h4><strong>né le 9 mars 1968 à Lyon (69) </strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International français (82 sélections, 28 buts) - Champion du monde 1998 - Champion d'Europe 2000</strong></p>\n<p><strong>A l'essai au centre de formation de Sochaux en 1984-1985 </strong></p>",
+        "header_lines": [
+            "Youri Djorkaeff",
+            "né le 9 mars 1968 à Lyon (69)",
+            "Taille : 1m78",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu offensif",
+            "International français (82 sélections, 28 buts) - Champion du monde 1998 - Champion d'Europe 2000",
+            "A l'essai au centre de formation de Sochaux en 1984-1985"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Youri",
+        "last_name": "Djorkaeff",
+        "display_name": "Youri Djorkaeff",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1968-03-09",
+                "precision": "day",
+                "text": "9 mars 1968"
+            },
+            "place": {
+                "text": "Lyon (69)",
+                "city": "Lyon",
+                "department": "69",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 9 mars 1968 à Lyon (69)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français (82 sélections, 28 buts) - Champion du monde 1998 - Champion d'Europe 2000"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Youri Djorkaeff"
+            },
+            {
+                "label": null,
+                "value": "né le 9 mars 1968 à Lyon (69)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français (82 sélections, 28 buts) - Champion du monde 1998 - Champion d'Europe 2000"
+            },
+            {
+                "label": null,
+                "value": "A l'essai au centre de formation de Sochaux en 1984-1985"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

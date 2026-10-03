@@ -1,0 +1,290 @@
+{
+    "id": 9257,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "natanael-n-tolla-thio",
+    "path": "/joueurs/natanael-n-tolla-thio/",
+    "title": "Natanaël N’Tolla Thio",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-95.jpg",
+    "date": "2024-12-30T01:19:50",
+    "modified": "2024-12-30T17:43:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Natanaël N'Tolla Thio a joué 3 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/natanel-ntolla-vient-de-recevoir-sa-premiere-proposition-photo-er-christian-lemontey-1578076372.jpg",
+            "caption": "Natanaël N’Tolla Thio",
+            "credit": "L’est républicain",
+            "caption_raw": "Natanaël N’Tolla Thio – L’est républicain"
+        },
+        {
+            "image": "2024/12/n-tolla-fcsm-a-signe-pour-trois-ans-avec-son-club-formateur-photo-er-christian-lemontey-1579261978.jpg",
+            "caption": "Natanaël N’Tolla Thio",
+            "credit": "L’est républicain",
+            "caption_raw": "Natanaël N’Tolla Thio – L’est républicain"
+        },
+        {
+            "image": "2024/12/natanael-ntolla-a-signe-son-premier-contrat-pro-ce-vendredi-matin-photo-er-christian-lemontey-1579261263.jpg",
+            "caption": "Natanaël N’Tolla Thio",
+            "credit": "L’est républicain",
+            "caption_raw": "Natanaël N’Tolla Thio – L’est républicain"
+        },
+        {
+            "image": "2024/12/nathanael-ntolla-va-certainement-accompagner-romain-sans-a-chateauroux-photo-er-christian-lemontey-1623854719.jpg",
+            "caption": "Natanaël N’Tolla Thio",
+            "credit": "L’est républicain",
+            "caption_raw": "Natanaël N’Tolla Thio – L’est républicain"
+        },
+        {
+            "image": "2024/12/images-16.jpg",
+            "caption": "Natanaël N’Tolla Thio",
+            "credit": "L’est républicain",
+            "caption_raw": "Natanaël N’Tolla Thio – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-95.jpg",
+            "caption": "Natanaël N’Tolla Thio",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Natanaël N’Tolla Thio – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9257,
+        "url": "https://www.fcsochauxretro.com/a-la-une/natanael-ntolla-thio/",
+        "path": "/a-la-une/natanael-ntolla-thio/",
+        "slug": "natanael-ntolla-thio",
+        "seo_title": "Natanaël N'Tolla Thio - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Natanaël N'Tolla Thio</h2>\n<h4><strong>Né le 1er juillet 1999 à Argenteuil (95)<br></strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied : </strong>gaucher</p>\n<p><strong>Position : </strong>ailier gauche<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2021<strong><br></strong></p>\n<p><strong>Premier match :</strong> Pris FC - Sochaux du 13/08/2019 : 2-1 </p>\n<p><strong>Dernier match :</strong> Nancy - Sochaux du 20/01/2021 : 0-1 </p>",
+        "header_lines": [
+            "Natanaël N'Tolla Thio",
+            "Né le 1er juillet 1999 à Argenteuil (95)",
+            "Taille : 1m85",
+            "Poids : 72 kg",
+            "Pied : gaucher",
+            "Position : ailier gauche",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : juin 2021",
+            "Premier match : Pris FC - Sochaux du 13/08/2019 : 2-1",
+            "Dernier match : Nancy - Sochaux du 20/01/2021 : 0-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Natanaël N'Tolla",
+        "last_name": "Thio",
+        "display_name": "Natanaël N'Tolla Thio",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1999-07-01",
+                "precision": "day",
+                "text": "1er juillet 1999"
+            },
+            "place": {
+                "text": "Argenteuil (95)",
+                "city": "Argenteuil",
+                "department": "95",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 1er juillet 1999 à Argenteuil (95)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "gaucher",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2021-06",
+            "precision": "month",
+            "text": "juin 2021"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Pris FC - Sochaux du 13/08/2019 : 2-1",
+        "last_match": "Nancy - Sochaux du 20/01/2021 : 0-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Natanaël N'Tolla Thio"
+            },
+            {
+                "label": null,
+                "value": "Né le 1er juillet 1999 à Argenteuil (95)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Position",
+                "value": "ailier gauche"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2021"
+            },
+            {
+                "label": "Premier match",
+                "value": "Pris FC - Sochaux du 13/08/2019 : 2-1"
+            },
+            {
+                "label": "Dernier match",
+                "value": "Nancy - Sochaux du 20/01/2021 : 0-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

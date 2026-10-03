@@ -1,0 +1,177 @@
+{
+    "id": 8261,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "herrera",
+    "path": "/joueurs/herrera/",
+    "title": "? Herrera (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-02T20:58:22",
+    "modified": "2025-11-12T14:07:58",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "4",
+        "text": "Herrera a joué 4 matchs amicaux (3 buts) pour Sochaux en 1929/1930."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8261,
+        "url": "https://www.fcsochauxretro.com/uncategorized/herrera/",
+        "path": "/uncategorized/herrera/",
+        "slug": "herrera",
+        "seo_title": "? Herrera (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Herrera</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx</strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>A l'essai en : </strong>décembre 1929/janvier 1930</p>\n<p><strong>Premier match amical joué </strong>: Dresde SC - Sochaux du 26/12/1929 : 5-1</p>\n<p><strong>Dernier match amical joué et premier triplé : </strong>Entente Borussia/ Wacker Halle - Sochaux du 05/01/1930 : 2-5 - Buts à la ?'</p>",
+        "header_lines": [
+            "? Herrera",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : milieu de terrain",
+            "A l'essai en : décembre 1929/janvier 1930",
+            "Premier match amical joué : Dresde SC - Sochaux du 26/12/1929 : 5-1",
+            "Dernier match amical joué et premier triplé : Entente Borussia/ Wacker Halle - Sochaux du 05/01/1930 : 2-5 - Buts à la ?'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Herrera",
+        "display_name": "? Herrera",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "1929-12",
+            "precision": "month",
+            "text": "décembre 1929/janvier 1930"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Dresde SC - Sochaux du 26/12/1929 : 5-1",
+        "last_match": "Entente Borussia/ Wacker Halle - Sochaux du 05/01/1930 : 2-5 - Buts à la ?'",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Herrera"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "décembre 1929/janvier 1930"
+            },
+            {
+                "label": "Premier match amical joué",
+                "value": "Dresde SC - Sochaux du 26/12/1929 : 5-1"
+            },
+            {
+                "label": "Dernier match amical joué et premier triplé",
+                "value": "Entente Borussia/ Wacker Halle - Sochaux du 05/01/1930 : 2-5 - Buts à la ?'"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

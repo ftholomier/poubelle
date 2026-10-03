@@ -1,0 +1,498 @@
+{
+    "id": 10608,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "valenciennes-sochaux-coupe-de-la-ligue-08-08-2017",
+    "path": "/matchs/2017-2018/valenciennes-sochaux-coupe-de-la-ligue-08-08-2017/",
+    "title": "1er tour – Valenciennes (L2) / Sochaux (L2) – CDL – 08/08/2017 – 3-1",
+    "categories": [
+        "2017-2018",
+        "a-la-une",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "coupe-de-la-ligue",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/VAFC-FCSM-2017-2018-CDL-1-VAFC.jpg",
+    "date": "2025-01-19T09:55:18",
+    "modified": "2026-07-23T16:00:14",
+    "author": "gsanchez",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>Peter Zeidler fait tourner son équipe. Lawrence Ati-Zigi, Yakou Meïté et Zakarya Bergdich font leurs premiers pas sous le maillot sochalien. Fuchs, Bakayoko, Robinet et Ogier sont titulaires.<br></li>\n<li>Florian Martin et Yoann Touzghar sont laissés au repos et ne sont pas du voyage. Martin soigne une petite blessure au ménisque.</li>\n<li>Florin Berenguer fait son retour dans le groupe sochalien.</li>\n<li>Sochaux et Valenciennes se sont déjà rencontrées en Coupe de la Ligue il y a 10 ans. Valenciennes s'était imposée 2-1 le 26 september 2007 en 1/16 e de finale.</li>\n<li>Le gagnant du match affrontera le Stade de Reims au tour suivant.</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>10' : Centre de la droite que Steve Ambri converti de la tête. (1-0)</strong></li>\n<li><strong>13' : </strong><strong>Ambri crochète et frappe. Ati-Zigi se détend et repousse le ballon. N'Dao est le plus rapide et talonne pour Romil qui double la mise. (2-0)</strong><br></li>\n<li><strong>39' :</strong> Trois corners à la suite de Daham. Ça se termine par une frappe de Tardieu qui s'envole.</li>\n<li><strong>48' : </strong>Centre puissant de Ba difficilement dévié par Merville.</li>\n<li><strong>49' : </strong>Bakayoko centre en retrait et Tardieu tire du point de penalty. Au-dessus.</li>\n<li><strong>55'</strong> : Corner de Daham et tête de Florent Ogier déviée in extremis par Merville.</li>\n<li><strong>66' :</strong> De nouveau un Corner de Daham et une tête d'Ogier captée par Merville vers son poteau droit.</li>\n<li><strong>68' :</strong> <strong>Steve Ambri</strong> <strong>est lancé dans le dos de la défense sochalienne et bat Zigi pour s'offrir un doublé. (3-0)</strong><br></li>\n<li><strong>72' :</strong> Merville se troue sur un centre de Fuchs mais la frappe d'Ogier est repoussée sur sa ligne par Aloé.</li>\n<li><strong>81' :</strong> <strong>Frappe lobée des 25m de Daham. Lucarne. (3-1)</strong><br></li>\n<li><strong>83' : </strong>Piqué d'Aldo Kalulu par-dessus Merville est sauvée in extremis par un défenseur.</li>\n<li><strong>86' :</strong> Corner repoussé et frappe de loin signée Tardieu. Merville dévie au ras de son poteau gauche </li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Peter Zeidler :</strong>  « <em>On a vraiment dominé la 2e mi-temps, mais  Valenciennes a bien joué en première, avec réalisme. Je ne suis pas inquiet quand je vois comme nous avons joué en seconde période. C’était un match très intéressant, même si on aurait évidemment préféré se qualifier. J’avais l’occasion de donner du temps de jeu à certains. Ça n’explique pas la défaite. </em>»</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>2e but de la saison pour Sofiane Daham.</li>\n<li>Sochaux est éliminé de la Coupe de la Ligue dès le 1er tour. Ce n'était plus arrivé depuis une défaite contre Laval en 2014.</li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "10",
+        "text": "10e match consécutif pour Sochaux avec au moins un but marqué."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/VAFC-FCSM-2017-2018-CDL-3-VAFC.jpg",
+            "caption": "Photo VAFC",
+            "credit": "",
+            "caption_raw": "Photo VAFC"
+        },
+        {
+            "image": "2025/01/VAFC-FCSM-2017-2018-CDL-2-VAFC.jpg",
+            "caption": "Bergdych, Ati-Zigi Photo VAFC",
+            "credit": "",
+            "caption_raw": "Bergdych, Ati-Zigi Photo VAFC"
+        },
+        {
+            "image": "2025/01/VAFC-FCSM-2017-2018-CDL-1-VAFC.jpg",
+            "caption": "Fuchs Photo VAFC",
+            "credit": "",
+            "caption_raw": "Fuchs Photo VAFC"
+        },
+        {
+            "image": "2025/01/VAFC-FCSM-2017-2018-CDL-4-Sami-BelloumiVDNMaxPPP.webp",
+            "caption": "Ati-Zigi Photo Sami Belloumi",
+            "credit": "VDN",
+            "caption_raw": "Ati-Zigi Photo Sami Belloumi – VDN"
+        }
+    ],
+    "images": [],
+    "videos": [
+        {
+            "provider": "dailymotion",
+            "id": "x5weeit",
+            "title": ""
+        }
+    ],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10608,
+        "url": "https://www.fcsochauxretro.com/a-la-une/1er-tour-valenciennes-l2-sochaux-l2-cdl-08-08-2017-3-1/",
+        "path": "/a-la-une/1er-tour-valenciennes-l2-sochaux-l2-cdl-08-08-2017-3-1/",
+        "slug": "1er-tour-valenciennes-l2-sochaux-l2-cdl-08-08-2017-3-1",
+        "seo_title": "1er tour - Valenciennes (L2) / Sochaux (L2) - CDL - 08/08/2017 - 3-1 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Valenciennes / Sochaux : 3-1</strong><strong><br></strong></h2>\n<h4><strong>1er tour de la Coupe de la Ligue 2018<br></strong></h4>\n<h4><strong>Mardi 8 août 2017</strong></h4>\n<h4><strong>Stade du Hainaut<br></strong></h4>\n<h4><strong>4 456 spectateurs</strong></h4>\n<h4><strong>Arbitre : S. Jochem<br></strong></h4>\n<p>Buts : Ambri  10' et 69', Romil 13' pour Valenciennes ; Daham 81' pour Sochaux</p>",
+        "header_lines": [
+            "Valenciennes / Sochaux : 3-1",
+            "1er tour de la Coupe de la Ligue 2018",
+            "Mardi 8 août 2017",
+            "Stade du Hainaut",
+            "4 456 spectateurs",
+            "Arbitre : S. Jochem",
+            "Buts : Ambri 10' et 69', Romil 13' pour Valenciennes ; Daham 81' pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2017-08-08",
+        "date_text": "Mardi 8 août 2017",
+        "season": "2017-2018",
+        "competition": "Coupe de la Ligue",
+        "competition_label": "Coupe de la Ligue",
+        "competition_code": "CDL",
+        "round": "1er tour",
+        "round_text": "1er tour de la Coupe de la Ligue 2018",
+        "home": {
+            "name": "Valenciennes",
+            "level": "L2"
+        },
+        "away": {
+            "name": "Sochaux",
+            "level": "L2"
+        },
+        "sochaux_home": false,
+        "score": {
+            "home": 3,
+            "away": 1,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "3-1",
+        "score_line": "Valenciennes / Sochaux : 3-1",
+        "result": "D",
+        "stadium": "Stade du Hainaut",
+        "spectators": 4456,
+        "spectators_text": "4 456 spectateurs",
+        "referee": "S. Jochem",
+        "goals_text": "Ambri 10' et 69', Romil 13' pour Valenciennes ; Daham 81' pour Sochaux",
+        "goals": [
+            {
+                "team": "Valenciennes",
+                "scorers": "Ambri 10' et 69', Romil 13'"
+            },
+            {
+                "team": "Sochaux",
+                "scorers": "Daham 81'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [
+            {
+                "minute": "10",
+                "text": "Centre de la droite que Steve Ambri converti de la tête. (1-0)",
+                "goal": true,
+                "score": "1-0"
+            },
+            {
+                "minute": "13",
+                "text": "Ambri crochète et frappe. Ati-Zigi se détend et repousse le ballon. N'Dao est le plus rapide et talonne pour Romil qui double la mise. (2-0)",
+                "goal": true,
+                "score": "2-0"
+            },
+            {
+                "minute": "39",
+                "text": "Trois corners à la suite de Daham. Ça se termine par une frappe de Tardieu qui s'envole.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "48",
+                "text": "Centre puissant de Ba difficilement dévié par Merville.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "49",
+                "text": "Bakayoko centre en retrait et Tardieu tire du point de penalty. Au-dessus.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "55",
+                "text": "Corner de Daham et tête de Florent Ogier déviée in extremis par Merville.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "66",
+                "text": "De nouveau un Corner de Daham et une tête d'Ogier captée par Merville vers son poteau droit.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "68",
+                "text": "Steve Ambri est lancé dans le dos de la défense sochalienne et bat Zigi pour s'offrir un doublé. (3-0)",
+                "goal": true,
+                "score": "3-0"
+            },
+            {
+                "minute": "72",
+                "text": "Merville se troue sur un centre de Fuchs mais la frappe d'Ogier est repoussée sur sa ligne par Aloé.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "81",
+                "text": "Frappe lobée des 25m de Daham. Lucarne. (3-1)",
+                "goal": true,
+                "score": "3-1"
+            },
+            {
+                "minute": "83",
+                "text": "Piqué d'Aldo Kalulu par-dessus Merville est sauvée in extremis par un défenseur.",
+                "goal": false,
+                "score": null
+            },
+            {
+                "minute": "86",
+                "text": "Corner repoussé et frappe de loin signée Tardieu. Merville dévie au ras de son poteau gauche",
+                "goal": false,
+                "score": null
+            }
+        ],
+        "reactions": [
+            {
+                "who": "Peter Zeidler",
+                "text": "On a vraiment dominé la 2e mi-temps, mais Valenciennes a bien joué en première, avec réalisme. Je ne suis pas inquiet quand je vois comme nous avons joué en seconde période. C’était un match très intéressant, même si on aurait évidemment préféré se qualifier. J’avais l’occasion de donner du temps de jeu à certains. Ça n’explique pas la défaite."
+            }
+        ],
+        "breves": [
+            "2e but de la saison pour Sofiane Daham.",
+            "Sochaux est éliminé de la Coupe de la Ligue dès le 1er tour. Ce n'était plus arrivé depuis une défaite contre Laval en 2014."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "ATI-ZIGI Lawrence",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "GIBAUD Pierre",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "32",
+                    "sub_text": "Sortie 32'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "TEIKEU Adolphe",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "36"
+                    ],
+                    "red": [],
+                    "cards_text": "J 36'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OGIER Florent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "44"
+                    ],
+                    "red": [],
+                    "cards_text": "J 44'",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "BERGDICH Zakarya",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BA El Hadji",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "22"
+                    ],
+                    "red": [],
+                    "cards_text": "J 22'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "TARDIEU Florian",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "27"
+                    ],
+                    "red": [],
+                    "cards_text": "J 27'",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "FUCHS Jeando",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BAKAYOKO Axel",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "70",
+                    "sub_text": "Sortie 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MEÏTÉ Yakou",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "58",
+                    "sub_text": "Sortie 58'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "ROBINET Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DAHAM Sofiane",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "81"
+                    ],
+                    "goals_text": "81'",
+                    "sub_in": "32",
+                    "sub_out": null,
+                    "sub_text": "Entrée 32'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "KALULU Aldo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "58",
+                    "sub_out": null,
+                    "sub_text": "Entrée 58'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BERENGUER Florin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "70",
+                    "sub_out": null,
+                    "sub_text": "Entrée 70'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "ZEIDLER Peter",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 696
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

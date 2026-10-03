@@ -1,0 +1,269 @@
+{
+    "id": 11834,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-jean-marcialis",
+    "path": "/joueurs/jean-jean-marcialis/",
+    "title": "Jean Jean Marcialis",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/02/5-50.jpg",
+    "date": "2025-02-16T15:17:40",
+    "modified": "2025-07-16T22:11:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Jean-Jean Marcialis a été formé à Sochaux durant une saison avant de faire carrière ailleurs."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-51.jpg",
+            "caption": "Jean-Jean Marcialis",
+            "credit": "footballdatabase.eu",
+            "caption_raw": "Jean-Jean Marcialis – footballdatabase.eu"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11834,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-jean-marcialis/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/jean-jean-marcialis/",
+        "slug": "jean-jean-marcialis",
+        "seo_title": "Jean Jean Marcialis - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Jean Marcialis</h2>\n<h4><strong>Né le 21 avril 1937 à Ajaccio (2A)</strong></h4>\n<h4><strong>Décédé le 4 juillet 2013 à Ajaccio (2A)</strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids: </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>milieu de terrain<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1954<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 1955</p>",
+        "header_lines": [
+            "Jean-Jean Marcialis",
+            "Né le 21 avril 1937 à Ajaccio (2A)",
+            "Décédé le 4 juillet 2013 à Ajaccio (2A)",
+            "Taille : 1m80",
+            "Poids: 75 kg",
+            "Pied : droitier",
+            "Position : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1954",
+            "Départ de Sochaux : juin 1955"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Jean-Jean",
+        "last_name": "Marcialis",
+        "display_name": "Jean-Jean Marcialis",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1937-04-21",
+                "precision": "day",
+                "text": "21 avril 1937"
+            },
+            "place": {
+                "text": "Ajaccio (2A)",
+                "city": "Ajaccio",
+                "department": "2A",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 21 avril 1937 à Ajaccio (2A)"
+        },
+        "death": {
+            "date": {
+                "iso": "2013-07-04",
+                "precision": "day",
+                "text": "4 juillet 2013"
+            },
+            "place": {
+                "text": "Ajaccio (2A)",
+                "city": "Ajaccio",
+                "department": "2A",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 4 juillet 2013 à Ajaccio (2A)"
+        },
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1954-07",
+            "precision": "month",
+            "text": "juillet 1954"
+        },
+        "departure": {
+            "iso": "1955-06",
+            "precision": "month",
+            "text": "juin 1955"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Jean Marcialis"
+            },
+            {
+                "label": null,
+                "value": "Né le 21 avril 1937 à Ajaccio (2A)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 4 juillet 2013 à Ajaccio (2A)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1954"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1955"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

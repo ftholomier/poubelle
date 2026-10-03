@@ -1,0 +1,389 @@
+{
+    "id": 7962,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rene-gardien",
+    "path": "/joueurs/rene-gardien/",
+    "title": "René Gardien",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/rene_gardien.jpg",
+    "date": "2024-11-22T19:03:01",
+    "modified": "2025-11-12T14:58:59",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>A reprendre</p>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "410",
+        "text": "René Gardien a joué 410 matchs (156 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/38027.jpg",
+            "caption": "René Gardien",
+            "credit": "DR",
+            "caption_raw": "René Gardien – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7962,
+        "url": "https://www.fcsochauxretro.com/a-la-une/rene-gardien/",
+        "path": "/a-la-une/rene-gardien/",
+        "slug": "rene-gardien",
+        "seo_title": "René Gardien - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>René Gardien</h2>\n<h4><strong>né le 10 février 1928 à Chambéry (73) </strong></h4>\n<h4><strong>Décédé le 1er février 2006 à Vichy (03)</strong></h4>\n<p><strong>Taille : </strong>1m77</p>\n<p><strong>Poids : </strong>74 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>ailier gauche</p>\n<p><strong>International français (2 sélections et 2 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1947</p>\n<p><strong>Départ de Sochaux :</strong> juin 1959</p>\n<p><strong>Premier match joué et premier but :</strong> Sochaux - Toulouse du 22/08/1948 : 3-0 - But à la 46'</p>\n<p><strong>Dernier match joué :</strong> Valenciennes - Sochaux du 30/05/1959 : 1-1</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Finaliste de la coupe de France 1959</li>\n</ul>",
+        "header_lines": [
+            "René Gardien",
+            "né le 10 février 1928 à Chambéry (73)",
+            "Décédé le 1er février 2006 à Vichy (03)",
+            "Taille : 1m77",
+            "Poids : 74 kg",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "International français (2 sélections et 2 buts)",
+            "Arrivée à Sochaux : juillet 1947",
+            "Départ de Sochaux : juin 1959",
+            "Premier match joué et premier but : Sochaux - Toulouse du 22/08/1948 : 3-0 - But à la 46'",
+            "Dernier match joué : Valenciennes - Sochaux du 30/05/1959 : 1-1",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1959"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "René",
+        "last_name": "Gardien",
+        "display_name": "René Gardien",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1928-02-10",
+                "precision": "day",
+                "text": "10 février 1928"
+            },
+            "place": {
+                "text": "Chambéry (73)",
+                "city": "Chambéry",
+                "department": "73",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 février 1928 à Chambéry (73)"
+        },
+        "death": {
+            "date": {
+                "iso": "2006-02-01",
+                "precision": "day",
+                "text": "1er février 2006"
+            },
+            "place": {
+                "text": "Vichy (03)",
+                "city": "Vichy",
+                "department": "03",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 1er février 2006 à Vichy (03)"
+        },
+        "height": "1m77",
+        "height_cm": 177,
+        "weight": "74 kg",
+        "weight_kg": 74,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français (2 sélections et 2 buts)"
+        ],
+        "arrival": {
+            "iso": "1947-07",
+            "precision": "month",
+            "text": "juillet 1947"
+        },
+        "departure": {
+            "iso": "1959-06",
+            "precision": "month",
+            "text": "juin 1959"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Toulouse du 22/08/1948 : 3-0 - But à la 46'",
+        "last_match": "Valenciennes - Sochaux du 30/05/1959 : 1-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de France 1959"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "René Gardien"
+            },
+            {
+                "label": null,
+                "value": "né le 10 février 1928 à Chambéry (73)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 1er février 2006 à Vichy (03)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m77"
+            },
+            {
+                "label": "Poids",
+                "value": "74 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": null,
+                "value": "International français (2 sélections et 2 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1947"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1959"
+            },
+            {
+                "label": "Premier match joué et premier but",
+                "value": "Sochaux - Toulouse du 22/08/1948 : 3-0 - But à la 46'"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Valenciennes - Sochaux du 30/05/1959 : 1-1"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1959"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Coupe Drago",
+                "Buts",
+                "Total matchs",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1947 - 1948",
+                    "18",
+                    "6",
+                    "5",
+                    "2",
+                    "0",
+                    "0",
+                    "",
+                    ""
+                ],
+                [
+                    "1948 - 1949",
+                    "26",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "",
+                    ""
+                ],
+                [
+                    "1949 - 1950",
+                    "30",
+                    "8",
+                    "3",
+                    "4",
+                    "0",
+                    "0",
+                    "",
+                    ""
+                ],
+                [
+                    "1950 - 1951",
+                    "30",
+                    "9",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "",
+                    ""
+                ],
+                [
+                    "1951 - 1952",
+                    "32",
+                    "10",
+                    "4",
+                    "4",
+                    "0",
+                    "0",
+                    "",
+                    ""
+                ],
+                [
+                    "1952 - 1953",
+                    "34",
+                    "16",
+                    "0",
+                    "0",
+                    "5",
+                    "8",
+                    "",
+                    ""
+                ],
+                [
+                    "1953 - 1954",
+                    "27",
+                    "9",
+                    "1",
+                    "1",
+                    "1",
+                    "1",
+                    "",
+                    ""
+                ],
+                [
+                    "1954 - 1955",
+                    "34",
+                    "9",
+                    "3",
+                    "2",
+                    "0",
+                    "0",
+                    "",
+                    ""
+                ],
+                [
+                    "1955 - 1956",
+                    "31",
+                    "10",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "",
+                    ""
+                ],
+                [
+                    "1956 - 1957",
+                    "33",
+                    "17",
+                    "3",
+                    "3",
+                    "3",
+                    "2",
+                    "",
+                    ""
+                ],
+                [
+                    "1957 - 1958",
+                    "31",
+                    "12",
+                    "2",
+                    "1",
+                    "1",
+                    "1",
+                    "",
+                    ""
+                ],
+                [
+                    "1958 - 1959",
+                    "33",
+                    "11",
+                    "8",
+                    "2",
+                    "0",
+                    "0",
+                    "",
+                    ""
+                ],
+                [
+                    "TOTAL",
+                    "359",
+                    "121",
+                    "32",
+                    "21",
+                    "11",
+                    "12",
+                    "402",
+                    "154"
+                ]
+            ],
+            "source_table": 1395
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

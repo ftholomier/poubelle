@@ -1,0 +1,233 @@
+{
+    "id": 12581,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "tino-kadewere",
+    "path": "/joueurs/tino-kadewere/",
+    "title": "Tino Kadewere (A l’essai formation)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-20.jpg",
+    "date": "2025-03-06T23:09:47",
+    "modified": "2025-11-12T14:06:09",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Repéré en Afrique du Sud par Bo Magnus Andersson le directeur sportif du club de Djugardens en Suède, Tino Kadewere débarque en Europe à l'été 2015 pour des essais : \"<em>Je vois un</em> <em>joueur venu du Zimbabwe, Tino Kadewere. Ils m’ont montré des vidéos. J’ai aimé ce que j’ai vu. J’ai un contact à Harare, alors je l’ai appelé le jour suivant. Le joueur était sur le point d’aller faire un essai à Sochaux. Je l’ai eu au téléphone et je lui ai dit « je t’emmène avec moi en Suède, tu t’entraînes avec nous à Djurgårdens pendant dix jours et ensuite tu vas à Sochaux »</em> s’est-il souvenu pour <em>Foot Mercato</em>. </li>\n<li>Il est mis à l'essai par Sochaux durant une semaine. Il fait forte impression aux entraîneurs qui souhaitent le conserver. </li>\n<li>Mais il fait le choix de la Suède au détriment de Sochaux en raison de la barrière de la langue. <strong>Extrait de foot mercato</strong> :  Sauf qu’au moment de quitter la Suède pour la France, le joueur est pris de panique. <em>«Il est venu me voir, en pleurs, et m’a dit qu’il ne voulait pas partir. On avait commencé à le prendre sous notre aile. Il était heureux à Stockholm et il aimait notre manière de travailler»</em>. Et puis il y avait la langue. L’anglais de Suède et l’anglais de France diffèrent quelque peu. Bo Andersson conseille à Tino d’effectuer son essai dans le Doubs tout en lui assurant que la porte reste ouverte. <em>« Notre situation financière était désastreuse à l’époque,</em> se souvient le Suédois. <em>Tino m’a appelé, il voulait revenir en Suède à tout prix. Nous avons fait en sorte de lui offrir un contrat pour la fin de la saison, pour se laisser le temps de voir comment il allait progresser chez nous. Il est dans un premier temps venu en prêt. Mais dès le début je me suis dit qu’il allait devenir le plus grand joueur de l’histoire du club»</em>.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2015",
+        "text": "Tino Kadewere a été à l'essai au centre de formation de Sochaux à l'été 2015."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-20.jpg",
+            "caption": "Tino Kadewere",
+            "credit": "DR",
+            "caption_raw": "Tino Kadewere – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12581,
+        "url": "https://www.fcsochauxretro.com/uncategorized/tino-kadewere/",
+        "path": "/uncategorized/tino-kadewere/",
+        "slug": "tino-kadewere",
+        "seo_title": "Tino Kadewere (A l'essai formation) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Tino Kadewere</h2>\n<h4><strong>né le 5 janvier 1996 à Harare (Zimbabwe)  </strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International zimbabwéen (22 sélections, 3 buts)</strong></p>\n<p><strong>A l'essai au centre de formation en : </strong>juillet 2015</p>",
+        "header_lines": [
+            "Tino Kadewere",
+            "né le 5 janvier 1996 à Harare (Zimbabwe)",
+            "Taille : 1m83",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International zimbabwéen (22 sélections, 3 buts)",
+            "A l'essai au centre de formation en : juillet 2015"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Tino",
+        "last_name": "Kadewere",
+        "display_name": "Tino Kadewere",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2015-07",
+            "precision": "month",
+            "text": "juillet 2015"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1996-01-05",
+                "precision": "day",
+                "text": "5 janvier 1996"
+            },
+            "place": {
+                "text": "Harare (Zimbabwe)",
+                "city": "Harare",
+                "department": null,
+                "country": "Zimbabwe",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 5 janvier 1996 à Harare (Zimbabwe)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International zimbabwéen (22 sélections, 3 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Tino Kadewere"
+            },
+            {
+                "label": null,
+                "value": "né le 5 janvier 1996 à Harare (Zimbabwe)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International zimbabwéen (22 sélections, 3 buts)"
+            },
+            {
+                "label": "A l'essai au centre de formation en",
+                "value": "juillet 2015"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "10",
+                    "3"
+                ],
+                [
+                    "1998-1999",
+                    "14",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "14",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "14",
+                    "0",
+                    "8",
+                    "3",
+                    "1",
+                    "0",
+                    "1",
+                    "0",
+                    "24",
+                    "3"
+                ]
+            ],
+            "source_table": 456
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

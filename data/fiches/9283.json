@@ -1,0 +1,288 @@
+{
+    "id": 9283,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rafa-navarro",
+    "path": "/joueurs/rafa-navarro/",
+    "title": "Rafa Navarro",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/5-96.jpg",
+    "date": "2024-12-30T15:25:51",
+    "modified": "2024-12-30T17:44:52",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "26",
+        "text": "Rafael Navaro a joué 26 matches (1 ut et 1 passe décisive) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/rafa-navarro-sous-le-maillot-sochalien-en-2019-photo-er-lionel-vadam-1665662514.jpg",
+            "caption": "Rafa Navarro",
+            "credit": "L’est républicain",
+            "caption_raw": "Rafa Navarro – L’est républicain"
+        },
+        {
+            "image": "2024/12/fc-sochaux-etat-rassurant-pour-rafa-navarro-1557158050.jpg",
+            "caption": "Rafa Navarro",
+            "credit": "L’est républicain",
+            "caption_raw": "Rafa Navarro – L’est républicain"
+        },
+        {
+            "image": "2024/12/si-rafa-navarro-a-mal-debute-la-saison-avec-deux-blessures-il-parait-desormais-bien-adapte-au-football-sochalien-photo-lionel-vadam-1549995178.jpg",
+            "caption": "Rafa Navarro",
+            "credit": "L’est républicain",
+            "caption_raw": "Rafa Navarro – L’est républicain"
+        },
+        {
+            "image": "2024/12/rafa-navarro-a-29-ans-photo-d-archives-er-christian-lemontey-1677166277.jpg",
+            "caption": "Rafa Navarro",
+            "credit": "L’est républicain",
+            "caption_raw": "Rafa Navarro – L’est républicain"
+        },
+        {
+            "image": "2024/12/5-96.jpg",
+            "caption": "Rafa Navarro",
+            "credit": "L’est républicain",
+            "caption_raw": "Rafa Navarro – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9283,
+        "url": "https://www.fcsochauxretro.com/a-la-une/rafa-navarro/",
+        "path": "/a-la-une/rafa-navarro/",
+        "slug": "rafa-navarro",
+        "seo_title": "Rafa Navarro - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Rafael Navarro</h2>\n<h4><strong>Né le 24 février 1994 à Valencina de la Concepcion (Espagne)<br></strong></h4>\n<p><strong>Taille : </strong>1m73</p>\n<p><strong>Poids : </strong>68 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>arrière latéral droit<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2019<strong><br></strong></p>\n<p><strong>Premier match joué :</strong> Sochaux - Brest du 04/08/2018 : 1-1 a.p (3-4 tab)</p>\n<p><strong>Dernier match joué :</strong> Sochaux - Grenoble du 17/05/2019 : 3-1  </p>\n<p><strong>Premier but marqué :</strong> Metz - Sochaux du 11/03/2019 : 1-1 - But à la 81'</p>",
+        "header_lines": [
+            "Rafael Navarro",
+            "Né le 24 février 1994 à Valencina de la Concepcion (Espagne)",
+            "Taille : 1m73",
+            "Poids : 68 kg",
+            "Pied : droitier",
+            "Position : arrière latéral droit",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : juin 2019",
+            "Premier match joué : Sochaux - Brest du 04/08/2018 : 1-1 a.p (3-4 tab)",
+            "Dernier match joué : Sochaux - Grenoble du 17/05/2019 : 3-1",
+            "Premier but marqué : Metz - Sochaux du 11/03/2019 : 1-1 - But à la 81'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Rafa",
+        "last_name": "Navarro",
+        "display_name": "Rafa Navarro",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1994-02-24",
+                "precision": "day",
+                "text": "24 février 1994"
+            },
+            "place": {
+                "text": "Valencina de la Concepcion (Espagne)",
+                "city": "Valencina de la Concepcion",
+                "department": null,
+                "country": "Espagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 24 février 1994 à Valencina de la Concepcion (Espagne)"
+        },
+        "death": null,
+        "height": "1m73",
+        "height_cm": 173,
+        "weight": "68 kg",
+        "weight_kg": 68,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2019-06",
+            "precision": "month",
+            "text": "juin 2019"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Brest du 04/08/2018 : 1-1 a.p (3-4 tab)",
+        "last_match": "Sochaux - Grenoble du 17/05/2019 : 3-1",
+        "first_goal": "Metz - Sochaux du 11/03/2019 : 1-1 - But à la 81'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Rafael Navarro"
+            },
+            {
+                "label": null,
+                "value": "Né le 24 février 1994 à Valencina de la Concepcion (Espagne)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m73"
+            },
+            {
+                "label": "Poids",
+                "value": "68 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "arrière latéral droit"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2019"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Brest du 04/08/2018 : 1-1 a.p (3-4 tab)"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Grenoble du 17/05/2019 : 3-1"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Metz - Sochaux du 11/03/2019 : 1-1 - But à la 81'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

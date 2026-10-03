@@ -1,0 +1,167 @@
+{
+    "id": 22282,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "benjamin-bertrand",
+    "path": "/joueurs/benjamin-bertrand/",
+    "title": "Benjamin Bertrand (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/08/Benjamin_Bertrand.jpg",
+    "date": "2026-08-14T12:22:58",
+    "modified": "2026-08-14T23:59:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière avant le FCSM",
+            "html": "<ul>\n<li>Benjamin Bertrand se forme dans plusieurs centres de formation au cours de sa jeunesse, notamment à la Real Sociedad, aux Girondins de Bordeaux et au Tours FC.</li>\n<li>C’est à Tours qu’il franchit le cap vers le football professionnel. Il fait ses débuts en Ligue 2 le 1er août 2014, lors d’une victoire 4-2 contre Créteil. Il est également utilisé avec l’équipe réserve, ce qui lui permet d’accumuler du temps de jeu et de poursuivre sa progression. Il cotoie à cette période Peter Zeidler l'entraîneur de Tours. </li>\n<li>À l’issue de la saison 2014-2015, Tours ne renouvelle toutefois pas son contrat. Bertrand se retrouve alors sans club pendant la première moitié de la saison suivante.</li>\n<li>Une expérience à Singapour</li>\n<li>En 2016, il tente une expérience originale en rejoignant les Young Lions, à Singapour, pour la saison de S.League. Il signe un contrat de six mois et devient même le joueur le mieux payé de l'équipe.</li>\n<li>Il fait ses débuts lors de la quatrième journée et participe notamment à une victoire contre les Warriors FC, club alors très expérimenté du championnat singapourien.</li>\n<li>À la fin de la saison 2016, Bertrand choisit de ne pas prolonger son contrat et décide de rentrer en Europe.</li>\n</ul>"
+        },
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>A l'été 2017, Sochaux voit son gardien titulaire Olivier Werner replonger pour une grave blessure et recherche une doublure pour lancer Maxence Prévot. </li>\n<li>Peter Zeidler qui avait eu Benjamin Bertrand sous ses ordres lorsqu'il officiait à Tours décide de l'inclure à la préparation estivale du club en Autriche. </li>\n<li>Il réalise de bons entraînements et joue même une mi-temps en amical contre le club de prmeière division autrichienne du Rheindorf Altach. Il réalise un clean sheet. </li>\n<li>Mais le club ne lui propose finalement pas de contrat et jettera son déovlu quelques semaines plus tard sur Lawrence Ati Zigi un prometeur gardien ghanéen que Peter Zeidler a aussi eu sous ses ordres lorsqu'il était en Autriche. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li><strong>Saison 2017/2018</strong></li>\n<li>Après plusieurs essais infructeux dans  différents clubs il signe finalement en troisième division belge aux Francs Borains. </li>\n<li><strong>Saisons 2019 à 2022</strong></li>\n<li>Il signe à Pau en ligue 2. Il y reste trois saisons et joue 3 matchs. </li>\n<li>Il met un terme à sa carrière à l'été 2022. </li>\n<li><strong>Après carrière de joueur</strong></li>\n<li><strong>Saison 2022/2023</strong></li>\n<li>Il devient entraîneur de l'équipe réserve de Pau en National 3. </li>\n<li><strong>Saisons 2023 à 2026</strong></li>\n<li>Il devient l'entraîneur adjoint de Didier Tholot à Sion en Suisse. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Benjamin Bertrand est resté à l'essai 2 semaines à Sochaux à l'été 2017."
+    },
+    "gallery": [
+        {
+            "image": "2026/08/Benjamin_Bertrand.jpg",
+            "caption": "Bejamin Bertrand",
+            "credit": "La république du Centre",
+            "caption_raw": "Bejamin Bertrand – La république du Centre"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 22282,
+        "url": "https://www.fcsochauxretro.com/a-la-une/benjamin-bertrand-a-lessai/",
+        "path": "/a-la-une/benjamin-bertrand-a-lessai/",
+        "slug": "benjamin-bertrand-a-lessai",
+        "seo_title": "Benjamin Bertrand (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Benjamin Bertrand</strong></h2>\n<h4><strong>né le 24 juin 1992 à Bourges (18)</strong></h4>\n<p><strong>Taille : </strong>1,83 m</p>\n<p><strong>Poids : </strong>78 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>A l'essai à Sochaux : </strong>juillet 2017</p>",
+        "header_lines": [
+            "Benjamin Bertrand",
+            "né le 24 juin 1992 à Bourges (18)",
+            "Taille : 1,83 m",
+            "Poids : 78 kg",
+            "Pied : gaucher",
+            "Poste : gardien de but",
+            "A l'essai à Sochaux : juillet 2017"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Benjamin",
+        "last_name": "Bertrand",
+        "display_name": "Benjamin Bertrand",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2017-07",
+            "precision": "month",
+            "text": "juillet 2017"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1992-06-24",
+                "precision": "day",
+                "text": "24 juin 1992"
+            },
+            "place": {
+                "text": "Bourges (18)",
+                "city": "Bourges",
+                "department": "18",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 juin 1992 à Bourges (18)"
+        },
+        "death": null,
+        "height": "1,83 m",
+        "height_cm": null,
+        "weight": "78 kg",
+        "weight_kg": 78,
+        "foot": "gaucher",
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Benjamin Bertrand"
+            },
+            {
+                "label": null,
+                "value": "né le 24 juin 1992 à Bourges (18)"
+            },
+            {
+                "label": "Taille",
+                "value": "1,83 m"
+            },
+            {
+                "label": "Poids",
+                "value": "78 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "juillet 2017"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

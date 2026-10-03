@@ -1,0 +1,417 @@
+{
+    "id": 16134,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-jura-sud-foot-amical-04-01-2025",
+    "path": "/matchs/2024-2025/sochaux-jura-sud-foot-amical-04-01-2025/",
+    "title": "Amical – Sochaux (N) / Jura Sud Foot (N2) – 04/01/2025 – 3-0",
+    "categories": [
+        "2024-2025",
+        "a-la-une",
+        "amical",
+        "annees-2020-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/08/NDri-Koffi.jpg",
+    "date": "2025-08-21T08:52:26",
+    "modified": "2026-08-15T09:30:20",
+    "author": "tanguy",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant-match et enjeux",
+            "html": "<ul>\n<li>Quelques jours après la reprise de l'entraînement Sochaux dispute un match amical à huis clos sur Bonal face à Jura Sud foot club de N2. </li>\n<li>Ce match sera l'occasion de faire une large revue d'effectif et de revoir à l'oeuvre certains joueurs comme Hoggas, Pereira de Sa et Koffi. </li>\n<li>Daho en phase de réathlétisation, Vitalli et Moltenis étaient absents. </li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li><strong>Kévin Hoggas ouvre le score après un mouvement avec Corentin Jean et Elson Mendes. (1-0)</strong></li>\n<li><strong>Noah Fatar réussit à trouver Armand Gnanduillet qui double le score. (2-0)</strong></li>\n<li><strong>Noah Fatar conclut la soirée par une troisième but en reprenant de volée le centre de Mouhamadou Drammeh. (3-0)</strong></li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li><strong>Karim Mokeddem</strong> : <em>\" C'était important qu'on fasse une revue d'effectif général avant la reprise, qu'on se mette en mode compétition. Il y a eu un bon investissement de la part de tous les garçons, notamment les jeunes. \"</em></li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": "<ul>\n<li>Ce match aura permis de faire rejouer de nombreux joueurs en manque de temps de jeu durant la première partie de saison. Roli Pereira de Sa a pu jouer 45 minutes, N'Dri Koffi, 25 minutes. Quelques jeunes ont pu s'inscrire dans ce projet comme Majdi ou Loubao. </li>\n<li>Sochaux souhaitait jouer sur son terrain d'entraînement de Wembley mais l'état de la pelouse étant mauvais le match a eu lieu sur Bonal. Par ailleurs, les clubs d'Arcey et Bavilliers ont proposé au club de les accueillir pour s'entrainer en cas de problème. </li>\n<li><strong>Transfert / Rumeur</strong></li>\n<li>Sochaux est toujours à la recherche d'un ou deux joueurs offensifs pour la deuxième partie de saison après le désistement de Fdaouch qui a signé à Nancy finalement. </li>\n</ul>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Sochaux se rassure avec 3 buts dans le jeu pour cette reprise en amical."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16134,
+        "url": "https://www.fcsochauxretro.com/matchs-fc-sochaux-retro-fcsm/amical-sochaux-n-jura-sud-foot-n2-04-01-2025-3-0/",
+        "path": "/matchs-fc-sochaux-retro-fcsm/amical-sochaux-n-jura-sud-foot-n2-04-01-2025-3-0/",
+        "slug": "amical-sochaux-n-jura-sud-foot-n2-04-01-2025-3-0",
+        "seo_title": "Amical - Sochaux (N) / Jura Sud Foot (N2) - 04/01/2025 - 3-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux / Jura Sud : 3-0</strong></h2>\n<h4><strong>Match Amical</strong></h4>\n<h4><strong>Jeudi 4 Janvier 2025</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>Match joué à huis clos</strong></h4>\n<p>Buts : Hoggas, Gnanduillet et Fatar (en deuxième période) pour Sochaux</p>",
+        "header_lines": [
+            "Sochaux / Jura Sud : 3-0",
+            "Match Amical",
+            "Jeudi 4 Janvier 2025",
+            "Stade Auguste Bonal",
+            "Match joué à huis clos",
+            "Buts : Hoggas, Gnanduillet et Fatar (en deuxième période) pour Sochaux"
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2025-01-04",
+        "date_text": "Jeudi 4 Janvier 2025",
+        "season": "2024-2025",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "Match Amical",
+        "home": {
+            "name": "Sochaux",
+            "level": "N"
+        },
+        "away": {
+            "name": "Jura Sud Foot",
+            "level": "N2"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 3,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "3-0",
+        "score_line": "Sochaux / Jura Sud : 3-0",
+        "result": "V",
+        "stadium": "Stade Auguste Bonal",
+        "spectators": null,
+        "spectators_text": "Match joué à huis clos",
+        "referee": null,
+        "goals_text": "Hoggas, Gnanduillet et Fatar (en deuxième période) pour Sochaux",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Hoggas, Gnanduillet et Fatar (en deuxième période)"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "Karim Mokeddem",
+                "text": "C'était important qu'on fasse une revue d'effectif général avant la reprise, qu'on se mette en mode compétition. Il y a eu un bon investissement de la part de tous les garçons, notamment les jeunes."
+            }
+        ],
+        "breves": [
+            "Ce match aura permis de faire rejouer de nombreux joueurs en manque de temps de jeu durant la première partie de saison. Roli Pereira de Sa a pu jouer 45 minutes, N'Dri Koffi, 25 minutes. Quelques jeunes ont pu s'inscrire dans ce projet comme Majdi ou Loubao.",
+            "Sochaux souhaitait jouer sur son terrain d'entraînement de Wembley mais l'état de la pelouse étant mauvais le match a eu lieu sur Bonal. Par ailleurs, les clubs d'Arcey et Bavilliers ont proposé au club de les accueillir pour s'entrainer en cas de problème.",
+            "Transfert / Rumeur",
+            "Sochaux est toujours à la recherche d'un ou deux joueurs offensifs pour la deuxième partie de saison après le désistement de Fdaouch qui a signé à Nancy finalement."
+        ],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom (1ère mi-temps)",
+                "Buts",
+                "Changement",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "PATOUILLET Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "MENDES Elson",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "↓ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "FONTAINE Thomas",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "OUAMMOU Nassim",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "88"
+                    ],
+                    "goals_text": "⚽ 88'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "DRAMMEH Mouhamadou",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "75",
+                    "sub_text": "↓ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "HOGGAS Kévin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "LIENARD Dimitri",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [
+                        "17"
+                    ],
+                    "red": [],
+                    "cards_text": "🟨 17'",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MACALOU Issouf",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "63",
+                    "sub_text": "↓ 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "JEAN Corentin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "FATAR Noah",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "20",
+                    "sub_text": "↓ 20'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DACOSTA Julien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "↑ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PEREIRA DE SA Roli",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "↑ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MICHEL Diego",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "20",
+                    "sub_out": "20",
+                    "sub_text": "↑ 20' ↓ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MUKANYA Marie-Gaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "75",
+                    "sub_out": null,
+                    "sub_text": "↑ 75'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LECOLIER Martin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "63",
+                    "sub_out": null,
+                    "sub_text": "↑ 63'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "MOKEDDEM Karim",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1406
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

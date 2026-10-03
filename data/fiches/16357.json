@@ -1,0 +1,154 @@
+{
+    "id": 16357,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "jean-pierre-peugeot",
+    "path": "/dirigeants/jean-pierre-peugeot/",
+    "title": "Jean-Pierre Peugeot",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-dhonneur"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/09/Jean-Pierre_Peugeot_1930.jpg",
+    "date": "2025-09-05T21:36:02",
+    "modified": "2025-11-12T21:47:11",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Jean‑Pierre Peugeot et la création du FC Sochaux‑Montbéliard</strong></h4>\n<ul>\n<li>\n<p><strong>Promoteur du club (1928)</strong><br>En 1928, Jean‑Pierre Peugeot, alors dirigeant de la société Peugeot, voit d'un bon œil la création d'un club de football par l'un de ses directeurs Louis Maillard-Salin. Le FC Sochaux voit le jour et joue ses premiers matchs. Cherchant un moyen de faire connaitre sa marque automobile dans une branche où les marques nationales sont alors légions, il décide, sur recommandation de son conseiller Sam Wyler, de soutenir son propre club de football pour rayonner dans tout le pays. </p>\n</li>\n<li>\n<p><strong>Président d’honneur et instigateur du professionnalisme</strong><br>Bien qu’il ne soit pas le président exécutif (ce rôle revenant à Louis Maillard‑Salin le créateur), Jean‑Pierre Peugeot prend la tête en tant que président d'honneur. Il confie des missions clés, comme un audit pour tester la viabilité d’un club ambitieux, avant d’en financer la montée en puissance. Il constitue par ailleurs une direction forte en nommant notamment Samuel Wyler et Roger Dargein à des postes essentiels. </p>\n</li>\n<li>\n<p><strong>Pionnier du professionnalisme</strong><br>À une époque où l’amateurisme marron — payer des joueurs de façon officieuse — était courant, Jean‑Pierre Peugeot fait figure de précurseur en assumant ouvertement la rémunération des joueurs, une pratique interdite à l’époque. Cette démarche audacieuse joue un rôle décisif dans la légalisation et l’instauration du football professionnel en France, à partir de 1932.</p>\n</li>\n<li>\n<p><strong>Créateur de la \"Coupe Peugeot\"</strong><br>En 1930, il lance la <strong>Coupe Peugeot</strong> (également appelée <strong>Coupe Sochaux</strong>), une compétition rassemblant les meilleurs clubs nationaux. Cette initiative, imaginée comme un tournoi d’exhibition, contribue directement à l’adoption du professionnalisme par la Fédération française de football et à la mise en place du championnat national en 1932.  </p>\n</li>\n<li>\n<p><strong>Modèle de « football exhibition » et rayonnement national</strong><br>Grâce à ses moyens et à son ambition, le club attire d’éminents joueurs, français et étrangers, et pratique un football spectaculaire. Très vite, le FC Sochaux devient une puissance du football français des années 1930, remportant plusieurs titres nationaux — sous son ombre bienveillante. Le club sera même le plus grand club français d'avant guerre. </p>\n</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1928",
+        "text": "Jean-Pierre Peugeot n'a pas crée le club mais c'est lui qui lui a donné son impulsion dès 1928."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/Jean-Pierre_Peugeot_1930.jpg",
+            "caption": "Jean-Pierre Peugeot – Président d’honneur du FC Sochaux-Montbéliard",
+            "credit": "1930",
+            "caption_raw": "Jean-Pierre Peugeot – Président d’honneur du FC Sochaux-Montbéliard – 1930"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16357,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/jean-pierre-peugeot/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/jean-pierre-peugeot/",
+        "slug": "jean-pierre-peugeot",
+        "seo_title": "Jean-Pierre Peugeot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Jean-Pierre Peugeot </h2>\n<p><strong>Né le 16 juin 1896 à Valentigney (25)</strong></p>\n<p><strong>Décédé le 17 octobre 1966 à Paris (75)</strong>  </p>\n<h4><strong>Président d'honneur du FC Sochaux-Montbéliard de 1928 à 1966</strong></h4>",
+        "header_lines": [
+            "Jean-Pierre Peugeot",
+            "Né le 16 juin 1896 à Valentigney (25)",
+            "Décédé le 17 octobre 1966 à Paris (75)",
+            "Président d'honneur du FC Sochaux-Montbéliard de 1928 à 1966"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Jean-Pierre",
+        "last_name": "Peugeot",
+        "display_name": "Jean-Pierre Peugeot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1896-06-16",
+                "precision": "day",
+                "text": "16 juin 1896"
+            },
+            "place": {
+                "text": "Valentigney (25)",
+                "city": "Valentigney",
+                "department": "25",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 16 juin 1896 à Valentigney (25)"
+        },
+        "death": {
+            "date": {
+                "iso": "1966-10-17",
+                "precision": "day",
+                "text": "17 octobre 1966"
+            },
+            "place": {
+                "text": "Paris (75)",
+                "city": "Paris",
+                "department": "75",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 17 octobre 1966 à Paris (75)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Jean-Pierre Peugeot"
+            },
+            {
+                "label": null,
+                "value": "Né le 16 juin 1896 à Valentigney (25)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 17 octobre 1966 à Paris (75)"
+            },
+            {
+                "label": null,
+                "value": "Président d'honneur du FC Sochaux-Montbéliard de 1928 à 1966"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

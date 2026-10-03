@@ -1,0 +1,202 @@
+{
+    "id": 10278,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "inge-paulsen",
+    "path": "/joueurs/inge-paulsen/",
+    "title": "Inge Paulsen",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/02/Paulsen-FCSM.jpg",
+    "date": "2025-01-10T06:28:37",
+    "modified": "2026-02-04T14:34:34",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "6",
+        "text": "Inge Paulsen a joué 6 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Paulsen-FCSM.jpg",
+            "caption": "Paulsen",
+            "credit": "FCSM",
+            "caption_raw": "Paulsen – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10278,
+        "url": "https://www.fcsochauxretro.com/a-la-une/inge-paulsen/",
+        "path": "/a-la-une/inge-paulsen/",
+        "slug": "inge-paulsen",
+        "seo_title": "Inge Paulsen - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Inge Paulsen</h2>\n<h4><strong>né le 23 août 1924 à Stavanger (Norvège)</strong></h4>\n<h4><strong>Décédé le 4 septembre 2013 à Stavanger (Norvège)</strong></h4>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International norvégien (1 sélection)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1950</p>\n<p><strong>Départ de Sochaux : </strong>octobre 1951</p>\n<p><strong>Premier match :</strong> RC Paris - Sochaux du 27/08/1950 : 4-1</p>\n<p><strong>Dernier match joué : </strong>Sochaux - Saint-Etienne du 01/10/1950 : 0-2</p>",
+        "header_lines": [
+            "Inge Paulsen",
+            "né le 23 août 1924 à Stavanger (Norvège)",
+            "Décédé le 4 septembre 2013 à Stavanger (Norvège)",
+            "Poste : attaquant",
+            "International norvégien (1 sélection)",
+            "Arrivée à Sochaux : juillet 1950",
+            "Départ de Sochaux : octobre 1951",
+            "Premier match : RC Paris - Sochaux du 27/08/1950 : 4-1",
+            "Dernier match joué : Sochaux - Saint-Etienne du 01/10/1950 : 0-2"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Inge",
+        "last_name": "Paulsen",
+        "display_name": "Inge Paulsen",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1924-08-23",
+                "precision": "day",
+                "text": "23 août 1924"
+            },
+            "place": {
+                "text": "Stavanger (Norvège)",
+                "city": "Stavanger",
+                "department": null,
+                "country": "Norvège",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 23 août 1924 à Stavanger (Norvège)"
+        },
+        "death": {
+            "date": {
+                "iso": "2013-09-04",
+                "precision": "day",
+                "text": "4 septembre 2013"
+            },
+            "place": {
+                "text": "Stavanger (Norvège)",
+                "city": "Stavanger",
+                "department": null,
+                "country": "Norvège",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 4 septembre 2013 à Stavanger (Norvège)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International norvégien (1 sélection)"
+        ],
+        "arrival": {
+            "iso": "1950-07",
+            "precision": "month",
+            "text": "juillet 1950"
+        },
+        "departure": {
+            "iso": "1951-10",
+            "precision": "month",
+            "text": "octobre 1951"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "RC Paris - Sochaux du 27/08/1950 : 4-1",
+        "last_match": "Sochaux - Saint-Etienne du 01/10/1950 : 0-2",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Inge Paulsen"
+            },
+            {
+                "label": null,
+                "value": "né le 23 août 1924 à Stavanger (Norvège)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 4 septembre 2013 à Stavanger (Norvège)"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International norvégien (1 sélection)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1950"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "octobre 1951"
+            },
+            {
+                "label": "Premier match",
+                "value": "RC Paris - Sochaux du 27/08/1950 : 4-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Saint-Etienne du 01/10/1950 : 0-2"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

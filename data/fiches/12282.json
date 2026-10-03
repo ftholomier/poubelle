@@ -1,0 +1,223 @@
+{
+    "id": 12282,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "lahcer-mounadi",
+    "path": "/joueurs/lahcer-mounadi/",
+    "title": "Lahcer Mounadi",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-79.jpg",
+    "date": "2025-02-27T19:29:15",
+    "modified": "2025-02-27T19:37:23",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "27",
+        "text": "Lahcer Mounadi a joué 27 minutes pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-79.jpg",
+            "caption": "Lahcer Mounadi",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Lahcer Mounadi – FC Sochaux-Montbéliard"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12282,
+        "url": "https://www.fcsochauxretro.com/a-la-une/lahcer-mounadi/",
+        "path": "/a-la-une/lahcer-mounadi/",
+        "slug": "lahcer-mounadi",
+        "seo_title": "Lahcer Mounadi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Lahcer Mounadi</h2>\n<h4><strong>né le 28 janvier 1970 à Casablanca (Maroc)</strong></h4>\n<p><strong>Taille : </strong>1m78</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1989</p>\n<p><strong>Départ de Sochaux : </strong>juin 1991</p>\n<p><strong>Premier et dernier match joué :</strong> Rodez - Sochaux du 14/05/1991 : 2-1</p>",
+        "header_lines": [
+            "Lahcer Mounadi",
+            "né le 28 janvier 1970 à Casablanca (Maroc)",
+            "Taille : 1m78",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1989",
+            "Départ de Sochaux : juin 1991",
+            "Premier et dernier match joué : Rodez - Sochaux du 14/05/1991 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Lahcer",
+        "last_name": "Mounadi",
+        "display_name": "Lahcer Mounadi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1970-01-28",
+                "precision": "day",
+                "text": "28 janvier 1970"
+            },
+            "place": {
+                "text": "Casablanca (Maroc)",
+                "city": "Casablanca",
+                "department": null,
+                "country": "Maroc",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 28 janvier 1970 à Casablanca (Maroc)"
+        },
+        "death": null,
+        "height": "1m78",
+        "height_cm": 178,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1989-07",
+            "precision": "month",
+            "text": "juillet 1989"
+        },
+        "departure": {
+            "iso": "1991-06",
+            "precision": "month",
+            "text": "juin 1991"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Lahcer Mounadi"
+            },
+            {
+                "label": null,
+                "value": "né le 28 janvier 1970 à Casablanca (Maroc)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m78"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1989"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1991"
+            },
+            {
+                "label": "Premier et dernier match joué",
+                "value": "Rodez - Sochaux du 14/05/1991 : 2-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

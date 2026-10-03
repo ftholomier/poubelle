@@ -1,0 +1,278 @@
+{
+    "id": 11822,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "andre-malouema",
+    "path": "/joueurs/andre-malouema/",
+    "title": "André Malouema",
+    "categories": [
+        "a-la-une",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/5-40.jpg",
+    "date": "2025-02-14T17:03:20",
+    "modified": "2025-02-15T22:56:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "22",
+        "text": "André Malouema a joué 22 matchs (7 buts) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/FC-Sochaux-1966-1967-1.jpg",
+            "caption": "",
+            "credit": "",
+            "caption_raw": ""
+        },
+        {
+            "image": "2025/02/5-40.jpg",
+            "caption": "Malouema",
+            "credit": "dr",
+            "caption_raw": "Malouema – dr"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11822,
+        "url": "https://www.fcsochauxretro.com/a-la-une/andre-malouema-11822/",
+        "path": "/a-la-une/andre-malouema-11822/",
+        "slug": "andre-malouema-11822",
+        "seo_title": "André Malouema - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>André Malouema</h2>\n<h4><strong>né le 3 mars 1942 à Brazzaville (Congo) </strong></h4>\n<h4><strong>Décédé le 2 aout 1995 à ?</strong></h4>\n<p><strong>Taille : </strong>1m68</p>\n<p><strong>Poids : </strong>67 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International congolais </strong></p>\n<p><strong>Arrivée à Sochaux :</strong> juillet 1964</p>\n<p><strong>Départ de Sochaux : </strong>juin 1967</p>\n<p><strong>Premier match joué :</strong> Strasbourg - Sochaux du 19/09/1964 : 0-0 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - Bastia du 02/04/1967 : 1-1 a.p</p>\n<p><strong>Premier but marqué :</strong> Saint-Etienne - Sochaux du 23/01/1966 : 3-1 - But à la 37'</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>\n<p>Finaliste de la coupe de France 1967</p>\n</li>\n</ul>",
+        "header_lines": [
+            "André Malouema",
+            "né le 3 mars 1942 à Brazzaville (Congo)",
+            "Décédé le 2 aout 1995 à ?",
+            "Taille : 1m68",
+            "Poids : 67 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International congolais",
+            "Arrivée à Sochaux : juillet 1964",
+            "Départ de Sochaux : juin 1967",
+            "Premier match joué : Strasbourg - Sochaux du 19/09/1964 : 0-0",
+            "Dernier match joué : Sochaux - Bastia du 02/04/1967 : 1-1 a.p",
+            "Premier but marqué : Saint-Etienne - Sochaux du 23/01/1966 : 3-1 - But à la 37'",
+            "Palmarès avec Sochaux :",
+            "Finaliste de la coupe de France 1967"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "André",
+        "last_name": "Malouema",
+        "display_name": "André Malouema",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1942-03-03",
+                "precision": "day",
+                "text": "3 mars 1942"
+            },
+            "place": {
+                "text": "Brazzaville (Congo)",
+                "city": "Brazzaville",
+                "department": null,
+                "country": "Congo",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 3 mars 1942 à Brazzaville (Congo)"
+        },
+        "death": {
+            "date": {
+                "iso": "1995-08-02",
+                "precision": "day",
+                "text": "2 aout 1995"
+            },
+            "place": {
+                "text": "?",
+                "city": "?",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 2 aout 1995 à ?"
+        },
+        "height": "1m68",
+        "height_cm": 168,
+        "weight": "67 kg",
+        "weight_kg": 67,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International congolais"
+        ],
+        "arrival": {
+            "iso": "1964-07",
+            "precision": "month",
+            "text": "juillet 1964"
+        },
+        "departure": {
+            "iso": "1967-06",
+            "precision": "month",
+            "text": "juin 1967"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Strasbourg - Sochaux du 19/09/1964 : 0-0",
+        "last_match": "Sochaux - Bastia du 02/04/1967 : 1-1 a.p",
+        "first_goal": "Saint-Etienne - Sochaux du 23/01/1966 : 3-1 - But à la 37'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Finaliste de la coupe de France 1967"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "André Malouema"
+            },
+            {
+                "label": null,
+                "value": "né le 3 mars 1942 à Brazzaville (Congo)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 2 aout 1995 à ?"
+            },
+            {
+                "label": "Taille",
+                "value": "1m68"
+            },
+            {
+                "label": "Poids",
+                "value": "67 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International congolais"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1964"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1967"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Strasbourg - Sochaux du 19/09/1964 : 0-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - Bastia du 02/04/1967 : 1-1 a.p"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Saint-Etienne - Sochaux du 23/01/1966 : 3-1 - But à la 37'"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1967"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

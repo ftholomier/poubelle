@@ -1,0 +1,171 @@
+{
+    "id": 12645,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ousmane-bagayoko",
+    "path": "/joueurs/ousmane-bagayoko/",
+    "title": "Ousmane Bagayoko (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/02/Bagayoko-Le-Pays.png",
+    "date": "2025-03-08T14:13:16",
+    "modified": "2026-03-29T10:32:50",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière avant le FCSM",
+            "html": "<ul>\n<li>Ousmane Bagayoko est né au Mali, où il découvre le football.</li>\n<li>Titulaire très jeune au sein du Stade Malien, il se fait remarquer par un recruteur qui le propose à un club à l’été 2006. Il est alors âgé de 22 ans.</li>\n</ul>"
+        },
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Alain Perrin et Christophe Galtier l’intègrent à la préparation estivale. Sa vitesse et sa capacité de percussion sont jugées intéressantes.</li>\n<li>Il dispute un premier match amical face au FC Sion : il joue une mi-temps avant d’être remplacé par Badara Sène.</li>\n<li>Quelques jours plus tard, il est de nouveau titularisé face au Dinamo Zagreb, toujours pour une mi-temps, puis remplacé à la pause par Julien Quercia.</li>\n<li>Le staff technique n’est toutefois pas pleinement convaincu par son profil et ne lui propose pas de contrat.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li><strong>Saisons 2006 à 2010</strong><br>Il évolue pendant quatre saisons en première division malienne avec le Stade Malien.</li>\n<li><strong>Saisons 2010 à 2014</strong><br>Il est transféré en première division égyptienne à Al Masry. Il joue ensuite pour Telefonat, puis à Damanhour.</li>\n<li><strong>Saisons 2013 à 2016</strong><br>Il s’engage ensuite avec le Sewé Sport, en première division ivoirienne, où il passe trois saisons.</li>\n<li><strong>Saisons 2016 à 2018</strong><br>Il revient au Stade Malien, son club formateur, pour terminer sa carrière durant deux saisons en première division malienne.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Ousmane Bagayoko a été mis à l'essai à Sochaux 1 semaine en juillet 2006."
+    },
+    "gallery": [
+        {
+            "image": "2026/02/Bagayoko-Reinoso.png",
+            "caption": "Bagayoko",
+            "credit": "Reinoso",
+            "caption_raw": "Bagayoko – Reinoso"
+        },
+        {
+            "image": "2026/02/Bagayoko-Le-Pays.png",
+            "caption": "Bagayoko",
+            "credit": "Le Pays",
+            "caption_raw": "Bagayoko – Le Pays"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12645,
+        "url": "https://www.fcsochauxretro.com/uncategorized/ousmane-bagayoko/",
+        "path": "/uncategorized/ousmane-bagayoko/",
+        "slug": "ousmane-bagayoko",
+        "seo_title": "Ousmane Bagayoko (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Ousmane Bagayoko</strong></h2>\n<h4><strong>né le 26 novembre 1984 à Bamako (Mali)  </strong></h4>\n<p><strong>Taille : </strong>1m85</p>\n<p><strong>Poids : </strong>79 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>A l'essai en : </strong>juillet 2006</p>",
+        "header_lines": [
+            "Ousmane Bagayoko",
+            "né le 26 novembre 1984 à Bamako (Mali)",
+            "Taille : 1m85",
+            "Poids : 79 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "A l'essai en : juillet 2006"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ousmane",
+        "last_name": "Bagayoko",
+        "display_name": "Ousmane Bagayoko",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2006-07",
+            "precision": "month",
+            "text": "juillet 2006"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1984-11-26",
+                "precision": "day",
+                "text": "26 novembre 1984"
+            },
+            "place": {
+                "text": "Bamako (Mali)",
+                "city": "Bamako",
+                "department": null,
+                "country": "Mali",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 26 novembre 1984 à Bamako (Mali)"
+        },
+        "death": null,
+        "height": "1m85",
+        "height_cm": 185,
+        "weight": "79 kg",
+        "weight_kg": 79,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ousmane Bagayoko"
+            },
+            {
+                "label": null,
+                "value": "né le 26 novembre 1984 à Bamako (Mali)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m85"
+            },
+            {
+                "label": "Poids",
+                "value": "79 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "A l'essai en",
+                "value": "juillet 2006"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

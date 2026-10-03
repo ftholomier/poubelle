@@ -1,0 +1,256 @@
+{
+    "id": 11542,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "le-gall",
+    "path": "/joueurs/le-gall/",
+    "title": "? Le Gall (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2025-03-03T16:46:31",
+    "modified": "2025-11-18T23:08:07",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Le Gall a joué 1 match amical et 1 match officiel pour Sochaux-Valentigney en 1943-1944."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11542,
+        "url": "https://www.fcsochauxretro.com/uncategorized/le-gall/",
+        "path": "/uncategorized/le-gall/",
+        "slug": "le-gall",
+        "seo_title": "? Le Gall (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Le Gall</h2>\n<h4><strong>né le xx à xx</strong></h4>\n<h4><strong>Décédé le xx à xx  </strong></h4>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1943</p>\n<p><strong>Départ de Sochaux :</strong> juin 1944 </p>\n<p><strong>Premier match joué :</strong> SCA Cusset - Sochaux-Valentigney du 05/12/1943 : 1-4</p>\n<p><strong>Dernier match joué :</strong> Dijon - Sochaux-Valentigney du 12/12/1943 : 0-7</p>",
+        "header_lines": [
+            "? Le Gall",
+            "né le xx à xx",
+            "Décédé le xx à xx",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1943",
+            "Départ de Sochaux : juin 1944",
+            "Premier match joué : SCA Cusset - Sochaux-Valentigney du 05/12/1943 : 1-4",
+            "Dernier match joué : Dijon - Sochaux-Valentigney du 12/12/1943 : 0-7"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Le Gall",
+        "display_name": "? Le Gall",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le xx à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "xx"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le xx à xx"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1943-07",
+            "precision": "month",
+            "text": "juillet 1943"
+        },
+        "departure": {
+            "iso": "1944-06",
+            "precision": "month",
+            "text": "juin 1944"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "SCA Cusset - Sochaux-Valentigney du 05/12/1943 : 1-4",
+        "last_match": "Dijon - Sochaux-Valentigney du 12/12/1943 : 0-7",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Le Gall"
+            },
+            {
+                "label": null,
+                "value": "né le xx à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le xx à xx"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1943"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1944"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "SCA Cusset - Sochaux-Valentigney du 05/12/1943 : 1-4"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Dijon - Sochaux-Valentigney du 12/12/1943 : 0-7"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1996-1997",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "1",
+                    "1",
+                    "0",
+                    "0",
+                    "9",
+                    "1"
+                ],
+                [
+                    "1997-1998",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "1998-1999",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "1",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "1",
+                    "0",
+                    "8",
+                    "0",
+                    "2",
+                    "0",
+                    "0",
+                    "0",
+                    "11",
+                    "1"
+                ]
+            ],
+            "source_table": 438
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

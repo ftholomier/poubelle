@@ -1,0 +1,306 @@
+{
+    "id": 11722,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sime-luketin",
+    "path": "/joueurs/sime-luketin/",
+    "title": "Sime Luketin",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/02/inbound7895501257871334012.jpg",
+    "date": "2025-02-12T22:31:37",
+    "modified": "2026-02-26T17:45:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "37",
+        "text": "Sime Luketin a joué 37 matchs (1 but) pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2025/02/5-31.jpg",
+            "caption": "Sime Luketin",
+            "credit": "FC Sochaux-Montbéliard",
+            "caption_raw": "Sime Luketin – FC Sochaux-Montbéliard"
+        },
+        {
+            "image": "2025/02/inbound4904586713387642398.jpg",
+            "caption": "Sime Luketin",
+            "credit": "dr",
+            "caption_raw": "Sime Luketin – dr"
+        },
+        {
+            "image": "2025/02/inbound6161114580387223666.jpg",
+            "caption": "Sime Luketin",
+            "credit": "dr",
+            "caption_raw": "Sime Luketin – dr"
+        },
+        {
+            "image": "2025/02/inbound549284231114492180.jpg",
+            "caption": "Vignette Panini, saison 1981-1982",
+            "credit": "",
+            "caption_raw": "Vignette Panini, saison 1981-1982"
+        },
+        {
+            "image": "2025/02/inbound7895501257871334012.jpg",
+            "caption": "Sime Luketin",
+            "credit": "dr",
+            "caption_raw": "Sime Luketin – dr"
+        },
+        {
+            "image": "2025/02/inbound8382074289276768061.jpg",
+            "caption": "Sime Luketin",
+            "credit": "Saison 1982-1983",
+            "caption_raw": "Sime Luketin – Saison 1982-1983"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 11722,
+        "url": "https://www.fcsochauxretro.com/a-la-une/sime-luketin/",
+        "path": "/a-la-une/sime-luketin/",
+        "slug": "sime-luketin",
+        "seo_title": "Sime Luketin - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Sime Luketin</h2>\n<h4><strong>né le 7 septembre 1953 à Split (Croatie)</strong></h4>\n<p><strong>Taille : </strong>1m83</p>\n<p><strong>Poids : </strong>80 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>juin 1981</p>\n<p><strong>Départ de Sochaux : </strong>juin 1983</p>\n<p><strong>Premier match joué :</strong> Laval - Sochaux du 24/07/1981 : 1-1</p>\n<p><strong>Dernier match joué :</strong> Auxerre - Sochaux du 10/09/1982 : 2-2</p>\n<p><strong>Premier but marqué :</strong> Sochaux - Auxerre du 06/10/1981 : 5-0 - But à la 54'</p>",
+        "header_lines": [
+            "Sime Luketin",
+            "né le 7 septembre 1953 à Split (Croatie)",
+            "Taille : 1m83",
+            "Poids : 80 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juin 1981",
+            "Départ de Sochaux : juin 1983",
+            "Premier match joué : Laval - Sochaux du 24/07/1981 : 1-1",
+            "Dernier match joué : Auxerre - Sochaux du 10/09/1982 : 2-2",
+            "Premier but marqué : Sochaux - Auxerre du 06/10/1981 : 5-0 - But à la 54'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Sime",
+        "last_name": "Luketin",
+        "display_name": "Sime Luketin",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1953-09-07",
+                "precision": "day",
+                "text": "7 septembre 1953"
+            },
+            "place": {
+                "text": "Split (Croatie)",
+                "city": "Split",
+                "department": null,
+                "country": "Croatie",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 7 septembre 1953 à Split (Croatie)"
+        },
+        "death": null,
+        "height": "1m83",
+        "height_cm": 183,
+        "weight": "80 kg",
+        "weight_kg": 80,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1981-06",
+            "precision": "month",
+            "text": "juin 1981"
+        },
+        "departure": {
+            "iso": "1983-06",
+            "precision": "month",
+            "text": "juin 1983"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Laval - Sochaux du 24/07/1981 : 1-1",
+        "last_match": "Auxerre - Sochaux du 10/09/1982 : 2-2",
+        "first_goal": "Sochaux - Auxerre du 06/10/1981 : 5-0 - But à la 54'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Sime Luketin"
+            },
+            {
+                "label": null,
+                "value": "né le 7 septembre 1953 à Split (Croatie)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m83"
+            },
+            {
+                "label": "Poids",
+                "value": "80 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 1981"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1983"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Laval - Sochaux du 24/07/1981 : 1-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Auxerre - Sochaux du 10/09/1982 : 2-2"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Sochaux - Auxerre du 06/10/1981 : 5-0 - But à la 54'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1986-1987",
+                    "8",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "8",
+                    "0"
+                ],
+                [
+                    "1987-1988",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "17",
+                    "8",
+                    "25",
+                    "8"
+                ],
+                [
+                    "1988-1989",
+                    "6",
+                    "0",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "8",
+                    "1"
+                ],
+                [
+                    "1990-1991",
+                    "19",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "21",
+                    "5"
+                ],
+                [
+                    "1991-1992",
+                    "21",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "54",
+                    "6",
+                    "13",
+                    "2",
+                    "17",
+                    "8",
+                    "85",
+                    "16"
+                ]
+            ],
+            "source_table": 289
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

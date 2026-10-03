@@ -1,0 +1,144 @@
+{
+    "id": 13634,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rene-hauss",
+    "path": "/dirigeants/rene-hauss/",
+    "title": "René Hauss",
+    "categories": [
+        "directeurs-sportifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/RENE-H1.jpg",
+    "date": "2025-04-30T13:28:05",
+    "modified": "2025-11-13T10:24:21",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>René Hauss - Directeur sportif 1973-1985</strong></h4>\n<ul>\n<li>Né le 25 décembre 1927 à Lingolsheim, René Hauss a déjà un brillant parcours avant d'arriver à Sochaux. En tant que joueur du RC Strasbourg il a gagné la coupe de France en 1951 et 1966, la coupe de la ligue en 1964 et il a été finaliste de la coupe Charles Drago en 1961. </li>\n<li>Comme entraîneur, il remporte 3 championnats de Belgique en 1969, 1970 et 1971 avec le Standard de Liège. Vice-champion de Belgique en 1973, il quitte le club \"Rouche\" pour venir à Sochaux qui ouvre un nouveau centre de formation et voit arriver un jeune président ambitieux : Jacques Thouzery.  </li>\n<li>A la fois directeur sportif et entraîneur, il forme un duo marquant avec Paul Barret, Jean Fauvergue puis Pierre Mosca. Sous sa houlette le club sera vice-champion de France en 1980 et demi-finaliste de la coupe UEFA en 1981. Le club atteindra la finale de la coupe Gambardella 1975 et la remportera en 1983 pour la première fois. </li>\n<li>En 1984, il fait venir Sylvester Takac comme entraîneur en provenance de son ancien club du Standard de Liège. Il quitte le club un an plus tard. </li>\n<li>Il terminera sa carrière au RC Paris (qui deviendra Matra Racing) en occupant le poste d'entraîneur en 1988/1989 puis le poste de directeur sportif jusqu'en 1990.</li>\n<li>Il décède le 6 décembre 2010 à Strasbourg. Il demeure un personnage clé de l'épopée européenne de la saison 1980/1981. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "12",
+        "text": "Le plus illustre manager sportif que Sochaux a connu restera 12 ans en poste au sein du club."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/AZ-Sochaux-8-fv.png",
+            "caption": "Hauss et Thouzery en avril 1981",
+            "credit": "AFP",
+            "caption_raw": "Hauss et Thouzery en avril 1981 – AFP"
+        },
+        {
+            "image": "2025/04/Hauss-Deur-Benoit-J-Parisot.png",
+            "caption": "Le docteur Sautre, Hauss, Deur, Benoit",
+            "credit": "J Parisot",
+            "caption_raw": "Le docteur Sautre, Hauss, Deur, Benoit – J Parisot"
+        },
+        {
+            "image": "2024/10/Barret-Hauss-tandem-1973.png",
+            "caption": "Barret et Hauss tandem 1973",
+            "credit": "Foot Magazine",
+            "caption_raw": "Barret et Hauss tandem 1973 – Foot Magazine"
+        },
+        {
+            "image": "2025/04/Hauss-Foot-Magazine.png",
+            "caption": "Hauss",
+            "credit": "Foot Magazine",
+            "caption_raw": "Hauss – Foot Magazine"
+        },
+        {
+            "image": "2025/04/Hauss-a-son-bureau-Foot-Magazine.png",
+            "caption": "Hauss à son bureau",
+            "credit": "Foot Magazine",
+            "caption_raw": "Hauss à son bureau – Foot Magazine"
+        },
+        {
+            "image": "2025/10/ff-18-09-73.png",
+            "caption": "France Football 18 09 73",
+            "credit": "",
+            "caption_raw": "France Football 18 09 73"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13634,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/rene-hauss/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/rene-hauss/",
+        "slug": "rene-hauss",
+        "seo_title": "René Hauss - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>René Hauss  </h2>\n<h4><strong>Directeur sportif de 1973 à 1985</strong></h4>",
+        "header_lines": [
+            "René Hauss",
+            "Directeur sportif de 1973 à 1985"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "René",
+        "last_name": "Hauss",
+        "display_name": "René Hauss",
+        "nickname": "",
+        "subtitle": "Directeur sportif de 1973 à 1985",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "René Hauss"
+            },
+            {
+                "label": null,
+                "value": "Directeur sportif de 1973 à 1985"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

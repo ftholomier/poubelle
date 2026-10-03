@@ -1,0 +1,189 @@
+{
+    "id": 7671,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "ahmed-farag",
+    "path": "/joueurs/ahmed-farag/",
+    "title": "Ahmed Farag",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "internationaux-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/inbound1895852539452554155.jpg",
+    "date": "2024-11-18T07:36:45",
+    "modified": "2025-05-19T20:45:44",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Ahmed Farag n'a joué aucun match officiel pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/inbound1332522699739273328.jpg",
+            "caption": "Ahmed Farag – Saison 2005-2006",
+            "credit": "fcsm",
+            "caption_raw": "Ahmed Farag – Saison 2005-2006 – fcsm"
+        },
+        {
+            "image": "2024/11/15409-1548672377.webp",
+            "caption": "Ahmed Farag",
+            "credit": "DR",
+            "caption_raw": "Ahmed Farag – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7671,
+        "url": "https://www.fcsochauxretro.com/a-la-une/ahmed-farag/",
+        "path": "/a-la-une/ahmed-farag/",
+        "slug": "ahmed-farag",
+        "seo_title": "Ahmed Farag - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Ahmed Farag</h2>\n<h4><strong>né le 20 mai 1986 au Caire (Egypte) </strong></h4>\n<p><strong>Taille :</strong> 1m86</p>\n<p><strong>Poids :</strong> 86kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>ailier gauche</p>\n<p><strong>International égyptien (19 sélections)</strong></p>\n<p><strong>International Tchécoslovaque (8 sélections)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>janvier 2004</p>\n<p><strong>Départ de Sochaux : </strong>janvier 2006</p>",
+        "header_lines": [
+            "Ahmed Farag",
+            "né le 20 mai 1986 au Caire (Egypte)",
+            "Taille : 1m86",
+            "Poids : 86kg",
+            "Pied : gaucher",
+            "Poste : ailier gauche",
+            "International égyptien (19 sélections)",
+            "International Tchécoslovaque (8 sélections)",
+            "Arrivée à Sochaux : janvier 2004",
+            "Départ de Sochaux : janvier 2006"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Ahmed",
+        "last_name": "Farag",
+        "display_name": "Ahmed Farag",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1986-05-20",
+                "precision": "day",
+                "text": "20 mai 1986 au Caire (Egypte)"
+            },
+            "place": null,
+            "text": "né le 20 mai 1986 au Caire (Egypte)"
+        },
+        "death": null,
+        "height": "1m86",
+        "height_cm": 186,
+        "weight": "86kg",
+        "weight_kg": 86,
+        "foot": "gaucher",
+        "position": "ailier gauche",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International égyptien (19 sélections)",
+            "International Tchécoslovaque (8 sélections)"
+        ],
+        "arrival": {
+            "iso": "2004-01",
+            "precision": "month",
+            "text": "janvier 2004"
+        },
+        "departure": {
+            "iso": "2006-01",
+            "precision": "month",
+            "text": "janvier 2006"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Ahmed Farag"
+            },
+            {
+                "label": null,
+                "value": "né le 20 mai 1986 au Caire (Egypte)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m86"
+            },
+            {
+                "label": "Poids",
+                "value": "86kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "ailier gauche"
+            },
+            {
+                "label": null,
+                "value": "International égyptien (19 sélections)"
+            },
+            {
+                "label": null,
+                "value": "International Tchécoslovaque (8 sélections)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "janvier 2004"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "janvier 2006"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

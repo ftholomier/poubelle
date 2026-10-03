@@ -1,0 +1,172 @@
+{
+    "id": 8398,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "alain-bare",
+    "path": "/joueurs/alain-bare/",
+    "title": "Alain Baré",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2026/01/485_0011.jpg",
+    "date": "2024-12-02T23:03:24",
+    "modified": "2026-03-29T22:13:20",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": "<ul>\n<li>Formé comme attaquant à Sochaux durant 3 saisons de 1983 à 1986, Alain Baré ne parviendra pas à s'imposer en équipe première.</li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": "<ul>\n<li><strong>Saison 1986/1987</strong></li>\n<li>Après trois saisons au centre de formation, où il évolue notamment en troisième division avec la réserve, il retourne dans sa région natale et signe en D2 à Thonon.</li>\n<li><strong>Saisons 1987 à 1989</strong></li>\n<li>À la fin de cette saison alpine, il rejoint la Bourgogne et s'engage à Montceau-les-Mines, toujours en D2. Il y reste deux saisons, marque 16 buts et délivre de nombreuses passes décisives.</li>\n<li><strong>Saisons 1989 à 1992</strong></li>\n<li>Repéré par l'Olympique Lyonnais, il signe au club et découvre la première division ainsi que la coupe d'Europe. Le 18 octobre 1991, il foule pour la première fois la pelouse de Bonal lors d'une défaite 1-0 de l’OL à Sochaux.</li>\n<li><strong>Saisons 1992 à 1994</strong></li>\n<li>Après trois saisons à Lyon, il s'engage en deuxième division suisse à Monthey, où il reste deux ans.</li>\n<li><strong>Saison 1994/1995</strong></li>\n<li>Il termine sa carrière en première division albanaise au sein de l’Apolonia Fier.</li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "0",
+        "text": "Alain Baré n'a joué aucun match pour l'équipe première de Sochaux. Après son départ il a évolué en première division et a disputé la coupe d'Europe avec Lyon."
+    },
+    "gallery": [
+        {
+            "image": "2026/01/485_0011.jpg",
+            "caption": "Alain Baré",
+            "credit": "Pierre Lorius",
+            "caption_raw": "Alain Baré – Pierre Lorius"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8398,
+        "url": "https://www.fcsochauxretro.com/a-la-une/alain-bare/",
+        "path": "/a-la-une/alain-bare/",
+        "slug": "alain-bare",
+        "seo_title": "Alain Baré - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Alain Baré</h2>\n<h4><strong>né le 24 aout 1966 à Evian-les-Bains (74) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>76 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1983</p>\n<p><strong>Départ de Sochaux : </strong>juin 1986</p>",
+        "header_lines": [
+            "Alain Baré",
+            "né le 24 aout 1966 à Evian-les-Bains (74)",
+            "Taille : 1m80",
+            "Poids : 76 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1983",
+            "Départ de Sochaux : juin 1986"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Alain",
+        "last_name": "Baré",
+        "display_name": "Alain Baré",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1966-08-24",
+                "precision": "day",
+                "text": "24 aout 1966"
+            },
+            "place": {
+                "text": "Evian-les-Bains (74)",
+                "city": "Evian-les-Bains",
+                "department": "74",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 24 aout 1966 à Evian-les-Bains (74)"
+        },
+        "death": null,
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "76 kg",
+        "weight_kg": 76,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1983-07",
+            "precision": "month",
+            "text": "juillet 1983"
+        },
+        "departure": {
+            "iso": "1986-06",
+            "precision": "month",
+            "text": "juin 1986"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Alain Baré"
+            },
+            {
+                "label": null,
+                "value": "né le 24 aout 1966 à Evian-les-Bains (74)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "76 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1983"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1986"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

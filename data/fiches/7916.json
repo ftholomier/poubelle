@@ -1,0 +1,243 @@
+{
+    "id": 7916,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "serge-goll",
+    "path": "/joueurs/serge-goll/",
+    "title": "Serge Goll",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-11-24T20:49:56",
+    "modified": "2025-03-03T17:59:07",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Serge Goll a gardé les buts de Sochaux à 2 reprises."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/54Sochaux.jpg",
+            "caption": "Sochaux 1953-1954",
+            "credit": "",
+            "caption_raw": "Sochaux 1953-1954"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7916,
+        "url": "https://www.fcsochauxretro.com/a-la-une/serge-goll/",
+        "path": "/a-la-une/serge-goll/",
+        "slug": "serge-goll",
+        "seo_title": "Serge Goll - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Serge Goll</h2>\n<h4><strong>né le 30 janvier 1934 à Belfort (90)</strong></h4>\n<h4><strong>Décédé le 13 octobre 2021 à Trévenans (90)</strong></h4>\n<p><strong>Poste : </strong>gardien de but</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1953</p>\n<p><strong>Départ de Sochaux : </strong>juin 1954</p>\n<p><strong>Premier match joué</strong> : Sochaux - Reims du 10/01/1954 : 1-3</p>\n<p><strong>Dernier match joué :</strong> Metz - Sochaux du 17/01/1954 : 2-1</p>",
+        "header_lines": [
+            "Serge Goll",
+            "né le 30 janvier 1934 à Belfort (90)",
+            "Décédé le 13 octobre 2021 à Trévenans (90)",
+            "Poste : gardien de but",
+            "Arrivée à Sochaux : juillet 1953",
+            "Départ de Sochaux : juin 1954",
+            "Premier match joué : Sochaux - Reims du 10/01/1954 : 1-3",
+            "Dernier match joué : Metz - Sochaux du 17/01/1954 : 2-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Serge",
+        "last_name": "Goll",
+        "display_name": "Serge Goll",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1934-01-30",
+                "precision": "day",
+                "text": "30 janvier 1934"
+            },
+            "place": {
+                "text": "Belfort (90)",
+                "city": "Belfort",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 janvier 1934 à Belfort (90)"
+        },
+        "death": {
+            "date": {
+                "iso": "2021-10-13",
+                "precision": "day",
+                "text": "13 octobre 2021"
+            },
+            "place": {
+                "text": "Trévenans (90)",
+                "city": "Trévenans",
+                "department": "90",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 13 octobre 2021 à Trévenans (90)"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "gardien de but",
+        "line": "G",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1953-07",
+            "precision": "month",
+            "text": "juillet 1953"
+        },
+        "departure": {
+            "iso": "1954-06",
+            "precision": "month",
+            "text": "juin 1954"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Reims du 10/01/1954 : 1-3",
+        "last_match": "Metz - Sochaux du 17/01/1954 : 2-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Serge Goll"
+            },
+            {
+                "label": null,
+                "value": "né le 30 janvier 1934 à Belfort (90)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 13 octobre 2021 à Trévenans (90)"
+            },
+            {
+                "label": "Poste",
+                "value": "gardien de but"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1953"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1954"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Reims du 10/01/1954 : 1-3"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Metz - Sochaux du 17/01/1954 : 2-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

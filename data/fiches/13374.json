@@ -1,0 +1,121 @@
+{
+    "id": 13374,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "fortune-chabrier",
+    "path": "/dirigeants/fortune-chabrier/",
+    "title": "Fortuné Chabrier",
+    "categories": [
+        "directeurs-sportifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents-executifs"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/F.Chabrier.jpg",
+    "date": "2025-04-17T11:23:18",
+    "modified": "2025-11-13T07:48:47",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Fortuné Chabrier : président de la reconstruction </strong></h4>\n<ul>\n<li>On découvre Fortuné Chabrier lors de la seconde guerre mondiale. Il est nommé directeur sportif à la place d'Auguste Bonal qui laisse son poste. Fortuné Chabrier écrit alors au gouvernement de Vichy pour défendre les intérêts du club. Ceux-ci décident en effet de supprimer le statut professionnel des clubs français pour les remplacer par des clubs fédéraux dans chaque région. Le club de Nancy-Lorraine est ainsi créé et récupère une partie de l'effectif sochalien. On propose même à Fortuné Chabrier le poste de directeur sportif qu'il refuse. </li>\n<li>Après guerre, au moment de la reconstruction, Chabrier devient président de la section professionnelle sous l'égide de Gaston Turin. Turin qui est aussi le président de l'usine Peugeot voisine en pleine reconstruction, lui demande de trouver des solutions pour reconstruire à moindre coût. Sur les cendres de l'école de football qu'il a animé durant la guerre, Chabrier crée la phalange des lionceaux l'ancêtre du centre de formation. </li>\n<li>Sous sa présidence, le club va gagner un titre de champion de deuxième division (1947) et terminer vice-champion de France de première division en 1953. En 1953 toujours, Sochaux gagne la coupe Charles Drago pour la première fois. En 1959, Sochaux atteint la finale de coupe de France. Entre temps, grâce aux jeunes issus de la phalange des lionceaux qu'il a lancé, le FC Auto Peugeot remporte la coupe nationale corporative en 1950 et 1958 et va jusqu'en finale en 1952. </li>\n<li>En 1960, le club en difficulté sportive redescend en deuxième division. Fortuné Chabrier est alors remplacé par Louis Deur. Il restera comme l'un des architectes de la survit et de la reconstruction du club pendant et après la guerre.   </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "17",
+        "text": "Fortuné Chabrier a dirigé la section football professionnel du club durant 17 ans."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/equi-17-01-47-Chabrier-tirage-au-sort-CDF.png",
+            "caption": "Chabrier lors du tirage au sort de la coupe de France en 1947",
+            "credit": "L’Equipe",
+            "caption_raw": "Chabrier lors du tirage au sort de la coupe de France en 1947 – L’Equipe"
+        },
+        {
+            "image": "2025/04/Wartel-Chabrier-Dormois-Gardien-Benoit-France-Football.png",
+            "caption": "Wartel, Chabrier, Dormois, Gardien, Benoit",
+            "credit": "France Football",
+            "caption_raw": "Wartel, Chabrier, Dormois, Gardien, Benoit – France Football"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13374,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/fortune-chabrier/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/fortune-chabrier/",
+        "slug": "fortune-chabrier",
+        "seo_title": "Fortuné Chabrier - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Fortuné Chabrier</h2>\n<h4><strong>Président exécutif et directeur sportif de 1943 à 1960</strong></h4>",
+        "header_lines": [
+            "Fortuné Chabrier",
+            "Président exécutif et directeur sportif de 1943 à 1960"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Fortuné",
+        "last_name": "Chabrier",
+        "display_name": "Fortuné Chabrier",
+        "nickname": "",
+        "subtitle": "Président exécutif et directeur sportif de 1943 à 1960",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Fortuné Chabrier"
+            },
+            {
+                "label": null,
+                "value": "Président exécutif et directeur sportif de 1943 à 1960"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

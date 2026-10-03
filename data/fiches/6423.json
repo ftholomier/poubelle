@@ -1,0 +1,286 @@
+{
+    "id": 6423,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "gerard-burckle",
+    "path": "/joueurs/gerard-burckle/",
+    "title": "Gérard Burcklé",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/10/2GbT3FdIWEAEO3sM.jpg",
+    "date": "2024-11-10T00:20:04",
+    "modified": "2025-10-17T16:04:36",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "138",
+        "text": "Gérard Burcklé a joué 138 matchs pour Sochaux."
+    },
+    "gallery": [
+        {
+            "image": "2024/10/2GbT3FdIWEAEO3sM.jpg",
+            "caption": "Gérard Burcklé",
+            "credit": "DR",
+            "caption_raw": "Gérard Burcklé – DR"
+        },
+        {
+            "image": "2025/10/but-31-05-74-n2.png",
+            "caption": "But 31 05 74",
+            "credit": "",
+            "caption_raw": "But 31 05 74"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 6423,
+        "url": "https://www.fcsochauxretro.com/a-la-une/gerard-burckle/",
+        "path": "/a-la-une/gerard-burckle/",
+        "slug": "gerard-burckle",
+        "seo_title": "Gérard Burcklé - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Gérard Burcklé</strong></h2>\n<h4><strong>né le 21 novembre 1947 à Strasbourg (67)</strong></h4>\n<h4><strong>Décédé le 29 octobre 2024 à Strasbourg (67) </strong></h4>\n<p><strong>Taille : </strong>1m80</p>\n<p><strong>Poids : </strong>75 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Poste : </strong>défenseur central</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1970 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1974</p>\n<p><strong>Premier match joué :</strong> Bordeaux - Sochaux du 12/08/1970 : 1-2</p>\n<p><strong>Dernier match joué :</strong> Bordeaux - Sochaux du 25/05/1974 : 1-1 </p>",
+        "header_lines": [
+            "Gérard Burcklé",
+            "né le 21 novembre 1947 à Strasbourg (67)",
+            "Décédé le 29 octobre 2024 à Strasbourg (67)",
+            "Taille : 1m80",
+            "Poids : 75 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juillet 1970",
+            "Départ de Sochaux : juin 1974",
+            "Premier match joué : Bordeaux - Sochaux du 12/08/1970 : 1-2",
+            "Dernier match joué : Bordeaux - Sochaux du 25/05/1974 : 1-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Gérard",
+        "last_name": "Burcklé",
+        "display_name": "Gérard Burcklé",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1947-11-21",
+                "precision": "day",
+                "text": "21 novembre 1947"
+            },
+            "place": {
+                "text": "Strasbourg (67)",
+                "city": "Strasbourg",
+                "department": "67",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 21 novembre 1947 à Strasbourg (67)"
+        },
+        "death": {
+            "date": {
+                "iso": "2024-10-29",
+                "precision": "day",
+                "text": "29 octobre 2024"
+            },
+            "place": {
+                "text": "Strasbourg (67)",
+                "city": "Strasbourg",
+                "department": "67",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 29 octobre 2024 à Strasbourg (67)"
+        },
+        "height": "1m80",
+        "height_cm": 180,
+        "weight": "75 kg",
+        "weight_kg": 75,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1970-07",
+            "precision": "month",
+            "text": "juillet 1970"
+        },
+        "departure": {
+            "iso": "1974-06",
+            "precision": "month",
+            "text": "juin 1974"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Bordeaux - Sochaux du 12/08/1970 : 1-2",
+        "last_match": "Bordeaux - Sochaux du 25/05/1974 : 1-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Gérard Burcklé"
+            },
+            {
+                "label": null,
+                "value": "né le 21 novembre 1947 à Strasbourg (67)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 29 octobre 2024 à Strasbourg (67)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m80"
+            },
+            {
+                "label": "Poids",
+                "value": "75 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1970"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1974"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Bordeaux - Sochaux du 12/08/1970 : 1-2"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Bordeaux - Sochaux du 25/05/1974 : 1-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de l'UEFA",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1970 - 1971",
+                    "38",
+                    "0",
+                    "-",
+                    "-",
+                    "8",
+                    "0",
+                    "46",
+                    "0"
+                ],
+                [
+                    "1971 - 1972",
+                    "38",
+                    "0",
+                    "-",
+                    "-",
+                    "4",
+                    "0",
+                    "42",
+                    "0"
+                ],
+                [
+                    "1972 - 1973",
+                    "33",
+                    "0",
+                    "2",
+                    "0",
+                    "2",
+                    "0",
+                    "37",
+                    "0"
+                ],
+                [
+                    "1973 - 1974",
+                    "11",
+                    "0",
+                    "-",
+                    "-",
+                    "2",
+                    "0",
+                    "13",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "120",
+                    "0",
+                    "2",
+                    "0",
+                    "16",
+                    "0",
+                    "138",
+                    "0"
+                ]
+            ],
+            "source_table": 870
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

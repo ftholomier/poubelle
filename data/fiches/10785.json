@@ -1,0 +1,296 @@
+{
+    "id": 10785,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "claude-m-bella",
+    "path": "/joueurs/claude-m-bella/",
+    "title": "Claude M’Bella",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/01/inbound3047069643295232001.jpg",
+    "date": "2025-01-21T13:26:39",
+    "modified": "2025-01-22T17:59:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa formation",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Claude M'Bella Ngom a joué 2 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/inbound3047069643295232001.jpg",
+            "caption": "Claude M’Bella, saison 1988-1989",
+            "credit": "fcsm",
+            "caption_raw": "Claude M’Bella, saison 1988-1989 – fcsm"
+        },
+        {
+            "image": "2025/01/inbound9150032665039945837.jpg",
+            "caption": "Claude M’Bella, saison 1988-1989",
+            "credit": "fcsm",
+            "caption_raw": "Claude M’Bella, saison 1988-1989 – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 10785,
+        "url": "https://www.fcsochauxretro.com/a-la-une/claude-mbella/",
+        "path": "/a-la-une/claude-mbella/",
+        "slug": "claude-mbella",
+        "seo_title": "Claude M'Bella - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Claude M'Bella</h2>\n<h4><strong>né le 10 février 1970 à Yaoundé (Cameroun)</strong></h4>\n<p><strong>Taille : </strong>1mxx</p>\n<p><strong>Poids : </strong>xx kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>milieu de terrain</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1986</p>\n<p><strong>Départ de Sochaux : </strong>juin 1988</p>\n<p><strong>Premier match joué :</strong>  Sochaux - Lille du 12/08/1986 : 1-0</p>\n<p><strong>Dernier match joué :</strong> Strasbourg - Sochaux du 3/06/1988 : 1-0</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>\n<p>Vice-champion de France de deuxième division 1987</p>\n</li>\n<li>\n<p>Finaliste de la coupe de France 1987</p>\n</li>\n</ul>",
+        "header_lines": [
+            "Claude M'Bella",
+            "né le 10 février 1970 à Yaoundé (Cameroun)",
+            "Taille : 1mxx",
+            "Poids : xx kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1986",
+            "Départ de Sochaux : juin 1988",
+            "Premier match joué : Sochaux - Lille du 12/08/1986 : 1-0",
+            "Dernier match joué : Strasbourg - Sochaux du 3/06/1988 : 1-0",
+            "Palmarès avec Sochaux :",
+            "Vice-champion de France de deuxième division 1987",
+            "Finaliste de la coupe de France 1987"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Claude",
+        "last_name": "M'Bella",
+        "display_name": "Claude M'Bella",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1970-02-10",
+                "precision": "day",
+                "text": "10 février 1970"
+            },
+            "place": {
+                "text": "Yaoundé (Cameroun)",
+                "city": "Yaoundé",
+                "department": null,
+                "country": "Cameroun",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 10 février 1970 à Yaoundé (Cameroun)"
+        },
+        "death": null,
+        "height": "1mxx",
+        "height_cm": null,
+        "weight": "xx kg",
+        "weight_kg": null,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1986-07",
+            "precision": "month",
+            "text": "juillet 1986"
+        },
+        "departure": {
+            "iso": "1988-06",
+            "precision": "month",
+            "text": "juin 1988"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Sochaux - Lille du 12/08/1986 : 1-0",
+        "last_match": "Strasbourg - Sochaux du 3/06/1988 : 1-0",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vice-champion de France de deuxième division 1987",
+            "Finaliste de la coupe de France 1987"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Claude M'Bella"
+            },
+            {
+                "label": null,
+                "value": "né le 10 février 1970 à Yaoundé (Cameroun)"
+            },
+            {
+                "label": "Taille",
+                "value": "1mxx"
+            },
+            {
+                "label": "Poids",
+                "value": "xx kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1986"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1988"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Sochaux - Lille du 12/08/1986 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Strasbourg - Sochaux du 3/06/1988 : 1-0"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France de deuxième division 1987"
+            },
+            {
+                "label": null,
+                "value": "Finaliste de la coupe de France 1987"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1986-1987",
+                    "8",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "8",
+                    "0"
+                ],
+                [
+                    "1987-1988",
+                    "0",
+                    "0",
+                    "8",
+                    "0",
+                    "17",
+                    "8",
+                    "25",
+                    "8"
+                ],
+                [
+                    "1988-1989",
+                    "6",
+                    "0",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "8",
+                    "1"
+                ],
+                [
+                    "1990-1991",
+                    "19",
+                    "4",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "21",
+                    "5"
+                ],
+                [
+                    "1991-1992",
+                    "21",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "0",
+                    "23",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "54",
+                    "6",
+                    "13",
+                    "2",
+                    "17",
+                    "8",
+                    "85",
+                    "16"
+                ]
+            ],
+            "source_table": 289
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

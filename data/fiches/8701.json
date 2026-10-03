@@ -1,0 +1,229 @@
+{
+    "id": 8701,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "benoit-haaby",
+    "path": "/joueurs/benoit-haaby/",
+    "title": "Benoit Haaby",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/17165.jpg",
+    "date": "2024-12-10T12:17:46",
+    "modified": "2025-02-02T23:36:48",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Benoit Haaby a été formé à Sochaux durant 2 saisons mais n'a joué aucun match pour l'équipe professionnelle."
+    },
+    "gallery": [
+        {
+            "image": "2024/12/benoit-habby-evoluera-t-il-au-fcm-la-saison-prochaine-reponse-dans-les-prochains-jours-archives-1596534849.jpg",
+            "caption": "Benoit Haaby – SR Colmar",
+            "credit": "DNA",
+            "caption_raw": "Benoit Haaby – SR Colmar – DNA"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 8701,
+        "url": "https://www.fcsochauxretro.com/a-la-une/benoit-haaby/",
+        "path": "/a-la-une/benoit-haaby/",
+        "slug": "benoit-haaby",
+        "seo_title": "Benoit Haaby - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Benoit Haaby </h2>\n<h4><strong>né le 2 janvier 1982 à Saint-Louis (68)</strong></h4>\n<p><strong>Taille :</strong> 1m84</p>\n<p><strong>Poids :</strong> 72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>défenseur central </p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2002</p>\n<p><strong>Départ de Sochaux : </strong>juin 2004</p>",
+        "header_lines": [
+            "Benoit Haaby",
+            "né le 2 janvier 1982 à Saint-Louis (68)",
+            "Taille : 1m84",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : défenseur central",
+            "Arrivée à Sochaux : juillet 2002",
+            "Départ de Sochaux : juin 2004"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Benoit",
+        "last_name": "Haaby",
+        "display_name": "Benoit Haaby",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1982-01-02",
+                "precision": "day",
+                "text": "2 janvier 1982"
+            },
+            "place": {
+                "text": "Saint-Louis (68)",
+                "city": "Saint-Louis",
+                "department": "68",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 2 janvier 1982 à Saint-Louis (68)"
+        },
+        "death": null,
+        "height": "1m84",
+        "height_cm": 184,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "défenseur central",
+        "line": "D",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2002-07",
+            "precision": "month",
+            "text": "juillet 2002"
+        },
+        "departure": {
+            "iso": "2004-06",
+            "precision": "month",
+            "text": "juin 2004"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Benoit Haaby"
+            },
+            {
+                "label": null,
+                "value": "né le 2 janvier 1982 à Saint-Louis (68)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m84"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "défenseur central"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2004"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 2",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1995-1996",
+                    "12",
+                    "3",
+                    "2",
+                    "2",
+                    "0",
+                    "0",
+                    "14",
+                    "5"
+                ],
+                [
+                    "1996-1997",
+                    "13",
+                    "1",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "14",
+                    "2"
+                ],
+                [
+                    "Total",
+                    "25",
+                    "4",
+                    "4",
+                    "3",
+                    "0",
+                    "0",
+                    "28",
+                    "7"
+                ]
+            ],
+            "source_table": 189
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

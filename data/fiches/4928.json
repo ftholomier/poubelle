@@ -1,0 +1,233 @@
+{
+    "id": 4928,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "allan-petitjean",
+    "path": "/joueurs/allan-petitjean/",
+    "title": "Allan Petitjean",
+    "categories": [
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2026/02/Petitjean-Onze-Mondial.png",
+    "date": "2025-01-12T19:43:44",
+    "modified": "2026-02-26T18:05:17",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "3",
+        "text": "Allan Petitjean a joué 3 matchs pour Sochaux son club formateur."
+    },
+    "gallery": [
+        {
+            "image": "2025/01/466155604_9131053153573850_8442285203534019388_n.jpg",
+            "caption": "Réserve de Sochaux 1991-1992",
+            "credit": "Est Républicain",
+            "caption_raw": "Réserve de Sochaux 1991-1992 – Est Républicain"
+        },
+        {
+            "image": "2026/02/Petitjean-Onze-Mondial.png",
+            "caption": "Petitjean",
+            "credit": "Onze Mondial",
+            "caption_raw": "Petitjean – Onze Mondial"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 4928,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/allan-petitjean/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/joueurs-fc-sochaux-retro-fcsm/allan-petitjean/",
+        "slug": "allan-petitjean",
+        "seo_title": "Allan Petitjean - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Allan Petitjean</h2>\n<h4><strong>né le 31 juillet 1974 à Luxeuil-les-Bains (70) </strong></h4>\n<p><strong>Taille : </strong>1m76</p>\n<p><strong>Poids : </strong>71 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1991</p>\n<p><strong>Départ de Sochaux : </strong>juin 1995</p>\n<p><strong>Premier match joué :</strong> Monaco - Sochaux du 29/10/1994 : 3-1</p>\n<p><strong>Dernier match joué :</strong> Caen - Sochaux du 31/05/1995 : 3-1</p>",
+        "header_lines": [
+            "Allan Petitjean",
+            "né le 31 juillet 1974 à Luxeuil-les-Bains (70)",
+            "Taille : 1m76",
+            "Poids : 71 kg",
+            "Pied : gaucher",
+            "Poste : attaquant",
+            "Arrivée à Sochaux : juillet 1991",
+            "Départ de Sochaux : juin 1995",
+            "Premier match joué : Monaco - Sochaux du 29/10/1994 : 3-1",
+            "Dernier match joué : Caen - Sochaux du 31/05/1995 : 3-1"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Allan",
+        "last_name": "Petitjean",
+        "display_name": "Allan Petitjean",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1974-07-31",
+                "precision": "day",
+                "text": "31 juillet 1974"
+            },
+            "place": {
+                "text": "Luxeuil-les-Bains (70)",
+                "city": "Luxeuil-les-Bains",
+                "department": "70",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 31 juillet 1974 à Luxeuil-les-Bains (70)"
+        },
+        "death": null,
+        "height": "1m76",
+        "height_cm": 176,
+        "weight": "71 kg",
+        "weight_kg": 71,
+        "foot": "gaucher",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1991-07",
+            "precision": "month",
+            "text": "juillet 1991"
+        },
+        "departure": {
+            "iso": "1995-06",
+            "precision": "month",
+            "text": "juin 1995"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Monaco - Sochaux du 29/10/1994 : 3-1",
+        "last_match": "Caen - Sochaux du 31/05/1995 : 3-1",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Allan Petitjean"
+            },
+            {
+                "label": null,
+                "value": "né le 31 juillet 1974 à Luxeuil-les-Bains (70)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m76"
+            },
+            {
+                "label": "Poids",
+                "value": "71 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1991"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1995"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Monaco - Sochaux du 29/10/1994 : 3-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Caen - Sochaux du 31/05/1995 : 3-1"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1990-1991",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ],
+                [
+                    "Total",
+                    "20",
+                    "3",
+                    "2",
+                    "1",
+                    "0",
+                    "0",
+                    "22",
+                    "4"
+                ]
+            ],
+            "source_table": 274
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

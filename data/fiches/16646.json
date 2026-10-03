@@ -1,0 +1,518 @@
+{
+    "id": 16646,
+    "type": "match",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "sochaux-auxerre-amical-23-07-2011",
+    "path": "/matchs/2011-2012/sochaux-auxerre-amical-23-07-2011/",
+    "title": "Amical – Sochaux (L1) / Auxerre (L1) – 23/07/2011 – 2-0",
+    "categories": [
+        "2011-2012",
+        "a-la-une",
+        "amical",
+        "annees-2010-fc-sochaux-retro-fcsm",
+        "matchs-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2025/09/205948_10150240531087391_199721352390_7946043_6884761_n1.jpg",
+    "date": "2025-09-24T21:22:05",
+    "modified": "2026-06-15T22:19:39",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Avant match et enjeux",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Résumé de la rencontre",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Réactions d'après match",
+            "html": "<ul>\n<li>A venir</li>\n</ul>"
+        },
+        {
+            "title": "Brèves de la rencontre",
+            "html": ""
+        },
+        {
+            "title": "A venir",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "64",
+        "text": "Sochaux entame sa 64e saison de Ligue 1, record national."
+    },
+    "gallery": [
+        {
+            "image": "2025/09/189209_10150240531397391_199721352390_7946053_6300038_n1.jpg",
+            "caption": "Peybernes Corchia – Amical Sochaux-Auxerre 2010-2011",
+            "credit": "DR",
+            "caption_raw": "Peybernes Corchia – Amical Sochaux-Auxerre 2010-2011 – DR"
+        },
+        {
+            "image": "2025/09/AJA_0031.jpg",
+            "caption": "Boudebouz – Amical Sochaux-Auxerre 2010-2011",
+            "credit": "DR",
+            "caption_raw": "Boudebouz – Amical Sochaux-Auxerre 2010-2011 – DR"
+        },
+        {
+            "image": "2025/09/282780_10150240531217391_199721352390_7946048_8120353_n1.jpg",
+            "caption": "Marvin Martin – Amical Sochaux-Auxerre 2010-2011",
+            "credit": "DR",
+            "caption_raw": "Marvin Martin – Amical Sochaux-Auxerre 2010-2011 – DR"
+        },
+        {
+            "image": "2025/09/281648_10150240531012391_199721352390_7946041_7636666_n1.jpg",
+            "caption": "Camara – Amical Sochaux-Auxerre 2010-2011",
+            "credit": "DR",
+            "caption_raw": "Camara – Amical Sochaux-Auxerre 2010-2011 – DR"
+        },
+        {
+            "image": "2025/09/281433_10150240531447391_199721352390_7946054_5028135_n1.jpg",
+            "caption": "Corchia – Amical Sochaux-Auxerre 2010-2011",
+            "credit": "DR",
+            "caption_raw": "Corchia – Amical Sochaux-Auxerre 2010-2011 – DR"
+        },
+        {
+            "image": "2025/09/267488IMG62831.jpg",
+            "caption": "Kévin Anin pré-saison 2010-2011",
+            "credit": "DR",
+            "caption_raw": "Kévin Anin pré-saison 2010-2011 – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16646,
+        "url": "https://www.fcsochauxretro.com/a-la-une/amical-sochaux-l1-auxerre-l1-23-07-2011-2-0/",
+        "path": "/a-la-une/amical-sochaux-l1-auxerre-l1-23-07-2011-2-0/",
+        "slug": "amical-sochaux-l1-auxerre-l1-23-07-2011-2-0",
+        "seo_title": "Amical - Sochaux (L1) / Auxerre (L1) - 23/07/2011 - 2-0 - FC Sochaux Retro - FCSM",
+        "header_html": "<h2><strong>Sochaux (L1) / Auxerre (L1) : 2-0<br></strong></h2>\n<h4><strong>4è match amical de préparation</strong></h4>\n<h4><strong>Samedi 6 août 2011</strong></h4>\n<h4><strong>Stade Paul Martin de Tavaux (39)</strong></h4>\n<h4><strong>1 500 spectateurs</strong></h4>\n<h4><strong>Arbitre : A. Castro<br></strong></h4>\n<p>Buts : Martin 59' et Privat 62' pour Sochaux.</p>",
+        "header_lines": [
+            "Sochaux (L1) / Auxerre (L1) : 2-0",
+            "4è match amical de préparation",
+            "Samedi 6 août 2011",
+            "Stade Paul Martin de Tavaux (39)",
+            "1 500 spectateurs",
+            "Arbitre : A. Castro",
+            "Buts : Martin 59' et Privat 62' pour Sochaux."
+        ]
+    },
+    "i18n": [],
+    "match": {
+        "date": "2011-07-23",
+        "date_text": "Samedi 6 août 2011",
+        "season": "2011-2012",
+        "competition": "Amical",
+        "competition_label": "Amical",
+        "competition_code": null,
+        "round": "Amical",
+        "round_text": "4è match amical de préparation",
+        "home": {
+            "name": "Sochaux",
+            "level": "L1"
+        },
+        "away": {
+            "name": "Auxerre",
+            "level": "L1"
+        },
+        "sochaux_home": true,
+        "score": {
+            "home": 2,
+            "away": 0,
+            "extra": null,
+            "aet": false,
+            "pens": null
+        },
+        "score_raw": "2-0",
+        "score_line": "Sochaux (L1) / Auxerre (L1) : 2-0",
+        "result": "V",
+        "stadium": "Stade Paul Martin de Tavaux (39)",
+        "spectators": 1500,
+        "spectators_text": "1 500 spectateurs",
+        "referee": "A. Castro",
+        "goals_text": "Martin 59' et Privat 62' pour Sochaux.",
+        "goals": [
+            {
+                "team": "Sochaux",
+                "scorers": "Martin 59' et Privat 62'"
+            }
+        ],
+        "header_extra": [],
+        "highlights": [],
+        "reactions": [
+            {
+                "who": "",
+                "text": "A venir"
+            }
+        ],
+        "breves": [],
+        "lineup": {
+            "title": "Composition Sochaux",
+            "headers": [
+                "Postes",
+                "Nom et prénom",
+                "Buts",
+                "Remp.",
+                "Cartons"
+            ],
+            "rows": [
+                {
+                    "position": "G",
+                    "name": "RICHERT Teddy",
+                    "number": null,
+                    "extra": null,
+                    "captain": true,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CORCHIA Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "72",
+                    "sub_text": "↓ 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PERQUIS Damien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "CARLAO",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "D",
+                    "name": "PEYBERNES Mathieu",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "NOGUEIRA Vincent",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "72",
+                    "sub_text": "↓ 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "MARTIN Marvin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "59"
+                    ],
+                    "goals_text": "⚽ 59'",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ANIN Kévin",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "ROUDET Sébastien",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "46",
+                    "sub_text": "↓ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "M",
+                    "name": "BOUDEBOUZ Ryad",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "A",
+                    "name": "MAIGA Modibo",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": "60",
+                    "sub_text": "↓ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "CAMARA Papa Demba",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BOUMAL Petrus",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "72",
+                    "sub_out": null,
+                    "sub_text": "↑ 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "MIKARI Yassine",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DUPLUS Frédéric",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "46",
+                    "sub_out": null,
+                    "sub_text": "↑ 46'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "BUTIN Edouard",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "LOPY Joseph",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "72",
+                    "sub_out": null,
+                    "sub_text": "↑ 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "PRIVAT Sloan",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [
+                        "62"
+                    ],
+                    "goals_text": "⚽ 62'",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "DIAS Rafaël",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "72",
+                    "sub_out": null,
+                    "sub_text": "↑ 72'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "R",
+                    "name": "POUJOL Loïc",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": "60",
+                    "sub_out": null,
+                    "sub_text": "↑ 60'",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                },
+                {
+                    "position": "E",
+                    "name": "BAZDAREVIC Mecha",
+                    "number": null,
+                    "extra": null,
+                    "captain": false,
+                    "goals": [],
+                    "goals_text": "",
+                    "sub_in": null,
+                    "sub_out": null,
+                    "sub_text": "",
+                    "yellow": [],
+                    "red": [],
+                    "cards_text": "",
+                    "person_id": null
+                }
+            ],
+            "source_table": 1870
+        },
+        "other_lineups": [],
+        "event": null,
+        "opponent_club": null,
+        "stadium_id": null
+    },
+    "tables": []
+}

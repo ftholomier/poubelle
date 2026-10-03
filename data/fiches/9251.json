@@ -1,0 +1,294 @@
+{
+    "id": 9251,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "temitope-obadeyi",
+    "path": "/joueurs/temitope-obadeyi/",
+    "title": "Temitope Obadeyi",
+    "categories": [
+        "a-la-une",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/12/556.jpg",
+    "date": "2024-12-28T13:12:33",
+    "modified": "2024-12-28T17:55:08",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "14",
+        "text": "Tope Obadeyi a joué 14 matchs (2 buts et 1 passe décisive) pour Sochaux"
+    },
+    "gallery": [
+        {
+            "image": "2024/12/7-7.jpg",
+            "caption": "Tope Obadeyi",
+            "credit": "Le Progrès",
+            "caption_raw": "Tope Obadeyi – Le Progrès"
+        },
+        {
+            "image": "2024/12/tope-obadeyi-espere-pouvoir-dynamiser-l-attaque-sochalienne-photo-dr-1533063752.jpg",
+            "caption": "Tope Obadeyi",
+            "credit": "L’est républicain",
+            "caption_raw": "Tope Obadeyi – L’est républicain"
+        },
+        {
+            "image": "2024/12/55239-1.jpg",
+            "caption": "Tope Obadeyi",
+            "credit": "fcsm",
+            "caption_raw": "Tope Obadeyi – fcsm"
+        },
+        {
+            "image": "2024/12/55239.jpg",
+            "caption": "Tope Obadeyi",
+            "credit": "fcsm",
+            "caption_raw": "Tope Obadeyi – fcsm"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 9251,
+        "url": "https://www.fcsochauxretro.com/a-la-une/temitope-obadeyi/",
+        "path": "/a-la-une/temitope-obadeyi/",
+        "slug": "temitope-obadeyi",
+        "seo_title": "Temitope Obadeyi - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Temitope Obadeyi</h2>\n<h4><strong>Né le 29 octobre 1989 à Birmingham (Angleterre)<br></strong></h4>\n<p><strong>Taille : </strong>1m90</p>\n<p><strong>Poids : </strong>87 kg</p>\n<p><strong>Pied : </strong>droitier</p>\n<p><strong>Position : </strong>ailier droit<strong><br></strong></p>\n<p><strong>International anglais U18, U19, U20 (7 sélections, 6 buts)</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juin 2002<strong><br></strong></p>\n<p><strong>Départ de Sochaux : </strong>juin 2005<strong><br></strong></p>\n<p><strong>International nigérian : 19 sélections  (3 buts) </strong></p>\n<p><strong>Premier match joué :</strong> Clermont - Sochaux du 24/08/2018 : 1-0 </p>\n<p><strong>Dernier match joué :</strong> Sochaux - AC Ajaccio du 18/01/2019 : 0-0 </p>\n<p><strong>Premier but marqué :</strong> Haguenau - Sochaux du 17/11/2018 : 3-4 a.p - But à la 58'</p>",
+        "header_lines": [
+            "Temitope Obadeyi",
+            "Né le 29 octobre 1989 à Birmingham (Angleterre)",
+            "Taille : 1m90",
+            "Poids : 87 kg",
+            "Pied : droitier",
+            "Position : ailier droit",
+            "International anglais U18, U19, U20 (7 sélections, 6 buts)",
+            "Arrivée à Sochaux : juin 2002",
+            "Départ de Sochaux : juin 2005",
+            "International nigérian : 19 sélections (3 buts)",
+            "Premier match joué : Clermont - Sochaux du 24/08/2018 : 1-0",
+            "Dernier match joué : Sochaux - AC Ajaccio du 18/01/2019 : 0-0",
+            "Premier but marqué : Haguenau - Sochaux du 17/11/2018 : 3-4 a.p - But à la 58'"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Temitope",
+        "last_name": "Obadeyi",
+        "display_name": "Temitope Obadeyi",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1989-10-29",
+                "precision": "day",
+                "text": "29 octobre 1989"
+            },
+            "place": {
+                "text": "Birmingham (Angleterre)",
+                "city": "Birmingham",
+                "department": null,
+                "country": "Angleterre",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Né le 29 octobre 1989 à Birmingham (Angleterre)"
+        },
+        "death": null,
+        "height": "1m90",
+        "height_cm": 190,
+        "weight": "87 kg",
+        "weight_kg": 87,
+        "foot": "droitier",
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [
+            "International anglais U18, U19, U20 (7 sélections, 6 buts)"
+        ],
+        "arrival": {
+            "iso": "2002-06",
+            "precision": "month",
+            "text": "juin 2002"
+        },
+        "departure": {
+            "iso": "2005-06",
+            "precision": "month",
+            "text": "juin 2005"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Clermont - Sochaux du 24/08/2018 : 1-0",
+        "last_match": "Sochaux - AC Ajaccio du 18/01/2019 : 0-0",
+        "first_goal": "Haguenau - Sochaux du 17/11/2018 : 3-4 a.p - But à la 58'",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Temitope Obadeyi"
+            },
+            {
+                "label": null,
+                "value": "Né le 29 octobre 1989 à Birmingham (Angleterre)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m90"
+            },
+            {
+                "label": "Poids",
+                "value": "87 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Position",
+                "value": "ailier droit"
+            },
+            {
+                "label": null,
+                "value": "International anglais U18, U19, U20 (7 sélections, 6 buts)"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juin 2002"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 2005"
+            },
+            {
+                "label": "International nigérian",
+                "value": "19 sélections (3 buts)"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Clermont - Sochaux du 24/08/2018 : 1-0"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Sochaux - AC Ajaccio du 18/01/2019 : 0-0"
+            },
+            {
+                "label": "Premier but marqué",
+                "value": "Haguenau - Sochaux du 17/11/2018 : 3-4 a.p - But à la 58'"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Ligue 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe de la Ligue",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "2002-2003",
+                    "26",
+                    "3",
+                    "0",
+                    "0",
+                    "5",
+                    "1",
+                    "2",
+                    "0",
+                    "33",
+                    "4"
+                ],
+                [
+                    "2003-2004",
+                    "24",
+                    "1",
+                    "1",
+                    "0",
+                    "3",
+                    "3",
+                    "5",
+                    "1",
+                    "33",
+                    "5"
+                ],
+                [
+                    "2004-2005",
+                    "25",
+                    "2",
+                    "2",
+                    "0",
+                    "1",
+                    "0",
+                    "4",
+                    "1",
+                    "32",
+                    "3"
+                ],
+                [
+                    "Total",
+                    "75",
+                    "6",
+                    "3",
+                    "0",
+                    "9",
+                    "4",
+                    "11",
+                    "2",
+                    "98",
+                    "12"
+                ]
+            ],
+            "source_table": 427
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

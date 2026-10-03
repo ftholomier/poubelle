@@ -1,0 +1,214 @@
+{
+    "id": 7930,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "girardot",
+    "path": "/joueurs/girardot/",
+    "title": "? Girardot",
+    "categories": [
+        "a-la-une",
+        "formes-au-club-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/09/inbound6960862148460522526.jpg",
+    "date": "2024-11-24T16:52:30",
+    "modified": "2026-03-03T14:11:30",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2",
+        "text": "Le nom de Giardot apparait dans des feuilles de matchs de club de 1929 à 1931."
+    },
+    "gallery": [],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7930,
+        "url": "https://www.fcsochauxretro.com/a-la-une/girardot/",
+        "path": "/a-la-une/girardot/",
+        "slug": "girardot",
+        "seo_title": "? Girardot - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>? Girardot<br></h2>\n<p><strong>né le XX à xx</strong></p>\n<p><strong>Décédé le XX à XX</strong></p>\n<p><strong>Poste : </strong>milieu de terrain<strong><br></strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1929</p>\n<p><strong>Départ de Sochaux : </strong>juin 1931</p>\n<p><strong>Premier match joué :</strong> Méziré - Sochaux du 06/04/1930 : 1-6</p>\n<p><strong>Dernier match joué :</strong> Vesoul - Sochaux du 15/02/1931 : 1-9</p>\n<p><strong>Palmarès avec Sochaux : </strong></p>\n<ul>\n<li>Vainqueur du Challenge de Turckheim 1930</li>\n<li>Vainqueur du Challenge de Turckheim 1931</li>\n<li>Champion de promotion de ligue de Bourgogne-Franche-Comté 1931</li>\n<li>Vainqueur de la coupe Peugeot 1931</li>\n</ul>",
+        "header_lines": [
+            "? Girardot",
+            "né le XX à xx",
+            "Décédé le XX à XX",
+            "Poste : milieu de terrain",
+            "Arrivée à Sochaux : juillet 1929",
+            "Départ de Sochaux : juin 1931",
+            "Premier match joué : Méziré - Sochaux du 06/04/1930 : 1-6",
+            "Dernier match joué : Vesoul - Sochaux du 15/02/1931 : 1-9",
+            "Palmarès avec Sochaux :",
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Champion de promotion de ligue de Bourgogne-Franche-Comté 1931",
+            "Vainqueur de la coupe Peugeot 1931"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "?",
+        "last_name": "Girardot",
+        "display_name": "? Girardot",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": true,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "XX"
+            },
+            "place": {
+                "text": "xx",
+                "city": "xx",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le XX à xx"
+        },
+        "death": {
+            "date": {
+                "iso": null,
+                "precision": null,
+                "text": "XX"
+            },
+            "place": {
+                "text": "XX",
+                "city": "XX",
+                "department": null,
+                "country": null,
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le XX à XX"
+        },
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "1929-07",
+            "precision": "month",
+            "text": "juillet 1929"
+        },
+        "departure": {
+            "iso": "1931-06",
+            "precision": "month",
+            "text": "juin 1931"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Méziré - Sochaux du 06/04/1930 : 1-6",
+        "last_match": "Vesoul - Sochaux du 15/02/1931 : 1-9",
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Vainqueur du Challenge de Turckheim 1930",
+            "Vainqueur du Challenge de Turckheim 1931",
+            "Champion de promotion de ligue de Bourgogne-Franche-Comté 1931",
+            "Vainqueur de la coupe Peugeot 1931"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "? Girardot"
+            },
+            {
+                "label": null,
+                "value": "né le XX à xx"
+            },
+            {
+                "label": null,
+                "value": "Décédé le XX à XX"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1929"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1931"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Méziré - Sochaux du 06/04/1930 : 1-6"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Vesoul - Sochaux du 15/02/1931 : 1-9"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1930"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur du Challenge de Turckheim 1931"
+            },
+            {
+                "label": null,
+                "value": "Champion de promotion de ligue de Bourgogne-Franche-Comté 1931"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe Peugeot 1931"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

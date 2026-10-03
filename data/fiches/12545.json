@@ -1,0 +1,172 @@
+{
+    "id": 12545,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "franco-di-jorio",
+    "path": "/joueurs/franco-di-jorio/",
+    "title": "Franco Di Jorio (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/03/5-13.jpg",
+    "date": "2025-03-06T15:07:22",
+    "modified": "2025-11-12T14:14:51",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Francesco Di Jorio joueur italo-suisse est mis à l'essai en aout 2001 alors que le club remonte en première division. Milieu défensif il vient effectuer un essai au poste de latéral droit. Mais son profil ne correspond pas à ce que recherche le club malgré des qualités indéniables. Le club veut un latéral droit de métier. Le joueur rejoindra Saint Gall.  </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "1",
+        "text": "Francesco Di Jorio a été testé une semaine en aout 2001."
+    },
+    "gallery": [
+        {
+            "image": "2025/03/5-13.jpg",
+            "caption": "Francesco Di Jorio",
+            "credit": "DR",
+            "caption_raw": "Francesco Di Jorio – DR"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 12545,
+        "url": "https://www.fcsochauxretro.com/uncategorized/franco-di-jorio/",
+        "path": "/uncategorized/franco-di-jorio/",
+        "slug": "franco-di-jorio",
+        "seo_title": "Franco Di Jorio (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Francesco Di Jorio</h2>\n<h4><strong>né le 22 septembre 1973 à Dielsdorf (Suisse)</strong></h4>\n<p><strong>Taille :</strong> 1m70</p>\n<p><strong>Poids :</strong> 72 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste :</strong> milieu de terrain</p>\n<p><strong>International suisse (13 sélections) </strong></p>\n<p><strong>A l'essai à Sochaux : </strong>aout 2001</p>",
+        "header_lines": [
+            "Francesco Di Jorio",
+            "né le 22 septembre 1973 à Dielsdorf (Suisse)",
+            "Taille : 1m70",
+            "Poids : 72 kg",
+            "Pied : droitier",
+            "Poste : milieu de terrain",
+            "International suisse (13 sélections)",
+            "A l'essai à Sochaux : aout 2001"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Franco",
+        "last_name": "Di Jorio",
+        "display_name": "Franco Di Jorio",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2001-08",
+            "precision": "month",
+            "text": "aout 2001"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1973-09-22",
+                "precision": "day",
+                "text": "22 septembre 1973"
+            },
+            "place": {
+                "text": "Dielsdorf (Suisse)",
+                "city": "Dielsdorf",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 22 septembre 1973 à Dielsdorf (Suisse)"
+        },
+        "death": null,
+        "height": "1m70",
+        "height_cm": 170,
+        "weight": "72 kg",
+        "weight_kg": 72,
+        "foot": "droitier",
+        "position": "milieu de terrain",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International suisse (13 sélections)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Francesco Di Jorio"
+            },
+            {
+                "label": null,
+                "value": "né le 22 septembre 1973 à Dielsdorf (Suisse)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m70"
+            },
+            {
+                "label": "Poids",
+                "value": "72 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu de terrain"
+            },
+            {
+                "label": null,
+                "value": "International suisse (13 sélections)"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "aout 2001"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

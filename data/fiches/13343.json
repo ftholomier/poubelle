@@ -1,0 +1,120 @@
+{
+    "id": 13343,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "rene-bouquet",
+    "path": "/dirigeants/rene-bouquet/",
+    "title": "René Bouquet",
+    "categories": [
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm",
+        "presidents"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/61d5d47a32b6e246725399.webp",
+    "date": "2025-04-04T19:04:01",
+    "modified": "2025-12-06T10:51:26",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>René Bouquet, une présidence calme : 1960 - 1974 </strong></h4>\n<ul>\n<li>René Bouquet dirige le club omnisport durant 14 saisons de 1960 à 1974.</li>\n<li>Il laisse la gestion quotidienne de la section football à Louis Deur. </li>\n<li>Durant sa présidence, rien à signaler concernant les infrastructures. Il n'est pas un président très impliqué dans la vie du football qu'il regarde de loin. </li>\n<li>Le stade Bonal connaitra juste un petit coup de neuf avant la première participation du club en coupe d'Europe en 1973. </li>\n<li>Niveau palmarès, l'équipe réserve est finaliste de la coupe Jules Rimet en 1962. Quant à l'équipe première, elle remporte 2 coupes Charles Drago en 1963 et 1964, termine vice-championne de France de deuxième division en 1963 et perd en finale de la coupe de France contre Lyon en 1967 avec le fameux ballon relancé sur le terrain par le Général de Gaulle. </li>\n<li>Président discret, il lance tout de même le projet de centre de formation avant de laisser les rênes du club à Jacques Thouzery. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "14",
+        "text": "René Bouquet a été président durant 14 saisons mais il a délégué la présidence à Louis Deur pour la partie football professionnel."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/61d5d47a32b6e246725399.webp",
+            "caption": "René Bouquet",
+            "credit": "Quatrième président du club de 1960 à 1974.",
+            "caption_raw": "René Bouquet – Quatrième président du club de 1960 à 1974."
+        },
+        {
+            "image": "2025/04/Bouquet-FCSM-.png",
+            "caption": "Mr Bouquet",
+            "credit": "FCSM",
+            "caption_raw": "Mr Bouquet – FCSM"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13343,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/rene-bouquet/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/rene-bouquet/",
+        "slug": "rene-bouquet",
+        "seo_title": "René Bouquet - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>René Bouquet  </h2>\n<h4><strong>Président de 1960 à 1974</strong></h4>",
+        "header_lines": [
+            "René Bouquet",
+            "Président de 1960 à 1974"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "René",
+        "last_name": "Bouquet",
+        "display_name": "René Bouquet",
+        "nickname": "",
+        "subtitle": "Président de 1960 à 1974",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "René Bouquet"
+            },
+            {
+                "label": null,
+                "value": "Président de 1960 à 1974"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

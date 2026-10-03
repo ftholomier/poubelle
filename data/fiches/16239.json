@@ -1,0 +1,176 @@
+{
+    "id": 16239,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "samuel-yepie-yepie",
+    "path": "/joueurs/samuel-yepie-yepie/",
+    "title": "Samuel Yépié Yépié (A l’essai)",
+    "categories": [
+        "a-lessai",
+        "uncategorized"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/08/538973-1729266256.webp",
+    "date": "2025-08-28T10:09:51",
+    "modified": "2025-11-12T13:29:14",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa carrière avant Sochaux",
+            "html": ""
+        },
+        {
+            "title": "Son essai",
+            "html": "<ul>\n<li>Samuel Yépié Yépié est mis à l'essai quelques jours à la fin du mois d'aout 2025. Sochaux cherche un milieu offensif après le départ d'Alex Daho à Dunkerque. </li>\n<li>Il est libre depuis la fin de son contrat à Adanaspor club de deuxième division turque. </li>\n</ul>"
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": ""
+        }
+    ],
+    "key_figure": {
+        "number": "2025",
+        "text": "Samuel Yépié Yépié a été mis à l'essai durant quelques jours à l'été 2025."
+    },
+    "gallery": [
+        {
+            "image": "2025/08/538973-1729266256.webp",
+            "caption": "Samuel Yépié Yépié",
+            "credit": "Adanaspor",
+            "caption_raw": "Samuel Yépié Yépié – Photo Adanaspor"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 16239,
+        "url": "https://www.fcsochauxretro.com/uncategorized/samuel-yepie-yepie/",
+        "path": "/uncategorized/samuel-yepie-yepie/",
+        "slug": "samuel-yepie-yepie",
+        "seo_title": "Samuel Yépié Yépié (A l'essai) - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Samuel Yépié Yépié</h2>\n<h4><strong>né le 2 octobre 2002 à Gonesse (95) </strong></h4>\n<p><strong>Taille :</strong> 1m71</p>\n<p><strong>Poids :</strong> 60 kg</p>\n<p><strong>Pied :</strong> gaucher</p>\n<p><strong>Poste : </strong>milieu offensif</p>\n<p><strong>International français U15, U16 et U18 (11 sélections, 3 buts)</strong></p>\n<p><strong>A l'essai à Sochaux :</strong> aout 2025</p>",
+        "header_lines": [
+            "Samuel Yépié Yépié",
+            "né le 2 octobre 2002 à Gonesse (95)",
+            "Taille : 1m71",
+            "Poids : 60 kg",
+            "Pied : gaucher",
+            "Poste : milieu offensif",
+            "International français U15, U16 et U18 (11 sélections, 3 buts)",
+            "A l'essai à Sochaux : aout 2025"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Samuel Yépié",
+        "last_name": "Yépié",
+        "display_name": "Samuel Yépié Yépié",
+        "nickname": "",
+        "subtitle": "",
+        "trial": {
+            "iso": "2025-08",
+            "precision": "month",
+            "text": "aout 2025"
+        },
+        "is_trial": true,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "2002-10-02",
+                "precision": "day",
+                "text": "2 octobre 2002"
+            },
+            "place": {
+                "text": "Gonesse (95)",
+                "city": "Gonesse",
+                "department": "95",
+                "country": "France",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 2 octobre 2002 à Gonesse (95)"
+        },
+        "death": null,
+        "height": "1m71",
+        "height_cm": 171,
+        "weight": "60 kg",
+        "weight_kg": 60,
+        "foot": "gaucher",
+        "position": "milieu offensif",
+        "line": "M",
+        "nationality": "",
+        "international": [
+            "International français U15, U16 et U18 (11 sélections, 3 buts)"
+        ],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Samuel Yépié Yépié"
+            },
+            {
+                "label": null,
+                "value": "né le 2 octobre 2002 à Gonesse (95)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m71"
+            },
+            {
+                "label": "Poids",
+                "value": "60 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "gaucher"
+            },
+            {
+                "label": "Poste",
+                "value": "milieu offensif"
+            },
+            {
+                "label": null,
+                "value": "International français U15, U16 et U18 (11 sélections, 3 buts)"
+            },
+            {
+                "label": "A l'essai à Sochaux",
+                "value": "aout 2025"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

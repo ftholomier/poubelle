@@ -1,0 +1,478 @@
+{
+    "id": 7344,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "roger-courtois",
+    "path": "/joueurs/roger-courtois/",
+    "title": "Roger Courtois",
+    "categories": [
+        "a-la-une",
+        "internationaux-francais-fc-sochaux-retro-fcsm",
+        "joueurs-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": true,
+    "featured_image": "2024/11/1694450653_133_Voici-les-10-meilleurs-buteurs-de-la-Ligue-12.jpg",
+    "date": "2024-11-13T18:48:49",
+    "modified": "2025-11-12T14:56:12",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Son recrutement",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<p>Statistiques incomplètes.</p>\n<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "350",
+        "text": "Roger Courtois a marqué 350 buts (404 matchs) pour Sochaux. C'est le meilleur buteur de l'histoire du club et il figure encore en 2024 dans le top 6 des meilleurs buteurs de l'histoire de la première division."
+    },
+    "gallery": [
+        {
+            "image": "2024/11/roger-courtois-pepi-humpal-en-compagnie-de-rene-gardien-photo-archives-fc-sochaux-1624811954-1.jpg",
+            "caption": "Roger Courtois, Pepi Humpal et René Gardien",
+            "credit": "",
+            "caption_raw": "Roger Courtois, Pepi Humpal et René Gardien"
+        },
+        {
+            "image": "2024/11/fcsm-roger-courtois.jpg",
+            "caption": "Roger Courtois",
+            "credit": "dr",
+            "caption_raw": "Roger Courtois – dr"
+        },
+        {
+            "image": "2024/11/Ancienne-Photo-Presse-A-Bienvenu-1938-Roger2.jpg",
+            "caption": "Roger Courtois",
+            "credit": "DR",
+            "caption_raw": "Roger Courtois – DR"
+        },
+        {
+            "image": "2024/11/689_0012.jpg",
+            "caption": "Image publicitaire “biscuit REM”",
+            "credit": "",
+            "caption_raw": "Image publicitaire “biscuit REM”"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 7344,
+        "url": "https://www.fcsochauxretro.com/a-la-une/roger-courtois/",
+        "path": "/a-la-une/roger-courtois/",
+        "slug": "roger-courtois",
+        "seo_title": "Roger Courtois - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Roger Courtois</h2>\n<h4><strong>né le 30 mai 1912 à Genève (Suisse)</strong></h4>\n<h4><strong>Décédé le 5 mai 1972 à Genève (Suisse)   </strong></h4>\n<p><strong>Taille : </strong>1m60</p>\n<p><strong>Poids : </strong>65 kg</p>\n<p><strong>Pied :</strong> droitier</p>\n<p><strong>Poste : </strong>attaquant</p>\n<p><strong>International français (22 sélections, 10 buts)</strong></p>\n<p><strong>Premier passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1933 </p>\n<p><strong>Départ de Sochaux : </strong>mai 1940</p>\n<p><strong>Deuxième passage</strong></p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 1945 </p>\n<p><strong>Départ de Sochaux : </strong>juin 1952</p>\n<p><strong>Premier match joué :</strong> Excelsior Roubaix - Sochaux du 01/07/1933 : 2-1</p>\n<p><strong>Dernier match joué :</strong> Rouen - Sochaux du 16/03/1952 : 2-1 </p>\n<p><strong>Premier but et triplé marqué :</strong> Sochaux - Antibes du 10/09/1933 : 6-4</p>\n<p><strong>Palmarès avec Sochaux :</strong></p>\n<ul>\n<li>Champion de France 1935</li>\n<li>Vainqueur de la coupe de France 1937</li>\n<li>Vice-champion de France 1937</li>\n<li>Champion de France 1938</li>\n<li>Champion de France de deuxième division 1947</li>\n<li>Meilleur buteur du championnat en 1936 (34 buts)</li>\n<li>Meilleur buteur du championnat en 1939 (27 buts)</li>\n</ul>",
+        "header_lines": [
+            "Roger Courtois",
+            "né le 30 mai 1912 à Genève (Suisse)",
+            "Décédé le 5 mai 1972 à Genève (Suisse)",
+            "Taille : 1m60",
+            "Poids : 65 kg",
+            "Pied : droitier",
+            "Poste : attaquant",
+            "International français (22 sélections, 10 buts)",
+            "Premier passage",
+            "Arrivée à Sochaux : juillet 1933",
+            "Départ de Sochaux : mai 1940",
+            "Deuxième passage",
+            "Arrivée à Sochaux : juillet 1945",
+            "Départ de Sochaux : juin 1952",
+            "Premier match joué : Excelsior Roubaix - Sochaux du 01/07/1933 : 2-1",
+            "Dernier match joué : Rouen - Sochaux du 16/03/1952 : 2-1",
+            "Premier but et triplé marqué : Sochaux - Antibes du 10/09/1933 : 6-4",
+            "Palmarès avec Sochaux :",
+            "Champion de France 1935",
+            "Vainqueur de la coupe de France 1937",
+            "Vice-champion de France 1937",
+            "Champion de France 1938",
+            "Champion de France de deuxième division 1947",
+            "Meilleur buteur du championnat en 1936 (34 buts)",
+            "Meilleur buteur du championnat en 1939 (27 buts)"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "joueur"
+        ],
+        "first_name": "Roger",
+        "last_name": "Courtois",
+        "display_name": "Roger Courtois",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": true,
+        "birth": {
+            "date": {
+                "iso": "1912-05-30",
+                "precision": "day",
+                "text": "30 mai 1912"
+            },
+            "place": {
+                "text": "Genève (Suisse)",
+                "city": "Genève",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 30 mai 1912 à Genève (Suisse)"
+        },
+        "death": {
+            "date": {
+                "iso": "1972-05-05",
+                "precision": "day",
+                "text": "5 mai 1972"
+            },
+            "place": {
+                "text": "Genève (Suisse)",
+                "city": "Genève",
+                "department": null,
+                "country": "Suisse",
+                "lat": null,
+                "lng": null
+            },
+            "text": "Décédé le 5 mai 1972 à Genève (Suisse)"
+        },
+        "height": "1m60",
+        "height_cm": 160,
+        "weight": "65 kg",
+        "weight_kg": 65,
+        "foot": "droitier",
+        "position": "attaquant",
+        "line": "A",
+        "nationality": "",
+        "international": [
+            "International français (22 sélections, 10 buts)"
+        ],
+        "arrival": {
+            "iso": "1933-07",
+            "precision": "month",
+            "text": "juillet 1933"
+        },
+        "departure": {
+            "iso": "1940-05",
+            "precision": "month",
+            "text": "mai 1940"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": "Excelsior Roubaix - Sochaux du 01/07/1933 : 2-1",
+        "last_match": "Rouen - Sochaux du 16/03/1952 : 2-1",
+        "first_goal": "Sochaux - Antibes du 10/09/1933 : 6-4",
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [
+            "Champion de France 1935",
+            "Vainqueur de la coupe de France 1937",
+            "Vice-champion de France 1937",
+            "Champion de France 1938",
+            "Champion de France de deuxième division 1947",
+            "Meilleur buteur du championnat en 1936 (34 buts)",
+            "Meilleur buteur du championnat en 1939 (27 buts)"
+        ],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Roger Courtois"
+            },
+            {
+                "label": null,
+                "value": "né le 30 mai 1912 à Genève (Suisse)"
+            },
+            {
+                "label": null,
+                "value": "Décédé le 5 mai 1972 à Genève (Suisse)"
+            },
+            {
+                "label": "Taille",
+                "value": "1m60"
+            },
+            {
+                "label": "Poids",
+                "value": "65 kg"
+            },
+            {
+                "label": "Pied",
+                "value": "droitier"
+            },
+            {
+                "label": "Poste",
+                "value": "attaquant"
+            },
+            {
+                "label": null,
+                "value": "International français (22 sélections, 10 buts)"
+            },
+            {
+                "label": null,
+                "value": "Premier passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1933"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "mai 1940"
+            },
+            {
+                "label": null,
+                "value": "Deuxième passage"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 1945"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "juin 1952"
+            },
+            {
+                "label": "Premier match joué",
+                "value": "Excelsior Roubaix - Sochaux du 01/07/1933 : 2-1"
+            },
+            {
+                "label": "Dernier match joué",
+                "value": "Rouen - Sochaux du 16/03/1952 : 2-1"
+            },
+            {
+                "label": "Premier but et triplé marqué",
+                "value": "Sochaux - Antibes du 10/09/1933 : 6-4"
+            },
+            {
+                "label": "Palmarès avec Sochaux",
+                "value": ""
+            },
+            {
+                "label": null,
+                "value": "Champion de France 1935"
+            },
+            {
+                "label": null,
+                "value": "Vainqueur de la coupe de France 1937"
+            },
+            {
+                "label": null,
+                "value": "Vice-champion de France 1937"
+            },
+            {
+                "label": null,
+                "value": "Champion de France 1938"
+            },
+            {
+                "label": null,
+                "value": "Champion de France de deuxième division 1947"
+            },
+            {
+                "label": null,
+                "value": "Meilleur buteur du championnat en 1936 (34 buts)"
+            },
+            {
+                "label": null,
+                "value": "Meilleur buteur du championnat en 1939 (27 buts)"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Division 2",
+                "Buts",
+                "Coupe de France",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1933 - 1934",
+                    "23",
+                    "23",
+                    "-",
+                    "-",
+                    "2",
+                    "2",
+                    "25",
+                    "25"
+                ],
+                [
+                    "1934 - 1935",
+                    "26",
+                    "29",
+                    "-",
+                    "-",
+                    "4",
+                    "7",
+                    "30",
+                    "36"
+                ],
+                [
+                    "1935 - 1936",
+                    "28",
+                    "33",
+                    "-",
+                    "-",
+                    "7",
+                    "12",
+                    "35",
+                    "45"
+                ],
+                [
+                    "1936 - 1937",
+                    "20",
+                    "16",
+                    "-",
+                    "-",
+                    "5",
+                    "9",
+                    "25",
+                    "25"
+                ],
+                [
+                    "1937 - 1938",
+                    "26",
+                    "22",
+                    "-",
+                    "-",
+                    "0",
+                    "0",
+                    "26",
+                    "22"
+                ],
+                [
+                    "1938 - 1939",
+                    "23",
+                    "27",
+                    "-",
+                    "-",
+                    "2",
+                    "1",
+                    "25",
+                    "28"
+                ],
+                [
+                    "1945 - 1946",
+                    "?",
+                    "?",
+                    "-",
+                    "-",
+                    "?",
+                    "?",
+                    "?",
+                    "?"
+                ],
+                [
+                    "1946 - 1947",
+                    "-",
+                    "-",
+                    "?",
+                    "28",
+                    "?",
+                    "?",
+                    "?",
+                    "28"
+                ],
+                [
+                    "1947 - 1948",
+                    "28",
+                    "12",
+                    "-",
+                    "-",
+                    "4",
+                    "3",
+                    "32",
+                    "15"
+                ],
+                [
+                    "1948 - 1949",
+                    "26",
+                    "9",
+                    "-",
+                    "-",
+                    "1",
+                    "1",
+                    "27",
+                    "10"
+                ],
+                [
+                    "1949 - 1950",
+                    "27",
+                    "11",
+                    "-",
+                    "-",
+                    "?",
+                    "?",
+                    "27",
+                    "11"
+                ],
+                [
+                    "1950 - 1951",
+                    "26",
+                    "9",
+                    "-",
+                    "-",
+                    "?",
+                    "?",
+                    "26",
+                    "9"
+                ],
+                [
+                    "1951 - 1952",
+                    "4",
+                    "0",
+                    "-",
+                    "-",
+                    "1",
+                    "0",
+                    "5",
+                    "0"
+                ],
+                [
+                    "TOTAL",
+                    "257",
+                    "191",
+                    "?",
+                    "28",
+                    "26",
+                    "35",
+                    "283",
+                    "254"
+                ]
+            ],
+            "source_table": 905
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

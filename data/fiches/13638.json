@@ -1,0 +1,114 @@
+{
+    "id": 13638,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "thomas-deniaud",
+    "path": "/dirigeants/thomas-deniaud/",
+    "title": "Thomas Deniaud",
+    "categories": [
+        "directeurs-sportifs",
+        "dirigeants-fc-sochaux-retro-fcsm",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/04/1200x680_20190826_122116_resized.jpg",
+    "date": "2025-05-07T13:08:40",
+    "modified": "2025-11-13T10:36:43",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": null,
+            "html": "<h4><strong>Thomas Deniaud - Directeur sportif juillet 2019 - janvier 2021 </strong></h4>\n<ul>\n<li>Thomas Deniaud a une riche carrière d'attaquant dans les années 90 qui l'a vu jouer à Angers, Auxerre, Le Havre ou encore Clermont. </li>\n<li>Disparu des radars du football professionnel pendant quelques années, il devient directeur sportif du club à la surprise générale à l'été 2019. Il accompagne le nouveau directeur général du club Samuel Laurent. </li>\n<li>Après 18 mois contrastés, il est licencié sans qu'on ne connaisse la raison en janvier 2021. </li>\n</ul>"
+        }
+    ],
+    "key_figure": {
+        "number": "18",
+        "text": "Thomas Deniaud sera resté 18 mois à la tête de la direction sportive du club."
+    },
+    "gallery": [
+        {
+            "image": "2025/04/1200x680_20190826_122116_resized.jpg",
+            "caption": "Thomas Deniaud",
+            "credit": "France Bleu",
+            "caption_raw": "Thomas Deniaud – France Bleu"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 13638,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/thomas-deniaud/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/dirigeants-fc-sochaux-retro-fcsm/thomas-deniaud/",
+        "slug": "thomas-deniaud",
+        "seo_title": "Thomas Deniaud - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Thomas Deniaud  </h2>\n<h4><strong>Directeur sportif de juillet 2019 à janvier 2021</strong></h4>",
+        "header_lines": [
+            "Thomas Deniaud",
+            "Directeur sportif de juillet 2019 à janvier 2021"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "dirigeant"
+        ],
+        "first_name": "Thomas",
+        "last_name": "Deniaud",
+        "display_name": "Thomas Deniaud",
+        "nickname": "",
+        "subtitle": "Directeur sportif de juillet 2019 à janvier 2021",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": null,
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": null,
+        "line": null,
+        "nationality": "",
+        "international": [],
+        "arrival": null,
+        "departure": null,
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Thomas Deniaud"
+            },
+            {
+                "label": null,
+                "value": "Directeur sportif de juillet 2019 à janvier 2021"
+            }
+        ],
+        "stats": null,
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}

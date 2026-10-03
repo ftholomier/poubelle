@@ -1,0 +1,235 @@
+{
+    "id": 15293,
+    "type": "personne",
+    "status": "publie",
+    "publish_at": null,
+    "slug": "oscar-sanchez",
+    "path": "/entraineurs/oscar-sanchez/",
+    "title": "Oscar Sanchez",
+    "categories": [
+        "entraineurs-fc-sochaux-retro-fcsm",
+        "entraineurs-adjoints",
+        "nos-lions-fc-sochaux-retro-fcsm"
+    ],
+    "a_la_une": false,
+    "featured_image": "2025/07/jose-manuel-aira-en-haut-a-gauche-peut-compter-sur-en-haut-de-gauche-a-droite-albert.jpg",
+    "date": "2025-07-17T16:02:25",
+    "modified": "2026-09-17T11:45:54",
+    "author": "florian",
+    "seo": {
+        "title": "",
+        "description": ""
+    },
+    "intro": "",
+    "sections": [
+        {
+            "title": "Sa signature",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière au FCSM",
+            "html": ""
+        },
+        {
+            "title": "Sa carrière après le FCSM",
+            "html": ""
+        },
+        {
+            "title": "Statistiques",
+            "html": "<div>\n        \n</div>"
+        }
+    ],
+    "key_figure": {
+        "number": "5",
+        "text": "Oscar Sanchez sera resté 5 mois adjoint de José Manuel Aira avant leurs licenciements."
+    },
+    "gallery": [
+        {
+            "image": "2025/07/jose-manuel-aira-en-haut-a-gauche-peut-compter-sur-en-haut-de-gauche-a-droite-albert.jpg",
+            "caption": "Oscar Sanchez",
+            "credit": "L’est républicain",
+            "caption_raw": "Oscar Sanchez – L’est républicain"
+        }
+    ],
+    "images": [],
+    "videos": [],
+    "embeds": [],
+    "legacy": {
+        "wp_id": 15293,
+        "url": "https://www.fcsochauxretro.com/nos-lions-fc-sochaux-retro-fcsm/entraineurs-fc-sochaux-retro-fcsm/oscar-sanchez/",
+        "path": "/nos-lions-fc-sochaux-retro-fcsm/entraineurs-fc-sochaux-retro-fcsm/oscar-sanchez/",
+        "slug": "oscar-sanchez",
+        "seo_title": "Oscar Sanchez - FC Sochaux Retro - FCSM",
+        "header_html": "<h2>Oscar Sanchez</h2>\n<h4><strong>né le 19 décembre 1979 à Murcie (Espagne) </strong></h4>\n<p><strong>Poste : </strong>Entraineur adjoint</p>\n<p><strong>Arrivée à Sochaux : </strong>juillet 2018</p>\n<p><strong>Départ de Sochaux :</strong> novembre 2018</p>",
+        "header_lines": [
+            "Oscar Sanchez",
+            "né le 19 décembre 1979 à Murcie (Espagne)",
+            "Poste : Entraineur adjoint",
+            "Arrivée à Sochaux : juillet 2018",
+            "Départ de Sochaux : novembre 2018"
+        ]
+    },
+    "i18n": [],
+    "personne": {
+        "roles": [
+            "entraineur"
+        ],
+        "first_name": "Oscar",
+        "last_name": "Sanchez",
+        "display_name": "Oscar Sanchez",
+        "nickname": "",
+        "subtitle": "",
+        "trial": null,
+        "is_trial": false,
+        "formed_at_club": false,
+        "international_flag": false,
+        "birth": {
+            "date": {
+                "iso": "1979-12-19",
+                "precision": "day",
+                "text": "19 décembre 1979"
+            },
+            "place": {
+                "text": "Murcie (Espagne)",
+                "city": "Murcie",
+                "department": null,
+                "country": "Espagne",
+                "lat": null,
+                "lng": null
+            },
+            "text": "né le 19 décembre 1979 à Murcie (Espagne)"
+        },
+        "death": null,
+        "height": null,
+        "height_cm": null,
+        "weight": null,
+        "weight_kg": null,
+        "foot": null,
+        "position": "Entraineur adjoint",
+        "line": "E",
+        "nationality": "",
+        "international": [],
+        "arrival": {
+            "iso": "2018-07",
+            "precision": "month",
+            "text": "juillet 2018"
+        },
+        "departure": {
+            "iso": "2018-11",
+            "precision": "month",
+            "text": "novembre 2018"
+        },
+        "arrival_coach": null,
+        "departure_coach": null,
+        "first_match": null,
+        "last_match": null,
+        "first_goal": null,
+        "first_match_coached": null,
+        "last_match_coached": null,
+        "honours": [],
+        "then": [],
+        "fiche": [
+            {
+                "label": null,
+                "value": "Oscar Sanchez"
+            },
+            {
+                "label": null,
+                "value": "né le 19 décembre 1979 à Murcie (Espagne)"
+            },
+            {
+                "label": "Poste",
+                "value": "Entraineur adjoint"
+            },
+            {
+                "label": "Arrivée à Sochaux",
+                "value": "juillet 2018"
+            },
+            {
+                "label": "Départ de Sochaux",
+                "value": "novembre 2018"
+            }
+        ],
+        "stats": {
+            "title": "Statistiques",
+            "headers": [
+                "Saisons",
+                "Division 1",
+                "Buts",
+                "Coupe de france",
+                "Buts",
+                "Coupe UEFA",
+                "Buts",
+                "Total matches",
+                "Total Buts"
+            ],
+            "rows": [
+                [
+                    "1976-1977",
+                    "16",
+                    "0",
+                    "0",
+                    "0",
+                    "2",
+                    "0",
+                    "18",
+                    "0"
+                ],
+                [
+                    "1977-1978",
+                    "16",
+                    "0",
+                    "4",
+                    "0",
+                    "0",
+                    "0",
+                    "20",
+                    "0"
+                ],
+                [
+                    "1978-1979",
+                    "21",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "21",
+                    "0"
+                ],
+                [
+                    "1979-1980",
+                    "13",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "13",
+                    "0"
+                ],
+                [
+                    "Total",
+                    "66",
+                    "0",
+                    "4",
+                    "0",
+                    "2",
+                    "0",
+                    "72",
+                    "0"
+                ]
+            ],
+            "source_table": 283
+        },
+        "shirt_numbers": "",
+        "legend": false,
+        "album": {
+            "in": false,
+            "rarity": null,
+            "number": null
+        },
+        "on_map": true
+    },
+    "tables": []
+}
