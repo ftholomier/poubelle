@@ -142,7 +142,10 @@ final class Kernel
         $r->get('/contribuer/', fn ($q) => Front\Community::contribute($q));
         $r->post('/contribuer/', fn ($q) => Front\Community::contributeSend($q));
         $r->get('/faire-un-don/', fn ($q) => Front\Donations::page($q));
+        $r->post('/faire-un-don/', fn ($q) => Front\Donations::start($q));
         $r->get('/faire-un-don/merci/', fn ($q) => Front\Donations::thanks($q));
+        $r->any('/faire-un-don/gerer/{token}/', fn ($q, $token) => Front\Donations::manage($q, $token));
+        $r->get('/faire-un-don/gerer/{token}/recu/{num}/', fn ($q, $token, $num) => Front\Donations::receiptDownload($q, $token, $num));
         $r->get('/newsletter/', fn ($q) => Front\Community::newsletter($q));
         $r->get('/newsletter/confirmer/{token}/', fn ($q, $token) => Front\Community::newsletterConfirm($q, $token));
         $r->get('/newsletter/desinscription/{token}/', fn ($q, $token) => Front\Community::newsletterUnsubscribe($q, $token));
