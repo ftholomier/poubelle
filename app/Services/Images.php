@@ -18,7 +18,7 @@ final class Images
     public static function serve(string $w, string $rel): Response
     {
         // Le chemin arrive déjà décodé (Request) : pas de second décodage.
-        $rel = ltrim(str_replace(['..', "\0", '\\'], '', $rel), '/');
+        $rel = Media::safeRel($rel);
         $isWebp = str_ends_with($rel, '.webp') && !is_file(Media::ORIGINALS . '/' . $rel);
         $srcRel = $isWebp ? substr($rel, 0, -5) : $rel;
         $src = Media::file($srcRel);
@@ -60,7 +60,7 @@ final class Images
     /** Chemin local d'une déclinaison WebP d'un média (créée au besoin), ou null (export PDF). */
     public static function derivative(string $rel, int $width): ?string
     {
-        $rel = ltrim(str_replace(['..', "\0", '\\'], '', $rel), '/');
+        $rel = Media::safeRel($rel);
         if ($rel === '' || str_ends_with(strtolower($rel), '.svg')) {
             return null;
         }

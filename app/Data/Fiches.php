@@ -48,6 +48,13 @@ final class Fiches
         return is_array($doc) ? $doc : null;
     }
 
+    /** Version enregistrée sur le disque (sans la copie en mémoire du processus). */
+    public static function fresh(int $id): ?array
+    {
+        JsonStore::forget(self::path($id));
+        return self::get($id);
+    }
+
     /** @return \Generator<int,array> */
     public static function all(): \Generator
     {
@@ -57,6 +64,25 @@ final class Fiches
                 yield (int) $doc['id'] => $doc;
             }
         }
+    }
+
+    /**
+     * Moment du centenaire : tant que sa semaine (case n° X du calendrier) n'est pas arrivée,
+     * il reste « planifié » pour ce jour-là à 8 h, même marqué « publié » ou déplacé.
+     */
+    public static function scheduleMoment(array $doc): array
+    {
+        $n = (int) ($doc['moment']['number'] ?? 0);
+        if (($doc['type'] ?? '') !== 'moment' || $n < 1 || $n > 100 || !in_array($doc['status'] ?? '', ['publie', 'planifie'], true)) {
+            return $doc;
+        }
+        $start = strtotime((string) \App\Core\Settings::get('centenary.moments_start', '2026-06-11')) ?: strtotime('2026-06-11');
+        $slot = strtotime(date('Y-m-d', strtotime('+' . (($n - 1) * 7) . ' days', $start)) . ' 08:00');
+        if ($slot > time()) {
+            $doc['status'] = 'planifie';
+            $doc['publish_at'] = date('c', $slot);
+        }
+        return $doc;
     }
 
     public static function isVisible(array $doc): bool
@@ -156,7 +182,7 @@ final class Fiches
             $doc['id'] = self::nextId();
             $before = null;
         } else {
-            $before = self::get((int) $doc['id']);
+            $before = self::fresh((int) $doc['id']);
         }
         $id = (int) $doc['id'];
         $doc['modified'] = date('c');
@@ -167,7 +193,7 @@ final class Fiches
 
         $diff = $before ? self::diff($before, $doc) : [['Fiche', '—', 'créée']];
         if ($before && !$diff) {
-            return $doc; // rien n'a changé
+            return $before; // rien n'a changé : la fiche enregistrée reste telle quelle
         }
 
         // Première modification d'une fiche reprise de l'ancien site : son état d'origine

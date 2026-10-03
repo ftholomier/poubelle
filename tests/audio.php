@@ -36,6 +36,16 @@ $has('match : date, stade, score, buteurs', $t, ['Dimanche 28 février 1988, Sta
 $eq('match : 75 mots au plus', A::words($t) <= A::WORDS, true);
 $t = A::template(Fiches::get(22054), 'fr');
 $has('penalty dit en toutes lettres', $t, ['Durbant 74e sur penalty']);
+// Tirs au but : le vainqueur de la séance et son score (Sochaux à domicile, puis à l'extérieur, puis battu).
+$pens = function (bool $home, int $h, int $a) use ($match) {
+    $m = $match;
+    $m['match']['sochaux_home'] = $home;
+    [$m['match']['home']['name'], $m['match']['away']['name']] = $home ? ['Sochaux', 'Auxerre'] : ['Auxerre', 'Sochaux'];
+    $m['match']['score'] = ['home' => 1, 'away' => 1, 'extra' => 'a.p', 'aet' => true, 'pens' => ['home' => $h, 'away' => $a]];
+    return A::template($m, 'fr') . ' | ' . A::template($m, 'en');
+};
+$eq('tirs au but racontés (et jamais « Array »)', [str_contains($pens(true, 9, 8), 'et Sochaux l’emporte 9 à 8 aux tirs au but'), str_contains($pens(false, 4, 5), 'et Sochaux l’emporte 5 à 4 aux tirs au but'),
+    str_contains($pens(true, 3, 4), 'et Auxerre l’emporte 4 à 3 aux tirs au but'), str_contains($pens(true, 3, 4), 'and Auxerre won 4–3 on penalties'), str_contains($pens(true, 9, 8), 'Array')], [true, true, true, true, false]);
 $t = A::template(Fiches::get(3000), 'fr');
 $eq('personne : poste et années', str_starts_with($t, 'Joël Bats, gardien de but du FC Sochaux-Montbéliard de 1974 à 1980.'), true);
 $eq('personne : naissance pas répétée', substr_count($t, 'Mont-de-Marsan'), 1);

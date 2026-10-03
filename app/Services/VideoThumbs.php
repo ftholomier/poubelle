@@ -33,7 +33,8 @@ final class VideoThumbs
 
     public static function file(string $provider, string $id): string
     {
-        return Media::ORIGINALS . '/_video/' . $provider . '-' . $id . '.jpg';
+        // Nom de fichier sûr, quoi que contienne l'identifiant enregistré.
+        return Media::ORIGINALS . '/_video/' . preg_replace('/[^\w-]/', '', $provider) . '-' . preg_replace('/[^\w-]/', '', $id) . '.jpg';
     }
 
     /**

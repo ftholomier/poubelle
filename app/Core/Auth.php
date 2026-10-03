@@ -14,6 +14,9 @@ use RuntimeException;
  */
 final class Auth
 {
+    /** Empreinte Argon2id factice (mêmes paramètres que les vraies) : même durée de vérification pour un compte inconnu. */
+    private const DUMMY_HASH = '$argon2id$v=19$m=65536,t=4,p=1$MjVLejNYQ0gzVzk4aDEvOA$bOH79MHUVu2kAO80P/xQ/PanfGsyFL2q7L0/D1X5ZRs';
+
     private const FILE = STORAGE_PATH . '/users.json';
     public const ROLES = ['admin' => 'Administrateur', 'user' => 'Utilisateur'];
 
@@ -102,14 +105,16 @@ final class Auth
 
     public static function attempt(string $email, string $password, string $ip): array
     {
-        $key = mb_strtolower(trim($email)) . '|' . $ip;
-        if (!RateLimiter::hit('login', $key, 8, 900) || !RateLimiter::hit('login-ip', $ip, 30, 900)) {
-            return ['ok' => false, 'error' => 'Trop de tentatives. Réessayez dans 15 minutes.'];
+        $mail = mb_strtolower(trim($email));
+        $key = $mail . '|' . $ip;
+        // Trois compteurs : e-mail + adresse IP, adresse IP seule, et compte seul (essais
+        // répartis sur de nombreuses adresses). Les adresses IPv6 comptent par bloc /64.
+        if (!RateLimiter::hit('login', $key, 8, 900) || !RateLimiter::hit('login-ip', $ip, 30, 900) || !RateLimiter::hit('login-account', $mail, 30, 3600)) {
+            return ['ok' => false, 'error' => 'Trop de tentatives. Réessayez plus tard ou utilisez « Mot de passe oublié ».'];
         }
         $u = self::findByEmail($email);
-        // Temps constant : on vérifie un hash même si le compte n'existe pas.
-        $hash = $u['password'] ?? password_hash(bin2hex(random_bytes(8)), PASSWORD_ARGON2ID);
-        $ok = password_verify($password, $hash);
+        // Temps constant : une seule vérification, avec une empreinte factice si le compte n'existe pas.
+        $ok = password_verify($password, (string) ($u['password'] ?? '') ?: self::DUMMY_HASH);
         if (!$u || !$ok || ($u['status'] ?? '') !== 'active') {
             return ['ok' => false, 'error' => 'E-mail ou mot de passe incorrect.'];
         }
@@ -117,8 +122,9 @@ final class Auth
             self::update($u['id'], ['password' => password_hash($password, PASSWORD_ARGON2ID)]);
             $u = self::find($u['id']);
         }
-        // Seuls les échecs comptent : une connexion réussie remet le compteur du compte à zéro.
+        // Seuls les échecs comptent : une connexion réussie remet les compteurs du compte à zéro.
         RateLimiter::clear('login', $key);
+        RateLimiter::clear('login-account', $mail);
         self::login($u);
         return ['ok' => true];
     }
@@ -127,6 +133,7 @@ final class Auth
     {
         Session::start();
         session_regenerate_id(true);
+        unset($_SESSION['_csrf']); // nouveau jeton de formulaire pour la session connectée
         Session::set('uid', $u['id']);
         Session::set('ufp', self::fingerprint($u));
         self::update($u['id'], ['last_login' => date('c')]);
@@ -195,7 +202,9 @@ final class Auth
     public static function invite(string $id): string
     {
         $token = bin2hex(random_bytes(24));
-        self::update($id, ['invite' => ['hash' => hash('sha256', $token), 'expires' => time() + 7 * 86400], 'status' => self::find($id)['status'] === 'active' ? 'active' : 'invited']);
+        $status = self::find($id)['status'] ?? 'invited';
+        // Un compte désactivé le reste : seul « Réactiver » le rouvre.
+        self::update($id, ['invite' => ['hash' => hash('sha256', $token), 'expires' => time() + 7 * 86400], 'status' => in_array($status, ['active', 'disabled'], true) ? $status : 'invited']);
         return $token;
     }
 
@@ -203,7 +212,7 @@ final class Auth
     {
         $h = hash('sha256', $token);
         foreach (self::users() as $u) {
-            if (!empty($u['invite']['hash']) && hash_equals($u['invite']['hash'], $h) && $u['invite']['expires'] > time()) {
+            if (!empty($u['invite']['hash']) && hash_equals($u['invite']['hash'], $h) && $u['invite']['expires'] > time() && ($u['status'] ?? '') !== 'disabled') {
                 return $u;
             }
         }
@@ -216,6 +225,10 @@ final class Auth
             throw new RuntimeException('Le mot de passe doit contenir au moins 10 caractères.');
         }
         self::update($id, ['password' => password_hash($password, PASSWORD_ARGON2ID), 'status' => 'active', 'invite' => null]);
+        // Nouveau mot de passe (lien « Mot de passe oublié ») : le compte n'est plus bloqué par les essais.
+        if ($u = self::find($id)) {
+            RateLimiter::clear('login-account', mb_strtolower(trim((string) $u['email'])));
+        }
     }
 
     public static function countAdmins(): int

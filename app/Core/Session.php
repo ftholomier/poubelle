@@ -16,6 +16,8 @@ final class Session
         }
         session_save_path($dir);
         session_name('sr_session');
+        // Identifiant de session inconnu (imposé par un tiers) : refusé, un nouveau est créé.
+        ini_set('session.use_strict_mode', '1');
         session_set_cookie_params([
             'lifetime' => 0,
             'path' => '/',

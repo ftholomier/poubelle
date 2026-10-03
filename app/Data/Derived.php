@@ -17,6 +17,8 @@ final class Derived
 {
     private const CACHE = STORAGE_PATH . '/cache/derived.php';
     private const DIRTY = STORAGE_PATH . '/cache/derived.dirty';
+    /** Marque « sale » prise en charge par le recalcul en cours (un enregistrement fait pendant le calcul recrée DIRTY). */
+    private const CLAIM = STORAGE_PATH . '/cache/derived.building';
     private const VERSION = 5;
     private static ?array $data = null;
 
@@ -42,16 +44,23 @@ final class Derived
         if (self::$data !== null) {
             return self::$data;
         }
-        if (is_file(self::CACHE)) {
-            $d = include self::CACHE;
-            if (is_array($d) && ($d['version'] ?? 0) === self::VERSION) {
-                if (is_file(self::DIRTY) && filemtime(self::DIRTY) >= filemtime(self::CACHE)) {
-                    self::scheduleRebuild();
-                }
-                return self::$data = $d;
+        if ($d = self::cached()) {
+            if (self::isDirty()) {
+                self::scheduleRebuild();
             }
+            return self::$data = $d;
         }
         return self::$data = self::rebuildLocked();
+    }
+
+    /** Dernier calcul enregistré (null s'il manque ou date d'une version précédente). */
+    private static function cached(): ?array
+    {
+        if (!is_file(self::CACHE)) {
+            return null;
+        }
+        $d = include self::CACHE;
+        return is_array($d) && ($d['version'] ?? 0) === self::VERSION ? $d : null;
     }
 
     private static bool $scheduled = false;
@@ -69,39 +78,110 @@ final class Derived
             ignore_user_abort(true);
             set_time_limit(300);
             // Les données refaites servent aussi aux recalculs qui suivent (les chiffres du FCSM).
-            self::$data = self::rebuildLocked();
+            // Recalcul déjà en cours dans un autre processus : on ne l'attend pas.
+            self::$data = self::rebuildLocked(false) ?? self::$data;
         });
     }
 
     public static function isDirty(): bool
     {
-        return is_file(self::DIRTY) && (!is_file(self::CACHE) || filemtime(self::DIRTY) >= filemtime(self::CACHE));
+        clearstatcache();
+        if (!is_file(self::CACHE) || is_file(self::DIRTY)) {
+            return true;
+        }
+        // Recalcul interrompu (délai ou mémoire dépassés) : à refaire.
+        return is_file(self::CLAIM) && filemtime(self::CLAIM) < time() - 900;
     }
 
-    private static function rebuildLocked(): array
+    /** Recalcule si c'est encore nécessaire ; sans attente ($wait = false), null si un recalcul est déjà en cours. */
+    private static function rebuildLocked(bool $wait = true): ?array
     {
-        $dir = dirname(self::CACHE);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
+        $fp = self::lock($wait);
+        if (!$fp) {
+            return null;
         }
-        $fp = fopen(self::CACHE . '.lock', 'c');
-        flock($fp, LOCK_EX);
         try {
             // Un autre processus a peut-être reconstruit pendant l'attente.
-            if (is_file(self::CACHE) && (!is_file(self::DIRTY) || filemtime(self::DIRTY) < filemtime(self::CACHE))) {
-                $d = include self::CACHE;
-                if (is_array($d) && ($d['version'] ?? 0) === self::VERSION) {
-                    return $d;
-                }
+            if (!self::isDirty() && ($d = self::cached())) {
+                return $d;
             }
-            return self::rebuild();
+            return self::build();
         } finally {
             flock($fp, LOCK_UN);
             fclose($fp);
         }
     }
 
+    /** Recalcul complet immédiat (console, tâche planifiée), un seul à la fois. */
     public static function rebuild(): array
+    {
+        $fp = self::lock(true);
+        try {
+            return self::build();
+        } finally {
+            flock($fp, LOCK_UN);
+            fclose($fp);
+        }
+    }
+
+    /** @return resource|null */
+    private static function lock(bool $wait)
+    {
+        $dir = dirname(self::CACHE);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+        $fp = fopen(self::CACHE . '.lock', 'c');
+        if (!$fp) {
+            throw new \RuntimeException('Verrou du recalcul impossible.');
+        }
+        if (!flock($fp, $wait ? LOCK_EX : LOCK_EX | LOCK_NB)) {
+            fclose($fp);
+            if ($wait) {
+                throw new \RuntimeException('Verrou du recalcul impossible.');
+            }
+            return null;
+        }
+        return $fp;
+    }
+
+    private static function build(): array
+    {
+        // La marque « sale » est prise en charge maintenant : un enregistrement fait pendant
+        // le calcul la recrée, et un nouveau recalcul suivra.
+        clearstatcache();
+        if (is_file(self::DIRTY)) {
+            @rename(self::DIRTY, self::CLAIM);
+        }
+        @touch(self::CLAIM);
+        // ~200 Mo pour 3 000 fiches : la limite par défaut des hébergements (128 Mo) ne suffit pas.
+        $limit = (string) ini_get('memory_limit');
+        if ($limit !== '-1' && self::bytes($limit) < 512 * 1048576) {
+            @ini_set('memory_limit', '512M');
+        }
+        try {
+            $data = self::compute();
+        } catch (\Throwable $e) {
+            @touch(self::DIRTY);
+            @unlink(self::CLAIM);
+            throw $e;
+        }
+        @unlink(self::CLAIM);
+        return self::$data = $data;
+    }
+
+    private static function bytes(string $v): int
+    {
+        $n = (int) $v;
+        return match (strtolower(substr(trim($v), -1))) {
+            'g' => $n * 1073741824,
+            'm' => $n * 1048576,
+            'k' => $n * 1024,
+            default => $n,
+        };
+    }
+
+    private static function compute(): array
     {
         $t0 = microtime(true);
         $matches = [];
@@ -238,6 +318,8 @@ final class Derived
         // ---------------------------------------------------------- clubs et stades
         $clubs = Collections::get('clubs', []);
         $stades = Collections::get('stades', []);
+        $clubIds = array_column($clubs, 'id');
+        $stadeIds = array_column($stades, 'id');
         $clubAlias = [];
         foreach ($clubs as $c) {
             $clubAlias[Names::clubKey($c['name'])] = $c['id'];
@@ -345,6 +427,8 @@ final class Derived
             }
             $full = $aet ? 120 : 90;
             $teamGoals = 0;
+            $inMatch = [];   // joueur => [rang de son apparition, minutes de ses buts]
+            $dupNames = [];  // joueurs inscrits deux fois dans la composition
             foreach ($rows as $r) {
                 $pos = strtoupper((string) ($r['position'] ?? ''));
                 $name = (string) ($r['name'] ?? '');
@@ -356,7 +440,6 @@ final class Derived
                     $pid = $resolve($name, $date);
                 }
                 $g = count($r['goals'] ?? []);
-                $teamGoals += $g;
                 $min = 0;
                 $role = $pos === 'E' ? 'coach' : 'player';
                 if ($role === 'player') {
@@ -375,12 +458,42 @@ final class Derived
                     // Remplaçant non entré : pas d'apparition, mais présence sur la feuille.
                     $role = 'bench';
                 }
+                $mins = array_values(array_map('strval', $r['goals'] ?? []));
+                $prev = $pid && $role !== 'coach' ? ($inMatch[$pid] ?? null) : null;
+                if ($prev !== null) {
+                    // Même joueur inscrit deux fois dans la composition : une seule apparition
+                    // (buts sans doublon de minute, temps de jeu plafonné à la durée du match).
+                    $dupNames[] = Names::display($name);
+                    $a = &$apps[$prev[0]];
+                    $all = array_merge($prev[1], $mins);
+                    $known = !in_array('', $all, true);
+                    $new = $known ? array_values(array_diff(array_unique($mins), $prev[1])) : $mins;
+                    $a[2] = $known ? count(array_unique($all)) : $a[2] + $g;
+                    $a[3] = min($full, $a[3] + $min);
+                    $a[4] += count($r['yellow'] ?? []);
+                    $a[5] += count($r['red'] ?? []);
+                    if ($a[6] === 'bench' && $role === 'player') {
+                        [$a[6], $a[8]] = ['player', $pos];
+                    }
+                    $a[7] = $a[7] || !empty($r['captain']);
+                    unset($a);
+                    $inMatch[$pid][1] = array_values(array_unique($all));
+                    $g = count($new);
+                    $mins = $new;
+                }
+                $teamGoals += $g; // après le dédoublonnage : un but noté deux fois ne compte qu'une fois
                 if ($g > 0) {
                     // Minutes des buts et penaltys marqués (« 32' s.p. », « 12' sp et 56' »).
-                    $scorers[$mid][] = [$pid ?: null, Names::display($name), array_values(array_map('strval', $r['goals'])),
+                    $scorers[$mid][] = [$pid ?: null, Names::display($name), $mins,
                         preg_match_all('/(?<![\p{L}])s\.?\s?p\.?(?![\p{L}])|\bpen(?:alty)?\b/iu', (string) ($r['goals_text'] ?? ''))];
                 }
+                if ($prev !== null) {
+                    continue;
+                }
                 if ($pid) {
+                    if ($role !== 'coach') {
+                        $inMatch[$pid] = [count($apps), $mins];
+                    }
                     $apps[] = [$pid, $mid, $g, $min, count($r['yellow'] ?? []), count($r['red'] ?? []), $role, (bool) ($r['captain'] ?? false), $pos];
                 } elseif ($doc['_visible']) {
                     $unlinked[Names::personKey($name)]['name'] = Names::display($name);
@@ -394,6 +507,9 @@ final class Derived
                 if (stripos((string) ($gl['team'] ?? ''), 'sochaux') !== false) {
                     $teamGoals += preg_match_all('/c\s*\.?\s*s\s*\.?\s*c|contre son camp/iu', (string) ($gl['scorers'] ?? ''));
                 }
+            }
+            if ($dupNames && $doc['_visible'] && !in_array($m['competition'] ?? '', self::OFFICIAL_EXCLUDED, true)) {
+                $quality[] = ['sev' => 'moyenne', 'code' => 'doublon', 'msg' => 'Joueur inscrit deux fois dans la composition : ' . implode(', ', array_unique($dupNames)) . ' (compté une seule fois)', 'id' => $mid];
             }
             if ($us !== null && $rows && $teamGoals > 0 && $teamGoals !== $us) {
                 $quality[] = ['sev' => 'haute', 'code' => 'buts', 'msg' => "Total des buts ($us) ≠ somme des buteurs de la composition ($teamGoals)", 'id' => $mid];
@@ -419,6 +535,39 @@ final class Derived
                     $others = array_map(fn ($o) => $M[$o]['title'], array_diff($mids, [$mid]));
                     $quality[] = ['sev' => 'haute', 'code' => 'tableau', 'msg' => 'Même tableau de composition que : ' . implode(', ', array_slice($others, 0, 3)), 'id' => $mid];
                 }
+            }
+        }
+
+        // Dates des personnes impossibles ou invraisemblables : à vérifier dans la fiche.
+        $today = date('Y-m-d');
+        foreach ($persons as $pid => $p) {
+            $pp = $p['personne'];
+            $b = (string) ($pp['birth']['date']['iso'] ?? '');
+            $dth = (string) ($pp['death']['date']['iso'] ?? '');
+            $arr = (string) ($pp['arrival']['iso'] ?? '');
+            $dep = (string) ($pp['departure']['iso'] ?? '');
+            $by = $b !== '' ? (int) substr($b, 0, 4) : null;
+            $player = in_array('joueur', (array) ($pp['roles'] ?? []), true);
+            // Arrivée tardive normale pour un entraîneur-joueur ou un dirigeant.
+            $onlyPlayer = $player && !array_intersect((array) ($pp['roles'] ?? []), ['entraineur', 'dirigeant']);
+            $msgs = [];
+            if ($by && ($b > $today || $by < 1860 || ($player && $by > (int) date('Y') - 14))) {
+                $msgs[] = "naissance improbable ($b)";
+            }
+            if ($b !== '' && $dth !== '' && $dth < $b) {
+                $msgs[] = "décès ($dth) avant la naissance ($b)";
+            }
+            if ($arr !== '' && $dep !== '' && substr($dep, 0, 7) < substr($arr, 0, 7)) {
+                $msgs[] = "départ ($dep) avant l’arrivée ($arr)";
+            }
+            if ($by && $arr !== '' && $player) {
+                $age = (int) substr($arr, 0, 4) - $by;
+                if ($age < 5 || ($age > 38 && $onlyPlayer)) {
+                    $msgs[] = "arrivée au club à $age ans (né en $by, arrivée en " . substr($arr, 0, 4) . ')';
+                }
+            }
+            if ($msgs) {
+                $quality[] = ['sev' => 'moyenne', 'code' => 'dates', 'msg' => 'Dates à vérifier : ' . implode(' ; ', $msgs), 'id' => $pid];
             }
         }
 
@@ -582,10 +731,10 @@ final class Derived
         }
         unset($st);
         if ($newClubs || array_filter($clubs, fn ($c) => !empty($c['auto']))) {
-            JsonStore::write(Collections::DIR . '/clubs.json', array_values($clubs));
+            self::mergeRefs('clubs', $clubs, $clubIds);
         }
         if ($newStades || array_filter($stades, fn ($s) => !empty($s['auto']))) {
-            JsonStore::write(Collections::DIR . '/stades.json', array_values($stades));
+            self::mergeRefs('stades', $stades, $stadeIds);
         }
 
         foreach ($unlinked as $k => $u) {
@@ -627,8 +776,45 @@ final class Derived
         if (function_exists('opcache_invalidate')) {
             @opcache_invalidate(self::CACHE, true);
         }
-        @unlink(self::DIRTY);
-        return self::$data = $data;
+        return $data;
+    }
+
+    /**
+     * Clubs et stades créés automatiquement : ajouts et noms recalculés appliqués au référentiel
+     * relu sous verrou, pour ne jamais écraser une correction faite pendant le calcul.
+     * $initial : identifiants présents au début du calcul (une entrée supprimée entre-temps ne revient pas).
+     */
+    private static function mergeRefs(string $name, array $computed, array $initial): void
+    {
+        $byId = [];
+        foreach ($computed as $c) {
+            $byId[(string) $c['id']] = $c;
+        }
+        $known = array_flip(array_map('strval', $initial));
+        JsonStore::update(Collections::DIR . "/$name.json", function ($cur) use ($byId, $known) {
+            $cur = is_array($cur) ? array_values($cur) : [];
+            $have = [];
+            foreach ($cur as $i => $c) {
+                $id = (string) ($c['id'] ?? '');
+                $have[$id] = true;
+                $new = $byId[$id] ?? null;
+                if ($new && !empty($c['auto']) && !empty($new['auto'])) {
+                    $cur[$i]['name'] = $new['name'];
+                    $cur[$i]['aliases'] = $new['aliases'] ?? [];
+                    foreach (['city', 'lat', 'lng'] as $k) {
+                        if (empty($c[$k]) && !empty($new[$k])) {
+                            $cur[$i][$k] = $new[$k];
+                        }
+                    }
+                }
+            }
+            foreach ($byId as $id => $c) {
+                if (!isset($have[$id]) && !isset($known[$id])) {
+                    $cur[] = $c;
+                }
+            }
+            return $cur;
+        }, []);
     }
 
     /** Ajoute à l'index d'utilisation les médias des collections éditoriales et des rubriques. */

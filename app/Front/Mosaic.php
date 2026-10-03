@@ -350,19 +350,20 @@ final class Mosaic
     {
         $date = fn ($s) => (string) ($kind === 'matchs' ? ($s['m']['date'] ?? '') : ($kind === 'lions' ? sprintf('%04d', $s['p']['arrival'] ?? $s['p']['birth_year'] ?? 0) : ($s['date'] ?? '')));
         $name = fn ($s) => $kind === 'lions' ? Index::sortName($s) : ($kind === 'matchs' ? Names::ascii(($s['m']['sh'] ?? true) ? ($s['m']['away'] ?? '') : ($s['m']['home'] ?? '')) : Names::ascii($s['title']));
-        switch ($sort) {
-            case 'selection':
-                return Index::ordered($items, $slug);
-            case 'recent':
-                usort($items, fn ($a, $b) => strcmp($date($b), $date($a)) ?: strcmp($name($a), $name($b)));
-                return $items;
-            case 'ancien':
-                usort($items, fn ($a, $b) => strcmp($date($a), $date($b)) ?: strcmp($name($a), $name($b)));
-                return $items;
-            default:
-                usort($items, fn ($a, $b) => strcmp($name($a), $name($b)) ?: strcmp($date($b), $date($a)));
-                return $items;
+        if ($sort === 'selection') {
+            return Index::ordered($items, $slug);
         }
+        // Clés calculées une fois par fiche : la translittération des noms coûte cher dans un tri.
+        $rows = [];
+        foreach (array_values($items) as $s) {
+            $rows[] = [$date($s), $name($s), $s];
+        }
+        usort($rows, match ($sort) {
+            'recent' => fn ($a, $b) => strcmp($b[0], $a[0]) ?: strcmp($a[1], $b[1]),
+            'ancien' => fn ($a, $b) => strcmp($a[0], $b[0]) ?: strcmp($a[1], $b[1]),
+            default => fn ($a, $b) => strcmp($a[1], $b[1]) ?: strcmp($b[0], $a[0]),
+        });
+        return array_column($rows, 2);
     }
 
     private static function countLabel(int $n, string $kind): string

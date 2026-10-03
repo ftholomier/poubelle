@@ -7,7 +7,6 @@ use App\Core\Auth;
 use App\Core\RateLimiter;
 use App\Core\Request;
 use App\Core\Response;
-use App\Data\Collections;
 use App\Data\Index;
 use App\Pdf\Layout;
 use App\Services\I18n;
@@ -77,26 +76,28 @@ final class Kit
         if (!Souvenirs::validMonth($ym) || $ym > date('Y-m', strtotime('first day of +2 month'))) {
             return null;
         }
-        $choice = Collections::get('souvenirs', [])[$ym] ?? [];
-        $stamp = substr(sha1(self::VERSION . '|' . (@filemtime(STORAGE_PATH . '/cache/derived.php') ?: 0) . '|' . json_encode($choice) . '|' . base_url() . '|' . (I18n::isEn() ? 'en' : 'fr')
+        $k = Souvenirs::kit($ym);
+        if (!$k) {
+            return null;
+        }
+        // Empreinte du contenu du kit lui-même : le PDF n'est refait que si le kit change
+        // (et non à chaque enregistrement d'une fiche), une copie par langue.
+        $lang = I18n::isEn() ? 'en' : 'fr';
+        $stamp = substr(sha1(self::VERSION . '|' . json_encode($k) . '|' . base_url() . '|' . $lang
             . '|' . \App\Core\Settings::get('legal.address', '') . \App\Core\Settings::get('legal.email', '')), 0, 12);
-        $file = self::DIR . "/souvenirs-$ym-$stamp.pdf";
+        $file = self::DIR . "/souvenirs-$ym-$lang-$stamp.pdf";
         if (is_file($file)) {
             $bytes = (string) file_get_contents($file);
         } else {
             if (!Auth::user() && !RateLimiter::hit('pdf', $req->ip(), 40, 600)) {
                 return new Response(t('Trop de demandes de PDF en peu de temps : réessayez dans quelques minutes.'), 429, ['Content-Type' => 'text/plain; charset=utf-8', 'Retry-After' => '600']);
             }
-            $k = Souvenirs::kit($ym);
-            if (!$k) {
-                return null;
-            }
             @set_time_limit(120);
             $bytes = self::build($k);
             if (!is_dir(self::DIR)) {
                 @mkdir(self::DIR, 0775, true);
             }
-            foreach (glob(self::DIR . "/souvenirs-$ym-*.pdf") ?: [] as $old) {
+            foreach (glob(self::DIR . "/souvenirs-$ym-$lang-*.pdf") ?: [] as $old) {
                 @unlink($old);
             }
             $tmp = $file . '.' . bin2hex(random_bytes(3)) . '.tmp';

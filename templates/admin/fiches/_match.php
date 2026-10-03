@@ -31,7 +31,7 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
     <div class="fgrid">
       <?= Form::number('match.score_home', 'Buts équipe à domicile', $s['home'] ?? null, ['hint' => $home ? 'Sochaux' : 'adversaire']) ?>
       <?= Form::number('match.score_away', 'Buts équipe à l’extérieur', $s['away'] ?? null, ['hint' => $home ? 'adversaire' : 'Sochaux']) ?>
-      <?= Form::select('match.extra', 'Prolongation', $s['extra'] ?? '', ['' => 'Non', 'ap' => 'Après prolongation', 'tab' => 'Tirs au but'], ['strict' => true]) ?>
+      <?= Form::select('match.extra', 'Prolongation', FicheForm::extraKind($s), ['' => 'Non', 'ap' => 'Après prolongation', 'tab' => 'Tirs au but'], ['strict' => true]) ?>
       <?= Form::number('match.pens_home', 'TAB domicile', $s['pens']['home'] ?? null, ['show_if' => 'match.extra', 'show_value' => 'tab']) ?>
       <?= Form::number('match.pens_away', 'TAB extérieur', $s['pens']['away'] ?? null, ['show_if' => 'match.extra', 'show_value' => 'tab']) ?>
     </div>

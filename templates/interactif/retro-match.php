@@ -13,7 +13,7 @@ if ($round !== '' && !empty($m['competition_code'])) {
     $round = trim(preg_replace('/\s+(?:de|du|des|en)\s+' . preg_quote((string) $m['competition_code'], '/') . '$/u', '', $round));
 }
 $tag = trim($compLabel . ($round !== '' && mb_strtolower($round) !== mb_strtolower($compLabel) ? ' · ' . $round : ''), ' ·');
-$agoTxt = $ago > 0 ? t($sameDay ? 'Il y a {n} ans jour pour jour' : 'Il y a {n} ans', ['n' => $ago]) : '';
+$agoTxt = $ago > 0 ? ($sameDay ? tn($ago, 'Il y a {n} an jour pour jour', 'Il y a {n} ans jour pour jour') : tn($ago, 'Il y a {n} an', 'Il y a {n} ans')) : '';
 $facts = array_values(array_filter([
     ['k' => t('Date'), 'v' => $m['date'] ? date_fr($m['date'], true) : ''],
     ['k' => t('Stade'), 'v' => (string) ($m['stadium'] ?? '')],

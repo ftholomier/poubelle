@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Data;
 
+use App\Core\PhpCache;
+
 /**
  * Index compact de toutes les fiches (un résumé par fiche), mis en cache en
  * PHP (storage/cache/index.php) pour profiter d'OPcache : les mosaïques, menus,
@@ -119,30 +121,23 @@ final class Index
 
     public static function rebuild(): array
     {
-        $items = [];
-        foreach (Fiches::all() as $id => $doc) {
-            $items[$id] = self::summary($doc);
-        }
-        self::persist($items);
-        return $items;
+        self::$changes = [];
+        return self::loaded(PhpCache::update(self::CACHE, fn () => self::scan()));
     }
 
     public static function put(array $doc): void
     {
-        $items = self::all();
-        $items[(int) $doc['id']] = self::summary($doc);
-        self::persist($items);
+        self::change((int) $doc['id'], self::summary($doc));
     }
 
     public static function remove(int $id): void
     {
-        $items = self::all();
-        unset($items[$id]);
-        self::persist($items);
+        self::change($id, null);
     }
 
     private static int $defer = 0;
-    private static bool $pending = false;
+    /** @var array<int,?array> modifications pas encore écrites (null = fiche retirée) */
+    private static array $changes = [];
 
     /** Mode « lot » : l'index n'est réécrit qu'une fois à la fin (actions groupées). */
     public static function defer(bool $on): void
@@ -152,32 +147,66 @@ final class Index
             return;
         }
         self::$defer = max(0, self::$defer - 1);
-        if (self::$defer === 0 && self::$pending) {
-            self::$pending = false;
-            self::persist(self::all());
+        if (self::$defer === 0) {
+            self::flush();
         }
     }
 
-    private static function persist(array $items): void
+    private static function change(int $id, ?array $summary): void
     {
-        if (self::$defer > 0) {
-            self::$items = $items;
+        self::$changes[$id] = $summary;
+        if (self::$items !== null) {
+            if ($summary === null) {
+                unset(self::$items[$id]);
+            } else {
+                self::$items[$id] = $summary;
+            }
             self::$byPath = null;
-            self::$pending = true;
+        }
+        if (self::$defer === 0) {
+            self::flush();
+        }
+    }
+
+    /**
+     * Écrit les modifications sur l'index tel qu'il est sur le disque (relu sous verrou) :
+     * ce que d'autres processus ont enregistré entre-temps est conservé.
+     */
+    private static function flush(): void
+    {
+        if (!self::$changes) {
             return;
         }
-        $dir = dirname(self::CACHE);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
+        $changes = self::$changes;
+        self::$changes = [];
+        self::loaded(PhpCache::update(self::CACHE, function (?array $items) use ($changes) {
+            $items ??= self::scan();
+            foreach ($changes as $id => $s) {
+                if ($s === null) {
+                    unset($items[$id]);
+                } else {
+                    $items[$id] = $s;
+                }
+            }
+            return $items;
+        }));
+    }
+
+    /** @return array<int,array> résumés de toutes les fiches, lus sur le disque */
+    private static function scan(): array
+    {
+        $items = [];
+        foreach (Fiches::all() as $id => $doc) {
+            $items[$id] = self::summary($doc);
         }
-        $tmp = self::CACHE . '.' . bin2hex(random_bytes(4));
-        file_put_contents($tmp, '<?php return ' . var_export($items, true) . ";\n", LOCK_EX);
-        rename($tmp, self::CACHE);
-        if (function_exists('opcache_invalidate')) {
-            @opcache_invalidate(self::CACHE, true);
-        }
+        return $items;
+    }
+
+    private static function loaded(array $items): array
+    {
         self::$items = $items;
         self::$byPath = null;
+        return $items;
     }
 
     public static function get(int $id): ?array

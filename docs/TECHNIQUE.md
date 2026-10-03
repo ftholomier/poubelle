@@ -101,9 +101,20 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `search.php` | index de recherche | à chaque enregistrement |
 | `media.php`, `media-versions.php`, `media-usage.json` | médiathèque, versions des fichiers retouchés, « utilisée dans » | à chaque modification |
 | `carte-*.json`, `sitemap.xml`, `share/` | données de la carte, plan du site, images de partage | à la demande |
-| `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change ; ménage des fichiers de plus de 30 jours |
+| `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records, kits souvenirs) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change (kit souvenirs : un fichier par langue, refait seulement si le contenu du kit change) ; ménage des fichiers de plus de 30 jours |
 | `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
 | `chiffres-{fr,en}.json` | les 100 chiffres du FCSM (§ 7 nonies), déjà mis en forme dans chaque langue | refaits quand `derived.php`, `index.php` ou le dictionnaire anglais changent ; calculés d'avance par la tâche « statistiques » |
+
+`index.php` et `search.php` sont modifiés par `App\Core\PhpCache::update()` : le fichier est
+relu sous verrou, seules les fiches enregistrées sont remplacées, puis il est réécrit. Un
+processus qui a chargé l'index plus tôt (tâche planifiée, longue requête) n'écrase donc
+jamais ce que d'autres ont enregistré entre-temps (en mode « lot », les modifications sont
+appliquées ensemble à la fin). Recalcul de `derived.php` : la marque `derived.dirty` est
+renommée `derived.building` au début du calcul ; un enregistrement fait pendant le calcul
+recrée `derived.dirty` et un nouveau calcul suivra (un calcul interrompu depuis plus de
+15 minutes est refait). Le recalcul d'après-page ne fait jamais attendre : si un autre
+processus calcule déjà, il abandonne. La limite de mémoire est portée à 512 Mo pendant le
+calcul (environ 200 Mo pour 3 000 fiches).
 
 Après une modification de fichiers faite à la main (envoi FTP de `data/`, script), vider
 `storage/cache/` ou lancer `php bin/console.php index`, `derived` et `search`.
@@ -127,7 +138,14 @@ de leurs buts et leurs penaltys (« 32' s.p. », « sp », « pen. »). Alertes 
 aux statistiques : total des buts ≠ buteurs (`buts`), composition recopiée d'un autre match
 (`tableau`), total d'un tableau de statistiques ≠ somme des saisons (`stats`) et tableau de
 statistiques identique sur plusieurs fiches de joueurs (`stats-copie`, modèle recopié de
-l'ancien site : 594 fiches à la reprise).
+l'ancien site : 594 fiches à la reprise), joueur inscrit deux fois dans une composition
+officielle (`doublon` : une seule apparition, buts sans doublon de minute, temps de jeu
+plafonné) et dates d'une personne incohérentes (`dates` : naissance improbable, décès avant
+la naissance, départ avant l'arrivée, âge d'arrivée impossible).
+
+Les clubs et stades créés automatiquement (`data/collections/clubs.json`, `stades.json`)
+sont fusionnés sous verrou à la fin du calcul : seuls les ajouts et les noms des entrées
+encore « automatiques » sont écrits, une correction faite pendant le calcul est gardée.
 
 ## 6. Images
 
@@ -449,7 +467,20 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
 - Textes longs : éditeur WYSIWYG natif (`wysiwyg.js`) ; le HTML est nettoyé côté serveur
   par liste blanche (`App\Admin\Html`).
 - Chaque enregistrement crée une version (`storage/versions/{id}/`) ; le premier
-  enregistrement d'une fiche reprise archive d'abord son état d'origine.
+  enregistrement d'une fiche reprise archive d'abord son état d'origine. Enregistrer sans
+  rien changer ne crée ni version ni modification (« Aucune modification ») :
+  `FicheForm::apply()` garde la valeur d'origine de tout champ que la personne n'a pas
+  touché, même quand le masque ne sait pas la représenter (HTML repris de l'ancien site,
+  date à la seconde, date partielle non reconnue comme « juin 1978 ? », score « a.p » ou
+  « (4-5 tab) », lieu de décès détaillé, date en toutes lettres et saison d'un match, ligne
+  de jeu hors liste, vidéo « iframe »), et `settle()` laisse un champ vide sous sa forme
+  d'origine (`null`, `""` ou liste vide) sans ajouter de champ vide. « Déjà publiée »
+  (`published_once`) n'est retenu qu'au changement de statut. Vérification :
+  `tests/fiche-form.php`.
+- 100 moments du centenaire : un moment « publié » ou « planifié » dont la semaine n'est
+  pas arrivée reste planifié pour le jour de sa case à 8 h (`Fiches::scheduleMoment`), à
+  l'enregistrement, au réordonnancement du calendrier et à chaque passage de la tâche
+  « publication » (changement de la date de départ).
 - Réglages (`config/settings.php` pour la liste, `storage/settings.json` pour les
   valeurs) ; les secrets (clés API, mots de passe) sont chiffrés avec sodium
   (`storage/secret.key`) et ne sont jamais renvoyés au navigateur.
@@ -457,7 +488,9 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
 ## 9. Tâches planifiées
 
 Une ligne de cron toutes les 5 minutes (`php bin/console.php cron`) ; chaque tâche a sa
-fréquence, l'état est dans `storage/cron.json`, un verrou empêche deux passages simultanés :
+fréquence, l'état est dans `storage/cron.json`, un verrou empêche deux passages simultanés
+(lancée depuis le back-office pendant un passage, une tâche le signale au lieu de dire
+« rien à faire » ; une sauvegarde ratée est notée en échec) :
 publication des fiches programmées, statistiques (et les 100 chiffres du FCSM), audience, traductions, correcteur
 d'orthographe, newsletter,
 géolocalisation (toutes les 10 min), médiathèque, vignettes des vidéos (toutes les heures),
@@ -486,8 +519,27 @@ sauvegarde, reçus annuels, purges RGPD.
   ajoute les en-têtes de sécurité aux fichiers statiques.
 - Politique CSP sur toutes les pages HTML ; jeton CSRF sur tous les formulaires.
 - Mots de passe hachés en Argon2id ; cookie de session `HttpOnly`, `SameSite=Lax`,
-  `Secure` en HTTPS ; limitation des tentatives (connexion : 8 par compte et 30 par adresse
-  en 15 minutes ; formulaires, recherche, assistant, dons : quotas par adresse).
+  `Secure` en HTTPS, identifiant de session imposé refusé (`use_strict_mode`), nouveau
+  jeton CSRF à la connexion ; limitation des tentatives (connexion : 8 par compte et par
+  adresse et 30 par adresse en 15 minutes, 30 par compte en une heure, débloqué par « Mot
+  de passe oublié » ; une adresse IPv6 compte pour son bloc /64 ; formulaires, recherche,
+  assistant, dons : quotas par adresse) ; même durée de réponse que le compte existe ou non
+  (empreinte factice, e-mail de réinitialisation envoyé après la réponse).
+- Liens d'invitation et de réinitialisation construits avec l'adresse du site réglée, jamais
+  avec l'en-tête `Host` (sans adresse réglée, le lien n'est pas envoyé). Un compte désactivé
+  ne peut pas être réinvité.
+- Page d'attente et mot de passe d'avant-lancement : l'API publique est fermée aussi (sauf
+  les webhooks de paiement et le consentement aux cookies).
+- Adresses : caractères de contrôle retirés du chemin et des redirections (pas de
+  redirection vers un autre site par `/%09/…`) ; chemins de la médiathèque contrôlés
+  segment par segment (`Media::safeRel`).
+- HTML : dictionnaire anglais nettoyé à l'enregistrement ; `safe_html()` retire aussi les
+  attributs d'événement collés (`<a/onclick=…>`) et les balises `base`, `frame`, `svg`…
+- Newsletter : confirmation et désinscription par un bouton (les messageries ouvrent seules
+  les liens des e-mails) ; envoi sous verrou, file enregistrée après chaque e-mail.
+- Exports CSV : cellules commençant par `= + - @` préfixées d'une apostrophe (`csv_safe`).
+- Contributions : 3 Go de fichiers en attente au plus ; fichiers servis avec leur type
+  vérifié et `nosniff`.
 - Formulaires publics : champ piège et délai minimal contre les robots.
 - Envois de fichiers : extensions limitées (jpg, png, gif, webp, pdf), 25 Mo au plus,
   contenu vérifié.
@@ -512,6 +564,8 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
 
 - `php tests/lineup.php` : lecture des cellules de composition (buts, remplacements,
   cartons) sur tous les formats rencontrés dans les fiches d'origine.
+- `php tests/fiche-form.php` : masque de saisie (enregistrement sans modification qui ne
+  change rien, valeurs reprises gardées, vraies modifications appliquées, moments planifiés).
 - `php tests/correcteur.php` : correcteur d'orthographe (texte des champs, règles du musée,
   contrôle des propositions de Gemini simulé, mots protégés, cache, découpage).
 - `php tests/couts.php` : coûts de l'IA (barème daté, calcul, cumuls, niveau gratuit,

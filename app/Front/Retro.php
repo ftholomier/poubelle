@@ -65,7 +65,8 @@ final class Retro
         $tl = RetroDirect::timelineFor((int) $s['id']);
         $rows = Fiche::lineupRows($doc, $m['lineup']['rows'] ?? []);
         $year = (int) substr((string) ($m['date'] ?? ''), 0, 4);
-        $refDate = $entry ? $entry['date'] : date('Y-m-d', $now);
+        // « Il y a N ans » : par rapport au direct à venir ou en cours, sinon à aujourd'hui (rediffusion).
+        $refDate = $entry && $entry['state'] !== 'termine' ? $entry['date'] : date('Y-m-d', $now);
         $ago = $year ? (int) substr($refDate, 0, 4) - $year : 0;
         $sameDay = $year && substr((string) $m['date'], 5) === substr($refDate, 5);
         $home = (string) ($m['home']['name'] ?? '');
@@ -201,7 +202,8 @@ final class Retro
      */
     public static function api(Request $req): Response
     {
-        if (!RateLimiter::hit('retro', $req->ip(), 40, 60)) {
+        // Présence toutes les 30 s + réactions : large, pour un groupe derrière un même Wi-Fi (club des anciens…).
+        if (!RateLimiter::hit('retro', $req->ip(), 300, 60)) {
             return Response::json(['ok' => false, 'error' => t('Trop de requêtes, patientez un instant.')], 429);
         }
         $d = $req->json();
@@ -218,7 +220,7 @@ final class Retro
             return Response::json(['ok' => true, 'etais' => RetroDirect::addEtais($id)]);
         }
         $date = (string) ($d['date'] ?? '');
-        $e = RetroDirect::entryFor($id, null, false);
+        $e = RetroDirect::entryFor($id, null, true); // fin exacte (chronologie), comme la page du direct
         if (!$e || $e['date'] !== $date || $e['state'] !== 'direct') {
             return Response::json(['ok' => false, 'error' => t('Ce direct n’est pas en cours.')], 409);
         }

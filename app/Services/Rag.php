@@ -657,7 +657,7 @@ final class Rag
             $coaches = [];
             foreach (array_slice($s['coaches'] ?? [], 0, 3, true) as $pid => $n) {
                 $p = Index::get((int) $pid);
-                if ($p) {
+                if ($p && Index::visible($p)) {
                     $coaches[] = $p['p']['name'] ?? $p['title'];
                 }
             }
@@ -666,7 +666,7 @@ final class Rag
             uasort($squad, fn ($a, $b) => ($b['goals'] ?? 0) <=> ($a['goals'] ?? 0));
             foreach (array_slice($squad, 0, 5, true) as $pid => $x) {
                 $p = Index::get((int) $pid);
-                if ($p && ($x['goals'] ?? 0) > 0) {
+                if ($p && Index::visible($p) && ($x['goals'] ?? 0) > 0) {
                     $scorers[] = ($p['p']['name'] ?? $p['title']) . ' (' . $x['goals'] . ' buts)';
                 }
             }

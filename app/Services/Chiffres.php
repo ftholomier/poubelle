@@ -604,7 +604,8 @@ final class Chiffres
             if (preg_match('/sochaux/iu', (string) ($g['team'] ?? ''))) {
                 continue;
             }
-            preg_match_all('/(\d{1,3})\s*(?:\'|’)/u', (string) ($g['scorers'] ?? ''), $mm);
+            // « 45+1' » compte pour la 45e minute (et non la 1re).
+            preg_match_all('/(\d{1,3})(?:\s*(?:\'|’)?\s*\+\s*\d{1,2})?\s*(?:\'|’)/u', (string) ($g['scorers'] ?? ''), $mm);
             $mins = array_map('intval', $mm[1]);
             if (count($mins) === (int) $x['them']) {
                 sort($mins);
@@ -2042,8 +2043,9 @@ final class Chiffres
             $dr = array_filter(array_map(fn ($l) => self::record($l), $days), fn ($r) => $r['m'] >= 30);
             uksort($dr, fn ($a, $b) => $dr[$b]['v'] / $dr[$b]['m'] <=> $dr[$a]['v'] / $dr[$a]['m']);
             $best = array_key_first($dr);
+            // Aucun jour avec 30 matchs (base encore mince) : pas de « jour le plus faste ».
             $out['jour'] = self::stat('jour', self::weekdays()[$k], self::pct($cnt[$k] / count($O)) . ' ' . t('des matchs'), t('Le jour du match'),
-                t('Le jour le plus joué. Le plus faste : le {d}, avec {p} de victoires.', ['d' => self::weekdays()[$best], 'p' => self::pct($dr[$best]['v'] / $dr[$best]['m'])]));
+                $best === null ? t('Le jour le plus joué.') : t('Le jour le plus joué. Le plus faste : le {d}, avec {p} de victoires.', ['d' => self::weekdays()[$best], 'p' => self::pct($dr[$best]['v'] / $dr[$best]['m'])]));
         }
         if ($dates) {
             arsort($dates);

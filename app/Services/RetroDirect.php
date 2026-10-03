@@ -70,12 +70,17 @@ final class RetroDirect
         return $out;
     }
 
-    /** Durée estimée d'un direct (secondes, sans l'après-match) d'après le résumé de la fiche. */
+    /**
+     * Durée estimée d'un direct (secondes, sans l'après-match) d'après le résumé de la fiche,
+     * temps additionnel compris ; prolongation reconnue sous toutes ses formes (« a.p », « ap », « tab »).
+     */
     public static function duration(array $s): int
     {
         $m = $s['m'] ?? [];
-        $aet = !empty($m['pens']) || stripos((string) ($m['extra'] ?? ''), 'a.p') !== false;
-        return (45 + 15 + 45 + ($aet ? 5 + 30 : 0) + (!empty($m['pens']) ? 3 + 8 : 0)) * 60;
+        $x = (string) ($m['extra'] ?? '');
+        $pens = !empty($m['pens']) || stripos($x, 'tab') !== false;
+        $aet = $pens || $x === 'ap' || preg_match('/a\.?\s*p\b/i', $x);
+        return (45 + 15 + 45 + 8 + ($aet ? 5 + 30 + 3 : 0) + ($pens ? 3 + 8 : 0)) * 60;
     }
 
     /** Le direct d'un match : en cours, sinon le prochain, sinon le dernier passé. */
@@ -476,7 +481,8 @@ final class RetroDirect
     /** « 37 », « 45+2 », « 90 + 3' » → [minute, temps additionnel] ; null si illisible. */
     public static function minute(string $s): ?array
     {
-        if (!preg_match('/^\s*(\d{1,3})\s*(?:\+\s*(\d{1,2}))?\s*[\'’]?\s*$/u', $s, $x) || (int) $x[1] > 130) {
+        // « 90+2 », « 90+2' » ou « 90'+2 »
+        if (!preg_match('/^\s*(\d{1,3})\s*[\'’]?\s*(?:\+\s*(\d{1,2}))?\s*[\'’]?\s*$/u', $s, $x) || (int) $x[1] > 130) {
             return null;
         }
         return [(int) $x[1], (int) ($x[2] ?? 0)];
@@ -493,7 +499,7 @@ final class RetroDirect
                 continue;
             }
             $txt = (string) preg_replace('/\([^)]*\)/u', ' ', (string) ($g['scorers'] ?? ''));
-            preg_match_all("/([^,;0-9'’]*?)\s*(\d{1,3}(?:\s*\+\s*\d{1,2})?)\s*['’]/u", $txt, $all, PREG_SET_ORDER);
+            preg_match_all("/([^,;0-9'’]*?)\s*(\d{1,3}\s*['’]\s*\+\s*\d{1,2}(?!\d)|\d{1,3}(?:\s*\+\s*\d{1,2})?\s*(?=['’]))['’]?/u", $txt, $all, PREG_SET_ORDER);
             $who = '';
             foreach ($all as $x) {
                 $name = trim((string) preg_replace('/^(?:et|and|puis)\b\s*/iu', '', trim($x[1])), " .:-–\t");

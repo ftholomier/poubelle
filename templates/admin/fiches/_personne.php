@@ -9,7 +9,7 @@ $p = $doc['personne'];
 $birth = $p['birth'] ?? [];
 $place = $birth['place'] ?? [];
 $death = $p['death'] ?? [];
-$dt = fn ($d) => is_array($d) ? (string) ($d['text'] ?? $d['iso'] ?? '') : (string) ($d ?? '');
+$dt = fn ($d) => FicheForm::dateText($d);
 $geo = \App\Data\Collections::get('geo', []);
 $pid = (int) $doc['id'];
 $tot = Derived::get()['person_totals'][$pid] ?? null;
@@ -28,7 +28,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
     <?= Form::checks('personne.roles', 'Rubriques', $p['roles'] ?? ['joueur'], FicheForm::ROLES, ['help' => 'La première rubrique cochée détermine l’adresse de la fiche (/joueurs/…, /entraineurs/…).']) ?>
     <div class="fgrid">
       <?= Form::text('personne.position', 'Poste (texte)', $p['position'] ?? '', ['placeholder' => 'défenseur latéral droit', 'class' => 'f--2', 'proof' => true]) ?>
-      <?= Form::select('personne.line', 'Ligne (filtres, terrain)', $p['line'] ?? '', FicheForm::LINES, ['strict' => true]) ?>
+      <?= Form::select('personne.line', 'Ligne (filtres, terrain)', $p['line'] ?? '', FicheForm::LINES) ?>
       <?= Form::text('personne.nationality', 'Nationalité', $p['nationality'] ?? '') ?>
       <?= Form::text('personne.foot', 'Pied', $p['foot'] ?? '', ['placeholder' => 'droitier']) ?>
       <?= Form::text('personne.height', 'Taille', $p['height'] ?? '', ['placeholder' => '1m81']) ?>
@@ -73,7 +73,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
     <h2 class="card__t">Carte de l’album du centenaire</h2>
     <div class="fgrid">
       <?= Form::toggle('personne.album.in', 'Dans l’album', !empty($p['album']['in'])) ?>
-      <?= Form::seg('personne.album.rarity', 'Rareté', $p['album']['rarity'] ?? 'classique', FicheForm::RARITIES) ?>
+      <?= Form::seg('personne.album.rarity', 'Rareté', $p['album']['rarity'] ?? '', ['' => 'Auto'] + FicheForm::RARITIES, ['help' => 'Auto : légende, actuel ou classique selon la carrière.']) ?>
       <?= Form::number('personne.album.number', 'Numéro de la carte', $p['album']['number'] ?? null, ['hint' => '1 à 120']) ?>
     </div>
     <span class="f__help">La carte se débloque en visitant la fiche (ou via le quiz pour les cartes rares).</span>

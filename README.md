@@ -137,6 +137,7 @@ contiennent le travail des historiens. Ne jamais les remplacer par ceux du dép�
 | [docs/TECHNIQUE.md](docs/TECHNIQUE.md) | développeur | architecture, données, caches, sécurité |
 | [docs/DECISIONS.md](docs/DECISIONS.md) | tous | choix validés avec le club |
 | [docs/AVANCEMENT.md](docs/AVANCEMENT.md) | tous | état du projet, contrôle d'exhaustivité |
+| [docs/CONTROLE-2026-10.md](docs/CONTROLE-2026-10.md) | tous | contrôle complet du code et des données, points à vérifier par les historiens |
 | [docs/IDEES.md](docs/IDEES.md) | association | idées en réserve (Allô Bonal, Rétro-Direct, Fil jaune…) |
 | `docs/maquette/` | tous | maquette graphique de référence |
 

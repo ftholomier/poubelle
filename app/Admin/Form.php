@@ -102,7 +102,8 @@ final class Form
     {
         $id = self::id();
         $rows = (int) ($o['rows'] ?? 4);
-        $ctl = '<textarea id="' . $id . '" rows="' . $rows . '" data-wysiwyg="mini"' . self::nameAttr($name) . self::attrs($o) . self::proof($name, $o, true) . '>' . e(is_scalar($value) ? (string) $value : '') . '</textarea>';
+        // $o['plain'] : texte simple sur plusieurs lignes (sans mise en forme).
+        $ctl = '<textarea id="' . $id . '" rows="' . $rows . '"' . (empty($o['plain']) ? ' data-wysiwyg="mini"' : '') . self::nameAttr($name) . self::attrs($o) . self::proof($name, $o, empty($o['plain'])) . '>' . e(is_scalar($value) ? (string) $value : '') . '</textarea>';
         return self::wrap($label, $ctl, $o, $id);
     }
 

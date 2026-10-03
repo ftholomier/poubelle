@@ -225,7 +225,7 @@ final class Souvenirs
                     $wrong = array_slice($rnd->shuffleArray($others), 0, 2);
                     $choices = $rnd->shuffleArray(array_merge([$g['who']], $wrong));
                     $out[] = ['q' => t('Ce jour-là, qui a marqué le premier but de {team} ?', ['team' => $sochaux]), 'a' => $choices,
-                        'c' => array_search($g['who'], $choices, true), 'fact' => t('{who}, à la {min}e minute.', ['who' => $g['who'], 'min' => $g['m'][0]])];
+                        'c' => array_search($g['who'], $choices, true), 'fact' => t('{who}, à la {min} minute.', ['who' => $g['who'], 'min' => Chiffres::nth((int) $g['m'][0])])];
                 }
                 break;
             }

@@ -117,6 +117,10 @@ final class Translator
         if (!$src) {
             return 'rien à traduire';
         }
+        // Traduction automatique : une fiche ouverte par un historien attend le passage suivant.
+        if ($user === null && isset(EditLock::fiches()[$id])) {
+            return 'en cours de modification';
+        }
         AiCosts::$ref = "fiche:$id";
         try {
             $out = self::translateMap($src);
@@ -132,8 +136,14 @@ final class Translator
         $en['_by'] = $user['name'] ?? 'Gemini';
         $en['_model'] = Gemini::model();
         $en['_manual'] = false;
-        $doc['i18n']['en'] = $en;
-        Fiches::save($doc, $user ?? ['name' => 'Traduction automatique'], 'Traduction anglaise (Gemini)');
+        // La fiche a pu être enregistrée pendant l'appel à Gemini : on repart de la version
+        // actuelle (rien n'est écrasé) et on renonce si son texte français a changé.
+        $fresh = Fiches::fresh($id);
+        if (!$fresh || self::hash($fresh) !== $en['_src']) {
+            return 'fiche modifiée pendant la traduction (elle sera retraduite)';
+        }
+        $fresh['i18n']['en'] = $en;
+        Fiches::save($fresh, $user ?? ['name' => 'Traduction automatique'], 'Traduction anglaise (Gemini)');
         return 'ok';
     }
 

@@ -13,6 +13,6 @@ $a = $doc['article'] ?? [];
       <?= Form::text('article.season', 'Saison (bilan)', $a['season'] ?? '', ['placeholder' => '1987-1988', 'pattern' => '\d{4}-\d{4}']) ?>
     </div>
     <?= Form::text('article.heading', 'Chapeau / surtitre', $a['heading'] ?? '', ['class' => 'f--full', 'proof' => true]) ?>
-    <?= Form::text('article.subtitle', 'Sous-titre', $a['subtitle'] ?? '', ['class' => 'f--full', 'proof' => true]) ?>
+    <?= Form::textarea('article.subtitle', 'Sous-titre', $a['subtitle'] ?? '', ['class' => 'f--full', 'rows' => 3, 'plain' => true, 'proof' => true]) ?>
   </div>
 </div>

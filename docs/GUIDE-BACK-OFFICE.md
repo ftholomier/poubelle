@@ -193,7 +193,8 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   une liste d'éléments (question, date, étape, lieu, époque…) à compléter, réordonner ou
   traduire. Les contenus de départ ont été préparés à partir des fiches : **à valider**.
 - **Onze & album** : candidats au vote du « Onze de légende » (résultats, date de
-  révélation) et sélection des cartes de l'album (rareté : légende, classique, actuel).
+  révélation, résultats cachés au public jusque-là) et sélection des cartes de l'album
+  (rareté : légende, classique, actuel, ou « Auto » selon la carrière).
 - **Rétro-Direct** : un match rejoué en direct sur le site le jour et à l'heure choisis
   (temps forts à leur minute, score qui change à la minute des buts, remplacements,
   mi-temps de 15 minutes, prolongation et tirs au but ; compteur de spectateurs connectés,

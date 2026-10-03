@@ -27,6 +27,7 @@ final class FicheForm
     /** @param array<string,string> $errors champ => message */
     public static function apply(array $doc, array $in, array &$errors): array
     {
+        $orig = $doc;
         $has = fn (string $k) => array_key_exists($k, $in);
         $origCats = array_values(array_map('strval', $doc['categories'] ?? []));
         if ($has('title')) {
@@ -36,7 +37,7 @@ final class FicheForm
             $doc['status'] = $in['status'];
         }
         if ($has('publish_at')) {
-            $doc['publish_at'] = self::datetime($in['publish_at']);
+            $doc['publish_at'] = self::sameMinute($orig['publish_at'] ?? null, self::datetime($in['publish_at']));
             if ($doc['status'] === 'planifie' && !$doc['publish_at']) {
                 $errors['publish_at'] = 'Indiquez la date et l’heure de publication.';
             }
@@ -53,24 +54,28 @@ final class FicheForm
             $doc['categories'] = array_values(array_unique(array_merge($checked, $kept)));
         }
         if ($has('featured_image')) {
-            $doc['featured_image'] = self::media($in['featured_image']);
+            $doc['featured_image'] = self::media($in['featured_image'], [$orig['featured_image'] ?? null]);
         }
         if ($has('date')) {
-            $doc['date'] = self::datetime($in['date']) ?? $doc['date'];
+            $doc['date'] = self::sameMinute($orig['date'] ?? null, self::datetime($in['date'])) ?? $doc['date'];
         }
+        $oldHtml = self::cleaned(array_merge([$orig['intro'] ?? ''], array_column($orig['sections'] ?? [], 'html')));
         if ($has('intro')) {
-            $doc['intro'] = Html::clean((string) $in['intro']);
+            $doc['intro'] = self::html($in['intro'], $oldHtml);
         }
         if ($has('sections')) {
+            $old = array_values($orig['sections'] ?? []);
             $doc['sections'] = [];
-            foreach ((array) $in['sections'] as $s) {
+            foreach (array_values((array) $in['sections']) as $i => $s) {
                 $t = Html::line($s['title'] ?? '', 200);
-                $h = Html::clean((string) ($s['html'] ?? ''));
+                $h = self::html($s['html'] ?? '', $oldHtml);
+                $prev = $old[$i] ?? null;
                 if ($t !== '' || $h !== '') {
-                    $doc['sections'][] = ['title' => $t, 'html' => $h] + array_diff_key((array) $s, ['title' => 1, 'html' => 1]) ;
+                    $doc['sections'][] = ['title' => $t, 'html' => $h] + array_intersect_key((array) $s, ['kind' => 1]);
+                } elseif ($prev !== null && Html::line($prev['title'] ?? '') === '' && Html::clean((string) ($prev['html'] ?? '')) === '') {
+                    $doc['sections'][] = $prev; // section vide laissée telle quelle (elle reste modifiable)
                 }
             }
-            $doc['sections'] = array_map(fn ($s) => array_intersect_key($s, ['title' => 1, 'html' => 1, 'kind' => 1]), $doc['sections']);
         }
         if ($has('key_figure')) {
             $n = Html::line($in['key_figure']['number'] ?? '', 30);
@@ -78,29 +83,46 @@ final class FicheForm
             $doc['key_figure'] = $n === '' && $t === '' ? null : ['number' => $n, 'text' => $t];
         }
         if ($has('gallery')) {
+            $old = $orig['gallery'] ?? [];
             $doc['gallery'] = [];
             foreach ((array) $in['gallery'] as $g) {
-                $img = self::media($g['image'] ?? null);
+                $img = self::media($g['image'] ?? null, array_column($old, 'image'));
                 if (!$img) {
                     continue;
                 }
                 $cap = Html::line($g['caption'] ?? '', 300);
                 $cred = Html::line($g['credit'] ?? '', 200);
-                $doc['gallery'][] = ['image' => $img, 'caption' => $cap, 'credit' => $cred, 'caption_raw' => trim($cap . ($cred !== '' ? ' – ' . $cred : ''))];
+                $item = ['image' => $img, 'caption' => $cap, 'credit' => $cred, 'caption_raw' => trim($cap . ($cred !== '' ? ' – ' . $cred : ''))];
+                $doc['gallery'][] = self::unchanged($old, $item, ['image' => 0, 'caption' => 300, 'credit' => 200]) ?? $item;
             }
         }
         if ($has('images')) {
+            $old = $orig['images'] ?? [];
             $doc['images'] = [];
             foreach ((array) $in['images'] as $g) {
-                if ($img = self::media($g['image'] ?? null)) {
-                    $doc['images'][] = ['image' => $img, 'caption' => Html::line($g['caption'] ?? '', 300), 'in_text' => (bool) ($g['in_text'] ?? false)];
+                if ($img = self::media($g['image'] ?? null, array_column($old, 'image'))) {
+                    $item = ['image' => $img, 'caption' => Html::line($g['caption'] ?? '', 300), 'in_text' => (bool) ($g['in_text'] ?? false)];
+                    $doc['images'][] = self::unchanged($old, $item, ['image' => 0, 'caption' => 300, 'in_text' => 0]) ?? $item;
                 }
             }
         }
         if ($has('videos')) {
+            // Vidéo déjà enregistrée, lien inchangé : gardée telle quelle (anciens liens « iframe » compris).
+            $old = [];
+            foreach ($orig['videos'] ?? [] as $ov) {
+                if (is_array($ov)) {
+                    $old[(string) (video_embed($ov)['link'] ?? ($ov['url'] ?? ''))] = $ov;
+                }
+            }
             $doc['videos'] = [];
             foreach ((array) $in['videos'] as $v) {
                 $url = trim((string) ($v['url'] ?? ''));
+                if ($url !== '' && isset($old[$url])) {
+                    $ov = $old[$url];
+                    $ov['title'] = Html::line($v['title'] ?? '', 200);
+                    $doc['videos'][] = $ov;
+                    continue;
+                }
                 $parsed = self::video($url, (string) ($v['provider'] ?? ''), (string) ($v['id'] ?? ''));
                 if ($parsed) {
                     $doc['videos'][] = $parsed + ['title' => Html::line($v['title'] ?? '', 200)];
@@ -147,7 +169,31 @@ final class FicheForm
         if ($doc['title'] === '') {
             $errors['title'] = 'Le titre est obligatoire.';
         }
-        return $doc;
+        return self::settle($orig, $doc);
+    }
+
+    /**
+     * Enregistrer sans rien changer ne modifie pas la fiche : un champ resté vide garde sa
+     * forme d'origine (null, "" ou liste vide) et un champ vide absent de la fiche n'est pas ajouté.
+     */
+    private static function settle(mixed $old, mixed $new): mixed
+    {
+        $blank = fn ($v) => $v === null || $v === '' || $v === [];
+        if (!is_array($old) || !is_array($new)) {
+            return $blank($old) && $blank($new) ? $old : $new;
+        }
+        $list = array_is_list($new);
+        if ($list && (!array_is_list($old) || count($old) !== count($new))) {
+            return $new;
+        }
+        foreach ($new as $k => $v) {
+            if (array_key_exists($k, $old)) {
+                $new[$k] = self::settle($old[$k], $v);
+            } elseif (!$list && $blank($v)) {
+                unset($new[$k]);
+            }
+        }
+        return $new;
     }
 
     // ------------------------------------------------------------------ types
@@ -158,6 +204,7 @@ final class FicheForm
             return $doc;
         }
         $cur = $doc['match'];
+        $oldDate = $cur['date'] ?? null;
         if (array_key_exists('date', $m)) {
             $d = trim((string) $m['date']);
             if ($d !== '' && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $d)) {
@@ -166,8 +213,13 @@ final class FicheForm
                 $cur['date'] = $d ?: null;
             }
         }
-        $cur['date_text'] = $cur['date'] ? date_fr($cur['date'], true) : Html::line($m['date_text'] ?? ($cur['date_text'] ?? ''), 80);
-        $cur['season'] = $cur['date'] ? Paths::seasonOf($cur['date']) : (preg_match('/^\d{4}-\d{4}$/', (string) ($m['season'] ?? '')) ? $m['season'] : $cur['season']);
+        // Date inchangée : date en toutes lettres et saison gardées (les amicaux de fin juin
+        // sont rangés par les historiens dans la saison qui commence).
+        if ($cur['date'] !== $oldDate || array_key_exists('date_text', $m) || array_key_exists('season', $m)) {
+            $cur['date_text'] = $cur['date'] ? date_fr($cur['date'], true) : Html::line($m['date_text'] ?? ($cur['date_text'] ?? ''), 80);
+            $sameMonth = $cur['date'] && $oldDate && substr($cur['date'], 0, 7) === substr((string) $oldDate, 0, 7) && !empty($cur['season']);
+            $cur['season'] = $sameMonth ? $cur['season'] : ($cur['date'] ? Paths::seasonOf($cur['date']) : (preg_match('/^\d{4}-\d{4}$/', (string) ($m['season'] ?? '')) ? $m['season'] : $cur['season']));
+        }
         foreach (['competition_label' => 80, 'competition_code' => 20, 'round' => 40, 'round_text' => 120, 'stadium' => 160, 'referee' => 120, 'goals_text' => 400, 'event' => 160, 'formation' => 20, 'spectators_text' => 80] as $k => $max) {
             if (array_key_exists($k, $m)) {
                 $cur[$k] = Html::line($m[$k], $max);
@@ -202,10 +254,21 @@ final class FicheForm
             $h = self::int($m['score_home']);
             $a = self::int($m['score_away'] ?? null);
             $extra = in_array($m['extra'] ?? '', ['ap', 'tab'], true) ? $m['extra'] : null;
-            $pens = $extra === 'tab' && self::int($m['pens_home'] ?? null) !== null ? ['home' => self::int($m['pens_home']), 'away' => self::int($m['pens_away'] ?? null)] : null;
-            $cur['score'] = $h === null || $a === null ? null : ['home' => $h, 'away' => $a, 'extra' => $extra, 'aet' => $extra !== null, 'pens' => $pens];
-            $cur['score_raw'] = $cur['score'] ? $h . '-' . $a . ($extra === 'ap' ? ' a.p.' : '') . ($pens ? ' (' . $pens['home'] . '-' . $pens['away'] . ' tab)' : '') : '';
-            $cur['result'] = self::result($cur);
+            $ph = self::int($m['pens_home'] ?? null);
+            $pa = self::int($m['pens_away'] ?? null);
+            // Score inchangé : il est gardé tel quel (mentions d'origine « a.p », « (4-5 tab) »…).
+            $old = $doc['match']['score'] ?? null;
+            $same = $old ? $h === ($old['home'] ?? null) && $a === ($old['away'] ?? null) && (string) $extra === self::extraKind($old)
+                    && ($extra !== 'tab' || ($ph === ($old['pens']['home'] ?? null) && $pa === ($old['pens']['away'] ?? null)))
+                : $h === null || $a === null;
+            if (!$same) {
+                $pens = $extra === 'tab' && $ph !== null ? ['home' => $ph, 'away' => $pa] : null;
+                $cur['score'] = $h === null || $a === null ? null : ['home' => $h, 'away' => $a, 'extra' => $extra, 'aet' => $extra !== null, 'pens' => $pens];
+                $cur['score_raw'] = $cur['score'] ? $h . '-' . $a . ($extra === 'ap' ? ' a.p.' : '') . ($pens ? ' (' . $pens['home'] . '-' . $pens['away'] . ' tab)' : '') : '';
+            }
+            if (!$same || $cur['sochaux_home'] !== (bool) ($doc['match']['sochaux_home'] ?? true)) {
+                $cur['result'] = self::result($cur);
+            }
         }
         if (array_key_exists('goals', $m)) {
             $cur['goals'] = [];
@@ -255,9 +318,11 @@ final class FicheForm
                     'person_id' => self::int($r['person_id'] ?? null),
                 ];
             }
-            $cur['lineup']['rows'] = $rows;
-            $cur['lineup']['title'] = $cur['lineup']['title'] ?? 'Composition Sochaux';
-            $cur['lineup']['headers'] = $cur['lineup']['headers'] ?? ['Postes', 'Nom et prénom', 'Buts', 'Remp.', 'Cartons'];
+            if ($rows || !empty($cur['lineup']['rows'])) {
+                $cur['lineup']['rows'] = $rows;
+                $cur['lineup']['title'] = $cur['lineup']['title'] ?? 'Composition Sochaux';
+                $cur['lineup']['headers'] = $cur['lineup']['headers'] ?? ['Postes', 'Nom et prénom', 'Buts', 'Remp.', 'Cartons'];
+            }
         }
         if (array_key_exists('highlights', $m)) {
             $cur['highlights'] = [];
@@ -328,7 +393,9 @@ final class FicheForm
             $cur['aliases'] = array_values(array_unique(array_filter(array_map(fn ($a) => Html::line($a, 120), (array) $p['aliases']), fn ($a) => $a !== '')));
         }
         if (array_key_exists('line', $p)) {
-            $cur['line'] = isset(self::LINES[$p['line']]) && $p['line'] !== '' ? $p['line'] : null;
+            // Valeur reprise de l'ancien site hors liste (ex. « E ») : gardée tant qu'on n'y touche pas.
+            $cur['line'] = (string) $p['line'] !== '' && (string) $p['line'] === (string) ($cur['line'] ?? '') ? $cur['line']
+                : (isset(self::LINES[$p['line']]) && $p['line'] !== '' ? $p['line'] : null);
         }
         foreach (['formed_at_club', 'international_flag', 'is_trial', 'legend', 'on_map'] as $k) {
             if (array_key_exists($k, $p)) {
@@ -345,37 +412,54 @@ final class FicheForm
         }
         foreach (['arrival', 'departure', 'arrival_coach', 'departure_coach', 'trial'] as $k) {
             if (array_key_exists($k, $p)) {
-                $cur[$k] = self::fuzzyDate((string) $p[$k]);
-                if (trim((string) $p[$k]) !== '' && !$cur[$k]) {
+                $cur[$k] = self::keepDate($cur[$k] ?? null, $p[$k], $bad);
+                if ($bad) {
                     $errors["personne.$k"] = 'Date non reconnue : écrivez par ex. « 12/1964 », « juillet 1980 » ou « 1980 ».';
                 }
             }
         }
         if (array_key_exists('birth_date', $p) || array_key_exists('birth_city', $p)) {
-            $date = self::fuzzyDate((string) ($p['birth_date'] ?? ''));
+            $ob = $cur['birth'] ?? null;
+            $old = $ob['place'] ?? [];
+            $date = self::keepDate($ob['date'] ?? null, $p['birth_date'] ?? '', $bad);
             $city = Html::line($p['birth_city'] ?? '', 120);
             $country = Html::line($p['birth_country'] ?? '', 80);
             $dept = Html::line($p['birth_department'] ?? '', 10);
-            $old = $cur['birth']['place'] ?? [];
             $lat = self::float($p['birth_lat'] ?? null);
             $lng = self::float($p['birth_lng'] ?? null);
-            if ($city !== ($old['city'] ?? '') && $lat === ($old['lat'] ?? null)) {
-                $lat = $lng = null; // nouvelle ville : géolocalisation à refaire automatiquement
+            $samePlace = $city === Html::line($old['city'] ?? '', 120) && $dept === Html::line($old['department'] ?? '', 10) && $country === Html::line($old['country'] ?? '', 80)
+                && $lat === self::float($old['lat'] ?? null) && $lng === self::float($old['lng'] ?? null);
+            if ($samePlace && $date === ($ob['date'] ?? null)) {
+                // Rien n'a changé : naissance gardée telle quelle (texte d'origine compris).
+            } else {
+                if ($city !== ($old['city'] ?? '') && $lat === ($old['lat'] ?? null)) {
+                    $lat = $lng = null; // nouvelle ville : géolocalisation à refaire automatiquement
+                }
+                $placeText = $city !== '' ? $city . ($dept !== '' ? " ($dept)" : '') . ($country !== '' && $country !== 'France' ? ", $country" : '') : '';
+                $place = $samePlace && $city !== '' ? $old : ($city !== '' ? ['text' => $placeText, 'city' => $city, 'department' => $dept ?: null, 'country' => $country ?: null, 'lat' => $lat, 'lng' => $lng] : null);
+                $cur['birth'] = $date || $place ? [
+                    'date' => $date,
+                    'place' => $place,
+                    'text' => trim(($date ? 'né le ' . ($date['text'] ?? '') : '') . ($place ? ' à ' . ($place['text'] ?? $placeText) : '')),
+                ] : null;
             }
-            $placeText = $city !== '' ? $city . ($dept !== '' ? " ($dept)" : '') . ($country !== '' && $country !== 'France' ? ", $country" : '') : '';
-            $cur['birth'] = $date || $city !== '' ? [
-                'date' => $date,
-                'place' => $city !== '' ? ['text' => $placeText, 'city' => $city, 'department' => $dept ?: null, 'country' => $country ?: null, 'lat' => $lat, 'lng' => $lng] : null,
-                'text' => trim(($date ? 'né le ' . $date['text'] : '') . ($placeText !== '' ? ' à ' . $placeText : '')),
-            ] : null;
-            if (trim((string) ($p['birth_date'] ?? '')) !== '' && !$date) {
+            if ($bad) {
                 $errors['personne.birth_date'] = 'Date de naissance non reconnue.';
             }
         }
         if (array_key_exists('death_date', $p) || array_key_exists('death_place', $p)) {
-            $date = self::fuzzyDate((string) ($p['death_date'] ?? ''));
+            $od = $cur['death'] ?? null;
+            $date = self::keepDate($od['date'] ?? null, $p['death_date'] ?? '', $bad);
             $place = Html::line($p['death_place'] ?? '', 160);
-            $cur['death'] = $date || $place !== '' ? ['date' => $date, 'place' => $place !== '' ? ['text' => $place] : null, 'text' => trim(($date ? 'décédé le ' . $date['text'] : '') . ($place !== '' ? ' à ' . $place : ''))] : null;
+            $samePlace = $place === Html::line($od['place']['text'] ?? '', 160);
+            if (!$samePlace || $date !== ($od['date'] ?? null)) {
+                // Lieu inchangé : ville, département, pays et coordonnées d'origine conservés.
+                $placeObj = $place === '' ? null : ($samePlace ? $od['place'] : ['text' => $place]);
+                $cur['death'] = $date || $placeObj ? ['date' => $date, 'place' => $placeObj, 'text' => trim(($date ? 'décédé le ' . ($date['text'] ?? '') : '') . ($place !== '' ? ' à ' . $place : ''))] : null;
+            }
+            if ($bad) {
+                $errors['personne.death_date'] = 'Date de décès non reconnue.';
+            }
         }
         foreach (['honours', 'then', 'international'] as $k) {
             if (array_key_exists($k, $p)) {
@@ -386,8 +470,10 @@ final class FicheForm
             $cur['fiche'] = [];
             foreach ((array) $p['fiche'] as $r) {
                 $v = Html::line($r['value'] ?? '', 600);
-                if ($v !== '') {
-                    $cur['fiche'][] = ['label' => Html::line($r['label'] ?? '', 120) ?: null, 'value' => $v];
+                $l = Html::line($r['label'] ?? '', 120) ?: null;
+                // Une ligne avec seulement un libellé (intertitre « Passage comme joueur »…) est gardée.
+                if ($v !== '' || $l !== null) {
+                    $cur['fiche'][] = ['label' => $l, 'value' => $v];
                 }
             }
         }
@@ -397,6 +483,7 @@ final class FicheForm
         }
         if (array_key_exists('album', $p)) {
             $a = (array) $p['album'];
+            // Rareté vide = automatique (légende, actuel ou classique selon la carrière).
             $cur['album'] = ['in' => (bool) ($a['in'] ?? false), 'rarity' => isset(self::RARITIES[$a['rarity'] ?? '']) ? $a['rarity'] : null, 'number' => self::int($a['number'] ?? null)];
         }
         if (array_key_exists('highlight_matches', $p)) {
@@ -415,10 +502,12 @@ final class FicheForm
         if (array_key_exists('kind', $a)) {
             $cur['kind'] = isset(self::KINDS[$a['kind']]) ? $a['kind'] : 'article';
         }
-        foreach (['heading' => 300, 'subtitle' => 300] as $k => $max) {
-            if (array_key_exists($k, $a)) {
-                $cur[$k] = Html::line($a[$k], $max);
-            }
+        if (array_key_exists('heading', $a)) {
+            $cur['heading'] = Html::line($a['heading'], 300);
+        }
+        if (array_key_exists('subtitle', $a)) {
+            // Plusieurs lignes possibles (résultats d'une saison, une compétition par ligne).
+            $cur['subtitle'] = Html::text($a['subtitle'], 2000);
         }
         if (array_key_exists('season', $a)) {
             $cur['season'] = preg_match('/^(\d{4})-(\d{4})$/', (string) $a['season'], $sm) && (int) $sm[2] === (int) $sm[1] + 1 ? $a['season'] : null;
@@ -476,13 +565,14 @@ final class FicheForm
         if (isset($en['title'])) {
             $cur['title'] = Html::line($en['title'], 250);
         }
+        $oldHtml = self::cleaned(array_merge([$cur['intro'] ?? ''], array_column($cur['sections'] ?? [], 'html')));
         if (isset($en['intro'])) {
-            $cur['intro'] = Html::clean((string) $en['intro']);
+            $cur['intro'] = self::html($en['intro'], $oldHtml);
         }
         if (isset($en['sections'])) {
             $secs = [];
             foreach ((array) $en['sections'] as $i => $s) {
-                $secs[$i] = ['title' => Html::line($s['title'] ?? '', 200), 'html' => Html::clean((string) ($s['html'] ?? ''))];
+                $secs[$i] = ['title' => Html::line($s['title'] ?? '', 200), 'html' => self::html($s['html'] ?? '', $oldHtml)];
             }
             $cur['sections'] = $secs;
         }
@@ -548,6 +638,103 @@ final class FicheForm
         return is_numeric($s) ? round((float) $s, 6) : null;
     }
 
+    /** Date et heure saisies à la minute près : si elles n'ont pas bougé, la valeur d'origine (secondes comprises) est gardée. */
+    private static function sameMinute(?string $old, ?string $new): ?string
+    {
+        if ($old !== null && $new !== null && ($a = strtotime($old)) && ($b = strtotime($new)) && intdiv($a, 60) === intdiv($b, 60)) {
+            return $old;
+        }
+        return $new;
+    }
+
+    /** @return array<string,array{0:string,1:string}> HTML d'origine => [version brute, version nettoyée] aux fins de ligne unifiées */
+    private static function cleaned(array $htmls): array
+    {
+        $nl = fn (string $h) => str_replace(["\r\n", "\r"], "\n", $h);
+        $out = [];
+        foreach ($htmls as $h) {
+            if (is_string($h) && trim($h) !== '' && !isset($out[$h])) {
+                $out[$h] = [$nl($h), $nl(Html::clean($h))];
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * Texte riche saisi : s'il ne diffère d'un texte déjà enregistré que par le nettoyage
+     * (balises h5 de l'ancien site, blocs vides, fins de ligne…), ce texte est gardé tel quel.
+     * @param array<string,array{0:string,1:string}> $old
+     */
+    private static function html(mixed $v, array $old): string
+    {
+        $raw = is_scalar($v) ? (string) $v : '';
+        $new = Html::clean($raw);
+        $rawN = str_replace(["\r\n", "\r"], "\n", $raw);
+        $newN = str_replace(["\r\n", "\r"], "\n", $new);
+        foreach ($old as $orig => [$o, $c]) {
+            if ($rawN === $o || ($newN !== '' && $newN === $c)) {
+                return (string) $orig;
+            }
+        }
+        return $new;
+    }
+
+    /**
+     * Élément de liste (image de galerie…) identique à un élément enregistré : l'ancien est gardé
+     * avec ses champs d'origine. $keys : champ => longueur maximale des textes (0 = comparaison directe).
+     */
+    private static function unchanged(array $olds, array $item, array $keys): ?array
+    {
+        foreach ($olds as $o) {
+            if (!is_array($o)) {
+                continue;
+            }
+            foreach ($keys as $k => $max) {
+                $a = $max ? Html::line($o[$k] ?? '', $max) : ($o[$k] ?? null);
+                if ($a !== $item[$k] && !(is_bool($item[$k]) && (bool) $a === $item[$k])) {
+                    continue 2;
+                }
+            }
+            return $o;
+        }
+        return null;
+    }
+
+    /** Date partielle telle que le masque l'affiche : texte d'origine, sinon date ISO. */
+    public static function dateText(mixed $d): string
+    {
+        return is_array($d) ? (string) ($d['text'] ?? $d['iso'] ?? '') : (string) ($d ?? '');
+    }
+
+    /**
+     * Date partielle saisie : inchangée, l'ancienne valeur est gardée telle quelle, même si elle
+     * n'est pas reconnue (« juin 1978 ? », « xx ») ; $bad signale une nouvelle saisie illisible.
+     */
+    private static function keepDate(mixed $old, mixed $in, ?bool &$bad = null): mixed
+    {
+        $s = trim(is_scalar($in) ? (string) $in : '');
+        if ($old !== null && $s === trim(self::dateText($old))) {
+            $bad = false;
+            return $old;
+        }
+        $d = self::fuzzyDate($s);
+        $bad = $s !== '' && !$d;
+        return $d;
+    }
+
+    /** Prolongation telle que le masque la propose ('' non, 'ap', 'tab'), y compris pour les mentions reprises (« a.p », « (4-5 tab) »). */
+    public static function extraKind(?array $score): string
+    {
+        if (!$score) {
+            return '';
+        }
+        $x = (string) ($score['extra'] ?? '');
+        if ($x === 'tab' || !empty($score['pens']) || stripos($x, 'tab') !== false) {
+            return 'tab';
+        }
+        return $x === 'ap' || !empty($score['aet']) || preg_match('/a\.?\s*p\b/i', $x) ? 'ap' : '';
+    }
+
     public static function datetime(mixed $v): ?string
     {
         $s = trim((string) $v);
@@ -558,14 +745,17 @@ final class FicheForm
         return $ts ? date('c', $ts) : null;
     }
 
-    /** Image de la médiathèque (chemin relatif connu ou fichier présent). */
-    public static function media(mixed $v): ?string
+    /**
+     * Image de la médiathèque (chemin relatif connu ou fichier présent). Une image déjà
+     * enregistrée sur la fiche ($keep) reste acceptée même si son fichier manque.
+     */
+    public static function media(mixed $v, array $keep = []): ?string
     {
-        $rel = ltrim(str_replace(['..', "\0", '\\'], '', trim((string) $v)), '/');
-        if ($rel === '') {
+        $rel = ltrim(str_replace(["\0", '\\'], '', trim(is_scalar($v) ? (string) $v : '')), '/');
+        if ($rel === '' || preg_match('#(^|/)\.\.?(/|$)#', $rel)) {
             return null;
         }
-        return Media::get($rel) || Media::file($rel) ? $rel : null;
+        return Media::get($rel) || Media::file($rel) || in_array($rel, $keep, true) ? $rel : null;
     }
 
     /**
@@ -577,6 +767,11 @@ final class FicheForm
         $s = trim($s);
         if ($s === '') {
             return null;
+        }
+        // Date incertaine des historiens : « juillet 1970 ? » (le point d'interrogation est gardé).
+        if (preg_match('/^(.+?)\s*\?$/u', $s, $q) && ($d = self::fuzzyDate($q[1]))) {
+            $d['text'] .= ' ?';
+            return $d;
         }
         $months = ['janvier' => 1, 'fevrier' => 2, 'février' => 2, 'mars' => 3, 'avril' => 4, 'mai' => 5, 'juin' => 6, 'juillet' => 7, 'aout' => 8, 'août' => 8, 'septembre' => 9, 'octobre' => 10, 'novembre' => 11, 'decembre' => 12, 'décembre' => 12];
         $names = array_flip(array_unique(array_filter(array_flip($months), fn ($k) => !in_array($k, ['fevrier', 'aout', 'decembre'], true))));
@@ -611,7 +806,15 @@ final class FicheForm
     {
         $url = trim($url);
         if ($url === '' && $provider !== '' && $id !== '') {
-            return ['provider' => $provider, 'id' => $id];
+            // Identifiant fourni directement : contrôlé comme ceux lus dans un lien.
+            $ok = match ($provider) {
+                'youtube' => preg_match('/^[\w-]{11}$/', $id),
+                'dailymotion' => preg_match('/^[a-z0-9]+$/i', $id),
+                'vimeo' => preg_match('/^\d+$/', $id),
+                'rutube' => preg_match('/^[a-f0-9]{20,}$/i', $id),
+                default => 0,
+            };
+            return $ok ? ['provider' => $provider, 'id' => $id] : null;
         }
         if (preg_match('#(?:youtube\.com/(?:watch\?v=|embed/|shorts/|live/)|youtu\.be/)([\w-]{11})#', $url, $m)) {
             return ['provider' => 'youtube', 'id' => $m[1]];

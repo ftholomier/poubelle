@@ -36,7 +36,7 @@ HTML],
 [[auto|<p>Ces tableaux alimentent les records de carrière de la page <b>Les chiffres du FCSM</b> (meilleur buteur de l’histoire, recordman des matchs, plus de buts en une saison…), voir [[aide:site-public#chiffres|Les chiffres du FCSM]]. Un tableau recopié à l’identique sur plusieurs fiches y est ignoré et signalé dans le tableau Qualité.</p>]]
 HTML],
         ['id' => 'album', 'title' => 'La carte de l’album du centenaire', 'html' => <<<'HTML'
-<p>Dans l’onglet Identité, bloc <b>Carte de l’album du centenaire</b> : cochez « Dans l’album », donnez un numéro et une rareté (légende, classique, actuel). La carte utilise l’image à la une de la fiche.</p>
+<p>Dans l’onglet Identité, bloc <b>Carte de l’album du centenaire</b> : cochez « Dans l’album », donnez un numéro et une rareté (légende, classique, actuel), ou laissez « Auto » : la rareté est alors déduite de la carrière (légende mise en avant, joueur récent, sinon classique). La carte utilise l’image à la une de la fiche.</p>
 HTML],
     ],
 ];

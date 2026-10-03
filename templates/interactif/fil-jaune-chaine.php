@@ -37,7 +37,7 @@ $share = $n === null ? '' : t('{a} → {b} : {n} passe(s) sur le Fil jaune du mu
       <li class="fjchain__p<?= $i === 0 || $i === count($steps) - 1 ? ' is-end' : '' ?>">
         <a class="fjcard" href="<?= e(url($p['path'])) ?>">
           <span class="fjcard__img"><?php if ($p['image']): ?><img src="<?= e(img($p['image'], 320)) ?>" alt="" loading="lazy"><?php else: ?><span class="fjface__ph" aria-hidden="true"><?= e(mb_substr($p['name'], 0, 1)) ?></span><?php endif; ?></span>
-          <span class="fjcard__t"><b><?= e($p['name']) ?></b><small><?= e(trim(($lines[$p['pos'] ?? ''] ?? '') . ' · ' . $p['years'], ' ·')) ?></small><small><?= e(t('{n} matchs dans les compositions', ['n' => $p['games']])) ?></small></span>
+          <span class="fjcard__t"><b><?= e($p['name']) ?></b><small><?= e(trim(($lines[$p['pos'] ?? ''] ?? '') . ' · ' . $p['years'], ' ·')) ?></small><small><?= e(tn((int) $p['games'], '{n} match dans les compositions', '{n} matchs dans les compositions')) ?></small></span>
         </a>
         <a class="fjchain__star" href="<?= e(Fil::starUrl($p['id'])) ?>"><?= e(t('Sa constellation')) ?></a>
       </li>

@@ -350,9 +350,15 @@ final class Pages
     }
 
     /** Mot de passe d'accès au site public (pré-lancement). */
+    /** Le visiteur a déjà saisi le mot de passe d'accès (pages et appels de l'API). */
+    public static function gateOpen(string $password): bool
+    {
+        return Session::get('front_ok') === hash('sha256', $password);
+    }
+
     public static function gate(Request $req, string $password): ?Response
     {
-        if (Session::get('front_ok') === hash('sha256', $password)) {
+        if (self::gateOpen($password)) {
             return null;
         }
         $error = '';

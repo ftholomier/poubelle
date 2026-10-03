@@ -261,7 +261,8 @@ final class Interactive
             'target' => Site::centenaryDate(),
             'moments' => self::moments100(),
             'onze' => self::onzeCandidates(),
-            'results' => self::onzeResults(),
+            'results' => self::onzeRevealed() ? self::onzeResults() : [],
+            'reveal' => self::onzeRevealed() ? null : (string) Settings::get('centenary.onze_reveal', ''),
             'votes' => self::onzeVoters(),
         ], [
             'title' => t('Le centenaire du FC Sochaux-Montbéliard : 1928-2028'),
@@ -371,7 +372,14 @@ final class Interactive
             $s['seen'] = array_filter($s['seen'], fn ($day) => $day >= date('Y-m-d', strtotime('-2 days')));
             return $s;
         }, []);
-        return Response::json(['ok' => true, 'results' => self::onzeResults(), 'voters' => self::onzeVoters()]);
+        return Response::json(['ok' => true, 'results' => self::onzeRevealed() ? self::onzeResults() : [], 'voters' => self::onzeVoters()]);
+    }
+
+    /** Résultats du Onze du public visibles : date de dévoilement vide ou arrivée (réglage du back-office). */
+    public static function onzeRevealed(): bool
+    {
+        $d = (string) Settings::get('centenary.onze_reveal', '');
+        return $d === '' || $d <= date('Y-m-d');
     }
 
     public static function onzeVoters(): int
@@ -391,7 +399,7 @@ final class Interactive
             arsort($list);
             foreach (array_slice($list, 0, $n, true) as $id => $count) {
                 $p = Index::get((int) $id);
-                if ($p) {
+                if ($p && Index::visible($p)) {
                     $out[] = ['line' => $line, 'name' => $p['p']['name'], 'pct' => round(100 * $count / $voters), 'href' => url($p['path'])];
                 }
             }

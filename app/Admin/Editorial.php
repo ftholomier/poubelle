@@ -238,6 +238,7 @@ final class Editorial extends Base
                     continue;
                 }
                 $doc['moment']['number'] = $n;
+                $doc = Fiches::scheduleMoment($doc); // nouvelle semaine = nouvelle date de mise en ligne
                 Fiches::save($doc, $actor, 'Calendrier des 100 moments : n° ' . $current[$id] . ' → n° ' . $n);
             }
         });

@@ -48,7 +48,7 @@ final class Cron
         $fp = fopen(self::LOCK, 'c');
         if (!$fp || !flock($fp, LOCK_EX | LOCK_NB)) {
             echo "Une exécution est déjà en cours.\n";
-            return [];
+            return ['_busy' => true];
         }
         @set_time_limit(280);
         $state = JsonStore::read(self::STATE, []) ?: [];
@@ -96,10 +96,21 @@ final class Cron
             case 'publication':
                 $n = 0;
                 Fiches::batch(function () use (&$n) {
+                    // Moments du centenaire : date de mise en ligne recalée sur leur semaine
+                    // (calendrier réorganisé ou date de départ changée dans les réglages).
+                    foreach (Index::all() as $id => $s) {
+                        if ($s['type'] === 'moment' && in_array($s['status'], ['publie', 'planifie'], true) && ($doc = Fiches::fresh((int) $id))) {
+                            $new = Fiches::scheduleMoment($doc);
+                            if ($new['status'] !== $doc['status'] || ($new['publish_at'] ?? null) !== ($doc['publish_at'] ?? null)) {
+                                Fiches::save($new, ['name' => 'Calendrier des 100 moments'], 'Mise en ligne recalée sur la semaine du moment');
+                            }
+                        }
+                    }
                     foreach (Index::all() as $id => $s) {
                         if ($s['status'] === 'planifie' && $s['publish_at'] && strtotime((string) $s['publish_at']) <= time()) {
-                            $doc = Fiches::get((int) $id);
-                            if ($doc) {
+                            $doc = Fiches::fresh((int) $id);
+                            // Revérifié sur la fiche elle-même (elle a pu changer depuis la lecture de l'index).
+                            if ($doc && ($doc['status'] ?? '') === 'planifie' && Fiches::isVisible($doc)) {
                                 $doc['status'] = 'publie';
                                 $doc['date'] = $doc['date'] ?: date('c');
                                 Fiches::save($doc, ['name' => 'Publication programmée'], 'Publication programmée');
@@ -182,7 +193,11 @@ final class Cron
                 if ($last && substr($last, 0, 10) === date('Y-m-d')) {
                     return null;
                 }
-                return Backup::run();
+                $r = Backup::run();
+                if (is_array($r) && isset($r['error'])) {
+                    throw new \RuntimeException((string) $r['error']); // sauvegarde ratée : signalée comme telle
+                }
+                return $r;
 
             case 'recus-annuels':
                 if ((int) date('n') !== 1 || (int) date('j') < 15 || !Settings::get('donations.tax_receipts', false)) {

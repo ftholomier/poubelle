@@ -256,6 +256,9 @@ final class Donations
                     $p['payment_intent_data'] = ['metadata' => ['don' => $id], 'description' => $label];
                 }
                 $session = Payments::stripe('POST', 'checkout/sessions', $p);
+                if (empty($session['url']) || empty($session['id'])) {
+                    throw new \RuntimeException('Stripe : lien de paiement absent');
+                }
                 self::update($id, fn ($x) => array_replace_recursive($x, ['ext' => ['stripe_session' => $session['id']]]));
                 return ['url' => (string) $session['url']];
             }

@@ -24,6 +24,8 @@ final class Community
     public const TYPES = ['correction' => ['✎', 'Une correction', 'Une date, un score, un nom à rectifier.'], 'photo' => ['▣', 'Une photo', "Au stade, à l'entraînement, en déplacement."], 'document' => ['▤', 'Un document', 'Billet, programme, affiche, coupure de presse.'], 'temoignage' => ['❝', 'Un témoignage', 'Un souvenir de match, une anecdote.']];
     private const UPLOAD_EXT = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'pdf', 'tif', 'tiff'];
     private const UPLOAD_MAX = 25 * 1024 * 1024;
+    /** Fichiers reçus en attente de tri, au total : au-delà, les envois avec fichiers sont refusés (disque de l'hébergement). */
+    private const INBOX_MAX = 3 * 1024 * 1024 * 1024;
 
     // ------------------------------------------------------------------ contact
 
@@ -146,6 +148,10 @@ final class Community
                 $files[] = ['tmp' => (string) $up['tmp_name'][$i], 'name' => preg_replace('/[^\w.\- ]+/u', '_', (string) $name), 'ext' => $ext, 'mime' => $mime, 'size' => (int) $up['size'][$i]];
             }
         }
+        if (!$err && $files && self::inboxSize() + array_sum(array_column($files, 'size')) > self::INBOX_MAX) {
+            error_log('[contributions] boîte de dépôt pleine (' . self::INBOX_MAX . ' octets) : envoi refusé');
+            $err = t('La boîte de dépôt du musée est pleine pour le moment : réessayez dans quelques jours, ou écrivez-nous depuis la page Contact.');
+        }
         if ($err) {
             Session::set('flash_contrib', ['type' => 'error', 'msg' => $err, 'old' => $data]);
             return Response::redirect($back . '#formulaire');
@@ -238,40 +244,83 @@ final class Community
         return Response::json(['ok' => true, 'message' => t('Presque fini ! Confirmez votre inscription grâce au lien reçu par e-mail.')]);
     }
 
+    /**
+     * Lien de confirmation : la page affiche un bouton, l'inscription n'est validée qu'en le
+     * pressant (les messageries ouvrent seules les liens des e-mails pour les analyser).
+     */
     public static function newsletterConfirm(Request $req, string $token): Response
     {
-        $ok = false;
-        if (preg_match('/^[a-f0-9]{32}$/', $token)) {
-            JsonStore::update(self::SUBS, function ($all) use ($token, &$ok) {
-                foreach ($all ?: [] as $k => $s) {
-                    if (hash_equals((string) $s['token'], $token)) {
-                        $all[$k]['status'] = 'active';
-                        $all[$k]['confirmed'] = date('c');
-                        $ok = true;
-                    }
-                }
-                return $all ?: [];
-            }, []);
+        $sub = self::subscriberByToken($token);
+        if (!$sub || ($sub['status'] ?? '') === 'unsubscribed') {
+            return self::message(t('Lien invalide ou expiré'), t('Ce lien de confirmation n’est plus valable. Vous pouvez vous réinscrire depuis la page Partage & newsletter.'));
         }
-        return self::message($ok ? t('Inscription confirmée !') : t('Lien invalide ou expiré'), $ok ? t('Vous recevrez la newsletter « Ce jour-là » chaque semaine. À très vite au musée !') : t('Ce lien de confirmation n’est plus valable. Vous pouvez vous réinscrire depuis la page Partage & newsletter.'));
+        if (($sub['status'] ?? '') === 'active') {
+            return self::message(t('Inscription confirmée !'), t('Vous recevrez la newsletter « Ce jour-là » chaque semaine. À très vite au musée !'));
+        }
+        if ($req->method !== 'POST' || !Session::checkCsrf((string) ($req->post['_csrf'] ?? ''))) {
+            return self::message(t('Confirmez votre inscription'), t('Un dernier clic pour recevoir chaque semaine la newsletter « Ce jour-là » du musée.'), t('Je confirme mon inscription'));
+        }
+        JsonStore::update(self::SUBS, function ($all) use ($token) {
+            foreach ($all ?: [] as $k => $s) {
+                if (hash_equals((string) $s['token'], $token) && ($s['status'] ?? '') !== 'unsubscribed') {
+                    $all[$k]['status'] = 'active';
+                    $all[$k]['confirmed'] = date('c');
+                }
+            }
+            return $all ?: [];
+        }, []);
+        return self::message(t('Inscription confirmée !'), t('Vous recevrez la newsletter « Ce jour-là » chaque semaine. À très vite au musée !'));
     }
 
+    /** Lien de désinscription : bouton à presser (pas de désinscription par la simple ouverture du lien). */
     public static function newsletterUnsubscribe(Request $req, string $token): Response
     {
-        $ok = false;
-        if (preg_match('/^[a-f0-9]{32}$/', $token)) {
-            JsonStore::update(self::SUBS, function ($all) use ($token, &$ok) {
-                foreach ($all ?: [] as $k => $s) {
-                    if (hash_equals((string) $s['token'], $token)) {
-                        // Désinscription : l'adresse est effacée (RGPD), seule l'empreinte reste pour mémoire.
-                        $all[$k] = ['email' => null, 'status' => 'unsubscribed', 'token' => $s['token'], 'created' => $s['created'] ?? null, 'unsubscribed' => date('c')];
-                        $ok = true;
-                    }
-                }
-                return $all ?: [];
-            }, []);
+        $sub = self::subscriberByToken($token);
+        if (!$sub) {
+            return self::message(t('Lien invalide'), t('Ce lien de désinscription n’est pas valable.'));
         }
-        return self::message($ok ? t('Désinscription effectuée') : t('Lien invalide'), $ok ? t('Vous ne recevrez plus la newsletter. Votre adresse a été effacée.') : t('Ce lien de désinscription n’est pas valable.'));
+        if (($sub['status'] ?? '') === 'unsubscribed') {
+            return self::message(t('Désinscription effectuée'), t('Vous ne recevrez plus la newsletter. Votre adresse a été effacée.'));
+        }
+        if ($req->method !== 'POST' || !Session::checkCsrf((string) ($req->post['_csrf'] ?? ''))) {
+            return self::message(t('Se désinscrire de la newsletter'), t('Vous ne recevrez plus la newsletter « Ce jour-là » et votre adresse sera effacée.'), t('Me désinscrire'));
+        }
+        JsonStore::update(self::SUBS, function ($all) use ($token) {
+            foreach ($all ?: [] as $k => $s) {
+                if (hash_equals((string) $s['token'], $token)) {
+                    // Désinscription : l'adresse est effacée (RGPD), seule l'empreinte reste pour mémoire.
+                    $all[$k] = ['email' => null, 'status' => 'unsubscribed', 'token' => $s['token'], 'created' => $s['created'] ?? null, 'unsubscribed' => date('c')];
+                }
+            }
+            return $all ?: [];
+        }, []);
+        return self::message(t('Désinscription effectuée'), t('Vous ne recevrez plus la newsletter. Votre adresse a été effacée.'));
+    }
+
+    private static function subscriberByToken(string $token): ?array
+    {
+        if (!preg_match('/^[a-f0-9]{32}$/', $token)) {
+            return null;
+        }
+        foreach (JsonStore::read(self::SUBS, []) ?: [] as $s) {
+            if (hash_equals((string) ($s['token'] ?? ''), $token)) {
+                return $s;
+            }
+        }
+        return null;
+    }
+
+    /** Taille totale des fichiers reçus (contributions pas encore supprimées). */
+    private static function inboxSize(): int
+    {
+        $n = 0;
+        $dir = self::INBOX . '/contributions';
+        if (is_dir($dir)) {
+            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS)) as $f) {
+                $n += (int) $f->getSize();
+            }
+        }
+        return $n;
     }
 
     /** Abonnés actifs (pour l'envoi). */
@@ -280,9 +329,9 @@ final class Community
         return array_values(array_filter(JsonStore::read(self::SUBS, []), fn ($s) => ($s['status'] ?? '') === 'active' && !empty($s['email'])));
     }
 
-    private static function message(string $title, string $text): Response
+    private static function message(string $title, string $text, ?string $action = null): Response
     {
-        return Pages::render('community/message', ['title' => $title, 'text' => $text], ['title' => $title, 'noindex' => true, 'styles' => ['css/community.css']]);
+        return Pages::render('community/message', ['title' => $title, 'text' => $text, 'action' => $action], ['title' => $title, 'noindex' => true, 'styles' => ['css/community.css']]);
     }
 
     // ------------------------------------------------------------------ partage & newsletter

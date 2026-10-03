@@ -41,10 +41,11 @@ final class Fil
         $daily = FilJaune::daily();
         return Pages::render('interactif/fil-jaune', [
             'players' => self::playerList(), 'rec' => $rec, 'error' => $error, 'qa' => $req->str('a') ?: mb_substr($req->str('de'), 0, 80), 'qb' => $req->str('b'),
-            'daily' => $daily ? $daily + ['a' => $p($daily['from']), 'b' => $p($daily['to'])] : null,
-            'connected' => array_map(fn ($x) => $p($x[0]) + ['n' => $x[1]], $rec['connected']),
-            'duos' => array_map(fn ($x) => ['a' => $p($x[0]), 'b' => $p($x[1]), 'n' => $x[2]], $rec['duos']),
-            'far' => $rec['far'] ? [$p($rec['far'][0]), $p($rec['far'][1])] : null,
+            // Un joueur retiré du site entre deux calculs des records est simplement écarté.
+            'daily' => $daily && $p($daily['from']) && $p($daily['to']) ? $daily + ['a' => $p($daily['from']), 'b' => $p($daily['to'])] : null,
+            'connected' => array_values(array_filter(array_map(fn ($x) => ($a = $p($x[0])) ? $a + ['n' => $x[1]] : null, $rec['connected']))),
+            'duos' => array_values(array_filter(array_map(fn ($x) => ($a = $p($x[0])) && ($b = $p($x[1])) ? ['a' => $a, 'b' => $b, 'n' => $x[2]] : null, $rec['duos']))),
+            'far' => $rec['far'] && $p($rec['far'][0]) && $p($rec['far'][1]) ? [$p($rec['far'][0]), $p($rec['far'][1])] : null,
             'outside' => array_values(array_filter(array_map($p, $rec['outside']))),
         ], self::PAGE + [
             'title' => t('Le Fil jaune : tous les Lionceaux sont reliés'),

@@ -19,7 +19,9 @@ final class Request
     public static function fromGlobals(): self
     {
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
-        $path = rawurldecode(parse_url($uri, PHP_URL_PATH) ?: '/');
+        // Caractères de contrôle (tabulation, retour à la ligne…) retirés : les navigateurs les ignorent
+        // dans une adresse, « /%09/exemple.com » deviendrait sinon une redirection vers un autre site.
+        $path = (string) preg_replace('/[\x00-\x1F\x7F]/', '', rawurldecode(parse_url($uri, PHP_URL_PATH) ?: '/'));
         // Les « \ » valent « / » pour les navigateurs : sans cela, « /\exemple.com » deviendrait une redirection externe.
         $path = '/' . ltrim(preg_replace('#/+#', '/', str_replace('\\', '/', $path)), '/');
         return new self(

@@ -36,7 +36,8 @@ final class Newsletter
     public static function subject(?int $ts = null): string
     {
         $ts ??= time();
-        $tpl = (string) Settings::get('newsletter.subject', 'Ce jour-là · la semaine du {semaine}');
+        // Sujet traduit pour les abonnés anglophones (écran Traductions s'il a été personnalisé).
+        $tpl = t((string) Settings::get('newsletter.subject', 'Ce jour-là · la semaine du {semaine}'));
         return str_replace('{semaine}', Site::dayMonth($ts), $tpl);
     }
 
@@ -77,7 +78,34 @@ final class Newsletter
         if (!$force && !Settings::get('newsletter.enabled', false)) {
             return null;
         }
+        // Un seul envoi à la fois (tâche planifiée et « Envoyer maintenant » simultanés).
+        $dir = dirname(self::STATE);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        $fp = fopen(self::STATE . '.lock', 'c');
+        if (!$fp || !flock($fp, LOCK_EX | LOCK_NB)) {
+            return null;
+        }
+        try {
+            return self::send($force);
+        } finally {
+            flock($fp, LOCK_UN);
+            fclose($fp);
+        }
+    }
+
+    /** La lettre de la semaine est déjà entièrement partie. */
+    public static function sentThisWeek(): bool
+    {
+        $state = JsonStore::read(self::STATE, []) ?: [];
+        return ($state['week'] ?? '') === date('o-W') && empty($state['pending']);
+    }
+
+    private static function send(bool $force): ?array
+    {
         $week = date('o-W');
+        JsonStore::forget(self::STATE);
         $state = JsonStore::read(self::STATE, []) ?: [];
         $inProgress = ($state['week'] ?? '') === $week && !empty($state['pending']);
         if (!$inProgress) {
@@ -101,8 +129,10 @@ final class Newsletter
         foreach (Community::subscribers() as $s) {
             $byToken[$s['token']] = $s;
         }
-        $batch = array_splice($state['pending'], 0, self::PER_RUN);
-        foreach ($batch as $token) {
+        for ($n = 0; $state['pending'] && $n < self::PER_RUN; $n++) {
+            // Adresse retirée de la file et état enregistré avant l'envoi : jamais deux fois la même lettre.
+            $token = array_shift($state['pending']);
+            JsonStore::write(self::STATE, $state);
             $s = $byToken[$token] ?? null;
             if (!$s) {
                 continue; // désinscrit entre-temps

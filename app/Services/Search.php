@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\PhpCache;
 use App\Data\Categories;
 use App\Data\Derived;
 use App\Data\Fiches;
@@ -114,6 +115,14 @@ final class Search
 
     public static function rebuild(): int
     {
+        self::$changes = [];
+        self::$docs = PhpCache::update(self::CACHE, fn () => self::scan());
+        return count(self::$docs);
+    }
+
+    /** @return array<int,array> entrées de toutes les fiches visibles, lues sur le disque */
+    private static function scan(): array
+    {
         $docs = [];
         foreach (Fiches::all() as $doc) {
             $s = Index::get((int) $doc['id']);
@@ -122,12 +131,12 @@ final class Search
             }
             $docs[(int) $doc['id']] = self::entry($doc);
         }
-        self::write($docs);
-        return count($docs);
+        return $docs;
     }
 
     private static int $defer = 0;
-    private static bool $pending = false;
+    /** @var array<int,?array> modifications pas encore écrites (null = retirée de la recherche) */
+    private static array $changes = [];
 
     /** Mode « lot » : les mises à jour sont écrites une seule fois à la fin (actions groupées). */
     public static function defer(bool $on): void
@@ -137,49 +146,58 @@ final class Search
             return;
         }
         self::$defer = max(0, self::$defer - 1);
-        if (self::$defer === 0 && self::$pending) {
-            self::$pending = false;
-            self::write(self::docs());
+        if (self::$defer === 0) {
+            self::flush();
         }
     }
 
     public static function put(array $doc): void
     {
-        $docs = self::docs();
         $s = Index::get((int) $doc['id']);
-        if ($s && Index::visible($s)) {
-            $docs[(int) $doc['id']] = self::entry($doc);
-        } else {
-            unset($docs[(int) $doc['id']]);
-        }
-        self::write($docs);
+        self::change((int) $doc['id'], $s && Index::visible($s) ? self::entry($doc) : null);
     }
 
     public static function remove(int $id): void
     {
-        $docs = self::docs();
-        unset($docs[$id]);
-        self::write($docs);
+        self::change($id, null);
     }
 
-    private static function write(array $docs): void
+    private static function change(int $id, ?array $entry): void
     {
-        if (self::$defer > 0) {
-            self::$docs = $docs;
-            self::$pending = true;
+        self::$changes[$id] = $entry;
+        if (self::$docs !== null) {
+            if ($entry === null) {
+                unset(self::$docs[$id]);
+            } else {
+                self::$docs[$id] = $entry;
+            }
+        }
+        if (self::$defer === 0) {
+            self::flush();
+        }
+    }
+
+    /** Écrit les modifications sur l'index de recherche relu sous verrou (rien n'est écrasé). */
+    private static function flush(): void
+    {
+        if (!self::$changes) {
             return;
         }
-        $dir = dirname(self::CACHE);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
-        }
-        $tmp = self::CACHE . '.' . bin2hex(random_bytes(4));
-        file_put_contents($tmp, '<?php return ' . var_export($docs, true) . ";\n", LOCK_EX);
-        rename($tmp, self::CACHE);
-        if (function_exists('opcache_invalidate')) {
-            @opcache_invalidate(self::CACHE, true);
-        }
-        self::$docs = $docs;
+        $changes = self::$changes;
+        self::$changes = [];
+        self::$docs = PhpCache::update(self::CACHE, function (?array $docs) use ($changes) {
+            if ($docs === null) {
+                return self::scan();
+            }
+            foreach ($changes as $id => $e) {
+                if ($e === null) {
+                    unset($docs[$id]);
+                } else {
+                    $docs[$id] = $e;
+                }
+            }
+            return $docs;
+        });
     }
 
     private static function docs(): array

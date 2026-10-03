@@ -205,8 +205,12 @@ final class FicheAudio
             if (!empty($m['score']['aet'])) {
                 $res .= $en ? ' after extra time' : ' après prolongation';
             }
-            if (!empty($m['score']['pens'])) {
-                $res .= ($en ? ', penalties ' : ', tirs au but ') . str_replace('-', $en ? '–' : ' à ', (string) $m['score']['pens']);
+            $pens = $m['score']['pens'] ?? null;
+            if (is_array($pens) && isset($pens['home'], $pens['away'])) {
+                // Tirs au but : le vainqueur de la séance d'abord (« Sochaux l'emporte 5 à 4 aux tirs au but »).
+                [$ps, $po] = $sochHome ? [(int) $pens['home'], (int) $pens['away']] : [(int) $pens['away'], (int) $pens['home']];
+                [$win, $a, $b] = $ps >= $po ? [$soch, $ps, $po] : [$opp, $po, $ps];
+                $res .= $en ? ", and $win won {$a}–{$b} on penalties" : ", et $win l’emporte $a à $b aux tirs au but";
             }
             if (!empty($m['spectators'])) {
                 $res .= $en ? ', in front of ' . (int) $m['spectators'] . ' spectators' : ', devant ' . (int) $m['spectators'] . ' spectateurs';
@@ -258,11 +262,14 @@ final class FicheAudio
         }
         $tot = Derived::get()['person_totals'][$id] ?? null;
         // Comme la fiche : compositions du musée, sinon tableau de statistiques.
-        $st = Fiche::statsTotals($p['stats'] ?? null);
+        // Entraîneur : son tableau de statistiques peut être celui du banc, il n'est pas lu comme des matchs joués.
+        $coach = ($roles[0] ?? '') === 'entraineur';
+        $st = $coach ? [] : Fiche::statsTotals($p['stats'] ?? null);
         $mt = max((int) ($tot['matches'] ?? 0), (int) ($st['matches'] ?? 0));
         $gl = max((int) ($tot['goals'] ?? 0), (int) ($st['goals'] ?? 0));
-        if (($roles[0] ?? '') === 'entraineur' && !empty($tot['coach'])) {
-            $s[] = $en ? (int) $tot['coach'] . ' matches in charge of Sochaux.' : (int) $tot['coach'] . ' matchs sur le banc sochalien.';
+        if ($coach && !empty($tot['coached'])) {
+            $n = (int) $tot['coached'];
+            $s[] = $en ? $n . ($n > 1 ? ' matches' : ' match') . ' in charge of Sochaux.' : $n . ' match' . ($n > 1 ? 's' : '') . ' sur le banc sochalien.';
         } elseif ($mt > 0) {
             $s[] = $en
                 ? "$mt " . ($mt > 1 ? 'matches' : 'match') . ($gl ? " and $gl " . ($gl > 1 ? 'goals' : 'goal') : '') . ' for Sochaux.'
@@ -312,6 +319,8 @@ final class FicheAudio
 
     private static function plainText(string $html): string
     {
+        // Un intertitre ou un élément de liste se lit comme une phrase (« Carrière de joueur. C'est… »).
+        $html = (string) preg_replace('#([^.!?:;…\s])(\s*(?:</(?:strong|em|b|i|u)>\s*)*)</(h[1-6]|li|p)>#u', '$1.$2</$3>', $html);
         return trim((string) preg_replace('/\s+/u', ' ', plain($html)));
     }
 

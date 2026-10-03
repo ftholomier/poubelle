@@ -215,7 +215,36 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       après l'envoi de la page). Case « Afficher » et aperçu du jour dans Éditorial › Accueil &
       bandeau ; essai complet (masquer, réafficher) et accessibilité sans erreur.
 
+## Contrôle complet (03/10, après les chiffres du FCSM) — terminé
+Rapport détaillé : `docs/CONTROLE-2026-10.md`.
+- [x] Code : syntaxe, appels, gabarits et tests automatiques sans défaut.
+- [x] Site public : 16 314 adresses (FR et EN) et PDF ; corrigés : « Array » lu dans l'audio
+      des tirs au but, liste des matchs triée A→Z (5,25 s → 0,06 s), contrôle des réponses de
+      Stripe.
+- [x] Back-office : **un enregistrement sans modification abîmait les fiches reprises**
+      (tirs au but et prolongations effacés, lieu de décès tronqué, rareté de l'album forcée,
+      sous-titres recollés, saison des amicaux de juin changée, enregistrement refusé pour une
+      date non reconnue). Corrigé : une valeur non touchée est gardée telle quelle ;
+      129 fiches de tous types rejouées, 0 modifiée ; `tests/fiche-form.php`.
+- [x] Sécurité et robustesse : 3 relectures. Corrigés :
+      - écritures simultanées (index, recalculs, référentiels, traductions) ;
+      - limites de connexion et liens par e-mail ;
+      - redirection piégée ;
+      - API derrière la page d'attente ;
+      - résultats du Onze cachés jusqu'au dévoilement ;
+      - 100 moments planifiés à leur semaine ;
+      - newsletter par bouton, exports CSV, fichiers reçus.
+- [x] Données : alertes Qualité « joueur inscrit deux fois » et « dates à vérifier » ;
+      ancienne page d'accueil WordPress retirée ; 25 textes anglais ajoutés.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
+- Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
+  - 10 compositions avec un joueur inscrit deux fois ;
+  - 9 personnes aux dates incohérentes ;
+  - 65 matchs dont la date en toutes lettres diffère de la date ;
+  - 37 matchs dont seul le jour de la semaine est faux ;
+  - 2 séances de tirs au but non détaillées ;
+  - 2 liens vidéo cassés.
 - **Tableaux de statistiques recopiés** : 594 fiches de joueurs partagent l'un de 34 tableaux
   identiques (modèle de l'ancien site, par exemple « 1990-1991, 22 matchs, 4 buts » sur 137
   fiches) : ces fiches affichent les chiffres d'un autre joueur. Alerte « Tableau de

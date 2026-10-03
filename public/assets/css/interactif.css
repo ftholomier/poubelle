@@ -197,6 +197,7 @@
 .oslot:focus-visible .oslot__c { outline: 3px solid var(--yellow); }
 .oresults { display: flex; flex-direction: column; gap: 10px; border: 2px solid var(--cream); padding: 18px; }
 .oresults__t { font-family: var(--display); font-weight: 900; font-size: 24px; text-transform: uppercase; color: var(--yellow); }
+.oresults__wait { margin: 0; font-size: 17px; }
 .orow { display: grid; grid-template-columns: 160px minmax(0, 1fr) 48px; gap: 10px; align-items: center; }
 .orow > span:first-child { font-family: var(--display); font-weight: 800; font-size: 17px; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .orow__bar { height: 10px; background: rgba(243,237,223,.2); display: block; }

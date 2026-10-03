@@ -1,7 +1,7 @@
 {
     "id": 3,
     "type": "page",
-    "status": "publie",
+    "status": "brouillon",
     "publish_at": null,
     "slug": "accueil-wordpress",
     "path": "/accueil-wordpress/",
@@ -10,7 +10,7 @@
     "a_la_une": false,
     "featured_image": "2023/10/fcsm_retro.png",
     "date": "2023-06-13T10:37:06",
-    "modified": "2024-09-05T20:28:11",
+    "modified": "2026-10-03T18:21:16+02:00",
     "author": "kantik",
     "seo": {
         "title": "",
@@ -79,5 +79,7 @@
         "header_html": "",
         "season": null
     },
-    "tables": []
+    "tables": [],
+    "modified_by": "Contrôle technique",
+    "published_once": true
 }

@@ -115,7 +115,7 @@ final class Explore
         $max = $scorers ? max($scorers) : 1;
         foreach (array_slice($scorers, 0, 12, true) as $key => $g) {
             $p = $squad[$key];
-            $s = $p['pid'] ? Index::get((int) $p['pid']) : null;
+            $s = $p['pid'] ? self::visiblePerson((int) $p['pid']) : null;
             $topScorers[] = ['name' => $s['p']['name'] ?? $p['name'], 'g' => $g, 'w' => round(100 * $g / $max, 1), 'href' => $s && Index::visible($s) ? url($s['path']) : null];
         }
         $order = ['G' => 0, 'D' => 1, 'M' => 2, 'A' => 3];
@@ -126,7 +126,7 @@ final class Explore
             }
             arsort($p['pos']);
             $line = array_key_first($p['pos']) ?? 'M';
-            $s = $p['pid'] ? Index::get((int) $p['pid']) : null;
+            $s = $p['pid'] ? self::visiblePerson((int) $p['pid']) : null;
             $squadList[] = [
                 'name' => $s['p']['name'] ?? $p['name'],
                 'short' => $s ? ($s['p']['last'] ?: $s['p']['name']) : $p['name'],
@@ -139,7 +139,7 @@ final class Explore
         }
         usort($squadList, fn ($x, $y) => ($order[$x['line']] ?? 9) <=> ($order[$y['line']] ?? 9) ?: $y['mj'] <=> $x['mj']);
         $coachList = array_map(function ($c) {
-            $s = $c['pid'] ? Index::get((int) $c['pid']) : null;
+            $s = $c['pid'] ? self::visiblePerson((int) $c['pid']) : null;
             return ['name' => $s['p']['name'] ?? $c['name'], 'n' => $c['n'], 'href' => $s && Index::visible($s) ? url($s['path']) : null, 'image' => $s['image'] ?? null];
         }, array_values($coaches));
         usort($coachList, fn ($x, $y) => $y['n'] <=> $x['n']);
@@ -236,6 +236,13 @@ final class Explore
         $list = array_keys($set);
         sort($list);
         return $list;
+    }
+
+    /** Fiche « personne » publiée (nom, photo, lien) ; une fiche en brouillon ou à la corbeille n'apparaît pas. */
+    private static function visiblePerson(int $id): ?array
+    {
+        $s = Index::get($id);
+        return $s && Index::visible($s) ? $s : null;
     }
 
     public static function currentSeason(): string

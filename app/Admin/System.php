@@ -106,6 +106,8 @@ final class System extends Base
                 foreach ($rows as $r) {
                     $fr = (string) ($r['fr'] ?? '');
                     $en = trim((string) ($r['en'] ?? ''));
+                    // Texte simple si l'original l'est ; sinon seules les balises autorisées restent.
+                    $en = preg_match('#<[a-z/]#i', $fr) ? Html::clean($en) : trim(strip_tags($en));
                     if ($fr === '' || ($dict[$fr] ?? '') === $en) {
                         continue;
                     }
@@ -251,7 +253,7 @@ final class System extends Base
         fwrite($out, "\xEF\xBB\xBF");
         fputcsv($out, ['Date', 'Langue', 'Question', 'Réponse', 'Fiches citées', 'Avis', 'Erreur', 'Modèle', 'Durée (ms)', 'Jetons'], ';');
         foreach ($rows as $r) {
-            fputcsv($out, [date('d/m/Y H:i', strtotime((string) $r['at'])), $r['lang'] ?? '', $r['q'] ?? '', $r['a'] ?? '', implode(' ', (array) ($r['src'] ?? [])), ($r['fb'] ?? 0) > 0 ? 'utile' : (($r['fb'] ?? 0) < 0 ? 'pas utile' : ''), $r['err'] ?? '', $r['model'] ?? '', $r['ms'] ?? '', (int) ($r['tin'] ?? 0) + (int) ($r['tout'] ?? 0)], ';');
+            fputcsv($out, csv_safe([date('d/m/Y H:i', strtotime((string) $r['at'])), $r['lang'] ?? '', $r['q'] ?? '', $r['a'] ?? '', implode(' ', (array) ($r['src'] ?? [])), ($r['fb'] ?? 0) > 0 ? 'utile' : (($r['fb'] ?? 0) < 0 ? 'pas utile' : ''), $r['err'] ?? '', $r['model'] ?? '', $r['ms'] ?? '', (int) ($r['tin'] ?? 0) + (int) ($r['tout'] ?? 0)]), ';');
         }
         rewind($out);
         Activity::log(self::actor(), 'a exporté le journal de l’assistant', ['title' => $month ?: 'complet']);
@@ -301,6 +303,9 @@ final class System extends Base
                     $u = Auth::find($id);
                     if (!$u) {
                         break;
+                    }
+                    if ($u['status'] === 'disabled') {
+                        return self::back('/admin/utilisateurs', null, 'Ce compte est désactivé : réactivez-le d’abord.');
                     }
                     $token = Auth::invite($id);
                     $sent = Account::mailLink($u, $token, $action === 'renvoyer' && $u['status'] !== 'active' ? 'invite' : 'reset');
@@ -594,6 +599,9 @@ final class System extends Base
         ob_start();
         $r = Cron::run($task);
         ob_end_clean();
+        if (!empty($r['_busy'])) {
+            return self::back('/admin/taches', null, 'Les tâches planifiées sont déjà en train de tourner : réessayez dans une minute.');
+        }
         $res = $r[$task] ?? null;
         Activity::log(self::actor(), 'a lancé la tâche', ['title' => Cron::TASKS[$task][1]]);
         if (!$res) {

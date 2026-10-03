@@ -810,7 +810,14 @@ final class Proofreader
             return null;
         }
         $d = json_decode((string) file_get_contents($f), true);
-        return is_array($d) && isset($d['items']) && is_array($d['items']) ? $d['items'] : null;
+        if (!is_array($d) || !isset($d['items']) || !is_array($d['items'])) {
+            return null;
+        }
+        // Dernière utilisation (le ménage garde les réponses encore servies).
+        if (filemtime($f) < time() - 86400) {
+            @touch($f);
+        }
+        return $d['items'];
     }
 
     private static function cachePut(string $key, array $items): void

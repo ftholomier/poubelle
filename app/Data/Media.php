@@ -45,9 +45,22 @@ final class Media
 
     public static function file(string $rel): ?string
     {
-        $rel = ltrim(str_replace(['..', "\0"], '', $rel), '/');
+        $rel = self::safeRel($rel);
+        if ($rel === '') {
+            return null;
+        }
         $f = self::ORIGINALS . '/' . $rel;
         return is_file($f) ? $f : null;
+    }
+
+    /**
+     * Chemin relatif sûr dans la médiathèque : octets nuls et barres inverses retirés d'abord,
+     * puis tout segment « . » ou « .. » refusé ('' renvoyé) ; jamais de sortie du dossier.
+     */
+    public static function safeRel(string $rel): string
+    {
+        $rel = ltrim(str_replace(["\0", '\\'], '', $rel), '/');
+        return preg_match('#(^|/)\.\.?(/|$)#', $rel) ? '' : $rel;
     }
 
     /** Légende complète affichable : « Légende – Crédit » (légende anglaise si elle existe). */

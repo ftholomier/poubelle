@@ -1,5 +1,5 @@
 <?php
-/** Centenaire (maquette « Centenaire »). Variables : $target, $moments, $onze, $results, $votes */
+/** Centenaire (maquette « Centenaire »). Variables : $target, $moments, $onze, $results, $reveal, $votes */
 $pub = count(array_filter($moments, fn ($m) => $m['open']));
 $due = count(array_filter($moments, fn ($m) => $m['due']));
 $slots = [['G', 50, 88], ['D', 15, 68], ['D', 38, 72], ['D', 62, 72], ['D', 85, 68], ['M', 25, 47], ['M', 50, 51], ['M', 75, 47], ['A', 20, 22], ['A', 50, 16], ['A', 80, 22]];
@@ -46,8 +46,9 @@ $posName = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A'
         <button type="button" class="qbtn" data-onze-vote disabled></button>
         <button type="button" class="linkbtn" data-onze-reset><?= e(t('Recommencer')) ?></button>
       </div>
-      <div class="oresults" data-onze-results<?= $results ? '' : ' hidden' ?>>
-        <b class="oresults__t"><?= e(t('Le Onze du public, en direct')) ?> · <span data-onze-voters><?= (int) $votes ?></span> <?= e(t('votants')) ?></b>
+      <div class="oresults" data-onze-results<?= $results || (!empty($reveal) && $votes) ? '' : ' hidden' ?>>
+        <b class="oresults__t"><?= e(empty($reveal) ? t('Le Onze du public, en direct') : t('Votes enregistrés')) ?> · <span data-onze-voters><?= (int) $votes ?></span> <?= e(t('votants')) ?></b>
+        <?php if (!empty($reveal)): ?><p class="oresults__wait"><?= e(t('Résultats dévoilés le {d}.', ['d' => date_fr($reveal)])) ?></p><?php endif; ?>
         <div data-onze-rows>
           <?php foreach ($results as $r): ?>
             <div class="orow"><span><?= e($r['name']) ?></span><span class="orow__bar"><span style="width:<?= (int) $r['pct'] ?>%"></span></span><b><?= (int) $r['pct'] ?>%</b></div>

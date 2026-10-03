@@ -1,5 +1,4 @@
 {
-    "/": "/accueil-wordpress/",
     "/?p=10001": "/joueurs/philippe-terrier/",
     "/?p=10003": "/joueurs/raphael-tellechea/",
     "/?p=10005": "/joueurs/oscar-tellechea/",
@@ -1768,7 +1767,7 @@
     "/?p=2988": "/matchs/2013-2014/sochaux-lille-ligue-1-21-09-2013/",
     "/?p=299": "/matchs/1986-1987/sochaux-nice-division-1-22-08-1986/",
     "/?p=2990": "/matchs/2013-2014/guingamp-sochaux-ligue-1-25-09-2013/",
-    "/?p=3": "/accueil-wordpress/",
+    "/?p=3": "/",
     "/?p=3000": "/joueurs/joel-bats/",
     "/?p=3010": "/matchs/2013-2014/sochaux-valenciennes-ligue-1-28-09-2013/",
     "/?p=3017": "/matchs/2013-2014/bordeaux-sochaux-ligue-1-06-10-2013/",

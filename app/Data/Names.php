@@ -8,8 +8,11 @@ final class Names
 {
     public static function ascii(string $s): string
     {
+        static $tr = null;
         $s = html_entity_decode($s, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $t = transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $s);
+        // Translittérateur créé une seule fois (le recréer à chaque appel coûte cher).
+        $tr ??= \Transliterator::create('Any-Latin; Latin-ASCII; Lower()');
+        $t = $tr ? $tr->transliterate($s) : false;
         return $t === false ? mb_strtolower($s) : $t;
     }
 

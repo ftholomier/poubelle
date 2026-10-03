@@ -14,6 +14,8 @@ return [
 <tr><td>Même tableau de composition que…</td><td>une composition copiée d’un autre match sur l’ancien site</td><td>saisir la bonne composition</td></tr>
 <tr><td>Statistiques incohérentes</td><td>le total d’un tableau de statistiques ne correspond pas à la somme des saisons</td><td>corriger le tableau</td></tr>
 <tr><td>Tableau de statistiques identique à celui de N autres fiches</td><td>le même tableau recopié sur plusieurs fiches de joueurs (modèle de l’ancien site) : la fiche affiche les chiffres d’un autre joueur</td><td>saisir le vrai tableau du joueur, ou vider l’onglet Statistiques en attendant</td></tr>
+<tr><td>Joueur inscrit deux fois dans la composition</td><td>le même joueur figure sur deux lignes de la composition (il n’est compté qu’une fois dans les statistiques)</td><td>supprimer la ligne en trop, en gardant ses buts, remplacements et cartons</td></tr>
+<tr><td>Dates à vérifier</td><td>dates de la personne incohérentes : naissance improbable, décès avant la naissance, départ avant l’arrivée, arrivée à un âge impossible</td><td>corriger la date fautive sur la fiche de la personne</td></tr>
 <tr><td>Fiche marquée « à venir »</td><td>fiche annoncée sur l’ancien site mais pas encore rédigée</td><td>compléter ou laisser en brouillon</td></tr>
 </table>
 HTML],

@@ -88,7 +88,7 @@ $card = function (array $s, string $kicker, string $when, string $cta, ?string $
     <div class="rdgrid">
       <?php foreach ($past as $e): $st = $e['stats']; $r = array_sum($st['reactions']); ?>
         <?= $card($e['s'], t('Direct du {d}', ['d' => date_fr($e['date'])]), '', t('Revoir en accéléré'),
-            trim(($st['peak'] ? t('{n} spectateurs au plus fort', ['n' => $st['peak']]) : '') . ($r ? ' · ' . t('{n} réactions', ['n' => $r]) : ''), ' ·') ?: null, true) ?>
+            trim(($st['peak'] ? tn($st['peak'], '{n} spectateur au plus fort', '{n} spectateurs au plus fort') : '') . ($r ? ' · ' . tn($r, '{n} réaction', '{n} réactions') : ''), ' ·') ?: null, true) ?>
       <?php endforeach; ?>
     </div>
   </section>

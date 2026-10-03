@@ -206,9 +206,10 @@ function safe_html(?string $html): string
     if (!$html) {
         return '';
     }
-    $html = preg_replace('#<(script|style|iframe|object|embed|form|svg|math)\b[^>]*>.*?</\1>#is', '', $html);
-    $html = preg_replace('#<(script|style|iframe|object|embed|form|input|button|meta|link)\b[^>]*>#i', '', $html);
-    $html = preg_replace('/\son\w+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html);
+    $html = preg_replace('#<(script|style|iframe|frame|frameset|object|embed|applet|form|svg|math|template|noscript)\b[^>]*>.*?</\1\s*>#is', '', $html);
+    $html = preg_replace('#</?(script|style|iframe|frame|frameset|object|embed|applet|form|input|button|select|textarea|meta|link|base|svg|math|template|noscript)\b[^>]*>#i', '', $html);
+    // Attributs d'événement, y compris collés au nom de balise ou à un autre attribut (« <a/onclick=… », « "onclick=… »).
+    $html = preg_replace('/(?<=[\s\/"\'])on[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html);
     $html = preg_replace_callback('/\b(href|src|action|formaction|xlink:href)\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', function ($m) {
         $v = strtolower(preg_replace('/[\s\x00-\x1f]+/', '', html_entity_decode(trim($m[2], '"\''), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
         return preg_match('#^(javascript|vbscript|data):#', $v) && !preg_match('#^data:image/(png|jpe?g|gif|webp);#', $v) ? $m[1] . '="#"' : $m[0];
@@ -340,6 +341,22 @@ function decade_label(int $decade, bool $full = false, bool $lower = false): str
         $s = 'Années ' . ($full || $decade >= 2000 ? $decade : substr((string) $decade, 2));
     }
     return $lower ? mb_strtolower(mb_substr($s, 0, 1)) . mb_substr($s, 1) : $s;
+}
+
+/**
+ * Ligne d'export CSV sans formule : une cellule (saisie par le public) qui commence par
+ * = + - @ ou une tabulation est préfixée d'une apostrophe pour Excel et LibreOffice.
+ */
+function csv_safe(array $row): array
+{
+    return array_map(fn ($v) => is_string($v) && preg_match('/^[=+\-@\t\r]/', $v) && !is_numeric($v) ? "'" . $v : $v, $row);
+}
+
+/** Texte traduit au singulier ou au pluriel selon $n (en français, 0 et 1 au singulier) ; {n} est remplacé. */
+function tn(int|float $n, string $one, string $many, array $vars = []): string
+{
+    $plural = \App\Services\I18n::isEn() ? abs($n) != 1 : abs($n) >= 2;
+    return t($plural ? $many : $one, $vars + ['n' => $n]);
 }
 
 /** Nombre ordinal : 1er, 2e… / 1st, 2nd, 3rd, 4th… */

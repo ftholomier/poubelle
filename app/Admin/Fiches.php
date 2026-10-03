@@ -360,11 +360,16 @@ final class Fiches extends Base
             $doc['path'] = Paths::unique(Paths::suggest($doc), (int) ($doc['id'] ?: -1));
         }
         $doc['slug'] = basename(rtrim($doc['path'], '/'));
-        if ($doc['status'] === 'publie') {
-            $doc['published_once'] = true;
-            if (empty($before['published_once']) && ($before['status'] ?? '') !== 'publie') {
+        // Moment du centenaire : planifié pour sa semaine tant qu'elle n'est pas arrivée.
+        $asked = $doc['status'];
+        $doc = Store::scheduleMoment($doc);
+        // « Déjà publiée » : retenu au passage de statut (l'adresse ne bouge plus ensuite).
+        $prevStatus = $before['status'] ?? '';
+        if ($doc['status'] !== $prevStatus && ($doc['status'] === 'publie' || $prevStatus === 'publie')) {
+            if ($doc['status'] === 'publie' && empty($before['published_once']) && $prevStatus !== 'publie') {
                 $doc['date'] = date('c');
             }
+            $doc['published_once'] = true;
         }
         $message = Html::line($in['_message'] ?? '', 160);
         $saved = Store::save($doc, self::actor(), $message);
@@ -372,11 +377,14 @@ final class Fiches extends Base
             Redirects::add($before['path'], $saved['path']);
         }
         $v = Store::versions((int) $saved['id'])[0] ?? null;
+        $changed = $isNew || ($saved['modified'] ?? null) !== ($before['modified'] ?? null);
+        $planned = $asked === 'publie' && $saved['status'] === 'planifie' && $saved['type'] === 'moment'
+            ? ' Ce moment sera mis en ligne le ' . date_fr((string) $saved['publish_at']) . ', au début de sa semaine.' : '';
         return self::json([
             'ok' => true,
             'id' => $saved['id'],
             'modified' => $saved['modified'],
-            'message' => $isNew ? 'Fiche créée' : ($v ? 'Version v' . $v['n'] . ' enregistrée' : 'Aucune modification'),
+            'message' => ($isNew ? 'Fiche créée' : ($changed && $v ? 'Version v' . $v['n'] . ' enregistrée' : 'Aucune modification')) . $planned,
             'savedLabel' => 'Enregistré · v' . ($v['n'] ?? 1) . ' · ' . (self::actor()['name'] ?? ''),
             'redirect' => $isNew ? '/admin/fiche/' . $saved['id'] : null,
             'reload' => !$isNew && (($before['status'] ?? '') !== $saved['status'] || ($before['path'] ?? '') !== $saved['path']),

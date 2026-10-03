@@ -99,8 +99,10 @@ final class Kernel
             $req = new Request($req->method, $path, $req->query, $req->post, $req->files, $req->server, $req->body);
         }
 
-        // Webhooks et API : jamais bloqués par la page d'attente
-        if (str_starts_with($path, '/api/')) {
+        // Webhooks des paiements (Stripe, PayPal) et consentement aux cookies : jamais bloqués
+        // par la page d'attente ni par le mot de passe d'accès.
+        $api = str_starts_with($path, '/api/');
+        if ($api && (preg_match('#^/api/dons/(stripe|paypal)/webhook$#', $path) || $path === '/api/consentement')) {
             return Front\Api::handle($req);
         }
 
@@ -110,16 +112,25 @@ final class Kernel
         }
         // Page d'attente (les membres connectés du back-office voient le site)
         if (Settings::get('waiting.enabled', false) && !Auth::user()) {
+            if ($api) {
+                return Response::json(['error' => t('Le site ouvrira bientôt.')], 503);
+            }
             if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true)) {
                 return Front\Pages::waiting();
             }
         }
         // Accès restreint par mot de passe (pré-lancement)
         if (($pwd = Settings::get('general.front_password', '')) && !Auth::user()) {
-            $gate = Front\Pages::gate($req, (string) $pwd);
+            if ($api && !Front\Pages::gateOpen((string) $pwd)) {
+                return Response::json(['error' => t('Accès réservé.')], 401);
+            }
+            $gate = $api ? null : Front\Pages::gate($req, (string) $pwd);
             if ($gate) {
                 return $gate;
             }
+        }
+        if ($api) {
+            return Front\Api::handle($req);
         }
 
         // Adresses sans barre finale → avec (une seule adresse par page)
@@ -217,7 +228,9 @@ final class Kernel
         $r->get('/faire-un-don/gerer/{token}/recu/{num}/', fn ($q, $token, $num) => Front\Donations::receiptDownload($q, $token, $num));
         $r->get('/newsletter/', fn ($q) => Front\Community::newsletter($q));
         $r->get('/newsletter/confirmer/{token}/', fn ($q, $token) => Front\Community::newsletterConfirm($q, $token));
+        $r->post('/newsletter/confirmer/{token}/', fn ($q, $token) => Front\Community::newsletterConfirm($q, $token));
         $r->get('/newsletter/desinscription/{token}/', fn ($q, $token) => Front\Community::newsletterUnsubscribe($q, $token));
+        $r->post('/newsletter/desinscription/{token}/', fn ($q, $token) => Front\Community::newsletterUnsubscribe($q, $token));
         $r->get('/partage-et-newsletter/', fn ($q) => Front\Community::sharePage($q));
         return $r;
     }

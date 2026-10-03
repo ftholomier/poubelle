@@ -230,11 +230,11 @@ final class Donations extends Base
                 if ($year !== '' && substr((string) $p['at'], 0, 4) !== $year) {
                     continue;
                 }
-                fputcsv($out, [
+                fputcsv($out, csv_safe([
                     $d['id'], date('d/m/Y', strtotime((string) $p['at'])), number_format($p['amount'] / 100, 2, ',', ''), $d['frequency'] === 'month' ? 'mensuel' : 'ponctuel',
                     Front::PROVIDERS[$d['provider']] ?? $d['provider'], $d['mode'], $p['status'], $d['donor']['first'] ?? '', $d['donor']['last'] ?? '', $d['donor']['email'] ?? '',
                     $d['donor']['address'] ?? '', $d['donor']['zip'] ?? '', $d['donor']['city'] ?? '', $d['donor']['country'] ?? '', $p['receipt'] ?? '', !empty($d['wall']) && empty($d['wall_hidden']) ? ($d['wall_name'] ?? '') : '', $p['ref'],
-                ], ';');
+                ]), ';');
             }
         }
         rewind($out);

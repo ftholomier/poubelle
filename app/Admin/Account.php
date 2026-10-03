@@ -119,7 +119,15 @@ final class Account extends Base
                 $u = Auth::findByEmail($email);
                 if ($u && $u['status'] === 'active') {
                     $token = Auth::invite($u['id']);
-                    self::mailLink($u, $token, 'reset');
+                    // Envoi après la réponse : même durée de réponse que le compte existe ou non.
+                    register_shutdown_function(function () use ($u, $token) {
+                        if (function_exists('fastcgi_finish_request')) {
+                            fastcgi_finish_request();
+                        } elseif (function_exists('litespeed_finish_request')) {
+                            litespeed_finish_request();
+                        }
+                        self::mailLink($u, $token, 'reset');
+                    });
                 }
             }
             $sent = true; // même réponse que le compte existe ou non
@@ -165,7 +173,14 @@ final class Account extends Base
     /** Envoie un lien d'invitation ou de réinitialisation. */
     public static function mailLink(array $u, string $token, string $kind = 'invite'): bool
     {
-        $link = base_url() . '/admin/invitation/' . $token;
+        // Jamais l'en-tête « Host » de la requête dans un lien envoyé par e-mail : sans adresse du
+        // site réglée, le lien n'est pas envoyé (sinon un tiers pourrait le détourner vers son site).
+        $base = rtrim((string) \App\Core\Settings::get('general.base_url', ''), '/');
+        if ($base === '') {
+            error_log('[compte] adresse du site non réglée (Réglages) : lien ' . $kind . ' non envoyé');
+            return false;
+        }
+        $link = $base . '/admin/invitation/' . $token;
         $site = (string) \App\Core\Settings::get('general.site_name', 'Sochaux Rétro');
         if ($kind === 'invite') {
             $subject = "Invitation au back-office de $site";

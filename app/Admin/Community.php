@@ -98,7 +98,9 @@ final class Community extends Base
             'Content-Type' => $mime,
             'Content-Disposition' => ($inline ? 'inline' : 'attachment') . '; filename="' . addslashes((string) $f['name']) . '"',
             'Cache-Control' => 'private, max-age=600',
-        ]);
+            // Fichier envoyé par le public : jamais interprété autrement que selon son type vérifié.
+            'X-Content-Type-Options' => 'nosniff',
+        ] + (str_starts_with($mime, 'image/') ? ['Content-Security-Policy' => "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox"] : []));
     }
 
     public static function contributionAction(Request $req, string $ticket): Response
@@ -379,6 +381,10 @@ final class Community extends Base
             return self::back('/admin/newsletter', $ok ? 'E-mail de test envoyé à ' . $u['email'] . '.' : null, $ok ? null : 'Envoi impossible : vérifiez les réglages e-mail (Réglages › E-mail).');
         }
         if ($action === 'envoyer') {
+            // Renvoyer à tous les abonnés une lettre déjà partie cette semaine : administrateurs seulement.
+            if (Newsletter::sentThisWeek() && !Auth::isAdmin()) {
+                return self::back('/admin/newsletter', null, 'La lettre de cette semaine est déjà partie : seul un administrateur peut la renvoyer.');
+            }
             @set_time_limit(300);
             $r = Newsletter::tick(true);
             return self::back('/admin/newsletter', 'Envoi lancé : ' . ($r['sent'] ?? 0) . ' e-mail(s) envoyé(s)' . (($r['remaining'] ?? 0) ? ', ' . $r['remaining'] . ' en attente (suite au prochain passage de la tâche planifiée)' : '') . '.');
