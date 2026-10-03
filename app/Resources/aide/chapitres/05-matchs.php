@@ -25,7 +25,7 @@ HTML],
 HTML],
         ['id' => 'composition', 'title' => '3. La composition', 'html' => <<<'HTML'
 <p>Onglet <b>Compo &amp; événements</b> : une ligne par joueur, dans l’ordre (titulaires, remplaçants, entraîneur).</p>
-[[img:match-compo.webp|La composition : (1) poste, (2) numéro, (3) joueur, (4) capitaine, (5) buts, (6) remplacement, (7) cartons, (8) fiche reliée, (9) déplacer ou supprimer la ligne]]
+[[img:match-compo.webp|La composition : (1) poste, (2) numéro, (3) joueur, (4) capitaine, (5) buts, (6) remplacement, (7) cartons, (8) fiche reliée, (9) ↑ / ↓ pour monter ou descendre d’un cran, icône quatre flèches pour glisser la ligne plus loin, ✕ pour la supprimer]]
 <table>
 <tr><th>Colonne</th><th>À saisir</th><th>Exemple</th></tr>
 <tr><td>Poste</td><td>G gardien, D défenseur, M milieu, A attaquant, R remplaçant, E entraîneur</td><td>D</td></tr>

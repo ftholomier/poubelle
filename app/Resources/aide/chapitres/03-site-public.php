@@ -41,6 +41,7 @@ HTML],
 <li><b>Personne</b> : photo façon carte de collection, grands chiffres, fiche d’identité, palmarès, récit, saison par saison, matchs marquants, la liste complète de ses matchs.</li>
 <li><b>Saison, face-à-face, bilans, records</b> : totaux, répartition victoires / nuls / défaites, faits marquants, tableaux complets.</li>
 </ul>
+[[img:pdf-fiche-match.webp|Les premières pages du PDF d’une fiche match]]
 [[auto|<p>Le PDF suit toujours la dernière version enregistrée : il est refait automatiquement dès qu’une fiche change. Il existe aussi en anglais depuis la version anglaise du site.</p>]]
 [[astuce|<p>Dans le back-office, le panneau Publication d’une fiche propose aussi <b>Télécharger le PDF</b>, même pour une fiche pas encore publiée.</p>]]
 HTML],

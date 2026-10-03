@@ -26,7 +26,7 @@ HTML],
 <li><b>Ordre des sous-rubriques</b> : les saisons d’une décennie, les compétitions… dans l’ordre des menus, onglets et filtres, par glisser-déposer.</li>
 <li><b>Libellés</b> en français et en anglais (menus, fil d’Ariane, mosaïque) et <b>texte d’introduction</b> de la mosaïque.</li>
 </ul>
-[[img:rubrique-ordre.webp|Une rubrique : ordre d’affichage et ordre des fiches par glisser-déposer]]
+[[img:rubrique-ordre.webp|Une rubrique (ici les années 90) : (1) ordre d’affichage sur le site, (2) trouver une fiche, (3) remettre en ordre automatiquement, (4) position (cliquer pour la taper), (5) ↑ / quatre flèches / ↓]]
 [[astuce|<p>Les fiches créées après le dernier classement sont signalées « non classée » et placées en fin de liste : glissez-les à leur place puis enregistrez.</p>]]
 [[attention|<p>Une fiche n’apparaît dans une rubrique que si cette rubrique est cochée dans la fiche (onglet « Classement &amp; SEO »).</p>]]
 HTML],

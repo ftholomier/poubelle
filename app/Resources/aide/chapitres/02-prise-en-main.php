@@ -50,6 +50,7 @@ HTML],
 <li>au milieu, l’icône jaune <b>quatre flèches</b> : attrapez-la à la souris (ou au doigt sur tablette) et glissez l’élément aussi loin que vous voulez. Un <b>trait jaune</b> montre exactement où il sera déposé, avec sa future position ; la liste défile toute seule quand vous approchez du bord. <kbd>Échap</kbd> annule.</li>
 <li>dans les listes numérotées, <b>cliquez sur le numéro</b> et tapez directement la position voulue (« 12 » + <kbd>Entrée</kbd>) : pratique pour envoyer un match tout en haut d’une liste de 500.</li>
 </ul>
+[[img:glisser-deposer.webp|Glisser-déposer en cours : la fiche suit la souris, le trait jaune et « Position 2 » montrent où elle sera déposée]]
 [[astuce|<p>Au clavier : placez-vous sur l’icône quatre flèches (touche <kbd>Tab</kbd>) puis <kbd>↑</kbd> / <kbd>↓</kbd> pour déplacer, <kbd>Début</kbd> / <kbd>Fin</kbd> pour aller en tête ou en queue, <kbd>Entrée</kbd> pour taper une position.</p>]]
 [[attention|<p>Un nouvel ordre n’est pris en compte qu’après <b>Enregistrer</b>.</p>]]
 HTML],

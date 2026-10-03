@@ -69,7 +69,8 @@
         <tr><td>Ajouter, créditer, retoucher des photos</td><td>Contenus › Médiathèque</td></tr>
         <tr><td>Corriger un adversaire, un stade, un lieu</td><td>Contenus › Saisons, adversaires, lieux</td></tr>
         <tr><td>Slider, bandeau, accueil</td><td>Éditorial › Accueil &amp; bandeau</td></tr>
-        <tr><td>Ordre des fiches d’une rubrique</td><td>Éditorial › Rubriques &amp; menus</td></tr>
+        <tr><td>Ordre des fiches d’une décennie, d’une rubrique</td><td>Éditorial › Rubriques &amp; menus (↑ ↓ un cran, ✥ glisser plus loin)</td></tr>
+        <tr><td>Le PDF d’une fiche</td><td>panneau Publication › Télécharger le PDF</td></tr>
         <tr><td>Rediriger une ancienne adresse</td><td>Éditorial › Redirections</td></tr>
         <tr><td>Mettre le site en maintenance</td><td>Éditorial › Page d’attente</td></tr>
         <tr><td>Quiz, frise, maillots, carte, partenaires</td><td>Interactif › Quiz, frise, carte…</td></tr>
@@ -95,6 +96,7 @@
         <li>Pages saison, face-à-face, bilans, records.</li>
         <li>Carte des origines et des stades.</li>
         <li>Recherche, plan du site, images de partage.</li>
+        <li>PDF de chaque fiche, toujours à jour.</li>
         <li>Sauvegarde chaque jour.</li>
       </ul>
     </div>
