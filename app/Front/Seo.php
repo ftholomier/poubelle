@@ -62,9 +62,15 @@ final class Seo
         // Pages fixes
         $add('/', date('c'), 'daily', '1.0', true);
         foreach (['/matchs/', '/nos-lions/', '/saisons/', '/face-a-face/', '/records/', '/bilans/coupe-de-france/', '/bilans/stade-auguste-bonal/',
-            '/interactif/', '/interactif/quiz/', '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/',
+            '/interactif/', '/interactif/quiz/', '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/interactif/retro-direct/',
             '/centenaire/', '/centenaire/100-moments/', '/reserves/', '/faire-un-don/', '/contribuer/', '/contact/', '/partage-et-newsletter/', '/mentions-legales/', '/confidentialite/', '/cookies/'] as $p) {
             $add($p, null, 'weekly', '0.7', true);
+        }
+        // Rétro-Direct programmés
+        foreach (\App\Services\RetroDirect::program() as $e) {
+            if ($e['state'] !== 'termine') {
+                $add('/interactif/retro-direct/' . \App\Services\RetroDirect::slug($e['s']) . '/', null, 'daily', '0.6', true);
+            }
         }
         // Rubriques
         foreach (Categories::all() as $c) {

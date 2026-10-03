@@ -42,6 +42,7 @@ final class Help extends Base
         'attente' => 'editorial#attente',
         'interactif' => 'interactif',
         'onze' => 'interactif#onze-album',
+        'retro' => 'interactif#retro-direct',
         'contributions' => 'communaute#contributions',
         'messages' => 'communaute#messages',
         'newsletter' => 'communaute#newsletter',

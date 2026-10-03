@@ -78,6 +78,9 @@ final class Fiche
     public static function match(Request $req, array $doc): Response
     {
         $v = self::withAudio(self::matchData($doc), $doc);
+        // « Revivre en direct » (Rétro-Direct) quand la fiche a assez de temps forts datés.
+        $s = Index::get((int) $doc['id']);
+        $v['vars']['retro'] = $s && \App\Services\RetroDirect::playable($doc) ? \App\Services\RetroDirect::url($s) : null;
         return Pages::render('fiche-match', $v['vars'], $v['page']);
     }
 

@@ -281,6 +281,48 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   écran Système › Fiches audio (`App\Admin\Audio`) : chiffres, estimation, essai sur
   20 fiches ou tout le musée, suivi et annulation des travaux.
 
+## 7 sexies. Rétro-Direct (`App\Services\RetroDirect`, `App\Front\Retro`)
+
+- **Principe** : un match est rejoué en direct le jour et à l'heure programmés
+  (`data/collections/retrodirect.json` : `id`, `date`, `time`, `intro`, `intro_en`, `by`,
+  `at`). Aucune IA : la chronologie est calculée depuis la fiche et déroulée par le navigateur
+  (`public/assets/js/retro.js`) à l'horloge du serveur (heure de la page + `performance.now()`).
+- **Chronologie** (`timeline()`, en secondes depuis le coup d'envoi ; une minute de match =
+  une minute réelle) : temps forts (`highlights`), buts, entrées en jeu appariées aux sorties
+  de la même minute (à deux minutes près ; une sortie seule n'est pas annoncée), cartons,
+  mi-temps (15 min), reprise, fin du temps réglementaire, prolongation (5 min de pause, si
+  `aet`, « a.p » ou tirs au but avec des minutes au-delà de la 90e), séance de tirs au but
+  (8 min), coup de sifflet final. Temps additionnel : « 45+2 », ou « 93 » sans prolongation.
+  Les buts viennent des temps forts si leurs scores mènent au score final (retournés quand
+  ils sont notés du point de vue de Sochaux), sinon de la ligne des buteurs ; le camp du
+  buteur colore le but (jaune pour Sochaux). Noms des joueurs : ceux de la fiche du joueur
+  quand elle est mieux accentuée. Il faut 4 événements datés (`playable()`).
+- **Programme** (`program()`) : états `avenir`, `direct` (jusqu'à 15 min après le coup de
+  sifflet final), `termine`. Durée exacte (chronologie) pour les directs à moins de 2 jours,
+  estimée sinon (bandeau, API : `program(…, false)` ne relit pas la fiche).
+  `suggestions()` : anniversaires ronds (10, 20, 25, 30, 40, 50… ans) à venir, matchs d'au
+  moins 5 temps forts, classés par `interest()` (temps forts plafonnés à 20, coupe, finale ou
+  demi-finale, victoire large, 5 buts ou plus, affluence, fiche à la une ; amicaux écartés).
+  `classics()` : grands matchs à revivre (un par adversaire). Derived : `hl` (nombre de
+  temps forts) dans le résumé de chaque match.
+- **Site** : `/interactif/retro-direct/` (direct en cours, prochains directs, grands matchs,
+  directs passés), `/interactif/retro-direct/{dernier segment de l'adresse du match}/`
+  (modes `live`, `upcoming` : compte à rebours sans score puis rechargement au coup d'envoi,
+  `replay` : ×1, ×10, ×60, « Temps fort suivant », pauses ramenées à 4 s),
+  `/interactif/retro-direct/agenda.ics` (tous les directs à venir, ou un seul avec
+  `?match=&date=` ; heures UTC, lignes pliées à 75 octets). Bouton « Revivre en direct » sur
+  les fiches de match rejouables, message dans le bandeau (en cours, ou dans les 7 jours ;
+  case « Rétro-Direct » d'Éditorial › Accueil & bandeau), plan du site.
+- **API** `POST /api/retro-direct` (JSON) : `presence` (jeton aléatoire du navigateur toutes
+  les 30 s, oublié après 75 s ; spectateurs et pic) et `react` (⚽ 👏 😱) seulement pendant un
+  direct, `etais` (« J'y étais ! », par match, 2 par jour et par adresse) ; 40 requêtes par
+  minute et par adresse. Compteurs dans `storage/retro/{id}-{date}.json` et
+  `storage/retro/etais.json`.
+- **Back-office** : Interactif › Rétro-Direct (`App\Admin\Retro`) : programme (modifier,
+  retirer), programmation d'un match (date du prochain anniversaire proposée,
+  `public/assets/admin/retro.js`), anniversaires des 30 à 365 prochains jours, « Programmer
+  à 20 h » en un clic.
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -335,6 +377,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `correcteur/` | résultats de la vérification de fond, corrections ignorées | non (recalculé) |
 | `ia/` | dépense d'IA : détail des appels, cumuls, remboursements, barème (§ 7 quater) | oui |
 | `audio/` | fiches audio : texte lu et voix IA de chaque fiche, traitements groupés (§ 7 quinquies) ; `audio/jobs/` : fichiers d'échange temporaires | oui (sauf `jobs/`) ; les voix IA (`public/media/audio/`) avec les photos, le dimanche |
+| `retro/` | Rétro-Direct : spectateurs connectés, pic et réactions de chaque direct, « J'y étais ! » par match (§ 7 sexies) | oui |
 | `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
 | `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques | non |
 
@@ -378,5 +421,8 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   onglets multiples, libération, expiration, inactivité).
 - `php tests/audio.php` : fiches audio (résumés automatiques, texte retenu, voix enregistrée,
   rangement des résultats d'un traitement groupé, coût à moitié prix, barème des voix).
+- `php tests/retro.php` : Rétro-Direct (chronologie : buts et score, mi-temps, prolongation,
+  tirs au but, score retourné, buteurs ; programme et états ; anniversaires ; spectateurs et
+  réactions ; agenda .ics).
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

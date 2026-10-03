@@ -91,6 +91,9 @@ HTML],
         ['id' => 'verrou', 'title' => '… modifier une fiche qu’une collègue a déjà ouverte', 'html' => <<<'HTML'
 <p>Le bandeau en haut de la fiche donne son nom et l’heure. Attendez qu’elle ferme la fiche (le bandeau vous le dira), ou cliquez sur <b>Prendre la main</b> : elle est prévenue et ne peut plus enregistrer. Voir [[aide:fiches#verrou|Deux personnes sur la même fiche]].</p>
 HTML],
+        ['id' => 'retro-direct', 'title' => '… rejouer un grand match en direct le jour de son anniversaire', 'html' => <<<'HTML'
+<p>Interactif › <b>Rétro-Direct</b> › « Anniversaires à venir » › <b>Programmer à 20 h</b>, ou « Programmer un match » pour choisir le match, la date et l’heure. Le jour J, à l’heure dite, le site déroule le match minute par minute. Voir [[aide:interactif#retro-direct|Le Rétro-Direct]].</p>
+HTML],
         ['id' => 'pdf', 'title' => '… obtenir le PDF d’une fiche', 'html' => <<<'HTML'
 <p>Sur le site, bouton <b>Télécharger en PDF</b> sous le titre de la fiche (ou de la saison, du face-à-face, du bilan, des records). Dans le back-office : panneau Publication de la fiche › <b>Télécharger le PDF</b>. Le document reprend la dernière version enregistrée. Voir <a href="/admin/aide/site-public#pdf">Télécharger en PDF</a>.</p>
 HTML],

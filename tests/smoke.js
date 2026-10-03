@@ -16,10 +16,11 @@ const FRONT = ['/', '/matchs/', '/nos-lions/', '/nos-lions/joueurs/', '/supporte
   '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/centenaire/',
   '/centenaire/100-moments/', '/reserves/', '/contact/', '/contribuer/', '/faire-un-don/', '/newsletter/',
   '/mentions-legales/', '/confidentialite/', '/cookies/', '/en/', '/en/matchs/', '/reserves/', '/bilans/coupe-de-france/',
-  '/interactif/carto/', '/en/interactif/quiz/', '/matchs/annees-90/', '/records/', '/bilans/stade-auguste-bonal/'];
+  '/interactif/carto/', '/en/interactif/quiz/', '/matchs/annees-90/', '/records/', '/bilans/stade-auguste-bonal/',
+  '/interactif/retro-direct/', '/interactif/retro-direct/sochaux-le-puy-division-2-28-02-1988/', '/en/interactif/retro-direct/'];
 const ADMIN = ['/admin', '/admin/qualite', '/admin/qualite?cat=orthographe', '/admin/collection/dictionnaire', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
   '/admin/objets', '/admin/referentiels', '/admin/medias', '/admin/accueil', '/admin/moments', '/admin/rubriques',
-  '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/contributions',
+  '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/retro-direct', '/admin/aide/interactif', '/admin/contributions',
   '/admin/messages', '/admin/newsletter', '/admin/dons', '/admin/traductions', '/admin/assistant', '/admin/couts-ia', '/admin/reglages?groupe=couts', '/admin/audio', '/admin/reglages?groupe=audio',
   '/admin/sauvegardes', '/admin/taches', '/admin/profil', '/admin/fiche/nouvelle/match', '/admin/fiche/nouvelle/personne',
   '/admin/fiche/nouvelle/article', '/admin/fiche/nouvelle/objet', '/admin/fiche/nouvelle/moment', '/admin/corbeille', '/admin/audience',

@@ -17,8 +17,10 @@ redirigées.
 - Fiches joueurs, entraîneurs, dirigeants : carte à collectionner, identité, récit,
   statistiques, tous leurs matchs reliés automatiquement.
 - Explorer : saisons, face-à-face, bilans par compétition et par stade, records.
-- INTERACTIF : quiz, album de cartes, maillots, frise, carte OpenStreetMap,
-  centenaire (100 moments, Onze de légende), réserves du musée.
+- INTERACTIF : **Rétro-Direct** (un grand match rejoué en direct, minute par minute, le
+  jour de son anniversaire, et tous les matchs à revivre en accéléré), quiz, album de
+  cartes, maillots, frise, carte OpenStreetMap, centenaire (100 moments, Onze de légende),
+  réserves du musée.
 - Recherche, assistant IA (Gemini) en bas à droite, dons (Stripe, PayPal), contact,
   contributions, newsletter « Ce jour-là ».
 - **Télécharger en PDF** sur chaque fiche et chaque page de synthèse (saison,
@@ -36,7 +38,8 @@ de fond de tout le musée dans Qualité › Orthographe), **coût de l'IA en tem
 rembourser par l'association), **verrou nominatif** (une fiche ouverte par quelqu'un est
 signalée aux autres, en lecture seule, avec « Prendre la main »), **fiches audio** (chaque
 fiche se raconte en 30 secondes : voix du navigateur gratuite ou voix IA enregistrée,
-fiche par fiche ou pour tout le musée en traitement groupé), sauvegardes, aide en
+fiche par fiche ou pour tout le musée en traitement groupé), **Rétro-Direct** (programme
+des directs, anniversaires ronds proposés, public de chaque direct), sauvegardes, aide en
 ligne (guide,
 mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
 et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).

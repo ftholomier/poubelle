@@ -52,7 +52,7 @@ HTML],
 HTML],
         ['id' => 'interactif', 'title' => 'Interactif, recherche, assistant, dons', 'html' => <<<'HTML'
 <ul>
-<li><b>Interactif</b> : quiz, album de cartes, maillots, frise, carte, centenaire (100 moments, Onze de légende), réserves du musée.</li>
+<li><b>Interactif</b> : Rétro-Direct (les grands matchs rejoués en direct le jour anniversaire, voir [[aide:interactif#retro-direct|Le Rétro-Direct]]), quiz, album de cartes, maillots, frise, carte, centenaire (100 moments, Onze de légende), réserves du musée.</li>
 <li><b>Recherche</b> : loupe en haut du site, sur toutes les fiches.</li>
 <li><b>Assistant IA</b> : bulle en bas à droite, qui répond à partir des données du musée.</li>
 <li><b>Contact, Contribuer, Newsletter, Faire un don</b> : leurs messages et leurs dons arrivent dans le menu Communauté.</li>

@@ -168,9 +168,10 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
 
 - **Accueil & bandeau** : slider « À la une » (tirage au hasard parmi les fiches cochées
   « À la une » qui ont une vraie photo — la silhouette « ? » est écartée —, ou liste choisie
-  à la main), messages du bandeau « En direct du musée » (3 messages automatiques : ce
-  jour-là, compte à rebours du centenaire, dernier match fiché ; plus les messages libres de
-  l'équipe), introduction, palmarès, grandes époques, réserves mises en avant.
+  à la main), messages du bandeau « En direct du musée » (4 messages automatiques : ce
+  jour-là, compte à rebours du centenaire, dernier match fiché, Rétro-Direct en cours ou dans
+  les 7 jours ; plus les messages libres de l'équipe), introduction, palmarès, grandes
+  époques, réserves mises en avant.
 - **Rubriques & menus** : **ordre d'affichage sur le site** (manuel, chronologique ou A–Z),
   **ordre des fiches** de la rubrique (toutes, sous-rubriques comprises : ↑ / ↓, icône
   quatre flèches à glisser avec trait jaune de dépôt, clic sur le numéro pour taper une
@@ -192,6 +193,16 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   traduire. Les contenus de départ ont été préparés à partir des fiches : **à valider**.
 - **Onze & album** : candidats au vote du « Onze de légende » (résultats, date de
   révélation) et sélection des cartes de l'album (rareté : légende, classique, actuel).
+- **Rétro-Direct** : un match rejoué en direct sur le site le jour et à l'heure choisis
+  (temps forts à leur minute, score qui change à la minute des buts, remplacements,
+  mi-temps de 15 minutes, prolongation et tirs au but ; compteur de spectateurs connectés,
+  réactions, « J'y étais ! »). « Anniversaires à venir » propose les anniversaires ronds
+  (10, 20, 25, 30, 40, 50 ans…) des 30 à 365 prochains jours, les plus marquants d'abord
+  retenus : **Programmer à 20 h** en un clic. « Programmer un match » : n'importe quel match
+  (au moins 4 temps forts avec leur minute), date (le prochain anniversaire est proposé),
+  heure du coup d'envoi, présentation facultative (français, anglais). « Au programme » :
+  voir, modifier, retirer ; public des directs passés (pic de spectateurs, réactions). Aucun
+  coût : tout vient de la fiche du match.
 
 ## 7. Communauté
 

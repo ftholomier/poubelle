@@ -186,6 +186,9 @@ final class Kernel
         $r->get('/interactif/maillots/', fn ($q) => Front\Interactive::jerseys($q));
         $r->get('/interactif/frise/', fn ($q) => Front\Interactive::timeline($q));
         $r->get('/interactif/carto/', fn ($q) => Front\Interactive::carto($q));
+        $r->get('/interactif/retro-direct/', fn ($q) => Front\Retro::landing($q));
+        $r->get('/interactif/retro-direct/agenda.ics', fn ($q) => Front\Retro::ics($q));
+        $r->get('/interactif/retro-direct/{slug}/', fn ($q, $slug) => Front\Retro::show($q, $slug));
         $r->get('/centenaire/', fn ($q) => Front\Interactive::centenary($q));
         $r->get('/centenaire/100-moments/', fn ($q) => Front\Interactive::moments($q));
         $r->get('/reserves/', fn ($q) => Front\Interactive::reserves($q));

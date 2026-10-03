@@ -68,6 +68,7 @@ final class Collections
             'epoques' => 'les grandes époques', 'palmares' => 'le palmarès', 'ticker' => 'le bandeau défilant',
             'slider' => "le slider d'accueil", 'lieux' => 'les lieux', 'clubs' => 'les adversaires', 'stades' => 'les stades',
             'menus' => 'les menus', 'dons' => 'la page Faire un don', 'reserves' => 'les réserves du musée', 'dictionnaire' => 'le dictionnaire du musée',
+            'retrodirect' => 'le programme du Rétro-Direct',
         ][$name] ?? $name;
     }
 }

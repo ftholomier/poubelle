@@ -11,7 +11,7 @@ use App\Services\Search;
 
 /**
  * API JSON du site public (/api/…) : recherche, consentement, assistant,
- * « Ce jour-là », carte, votes, dons (webhooks Stripe / PayPal), newsletter.
+ * « Ce jour-là », carte, votes, Rétro-Direct, dons (webhooks Stripe / PayPal), newsletter.
  * Jamais bloquée par la page d'attente (les webhooks doivent toujours passer).
  */
 final class Api
@@ -36,6 +36,7 @@ final class Api
                 $p === '/api/carte' => Interactive::mapData($req),
                 $p === '/api/onze' && $post => Interactive::onzeVote($req),
                 $p === '/api/quiz' && $post => Interactive::quizResult($req),
+                $p === '/api/retro-direct' && $post => Retro::api($req),
                 $p === '/api/dons/session' && $post => Donations::checkout($req),
                 $p === '/api/dons/paypal/capture' && $post => Donations::paypalCapture($req),
                 $p === '/api/dons/stripe/webhook' && $post => Donations::stripeWebhook($req),

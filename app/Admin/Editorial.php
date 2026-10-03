@@ -85,7 +85,7 @@ final class Editorial extends Base
                 }
                 $msgs[] = ['k' => $k, 'v' => $v, 'k_en' => $line($m['k_en'] ?? '', 40), 'v_en' => $line($m['v_en'] ?? '', 160), 'href' => $href($m['href'] ?? '') ?? '/', 'on' => !empty($m['on'])];
             }
-            Collections::save('ticker', ['auto' => ['jour' => !empty($t['auto']['jour']), 'centenaire' => !empty($t['auto']['centenaire']), 'dernier' => !empty($t['auto']['dernier'])], 'messages' => $msgs], $user, 'Bandeau défilant');
+            Collections::save('ticker', ['auto' => ['jour' => !empty($t['auto']['jour']), 'centenaire' => !empty($t['auto']['centenaire']), 'dernier' => !empty($t['auto']['dernier']), 'retro' => !empty($t['auto']['retro'])], 'messages' => $msgs], $user, 'Bandeau défilant');
             $done[] = 'bandeau';
         }
         if (isset($in['home']) && is_array($in['home'])) {

@@ -149,7 +149,7 @@ final class Api extends Base
                     }
                     if (str_contains(Search::norm($s['title'] . ' ' . ($s['p']['name'] ?? '')), $q)) {
                         $d = Search::describe($s);
-                        $items[] = ['id' => $s['id'], 'label' => $d['label'], 'meta' => $d['type'] . ($d['meta'] ? ' · ' . $d['meta'] : ''), 'value' => $s['title'], 'url' => $s['path']];
+                        $items[] = ['id' => $s['id'], 'label' => $d['label'], 'meta' => $d['type'] . ($d['meta'] ? ' · ' . $d['meta'] : ''), 'value' => $s['title'], 'url' => $s['path'], 'date' => $s['m']['date'] ?? null];
                     }
                     if (count($items) >= 40) {
                         break;

@@ -43,7 +43,7 @@ final class Derived
         }
         if (is_file(self::CACHE)) {
             $d = include self::CACHE;
-            if (is_array($d) && ($d['version'] ?? 0) === 3) {
+            if (is_array($d) && ($d['version'] ?? 0) === 4) {
                 if (is_file(self::DIRTY) && filemtime(self::DIRTY) >= filemtime(self::CACHE)) {
                     self::scheduleRebuild();
                 }
@@ -88,7 +88,7 @@ final class Derived
             // Un autre processus a peut-être reconstruit pendant l'attente.
             if (is_file(self::CACHE) && (!is_file(self::DIRTY) || filemtime(self::DIRTY) < filemtime(self::CACHE))) {
                 $d = include self::CACHE;
-                if (is_array($d) && ($d['version'] ?? 0) === 3) {
+                if (is_array($d) && ($d['version'] ?? 0) === 4) {
                     return $d;
                 }
             }
@@ -329,6 +329,7 @@ final class Derived
                 'spectators' => isset($m['spectators']) && (int) $m['spectators'] > 0 && (int) $m['spectators'] <= 90000 ? (int) $m['spectators'] : null,
                 'image' => $doc['featured_image'] ?? null,
                 'event' => $m['event'] ?? null,
+                'hl' => count($m['highlights'] ?? []),
             ];
             if ($date && $doc['_visible']) {
                 $onThisDay[substr($date, 5, 5)][] = $mid;
@@ -580,7 +581,7 @@ final class Derived
         }
 
         $data = [
-            'version' => 3,
+            'version' => 4,
             'built' => date('c'),
             'duration' => round(microtime(true) - $t0, 2),
             'matches' => $M,

@@ -173,6 +173,16 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       musée en traitement groupé (API Batch, moitié prix ≈ 5 €), suivi et annulation ; mise à
       jour de nuit des voix des fiches modifiées ; coûts comptés. `tests/audio.php` ; essai
       complet avec un faux Gemini (voix, envoi de fichier, traitement groupé).
+- [x] **Rétro-Direct** (Interactif › Explorer l'histoire) : un grand match rejoué en direct
+      le jour de son anniversaire, à l'heure du coup d'envoi (horloge du serveur, mi-temps de
+      15 minutes, prolongation, tirs au but ; score qui change à la minute des buts, buteurs,
+      remplacements, cartons, photos à la mi-temps, réactions d'après-match) ; compte à rebours
+      sans le score, agenda .ics, bandeau du site ; spectateurs connectés, réactions ⚽ 👏 😱,
+      « J'y étais ! » ; tous les matchs rejouables (1 500 environ) à revivre en accéléré (×1,
+      ×10, ×60) depuis leur fiche. Back-office : anniversaires ronds proposés et classés,
+      programmation en un clic, programme, public. Gratuit (aucune IA). `tests/retro.php` ;
+      essai complet (programmation, compte à rebours, direct à la 38e minute, réactions,
+      replay jusqu'aux tirs au but de la finale 1988, version anglaise, accessibilité).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).

@@ -42,6 +42,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
         <?= Form::toggle('ticker.auto.jour', 'Ce jour-là (un match joué à cette date)', !empty($ticker['auto']['jour'])) ?>
         <?= Form::toggle('ticker.auto.centenaire', 'Compte à rebours du centenaire', !empty($ticker['auto']['centenaire'])) ?>
         <?= Form::toggle('ticker.auto.dernier', 'Dernier match fiché', !empty($ticker['auto']['dernier'])) ?>
+        <?= Form::toggle('ticker.auto.retro', 'Rétro-Direct (en cours ou dans les 7 jours)', $ticker['auto']['retro'] ?? true) ?>
       </div>
       <?= Form::repeater('ticker.messages', 'Messages de l’équipe', $ticker['messages'] ?? [], fn ($m) => '<div class="fgrid">'
           . Form::toggle('@on', 'Affiché', !empty($m['on']))

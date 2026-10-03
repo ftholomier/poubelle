@@ -132,7 +132,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
           <a class="mhero__h2h" href="<?= e($h2h['href']) ?>"><?= e(t('Historique Sochaux × {club}', ['club' => $h2h['name']])) ?> →</a>
         <?php endif; ?>
       </div>
-      <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div>
+      <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?><?php if (!empty($retro)): ?><a class="btn btn--sm btn--ghost-light pdfbtn" href="<?= e($retro) ?>"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg><span><?= e(t('Revivre en direct')) ?></span></a><?php endif; ?></div>
     </div>
   </div>
 </section>

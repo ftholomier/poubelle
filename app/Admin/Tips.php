@@ -220,6 +220,14 @@ final class Tips
             'le onze du public' => 'Le résultat des votes à ce jour, poste par poste.',
             'date de dévoilement' => 'Date à laquelle le Onze du public est révélé sur le site.',
         ],
+        'retro' => [
+            'screen' => 'Le Rétro-Direct rejoue un grand match en direct sur le site, minute par minute, le jour de son anniversaire et à l’heure du coup d’envoi : score, buts, remplacements, mi-temps. Aucune IA, aucun coût.',
+            'au programme' => 'Les directs à venir et passés : « Voir » ouvre la page publique, « Modifier » change la date, l’heure ou la présentation, « Retirer » l’enlève du programme (le match reste à revivre en accéléré). Pour un direct passé : le pic de spectateurs connectés et les réactions.',
+            'programmer un match' => 'Choisissez un match (au moins ' . \App\Services\RetroDirect::MIN_EVENTS . ' temps forts avec leur minute), la date et l’heure du coup d’envoi. La date de son prochain anniversaire est proposée.',
+            'modifier le direct' => 'Changez la date, l’heure du coup d’envoi ou la présentation de ce direct.',
+            'présentation' => 'Quelques lignes affichées avant le coup d’envoi et dans l’agenda : le contexte du match, l’enjeu, une anecdote. Sans spoiler du score !',
+            'anniversaires à venir' => 'Les matchs dont c’est l’anniversaire rond (10, 20, 25, 30, 40, 50 ans…) dans la période choisie, avec assez de temps forts. « Intérêt » additionne temps forts, coupe, finale, victoire, gros score, affluence et fiche à la une. « Programmer à 20 h » l’ajoute en un clic (heure modifiable ensuite).',
+        ],
         'contributions' => [
             'screen' => 'Les propositions des visiteurs (corrections, photos, documents). Traitez-les : demander une précision, publier (les fichiers vont dans la médiathèque ou une fiche) ou refuser.',
             'décision' => 'Publier la contribution, demander une information à son auteur ou la refuser (il est prévenu par e-mail).',

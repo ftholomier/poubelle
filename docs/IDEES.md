@@ -21,7 +21,7 @@ match, un bloc « Ils y étaient » avec la voix des témoins (consentement oral
 - Financements possibles une fois « Les Après-midi Bonal » lancés : fondations, caisses de
   retraite, Département (prévention de la perte d'autonomie).
 
-## Le Rétro-Direct — « il y a 40 ans jour pour jour, en direct de Bonal » (gratuit)
+## Le Rétro-Direct — « il y a 40 ans jour pour jour, en direct de Bonal » (gratuit) — réalisé (octobre 2026)
 
 Le jour anniversaire d'un grand match, à l'heure du coup d'envoi, le site le rejoue minute
 par minute : score qui change à la minute des buts, compos, temps forts, photos à la

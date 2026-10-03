@@ -120,6 +120,7 @@ final class Site
     {
         return [
             ['title' => t("Explorer l'histoire"), 'tools' => [
+                ['icon' => '●', 'label' => t('Rétro-Direct'), 'd' => t('Les grands matchs rejoués en direct, le jour anniversaire.'), 'href' => url('/interactif/retro-direct/')],
                 ['icon' => '◎', 'label' => t('Carto'), 'd' => t('Stades, origines, épopées, lieux.'), 'href' => url('/interactif/carto/')],
                 ['icon' => '×', 'label' => t('Face-à-face'), 'd' => t('Choisissez un adversaire, voyez le bilan.'), 'href' => url('/face-a-face/')],
                 ['icon' => '#', 'label' => t('Records'), 'd' => t('Buteurs, affluences, séries.'), 'href' => url('/records/')],
@@ -142,9 +143,16 @@ final class Site
     /** Bandeau « En direct du musée » : messages automatiques + messages manuels. */
     public static function ticker(): array
     {
-        $conf = Collections::get('ticker', ['auto' => ['jour' => true, 'centenaire' => true, 'dernier' => true], 'messages' => self::defaultTickerMessages()]);
+        $conf = Collections::get('ticker', ['auto' => ['jour' => true, 'centenaire' => true, 'dernier' => true, 'retro' => true], 'messages' => self::defaultTickerMessages()]);
         $out = [];
         $auto = $conf['auto'] ?? [];
+        // Rétro-Direct en cours, ou prochain dans les 7 jours.
+        if (($auto['retro'] ?? true) && ($r = \App\Services\RetroDirect::next()) && $r['start'] < time() + 7 * 86400) {
+            $live = $r['state'] === 'direct';
+            $year = substr((string) ($r['s']['m']['date'] ?? ''), 0, 4);
+            $out[] = ['k' => $live ? t('En direct') . ' · ' . t('Rétro-Direct') : t('Rétro-Direct') . ' · ' . Retro::when((int) $r['start']),
+                'v' => ($r['s']['m']['home'] ?? '') . ' – ' . ($r['s']['m']['away'] ?? '') . " ($year)", 'href' => \App\Services\RetroDirect::url($r['s'])];
+        }
         if (($auto['jour'] ?? true) && ($m = Derived::onThisDay()[0] ?? null)) {
             $out[] = ['k' => t('Ce jour-là') . ' · ' . self::dayMonth(), 'v' => self::matchLabel($m), 'href' => url($m['path'])];
         }

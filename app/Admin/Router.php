@@ -118,6 +118,8 @@ final class Router
         $r->post('/admin/onze', fn ($q) => Collections::onzeSave($q));
         $r->get('/admin/album', fn ($q) => Collections::album($q));
         $r->post('/admin/album', fn ($q) => Collections::albumSave($q));
+        $r->get('/admin/retro-direct', fn ($q) => Retro::index($q));
+        $r->post('/admin/retro-direct', fn ($q) => Retro::action($q));
 
         // Communauté
         $r->get('/admin/contributions', fn ($q) => Community::contributions($q));

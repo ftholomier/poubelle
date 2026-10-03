@@ -2,7 +2,7 @@
 return [
     'slug' => 'interactif',
     'title' => 'Les outils interactifs',
-    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album.',
+    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct.',
     'sections' => [
         ['id' => 'principe', 'title' => 'Le principe', 'html' => <<<'HTML'
 <p>Interactif › <b>Quiz, frise, carte…</b> : chaque outil est une liste d’éléments (une question, une date, une époque, un lieu…) qu’on ajoute, modifie, réordonne par glisser-déposer et traduit. La carte de chaque outil indique les éléments <b>à valider</b> et ceux <b>sans anglais</b>.</p>
@@ -29,6 +29,19 @@ HTML],
 <li><b>Album du centenaire</b> : les cartes à collectionner ; on ajoute un joueur depuis sa fiche (onglet Identité › Carte de l’album).</li>
 </ul>
 [[img:onze.webp|Le Onze de légende du public]]
+HTML],
+        ['id' => 'retro-direct', 'title' => 'Le Rétro-Direct : un grand match rejoué en direct', 'html' => <<<'HTML'
+<p>Le jour anniversaire d’un grand match, à l’heure du coup d’envoi, le site le <b>rejoue minute par minute</b> : les temps forts s’affichent à leur minute, le score change à la minute des buts, les remplaçants entrent, l’arbitre siffle la mi-temps (15 minutes de pause), la prolongation et les tirs au but s’il y en a eu. Les visiteurs voient combien de supporters suivent le direct avec eux, réagissent d’un clic (⚽ 👏 😱) et peuvent dire « J’y étais ! ».</p>
+[[img:site-retro.webp|Un direct en seconde mi-temps : score, horloge, fil des temps forts, réactions]]
+<p>Interactif › <b>Rétro-Direct</b> :</p>
+<ol>
+<li><b>Anniversaires à venir</b> : les matchs dont c’est l’anniversaire rond (10, 20, 25, 30, 40, 50 ans…) dans les 30, 90, 180 ou 365 prochains jours, les plus marquants retenus (temps forts, coupe, finale, victoire, gros score, affluence, fiche à la une). <b>Programmer à 20 h</b> l’ajoute en un clic.</li>
+<li><b>Programmer un match</b> : n’importe quel match, à n’importe quelle date. Tapez quelques mots du match, choisissez-le : la date de son prochain anniversaire est proposée. Réglez l’heure du coup d’envoi et ajoutez, si vous le souhaitez, une courte <b>présentation</b> (le contexte, l’enjeu ; sans dévoiler le score !).</li>
+<li><b>Au programme</b> : « Voir » ouvre la page publique, « Modifier » change la date, l’heure ou la présentation, « Retirer » enlève le direct. Après un direct : le pic de spectateurs connectés et les réactions.</li>
+</ol>
+[[img:retro.webp|Le programme et les anniversaires proposés]]
+[[auto|<p>Tout vient de la fiche du match : temps forts et leur minute, buteurs, composition (entrées en jeu, cartons), brèves d’avant-match, réactions d’après-match, photos de la galerie à la mi-temps. Aucune IA, aucun coût. Le direct s’annonce dans le bandeau du site 7 jours avant, figure dans l’agenda à télécharger (.ics) et dans le plan du site.</p>]]
+[[astuce|<p>Avant un direct, relisez la fiche : minutes des temps forts et des buts, entrées en jeu, une belle photo à la une. Il faut au moins 4 temps forts datés. Tous les matchs qui en ont assez se revivent aussi <b>en accéléré</b> (×10, ×60), toute l’année : bouton « Revivre en direct » sur la fiche du match.</p>]]
 HTML],
     ],
 ];

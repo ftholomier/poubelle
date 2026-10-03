@@ -43,6 +43,7 @@ class Base
         'Interactif' => [
             ['interactif', 'Quiz, frise, carte…', '/admin/interactif', false],
             ['onze', 'Onze & album', '/admin/onze', false],
+            ['retro', 'Rétro-Direct', '/admin/retro-direct', false],
         ],
         'Communauté' => [
             ['contributions', 'Contributions', '/admin/contributions', false],
