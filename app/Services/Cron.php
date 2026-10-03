@@ -32,6 +32,7 @@ final class Cron
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
+        'videos' => [3600, 'Vignettes des vidéos (YouTube, Dailymotion, Vimeo, Rutube)'],
         'assistant' => [3600, 'Index sémantique de l’assistant IA'],
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
         'plan-du-site' => [86400, 'Plan du site (sitemap.xml)'],
@@ -137,6 +138,10 @@ final class Cron
 
             case 'medias':
                 return self::mediaFacts(400);
+
+            case 'videos':
+                $r = VideoThumbs::run(100);
+                return $r['faites'] + $r['echecs'] > 0 ? $r : null;
 
             case 'assistant':
                 if (!Rag::enabled() || !Gemini::embedModel()) {

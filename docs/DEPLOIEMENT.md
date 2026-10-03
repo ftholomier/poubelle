@@ -19,9 +19,10 @@ l'adresse www.fcsochauxretro.com de WordPress vers le nouveau site.
    - ou envoyer le dossier par SFTP.
    Le dépôt contient le code et les données éditoriales (`data/` : fiches, médias,
    rubriques, redirections).
-2. Copier les **photos originales** dans `storage/media/originals/` (≈ 12 700 fichiers, 5 Go),
-   depuis l'archive fournie. Tant que l'ancien site est en ligne, elles peuvent aussi être
-   retéléchargées : `WP_PASSWORD=… php scripts/wp/fetch.php media`.
+2. Récupérer les **photos originales** (≈ 12 700 fichiers, 5 Go, hors dépôt) dans
+   `storage/media/originals/`. Le plus simple, tant que l'ancien site est en ligne :
+   `php scripts/wp/media-sync.php` sur le serveur (environ une heure ; relancer la commande
+   reprend là où elle s'est arrêtée ; `--verifier` contrôle les empreintes des fichiers).
 3. Droits d'écriture pour le compte (dossiers 755, fichiers 644) sur `data/`, `storage/`
    et `public/media/`.
 4. cPanel › Domaines : la **racine du document** du domaine (ou du sous-domaine de test)
@@ -61,7 +62,7 @@ cPanel › Tâches Cron, une seule ligne, toutes les 5 minutes :
 Vérifier en SSH que `php -v` donne bien la version 8.3 ; sinon utiliser le chemin complet
 du PHP 8.3 indiqué par o2switch. La tâche publie les fiches programmées, recalcule les
 statistiques, traduit, envoie la newsletter « Ce jour-là », géolocalise les stades et les
-lieux de naissance, complète la médiathèque, indexe l'assistant, synchronise les dons,
+lieux de naissance, complète la médiathèque, copie les vignettes des vidéos, indexe l'assistant, synchronise les dons,
 régénère le plan du site, sauvegarde et purge les données personnelles anciennes.
 L'état de chaque tâche est visible dans Back-office › Tâches planifiées.
 
@@ -70,8 +71,12 @@ carte : la géolocalisation (OpenStreetMap, une requête par seconde) les traite
 de 40 toutes les 10 minutes, soit quelques heures. Les lieux non trouvés se corrigent à la
 main dans Back-office › Saisons, adversaires, lieux.
 
+Les vignettes des 1 077 vidéos (YouTube, Dailymotion, Rutube) sont copiées sur le serveur
+par lots de 100 chaque heure, ou en une fois avec `php bin/console.php videos` : avant
+l'accord du visiteur, le lecteur montre ainsi l'image de la vidéo sans contacter l'hébergeur.
+
 Facultatif, pour accélérer les premières visites : `php bin/console.php images 600`
-pré-génère les vignettes (sinon elles sont créées à la première demande).
+pré-génère les vignettes des photos (sinon elles sont créées à la première demande).
 
 ## 5. Bascule de www.fcsochauxretro.com
 

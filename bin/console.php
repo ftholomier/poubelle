@@ -11,6 +11,7 @@
  *   php bin/console.php rag              (ré)indexe les données pour l'assistant IA
  *   php bin/console.php images [largeur] pré-génère les vignettes
  *   php bin/console.php medias           complète dimensions, poids et empreintes des médias
+ *   php bin/console.php videos           copie les vignettes des vidéos (YouTube, Dailymotion…)
  *   php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance (carte)
  */
 
@@ -92,6 +93,11 @@ switch ($cmd) {
             echo "$total média(s) complété(s)\n";
         }
         echo "Médiathèque à jour\n";
+        break;
+
+    case 'videos':
+        $r = \App\Services\VideoThumbs::run(100000);
+        echo sprintf("%d vignette(s) copiée(s), %d échec(s) (nouvel essai dans une semaine)\n", $r['faites'], $r['echecs']);
         break;
 
     default:
