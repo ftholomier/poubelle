@@ -16,11 +16,14 @@ final class I18n
     public const LANGS = ['fr' => 'Français', 'en' => 'English'];
     private static string $lang = self::DEFAULT;
     private static ?array $dict = null;
+    /** Textes déjà traduits (valeurs du dictionnaire) : ne sont pas retraduits. */
+    private static ?array $done = null;
 
     public static function set(string $lang): void
     {
         self::$lang = isset(self::LANGS[$lang]) ? $lang : self::DEFAULT;
         self::$dict = null;
+        self::$done = null;
     }
 
     public static function lang(): string
@@ -47,6 +50,12 @@ final class I18n
         self::$dict ??= JsonStore::read(DATA_PATH . '/i18n/' . self::$lang . '.json', []) ?? [];
         $t = self::$dict[$fr] ?? '';
         if ($t === '') {
+            // Texte déjà en anglais (traduit plus haut, par ex. un élément de collection) :
+            // rendu tel quel, sans le signaler comme libellé manquant.
+            self::$done ??= array_flip(array_filter(array_map('strval', self::$dict), fn ($v) => $v !== ''));
+            if (isset(self::$done[$fr])) {
+                return $fr;
+            }
             self::missing($fr);
             return $fr;
         }
