@@ -66,7 +66,9 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 ## Phase 7 — Finitions
 - [x] Sécurité (CSP, CSRF, antispam), cookies, accessibilité
 - [x] Images de partage, newsletter « Ce jour-là »
-- [x] Documentation de déploiement o2switch (`docs/DEPLOIEMENT.md`)
+- [x] Documentation de déploiement o2switch par FTP (`docs/DEPLOIEMENT.md`)
+- [x] README, guide du back-office (`docs/GUIDE-BACK-OFFICE.md`), documentation technique
+      (`docs/TECHNIQUE.md`), vérifications rapides (`tests/`)
 - [x] Import final après le téléchargement complet des médias, puis versionnement de `data/`
 - [x] Nettoyage : compte de test, journal d'activité de test, réveils automatiques
 
