@@ -170,6 +170,11 @@ final class Fiches
             return $doc; // rien n'a changé
         }
 
+        // Première modification d'une fiche reprise de l'ancien site : son état d'origine
+        // devient la version 1, pour pouvoir toujours y revenir.
+        if ($before && !is_file(self::VERSIONS . "/$id/index.json")) {
+            self::addVersion($id, $before, ['name' => 'Import'], 'État d’origine (reprise de l’ancien site)', [], (string) ($before['modified'] ?? '') ?: null);
+        }
         JsonStore::write(self::path($id), $doc);
         self::addVersion($id, $doc, $user, $message ?: ($before ? self::summarize($diff) : 'Création de la fiche'), $diff);
         Index::put($doc);
@@ -232,16 +237,16 @@ final class Fiches
 
     // ------------------------------------------------------------------ versions
 
-    private static function addVersion(int $id, array $doc, ?array $user, string $message, array $diff): void
+    private static function addVersion(int $id, array $doc, ?array $user, string $message, array $diff, ?string $at = null): void
     {
         $dir = self::VERSIONS . "/$id";
-        $index = JsonStore::update("$dir/index.json", function ($idx) use ($dir, $doc, $user, $message, $diff) {
+        $index = JsonStore::update("$dir/index.json", function ($idx) use ($dir, $doc, $user, $message, $diff, $at) {
             $idx = $idx ?: [];
             $n = ($idx ? max(array_column($idx, 'n')) : 0) + 1;
             JsonStore::write("$dir/$n.json", $doc);
             $idx[] = [
                 'n' => $n,
-                'at' => date('c'),
+                'at' => $at ?? date('c'),
                 'by' => $user['name'] ?? 'Système',
                 'message' => $message,
                 'diff' => array_slice($diff, 0, 30),

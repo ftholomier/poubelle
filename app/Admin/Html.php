@@ -27,7 +27,7 @@ final class Html
         if (!preg_match('#<(/?[a-z][a-z0-9]*)\b[^>]*>#i', $html)) {
             // Texte brut : paragraphes et retours à la ligne.
             $paras = preg_split('/\R{2,}/u', $html) ?: [];
-            return implode('', array_map(fn ($p) => '<p>' . nl2br(e(trim($p)), false) . '</p>', array_filter($paras, fn ($p) => trim($p) !== '')));
+            return implode('', array_map(fn ($p) => '<p>' . nl2br(htmlspecialchars(trim($p), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8'), false) . '</p>', array_filter($paras, fn ($p) => trim($p) !== '')));
         }
         $doc = new \DOMDocument();
         $prev = libxml_use_internal_errors(true);

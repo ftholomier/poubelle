@@ -28,6 +28,7 @@ final class FicheForm
     public static function apply(array $doc, array $in, array &$errors): array
     {
         $has = fn (string $k) => array_key_exists($k, $in);
+        $origCats = array_values(array_map('strval', $doc['categories'] ?? []));
         if ($has('title')) {
             $doc['title'] = Html::line($in['title'], 250);
         }
@@ -45,7 +46,11 @@ final class FicheForm
         }
         if ($has('categories') || $has('categories__present')) {
             $known = Categories::all();
-            $doc['categories'] = array_values(array_unique(array_filter(array_map('strval', (array) ($in['categories'] ?? [])), fn ($c) => isset($known[$c]))));
+            $offered = Fiches::catOptions();
+            $checked = array_filter(array_map('strval', (array) ($in['categories'] ?? [])), fn ($c) => isset($known[$c], $offered[$c]));
+            // Rubriques que le formulaire ne propose pas (saisons, « À la une », rubriques techniques) : conservées.
+            $kept = array_filter(array_map('strval', $doc['categories'] ?? []), fn ($c) => !isset($offered[$c]));
+            $doc['categories'] = array_values(array_unique(array_merge($checked, $kept)));
         }
         if ($has('featured_image')) {
             $doc['featured_image'] = self::media($in['featured_image']);
@@ -102,12 +107,13 @@ final class FicheForm
             }
         }
         if ($has('embeds')) {
+            $oldTexts = array_column($doc['embeds'] ?? [], 'text');
             $doc['embeds'] = [];
             foreach ((array) $in['embeds'] as $em) {
                 $url = trim((string) ($em['url'] ?? ''));
                 if ($url !== '' && preg_match('#^https://#', $url)) {
                     $prov = preg_match('#(twitter\.com|x\.com)#', $url) ? 'x' : (str_contains($url, 'instagram.com') ? 'instagram' : (str_contains($url, 'facebook.com') ? 'facebook' : 'web'));
-                    $doc['embeds'][] = ['provider' => $prov, 'url' => $url, 'text' => Html::clean(mb_substr((string) ($em['text'] ?? ''), 0, 8000))];
+                    $doc['embeds'][] = ['provider' => $prov, 'url' => $url, 'text' => self::rich($em['text'] ?? '', $oldTexts, 8000)];
                 }
             }
         }
@@ -129,6 +135,7 @@ final class FicheForm
         if ($has('i18n_en')) {
             $doc = self::english($doc, (array) $in['i18n_en']);
         }
+        $doc = self::autoCategories($doc, $origCats);
 
         // Titre automatique pour les matchs et personnes sans titre saisi.
         if (trim((string) $doc['title']) === '') {
@@ -161,6 +168,9 @@ final class FicheForm
         foreach (['competition_label' => 80, 'competition_code' => 20, 'round' => 40, 'round_text' => 120, 'stadium' => 160, 'referee' => 120, 'goals_text' => 400, 'event' => 160, 'formation' => 20, 'spectators_text' => 80] as $k => $max) {
             if (array_key_exists($k, $m)) {
                 $cur[$k] = Html::line($m[$k], $max);
+                if ($cur[$k] === '' && ($doc['match'][$k] ?? null) === null) {
+                    $cur[$k] = null; // champ vide resté vide
+                }
             }
         }
         if (array_key_exists('competition', $m)) {
@@ -177,7 +187,10 @@ final class FicheForm
             $them = ['name' => $opp, 'level' => $lvlOpp];
             $cur['home'] = $cur['sochaux_home'] ? $us : $them;
             $cur['away'] = $cur['sochaux_home'] ? $them : $us;
-            $cur['opponent_club'] = $opp !== '' ? Names::clubKey($opp) : null;
+            // Lien explicite vers un adversaire conservé tant que le nom ne change pas ; sinon
+            // l'adversaire est retrouvé par son nom et ses variantes (référentiels).
+            $prevOpp = (bool) ($doc['match']['sochaux_home'] ?? true) ? ($doc['match']['away']['name'] ?? '') : ($doc['match']['home']['name'] ?? '');
+            $cur['opponent_club'] = $opp !== '' && Names::clubKey($opp) === Names::clubKey((string) $prevOpp) ? ($cur['opponent_club'] ?? null) : null;
         }
         if (array_key_exists('spectators', $m)) {
             $cur['spectators'] = self::int($m['spectators']);
@@ -248,16 +261,18 @@ final class FicheForm
             }
         }
         if (array_key_exists('reactions', $m)) {
+            $oldTexts = array_column($cur['reactions'] ?? [], 'text');
             $cur['reactions'] = [];
             foreach ((array) $m['reactions'] as $r) {
-                $t = Html::clean(mb_substr((string) ($r['text'] ?? ''), 0, 6000));
+                $t = self::rich($r['text'] ?? '', $oldTexts, 6000);
                 if ($t !== '') {
                     $cur['reactions'][] = ['who' => Html::line($r['who'] ?? '', 120), 'text' => $t];
                 }
             }
         }
         if (array_key_exists('breves', $m)) {
-            $cur['breves'] = array_values(array_filter(array_map(fn ($x) => Html::clean(mb_substr((string) (is_array($x) ? ($x['_'] ?? '') : $x), 0, 4000)), (array) $m['breves'])));
+            $oldTexts = array_map(fn ($b) => is_array($b) ? (string) ($b['text'] ?? '') : (string) $b, $cur['breves'] ?? []);
+            $cur['breves'] = array_values(array_filter(array_map(fn ($x) => self::rich(is_array($x) ? ($x['_'] ?? '') : $x, $oldTexts, 4000), (array) $m['breves'])));
         }
         $doc['match'] = $cur;
         return $doc;
@@ -603,6 +618,57 @@ final class FicheForm
     }
 
     /** Tableaux saisis dans la grille : titre, en-têtes, lignes (texte simple). */
+    /**
+     * Classement automatique : la case « À la une » et la rubrique du même nom vont
+     * de pair ; un match est rangé dans la rubrique de sa saison (et ses parentes).
+     */
+    private static function autoCategories(array $doc, array $orig = []): array
+    {
+        $all = Categories::all();
+        $cats = array_values(array_map('strval', $doc['categories'] ?? []));
+        if (isset($all['a-la-une'])) {
+            $cats = !empty($doc['a_la_une']) ? array_merge($cats, ['a-la-une']) : array_diff($cats, ['a-la-une']);
+        }
+        if ($doc['type'] === 'match' && !empty($doc['match']['season'])) {
+            $seasonCat = null;
+            foreach ($all as $slug => $c) {
+                if (($c['season'] ?? null) === $doc['match']['season']) {
+                    $seasonCat = (string) $slug;
+                    break;
+                }
+            }
+            if ($seasonCat) {
+                // Une seule saison par match : celle de sa date.
+                $cats = array_filter($cats, fn ($c) => empty($all[$c]['season']) || $c === $seasonCat);
+                foreach (Categories::trail($seasonCat) as $t) {
+                    $cats[] = (string) ($t['slug'] ?? '');
+                }
+            }
+        }
+        $cats = array_values(array_unique(array_filter($cats, fn ($c) => $c !== '' && isset($all[$c]))));
+        // Ordre d'origine conservé (les nouvelles rubriques viennent à la suite).
+        $pos = array_flip($orig);
+        $rank = array_flip($cats);
+        usort($cats, fn ($a, $b) => [$pos[$a] ?? PHP_INT_MAX, $rank[$a]] <=> [$pos[$b] ?? PHP_INT_MAX, $rank[$b]]);
+        $doc['categories'] = $cats;
+        return $doc;
+    }
+
+    /**
+     * Texte riche court (réactions, brèves, publications) : un texte ancien renvoyé tel
+     * quel par l'éditeur est conservé sans conversion ; sinon il est nettoyé.
+     */
+    private static function rich(mixed $v, array $old, int $max): string
+    {
+        $v = (string) $v;
+        foreach ($old as $o) {
+            if (trim((string) $o) === trim($v)) {
+                return (string) $o;
+            }
+        }
+        return Html::clean(mb_substr($v, 0, $max));
+    }
+
     public static function tables(array $tables): array
     {
         $out = [];

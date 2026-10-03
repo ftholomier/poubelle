@@ -193,7 +193,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
           <?php foreach ($m['reactions'] as $q): ?>
           <figure class="quote" data-reveal>
             <span class="quote__mark" aria-hidden="true">«</span>
-            <blockquote><?= str_contains((string) $q['text'], '<') ? rich_inline((string) $q['text']) : nl2br(e($clean((string) $q['text']))) ?></blockquote>
+            <blockquote><?= str_contains((string) $q['text'], '<') ? $clean(rich_inline((string) $q['text'])) : nl2br(e($clean((string) $q['text']))) ?></blockquote>
             <?php if (!empty($q['who'])): ?><figcaption><?= e($q['who']) ?></figcaption><?php endif; ?>
           </figure>
           <?php endforeach; ?>
