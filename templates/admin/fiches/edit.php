@@ -108,6 +108,27 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
       <button type="button" class="btn btn--sm" data-proofread data-proof-scope="<?= $isNew ? '' : 'fiche:' . $id ?>">Vérifier l’orthographe<?= !empty($proof['n']) ? ' <em class="proofcount">' . (int) $proof['n'] . '</em>' : '' ?></button>
     </div>
 
+    <?php if (!$isNew && \App\Services\FicheAudio::enabled()): $audioState = \App\Admin\Audio::stateOf($doc); ?>
+      <div class="card card--pad audiocard" data-audio-card data-id="<?= $id ?>" data-state="<?= e(json_encode($audioState, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) ?>" data-nocollect>
+        <h2 class="card__t card__t--sm">Écouter (30 s)</h2>
+        <?php if (count($audioState) > 1): ?><div class="seg" style="--n:2" role="radiogroup" aria-label="Langue du résumé"><?php foreach ($audioState as $l => $x): ?><label><input type="radio" name="_audio_lang" value="<?= e($l) ?>"<?= $l === 'fr' ? ' checked' : '' ?> data-nocollect><span><?= $l === 'fr' ? 'Français' : 'Anglais' ?></span></label><?php endforeach; ?></div><?php endif; ?>
+        <span class="xs muted" data-audio-info></span>
+        <label class="f"><span class="f__k">Texte lu <i>75 mots au plus</i></span><textarea rows="7" data-audio-textarea spellcheck="true"></textarea></label>
+        <div class="row">
+          <button type="button" class="btn btn--sm" data-audio-play>▶ Écouter</button>
+          <button type="button" class="btn btn--sm btn--navy" data-audio-save hidden>Garder ce texte</button>
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn--sm" data-audio-act="ia-texte" title="Gemini rédige le résumé à partir de toute la fiche (environ 0,05 centime)">Rédiger avec l’IA</button>
+          <button type="button" class="btn btn--sm" data-audio-act="voix" title="Gemini lit le texte d’une voix naturelle, enregistrée pour les visiteurs (environ 0,6 centime)">Voix IA</button>
+        </div>
+        <div class="row" style="gap:12px">
+          <button type="button" class="linkbtn xs" data-audio-act="automatique" hidden>Revenir au résumé automatique</button>
+          <button type="button" class="linkbtn xs" data-audio-act="supprimer-voix" hidden>Supprimer la voix IA</button>
+        </div>
+      </div>
+    <?php endif; ?>
+
     <?php if ($auto): ?>
       <div class="card card--pad">
         <h2 class="card__t card__t--sm">Mis à jour automatiquement</h2>

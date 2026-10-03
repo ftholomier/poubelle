@@ -76,7 +76,7 @@ final class Costs extends Base
                 'refUrl' => preg_match('/^fiche:(\d+)$/', $ref, $mm) ? '/admin/fiche/' . $mm[1] : null,
                 'tokens' => self::n($l['in']) . ' → ' . self::n($l['out'] + $l['th']),
                 'eur' => AiCosts::fmt(AiCosts::eur((float) $l['usd'])),
-                'flag' => !empty($l['x']) ? 'tarif par défaut' : (!empty($l['e']) ? 'jetons estimés' : (isset($l['g']) ? 'gratuit' : '')),
+                'flag' => !empty($l['x']) ? 'tarif par défaut' : (!empty($l['e']) ? 'jetons estimés' : (isset($l['g']) ? 'gratuit' : (!empty($l['b']) ? 'groupé −50 %' : ''))),
             ];
         }
         $b = AiCosts::budget();
@@ -256,7 +256,7 @@ final class Costs extends Base
         $rows = [['Date', 'Heure', 'Usage', 'Modèle', 'Demandé par', 'Référence', 'Jetons envoyés', 'dont relus en cache', 'Jetons produits', 'dont réflexion', 'Coût ($)', 'Coût (€)', 'Remarque']];
         foreach (AiCosts::lines($m[1]) as $l) {
             $t = strtotime($l['at']);
-            $note = !empty($l['x']) ? 'modèle absent du barème : tarif par défaut' : (!empty($l['e']) ? 'jetons estimés' : (isset($l['g']) ? 'niveau gratuit (coût évité : ' . $dec((float) $l['g']) . ' $)' : ''));
+            $note = !empty($l['x']) ? 'modèle absent du barème : tarif par défaut' : (!empty($l['e']) ? 'jetons estimés' : (isset($l['g']) ? 'niveau gratuit (coût évité : ' . $dec((float) $l['g']) . ' $)' : (!empty($l['b']) ? 'traitement groupé (moitié prix)' : '')));
             $rows[] = [date('d/m/Y', $t), date('H:i:s', $t), AiCosts::USES[$l['f']] ?? $l['f'], $l['m'], $l['u'] ?? '', self::refLabel((string) ($l['r'] ?? '')), $l['in'], $l['c'], $l['out'] + $l['th'], $l['th'], $dec((float) $l['usd']), $dec(AiCosts::eur((float) $l['usd'])), $note];
         }
         $body = "\xEF\xBB\xBF" . implode("\r\n", array_map(fn ($r) => implode(';', array_map($cell, $r)), $rows)) . "\r\n";

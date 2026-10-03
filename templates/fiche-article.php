@@ -37,7 +37,7 @@ $featInGallery = $feat && in_array($feat, array_column($doc['gallery'] ?? [], 'i
     <h1 class="ahero__title"><?= e($doc['title']) ?></h1>
     <?php if ($heading !== '' && mb_strtolower($heading) !== mb_strtolower((string) $doc['title'])): ?><p class="ahero__sub"><?= e($heading) ?></p><?php endif; ?>
     <?php if ($subtitle !== ''): ?><p class="ahero__sub"><?= e($subtitle) ?></p><?php endif; ?>
-    <?php if (!$isPage): ?><div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?></div><?php endif; ?>
+    <?php if (!$isPage): ?><div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div><?php endif; ?>
   </div>
 </section>
 

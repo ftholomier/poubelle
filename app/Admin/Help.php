@@ -49,6 +49,7 @@ final class Help extends Base
         'traductions' => 'anglais',
         'assistant' => 'administration#assistant',
         'couts' => 'administration#couts',
+        'audio' => 'administration#audio',
         'utilisateurs' => 'administration#utilisateurs',
         'reglages' => 'administration#reglages',
         'sauvegardes' => 'administration#sauvegardes',

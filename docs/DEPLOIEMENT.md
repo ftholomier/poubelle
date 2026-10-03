@@ -104,6 +104,11 @@ copiées par lots de 100 chaque heure.
      défaut, soit environ deux semaines pour un premier passage complet du musée). Pour
      tout vérifier d'un coup, lancer une fois en SSH (ou en tâche cron temporaire)
      `php /home/<compte>/sochauxretro/bin/console.php correcteur` ;
+   - Fiches audio : bouton « Écouter » (gratuit, actif par défaut) ; pour la voix IA, choisir
+     la voix puis Système › Fiches audio › « Essayer d'abord sur 20 fiches », écouter, et
+     lancer toutes les fiches. Le dossier `public/media/audio/` doit être inscriptible (comme
+     `public/media/`) ; si l'hébergement fournit ffmpeg, les voix sont compressées en MP3
+     (sinon WAV, plus lourd) ;
    - Coûts IA : nom de la personne qui paie la facture Google (imprimé sur le relevé
      mensuel que l'association rembourse), taux de change de sa banque, budget mensuel
      éventuel ; la dépense se suit dans Système › Coûts IA ;

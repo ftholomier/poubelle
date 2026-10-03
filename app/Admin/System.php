@@ -377,6 +377,10 @@ final class System extends Base
             $values[$k] = ($f['type'] ?? '') === 'secret' ? Settings::hasValue($key) : Settings::get($key);
         }
         $options = [];
+        if ($group === 'audio') {
+            $m = Gemini::ready() ? Gemini::models() : ['tts' => []];
+            $options['gemini_tts_models'] = (array) ($m['tts'] ?? []);
+        }
         if ($group === 'ai') {
             $m = Gemini::ready() ? Gemini::models() : ['generate' => [], 'embed' => [], 'error' => null];
             $options['gemini_generate_models'] = (array) ($m['generate'] ?? []);

@@ -34,7 +34,9 @@ règles du musée : chaque correction est proposée, l'historien accepte ou igno
 de fond de tout le musée dans Qualité › Orthographe), **coût de l'IA en temps réel**
 (dépense du jour et du mois, derniers appels, budget, relevé mensuel PDF et CSV à faire
 rembourser par l'association), **verrou nominatif** (une fiche ouverte par quelqu'un est
-signalée aux autres, en lecture seule, avec « Prendre la main »), sauvegardes, aide en
+signalée aux autres, en lecture seule, avec « Prendre la main »), **fiches audio** (chaque
+fiche se raconte en 30 secondes : voix du navigateur gratuite ou voix IA enregistrée,
+fiche par fiche ou pour tout le musée en traitement groupé), sauvegardes, aide en
 ligne (guide,
 mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
 et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
@@ -101,6 +103,7 @@ php bin/console.php medias           complète dimensions, poids et empreintes d
 php bin/console.php videos           copie les vignettes des vidéos
 php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance
 php bin/console.php correcteur [secondes]  vérifie l'orthographe de toutes les fiches (sans plafond quotidien)
+php bin/console.php audio [secondes]       fiches audio : envoie et range les traitements groupés
 ```
 
 ## Mise en ligne

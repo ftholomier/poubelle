@@ -132,7 +132,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
           <a class="mhero__h2h" href="<?= e($h2h['href']) ?>"><?= e(t('Historique Sochaux × {club}', ['club' => $h2h['name']])) ?> →</a>
         <?php endif; ?>
       </div>
-      <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?></div>
+      <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div>
     </div>
   </div>
 </section>

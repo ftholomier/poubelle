@@ -20,6 +20,8 @@ $isWaiting = $group === 'waiting';
 <?php endif; ?>
 <?php if ($group === 'ai'): ?>
   <p class="alert <?= $status['ready'] ? 'alert--ok' : '' ?>" style="margin:0"><?= $status['ready'] ? 'Clé Gemini enregistrée.' . (!empty($options['_error']) ? ' <b class="ko">La liste des modèles n’a pas pu être chargée : ' . e($options['_error']) . '</b>' : ' ' . count($options['gemini_generate_models']) . ' modèle(s) disponible(s) pour cette clé.') : 'Saisissez la clé API Gemini (Google AI Studio) puis enregistrez : la liste des modèles disponibles se charge automatiquement.' ?></p>
+<?php elseif ($group === 'audio'): ?>
+  <p class="alert alert--info" style="margin:0">Suivi des voix IA, estimation du coût et traitement groupé de tout le musée : <a href="/admin/audio">Système › Fiches audio</a>. Fiche par fiche : carte « Écouter » de l’éditeur.</p>
 <?php elseif ($group === 'couts'): ?>
   <p class="alert alert--info" style="margin:0">Dépense en temps réel, relevés mensuels à faire rembourser et barème des modèles : <a href="/admin/couts-ia">Système › Coûts IA</a>.</p>
 <?php elseif ($group === 'mail'): ?>
@@ -48,7 +50,7 @@ $isWaiting = $group === 'waiting';
           case 'select':
               $opts = $f['options'] ?? ($options[$f['options_from'] ?? ''] ?? []);
               if (!empty($f['options_from'])) {
-                  echo '<div class="f" data-models="' . e($f['options_from'] === 'gemini_embedding_models' ? 'embed' : 'generate') . '">';
+                  echo '<div class="f" data-models="' . e(['gemini_embedding_models' => 'embed', 'gemini_tts_models' => 'tts'][$f['options_from']] ?? 'generate') . '">';
                   echo Form::select($k, $f['label'], (string) $v, $opts, ['empty' => $f['options_from'] === 'gemini_embedding_models' ? 'Aucun (recherche plein texte)' : 'Automatique (meilleur modèle disponible)', 'help' => $o['help']]);
                   echo '</div>';
               } else {

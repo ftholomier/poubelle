@@ -143,6 +143,8 @@ final class Router
         $r->get('/admin/assistant', fn ($q) => System::assistant($q));
         $r->post('/admin/assistant', fn ($q) => System::assistantAction($q));
         $r->get('/admin/assistant/export.csv', fn ($q) => System::assistantExport($q));
+        $r->get('/admin/audio', fn ($q) => Audio::index($q));
+        $r->post('/admin/audio', fn ($q) => Audio::action($q));
         $r->get('/admin/couts-ia', fn ($q) => Costs::index($q));
         $r->post('/admin/couts-ia/tarifs', fn ($q) => Costs::savePrices($q));
         $r->post('/admin/couts-ia/tarifs/defaut', fn ($q) => Costs::resetPrices($q));
@@ -171,6 +173,7 @@ final class Router
         $r->post('/admin/api/correcteur/dictionnaire', fn ($q) => Api::proofWord($q));
         $r->get('/admin/api/couts', fn ($q) => Costs::api($q));
         $r->post('/admin/api/verrou', fn ($q) => Api::lock($q));
+        $r->post('/admin/api/audio', fn ($q) => Audio::api($q));
 
         $res = $r->dispatch(new Request($req->method, $path, $req->query, $req->post, $req->files, $req->server, $req->body));
         if ($res instanceof Response) {

@@ -16,6 +16,7 @@ final class Tips
         // Panneaux de l'éditeur de fiche
         'publication' => 'Choisissez le statut : <b>Brouillon</b> (invisible), <b>À relire</b>, <b>Planifié</b> (publication automatique à la date choisie) ou <b>Publié</b>. Enregistrez avec le bouton ou <b>Ctrl + S</b> ; une note de version aide à retrouver une modification.',
         'orthographe' => 'Le correcteur relit tous les textes de l’écran : orthographe, accords, conjugaison et syntaxe (avec Gemini), plus les règles du musée (« 1re », « 2e », « À »…). Il propose, vous décidez : « Corriger », « Ignorer », ou « + Dictionnaire » pour un nom propre. Rien n’est enregistré avant « Enregistrer ».',
+        'écouter (30 s)' => 'Le résumé de 30 secondes que les visiteurs écoutent sur cette fiche. Modifiez le texte puis « Garder ce texte », ou « Rédiger avec l’IA ». « Voix IA » enregistre une voix naturelle (environ 0,6 centime) ; sinon, c’est la voix du navigateur du visiteur, gratuite.',
         'mis à jour automatiquement' => 'Ce que le site recalcule seul quand vous enregistrez cette fiche : saison, fiches des joueurs, carte, records, image de partage… Rien à faire de votre côté.',
         'contrôle qualité' => 'Les vérifications propres à cette fiche : score cohérent, photos sans crédit, image à la une manquante… Une alerte disparaît dès que la fiche est corrigée.',
         'version en' => 'État de la traduction anglaise de cette fiche. « À revoir » : le français a changé depuis la traduction.',
@@ -251,6 +252,12 @@ final class Tips
         ],
         'traductions' => ['screen' => 'La version anglaise : libellés de l’interface (boutons, menus) et traduction des fiches par l’IA, à relire. Le français fait toujours foi.'],
         'assistant' => ['screen' => 'L’assistant IA du site (bulle en bas à droite) : questions posées par les visiteurs, avis, export et réindexation après de grosses modifications.'],
+        'audio' => [
+            'screen' => 'Chaque fiche se raconte en 30 secondes (bouton « Écouter » sur le site). Gratuit avec la voix du navigateur ; voix naturelle de Gemini fiche par fiche (éditeur) ou pour tout le musée en traitement groupé, à moitié prix.',
+            'tout le musée en voix ia' => 'Estime le coût puis confie toutes les fiches sans voix IA à jour au traitement groupé de Google (résultats en quelques heures). Le coût réel s’affiche dans Coûts IA.',
+            'traitements groupés' => 'Chaque envoi à Google et son état : en attente, chez Google, rangement des voix, terminé. La tâche planifiée s’en occupe seule ; « Annuler » arrête un envoi en cours.',
+            'dernières voix ia' => 'Les dernières voix enregistrées : ▶ pour les écouter, le titre pour ouvrir la fiche.',
+        ],
         'couts' => [
             'screen' => 'Ce que coûte l’IA (Gemini), calculé à chaque appel : aujourd’hui, ce mois-ci et ce que l’association doit rembourser. Les chiffres se mettent à jour seuls toutes les 10 secondes.',
             'derniers appels' => 'Les 30 derniers appels du mois : qui les a demandés (membre, visiteur via l’assistant, tâche automatique), la fiche concernée, les jetons envoyés → produits et le coût. « Jetons estimés » : Google ne donne pas le compte pour ce service, le site l’estime.',

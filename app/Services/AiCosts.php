@@ -27,6 +27,7 @@ final class AiCosts
         'traduction' => 'Traductions',
         'correcteur' => 'Correcteur d’orthographe',
         'index' => 'Index de l’assistant',
+        'audio' => 'Fiches audio',
         'autre' => 'Autre',
     ];
 
@@ -36,6 +37,15 @@ final class AiCosts
      * dans le cache, en vigueur à partir du]. Modifiables dans l'écran Coûts IA.
      */
     public const DEFAULT_PRICES = [
+        // Voix (synthèse vocale) : la sortie est de l'audio, 25 jetons par seconde.
+        ['gemini-3.8-flash-tts', 0.50, 9.00, 0.50, ''],
+        ['gemini-3.8-flash-tts', 1.00, 18.00, 1.00, '2027-01-01'],
+        ['gemini-3.8-flash-preview-tts', 0.50, 9.00, 0.50, ''],
+        ['gemini-3.8-flash-preview-tts', 1.00, 18.00, 1.00, '2027-01-01'],
+        ['gemini-3.1-flash-tts', 1.00, 20.00, 1.00, ''],
+        ['gemini-3.1-flash-preview-tts', 1.00, 20.00, 1.00, ''],
+        ['gemini-2.5-flash-preview-tts', 0.50, 10.00, 0.50, ''],
+        ['gemini-2.5-pro-preview-tts', 1.00, 20.00, 1.00, ''],
         ['gemini-3.8-flash', 0.75, 3.75, 0.075, ''],
         ['gemini-3.8-flash', 1.50, 7.50, 0.15, '2027-01-01'],
         ['gemini-3.7-flash', 0.75, 3.75, 0.075, ''],
@@ -58,6 +68,8 @@ final class AiCosts
     ];
     /** Modèle inconnu du barème : tarif prudent, signalé dans l'écran Coûts IA. */
     private const FALLBACK = ['prefix' => '', 'in' => 0.50, 'out' => 3.00, 'cached' => 0.05, 'from' => ''];
+    /** Modèle de voix inconnu du barème : tarif de voix prudent (jamais celui d'un modèle de texte). */
+    private const FALLBACK_TTS = ['prefix' => '', 'in' => 1.00, 'out' => 20.00, 'cached' => 1.00, 'from' => ''];
 
     public static string $dir = STORAGE_PATH . '/ia';
     /** Fiche ou écran concerné par les appels en cours (« fiche:123 »), posé par l'appelant. */
@@ -130,15 +142,22 @@ final class AiCosts
                 $best = $r;
             }
         }
-        return ($best ?? self::FALLBACK) + ['known' => $best !== null];
+        if (str_contains($m, 'tts') && $best && !str_contains(strtolower((string) $best['prefix']), 'tts')) {
+            $best = null; // « gemini-x-flash » ne doit pas tarifer « gemini-x-flash-…-tts »
+        }
+        return ($best ?? (str_contains($m, 'tts') ? self::FALLBACK_TTS : self::FALLBACK)) + ['known' => $best !== null];
     }
 
-    /** Coût en dollars : jetons envoyés (hors cache), lus dans le cache, produits et de réflexion. */
+    /**
+     * Coût en dollars : jetons envoyés (hors cache), lus dans le cache, produits et de réflexion.
+     * Traitement groupé (API Batch de Google, $u['batch']) : moitié prix.
+     */
     public static function cost(array $u, array $price): float
     {
-        $u += ['in' => 0, 'cached' => 0, 'out' => 0, 'think' => 0];
+        $u += ['in' => 0, 'cached' => 0, 'out' => 0, 'think' => 0, 'batch' => false];
         $fresh = max(0, $u['in'] - $u['cached']);
-        return ($fresh * $price['in'] + $u['cached'] * $price['cached'] + ($u['out'] + $u['think']) * $price['out']) / 1e6;
+        $usd = ($fresh * $price['in'] + $u['cached'] * $price['cached'] + ($u['out'] + $u['think']) * $price['out']) / 1e6;
+        return $u['batch'] ? $usd / 2 : $usd;
     }
 
     // ------------------------------------------------------------------ enregistrement
@@ -182,6 +201,9 @@ final class AiCosts
             }
             if (!empty($u['est'])) {
                 $line['e'] = 1; // jetons estimés (Google ne les indique pas pour ce service)
+            }
+            if (!empty($u['batch'])) {
+                $line['b'] = 1; // traitement groupé : moitié prix
             }
             if (!$price['known']) {
                 $line['x'] = 1; // modèle absent du barème : tarif par défaut

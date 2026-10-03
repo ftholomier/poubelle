@@ -51,7 +51,7 @@ bloc « Ils y étaient » des fiches. Coût nul (moteur PDF, quiz, photos, envoi
 contributions existent déjà). Marchepied d'Allô Bonal : réseau d'EHPAD, premiers témoignages,
 preuve d'impact.
 
-## La fiche qui se raconte en 30 secondes (gratuit ou ~20 €)
+## La fiche qui se raconte en 30 secondes (gratuit ou ~20 €) — réalisé (octobre 2026)
 
 Une icône haut-parleur sur chaque fiche lit un résumé de 30 secondes (environ 75 mots).
 - Gratuit : voix du navigateur et résumé construit à partir des données de la fiche.

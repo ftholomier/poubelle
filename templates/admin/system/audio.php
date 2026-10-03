@@ -1,0 +1,103 @@
+<?php
+/**
+ * Fiches audio. Variables : $stats, $plan, $aiText, $batch, $direct, $jobs, $states, $recent, $ready, $model, $voice, $spent, $admin, $enabled
+ */
+use App\Admin\Base;
+
+$fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
+$eur = fn (float $v) => \App\Services\AiCosts::fmt($v);
+$todo = count($plan['text']) + count($plan['voice']);
+$kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
+?>
+<?php if (!$enabled): ?><p class="alert" style="margin:0">Le bouton « Écouter » est désactivé sur le site (<a href="/admin/reglages?groupe=audio">Réglages › Fiches audio</a>).</p><?php endif; ?>
+
+<div class="kpis">
+  <div class="kpi kpi--yellow"><b><?= $fmt($stats['fiches']) ?></b><span>fiches qui se racontent</span><small>résumé de 30 s, voix du navigateur : gratuit</small></div>
+  <div class="kpi"><b><?= $fmt($stats['fr_voice']) ?></b><span>voix IA en français</span><small><?= $stats['bytes'] ? e(Base::size((int) $stats['bytes'])) . ' sur le serveur' : 'aucune pour l’instant' ?></small></div>
+  <div class="kpi"><b><?= $fmt($stats['en_voice']) ?></b><span>voix IA en anglais</span><small>fiches traduites seulement</small></div>
+  <div class="kpi"><b><?= $fmt($stats['ai_text'] + $stats['manual']) ?></b><span>textes rédigés</span><small><?= $fmt($stats['ai_text']) ?> par l’IA · <?= $fmt($stats['manual']) ?> à la main</small></div>
+  <div class="kpi"><b><?= e($spent) ?></b><span>dépensé en audio</span><small><a href="/admin/couts-ia">détail dans Coûts IA</a></small></div>
+</div>
+
+<div class="cols cols--wide">
+  <section class="card">
+    <div class="card__head"><h2 class="card__t">Tout le musée en voix IA</h2><span class="card__note">traitement groupé de Google : moitié prix</span></div>
+    <div class="card__body">
+      <?php if (!$ready): ?>
+        <p class="small" style="margin:0">La voix IA nécessite une clé Gemini<?= $admin ? ' (<a href="/admin/reglages?groupe=ai">Réglages › Assistant IA</a>)' : '' ?>. En attendant, chaque fiche est lue par la voix du navigateur du visiteur, gratuitement.</p>
+      <?php elseif (!$todo): ?>
+        <p class="small" style="margin:0"><span class="ok">✓</span> Toutes les fiches publiées ont leur voix IA à jour.</p>
+      <?php else: ?>
+        <p class="small" style="margin:0"><b><?= $fmt($todo) ?> fiche<?= $todo > 1 ? 's' : '' ?></b> sans voix IA à jour<?= $aiText ? ', dont ' . $fmt(count($plan['text'])) . ' dont l’IA rédigera d’abord le résumé' : '' ?>. Coût estimé : <b><?= e($eur($batch['eur'])) ?></b> en traitement groupé (<?= e($eur($direct['eur'])) ?> fiche par fiche), soit environ <?= e($eur($batch['per'])) ?> par fiche de <?= (int) round($batch['seconds']) ?> secondes.</p>
+        <p class="xs muted" style="margin:0">Voix <b><?= e($voice) ?></b>, modèle <?= e((string) $model) ?>. Google traite la demande en quelques heures (24 h au plus) ; la tâche planifiée range ensuite les voix et chaque fiche bascule toute seule de la voix du navigateur à la voix IA.</p>
+        <?php if ($admin): ?>
+          <form method="post" action="/admin/audio" class="stack" style="gap:10px" data-confirm="Lancer le traitement groupé ?|20 fiches pour essayer, ou toutes (coût estimé : <?= e($eur($batch['eur'])) ?>), comptées dans Coûts IA.|Lancer">
+            <?= csrf_field() ?><input type="hidden" name="action" value="lancer">
+            <div class="row">
+              <label class="row" style="gap:6px"><input type="checkbox" name="langues[]" value="fr" checked> Français</label>
+              <label class="row" style="gap:6px"><input type="checkbox" name="langues[]" value="en" checked> Anglais (fiches traduites)</label>
+              <label class="row" style="gap:6px" title="Refaire aussi les voix IA déjà à jour (changement de voix, par exemple)"><input type="checkbox" name="refaire" value="1"> Tout refaire</label>
+            </div>
+            <div class="row">
+              <label class="row" style="gap:6px"><input type="radio" name="nombre" value="essai" checked> Essayer d’abord sur 20 fiches (quelques centimes)</label>
+              <label class="row" style="gap:6px"><input type="radio" name="nombre" value="tout"> Toutes les fiches</label>
+            </div>
+            <div class="row"><button type="submit" class="btn btn--navy">Lancer le traitement groupé</button><span class="xs muted">toutes les fiches : ≈ <?= e($eur($batch['eur'])) ?></span></div>
+          </form>
+        <?php else: ?>
+          <p class="xs muted" style="margin:0">Le lancement est réservé aux administrateurs. Chaque fiche peut aussi recevoir sa voix IA depuis son éditeur (carte « Écouter »).</p>
+        <?php endif; ?>
+      <?php endif; ?>
+    </div>
+  </section>
+  <section class="card">
+    <div class="card__head"><h2 class="card__t">Comment ça marche</h2></div>
+    <div class="card__body small">
+      <p style="margin:0"><b>Gratuit, par défaut :</b> chaque fiche propose « Écouter (30 s) ». Le résumé est tiré des données (date, score, buteurs, carrière, introduction) et lu par la voix du navigateur du visiteur.</p>
+      <p style="margin:0"><b>Voix IA :</b> Gemini lit le résumé d’une voix naturelle, enregistrée une fois pour toutes. Depuis l’éditeur d’une fiche (carte « Écouter »), ou pour tout le musée ici, en traitement groupé. Une fiche modifiée retrouve sa voix IA la nuit suivante<?= $admin ? ' (<a href="/admin/reglages?groupe=audio">Réglages › Fiches audio</a>)' : '' ?>.</p>
+      <p style="margin:0"><b>Texte lu :</b> modifiable dans chaque fiche, ou rédigé par l’IA. Il s’affiche sous le bouton pendant l’écoute (accessibilité).</p>
+    </div>
+  </section>
+</div>
+
+<section class="card">
+  <div class="card__head"><h2 class="card__t">Traitements groupés</h2><span class="card__note">la tâche planifiée les envoie, les suit et range les résultats</span></div>
+  <div class="table" style="border:0">
+    <table>
+      <thead><tr><th>Lancé</th><th>Contenu</th><th>Fiches</th><th>État</th><th>Avancement</th><th></th></tr></thead>
+      <tbody>
+      <?php foreach ($jobs as $j): [$label, $tone] = $states[$j['state']] ?? [$j['state'], 'info']; ?>
+        <tr>
+          <td class="small nowrap"><?= e(Base::ago(date('c', (int) $j['created']))) ?><br><span class="xs muted"><?= e((string) $j['by']) ?></span></td>
+          <td class="small"><?= e($kind[$j['kind']] ?? $j['kind']) ?></td>
+          <td class="t-num"><?= count($j['keys']) ?></td>
+          <td><span class="pill pill--<?= e($tone) ?>"><?= e($label) ?></span></td>
+          <td class="small"><?= (int) $j['done'] ?> / <?= count($j['keys']) ?><?= $j['errors'] ? ' · <span class="ko">' . (int) $j['errors'] . ' en échec</span>' : '' ?><?= $j['message'] !== '' ? '<br><span class="xs muted">' . e((string) $j['message']) . '</span>' : '' ?></td>
+          <td><?php if ($admin && in_array($j['state'], ['attente', 'envoye'], true)): ?><form method="post" action="/admin/audio" data-confirm="Annuler ce traitement ?|Les fiches garderont la voix du navigateur.|Annuler le traitement|danger"><?= csrf_field() ?><input type="hidden" name="action" value="annuler"><input type="hidden" name="job" value="<?= e($j['id']) ?>"><button type="submit" class="linkbtn xs">Annuler</button></form><?php endif; ?></td>
+        </tr>
+      <?php endforeach; ?>
+      <?php if (!$jobs): ?><tr><td colspan="6" class="muted" style="padding:20px;text-align:center">Aucun traitement groupé pour l’instant.</td></tr><?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<?php if ($recent): ?>
+  <section class="card">
+    <div class="card__head"><h2 class="card__t">Dernières voix IA</h2></div>
+    <div class="table" style="border:0">
+      <table>
+        <tbody>
+        <?php foreach ($recent as $r): ?>
+          <tr>
+            <td style="width:44px"><button type="button" class="iconbtn" data-audio-url="<?= e($r['url']) ?>" title="Écouter" aria-label="Écouter « <?= e($r['title']) ?> »">▶</button></td>
+            <td><a class="rowlink" href="/admin/fiche/<?= (int) $r['id'] ?>"><?= e($r['title']) ?></a></td>
+            <td class="xs muted nowrap"><?= e($r['lang']) ?> · <?= e((string) $r['voice']) ?><?= $r['dur'] ? ' · ' . number_format((float) $r['dur'], 0) . ' s' : '' ?></td>
+            <td class="xs muted nowrap"><?= e(Base::ago($r['at'])) ?></td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </section>
+<?php endif; ?>

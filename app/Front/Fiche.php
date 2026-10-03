@@ -77,8 +77,19 @@ final class Fiche
 
     public static function match(Request $req, array $doc): Response
     {
-        $v = self::matchData($doc);
+        $v = self::withAudio(self::matchData($doc), $doc);
         return Pages::render('fiche-match', $v['vars'], $v['page']);
+    }
+
+    /** Bouton « Écouter » (résumé de 30 secondes) : données et script de la page. */
+    private static function withAudio(array $v, array $doc): array
+    {
+        $a = \App\Services\FicheAudio::forPage($doc, I18n::isEn() ? 'en' : 'fr');
+        $v['vars']['audio'] = $a;
+        if ($a) {
+            $v['page']['scripts'] = array_merge($v['page']['scripts'] ?? [], ['js/audio.js']);
+        }
+        return $v;
     }
 
     /** Données de la fiche (page du site et export PDF). @return array{vars:array,page:array} */
@@ -339,7 +350,7 @@ final class Fiche
 
     public static function person(Request $req, array $doc): Response
     {
-        $v = self::personData($doc);
+        $v = self::withAudio(self::personData($doc), $doc);
         return Pages::render('fiche-personne', $v['vars'], $v['page']);
     }
 
@@ -667,7 +678,7 @@ final class Fiche
 
     public static function article(Request $req, array $doc): Response
     {
-        $v = self::articleData($doc);
+        $v = self::withAudio(self::articleData($doc), $doc);
         return Pages::render('fiche-article', $v['vars'], $v['page']);
     }
 

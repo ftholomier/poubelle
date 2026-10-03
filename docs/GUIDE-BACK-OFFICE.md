@@ -244,6 +244,12 @@ de grosses modifications. Les questions sont conservées pour une durée limité
   (vérification de fond, plafond quotidien d'appels à Gemini, typographie), coûts de l'IA
   (qui avance les frais, taux de change, budget mensuel), Stripe et PayPal, carte,
   centenaire, mentions légales, cookies, sauvegardes.
+- **Fiches audio** : chaque fiche se raconte en 30 secondes sur le site (bouton
+  « Écouter »), gratuitement avec la voix de l'appareil du visiteur. Dans l'éditeur, la carte
+  « Écouter » permet de modifier le texte lu, de le faire rédiger par l'IA ou de lui donner
+  une **voix IA** naturelle (environ 0,6 centime). Système › Fiches audio : essayer sur
+  20 fiches puis passer tout le musée en voix IA en **traitement groupé** (moitié prix,
+  environ 5 € pour toutes les fiches), suivi des envois.
 - **Coûts IA** : ce que coûte Gemini, calculé à chaque appel et mis à jour à l'écran toutes
   les 10 secondes (aujourd'hui, ce mois-ci, à rembourser, budget, derniers appels avec la
   personne et la fiche concernées). Le mois terminé : relevé PDF à signer et détail CSV à

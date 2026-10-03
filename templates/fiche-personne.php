@@ -146,7 +146,7 @@ $rowsHtml = function (array $list, bool $coach) {
       <?php elseif (!empty($p['birth']['text'])): ?>
         <p class="phero__lead"><?= e(ucfirst((string) $p['birth']['text'])) ?>.</p>
       <?php endif; ?>
-      <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?></div>
+      <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div>
     </div>
   </div>
 </section>

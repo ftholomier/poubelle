@@ -269,6 +269,7 @@ final class Fiches extends Base
             'title' => $title,
             'crumb_html' => 'Contenus › <a href="/admin/' . e($list === 'moments' ? 'moments' : $list) . '">' . e(self::LISTS[$list]['title'] ?? 'Moments') . '</a>',
             'nav' => $list === 'moments' ? 'moments' : $list,
+            'scripts' => ['admin/audio.js'],
         ]);
     }
 

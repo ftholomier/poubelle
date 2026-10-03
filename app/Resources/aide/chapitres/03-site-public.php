@@ -45,6 +45,11 @@ HTML],
 [[auto|<p>Le PDF suit toujours la dernière version enregistrée : il est refait automatiquement dès qu’une fiche change. Il existe aussi en anglais depuis la version anglaise du site.</p>]]
 [[astuce|<p>Dans le back-office, le panneau Publication d’une fiche propose aussi <b>Télécharger le PDF</b>, même pour une fiche pas encore publiée.</p>]]
 HTML],
+        ['id' => 'ecouter', 'title' => 'Écouter une fiche en 30 secondes', 'html' => <<<'HTML'
+<p>À côté de « Télécharger en PDF », le bouton <b>Écouter (30 s)</b> raconte la fiche à voix haute : pour un match, la date, le stade, le score, les buteurs et un fait marquant ; pour un joueur, son poste, ses années au club, ses matchs et le début de son histoire. Le texte lu s’affiche sous le bouton pendant l’écoute (accessibilité : malvoyants, personnes âgées, lecture difficile). Un second clic arrête.</p>
+[[img:site-ecouter.webp|Le bouton « Écouter » et le texte lu]]
+<p>Par défaut, c’est la voix de l’appareil du visiteur qui lit : c’est gratuit. Quand une fiche a reçu sa <b>voix IA</b> (voix naturelle de Gemini, enregistrée), c’est elle que l’on entend. Voir [[aide:administration#audio|Fiches audio]].</p>
+HTML],
         ['id' => 'interactif', 'title' => 'Interactif, recherche, assistant, dons', 'html' => <<<'HTML'
 <ul>
 <li><b>Interactif</b> : quiz, album de cartes, maillots, frise, carte, centenaire (100 moments, Onze de légende), réserves du musée.</li>

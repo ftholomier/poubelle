@@ -105,8 +105,8 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 
 ## Aide, teaser, recette et compléments (03/10, 06:31 → 10:10 UTC) — terminé
 - [x] Rubrique **Aide** du back-office : 17 chapitres (pas à pas, « Comment faire pour… »),
-      65 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (80 p.
-      avec le correcteur, les coûts de l'IA et le verrou de modification) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
+      68 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (83 p.
+      avec le correcteur, les coûts de l’IA, le verrou de modification et les fiches audio) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
       (précision du client).
 - [x] **Bulles « ? »** sur chaque écran, carte et champ du back-office (souris, clavier, toucher).
 - [x] **Teaser** 1 min 55 en 1920×1080 calé sur la musique fournie ; v2 : aucune mention de
@@ -166,6 +166,13 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       ou 30 minutes d'inactivité ; enregistrements refusés côté serveur tant que le verrou est
       tenu par un autre (fiches, contenus interactifs, accueil, rubriques, album ; actions
       groupées). `tests/verrou.php` ; essai à deux navigateurs.
+- [x] **Fiches audio** : bouton « Écouter (30 s) » sur chaque fiche du site (match, personne,
+      article), texte lu affiché ; gratuit par défaut (résumé automatique tiré des données, voix
+      du navigateur) ; dans l'éditeur, texte modifiable, rédaction par l'IA, voix IA Gemini
+      enregistrée (MP3) ; Système › Fiches audio : estimation, essai sur 20 fiches, tout le
+      musée en traitement groupé (API Batch, moitié prix ≈ 5 €), suivi et annulation ; mise à
+      jour de nuit des voix des fiches modifiées ; coûts comptés. `tests/audio.php` ; essai
+      complet avec un faux Gemini (voix, envoi de fichier, traitement groupé).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).

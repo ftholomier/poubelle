@@ -14,6 +14,7 @@
  *   php bin/console.php videos           copie les vignettes des vidéos (YouTube, Dailymotion…)
  *   php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance (carte)
  *   php bin/console.php correcteur [secondes]  vérifie l'orthographe de toutes les fiches (sans plafond quotidien)
+ *   php bin/console.php audio [secondes]       fiches audio : envoie et range les traitements groupés (voix et résumés IA)
  */
 
 declare(strict_types=1);
@@ -81,6 +82,12 @@ switch ($cmd) {
         @set_time_limit(0);
         $r = \App\Services\Proofreader::run(max(10, (int) ($argv[2] ?? 1800)), PHP_INT_MAX);
         echo json_encode($r ?? ['fiches' => 0, 'message' => 'tout est déjà vérifié'], JSON_UNESCAPED_UNICODE) . "\n";
+        break;
+
+    case 'audio':
+        // Traitements groupés des fiches audio : utile pour ranger d'un coup de gros résultats.
+        @set_time_limit(0);
+        echo (\App\Services\FicheAudio::run(max(10, (int) ($argv[2] ?? 600))) ?? 'rien à faire') . "\n";
         break;
 
     case 'rag':

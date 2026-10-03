@@ -20,7 +20,7 @@ const FRONT = ['/', '/matchs/', '/nos-lions/', '/nos-lions/joueurs/', '/supporte
 const ADMIN = ['/admin', '/admin/qualite', '/admin/qualite?cat=orthographe', '/admin/collection/dictionnaire', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
   '/admin/objets', '/admin/referentiels', '/admin/medias', '/admin/accueil', '/admin/moments', '/admin/rubriques',
   '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/contributions',
-  '/admin/messages', '/admin/newsletter', '/admin/dons', '/admin/traductions', '/admin/assistant', '/admin/couts-ia', '/admin/reglages?groupe=couts',
+  '/admin/messages', '/admin/newsletter', '/admin/dons', '/admin/traductions', '/admin/assistant', '/admin/couts-ia', '/admin/reglages?groupe=couts', '/admin/audio', '/admin/reglages?groupe=audio',
   '/admin/sauvegardes', '/admin/taches', '/admin/profil', '/admin/fiche/nouvelle/match', '/admin/fiche/nouvelle/personne',
   '/admin/fiche/nouvelle/article', '/admin/fiche/nouvelle/objet', '/admin/fiche/nouvelle/moment', '/admin/corbeille', '/admin/audience',
   '/admin/album', '/admin/collection/quiz', '/admin/collection/frise', '/admin/collection/maillots', '/admin/collection/epopees',

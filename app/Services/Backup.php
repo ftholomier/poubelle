@@ -8,8 +8,8 @@ use App\Core\Settings;
 /**
  * Sauvegardes ZIP (storage/backups, hors du dossier public) : toutes les données
  * éditoriales (data/), les réglages chiffrés et leur clé, les versions, les boîtes
- * de réception, les dons, la newsletter et les frais d'IA. Les photos (volumineuses) sont ajoutées
- * le dimanche si l'option est cochée. Les plus anciennes sont supprimées.
+ * de réception, les dons, la newsletter, les frais d'IA et les textes des fiches audio. Les photos
+ * et les voix IA (volumineuses) sont ajoutées le dimanche si l'option est cochée. Les plus anciennes sont supprimées.
  */
 final class Backup
 {
@@ -29,6 +29,7 @@ final class Backup
         'storage/counters.json',
         'storage/activity',
         'storage/ia',
+        'storage/audio',
     ];
 
     /** @return array{file:string,size:int,files:int,ms:int}|array{error:string} */
@@ -53,6 +54,7 @@ final class Backup
         $paths = self::PATHS;
         if ($withMedia) {
             $paths[] = 'storage/media';
+            $paths[] = 'public/media/audio'; // voix IA des fiches (payées : on les garde)
         }
         foreach ($paths as $rel) {
             $abs = $root . '/' . $rel;
@@ -64,9 +66,12 @@ final class Backup
                 foreach ($it as $f) {
                     if ($f->isFile() && !str_ends_with($f->getFilename(), '.lock') && !str_ends_with($f->getFilename(), '.tmp')) {
                         $local = $rel . substr($f->getPathname(), strlen($abs));
+                        if (str_starts_with($local, 'storage/audio/jobs/')) {
+                            continue; // fichiers d'échange temporaires avec Google
+                        }
                         $zip->addFile($f->getPathname(), $local);
                         // Les photos sont déjà compressées : stockage sans recompression.
-                        if ($withMedia && str_starts_with($local, 'storage/media')) {
+                        if ($withMedia && (str_starts_with($local, 'storage/media') || str_starts_with($local, 'public/media'))) {
                             $zip->setCompressionName($local, \ZipArchive::CM_STORE);
                         }
                         $count++;

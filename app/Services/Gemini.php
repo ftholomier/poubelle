@@ -14,7 +14,8 @@ use App\Core\Settings;
  */
 final class Gemini
 {
-    private const BASE = 'https://generativelanguage.googleapis.com/v1beta/';
+    private const HOST = 'https://generativelanguage.googleapis.com/';
+    private const BASE = self::HOST . 'v1beta/';
     private const MODELS_CACHE = STORAGE_PATH . '/cache/gemini-models.json';
     public const FALLBACK_MODEL = 'gemini-2.5-flash';
 
@@ -34,6 +35,12 @@ final class Gemini
         return is_string($url) && preg_match('#^http://127\.0\.0\.1:\d+/$#', $url) ? $url : null;
     }
 
+    /** Faux Gemini des essais automatiques (serveur de développement seulement) ? */
+    public static function isMock(): bool
+    {
+        return self::mock() !== null;
+    }
+
     public static function ready(): bool
     {
         return self::key() !== '';
@@ -45,7 +52,7 @@ final class Gemini
      */
     public static function models(bool $refresh = false): array
     {
-        $empty = ['generate' => [], 'embed' => [], 'at' => null, 'error' => null];
+        $empty = ['generate' => [], 'embed' => [], 'tts' => [], 'at' => null, 'error' => null];
         if (!self::ready()) {
             return $empty + ['error' => 'Aucune clé API Gemini enregistrée.'];
         }
@@ -73,9 +80,13 @@ final class Gemini
                 if (in_array('embedContent', $methods, true) || in_array('batchEmbedContents', $methods, true)) {
                     $out['embed'][$id] = $label;
                 }
+                if (in_array('generateContent', $methods, true) && str_contains($id, 'tts')) {
+                    $out['tts'][$id] = $label;
+                }
             }
             uksort($out['generate'], [self::class, 'rank']);
             uksort($out['embed'], [self::class, 'rank']);
+            uksort($out['tts'], [self::class, 'rank']);
         } catch (\Throwable $e) {
             $out['error'] = $e->getMessage();
         }
@@ -207,6 +218,18 @@ final class Gemini
         return $out;
     }
 
+    /** Corps d'une demande de texte (traitement groupé : une ligne du fichier JSONL). */
+    public static function requestBody(array $contents, ?string $system, array $opt = [], ?string $model = null): array
+    {
+        return self::body($contents, $system, $opt, $model ?? self::model());
+    }
+
+    /** Texte d'une réponse (hors raisonnement interne). */
+    public static function responseText(array $r): string
+    {
+        return self::parse($r, '')['text'];
+    }
+
     /** Corps d'une requête de génération. $opt['schema'] : structure JSON imposée à la réponse. */
     private static function body(array $contents, ?string $system, array $opt, string $model): array
     {
@@ -283,6 +306,161 @@ final class Gemini
             }
         }
         return $out;
+    }
+
+    // ------------------------------------------------------------------ voix (synthèse vocale)
+
+    /** Modèle de voix réglé (Réglages › Fiches audio), sinon le meilleur disponible. */
+    public static function ttsModel(): string
+    {
+        $m = trim((string) Settings::get('audio.tts_model', ''));
+        if ($m !== '') {
+            return $m;
+        }
+        $list = array_keys(self::models()['tts'] ?? []);
+        foreach ($list as $id) {
+            if (str_contains($id, 'flash')) {
+                return $id;
+            }
+        }
+        return $list[0] ?? 'gemini-2.5-flash-preview-tts';
+    }
+
+    /** Corps d'une demande de voix : consigne de ton puis texte, voix choisie. */
+    public static function speechRequest(string $text, string $voice, string $style = ''): array
+    {
+        return [
+            'contents' => [['role' => 'user', 'parts' => [['text' => ($style !== '' ? rtrim($style, ' :.') . ' : ' : '') . $text]]]],
+            'generationConfig' => [
+                'responseModalities' => ['AUDIO'],
+                'speechConfig' => ['voiceConfig' => ['prebuiltVoiceConfig' => ['voiceName' => $voice]]],
+            ],
+        ];
+    }
+
+    /**
+     * Audio d'une réponse de voix : ['pcm' => octets bruts (16 bits, mono), 'rate' => fréquence].
+     * Google renvoie du PCM « audio/L16;codec=pcm;rate=24000 ».
+     */
+    public static function speechAudio(array $r): ?array
+    {
+        foreach ($r['candidates'][0]['content']['parts'] ?? [] as $p) {
+            $d = $p['inlineData'] ?? $p['inline_data'] ?? null;
+            if (is_array($d) && !empty($d['data'])) {
+                $mime = (string) ($d['mimeType'] ?? $d['mime_type'] ?? '');
+                $rate = preg_match('/rate=(\d+)/', $mime, $m) ? (int) $m[1] : 24000;
+                $pcm = base64_decode((string) $d['data'], true);
+                return $pcm === false || $pcm === '' ? null : ['pcm' => $pcm, 'rate' => $rate, 'mime' => $mime];
+            }
+        }
+        return null;
+    }
+
+    /** Lit un texte à voix haute (une demande, tarif normal) ; coût compté (usage « audio »). */
+    public static function speech(string $text, string $voice, string $style = '', ?string $ref = null): array
+    {
+        $model = self::ttsModel();
+        $r = self::request('POST', 'models/' . rawurlencode($model) . ':generateContent', self::speechRequest($text, $voice, $style), 120);
+        AiCosts::record('audio', $model, AiCosts::usage($r), $ref);
+        $a = self::speechAudio($r);
+        if (!$a) {
+            throw new \RuntimeException('Gemini : aucune voix dans la réponse.');
+        }
+        return $a + ['model' => $model];
+    }
+
+    // ------------------------------------------------------------------ traitement groupé (API Batch)
+
+    /** Envoie un fichier (JSONL des demandes) à Google ; renvoie son nom (« files/… »). */
+    public static function uploadFile(string $path, string $mime, string $display): string
+    {
+        $size = (int) filesize($path);
+        $ch = curl_init((self::mock() ?? self::HOST) . 'upload/v1beta/files');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => true, CURLOPT_POST => true, CURLOPT_TIMEOUT => 60, CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_HTTPHEADER => ['x-goog-api-key: ' . self::key(), 'X-Goog-Upload-Protocol: resumable', 'X-Goog-Upload-Command: start',
+                'X-Goog-Upload-Header-Content-Length: ' . $size, 'X-Goog-Upload-Header-Content-Type: ' . $mime, 'Content-Type: application/json'],
+            CURLOPT_POSTFIELDS => json_encode(['file' => ['display_name' => $display]]),
+        ]);
+        $raw = (string) curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $head = substr($raw, 0, (int) curl_getinfo($ch, CURLINFO_HEADER_SIZE));
+        curl_close($ch);
+        if (!preg_match('/^x-goog-upload-url:\s*(\S+)/mi', $head, $m)) {
+            throw new \RuntimeException("Gemini : envoi du fichier refusé (HTTP $code).");
+        }
+        $ch = curl_init(trim($m[1]));
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true, CURLOPT_POST => true, CURLOPT_TIMEOUT => 300, CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_HTTPHEADER => ['Content-Length: ' . $size, 'X-Goog-Upload-Offset: 0', 'X-Goog-Upload-Command: upload, finalize'],
+            CURLOPT_POSTFIELDS => (string) file_get_contents($path),
+        ]);
+        $raw = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err = curl_error($ch);
+        curl_close($ch);
+        $r = self::decode($raw === false ? false : (string) $raw, $code, $err);
+        $name = (string) ($r['file']['name'] ?? '');
+        if ($name === '') {
+            throw new \RuntimeException('Gemini : fichier envoyé sans nom en retour.');
+        }
+        return $name;
+    }
+
+    /** Crée un traitement groupé à partir d'un fichier envoyé ; renvoie son nom (« batches/… »). */
+    public static function batchCreate(string $model, string $file, string $display): string
+    {
+        $r = self::request('POST', 'models/' . rawurlencode($model) . ':batchGenerateContent', ['batch' => ['display_name' => $display, 'input_config' => ['file_name' => $file]]], 60);
+        $name = (string) ($r['name'] ?? '');
+        if (!str_starts_with($name, 'batches/')) {
+            throw new \RuntimeException('Gemini : traitement groupé refusé.');
+        }
+        return $name;
+    }
+
+    /**
+     * État d'un traitement groupé : ['state' => pending|running|succeeded|failed|cancelled|expired,
+     * 'file' => fichier des résultats ou null, 'error' => message].
+     */
+    public static function batchGet(string $name): array
+    {
+        $r = self::request('GET', $name);
+        $raw = strtolower((string) ($r['metadata']['state'] ?? $r['state'] ?? ''));
+        $state = 'pending';
+        foreach (['succeeded', 'failed', 'cancelled', 'expired', 'running', 'pending'] as $s) {
+            if (str_ends_with($raw, $s)) {
+                $state = $s;
+                break;
+            }
+        }
+        $file = $r['response']['responsesFile'] ?? $r['metadata']['output']['responsesFile'] ?? $r['output']['responsesFile'] ?? null;
+        return ['state' => $state, 'file' => $file ? (string) $file : null, 'error' => (string) ($r['error']['message'] ?? '')];
+    }
+
+    public static function batchCancel(string $name): void
+    {
+        self::request('POST', $name . ':cancel', []);
+    }
+
+    /** Télécharge un fichier de résultats vers $dest (sans le charger en mémoire). */
+    public static function download(string $file, string $dest): int
+    {
+        $fp = fopen($dest, 'wb');
+        if (!$fp) {
+            throw new \RuntimeException('Écriture impossible : ' . $dest);
+        }
+        $ch = curl_init((self::mock() ?? self::HOST) . 'download/v1beta/' . $file . ':download?alt=media');
+        curl_setopt_array($ch, [CURLOPT_FILE => $fp, CURLOPT_FOLLOWLOCATION => true, CURLOPT_TIMEOUT => 600, CURLOPT_CONNECTTIMEOUT => 10, CURLOPT_HTTPHEADER => ['x-goog-api-key: ' . self::key()]]);
+        $ok = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err = curl_error($ch);
+        curl_close($ch);
+        fclose($fp);
+        if (!$ok || $code >= 400) {
+            @unlink($dest);
+            throw new \RuntimeException('Gemini : téléchargement des résultats impossible (' . ($err ?: "HTTP $code") . ').');
+        }
+        return (int) filesize($dest);
     }
 
     /** Vérifie la clé (page Réglages) : renvoie null si tout va bien, sinon le message d'erreur. */

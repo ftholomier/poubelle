@@ -88,6 +88,21 @@ return [
             'typography' => ['label' => 'Proposer aussi les corrections typographiques (« À », « 1re », « 2e », espaces)', 'type' => 'bool', 'default' => true, 'help' => 'Décoché, seules les fautes de langue et de ponctuation sont signalées : « 2ème », « A l’extérieur » ou « l’ équipe » ne sont plus proposés.'],
         ],
     ],
+    'audio' => [
+        'label' => 'Fiches audio',
+        'fields' => [
+            'enabled' => ['label' => 'Bouton « Écouter » sur les fiches (résumé de 30 secondes)', 'type' => 'bool', 'default' => true, 'help' => 'Sans voix IA, le résumé est lu par la voix du navigateur du visiteur : gratuit.'],
+            'ai_text' => ['label' => 'Faire rédiger les résumés par l’IA lors du traitement groupé (sinon : résumé automatique tiré des données)', 'type' => 'bool', 'default' => false, 'help' => 'Environ 0,02 centime par fiche en traitement groupé. Chaque texte reste modifiable dans la fiche.'],
+            'tts_model' => ['label' => 'Modèle de voix IA', 'type' => 'select', 'options_from' => 'gemini_tts_models', 'default' => ''],
+            'voice' => ['label' => 'Voix', 'type' => 'select', 'default' => 'Charon', 'options' => [
+                'Charon' => 'Charon (informative)', 'Sadaltager' => 'Sadaltager (savante)', 'Gacrux' => 'Gacrux (mûre)', 'Sulafat' => 'Sulafat (chaleureuse)',
+                'Achird' => 'Achird (amicale)', 'Iapetus' => 'Iapetus (claire)', 'Schedar' => 'Schedar (égale)', 'Kore' => 'Kore (ferme)', 'Orus' => 'Orus (ferme)',
+                'Algenib' => 'Algenib (rocailleuse)', 'Vindemiatrix' => 'Vindemiatrix (douce)', 'Puck' => 'Puck (enjouée)',
+            ]],
+            'style' => ['label' => 'Consigne de ton donnée à la voix', 'type' => 'text', 'default' => 'Lis d’une voix chaleureuse et posée, comme un commentateur radio qui raconte un souvenir'],
+            'auto_update' => ['label' => 'Refaire chaque nuit la voix IA des fiches modifiées (traitement groupé)', 'type' => 'bool', 'default' => true],
+        ],
+    ],
     'couts' => [
         'label' => 'Coûts IA',
         'fields' => [

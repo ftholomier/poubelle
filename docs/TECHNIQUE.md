@@ -139,6 +139,7 @@ l'hébergeur vidéo qu'après l'accord du visiteur.
 | `Translator`, `I18n` | traduction anglaise des fiches avec Gemini (champ `i18n.en`), libellés de l'interface (`t()`) |
 | `Proofreader` | correcteur d'orthographe et de syntaxe (§ 7 ter) |
 | `AiCosts` | coût de l'IA en temps réel, budget, remboursements (§ 7 quater) |
+| `FicheAudio` | fiches audio : résumé de 30 secondes, voix IA, traitement groupé (§ 7 quinquies) |
 | `Payments` | Stripe Checkout et abonnements, PayPal Orders v2 et abonnements, vérification des webhooks |
 | `Mailer`, `Newsletter` | e-mails (SMTP ou mail()), newsletter hebdomadaire « Ce jour-là » |
 | `Geo` | géolocalisation (répertoire intégré, puis Nominatim d'OpenStreetMap, une requête par seconde) |
@@ -250,6 +251,36 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   par `/admin/api/correcteur` et `/admin/api/traduire` et ajouté aux messages de traduction
   et de réindexation (`Admin\Base::aiCost()`).
 
+## 7 quinquies. Fiches audio (`App\Services\FicheAudio`)
+
+- **Sur le site** : bouton « Écouter (30 s) » des fiches (`templates/partials/audio-button.php`,
+  `public/assets/js/audio.js`), caché sans JavaScript. Il joue la voix IA enregistrée si elle
+  correspond au texte lu, sinon lit le texte avec la synthèse vocale du navigateur
+  (`speechSynthesis`, phrase par phrase, meilleure voix de la langue). Le texte lu s'affiche
+  sous le bouton pendant l'écoute.
+- **Texte lu** (75 mots au plus), par ordre de priorité : écrit à la main (`src: manual`),
+  rédigé par Gemini (`src: ai`, valable tant que l'empreinte `sig` des titres, textes et faits
+  de la fiche n'a pas changé : modifier une photo ne l'invalide pas), sinon résumé automatique
+  construit à la volée (`template()` : date, stade, score, buteurs, carrière, introduction ou
+  brève ; abréviations dites en toutes lettres). Version anglaise pour les fiches traduites.
+- **Voix IA** : `Gemini::speech()` (modèle de voix réglé ou le meilleur disponible, voix et
+  consigne de ton réglables), PCM 16 bits mono converti en MP3 48 kbit/s par ffmpeg s'il est
+  présent, sinon WAV. Fichier `public/media/audio/{id}-{langue}-{empreinte}.mp3`, servi
+  directement par Apache (mis en cache un an : le nom change avec le contenu). Valable tant
+  que l'empreinte `th` du texte lu ne change pas.
+- **Traitement groupé** (API Batch de Google, moitié prix) : `launch()` crée des travaux de
+  150 fiches (voix) ou 800 (résumés IA, suivis automatiquement des voix) dans
+  `storage/audio/jobs.json` ; la tâche planifiée `audio` (et `php bin/console.php audio`)
+  écrit le fichier JSONL des demandes, l'envoie (`Gemini::uploadFile`, envoi en deux temps),
+  crée le traitement (`batchCreate`), l'interroge toutes les 2 minutes (`batchGet`),
+  télécharge les résultats sans les charger en mémoire (`download`) et les range ligne par
+  ligne en reprenant là où il s'était arrêté. Chaque nuit, les voix IA devenues anciennes
+  sont refaites (réglage). Coûts comptés (usage « Fiches audio », `batch` : moitié prix).
+- **Back-office** : carte « Écouter » de l'éditeur (`public/assets/admin/audio.js`,
+  `POST /admin/api/audio` : enregistrer, automatique, ia-texte, voix, supprimer-voix) ;
+  écran Système › Fiches audio (`App\Admin\Audio`) : chiffres, estimation, essai sur
+  20 fiches ou tout le musée, suivi et annulation des travaux.
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -303,6 +334,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `ai/` | index et journal de l'assistant | non (reconstructible, journal purgé) |
 | `correcteur/` | résultats de la vérification de fond, corrections ignorées | non (recalculé) |
 | `ia/` | dépense d'IA : détail des appels, cumuls, remboursements, barème (§ 7 quater) | oui |
+| `audio/` | fiches audio : texte lu et voix IA de chaque fiche, traitements groupés (§ 7 quinquies) ; `audio/jobs/` : fichiers d'échange temporaires | oui (sauf `jobs/`) ; les voix IA (`public/media/audio/`) avec les photos, le dimanche |
 | `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
 | `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques | non |
 
@@ -344,5 +376,7 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   budget et pause, remboursements, relevé PDF, détail CSV).
 - `php tests/verrou.php` : verrou de modification (prise, observation, prise de main,
   onglets multiples, libération, expiration, inactivité).
+- `php tests/audio.php` : fiches audio (résumés automatiques, texte retenu, voix enregistrée,
+  rangement des résultats d'un traitement groupé, coût à moitié prix, barème des voix).
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

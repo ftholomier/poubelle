@@ -30,6 +30,7 @@ final class Cron
         'audience' => [0, 'Mesure d’audience anonyme (agrégation)'],
         'traductions' => [0, 'Traduction anglaise des fiches (Gemini)'],
         'correcteur' => [0, 'Correcteur d’orthographe : vérification des fiches nouvelles ou modifiées'],
+        'audio' => [0, 'Fiches audio : traitements groupés (voix et résumés IA), mise à jour de nuit'],
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
@@ -129,6 +130,9 @@ final class Cron
                 }
                 $r = Translator::run(8);
                 return $r['done'] ? $r : null;
+
+            case 'audio':
+                return FicheAudio::run(40);
 
             case 'correcteur':
                 return Proofreader::run(40);

@@ -197,7 +197,7 @@ final class Api extends Base
             return self::json(['error' => 'Réservé aux administrateurs.'], 403);
         }
         $m = Gemini::models(true);
-        return self::json(['ok' => empty($m['error']), 'error' => $m['error'] ?? null, 'generate' => $m['generate'], 'embed' => $m['embed']]);
+        return self::json(['ok' => empty($m['error']), 'error' => $m['error'] ?? null, 'generate' => $m['generate'], 'embed' => $m['embed'], 'tts' => $m['tts'] ?? []]);
     }
 
     /** Traduction ponctuelle d'un texte (bouton « Traduire » des écrans de collections). */

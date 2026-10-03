@@ -670,3 +670,12 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 .pdfbtn { display: inline-flex; align-items: center; gap: 8px; }
 .pdfbtn svg { flex: none; }
+
+/* Fiches : écouter le résumé de 30 secondes */
+.audiobtn { display: inline-flex; align-items: center; gap: 8px; }
+.audiobtn[hidden] { display: none; }
+.audiobtn svg { flex: none; }
+.audiobtn.is-playing { background: var(--cream); }
+.audiotext { flex: 1 0 100%; margin: 2px 0 0; background: var(--cream); color: var(--navy); border: 2px solid var(--navy); padding: 10px 14px; font-size: 16px; line-height: 1.5; }
+.audiotext [data-audio-say] { display: block; max-width: 78ch; }
+.audiotext__k { display: block; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); margin-bottom: 2px; }

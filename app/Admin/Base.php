@@ -53,6 +53,7 @@ class Base
         'Système' => [
             ['traductions', 'Traductions EN', '/admin/traductions', false],
             ['assistant', 'Assistant IA', '/admin/assistant', false],
+            ['audio', 'Fiches audio', '/admin/audio', false],
             ['couts', 'Coûts IA', '/admin/couts-ia', false],
             ['utilisateurs', 'Utilisateurs', '/admin/utilisateurs', true],
             ['reglages', 'Réglages', '/admin/reglages', true],
