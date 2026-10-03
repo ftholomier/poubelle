@@ -105,7 +105,7 @@ final class Quality
     private const CODE_TABS = [
         'rapproche' => 'liens', 'homonyme' => 'liens',
         'inconnu' => 'completer', 'avenir' => 'completer', 'arbitre' => 'completer', 'video' => 'completer', 'role' => 'completer',
-        'titre' => 'site', 'adresse' => 'site', 'rubrique' => 'site', 'image' => 'site', 'fichier' => 'site',
+        'titre' => 'site', 'adresse' => 'site', 'rubrique' => 'site', 'image' => 'site', 'fichier' => 'site', 'photos' => 'site',
         'traduction' => 'traductions',
     ];
 
@@ -130,7 +130,7 @@ final class Quality
             $i += ['id' => null, 'code' => '', 'url' => null];
             $i['tab'] = $tab;
             $i['key'] = Controle::key($tab, $i);
-            $i['new'] = Controle::isNew($tab, $i['key']);
+            $i['new'] = Controle::isNew($tab, $i['key'], $i);
             $out[$tab][] = $i;
         };
         foreach ($d['quality'] ?? [] as $a) {

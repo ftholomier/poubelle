@@ -80,7 +80,7 @@ $when = function (string $iso): string {
       <?php if ($i['url']): ?>
         <a class="btn btn--sm" href="<?= e($i['url']) ?>"><?= $i['tab'] === 'liens' && $i['code'] !== 'homonyme' ? (str_contains($i['url'], '/nouvelle/') ? 'Créer la fiche' : 'Vérifier') : 'Corriger' ?></a>
       <?php else: ?>
-        <span class="small muted">Sauvegarde</span>
+        <span></span>
       <?php endif; ?>
     </div>
   <?php endforeach; ?>

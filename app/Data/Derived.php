@@ -193,6 +193,8 @@ final class Derived
         $paths = [];  // adresse => fiches
         $cats = Categories::all();
         $library = Media::all();
+        $usedFiles = [];  // images de la médiathèque utilisées par les fiches
+        $goneFiles = [];  // fiche => fichiers absents du serveur
         foreach (Fiches::all() as $id => $doc) {
             $read[$id] = true;
             $mediaRefs[$id] = Media::refsIn($doc);
@@ -201,8 +203,13 @@ final class Derived
             }
             $vis = Fiches::isVisible($doc);
             $paths[(string) ($doc['path'] ?? '')][] = (int) $id;
-            foreach (self::ficheChecks($doc, $vis, $cats, $library, $mediaRefs[$id]) as $a) {
+            foreach (self::ficheChecks($doc, $vis, $cats, $library) as $a) {
                 $ficheAlerts[] = $a + ['id' => (int) $id];
+            }
+            [$known, $gone] = self::imageFiles($doc, $library, $mediaRefs[$id]);
+            $usedFiles += array_fill_keys($known, true);
+            if ($gone) {
+                $goneFiles[(int) $id] = $gone;
             }
             if ($vis && ($places = self::unknownPlaces($doc))) {
                 $ficheAlerts[] = ['sev' => 'basse', 'code' => 'inconnu', 'msg' => 'Information inconnue notée « xx » sur l’ancien site (cachée sur le site public), à compléter ou à retirer : ' . implode(' ; ', $places), 'id' => (int) $id];
@@ -227,6 +234,7 @@ final class Derived
                 $articles[$id] = ['id' => $id, 'title' => $doc['title'], 'kind' => $doc['article']['kind'] ?? 'article', 'season' => $doc['article']['season'] ?? null, '_visible' => $vis];
             }
         }
+        $ficheAlerts = array_merge($ficheAlerts, self::photoAlerts($goneFiles, count($usedFiles)));
         // Fichiers de fiches illisibles (JSON abîmé, envoi par FTP interrompu) ou mal numérotés.
         foreach (glob(Fiches::DIR . '/*.json') ?: [] as $file) {
             if (!isset($read[(int) basename($file, '.json')])) {
@@ -1088,10 +1096,10 @@ final class Derived
 
     /**
      * Fiche abîmée (envoi par FTP, retouche à la main, média ou rubrique supprimés) :
-     * titre, adresse, rubriques, images introuvables.
+     * titre, adresse, rubriques, images absentes de la médiathèque.
      * @return list<array{sev:string,code:string,msg:string}>
      */
-    private static function ficheChecks(array $doc, bool $vis, array $cats, array $library, array $refs): array
+    private static function ficheChecks(array $doc, bool $vis, array $cats, array $library): array
     {
         $out = [];
         if (trim((string) ($doc['title'] ?? '')) === '') {
@@ -1107,19 +1115,55 @@ final class Derived
         if ($lost) {
             $out[] = ['sev' => 'moyenne', 'code' => 'rubrique', 'msg' => 'Rangée dans une rubrique qui n’existe plus : ' . implode(', ', $lost) . ' (à décocher dans Classement & SEO)'];
         }
-        // Images nommées dans la fiche (une, galerie, images du texte) absentes de la médiathèque,
-        // puis fichiers manquants sur le serveur.
-        $named = array_filter(array_merge([$doc['featured_image'] ?? null], array_column((array) ($doc['gallery'] ?? []), 'image'), array_column((array) ($doc['images'] ?? []), 'image')), fn ($r) => is_string($r) && $r !== '');
-        $list = fn (array $l) => implode(', ', array_slice($l, 0, 3)) . (count($l) > 3 ? ' et ' . (count($l) - 3) . ' autre' . (count($l) > 4 ? 's' : '') : '');
-        $unknown = array_values(array_unique(array_filter($named, fn ($r) => !isset($library[$r]))));
+        // Images nommées dans la fiche (une, galerie, images du texte) absentes de la médiathèque.
+        $unknown = array_values(array_unique(array_filter(self::namedImages($doc), fn ($r) => !isset($library[$r]))));
         if ($unknown) {
-            $out[] = ['sev' => 'moyenne', 'code' => 'image', 'msg' => 'Image absente de la médiathèque (supprimée ?) : ' . $list($unknown) . ' (onglet Médias)'];
-        }
-        $gone = array_values(array_filter(array_unique(array_merge($refs, array_diff($named, $unknown))), fn ($r) => !is_file(Media::ORIGINALS . '/' . Media::safeRel($r))));
-        if ($gone) {
-            $out[] = ['sev' => 'moyenne', 'code' => 'image', 'msg' => 'Fichier d’image absent du serveur : ' . $list($gone) . ' (à renvoyer dans la médiathèque)'];
+            $out[] = ['sev' => 'moyenne', 'code' => 'image', 'msg' => 'Image absente de la médiathèque (supprimée ?) : ' . self::fileList($unknown) . ' (onglet Médias)'];
         }
         return $out;
+    }
+
+    /** Images nommées dans la fiche : image à la une, galerie, images du texte. */
+    private static function namedImages(array $doc): array
+    {
+        return array_values(array_filter(array_merge([$doc['featured_image'] ?? null], array_column((array) ($doc['gallery'] ?? []), 'image'), array_column((array) ($doc['images'] ?? []), 'image')), fn ($r) => is_string($r) && $r !== ''));
+    }
+
+    /**
+     * Images de la médiathèque utilisées par la fiche (nommées ou citées dans le texte) :
+     * [toutes, celles dont le fichier manque sur le serveur].
+     * @return array{0:list<string>,1:list<string>}
+     */
+    private static function imageFiles(array $doc, array $library, array $refs): array
+    {
+        $known = array_values(array_unique(array_merge($refs, array_filter(self::namedImages($doc), fn ($r) => isset($library[$r])))));
+        return [$known, array_values(array_filter($known, fn ($r) => !is_file(Media::ORIGINALS . '/' . Media::safeRel($r))))];
+    }
+
+    /**
+     * Fichiers d'images absents du serveur : une alerte par fiche. S'il en manque beaucoup à la
+     * fois (photos pas encore copiées sur un serveur neuf, dossier perdu), une seule alerte.
+     * @param array<int,list<string>> $goneByFiche
+     */
+    private static function photoAlerts(array $goneByFiche, int $used): array
+    {
+        $gone = count(array_unique(array_merge([], ...array_values($goneByFiche))));
+        if ($gone >= 50 && $gone > 0.2 * $used) {
+            return [['sev' => 'haute', 'code' => 'photos', 'id' => null, 'title' => 'storage/media/originals',
+                'msg' => 'Photos originales absentes du serveur : ' . number_format($gone, 0, ',', ' ') . ' fichiers sur ' . number_format($used, 0, ',', ' ') . ' utilisés par les fiches. Copie des photos depuis WordPress pas encore faite ou pas terminée (mise en ligne, § 4).']];
+        }
+        $out = [];
+        foreach ($goneByFiche as $id => $files) {
+            $out[] = ['sev' => 'moyenne', 'code' => 'image', 'msg' => 'Fichier d’image absent du serveur : ' . self::fileList($files) . ' (à renvoyer dans la médiathèque)', 'id' => (int) $id];
+        }
+        return $out;
+    }
+
+    /** « a.jpg, b.jpg, c.jpg et 2 autres » */
+    private static function fileList(array $files): string
+    {
+        $n = count($files);
+        return implode(', ', array_slice($files, 0, 3)) . ($n > 3 ? ' et ' . ($n - 3) . ' autre' . ($n > 4 ? 's' : '') : '');
     }
 
     /** Où une fiche contient des « xx » de l'ancien site (information inconnue), pour l'écran Qualité. */

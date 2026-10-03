@@ -22,8 +22,8 @@ Le code et les données sont sur GitHub, dans le dépôt `ftholomier/poubelle`,
 1. Sur GitHub, ouvrir le dépôt, choisir cette branche dans la liste des branches, puis
    bouton « Code » › « Download ZIP ». Décompresser l'archive.
 2. Le dossier obtenu contient : `app/`, `bin/`, `config/`, `data/`, `docs/`, `public/`,
-   `scripts/`, `storage/`, `templates/`. Les deux fichiers `.svg` à la racine et le dossier
-   `docs/maquette/` ne sont pas nécessaires sur le serveur.
+   `scripts/`, `storage/`, `templates/`, `tests/`. Les deux fichiers `.svg` à la racine et
+   les dossiers `docs/maquette/` et `tests/` ne sont pas nécessaires sur le serveur.
 
 Les photos originales (≈ 12 700 fichiers, 5 Go) ne sont pas dans le dépôt : elles sont
 reprises directement depuis le WordPress actuel, sur le même hébergement (§ 4).
@@ -32,8 +32,10 @@ reprises directement depuis le WordPress actuel, sur le même hébergement (§ 4
 
 1. Créer sur le serveur un dossier **hors de `public_html`**, par exemple
    `/home/<compte>/sochauxretro/`, et y envoyer tout le contenu du dossier décompressé
-   (en gardant l'arborescence). `data/` compte environ 5 900 petits fichiers : l'envoi
-   prend quelques minutes.
+   (en gardant l'arborescence). Pour cette première installation, on envoie **tout**, y
+   compris `data/` (les 2 940 fiches) et `storage/` (vide) ; les mises à jour suivantes
+   se font autrement (§ 10). `data/` compte environ 5 900 petits fichiers : l'envoi prend
+   quelques minutes.
 2. cPanel › Domaines : la **racine du document** du domaine (d'abord un sous-domaine de
    test, voir § 7) doit être `/home/<compte>/sochauxretro/public`. Seul ce dossier est
    visible depuis Internet ; le code et les données restent hors d'atteinte.
@@ -60,6 +62,11 @@ tâche cron temporaire :
 
 Les photos absentes du dossier WordPress sont téléchargées depuis l'ancien site, tant qu'il
 est en ligne. En cas d'échec, le détail est dans `storage/import/media-sync-erreurs.json`.
+
+Tant que la copie n'est pas terminée, le back-office le rappelle : tâche « Copier les photos
+originales sur le serveur » dans le tableau de bord (administrateurs) et alerte « Photos
+originales absentes du serveur » dans Qualité › Adresses et médias. Les deux disparaissent
+d'elles-mêmes à la fin de la copie.
 
 ## 5. Tâche planifiée du site (indispensable, permanente)
 
@@ -122,7 +129,9 @@ copiées par lots de 100 chaque heure.
 1. Installer d'abord sur un sous-domaine de test (ex. `nouveau.fcsochauxretro.com`),
    protégé par la page d'attente (Éditorial › Page d'attente) ou par le mot de passe
    d'accès (Réglages › Général).
-2. Vérifier : tableau de bord Qualité, pages légales, un don en mode test, l'assistant IA.
+2. Vérifier : Pilotage › Qualité › « Contrôler maintenant » (aucune nouvelle anomalie
+   attendue, hormis les photos tant que leur copie n'est pas terminée), pages légales, un
+   don en mode test, l'assistant IA.
 3. Le jour J :
    - sauvegarde complète de WordPress (cPanel › JetBackup) ;
    - racine du document de `www.fcsochauxretro.com` → `/home/<compte>/sochauxretro/public` ;

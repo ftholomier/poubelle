@@ -37,6 +37,11 @@ final class Controle
     private const MULTI = ['rapproche', 'compo', 'resultat', 'image', 'adresse', ''];
     /** Onglets de la référence livrée (l'orthographe dépend du correcteur de chaque serveur). */
     private const REFERENCE_TABS = ['stats', 'completer', 'liens', 'site', 'credits', 'carto', 'traductions'];
+    /**
+     * Onglets remplis peu à peu par une tâche de fond (le correcteur relit tout le musée en
+     * quelques jours) : une alerte n'y est nouvelle que si sa fiche a été modifiée depuis.
+     */
+    private const BACKGROUND_TABS = ['orthographe'];
 
     private static ?array $state = null;
 
@@ -78,7 +83,8 @@ final class Controle
         $last = self::last();
         if ($last) {
             return self::$state = ['keys' => self::flat($last['keys'] ?? []), 'new' => array_fill_keys(self::split($last['new'] ?? ''), true),
-                'tabs' => array_keys((array) ($last['keys'] ?? [])), 'since' => $last['since'] ?: ['at' => $last['at'], 'by' => $last['by'] ?? null, 'label' => null]];
+                'tabs' => array_keys((array) ($last['keys'] ?? [])), 'since' => $last['since'] ?: ['at' => $last['at'], 'by' => $last['by'] ?? null, 'label' => null],
+                'at' => (string) $last['at']];
         }
         $ref = self::reference();
         return self::$state = $ref
@@ -86,10 +92,24 @@ final class Controle
             : ['keys' => [], 'new' => [], 'tabs' => [], 'since' => null];
     }
 
-    public static function isNew(string $tab, string $key): bool
+    public static function isNew(string $tab, string $key, ?array $item = null): bool
     {
         $s = self::state();
-        return isset($s['new'][$key]) || (in_array($tab, $s['tabs'], true) && !isset($s['keys'][$key]));
+        return isset($s['new'][$key]) || (in_array($tab, $s['tabs'], true) && !isset($s['keys'][$key])
+            && !self::background($tab, $item, (string) ($s['at'] ?? '')));
+    }
+
+    /**
+     * Alerte trouvée par une tâche de fond sur une fiche qui n'a pas changé depuis $since
+     * (texte ancien relu par le correcteur) : connue, pas « nouvelle ».
+     */
+    private static function background(string $tab, ?array $item, string $since): bool
+    {
+        if (!in_array($tab, self::BACKGROUND_TABS, true) || $since === '' || empty($item['id'])) {
+            return false;
+        }
+        $modified = strtotime((string) (Index::get((int) $item['id'])['modified'] ?? ''));
+        return !$modified || $modified <= strtotime($since);
     }
 
     /**
@@ -113,8 +133,9 @@ final class Controle
             $repaired = self::syncIndex();
             Derived::rebuild();
             self::$state = ['keys' => [], 'new' => [], 'tabs' => [], 'since' => null];
+            $all = Quality::all();
             $keys = [];
-            foreach (Quality::all() as $tab => $items) {
+            foreach ($all as $tab => $items) {
                 $keys[$tab] = array_values(array_unique(array_column($items, 'key')));
             }
             $prev = self::last();
@@ -122,18 +143,19 @@ final class Controle
             $base = $prev ? (array) $prev['keys'] : (array) ($ref['keys'] ?? []);
             $new = [];
             $fixed = 0;
-            foreach ($keys as $tab => $list) {
+            foreach ($all as $tab => $items) {
                 if (!isset($base[$tab])) {
                     continue; // onglet absent de la comparaison (premier contrôle, nouvel onglet)
                 }
                 $before = array_fill_keys(self::split($base[$tab]), true);
-                foreach ($list as $k) {
-                    if (!isset($before[$k])) {
-                        $new[] = $k;
+                foreach ($items as $i) {
+                    if (!isset($before[$i['key']]) && !self::background($tab, $i, (string) ($prev['at'] ?? ''))) {
+                        $new[$i['key']] = true;
                     }
                 }
-                $fixed += count(array_diff_key($before, array_fill_keys($list, true)));
+                $fixed += count(array_diff_key($before, array_fill_keys($keys[$tab], true)));
             }
+            $new = array_keys($new);
             $total = array_sum(array_map('count', $keys));
             $since = $prev ? ['at' => $prev['at'], 'by' => $prev['by'] ?? null, 'label' => null]
                 : ($ref ? ['at' => $ref['at'], 'by' => null, 'label' => $ref['label'] ?? null] : null);

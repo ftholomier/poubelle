@@ -76,7 +76,7 @@ $eq('amical : composition non contrôlée', $check($match(['competition' => 'Ami
 $lib = Media::all();
 $rel = (string) array_key_first(array_filter($lib, fn ($m, $r) => is_file(Media::ORIGINALS . '/' . $r), ARRAY_FILTER_USE_BOTH));
 $doc = ['title' => 'Essai', 'path' => '/joueurs/essai/', 'categories' => [], 'featured_image' => $rel, 'gallery' => [], 'images' => []];
-$fiche = fn (array $d, bool $vis = true, ?array $library = null) => $call(Derived::class, 'ficheChecks', array_replace($doc, $d), $vis, \App\Data\Categories::all(), $library ?? $lib, []);
+$fiche = fn (array $d, bool $vis = true, ?array $library = null) => $call(Derived::class, 'ficheChecks', array_replace($doc, $d), $vis, \App\Data\Categories::all(), $library ?? $lib);
 $eq('fiche correcte : aucune alerte', $fiche([]), []);
 $eq('titre vide', $codes($fiche(['title' => ' '])), ['titre']);
 $eq('adresse mal formée', $codes($fiche(['path' => 'joueurs/essai'])), ['adresse']);
@@ -85,7 +85,15 @@ $eq('adresse vide d’un brouillon : rien', $fiche(['path' => ''], false), []);
 $eq('rubrique supprimée', $codes($fiche(['categories' => ['rubrique-qui-n-existe-pas']])), ['rubrique']);
 $eq('image absente de la médiathèque', $codes($fiche(['gallery' => [['image' => '2099/01/disparue.jpg']]])), ['image']);
 $missing = $lib + ['2099/01/sans-fichier.jpg' => ['file' => '2099/01/sans-fichier.jpg']];
-$eq('fichier d’image absent du serveur', $codes($fiche(['featured_image' => '2099/01/sans-fichier.jpg'], true, $missing)), ['image']);
+$eq('fichier d’image absent du serveur', $call(Derived::class, 'imageFiles', array_replace($doc, ['featured_image' => '2099/01/sans-fichier.jpg']), $missing, [$rel]), [[$rel, '2099/01/sans-fichier.jpg'], ['2099/01/sans-fichier.jpg']]);
+$alerts = $call(Derived::class, 'photoAlerts', [12 => ['2099/01/a.jpg'], 15 => ['2099/01/b.jpg', '2099/01/c.jpg']], 3000);
+$eq('quelques fichiers absents : une alerte par fiche', [array_column($alerts, 'code'), array_column($alerts, 'id')], [['image', 'image'], [12, 15]]);
+$many = [];
+for ($i = 0; $i < 900; $i++) {
+    $many[$i + 1] = ["2099/01/photo-$i.jpg"];
+}
+$alerts = $call(Derived::class, 'photoAlerts', $many, 1000);
+$eq('photos pas encore copiées (serveur neuf) : une seule alerte', [count($alerts), $alerts[0]['code'], $alerts[0]['sev']], [1, 'photos', 'haute']);
 
 // ---------------------------------------------------------------- redirections
 $draft = null;
@@ -110,6 +118,13 @@ $r1 = ['id' => 5, 'code' => 'rapproche', 'msg' => 'Nom « Jean Martin » relié 
 $r2 = ['msg' => 'Nom « J. Martin » relié par rapprochement (nom incomplet, 1 composition) à la fiche : Jean Martin'] + $r1;
 $eq('clé : deux rapprochements d’une même fiche se distinguent', Controle::key('liens', $r1) !== Controle::key('liens', $r2), true);
 $eq('clé : sans fiche, le nom sert de repère', Controle::key('liens', ['id' => null, 'code' => 'nonrelie', 'title' => 'Jean Martin', 'msg' => 'x']) !== Controle::key('liens', ['id' => null, 'code' => 'nonrelie', 'title' => 'Paul Martin', 'msg' => 'x']), true);
+
+// Correcteur (tâche de fond) : une correction proposée sur une fiche inchangée n'est pas « nouvelle ».
+$mod = (string) $visible['modified'];
+$item = ['id' => (int) $visible['id']];
+$eq('orthographe : fiche inchangée depuis le contrôle → pas nouvelle', $call(Controle::class, 'background', 'orthographe', $item, date('c', strtotime($mod) + 86400)), true);
+$eq('orthographe : fiche modifiée depuis le contrôle → nouvelle', $call(Controle::class, 'background', 'orthographe', $item, date('c', strtotime($mod) - 86400)), false);
+$eq('autres onglets : toujours comparés', $call(Controle::class, 'background', 'stats', $item, date('c', strtotime($mod) + 86400)), false);
 
 // ---------------------------------------------------------------- d'un contrôle à l'autre
 $saved = is_file(Controle::FILE) ? file_get_contents(Controle::FILE) : null;

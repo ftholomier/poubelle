@@ -273,4 +273,10 @@ contenu saisi depuis le dernier contrôle.
   deux fois dans Liens joueurs (deux graphies affichées pareil) : il n'apparaît plus qu'une fois.
 - Essayé de bout en bout avec un compte historien : score modifié et fiche en double saisis,
   contrôle → 4 nouvelles anomalies signalées ; correction, nouveau contrôle → aucune
-  nouvelle, 1 corrigée. `tests/controle.php` (49 vérifications).
+  nouvelle, 1 corrigée. `tests/controle.php` (54 vérifications).
+- Essayé aussi en **installation neuve** (copie vierge de la branche, `storage/` vide, sans
+  les photos), comme à la première mise en ligne : premier accès, toutes les pages du site et
+  du back-office, tâches planifiées. Deux réglages en sont sortis : les photos pas encore
+  copiées donnent une seule alerte (au lieu d'une par fiche) et une tâche dans le tableau de
+  bord ; les propositions du correcteur sur des textes anciens, trouvées en tâche de fond,
+  ne sont pas « nouvelles ».

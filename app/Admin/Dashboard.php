@@ -69,9 +69,13 @@ final class Dashboard extends Base
         if ($high) {
             $todos[] = ['#D9342B', "Corriger $high alerte" . ($high > 1 ? 's' : '') . ' qualité haute (statistiques incohérentes)', 'Qualité', '/admin/qualite'];
         }
-        $broken = count(array_filter($quality['site'], fn ($q) => $q['sev'] === 'haute'));
+        $broken = count(array_filter($quality['site'], fn ($q) => $q['sev'] === 'haute' && $q['code'] !== 'photos'));
         if ($broken) {
             $todos[] = ['#D9342B', "Corriger $broken anomalie" . ($broken > 1 ? 's' : '') . ' d’adresse ou de fichier (pages inaccessibles)', 'Qualité', '/admin/qualite?cat=site'];
+        }
+        // Serveur neuf : photos originales pas encore copiées depuis WordPress (administrateurs).
+        if (\App\Core\Auth::isAdmin() && array_filter($quality['site'], fn ($q) => $q['code'] === 'photos')) {
+            $todos[] = ['#D9342B', 'Copier les photos originales sur le serveur (copie depuis WordPress à faire ou à terminer)', 'Qualité', '/admin/qualite?cat=site'];
         }
         if ($contribs) {
             $todos[] = ['#F6C400', 'Valider ' . count($contribs) . ' contribution' . (count($contribs) > 1 ? 's' : ''), 'Contributions', '/admin/contributions'];

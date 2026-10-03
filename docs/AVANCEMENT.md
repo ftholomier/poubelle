@@ -263,6 +263,10 @@ Détail : `docs/CONTROLE-2026-10.md`, § 6.
       anglais) ; nouvel onglet « Adresses et médias » ; « Traductions à revoir » rempli.
 - [x] `tests/controle.php`, essai de bout en bout historien et administrateur, aide
       (chapitre 12, FAQ, mémo, guide PDF) et captures.
+- [x] Installation neuve essayée (le site n'a jamais été mis en ligne) : copie vierge de la
+      branche, premier accès, toutes les pages, tâches planifiées ; photos pas encore copiées
+      signalées en une alerte, corrections du correcteur sur des textes anciens jamais
+      « nouvelles ». `docs/DEPLOIEMENT.md` précisé (première installation : tout envoyer).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

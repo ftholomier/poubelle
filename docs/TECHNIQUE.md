@@ -162,9 +162,10 @@ même jour et même adversaire). Personnes : date impossible au calendrier (dans
 aucune rubrique (`role`), même nom qu'une autre fiche sans dates de naissance différentes
 (`homonyme`). Toutes les fiches (`ficheChecks`) : titre vide (`titre`), adresse vide, mal
 formée ou partagée par deux fiches (`adresse`), rubrique supprimée (`rubrique`), image absente
-de la médiathèque ou de son fichier (`image`), fichier de fiche illisible ou mal numéroté
-(`fichier`), version anglaise dépassée (`traduction`, moyenne si elle avait été corrigée à
-la main).
+de la médiathèque (`image`), fichier d'image absent du serveur (`image` par fiche ; une seule
+alerte `photos` s'il manque plus de 20 % des fichiers, cas d'un serveur neuf avant la copie
+des photos), fichier de fiche illisible ou mal numéroté (`fichier`), version anglaise
+dépassée (`traduction`, moyenne si elle avait été corrigée à la main).
 
 L'écran Qualité (`App\Admin\Quality::all()`) les range en onglets (`Quality::TABS`) :
 « Statistiques et dates », « À compléter » (`inconnu`, `avenir`, `arbitre`, `video`,
@@ -194,7 +195,9 @@ comptes ; `php bin/console.php controle` en ligne de commande) :
 
 Un seul contrôle à la fois (verrou `storage/controle.lock`) ; environ 2 secondes pour
 ~3 000 fiches. Une alerte est marquée « Nouveau » si elle est nouvelle au dernier contrôle
-ou absente de celui-ci (apparue depuis). Avant le premier contrôle, la comparaison se fait
+ou absente de celui-ci (apparue depuis). Exception, l'onglet Orthographe, rempli peu à peu
+par le correcteur qui relit tout le musée en tâche de fond (`Controle::BACKGROUND_TABS`) :
+une correction proposée n'y est nouvelle que si sa fiche a été modifiée depuis le contrôle. Avant le premier contrôle, la comparaison se fait
 avec `app/Resources/controle-reference.json`, les clés des anomalies des données du dépôt au
 contrôle complet du 3 octobre 2026 (onglet Orthographe exclu : il dépend du correcteur de
 chaque serveur). Elle se réécrit avec `php bin/console.php controle-reference "libellé"`
