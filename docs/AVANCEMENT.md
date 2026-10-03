@@ -105,8 +105,9 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 
 ## Aide, teaser, recette et compléments (03/10, 06:31 → 10:10 UTC) — terminé
 - [x] Rubrique **Aide** du back-office : 17 chapitres (pas à pas, « Comment faire pour… »),
-      60 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (72 p.)
-      et mémo (2 p.) ; **pas de quiz ni de suivi de progression** (précision du client).
+      63 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (77 p.
+      avec le correcteur) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
+      (précision du client).
 - [x] **Bulles « ? »** sur chaque écran, carte et champ du back-office (souris, clavier, toucher).
 - [x] **Teaser** 1 min 55 en 1920×1080 calé sur la musique fournie ; v2 : aucune mention de
       l'ancien site (jamais ouvert au public), fin « 100 ans · Un siècle de Lions, réuni dans un
