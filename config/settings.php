@@ -146,6 +146,21 @@ return [
             'onze_reveal' => ['label' => 'Date de dévoilement du Onze du public', 'type' => 'date', 'default' => '2028-05-20'],
         ],
     ],
+    'legal' => [
+        'label' => 'Mentions légales',
+        'fields' => [
+            'publisher' => ['label' => 'Éditeur du site (nom de l’association)', 'type' => 'text', 'default' => 'Sochaux Rétro'],
+            'status' => ['label' => 'Forme juridique', 'type' => 'text', 'default' => '', 'help' => 'Ex. : association régie par la loi du 1er juillet 1901.'],
+            'address' => ['label' => 'Adresse du siège', 'type' => 'wysiwyg', 'default' => ''],
+            'registration' => ['label' => 'N° RNA ou SIREN', 'type' => 'text', 'default' => ''],
+            'director' => ['label' => 'Directeur ou directrice de la publication', 'type' => 'text', 'default' => ''],
+            'email' => ['label' => 'E-mail de contact (vide = e-mail général)', 'type' => 'email', 'default' => ''],
+            'phone' => ['label' => 'Téléphone (facultatif)', 'type' => 'text', 'default' => ''],
+            'host' => ['label' => 'Hébergeur', 'type' => 'wysiwyg', 'default' => '<p>o2switch SAS<br>Chemin des Pardiaux, 63000 Clermont-Ferrand, France<br>Téléphone : 04 44 44 60 40 · www.o2switch.fr</p>'],
+            'privacy_contact' => ['label' => 'Contact pour les données personnelles (vide = e-mail de contact)', 'type' => 'email', 'default' => ''],
+            'extra' => ['label' => 'Compléments aux mentions légales', 'type' => 'wysiwyg', 'default' => ''],
+        ],
+    ],
     'backups' => [
         'label' => 'Sauvegardes',
         'fields' => [

@@ -63,7 +63,7 @@ final class Seo
         $add('/', date('c'), 'daily', '1.0', true);
         foreach (['/matchs/', '/nos-lions/', '/saisons/', '/face-a-face/', '/records/', '/bilans/coupe-de-france/', '/bilans/stade-auguste-bonal/',
             '/interactif/', '/interactif/quiz/', '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/',
-            '/centenaire/', '/centenaire/100-moments/', '/reserves/', '/faire-un-don/', '/contribuer/', '/contact/', '/partage-et-newsletter/'] as $p) {
+            '/centenaire/', '/centenaire/100-moments/', '/reserves/', '/faire-un-don/', '/contribuer/', '/contact/', '/partage-et-newsletter/', '/mentions-legales/', '/confidentialite/', '/cookies/'] as $p) {
             $add($p, null, 'weekly', '0.7', true);
         }
         // Rubriques

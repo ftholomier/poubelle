@@ -1,0 +1,16 @@
+/* Pages légales : mentions, confidentialité, cookies */
+.legal { padding-top: clamp(40px, 6vw, 80px); padding-bottom: var(--section); display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; max-width: 980px; }
+.legal__head { display: flex; flex-direction: column; gap: 14px; border-bottom: 2px solid var(--navy); padding-bottom: 24px; }
+.legal__title { font-size: clamp(48px, 7vw, 96px); }
+.legal__updated { margin: 0; font-style: italic; color: var(--muted); font-size: 16px; }
+.legal__body > :not(.legal__table) { max-width: 74ch; }
+.legal__card { border: 2px solid var(--navy); background: var(--paper); padding: 14px 18px; box-shadow: 5px 5px 0 var(--yellow); }
+.legal__card p { margin: 0; }
+.legal__table { overflow-x: auto; border: 2px solid var(--navy); background: var(--paper); max-width: none; }
+.legal__table:focus-visible { outline: 3px solid var(--yellow); }
+.legal__table table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.45; min-width: 640px; }
+.legal__table th { text-align: left; background: var(--navy); color: var(--cream); font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; padding: 10px 12px; vertical-align: bottom; }
+.legal__table td { padding: 10px 12px; border-top: 1px solid rgba(14, 31, 77, .15); vertical-align: top; }
+.legal__table tr:nth-child(even) td { background: rgba(232, 223, 201, .35); }
+.legal__table code { font-size: 14px; background: var(--sand); padding: 1px 5px; white-space: nowrap; }
+.legal .lead { font-size: clamp(19px, 1.6vw, 22px); }

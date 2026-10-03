@@ -213,7 +213,13 @@
   /* ---------------------------------------------------------- consentement cookies */
   const CK = 'fcsm-consent';
   const ck = $('[data-cookie]');
-  const getConsent = () => { try { return JSON.parse(localStorage.getItem(CK) || 'null'); } catch (e) { return null; } };
+  // Choix valable 6 mois (recommandation de la CNIL), puis le bandeau réapparaît.
+  const getConsent = () => {
+    try {
+      const c = JSON.parse(localStorage.getItem(CK) || 'null');
+      return c && (!c.at || Date.now() - Date.parse(c.at) < 182 * 864e5) ? c : null;
+    } catch (e) { return null; }
+  };
   const setConsent = (c) => {
     c.at = new Date().toISOString(); c.v = 1;
     try { localStorage.setItem(CK, JSON.stringify(c)); } catch (e) {}
@@ -262,7 +268,13 @@
       $$('[data-consent]', ck).forEach(i => (c[i.dataset.consent] = i.checked));
       setConsent(c);
     });
-    $$('[data-cookie-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); ck.classList.add('is-open', 'is-custom'); $('[data-cookie-save]', ck).hidden = false; }));
+    $$('[data-cookie-open]').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      ck.classList.add('is-open', 'is-custom');
+      $('[data-cookie-save]', ck).hidden = false;
+      const c = getConsent() || {};
+      $$('[data-consent]', ck).forEach(i => (i.checked = !!c[i.dataset.consent]));
+    }));
   }
   applyConsent();
 

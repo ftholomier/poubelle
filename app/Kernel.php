@@ -69,7 +69,7 @@ final class Kernel
 
         // Page d'attente (les membres connectés du back-office voient le site)
         if (Settings::get('waiting.enabled', false) && !Auth::user()) {
-            if (!in_array($path, ['/robots.txt', '/mentions-legales/'], true)) {
+            if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true)) {
                 return Front\Pages::waiting();
             }
         }
@@ -141,6 +141,9 @@ final class Kernel
         $r->post('/contact/', fn ($q) => Front\Community::contactSend($q));
         $r->get('/contribuer/', fn ($q) => Front\Community::contribute($q));
         $r->post('/contribuer/', fn ($q) => Front\Community::contributeSend($q));
+        $r->get('/mentions-legales/', fn ($q) => Front\Legal::page($q, 'mentions'));
+        $r->get('/confidentialite/', fn ($q) => Front\Legal::page($q, 'confidentialite'));
+        $r->get('/cookies/', fn ($q) => Front\Legal::page($q, 'cookies'));
         $r->get('/faire-un-don/', fn ($q) => Front\Donations::page($q));
         $r->post('/faire-un-don/', fn ($q) => Front\Donations::start($q));
         $r->get('/faire-un-don/merci/', fn ($q) => Front\Donations::thanks($q));

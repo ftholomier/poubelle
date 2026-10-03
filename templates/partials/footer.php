@@ -32,7 +32,7 @@ $social = array_filter([
     <span>© <?= date('Y') ?> FC Sochaux rétro</span>
     <a href="<?= e(url((string) Settings::get('privacy.legal_page', '/mentions-legales/'))) ?>"><?= e(t('Mentions légales')) ?></a>
     <a href="<?= e(url('/confidentialite/')) ?>"><?= e(t('Confidentialité')) ?></a>
-    <a href="#" data-cookie-open><?= e(t('Cookies')) ?></a>
+    <a href="<?= e(url('/cookies/')) ?>"><?= e(t('Cookies')) ?></a>
     <a class="don" href="<?= e(url('/faire-un-don/')) ?>"><?= e(t('Faire un don')) ?></a>
     <span><?= e(t('Propulsé par')) ?> <a href="https://www.le-digital.com" rel="noopener" target="_blank">LE-DIGITAL.com</a></span>
   </div>
