@@ -193,7 +193,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
           <?php foreach ($m['reactions'] as $q): ?>
           <figure class="quote" data-reveal>
             <span class="quote__mark" aria-hidden="true">«</span>
-            <blockquote><?= nl2br(e($clean((string) $q['text']))) ?></blockquote>
+            <blockquote><?= str_contains((string) $q['text'], '<') ? rich_inline((string) $q['text']) : nl2br(e($clean((string) $q['text']))) ?></blockquote>
             <?php if (!empty($q['who'])): ?><figcaption><?= e($q['who']) ?></figcaption><?php endif; ?>
           </figure>
           <?php endforeach; ?>
@@ -203,7 +203,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
       <?php elseif ($s['key'] === 'breves' && $s['struct']): ?>
         <ol class="breves">
           <?php foreach ($m['breves'] as $i => $b): ?>
-            <li><span class="breves__n"><?= pad2($i + 1) ?></span><span><?= e($b) ?></span></li>
+            <li><span class="breves__n"><?= pad2($i + 1) ?></span><span><?= rich_inline(is_array($b) ? ($b['text'] ?? '') : (string) $b) ?></span></li>
           <?php endforeach; ?>
         </ol>
         <?php $m['breves'] = []; ?>

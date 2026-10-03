@@ -45,20 +45,28 @@ final class Pages
         $legends = self::legends();
         $vars = [
             'slides' => $slides,
-            'palmares' => Collections::get('palmares', self::defaultPalmares()),
+            'palmares' => array_map(fn ($p) => Collections::loc($p, ['title']), Collections::get('palmares', self::defaultPalmares())),
             'counters' => self::counters(),
             'jour' => $jour,
             'jourDoc' => $jourDoc,
             'jourLabel' => Site::dayMonth($jourDate),
-            'eras' => Collections::get('epoques', self::defaultEras()),
+            'eras' => array_map(function ($e) {
+                $e = Collections::loc($e, ['name', 'text']);
+                $e['facts'] = array_map(fn ($f) => Collections::loc($f, ['t']), $e['facts'] ?? []);
+                return $e;
+            }, Collections::get('epoques', self::defaultEras())),
             'reserves' => self::reserves(),
             'legends' => $legends,
             'teasers' => Collections::get('teasers', []),
             'decades' => self::decadeLinks(),
         ];
+        $introTitle = trim((string) Settings::get('home.intro_title', ''));
+        $introText = plain_text((string) Settings::get('home.intro_text', ''));
+        $defaultDesc = t("Le musée en ligne du FC Sochaux-Montbéliard : près d'un siècle de matchs, de joueurs, de supporters et de symboles, rassemblés par Sochaux Rétro.");
         return self::render('home', $vars, [
             'title' => '',
-            'description' => t("Le musée en ligne du FC Sochaux-Montbéliard : près d'un siècle de matchs, de joueurs, de supporters et de symboles, rassemblés par Sochaux Rétro."),
+            'full_title' => $introTitle !== '' && !\App\Services\I18n::isEn() ? $introTitle : null,
+            'description' => $introText !== '' && !\App\Services\I18n::isEn() ? preg_replace('/\s+/u', ' ', $introText) : $defaultDesc,
             'active' => 'accueil',
             'jsonld' => [
                 '@context' => 'https://schema.org',
@@ -184,7 +192,7 @@ final class Pages
     /** Tuiles « Les réserves du musée » (6 collections d'objets). */
     public static function reserves(): array
     {
-        $conf = Collections::get('reserves', self::defaultReserves());
+        $conf = array_map(fn ($r) => Collections::loc($r, ['name', 'desc']), Collections::get('reserves', self::defaultReserves()));
         foreach ($conf as &$r) {
             $r['href'] = url('/reserves/' . $r['slug'] . '/');
             if (empty($r['image'])) {
@@ -305,6 +313,7 @@ final class Pages
     public static function waiting(): Response
     {
         $html = View::render('waiting', [
+            'logo' => (string) Settings::get('waiting.logo', ''),
             'title' => (string) Settings::get('waiting.title', ''),
             'text' => (string) Settings::get('waiting.text', ''),
             'countdown' => (bool) Settings::get('waiting.countdown', false),

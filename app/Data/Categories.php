@@ -116,6 +116,9 @@ final class Categories
         if (!$c) {
             return $slug;
         }
+        if (!empty($c['label_en']) && \App\Services\I18n::isEn()) {
+            return (string) $c['label_en'];
+        }
         if (!empty($c['label'])) {
             return (string) $c['label'];
         }

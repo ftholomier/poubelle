@@ -1,7 +1,7 @@
 <?php
 /**
  * Page d'attente (réglages > Page d'attente) : logo, texte WYSIWYG, compte à rebours optionnel.
- * Page autonome. Variables : $title, $text, $countdown, $countdownDate, $countdownLabel, $social
+ * Page autonome. Variables : $logo, $title, $text, $countdown, $countdownDate, $countdownLabel, $social
  */
 
 use App\Core\Settings;
@@ -31,7 +31,11 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
 <body>
 <main class="waiting">
   <div class="waiting__inner">
-    <img src="/assets/img/logo-sochaux-retro.png" alt="<?= e($site) ?>" width="133" height="150">
+    <?php if (!empty($logo) && \App\Data\Media::get($logo)): ?>
+      <img src="<?= e(img($logo, 480)) ?>" alt="<?= e($site) ?>" style="max-width:240px;max-height:200px;width:auto;height:auto">
+    <?php else: ?>
+      <img src="/assets/img/logo-sochaux-retro.png" alt="<?= e($site) ?>" width="133" height="150">
+    <?php endif; ?>
     <?php if ($title !== ''): ?><h1 class="h-xl" style="color:var(--cream)"><?= e($title) ?></h1><?php endif; ?>
     <?php if (trim(strip_tags($text)) !== ''): ?><div class="prose"><?= safe_html($text) ?></div><?php endif; ?>
     <?php if ($countdown && $countdownDate !== '' && strtotime($countdownDate) > time()): ?>

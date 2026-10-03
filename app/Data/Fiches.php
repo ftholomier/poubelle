@@ -179,6 +179,22 @@ final class Fiches
         return $doc;
     }
 
+    /**
+     * Exécute des enregistrements en lot : l'index et la recherche ne sont réécrits
+     * qu'une fois à la fin (album, renommage d'une compétition, actions groupées…).
+     */
+    public static function batch(callable $fn): mixed
+    {
+        Index::defer(true);
+        \App\Services\Search::defer(true);
+        try {
+            return $fn();
+        } finally {
+            Index::defer(false);
+            \App\Services\Search::defer(false);
+        }
+    }
+
     public static function trash(int $id, ?array $user): void
     {
         $doc = self::get($id);

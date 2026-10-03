@@ -167,6 +167,7 @@ final class Fiche
             }
             $s = $pid ? Index::get((int) $pid) : null;
             $out[] = $r + [
+                'pid' => $s ? (int) $pid : null,
                 'href' => $s && Index::visible($s) ? url($s['path']) : null,
                 'display' => Names::display((string) $r['name']),
                 'short' => mb_strtoupper(Names::lineupLastName((string) $r['name']) ?: (string) $r['name']),

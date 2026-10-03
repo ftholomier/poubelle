@@ -127,6 +127,30 @@ function excerpt(string $html, int $len = 180): string
  * HTML éditorial autorisé : on retire scripts, gestionnaires d'événements et
  * URLs javascript: (contenu saisi dans le back-office ou importé).
  */
+/**
+ * Texte court saisi au WYSIWYG du back-office (ou texte brut repris de l'ancien site),
+ * affiché en ligne : les paragraphes deviennent des retours à la ligne.
+ */
+function rich_inline(?string $s): string
+{
+    $s = trim((string) $s);
+    if ($s === '') {
+        return '';
+    }
+    if (!preg_match('#<(p|br|strong|em|a|u|sup|sub|ul|ol|li|h\d|blockquote)\b#i', $s)) {
+        return nl2br(e($s), false);
+    }
+    $h = preg_replace(['#</p>\s*<p>#i', '#</?(p|h\d|blockquote)>#i'], ['<br><br>', ''], safe_html($s));
+    return trim((string) $h);
+}
+
+/** Texte brut d'un contenu saisi au WYSIWYG (méta-descriptions, e-mails texte…). */
+function plain_text(?string $s): string
+{
+    $s = preg_replace(['#<br\s*/?>#i', '#</(p|li|h\d|blockquote)>#i'], ["\n", "\n\n"], (string) $s);
+    return trim(preg_replace("/\n{3,}/", "\n\n", html_entity_decode(strip_tags((string) $s), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+}
+
 function safe_html(?string $html): string
 {
     if (!$html) {

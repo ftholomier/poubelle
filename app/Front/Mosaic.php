@@ -269,7 +269,8 @@ final class Mosaic
             $label = t(self::COMPS[$comp][0]);
         }
         $parent = count($trail) > 1 ? t(Categories::label($trail[count($trail) - 2]['slug'])) : t($conf['eyebrow']);
-        $intro = trim(strip_tags((string) ($cat['description'] ?? ''))) ?: ($slug === $root ? t($conf['intro']) : '');
+        $desc = \App\Services\I18n::isEn() && trim(strip_tags((string) ($cat['description_en'] ?? ''))) !== '' ? $cat['description_en'] : ($cat['description'] ?? '');
+        $intro = trim(strip_tags((string) $desc)) ?: ($slug === $root ? t($conf['intro']) : '');
         $titleSeo = $label . ($kind === 'matchs' ? ' – ' . t('Matchs du FC Sochaux-Montbéliard') : ($kind === 'lions' && $slug !== Site::C_LIONS ? ' – ' . t('Nos Lions du FCSM') : ''));
         if ($page > 1) {
             $titleSeo .= ' – ' . t('page {n}', ['n' => $page]);

@@ -67,6 +67,10 @@ final class Kernel
             return Front\Api::handle($req);
         }
 
+        // Aperçu de la page d'attente depuis le back-office
+        if ($path === '/' && isset($req->query['apercu-attente']) && Auth::user()) {
+            return Front\Pages::waiting();
+        }
         // Page d'attente (les membres connectés du back-office voient le site)
         if (Settings::get('waiting.enabled', false) && !Auth::user()) {
             if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true)) {
@@ -102,6 +106,9 @@ final class Kernel
         // Ancienne adresse → 301
         if ($to = Redirects::find($req->path, $req->query)) {
             return Response::redirect(url($to), 301);
+        }
+        if ($req->method === 'GET') {
+            Redirects::log404($req->path, (string) ($req->server['HTTP_REFERER'] ?? ''));
         }
         return Front\Pages::notFound();
     }

@@ -37,6 +37,40 @@ final class Redirects
         return null;
     }
 
+    public const LOG404 = STORAGE_PATH . '/404.json';
+
+    /** Journal des adresses introuvables (pour créer les redirections manquantes). */
+    public static function log404(string $path, string $referer = ''): void
+    {
+        if (strlen($path) > 300 || preg_match('#(\.(php\d?|env|asp|aspx|jsp|cgi|ini|sql|bak|git|ya?ml|log|zip|tar|gz)$)|^/(wp-admin|wp-login|xmlrpc|wp-includes|\.well-known|cgi-bin|vendor|admin/)#i', $path)) {
+            return;
+        }
+        $ref = (string) parse_url($referer, PHP_URL_HOST) === (string) parse_url(base_url(), PHP_URL_HOST) ? (string) parse_url($referer, PHP_URL_PATH) : (string) parse_url($referer, PHP_URL_HOST);
+        JsonStore::update(self::LOG404, function ($all) use ($path, $ref) {
+            $all = $all ?: [];
+            $e = $all[$path] ?? ['n' => 0, 'first' => date('c')];
+            $e['n']++;
+            $e['last'] = date('c');
+            if ($ref !== '') {
+                $e['ref'] = mb_substr($ref, 0, 200);
+            }
+            $all[$path] = $e;
+            if (count($all) > 3000) {
+                uasort($all, fn ($a, $b) => strcmp((string) $b['last'], (string) $a['last']));
+                $all = array_slice($all, 0, 2500, true);
+            }
+            return $all;
+        }, []);
+    }
+
+    public static function remove(string $from): void
+    {
+        JsonStore::update(self::FILE, function ($all) use ($from) {
+            unset($all[$from]);
+            return $all ?: [];
+        }, []);
+    }
+
     public static function add(string $from, string $to): void
     {
         if ($from === $to || $from === '') {

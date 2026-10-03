@@ -105,7 +105,9 @@ final class Derived
         $matches = [];
         $persons = [];
         $articles = [];
+        $mediaRefs = [];
         foreach (Fiches::all() as $id => $doc) {
+            $mediaRefs[$id] = Media::refsIn($doc);
             if (($doc['status'] ?? '') === 'corbeille') {
                 continue;
             }
@@ -361,6 +363,17 @@ final class Derived
                 }
             }
         }
+        // Index d'utilisation des médias (médiathèque du back-office)
+        $usage = [];
+        foreach ($mediaRefs as $id => $refs) {
+            foreach ($refs as $rel) {
+                $usage[$rel][] = (int) $id;
+            }
+        }
+        unset($mediaRefs);
+        $usage = self::collectionMediaUsage($usage);
+        Media::saveUsage($usage);
+
         $noCredit = 0;
         foreach (Media::all() as $rel => $mm) {
             if (str_starts_with((string) ($mm['mime'] ?? ''), 'image/') && trim((string) ($mm['credit'] ?? '')) === '') {
@@ -521,6 +534,24 @@ final class Derived
         }
         @unlink(self::DIRTY);
         return $data;
+    }
+
+    /** Ajoute à l'index d'utilisation les médias des collections éditoriales et des rubriques. */
+    private static function collectionMediaUsage(array $usage): array
+    {
+        foreach (glob(Collections::DIR . '/*.json') ?: [] as $f) {
+            $name = basename($f, '.json');
+            if ($name === 'geo') {
+                continue;
+            }
+            foreach (Media::refsIn(JsonStore::read($f, [])) as $rel) {
+                $usage[$rel][] = 'c:' . $name;
+            }
+        }
+        foreach (Media::refsIn(Categories::all()) as $rel) {
+            $usage[$rel][] = 'c:rubriques';
+        }
+        return $usage;
     }
 
     /** Bilans regroupés (par adversaire, stade ou compétition). */

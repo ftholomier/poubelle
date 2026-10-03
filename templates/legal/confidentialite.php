@@ -33,6 +33,7 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
         <?php endif; ?>
         <tr><td>Votes (Legendary XI) and quiz</td><td>Anonymous choices; temporary fingerprint of the connection to prevent multiple votes</td><td>Legitimate interest</td><td>Fingerprint erased within 48 hours</td></tr>
         <tr><td>Proof of your cookie choices</td><td>Choices, date, anonymised fingerprint</td><td>Legal obligation</td><td>13 months</td></tr>
+        <tr><td>Audience measurement (internal)</td><td>Page viewed, hour, language — no cookie, no IP address, no identifier</td><td>Legitimate interest (exempt from consent)</td><td>Daily totals kept 13 months; raw logs deleted within 48 hours</td></tr>
         <tr><td>Security and abuse prevention</td><td>Encrypted fingerprints of IP addresses (request limits); server logs kept by the host</td><td>Legitimate interest; legal obligation of the host</td><td>48 hours for fingerprints; up to 1 year for the host's logs</td></tr>
         <tr><td>Back-office accounts (museum team)</td><td>Name, email, role, history of changes</td><td>Legitimate interest</td><td>As long as the account is active</td></tr>
       </tbody>
@@ -74,6 +75,7 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
         <?php endif; ?>
         <tr><td>Votes (Onze de légende) et quiz</td><td>Choix anonymes ; empreinte temporaire de la connexion pour éviter les votes multiples</td><td>Intérêt légitime</td><td>Empreinte effacée sous 48 heures</td></tr>
         <tr><td>Preuve de vos choix en matière de cookies</td><td>Choix, date, empreinte anonymisée</td><td>Obligation légale</td><td>13 mois</td></tr>
+        <tr><td>Mesure d’audience (interne)</td><td>Page vue, heure, langue — sans cookie, sans adresse IP, sans identifiant</td><td>Intérêt légitime (exemptée de consentement)</td><td>Totaux quotidiens conservés 13 mois ; journaux bruts effacés sous 48 heures</td></tr>
         <tr><td>Sécurité et prévention des abus</td><td>Empreintes chiffrées des adresses IP (limites de requêtes) ; journaux du serveur tenus par l’hébergeur</td><td>Intérêt légitime ; obligation légale de l’hébergeur</td><td>48 heures pour les empreintes ; jusqu’à 1 an pour les journaux de l’hébergeur</td></tr>
         <tr><td>Comptes du back-office (équipe du musée)</td><td>Nom, e-mail, rôle, historique des modifications</td><td>Intérêt légitime</td><td>Tant que le compte est actif</td></tr>
       </tbody>

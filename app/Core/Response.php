@@ -5,6 +5,9 @@ namespace App\Core;
 
 final class Response
 {
+    /** Fichier envoyé en flux (gros téléchargements) à la place du corps. */
+    public ?string $file = null;
+
     public function __construct(
         public string $body = '',
         public int $status = 200,
@@ -41,6 +44,13 @@ final class Response
         http_response_code($this->status);
         foreach ($this->headers as $k => $v) {
             header("$k: $v");
+        }
+        if ($this->file !== null && is_file($this->file)) {
+            while (ob_get_level() > 0) {
+                ob_end_flush();
+            }
+            readfile($this->file);
+            return;
         }
         echo $this->body;
     }

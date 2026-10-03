@@ -221,7 +221,13 @@ final class Geo
                 $max--;
             }
         }
-        array_map('unlink', glob(STORAGE_PATH . '/cache/carte-*.json') ?: []);
+        self::forget();
         return $done;
+    }
+
+    /** Vide le cache des données de la carte (après une correction de coordonnées). */
+    public static function forget(): void
+    {
+        array_map('unlink', glob(STORAGE_PATH . '/cache/carte-*.json') ?: []);
     }
 }

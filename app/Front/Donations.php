@@ -60,30 +60,48 @@ final class Donations
         return Settings::get('donations.mode', 'test') !== 'live';
     }
 
-    /** Contenus éditables de la page (back-office > Dons > Page) avec valeurs de la maquette. */
+    /** Contenus de la page tels que la maquette les propose (modifiables dans le back-office). */
+    public static function defaultContent(): array
+    {
+        return [
+            'title' => 'Sauvons|100 ans|d’archives.',
+            'lead' => 'Affiches qui jaunissent, photos qui pâlissent, programmes qui s’effritent : votre don finance leur numérisation et leur mise en ligne.',
+            'tiers' => [
+                ['amount' => 10, 'impact' => 'Numériser une affiche ou un programme', 'impact_en' => 'Digitise a poster or a matchday programme'],
+                ['amount' => 30, 'impact' => 'Restaurer et scanner une photo d’équipe', 'impact_en' => 'Restore and scan a team photo'],
+                ['amount' => 50, 'impact' => 'Mettre en ligne une fiche match complète', 'impact_en' => 'Publish a complete match record'],
+                ['amount' => 100, 'impact' => 'Sauvegarder une saison entière d’archives', 'impact_en' => 'Preserve a whole season of archives'],
+            ],
+            'default_tier' => 1,
+            'steps' => [
+                ['title' => 'On collecte', 'title_en' => 'We collect', 'text' => 'Supporters, anciens joueurs et familles nous confient leurs documents.', 'text_en' => 'Supporters, former players and families entrust us with their documents.', 'image' => ''],
+                ['title' => 'On numérise', 'title_en' => 'We digitise', 'text' => 'Scan haute définition, restauration et légendage de chaque pièce.', 'text_en' => 'High-definition scanning, restoration and captioning of every item.', 'image' => ''],
+                ['title' => 'On partage', 'title_en' => 'We share', 'text' => 'Tout est mis en ligne gratuitement, pour tous les Lionceaux.', 'text_en' => 'Everything is published online for free, for every Lionceau.', 'image' => ''],
+            ],
+            'wall_text' => 'Votre nom ici, si vous le souhaitez.',
+        ];
+    }
+
+    /** Contenus de la page dans la langue courante (champ « _en » s'il est rempli, sinon dictionnaire). */
     public static function content(): array
     {
-        $c = Collections::get('dons', []);
+        $c = Collections::get('dons', []) + self::defaultContent();
         $en = I18n::lang() === 'en';
-        $pick = fn (array $row, string $k) => $en && !empty($row[$k . '_en']) ? $row[$k . '_en'] : ($row[$k] ?? '');
-        $tiers = $c['tiers'] ?? [
-            ['amount' => 10, 'impact' => 'Numériser une affiche ou un programme', 'impact_en' => 'Digitise a poster or a matchday programme'],
-            ['amount' => 30, 'impact' => 'Restaurer et scanner une photo d’équipe', 'impact_en' => 'Restore and scan a team photo'],
-            ['amount' => 50, 'impact' => 'Mettre en ligne une fiche match complète', 'impact_en' => 'Publish a complete match record'],
-            ['amount' => 100, 'impact' => 'Sauvegarder une saison entière d’archives', 'impact_en' => 'Preserve a whole season of archives'],
-        ];
-        $steps = $c['steps'] ?? [
-            ['title' => 'On collecte', 'title_en' => 'We collect', 'text' => 'Supporters, anciens joueurs et familles nous confient leurs documents.', 'text_en' => 'Supporters, former players and families entrust us with their documents.', 'image' => ''],
-            ['title' => 'On numérise', 'title_en' => 'We digitise', 'text' => 'Scan haute définition, restauration et légendage de chaque pièce.', 'text_en' => 'High-definition scanning, restoration and captioning of every item.', 'image' => ''],
-            ['title' => 'On partage', 'title_en' => 'We share', 'text' => 'Tout est mis en ligne gratuitement, pour tous les Lionceaux.', 'text_en' => 'Everything is published online for free, for every Lionceau.', 'image' => ''],
-        ];
+        $pick = function (array $row, string $k) use ($en): string {
+            $fr = (string) ($row[$k] ?? '');
+            if (!$en) {
+                return $fr;
+            }
+            $v = (string) ($row[$k . '_en'] ?? '');
+            return $v !== '' ? $v : t($fr);
+        };
         return [
-            'title' => $pick($c, 'title') ?: t('Sauvons|100 ans|d’archives.'),
-            'lead' => $pick($c, 'lead') ?: t('Affiches qui jaunissent, photos qui pâlissent, programmes qui s’effritent : votre don finance leur numérisation et leur mise en ligne.'),
-            'tiers' => array_values(array_map(fn ($t) => ['amount' => max(1, (int) $t['amount']), 'impact' => $pick($t, 'impact')], array_filter($tiers, fn ($t) => (int) ($t['amount'] ?? 0) > 0))),
+            'title' => $pick($c, 'title'),
+            'lead' => $pick($c, 'lead'),
+            'tiers' => array_values(array_map(fn ($t) => ['amount' => max(1, (int) $t['amount']), 'impact' => $pick($t, 'impact')], array_filter($c['tiers'] ?: self::defaultContent()['tiers'], fn ($t) => (int) ($t['amount'] ?? 0) > 0))),
             'default_tier' => (int) ($c['default_tier'] ?? 1),
-            'steps' => array_map(fn ($s) => ['title' => $pick($s, 'title'), 'text' => $pick($s, 'text'), 'image' => $s['image'] ?? ''], $steps),
-            'wall_text' => $pick($c, 'wall_text') ?: t('Votre nom ici, si vous le souhaitez.'),
+            'steps' => array_map(fn ($s) => ['title' => $pick($s, 'title'), 'text' => $pick($s, 'text'), 'image' => $s['image'] ?? ''], $c['steps'] ?: self::defaultContent()['steps']),
+            'wall_text' => $pick($c, 'wall_text'),
         ];
     }
 

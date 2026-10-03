@@ -7,4 +7,15 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
-\App\Kernel::handle(\App\Core\Request::fromGlobals())->send();
+$request = \App\Core\Request::fromGlobals();
+$response = \App\Kernel::handle($request);
+$response->send();
+
+// Mesure d'audience anonyme (pages HTML publiques uniquement), après l'envoi de la page.
+if ($request->method === 'GET' && $response->status === 200 && !str_starts_with($request->path, '/admin') && !str_starts_with($request->path, '/api/')
+    && str_contains((string) ($response->headers['Content-Type'] ?? 'text/html'), 'text/html') && empty($response->headers['X-Robots-Tag'])) {
+    if (function_exists('fastcgi_finish_request')) {
+        fastcgi_finish_request();
+    }
+    \App\Services\Stats::hit($request->path, (string) ($request->server['HTTP_USER_AGENT'] ?? ''), \App\Services\I18n::lang());
+}

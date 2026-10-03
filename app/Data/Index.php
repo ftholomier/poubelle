@@ -141,8 +141,31 @@ final class Index
         self::persist($items);
     }
 
+    private static int $defer = 0;
+    private static bool $pending = false;
+
+    /** Mode « lot » : l'index n'est réécrit qu'une fois à la fin (actions groupées). */
+    public static function defer(bool $on): void
+    {
+        if ($on) {
+            self::$defer++;
+            return;
+        }
+        self::$defer = max(0, self::$defer - 1);
+        if (self::$defer === 0 && self::$pending) {
+            self::$pending = false;
+            self::persist(self::all());
+        }
+    }
+
     private static function persist(array $items): void
     {
+        if (self::$defer > 0) {
+            self::$items = $items;
+            self::$byPath = null;
+            self::$pending = true;
+            return;
+        }
         $dir = dirname(self::CACHE);
         if (!is_dir($dir)) {
             mkdir($dir, 0775, true);
@@ -234,9 +257,20 @@ final class Index
 
     public static function sortName(array $s): string
     {
+        static $cache = [];
+        static $tr = null;
+        $key = $s['id'] ?? null;
+        if ($key !== null && isset($cache[$key])) {
+            return $cache[$key];
+        }
         $last = $s['p']['last'] ?? $s['title'];
         $first = $s['p']['first'] ?? '';
-        return mb_strtolower(transliterator_transliterate('Any-Latin; Latin-ASCII', "$last $first") ?: "$last $first");
+        $tr ??= \Transliterator::create('Any-Latin; Latin-ASCII');
+        $name = mb_strtolower(($tr ? $tr->transliterate("$last $first") : false) ?: "$last $first");
+        if ($key !== null) {
+            $cache[$key] = $name;
+        }
+        return $name;
     }
 
     public static function forget(): void

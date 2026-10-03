@@ -27,6 +27,7 @@ final class Cron
     public const TASKS = [
         'publication' => [0, 'Publication des fiches programmées'],
         'statistiques' => [0, 'Recalcul des statistiques si nécessaire'],
+        'audience' => [0, 'Mesure d’audience anonyme (agrégation)'],
         'traductions' => [0, 'Traduction anglaise des fiches (Gemini)'],
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
@@ -90,17 +91,19 @@ final class Cron
         switch ($task) {
             case 'publication':
                 $n = 0;
-                foreach (Index::all() as $id => $s) {
-                    if ($s['status'] === 'planifie' && $s['publish_at'] && strtotime((string) $s['publish_at']) <= time()) {
-                        $doc = Fiches::get((int) $id);
-                        if ($doc) {
-                            $doc['status'] = 'publie';
-                            $doc['date'] = $doc['date'] ?: date('c');
-                            Fiches::save($doc, ['name' => 'Publication programmée'], 'Publication programmée');
-                            $n++;
+                Fiches::batch(function () use (&$n) {
+                    foreach (Index::all() as $id => $s) {
+                        if ($s['status'] === 'planifie' && $s['publish_at'] && strtotime((string) $s['publish_at']) <= time()) {
+                            $doc = Fiches::get((int) $id);
+                            if ($doc) {
+                                $doc['status'] = 'publie';
+                                $doc['date'] = $doc['date'] ?: date('c');
+                                Fiches::save($doc, ['name' => 'Publication programmée'], 'Publication programmée');
+                                $n++;
+                            }
                         }
                     }
-                }
+                });
                 return $n ? "$n fiche(s) publiée(s)" : null;
 
             case 'statistiques':
@@ -109,6 +112,10 @@ final class Cron
                 }
                 $d = Derived::rebuild();
                 return sprintf('%d matchs, %d personnes reliées (%.1f s)', count($d['matches']), count($d['person_totals']), $d['duration']);
+
+            case 'audience':
+                $n = Stats::aggregate();
+                return $n ? "$n pages vues agrégées" : null;
 
             case 'traductions':
                 if (!Translator::enabled() || !Settings::get('translation.auto_translate', true)) {

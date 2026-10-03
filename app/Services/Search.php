@@ -126,6 +126,23 @@ final class Search
         return count($docs);
     }
 
+    private static int $defer = 0;
+    private static bool $pending = false;
+
+    /** Mode « lot » : les mises à jour sont écrites une seule fois à la fin (actions groupées). */
+    public static function defer(bool $on): void
+    {
+        if ($on) {
+            self::$defer++;
+            return;
+        }
+        self::$defer = max(0, self::$defer - 1);
+        if (self::$defer === 0 && self::$pending) {
+            self::$pending = false;
+            self::write(self::docs());
+        }
+    }
+
     public static function put(array $doc): void
     {
         $docs = self::docs();
@@ -147,6 +164,11 @@ final class Search
 
     private static function write(array $docs): void
     {
+        if (self::$defer > 0) {
+            self::$docs = $docs;
+            self::$pending = true;
+            return;
+        }
         $dir = dirname(self::CACHE);
         if (!is_dir($dir)) {
             mkdir($dir, 0775, true);

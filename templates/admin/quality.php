@@ -1,0 +1,26 @@
+<?php
+/** Qualité. Variables : $all, $cat, $sev, $items, $total */
+$labels = ['stats' => ['Statistiques incohérentes', 'Scores, buteurs, dates'], 'liens' => ['Joueurs sans fiche', 'Cités dans les compositions'], 'credits' => ['Photos sans crédit', 'Médiathèque'], 'carto' => ['Lieux de naissance inconnus', 'Carto des origines'], 'traductions' => ['Traductions à revoir', 'Version anglaise']];
+?>
+<div class="kpis">
+  <?php foreach ($labels as $k => [$l, $d]): ?>
+    <a class="kpi<?= $cat === $k ? ' is-on kpi--yellow' : '' ?>" href="/admin/qualite?cat=<?= e($k) ?>"><b><?= count($all[$k]) >= 500 ? '500+' : count($all[$k]) ?></b><span><?= e($l) ?></span><small><?= e($d) ?></small></a>
+  <?php endforeach; ?>
+</div>
+<div class="toolbar">
+  <div class="chips">
+    <?php foreach (['' => 'Toutes', 'haute' => 'Hautes', 'moyenne' => 'Moyennes', 'basse' => 'Basses'] as $k => $l): ?><a class="chip<?= $sev === $k ? ' is-on' : '' ?>" href="/admin/qualite?cat=<?= e($cat) ?><?= $k ? '&niveau=' . $k : '' ?>"><?= e($l) ?></a><?php endforeach; ?>
+  </div>
+  <span class="small muted"><?= (int) $total ?> alerte<?= $total > 1 ? 's' : '' ?> · recalculées automatiquement à chaque modification</span>
+</div>
+<div class="card">
+  <?php foreach ($items as $i): ?>
+    <div class="card__row" style="grid-template-columns:100px minmax(0,1fr) minmax(0,280px) 110px">
+      <span><span class="sev sev--<?= e($i['sev']) ?>"><?= e(ucfirst($i['sev'])) ?></span></span>
+      <span><?= e($i['msg']) ?></span>
+      <span class="muted ellipsis" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><?= e($i['title']) ?></span>
+      <a class="btn btn--sm" href="<?= e($i['url']) ?>"><?= $cat === 'liens' ? 'Créer la fiche' : 'Corriger' ?></a>
+    </div>
+  <?php endforeach; ?>
+  <?php if (!$items): ?><div class="empty" style="border:0">Aucune alerte · bravo !</div><?php endif; ?>
+</div>

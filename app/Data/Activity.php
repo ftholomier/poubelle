@@ -16,6 +16,7 @@ final class Activity
         JsonStore::append(STORAGE_PATH . '/activity/' . date('Y-m') . '.jsonl', [
             'at' => date('c'),
             'by' => $user['name'] ?? 'Système',
+            'uid' => $user['id'] ?? null,
             'initials' => self::initials($user['name'] ?? 'Système'),
             'action' => $action,
             'title' => $doc['title'] ?? null,

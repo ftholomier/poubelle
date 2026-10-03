@@ -156,7 +156,8 @@ final class Site
         }
         foreach ($conf['messages'] ?? [] as $msg) {
             if (!empty($msg['on'])) {
-                $out[] = ['k' => t($msg['k']), 'v' => t($msg['v']), 'href' => url($msg['href'] ?? '/')];
+                $msg = Collections::loc($msg, ['k', 'v']);
+                $out[] = ['k' => $msg['k'], 'v' => $msg['v'], 'href' => url($msg['href'] ?? '/')];
             }
         }
         return $out;
@@ -228,7 +229,7 @@ final class Site
         $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
         $base = base_url();
         $title = trim($p['title'] ?? '');
-        $full = $title === '' ? "$site — " . t('Le musée en ligne du FCSM') : "$title | $site";
+        $full = !empty($p['full_title']) ? (string) $p['full_title'] : ($title === '' ? "$site — " . t('Le musée en ligne du FCSM') : "$title | $site");
         $canonical = $p['canonical'] ?? I18n::switchUrl($path, $untranslated ? I18n::DEFAULT : I18n::lang());
         return [
             'title' => $full,

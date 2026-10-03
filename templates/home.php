@@ -113,7 +113,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
       <div class="stack gap-20 eras__body">
         <span class="num blue" style="font-size:clamp(56px,7vw,96px);line-height:.85"><?= e($era['range']) ?></span>
         <h3 class="h-3"><?= e(t($era['name'])) ?></h3>
-        <p style="margin:0;font-size:20px;line-height:1.5"><?= e(t($era['text'])) ?></p>
+        <p style="margin:0;font-size:20px;line-height:1.5"><?= rich_inline(t($era['text'])) ?></p>
         <div class="facts">
           <?php foreach ($era['facts'] as $f): ?>
             <div class="facts__row"><b><?= e($f['y']) ?></b><span><?= e(t($f['t'])) ?></span></div>
