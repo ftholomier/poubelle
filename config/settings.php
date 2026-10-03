@@ -69,6 +69,7 @@ return [
             'max_output_tokens' => ['label' => 'Longueur maximale des réponses (jetons)', 'type' => 'number', 'default' => 800],
             'context_chunks' => ['label' => 'Nombre d’extraits envoyés à Gemini par question', 'type' => 'number', 'default' => 8],
             'daily_limit' => ['label' => 'Questions par visiteur et par jour', 'type' => 'number', 'default' => 20],
+            'global_daily_limit' => ['label' => 'Questions par jour pour tout le site (plafond de coût)', 'type' => 'number', 'default' => 2000],
             'log_questions' => ['label' => 'Conserver les questions posées (consultables dans le back-office)', 'type' => 'bool', 'default' => true],
             'log_retention_days' => ['label' => 'Durée de conservation des questions (jours)', 'type' => 'number', 'default' => 365],
         ],

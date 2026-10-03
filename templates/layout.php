@@ -13,6 +13,7 @@ $path = $page['path'] ?? ($_SERVER['REQUEST_URI'] ?? '/');
 $path = parse_url($path, PHP_URL_PATH) ?: '/';
 $meta = Site::meta($page, $path);
 $lang = I18n::lang();
+$chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 ?><!DOCTYPE html>
 <html lang="<?= e($lang) ?>">
 <head>
@@ -47,6 +48,7 @@ $lang = I18n::lang();
 <?php foreach ($page['styles'] ?? [] as $css): ?>
 <link rel="stylesheet" href="<?= asset($css) ?>">
 <?php endforeach; ?>
+<?php if ($chat): ?><link rel="stylesheet" href="<?= asset('css/chat.css') ?>"><?php endif; ?>
 <?php if ($meta['jsonld']): ?>
 <script type="application/ld+json"><?= json_encode($meta['jsonld'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 <?php endif; ?>
@@ -65,10 +67,11 @@ $lang = I18n::lang();
 <?php endif; ?>
 <?= \App\Core\View::partial('partials/lightbox') ?>
 <?= \App\Core\View::partial('partials/cookie') ?>
-<?php if (Settings::get('ai.enabled', false) && empty($page['no_chat'])): ?>
+<?php if ($chat): ?>
 <?= \App\Core\View::partial('partials/chat') ?>
 <?php endif; ?>
 <script src="<?= asset('js/site.js') ?>" defer></script>
+<?php if ($chat): ?><script src="<?= asset('js/chat.js') ?>" defer></script><?php endif; ?>
 <?php foreach ($page['scripts'] ?? [] as $js): ?>
 <script src="<?= asset($js) ?>" defer></script>
 <?php endforeach; ?>

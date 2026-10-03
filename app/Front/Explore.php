@@ -475,11 +475,9 @@ final class Explore
         'entraineurs' => ['Entraîneurs', 'Entraîneurs les plus fidèles', 'matchs'],
     ];
 
-    public static function records(Request $req): Response
+    /** Lignes d'un classement du livre des records (aussi utilisées par l'assistant IA). */
+    public static function recordRows(string $cat, ?int $decade = null, ?string $comp = null, int $limit = 25): array
     {
-        $cat = isset(self::RECORDS[$req->str('cat')]) ? $req->str('cat') : 'buteurs';
-        $decade = preg_match('/^(19|20)\d0$/', $req->str('decennie')) ? (int) $req->str('decennie') : null;
-        $comp = isset(Mosaic::COMPS[$req->str('comp')]) ? $req->str('comp') : null;
         $d = Derived::get();
         $M = $d['matches'];
         $okMatch = function (array $x) use ($decade, $comp): bool {
@@ -523,7 +521,7 @@ final class Explore
                     }
                     $years = substr((string) $r['first'], 0, 4) . (substr((string) $r['last'], 0, 4) !== substr((string) $r['first'], 0, 4) ? '–' . substr((string) $r['last'], 0, 4) : '');
                     $rows[] = ['name' => $s['p']['name'], 'meta' => trim(($s['p']['position'] ? ucfirst((string) $s['p']['position']) . ' · ' : '') . $years), 'v' => $r['v'], 'href' => url($s['path']), 'image' => $s['image']];
-                    if (count($rows) >= 25) {
+                    if (count($rows) >= $limit) {
                         break;
                     }
                 }
@@ -531,14 +529,14 @@ final class Explore
             case 'affluences':
                 $list = array_filter($M, fn ($x) => $okMatch($x) && ($x['spectators'] ?? 0) > 0);
                 usort($list, fn ($x, $y) => $y['spectators'] <=> $x['spectators']);
-                foreach (array_slice($list, 0, 25) as $x) {
+                foreach (array_slice($list, 0, $limit) as $x) {
                     $rows[] = ['name' => Site::matchLabel($x), 'meta' => date_num($x['date']) . ' · ' . ($x['label'] ?: $x['comp']), 'v' => number_format((int) $x['spectators'], 0, ',', ' '), 'href' => url($x['path']), 'image' => $x['image']];
                 }
                 break;
             case 'victoires':
                 $list = array_filter($M, fn ($x) => $okMatch($x) && $x['result'] === 'V' && $x['us'] !== null);
                 usort($list, fn ($x, $y) => (($y['us'] - $y['them']) <=> ($x['us'] - $x['them'])) ?: ($y['us'] <=> $x['us']));
-                foreach (array_slice($list, 0, 25) as $x) {
+                foreach (array_slice($list, 0, $limit) as $x) {
                     $rows[] = ['name' => Site::matchLabel($x), 'meta' => date_num($x['date']) . ' · ' . ($x['label'] ?: $x['comp']), 'v' => '+' . ($x['us'] - $x['them']), 'href' => url($x['path']), 'image' => $x['image']];
                 }
                 break;
@@ -561,7 +559,7 @@ final class Explore
                     $runs[] = $cur;
                 }
                 usort($runs, fn ($x, $y) => count($y) <=> count($x));
-                foreach (array_slice($runs, 0, 25) as $run) {
+                foreach (array_slice($runs, 0, $limit) as $run) {
                     $a = $run[0];
                     $b = $run[count($run) - 1];
                     $v = count(array_filter($run, fn ($x) => $x['result'] === 'V'));
@@ -569,6 +567,15 @@ final class Explore
                 }
                 break;
         }
+        return $rows;
+    }
+
+    public static function records(Request $req): Response
+    {
+        $cat = isset(self::RECORDS[$req->str('cat')]) ? $req->str('cat') : 'buteurs';
+        $decade = preg_match('/^(19|20)\d0$/', $req->str('decennie')) ? (int) $req->str('decennie') : null;
+        $comp = isset(Mosaic::COMPS[$req->str('comp')]) ? $req->str('comp') : null;
+        $rows = self::recordRows($cat, $decade, $comp);
         [$tab, $title, $unit] = self::RECORDS[$cat];
         $qs = fn (array $p) => Mosaic::qs(array_filter(['cat' => $cat === 'buteurs' ? null : $cat, 'decennie' => $decade ? (string) $decade : null, 'comp' => $comp] + $p, fn ($v) => $v !== null));
         $tabs = [];

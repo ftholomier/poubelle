@@ -26,6 +26,7 @@ final class Api
                 $p === '/api/consentement' && $post => self::consent($req),
                 $p === '/api/ce-jour-la' => self::onThisDay($req),
                 $p === '/api/chat' && $post => \App\Services\Rag::endpoint($req),
+                $p === '/api/chat/avis' && $post => \App\Services\Rag::feedback($req),
                 $p === '/api/carte' => Interactive::mapData($req),
                 $p === '/api/onze' && $post => Interactive::onzeVote($req),
                 $p === '/api/quiz' && $post => Interactive::quizResult($req),
