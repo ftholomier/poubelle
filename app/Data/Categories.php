@@ -22,6 +22,14 @@ final class Categories
         'symboles',
     ];
 
+    /** Ordres d'affichage possibles d'une mosaïque (réglés par rubrique dans le back-office). */
+    public const SORTS = [
+        'selection' => 'Ordre manuel (glisser-déposer)',
+        'ancien' => 'Chronologique : du plus ancien au plus récent',
+        'recent' => 'Chronologique : du plus récent au plus ancien',
+        'az' => 'Alphabétique (A → Z)',
+    ];
+
     private static ?array $byPath = null;
 
     /** @return array<string,array> */
@@ -40,6 +48,26 @@ final class Categories
         JsonStore::write(self::FILE, $cats);
         self::$byPath = null;
         Activity::log($user, 'a modifié les rubriques', null);
+    }
+
+    /**
+     * Ordre d'affichage d'une rubrique sur le site : celui choisi dans le back-office, sinon
+     * l'ordre manuel s'il existe (saisons, décennies, compétitions, rubriques éditoriales),
+     * sinon les plus récents d'abord (matchs) ou l'ordre alphabétique (personnes).
+     */
+    public static function displaySort(string $slug): string
+    {
+        $c = self::get($slug) ?? [];
+        $hasOrder = !empty($c['order']);
+        $sort = $c['sort'] ?? null;
+        if (is_string($sort) && isset(self::SORTS[$sort]) && ($sort !== 'selection' || $hasOrder)) {
+            return $sort;
+        }
+        return match (self::root($slug)) {
+            'matchs-fc-sochaux-retro-fcsm' => $hasOrder && !empty($c['parent']) ? 'selection' : 'recent',
+            'nos-lions-fc-sochaux-retro-fcsm' => 'az',
+            default => $hasOrder ? 'selection' : 'recent',
+        };
     }
 
     public static function byPath(string $path): ?array

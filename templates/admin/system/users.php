@@ -41,8 +41,8 @@ $stLabel = ['active' => ['Actif', 'ok'], 'invited' => ['Invitation envoyée', 'w
     <form class="card card--pad" method="post" action="/admin/utilisateurs" id="inviter">
       <?= csrf_field() ?><input type="hidden" name="action" value="inviter">
       <h2 class="card__t card__t--sm">Inviter une personne</h2>
-      <div class="f"><span class="f__k">Nom</span><input type="text" name="name" required maxlength="80" placeholder="Prénom Nom"></div>
-      <div class="f"><span class="f__k">E-mail</span><input type="email" name="email" required maxlength="160"></div>
+      <label class="f"><span class="f__k">Nom</span><input type="text" name="name" required maxlength="80" placeholder="Prénom Nom"></label>
+      <label class="f"><span class="f__k">E-mail</span><input type="email" name="email" required maxlength="160"></label>
       <div class="seg" style="--n:2" role="radiogroup" aria-label="Niveau d’accès">
         <label><input type="radio" name="role" value="user" checked><span>Utilisateur</span></label>
         <label><input type="radio" name="role" value="admin"><span>Administrateur</span></label>

@@ -8,7 +8,7 @@ return [
 <p>Contenus › Matchs › ouvrez le match (ou <kbd>Ctrl</kbd> + <kbd>K</kbd> et tapez l’adversaire) › onglet <b>Infos</b> › bloc Score › Enregistrer. Les buteurs de la composition doivent correspondre : le contrôle qualité vous le signale. Indiquez la source dans la note de version.</p>
 HTML],
         ['id' => 'joueur-compo', 'title' => '… ajouter un joueur oublié dans une composition', 'html' => <<<'HTML'
-<p>Onglet <b>Compo &amp; événements</b> › « Ajouter un joueur » en bas de la composition › remplissez la ligne › déplacez-la avec les flèches ou la poignée › Enregistrer. Sa fiche et ses statistiques sont mises à jour seules.</p>
+<p>Onglet <b>Compo &amp; événements</b> › « Ajouter un joueur » en bas de la composition › remplissez la ligne › déplacez-la avec ↑ / ↓ ou l’icône quatre flèches › Enregistrer. Sa fiche et ses statistiques sont mises à jour seules.</p>
 HTML],
         ['id' => 'relier-nom', 'title' => '… relier un nom mal orthographié à la bonne fiche', 'html' => <<<'HTML'
 <p>Ouvrez la fiche du joueur › onglet Identité › <b>Autres graphies dans les compositions</b> › ajoutez la graphie (« CAMARA Razza ») › Enregistrer. Tous les matchs où le nom est écrit ainsi rejoignent la fiche. Pour un seul match, choisissez le bon joueur dans la ligne de composition.</p>
@@ -41,7 +41,7 @@ HTML],
 <p>Onglet <b>Classement &amp; SEO</b> › cochez <b>À la une</b> et vérifiez qu’elle a une image à la une. Pour un slider choisi à la main : Éditorial › Accueil &amp; bandeau › Grand slider.</p>
 HTML],
         ['id' => 'ordre-mosaique', 'title' => '… changer l’ordre des fiches d’une rubrique', 'html' => <<<'HTML'
-<p>Éditorial › Rubriques &amp; menus › ouvrez la rubrique › cochez l’ordre manuel › glissez-déposez › Enregistrer.</p>
+<p>Éditorial › Rubriques &amp; menus › ouvrez la rubrique (par exemple « Années 90 ») › « Ordre d’affichage sur le site » : <b>Ordre manuel</b> › déplacez les fiches (↑ / ↓, icône quatre flèches ou clic sur le numéro pour taper la position) › Enregistrer.</p>
 HTML],
         ['id' => 'bandeau', 'title' => '… ajouter un message au bandeau défilant', 'html' => <<<'HTML'
 <p>Éditorial › Accueil &amp; bandeau › Bandeau « En direct du musée » › « Ajouter un message » (étiquette, message, lien) › « Traduire en anglais » › Enregistrer.</p>

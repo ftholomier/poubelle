@@ -22,7 +22,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <h2 class="card__t">Grand slider de l’accueil</h2>
       <?= Form::seg('slider.mode', 'Contenu du slider', $slider['mode'] ?? 'random', ['random' => 'Tirage au hasard', 'manual' => 'Sélection manuelle']) ?>
       <div data-show-if="slider.mode" data-show-value="random">
-        <p class="alert alert--info" style="margin:0">À chaque visite, <b><?= (int) ($home['slider_count'] ?? 5) ?></b> fiches sont tirées au hasard parmi les <b><?= (int) $pool ?></b> fiches publiées marquées « À la une » qui ont une image à la une<?= $poolNoImage ? ' (' . (int) $poolNoImage . ' autres fiches « À la une » n’ont pas d’image et ne peuvent pas apparaître)' : '' ?>. Cochez « À la une » dans l’onglet « Classement & SEO » d’une fiche pour l’ajouter.</p>
+        <p class="alert alert--info" style="margin:0">À chaque visite, <b><?= (int) ($home['slider_count'] ?? 5) ?></b> fiches sont tirées au hasard parmi les <b><?= (int) $pool ?></b> fiches publiées marquées « À la une » qui ont une image à la une<?= $poolNoImage ? ' (' . (int) $poolNoImage . ' autres fiches « À la une » n’ont pas de vraie photo — pas d’image ou silhouette « ? » — et n’apparaissent pas)' : '' ?>. Cochez « À la une » dans l’onglet « Classement & SEO » d’une fiche pour l’ajouter.</p>
       </div>
       <div data-show-if="slider.mode" data-show-value="manual">
         <?= Form::repeater('slider.ids', 'Fiches du slider, dans l’ordre', $manual, fn ($it) => '<div class="row" style="gap:10px;flex-wrap:nowrap">'

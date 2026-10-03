@@ -125,7 +125,10 @@
       $(`[data-jtext="${side}"]`, jers).textContent = e.text || '';
     };
     const chips = () => ['l', 'r'].forEach(side => $$(`[data-side="${side}"] .jchip`, jers).forEach(c => {
-      const i = +c.dataset.i; c.classList.toggle('is-on', i === (side === 'l' ? l : r)); c.classList.toggle('is-off', i === (side === 'l' ? r : l));
+      const i = +c.dataset.i, on = i === (side === 'l' ? l : r), off = i === (side === 'l' ? r : l);
+      c.classList.toggle('is-on', on); c.classList.toggle('is-off', off);
+      c.setAttribute('aria-pressed', String(on));
+      if (off) c.setAttribute('aria-disabled', 'true'); else c.removeAttribute('aria-disabled');
     }));
     const setP = v => {
       p = Math.min(100, Math.max(0, v));

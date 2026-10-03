@@ -15,14 +15,23 @@ final class Redirects
         return JsonStore::read(self::FILE, []) ?? [];
     }
 
+    /** Anciennes adresses WordPress par paramètre : /?p=123 (lien court) et /?s=… (recherche). */
+    public static function legacyQuery(array $query): ?string
+    {
+        if (isset($query['p']) && is_string($query['p']) && ctype_digit($query['p'])) {
+            return self::all()['/?p=' . $query['p']] ?? null;
+        }
+        if (isset($query['s']) && is_string($query['s'])) {
+            return '/recherche/?q=' . rawurlencode(mb_substr($query['s'], 0, 200));
+        }
+        return null;
+    }
+
     public static function find(string $path, array $query = []): ?string
     {
         $all = self::all();
-        if (isset($query['p']) && ctype_digit((string) $query['p'])) {
-            return $all['/?p=' . $query['p']] ?? null;
-        }
-        if (isset($query['s']) && $path === '/') {
-            return '/recherche/?q=' . rawurlencode((string) $query['s']);
+        if ($path === '/' && ($to = self::legacyQuery($query))) {
+            return $to;
         }
         $candidates = [$path, rtrim($path, '/') . '/', rawurldecode($path)];
         foreach ($candidates as $c) {

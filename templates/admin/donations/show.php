@@ -42,7 +42,7 @@ $paidRefs = array_column(array_filter($d['payments'] ?? [], fn ($p) => $p['statu
     <form class="card card--pad" method="post" action="/admin/dons/<?= e($d['id']) ?>">
       <?= csrf_field() ?><input type="hidden" name="action" value="mur">
       <h2 class="card__t card__t--sm">Mur des donateurs</h2>
-      <div class="f"><span class="f__k">Nom affiché <i>vide = donateur discret</i></span><input type="text" name="wall_name" value="<?= e($d['wall_name'] ?? '') ?>" maxlength="40"></div>
+      <label class="f"><span class="f__k">Nom affiché <i>vide = donateur discret</i></span><input type="text" name="wall_name" value="<?= e($d['wall_name'] ?? '') ?>" maxlength="40"></label>
       <label class="toggle"><input type="checkbox" name="wall_hidden" value="1"<?= !empty($d['wall_hidden']) ? ' checked' : '' ?>><span class="toggle__box"></span><span>Masquer du mur (modération)</span></label>
       <button type="submit" class="btn btn--navy" style="align-self:flex-start">Enregistrer</button>
     </form>

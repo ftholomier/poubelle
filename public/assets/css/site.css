@@ -191,12 +191,13 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 
 .masthead { background: var(--cream); border-bottom: 2px solid var(--navy); position: relative; }
 .masthead__logo {
-  position: absolute; left: clamp(12px, 3vw, 40px); top: 6px; z-index: 3; display: block;
+  position: absolute; left: clamp(12px, 3vw, 40px); top: 6px; z-index: 3; display: block; transform-origin: 50% 40%;
   filter: drop-shadow(0 4px 0 rgba(14,31,77,.25)); transition: transform .35s cubic-bezier(.3,1.6,.5,1);
 }
 .masthead__logo:hover { transform: rotate(-8deg) scale(1.06); }
-.masthead__logo img { height: 100px; width: auto; }
-.masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 110px); padding-right: clamp(12px, 3vw, 40px); }
+/* Le blason est plus haut que la bande : sa pointe déborde sous le header. */
+.masthead__logo img { height: 132px; width: auto; }
+.masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 140px); padding-right: clamp(12px, 3vw, 40px); }
 .masthead__top { height: 48px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(14,31,77,.18); }
 .masthead__name { font-family: var(--display); font-weight: 900; font-size: 20px; text-transform: uppercase; white-space: nowrap; }
 .masthead__tag { font-style: italic; font-size: 15px; color: var(--muted); white-space: nowrap; }
@@ -211,6 +212,7 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .hsize small { font-size: 12px; }
 .hsize .lbl { font-size: 12px; font-weight: 700; margin-left: 5px; }
 .hlang { position: relative; }
+.hlang > .hbtn { white-space: nowrap; }
 .hlang__menu { position: absolute; top: calc(100% + 6px); right: 0; background: var(--paper); border: 2px solid var(--navy); box-shadow: 4px 4px 0 var(--navy); display: none; flex-direction: column; min-width: 150px; z-index: 5; }
 .hlang.is-open .hlang__menu { display: flex; }
 .hlang__menu a { padding: 10px 14px; display: flex; justify-content: space-between; gap: 12px; font-size: 17px; }
@@ -235,7 +237,7 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .mainnav .caret { font-size: 12px; opacity: .7; }
 
 .mega {
-  position: absolute; top: 100%; left: 0; right: 0; background: var(--navy); color: var(--cream);
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 4; background: var(--navy); color: var(--cream);
   border-top: 3px solid var(--yellow); box-shadow: 0 18px 40px rgba(14,31,77,.35); display: none;
 }
 .mega.is-open { display: block; animation: megaIn .22s var(--ease); }
@@ -274,7 +276,7 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .mega__tile span:last-child { font-size: 14px; line-height: 1.35; color: var(--mist); }
 
 .mobilemenu {
-  position: absolute; top: 100%; left: 0; right: 0; background: var(--navy); color: var(--cream);
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 4; background: var(--navy); color: var(--cream);
   padding: 12px var(--gutter) 28px; display: none; flex-direction: column; box-shadow: 0 18px 40px rgba(14,31,77,.35); max-height: 80vh; overflow: auto;
 }
 .mobilemenu.is-open { display: flex; }
@@ -289,9 +291,12 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .mobilemenu__tools a, .mobilemenu__tools button { border: 2px solid var(--yellow); background: transparent; padding: 6px 12px; font-family: var(--display); font-weight: 800; font-size: 16px; color: var(--yellow); cursor: pointer; }
 .mobilemenu__tools .is-on { background: var(--yellow); color: var(--navy); }
 
+@media (max-width: 1439px) {
+  .masthead__tag { display: none; }
+}
 @media (max-width: 1099px) {
-  .masthead__logo img { height: 56px; }
-  .masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 62px); }
+  .masthead__logo img { height: 76px; }
+  .masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 80px); }
   .masthead__top { border-bottom: 0; height: 64px; }
   .masthead__name, .masthead__tag, .hsize, .hlang, .hcontrib, .mainnav { display: none !important; }
   .hsearch { min-width: 38px; width: 64px; justify-content: center; }

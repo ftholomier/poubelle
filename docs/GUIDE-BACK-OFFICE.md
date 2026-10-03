@@ -93,7 +93,7 @@ vérifier sur la fiche.
 - **Cartons** : « J 50' » (jaune), « R 80' » (rouge), « J 35' R 80' ».
 - **Importer depuis un tableau** : collez un tableau copié d'Excel, de Word ou d'une page
   web ; avec une ligne d'en-tête, les colonnes sont reconnues dans n'importe quel ordre.
-- Les lignes se déplacent par glisser-déposer (poignée à gauche) ou avec les flèches.
+- Les lignes se déplacent avec ↑ / ↓ (un cran) ou en glissant l’icône quatre flèches (plus loin ; un trait jaune montre la position de dépôt).
 
 Les statistiques des joueurs (matchs, buts, minutes, cartons), les pages saison, les
 face-à-face et les records se recalculent seuls à partir des compositions.
@@ -139,10 +139,17 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
 ## 5. Éditorial
 
 - **Accueil & bandeau** : slider « À la une » (tirage au hasard parmi les fiches cochées
-  « À la une », comme sur l'ancien site, ou liste choisie à la main), messages du bandeau
-  « En direct du musée », introduction, palmarès, grandes époques, réserves mises en avant.
-- **Rubriques & menus** : libellés (français et anglais), descriptions, **ordre des fiches
-  dans les mosaïques** (glisser-déposer).
+  « À la une » qui ont une vraie photo — la silhouette « ? » est écartée —, ou liste choisie
+  à la main), messages du bandeau « En direct du musée » (3 messages automatiques : ce
+  jour-là, compte à rebours du centenaire, dernier match fiché ; plus les messages libres de
+  l'équipe), introduction, palmarès, grandes époques, réserves mises en avant.
+- **Rubriques & menus** : **ordre d'affichage sur le site** (manuel, chronologique ou A–Z),
+  **ordre des fiches** de la rubrique (toutes, sous-rubriques comprises : ↑ / ↓, icône
+  quatre flèches à glisser avec trait jaune de dépôt, clic sur le numéro pour taper une
+  position, tris rapides Date ↑ / Date ↓ / A → Z, recherche dans la liste), **ordre des
+  sous-rubriques**, libellés (français et anglais), descriptions.
+- **100 moments** : calendrier ; les moments pas encore révélés changent de semaine par
+  glisser-déposer, puis « Enregistrer le calendrier ».
 - **Redirections** : anciennes adresses redirigées (301) ; onglet « Adresses
   introuvables » : adresses demandées par des visiteurs qui n'existent pas, à rediriger en
   un clic vers la bonne fiche.

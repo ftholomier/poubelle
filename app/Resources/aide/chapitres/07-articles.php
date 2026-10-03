@@ -34,6 +34,7 @@ HTML],
         ['id' => 'moments', 'title' => '100 ans, 100 moments', 'html' => <<<'HTML'
 <p>Éditorial › <b>100 moments</b> : la série hebdomadaire du centenaire. Chaque moment a un numéro (1 à 100), une année, un récit, une image et des fiches liées. Le statut <b>Planifié</b> permet de préparer les moments à l’avance.</p>
 [[img:moments.webp|La liste des 100 moments]]
+<p><b>Changer la semaine d’un moment</b> : dans le calendrier, les moments pas encore révélés se déplacent avec ↑ / ↓ (une semaine) ou l’icône quatre flèches (glisser plus loin, le trait jaune indique le futur numéro). Les numéros et les dates se recalculent à l’écran ; cliquez <b>Enregistrer le calendrier</b> pour valider. Les moments déjà révélés ne bougent plus.</p>
 HTML],
     ],
 ];

@@ -21,7 +21,7 @@ $revealed = $reveal !== '' && strtotime($reveal) <= time();
     <form class="card card--pad" method="post" action="/admin/onze">
       <?= csrf_field() ?><input type="hidden" name="action" value="date">
       <h2 class="card__t card__t--sm">Date de dévoilement</h2>
-      <div class="f"><span class="f__k">Le Onze du public est révélé le</span><input type="date" name="reveal" value="<?= e($reveal) ?>"></div>
+      <label class="f"><span class="f__k">Le Onze du public est révélé le</span><input type="date" name="reveal" value="<?= e($reveal) ?>"></label>
       <button type="submit" class="btn btn--navy" style="align-self:flex-start">Enregistrer</button>
     </form>
     <?php foreach ($lines as $l => $line): ?>

@@ -14,7 +14,7 @@ HTML],
         ['id' => 'mosaiques', 'title' => 'Les rubriques en mosaïque', 'html' => <<<'HTML'
 <p>Chaque rubrique affiche ses fiches en mosaïque : vignettes avec image à la une, filtres, tri, vue liste et bouton « Afficher plus ». Une fiche apparaît dans toutes les rubriques cochées dans son onglet « Classement &amp; SEO ».</p>
 [[img:site-mosaique.webp|Une mosaïque de rubrique]]
-[[astuce|<p>L’ordre des fiches d’une mosaïque peut être choisi à la main (glisser-déposer) dans Éditorial › Rubriques &amp; menus. Sinon, les plus récentes viennent en premier.</p>]]
+[[astuce|<p>L’ordre des fiches d’une mosaïque se règle rubrique par rubrique dans Éditorial › Rubriques &amp; menus : ordre manuel (glisser-déposer, comme dans l’ancien WordPress), chronologique ou alphabétique. Les décennies et les saisons gardent l’ordre manuel repris de l’ancien site.</p>]]
 HTML],
         ['id' => 'fiches', 'title' => 'Les fiches', 'html' => <<<'HTML'
 <p><b>Fiche match</b> : score, informations, terrain et tableau de composition, temps forts, réactions, vidéos, galerie, et un encadré face-à-face calculé automatiquement.</p>

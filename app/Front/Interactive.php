@@ -28,7 +28,7 @@ final class Interactive
             'title' => t('Interactif : jouez et explorez l’histoire du FCSM'),
             'description' => t('Quiz, album de cartes, carte des stades et des origines, frise, comparateur de maillots, vote du Onze de légende : le musée Sochaux Rétro en version interactive.'),
             'active' => 'interactif',
-            'styles' => ['css/interactif.css'],
+            'styles' => ['css/mosaic.css', 'css/interactif.css'],
         ]);
     }
 
@@ -279,7 +279,7 @@ final class Interactive
             'title' => t('100 ans, 100 moments'),
             'description' => t('Jusqu’au centenaire, un moment de l’histoire du FCSM publié chaque semaine.'),
             'active' => 'interactif',
-            'styles' => ['css/interactif.css'],
+            'styles' => ['css/mosaic.css', 'css/interactif.css'],
             'scripts' => ['js/interactif.js'],
         ]);
     }

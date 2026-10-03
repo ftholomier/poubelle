@@ -8,8 +8,8 @@ $back = '/admin/redirections' . ($tab === 'introuvables' ? '?onglet=introuvables
     <?= csrf_field() ?><input type="hidden" name="action" value="ajouter"><input type="hidden" name="back" value="<?= e($back) ?>">
     <h2 class="card__t card__t--sm">Nouvelle redirection</h2>
     <div class="fgrid">
-      <div class="f f--2"><span class="f__k">Ancienne adresse</span><input type="text" name="from" required placeholder="/2015/03/sochaux-metz-1988/ ou https://www.fcsochauxretro.com/…"></div>
-      <div class="f f--2"><span class="f__k">Nouvelle adresse</span><input type="text" name="to" required placeholder="Tapez le titre d’une fiche ou une adresse" data-ac="fiches" data-ac-value="url"></div>
+      <label class="f f--2"><span class="f__k">Ancienne adresse</span><input type="text" name="from" required placeholder="/2015/03/sochaux-metz-1988/ ou https://www.fcsochauxretro.com/…"></label>
+      <label class="f f--2"><span class="f__k">Nouvelle adresse</span><input type="text" name="to" required placeholder="Tapez le titre d’une fiche ou une adresse" data-ac="fiches" data-ac-value="url"></label>
     </div>
     <div class="row"><button type="submit" class="btn btn--navy">Créer la redirection 301</button><span class="f__help">Les anciennes adresses WordPress (<?= $fmt($all) ?> au total) sont déjà redirigées automatiquement vers les nouvelles fiches.</span></div>
   </form>

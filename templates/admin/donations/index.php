@@ -72,16 +72,16 @@ $pill = ['paid' => 'ok', 'active' => 'ok', 'pending' => 'warn', 'canceled' => 'i
     <h2 class="card__t card__t--sm">Enregistrer un don hors ligne</h2>
     <p class="small muted" style="margin:0">Chèque, virement ou espèces : le don rejoint la jauge et, si vous le souhaitez, le mur des donateurs.</p>
     <div class="fgrid">
-      <div class="f"><span class="f__k">Montant (€) <b>*</b></span><input type="text" name="amount" inputmode="decimal" required placeholder="50"></div>
-      <div class="f"><span class="f__k">Date</span><input type="date" name="date" value="<?= date('Y-m-d') ?>"></div>
-      <div class="f"><span class="f__k">Moyen</span><select name="method"><option>chèque</option><option>virement</option><option>espèces</option><option>autre</option></select></div>
-      <div class="f"><span class="f__k">Prénom ou organisme <b>*</b></span><input type="text" name="first" required maxlength="80"></div>
-      <div class="f"><span class="f__k">Nom</span><input type="text" name="last" maxlength="80"></div>
-      <div class="f"><span class="f__k">E-mail</span><input type="email" name="email" maxlength="160"></div>
-      <div class="f f--2"><span class="f__k">Adresse <i>pour un reçu fiscal</i></span><input type="text" name="address" maxlength="200"></div>
-      <div class="f"><span class="f__k">Code postal</span><input type="text" name="zip" maxlength="12"></div>
-      <div class="f"><span class="f__k">Ville</span><input type="text" name="city" maxlength="80"></div>
-      <div class="f"><span class="f__k">Nom sur le mur <i>vide = discret</i></span><input type="text" name="wall_name" maxlength="40"></div>
+      <label class="f"><span class="f__k">Montant (€) <b>*</b></span><input type="text" name="amount" inputmode="decimal" required placeholder="50"></label>
+      <label class="f"><span class="f__k">Date</span><input type="date" name="date" value="<?= date('Y-m-d') ?>"></label>
+      <label class="f"><span class="f__k">Moyen</span><select name="method"><option>chèque</option><option>virement</option><option>espèces</option><option>autre</option></select></label>
+      <label class="f"><span class="f__k">Prénom ou organisme <b>*</b></span><input type="text" name="first" required maxlength="80"></label>
+      <label class="f"><span class="f__k">Nom</span><input type="text" name="last" maxlength="80"></label>
+      <label class="f"><span class="f__k">E-mail</span><input type="email" name="email" maxlength="160"></label>
+      <label class="f f--2"><span class="f__k">Adresse <i>pour un reçu fiscal</i></span><input type="text" name="address" maxlength="200"></label>
+      <label class="f"><span class="f__k">Code postal</span><input type="text" name="zip" maxlength="12"></label>
+      <label class="f"><span class="f__k">Ville</span><input type="text" name="city" maxlength="80"></label>
+      <label class="f"><span class="f__k">Nom sur le mur <i>vide = discret</i></span><input type="text" name="wall_name" maxlength="40"></label>
     </div>
     <div class="row">
       <label class="toggle"><input type="checkbox" name="thank" value="1"><span class="toggle__box"></span><span>Envoyer l’e-mail de remerciement</span></label>

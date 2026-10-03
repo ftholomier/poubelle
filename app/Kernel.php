@@ -128,6 +128,11 @@ final class Kernel
             return Response::redirect(url($path . '/') . $qs, 301);
         }
 
+        // Anciens liens WordPress /?p=123 et /?s=… : 301 plutôt que la page d'accueil
+        if ($path === '/' && $req->method === 'GET' && $req->query && ($to = Redirects::legacyQuery($req->query))) {
+            return Response::redirect(url($to), 301);
+        }
+
         $r = self::routes();
         $res = $r->dispatch($req);
         if ($res instanceof Response) {

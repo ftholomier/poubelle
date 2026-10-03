@@ -11,7 +11,7 @@ use App\Data\Categories;
       <tr data-href="/admin/rubriques?rubrique=<?= e(rawurlencode($c['slug'])) ?>">
         <td style="padding-left:<?= 12 + 24 * $c['depth'] ?>px"><?= $c['depth'] ? '<span class="muted">└</span> ' : '' ?><a class="rowlink" href="/admin/rubriques?rubrique=<?= e(rawurlencode($c['slug'])) ?>"<?= $c['depth'] === 0 ? ' style="font-family:var(--display);font-weight:900;text-transform:uppercase"' : '' ?>><?= e(Categories::label($c['slug'])) ?></a></td>
         <td class="small"><?= !empty($c['label_en']) ? e($c['label_en']) : '<span class="muted">auto</span>' ?></td>
-        <td class="xs"><a href="<?= e($c['path']) ?>" target="_blank" rel="noopener"><?= e($c['path']) ?></a></td>
+        <td class="xs"><?= !empty($c['path']) ? '<a href="' . e($c['path']) . '" target="_blank" rel="noopener">' . e($c['path']) . '</a>' : '<span class="muted">sans page publique</span>' ?></td>
         <td class="t-num"><?= (int) $c['count'] ?></td>
         <td class="t-num"><?= $c['position'] !== null ? (int) $c['position'] : '<span class="muted">—</span>' ?></td>
         <td class="small"><?= !empty($c['order']) ? '<span class="pill pill--yellow">Manuel</span>' : '<span class="muted">Automatique</span>' ?></td>

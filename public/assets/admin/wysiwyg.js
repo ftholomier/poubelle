@@ -67,7 +67,9 @@
     area.setAttribute('role', 'textbox');
     area.setAttribute('aria-multiline', 'true');
     if (ta.placeholder) area.dataset.ph = ta.placeholder;
-    if (ta.id) { const lab = document.querySelector('label[for="' + ta.id + '"]'); if (lab) area.setAttribute('aria-label', lab.textContent.trim()); }
+    const lab = (ta.id && document.querySelector('label[for="' + ta.id + '"]')) || ta.closest('.f')?.querySelector('.f__k');
+    const labText = lab ? [...lab.childNodes].filter(n => !n.classList?.contains('hint')).map(n => n.textContent).join('').replace(/\s+/g, ' ').trim() : '';
+    area.setAttribute('aria-label', ta.getAttribute('aria-label') || labText || 'Texte');
     area.innerHTML = clean(ta.value);
     if (mode === 'mini') area.style.minHeight = '70px';
     const foot = document.createElement('div');

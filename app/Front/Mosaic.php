@@ -200,12 +200,16 @@ final class Mosaic
         }
 
         // Tris
-        $defaultSort = match ($kind) { 'matchs' => 'recent', 'lions' => 'az', default => $hasOrder ? 'selection' : 'recent' };
+        // Ordre par défaut réglé dans le back-office (Rubriques & menus) : ordre manuel, chronologique ou A–Z.
+        $defaultSort = Categories::displaySort($slug);
+        if ($sort === 'selection' && !$hasOrder) {
+            $sort = null;
+        }
         $sortNow = $sort ?? $defaultSort;
         $items = self::sort($items, $sortNow, $kind, $slug);
         $sorts = [];
-        if ($kind === 'articles' && $hasOrder) {
-            $sorts[] = ['k' => 'selection', 'label' => t('Sélection')];
+        if ($hasOrder) {
+            $sorts[] = ['k' => 'selection', 'label' => t('Ordre du musée')];
         }
         foreach ([['recent', t('Récent')], ['ancien', t('Ancien')], ['az', t('A–Z')]] as [$k, $label]) {
             $sorts[] = ['k' => $k, 'label' => $label];

@@ -174,12 +174,23 @@
   // Ligne entière cliquable (data-href), sauf sur les contrôles
   document.addEventListener('click', e => {
     const tr = e.target.closest('tr[data-href]');
-    if (!tr || e.target.closest('a,button,input,label,select')) return;
+    if (!tr || e.target.closest('a,button,input,label,select,[data-handle]') || document.body.classList.contains('is-sorting')) return;
     if (e.ctrlKey || e.metaKey) window.open(tr.dataset.href); else location.href = tr.dataset.href;
   });
 
   /* ---------------------------------------------------------- répéteurs (ajout, suppression, tri) */
-  BO.renumber = rep => $$(':scope > [data-item]', rep).forEach((it, i) => { const n = $('[data-item-n]', it); if (n) n.textContent = String(i + 1).padStart(2, '0'); });
+  // Renumérote une liste et grise ↑ sur le premier élément, ↓ sur le dernier.
+  BO.renumber = rep => {
+    const its = $$(':scope > [data-item], :scope > [data-sort-item]', rep);
+    its.forEach((it, i) => {
+      const n = it.querySelector(':scope > [data-pos] [data-item-n]');
+      if (n) n.textContent = String(i + 1).padStart(+(rep.dataset.pad || 2), '0');
+      const up = it.querySelector(':scope > .rep__tools > .mover > [data-rep-up], :scope > td .mover > [data-rep-up]');
+      const dn = it.querySelector(':scope > .rep__tools > .mover > [data-rep-down], :scope > td .mover > [data-rep-down]');
+      if (up) up.disabled = i === 0;
+      if (dn) dn.disabled = i === its.length - 1;
+    });
+  };
   function addItem(rep, at) {
     const tpl = rep.querySelector(':scope > template');
     if (!tpl) return null;
@@ -208,14 +219,6 @@
       item.remove();
       BO.renumber(rep);
       rep.dispatchEvent(new Event('input', { bubbles: true }));
-    } else if (e.target.closest('[data-rep-up]') && item.previousElementSibling?.matches('[data-item]')) {
-      rep.insertBefore(item, item.previousElementSibling);
-      BO.renumber(rep);
-      rep.dispatchEvent(new Event('input', { bubbles: true }));
-    } else if (e.target.closest('[data-rep-down]') && item.nextElementSibling?.matches('[data-item]')) {
-      rep.insertBefore(item.nextElementSibling, item);
-      BO.renumber(rep);
-      rep.dispatchEvent(new Event('input', { bubbles: true }));
     } else if (e.target.closest('[data-rep-dup]')) {
       const copy = item.cloneNode(true);
       rep.insertBefore(copy, item.nextSibling);
@@ -224,42 +227,275 @@
       rep.dispatchEvent(new Event('input', { bubbles: true }));
     }
   });
-  // Glisser-déposer par la poignée
-  let dragItem = null;
-  document.addEventListener('dragstart', e => {
-    const h = e.target.closest('[data-item]');
-    if (!h || !h.draggable) return;
-    dragItem = h;
-    h.classList.add('is-drag');
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', '');
-  });
-  document.addEventListener('dragover', e => {
-    const over = e.target.closest('[data-item]');
-    if (!dragItem || !over || over === dragItem || over.parentElement !== dragItem.parentElement) return;
+  /* ---------------------------------------------------------- tri par glisser-déposer (souris, doigt, clavier)
+     Listes triables : [data-repeater] (éléments [data-item]) et [data-sortable] (éléments [data-sort-item]).
+     Chaque élément a ↑ (monter d'un cran), l'icône quatre flèches [data-handle] (glisser-déposer plus loin :
+     un trait jaune montre où l'élément sera lâché, la liste défile toute seule près des bords) et ↓.
+     Clic sur le numéro [data-pos] : saisir directement la position. Au clavier, sur l'icône : flèches,
+     Début/Fin, Page préc./suiv., Entrée pour saisir la position. */
+  const sortItems = list => [...list.children].filter(c => c.matches('[data-item], [data-sort-item]'));
+  const sortLive = document.createElement('div');
+  sortLive.className = 'sr-only'; sortLive.setAttribute('aria-live', 'polite');
+  document.body.appendChild(sortLive);
+  const dropLine = document.createElement('div');
+  dropLine.className = 'dropline'; dropLine.hidden = true; dropLine.innerHTML = '<span></span>';
+  document.body.appendChild(dropLine);
+  const sortMove = (list, item, before) => {
+    const its = sortItems(list), from = its.indexOf(item);
+    if (before === item) return;
+    if (before) list.insertBefore(item, before);
+    else { const last = its.filter(i => i !== item).pop(); if (last) last.after(item); }
+    const all = sortItems(list), to = all.indexOf(item);
+    if (to === from) return;
+    BO.renumber(list);
+    list.dispatchEvent(new CustomEvent('sorted', { bubbles: true, detail: { item, from, to } }));
+    list.dispatchEvent(new Event('input', { bubbles: true }));
+    sortLive.textContent = 'Déplacé en position ' + (to + 1) + ' sur ' + all.length;
+    item.classList.remove('is-moved'); void item.offsetWidth; item.classList.add('is-moved');
+  };
+  BO.sortMove = sortMove;
+  const sortTo = (list, item, pos) => {
+    const others = sortItems(list).filter(i => i !== item);
+    pos = Math.max(1, Math.min(others.length + 1, pos));
+    sortMove(list, item, others[pos - 1] || null);
+  };
+  const scrollBox = el => {
+    for (let p = el; p && p !== document.body; p = p.parentElement) {
+      const st = getComputedStyle(p);
+      if (/(auto|scroll)/.test(st.overflowY) && p.scrollHeight > p.clientHeight + 2) return p;
+    }
+    return null;
+  };
+  let srt = null;
+  const sortTarget = (x, y) => {
+    const its = sortItems(srt.list).filter(i => i !== srt.item);
+    if (!its.length) return null;
+    const rects = its.map(i => i.getBoundingClientRect());
+    if (!srt.grid) {
+      let k = rects.findIndex(r => y < r.top + r.height / 2);
+      if (k < 0) k = its.length;
+      return { before: its[k] || null, idx: k, rects };
+    }
+    let best = 0, bd = Infinity;
+    rects.forEach((r, i) => {
+      const dx = Math.max(r.left - x, 0, x - r.right), dy = Math.max(r.top - y, 0, y - r.bottom), d = dx * dx + dy * dy * 4;
+      if (d < bd) { bd = d; best = i; }
+    });
+    const after = x > rects[best].left + rects[best].width / 2;
+    return { before: its[best + (after ? 1 : 0)] || null, idx: best + (after ? 1 : 0), rects, ref: best, after };
+  };
+  const drawLine = t => {
+    if (!t) { dropLine.hidden = true; return; }
+    const { rects, idx } = t, lr = srt.list.getBoundingClientRect();
+    dropLine.hidden = false;
+    dropLine.querySelector('span').textContent = srt.slots ? 'N° ' + String(srt.slots[idx]?.n ?? '').padStart(3, '0') : 'Position ' + (idx + 1);
+    if (!srt.grid) {
+      const prev = rects[idx - 1], next = rects[idx];
+      const y = prev && next ? (prev.bottom + next.top) / 2 : next ? next.top - 4 : prev.bottom + 4;
+      const r = next || prev;
+      dropLine.className = 'dropline';
+      Object.assign(dropLine.style, { left: Math.max(lr.left, r.left) + 'px', top: (y - 2) + 'px', width: Math.min(lr.width, r.width) + 'px', height: '' });
+    } else {
+      const r = rects[t.ref], x = t.after ? r.right + 4 : r.left - 4;
+      dropLine.className = 'dropline is-v';
+      Object.assign(dropLine.style, { left: (x - 2) + 'px', top: r.top + 'px', height: r.height + 'px', width: '' });
+    }
+  };
+  const sortFrame = () => {
+    if (!srt?.active) return;
+    const { x, y } = srt, edge = 60, speed = d => Math.min(28, Math.ceil(d / 2.5));
+    const box = srt.box;
+    if (box) {
+      const r = box.getBoundingClientRect();
+      if (y < r.top + edge && box.scrollTop > 0) box.scrollTop -= speed(r.top + edge - y);
+      else if (y > r.bottom - edge && box.scrollTop + box.clientHeight < box.scrollHeight) box.scrollTop += speed(y - (r.bottom - edge));
+    }
+    if (y < edge) window.scrollBy(0, -speed(edge - y));
+    else if (y > innerHeight - edge) window.scrollBy(0, speed(y - (innerHeight - edge)));
+    srt.target = sortTarget(x, y);
+    drawLine(srt.target);
+    srt.raf = requestAnimationFrame(sortFrame);
+  };
+  const sortStart = () => {
+    const { item, list } = srt, r = item.getBoundingClientRect();
+    const its = sortItems(list);
+    srt.active = true;
+    srt.grid = its.length > 1 && Math.abs(its[0].getBoundingClientRect().top - its[1].getBoundingClientRect().top) < 4;
+    srt.box = scrollBox(list);
+    try { srt.slots = list.dataset.moments ? JSON.parse(list.dataset.moments) : null; } catch (e) { srt.slots = null; }
+    srt.dx = srt.x0 - r.left; srt.dy = srt.y0 - r.top;
+    let g = item.cloneNode(true);
+    g.querySelectorAll('[id],[name],[data-field]').forEach(el => { el.removeAttribute('id'); el.removeAttribute('name'); el.removeAttribute('data-field'); });
+    g.removeAttribute('data-item'); g.removeAttribute('data-sort-item');
+    let host = list;
+    if (item.tagName === 'TR') {
+      // Ligne de tableau : on l'emballe dans un petit tableau aux mêmes largeurs de colonnes.
+      [...item.children].forEach((td, i) => { g.children[i].style.width = td.getBoundingClientRect().width + 'px'; });
+      const t = document.createElement('table'), tb = document.createElement('tbody');
+      t.className = 'sort-ghost-table'; tb.appendChild(g); t.appendChild(tb); g = t;
+      host = document.body;
+    }
+    g.classList.add('sort-ghost');
+    g.setAttribute('aria-hidden', 'true');
+    g.inert = true;
+    // Le fantôme reste dans la liste (en position fixe) pour garder exactement la même mise en forme.
+    Object.assign(g.style, { width: r.width + 'px', left: r.left + 'px', top: r.top + 'px' });
+    host.appendChild(g);
+    srt.ghost = g;
+    item.classList.add('is-sorting-src');
+    document.body.classList.add('is-sorting');
+    srt.raf = requestAnimationFrame(sortFrame);
+  };
+  const sortEnd = drop => {
+    if (!srt) return;
+    const s = srt; srt = null;
+    cancelAnimationFrame(s.raf);
+    s.ghost?.remove();
+    s.item.classList.remove('is-sorting-src');
+    document.body.classList.remove('is-sorting');
+    dropLine.hidden = true;
+    if (drop && s.active && s.target) sortMove(s.list, s.item, s.target.before);
+  };
+  // Saisie directe de la position (clic sur le numéro de l'élément)
+  const posEdit = (item, list) => {
+    const btn = item.querySelector(':scope > [data-pos], :scope > td [data-pos]');
+    if (!btn || btn.hidden) return;
+    const total = sortItems(list).length, cur = sortItems(list).indexOf(item) + 1;
+    const inp = document.createElement('input');
+    inp.type = 'number'; inp.min = '1'; inp.max = String(total); inp.value = String(cur);
+    inp.className = 'posedit'; inp.setAttribute('aria-label', 'Nouvelle position (1 à ' + total + ')');
+    btn.hidden = true; btn.after(inp); inp.select(); inp.focus();
+    let done = false;
+    const finish = ok => {
+      if (done) return; done = true;
+      const v = parseInt(inp.value, 10);
+      inp.remove(); btn.hidden = false;
+      if (ok && v && v !== cur) { sortTo(list, item, v); item.scrollIntoView({ block: 'nearest' }); }
+      btn.focus();
+    };
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); finish(true); } if (e.key === 'Escape') { e.preventDefault(); finish(false); } e.stopPropagation(); });
+    inp.addEventListener('blur', () => finish(true));
+    inp.addEventListener('pointerdown', e => e.stopPropagation());
+  };
+  document.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || srt || e.target.closest('input, select, textarea, button, a')) return;
+    if (e.target.closest('[data-handle]')) e.target.closest('[data-handle]').focus({ preventScroll: true });
+    const handle = e.target.closest('[data-handle]');
+    const item = handle?.closest('[data-item], [data-sort-item]');
+    const list = item?.parentElement;
+    if (!item || !list || !list.matches('[data-repeater], [data-sortable]')) return;
     e.preventDefault();
-    $$('.is-over').forEach(x => x.classList.remove('is-over'));
-    over.classList.add('is-over');
+    srt = { item, list, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, active: false, id: e.pointerId };
   });
-  document.addEventListener('drop', e => {
-    const over = e.target.closest('[data-item]');
-    if (!dragItem || !over || over.parentElement !== dragItem.parentElement) return;
-    e.preventDefault();
-    const rect = over.getBoundingClientRect();
-    over.parentElement.insertBefore(dragItem, e.clientY > rect.top + rect.height / 2 ? over.nextSibling : over);
-    BO.renumber(over.parentElement);
-    over.parentElement.dispatchEvent(new Event('input', { bubbles: true }));
+  window.addEventListener('pointermove', e => {
+    if (!srt || e.pointerId !== srt.id) return;
+    srt.x = e.clientX; srt.y = e.clientY;
+    if (!srt.active && Math.hypot(e.clientX - srt.x0, e.clientY - srt.y0) > 5) sortStart();
+    if (srt.active) { e.preventDefault(); srt.ghost.style.left = (e.clientX - srt.dx) + 'px'; srt.ghost.style.top = (e.clientY - srt.dy) + 'px'; }
+  }, { passive: false });
+  window.addEventListener('pointerup', e => { if (srt && e.pointerId === srt.id) sortEnd(true); });
+  window.addEventListener('pointercancel', () => sortEnd(false));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && srt) sortEnd(false); }, true);
+  document.addEventListener('dragstart', e => { if (e.target.closest?.('[data-handle]')) e.preventDefault(); });
+  // ↑ / ↓ : un cran ; numéro : saisie de la position
+  document.addEventListener('click', e => {
+    const pos = e.target.closest('[data-pos]');
+    if (pos) { const it = pos.closest('[data-item], [data-sort-item]'); if (it) posEdit(it, it.parentElement); return; }
+    const b = e.target.closest('[data-rep-up], [data-rep-down]');
+    const item = b?.closest('[data-item], [data-sort-item]');
+    const list = item?.parentElement;
+    if (!item || !list?.matches('[data-repeater], [data-sortable]')) return;
+    const its = sortItems(list), i = its.indexOf(item);
+    if (b.matches('[data-rep-up]') && i > 0) sortMove(list, item, its[i - 1]);
+    if (b.matches('[data-rep-down]') && i < its.length - 1) sortMove(list, item, its[i + 2] || null);
+    (b.disabled ? item.querySelector('[data-handle]') : b)?.focus();
   });
-  document.addEventListener('dragend', () => {
-    dragItem?.classList.remove('is-drag');
-    $$('.is-over').forEach(x => x.classList.remove('is-over'));
-    dragItem = null;
+  // Clavier sur la poignée
+  document.addEventListener('keydown', e => {
+    const handle = e.target.closest?.('[data-handle]');
+    const item = handle?.closest('[data-item], [data-sort-item]');
+    const list = item?.parentElement;
+    if (!item || !list?.matches('[data-repeater], [data-sortable]') || e.target !== handle) return;
+    const its = sortItems(list), i = its.indexOf(item);
+    const go = { ArrowUp: i, ArrowLeft: i, ArrowDown: i + 2, ArrowRight: i + 2, Home: 1, End: its.length, PageUp: i - 9, PageDown: i + 11 }[e.key];
+    if (go !== undefined) { e.preventDefault(); sortTo(list, item, go); handle.focus(); item.scrollIntoView({ block: 'nearest' }); return; }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); posEdit(item, list); }
   });
-  // Seule la poignée rend l'élément déplaçable (pour pouvoir sélectionner le texte ailleurs).
-  document.addEventListener('mousedown', e => {
-    const item = e.target.closest('[data-item]');
-    if (item) item.draggable = !!e.target.closest('.rep__handle, [data-handle]');
+  // Liste d'ordre d'une rubrique : retrouver une fiche, remettre en ordre chronologique ou alphabétique
+  const norm = t => (t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  $$('[data-order-find]').forEach(inp => {
+    const list = inp.closest('.card__body')?.querySelector('[data-repeater]');
+    const out = inp.parentElement.querySelector('[data-order-found]');
+    let hits = [], k = 0;
+    const show = () => {
+      if (!hits.length) { out.textContent = inp.value.trim() ? 'aucune fiche' : ''; return; }
+      const it = hits[k % hits.length];
+      out.textContent = (k % hits.length + 1) + ' / ' + hits.length;
+      it.scrollIntoView({ block: 'center' });
+      it.classList.remove('is-moved'); void it.offsetWidth; it.classList.add('is-moved');
+    };
+    inp.addEventListener('input', () => {
+      const q = norm(inp.value.trim());
+      hits = q.length < 2 ? [] : sortItems(list).filter(it => norm(it.textContent).includes(q));
+      k = 0; show();
+    });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); k++; show(); } });
   });
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('[data-order-sort]');
+    if (!b) return;
+    const list = b.closest('.card__body')?.querySelector('[data-repeater]');
+    if (!list) return;
+    const how = b.dataset.orderSort, its = sortItems(list);
+    if (!(await BO.confirm('Remettre les ' + its.length + ' fiches en ordre ' + (how === 'az' ? 'alphabétique' : how === 'asc' ? 'chronologique (du plus ancien au plus récent)' : 'chronologique (du plus récent au plus ancien)') + ' ?', 'Vous pourrez ensuite ajuster à la main. Rien n’est enregistré avant « Enregistrer ».', 'Réordonner'))) return;
+    const key = it => how === 'az' ? norm(it.dataset.title) : (it.dataset.date || '');
+    its.sort((a, c) => { const x = key(a), y = key(c); return (x < y ? -1 : x > y ? 1 : 0) * (how === 'desc' ? -1 : 1); });
+    // réinsertion dans le nouvel ordre, avant les éléments non triables (modèle, bouton d'ajout)
+    const tail = [...list.children].find(c => !c.matches('[data-item], [data-sort-item]'));
+    its.forEach(it => list.insertBefore(it, tail || null));
+    BO.renumber(list);
+    list.dispatchEvent(new Event('input', { bubbles: true }));
+    sortLive.textContent = 'Liste réordonnée';
+  });
+  // Calendrier des 100 moments : après un déplacement, chaque ligne prend le numéro et la date de sa nouvelle semaine.
+  $$('[data-moments]').forEach(tb => {
+    const slots = JSON.parse(tb.dataset.moments || '[]'), bar = $('[data-moments-bar]');
+    tb.addEventListener('sorted', () => {
+      sortItems(tb).forEach((tr, i) => {
+        const s = slots[i];
+        if (!s) return;
+        $('[data-slot-n]', tr).textContent = String(s.n).padStart(3, '0');
+        $('[data-slot-date]', tr).textContent = s.label;
+        const w = $('[data-write]', tr);
+        if (w) w.href = '/admin/fiche/nouvelle/moment?numero=' + s.n + '&date=' + s.date;
+        tr.classList.toggle('is-changed', !!tr.dataset.id && +tr.dataset.n0 !== s.n);
+        tr.classList.toggle('is-next', i === 0);
+      });
+      if (bar) bar.hidden = !$$('.is-changed', tb).length;
+    });
+    $('[data-moments-cancel]')?.addEventListener('click', () => location.reload());
+    $('[data-moments-save]')?.addEventListener('click', async e => {
+      e.target.disabled = true;
+      const r = await BO.post('/admin/moments/ordre', { slots: sortItems(tb).map((tr, i) => ({ n: slots[i].n, id: tr.dataset.id ? +tr.dataset.id : null })) });
+      e.target.disabled = false;
+      if (!r.ok) { BO.toast(r.error || 'Enregistrement impossible', true); return; }
+      try { sessionStorage.setItem('bo-toast', r.message || 'Enregistré'); } catch (err) { /* */ }
+      location.reload();
+    });
+  });
+  // Poignées : atteignables au clavier et annoncées
+  BO.initHandles = root => {
+    $$('[data-repeater], [data-sortable]', root).forEach(l => { if (!l.closest('template')) BO.renumber(l); });
+    if (root !== document && root.matches?.('[data-item]')) BO.renumber(root.parentElement);
+    $$('[data-handle]', root).forEach(initHandle);
+  };
+  const initHandle = h => {
+    if (h.closest('template') || h.dataset.handleReady) return;
+    h.dataset.handleReady = '1';
+    h.tabIndex = 0;
+    h.setAttribute('role', 'button');
+    h.setAttribute('aria-label', 'Déplacer plus loin : glisser-déposer, ou flèches du clavier' + (h.closest('[data-item], [data-sort-item]')?.querySelector('[data-pos]') ? ', Entrée pour saisir la position' : ''));
+  };
 
   /* ---------------------------------------------------------- auto-complétion (personnes, clubs, stades, fiches) */
   function initAc(root) {
@@ -829,8 +1065,12 @@
       b.type = 'button'; b.className = 'hint'; b.textContent = '?';
       b.dataset.hint = text;
       if (guide) b.dataset.guide = guide;
-      b.setAttribute('aria-label', 'Aide : ' + (el.textContent || '').replace(/\s+/g, ' ').trim());
+      const name = (el.textContent || '').replace(/\s+/g, ' ').trim();
+      b.setAttribute('aria-label', 'Aide : ' + name);
       b.setAttribute('aria-expanded', 'false');
+      // Le « ? » est dans le libellé du champ : on fixe le nom du champ pour qu'il ne l'englobe pas.
+      const ctl = el.closest('label')?.control;
+      if (ctl && !ctl.hasAttribute('aria-label') && !ctl.hasAttribute('aria-labelledby')) ctl.setAttribute('aria-label', name);
       const label = el.querySelector('label');
       if (label) label.after(b); else el.appendChild(b);
     };
@@ -869,7 +1109,8 @@
   window.addEventListener('scroll', () => { if (hintPop && !hintPop.hidden) hideHint(); }, { passive: true });
 
   const prevInit = BO.init;
-  BO.init = function (root = document) { prevInit(root); initTableEditors(root); addHints(root); };
+  BO.init = function (root = document) { prevInit(root); initTableEditors(root); addHints(root); BO.initHandles(root); };
   addHints(document);
   initTableEditors(document);
+  BO.initHandles(document);
 })();

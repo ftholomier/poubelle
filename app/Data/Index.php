@@ -194,6 +194,27 @@ final class Index
     }
 
     /** @return array<int,array> fiches visibles du public */
+    /**
+     * Image générique partagée par de nombreuses fiches (silhouette « ? » des joueurs sans photo…) :
+     * à écarter des vitrines (slider de l'accueil).
+     */
+    public static function isPlaceholderImage(mixed $image): bool
+    {
+        static $counts = null;
+        if (!is_string($image) || $image === '') {
+            return false;
+        }
+        if ($counts === null) {
+            $counts = [];
+            foreach (self::all() as $s) {
+                if (is_string($s['image'] ?? null) && $s['image'] !== '') {
+                    $counts[$s['image']] = ($counts[$s['image']] ?? 0) + 1;
+                }
+            }
+        }
+        return ($counts[$image] ?? 0) >= 10;
+    }
+
     public static function published(?string $type = null): array
     {
         return array_filter(self::all(), fn ($s) => self::visible($s) && ($type === null || $s['type'] === $type));

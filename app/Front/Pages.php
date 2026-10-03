@@ -92,7 +92,7 @@ final class Pages
                 }
             }
         } else {
-            $pool = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image']));
+            $pool = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));
             shuffle($pool);
         }
         $out = [];

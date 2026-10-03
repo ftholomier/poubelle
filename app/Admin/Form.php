@@ -179,17 +179,36 @@ final class Form
      * Liste d'éléments réordonnables. $render($item, $index) renvoie le HTML d'un élément
      * (champs en « @relatif »). $index = -1 pour le modèle d'ajout.
      */
+    /** Icône « déplacer » (quatre flèches), saisie pour glisser-déposer. */
+    public const MOVE_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 1.5 15.6 5h-2.6v6h6V8.4l3.5 3.6-3.5 3.6V13h-6v6h2.6L12 22.5 8.4 19H11v-6H5v2.6L1.5 12 5 8.4V11h6V5H8.4z"/></svg>';
+
+    /** Commande de déplacement d'un élément de liste : ↑ monter d'un cran, ✥ glisser-déposer, ↓ descendre d'un cran. */
+    public static function mover(string $class = ''): string
+    {
+        return '<div class="mover' . ($class !== '' ? ' ' . $class : '') . '">'
+            . '<button type="button" data-rep-up title="Monter d’un cran" aria-label="Monter d’un cran">↑</button>'
+            . '<span class="mover__drag" data-handle title="Glisser pour déplacer plus loin">' . self::MOVE_ICON . '</span>'
+            . '<button type="button" data-rep-down title="Descendre d’un cran" aria-label="Descendre d’un cran">↓</button>'
+            . '</div>';
+    }
+
+    /** Numéro de position d'un élément (cliquer pour saisir une autre position). */
+    public static function position(int $i, int $pad = 2): string
+    {
+        return '<button type="button" class="rep__num" data-pos title="Position : cliquer pour en saisir une autre"><span data-item-n>' . ($i >= 0 ? str_pad((string) ($i + 1), $pad, '0', STR_PAD_LEFT) : '') . '</span></button>';
+    }
+
     public static function repeater(string $path, string $label, array $items, callable $render, array $o = []): string
     {
         $item = function (array|string $it, int $i) use ($render, $o): string {
             return '<div class="rep__item" data-item>'
-                . '<div class="rep__handle" title="Glisser pour déplacer" aria-hidden="true">' . (!empty($o['numbered']) ? '<span data-item-n>' . ($i >= 0 ? sprintf('%02d', $i + 1) : '') . '</span>' : '⋮⋮') . '</div>'
+                . (!empty($o['numbered']) ? self::position($i) : '')
                 . '<div class="rep__body">' . $render($it, $i) . '</div>'
-                . '<div class="rep__tools"><button type="button" class="iconbtn" data-rep-up title="Monter" aria-label="Monter">↑</button><button type="button" class="iconbtn" data-rep-down title="Descendre" aria-label="Descendre">↓</button>'
+                . '<div class="rep__tools">' . self::mover()
                 . (!empty($o['dup']) ? '<button type="button" class="iconbtn" data-rep-dup title="Dupliquer" aria-label="Dupliquer">⧉</button>' : '')
                 . '<button type="button" class="iconbtn" data-rep-del title="Supprimer" aria-label="Supprimer">✕</button></div></div>';
         };
-        $html = '<div class="rep' . (!empty($o['compact']) ? ' rep--compact' : '') . (!empty($o['rows']) ? ' rep--rows' : '') . '" data-repeater="' . e($path) . '"' . (!empty($o['scalar']) ? ' data-scalar' : '') . '>';
+        $html = '<div class="rep' . (!empty($o['compact']) ? ' rep--compact' : '') . (!empty($o['rows']) ? ' rep--rows' : '') . (!empty($o['numbered']) ? ' rep--numbered' : '') . '" data-repeater="' . e($path) . '"' . (!empty($o['scalar']) ? ' data-scalar' : '') . '>';
         foreach (array_values($items) as $i => $it) {
             $html .= $item($it, $i);
         }

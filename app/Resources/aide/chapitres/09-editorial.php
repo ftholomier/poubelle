@@ -21,12 +21,13 @@ HTML],
         ['id' => 'rubriques', 'title' => 'Rubriques, menus et ordre des mosaïques', 'html' => <<<'HTML'
 <p>Éditorial › <b>Rubriques &amp; menus</b> : l’arborescence du site, reprise de l’ancien WordPress. Cliquez une rubrique pour régler :</p>
 <ul>
-<li><b>Libellés</b> en français et en anglais (menus, fil d’Ariane, mosaïque) ;</li>
-<li><b>Menu</b> : place dans les méga-menus ; <b>Sous-rubriques</b> ;</li>
-<li><b>Texte d’introduction</b> de la mosaïque ;</li>
-<li><b>Ordre des fiches</b> : cochez l’ordre manuel puis glissez-déposez les fiches ; sinon les plus récentes viennent d’abord.</li>
+<li><b>Ordre d’affichage sur le site</b> : ordre manuel, chronologique (du plus ancien ou du plus récent) ou alphabétique. Les visiteurs peuvent toujours changer de tri ; ce réglage choisit celui qu’ils voient d’abord.</li>
+<li><b>Ordre des fiches</b> (ordre manuel) : toutes les fiches de la rubrique, sous-rubriques comprises — par exemple les 545 matchs des années 90. Déplacez-les avec ↑ / ↓ ou l’icône quatre flèches (voir <a href="/admin/aide/prise-en-main#ordre">Changer l’ordre d’une liste</a>), retrouvez une fiche avec « Trouver une fiche dans la liste », ou repartez d’un ordre automatique avec <b>Date ↑</b>, <b>Date ↓</b>, <b>A → Z</b> avant d’ajuster à la main.</li>
+<li><b>Ordre des sous-rubriques</b> : les saisons d’une décennie, les compétitions… dans l’ordre des menus, onglets et filtres, par glisser-déposer.</li>
+<li><b>Libellés</b> en français et en anglais (menus, fil d’Ariane, mosaïque) et <b>texte d’introduction</b> de la mosaïque.</li>
 </ul>
-[[img:rubrique-ordre.webp|Une rubrique : libellés, menu et ordre des fiches par glisser-déposer]]
+[[img:rubrique-ordre.webp|Une rubrique : ordre d’affichage et ordre des fiches par glisser-déposer]]
+[[astuce|<p>Les fiches créées après le dernier classement sont signalées « non classée » et placées en fin de liste : glissez-les à leur place puis enregistrez.</p>]]
 [[attention|<p>Une fiche n’apparaît dans une rubrique que si cette rubrique est cochée dans la fiche (onglet « Classement &amp; SEO »).</p>]]
 HTML],
         ['id' => 'redirections', 'title' => 'Redirections et adresses introuvables', 'html' => <<<'HTML'

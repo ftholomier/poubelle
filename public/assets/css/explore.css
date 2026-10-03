@@ -66,7 +66,8 @@ a.sq:hover { transform: translate(-4px, -4px); box-shadow: 6px 6px 0 var(--yello
 .scard { display: flex; flex-direction: column; gap: 8px; border: 2px solid var(--navy); background: var(--paper); padding: 14px 16px; transition: transform .2s var(--bounce), box-shadow .2s; }
 .scard:hover { transform: translate(-4px, -4px); box-shadow: 6px 6px 0 var(--yellow); color: var(--navy); }
 .scard.is-current { background: var(--yellow); }
-.scard.is-empty { opacity: .55; }
+.scard.is-empty { border-style: dashed; background: transparent; }
+.scard.is-empty .scard__y { color: var(--muted); }
 .scard__y { font-family: var(--display); font-weight: 900; font-size: 30px; line-height: 1; }
 .scard__m { font-size: 15px; color: var(--muted); }
 .vnd { display: flex; height: 10px; border: 2px solid var(--navy); background: var(--paper); }

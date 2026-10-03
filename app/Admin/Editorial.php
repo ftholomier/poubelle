@@ -10,6 +10,7 @@ use App\Core\Settings;
 use App\Data\Activity;
 use App\Data\Categories;
 use App\Data\Collections;
+use App\Data\Fiches;
 use App\Data\Index;
 use App\Data\Redirects;
 use App\Front\Interactive;
@@ -36,8 +37,8 @@ final class Editorial extends Base
                 $manual[] = ['id' => (int) $id, 'title' => $s['title'], 'image' => $s['image'], 'status' => $s['status']];
             }
         }
-        $pool = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image']));
-        $poolNoImage = count(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && !$s['image']));
+        $pool = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));
+        $poolNoImage = count(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && (!$s['image'] || Index::isPlaceholderImage($s['image']))));
         $ticker = Collections::get('ticker', ['auto' => ['jour' => true, 'centenaire' => true, 'dernier' => true], 'messages' => Site::defaultTickerMessages()]);
         $home = [];
         foreach (Settings::schema()['home']['fields'] as $k => $f) {
@@ -187,6 +188,58 @@ final class Editorial extends Base
             ['title' => '100 moments du centenaire', 'crumb' => 'Éditorial', 'nav' => 'moments']);
     }
 
+    /**
+     * Réorganisation du calendrier des 100 moments (glisser-déposer) : seules les semaines
+     * pas encore révélées bougent. Reçoit, pour chaque numéro à venir, la fiche qui l'occupe.
+     */
+    public static function momentsOrder(Request $req): Response
+    {
+        $in = $req->json();
+        $start = strtotime((string) Settings::get('centenary.moments_start', '2026-06-11')) ?: time();
+        $isPast = fn (int $n) => strtotime('+' . (($n - 1) * 7) . ' days', $start) <= time();
+        $current = [];
+        foreach (Index::all() as $s) {
+            if ($s['type'] === 'moment' && $s['status'] !== 'corbeille' && !empty($s['mo']['number'])) {
+                $current[(int) $s['id']] = (int) $s['mo']['number'];
+            }
+        }
+        if (count($current) !== count(array_unique($current))) {
+            return self::json(['error' => 'Des numéros sont en double : corrigez-les d’abord dans les fiches concernées.'], 422);
+        }
+        $moves = [];
+        $seen = [];
+        foreach ((array) ($in['slots'] ?? []) as $row) {
+            $n = (int) ($row['n'] ?? 0);
+            $id = (int) ($row['id'] ?? 0);
+            if ($n < 1 || $n > 100 || $isPast($n)) {
+                return self::json(['error' => 'Le moment n° ' . $n . ' est déjà révélé : il ne peut plus changer de place.'], 422);
+            }
+            if (!$id) {
+                continue;
+            }
+            if (!isset($current[$id]) || $isPast($current[$id]) || isset($seen[$id])) {
+                return self::json(['error' => 'Calendrier incohérent : rechargez la page et recommencez.'], 422);
+            }
+            $seen[$id] = true;
+            if ($current[$id] !== $n) {
+                $moves[$id] = $n;
+            }
+        }
+        $actor = self::actor();
+        Fiches::batch(function () use ($moves, $current, $actor) {
+            foreach ($moves as $id => $n) {
+                $doc = Fiches::get($id);
+                if (!$doc) {
+                    continue;
+                }
+                $doc['moment']['number'] = $n;
+                Fiches::save($doc, $actor, 'Calendrier des 100 moments : n° ' . $current[$id] . ' → n° ' . $n);
+            }
+        });
+        $k = count($moves);
+        return self::json(['ok' => true, 'message' => $k ? 'Calendrier enregistré : ' . $k . ' moment' . ($k > 1 ? 's' : '') . ' déplacé' . ($k > 1 ? 's' : '') . '.' : 'Aucun changement.', 'reload' => true]);
+    }
+
     // ------------------------------------------------------------------ rubriques et menus
 
     public static function categories(Request $req): Response
@@ -196,13 +249,26 @@ final class Editorial extends Base
         if ($slug !== '' && isset($all[$slug])) {
             $cat = $all[$slug] + ['slug' => $slug];
             $items = Index::inCategory($slug);
+            $inOrder = array_flip(array_map('intval', $cat['order'] ?? []));
             $rows = [];
-            foreach (array_slice($items, 0, 800) as $s) {
-                $rows[] = ['id' => (int) $s['id'], 'title' => $s['title'], 'image' => $s['image'], 'status' => $s['status'], 'type' => $s['type']];
+            $unordered = 0;
+            foreach ($items as $s) {
+                $m = $s['m'] ?? null;
+                $date = (string) ($m['date'] ?? $s['date'] ?? '');
+                $meta = $m
+                    ? trim(date_num(substr($date, 0, 10)) . ' · ' . ($m['competition'] ?? '') . (!empty($m['season']) ? ' · ' . $m['season'] : ''), ' ·')
+                    : (Fiches::TYPES[$s['type']] ?? $s['type']) . ($date !== '' ? ' · ' . date_num(substr($date, 0, 10)) : '');
+                $ordered = !$inOrder || isset($inOrder[(int) $s['id']]);
+                $unordered += $ordered ? 0 : 1;
+                $rows[] = [
+                    'id' => (int) $s['id'], 'title' => $s['title'], 'image' => $s['image'], 'status' => $s['status'], 'type' => $s['type'],
+                    'date' => $date, 'sort' => $s['type'] === 'personne' ? Index::sortName($s) : \App\Data\Names::ascii($s['title']),
+                    'meta' => $meta, 'ordered' => $ordered,
+                ];
             }
             return self::html('admin/editorial/category', [
                 'cat' => $cat, 'rows' => $rows, 'total' => count($items), 'trail' => Categories::trail($slug), 'children' => Categories::children($slug),
-                'hasOrder' => !empty($cat['order']),
+                'sort' => Categories::displaySort($slug), 'unordered' => $unordered,
             ], ['title' => Categories::label($slug), 'crumb_html' => 'Éditorial › <a href="/admin/rubriques">Rubriques & menus</a>', 'nav' => 'rubriques']);
         }
         $tree = [];
@@ -243,11 +309,25 @@ final class Editorial extends Base
         $c['description_en'] = Html::clean((string) ($in['description_en'] ?? ''));
         $c['position'] = isset($in['position']) && $in['position'] !== '' && $in['position'] !== null ? (int) $in['position'] : null;
         $c['technical'] = !empty($in['technical']);
-        if (array_key_exists('order', $in)) {
-            $ids = array_values(array_unique(array_filter(array_map(fn ($x) => (int) (is_array($x) ? ($x['id'] ?? 0) : $x), (array) $in['order']))));
-            $c['order'] = !empty($in['manual_order']) ? $ids : [];
+        $sort = (string) ($in['sort'] ?? '');
+        if (isset(Categories::SORTS[$sort])) {
+            $c['sort'] = $sort;
+        }
+        // L'ordre manuel n'est remplacé que s'il est l'ordre choisi (on garde le classement existant sinon).
+        if (array_key_exists('order', $in) && $sort === 'selection') {
+            $c['order'] = array_values(array_unique(array_filter(array_map(fn ($x) => (int) (is_array($x) ? ($x['id'] ?? 0) : $x), (array) $in['order']))));
         }
         $all[$slug] = $c;
+        // Ordre des sous-rubriques (glisser-déposer) : positions 1, 2, 3…
+        if (!empty($in['children_order']) && is_array($in['children_order'])) {
+            $pos = 0;
+            foreach ($in['children_order'] as $row) {
+                $child = (string) (is_array($row) ? ($row['slug'] ?? '') : $row);
+                if (isset($all[$child]) && ($all[$child]['parent'] ?? null) === $slug) {
+                    $all[$child]['position'] = ++$pos;
+                }
+            }
+        }
         Categories::save($all, self::actor());
         \App\Data\Derived::markDirty();
         return self::json(['ok' => true, 'message' => 'Rubrique enregistrée.', 'modified' => date('c'), 'savedLabel' => 'Enregistré à ' . date('H:i')]);

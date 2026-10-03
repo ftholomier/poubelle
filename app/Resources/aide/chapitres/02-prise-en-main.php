@@ -43,6 +43,16 @@ HTML],
 </ul>
 [[astuce|<p>Les champs obligatoires portent une étoile <b>*</b>. Si un champ est mal rempli (une date illisible, par exemple), l’enregistrement est refusé et le champ est signalé en rouge.</p>]]
 HTML],
+        ['id' => 'ordre', 'title' => 'Changer l’ordre d’une liste (glisser-déposer)', 'html' => <<<'HTML'
+<p>Partout où l’ordre compte — fiches d’une décennie ou d’une saison, sous-rubriques, composition d’un match, galerie, slider, messages du bandeau, cartes de l’album, questions du quiz, calendrier des 100 moments… — chaque élément porte la même commande, à droite :</p>
+<ul>
+<li><b>↑</b> : monter d’un cran ; <b>↓</b> : descendre d’un cran (grisées en début et en fin de liste) ;</li>
+<li>au milieu, l’icône jaune <b>quatre flèches</b> : attrapez-la à la souris (ou au doigt sur tablette) et glissez l’élément aussi loin que vous voulez. Un <b>trait jaune</b> montre exactement où il sera déposé, avec sa future position ; la liste défile toute seule quand vous approchez du bord. <kbd>Échap</kbd> annule.</li>
+<li>dans les listes numérotées, <b>cliquez sur le numéro</b> et tapez directement la position voulue (« 12 » + <kbd>Entrée</kbd>) : pratique pour envoyer un match tout en haut d’une liste de 500.</li>
+</ul>
+[[astuce|<p>Au clavier : placez-vous sur l’icône quatre flèches (touche <kbd>Tab</kbd>) puis <kbd>↑</kbd> / <kbd>↓</kbd> pour déplacer, <kbd>Début</kbd> / <kbd>Fin</kbd> pour aller en tête ou en queue, <kbd>Entrée</kbd> pour taper une position.</p>]]
+[[attention|<p>Un nouvel ordre n’est pris en compte qu’après <b>Enregistrer</b>.</p>]]
+HTML],
         ['id' => 'profil', 'title' => 'Votre profil', 'html' => <<<'HTML'
 <p>Menu en haut à droite › <b>Mon profil</b> : votre nom (affiché dans le journal et l’historique), votre mot de passe et vos dernières actions.</p>
 [[ecran:/admin/profil|Ouvrir mon profil]]
