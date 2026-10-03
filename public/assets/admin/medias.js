@@ -14,7 +14,7 @@
   async function upload(files, replace) {
     const list = [...files];
     if (!list.length) return;
-    let ok = 0;
+    const done = [];
     for (let i = 0; i < list.length; i++) {
       const f = list[i];
       if (progress) { progress.hidden = false; progress.textContent = 'Envoi ' + (i + 1) + ' / ' + list.length + ' : ' + f.name + '…'; }
@@ -22,13 +22,41 @@
       fd.append('file', f);
       if (replace) fd.append('replace', replace);
       const r = await BO.post('/admin/medias/envoi', fd, false);
-      if (r.ok) ok++; else BO.toast(r.error || ('Échec : ' + f.name), true);
+      if (r.ok) done.push(r.file); else BO.toast(r.error || ('Échec : ' + f.name), true);
     }
-    if (progress) progress.textContent = ok + ' fichier(s) envoyé(s).';
-    if (ok) {
-      BO.toast(replace ? 'Fichier remplacé.' : ok + ' fichier(s) ajouté(s) à la médiathèque.');
-      setTimeout(() => { location.href = replace ? location.href : '/admin/medias?tri=recent'; }, 600);
+    if (progress) progress.textContent = done.length + ' fichier(s) envoyé(s).';
+    if (!done.length) return;
+    if (replace) {
+      try { sessionStorage.setItem('bo-toast', 'Fichier remplacé : les vignettes sont régénérées.'); } catch (e) { /* */ }
+      location.reload();
+      return;
     }
+    describe(done);
+  }
+
+  /** Après un envoi : légende et crédit des nouveaux fichiers (le crédit est demandé d'emblée). */
+  function describe(rels) {
+    const { m } = modal(
+      '<h2 class="modal__t">' + rels.length + ' fichier' + (rels.length > 1 ? 's' : '') + ' ajouté' + (rels.length > 1 ? 's' : '') + '</h2>'
+      + '<div class="thumbs" style="grid-template-columns:repeat(auto-fill,minmax(90px,1fr))">' + rels.slice(0, 12).map(r => '<img src="' + esc(BO.thumb(r, 160)) + '" alt="" style="aspect-ratio:1;object-fit:cover;border:2px solid var(--navy)">').join('') + '</div>'
+      + '<p class="small muted" style="margin:0">Indiquez d’où viennent ces documents : le crédit est affiché sous chaque image sur le site.</p>'
+      + '<form class="stack" style="gap:12px">'
+      + '<div class="f"><span class="f__k">Crédit <b>*</b></span><input type="text" name="credit" maxlength="250" required placeholder="Photographe, journal, collection…"></div>'
+      + '<div class="f"><span class="f__k">Légende</span><input type="text" name="caption" maxlength="500" placeholder="Qui, quoi, où, quand…"></div>'
+      + '<div class="f"><span class="f__k">Droits / licence</span><input type="text" name="rights" maxlength="250" placeholder="Tous droits réservés, cession du donateur…"></div>'
+      + '<div class="row row--end"><button type="button" class="btn" data-later>Compléter plus tard</button><button type="submit" class="btn btn--navy">Enregistrer</button></div></form>');
+    const go = () => { location.href = '/admin/medias?tri=recent'; };
+    $('[data-later]', m).addEventListener('click', () => { try { sessionStorage.setItem('bo-toast', rels.length + ' fichier(s) ajouté(s), à compléter (filtre « Sans crédit »).'); } catch (e) { /* */ } go(); });
+    $('form', m).addEventListener('submit', async e => {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.credit.value.trim()) { f.credit.focus(); return; }
+      const r = await BO.post('/admin/medias/enregistrer', { files: rels, credit: f.credit.value, caption: f.caption.value, rights: f.rights.value, overwrite: true });
+      if (!r.ok) { BO.toast(r.error || 'Enregistrement impossible', true); return; }
+      try { sessionStorage.setItem('bo-toast', rels.length + ' fichier(s) ajouté(s) et décrit(s).'); } catch (er) { /* */ }
+      go();
+    });
+    setTimeout(() => $('[name=credit]', m).focus(), 30);
   }
   const drop = $('[data-media-drop]');
   $('[data-media-up]')?.addEventListener('change', e => upload(e.target.files));
@@ -122,6 +150,7 @@
       + field('date_text', 'Date ou époque', it.date_text, { max: 120, ph: 'Mai 1988' })
       + '</div>'
       + '<div class="row"><button type="submit" class="btn btn--navy">Enregistrer</button>'
+      + (it.pdf ? '' : '<button type="button" class="btn" data-retouch>Recadrer · pivoter' + (it.edit ? ' ✓' : '') + '</button>')
       + '<label class="btn">Remplacer le fichier…<input type="file" hidden data-replace accept="' + (it.pdf ? 'application/pdf' : 'image/jpeg,image/png,image/gif,image/webp') + '"></label>'
       + (conf.canDelete ? '<span class="grow"></span><button type="button" class="btn btn--danger" data-del>Supprimer</button>' : '')
       + '</div><span class="f__help">« Remplacer » garde la même adresse : toutes les fiches qui utilisent l’image afficheront le nouveau fichier.</span></form>'
@@ -144,6 +173,7 @@
       close();
     });
     $('[data-replace]', m)?.addEventListener('change', e => { if (e.target.files[0]) upload(e.target.files, it.file); });
+    $('[data-retouch]', m)?.addEventListener('click', () => retouch(it, card, close));
     $('[data-del]', m)?.addEventListener('click', async () => {
       if (!(await BO.confirm('Supprimer ce média ?', it.used_count ? 'Il est utilisé dans ' + it.used_count + ' contenu(s) : ces pages afficheront une image manquante.' : 'Le fichier sera effacé définitivement.', 'Supprimer', true))) return;
       const r = await BO.post('/admin/medias/supprimer', { file: it.file, force: true });
@@ -154,4 +184,72 @@
     });
     setTimeout(() => form.caption.focus(), 30);
   });
+
+  /* ------------------------------------------------------------ recadrer / pivoter (non destructif) */
+  function retouch(it, card, closeParent) {
+    let rotate = (it.edit && it.edit.rotate) || 0;
+    let crop = it.edit && it.edit.crop ? it.edit.crop.slice() : [0, 0, 1, 1];
+    const { m, close } = modal(
+      '<div class="modal__head"><h2 class="modal__t" style="font-size:20px">Recadrer · pivoter</h2><span class="grow"></span>'
+      + '<button type="button" class="btn btn--sm" data-rl title="Pivoter à gauche">↺ 90°</button><button type="button" class="btn btn--sm" data-rr title="Pivoter à droite">↻ 90°</button>'
+      + '<button type="button" class="btn btn--sm" data-full>Image entière</button><button type="button" class="btn btn--sm" data-reset>Annuler la retouche</button>'
+      + '<button type="button" class="btn btn--sm" data-close>Fermer</button><button type="button" class="btn btn--sm btn--navy" data-apply>Appliquer</button></div>'
+      + '<div class="modal__body" style="align-items:center"><div class="cropper"><img alt="" draggable="false"><div class="cropper__box"><i data-h="nw"></i><i data-h="ne"></i><i data-h="sw"></i><i data-h="se"></i></div></div>'
+      + '<p class="xs muted" style="margin:0">Glissez le cadre ou ses coins. L’original n’est jamais modifié : seules les images affichées sur le site sont recadrées.</p></div>', true);
+    const img = $('img', m), box = $('.cropper__box', m), wrap = $('.cropper', m);
+    const load = () => { img.src = '/admin/medias/apercu?file=' + encodeURIComponent(it.file) + '&rotate=' + rotate; };
+    const draw = () => { box.style.left = crop[0] * 100 + '%'; box.style.top = crop[1] * 100 + '%'; box.style.width = crop[2] * 100 + '%'; box.style.height = crop[3] * 100 + '%'; };
+    const turn = dir => {
+      const [x, y, w, h] = crop;
+      crop = dir > 0 ? [1 - y - h, x, h, w] : [y, 1 - x - w, h, w];
+      rotate = (rotate + (dir > 0 ? 90 : 270)) % 360;
+      load();
+      draw();
+    };
+    $('[data-rl]', m).addEventListener('click', () => turn(-1));
+    $('[data-rr]', m).addEventListener('click', () => turn(1));
+    $('[data-full]', m).addEventListener('click', () => { crop = [0, 0, 1, 1]; draw(); });
+    let drag = null;
+    wrap.addEventListener('pointerdown', e => {
+      if (!e.target.closest('.cropper__box')) return;
+      e.preventDefault();
+      wrap.setPointerCapture(e.pointerId);
+      drag = { h: e.target.dataset.h || 'move', x: e.clientX, y: e.clientY, c: crop.slice() };
+    });
+    wrap.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const r = img.getBoundingClientRect();
+      const dx = (e.clientX - drag.x) / r.width, dy = (e.clientY - drag.y) / r.height;
+      let [x, y, w, h] = drag.c;
+      const min = 0.05;
+      if (drag.h === 'move') {
+        x = Math.min(Math.max(0, x + dx), 1 - w);
+        y = Math.min(Math.max(0, y + dy), 1 - h);
+      } else {
+        if (drag.h.includes('w')) { const nx = Math.min(Math.max(0, x + dx), x + w - min); w += x - nx; x = nx; }
+        if (drag.h.includes('e')) { w = Math.min(Math.max(min, w + dx), 1 - x); }
+        if (drag.h.includes('n')) { const ny = Math.min(Math.max(0, y + dy), y + h - min); h += y - ny; y = ny; }
+        if (drag.h.includes('s')) { h = Math.min(Math.max(min, h + dy), 1 - y); }
+      }
+      crop = [x, y, w, h];
+      draw();
+    });
+    const end = () => { drag = null; };
+    wrap.addEventListener('pointerup', end);
+    wrap.addEventListener('pointercancel', end);
+    const send = async edit => {
+      const r = await BO.post('/admin/medias/enregistrer', { file: it.file, edit });
+      if (!r.ok) { BO.toast(r.error || 'Enregistrement impossible', true); return; }
+      card.dataset.media = JSON.stringify(r.item);
+      const thumb = $('.mcardx__img img', card) || $('[data-medit] img', card);
+      if (thumb) thumb.src = r.item.thumb + (r.item.thumb.includes('?') ? '&' : '?') + 't=' + Date.now();
+      BO.toast(r.message);
+      close();
+      closeParent();
+    };
+    $('[data-apply]', m).addEventListener('click', () => send({ rotate, crop }));
+    $('[data-reset]', m).addEventListener('click', () => send(null));
+    load();
+    draw();
+  }
 })();

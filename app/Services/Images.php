@@ -40,7 +40,7 @@ final class Images
         }
         $dest = PUBLIC_PATH . "/media/$width/$srcRel.webp";
         if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
-            if (!self::generate($src, $dest, $width)) {
+            if (!self::generate($src, $dest, $width, Media::get($srcRel)['edit'] ?? null)) {
                 return self::placeholder();
             }
         }
@@ -50,7 +50,11 @@ final class Images
         ]);
     }
 
-    public static function generate(string $src, string $dest, int $width): bool
+    /**
+     * @param array{rotate?:int,crop?:array{0:float,1:float,2:float,3:float}}|null $edit
+     *        retouches non destructives saisies dans la médiathèque (l'original reste intact)
+     */
+    public static function generate(string $src, string $dest, int $width, ?array $edit = null): bool
     {
         $info = @getimagesize($src);
         if (!$info) {
@@ -60,7 +64,7 @@ final class Images
         if ($w * $h > 120_000_000) {
             return false;
         }
-        $im = self::open($src);
+        $im = self::open($src, $edit);
         if (!$im) {
             return false;
         }
@@ -85,8 +89,12 @@ final class Images
         return $ok;
     }
 
-    /** Ouvre une image (JPEG, PNG, GIF, WebP, BMP) en tenant compte de l'orientation EXIF. */
-    public static function open(string $src): ?\GdImage
+    /**
+     * Ouvre une image (JPEG, PNG, GIF, WebP, BMP) en tenant compte de l'orientation EXIF,
+     * puis applique les retouches de la médiathèque : rotation (degrés, sens horaire)
+     * et recadrage (fractions x, y, largeur, hauteur de l'image pivotée).
+     */
+    public static function open(string $src, ?array $edit = null): ?\GdImage
     {
         $info = @getimagesize($src);
         if (!$info || $info[0] * $info[1] > 120_000_000) {
@@ -116,6 +124,28 @@ final class Images
         if (!imageistruecolor($im)) {
             imagepalettetotruecolor($im);
         }
+        $rot = (int) ($edit['rotate'] ?? 0);
+        if (in_array($rot, [90, 180, 270], true)) {
+            $r = imagerotate($im, -$rot, 0);
+            if ($r) {
+                imagedestroy($im);
+                $im = $r;
+            }
+        }
+        $c = $edit['crop'] ?? null;
+        if (is_array($c) && count($c) === 4) {
+            [$cx, $cy, $cw, $ch] = array_map(fn ($v) => max(0.0, min(1.0, (float) $v)), array_values($c));
+            if ($cw > 0.02 && $ch > 0.02 && ($cw < 0.999 || $ch < 0.999)) {
+                $W = imagesx($im);
+                $H = imagesy($im);
+                $rect = ['x' => (int) round($cx * $W), 'y' => (int) round($cy * $H), 'width' => (int) max(1, round(min($cw, 1 - $cx) * $W)), 'height' => (int) max(1, round(min($ch, 1 - $cy) * $H))];
+                $cropped = imagecrop($im, $rect);
+                if ($cropped) {
+                    imagedestroy($im);
+                    $im = $cropped;
+                }
+            }
+        }
         return $im;
     }
 
@@ -143,7 +173,7 @@ final class Images
             }
             $src = Media::file($rel);
             $dest = PUBLIC_PATH . "/media/$width/$rel.webp";
-            if ($src && !is_file($dest) && self::generate($src, $dest, $width)) {
+            if ($src && !is_file($dest) && self::generate($src, $dest, $width, $m['edit'] ?? null)) {
                 $n++;
                 if ($log && $n % 200 === 0) {
                     $log("$n…");

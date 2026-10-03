@@ -26,6 +26,8 @@ final class Medias extends Base
         '' => 'Tous les médias',
         'sans-credit' => 'Sans crédit',
         'sans-legende' => 'Sans légende',
+        'sans-droits' => 'Droits à préciser',
+        'doublons' => 'Doublons possibles',
         'inutilise' => 'Inutilisés',
         'pdf' => 'Documents PDF',
         'contributions' => 'Issus des contributions',
@@ -45,11 +47,15 @@ final class Medias extends Base
         $counts = array_fill_keys(array_keys(self::FILTERS), 0);
         $list = [];
         $recent = date('c', strtotime('-30 days'));
+        $dups = self::duplicates($all);
         foreach ($all as $rel => $m) {
             $rel = (string) $rel;
             $top = explode('/', $rel)[0];
             $folders[$top] = ($folders[$top] ?? 0) + 1;
             $flags = self::flags($rel, $m, $usage, $recent);
+            if (isset($dups[$rel])) {
+                $flags[] = 'doublons';
+            }
             $counts['']++;
             foreach ($flags as $f) {
                 $counts[$f]++;
@@ -98,6 +104,9 @@ final class Medias extends Base
         if (trim((string) ($m['caption'] ?? '')) === '') {
             $f[] = 'sans-legende';
         }
+        if (!$isPdf && trim((string) ($m['rights'] ?? '')) === '') {
+            $f[] = 'sans-droits';
+        }
         if (empty($usage[$rel])) {
             $f[] = 'inutilise';
         }
@@ -111,6 +120,31 @@ final class Medias extends Base
             $f[] = 'recents';
         }
         return $f;
+    }
+
+    /**
+     * Doublons probables : même empreinte du fichier (calculée par la tâche planifiée
+     * « Médiathèque »), à défaut même taille en octets et mêmes dimensions.
+     * @return array<string,string> chemin => chemin de l'autre exemplaire
+     */
+    private static function duplicates(array $all): array
+    {
+        $byKey = [];
+        foreach ($all as $rel => $m) {
+            $key = !empty($m['sha1']) ? 'h' . $m['sha1'] : (!empty($m['size']) && !empty($m['width']) ? 's' . $m['size'] . 'x' . $m['width'] . 'x' . $m['height'] : null);
+            if ($key) {
+                $byKey[$key][] = (string) $rel;
+            }
+        }
+        $out = [];
+        foreach ($byKey as $list) {
+            if (count($list) > 1) {
+                foreach ($list as $i => $rel) {
+                    $out[$rel] = $list[$i === 0 ? 1 : 0];
+                }
+            }
+        }
+        return $out;
     }
 
     /** Données d'une carte de la médiathèque (et de sa fenêtre d'édition). */
@@ -149,6 +183,7 @@ final class Medias extends Base
             'height' => (int) ($m['height'] ?? 0),
             'size' => $file ? Base::size((int) filesize($file)) : '',
             'added' => (string) ($m['added'] ?? $m['date'] ?? ''),
+            'edit' => $m['edit'] ?? null,
             'used' => $used,
             'used_count' => count(array_unique($usage[$rel] ?? [])),
         ];
@@ -262,6 +297,31 @@ final class Medias extends Base
         if (!Media::get($rel)) {
             return self::json(['error' => 'Média introuvable.'], 404);
         }
+        if (array_key_exists('edit', $d)) {
+            // Retouche non destructive (rotation, recadrage) : l'original reste intact.
+            $e = is_array($d['edit']) ? $d['edit'] : [];
+            $rot = in_array((int) ($e['rotate'] ?? 0), [0, 90, 180, 270], true) ? (int) ($e['rotate'] ?? 0) : 0;
+            $crop = null;
+            if (is_array($e['crop'] ?? null) && count($e['crop']) === 4) {
+                $c = array_map(fn ($v) => round(max(0.0, min(1.0, (float) $v)), 4), array_values($e['crop']));
+                if ($c[2] > 0.02 && $c[3] > 0.02 && ($c[2] < 0.999 || $c[3] < 0.999)) {
+                    $crop = $c;
+                }
+            }
+            $edit = $rot || $crop ? array_filter(['rotate' => $rot ?: null, 'crop' => $crop], fn ($v) => $v !== null) : null;
+            \App\Core\JsonStore::update(Media::FILE, function ($all) use ($rel, $edit) {
+                if ($edit) {
+                    $all[$rel]['edit'] = $edit;
+                } else {
+                    unset($all[$rel]['edit']);
+                }
+                return $all;
+            }, []);
+            Media::forget();
+            self::purgeDerivatives($rel);
+            Activity::log($user, $edit ? 'a retouché le média' : 'a annulé la retouche du média', ['title' => $rel]);
+            return self::json(['ok' => true, 'message' => $edit ? 'Retouche enregistrée : les vignettes sont régénérées (l’original reste intact).' : 'Retouche annulée.', 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
+        }
         $meta = [
             'caption' => Html::line($d['caption'] ?? '', 500),
             'caption_en' => Html::line($d['caption_en'] ?? '', 500),
@@ -298,6 +358,27 @@ final class Medias extends Base
         Media::remove($rel);
         Activity::log(self::actor(), 'a supprimé le média', ['title' => $rel]);
         return self::json(['ok' => true, 'message' => 'Média supprimé.', 'reload' => true]);
+    }
+
+    /** Aperçu de l'original (non retouché, éventuellement pivoté) pour l'outil de recadrage. */
+    public static function source(Request $req): Response
+    {
+        $rel = $req->str('file');
+        $file = Media::get($rel) ? Media::file($rel) : null;
+        if (!$file || !@getimagesize($file)) {
+            return Response::notFound();
+        }
+        $rot = in_array((int) $req->str('rotate', '0'), [0, 90, 180, 270], true) ? (int) $req->str('rotate', '0') : 0;
+        $cache = STORAGE_PATH . '/cache/bo-preview/' . md5($rel . '|' . $rot . '|' . filemtime($file)) . '.webp';
+        if (!is_file($cache)) {
+            if (!is_dir(dirname($cache))) {
+                mkdir(dirname($cache), 0775, true);
+            }
+            if (!Images::generate($file, $cache, 1200, $rot ? ['rotate' => $rot] : null)) {
+                return Response::notFound();
+            }
+        }
+        return new Response((string) file_get_contents($cache), 200, ['Content-Type' => 'image/webp', 'Cache-Control' => 'private, max-age=600']);
     }
 
     /** Efface les versions redimensionnées (public/media/{largeur}/…). */

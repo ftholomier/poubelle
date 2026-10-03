@@ -35,7 +35,8 @@ function img(?string $rel, int $width = 800): string
     if (str_ends_with(strtolower($rel), '.svg')) {
         return '/media/full/' . str_replace('%2F', '/', rawurlencode($rel));
     }
-    return '/media/' . $width . '/' . str_replace('%2F', '/', rawurlencode($rel)) . '.webp';
+    $v = \App\Data\Media::version($rel);
+    return '/media/' . $width . '/' . str_replace('%2F', '/', rawurlencode($rel)) . '.webp' . ($v !== null ? '?v=' . $v : '');
 }
 
 /** srcset WebP pour une image responsive. */

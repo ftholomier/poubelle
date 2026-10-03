@@ -31,6 +31,7 @@ final class Cron
         'traductions' => [0, 'Traduction anglaise des fiches (Gemini)'],
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
+        'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
         'assistant' => [3600, 'Index sémantique de l’assistant IA'],
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
         'plan-du-site' => [86400, 'Plan du site (sitemap.xml)'],
@@ -134,6 +135,9 @@ final class Cron
                 $r = Geo::run(40, true);
                 return $r['stades'] + $r['lieux'] > 0 ? $r : null;
 
+            case 'medias':
+                return self::mediaFacts(400);
+
             case 'assistant':
                 if (!Rag::enabled() || !Gemini::embedModel()) {
                     return null;
@@ -175,6 +179,37 @@ final class Cron
                 return self::housekeeping();
         }
         return null;
+    }
+
+    /** Complète les métadonnées techniques des médias (par lots, en une seule écriture). */
+    private static function mediaFacts(int $max): ?string
+    {
+        $changes = [];
+        foreach (\App\Data\Media::all() as $rel => $m) {
+            if (count($changes) >= $max) {
+                break;
+            }
+            if (!empty($m['sha1']) && !empty($m['size'])) {
+                continue;
+            }
+            $file = \App\Data\Media::file((string) $rel);
+            if (!$file) {
+                continue;
+            }
+            $info = @getimagesize($file);
+            $changes[(string) $rel] = array_filter([
+                'size' => filesize($file) ?: null,
+                'width' => $info[0] ?? ($m['width'] ?? null),
+                'height' => $info[1] ?? ($m['height'] ?? null),
+                'mime' => $m['mime'] ?? ((new \finfo(FILEINFO_MIME_TYPE))->file($file) ?: null),
+                'sha1' => sha1_file($file) ?: null,
+            ], fn ($v) => $v !== null);
+        }
+        if (!$changes) {
+            return null;
+        }
+        $n = \App\Data\Media::putMany($changes);
+        return "$n média(s) complété(s)";
     }
 
     /** Purges : journaux de l'assistant, consentements (13 mois), e-mails (12 mois), limites, sessions, caches. */

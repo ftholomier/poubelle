@@ -15,6 +15,9 @@ final class Media
     public const ORIGINALS = STORAGE_PATH . '/media/originals';
     private const CACHE = STORAGE_PATH . '/cache/media.php';
     private const USAGE = STORAGE_PATH . '/cache/media-usage.json';
+    /** Versions des médias retouchés ou remplacés (petit fichier lu par img() sur toutes les pages). */
+    private const VERSIONS = STORAGE_PATH . '/cache/media-versions.php';
+    private static ?array $versions = null;
     /** Formats acceptés à l'envoi depuis le back-office. */
     public const UPLOAD_EXT = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'];
     public const UPLOAD_MAX = 25 * 1024 * 1024;
@@ -133,6 +136,26 @@ final class Media
         return $n;
     }
 
+    /**
+     * Version d'un média modifié après coup (retouche, fichier remplacé) : ajoutée à
+     * l'adresse des vignettes pour que les navigateurs ne gardent pas l'ancienne image.
+     */
+    public static function version(string $rel): ?string
+    {
+        if (self::$versions === null) {
+            $v = is_file(self::VERSIONS) ? (include self::VERSIONS) : null;
+            self::$versions = is_array($v) ? $v : [];
+        }
+        return self::$versions[$rel] ?? null;
+    }
+
+    /** Oublie le cache mémoire et le cache PHP (après une écriture directe du fichier). */
+    public static function forget(): void
+    {
+        self::$items = null;
+        @unlink(self::CACHE);
+    }
+
     public static function remove(string $rel): void
     {
         self::$items = JsonStore::update(self::FILE, function ($all) use ($rel) {
@@ -148,11 +171,20 @@ final class Media
         if (!is_dir($dir)) {
             mkdir($dir, 0775, true);
         }
-        $tmp = self::CACHE . '.' . bin2hex(random_bytes(4));
-        file_put_contents($tmp, '<?php return ' . var_export($items, true) . ";\n", LOCK_EX);
-        rename($tmp, self::CACHE);
-        if (function_exists('opcache_invalidate')) {
-            @opcache_invalidate(self::CACHE, true);
+        $versions = [];
+        foreach ($items as $rel => $m) {
+            if (!empty($m['edit']) || !empty($m['replaced'])) {
+                $versions[(string) $rel] = substr(md5(json_encode($m['edit'] ?? null) . '|' . ($m['replaced'] ?? '')), 0, 8);
+            }
         }
+        foreach ([self::CACHE => $items, self::VERSIONS => $versions] as $file => $data) {
+            $tmp = $file . '.' . bin2hex(random_bytes(4));
+            file_put_contents($tmp, '<?php return ' . var_export($data, true) . ";\n", LOCK_EX);
+            rename($tmp, $file);
+            if (function_exists('opcache_invalidate')) {
+                @opcache_invalidate($file, true);
+            }
+        }
+        self::$versions = $versions;
     }
 }
