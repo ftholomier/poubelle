@@ -183,8 +183,19 @@ réellement développé.
   (administrateur / utilisateur), présentés dans le style de l'écran « Utilisateurs & rôles ».
 
 ## Ajouts du 02/10 (pendant le développement)
-- **Page d'attente** (back-office › Réglages) : activable / désactivable ; reprend le logo,
+- **Page d'attente** (back-office › Éditorial › Page d'attente) : activable / désactivable ; reprend le logo,
   texte géré en **WYSIWYG**, **compte à rebours optionnel** (date cible réglable).
   Le back-office reste accessible ; les administrateurs connectés voient le site normalement.
 - **Tous les champs de texte long du back-office ont un éditeur WYSIWYG** (JS natif, sans
   dépendance ; HTML nettoyé côté serveur : liste blanche de balises).
+
+## Arbitrages techniques du 03/10 (contrôle d'exhaustivité)
+- Page WordPress « Joueurs » (`/joueurs/`) : simple liste automatique de toutes les fiches
+  Nos Lions, hors menus → redirection 301 vers la rubrique `/nos-lions/` (aucun contenu propre).
+- Compositions : colonnes lues d'après les en-têtes ; le **numéro de maillot** est conservé,
+  affiché (tableau et terrain) et modifiable.
+- Lecteurs vidéo insérés dans les textes (YouTube, Dailymotion, Vimeo, **Rutube**) : repris dans
+  le bloc Vidéos de la fiche (chargés seulement après accord, comme les autres vidéos).
+- Sécurité : politique CSP sur toutes les pages (scripts du site uniquement ; lecteurs vidéo,
+  tuiles OpenStreetMap et pages de paiement explicitement autorisés).
+- Mise en ligne : voir `docs/DEPLOIEMENT.md`.
