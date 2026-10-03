@@ -61,6 +61,13 @@ final class Router
         $r->post('/admin/deconnexion', fn ($q) => Account::logout($q));
         $r->any('/admin/profil', fn ($q) => Account::profile($q));
 
+        // Aide (guide d'utilisation)
+        $r->get('/admin/aide', fn ($q) => Help::index($q));
+        $r->get('/admin/aide/imprimer', fn ($q) => Help::printable($q));
+        $r->get('/admin/aide/memo', fn ($q) => Help::memo($q));
+        $r->get('/admin/aide/fichier/{name}', fn ($q, $name) => Help::file($q, $name));
+        $r->get('/admin/aide/{slug}', fn ($q, $slug) => Help::chapter($q, $slug));
+
         // Pilotage
         $r->get('/admin', fn ($q) => Dashboard::index($q));
         $r->get('/admin/qualite', fn ($q) => Dashboard::quality($q));

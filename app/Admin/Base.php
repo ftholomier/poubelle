@@ -57,6 +57,9 @@ class Base
             ['sauvegardes', 'Sauvegardes', '/admin/sauvegardes', false],
             ['taches', 'Tâches planifiées', '/admin/taches', false],
         ],
+        'Aide' => [
+            ['aide', 'Guide d’utilisation', '/admin/aide', false],
+        ],
     ];
 
     /**

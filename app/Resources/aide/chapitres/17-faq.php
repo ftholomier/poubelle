@@ -1,0 +1,83 @@
+<?php
+return [
+    'slug' => 'faq',
+    'title' => 'Comment faire pour… ?',
+    'summary' => 'Les réponses courtes aux questions les plus fréquentes, avec le chemin à suivre.',
+    'sections' => [
+        ['id' => 'corriger-score', 'title' => '… corriger le score d’un match', 'html' => <<<'HTML'
+<p>Contenus › Matchs › ouvrez le match (ou <kbd>Ctrl</kbd> + <kbd>K</kbd> et tapez l’adversaire) › onglet <b>Infos</b> › bloc Score › Enregistrer. Les buteurs de la composition doivent correspondre : le contrôle qualité vous le signale. Indiquez la source dans la note de version.</p>
+HTML],
+        ['id' => 'joueur-compo', 'title' => '… ajouter un joueur oublié dans une composition', 'html' => <<<'HTML'
+<p>Onglet <b>Compo &amp; événements</b> › « Ajouter un joueur » en bas de la composition › remplissez la ligne › déplacez-la avec les flèches ou la poignée › Enregistrer. Sa fiche et ses statistiques sont mises à jour seules.</p>
+HTML],
+        ['id' => 'relier-nom', 'title' => '… relier un nom mal orthographié à la bonne fiche', 'html' => <<<'HTML'
+<p>Ouvrez la fiche du joueur › onglet Identité › <b>Autres graphies dans les compositions</b> › ajoutez la graphie (« CAMARA Razza ») › Enregistrer. Tous les matchs où le nom est écrit ainsi rejoignent la fiche. Pour un seul match, choisissez le bon joueur dans la ligne de composition.</p>
+HTML],
+        ['id' => 'creer-joueur', 'title' => '… créer la fiche d’un joueur cité sans fiche', 'html' => <<<'HTML'
+<p>Dans la composition, cliquez la pastille rose <b>+</b> de la ligne, ou Qualité › Liens joueurs › « Créer la fiche » : la fiche s’ouvre avec son nom déjà rempli.</p>
+HTML],
+        ['id' => 'publier-plus-tard', 'title' => '… publier une fiche à une date précise', 'html' => <<<'HTML'
+<p>Panneau Publication › statut <b>Planifié</b> › choisissez la date et l’heure › Enregistrer. La fiche paraît seule à l’heure dite ; elle figure dans « Publications programmées » du tableau de bord.</p>
+HTML],
+        ['id' => 'ancienne-version', 'title' => '… revenir à une ancienne version', 'html' => <<<'HTML'
+<p>Onglet <b>Historique</b> de la fiche › ouvrez la version › comparez › un administrateur clique « Restaurer cette version ». La version actuelle reste dans l’historique.</p>
+HTML],
+        ['id' => 'annuler-suppression', 'title' => '… récupérer une fiche supprimée', 'html' => <<<'HTML'
+<p>Sous une liste de fiches › <b>Voir la corbeille</b> › « Sortir de la corbeille ». Elle revient avec son statut précédent… à republier si besoin.</p>
+HTML],
+        ['id' => 'changer-adresse', 'title' => '… changer l’adresse (URL) d’une page', 'html' => <<<'HTML'
+<p>Onglet <b>Classement &amp; SEO</b> › Adresse de la page › Enregistrer. L’ancienne adresse est redirigée automatiquement vers la nouvelle.</p>
+HTML],
+        ['id' => 'photo-match', 'title' => '… ajouter des photos à un match', 'html' => <<<'HTML'
+<p>Onglet <b>Médias</b> › Galerie › ajoutez depuis la médiathèque ou envoyez de nouveaux fichiers (crédit demandé) › légendes › ordre par glisser-déposer › Enregistrer. Choisissez aussi l’image à la une.</p>
+HTML],
+        ['id' => 'remplacer-photo', 'title' => '… remplacer une photo par un meilleur scan', 'html' => <<<'HTML'
+<p>Médiathèque › cliquez la photo › <b>Remplacer le fichier…</b>. Toutes les fiches qui l’utilisent affichent aussitôt le nouveau fichier.</p>
+HTML],
+        ['id' => 'crediter', 'title' => '… créditer beaucoup de photos d’un coup', 'html' => <<<'HTML'
+<p>Médiathèque › filtre « Sans crédit » (ou une recherche) › cochez les photos › saisissez le crédit commun › Enregistrer.</p>
+HTML],
+        ['id' => 'a-la-une', 'title' => '… mettre une fiche dans le slider de l’accueil', 'html' => <<<'HTML'
+<p>Onglet <b>Classement &amp; SEO</b> › cochez <b>À la une</b> et vérifiez qu’elle a une image à la une. Pour un slider choisi à la main : Éditorial › Accueil &amp; bandeau › Grand slider.</p>
+HTML],
+        ['id' => 'ordre-mosaique', 'title' => '… changer l’ordre des fiches d’une rubrique', 'html' => <<<'HTML'
+<p>Éditorial › Rubriques &amp; menus › ouvrez la rubrique › cochez l’ordre manuel › glissez-déposez › Enregistrer.</p>
+HTML],
+        ['id' => 'bandeau', 'title' => '… ajouter un message au bandeau défilant', 'html' => <<<'HTML'
+<p>Éditorial › Accueil &amp; bandeau › Bandeau « En direct du musée » › « Ajouter un message » (étiquette, message, lien) › « Traduire en anglais » › Enregistrer.</p>
+HTML],
+        ['id' => 'maintenance', 'title' => '… fermer le site pendant une opération', 'html' => <<<'HTML'
+<p>Éditorial › <b>Page d’attente</b> › cochez « Activer la page d’attente » › texte (et compte à rebours si vous voulez) › Enregistrer. Décochez pour rouvrir.</p>
+HTML],
+        ['id' => 'contribution', 'title' => '… traiter une contribution d’un visiteur', 'html' => <<<'HTML'
+<p>Communauté › Contributions › ouvrez-la › publiez les fichiers (médiathèque, fiche ou objet) › « ✓ Valider », « ? Demander une précision » ou « Refuser ».</p>
+HTML],
+        ['id' => 'repondre', 'title' => '… répondre à un message reçu par le site', 'html' => <<<'HTML'
+<p>Communauté › Messages › ouvrez le message › <b>Répondre par e-mail</b> › puis statut « Traité ».</p>
+HTML],
+        ['id' => 'inviter', 'title' => '… inviter un nouvel historien', 'html' => <<<'HTML'
+<p>(Administrateur) Système › Utilisateurs › <b>Inviter une personne</b> : nom, e-mail, niveau « Utilisateur » › Inviter. Si l’e-mail n’arrive pas, copiez le lien d’invitation et envoyez-le vous-même.</p>
+HTML],
+        ['id' => 'quiz', 'title' => '… ajouter une question au quiz', 'html' => <<<'HTML'
+<p><b>+ Nouveau › Question de quiz</b> (ou Interactif › Quiz) › question, quatre réponses, bonne réponse, « Le saviez-vous ? » › « Affichée dans le quiz » › Enregistrer.</p>
+HTML],
+        ['id' => 'video', 'title' => '… ajouter une vidéo à une fiche', 'html' => <<<'HTML'
+<p>Onglet <b>Médias</b> › Vidéos › « Ajouter une vidéo » › collez le lien YouTube, Dailymotion, Vimeo ou Rutube › titre › Enregistrer.</p>
+HTML],
+        ['id' => 'adversaire', 'title' => '… corriger le nom ou le logo d’un adversaire', 'html' => <<<'HTML'
+<p>Contenus › Saisons, adversaires, lieux › onglet Adversaires › cherchez le club › nom, variantes, ville, logo › Enregistrer. Toutes ses fiches et son face-à-face suivent.</p>
+HTML],
+        ['id' => 'carte', 'title' => '… placer un joueur sur la carte des origines', 'html' => <<<'HTML'
+<p>Fiche du joueur › onglet Identité › bloc Naissance › ville (et pays) › Enregistrer. La position est trouvée automatiquement ; corrigez-la dans Saisons, adversaires, lieux › Lieux de naissance si besoin.</p>
+HTML],
+        ['id' => 'a-completer', 'title' => '… trouver les fiches à compléter', 'html' => <<<'HTML'
+<p>Pilotage › <b>Qualité</b> (onglets) et le bloc <b>À faire</b> du tableau de bord ; dans la médiathèque, les filtres « Sans crédit », « Sans légende », « Droits à préciser » ; dans les personnes, le filtre « Sans lieu de naissance ».</p>
+HTML],
+        ['id' => 'anglais', 'title' => '… traduire une fiche en anglais', 'html' => <<<'HTML'
+<p>Onglet <b>Version EN</b> › « Traduire avec Gemini » › relisez › Enregistrer. Ou en série : Système › Traductions EN › onglet Fiches.</p>
+HTML],
+        ['id' => 'perdu', 'title' => '… retrouver un texte non enregistré', 'html' => <<<'HTML'
+<p>Rouvrez la fiche sur le même ordinateur et le même navigateur : un bandeau propose « Le récupérer ». Sinon, l’onglet Historique contient la dernière version enregistrée.</p>
+HTML],
+    ],
+];

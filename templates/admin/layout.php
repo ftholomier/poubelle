@@ -69,6 +69,7 @@ if ($isAdmin) {
           <?php foreach ($new as [$l, $h]): ?><a href="<?= e($h) ?>"><?= e($l) ?></a><?php endforeach; ?>
         </div>
       </div>
+      <a class="top__help" href="<?= e(\App\Admin\Help::urlFor($nav)) ?>" title="Aide sur cet écran"><span aria-hidden="true">?</span> Aide</a>
       <a class="top__site" href="/" target="_blank" rel="noopener">Site ↗</a>
       <div class="me" data-dropdown>
         <button type="button" data-dropdown-toggle aria-expanded="false" aria-label="Mon compte">
@@ -100,6 +101,7 @@ if ($isAdmin) {
     <div class="qk__hint">↑ ↓ pour choisir · Entrée pour ouvrir · Échap pour fermer</div>
   </div>
 </div>
+<script type="application/json" id="bo-tips"><?= json_encode(['guide' => \App\Admin\Help::urlFor($nav), 'tips' => \App\Admin\Tips::forNav($nav)], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
 <script src="<?= asset('admin/admin.js') ?>" defer></script>
 <script src="<?= asset('admin/wysiwyg.js') ?>" defer></script>
 <?php foreach ($meta['scripts'] ?? [] as $js): ?><script src="<?= asset($js) ?>" defer></script><?php endforeach; ?>

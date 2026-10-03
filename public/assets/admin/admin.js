@@ -791,7 +791,69 @@
     BO.toast('Liste des modèles mise à jour (' + Object.keys(r.generate || {}).length + ' modèles).');
   });
 
+  // Bulles d'aide « ? » : texte court au survol, au clavier (Tab) et au toucher.
+  const hintConf = (() => { try { return JSON.parse(document.getElementById('bo-tips')?.textContent || '{}'); } catch (e) { return {}; } })();
+  const hintKey = (el) => (el.querySelector('label')?.textContent || el.childNodes[0]?.textContent || el.textContent || '')
+    .replace(/\s+/g, ' ').replace(/\s*\*\s*$/, '').trim().toLowerCase();
+  let hintPop = null, hintFor = null, hintTimer = null;
+  const hideHint = () => { clearTimeout(hintTimer); if (hintPop) hintPop.hidden = true; if (hintFor) hintFor.setAttribute('aria-expanded', 'false'); hintFor = null; };
+  const showHint = (btn) => {
+    clearTimeout(hintTimer);
+    if (!hintPop) {
+      hintPop = document.createElement('div');
+      hintPop.className = 'hintpop'; hintPop.id = 'hintpop'; hintPop.setAttribute('role', 'tooltip'); hintPop.hidden = true;
+      hintPop.addEventListener('mouseenter', () => clearTimeout(hintTimer));
+      hintPop.addEventListener('mouseleave', () => { hintTimer = setTimeout(hideHint, 200); });
+      document.body.appendChild(hintPop);
+    }
+    if (hintFor && hintFor !== btn) hintFor.setAttribute('aria-expanded', 'false');
+    hintFor = btn;
+    hintPop.innerHTML = btn.dataset.hint + (btn.dataset.guide ? '<br><a href="' + btn.dataset.guide + '">Voir le guide de cet écran →</a>' : '');
+    hintPop.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-describedby', 'hintpop');
+    const r = btn.getBoundingClientRect(), w = hintPop.offsetWidth, h = hintPop.offsetHeight;
+    const left = Math.max(8, Math.min(window.innerWidth - w - 8, r.left + r.width / 2 - w / 2));
+    const top = r.bottom + 8 + h > window.innerHeight - 8 ? Math.max(8, r.top - h - 8) : r.bottom + 8;
+    hintPop.style.left = left + 'px'; hintPop.style.top = top + 'px';
+  };
+  const addHints = (root) => {
+    const tips = hintConf.tips || {};
+    const add = (el, text, guide) => {
+      if (!text || el.dataset.hinted) return;
+      el.dataset.hinted = '1';
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'hint'; b.textContent = '?';
+      b.dataset.hint = text;
+      if (guide) b.dataset.guide = guide;
+      b.setAttribute('aria-label', 'Aide : ' + (el.textContent || '').replace(/\s+/g, ' ').trim());
+      b.setAttribute('aria-expanded', 'false');
+      const label = el.querySelector('label');
+      if (label) label.after(b); else el.appendChild(b);
+    };
+    if (root === document) {
+      const h = document.querySelector('.top__h');
+      if (h && tips.screen) add(h, tips.screen, hintConf.guide);
+    }
+    root.querySelectorAll('.card__t, .f__k').forEach(el => {
+      if (el.closest('template')) return;
+      const k = hintKey(el);
+      if (k && k !== 'screen' && tips[k]) add(el, tips[k], null);
+    });
+  };
+  document.addEventListener('mouseover', e => { const b = e.target.closest('.hint'); if (b) showHint(b); });
+  document.addEventListener('mouseout', e => { const b = e.target.closest('.hint'); if (b && !b.contains(e.relatedTarget)) hintTimer = setTimeout(hideHint, 250); });
+  document.addEventListener('focusin', e => { const b = e.target.closest('.hint'); if (b) showHint(b); else if (hintPop && !hintPop.contains(e.target)) hideHint(); });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('.hint');
+    if (b) { e.preventDefault(); e.stopPropagation(); if (hintFor === b && !hintPop.hidden && e.pointerType !== 'mouse') hideHint(); else showHint(b); return; }
+    if (hintPop && !hintPop.hidden && !hintPop.contains(e.target)) hideHint();
+  }, true);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && hintPop && !hintPop.hidden) hideHint(); });
+  window.addEventListener('scroll', () => { if (hintPop && !hintPop.hidden) hideHint(); }, { passive: true });
+
   const prevInit = BO.init;
-  BO.init = function (root = document) { prevInit(root); initTableEditors(root); };
+  BO.init = function (root = document) { prevInit(root); initTableEditors(root); addHints(root); };
+  addHints(document);
   initTableEditors(document);
 })();
