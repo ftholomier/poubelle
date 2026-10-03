@@ -105,8 +105,9 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 
 ## Aide, teaser, recette et compléments (03/10, 06:31 → 10:10 UTC) — terminé
 - [x] Rubrique **Aide** du back-office : 17 chapitres (pas à pas, « Comment faire pour… »),
-      68 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (83 p.
-      avec le correcteur, les coûts de l’IA, le verrou de modification et les fiches audio) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
+      72 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (87 p.
+      avec le correcteur, les coûts de l’IA, le verrou de modification, les fiches audio, le
+      Rétro-Direct, le Fil jaune et le kit souvenirs) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
       (précision du client).
 - [x] **Bulles « ? »** sur chaque écran, carte et champ du back-office (souris, clavier, toucher).
 - [x] **Teaser** 1 min 55 en 1920×1080 calé sur la musique fournie ; v2 : aucune mention de

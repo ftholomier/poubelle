@@ -72,12 +72,9 @@
         <tr><td>Ordre des fiches d’une décennie, d’une rubrique</td><td>Éditorial › Rubriques &amp; menus (↑ ↓ un cran, ✥ glisser plus loin)</td></tr>
         <tr><td>Le PDF d’une fiche</td><td>panneau Publication › Télécharger le PDF</td></tr>
         <tr><td>Corriger l’orthographe et la syntaxe</td><td>panneau Orthographe › Vérifier l’orthographe ; Qualité › Orthographe</td></tr>
-        <tr><td>Rediriger une ancienne adresse</td><td>Éditorial › Redirections</td></tr>
-        <tr><td>Mettre le site en maintenance</td><td>Éditorial › Page d’attente</td></tr>
+        <tr><td>Rediriger une adresse, fermer le site un moment</td><td>Éditorial › Redirections, Page d’attente</td></tr>
         <tr><td>Quiz, frise, maillots, carte, partenaires</td><td>Interactif › Quiz, frise, carte…</td></tr>
-        <tr><td>Rejouer un grand match en direct</td><td>Interactif › Rétro-Direct</td></tr>
-        <tr><td>Relier les joueurs du Fil jaune</td><td>compositions des matchs (joueurs reliés ✓)</td></tr>
-        <tr><td>Kit souvenirs, témoignages « Ils y étaient »</td><td>Interactif › Kit souvenirs ; Communauté › Contributions</td></tr>
+        <tr><td>Rétro-Direct, kit souvenirs, « Ils y étaient »</td><td>Interactif › Rétro-Direct, Kit souvenirs ; témoignages : Contributions</td></tr>
         <tr><td>Contributions et messages des visiteurs</td><td>Communauté</td></tr>
         <tr><td>Ce qui reste à vérifier</td><td>Pilotage › Qualité</td></tr>
         <tr><td>Version anglaise</td><td>Système › Traductions EN, ou onglet Version EN</td></tr>
