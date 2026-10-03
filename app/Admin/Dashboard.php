@@ -74,8 +74,9 @@ final class Dashboard extends Base
         if (count($quality['credits'])) {
             $todos[] = ['#F6C400', 'Créditer ' . (count($quality['credits']) >= 500 ? '500+' : count($quality['credits'])) . ' photos', 'Médias', '/admin/medias?filtre=sans-credit'];
         }
-        if (count($quality['liens'])) {
-            $todos[] = ['#1F3FA8', 'Créer les fiches de ' . count($quality['liens']) . ' joueurs cités sans fiche', 'Qualité', '/admin/qualite?cat=liens'];
+        $noFiche = count(array_filter($quality['liens'], fn ($q) => $q['id'] === null));
+        if ($noFiche) {
+            $todos[] = ['#1F3FA8', 'Créer les fiches de ' . $noFiche . ' joueurs cités sans fiche', 'Qualité', '/admin/qualite?cat=liens'];
         }
         if (!\App\Services\Gemini::ready() && \App\Core\Auth::isAdmin()) {
             $todos[] = ['#F6C400', 'Saisir la clé Gemini (assistant IA, traductions)', 'Réglages', '/admin/reglages?groupe=ai'];

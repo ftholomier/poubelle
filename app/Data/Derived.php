@@ -124,16 +124,26 @@ final class Derived
         // ---------------------------------------------------------- personnes
         $byKey = [];
         $byLast = [];
+        $byLetters = [];
+        $nameKeys = []; // pid => [clé, mots] pour les rapprochements approchés
         foreach ($persons as $pid => $p) {
             $pp = $p['personne'];
-            $keys = array_unique(array_filter([
-                Names::personKey($pp['display_name'] ?: $p['title']),
-                Names::personKey(trim(($pp['first_name'] ?? '') . ' ' . ($pp['last_name'] ?? ''))),
-                Names::personKey($p['title']),
-                $pp['nickname'] ? Names::personKey($pp['nickname']) : null,
-            ]));
-            foreach ($keys as $k) {
-                $byKey[$k][] = $pid;
+            $names = array_filter(array_merge([
+                $pp['display_name'] ?: $p['title'],
+                trim(($pp['first_name'] ?? '') . ' ' . ($pp['last_name'] ?? '')),
+                $p['title'],
+                $pp['nickname'] ?? '',
+            ], (array) ($pp['aliases'] ?? [])), fn ($n) => is_string($n) && trim($n) !== '');
+            foreach (array_unique(array_map([Names::class, 'personKey'], $names)) as $k) {
+                if ($k !== '') {
+                    $byKey[$k][] = $pid;
+                    $nameKeys[$pid][] = [$k, explode(' ', $k)];
+                }
+            }
+            foreach (array_unique(array_map([Names::class, 'letterKey'], $names)) as $k) {
+                if (strlen($k) >= 6) {
+                    $byLetters[$k][] = $pid;
+                }
             }
             $last = implode(' ', Names::tokens($pp['last_name'] ?? ''));
             if ($last !== '') {
@@ -152,7 +162,9 @@ final class Derived
         };
         $periods = array_map($period, $persons);
 
-        $resolve = function (string $name, ?string $date) use ($byKey, $byLast, $periods, $persons): ?int {
+        $approx = [];
+        $approxUsed = []; // nom de composition => [fiche, manière, nombre] : signalés aux historiens
+        $resolve = function (string $name, ?string $date) use ($byKey, $byLast, $byLetters, $nameKeys, $periods, $persons, &$approx, &$approxUsed): ?int {
             $year = $date ? (int) substr($date, 0, 4) : null;
             $pick = function (array $ids) use ($year, $periods) {
                 $ids = array_values(array_unique($ids));
@@ -173,8 +185,50 @@ final class Derived
             }
             // Nom de famille seul (« PIERRE », « Fofana »), avec contrôle de période.
             $last = Names::lineupLastName($name);
-            if ($last !== '' && isset($byLast[$last])) {
-                return $pick($byLast[$last]);
+            if ($last !== '' && isset($byLast[$last]) && ($pid = $pick($byLast[$last]))) {
+                return $pid;
+            }
+            // Nom incomplet : jamais vers un joueur dont la période au club (connue) exclut la date.
+            $pickNear = function (array $ids) use ($year, $periods, $pick) {
+                if ($year) {
+                    $ids = array_filter($ids, fn ($id) => $periods[$id][0] === null || ($year >= $periods[$id][0] && $year <= $periods[$id][1]));
+                }
+                return $ids ? $pick($ids) : null;
+            };
+            // Même nom écrit autrement : apostrophe, trait d'union, espace (« N'Diaye » / « Ndiaye »).
+            $lk = Names::letterKey($name);
+            if (isset($byLetters[$lk]) && ($pid = $pick($byLetters[$lk]))) {
+                $approxUsed[$name] = [$pid, 'graphie', ($approxUsed[$name][2] ?? 0) + 1];
+                return $pid;
+            }
+            if ($k === '') {
+                return null;
+            }
+            // Rapprochements approchés, calculés une fois par nom : une lettre de différence
+            // (deux pour un nom long), ou nom incomplet (« Carlao » pour « Carlao Roberto Da Cruz »).
+            // Retenus seulement si un seul joueur correspond (ou un seul à cette période).
+            if (!isset($approx[$k])) {
+                $toks = explode(' ', $k);
+                $typo = [];
+                $part = [];
+                $max = strlen($k) >= 15 ? 2 : (strlen($k) >= 9 ? 1 : 0);
+                foreach ($nameKeys as $pid => $list) {
+                    foreach ($list as [$pk, $ptoks]) {
+                        if ($max && abs(strlen($pk) - strlen($k)) <= $max && levenshtein($k, $pk) <= $max) {
+                            $typo[] = $pid;
+                        }
+                        if (count($ptoks) > count($toks) && !array_diff($toks, $ptoks) && (count($toks) > 1 || strlen($k) >= 4)) {
+                            $part[] = $pid;
+                        }
+                    }
+                }
+                $approx[$k] = [array_values(array_unique($typo)), array_values(array_unique($part))];
+            }
+            foreach ($approx[$k] as $i => $ids) {
+                if ($ids && ($pid = $i === 0 ? $pick($ids) : $pickNear($ids))) {
+                    $approxUsed[$name] = [$pid, $i === 0 ? 'orthographe' : 'nom incomplet', ($approxUsed[$name][2] ?? 0) + 1];
+                    return $pid;
+                }
             }
             return null;
         };
@@ -514,6 +568,11 @@ final class Derived
         uasort($unlinked, fn ($a, $b) => count($b['matches']) <=> count($a['matches']));
         foreach (array_slice($unlinked, 0, 300, true) as $u) {
             $quality[] = ['sev' => 'basse', 'code' => 'nonrelie', 'msg' => "Joueur cité dans " . count($u['matches']) . " composition(s) sans fiche : {$u['name']}", 'id' => $u['matches'][0]];
+        }
+        // Noms reliés par rapprochement (autre graphie, faute de frappe, nom incomplet) : à vérifier.
+        uasort($approxUsed, fn ($a, $b) => $b[2] <=> $a[2]);
+        foreach ($approxUsed as $name => [$pid, $how, $n]) {
+            $quality[] = ['sev' => 'basse', 'code' => 'rapproche', 'msg' => 'Nom « ' . Names::display($name) . " » relié par rapprochement ($how, $n composition" . ($n > 1 ? 's' : '') . ') à la fiche : ' . ($persons[$pid]['title'] ?? $pid), 'id' => $pid];
         }
 
         $data = [

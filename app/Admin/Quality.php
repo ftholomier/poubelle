@@ -91,8 +91,12 @@ final class Quality
         $d = Derived::get();
         $out = ['stats' => [], 'liens' => [], 'credits' => [], 'carto' => [], 'traductions' => []];
         foreach ($d['quality'] ?? [] as $a) {
+            if ($a['code'] === 'nonrelie') {
+                continue; // listés plus bas (onglet des liens), avec le bouton de création de fiche
+            }
             $s = Index::get((int) $a['id']);
-            $out['stats'][] = ['sev' => $a['sev'], 'msg' => $a['msg'], 'id' => (int) $a['id'], 'title' => $s['title'] ?? ('Fiche ' . $a['id']), 'url' => '/admin/fiche/' . (int) $a['id']];
+            // Noms reliés par rapprochement : à vérifier sur la fiche du joueur (onglet des liens).
+            $out[$a['code'] === 'rapproche' ? 'liens' : 'stats'][] = ['sev' => $a['sev'], 'msg' => $a['msg'], 'id' => (int) $a['id'], 'title' => $s['title'] ?? ('Fiche ' . $a['id']), 'url' => '/admin/fiche/' . (int) $a['id']];
         }
         $unlinked = $d['unlinked'] ?? [];
         uasort($unlinked, fn ($a, $b) => count($b['matches']) <=> count($a['matches']));

@@ -96,6 +96,18 @@ final class Names
         return implode(' ', $tok);
     }
 
+    /**
+     * Lettres d'un nom, triées : insensible à l'ordre des mots, aux espaces, apostrophes et
+     * traits d'union (« Rassoul N'Diaye » ≡ « NDIAYE Rassoul », « Petit-Jean » ≡ « Petitjean »).
+     */
+    public static function letterKey(string $name): string
+    {
+        $n = preg_replace('/\((c|cap\.?|capitaine|g|a l.essai)\)/iu', '', $name);
+        $chars = str_split(implode('', self::tokens((string) $n)));
+        sort($chars);
+        return implode('', $chars);
+    }
+
     /** Nom de famille probable d'une ligne de composition (« WEISSBECK Gaëtan » → weissbeck). */
     public static function lineupLastName(string $name): string
     {

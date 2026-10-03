@@ -1,6 +1,6 @@
 <?php
 /** Qualité. Variables : $all, $cat, $sev, $items, $total */
-$labels = ['stats' => ['Statistiques incohérentes', 'Scores, buteurs, dates'], 'liens' => ['Joueurs sans fiche', 'Cités dans les compositions'], 'credits' => ['Photos sans crédit', 'Médiathèque'], 'carto' => ['Lieux de naissance inconnus', 'Carto des origines'], 'traductions' => ['Traductions à revoir', 'Version anglaise']];
+$labels = ['stats' => ['Statistiques incohérentes', 'Scores, buteurs, dates'], 'liens' => ['Liens joueurs', 'Sans fiche, ou reliés par rapprochement'], 'credits' => ['Photos sans crédit', 'Médiathèque'], 'carto' => ['Lieux de naissance inconnus', 'Carto des origines'], 'traductions' => ['Traductions à revoir', 'Version anglaise']];
 ?>
 <div class="kpis">
   <?php foreach ($labels as $k => [$l, $d]): ?>
@@ -13,13 +13,16 @@ $labels = ['stats' => ['Statistiques incohérentes', 'Scores, buteurs, dates'], 
   </div>
   <span class="small muted"><?= (int) $total ?> alerte<?= $total > 1 ? 's' : '' ?> · recalculées automatiquement à chaque modification</span>
 </div>
+<?php if ($cat === 'liens'): ?>
+  <p class="small muted">Un nom mal orthographié dans les compositions se relie à une fiche existante en l’ajoutant dans « Autres graphies dans les compositions » (fiche du joueur, onglet Identité). Les rapprochements automatiques (autre graphie, faute de frappe, nom incomplet) sont listés pour vérification.</p>
+<?php endif; ?>
 <div class="card">
   <?php foreach ($items as $i): ?>
     <div class="card__row" style="grid-template-columns:100px minmax(0,1fr) minmax(0,280px) 110px">
       <span><span class="sev sev--<?= e($i['sev']) ?>"><?= e(ucfirst($i['sev'])) ?></span></span>
       <span><?= e($i['msg']) ?></span>
       <span class="muted ellipsis" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><?= e($i['title']) ?></span>
-      <a class="btn btn--sm" href="<?= e($i['url']) ?>"><?= $cat === 'liens' ? 'Créer la fiche' : 'Corriger' ?></a>
+      <a class="btn btn--sm" href="<?= e($i['url']) ?>"><?= $cat === 'liens' ? (str_contains($i['url'], '/nouvelle/') ? 'Créer la fiche' : 'Vérifier') : 'Corriger' ?></a>
     </div>
   <?php endforeach; ?>
   <?php if (!$items): ?><div class="empty" style="border:0">Aucune alerte · bravo !</div><?php endif; ?>

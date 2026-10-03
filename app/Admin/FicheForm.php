@@ -324,6 +324,9 @@ final class FicheForm
         if (($cur['display_name'] ?? '') === '') {
             $cur['display_name'] = trim(($cur['first_name'] ?? '') . ' ' . ($cur['last_name'] ?? ''));
         }
+        if (array_key_exists('aliases', $p)) {
+            $cur['aliases'] = array_values(array_unique(array_filter(array_map(fn ($a) => Html::line($a, 120), (array) $p['aliases']), fn ($a) => $a !== '')));
+        }
         if (array_key_exists('line', $p)) {
             $cur['line'] = isset(self::LINES[$p['line']]) && $p['line'] !== '' ? $p['line'] : null;
         }

@@ -24,6 +24,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
       <?= Form::text('personne.display_name', 'Nom affiché', $p['display_name'] ?? '', ['hint' => 'auto si vide']) ?>
       <?= Form::text('personne.nickname', 'Surnom', $p['nickname'] ?? '') ?>
     </div>
+    <?= Form::lines('personne.aliases', 'Autres graphies dans les compositions', (array) ($p['aliases'] ?? []), ['placeholder' => 'ex. CAMARA Razza', 'add' => 'Ajouter une graphie', 'help' => 'Les compositions qui écrivent le nom ainsi seront reliées à cette fiche (« Joueurs sans fiche » dans Qualité).']) ?>
     <?= Form::checks('personne.roles', 'Rubriques', $p['roles'] ?? ['joueur'], FicheForm::ROLES, ['help' => 'La première rubrique cochée détermine l’adresse de la fiche (/joueurs/…, /entraineurs/…).']) ?>
     <div class="fgrid">
       <?= Form::text('personne.position', 'Poste (texte)', $p['position'] ?? '', ['placeholder' => 'défenseur latéral droit', 'class' => 'f--2']) ?>
