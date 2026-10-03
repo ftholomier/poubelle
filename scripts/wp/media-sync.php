@@ -3,7 +3,7 @@
  * Télécharge depuis l'ancien site les fichiers de la médiathèque (data/media.json) absents de
  * storage/media/originals. À lancer sur le serveur à l'installation, tant que l'ancien site
  * WordPress est en ligne. Reprenable : relancer la commande reprend là où elle s'est arrêtée,
- * aucun fichier présent n'est écrasé.
+ * aucun fichier présent n'est écrasé ; deux passages ne peuvent pas se chevaucher.
  *
  * Usage : php scripts/wp/media-sync.php [--depuis=<dossier>] [--verifier]
  *   --depuis    dossier « wp-content/uploads » de l'ancien site sur le même hébergement :
@@ -15,6 +15,14 @@
 declare(strict_types=1);
 
 require __DIR__ . '/lib.php';
+
+// Un seul passage à la fois (la commande peut être lancée toutes les 5 minutes par une tâche cron).
+ensure_dir(IMPORT_DIR);
+$lock = fopen(IMPORT_DIR . '/media-sync.lock', 'c');
+if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+    out('Copie déjà en cours : rien à faire.');
+    exit(0);
+}
 
 $media = read_json(ROOT . '/data/media.json') ?: [];
 $base = ROOT . '/storage/media/originals';

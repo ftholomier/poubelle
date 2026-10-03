@@ -1,0 +1,63 @@
+/**
+ * Parcours de contrôle : ouvre les principales pages du site et du back-office et signale
+ * les pages en erreur, les erreurs JavaScript et les blocages de la politique CSP.
+ *
+ * Prérequis : Node.js et Playwright (npm install playwright).
+ * Usage :
+ *   SR_BASE=http://127.0.0.1:8080 node tests/smoke.js
+ *   SR_EMAIL=… SR_PASSWORD=… node tests/smoke.js     (ajoute les écrans du back-office)
+ * Code de sortie 1 si un problème est trouvé.
+ */
+const { chromium } = require('playwright');
+
+const BASE = (process.env.SR_BASE || 'http://127.0.0.1:8080').replace(/\/$/, '');
+const FRONT = ['/', '/matchs/', '/nos-lions/', '/nos-lions/joueurs/', '/supporters/', '/infrastructures/', '/symboles/',
+  '/saisons/', '/face-a-face/', '/records/', '/recherche/?q=bonal', '/interactif/', '/interactif/quiz/',
+  '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/centenaire/',
+  '/centenaire/100-moments/', '/reserves/', '/contact/', '/contribuer/', '/faire-un-don/', '/newsletter/',
+  '/mentions-legales/', '/confidentialite/', '/cookies/', '/en/', '/en/matchs/'];
+const ADMIN = ['/admin', '/admin/qualite', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
+  '/admin/objets', '/admin/referentiels', '/admin/medias', '/admin/accueil', '/admin/moments', '/admin/rubriques',
+  '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/contributions',
+  '/admin/messages', '/admin/newsletter', '/admin/dons', '/admin/traductions', '/admin/assistant',
+  '/admin/sauvegardes', '/admin/taches', '/admin/profil', '/admin/fiche/nouvelle/match', '/admin/fiche/nouvelle/personne'];
+
+(async () => {
+  const browser = await chromium.launch();
+  const page = await (await browser.newContext({ viewport: { width: 1280, height: 900 } })).newPage();
+  const problems = [];
+  page.on('pageerror', e => problems.push('[JS] ' + page.url() + ' : ' + e.message));
+  page.on('console', m => {
+    if (m.type() === 'error' && /Content Security Policy|Refused to/i.test(m.text())) problems.push('[CSP] ' + page.url() + ' : ' + m.text().slice(0, 200));
+  });
+  const visit = async (u) => {
+    const res = await page.goto(BASE + u, { waitUntil: 'networkidle' }).catch(e => null);
+    const code = res ? res.status() : 0;
+    if (code >= 400 || code === 0) problems.push('[HTTP ' + code + '] ' + u);
+    console.log(String(code).padEnd(4) + u);
+  };
+
+  // Une fiche match et une fiche personne prises dans les mosaïques.
+  for (const u of FRONT) await visit(u);
+  for (const sel of ['/matchs/', '/nos-lions/joueurs/']) {
+    await page.goto(BASE + sel, { waitUntil: 'networkidle' });
+    const href = await page.locator('main a[href^="/matchs/20"], main a[href^="/matchs/19"], main a[href^="/joueurs/"]').first().getAttribute('href').catch(() => null);
+    if (href) await visit(href);
+  }
+
+  if (process.env.SR_EMAIL && process.env.SR_PASSWORD) {
+    await page.goto(BASE + '/admin/connexion');
+    await page.fill('input[name=email]', process.env.SR_EMAIL);
+    await page.fill('input[name=password]', process.env.SR_PASSWORD);
+    await Promise.all([page.waitForNavigation(), page.click('button[type=submit]')]);
+    if (page.url().includes('/connexion')) {
+      problems.push('[ADMIN] connexion refusée');
+    } else {
+      for (const u of ADMIN) await visit(u);
+    }
+  }
+
+  await browser.close();
+  console.log(problems.length ? '\n' + problems.join('\n') : '\nAucun problème.');
+  process.exit(problems.length ? 1 : 0);
+})();
