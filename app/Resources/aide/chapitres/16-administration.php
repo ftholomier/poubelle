@@ -2,7 +2,7 @@
 return [
     'slug' => 'administration',
     'title' => 'Administration',
-    'summary' => 'Pour les administrateurs : utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, sauvegardes, tâches, journal.',
+    'summary' => 'Pour les administrateurs : utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, dons hors ligne et reçus fiscaux, sauvegardes, tâches, journal.',
     'sections' => [
         ['id' => 'utilisateurs', 'title' => 'Utilisateurs et invitations', 'html' => <<<'HTML'
 <p>Système › <b>Utilisateurs</b> (administrateurs) : <b>Inviter une personne</b> (nom, e-mail, niveau) ; elle reçoit un lien pour choisir son mot de passe, que l’on peut aussi copier et transmettre autrement. On peut renvoyer une invitation, changer le niveau ou désactiver un compte.</p>
@@ -39,6 +39,9 @@ HTML],
 <p><b>Garder la main sur la dépense.</b> Réglages › <b>Coûts IA</b> : nom de la personne qui avance les frais (imprimé sur le relevé), taux de change de votre banque, budget mensuel. Budget atteint : les tâches automatiques (et, si vous le souhaitez, l’assistant du site) se mettent en pause jusqu’au 1er du mois suivant ; les boutons du back-office restent utilisables. Après une traduction ou une vérification d’orthographe, son coût s’affiche aussi dans le message de confirmation.</p>
 [[astuce|<p>Ordre de grandeur avec Gemini 3.1 Flash-Lite : une question à l’assistant coûte un à deux dixièmes de centime, la relecture ou la traduction d’une fiche de match quelques dixièmes de centime. Un texte déjà relu n’est jamais renvoyé à Gemini.</p>]]
 [[attention|<p>La facture Google (console Google Cloud › Facturation) fait foi : quelques centimes d’écart sont possibles (arrondis, taux de change). Si Google change ses prix, mettez à jour le <b>barème</b> en bas de l’écran ; une hausse annoncée peut être saisie à l’avance, avec sa date. Les appels déjà faits gardent leur coût.</p>]]
+HTML],
+        ['id' => 'dons', 'title' => 'Dons hors ligne et reçus fiscaux', 'html' => <<<'HTML'
+<p>Communauté › <b>Dons</b> : seuls les administrateurs enregistrent un don reçu hors ligne (chèque, virement, espèces), notent son remboursement, émettent les reçus fiscaux et les consultent. Les autres comptes voient la jauge, la liste et le détail des dons, exportent le fichier CSV, modèrent le mur des donateurs et ajoutent des notes.</p>
 HTML],
         ['id' => 'sauvegardes', 'title' => 'Sauvegardes et restauration', 'html' => <<<'HTML'
 <p>Voir [[aide:fonctionnement#sauvegardes|Les sauvegardes]]. Réglages › Sauvegardes : heure de la sauvegarde quotidienne, nombre d’archives gardées, photos ajoutées le dimanche. Restaurer une sauvegarde complète (remplacer les dossiers <code>data/</code> et <code>storage/</code> sur le serveur) est une opération de webmestre, à réserver aux incidents graves.</p>

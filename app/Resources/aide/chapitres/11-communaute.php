@@ -28,12 +28,12 @@ HTML],
         ['id' => 'dons', 'title' => 'Le suivi des dons', 'html' => <<<'HTML'
 <p>Communauté › <b>Dons</b> : jauge de la collecte, liste des dons (carte bancaire via Stripe, PayPal, hors ligne), dons mensuels, export CSV pour la comptabilité.</p>
 <ul>
-<li><b>Enregistrer un don hors ligne</b> (chèque, espèces) : il compte dans la jauge.</li>
+<li><b>Enregistrer un don hors ligne</b> (chèque, virement, espèces ; administrateurs) : il compte dans la jauge. Son remboursement éventuel se note aussi par un administrateur.</li>
 <li><b>Mur des donateurs</b> : les noms que les donateurs ont accepté d’afficher.</li>
 <li>Détail d’un don : paiements reçus, état du don mensuel, note interne.</li>
 </ul>
 [[img:dons.webp|Le suivi de la collecte]]
-[[attention|<p>Les reçus fiscaux sont prêts mais désactivés : un administrateur ne les active (Réglages › Dons) que si l’association y a droit.</p>]]
+[[attention|<p>Les reçus fiscaux sont prêts mais désactivés : un administrateur ne les active (Réglages › Dons) que si l’association y a droit. Ils sont émis et consultés par les administrateurs.</p>]]
 HTML],
     ],
 ];

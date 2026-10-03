@@ -238,7 +238,9 @@ Rapport détaillé : `docs/CONTROLE-2026-10.md`.
       ancienne page d'accueil WordPress retirée ; 25 textes anglais ajoutés.
 - [x] Droits (décision du client) : Coûts IA, Assistant IA, Fiches audio, Sauvegardes et
       Tâches réservés à l'administrateur, comme les montants dépensés en IA ; Qualité ouverte
-      à tous.
+      à tous. Ensuite : dons hors ligne (enregistrement, remboursement noté) et reçus fiscaux
+      (émission, PDF) réservés à l'administrateur ; liste des dons, export, mur et notes
+      ouverts à tous.
 - [x] Qualité :
       - nouvel onglet « À compléter » (« xx » de l'ancien site, fiches à venir, vidéos) ;
       - jour de la semaine incohérent, tirs au but non détaillés ;

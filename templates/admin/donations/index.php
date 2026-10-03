@@ -67,10 +67,16 @@ $pill = ['paid' => 'ok', 'active' => 'ok', 'pending' => 'warn', 'canceled' => 'i
 <?php endif; ?>
 
 <div class="cols cols--wide">
+  <?php if (!Auth::isAdmin()): ?>
+  <div class="card card--pad">
+    <h2 class="card__t card__t--sm">Dons reçus hors ligne</h2>
+    <p class="small muted" style="margin:0">Les dons par chèque, virement ou espèces<?= $receipts ? ' et les reçus fiscaux' : '' ?> sont enregistrés par un administrateur : ils apparaissent ensuite dans la liste et dans la jauge.</p>
+  </div>
+  <?php else: ?>
   <form class="card card--pad" method="post" action="/admin/dons">
     <?= csrf_field() ?><input type="hidden" name="action" value="manuel">
     <h2 class="card__t card__t--sm">Enregistrer un don hors ligne</h2>
-    <p class="small muted" style="margin:0">Chèque, virement ou espèces : le don rejoint la jauge et, si vous le souhaitez, le mur des donateurs.</p>
+    <p class="small muted" style="margin:0">Chèque, virement ou espèces : le don rejoint la jauge et, si vous le souhaitez, le mur des donateurs. Réservé aux administrateurs.</p>
     <div class="fgrid">
       <label class="f"><span class="f__k">Montant (€) <b>*</b></span><input type="text" name="amount" inputmode="decimal" required placeholder="50"></label>
       <label class="f"><span class="f__k">Date</span><input type="date" name="date" value="<?= date('Y-m-d') ?>"></label>
@@ -90,6 +96,7 @@ $pill = ['paid' => 'ok', 'active' => 'ok', 'pending' => 'warn', 'canceled' => 'i
     <div class="f"><span class="f__k">Note interne</span><textarea name="note" rows="2" data-wysiwyg="mini"></textarea></div>
     <button type="submit" class="btn btn--navy" style="align-self:flex-start">Enregistrer le don</button>
   </form>
+  <?php endif; ?>
   <div class="stack">
     <div class="card">
       <div class="card__head"><h2 class="card__t card__t--sm">Mur des donateurs</h2><a class="linkbtn" href="/faire-un-don/#mur" target="_blank" rel="noopener">Voir ↗</a></div>

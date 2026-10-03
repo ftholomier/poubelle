@@ -254,10 +254,11 @@ final class Tips
         ],
         'dons' => [
             'screen' => 'Le suivi de la collecte : jauge, dons reçus (carte, PayPal, hors ligne), dons mensuels, export.',
-            'enregistrer un don hors ligne' => 'Pour un chèque ou des espèces : il compte dans la jauge et peut figurer sur le mur des donateurs.',
+            'enregistrer un don hors ligne' => 'Pour un chèque, un virement ou des espèces (administrateurs) : il compte dans la jauge et peut figurer sur le mur des donateurs.',
+            'dons reçus hors ligne' => 'Les dons par chèque, virement ou espèces sont enregistrés par un administrateur.',
             'mur des donateurs' => 'Les donateurs qui ont accepté d’afficher leur nom sur le site.',
             'paiements' => 'Les paiements reçus pour ce don (un par mois pour un don mensuel).',
-            'reçus fiscaux' => 'Fonction prête mais désactivée : à activer dans les réglages seulement si l’association y a droit.',
+            'reçus fiscaux' => 'Fonction prête mais désactivée : à activer dans les réglages seulement si l’association y a droit. Les reçus sont émis et consultés par les administrateurs.',
             'note interne' => 'Une note visible seulement dans le back-office.',
             'don mensuel' => 'État de l’abonnement (actif, arrêté) chez le prestataire de paiement.',
             'moyen' => 'Chèque, virement, espèces ou autre : comment le don a été reçu.',

@@ -14,6 +14,8 @@ use App\Front\Donations as Front;
  * Dons : suivi de la collecte (jauge, liste filtrable, export CSV), détail d'un
  * don (paiements, reçus fiscaux, arrêt d'un don mensuel), dons reçus hors ligne
  * (chèque, virement, espèces) et modération du mur des donateurs.
+ * Réservés aux administrateurs (décision du club) : l'enregistrement d'un don hors ligne
+ * et ses remboursements notés, l'émission et la consultation des reçus fiscaux.
  */
 final class Donations extends Base
 {
@@ -94,6 +96,9 @@ final class Donations extends Base
         $action = (string) ($req->post['action'] ?? '');
         $user = self::actor();
         if ($action === 'manuel') {
+            if (!Auth::isAdmin()) {
+                return self::back('/admin/dons', null, 'L’enregistrement des dons hors ligne est réservé aux administrateurs.');
+            }
             $amount = (float) str_replace([',', ' ', "\u{a0}"], ['.', '', ''], (string) ($req->post['amount'] ?? '0'));
             $cents = (int) round($amount * 100);
             $first = Html::line($req->post['first'] ?? '', 80);
@@ -171,6 +176,9 @@ final class Donations extends Base
                 Activity::log($user, 'a arrêté un don mensuel', ['title' => $id]);
                 return self::back($back, $ok ? 'Don mensuel arrêté chez le prestataire ; le donateur est prévenu par e-mail.' : null, $ok ? null : 'Le prestataire n’a pas confirmé l’arrêt : réessayez ou arrêtez-le depuis son tableau de bord.');
             case 'recu':
+                if (!Auth::isAdmin()) {
+                    return self::back($back, null, 'Les reçus fiscaux sont réservés aux administrateurs.');
+                }
                 if (!Settings::get('donations.tax_receipts', false)) {
                     return self::back($back, null, 'Les reçus fiscaux sont désactivés (Réglages › Dons).');
                 }
@@ -186,6 +194,9 @@ final class Donations extends Base
                 Activity::log($user, 'a émis un reçu fiscal', ['title' => (string) $num]);
                 return self::back($back, $num ? "Reçu $num émis." : null, $num ? null : 'Aucun paiement sans reçu.');
             case 'rembourse':
+                if ($d['provider'] === 'manuel' && !Auth::isAdmin()) {
+                    return self::back($back, null, 'Un don hors ligne se corrige par un administrateur.');
+                }
                 $ref = (string) ($req->post['ref'] ?? '');
                 Front::update($id, function ($x) use ($ref) {
                     foreach ($x['payments'] as $i => $p) {

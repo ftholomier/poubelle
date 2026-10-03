@@ -221,9 +221,11 @@ compléter avec l'endroit du « xx ».
 Tout le reste est ouvert aux historiens, en particulier Pilotage › Qualité et toutes ses
 alertes.
 
-**Reste à décider.** Les dons hors ligne (chèque, espèces, virement) sont enregistrés à
-la main dans Communauté › Dons : ils comptent dans la jauge publique et peuvent donner
-lieu à un reçu fiscal. Tout membre du back-office peut aujourd'hui le faire.
+**Décidé ensuite.** Les dons hors ligne (chèque, virement, espèces), enregistrés à la main
+dans Communauté › Dons, comptent dans la jauge publique et peuvent donner lieu à un reçu
+fiscal : leur enregistrement, leur remboursement noté, l'émission et la consultation des
+reçus fiscaux sont réservés à l'administrateur. La liste des dons, l'export, le mur des
+donateurs et les notes restent ouverts à tous les comptes.
 
 ## 5. Refaire les contrôles
 

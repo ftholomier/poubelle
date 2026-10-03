@@ -509,8 +509,11 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   des comptes (`users`), les réglages (`settings`), la suppression définitive (`destroy`)
   et la restauration de versions (`restore`, `backup_restore`). Écrans techniques réservés
   aux administrateurs (`Router::ADMIN_ONLY`, menu `Base::NAV`) : Assistant IA, Fiches audio
-  (traitement groupé), Coûts IA, Sauvegardes, Tâches planifiées ; les coûts d'IA ne sont
-  affichés qu'aux administrateurs (`Base::aiCost()`, `aiCostData()`).
+  (traitement groupé), Coûts IA, Sauvegardes, Tâches planifiées, reçus fiscaux
+  (`/admin/dons/recu/…`) ; les coûts d'IA ne sont affichés qu'aux administrateurs
+  (`Base::aiCost()`, `aiCostData()`). Dans `App\Admin\Donations`, l'enregistrement d'un don
+  hors ligne (`manuel`), l'émission d'un reçu (`recu`) et le remboursement noté d'un don hors
+  ligne (`rembourse`) sont refusés aux autres comptes, et cachés dans les écrans.
 - Formulaires : les écrans envoient du JSON (`public/assets/admin/admin.js`, champs nommés
   par chemin pointé : `match.referee`, répétitions `data-repeater`), contrôle de
   modification simultanée, brouillon conservé dans le navigateur.

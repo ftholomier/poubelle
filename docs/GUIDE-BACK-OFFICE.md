@@ -233,7 +233,8 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
 - **Messages** (formulaire de contact) : lire, répondre, attribuer, marquer comme traité.
 - **Newsletter « Ce jour-là »** : abonnés, aperçu, envoi de test, envoi.
 - **Dons** : jauge, liste filtrable, export CSV, ajout d'un don reçu hors ligne (chèque,
-  espèces). Les reçus fiscaux existent mais sont désactivés.
+  virement, espèces ; administrateurs). Les reçus fiscaux existent mais sont désactivés ;
+  activés, ils sont émis et consultés par les administrateurs.
 
 ## 8. Qualité
 
@@ -292,9 +293,10 @@ réindexation après de grosses modifications. Les questions sont conservées po
 ## 11. Administration
 
 Réservés aux administrateurs : Utilisateurs, Réglages, Assistant IA, Fiches audio (écran du
-traitement groupé), Coûts IA, Sauvegardes et Tâches planifiées. Les montants dépensés en IA
-ne s'affichent que pour eux. Tout le reste, y compris les alertes de Pilotage › Qualité, est
-ouvert à tous les comptes.
+traitement groupé), Coûts IA, Sauvegardes et Tâches planifiées ; dans Communauté › Dons,
+l'enregistrement des dons hors ligne (et de leurs remboursements) et les reçus fiscaux. Les
+montants dépensés en IA ne s'affichent que pour eux. Tout le reste, y compris les alertes de
+Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
 - **Réglages** (administrateur) : identité du site, e-mail, clés Gemini, correcteur

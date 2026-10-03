@@ -6,6 +6,9 @@ use App\Front\Donations as Front;
 
 $donor = $d['donor'] ?? [];
 $paidRefs = array_column(array_filter($d['payments'] ?? [], fn ($p) => $p['status'] === 'paid' && empty($p['receipt'])), 'ref');
+// Reçus fiscaux et corrections d'un don hors ligne : administrateurs seulement.
+$admin = Auth::isAdmin();
+$canRefund = $admin || $d['provider'] !== 'manuel';
 ?>
 <div class="cols cols--wide">
   <div class="stack">
@@ -29,8 +32,8 @@ $paidRefs = array_column(array_filter($d['payments'] ?? [], fn ($p) => $p['statu
         <div class="card__row" style="grid-template-columns:110px 110px minmax(0,1fr) auto">
           <span class="small"><?= e(date('d/m/Y', strtotime((string) $p['at']))) ?></span>
           <b class="d"><?= e(Front::money((int) $p['amount'])) ?></b>
-          <span class="small"><?= $p['status'] === 'paid' ? '<span class="ok">payé</span>' : '<span class="ko">' . e($p['status']) . '</span>' ?><?= !empty($p['receipt']) ? ' · reçu <a href="/admin/dons/recu/' . e($p['receipt']) . '" target="_blank" rel="noopener">' . e($p['receipt']) . '</a>' : '' ?><br><span class="xs muted" style="overflow-wrap:anywhere"><?= e($p['ref']) ?></span></span>
-          <?php if ($p['status'] === 'paid'): ?>
+          <span class="small"><?= $p['status'] === 'paid' ? '<span class="ok">payé</span>' : '<span class="ko">' . e($p['status']) . '</span>' ?><?= !empty($p['receipt']) ? ' · reçu ' . ($admin ? '<a href="/admin/dons/recu/' . e($p['receipt']) . '" target="_blank" rel="noopener">' . e($p['receipt']) . '</a>' : e($p['receipt'])) : '' ?><br><span class="xs muted" style="overflow-wrap:anywhere"><?= e($p['ref']) ?></span></span>
+          <?php if ($p['status'] === 'paid' && $canRefund): ?>
             <form method="post" action="/admin/dons/<?= e($d['id']) ?>" data-confirm="Noter ce paiement comme remboursé ?|Il sort de la jauge. Le remboursement lui-même se fait chez le prestataire.|Confirmer|danger"><?= csrf_field() ?><input type="hidden" name="ref" value="<?= e($p['ref']) ?>"><button type="submit" name="action" value="rembourse" class="btn btn--sm">Remboursé</button></form>
           <?php else: ?><span></span><?php endif; ?>
         </div>
@@ -46,7 +49,7 @@ $paidRefs = array_column(array_filter($d['payments'] ?? [], fn ($p) => $p['statu
       <label class="toggle"><input type="checkbox" name="wall_hidden" value="1"<?= !empty($d['wall_hidden']) ? ' checked' : '' ?>><span class="toggle__box"></span><span>Masquer du mur (modération)</span></label>
       <button type="submit" class="btn btn--navy" style="align-self:flex-start">Enregistrer</button>
     </form>
-    <?php if ($receipts): ?>
+    <?php if ($receipts && $admin): ?>
       <form class="card card--pad" method="post" action="/admin/dons/<?= e($d['id']) ?>">
         <?= csrf_field() ?><input type="hidden" name="action" value="recu">
         <h2 class="card__t card__t--sm">Reçus fiscaux</h2>
