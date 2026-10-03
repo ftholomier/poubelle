@@ -95,13 +95,17 @@ final class Geo
             $hit = ['lat' => $lat, 'lng' => $lng, 'cc' => $cc, 'source' => 'repertoire'];
         } elseif ($online) {
             $hit = self::nominatim($city . ($country !== '' ? ', ' . $country : ''));
+            if ($hit === false) {
+                return null; // service injoignable : rien n'est mémorisé, on réessaiera
+            }
         } else {
             return null;
         }
         $entry = $hit ? $hit + self::country($hit['cc']) + ['city' => $city, 'country' => $country ?: self::country($hit['cc'])['name'], 'at' => date('c')]
             : ['lat' => null, 'lng' => null, 'city' => $city, 'country' => $country, 'at' => date('c'), 'source' => 'introuvable'];
         $cache[$key] = $entry;
-        Collections::save('geo', $cache, null, 'Géolocalisation : ' . $key);
+        // Cache technique : enregistré sans version ni entrée au journal.
+        \App\Core\JsonStore::write(Collections::DIR . '/geo.json', $cache);
         return $entry['lat'] !== null ? $entry : null;
     }
 
@@ -119,16 +123,17 @@ final class Geo
         }
         $where = trim(($st['city'] ?? '') . ' ' . (preg_match('/^\d{2,3}$/', (string) ($st['department'] ?? '')) ? '' : ($st['department'] ?? '')));
         $q = $st['name'] . ($where !== '' ? ', ' . $where : '') . (preg_match('/^\d{2,3}$/', (string) ($st['department'] ?? '')) ? ', France' : '');
-        return self::nominatim($q, 'stadium');
+        return self::nominatim($q, 'stadium') ?: null;
     }
 
     private static float $last = 0;
     private static int $down = 0;
 
-    private static function nominatim(string $q, string $kind = ''): ?array
+    /** @return array|null|false position trouvée, null si le lieu est inconnu, false si le service ne répond pas */
+    private static function nominatim(string $q, string $kind = ''): array|null|false
     {
         if (!Settings::get('map.geocoding', true) || self::$down >= 3) {
-            return null; // service injoignable : on réessaiera au prochain passage
+            return false; // service désactivé ou injoignable : on réessaiera au prochain passage
         }
         // Politique d'usage d'OpenStreetMap : 1 requête par seconde, identification du site.
         $wait = 1.05 - (microtime(true) - self::$last);
@@ -144,14 +149,13 @@ final class Geo
         $body = curl_exec($ch);
         $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        if ($code !== 200 || !$body) {
-            if ($code === 0 || $code === 403 || $code === 429 || $code >= 500) {
-                self::$down++;
-            }
-            return null;
+        $list = $code === 200 ? json_decode((string) $body, true) : null;
+        if (!is_array($list)) {
+            self::$down++;
+            return false;
         }
         self::$down = 0;
-        $r = json_decode((string) $body, true)[0] ?? null;
+        $r = $list[0] ?? null;
         if (!$r) {
             return null;
         }
