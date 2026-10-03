@@ -110,8 +110,11 @@ fournie (curseur qui navigue dans le back-office et le site, montée en puissanc
 - Réveils automatiques (send_later, à supprimer à la fin) : trig_01QFsVzpbiAUccqmZayCf5x1,
   trig_01MoLdoE3wKnW2jgSDFDr6nf, trig_01JMyfRohknevGgPxyst9BkF, trig_019LzQSPQoJemcYKhyRt7Wu9,
   trig_011AVAUWKkxLACHCUh68ECdv, trig_01CLYVCwRxMMuyYSaH4ECZj6, trig_01GrZeEvf6nTtYXGucYuzzjU.
-- [ ] Aide : écrans /admin/aide (modules, leçons, quiz, progression), aide contextuelle
+- [ ] Aide : écrans /admin/aide (chapitres, pas à pas, « Comment faire pour… »), aide contextuelle,
+      recherche — **pas de quiz ni de suivi de progression** (précision du client)
 - [ ] Aide : captures d'écran annotées (app/Resources/aide/img), PDF guide + mémo
 - [ ] Teaser : analyse musique, captures, animation, rendu MP4 (1920×1080)
+- [ ] Recette complète demandée ensuite : sécurité, ergonomie, mobile, fonctionnalités,
+      anti-spam, SEO (corriger ce qui doit l'être)
 - [ ] Tests, nettoyage (compte de capture, données), commit, envoi des fichiers
 
