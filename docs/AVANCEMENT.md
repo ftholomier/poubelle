@@ -3,12 +3,8 @@
 Fichier de reprise : à relire en premier après une pause (quota, réveil automatique).
 Règle : cocher au fur et à mesure, pousser après chaque étape.
 
-## Réveils automatiques (à supprimer quand tout est terminé)
-- Routine horaire de secours : `trig_01As8VxpxYtxnuZiiJrm2bC7`.
-- Réveils ponctuels (send_later) jusqu'à 04:30 UTC le 03/10 :
-  trig_01WPhM91D2bCLq2JMeB2koiu (02:50), trig_01C7RBzsVRBS2zj8PixyEwUF (03:15),
-  trig_01QLHt3gVKj4ucoRi4QUhx4J (03:40), trig_01E4qWa7tXoCL47JrbxAGxKy (04:05),
-  trig_01JSKt5KTgc4wsx5APcm75WT (04:30). Réarmer une série si le travail continue au-delà.
+## Réveils automatiques
+- Supprimés à la fin du développement (03/10) : routine horaire et réveils ponctuels.
 
 ## Données locales (non versionnées, régénérables)
 - `storage/import/` : aspiration brute (HTML, REST, ordres des mosaïques, rapports).
@@ -24,7 +20,8 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 
 ## Phase 1 — Données
 - [x] Aspiration HTML des 2 941 pages, API REST, ordre des mosaïques par catégorie
-- [ ] Téléchargement des originaux des médias (en cours, ≈ 97 %)
+- [x] Téléchargement des originaux des médias (12 735 fichiers, tous présents ; sur le serveur :
+      `php scripts/wp/media-sync.php`)
 - [x] Extraction → `data/` (2 940 fiches : 1 664 matchs, 1 212 personnes, 60 articles, 4 pages ;
       123 rubriques ; 12 735 médias ; 5 984 redirections 301)
 - [x] Référentiels : saisons, clubs (alias), stades, compétitions
@@ -70,8 +67,15 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 - [x] Sécurité (CSP, CSRF, antispam), cookies, accessibilité
 - [x] Images de partage, newsletter « Ce jour-là »
 - [x] Documentation de déploiement o2switch (`docs/DEPLOIEMENT.md`)
-- [ ] Import final après le téléchargement complet des médias, puis versionnement de `data/`
-- [ ] Nettoyage : compte de test, journal d'activité de test, réveils automatiques
+- [x] Import final après le téléchargement complet des médias, puis versionnement de `data/`
+- [x] Nettoyage : compte de test, journal d'activité de test, réveils automatiques
+
+## Reste à faire par le client (voir `docs/DEPLOIEMENT.md`)
+- Installation sur o2switch, tâche cron, premier compte administrateur, invitations.
+- Clé Gemini (assistant IA, traduction anglaise des fiches), comptes Stripe et PayPal.
+- Relecture des mentions légales, de la politique de confidentialité et des cookies.
+- Tableau de bord Qualité : incohérences des fiches d'origine (scores, dates, tableaux de
+  composition copiés d'un autre match, joueurs sans fiche, rapprochements à vérifier).
 
 ## Exhaustivité (contrôle du 03/10, 02:23 UTC)
 - Texte : 1 817 125 mots retrouvés sur 1 817 997 (99,95 %).
@@ -83,10 +87,16 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
   - Accueil (n° 3) : compteurs « 11000+ » et « 1400+ » repris dans les réglages de l'accueil.
   - Amical Valence – Sochaux 1994 (n° 860) : en-têtes d'un tableau de composition vide.
 - Corrigé grâce au contrôle : colonne « Numéro » des compositions (22 tableaux), textes à côté
-  d'un tableau, titres de blocs, vidéos dans le texte, images retouchées par WordPress,
-  11 images hors médiathèque, page « Joueurs » (liste automatique → rubrique Nos Lions).
+  d'un tableau, titres de blocs, vidéos dans le texte (dont 13 Rutube), images retouchées par
+  WordPress, 11 images hors médiathèque, page « Joueurs » (liste automatique → rubrique Nos Lions).
+- Statistiques : buts contre son camp séparés, cartons « J 35' R 80' » lus correctement,
+  temps de jeu des remplaçants entrés puis sortis ; même règle de lecture dans le back-office.
+- Liens compositions ↔ fiches : 26 161 apparitions reliées (25 475 avant), joueurs cités
+  sans fiche 82 → 40 ; rapprochements automatiques listés dans Qualité pour vérification.
 
 ## Journal
 - 02/10 22:26 UTC — feu vert du client, démarrage du développement.
 - 03/10 01:40 UTC — back-office complet et testé de bout en bout.
 - 03/10 02:40 UTC — contrôle d'exhaustivité : pertes corrigées, compositions avec n° de maillot.
+- 03/10 03:15 UTC — CSP, vidéos Rutube, vignettes vidéo, statistiques des compositions,
+  liens joueurs, données versionnées, guide de mise en ligne : développement terminé.
