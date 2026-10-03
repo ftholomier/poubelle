@@ -333,6 +333,13 @@ final class Tips
         if (in_array($nav, ['objets', 'moments'], true)) {
             $screen += array_diff_key(self::SCREENS['articles'], ['screen' => 1]);
         }
-        return $screen + self::COMMON;
+        $tips = $screen + self::COMMON;
+        return \App\Core\Auth::isAdmin() ? $tips : array_map([self::class, 'withoutCosts'], $tips);
+    }
+
+    /** Coûts de l'IA (« environ 0,6 centime ») retirés : réservés aux administrateurs. */
+    public static function withoutCosts(string $html): string
+    {
+        return (string) preg_replace('/\s*\((?:environ|soit) [^()]*?(?:centimes?|€)[^()]*\)/u', '', $html);
     }
 }

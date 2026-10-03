@@ -96,16 +96,17 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 
 | Fichier | Contenu | Mise à jour |
 |---|---|---|
-| `index.php` | résumé de chaque fiche (titre, adresse, type, rubriques…) | à chaque enregistrement ; reconstruit s'il manque |
+| `index-2.php` | résumé de chaque fiche (titre, adresse, type, rubriques, extrait sans « xx », empreinte des textes relus par le correcteur…) ; le numéro change quand le contenu du résumé change, l'ancien fichier est alors ignoré | à chaque enregistrement ; reconstruit s'il manque |
 | `derived.php` | données calculées (§ 5) | marqué « à recalculer » à chaque enregistrement, recalculé après l'envoi de la page ou par la tâche planifiée |
 | `search.php` | index de recherche | à chaque enregistrement |
 | `media.php`, `media-versions.php`, `media-usage.json` | médiathèque, versions des fichiers retouchés, « utilisée dans » | à chaque modification |
 | `carte-*.json`, `sitemap.xml`, `share/` | données de la carte, plan du site, images de partage | à la demande |
 | `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records, kits souvenirs) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change (kit souvenirs : un fichier par langue, refait seulement si le contenu du kit change) ; ménage des fichiers de plus de 30 jours |
 | `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
-| `chiffres-{fr,en}.json` | les 100 chiffres du FCSM (§ 7 nonies), déjà mis en forme dans chaque langue | refaits quand `derived.php`, `index.php` ou le dictionnaire anglais changent ; calculés d'avance par la tâche « statistiques » |
+| `chiffres-{fr,en}.json` | les 100 chiffres du FCSM (§ 7 nonies), déjà mis en forme dans chaque langue | refaits quand `derived.php`, `index-2.php` ou le dictionnaire anglais changent ; calculés d'avance par la tâche « statistiques » |
+| `controle-site.php` | vérifications du site hors fiches (redirections, référentiels, rubriques, textes de l'interface), pour le compteur d'alertes graves du menu | refaites dès qu'un des fichiers lus change (empreinte des dates et tailles) et à chaque contrôle complet |
 
-`index.php` et `search.php` sont modifiés par `App\Core\PhpCache::update()` : le fichier est
+`index-2.php` et `search.php` sont modifiés par `App\Core\PhpCache::update()` : le fichier est
 relu sous verrou, seules les fiches enregistrées sont remplacées, puis il est réécrit. Un
 processus qui a chargé l'index plus tôt (tâche planifiée, longue requête) n'écrase donc
 jamais ce que d'autres ont enregistré entre-temps (en mode « lot », les modifications sont
@@ -172,8 +173,12 @@ L'écran Qualité (`App\Admin\Quality::all()`) les range en onglets (`Quality::T
 `role`), « Liens joueurs » (sans fiche, `rapproche`, `homonyme`), « Adresses et médias »
 (`titre`, `adresse`, `rubrique`, `image`, `fichier`), « Traductions à revoir »
 (`traduction`)… S'y ajoutent les vérifications hors fiches de
-`App\Services\Controle::siteChecks()` : redirections (en boucle, en chaîne, vers une page
-absente ou non publiée, inutiles : `Kernel::isRoute()` reconnaît les pages calculées),
+`App\Services\Controle::siteChecks()` : redirections, suivies comme par un visiteur avec
+`Kernel::probe()` (même ordre que `dispatch()`, sans exécuter les pages : fichier de `public/`,
+image de la médiathèque, `/en`, « / » final ajouté, anciens liens `?p=`, pages calculées à
+paramètre vérifiées comme par la page elle-même — saison, face-à-face, bilan, Rétro-Direct,
+Fil jaune, réserves —, fiche ou rubrique, redirection) : jamais utilisée, vers une page
+absente ou non publiée, en chaîne, en boucle (A → B → A), vers elle-même ;
 référentiels (adversaire ou stade en double, graphie qui désigne deux entrées), rubriques
 orphelines, textes de l'interface dont les variables `{…}` ou les balises diffèrent en
 anglais. Les plus graves viennent d'abord, 300 par page ; « Corriger » ouvre la fiche à
@@ -184,27 +189,63 @@ l'onglet concerné (`#infos`, `#compo`, `#seo`…).
 `App\Services\Controle::run()` (route `POST /admin/qualite/controler`, ouverte à tous les
 comptes ; `php bin/console.php controle` en ligne de commande) :
 1. remet l'index des fiches et la recherche à jour si des fichiers ont changé hors du
-   back-office (date de modification, statut ou adresse différents de l'index) ;
+   back-office : résumé recalculé depuis chaque fichier et comparé à l'index (même si la
+   date de modification interne n'a pas changé, cas d'une restauration), fichier plus
+   récent que la recherche ;
 2. recalcule toutes les données calculées (`Derived::rebuild()`) ;
-3. donne à chaque alerte une clé stable (`Controle::key()` : onglet, fiche ou nom, nature ;
-   le message, chiffres retirés, seulement pour les natures qui peuvent se répéter sur une
-   fiche) ;
+3. donne à chaque alerte une clé stable (`Controle::key()` : onglet, fiche ou nom, nature et
+   `ref`, ce que vise l'alerte — nom rapproché, adresse partagée, sorte d'écart de date,
+   d'erreur de composition, identifiant en double… ; jamais le libellé, qui peut changer :
+   nombre de compositions, titre d'une autre fiche, liste de fichiers) ;
 4. compare avec le contrôle précédent : nouvelles et corrigées ;
 5. enregistre `storage/controle.json` (clés par onglet, nouvelles, historique des 8 derniers
    contrôles) et une ligne du journal.
 
-Un seul contrôle à la fois (verrou `storage/controle.lock`) ; environ 2 secondes pour
-~3 000 fiches. Une alerte est marquée « Nouveau » si elle est nouvelle au dernier contrôle
-ou absente de celui-ci (apparue depuis). Exception, l'onglet Orthographe, rempli peu à peu
-par le correcteur qui relit tout le musée en tâche de fond (`Controle::BACKGROUND_TABS`) :
-une correction proposée n'y est nouvelle que si sa fiche a été modifiée depuis le contrôle. Avant le premier contrôle, la comparaison se fait
-avec `app/Resources/controle-reference.json`, les clés des anomalies des données du dépôt au
-contrôle complet du 3 octobre 2026 (onglet Orthographe exclu : il dépend du correcteur de
-chaque serveur). Elle se réécrit avec `php bin/console.php controle-reference "libellé"`
-après une modification des vérifications ou des messages, données du dépôt à jour.
-À l'affichage public, les « xx » sont retirés des textes : `Fiche::hideUnknown()` dans
-`localize()`, `withoutUnknown()` pour la fiche d'identité, le résumé audio et les données
-schema.org. La fiche n'est pas modifiée.
+Un seul contrôle à la fois (verrou `storage/controle.lock`) ; environ 2 à 3 secondes pour
+~3 000 fiches ; quatre contrôles au plus en deux minutes par personne, session libérée pendant
+le contrôle (les autres onglets restent utilisables). Une alerte est marquée « Nouveau » si
+elle est nouvelle au dernier contrôle ou absente de celui-ci (apparue depuis). Exception,
+l'onglet Orthographe, rempli peu à peu par le correcteur qui relit tout le musée en tâche de
+fond (`Controle::BACKGROUND_TABS`) : une correction proposée n'y est nouvelle que si les
+**textes** de sa fiche ont changé depuis le contrôle (empreinte `Proofreader::textSig()` des
+champs relus, gardée par fiche dans `controle.json` ; une traduction anglaise, un numéro
+d'album ou une publication programmée ne comptent pas). Le correcteur lui-même garde sa
+vérification tant que cette empreinte ne change pas (pas de nouvel appel à Gemini). Avant le
+premier contrôle, la comparaison se fait avec `app/Resources/controle-reference.json`, les
+clés des anomalies des données du dépôt (onglet Orthographe exclu : il dépend du correcteur
+de chaque serveur). Elle se réécrit avec `php bin/console.php controle-reference "libellé"`
+après une modification des vérifications ou des clés, données du dépôt à jour.
+
+### « xx » de l'ancien site (`App\Front\Unknown`)
+
+Information inconnue au moment de la saisie : « xx » isolé (ou « XX »), année « 19xx »,
+taille « 1mxx », rang « xxè » (en minuscules : « XXe siècle » est un vrai siècle), score
+« x-x » (`Unknown::RE` ; « XXL », « Maxxsport » ou un identifiant de vidéo ne sont pas
+concernés). Jamais affichée ni lue à voix haute : `Unknown::doc()` dans `Fiche::localize()`
+(page, PDF), pour l'image de partage et dans le résumé audio réécrit la phrase (« né le xx/xx/1925 à
+Aulnoye » → « né en 1925 à Aulnoye », « né le xx à xx (Hongrie) » → « né en Hongrie »,
+« Sochaux - Strasbourg du xx/09/1990 » → « … en septembre 1990 »), ou retire la ligne quand
+il ne reste rien d'utile (« Taille 1mxx », « Poids xx kg », modèle de match jamais rempli).
+Texte riche : seuls les nœuds de texte sont touchés, attributs intacts ; un bloc réduit à
+son étiquette (« Arbitre : ») disparaît. L'extrait de l'index (cartes, accueil, recherche) et
+les extraits de la recherche sont nettoyés de même. La fiche n'est pas modifiée : l'écran
+Qualité liste les « xx » à compléter (`inconnu`). Le résumé audio est calculé sur la fiche
+enregistrée, comme au back-office : le texte de l'IA et la voix enregistrée sont reconnus.
+Cas couverts : `tests/inconnu.php`.
+
+### Fichiers retouchés à la main
+
+Une fiche est lue seulement si son fichier est un objet JSON qui porte son numéro, un type
+connu et, pour un match ou une personne, ses données (`Fiches::usable()` ; sinon alerte
+`fichier`, « illisible, incomplet ou mal numéroté »). Les champs d'un type inattendu (« 2 » ou
+2.0 au lieu de 2, liste écrite comme un texte, date en nombre…) sont lus comme s'ils étaient
+bien formés (`Fiches::normalize()`, sans effet sur une fiche bien formée) et la fiche est
+signalée (`fichier`, ref `format`) jusqu'à son prochain enregistrement, qui la répare. En
+dernier recours, une fiche qui ferait encore échouer un calcul en est écartée et signalée
+(`fichier`, ref `donnees`) ; l'index et la recherche font de même : une fiche ne peut plus
+mettre le site entier en erreur. Fichiers de référence abîmés (`data/redirects.json`,
+`data/i18n/en.json`, `storage/controle.json`) : signalés dans Qualité, le site continue (sans
+redirections, en français) ; ils ne sont jamais réécrits tant qu'ils ne sont pas remplacés.
 
 Les clubs et stades créés automatiquement (`data/collections/clubs.json`, `stades.json`)
 sont fusionnés sous verrou à la fin du calcul : seuls les ajouts et les noms des entrées
@@ -222,6 +263,11 @@ des largeurs ci-dessus). Sur un serveur neuf, tant que les originaux ne sont pas
 `?v=` aux fichiers retouchés ou remplacés. Les vignettes des vidéos sont copiées dans
 `storage/media/originals/_video/` (`App\Services\VideoThumbs`) pour ne contacter
 l'hébergeur vidéo qu'après l'accord du visiteur.
+
+Images de partage 1200 × 630 (`App\Front\Share`, GD, `/partage/{id}.png`) : fiche lue sans
+ses « xx » (`Unknown::doc()`) ; emoji retirés et lettres stylisées ramenées aux lettres
+simples (`printable()`), sinon GD dessine un carré vide. Cache `storage/cache/share/`,
+refait quand la fiche ou sa photo change (`Share::VERSION` pour tout refaire).
 
 ## 7. Services
 
@@ -248,10 +294,10 @@ bibliothèque à installer) :
 
 | Classe | Rôle |
 |---|---|
-| `Pdf\TrueType` | lit les polices TrueType (`app/Resources/fonts/`, instances fixes de Big Shoulders Display et Newsreader tirées des polices du site) et n'embarque que les glyphes employés (sous-ensemble) ; caractères absents remplacés (espaces fines, lettres accentuées rares) |
+| `Pdf\TrueType` | lit les polices TrueType (`app/Resources/fonts/`, instances fixes de Big Shoulders Display et Newsreader tirées des polices du site) et n'embarque que les glyphes employés (sous-ensemble). Caractère absent de la police : espace fine ou séparateur → espace ; lettre accentuée ou stylisée (« 𝗣 » des tweets, « ᵉ ») → lettre de base ; emoji, pictogramme, flèche, variante d'affichage → omis ; autre écriture → « ? ». La table ToUnicode donne le caractère réellement imprimé (texte copié ou cherché exact) |
 | `Pdf\Writer` | écrit le fichier PDF 1.7 : polices Type0/CIDFontType2 avec table ToUnicode (texte sélectionnable et copiable), images JPEG (photos converties depuis les vignettes WebP) et PNG avec transparence (blason), liens, signets, métadonnées, langue |
 | `Pdf\Layout` | mise en page aux couleurs du musée : bandeau rayé et blason qui déborde, texte enrichi avec retour à la ligne, intertitres (signets), listes, citations, encadré « le chiffre », grilles, tableaux à en-tête répété, photos, galerie recadrée, bandeau courant et pieds de page « page n / total » |
-| `Pdf\HtmlFlow` | convertit le HTML des fiches (paragraphes, gras, italique, liens, listes, citations, tableaux, images) |
+| `Pdf\HtmlFlow` | convertit le HTML des fiches (paragraphes, gras, italique, liens, listes, citations, tableaux, images) ; une citation posée directement dans une liste (tweets de l'ancien site) est imprimée à sa place, la numérotation de la liste continue après elle |
 | `Front\PdfExport` | contenu de chaque document (mêmes données que les pages : `Fiche::matchData()`, `personData()`, `articleData()`, `Explore::seasonData()`, `opponentData()`, `bilanPage()`), cache, réponse |
 
 Adresses : `/pdf/fiche/{id}.pdf`, `/pdf/saison/{saison}.pdf`, `/pdf/face-a-face/{club}.pdf`,
@@ -263,8 +309,15 @@ fiche non publiée n'est exportable que par un membre connecté du back-office.
 Repères : un match ≈ 0,5 s et 5 pages ; le joueur le plus capé (423 matchs) ≈ 1 à 3 s,
 24 pages, 65 Mo de mémoire au plus.
 
+Compositions : les symboles saisis au back-office (↑ ↓, 🟨 🟥, ⚽), absents des polices,
+s'impriment en lettres comme on les écrit aussi (`PdfExport::marks()` : « Entrée 59' Sortie
+66' », « J 45'+2 R 55' »). Ménage du cache (un PDF sur 40 fabriqués) : fichiers de plus de
+30 jours ; un fichier renommé ou supprimé entre-temps par une autre demande est ignoré.
+`tests/pdf.php` vérifie polices, symboles et citations.
+
 Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
-`Front\PdfExport` (contenu) ; augmenter `PdfExport::VERSION` pour refaire les PDF en cache.
+`Front\PdfExport` (contenu) ; augmenter `PdfExport::VERSION` (et `Kit::VERSION` pour le kit
+souvenirs) pour refaire les PDF en cache.
 
 ## 7 ter. Correcteur d'orthographe (`App\Services\Proofreader`)
 
@@ -494,7 +547,7 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   dans le récit d'un but sochalien, X reconnu parmi les joueurs de la composition du match ;
   le buteur est retrouvé par la minute du but (`scorers`).
 - **Cache** : `all()` lit `storage/cache/chiffres-{langue}.json` (textes, nombres, dates et
-  adresses déjà dans la langue) ; signature : dates de `derived.php`, `index.php` et du
+  adresses déjà dans la langue) ; signature : dates de `derived.php`, `index-2.php` et du
   dictionnaire anglais. Calcul complet : 5 s environ ; `warm()` le fait d'avance pour chaque
   langue dans la tâche « statistiques ».
 - **Chiffre du jour** (accueil, sous « Ce jour-là ») : `daily()` lit `cached()` (le cache,
@@ -608,7 +661,15 @@ sauvegarde, reçus annuels, purges RGPD.
   les webhooks de paiement et le consentement aux cookies).
 - Adresses : caractères de contrôle retirés du chemin et des redirections (pas de
   redirection vers un autre site par `/%09/…`) ; chemins de la médiathèque contrôlés
-  segment par segment (`Media::safeRel`).
+  segment par segment (`Media::safeRel`). Une redirection avec « .. » ou un caractère
+  invisible est refusée ; la vérification des redirections (Qualité) ne lit que des fichiers
+  de `public/` (chemin réel contrôlé) et de la médiathèque : elle ne révèle pas si un fichier
+  existe ailleurs sur le serveur. Scripts de copie des photos (`scripts/wp/`) : nom de fichier
+  vérifié (`safe_media_rel()` : jamais hors du dossier, extensions de média seulement).
+- Rôles : les règles réservées à l'administrateur sont appliquées côté serveur (écrans,
+  API, envois de formulaires), pas seulement masquées dans le menu ; les montants des coûts
+  de l'IA (bulles d'aide, éditeur, correcteur, aide en ligne, guide PDF) ne sont montrés qu'aux
+  administrateurs (`Tips::withoutCosts()`, parties `admin` de l'aide).
 - HTML : dictionnaire anglais nettoyé à l'enregistrement ; `safe_html()` retire aussi les
   attributs d'événement collés (`<a/onclick=…>`) et les balises `base`, `frame`, `svg`…
 - Newsletter : confirmation et désinscription par un bouton (les messageries ouvrent seules
@@ -662,7 +723,15 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   française et anglaise ; puis les 100 chiffres du musée et les garde-fous contre les données
   douteuses).
 - `php tests/controle.php` : contrôle complet (vérifications des matchs et des fiches,
-  redirections, clés stables des alertes, nouvelles et corrigées d'un contrôle à l'autre,
-  un seul contrôle à la fois) ; le fichier du dernier contrôle est remis en place.
+  fichiers retouchés à la main, adresses suivies comme par un visiteur, clés stables des
+  alertes, orthographe et empreinte des textes, nouvelles et corrigées d'un contrôle à
+  l'autre, index remis à jour, un seul contrôle à la fois) ; le fichier du dernier contrôle
+  est remis en place, rien n'est écrit dans le journal.
+- `php tests/inconnu.php` : « xx » de l'ancien site (lignes de la fiche d'identité,
+  naissance et décès, références de match, temps forts, réactions, chiffre clé, texte riche,
+  fiche anglaise, cas limites).
+- `php tests/pdf.php` : polices du PDF et des images de partage (lettres stylisées, emoji,
+  séparateurs, « ? » seulement pour une écriture absente, texte copiable exact), symboles des
+  compositions, citation posée dans une liste et numérotation.
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

@@ -57,8 +57,8 @@ $stLabel = ['active' => ['Actif', 'ok'], 'invited' => ['Invitation envoyée', 'w
     </form>
     <div class="card card--pad">
       <h2 class="card__t card__t--sm">Deux niveaux d’accès</h2>
-      <p class="small" style="margin:0"><b>Utilisateur</b> : toutes les fiches, médias, rubriques, collections, contributions, messages, newsletter, dons, traductions, page d’attente.</p>
-      <p class="small" style="margin:0"><b>Administrateur</b> : en plus, les utilisateurs et invitations, les réglages (clés API, paiements, e-mail…), la suppression définitive, la restauration d’anciennes versions, les sauvegardes et le lancement manuel des tâches.</p>
+      <p class="small" style="margin:0"><b>Utilisateur</b> : toutes les fiches, médias, rubriques, collections, contributions, messages, newsletter, dons en ligne, traductions, page d’attente, écran Qualité et « Contrôler maintenant ».</p>
+      <p class="small" style="margin:0"><b>Administrateur</b> : en plus, les utilisateurs et invitations, les réglages (clés API, paiements, e-mail…), les coûts de l’IA, le journal de l’assistant IA, le traitement groupé des fiches audio, les dons hors ligne et les reçus fiscaux, la suppression définitive, la restauration d’anciennes versions, les sauvegardes et le lancement manuel des tâches.</p>
     </div>
   </div>
 </div>

@@ -32,7 +32,7 @@ HTML],
 [[img:audio.webp|Système › Fiches audio : voix enregistrées, estimation, traitements groupés]]
 [[astuce|<p>Réglages › <b>Fiches audio</b> : choix de la voix (Charon, Gacrux, Sulafat…), du ton, rédaction des résumés par l’IA lors du traitement groupé, et mise à jour de nuit des voix des fiches modifiées. Chaque dépense apparaît dans Coûts IA (usage « Fiches audio »).</p>]]
 HTML],
-        ['id' => 'couts', 'title' => 'Coûts de l’IA et remboursement', 'html' => <<<'HTML'
+        ['id' => 'couts', 'title' => 'Coûts de l’IA et remboursement', 'admin' => true, 'html' => <<<'HTML'
 <p>Chaque appel à Gemini (assistant du site, traductions, correcteur d’orthographe, index de l’assistant) est facturé par Google à la personne qui a fourni la clé. Système › <b>Coûts IA</b> calcule ce coût au moment où Google répond : jetons consommés × tarif du modèle, converti en euros. L’écran se met à jour tout seul toutes les 10 secondes : aujourd’hui, ce mois-ci, à rembourser, budget, et les derniers appels (usage, qui l’a demandé, quelle fiche, combien).</p>
 [[img:couts-ia.webp|Les coûts de l’IA : (1) aujourd’hui, (2) à rembourser, (3) budget du mois, (4) derniers appels en direct, (5) noter le remboursement, (6) relevé PDF et CSV]]
 <p><b>Se faire rembourser.</b> Le mois terminé, téléchargez son <b>relevé PDF</b> (totaux par usage, par modèle et par jour, cases de signature) et le <b>détail CSV</b> (chaque appel, à ouvrir dans un tableur), remettez-les au trésorier de l’association puis, le virement reçu, cliquez sur <b>Noter le remboursement</b>. Le tableau de bord rappelle les mois qui restent à rembourser.</p>

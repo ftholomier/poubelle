@@ -95,7 +95,7 @@ final class Backup
     {
         $out = [];
         foreach (glob(self::DIR . '/sauvegarde-*.zip') ?: [] as $f) {
-            $out[] = ['file' => basename($f), 'size' => (int) filesize($f), 'at' => date('c', (int) filemtime($f)), 'photos' => str_contains($f, '-photos')];
+            $out[] = ['file' => basename($f), 'size' => (int) @filesize($f), 'at' => date('c', (int) @filemtime($f)), 'photos' => str_contains($f, '-photos')];
         }
         usort($out, fn ($a, $b) => strcmp($b['at'], $a['at']));
         return $out;

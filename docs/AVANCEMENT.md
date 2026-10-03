@@ -268,6 +268,22 @@ Détail : `docs/CONTROLE-2026-10.md`, § 6.
       signalées en une alerte, corrections du correcteur sur des textes anciens jamais
       « nouvelles ». `docs/DEPLOIEMENT.md` précisé (première installation : tout envoyer).
 
+## Second contrôle complet (04/10, demande du client) — terminé
+Détail : `docs/CONTROLE-2026-10.md`, § 7.
+- [x] 3 nouvelles relectures du code modifié (contrôle et Qualité, sécurité et droits,
+      masquage des « xx »), 16 312 adresses parcourues, contenu des 3 464 PDF relu, textes
+      audio et images de partage vérifiés, 30 anomalies injectées, installation neuve,
+      écran de téléphone, rôles, accessibilité ; 13 suites de tests.
+- [x] Corrigés : symboles des compositions (↑ ↓ 🟨 🟥 ⚽) et emoji des tweets imprimés « ? »
+      dans les PDF ; citations posées dans une liste absentes des PDF ; « xx » encore
+      visibles (carte d'identité, PDF, audio, recherche, accueil) ; fausses « nouvelles »
+      anomalies ; redirections suivies comme par un visiteur ; fichiers retouchés à la main
+      qui pouvaient bloquer les statistiques ou la recherche ; coûts de l'IA encore visibles
+      des historiens ; noms de fichiers de la copie des photos contrôlés ; ménages de cache
+      sûrs quand plusieurs demandes arrivent en même temps.
+- [x] Limites honnêtes (serveur o2switch, Stripe, e-mails, Gemini, navigateurs, charge) et
+      vérifications à faire juste après la mise en ligne : § 7 du rapport.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

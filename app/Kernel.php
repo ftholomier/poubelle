@@ -166,12 +166,140 @@ final class Kernel
         return Front\Pages::notFound();
     }
 
-    /** Adresse d'une page calculée du site public (saisons, face-à-face, interactif…), /en compris. */
-    public static function isRoute(string $path): bool
+    /**
+     * Ce que donnerait la visite d'une adresse du site (GET), sans exécuter la page :
+     * [200, null, …] page affichée, [301|302, cible, raison] redirection, [404, null, …] page
+     * introuvable ou image absente. Raisons : fichier, page, barre (« / » final ajouté), ancien
+     * lien (?p=), page (adresse rectifiée par la page elle-même), redirection (data/redirects.json).
+     * Même ordre que dispatch() ; une page calculée à paramètre (saison, face-à-face, bilan,
+     * Rétro-Direct, Fil jaune, réserves) fait la même vérification que la page elle-même.
+     * Sert aux vérifications des redirections dans l'écran Qualité.
+     * @return array{0:int,1:?string,2:string}
+     */
+    public static function probe(string $path, array $query = []): array
     {
         static $routes = null;
         $routes ??= self::routes();
-        return $routes->has(preg_replace('#^/en(?=/|$)#', '', $path) ?: '/');
+        // Fichier présent dans public/ : servi directement par le serveur web (jamais hors du dossier).
+        if (preg_match('#\.\w{2,5}$#', $path) && !str_contains($path, "\0")) {
+            $public = realpath(PUBLIC_PATH);
+            $real = $public ? realpath(PUBLIC_PATH . $path) : false;
+            if ($real && str_starts_with($real, $public . DIRECTORY_SEPARATOR) && is_file($real)) {
+                return [200, null, 'fichier'];
+            }
+        }
+        if (preg_match('#^/media/(\d+|full)/(.+)$#', $path, $m)) {
+            $rel = Data\Media::safeRel($m[2]);
+            $src = str_ends_with($rel, '.webp') && !Data\Media::file($rel) ? substr($rel, 0, -5) : $rel;
+            $width = $m[1] === 'full' || in_array((int) $m[1], Images::WIDTHS, true);
+            return [$width && $src !== '' && Data\Media::file($src) ? 200 : 404, null, 'fichier'];
+        }
+        if (preg_match('#^/wp-content/uploads/(.+?)(-\d+x\d+)?(\.\w+)$#', $path, $m)) {
+            return [301, (string) preg_replace('/\?.*$/', '', img($m[1] . $m[3], 1200)), 'fichier'];
+        }
+        if ($path === '/admin' || str_starts_with($path, '/admin/')) {
+            return [200, null, 'page'];
+        }
+        $pre = '';
+        if (preg_match('#^/en(/.*)?$#', $path, $m)) {
+            $pre = '/en';
+            $path = ($m[1] ?? '') ?: '/';
+        }
+        if (str_starts_with($path, '/api/')) {
+            return [200, null, 'page'];
+        }
+        if ($path !== '/' && !str_ends_with($path, '/') && !preg_match('#\.\w{2,5}$#', $path)) {
+            return [301, $pre . $path . '/' . ($query ? '?' . http_build_query($query) : ''), 'barre'];
+        }
+        if ($path === '/' && $query && ($to = Redirects::legacyQuery($query))) {
+            return [301, $pre . $to, 'ancien lien'];
+        }
+        if ($route = $routes->route($path)) {
+            $r = self::probeRoute($route[0], $route[1], $pre);
+            if ($r !== null) {
+                return $r;
+            }
+        }
+        // Fiche ou rubrique (Pages::byPath) : une fiche non publiée laisse passer aux redirections.
+        if ($s = Data\Index::byPath($path)) {
+            if (Data\Index::visible($s)) {
+                return [200, null, 'page'];
+            }
+        } elseif (Data\Categories::byPath($path) || in_array($path, ['/nos-lions/', '/matchs/'], true)) {
+            return [200, null, 'page'];
+        }
+        if ($to = Redirects::find($path, $query)) {
+            return [301, preg_match('#^([a-z][a-z0-9+.-]*:|//)#i', $to) ? $to : $pre . $to, 'redirection'];
+        }
+        return [404, null, 'page'];
+    }
+
+    /** Page calculée à paramètre : même vérification que la page ; null = elle passe la main (404 de la route). */
+    private static function probeRoute(string $pattern, array $p, string $pre): ?array
+    {
+        $d = fn () => Data\Derived::get();
+        switch ($pattern) {
+            case '/matchs/{season}/':
+                $season = (string) $p['season'];
+                if (!preg_match('/^(\d{4})-(\d{4})$/', $season, $m) || (int) $m[2] !== (int) $m[1] + 1) {
+                    return null;
+                }
+                foreach (Data\Categories::all() as $c) {
+                    if (($c['season'] ?? null) === $season) {
+                        return [200, null, 'page'];
+                    }
+                }
+                return isset($d()['seasons'][$season]) ? [200, null, 'page'] : null;
+            case '/face-a-face/{club}/':
+                $club = (string) $p['club'];
+                if (isset($d()['clubs'][$club])) {
+                    return [200, null, 'page'];
+                }
+                $key = Data\Names::clubKey(str_replace('-', ' ', $club));
+                return $key !== $club && isset($d()['clubs'][$key]) ? [301, $pre . '/face-a-face/' . $key . '/', 'page'] : null;
+            case '/bilans/{key}/':
+                $key = (string) $p['key'];
+                if ($key === 'auguste-bonal' || $key === 'bonal') {
+                    return [301, $pre . '/bilans/stade-auguste-bonal/', 'page'];
+                }
+                if (isset(Front\Mosaic::COMPS[$key])) {
+                    $family = Front\Mosaic::COMPS[$key][2];
+                    foreach ($d()['matches'] as $x) {
+                        if ($x['v'] && $x['comp'] === $family) {
+                            return [200, null, 'page'];
+                        }
+                    }
+                    return null;
+                }
+                return str_starts_with($key, 'stade-') && isset($d()['stades'][substr($key, 6)]) ? [200, null, 'page'] : null;
+            case '/interactif/retro-direct/{slug}/':
+                $s = Services\RetroDirect::bySlug((string) $p['slug']);
+                $doc = $s ? Data\Fiches::get((int) $s['id']) : null;
+                if (!$s || !$doc) {
+                    return null;
+                }
+                return Services\RetroDirect::playable($doc) ? [200, null, 'page'] : [302, $pre . $s['path'], 'page'];
+            case '/interactif/fil-jaune/{a}/':
+                $a = Services\FilJaune::find((string) $p['a']);
+                return $a === null ? null : ((string) $p['a'] === Services\FilJaune::slug($a) ? [200, null, 'page'] : [301, $pre . '/interactif/fil-jaune/' . Services\FilJaune::slug($a) . '/', 'page']);
+            case '/interactif/fil-jaune/{a}/{b}/':
+                $a = Services\FilJaune::find((string) $p['a']);
+                $b = Services\FilJaune::find((string) $p['b']);
+                if ($a === null || $b === null) {
+                    return null;
+                }
+                $ok = (string) $p['a'] === Services\FilJaune::slug($a) && (string) $p['b'] === Services\FilJaune::slug($b);
+                return $ok ? [200, null, 'page'] : [301, $pre . '/interactif/fil-jaune/' . Services\FilJaune::slug($a) . '/' . Services\FilJaune::slug($b) . '/', 'page'];
+            case '/reserves/{collection}/':
+                foreach (Front\Pages::reserves() as $c) {
+                    if ($c['slug'] === (string) $p['collection']) {
+                        return [200, null, 'page'];
+                    }
+                }
+                return null;
+            default:
+                return [200, null, 'page']; // page fixe (ou formulaire, PDF, image de partage)
+        }
     }
 
     private static function routes(): Router

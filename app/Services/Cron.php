@@ -126,7 +126,9 @@ final class Cron
                 // Photos originales en cours de copie (serveur neuf) : alertes refaites toutes
                 // les 30 minutes, pour que « Photos absentes » disparaisse à la fin de la copie.
                 $d = Derived::get();
-                if (strtotime((string) ($d['built'] ?? '')) < time() - 1800 && array_filter($d['quality'] ?? [], fn ($q) => $q['code'] === 'photos')) {
+                // Photos copiées sur le serveur hors du back-office (copie depuis WordPress, envoi par FTP) :
+                // les alertes « photo absente » sont revues toutes les 30 minutes tant qu'il en reste.
+                if (strtotime((string) ($d['built'] ?? '')) < time() - 1800 && array_filter($d['quality'] ?? [], fn ($q) => $q['code'] === 'photos' || ($q['ref'] ?? '') === 'serveur')) {
                     Derived::markDirty();
                 }
                 if (Derived::isDirty()) {
@@ -276,7 +278,7 @@ final class Cron
         $old = function (string $pattern, int $seconds): int {
             $n = 0;
             foreach (glob($pattern) ?: [] as $f) {
-                if (is_file($f) && filemtime($f) < time() - $seconds) {
+                if (is_file($f) && (@filemtime($f) ?: time()) < time() - $seconds) {
                     @unlink($f);
                     $n++;
                 }

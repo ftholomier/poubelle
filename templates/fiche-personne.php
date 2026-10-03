@@ -29,19 +29,15 @@ foreach ($p['international'] ?? [] as $intl) {
         $caps = ($caps ?? 0) + (int) $mm[1];
     }
 }
-$birth = $p['birth']['date']['text'] ?? '';
-if (($p['birth']['date']['precision'] ?? '') === 'day') {
-    $birth = date_num($p['birth']['date']['iso']);
-}
 $cardNo = $albumNo ? str_pad((string) $albumNo, 3, '0', STR_PAD_LEFT) : null;
 $cardRows = array_values(array_filter([
     [t('Poste'), $isPlayer ? ($p['position'] ? ucfirst((string) $p['position']) : $cardRole) : $roleLabel],
-    [t('Né le'), Fiche::withoutUnknown((string) $birth)],
+    Fiche::birthRow($p),
     [t('Au club'), $years ? str_replace('-', ' – ', $years) : ''],
     $isPlayer ? [t('Matchs'), (string) ($big[0]['v'] ?? '')] : [t('Matchs dirigés'), (string) ($tot['coached'] ?? '')],
     $isPlayer ? [t('Buts'), (string) ($big[1]['v'] ?? '')] : null,
     $caps ? [t('Sélections'), (string) $caps] : null,
-    !empty($p['death']['date']['text']) ? [t('Décès'), ($p['death']['date']['precision'] ?? '') === 'day' ? date_num($p['death']['date']['iso']) : Fiche::withoutUnknown((string) $p['death']['date']['text'])] : null,
+    !empty($p['death']['date']['text']) ? [t('Décès'), ($p['death']['date']['precision'] ?? '') === 'day' ? date_num($p['death']['date']['iso']) : (string) $p['death']['date']['text']] : null,
 ], fn ($r) => $r && $r[1] !== '' && $r[1] !== '0' && $r[1] !== '–'));
 
 // Récit : sections non vides (les sections vides restent modifiables dans le back-office).
@@ -49,15 +45,7 @@ $story = array_values(array_filter($doc['sections'] ?? [], fn ($s) => trim(strip
 $lead = trim((string) ($doc['intro'] ?? ''));
 
 // Fiche d'identité (ordre et libellés d'origine conservés).
-$idRows = [];
-foreach ($p['fiche'] ?? [] as $r) {
-    $v = Fiche::withoutUnknown(trim((string) $r['value']));
-    if ($v === '' || (!$r['label'] && mb_strtolower($v) === mb_strtolower($name))) {
-        continue;
-    }
-    $isSub = !$r['label'] && mb_strlen($v) < 40 && preg_match('/passage|p[ée]riode|carri[èe]re|joueur|entra[iî]neur|dirigeant/iu', $v) && !preg_match('/\d/', $v);
-    $idRows[] = ['label' => $r['label'], 'value' => $v, 'sub' => $isSub];
-}
+$idRows = Fiche::idRows($p, $name);
 
 $playerList = $playerMatches;
 $tabs = array_filter([
@@ -142,10 +130,10 @@ $rowsHtml = function (array $list, bool $coach) {
       <?php endif; ?>
       <?php if ($lead !== ''): ?>
         <div class="phero__lead"><?= safe_html($lead) ?></div>
-      <?php elseif (Fiche::withoutUnknown((string) ($p['subtitle'] ?? '')) !== ''): ?>
-        <p class="phero__lead"><?= e(Fiche::withoutUnknown((string) $p['subtitle'])) ?></p>
-      <?php elseif (Fiche::withoutUnknown((string) ($p['birth']['text'] ?? '')) !== ''): ?>
-        <p class="phero__lead"><?= e(ucfirst(Fiche::withoutUnknown((string) $p['birth']['text']))) ?>.</p>
+      <?php elseif ((string) ($p['subtitle'] ?? '') !== ''): ?>
+        <p class="phero__lead"><?= e((string) $p['subtitle']) ?></p>
+      <?php elseif ((string) ($p['birth']['text'] ?? '') !== ''): ?>
+        <p class="phero__lead"><?= e(sentence(ucfirst((string) $p['birth']['text']))) ?></p>
       <?php endif; ?>
       <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div>
     </div>

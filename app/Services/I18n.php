@@ -47,7 +47,15 @@ final class I18n
         if (self::$lang === self::DEFAULT) {
             return $fr;
         }
-        self::$dict ??= JsonStore::read(DATA_PATH . '/i18n/' . self::$lang . '.json', []) ?? [];
+        if (self::$dict === null) {
+            try {
+                $d = JsonStore::read(DATA_PATH . '/i18n/' . self::$lang . '.json', []);
+            } catch (\RuntimeException $e) {
+                error_log($e->getMessage()); // fichier abîmé : textes en français, signalé dans Qualité
+                $d = [];
+            }
+            self::$dict = is_array($d) ? $d : [];
+        }
         $t = self::$dict[$fr] ?? '';
         if ($t === '') {
             // Texte déjà en anglais (traduit plus haut, par ex. un élément de collection) :
@@ -71,7 +79,12 @@ final class I18n
         }
         $seen[$fr] = true;
         $file = STORAGE_PATH . '/i18n-missing-' . self::$lang . '.json';
-        $all = JsonStore::read($file, []) ?? [];
+        try {
+            $all = JsonStore::read($file, []);
+        } catch (\RuntimeException) {
+            $all = []; // simple relevé : un fichier abîmé repart de zéro
+        }
+        $all = is_array($all) ? $all : [];
         if (!isset($all[$fr])) {
             $all[$fr] = date('c');
             @JsonStore::write($file, $all);

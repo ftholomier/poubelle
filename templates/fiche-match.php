@@ -181,7 +181,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
               $min = (string) $h['minute'];
           ?>
           <li class="timeline__item<?= $goal ? ' is-goal' : '' ?><?= $isS ? ' is-sochaux' : '' ?>" data-reveal-x>
-            <span class="timeline__min<?= mb_strlen($min) > 3 ? ' is-long' : '' ?>"><?= e($min) ?>'</span>
+            <span class="timeline__min<?= mb_strlen($min) > 3 ? ' is-long' : '' ?>"><?= $min !== '' ? e($min) . "'" : '' ?></span>
             <div class="timeline__body">
               <?php if ($goal): ?><span class="timeline__goal"><?= e(t('But !')) ?> <?= e($h['score']) ?></span><?php endif; ?>
               <span class="timeline__text"><?= e($txt) ?></span>

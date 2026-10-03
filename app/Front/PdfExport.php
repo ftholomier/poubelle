@@ -25,7 +25,7 @@ use App\Services\Images;
 final class PdfExport
 {
     /** À augmenter quand la mise en page change (les PDF en cache sont alors refaits). */
-    public const VERSION = '1';
+    public const VERSION = '2';
     private const DIR = STORAGE_PATH . '/cache/pdf';
 
     // ================================================================== adresses
@@ -165,13 +165,14 @@ final class PdfExport
         if (random_int(1, 40) !== 1) {
             return;
         }
+        // Un fichier peut disparaître entre-temps (PDF fabriqué en même temps par une autre demande).
         foreach (glob(self::DIR . '/*.pdf') ?: [] as $f) {
-            if (filemtime($f) < time() - 30 * 86400) {
+            if ((@filemtime($f) ?: time()) < time() - 30 * 86400) {
                 @unlink($f);
             }
         }
         foreach (glob(self::DIR . '/*.tmp') ?: [] as $f) {
-            if (filemtime($f) < time() - 3600) {
+            if ((@filemtime($f) ?: time()) < time() - 3600) {
                 @unlink($f);
             }
         }
@@ -412,7 +413,7 @@ final class PdfExport
             [t('Entraîneur'), $coach],
         ]);
         if ($goals || !empty($m['goals_text']) || !empty($m['header_extra'])) {
-            $runs = [Layout::run(mb_strtoupper(t('Buts')), 'display-b', 8.5, 'muted', null, 0.9, 8), Layout::run($goals ? implode(' · ', $goals) : (string) ($m['goals_text'] ?? ''), 'serif-b', 10.5, 'navy')];
+            $runs = [Layout::run(mb_strtoupper(t('Buts')), 'display-b', 8.5, 'muted', null, 0.9, 8), Layout::run($goals ? implode(' · ', $goals) : self::marks((string) ($m['goals_text'] ?? '')), 'serif-b', 10.5, 'navy')];
             foreach ($m['header_extra'] ?? [] as $x) {
                 $runs[] = Layout::run("\n" . $x, 'serif-i', 10, 'muted');
             }
@@ -490,7 +491,7 @@ final class PdfExport
             $l->h3((string) ($ol['title'] ?? t('Composition')));
             $tr = [];
             foreach ($ol['rows'] as $r) {
-                $tr[] = [['t' => (string) ($r['position'] ?? ''), 'b' => true], (string) ($r['number'] ?? ''), (string) ($r['name'] ?? '') . (!empty($r['captain']) ? ' (c)' : ''), (string) ($r['goals_text'] ?? ''), (string) ($r['sub_text'] ?? ''), (string) ($r['cards_text'] ?? '')];
+                $tr[] = [['t' => (string) ($r['position'] ?? ''), 'b' => true], (string) ($r['number'] ?? ''), (string) ($r['name'] ?? '') . (!empty($r['captain']) ? ' (c)' : ''), self::marks((string) ($r['goals_text'] ?? '')), self::marks((string) ($r['sub_text'] ?? '')), self::marks((string) ($r['cards_text'] ?? ''))];
             }
             $l->table([t('Poste'), t('N°'), t('Joueur'), t('Buts'), t('Changements'), t('Cartons')], $tr, ['align' => ['c', 'c', 'l', 'l', 'l', 'l'], 'size' => 8.2]);
         }
@@ -608,6 +609,22 @@ final class PdfExport
         $l->y += $h + 16;
     }
 
+    /**
+     * Buts, remplacements et cartons tels que saisis (« ⚽ 12' », « ↑ 46' ↓ 80' », « 🟨 47' ») :
+     * ces symboles manquent aux polices du PDF ; ils deviennent l'écriture en lettres du
+     * back-office (« 12' », « Entrée 46' Sortie 80' », « J 47' »).
+     */
+    private static function marks(string $s): string
+    {
+        $s = strtr($s, [
+            "\u{FE0F}" => '', '⚽' => ' ',
+            '↑' => ' Entrée ', '🔺' => ' Entrée ', '⬆' => ' Entrée ',
+            '↓' => ' Sortie ', '🔻' => ' Sortie ', '⬇' => ' Sortie ',
+            '🟨' => ' J ', '🟥' => ' R ',
+        ]);
+        return trim((string) preg_replace('/\s+/u', ' ', $s));
+    }
+
     private static function lineupTable(Layout $l, array $rows, array $m): void
     {
         $groups = [
@@ -627,7 +644,7 @@ final class PdfExport
             $row['_bg'] = 'sand';
             $out[] = $row;
             foreach ($list as $r) {
-                $cards = trim((string) ($r['cards_text'] ?? ''));
+                $cards = self::marks((string) ($r['cards_text'] ?? ''));
                 if ($cards === '' && ($r['yellow'] || $r['red'])) {
                     $cards = trim(($r['yellow'] ? 'J ' . implode("', ", $r['yellow']) . "'" : '') . ' ' . ($r['red'] ? 'R ' . implode("', ", $r['red']) . "'" : ''));
                 }
@@ -636,8 +653,8 @@ final class PdfExport
                     $cells[] = (string) ($r['number'] ?? '');
                 }
                 $cells[] = ['t' => (string) $r['name'] . (!empty($r['captain']) ? ' (c)' : ''), 'u' => self::abs($r['href'] ?? null), 'b' => !empty($r['goals_text'])];
-                $cells[] = (string) ($r['goals_text'] ?? '');
-                $cells[] = (string) ($r['sub_text'] ?? '');
+                $cells[] = self::marks((string) ($r['goals_text'] ?? ''));
+                $cells[] = self::marks((string) ($r['sub_text'] ?? ''));
                 $cells[] = $cards;
                 $out[] = $cells;
             }
@@ -698,10 +715,10 @@ final class PdfExport
         $lead = trim((string) ($doc['intro'] ?? ''));
         if ($lead !== '') {
             self::flow($l, 11.5)->render($lead);
-        } elseif (!empty($p['subtitle'])) {
+        } elseif ((string) ($p['subtitle'] ?? '') !== '') {
             $l->para([Layout::run((string) $p['subtitle'], 'serif-i', 11.5, 'navy')], ['after' => 10]);
-        } elseif (Fiche::withoutUnknown((string) ($p['birth']['text'] ?? '')) !== '') {
-            $l->para([Layout::run(ucfirst(Fiche::withoutUnknown((string) $p['birth']['text'])) . '.', 'serif-i', 11.5, 'navy')], ['after' => 10]);
+        } elseif ((string) ($p['birth']['text'] ?? '') !== '') {
+            $l->para([Layout::run(sentence(ucfirst((string) $p['birth']['text'])), 'serif-i', 11.5, 'navy')], ['after' => 10]);
         }
         if ($img) {
             $l->mr -= 150 + 22;
@@ -710,18 +727,13 @@ final class PdfExport
 
         // Fiche d'identité (libellés d'origine)
         $idRows = [];
-        foreach ($p['fiche'] ?? [] as $r) {
-            $val = Fiche::withoutUnknown(trim((string) ($r['value'] ?? '')));
-            if ($val === '' || (empty($r['label']) && mb_strtolower($val) === mb_strtolower($name))) {
-                continue;
-            }
-            $isSub = empty($r['label']) && mb_strlen($val) < 40 && preg_match('/passage|p[ée]riode|carri[èe]re|joueur|entra[iî]neur|dirigeant/iu', $val) && !preg_match('/\d/', $val);
-            if ($isSub) {
-                $idRows[] = [['t' => mb_strtoupper($val), 'b' => true, 'c' => 'navy'], '', '_bg' => 'sand'];
-            } elseif (!empty($r['label'])) {
-                $idRows[] = [['t' => (string) $r['label'], 'b' => true, 'c' => 'muted'], $val];
+        foreach (Fiche::idRows($p, $name) as $r) {
+            if ($r['sub']) {
+                $idRows[] = [['t' => mb_strtoupper($r['value']), 'b' => true, 'c' => 'navy'], '', '_bg' => 'sand'];
+            } elseif ($r['label'] !== '') {
+                $idRows[] = [['t' => $r['label'], 'b' => true, 'c' => 'muted'], $r['value']];
             } else {
-                $idRows[] = ['', ['t' => $val, 'c' => 'ink']];
+                $idRows[] = ['', ['t' => $r['value'], 'c' => 'ink']];
             }
         }
         if ($idRows) {

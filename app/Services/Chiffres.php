@@ -193,7 +193,7 @@ final class Chiffres
 
     private static function signature(): string
     {
-        $files = [STORAGE_PATH . '/cache/derived.php', STORAGE_PATH . '/cache/index.php'];
+        $files = [STORAGE_PATH . '/cache/derived.php', \App\Data\Index::CACHE];
         if (I18n::lang() !== I18n::DEFAULT) {
             $files[] = DATA_PATH . '/i18n/' . I18n::lang() . '.json';
         }

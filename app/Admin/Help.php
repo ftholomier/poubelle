@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
 
@@ -60,18 +61,30 @@ final class Help extends Base
         'corbeille' => 'fiches#corbeille',
     ];
 
-    /** @return array<string,array> chapitres dans l'ordre, par adresse */
+    /** Captures réservées aux administrateurs (montants des coûts de l'IA). */
+    private const ADMIN_FILES = ['couts-ia.webp'];
+
+    /**
+     * Chapitres dans l'ordre, par adresse. Pour les autres membres de l'équipe, les parties
+     * réservées aux administrateurs (« admin ») et les montants des coûts de l'IA sont retirés.
+     * @return array<string,array>
+     */
     public static function chapters(): array
     {
-        static $all = null;
-        if ($all === null) {
+        static $cache = [];
+        $admin = Auth::isAdmin() ? 1 : 0;
+        if (!isset($cache[$admin])) {
             $all = [];
             foreach (glob(self::DIR . '/chapitres/*.php') ?: [] as $file) {
                 $c = require $file;
+                if (!$admin) {
+                    $c['sections'] = array_values(array_map(fn ($s) => ['html' => Tips::withoutCosts((string) $s['html'])] + $s, array_filter($c['sections'], fn ($s) => empty($s['admin']))));
+                }
                 $all[$c['slug']] = $c;
             }
+            $cache[$admin] = $all;
         }
-        return $all;
+        return $cache[$admin];
     }
 
     /** Adresse de l'aide qui correspond à un écran (bouton « Aide » de la barre du haut). */
@@ -123,7 +136,7 @@ final class Help extends Base
     /** Captures d'écran et PDF de l'aide (réservés aux membres connectés). */
     public static function file(Request $req, string $name): ?Response
     {
-        if (!preg_match('/^[a-z0-9][a-z0-9-]*\.(webp|png|jpg|pdf)$/', $name)) {
+        if (!preg_match('/^[a-z0-9][a-z0-9-]*\.(webp|png|jpg|pdf)$/', $name) || (in_array($name, self::ADMIN_FILES, true) && !Auth::isAdmin())) {
             return null;
         }
         $path = self::DIR . (str_ends_with($name, '.pdf') ? '/' : '/img/') . $name;

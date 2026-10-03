@@ -129,7 +129,11 @@ final class Search
             if (!$s || !Index::visible($s) || ($doc['type'] ?? '') === 'page' && empty($doc['path'])) {
                 continue;
             }
-            $docs[(int) $doc['id']] = self::entry($doc);
+            try {
+                $docs[(int) $doc['id']] = self::entry($doc);
+            } catch (\Throwable $e) {
+                error_log('Recherche, fiche ' . $doc['id'] . ' : ' . $e->getMessage()); // signalée dans Qualité
+            }
         }
         return $docs;
     }
@@ -345,9 +349,10 @@ final class Search
         $doc = Fiches::get((int) $summary['id']);
         $text = $summary['excerpt'];
         if ($doc) {
-            $parts = [(string) ($doc['intro'] ?? '')];
-            foreach ($doc['sections'] ?? [] as $s) {
-                $parts[] = (string) $s['html'];
+            // Sans les « xx » de l'ancien site (information inconnue), comme sur la fiche.
+            $parts = [\App\Front\Unknown::html((string) ($doc['intro'] ?? ''))];
+            foreach (is_array($doc['sections'] ?? null) ? $doc['sections'] : [] as $s) {
+                $parts[] = \App\Front\Unknown::html((string) ($s['html'] ?? ''));
             }
             $full = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags(str_replace(['</p>', '</li>', '<br>'], ' ', implode(' ', $parts))), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
             if ($full !== '') {

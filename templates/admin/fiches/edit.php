@@ -119,8 +119,8 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
           <button type="button" class="btn btn--sm btn--navy" data-audio-save hidden>Garder ce texte</button>
         </div>
         <div class="row">
-          <button type="button" class="btn btn--sm" data-audio-act="ia-texte" title="Gemini rédige le résumé à partir de toute la fiche (environ 0,05 centime)">Rédiger avec l’IA</button>
-          <button type="button" class="btn btn--sm" data-audio-act="voix" title="Gemini lit le texte d’une voix naturelle, enregistrée pour les visiteurs (environ 0,6 centime)">Voix IA</button>
+          <button type="button" class="btn btn--sm" data-audio-act="ia-texte" title="Gemini rédige le résumé à partir de toute la fiche<?= \App\Core\Auth::isAdmin() ? ' (environ 0,05 centime)' : '' ?>">Rédiger avec l’IA</button>
+          <button type="button" class="btn btn--sm" data-audio-act="voix" title="Gemini lit le texte d’une voix naturelle, enregistrée pour les visiteurs<?= \App\Core\Auth::isAdmin() ? ' (environ 0,6 centime)' : '' ?>">Voix IA</button>
         </div>
         <div class="row" style="gap:12px">
           <button type="button" class="linkbtn xs" data-audio-act="automatique" hidden>Revenir au résumé automatique</button>

@@ -36,7 +36,7 @@ final class TrueType
         0x00A0 => 0x0020, 0x2011 => 0x002D, 0x2010 => 0x002D, 0x2212 => 0x002D, 0x2012 => 0x2013, 0x2015 => 0x2014,
         0x2032 => 0x2019, 0x2033 => 0x201D, 0x02BC => 0x2019, 0x0060 => 0x2018, 0x2027 => 0x00B7, 0x2219 => 0x00B7,
         0x2022 => 0x00B7, 0x25A0 => 0x00B7, 0x2192 => 0x003E, 0x2190 => 0x003C, 0x2713 => 0x0076, 0x00AD => -1,
-        0x200B => -1, 0x200C => -1, 0x200D => -1, 0xFEFF => -1,
+        0x200B => -1, 0x200C => -1, 0x200D => -1, 0xFEFF => -1, 0x2028 => 0x0020, 0x2029 => 0x0020, 0x0085 => 0x0020,
     ];
 
     public function __construct(string $path)
@@ -81,6 +81,8 @@ final class TrueType
 
     /** @var array<int,int> point de code → glyphe retenu (-1 : caractère ignoré) */
     private array $resolved = [];
+    /** @var array<int,int> point de code → caractère réellement imprimé (texte copiable du PDF) */
+    private array $drawn = [];
 
     /** Glyphe d'un caractère, avec remplacement des caractères absents de la police. */
     private function gid(int $cp, string $ch): int
@@ -100,12 +102,36 @@ final class TrueType
             $c = 0x20;
         }
         if (!isset($this->cmap[$c])) {
-            // Lettre accentuée absente : la lettre de base ; sinon un point d'interrogation.
-            $base = class_exists(\Normalizer::class) ? \Normalizer::normalize($ch, \Normalizer::FORM_D) : false;
-            $b = $base ? mb_ord(mb_substr($base, 0, 1, 'UTF-8'), 'UTF-8') : false;
-            $c = $b !== false && isset($this->cmap[$b]) ? $b : 0x3F;
+            // Absent de la police : lettre accentuée ou stylisée (« 𝗣 » des tweets, « ᵉ ») → la lettre
+            // de base ; emoji, pictogramme, flèche → ignoré ; sinon un point d'interrogation.
+            $c = 0x3F;
+            if (class_exists(\Normalizer::class)) {
+                $forms = class_exists(\IntlChar::class) && \IntlChar::isalpha($cp) ? [\Normalizer::FORM_D, \Normalizer::FORM_KD] : [\Normalizer::FORM_D];
+                foreach ($forms as $form) {
+                    $base = \Normalizer::normalize($ch, $form);
+                    $b = is_string($base) && $base !== '' ? mb_ord(mb_substr($base, 0, 1, 'UTF-8'), 'UTF-8') : false;
+                    if ($b !== false && $b !== $cp && isset($this->cmap[$b])) {
+                        $c = $b;
+                        break;
+                    }
+                }
+            }
+            if ($c === 0x3F && self::decorative($cp)) {
+                return $this->resolved[$cp] = -1;
+            }
         }
+        $this->drawn[$cp] = $c;
         return $this->resolved[$cp] = $this->cmap[$c] ?? 0;
+    }
+
+    /** Emoji, pictogrammes, flèches, variantes d'affichage, drapeaux : rien à imprimer sans eux. */
+    private static function decorative(int $cp): bool
+    {
+        if (($cp >= 0x2190 && $cp <= 0x21FF) || ($cp >= 0x2900 && $cp <= 0x297F) || ($cp >= 0x2B00 && $cp <= 0x2BFF)
+            || ($cp >= 0xFE00 && $cp <= 0xFE0F) || ($cp >= 0x1F000 && $cp <= 0x1FAFF) || ($cp >= 0xE0000 && $cp <= 0xE007F)) {
+            return true;
+        }
+        return class_exists(\IntlChar::class) && in_array(\IntlChar::charType($cp), [\IntlChar::CHAR_CATEGORY_OTHER_SYMBOL, \IntlChar::CHAR_CATEGORY_NON_SPACING_MARK, \IntlChar::CHAR_CATEGORY_ENCLOSING_MARK], true);
     }
 
     /** Glyphes d'un texte (UTF-8), en notant les glyphes employés. @return list<int> */
@@ -117,7 +143,7 @@ final class TrueType
             if ($cp === false || ($g = $this->gid($cp, $ch)) < 0) {
                 continue;
             }
-            $this->used[$g] ??= $cp === 9 ? 0x20 : $cp;
+            $this->used[$g] ??= $this->drawn[$cp] ?? $cp;
             $out[] = $g;
         }
         return $out;

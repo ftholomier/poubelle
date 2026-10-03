@@ -9,6 +9,7 @@ use App\Data\Derived;
 use App\Data\Fiches;
 use App\Data\Index;
 use App\Front\Fiche;
+use App\Front\Unknown;
 
 /**
  * Fiches audio : chaque fiche se raconte en 30 secondes (75 mots au plus).
@@ -147,7 +148,8 @@ final class FicheAudio
     /** Résumé automatique (gratuit) : quelques phrases tirées des données, 75 mots au plus. */
     public static function template(array $doc, string $lang): string
     {
-        $d = self::localized($doc, $lang);
+        // « xx » de l'ancien site (information inconnue) jamais lus à voix haute.
+        $d = Unknown::doc(self::localized($doc, $lang));
         $en = $lang === 'en';
         $s = match ($d['type'] ?? '') {
             'match' => self::matchSentences($d, $en),
@@ -254,12 +256,11 @@ final class FicheAudio
             $s[] = "$name, " . mb_strtolower($role) . " du FC Sochaux-Montbéliard$span.";
         }
         $story = mb_strtolower(self::plainText((string) ($d['intro'] ?? '') . ' ' . implode(' ', array_map(fn ($x) => (string) ($x['html'] ?? ''), array_slice($d['sections'] ?? [], 0, 1)))));
-        // « xx » de l'ancien site (information inconnue) jamais lu à voix haute.
-        $birthText = Fiche::withoutUnknown((string) ($p['birth']['text'] ?? ''));
-        $birthPlace = Fiche::withoutUnknown((string) ($p['birth']['place']['text'] ?? ''));
+        $birthText = (string) ($p['birth']['text'] ?? '');
+        $birthPlace = (string) ($p['birth']['place']['text'] ?? '');
         $place = mb_strtolower(trim((string) preg_replace('/\s*\(.*?\)/', '', $birthPlace)));
         if (!$en && $birthText !== '' && !($place !== '' && str_contains(mb_substr($story, 0, 200), $place))) {
-            $s[] = self::ucfirst(trim((string) preg_replace('/\s*\(\d{2,3}\)/', '', $birthText))) . '.';
+            $s[] = sentence(self::ucfirst(trim((string) preg_replace('/\s*\(\d{2,3}\)/', '', $birthText))));
         } elseif ($en && ($p['birth']['date']['precision'] ?? '') === 'day') {
             $s[] = 'Born on ' . self::date((string) $p['birth']['date']['iso'], true, false) . ($birthPlace !== '' ? ' in ' . $birthPlace : '') . '.';
         }
@@ -325,7 +326,7 @@ final class FicheAudio
         // Un intertitre ou un élément de liste se lit comme une phrase (« Carrière de joueur. C'est… »).
         $html = (string) preg_replace('#([^.!?:;…\s])(\s*(?:</(?:strong|em|b|i|u)>\s*)*)</(h[1-6]|li|p)>#u', '$1.$2</$3>', $html);
         // « xx » de l'ancien site (information inconnue) jamais lu à voix haute.
-        return trim((string) preg_replace('/\s+/u', ' ', Fiche::textWithoutUnknown(plain($html))));
+        return trim((string) preg_replace('/\s+/u', ' ', Unknown::text(plain($html))));
     }
 
     private static function ucfirst(string $s): string
@@ -359,7 +360,7 @@ final class FicheAudio
     /** Consigne et données envoyées à Gemini pour rédiger le résumé. */
     public static function aiPrompt(array $doc, string $lang): array
     {
-        $d = self::localized($doc, $lang);
+        $d = Unknown::doc(self::localized($doc, $lang));
         $en = $lang === 'en';
         $data = ['type' => Fiches::TYPES[$d['type']] ?? $d['type'], 'titre' => $d['title'], 'introduction' => self::plainText((string) ($d['intro'] ?? ''))];
         if (isset($d['match'])) {
@@ -374,7 +375,7 @@ final class FicheAudio
         }
         if (isset($d['personne'])) {
             $p = $d['personne'];
-            $data['personne'] = ['nom' => ($p['display_name'] ?? '') ?: $d['title'], 'poste' => $p['position'] ?? '', 'rôles' => $p['roles'] ?? [], 'naissance' => Fiche::withoutUnknown((string) ($p['birth']['text'] ?? '')),
+            $data['personne'] = ['nom' => ($p['display_name'] ?? '') ?: $d['title'], 'poste' => $p['position'] ?? '', 'rôles' => $p['roles'] ?? [], 'naissance' => (string) ($p['birth']['text'] ?? ''),
                 'années au club' => Fiche::personYears($p), 'totaux' => Derived::get()['person_totals'][(int) $d['id']] ?? null, 'sous-titre' => self::plainText((string) ($p['subtitle'] ?? ''))];
         }
         $data['texte'] = mb_substr(self::plainText(implode("\n", array_map(fn ($x) => (string) ($x['html'] ?? ''), $d['sections'] ?? []))), 0, 5000);

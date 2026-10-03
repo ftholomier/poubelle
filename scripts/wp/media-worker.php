@@ -23,6 +23,10 @@ for ($i = count($media) - 1; $i >= 0; $i--) {
     $m = $media[$i];
     $url = $m['source_url'];
     $rel = preg_replace('#^.*/wp-content/uploads/#', '', $url);
+    if (!safe_media_rel((string) $rel)) {
+        $errors[$m['id'] ?? $url] = "$url : nom de fichier refusé";
+        continue;
+    }
     $file = "$base/$rel";
     $expected = $m['media_details']['filesize'] ?? null;
     if (is_file($file) && ($expected === null || filesize($file) === $expected)) {

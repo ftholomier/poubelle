@@ -19,7 +19,7 @@ final class Derived
     private const DIRTY = STORAGE_PATH . '/cache/derived.dirty';
     /** Marque « sale » prise en charge par le recalcul en cours (un enregistrement fait pendant le calcul recrée DIRTY). */
     private const CLAIM = STORAGE_PATH . '/cache/derived.building';
-    private const VERSION = 6;
+    private const VERSION = 7;
     private static ?array $data = null;
 
     public const OFFICIAL_EXCLUDED = ['Amical', "Coupe d'été", 'Coupes diverses'];
@@ -90,7 +90,7 @@ final class Derived
             return true;
         }
         // Recalcul interrompu (délai ou mémoire dépassés) : à refaire.
-        return is_file(self::CLAIM) && filemtime(self::CLAIM) < time() - 900;
+        return is_file(self::CLAIM) && (@filemtime(self::CLAIM) ?: time()) < time() - 900;
     }
 
     /** Recalcule si c'est encore nécessaire ; sans attente ($wait = false), null si un recalcul est déjà en cours. */
@@ -195,57 +195,76 @@ final class Derived
         $library = Media::all();
         $usedFiles = [];  // images de la médiathèque utilisées par les fiches
         $goneFiles = [];  // fiche => fichiers absents du serveur
+        $broken = [];     // fiches aux données inattendues, écartées des calculs
         foreach (Fiches::all() as $id => $doc) {
             $read[$id] = true;
-            $mediaRefs[$id] = Media::refsIn($doc);
-            if (($doc['status'] ?? '') === 'corbeille') {
-                continue;
-            }
-            $vis = Fiches::isVisible($doc);
-            $paths[(string) ($doc['path'] ?? '')][] = (int) $id;
-            foreach (self::ficheChecks($doc, $vis, $cats, $library) as $a) {
-                $ficheAlerts[] = $a + ['id' => (int) $id];
-            }
-            [$known, $gone] = self::imageFiles($doc, $library, $mediaRefs[$id]);
-            $usedFiles += array_fill_keys($known, true);
-            if ($gone) {
-                $goneFiles[(int) $id] = $gone;
-            }
-            if ($vis && ($places = self::unknownPlaces($doc))) {
-                $ficheAlerts[] = ['sev' => 'basse', 'code' => 'inconnu', 'msg' => 'Information inconnue notée « xx » sur l’ancien site (cachée sur le site public), à compléter ou à retirer : ' . implode(' ; ', $places), 'id' => (int) $id];
-            }
-            foreach ($doc['videos'] ?? [] as $v) {
-                if ($vis && !in_array($v['provider'] ?? '', ['youtube', 'dailymotion', 'vimeo', 'rutube', 'file'], true)) {
-                    $ficheAlerts[] = ['sev' => 'basse', 'code' => 'video', 'msg' => 'Lien vidéo de l’ancien site non reconnu : recoller le bon lien (YouTube, Dailymotion…) dans l’onglet Médias', 'id' => (int) $id];
-                    break;
+            $undo = count($ficheAlerts);
+            try {
+                $mediaRefs[$id] = Media::refsIn($doc);
+                if (($doc['status'] ?? '') === 'corbeille') {
+                    continue;
                 }
-            }
-            // Version anglaise dépassée : le texte français a changé depuis la traduction.
-            if ($vis && !empty($doc['i18n']['en']['title']) && \App\Services\Translator::status($doc) === 'stale') {
-                $ficheAlerts[] = !empty($doc['i18n']['en']['_manual'])
-                    ? ['sev' => 'moyenne', 'code' => 'traduction', 'msg' => 'Version anglaise corrigée à la main : le texte français a changé depuis, à revoir (onglet Version EN)', 'id' => (int) $id]
-                    : ['sev' => 'basse', 'code' => 'traduction', 'msg' => 'Version anglaise dépassée : le texte français a changé depuis (refaite par la traduction automatique, ou depuis l’onglet Version EN)', 'id' => (int) $id];
-            }
-            if ($doc['type'] === 'match') {
-                $matches[$id] = $doc + ['_visible' => $vis];
-            } elseif ($doc['type'] === 'personne') {
-                $persons[$id] = $doc + ['_visible' => $vis];
-            } elseif (in_array($doc['type'], ['article', 'page'], true)) {
-                $articles[$id] = ['id' => $id, 'title' => $doc['title'], 'kind' => $doc['article']['kind'] ?? 'article', 'season' => $doc['article']['season'] ?? null, '_visible' => $vis];
+                $vis = Fiches::isVisible($doc);
+                $paths[(string) ($doc['path'] ?? '')][] = (int) $id;
+                foreach (self::ficheChecks($doc, $vis, $cats, $library) as $a) {
+                    $ficheAlerts[] = $a + ['id' => (int) $id];
+                }
+                [$known, $gone] = self::imageFiles($doc, $library, $mediaRefs[$id]);
+                $usedFiles += array_fill_keys($known, true);
+                if ($gone) {
+                    $goneFiles[(int) $id] = $gone;
+                }
+                if ($vis && ($places = self::unknownPlaces($doc))) {
+                    $ficheAlerts[] = ['sev' => 'basse', 'code' => 'inconnu', 'msg' => 'Information inconnue notée « xx » sur l’ancien site (cachée sur le site public), à compléter ou à retirer : ' . implode(' ; ', $places), 'id' => (int) $id];
+                }
+                foreach ($doc['videos'] ?? [] as $v) {
+                    if ($vis && !in_array($v['provider'] ?? '', ['youtube', 'dailymotion', 'vimeo', 'rutube', 'file'], true)) {
+                        $ficheAlerts[] = ['sev' => 'basse', 'code' => 'video', 'msg' => 'Lien vidéo de l’ancien site non reconnu : recoller le bon lien (YouTube, Dailymotion…) dans l’onglet Médias', 'id' => (int) $id];
+                        break;
+                    }
+                }
+                // Version anglaise dépassée : le texte français a changé depuis la traduction.
+                if ($vis && !empty($doc['i18n']['en']['title']) && \App\Services\Translator::status($doc) === 'stale') {
+                    $ficheAlerts[] = !empty($doc['i18n']['en']['_manual'])
+                        ? ['sev' => 'moyenne', 'code' => 'traduction', 'ref' => 'manuelle', 'msg' => 'Version anglaise corrigée à la main : le texte français a changé depuis, à revoir (onglet Version EN)', 'id' => (int) $id]
+                        : ['sev' => 'basse', 'code' => 'traduction', 'ref' => 'auto', 'msg' => 'Version anglaise dépassée : le texte français a changé depuis (refaite par la traduction automatique, ou depuis l’onglet Version EN)', 'id' => (int) $id];
+                }
+                if ($doc['type'] === 'match') {
+                    $matches[$id] = $doc + ['_visible' => $vis];
+                } elseif ($doc['type'] === 'personne') {
+                    $persons[$id] = $doc + ['_visible' => $vis];
+                } elseif (in_array($doc['type'], ['article', 'page'], true)) {
+                    $articles[$id] = ['id' => $id, 'title' => $doc['title'], 'kind' => $doc['article']['kind'] ?? 'article', 'season' => $doc['article']['season'] ?? null, '_visible' => $vis];
+                }
+            } catch (\Throwable $e) {
+                // Données dans un format inattendu (fichier retouché à la main) : fiche écartée des
+                // calculs et signalée, au lieu d'empêcher tout le calcul (et l'affichage du site).
+                error_log('Fiche ' . $id . ' : ' . $e->getMessage());
+                array_splice($ficheAlerts, $undo);
+                unset($matches[$id], $persons[$id], $articles[$id]);
+                $mediaRefs[$id] ??= [];
+                $broken[(int) $id] = true;
             }
         }
         $ficheAlerts = array_merge($ficheAlerts, self::photoAlerts($goneFiles, count($usedFiles)));
-        // Fichiers de fiches illisibles (JSON abîmé, envoi par FTP interrompu) ou mal numérotés.
+        // Champs d'un type inattendu (fichier retouché à la main) : lus correctement, à réparer.
+        foreach (Fiches::repaired() as $rid => $fields) {
+            if (isset($read[$rid]) && !isset($broken[$rid])) {
+                $ficheAlerts[] = ['sev' => 'moyenne', 'code' => 'fichier', 'ref' => 'format', 'id' => (int) $rid,
+                    'msg' => 'Données dans un format inattendu (' . implode(', ', array_slice($fields, 0, 4)) . (count($fields) > 4 ? '…' : '') . ') : lues correctement en attendant ; ouvrir la fiche et l’enregistrer pour les réparer'];
+            }
+        }
+        // Fichiers de fiches illisibles (JSON abîmé, envoi par FTP interrompu), incomplets ou mal numérotés.
         foreach (glob(Fiches::DIR . '/*.json') ?: [] as $file) {
             if (!isset($read[(int) basename($file, '.json')])) {
-                $ficheAlerts[] = ['sev' => 'haute', 'code' => 'fichier', 'msg' => 'Fichier de fiche illisible ou mal numéroté : la fiche n’apparaît nulle part. À remplacer par sa dernière sauvegarde.', 'id' => null, 'title' => 'data/fiches/' . basename($file)];
+                $ficheAlerts[] = ['sev' => 'haute', 'code' => 'fichier', 'msg' => 'Fichier de fiche illisible, incomplet ou mal numéroté : la fiche n’apparaît nulle part. À remplacer par sa dernière sauvegarde.', 'id' => null, 'title' => 'data/fiches/' . basename($file)];
             }
         }
         // Deux fiches à la même adresse : une seule des deux s'affiche sur le site.
         foreach ($paths as $path => $ids) {
             foreach ($path !== '' && count($ids) > 1 ? $ids : [] as $id) {
                 $others = array_map(fn ($o) => '« ' . (Index::get($o)['title'] ?? $o) . ' »', array_diff($ids, [$id]));
-                $ficheAlerts[] = ['sev' => 'haute', 'code' => 'adresse', 'msg' => 'Même adresse (' . $path . ') que ' . implode(', ', $others) . ' : une seule des deux fiches s’affiche (adresse à changer dans Classement & SEO)', 'id' => $id];
+                $ficheAlerts[] = ['sev' => 'haute', 'code' => 'adresse', 'msg' => 'Même adresse (' . $path . ') que ' . implode(', ', $others) . ' : une seule des deux fiches s’affiche (adresse à changer dans Classement & SEO)', 'id' => $id, 'ref' => 'meme:' . $path];
             }
         }
 
@@ -395,194 +414,222 @@ final class Derived
         $onThisDay = [];
 
         foreach ($matches as $mid => $doc) {
-            $m = $doc['match'];
-            $sochauxHome = (bool) ($m['sochaux_home'] ?? true);
-            $oppName = $sochauxHome ? ($m['away']['name'] ?? '') : ($m['home']['name'] ?? '');
-            $clubId = null;
-            if ($oppName !== '' && !preg_match('/sochaux/iu', $oppName)) {
-                $key = Names::clubKey($oppName);
-                $clubId = $m['opponent_club'] ?: ($clubAlias[$key] ?? null);
-                if (!$clubId) {
-                    $clubId = $key;
-                    $clubAlias[$key] = $clubId;
-                    $clubs[] = ['id' => $clubId, 'name' => $oppName, 'aliases' => [], 'city' => '', 'country' => '', 'logo' => null, 'lat' => null, 'lng' => null, 'auto' => true];
-                    $newClubs = true;
+            $undo = [count($apps), count($quality)];
+            try {
+                $m = $doc['match'];
+                $sochauxHome = (bool) ($m['sochaux_home'] ?? true);
+                $oppName = $sochauxHome ? ($m['away']['name'] ?? '') : ($m['home']['name'] ?? '');
+                $clubId = null;
+                if ($oppName !== '' && !preg_match('/sochaux/iu', $oppName)) {
+                    $key = Names::clubKey($oppName);
+                    $clubId = $m['opponent_club'] ?: ($clubAlias[$key] ?? null);
+                    if (!$clubId) {
+                        $clubId = $key;
+                        $clubAlias[$key] = $clubId;
+                        $clubs[] = ['id' => $clubId, 'name' => $oppName, 'aliases' => [], 'city' => '', 'country' => '', 'logo' => null, 'lat' => null, 'lng' => null, 'auto' => true];
+                        $newClubs = true;
+                    }
+                    $clubNames[$clubId][$oppName] = ($clubNames[$clubId][$oppName] ?? 0) + 1;
                 }
-                $clubNames[$clubId][$oppName] = ($clubNames[$clubId][$oppName] ?? 0) + 1;
-            }
-            $stadeId = null;
-            if (!empty($m['stadium'])) {
-                $sk = Names::stadiumKey($m['stadium']);
-                $stadeId = $m['stadium_id'] ?: ($stadeAlias[$sk] ?? null);
-                if (!$stadeId && $sk !== '') {
-                    $stadeId = $sk;
-                    $stadeAlias[$sk] = $stadeId;
-                    $city = preg_match('/\(([^)]+)\)/u', $m['stadium'], $cm) ? $cm[1] : '';
-                    $stades[] = ['id' => $stadeId, 'name' => trim(preg_replace('/\s*\([^)]*\)\s*/u', ' ', $m['stadium'])), 'aliases' => [], 'city' => '', 'department' => $city,
-                        'country' => '', 'lat' => null, 'lng' => null, 'auto' => true];
-                    $newStades = true;
-                }
-                if ($stadeId) {
-                    $stadeNames[$stadeId][$m['stadium']] = ($stadeNames[$stadeId][$m['stadium']] ?? 0) + 1;
-                }
-            }
-
-            $score = $m['score'] ?? null;
-            $us = $them = null;
-            if (isset($score['home'])) {
-                [$us, $them] = $sochauxHome ? [$score['home'], $score['away']] : [$score['away'], $score['home']];
-            }
-            $date = $m['date'] ?? null;
-            $decade = $date ? ((int) floor((int) substr($date, 0, 4) / 10) * 10) : null;
-            $aet = (bool) ($score['aet'] ?? false);
-            $M[$mid] = [
-                'id' => $mid,
-                'v' => $doc['_visible'],
-                'path' => $doc['path'],
-                'title' => $doc['title'],
-                'date' => $date,
-                'season' => $m['season'] ?? null,
-                'decade' => $decade,
-                'comp' => $m['competition'] ?? 'Championnat',
-                'label' => $m['competition_label'] ?? '',
-                'round' => $m['round'] ?? '',
-                'home' => $m['home']['name'] ?? '',
-                'away' => $m['away']['name'] ?? '',
-                'sh' => $sochauxHome,
-                'club' => $clubId,
-                'opp' => $oppName,
-                'stade' => $stadeId,
-                'us' => $us,
-                'them' => $them,
-                'extra' => $score['extra'] ?? null,
-                'result' => $m['result'] ?? null,
-                // Affluence impossible (plus de 90 000 : faute de frappe) écartée des records et bilans
-                'spectators' => isset($m['spectators']) && (int) $m['spectators'] > 0 && (int) $m['spectators'] <= 90000 ? (int) $m['spectators'] : null,
-                'image' => $doc['featured_image'] ?? null,
-                'event' => $m['event'] ?? null,
-                'hl' => count($m['highlights'] ?? []),
-            ];
-            if ($date && $doc['_visible']) {
-                $onThisDay[substr($date, 5, 5)][] = $mid;
-            }
-
-            // Composition → apparitions
-            $rows = $m['lineup']['rows'] ?? [];
-            if (!empty($m['lineup']['source_table'])) {
-                $tableUse[$m['lineup']['source_table']][] = $mid;
-            }
-            $full = $aet ? 120 : 90;
-            $teamGoals = 0;
-            $inMatch = [];   // joueur => [rang de son apparition, minutes de ses buts]
-            $dupNames = [];  // joueurs inscrits deux fois dans la composition
-            foreach ($rows as $r) {
-                $pos = strtoupper((string) ($r['position'] ?? ''));
-                $name = (string) ($r['name'] ?? '');
-                if ($name === '') {
-                    continue;
-                }
-                $pid = $r['person_id'] ?? null;
-                if (!$pid || !isset($persons[$pid])) {
-                    $pid = $resolve($name, $date);
-                }
-                $g = count($r['goals'] ?? []);
-                $min = 0;
-                $role = $pos === 'E' ? 'coach' : 'player';
-                if ($role === 'player') {
-                    $in = $r['sub_in'] ?? null;
-                    $out = $r['sub_out'] ?? null;
-                    $mi = fn ($v) => (int) explode('+', (string) $v)[0];
-                    if ($pos === 'R') {
-                        // Entré puis sorti : temps passé entre les deux.
-                        $end = ($out !== null && $out !== '' && $mi($out) > $mi((string) $in)) ? $mi($out) : $full;
-                        $min = ($in !== null && $in !== '') ? max(1, $end - $mi($in)) : 0;
-                    } else {
-                        $min = ($out !== null && $out !== '') ? $mi($out) : $full;
+                $stadeId = null;
+                // Stade inconnu (« xx » de l'ancien site) : pas de stade créé dans le référentiel.
+                if (!empty($m['stadium']) && is_string($m['stadium']) && !\App\Front\Unknown::has($m['stadium'])) {
+                    $sk = Names::stadiumKey($m['stadium']);
+                    $stadeId = $m['stadium_id'] ?: ($stadeAlias[$sk] ?? null);
+                    if (!$stadeId && $sk !== '') {
+                        $stadeId = $sk;
+                        $stadeAlias[$sk] = $stadeId;
+                        $city = preg_match('/\(([^)]+)\)/u', $m['stadium'], $cm) ? $cm[1] : '';
+                        $stades[] = ['id' => $stadeId, 'name' => trim(preg_replace('/\s*\([^)]*\)\s*/u', ' ', $m['stadium'])), 'aliases' => [], 'city' => '', 'department' => $city,
+                            'country' => '', 'lat' => null, 'lng' => null, 'auto' => true];
+                        $newStades = true;
+                    }
+                    if ($stadeId) {
+                        $stadeNames[$stadeId][$m['stadium']] = ($stadeNames[$stadeId][$m['stadium']] ?? 0) + 1;
                     }
                 }
-                if ($role === 'player' && $pos === 'R' && $min === 0) {
-                    // Remplaçant non entré : pas d'apparition, mais présence sur la feuille.
-                    $role = 'bench';
-                }
-                $mins = array_values(array_map('strval', $r['goals'] ?? []));
-                $prev = $pid && $role !== 'coach' ? ($inMatch[$pid] ?? null) : null;
-                if ($prev !== null) {
-                    // Même joueur inscrit deux fois dans la composition : une seule apparition
-                    // (buts sans doublon de minute, temps de jeu plafonné à la durée du match).
-                    $dupNames[] = Names::display($name);
-                    $a = &$apps[$prev[0]];
-                    $all = array_merge($prev[1], $mins);
-                    $known = !in_array('', $all, true);
-                    $new = $known ? array_values(array_diff(array_unique($mins), $prev[1])) : $mins;
-                    $a[2] = $known ? count(array_unique($all)) : $a[2] + $g;
-                    $a[3] = min($full, $a[3] + $min);
-                    $a[4] += count($r['yellow'] ?? []);
-                    $a[5] += count($r['red'] ?? []);
-                    if ($a[6] === 'bench' && $role === 'player') {
-                        [$a[6], $a[8]] = ['player', $pos];
-                    }
-                    $a[7] = $a[7] || !empty($r['captain']);
-                    unset($a);
-                    $inMatch[$pid][1] = array_values(array_unique($all));
-                    $g = count($new);
-                    $mins = $new;
-                }
-                $teamGoals += $g; // après le dédoublonnage : un but noté deux fois ne compte qu'une fois
-                if ($g > 0) {
-                    // Minutes des buts et penaltys marqués (« 32' s.p. », « 12' sp et 56' »).
-                    $scorers[$mid][] = [$pid ?: null, Names::display($name), $mins,
-                        preg_match_all('/(?<![\p{L}])s\.?\s?p\.?(?![\p{L}])|\bpen(?:alty)?\b/iu', (string) ($r['goals_text'] ?? ''))];
-                }
-                if ($prev !== null) {
-                    continue;
-                }
-                if ($pid) {
-                    if ($role !== 'coach') {
-                        $inMatch[$pid] = [count($apps), $mins];
-                    }
-                    $apps[] = [$pid, $mid, $g, $min, count($r['yellow'] ?? []), count($r['red'] ?? []), $role, (bool) ($r['captain'] ?? false), $pos];
-                } elseif ($doc['_visible']) {
-                    $unlinked[Names::personKey($name)]['name'] = Names::display($name);
-                    $unlinked[Names::personKey($name)]['matches'][] = $mid;
-                }
-            }
 
-            // Contrôles qualité du match (les buts contre son camp de l'adversaire, cités avec
-            // les buteurs sochaliens, comptent pour Sochaux sans figurer dans la composition).
-            foreach ($m['goals'] ?? [] as $gl) {
-                if (stripos((string) ($gl['team'] ?? ''), 'sochaux') !== false) {
-                    $teamGoals += preg_match_all('/c\s*\.?\s*s\s*\.?\s*c|contre son camp/iu', (string) ($gl['scorers'] ?? ''));
+                $score = is_array($m['score'] ?? null) ? $m['score'] : null;
+                $us = $them = null;
+                if (isset($score['home'])) {
+                    // Entiers (un fichier retouché à la main peut contenir « 2 » ou 2.0)
+                    [$us, $them] = array_map(fn ($v) => self::goals($v), $sochauxHome ? [$score['home'], $score['away'] ?? null] : [$score['away'] ?? null, $score['home']]);
                 }
-            }
-            if ($dupNames && $doc['_visible'] && !in_array($m['competition'] ?? '', self::OFFICIAL_EXCLUDED, true)) {
-                $quality[] = ['sev' => 'moyenne', 'code' => 'doublon', 'msg' => 'Joueur inscrit deux fois dans la composition : ' . implode(', ', array_unique($dupNames)) . ' (compté une seule fois)', 'id' => $mid];
-            }
-            if ($us !== null && $rows && $teamGoals > 0 && $teamGoals !== $us) {
-                $quality[] = ['sev' => 'haute', 'code' => 'buts', 'msg' => "Total des buts ($us) ≠ somme des buteurs de la composition ($teamGoals)", 'id' => $mid];
-            }
-            if (!empty($m['date_text']) && $date) {
-                $pd = self::frDate($m['date_text']);
-                $wd = self::weekday($m['date_text']);
-                if ($pd && $pd !== $date) {
-                    $quality[] = ['sev' => 'moyenne', 'code' => 'date', 'msg' => 'Date en toutes lettres (« ' . $m['date_text'] . ' ») ≠ date de la fiche (' . date('d/m/Y', strtotime($date)) . ')', 'id' => $mid];
-                } elseif (!$pd) {
-                    $quality[] = ['sev' => 'basse', 'code' => 'date', 'msg' => 'Date en toutes lettres illisible (« ' . $m['date_text'] . ' ») ; date de la fiche : ' . date('d/m/Y', strtotime($date)), 'id' => $mid];
-                } elseif ($wd !== null && $wd !== (int) date('N', strtotime($date))) {
-                    $quality[] = ['sev' => 'basse', 'code' => 'date', 'msg' => 'Jour de la semaine incohérent dans « ' . $m['date_text'] . ' » : le ' . date('d/m/Y', strtotime($date)) . ' était un ' . self::WEEKDAYS[(int) date('N', strtotime($date)) - 1] . ' (jour ou date à vérifier)', 'id' => $mid];
+                // Date valide seulement (une date impossible est signalée par matchChecks)
+                $date = $m['date'] ?? null;
+                $date = is_string($date) && preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $dm) && checkdate((int) $dm[2], (int) $dm[3], (int) $dm[1]) ? $date : null;
+                $decade = $date ? ((int) floor((int) substr($date, 0, 4) / 10) * 10) : null;
+                $aet = (bool) ($score['aet'] ?? false);
+                $M[$mid] = [
+                    'id' => $mid,
+                    'v' => $doc['_visible'],
+                    'path' => $doc['path'],
+                    'title' => $doc['title'],
+                    'date' => $date,
+                    'season' => $m['season'] ?? null,
+                    'decade' => $decade,
+                    'comp' => $m['competition'] ?? 'Championnat',
+                    'label' => $m['competition_label'] ?? '',
+                    'round' => $m['round'] ?? '',
+                    'home' => $m['home']['name'] ?? '',
+                    'away' => $m['away']['name'] ?? '',
+                    'sh' => $sochauxHome,
+                    'club' => $clubId,
+                    'opp' => $oppName,
+                    'stade' => $stadeId,
+                    'us' => $us,
+                    'them' => $them,
+                    'extra' => $score['extra'] ?? null,
+                    'result' => $m['result'] ?? null,
+                    // Affluence impossible (plus de 90 000 : faute de frappe) écartée des records et bilans
+                    'spectators' => isset($m['spectators']) && (int) $m['spectators'] > 0 && (int) $m['spectators'] <= 90000 ? (int) $m['spectators'] : null,
+                    'image' => $doc['featured_image'] ?? null,
+                    'event' => $m['event'] ?? null,
+                    'hl' => count($m['highlights'] ?? []),
+                ];
+                if ($date && $doc['_visible']) {
+                    $onThisDay[substr($date, 5, 5)][] = $mid;
                 }
-            }
-            $ex = (string) ($m['score']['extra'] ?? '');
-            if ($doc['_visible'] && stripos($ex, 'tab') !== false && empty($m['score']['pens'])) {
-                $quality[] = ['sev' => 'moyenne', 'code' => 'tab', 'msg' => 'Tirs au but sans le score de la séance (« ' . $ex . ' ») : le saisir dans Score › Tirs au but', 'id' => $mid];
-            }
-            if ((int) ($m['spectators'] ?? 0) > 90000) {
-                $quality[] = ['sev' => 'haute', 'code' => 'affluence', 'msg' => 'Affluence improbable (' . number_format((int) $m['spectators'], 0, ',', ' ') . ' spectateurs) : faute de frappe ? Elle est écartée des records.', 'id' => $mid];
-            }
-            if (empty($m['referee']) && $decade && $decade >= 1970 && $doc['_visible'] && ($m['competition'] ?? '') !== 'Amical') {
-                $quality[] = ['sev' => 'basse', 'code' => 'arbitre', 'msg' => 'Arbitre non renseigné', 'id' => $mid];
-            }
-            foreach (self::matchChecks($m, $us, $them, $doc['_visible']) as $a) {
-                $quality[] = $a + ['id' => $mid];
+
+                // Composition → apparitions
+                $rows = $m['lineup']['rows'] ?? [];
+                if (!empty($m['lineup']['source_table'])) {
+                    $tableUse[$m['lineup']['source_table']][] = $mid;
+                }
+                $full = $aet ? 120 : 90;
+                $teamGoals = 0;
+                $inMatch = [];   // joueur => [rang de son apparition, minutes de ses buts]
+                $dupNames = [];  // joueurs inscrits deux fois dans la composition
+                foreach ($rows as $r) {
+                    $pos = strtoupper((string) ($r['position'] ?? ''));
+                    $name = (string) ($r['name'] ?? '');
+                    if ($name === '') {
+                        continue;
+                    }
+                    $pid = $r['person_id'] ?? null;
+                    if (!$pid || !isset($persons[$pid])) {
+                        $pid = $resolve($name, $date);
+                    }
+                    $g = count($r['goals'] ?? []);
+                    $min = 0;
+                    $role = $pos === 'E' ? 'coach' : 'player';
+                    if ($role === 'player') {
+                        $in = $r['sub_in'] ?? null;
+                        $out = $r['sub_out'] ?? null;
+                        $mi = fn ($v) => (int) explode('+', (string) $v)[0];
+                        if ($pos === 'R') {
+                            // Entré puis sorti : temps passé entre les deux.
+                            $end = ($out !== null && $out !== '' && $mi($out) > $mi((string) $in)) ? $mi($out) : $full;
+                            $min = ($in !== null && $in !== '') ? max(1, $end - $mi($in)) : 0;
+                        } else {
+                            $min = ($out !== null && $out !== '') ? $mi($out) : $full;
+                        }
+                    }
+                    if ($role === 'player' && $pos === 'R' && $min === 0) {
+                        // Remplaçant non entré : pas d'apparition, mais présence sur la feuille.
+                        $role = 'bench';
+                    }
+                    $mins = array_values(array_map('strval', $r['goals'] ?? []));
+                    $prev = $pid && $role !== 'coach' ? ($inMatch[$pid] ?? null) : null;
+                    if ($prev !== null) {
+                        // Même joueur inscrit deux fois dans la composition : une seule apparition
+                        // (buts sans doublon de minute, temps de jeu plafonné à la durée du match).
+                        $dupNames[] = Names::display($name);
+                        $a = &$apps[$prev[0]];
+                        $all = array_merge($prev[1], $mins);
+                        $known = !in_array('', $all, true);
+                        $new = $known ? array_values(array_diff(array_unique($mins), $prev[1])) : $mins;
+                        $a[2] = $known ? count(array_unique($all)) : $a[2] + $g;
+                        $a[3] = min($full, $a[3] + $min);
+                        $a[4] += count($r['yellow'] ?? []);
+                        $a[5] += count($r['red'] ?? []);
+                        if ($a[6] === 'bench' && $role === 'player') {
+                            [$a[6], $a[8]] = ['player', $pos];
+                        }
+                        $a[7] = $a[7] || !empty($r['captain']);
+                        unset($a);
+                        $inMatch[$pid][1] = array_values(array_unique($all));
+                        $g = count($new);
+                        $mins = $new;
+                    }
+                    $teamGoals += $g; // après le dédoublonnage : un but noté deux fois ne compte qu'une fois
+                    if ($g > 0) {
+                        // Minutes des buts et penaltys marqués (« 32' s.p. », « 12' sp et 56' »).
+                        $scorers[$mid][] = [$pid ?: null, Names::display($name), $mins,
+                            preg_match_all('/(?<![\p{L}])s\.?\s?p\.?(?![\p{L}])|\bpen(?:alty)?\b/iu', (string) ($r['goals_text'] ?? ''))];
+                    }
+                    if ($prev !== null) {
+                        continue;
+                    }
+                    if ($pid) {
+                        if ($role !== 'coach') {
+                            $inMatch[$pid] = [count($apps), $mins];
+                        }
+                        $apps[] = [$pid, $mid, $g, $min, count($r['yellow'] ?? []), count($r['red'] ?? []), $role, (bool) ($r['captain'] ?? false), $pos];
+                    } elseif ($doc['_visible']) {
+                        $unlinked[Names::personKey($name)]['name'] = Names::display($name);
+                        $unlinked[Names::personKey($name)]['matches'][] = $mid;
+                    }
+                }
+
+                // Contrôles qualité du match (les buts contre son camp de l'adversaire, cités avec
+                // les buteurs sochaliens, comptent pour Sochaux sans figurer dans la composition).
+                foreach ($m['goals'] ?? [] as $gl) {
+                    if (stripos((string) ($gl['team'] ?? ''), 'sochaux') !== false) {
+                        $teamGoals += preg_match_all('/c\s*\.?\s*s\s*\.?\s*c|contre son camp/iu', (string) ($gl['scorers'] ?? ''));
+                    }
+                }
+                if ($dupNames && $doc['_visible'] && !in_array($m['competition'] ?? '', self::OFFICIAL_EXCLUDED, true)) {
+                    $quality[] = ['sev' => 'moyenne', 'code' => 'doublon', 'msg' => 'Joueur inscrit deux fois dans la composition : ' . implode(', ', array_unique($dupNames)) . ' (compté une seule fois)', 'id' => $mid];
+                }
+                if ($us !== null && $rows && $teamGoals > 0 && $teamGoals !== $us) {
+                    $quality[] = ['sev' => 'haute', 'code' => 'buts', 'msg' => "Total des buts ($us) ≠ somme des buteurs de la composition ($teamGoals)", 'id' => $mid];
+                }
+                if (!empty($m['date_text']) && is_string($m['date_text']) && $date) {
+                    $pd = self::frDate($m['date_text']);
+                    $wd = self::weekday($m['date_text']);
+                    if ($pd && $pd !== $date) {
+                        $quality[] = ['sev' => 'moyenne', 'code' => 'date', 'ref' => 'ecart', 'msg' => 'Date en toutes lettres (« ' . $m['date_text'] . ' ») ≠ date de la fiche (' . date('d/m/Y', strtotime($date)) . ')', 'id' => $mid];
+                    } elseif (!$pd) {
+                        $quality[] = ['sev' => 'basse', 'code' => 'date', 'ref' => 'illisible', 'msg' => 'Date en toutes lettres illisible (« ' . $m['date_text'] . ' ») ; date de la fiche : ' . date('d/m/Y', strtotime($date)), 'id' => $mid];
+                    } elseif ($wd !== null && $wd !== (int) date('N', strtotime($date))) {
+                        $quality[] = ['sev' => 'basse', 'code' => 'date', 'ref' => 'jour', 'msg' => 'Jour de la semaine incohérent dans « ' . $m['date_text'] . ' » : le ' . date('d/m/Y', strtotime($date)) . ' était un ' . self::WEEKDAYS[(int) date('N', strtotime($date)) - 1] . ' (jour ou date à vérifier)', 'id' => $mid];
+                    }
+                }
+                $ex = (string) ($m['score']['extra'] ?? '');
+                if ($doc['_visible'] && stripos($ex, 'tab') !== false && empty($m['score']['pens'])) {
+                    $quality[] = ['sev' => 'moyenne', 'code' => 'tab', 'msg' => 'Tirs au but sans le score de la séance (« ' . $ex . ' ») : le saisir dans Score › Tirs au but', 'id' => $mid];
+                }
+                if ((int) ($m['spectators'] ?? 0) > 90000) {
+                    $quality[] = ['sev' => 'haute', 'code' => 'affluence', 'msg' => 'Affluence improbable (' . number_format((int) $m['spectators'], 0, ',', ' ') . ' spectateurs) : faute de frappe ? Elle est écartée des records.', 'id' => $mid];
+                }
+                if (empty($m['referee']) && $decade && $decade >= 1970 && $doc['_visible'] && ($m['competition'] ?? '') !== 'Amical') {
+                    $quality[] = ['sev' => 'basse', 'code' => 'arbitre', 'msg' => 'Arbitre non renseigné', 'id' => $mid];
+                }
+                foreach (self::matchChecks($m, $us, $them, $doc['_visible']) as $a) {
+                    $quality[] = $a + ['id' => $mid];
+                }
+            } catch (\Throwable $e) {
+                // Match aux données inattendues (fichier retouché à la main) : retiré des statistiques
+                // (apparitions, buteurs, bilans) et signalé, le reste du calcul continue.
+                error_log('Match ' . $mid . ' : ' . $e->getMessage());
+                unset($a);
+                array_splice($apps, $undo[0]);
+                array_splice($quality, $undo[1]);
+                unset($M[$mid], $scorers[$mid]);
+                foreach ($onThisDay as $k => $ids) {
+                    $onThisDay[$k] = array_values(array_diff($ids, [$mid]));
+                }
+                foreach ($tableUse as $k => $ids) {
+                    $tableUse[$k] = array_values(array_diff($ids, [$mid]));
+                }
+                foreach ($unlinked as $k => $u) {
+                    $unlinked[$k]['matches'] = array_values(array_diff($u['matches'] ?? [], [$mid]));
+                    if (!$unlinked[$k]['matches']) {
+                        unset($unlinked[$k]);
+                    }
+                }
+                $broken[(int) $mid] = true;
             }
         }
 
@@ -855,8 +902,14 @@ final class Derived
             $shown[$k] = [Names::display($name), $pid, $shown[$k][2] ?? $how, ($shown[$k][3] ?? 0) + $n];
         }
         uasort($shown, fn ($a, $b) => $b[3] <=> $a[3]);
-        foreach ($shown as [$name, $pid, $how, $n]) {
-            $quality[] = ['sev' => 'basse', 'code' => 'rapproche', 'msg' => 'Nom « ' . $name . " » relié par rapprochement ($how, $n composition" . ($n > 1 ? 's' : '') . ') à la fiche : ' . ($persons[$pid]['title'] ?? $pid), 'id' => $pid];
+        foreach ($shown as $k => [$name, $pid, $how, $n]) {
+            $quality[] = ['sev' => 'basse', 'code' => 'rapproche', 'msg' => 'Nom « ' . $name . " » relié par rapprochement ($how, $n composition" . ($n > 1 ? 's' : '') . ') à la fiche : ' . ($persons[$pid]['title'] ?? $pid), 'id' => $pid, 'ref' => $name];
+        }
+
+        // Fiches écartées des calculs (données dans un format inattendu) : à reprendre.
+        foreach (array_keys($broken) as $bid) {
+            $quality[] = ['sev' => 'haute', 'code' => 'fichier', 'ref' => 'donnees', 'id' => $bid,
+                'msg' => 'Données de la fiche dans un format inattendu (fichier retouché à la main ?) : fiche écartée des statistiques. L’ouvrir et l’enregistrer ; sinon la remplacer par sa dernière sauvegarde.'];
         }
 
         $data = [
@@ -1001,6 +1054,15 @@ final class Derived
 
     private const WEEKDAYS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
 
+    /** Buts saisis : entier (ou « 2 », 2.0 d'un fichier retouché à la main) ; null s'il n'y en a pas de lisible. */
+    private static function goals(mixed $v): ?int
+    {
+        if (is_int($v)) {
+            return $v >= 0 ? $v : null;
+        }
+        return is_numeric($v) && (float) $v >= 0 && (float) $v === floor((float) $v) ? (int) $v : null;
+    }
+
     /**
      * Match : date, saison, score et résultat cohérents ; composition d'un match officiel.
      * (Le masque de saisie calcule la saison et le résultat : ces écarts viennent surtout
@@ -1010,15 +1072,15 @@ final class Derived
     private static function matchChecks(array $m, ?int $us, ?int $them, bool $vis): array
     {
         $out = [];
-        $date = $m['date'] ?? null;
+        $date = is_scalar($m['date'] ?? null) ? (string) $m['date'] : null;
         $today = date('Y-m-d');
         $official = !in_array($m['competition'] ?? '', self::OFFICIAL_EXCLUDED, true) && empty($m['event']);
         if (!$date) {
             if ($vis) {
-                $out[] = ['sev' => 'haute', 'code' => 'match-date', 'msg' => 'Date du match non renseignée : absent des saisons, des bilans et de « Ce jour-là » (onglet Infos)'];
+                $out[] = ['sev' => 'haute', 'code' => 'match-date', 'ref' => 'absente', 'msg' => 'Date du match non renseignée : absent des saisons, des bilans et de « Ce jour-là » (onglet Infos)'];
             }
         } elseif (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $d) || !checkdate((int) $d[2], (int) $d[3], (int) $d[1])) {
-            $out[] = ['sev' => 'haute', 'code' => 'match-date', 'msg' => 'Date du match impossible (« ' . $date . ' ») (onglet Infos)'];
+            $out[] = ['sev' => 'haute', 'code' => 'match-date', 'ref' => 'impossible', 'msg' => 'Date du match impossible (« ' . $date . ' ») (onglet Infos)'];
         } else {
             $fr = date('d/m/Y', strtotime($date));
             $season = (string) ($m['season'] ?? '');
@@ -1027,15 +1089,15 @@ final class Derived
             $start = preg_match('/^(\d{4})-(\d{4})$/', $season, $sm) && (int) $sm[2] === (int) $sm[1] + 1 ? (int) $sm[1] : null;
             if ($season === '') {
                 if ($vis) {
-                    $out[] = ['sev' => 'moyenne', 'code' => 'saison', 'msg' => 'Saison non renseignée : le match n’apparaît dans aucune saison'];
+                    $out[] = ['sev' => 'moyenne', 'code' => 'saison', 'ref' => 'vide', 'msg' => 'Saison non renseignée : le match n’apparaît dans aucune saison'];
                 }
             } elseif ($start === null || !(((int) $d[1] === $start && (int) $d[2] >= 6) || ((int) $d[1] === $start + 1 && (int) $d[2] <= 7))) {
-                $out[] = ['sev' => 'moyenne', 'code' => 'saison', 'msg' => "Match du $fr rangé dans la saison « $season » : date ou saison à vérifier"];
+                $out[] = ['sev' => 'moyenne', 'code' => 'saison', 'ref' => 'ecart', 'msg' => "Match du $fr rangé dans la saison « $season » : date ou saison à vérifier"];
             }
             if ($us !== null && $date > $today) {
-                $out[] = ['sev' => 'moyenne', 'code' => 'score', 'msg' => "Score saisi pour un match à venir (le $fr) : date à vérifier"];
+                $out[] = ['sev' => 'moyenne', 'code' => 'score', 'ref' => 'avenir', 'msg' => "Score saisi pour un match à venir (le $fr) : date à vérifier"];
             } elseif ($us === null && $vis && $official && $date < $today) {
-                $out[] = ['sev' => 'moyenne', 'code' => 'score', 'msg' => 'Score non renseigné pour ce match officiel (onglet Infos)'];
+                $out[] = ['sev' => 'moyenne', 'code' => 'score', 'ref' => 'absent', 'msg' => 'Score non renseigné pour ce match officiel (onglet Infos)'];
             }
         }
         if ($us !== null && $them !== null) {
@@ -1043,7 +1105,7 @@ final class Derived
             $want = $us <=> $them;
             if (is_array($pens) && isset($pens['home'], $pens['away'])) {
                 if ($us !== $them) {
-                    $out[] = ['sev' => 'moyenne', 'code' => 'resultat', 'msg' => "Tirs au but saisis alors que le score n’est pas nul ($us-$them pour Sochaux) (onglet Infos)"];
+                    $out[] = ['sev' => 'moyenne', 'code' => 'resultat', 'ref' => 'tab', 'msg' => "Tirs au but saisis alors que le score n’est pas nul ($us-$them pour Sochaux) (onglet Infos)"];
                 } else {
                     $sh = (bool) ($m['sochaux_home'] ?? true);
                     $want = $sh ? ((int) $pens['home'] <=> (int) $pens['away']) : ((int) $pens['away'] <=> (int) $pens['home']);
@@ -1054,7 +1116,7 @@ final class Derived
             $tabUnknown = $us === $them && !is_array($pens) && stripos((string) ($m['score']['extra'] ?? ''), 'tab') !== false;
             $labels = ['V' => 'victoire', 'N' => 'nul', 'D' => 'défaite'];
             if ($res !== null && !$tabUnknown && $res !== [1 => 'V', 0 => 'N', -1 => 'D'][$want]) {
-                $out[] = ['sev' => 'haute', 'code' => 'resultat', 'msg' => 'Résultat « ' . ($labels[$res] ?? $res) . " » incohérent avec le score ($us-$them pour Sochaux) : réenregistrer le score (onglet Infos)"];
+                $out[] = ['sev' => 'haute', 'code' => 'resultat', 'ref' => 'incoherent', 'msg' => 'Résultat « ' . ($labels[$res] ?? $res) . " » incohérent avec le score ($us-$them pour Sochaux) : réenregistrer le score (onglet Infos)"];
             }
         }
         // Composition d'un match officiel : 11 titulaires au plus, un seul gardien, pas de minute
@@ -1078,17 +1140,17 @@ final class Derived
             }
             if ($entered) {
                 // Onze titulaires par ailleurs : remplaçant mal noté ; sinon, minute de sortie mal placée.
-                $out[] = ['sev' => 'moyenne', 'code' => 'compo', 'msg' => $starters >= 11
+                $out[] = ['sev' => 'moyenne', 'code' => 'compo', 'ref' => 'entree', 'msg' => $starters >= 11
                     ? 'Joueur entré en cours de jeu noté titulaire : ' . implode(', ', $entered) . ' (poste « Remplaçant » à choisir dans Compo & événements)'
                     : 'Minute d’entrée en jeu notée pour un titulaire : ' . implode(', ', $entered) . ' (minute de sortie mal placée ? Compo & événements)'];
             }
             if ($starters > 11) {
-                $out[] = ['sev' => 'moyenne', 'code' => 'compo', 'msg' => "$starters titulaires dans la composition (11 au plus) : remplaçant noté titulaire ?"];
+                $out[] = ['sev' => 'moyenne', 'code' => 'compo', 'ref' => 'trop', 'msg' => "$starters titulaires dans la composition (11 au plus) : remplaçant noté titulaire ?"];
             } elseif ($starters > 0 && $starters < 9) {
-                $out[] = ['sev' => 'basse', 'code' => 'compo', 'msg' => "Composition incomplète : $starters titulaires"];
+                $out[] = ['sev' => 'basse', 'code' => 'compo', 'ref' => 'incomplete', 'msg' => "Composition incomplète : $starters titulaires"];
             }
             if ($keepers > 1) {
-                $out[] = ['sev' => 'moyenne', 'code' => 'compo', 'msg' => "$keepers gardiens titulaires dans la composition"];
+                $out[] = ['sev' => 'moyenne', 'code' => 'compo', 'ref' => 'gardiens', 'msg' => "$keepers gardiens titulaires dans la composition"];
             }
         }
         return $out;
@@ -1107,7 +1169,7 @@ final class Derived
         }
         $path = (string) ($doc['path'] ?? '');
         if ($path === '' ? $vis : !preg_match('#^/(?:[^/\s?\#]+/)*$#u', $path)) {
-            $out[] = ['sev' => 'haute', 'code' => 'adresse', 'msg' => $path === ''
+            $out[] = ['sev' => 'haute', 'code' => 'adresse', 'ref' => 'forme', 'msg' => $path === ''
                 ? 'Adresse de la page vide : la fiche n’est pas accessible sur le site (Classement & SEO)'
                 : 'Adresse de la page mal formée (« ' . $path . ' ») : elle commence et finit par « / », sans espace (Classement & SEO)'];
         }
@@ -1118,7 +1180,7 @@ final class Derived
         // Images nommées dans la fiche (une, galerie, images du texte) absentes de la médiathèque.
         $unknown = array_values(array_unique(array_filter(self::namedImages($doc), fn ($r) => !isset($library[$r]))));
         if ($unknown) {
-            $out[] = ['sev' => 'moyenne', 'code' => 'image', 'msg' => 'Image absente de la médiathèque (supprimée ?) : ' . self::fileList($unknown) . ' (onglet Médias)'];
+            $out[] = ['sev' => 'moyenne', 'code' => 'image', 'ref' => 'mediatheque', 'msg' => 'Image absente de la médiathèque (supprimée ?) : ' . self::fileList($unknown) . ' (onglet Médias)'];
         }
         return $out;
     }
@@ -1154,7 +1216,7 @@ final class Derived
         }
         $out = [];
         foreach ($goneByFiche as $id => $files) {
-            $out[] = ['sev' => 'moyenne', 'code' => 'image', 'msg' => 'Fichier d’image absent du serveur : ' . self::fileList($files) . ' (à renvoyer dans la médiathèque)', 'id' => (int) $id];
+            $out[] = ['sev' => 'moyenne', 'code' => 'image', 'ref' => 'serveur', 'msg' => 'Fichier d’image absent du serveur : ' . self::fileList($files) . ' (à renvoyer dans la médiathèque)', 'id' => (int) $id];
         }
         return $out;
     }
@@ -1169,7 +1231,7 @@ final class Derived
     /** Où une fiche contient des « xx » de l'ancien site (information inconnue), pour l'écran Qualité. */
     private static function unknownPlaces(array $doc): array
     {
-        $has = fn ($v) => (bool) preg_match('/\bx{2,}\b/iu', is_string($v) ? $v : (string) json_encode($v, JSON_UNESCAPED_UNICODE));
+        $has = fn ($v) => \App\Front\Unknown::has($v);
         $out = [];
         $p = $doc['personne'] ?? null;
         if ($p) {
@@ -1184,7 +1246,7 @@ final class Derived
                     $out[] = $l;
                 }
             }
-            foreach (['subtitle' => 'sous-titre', 'first_match' => 'premier match', 'last_match' => 'dernier match', 'first_goal' => 'premier but'] as $k => $l) {
+            foreach (['subtitle' => 'sous-titre', 'first_match' => 'premier match', 'last_match' => 'dernier match', 'first_goal' => 'premier but', 'height' => 'taille', 'arrival' => 'arrivée', 'departure' => 'départ'] as $k => $l) {
                 if ($has($p[$k] ?? '')) {
                     $out[] = $l;
                 }

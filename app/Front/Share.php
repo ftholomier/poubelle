@@ -37,6 +37,8 @@ final class Share
             if (!$doc) {
                 return null;
             }
+            // « xx » de l'ancien site (information inconnue) : jamais imprimés sur l'image.
+            $doc = Unknown::doc($doc);
             return match ($s['type']) {
                 'match' => self::drawMatch($doc),
                 'personne' => self::drawPerson($doc),
@@ -262,8 +264,24 @@ final class Share
         }
     }
 
+    /**
+     * Texte imprimable avec la police : emoji et pictogrammes retirés (sinon un carré vide),
+     * lettres stylisées des réseaux sociaux (« 𝗣𝗮𝘁𝗿𝗶𝗰𝗸 ») ramenées aux lettres simples.
+     */
+    private static function printable(string $s): string
+    {
+        if (class_exists(\Normalizer::class) && preg_match('/[\x{1D400}-\x{1D7FF}]/u', $s)) {
+            $upper = mb_strtoupper($s) === $s;
+            $s = (string) preg_replace_callback('/[\x{1D400}-\x{1D7FF}]/u', fn ($m) => (string) \Normalizer::normalize($m[0], \Normalizer::FORM_KD), $s);
+            $s = $upper ? mb_strtoupper($s) : $s;
+        }
+        $s = (string) preg_replace('/[\x{2190}-\x{21FF}\x{2600}-\x{27BF}\x{2B00}-\x{2BFF}\x{FE00}-\x{FE0F}\x{200D}\x{20E3}\x{1F000}-\x{1FAFF}\x{E0000}-\x{E007F}]/u', '', $s, -1, $n);
+        return $n ? trim((string) preg_replace('/ {2,}/', ' ', $s)) : $s;
+    }
+
     private static function text(\GdImage $im, string $s, string $font, int $size, int $x, int $baseline, array $rgb, int $tracking = 0): void
     {
+        $s = self::printable($s);
         $col = self::color($im, $rgb);
         if ($tracking === 0) {
             imagettftext($im, $size, 0, $x, $baseline, $col, self::font($font), $s);
@@ -289,7 +307,7 @@ final class Share
 
     private static function width(string $s, string $font, int $size): int
     {
-        $b = imagettfbbox($size, 0, self::font($font), $s);
+        $b = imagettfbbox($size, 0, self::font($font), self::printable($s));
         return abs($b[2] - $b[0]);
     }
 

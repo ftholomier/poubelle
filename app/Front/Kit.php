@@ -22,7 +22,7 @@ use App\Services\Souvenirs;
 final class Kit
 {
     /** À augmenter quand la mise en page change (les PDF en cache sont alors refaits). */
-    public const VERSION = '1';
+    public const VERSION = '2';
     private const DIR = STORAGE_PATH . '/cache/pdf';
 
     public static function base(): string

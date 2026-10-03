@@ -45,7 +45,197 @@ final class Fiches
     public static function get(int $id): ?array
     {
         $doc = JsonStore::read(self::path($id));
-        return is_array($doc) ? $doc : null;
+        return self::usable($doc, $id) ? self::normalize($doc) : null;
+    }
+
+    /** @var array<int,list<string>> champs réparés à la lecture, par fiche (signalés dans Qualité) */
+    private static array $repaired = [];
+
+    /** Fiches lues avec des champs d'un type inattendu (fichier retouché à la main) : fiche => champs. */
+    public static function repaired(): array
+    {
+        return self::$repaired;
+    }
+
+    /**
+     * Types attendus des champs lus par les pages, les calculs et le back-office : un fichier
+     * retouché à la main (« 2 » ou 2.0 au lieu de 2, une liste écrite comme un texte, une date en
+     * nombre) est lu comme s'il était bien formé, au lieu de faire échouer la page. Rien n'est
+     * écrit : la fiche est réparée à son prochain enregistrement, et signalée dans Qualité d'ici là.
+     * Une fiche bien formée n'est pas modifiée.
+     */
+    private static function normalize(array $doc): array
+    {
+        $fixed = [];
+        // Texte : un nombre devient du texte, une liste un texte vide (null permis).
+        $str = function (array &$a, array $keys, string $at) use (&$fixed): void {
+            foreach ($keys as $k) {
+                if (array_key_exists($k, $a) && $a[$k] !== null && !is_string($a[$k])) {
+                    $a[$k] = is_scalar($a[$k]) ? (string) $a[$k] : '';
+                    $fixed[] = $at . $k;
+                }
+            }
+        };
+        // Entier (buts, spectateurs) : « 2 » ou 2.0 → 2 ; illisible → null.
+        $int = function (array &$a, array $keys, string $at) use (&$fixed): void {
+            foreach ($keys as $k) {
+                if (array_key_exists($k, $a) && $a[$k] !== null && !is_int($a[$k])) {
+                    $a[$k] = is_numeric($a[$k]) && (float) $a[$k] === floor((float) $a[$k]) ? (int) $a[$k] : null;
+                    $fixed[] = $at . $k;
+                }
+            }
+        };
+        // Liste : un texte devient une liste d'un élément (minutes de buts, cartons) ou une liste vide.
+        $list = function (array &$a, array $keys, string $at, bool $strings = false) use (&$fixed): void {
+            foreach ($keys as $k) {
+                if (array_key_exists($k, $a) && $a[$k] !== null && !is_array($a[$k])) {
+                    $a[$k] = $strings && is_scalar($a[$k]) && (string) $a[$k] !== '' ? [(string) $a[$k]] : [];
+                    $fixed[] = $at . $k;
+                } elseif ($strings && is_array($a[$k] ?? null)) {
+                    foreach ($a[$k] as $i => $v) {
+                        if (!is_string($v)) {
+                            $a[$k][$i] = is_scalar($v) ? (string) $v : '';
+                            $fixed[] = $at . $k;
+                        }
+                    }
+                }
+            }
+        };
+        // Liste d'éléments structurés : ceux qui n'en sont pas sont écartés.
+        $items = function (array &$a, array $keys, string $at) use (&$fixed, $list): void {
+            $list($a, $keys, $at);
+            foreach ($keys as $k) {
+                if (is_array($a[$k] ?? null) && count(array_filter($a[$k], 'is_array')) !== count($a[$k])) {
+                    $a[$k] = array_values(array_filter($a[$k], 'is_array'));
+                    $fixed[] = $at . $k;
+                }
+            }
+        };
+        // Bloc (score, naissance…) : autre chose qu'un tableau devient null.
+        $map = function (array &$a, array $keys, string $at) use (&$fixed): void {
+            foreach ($keys as $k) {
+                if (array_key_exists($k, $a) && $a[$k] !== null && !is_array($a[$k])) {
+                    $a[$k] = null;
+                    $fixed[] = $at . $k;
+                }
+            }
+        };
+
+        $str($doc, ['title', 'path', 'status', 'slug', 'intro', 'publish_at', 'featured_image', 'date', 'modified'], '');
+        $list($doc, ['categories'], '', true);
+        $map($doc, ['seo', 'key_figure'], '');
+        if (is_array($doc['seo'] ?? null)) {
+            $str($doc['seo'], ['title', 'description'], 'seo.');
+        }
+        if (is_array($doc['key_figure'] ?? null)) {
+            $str($doc['key_figure'], ['number', 'text'], 'key_figure.');
+        }
+        $items($doc, ['sections', 'gallery', 'images', 'videos', 'embeds', 'tables'], '');
+        foreach (array_keys($doc['sections'] ?? []) as $i) {
+            $str($doc['sections'][$i], ['title', 'html'], 'sections.');
+        }
+        $list($doc, ['i18n', 'legacy'], '');
+        if ($doc['type'] === 'match') {
+            $m = &$doc['match'];
+            $str($m, ['date', 'date_text', 'season', 'competition', 'competition_label', 'round', 'round_text', 'result', 'stadium', 'spectators_text', 'referee', 'goals_text', 'event', 'score_raw', 'score_line'], 'match.');
+            $int($m, ['spectators'], 'match.');
+            foreach (['home', 'away'] as $side) {
+                if (array_key_exists($side, $m) && !is_array($m[$side])) {
+                    $m[$side] = ['name' => is_scalar($m[$side]) ? (string) $m[$side] : '', 'level' => null];
+                    $fixed[] = "match.$side";
+                }
+                if (is_array($m[$side] ?? null)) {
+                    $str($m[$side], ['name', 'level'], "match.$side.");
+                }
+            }
+            $map($m, ['score', 'lineup'], 'match.');
+            if (is_array($m['score'] ?? null)) {
+                $int($m['score'], ['home', 'away'], 'match.score.');
+                $str($m['score'], ['extra'], 'match.score.');
+                $map($m['score'], ['pens'], 'match.score.');
+                if (is_array($m['score']['pens'] ?? null)) {
+                    $int($m['score']['pens'], ['home', 'away'], 'match.score.pens.');
+                }
+            }
+            $items($m, ['goals', 'highlights', 'other_lineups'], 'match.');
+            $list($m, ['header_extra'], 'match.', true);
+            foreach (array_keys($m['goals'] ?? []) as $i) {
+                $str($m['goals'][$i], ['team', 'scorers'], 'match.goals.');
+            }
+            foreach (array_keys($m['highlights'] ?? []) as $i) {
+                $str($m['highlights'][$i], ['minute', 'text', 'score'], 'match.highlights.');
+            }
+            foreach (['reactions', 'breves'] as $k) {
+                $list($m, [$k], 'match.');
+                foreach ($m[$k] ?? [] as $i => $r) {
+                    if (is_array($r)) {
+                        $str($m[$k][$i], ['text', 'who'], "match.$k.");
+                    } elseif (!is_string($r)) {
+                        $m[$k][$i] = is_scalar($r) ? (string) $r : '';
+                        $fixed[] = "match.$k";
+                    }
+                }
+            }
+            if (is_array($m['lineup'] ?? null)) {
+                $items($m['lineup'], ['rows'], 'match.lineup.');
+                foreach (array_keys($m['lineup']['rows'] ?? []) as $i) {
+                    $r = &$m['lineup']['rows'][$i];
+                    $str($r, ['name', 'position', 'number', 'sub_in', 'sub_out', 'goals_text', 'sub_text', 'cards_text'], 'match.lineup.rows.');
+                    $list($r, ['goals', 'own_goals', 'yellow', 'red'], 'match.lineup.rows.', true);
+                    unset($r);
+                }
+            }
+            unset($m);
+        } elseif ($doc['type'] === 'personne') {
+            $p = &$doc['personne'];
+            $str($p, ['first_name', 'last_name', 'display_name', 'nickname', 'subtitle', 'position', 'line', 'nationality', 'height', 'weight', 'foot',
+                'first_match', 'last_match', 'first_goal', 'first_match_coached', 'last_match_coached', 'shirt_numbers'], 'personne.');
+            $int($p, ['height_cm', 'weight_kg'], 'personne.');
+            $list($p, ['roles', 'honours', 'then', 'aliases'], 'personne.', true);
+            $list($p, ['international', 'highlight_matches'], 'personne.');
+            $items($p, ['fiche'], 'personne.');
+            foreach (array_keys($p['fiche'] ?? []) as $i) {
+                $str($p['fiche'][$i], ['label', 'value'], 'personne.fiche.');
+            }
+            $map($p, ['birth', 'death', 'arrival', 'departure', 'arrival_coach', 'departure_coach', 'stats', 'album', 'trial'], 'personne.');
+            foreach (['birth', 'death'] as $k) {
+                if (is_array($p[$k] ?? null)) {
+                    $str($p[$k], ['text'], "personne.$k.");
+                    $map($p[$k], ['date', 'place'], "personne.$k.");
+                    if (is_array($p[$k]['date'] ?? null)) {
+                        $str($p[$k]['date'], ['iso', 'precision', 'text'], "personne.$k.date.");
+                    }
+                    if (is_array($p[$k]['place'] ?? null)) {
+                        $str($p[$k]['place'], ['text', 'city', 'country', 'department'], "personne.$k.place.");
+                    }
+                }
+            }
+            foreach (['arrival', 'departure', 'arrival_coach', 'departure_coach'] as $k) {
+                if (is_array($p[$k] ?? null)) {
+                    $str($p[$k], ['iso', 'precision', 'text'], "personne.$k.");
+                }
+            }
+            unset($p);
+        }
+        $id = (int) $doc['id'];
+        if ($fixed) {
+            self::$repaired[$id] = array_values(array_unique($fixed));
+        } else {
+            unset(self::$repaired[$id]);
+        }
+        return $doc;
+    }
+
+    /**
+     * Fichier de fiche utilisable : un objet JSON qui porte le numéro de son fichier, un type
+     * connu et, pour un match ou une personne, ses données. Sinon la fiche est ignorée partout
+     * (et signalée dans Qualité) au lieu de casser les pages qui la lisent.
+     */
+    private static function usable(mixed $doc, int $id): bool
+    {
+        return is_array($doc) && $id > 0 && is_scalar($doc['id'] ?? null) && (int) $doc['id'] === $id
+            && is_string($doc['type'] ?? null) && isset(self::TYPES[$doc['type']])
+            && (!in_array($doc['type'], ['match', 'personne'], true) || is_array($doc[$doc['type']] ?? null));
     }
 
     /** Version enregistrée sur le disque (sans la copie en mémoire du processus). */
@@ -59,9 +249,10 @@ final class Fiches
     public static function all(): \Generator
     {
         foreach (glob(self::DIR . '/*.json') ?: [] as $file) {
+            $id = (int) basename($file, '.json');
             $doc = json_decode((string) file_get_contents($file), true);
-            if (is_array($doc)) {
-                yield (int) $doc['id'] => $doc;
+            if (self::usable($doc, $id)) {
+                yield $id => self::normalize($doc);
             }
         }
     }

@@ -1,7 +1,8 @@
-# Contrôle complet du 3 octobre 2026
+# Contrôles complets d'octobre 2026
 
-Relecture de tout ce qui a été développé (code et données), avant la recette du club.
-Six contrôles successifs ; chaque anomalie trouvée a été vérifiée, corrigée et retestée.
+Relecture de tout ce qui a été développé (code et données), avant la recette du club : un
+premier contrôle complet le 3 octobre (six contrôles successifs, § 1 à 6), puis un second le
+4 octobre (§ 7). Chaque anomalie trouvée a été vérifiée, corrigée et retestée.
 Les données des historiens n'ont pas été modifiées : ce qui les concerne est listé en fin de
 document, à vérifier fiche par fiche.
 
@@ -15,6 +16,7 @@ document, à vérifier fiche par fiche.
 | 4. Sécurité et robustesse | 3 relectures indépendantes : accès et formulaires, sorties HTML et fichiers, logique des fonctionnalités | 3 défauts graves, une dizaine de moyens et une vingtaine de mineurs corrigés |
 | 5. Données | cohérence des 2 940 fiches, statistiques, liens joueurs | 2 nouveaux contrôles qualité ; anomalies listées pour les historiens |
 | 6. Vérification finale | 10 suites de tests, test de fumée de tous les écrans, accessibilité, 100 chiffres | tout est bon |
+| 7. Second contrôle (4 octobre) | 3 nouvelles relectures, 16 312 adresses, contenu des 3 464 PDF, anomalies injectées, installation neuve, 13 suites de tests | une vingtaine de défauts corrigés, dont les symboles des compositions imprimés « ? » dans les PDF |
 
 ## 1. Le défaut le plus important : l'enregistrement d'une fiche pouvait abîmer ses données
 
@@ -233,7 +235,7 @@ Les données : Pilotage › Qualité › **Contrôler maintenant** (§ 6), ou
 `php bin/console.php controle`. Le code :
 
 ```
-for t in tests/*.php; do php $t | tail -1; done          # 11 suites, « Tout est bon. »
+for t in tests/*.php; do php $t | tail -1; done          # 13 suites, « Tout est bon »
 SR_BASE=http://127.0.0.1:8080 node tests/smoke.js        # site public
 SR_EMAIL=… SR_PASSWORD=… node tests/smoke.js             # + tous les écrans du back-office
 ```
@@ -248,10 +250,10 @@ contenu saisi depuis le dernier contrôle.
   nombre d'anomalies **nouvelles** et **corrigées**, liste des nouvelles (tous onglets),
   pastille « Nouveau » sur chacune jusqu'au contrôle suivant, rappel dans le tableau de bord,
   historique des derniers contrôles, ligne dans le journal.
-- Le premier contrôle se compare à ce contrôle-ci : les anomalies des données du dépôt au
-  3 octobre sont livrées avec le code (`app/Resources/controle-reference.json` : 6 477
-  alertes, l'onglet Orthographe à part, car il dépend du correcteur de chaque serveur). Seul ce qui a été saisi ou modifié depuis apparaît comme
-  « nouveau ».
+- Le premier contrôle se compare à ce contrôle-ci : les anomalies des données du dépôt sont
+  livrées avec le code (`app/Resources/controle-reference.json` : 6 481 alertes au second
+  contrôle du 4 octobre, l'onglet Orthographe à part, car il dépend du correcteur de chaque
+  serveur). Seul ce qui a été saisi ou modifié depuis apparaît comme « nouveau ».
 - Si des fichiers ont été changés hors du back-office (envoi par FTP), l'index des fiches et
   la recherche sont remis à jour au passage.
 - Vérifications ajoutées à cette occasion, recalculées aussi à chaque enregistrement :
@@ -273,10 +275,116 @@ contenu saisi depuis le dernier contrôle.
   deux fois dans Liens joueurs (deux graphies affichées pareil) : il n'apparaît plus qu'une fois.
 - Essayé de bout en bout avec un compte historien : score modifié et fiche en double saisis,
   contrôle → 4 nouvelles anomalies signalées ; correction, nouveau contrôle → aucune
-  nouvelle, 1 corrigée. `tests/controle.php` (54 vérifications).
+  nouvelle, 1 corrigée. `tests/controle.php` (54 vérifications, 91 depuis le § 7).
 - Essayé aussi en **installation neuve** (copie vierge de la branche, `storage/` vide, sans
   les photos), comme à la première mise en ligne : premier accès, toutes les pages du site et
   du back-office, tâches planifiées. Deux réglages en sont sortis : les photos pas encore
   copiées donnent une seule alerte (au lieu d'une par fiche) et une tâche dans le tableau de
   bord ; les propositions du correcteur sur des textes anciens, trouvées en tâche de fond,
   ne sont pas « nouvelles ».
+
+## 7. Deuxième contrôle complet (4 octobre 2026)
+
+Demande du client : refaire un contrôle complet de tout, pour ne laisser ni bug ni effet de
+bord. Même méthode que le premier contrôle, sur le code tel qu'il est après les ajouts
+(bouton « Contrôler maintenant », dons hors ligne réservés à l'administrateur, masquage des
+« xx »), avec en plus : anomalies injectées, installation neuve et relecture du **contenu** de
+chaque PDF (le premier contrôle vérifiait seulement qu'ils se fabriquaient).
+
+### Défauts trouvés et corrigés
+
+**Affichage**
+- **Compositions des PDF de matchs.** Les symboles saisis dans les compositions (↑ ↓ pour
+  les remplacements, 🟨 🟥 pour les cartons, ⚽ pour les buts) manquent aux polices du PDF :
+  ils s'imprimaient « ? » (« ? 45'+2 ? 55' », « ? 80' ») sur des centaines de PDF. Ils
+  s'impriment maintenant comme on les écrit au back-office : « Entrée 59' Sortie 66' »,
+  « J 45'+2 R 55' ».
+- **Tweets dans les PDF.** Les emoji s'imprimaient « ? » et les lettres stylisées des réseaux
+  sociaux (« 𝗣𝗮𝘁𝗿𝗶𝗰𝗸 ») « ??????? ». Les emoji sont omis, les lettres stylisées redeviennent
+  « Patrick ». Le texte copié depuis un PDF, ou cherché dedans, est juste aussi (un « ? » se
+  copiait parfois en « 🟨 »).
+- **74 citations (tweets) posées dans une liste** par l'ancien site : absentes des PDF, et
+  mal annoncées par les lecteurs d'écran sur la page. Elles sont imprimées à leur place, et
+  chacune a son propre élément de liste sur la page.
+- **« xx » encore visibles** malgré le masquage : carte d'identité (« Né le xx/xx/1940 »),
+  PDF, texte lu par « Écouter », extraits de la recherche, accueil. Une seule règle désormais
+  (`App\Front\Unknown`) pour la page, le PDF, l'audio, la recherche et les images de
+  partage : « Né le xx xx 1940 » devient « Né en 1940 ».
+- Phrase sans point final en tête des fiches de personnes ; apostrophe isolée à la place
+  d'une minute inconnue dans les compositions.
+
+**Contrôle et écran Qualité**
+- **Fausses « nouvelles » anomalies.** Une alerte dont seul un nombre change pouvait
+  réapparaître comme « nouvelle ». Chaque alerte a maintenant une clé stable.
+- **Orthographe.** Une fiche passait « nouvelle » dès qu'elle était enregistrée, même sans
+  toucher au texte (une photo, un score). Seul un changement du texte compte désormais.
+- **Redirections.** Elles étaient jugées par une imitation approximative du site : boucles ou
+  redirections « jamais utilisées » parfois manquées, parfois signalées à tort. Chaque
+  ancienne adresse est maintenant suivie exactement comme par un visiteur.
+- **Fichiers retouchés à la main** (envoi par FTP). Une seule fiche au format inattendu (un
+  score ou une composition écrits en texte) pouvait faire échouer le calcul de toutes les
+  statistiques ou de la recherche. La fiche est maintenant lue quand c'est possible (alerte
+  « Données dans un format inattendu »), sinon écartée seule et signalée en alerte haute. Un
+  fichier de redirections ou de traductions abîmé ne bloque plus le site : il est signalé.
+- Après un envoi par FTP, le contrôle remet aussi la recherche à jour (pas seulement la liste
+  des fiches).
+- Le chiffre du menu Qualité oubliait les alertes graves du site (redirections, référentiels) ;
+  le tableau de bord les rappelle aussi.
+- « Contrôler maintenant » : quatre contrôles toutes les deux minutes par compte au plus ; les
+  autres onglets du back-office restent utilisables pendant un contrôle.
+- Photos copiées hors du back-office : les alertes « absente du serveur » sont revues toutes
+  les 30 minutes.
+
+**Sécurité et droits**
+- **Coûts de l'IA** encore visibles des historiens : aide (chapitre et FAQ), bulles d'aide,
+  estimations de l'éditeur de fiche, correcteur (« Sans frais »). Ils sont réservés à
+  l'administrateur, comme décidé le 3 octobre ; le guide PDF de l'aide est refait sans eux.
+- **Redirections** : une adresse contenant « .. » ou un caractère invisible est refusée.
+- **Copie des photos depuis WordPress** : un nom de fichier qui sortirait du dossier des
+  médias, ou qui ne serait pas un média (un script), est refusé.
+- L'écran Utilisateurs décrit les droits exacts de chaque rôle.
+
+**Robustesse**
+- **PDF fabriqués en même temps.** Le ménage du cache lisait la date d'un fichier qu'une
+  autre demande venait de renommer (avertissement PHP). Ce ménage, et ceux de l'assistant, du
+  correcteur, des tâches planifiées et des sauvegardes, tolèrent un fichier supprimé entre-temps.
+- Version du cache des PDF augmentée : les PDF déjà fabriqués sont refaits avec les
+  corrections.
+
+### Vérifié après corrections
+
+| Vérification | Résultat |
+|---|---|
+| Parcours du site public : 16 312 adresses (FR et EN) | 11 174 pages correctes, 1 666 redirections attendues (« Partager un souvenir » mène au formulaire), 6 pages introuvables volontaires ; aucune erreur PHP |
+| Les 3 464 PDF (fiches, saisons, face-à-face, bilans, records ; FR et EN) | tous fabriqués ; texte de chacun relu : aucun « xx », code HTML, « Array », emoji ni caractère remplacé |
+| Rendu avant / après des pages et PDF touchés | 72 pages FR, 55 EN et 46 PDF changent, tous comme prévu |
+| Texte lu par « Écouter » (5 876 textes FR et EN) | aucun « xx », emoji ni balise ; même texte au back-office et sur le site |
+| Images de partage (2 938 fiches visibles) | aucun « xx » ni caractère absent de la police |
+| 30 anomalies injectées dans une copie (score en texte, date impossible, composition en texte, redirections en boucle, chemin « .. »…) | toutes signalées ; pages, PDF et back-office restent affichés (la fiche de match sans données est écartée et signalée) |
+| Installation neuve (copie vierge, sans `storage/` ni photos) | premier accès, tableau de bord, Qualité, deux contrôles, correcteur, écrans d'administration : tout est bon |
+| Rôles historien / administrateur, dons, contrôle de bout en bout, accessibilité (axe), test de fumée de tous les écrans | tout est bon |
+| Écran de téléphone : 33 pages représentatives (fiches avec compositions, citations, « xx » ; listes, recherche, interactif, dons) | aucun défilement horizontal ni erreur JavaScript |
+| 13 suites de tests automatiques, dont 2 nouvelles (`tests/inconnu.php`, `tests/pdf.php`) | tout est bon |
+
+Données : 6 481 anomalies, toutes déjà connues (§ 3), et rien de nouveau. Quelques PDF
+affichent « But à la ? » ou « ? Fuhrer » : ce « ? » est écrit tel quel dans la fiche (minute
+ou prénom inconnus sur l'ancien site), il apparaît de même sur la page.
+
+### Ce que ce contrôle ne peut pas garantir
+
+Aucun logiciel n'est sûr à 100 %. Voici ce que les essais faits ici ne couvrent pas :
+- **Le serveur o2switch.** Tous les essais ont tourné sur le serveur intégré de PHP. Apache
+  ou LiteSpeed, le `.htaccess`, la version et les extensions de PHP, les droits des dossiers
+  et les délais d'exécution peuvent différer. Juste après la mise en ligne : « Contrôler
+  maintenant », puis le test de fumée contre le vrai site (§ 5 ; étapes dans
+  `docs/DEPLOIEMENT.md`, § 7).
+- **Les services extérieurs.** Paiements Stripe, envoi d'e-mails et appels à Gemini
+  (assistant, traductions, correcteur, voix) n'ont pas été essayés en réel, faute de clés : ils
+  sont testés avec des réponses simulées, y compris incomplètes ou en erreur. Un don de
+  quelques euros et une invitation envoyée à soi-même suffisent à les vérifier en réel.
+- **Les navigateurs.** Essais automatisés avec Chromium (écran d'ordinateur et de
+  téléphone). Safari et Firefox : à regarder pendant la recette.
+- **La charge.** Quelques processus simultanés, pas des centaines de visiteurs en même temps.
+- **Les données à venir.** Les vérifications couvrent les formats connus ; ce que les
+  historiens saisiront ensuite est contrôlé à chaque enregistrement et par « Contrôler
+  maintenant ».

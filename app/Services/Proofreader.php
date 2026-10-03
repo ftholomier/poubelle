@@ -809,12 +809,12 @@ final class Proofreader
         if (!is_file($f)) {
             return null;
         }
-        $d = json_decode((string) file_get_contents($f), true);
+        $d = json_decode((string) @file_get_contents($f), true);
         if (!is_array($d) || !isset($d['items']) || !is_array($d['items'])) {
             return null;
         }
         // Dernière utilisation (le ménage garde les réponses encore servies).
-        if (filemtime($f) < time() - 86400) {
+        if ((@filemtime($f) ?: time()) < time() - 86400) {
             @touch($f);
         }
         return $d['items'];
@@ -834,7 +834,7 @@ final class Proofreader
     {
         $n = 0;
         foreach (glob(self::$cacheDir . '/*/*.json') ?: [] as $f) {
-            if (filemtime($f) < time() - $days * 86400) {
+            if ((@filemtime($f) ?: time()) < time() - $days * 86400) {
                 @unlink($f);
                 $n++;
             }
@@ -928,7 +928,22 @@ final class Proofreader
     public static function forFiche(array $doc): ?array
     {
         $e = self::index()[(int) ($doc['id'] ?? 0)] ?? null;
-        return $e && ($e['m'] ?? null) === ($doc['modified'] ?? null) && ($e['d'] ?? '') === self::dictHash() ? $e : null;
+        return $e && self::current($e, $doc['modified'] ?? null, self::textSig($doc)) && ($e['d'] ?? '') === self::dictHash() ? $e : null;
+    }
+
+    /**
+     * Empreinte des textes relus (12 caractères) : une fiche enregistrée sans toucher à ses textes
+     * français (traduction anglaise, numéro d'album, publication programmée) garde sa vérification.
+     */
+    public static function textSig(array $doc): string
+    {
+        return substr(sha1((string) json_encode(array_column(self::fieldsForDoc($doc), 'value', 'k'), JSON_UNESCAPED_UNICODE)), 0, 12);
+    }
+
+    /** La vérification enregistrée vaut-elle pour cette version de la fiche (même date, ou mêmes textes) ? */
+    private static function current(array $e, ?string $modified, ?string $sig): bool
+    {
+        return ($e['m'] ?? null) === $modified || ($sig !== null && $sig !== '' && ($e['s'] ?? null) === $sig);
     }
 
     /** @return array<int,array{m:?string,n:int,hi:int,e:string,at:int,d:string,ex:?string}> */
@@ -971,7 +986,7 @@ final class Proofreader
                 continue;
             }
             $e = $index[$id] ?? null;
-            $stale = !$e || ($e['m'] ?? null) !== $s['modified'] || ($e['d'] ?? '') !== $dict;
+            $stale = !$e || !self::current($e, $s['modified'] ?? null, $s['tsig'] ?? null) || ($e['d'] ?? '') !== $dict;
             $upgrade = $e && !$stale && ($e['e'] ?? '') !== 'gemini' && (self::$ai !== null || Gemini::ready());
             if ($stale || $upgrade) {
                 // Priorité : fiches jamais vérifiées ou modifiées, les plus récentes d'abord.
@@ -1004,10 +1019,10 @@ final class Proofreader
             }
             $hi = self::languageCount($r['items']);
             $changes[(int) $id] = [
-                'm' => $doc['modified'] ?? null, 'n' => count($r['items']), 'hi' => $hi, 'e' => $r['engine'], 'at' => time(), 'd' => $dict,
+                'm' => $doc['modified'] ?? null, 's' => self::textSig($doc), 'n' => count($r['items']), 'hi' => $hi, 'e' => $r['engine'], 'at' => time(), 'd' => $dict,
                 'ex' => $r['items'] ? self::example($r['items']) : null,
             ];
-            JsonStore::write(self::$dir . "/fiches/$id.json", ['m' => $doc['modified'] ?? null, 'at' => time(), 'engine' => $r['engine'], 'items' => $r['items']]);
+            JsonStore::write(self::$dir . "/fiches/$id.json", ['m' => $doc['modified'] ?? null, 's' => self::textSig($doc), 'at' => time(), 'engine' => $r['engine'], 'items' => $r['items']]);
             $done++;
             $found += count($r['items']);
         }
@@ -1071,7 +1086,7 @@ final class Proofreader
             }
             $total++;
             $e = $index[$id] ?? null;
-            if (!$e || ($e['m'] ?? null) !== $s['modified'] || ($e['d'] ?? '') !== $dict) {
+            if (!$e || !self::current($e, $s['modified'] ?? null, $s['tsig'] ?? null) || ($e['d'] ?? '') !== $dict) {
                 continue;
             }
             $checked++;

@@ -67,11 +67,22 @@ final class Dashboard extends Base
             $todos[] = ['#D9342B', 'Vérifier ' . $fresh . ' nouvelle' . ($fresh > 1 ? 's' : '') . ' anomalie' . ($fresh > 1 ? 's' : '') . ($since ? ' depuis ' . Controle::sinceLabel($since) : ''), 'Qualité', '/admin/qualite?nouveau=1'];
         }
         if ($high) {
-            $todos[] = ['#D9342B', "Corriger $high alerte" . ($high > 1 ? 's' : '') . ' qualité haute (statistiques incohérentes)', 'Qualité', '/admin/qualite'];
+            $todos[] = ['#D9342B', "Corriger $high alerte" . ($high > 1 ? 's' : '') . ' grave' . ($high > 1 ? 's' : '') . ' (statistiques et dates incohérentes)', 'Qualité', '/admin/qualite?cat=stats&niveau=haute'];
         }
         $broken = count(array_filter($quality['site'], fn ($q) => $q['sev'] === 'haute' && $q['code'] !== 'photos'));
         if ($broken) {
-            $todos[] = ['#D9342B', "Corriger $broken anomalie" . ($broken > 1 ? 's' : '') . ' d’adresse ou de fichier (pages inaccessibles)', 'Qualité', '/admin/qualite?cat=site'];
+            $todos[] = ['#D9342B', "Corriger $broken anomalie" . ($broken > 1 ? 's' : '') . ' grave' . ($broken > 1 ? 's' : '') . ' d’adresse, de fichier ou de référentiel', 'Qualité', '/admin/qualite?cat=site&niveau=haute'];
+        }
+        // Autres onglets (textes de l'interface anglaise…), hors orthographe relue en tâche de fond.
+        $other = 0;
+        $otherTab = null;
+        foreach ($quality as $tab => $list) {
+            $n = in_array($tab, ['stats', 'site', 'orthographe'], true) ? 0 : count(array_filter($list, fn ($q) => $q['sev'] === 'haute'));
+            $other += $n;
+            $otherTab ??= $n ? $tab : null;
+        }
+        if ($other) {
+            $todos[] = ['#D9342B', "Corriger $other autre" . ($other > 1 ? 's' : '') . ' alerte' . ($other > 1 ? 's' : '') . ' grave' . ($other > 1 ? 's' : '') . ' (' . mb_strtolower(Quality::TABS[$otherTab][0]) . ')', 'Qualité', '/admin/qualite?cat=' . $otherTab . '&niveau=haute'];
         }
         // Serveur neuf : photos originales pas encore copiées depuis WordPress (administrateurs).
         if (\App\Core\Auth::isAdmin() && array_filter($quality['site'], fn ($q) => $q['code'] === 'photos')) {
@@ -161,7 +172,14 @@ final class Dashboard extends Base
     /** Bouton « Contrôler maintenant » : contrôle complet, puis liste des nouvelles anomalies. */
     public static function control(Request $req): Response
     {
-        $r = Controle::run(self::actor());
+        // Le contrôle occupe le serveur quelques secondes : quatre au plus en deux minutes par personne.
+        $actor = self::actor();
+        if (!\App\Core\RateLimiter::hit('controle', (string) ($actor['id'] ?? $actor['name'] ?? ''), 4, 120)) {
+            return self::back('/admin/qualite', null, 'Plusieurs contrôles viennent d’être lancés : réessayez dans deux minutes.');
+        }
+        // Session libérée pendant le contrôle : les autres onglets du back-office restent utilisables.
+        session_write_close();
+        $r = Controle::run($actor);
         if (!empty($r['busy'])) {
             return self::back('/admin/qualite', null, 'Un contrôle est déjà en cours : réessayez dans quelques secondes.');
         }

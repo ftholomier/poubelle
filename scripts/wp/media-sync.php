@@ -39,8 +39,13 @@ foreach ($argv as $a) {
 }
 
 $todo = [];
+$refused = [];
 foreach ($media as $rel => $m) {
     $rel = (string) $rel;
+    if (!safe_media_rel($rel)) {
+        $refused[$rel] = 'nom de fichier refusé (hors du dossier des médias, ou pas un fichier de média)';
+        continue;
+    }
     $file = "$base/$rel";
     if (!is_file($file)) {
         $todo[$rel] = $m;
@@ -51,7 +56,7 @@ foreach ($media as $rel => $m) {
 out(count($media) . ' médias, ' . count($todo) . ' à télécharger');
 
 $ok = 0;
-$errors = [];
+$errors = $refused;
 $warnings = [];
 $n = 0;
 foreach ($todo as $rel => $m) {
@@ -98,4 +103,8 @@ if ($errors || $warnings) {
     out('Détail : storage/import/media-sync-erreurs.json');
 }
 out("$ok téléchargé(s), " . count($errors) . ' échec(s), ' . count($warnings) . ' avertissement(s)');
+if ($ok > 0) {
+    // Alertes « photo absente du serveur » recalculées à la prochaine visite du back-office.
+    @touch(ROOT . '/storage/cache/derived.dirty');
+}
 exit($errors ? 1 : 0);

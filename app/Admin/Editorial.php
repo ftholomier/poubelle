@@ -454,6 +454,12 @@ final class Editorial extends Base
         if ($from === $to) {
             return self::back($back, null, 'L’adresse de départ et la destination sont identiques.');
         }
+        // Adresses du site seulement : ni « .. » ni caractère invisible (jamais un chemin de fichier).
+        foreach ([$from, $to] as $p) {
+            if (preg_match('#[\x00-\x1F\x7F\\\\]|(^|/)\.\.?(/|$)#', ($u = parse_url($p, PHP_URL_PATH)) ? (string) $u : $p)) {
+                return self::back($back, null, 'Adresse refusée (« .. » ou caractère invisible) : indiquez une adresse du site, par exemple /2015/03/mon-article/.');
+            }
+        }
         if (Index::byPath($from)) {
             return self::back($back, null, "L’adresse $from correspond à une fiche existante : une redirection la rendrait inaccessible.");
         }

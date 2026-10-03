@@ -88,7 +88,7 @@ HTML],
         ['id' => 'audio', 'title' => '… changer ce que dit le bouton « Écouter » d’une fiche', 'html' => <<<'HTML'
 <p>Éditeur de la fiche › carte <b>Écouter (30 s)</b> › modifiez le texte › <b>Garder ce texte</b>. Pour une voix naturelle : <b>Voix IA</b>. Tout le musée d’un coup : Système › Fiches audio (administrateurs). Voir [[aide:administration#audio|Fiches audio]].</p>
 HTML],
-        ['id' => 'couts', 'title' => '… savoir ce que coûte l’IA et me faire rembourser', 'html' => <<<'HTML'
+        ['id' => 'couts', 'title' => '… savoir ce que coûte l’IA et me faire rembourser', 'admin' => true, 'html' => <<<'HTML'
 <p>Système › <b>Coûts IA</b> (administrateurs) : dépense du jour et du mois en direct. Le mois terminé : <b>Relevé PDF</b> et <b>CSV</b> à remettre à l’association, puis « Noter le remboursement » une fois payé. Budget mensuel : Réglages › Coûts IA. Voir [[aide:administration#couts|Coûts de l’IA et remboursement]].</p>
 HTML],
         ['id' => 'verrou', 'title' => '… modifier une fiche qu’une collègue a déjà ouverte', 'html' => <<<'HTML'

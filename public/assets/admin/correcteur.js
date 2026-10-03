@@ -220,7 +220,7 @@
     if (state.engine === 'regles' && !state.gemini) html += '<span class="proof__notice">Vérification complète (accords, conjugaison, syntaxe) : un administrateur règle la clé Gemini dans Réglages › Assistant IA.</span>';
     // Coût de la vérification (frais de Gemini, voir Système › Coûts IA).
     if (state.cost && state.cost.calls) html += '<span class="proof__cost">Coût de cette vérification : ' + esc(state.cost.label) + ' (' + plural(state.cost.calls, 'appel', 'appels') + ' à Gemini).</span>';
-    else if (state.engine === 'gemini') html += '<span class="proof__cost">Sans frais : ces textes avaient déjà été relus par Gemini.</span>';
+    else if (state.cost && state.engine === 'gemini') html += '<span class="proof__cost">Sans frais : ces textes avaient déjà été relus par Gemini.</span>';
     status(html);
     const tools = $('.proof__tools', panel);
     tools.hidden = false;

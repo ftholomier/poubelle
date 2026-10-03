@@ -142,7 +142,10 @@ final class Quality
             // Noms reliés par rapprochement et fiches en double : onglet des liens ; « xx » de l'ancien
             // site, fiches à venir, arbitre, vidéos : « À compléter » ; adresses, rubriques, images : « Adresses et médias ».
             $anchor = self::CODE_ANCHORS[$a['code']] ?? '';
-            $add(self::CODE_TABS[$a['code']] ?? 'stats', ['sev' => $a['sev'], 'msg' => $a['msg'], 'id' => $id, 'code' => $a['code'],
+            if ($a['code'] === 'dates' && !preg_match('/naissance|décès/u', (string) $a['msg'])) {
+                $anchor = 'carriere'; // arrivée et départ : onglet Carrière
+            }
+            $add(self::CODE_TABS[$a['code']] ?? 'stats', ['sev' => $a['sev'], 'msg' => $a['msg'], 'id' => $id, 'code' => $a['code'], 'ref' => (string) ($a['ref'] ?? ''),
                 'title' => $s['title'] ?? ($a['title'] ?? ('Fiche ' . $id)),
                 'url' => $id ? '/admin/fiche/' . $id . ($anchor !== '' ? '#' . $anchor : '') : null]);
         }

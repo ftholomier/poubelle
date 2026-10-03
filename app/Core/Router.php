@@ -51,12 +51,29 @@ final class Router
     /** Une page GET répond-elle à cette adresse ? (vérifié sans exécuter la page) */
     public function has(string $path): bool
     {
+        return $this->route($path) !== null;
+    }
+
+    /**
+     * Route GET qui répond à cette adresse, sans exécuter la page : [modèle, paramètres].
+     * @return array{0:string,1:array<string,string>}|null
+     */
+    public function route(string $path): ?array
+    {
         foreach ($this->routes as [$method, $pattern]) {
-            if (($method === 'GET' || $method === 'ANY') && self::match($pattern, $path) !== null) {
-                return true;
+            if ($method !== 'GET' && $method !== 'ANY') {
+                continue;
+            }
+            // Tri rapide sur la partie fixe du modèle (avant le premier paramètre).
+            $fixed = strstr($pattern, '{', true);
+            if ($fixed !== false ? !str_starts_with($path, $fixed) : rtrim($pattern, '/') !== rtrim($path, '/')) {
+                continue;
+            }
+            if (($params = self::match($pattern, $path)) !== null) {
+                return [$pattern, $params];
             }
         }
-        return false;
+        return null;
     }
 
     /** @return array<string,string>|null */

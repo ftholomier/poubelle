@@ -162,7 +162,19 @@ final class HtmlFlow
     private function list(\DOMNode $list, bool $numbered): void
     {
         $items = [];
+        $start = 0;
         foreach ($list->childNodes as $li) {
+            // Citation (souvent un tweet) posée par l'ancien site entre deux éléments de la liste :
+            // imprimée à sa place, comme sur la page.
+            if ($li instanceof \DOMElement && strtolower($li->tagName) === 'blockquote') {
+                if ($items) {
+                    $this->l->bullets($items, ['numbered' => $numbered, 'start' => $start]);
+                    $start += count($items);
+                    $items = [];
+                }
+                $this->quote($li);
+                continue;
+            }
             if (!$li instanceof \DOMElement || strtolower($li->tagName) !== 'li') {
                 continue;
             }
@@ -196,7 +208,7 @@ final class HtmlFlow
             }
         }
         if ($items) {
-            $this->l->bullets($items, ['numbered' => $numbered]);
+            $this->l->bullets($items, ['numbered' => $numbered, 'start' => $start]);
         }
         $imgs = $this->pendingImages;
         $this->pendingImages = [];

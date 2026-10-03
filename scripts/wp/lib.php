@@ -22,6 +22,17 @@ function out(string $msg): void
     fwrite(STDOUT, '[' . date('H:i:s') . "] $msg\n");
 }
 
+/**
+ * Chemin relatif sûr dans la médiathèque (clé de data/media.json, adresse WordPress) : jamais de
+ * sortie du dossier (« .. », chemin absolu, octet nul, barre inverse) et seulement des fichiers de
+ * média (jamais un script que le serveur exécuterait).
+ */
+function safe_media_rel(string $rel): bool
+{
+    return $rel !== '' && $rel[0] !== '/' && !preg_match('#(^|/)\.\.?(/|$)|[\x00-\x1F\\\\]#', $rel)
+        && (bool) preg_match('/\.(jpe?g|png|gif|webp|avif|svg|bmp|tiff?|ico|pdf|zip|mp3|m4a|ogg|wav|mp4|webm|mov)$/i', $rel);
+}
+
 function ensure_dir(string $dir): void
 {
     if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {

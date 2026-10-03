@@ -255,8 +255,9 @@ Le tableau **Qualité** liste ce qui mérite une vérification, par onglet :
   faute de frappe, nom incomplet) : à vérifier ; deux fiches de personnes au même nom
   (doublon, ou homonymes à distinguer par la date de naissance).
 - **Adresses et médias** : deux fiches à la même adresse, adresse mal formée, rubrique ou
-  image supprimée, fichier de fiche abîmé ; redirections à revoir, adversaires ou stades
-  en double, rubriques orphelines.
+  image supprimée, fichier de fiche abîmé ou retouché à la main dans un format inattendu
+  (l'ouvrir et l'enregistrer suffit à le réparer) ; redirections à revoir (chacune suivie
+  comme par un visiteur), adversaires ou stades en double, rubriques orphelines.
 - **Orthographe & syntaxe** : les fiches pour lesquelles le correcteur propose des
   corrections (haute : au moins trois fautes de langue ; basse : ponctuation ou typographie
   seulement). « Corriger » ouvre la fiche avec le correcteur. Le **dictionnaire du musée**
@@ -274,7 +275,9 @@ précédent : le message donne le nombre d'anomalies **nouvelles** et **corrigé
 des nouvelles s'ouvre (tous onglets), chacune marquée « Nouveau » jusqu'au contrôle suivant.
 Une anomalie apparue entre deux contrôles est marquée tout de suite, et le tableau de bord
 la rappelle dans « À faire ». Le premier contrôle se compare au contrôle complet du
-3 octobre 2026. Bon réflexe : un contrôle à la fin de chaque séance de saisie.
+4 octobre 2026. Les propositions du correcteur ne sont « nouvelles » que si le texte de la
+fiche a changé. Quatre contrôles au plus toutes les deux minutes par compte. Bon réflexe :
+un contrôle à la fin de chaque séance de saisie.
 
 ## 9. Anglais
 

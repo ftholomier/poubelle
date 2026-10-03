@@ -4,15 +4,17 @@ declare(strict_types=1);
 namespace App\Data;
 
 use App\Core\PhpCache;
+use App\Front\Unknown;
 
 /**
  * Index compact de toutes les fiches (un résumé par fiche), mis en cache en
- * PHP (storage/cache/index.php) pour profiter d'OPcache : les mosaïques, menus,
+ * PHP (storage/cache/index-2.php) pour profiter d'OPcache : les mosaïques, menus,
  * recherches et calculs n'ouvrent jamais les 3 000 fichiers.
  */
 final class Index
 {
-    private const CACHE = STORAGE_PATH . '/cache/index.php';
+    /** Le numéro change quand le résumé change : l'ancien index est alors ignoré et refait. */
+    public const CACHE = STORAGE_PATH . '/cache/index-2.php';
     private static ?array $items = null;
     private static ?array $byPath = null;
 
@@ -33,6 +35,8 @@ final class Index
             'modified' => $d['modified'] ?? null,
             'excerpt' => self::excerpt($d),
             'has_en' => !empty($d['i18n']['en']['title']),
+            // Empreinte des textes français relus par le correcteur (vérification gardée si elle ne change pas).
+            'tsig' => \App\Services\Proofreader::textSig($d),
         ];
         if ($d['type'] === 'match') {
             $m = $d['match'];
@@ -51,7 +55,7 @@ final class Index
                 'extra' => $m['score']['extra'] ?? null,
                 'pens' => isset($m['score']['pens']['home']) ? [$m['score']['pens']['home'], $m['score']['pens']['away']] : null,
                 'result' => $m['result'] ?? null,
-                'stadium' => $m['stadium'] ?? null,
+                'stadium' => Unknown::has($m['stadium'] ?? '') ? null : ($m['stadium'] ?? null),
                 'spectators' => $m['spectators'] ?? null,
                 'event' => $m['event'] ?? null,
                 'opponent' => $m['opponent_club'] ?? null,
@@ -70,7 +74,7 @@ final class Index
                 'birth_country' => $p['birth']['place']['country'] ?? null,
                 'arrival' => isset($p['arrival']['iso']) ? (int) substr((string) $p['arrival']['iso'], 0, 4) : (isset($p['arrival_coach']['iso']) ? (int) substr((string) $p['arrival_coach']['iso'], 0, 4) : null),
                 'departure' => isset($p['departure']['iso']) ? (int) substr((string) $p['departure']['iso'], 0, 4) : (isset($p['departure_coach']['iso']) ? (int) substr((string) $p['departure_coach']['iso'], 0, 4) : null),
-                'subtitle' => $p['subtitle'] ?? '',
+                'subtitle' => Unknown::line((string) ($p['subtitle'] ?? '')),
                 'trial' => (bool) ($p['is_trial'] ?? false),
                 'formed' => (bool) ($p['formed_at_club'] ?? false),
                 'intl' => (bool) ($p['international_flag'] ?? false),
@@ -88,16 +92,17 @@ final class Index
         return $s;
     }
 
+    /** Extrait affiché sur les cartes, l'accueil et dans la recherche (sans les « xx » de l'ancien site). */
     private static function excerpt(array $d): string
     {
-        if (!empty($d['seo']['description'])) {
+        if (!empty($d['seo']['description']) && is_string($d['seo']['description'])) {
             return mb_substr($d['seo']['description'], 0, 220);
         }
-        if ($d['type'] === 'personne' && !empty($d['personne']['subtitle'])) {
-            return $d['personne']['subtitle'];
+        if ($d['type'] === 'personne' && is_string($d['personne']['subtitle'] ?? null) && ($sub = Unknown::line($d['personne']['subtitle'])) !== '') {
+            return $sub;
         }
-        foreach ($d['sections'] ?? [] as $s) {
-            $t = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags((string) $s['html']), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        foreach (is_array($d['sections'] ?? null) ? $d['sections'] : [] as $s) {
+            $t = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags(Unknown::html((string) ($s['html'] ?? ''))), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
             if (mb_strlen($t) > 40) {
                 return mb_strlen($t) > 200 ? rtrim(mb_substr($t, 0, 197)) . '…' : $t;
             }
@@ -197,7 +202,12 @@ final class Index
     {
         $items = [];
         foreach (Fiches::all() as $id => $doc) {
-            $items[$id] = self::summary($doc);
+            try {
+                $items[$id] = self::summary($doc);
+            } catch (\Throwable $e) {
+                // Données dans un format inattendu : fiche laissée de côté (signalée dans Qualité).
+                error_log('Index, fiche ' . $id . ' : ' . $e->getMessage());
+            }
         }
         return $items;
     }

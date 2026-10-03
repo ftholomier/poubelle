@@ -36,7 +36,7 @@ final class Seo
 
     public static function sitemap(): Response
     {
-        $indexFile = STORAGE_PATH . '/cache/index.php';
+        $indexFile = \App\Data\Index::CACHE;
         $fresh = is_file(self::CACHE) && filemtime(self::CACHE) > time() - 6 * 3600
             && (!is_file($indexFile) || filemtime(self::CACHE) >= filemtime($indexFile));
         // Sans adresse publique réglée, l'adresse vient de la requête : on ne met pas en cache

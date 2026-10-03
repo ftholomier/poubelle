@@ -22,7 +22,7 @@ if (in_array('--reessayer', $argv, true)) {
     }
 }
 $base = ROOT . '/storage/media/originals';
-$todo = array_filter($list, fn ($url, $rel) => !is_file("$base/$rel"), ARRAY_FILTER_USE_BOTH);
+$todo = array_filter($list, fn ($url, $rel) => safe_media_rel((string) $rel) && !is_file("$base/$rel"), ARRAY_FILTER_USE_BOTH);
 out(count($list) . ' image(s) hors médiathèque, ' . count($todo) . ' à télécharger');
 if (!$todo) {
     exit(0);

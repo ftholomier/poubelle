@@ -122,7 +122,7 @@ final class Rag
     {
         // Question isolée déjà posée récemment : réponse en cache (24 h).
         $cacheKey = !$history ? hash('sha256', $lang . '|' . Search::norm($q) . '|' . Settings::get('ai.model', '') . '|' . Derived::get()['version']) : null;
-        if ($cacheKey && is_file($f = self::ANSWER_CACHE . "/$cacheKey.json") && filemtime($f) > time() - 86400) {
+        if ($cacheKey && is_file($f = self::ANSWER_CACHE . "/$cacheKey.json") && (@filemtime($f) ?: 0) > time() - 86400) {
             $c = JsonStore::read($f, null);
             if (is_array($c)) {
                 return ['cached' => true] + $c;
@@ -969,13 +969,13 @@ final class Rag
         foreach (glob(self::LOG_DIR . '/*.jsonl') ?: [] as $f) {
             $month = basename($f, '.jsonl');
             if (strtotime($month . '-01 +1 month') < $limit) {
-                $removed += count(file($f) ?: []);
-                unlink($f);
+                $removed += count(@file($f) ?: []);
+                @unlink($f);
                 continue;
             }
             if (strtotime($month . '-01') < $limit) {
                 $keep = [];
-                foreach (file($f, FILE_IGNORE_NEW_LINES) ?: [] as $line) {
+                foreach (@file($f, FILE_IGNORE_NEW_LINES) ?: [] as $line) {
                     $r = json_decode($line, true);
                     if (is_array($r) && strtotime((string) ($r['at'] ?? '')) >= $limit) {
                         $keep[] = $line;
@@ -987,8 +987,8 @@ final class Rag
             }
         }
         foreach (glob(self::ANSWER_CACHE . '/*.json') ?: [] as $f) {
-            if (filemtime($f) < time() - 86400) {
-                unlink($f);
+            if ((@filemtime($f) ?: time()) < time() - 86400) {
+                @unlink($f);
             }
         }
         return $removed;

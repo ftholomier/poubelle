@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Admin\Quality;
 use App\Core\JsonStore;
+use App\Core\PhpCache;
 use App\Data\Activity;
 use App\Data\Categories;
 use App\Data\Collections;
@@ -33,31 +34,41 @@ final class Controle
     private const LOCK = STORAGE_PATH . '/controle.lock';
     /** Contrôles gardés dans l'historique affiché. */
     private const HISTORY = 8;
-    /** Plusieurs alertes de cette nature possibles sur une même fiche : le message les distingue. */
-    private const MULTI = ['rapproche', 'compo', 'resultat', 'image', 'adresse', ''];
+    /** Plusieurs alertes de cette nature possibles sur une même fiche : sans « ref », le message les distingue. */
+    private const MULTI = ['rapproche', 'compo', 'resultat', 'image', 'adresse', 'referentiel', ''];
     /** Onglets de la référence livrée (l'orthographe dépend du correcteur de chaque serveur). */
     private const REFERENCE_TABS = ['stats', 'completer', 'liens', 'site', 'credits', 'carto', 'traductions'];
     /**
      * Onglets remplis peu à peu par une tâche de fond (le correcteur relit tout le musée en
-     * quelques jours) : une alerte n'y est nouvelle que si sa fiche a été modifiée depuis.
+     * quelques jours) : une alerte n'y est nouvelle que si les textes de sa fiche ont changé
+     * depuis le contrôle (une traduction ou un numéro d'album ne comptent pas).
      */
     private const BACKGROUND_TABS = ['orthographe'];
 
     private static ?array $state = null;
 
-    /** Clé stable d'une alerte (10 caractères). */
+    /**
+     * Clé stable d'une alerte (10 caractères) : onglet, fiche (ou nom), nature du problème et ce qu'il
+     * vise (« ref » : nom rapproché, adresse, sorte d'écart…), jamais le libellé, qui peut changer
+     * (nombre de compositions, titre d'une autre fiche, liste de fichiers).
+     */
     public static function key(string $tab, array $item): string
     {
         $code = (string) ($item['code'] ?? '');
         $who = ($item['id'] ?? null) !== null ? '#' . (int) $item['id'] : (string) ($item['title'] ?? '');
-        $detail = in_array($code, self::MULTI, true) ? (string) preg_replace('/\d+/', '#', (string) ($item['msg'] ?? '')) : '';
+        $ref = (string) ($item['ref'] ?? '');
+        $detail = $ref !== '' ? $ref : (in_array($code, self::MULTI, true) ? (string) preg_replace('/\d+/', '#', (string) ($item['msg'] ?? '')) : '');
         return substr(sha1("$tab|$who|$code|$detail"), 0, 10);
     }
 
     /** Dernier contrôle enregistré (null avant le premier). */
     public static function last(): ?array
     {
-        $c = JsonStore::read(self::FILE, null);
+        try {
+            $c = JsonStore::read(self::FILE, null);
+        } catch (\Throwable) {
+            return null; // fichier abîmé : le prochain contrôle le réécrit
+        }
         return is_array($c) && !empty($c['at']) ? $c : null;
     }
 
@@ -84,7 +95,7 @@ final class Controle
         if ($last) {
             return self::$state = ['keys' => self::flat($last['keys'] ?? []), 'new' => array_fill_keys(self::split($last['new'] ?? ''), true),
                 'tabs' => array_keys((array) ($last['keys'] ?? [])), 'since' => $last['since'] ?: ['at' => $last['at'], 'by' => $last['by'] ?? null, 'label' => null],
-                'at' => (string) $last['at']];
+                'at' => (string) $last['at'], 'texts' => self::texts((string) ($last['texts'] ?? ''))];
         }
         $ref = self::reference();
         return self::$state = $ref
@@ -96,28 +107,41 @@ final class Controle
     {
         $s = self::state();
         return isset($s['new'][$key]) || (in_array($tab, $s['tabs'], true) && !isset($s['keys'][$key])
-            && !self::background($tab, $item, (string) ($s['at'] ?? '')));
+            && !self::background($tab, $item, $s['texts'] ?? []));
     }
 
     /**
-     * Alerte trouvée par une tâche de fond sur une fiche qui n'a pas changé depuis $since
-     * (texte ancien relu par le correcteur) : connue, pas « nouvelle ».
+     * Alerte trouvée par une tâche de fond sur une fiche dont les textes n'ont pas changé depuis
+     * le contrôle (texte ancien relu par le correcteur) : connue, pas « nouvelle ».
+     * @param array<int,string> $texts empreinte des textes de chaque fiche au contrôle
      */
-    private static function background(string $tab, ?array $item, string $since): bool
+    private static function background(string $tab, ?array $item, array $texts): bool
     {
-        if (!in_array($tab, self::BACKGROUND_TABS, true) || $since === '' || empty($item['id'])) {
+        if (!in_array($tab, self::BACKGROUND_TABS, true) || empty($item['id'])) {
             return false;
         }
-        $modified = strtotime((string) (Index::get((int) $item['id'])['modified'] ?? ''));
-        return !$modified || $modified <= strtotime($since);
+        $id = (int) $item['id'];
+        return isset($texts[$id]) && $texts[$id] === substr((string) (Index::get($id)['tsig'] ?? ''), 0, 8);
+    }
+
+    /** Empreintes des textes des fiches : « 12:ab12cd34 13:… » ↔ [12 => 'ab12cd34', …]. */
+    private static function texts(string $packed): array
+    {
+        $out = [];
+        foreach (self::split($packed) as $pair) {
+            [$id, $sig] = explode(':', $pair, 2) + [1 => ''];
+            $out[(int) $id] = $sig;
+        }
+        return $out;
     }
 
     /**
      * Lance le contrôle complet : index des fiches resynchronisé si besoin, toutes les alertes
      * recalculées, comparaison avec le contrôle précédent (ou la référence), enregistrement.
+     * @param bool $journal noté dans le journal d'activité (non pour les essais automatiques)
      * @return array résumé du contrôle, ou ['busy' => true] si un contrôle est déjà en cours
      */
-    public static function run(?array $user): array
+    public static function run(?array $user, bool $journal = true): array
     {
         @set_time_limit(300);
         ignore_user_abort(true);
@@ -132,6 +156,7 @@ final class Controle
         try {
             $repaired = self::syncIndex();
             Derived::rebuild();
+            @unlink(self::SITE_CACHE); // tout est revérifié
             self::$state = ['keys' => [], 'new' => [], 'tabs' => [], 'since' => null];
             $all = Quality::all();
             $keys = [];
@@ -141,6 +166,7 @@ final class Controle
             $prev = self::last();
             $ref = $prev ? null : self::reference();
             $base = $prev ? (array) $prev['keys'] : (array) ($ref['keys'] ?? []);
+            $texts = self::texts((string) ($prev['texts'] ?? ''));
             $new = [];
             $fixed = 0;
             foreach ($all as $tab => $items) {
@@ -149,7 +175,7 @@ final class Controle
                 }
                 $before = array_fill_keys(self::split($base[$tab]), true);
                 foreach ($items as $i) {
-                    if (!isset($before[$i['key']]) && !self::background($tab, $i, (string) ($prev['at'] ?? ''))) {
+                    if (!isset($before[$i['key']]) && !self::background($tab, $i, $texts)) {
                         $new[$i['key']] = true;
                     }
                 }
@@ -171,10 +197,17 @@ final class Controle
                 'repaired' => $repaired,
             ];
             $history = array_slice(array_merge([['at' => $run['at'], 'by' => $run['by'], 'total' => $total, 'new' => count($new), 'fixed' => $fixed]], (array) ($prev['history'] ?? [])), 0, self::HISTORY);
-            // Clés rangées par onglet, séparées par des espaces (fichier compact).
-            JsonStore::write(self::FILE, ['new' => implode(' ', $new)] + $run + ['keys' => array_map(fn ($l) => implode(' ', $l), $keys), 'history' => $history]);
+            // Clés rangées par onglet, séparées par des espaces (fichier compact) ; empreinte des textes
+            // de chaque fiche, pour reconnaître au contrôle suivant ce que le correcteur relit sans changement.
+            $sigs = [];
+            foreach (Index::all() as $id => $s) {
+                $sigs[] = $id . ':' . substr((string) ($s['tsig'] ?? ''), 0, 8);
+            }
+            JsonStore::write(self::FILE, ['new' => implode(' ', $new)] + $run + ['keys' => array_map(fn ($l) => implode(' ', $l), $keys), 'history' => $history, 'texts' => implode(' ', $sigs)]);
             self::$state = null;
-            Activity::log($user, 'a lancé le contrôle complet : ' . self::counts($run), null);
+            if ($journal) {
+                Activity::log($user, 'a lancé le contrôle complet : ' . self::counts($run), null);
+            }
             return $run;
         } finally {
             flock($lock, LOCK_UN);
@@ -212,33 +245,105 @@ final class Controle
         return 'le contrôle ' . $when . (!empty($since['by']) ? ' (' . $since['by'] . ')' : '');
     }
 
+    private const SITE_CACHE = STORAGE_PATH . '/cache/controle-site.php';
+
     /**
      * Vérifications du site hors fiches : redirections, référentiels (adversaires, stades),
-     * rubriques, traductions de l'interface.
-     * @return list<array{tab:string,sev:string,code:string,msg:string,id:null,title:string,url:?string}>
+     * rubriques, traductions de l'interface. Gardées en cache tant que rien de ce qu'elles lisent
+     * ne change (le nombre d'alertes graves s'affiche sur chaque page du back-office).
+     * @return list<array{tab:string,sev:string,code:string,msg:string,id:null,title:string,url:?string,ref:string}>
      */
     public static function siteChecks(): array
     {
+        clearstatcache();
+        $sig = md5(implode('|', array_map(fn ($f) => @filemtime($f) . ':' . @filesize($f), [
+            Redirects::FILE, DATA_PATH . '/i18n/en.json', Collections::DIR . '/clubs.json', Collections::DIR . '/stades.json',
+            DATA_PATH . '/categories.json', DATA_PATH . '/media.json', Index::CACHE, STORAGE_PATH . '/cache/derived.php',
+        ])));
+        $c = PhpCache::read(self::SITE_CACHE);
+        if (($c['sig'] ?? null) === $sig && is_array($c['items'] ?? null)) {
+            return $c['items'];
+        }
+        $items = self::computeSiteChecks();
+        try {
+            PhpCache::write(self::SITE_CACHE, ['sig' => $sig, 'items' => $items]);
+        } catch (\Throwable) {
+            // cache facultatif
+        }
+        return $items;
+    }
+
+    private static function computeSiteChecks(): array
+    {
         $out = [];
-        $add = function (string $tab, string $sev, string $code, string $msg, string $title, ?string $url) use (&$out) {
-            $out[] = ['tab' => $tab, 'sev' => $sev, 'code' => $code, 'msg' => $msg, 'id' => null, 'title' => $title, 'url' => $url];
+        $add = function (string $tab, string $sev, string $code, string $msg, string $title, ?string $url, string $ref = '') use (&$out) {
+            $out[] = ['tab' => $tab, 'sev' => $sev, 'code' => $code, 'msg' => $msg, 'id' => null, 'title' => $title, 'url' => $url, 'ref' => $ref];
         };
 
-        // Redirections : en boucle, en chaîne, vers une page absente ; inutiles (l'adresse affiche une page).
-        $redirects = Redirects::all();
-        foreach ($redirects as $from => $to) {
+        // Redirections : chaque ancienne adresse est suivie comme par un visiteur (Kernel::probe) :
+        // jamais utilisée, vers une page absente, en chaîne, en boucle.
+        if (!self::readable(Redirects::FILE)) {
+            $add('site', 'haute', 'fichier', 'Fichier des redirections illisible (JSON abîmé) : les anciens liens ne sont plus redirigés. À remplacer par sa dernière sauvegarde.', 'data/redirects.json', null, 'redirects');
+        }
+        $seen = [];
+        $probe = function (string $u) use (&$seen): array {
+            $path = (string) preg_replace('/[\x00-\x1F\x7F]/', '', rawurldecode((string) (parse_url($u, PHP_URL_PATH) ?: '/')));
+            $path = '/' . ltrim((string) preg_replace('#/+#', '/', str_replace('\\', '/', $path)), '/');
+            parse_str((string) parse_url($u, PHP_URL_QUERY), $q);
+            $k = $path . ($q ? '?' . http_build_query($q) : '');
+            return $seen[$k] ??= [...Kernel::probe($path, $q), $k];
+        };
+        $external = fn (string $u) => (bool) preg_match('#^([a-z][a-z0-9+.-]*:|//)#i', $u);
+        foreach (Redirects::all() as $from => $to) {
             [$from, $to] = [(string) $from, (string) $to];
             $url = '/admin/redirections?q=' . rawurlencode($from);
-            $path = (string) (parse_url($to, PHP_URL_PATH) ?: '/');
-            $external = (bool) preg_match('#^([a-z][a-z0-9+.-]*:|//)#i', $to);
-            if (!$external && rtrim($path, '/') === rtrim($from, '/')) {
-                $add('site', 'haute', 'redirection', 'Redirection vers elle-même : la page tourne en boucle', $from, $url);
-            } elseif (!$external && isset($redirects[$path]) && !self::shows($path)) {
-                $add('site', 'basse', 'redirection', 'Redirection en chaîne : ' . $to . ' est elle-même redirigée vers ' . $redirects[$path] . ' (viser directement la dernière adresse)', $from, $url);
-            } elseif (!$external && ($why = self::missing($path)) !== null) {
-                $add('site', 'moyenne', 'redirection', 'Redirection vers ' . $to . ' : ' . $why . ', l’ancien lien aboutit à « page introuvable »', $from, $url);
-            } elseif (!str_contains($from, '?') && self::shows((string) (parse_url($from, PHP_URL_PATH) ?: '/'))) {
-                $add('site', 'basse', 'redirection', 'Redirection jamais utilisée : l’adresse affiche déjà une page (à supprimer)', $from, $url);
+            [$st, $loc, $why, $fromKey] = $probe($from);
+            if (!$external($to) && $probe($to)[3] === $fromKey) {
+                $add('site', 'moyenne', 'redirection', 'Redirection vers elle-même : sans effet (à supprimer)', $from, $url, 'soi');
+                continue;
+            }
+            if (!in_array($why, ['redirection', 'ancien lien'], true) || $loc !== $to) {
+                $add('site', 'basse', 'redirection', match (true) {
+                    $st < 300 => 'Redirection jamais utilisée : l’adresse affiche déjà une page (à supprimer)',
+                    $why === 'barre' => 'Redirection jamais utilisée : l’adresse devient « ' . $loc . ' » (avec « / » final) avant d’être cherchée ; écrire l’ancienne adresse avec le « / » final',
+                    $st >= 400 => 'Redirection jamais utilisée : l’adresse n’est jamais reconnue telle quelle',
+                    default => 'Redirection jamais utilisée : l’adresse est d’abord redirigée vers « ' . $loc . ' »',
+                }, $from, $url, 'inutile');
+                continue;
+            }
+            if ($external($to)) {
+                continue;
+            }
+            // Destination suivie jusqu'à une page (5 étapes au plus).
+            $visited = [$fromKey => true];
+            $cur = $to;
+            $chain = false;
+            $problem = null;
+            for ($hop = 0; $hop <= 5 && !$external($cur); $hop++) {
+                [$st, $loc, $why, $key] = $probe($cur);
+                if ($st < 300) {
+                    break;
+                }
+                if ($st >= 400) {
+                    $problem = ['moyenne', 'Redirection vers ' . $to . ' : ' . self::why404($key) . ', l’ancien lien aboutit à « page introuvable »', 'absente'];
+                    break;
+                }
+                if (isset($visited[$key])) {
+                    $problem = ['haute', 'Redirections en boucle : ' . $to . ' ramène à une adresse déjà passée, la page ne s’affiche jamais', 'boucle'];
+                    break;
+                }
+                $visited[$key] = true;
+                $chain = $chain || $why === 'redirection';
+                $cur = (string) $loc;
+            }
+            if (!$problem && $hop > 5) {
+                $problem = ['moyenne', 'Redirection vers ' . $to . ' : plus de 5 redirections à la suite, le navigateur peut abandonner', 'longue'];
+            }
+            if (!$problem && $chain) {
+                $problem = ['basse', 'Redirection en chaîne : ' . $to . ' est elle-même redirigée vers ' . $cur . ' (viser directement la dernière adresse)', 'chaine'];
+            }
+            if ($problem) {
+                $add('site', $problem[0], 'redirection', $problem[1], $from, $url, $problem[2]);
             }
         }
 
@@ -251,13 +356,13 @@ final class Controle
                 $name = (string) ($c['name'] ?? $id);
                 $url = '/admin/referentiels?onglet=' . $tab . '&q=' . rawurlencode($name);
                 if ($id === '' || isset($ids[$id])) {
-                    $add('site', 'haute', 'referentiel', $label . ' en double (identifiant « ' . $id . ' » déjà utilisé) : à fusionner', "$label : $name", $url);
+                    $add('site', 'haute', 'referentiel', $label . ' en double (identifiant « ' . $id . ' » déjà utilisé) : à fusionner', "$label : $name", $url, "double:$id");
                 }
                 $ids[$id] = true;
                 foreach (array_unique(array_merge([$name], array_map('strval', (array) ($c['aliases'] ?? [])))) as $a) {
                     $k = $keyOf($a);
                     if ($k !== '' && isset($names[$k]) && $names[$k][0] !== $id) {
-                        $add('site', 'moyenne', 'referentiel', '« ' . $a . ' » désigne à la fois « ' . $names[$k][1] . ' » et « ' . $name . ' » : des matchs peuvent être rangés au mauvais endroit', "$label : $name", $url);
+                        $add('site', 'moyenne', 'referentiel', '« ' . $a . ' » désigne à la fois « ' . $names[$k][1] . ' » et « ' . $name . ' » : des matchs peuvent être rangés au mauvais endroit', "$label : $name", $url, "graphie:$k");
                     }
                     $names[$k] ??= [$id, $name];
                 }
@@ -268,12 +373,16 @@ final class Controle
         $cats = Categories::all();
         foreach ($cats as $slug => $c) {
             if (!empty($c['parent']) && !isset($cats[$c['parent']])) {
-                $add('site', 'moyenne', 'rubrique', 'Rubrique rattachée à une rubrique qui n’existe plus (« ' . $c['parent'] . ' ») : à replacer', 'Rubrique : ' . ($c['name'] ?? $slug), '/admin/rubriques');
+                $add('site', 'moyenne', 'rubrique', 'Rubrique rattachée à une rubrique qui n’existe plus (« ' . $c['parent'] . ' ») : à replacer', 'Rubrique : ' . ($c['name'] ?? $slug), '/admin/rubriques', (string) $slug);
             }
         }
 
         // Traductions de l'interface : mêmes variables ({n}, {nom}…) et mêmes balises dans les deux langues.
-        foreach ((array) (JsonStore::read(DATA_PATH . '/i18n/en.json', []) ?: []) as $fr => $en) {
+        $dict = DATA_PATH . '/i18n/en.json';
+        if (!self::readable($dict)) {
+            $add('traductions', 'haute', 'fichier', 'Fichier des textes anglais de l’interface illisible (JSON abîmé) : le site anglais s’affiche en français. À remplacer par sa dernière sauvegarde.', 'data/i18n/en.json', null, 'en.json');
+        }
+        foreach (self::readable($dict) ? (array) (JsonStore::read($dict, []) ?: []) : [] as $fr => $en) {
             [$fr, $en] = [(string) $fr, (string) $en];
             if ($en === '') {
                 continue; // pas encore traduit : le texte français s'affiche
@@ -287,42 +396,33 @@ final class Controle
             $title = mb_strimwidth(trim((string) preg_replace('/\s+/u', ' ', strip_tags($fr))), 0, 90, '…');
             $url = '/admin/traductions?q=' . rawurlencode(mb_substr(trim(strip_tags($fr)), 0, 50));
             if ($va !== $vb) {
-                $add('traductions', 'haute', 'interface', 'Texte de l’interface : variables différentes en anglais (' . (implode(' ', $va) ?: 'aucune') . ' en français, ' . (implode(' ', $vb) ?: 'aucune') . ' en anglais) : le texte anglais s’affiche mal', $title, $url);
+                $add('traductions', 'haute', 'interface', 'Texte de l’interface : variables différentes en anglais (' . (implode(' ', $va) ?: 'aucune') . ' en français, ' . (implode(' ', $vb) ?: 'aucune') . ' en anglais) : le texte anglais s’affiche mal', $title, $url, sha1($fr));
             } elseif ((bool) preg_match('#<[a-z/]#i', $fr) !== (bool) preg_match('#<[a-z/]#i', $en)) {
-                $add('traductions', 'moyenne', 'interface', 'Texte de l’interface : liens ou mises en forme présents dans une seule des deux langues', $title, $url);
+                $add('traductions', 'moyenne', 'interface', 'Texte de l’interface : liens ou mises en forme présents dans une seule des deux langues', $title, $url, sha1($fr));
             }
         }
         return $out;
     }
 
-    /** L'adresse affiche-t-elle une page du site (fiche publiée, rubrique, page calculée) ? */
-    private static function shows(string $path): bool
+    /** Pourquoi une adresse renvoie « page introuvable » (fiche non publiée, fichier absent…). */
+    private static function why404(string $path): string
     {
-        static $seen = [];
-        if (count($seen) > 20000) {
-            $seen = [];
+        $p = (string) preg_replace('#^/en(?=/|$)#', '', (string) preg_replace('/\?.*$/', '', $path)) ?: '/';
+        if ($s = Index::byPath($p)) {
+            return 'fiche ' . ($s['status'] === 'corbeille' ? 'à la corbeille' : 'non publiée (' . mb_strtolower(Fiches::STATUSES[$s['status']] ?? (string) $s['status']) . ')');
         }
-        if (!isset($seen[$path])) {
-            $s = Index::byPath($path);
-            $seen[$path] = ($s && Index::visible($s)) || Categories::byPath($path) || in_array($path, ['/nos-lions/', '/matchs/'], true) || Kernel::isRoute($path);
-        }
-        return $seen[$path];
+        return preg_match('#^/(media|wp-content)/#', $p) ? 'fichier absent' : 'page inexistante';
     }
 
-    /** Pourquoi une adresse du site n'affiche rien (null si elle affiche une page). */
-    private static function missing(string $path): ?string
+    /** Fichier JSON lisible (absent compris) : un fichier abîmé est signalé au lieu de faire échouer l'écran. */
+    private static function readable(string $file): bool
     {
-        if (self::shows($path)) {
-            return null;
+        try {
+            JsonStore::read($file, null);
+            return true;
+        } catch (\Throwable) {
+            return false;
         }
-        $s = Index::byPath($path);
-        if ($s) {
-            return 'fiche ' . ($s['status'] === 'corbeille' ? 'à la corbeille' : 'non publiée (' . mb_strtolower(Fiches::STATUSES[$s['status']] ?? $s['status']) . ')');
-        }
-        if (str_starts_with($path, '/media/')) {
-            return Media::file(rawurldecode(substr($path, 7))) || is_file(PUBLIC_PATH . rawurldecode($path)) ? null : 'fichier absent';
-        }
-        return 'page introuvable';
     }
 
     /**
@@ -333,20 +433,31 @@ final class Controle
     {
         Index::forget();
         $idx = Index::all();
-        $stale = 0;
+        // Résumé recalculé depuis le fichier : tout écart (titre, adresse, statut, dates…) compte,
+        // même si la date de modification interne n'a pas changé (restauration, envoi par FTP).
+        $stale = [];
         foreach (Fiches::all() as $id => $doc) {
-            $s = $idx[$id] ?? null;
-            if (!$s || ($s['modified'] ?? null) !== ($doc['modified'] ?? null) || ($s['status'] ?? null) !== ($doc['status'] ?? null) || ($s['path'] ?? null) !== ($doc['path'] ?? null)) {
-                $stale++;
+            if (($idx[$id] ?? null) !== Index::summary($doc)) {
+                $stale[$id] = true;
             }
             unset($idx[$id]);
         }
-        $stale += count($idx); // fiches supprimées du disque mais encore dans l'index
+        $stale += $idx; // fiches supprimées du disque mais encore dans l'index
+        // Texte modifié sans toucher au résumé : le fichier est plus récent que la recherche
+        // (absente, elle se reconstruit d'elle-même à la première recherche).
+        clearstatcache();
+        if ($searched = @filemtime(STORAGE_PATH . '/cache/search.php')) {
+            foreach (glob(Fiches::DIR . '/*.json') ?: [] as $file) {
+                if ((@filemtime($file) ?: 0) > $searched) {
+                    $stale[(int) basename($file, '.json')] = true;
+                }
+            }
+        }
         if ($stale) {
             Index::rebuild();
             Search::rebuild();
         }
-        return $stale;
+        return count($stale);
     }
 
     /** Écrit la référence livrée avec le code à partir des données actuelles (développement). */

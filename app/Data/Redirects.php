@@ -12,7 +12,15 @@ final class Redirects
 
     public static function all(): array
     {
-        return JsonStore::read(self::FILE, []) ?? [];
+        try {
+            $all = JsonStore::read(self::FILE, []);
+        } catch (\RuntimeException $e) {
+            // Fichier abîmé (envoi par FTP interrompu) : le site continue sans redirections, l'écran
+            // Qualité le signale ; il n'est réécrit qu'une fois remplacé (JsonStore::update refuse).
+            error_log($e->getMessage());
+            return [];
+        }
+        return is_array($all) ? $all : [];
     }
 
     /** Anciennes adresses WordPress par paramètre : /?p=123 (lien court) et /?s=… (recherche). */

@@ -104,6 +104,13 @@ function date_fr(?string $iso, bool $withDay = false): string
     return $withDay ? ucfirst($days[(int) date('w', $ts)]) . ' ' . $s : $s;
 }
 
+/** Phrase terminée par un point, sauf si elle finit déjà par une ponctuation (« né en Italie ? »). */
+function sentence(string $s): string
+{
+    $s = rtrim($s);
+    return $s === '' || preg_match('/[.!?…]$/u', $s) ? $s : $s . '.';
+}
+
 /** Date courte jj/mm/aaaa (cartes des mosaïques). */
 function date_short(?string $iso): string
 {
@@ -219,6 +226,11 @@ function safe_html(?string $html): string
     $html = preg_replace_callback('#(src)="/wp-content/uploads/([^"]+?)(-\d+x\d+)?(\.\w+)"#', function ($m) {
         return 'src="' . img($m[2] . $m[4], 1200) . '" loading="lazy"';
     }, $html);
+    // Citation (souvent un tweet) posée par l'ancien site directement dans une liste, entre deux
+    // éléments : mise dans son propre élément de liste, pour les lecteurs d'écran (sans puce).
+    for ($i = 0; $i < 5 && preg_match('#(?:<(?:ul|ol)\b[^>]*>|</li>)\s*<blockquote\b#i', $html); $i++) {
+        $html = (string) preg_replace('#(<(?:ul|ol)\b[^>]*>|</li>)(\s*)(<blockquote\b(?:(?!<blockquote\b).)*?</blockquote>)#is', '$1$2<li class="li-quote">$3</li>', $html);
+    }
     // Liens vers d'anciennes adresses : redirigés par le serveur, on garde tels quels.
     return $html;
 }

@@ -206,7 +206,7 @@ final class Layout
         if (!is_file($file)) {
             return null;
         }
-        $key = md5($file . filemtime($file) . ($alpha ? 'a' : ''));
+        $key = md5($file . (@filemtime($file) ?: 0) . ($alpha ? 'a' : ''));
         $bytes = (string) file_get_contents($file);
         return $this->pdf->image($key, $bytes, $alpha);
     }
@@ -443,7 +443,7 @@ final class Layout
                 $this->ensure($ln['h']);
                 if ($first) {
                     if ($num) {
-                        $this->text($x, $this->y + ($ln['h'] - $ln['asc'] - $ln['desc']) / 2 + $ln['asc'], ($i + 1) . '.', 'display-b', 10, 'blue');
+                        $this->text($x, $this->y + ($ln['h'] - $ln['asc'] - $ln['desc']) / 2 + $ln['asc'], ($i + 1 + ($o['start'] ?? 0)) . '.', 'display-b', 10, 'blue');
                     } else {
                         $this->rect($x + 1, $this->y + $ln['h'] / 2 - 2.6, 4.6, 4.6, 'yellow', 'navy', 0.6);
                     }

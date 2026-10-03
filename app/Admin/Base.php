@@ -201,9 +201,11 @@ class Base
         $b = [];
         $b['contributions'] = count(array_filter(\App\Admin\Community::contributionList(), fn ($c) => ($c['status'] ?? 'nouveau') === 'nouveau'));
         $b['messages'] = count(array_filter(\App\Admin\Community::messageList(), fn ($m) => ($m['status'] ?? 'nouveau') === 'nouveau'));
+        // Alertes graves de l'écran Qualité (hors orthographe, relue en tâche de fond) : calculées
+        // et vérifications du site (redirections, référentiels, textes de l'interface).
         $high = 0;
-        foreach (Derived::get()['quality'] ?? [] as $q) {
-            if (($q['sev'] ?? '') === 'haute') {
+        foreach (array_merge(Derived::get()['quality'] ?? [], \App\Services\Controle::siteChecks()) as $q) {
+            if (($q['sev'] ?? '') === 'haute' && ($q['code'] ?? '') !== 'nonrelie') {
                 $high++;
             }
         }

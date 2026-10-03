@@ -165,13 +165,21 @@ copiées par lots de 100 chaque heure.
    back-office voient le site.
 2. Vérifier : Pilotage › Qualité › « Contrôler maintenant » (aucune nouvelle anomalie
    attendue, hormis les photos tant que leur copie n'est pas terminée), pages légales, un
-   don en mode test, l'assistant IA.
+   don en mode test, l'assistant IA, une invitation envoyée à soi-même (e-mails), le PDF
+   d'un match et celui d'un joueur. Si possible, le test de fumée des écrans du back-office
+   contre le sous-domaine (`SR_BASE=https://nouveau.fcsochauxretro.com SR_EMAIL=…
+   SR_PASSWORD=… node tests/smoke.js`, voir `docs/CONTROLE-2026-10.md`, § 5) : tous les
+   essais automatiques ont tourné sur le serveur de développement, celui-ci est le seul sur
+   le vrai serveur (les pages publiques, cachées par la page d'attente, le sont après la
+   bascule).
 3. Le jour J :
    - vérifier que la copie des photos est terminée (§ 4 : « 0 à télécharger ») ;
    - sauvegarde complète de WordPress (cPanel › JetBackup) ;
    - racine du document de `www.fcsochauxretro.com` → `/home/<compte>/sochauxretro/public` ;
    - adresse du site `https://www.fcsochauxretro.com` dans Réglages › Général ;
-   - désactiver la page d'attente et le mot de passe d'accès.
+   - désactiver la page d'attente et le mot de passe d'accès ;
+   - « Contrôler maintenant », puis le test de fumée des pages publiques
+     (`SR_BASE=https://www.fcsochauxretro.com node tests/smoke.js`).
 4. Les **5 984 anciennes adresses** WordPress sont redirigées (301) vers les nouvelles,
    ainsi que les anciennes adresses d'images (`/wp-content/uploads/…`).
    Les adresses demandées mais introuvables sont listées dans Back-office › Redirections,
