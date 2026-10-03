@@ -7,7 +7,7 @@ use App\Admin\Form;
 
 $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghost" data-tr="' . e($fields) . '">Traduire en anglais</button>';
 ?>
-<form class="stack" data-json-form data-tabs-scope data-url="/admin/accueil" novalidate>
+<form class="stack" data-json-form data-tabs-scope data-url="/admin/accueil" data-lock="ecran:accueil" data-lock-what="l’accueil" novalidate>
   <div class="row" style="justify-content:space-between">
     <div class="ftabs" data-ftabs role="tablist">
       <?php foreach (['slider' => 'Slider « À la une »', 'bandeau' => 'Bandeau défilant', 'textes' => 'Textes & compteurs', 'palmares' => 'Palmarès', 'epoques' => 'Grandes époques', 'reserves' => 'Réserves', 'vignettes' => 'Vignettes'] as $k => $l): ?>

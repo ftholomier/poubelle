@@ -38,7 +38,7 @@ HTML],
 <ul>
 <li><b>Enregistrer</b> : bouton du panneau Publication, ou <kbd>Ctrl</kbd> + <kbd>S</kbd>. Un message confirme l’enregistrement.</li>
 <li><b>Brouillon de secours</b> : ce que vous tapez est conservé dans votre navigateur tant que ce n’est pas enregistré. En cas de coupure ou de fermeture d’onglet, la fiche propose « Le récupérer » à la réouverture.</li>
-<li><b>Modification simultanée</b> : si un collègue a enregistré la même fiche pendant que vous la modifiiez, vous êtes prévenu au lieu d’écraser son travail.</li>
+<li><b>Fiche déjà ouverte</b> : un bandeau dit qui la modifie ; vous la consultez en lecture seule (« Prendre la main » si besoin). Et si un collègue a enregistré la même fiche pendant que vous la modifiiez, vous êtes prévenu au lieu d’écraser son travail.</li>
 <li><b>Historique</b> : chaque enregistrement est une version, consultable dans l’onglet Historique.</li>
 </ul>
 [[astuce|<p>Les champs obligatoires portent une étoile <b>*</b>. Si un champ est mal rempli (une date illisible, par exemple), l’enregistrement est refusé et le champ est signalé en rouge.</p>]]

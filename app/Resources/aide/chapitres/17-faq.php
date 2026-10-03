@@ -85,6 +85,9 @@ HTML],
         ['id' => 'couts', 'title' => '… savoir ce que coûte l’IA et me faire rembourser', 'html' => <<<'HTML'
 <p>Système › <b>Coûts IA</b> : dépense du jour et du mois en direct. Le mois terminé : <b>Relevé PDF</b> et <b>CSV</b> à remettre à l’association, puis « Noter le remboursement » une fois payé. Budget mensuel : Réglages › Coûts IA. Voir [[aide:administration#couts|Coûts de l’IA et remboursement]].</p>
 HTML],
+        ['id' => 'verrou', 'title' => '… modifier une fiche qu’une collègue a déjà ouverte', 'html' => <<<'HTML'
+<p>Le bandeau en haut de la fiche donne son nom et l’heure. Attendez qu’elle ferme la fiche (le bandeau vous le dira), ou cliquez sur <b>Prendre la main</b> : elle est prévenue et ne peut plus enregistrer. Voir [[aide:fiches#verrou|Deux personnes sur la même fiche]].</p>
+HTML],
         ['id' => 'pdf', 'title' => '… obtenir le PDF d’une fiche', 'html' => <<<'HTML'
 <p>Sur le site, bouton <b>Télécharger en PDF</b> sous le titre de la fiche (ou de la saison, du face-à-face, du bilan, des records). Dans le back-office : panneau Publication de la fiche › <b>Télécharger le PDF</b>. Le document reprend la dernière version enregistrée. Voir <a href="/admin/aide/site-public#pdf">Télécharger en PDF</a>.</p>
 HTML],

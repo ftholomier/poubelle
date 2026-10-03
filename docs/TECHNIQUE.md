@@ -261,6 +261,19 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
 - Formulaires : les écrans envoient du JSON (`public/assets/admin/admin.js`, champs nommés
   par chemin pointé : `match.referee`, répétitions `data-repeater`), contrôle de
   modification simultanée, brouillon conservé dans le navigateur.
+- **Verrou de modification** (`App\Services\EditLock`, `public/assets/admin/verrou.js`) :
+  un formulaire `data-lock="fiche:123"` (aussi `collection:…`, `ecran:accueil`,
+  `ecran:rubrique-…`) signale sa présence toutes les 30 secondes à `POST /admin/api/verrou`
+  (`hold`, `watch`, `take`, `release` par `navigator.sendBeacon` à la fermeture). Un
+  identifiant par onglet ; un onglet muet depuis 2 minutes ne compte plus ; l'éditeur rend
+  la fiche après 30 minutes sans frappe ni clic. L'éditeur d'une fiche prend le verrou dès
+  l'ouverture (`Fiches::edit`). Qui ouvre ensuite voit un bandeau à son nom, en lecture seule
+  (`inert` sur le contenu, boutons d'enregistrement désactivés) ; « Prendre la main » prévient
+  la personne évincée au signal suivant et l'écrit au journal. Côté serveur, tout
+  enregistrement (fiche, corbeille, restauration, traduction, collection, accueil,
+  rubrique) est refusé par `Base::lockedJson()` / `lockMessage()` (423) si quelqu'un
+  d'autre tient le verrou ; les actions groupées laissent de côté les fiches ouvertes par
+  d'autres. État dans `storage/verrous.json` (écrit sous verrou de fichier).
 - Textes longs : éditeur WYSIWYG natif (`wysiwyg.js`) ; le HTML est nettoyé côté serveur
   par liste blanche (`App\Admin\Html`).
 - Chaque enregistrement crée une version (`storage/versions/{id}/`) ; le premier
@@ -290,6 +303,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `ai/` | index et journal de l'assistant | non (reconstructible, journal purgé) |
 | `correcteur/` | résultats de la vérification de fond, corrections ignorées | non (recalculé) |
 | `ia/` | dépense d'IA : détail des appels, cumuls, remboursements, barème (§ 7 quater) | oui |
+| `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
 | `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques | non |
 
 ## 11. Sécurité
@@ -328,5 +342,7 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   contrôle des propositions de Gemini simulé, mots protégés, cache, découpage).
 - `php tests/couts.php` : coûts de l'IA (barème daté, calcul, cumuls, niveau gratuit,
   budget et pause, remboursements, relevé PDF, détail CSV).
+- `php tests/verrou.php` : verrou de modification (prise, observation, prise de main,
+  onglets multiples, libération, expiration, inactivité).
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

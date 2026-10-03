@@ -10,6 +10,7 @@ use App\Core\View;
 use App\Data\Derived;
 use App\Front\Site;
 use App\Services\Backup;
+use App\Services\EditLock;
 
 /**
  * Outils communs aux écrans du back-office : rendu dans la coque (barre latérale,
@@ -94,6 +95,47 @@ class Base
             Session::flash('error', $error);
         }
         return Response::redirect($url, 303);
+    }
+
+    /** Clé de verrou d'un écran nommé (« ecran:rubrique-annees-90 »). */
+    public static function lockKey(string $prefix, string $name): string
+    {
+        return $prefix . substr(trim((string) preg_replace('/[^a-z0-9_-]+/', '-', strtolower($name)), '-'), 0, 40);
+    }
+
+    /** Pour les bandeaux du verrou de modification : nom, « 10 h 12 » (début), minutes sans activité. */
+    public static function lockInfo(array $h): array
+    {
+        $since = (int) $h['since'];
+        $day = date('Y-m-d', $since);
+        $when = match (true) {
+            $day === date('Y-m-d') => date('G \h i', $since),
+            $day === date('Y-m-d', strtotime('-1 day')) => 'hier ' . date('G \h i', $since),
+            default => 'le ' . date('d/m', $since),
+        };
+        return ['name' => (string) $h['name'], 'since' => $when, 'idle' => max(0, intdiv(time() - (int) $h['active'], 60))];
+    }
+
+    /**
+     * Quelqu'un d'autre modifie ce contenu ($key, voir EditLock) : phrase à afficher, sinon null.
+     * Les enregistrements sont alors refusés tant que la personne n'a pas « pris la main ».
+     */
+    public static function lockMessage(string $key, string $what = 'cette fiche'): ?string
+    {
+        $u = Auth::actor();
+        $h = $u ? EditLock::holder($key, (string) $u['id']) : null;
+        if (!$h) {
+            return null;
+        }
+        $i = self::lockInfo($h);
+        return $i['name'] . ' modifie ' . $what . ' depuis ' . $i['since'] . ' : vos modifications ne peuvent pas être enregistrées tant que vous n’avez pas pris la main.';
+    }
+
+    /** Réponse 423 d'un enregistrement refusé (verrou tenu par quelqu'un d'autre), sinon null. */
+    public static function lockedJson(string $key, string $what = 'cette fiche'): ?Response
+    {
+        $m = self::lockMessage($key, $what);
+        return $m === null ? null : self::json(['ok' => false, 'locked' => $m, 'error' => $m], 423);
     }
 
     /** « Coût : 0,32 centime. » après une action qui a fait appel à Gemini (vide sinon). */

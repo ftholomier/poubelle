@@ -12,6 +12,7 @@ use App\Data\Fiches as Store;
 use App\Data\Index;
 use App\Data\Paths;
 use App\Data\Redirects;
+use App\Services\EditLock;
 use App\Services\Proofreader;
 use App\Services\Search;
 use App\Services\Translator;
@@ -121,6 +122,7 @@ final class Fiches extends Base
             'slug' => $slug, 'conf' => $conf, 'rows' => $rows, 'total' => $total, 'counts' => $counts, 'status' => $status,
             'q' => $req->str('q'), 'page' => $page, 'pages' => $pages, 'sort' => $sort, 'quality' => $quality, 'totals' => $totals, 'geo' => $geo,
             'seasons' => array_keys($seasons), 'comps' => array_keys($comps), 'query' => $req->query,
+            'locks' => EditLock::fiches(), 'me' => (string) (Auth::actor()['id'] ?? ''),
         ], ['title' => $conf['title'], 'crumb' => 'Contenus', 'nav' => $slug]);
     }
 
@@ -145,10 +147,17 @@ final class Fiches extends Base
         }
         $user = self::actor();
         $n = 0;
-        Store::batch(function () use ($ids, $action, $user, &$n) {
+        // Les fiches qu'un autre membre a ouvertes en ce moment ne sont pas touchées.
+        $locks = EditLock::fiches();
+        $busy = [];
+        Store::batch(function () use ($ids, $action, $user, $locks, &$n, &$busy) {
             foreach ($ids as $id) {
                 $doc = Store::get($id);
                 if (!$doc) {
+                    continue;
+                }
+                if (isset($locks[$id]) && $locks[$id]['uid'] !== (string) ($user['id'] ?? '')) {
+                    $busy[] = $locks[$id]['name'];
                     continue;
                 }
                 switch ($action) {
@@ -184,7 +193,8 @@ final class Fiches extends Base
                 }
             }
         });
-        return self::back($back, $n . ' fiche' . ($n > 1 ? 's' : '') . ' traitée' . ($n > 1 ? 's' : '') . '.' . self::aiCost());
+        $skipped = $busy ? ' ' . count($busy) . ' fiche' . (count($busy) > 1 ? 's' : '') . ' laissée' . (count($busy) > 1 ? 's' : '') . ' de côté : en cours de modification par ' . implode(', ', array_unique($busy)) . '.' : '';
+        return self::back($back, $n . ' fiche' . ($n > 1 ? 's' : '') . ' traitée' . ($n > 1 ? 's' : '') . '.' . $skipped . self::aiCost());
     }
 
     // ------------------------------------------------------------------ masque de saisie
@@ -226,6 +236,19 @@ final class Fiches extends Base
         return self::editor($doc, false);
     }
 
+    /**
+     * Verrou de modification pris à l'ouverture de l'éditeur (le navigateur l'entretient
+     * ensuite) : ['key', 'tab', 'holder' => personne qui modifie déjà la fiche ou null].
+     */
+    private static function openLock(int $id): array
+    {
+        $key = "fiche:$id";
+        $tab = EditLock::newTab();
+        $u = Auth::actor();
+        $r = $u ? EditLock::ping($key, ['id' => (string) $u['id'], 'name' => (string) $u['name']], 'hold', $tab) : ['holder' => null];
+        return ['key' => $key, 'tab' => $tab, 'holder' => $r['holder'] ? self::lockInfo($r['holder']) : null];
+    }
+
     private static function editor(array $doc, bool $isNew): Response
     {
         $list = self::TYPE_LIST[$doc['type']] ?? 'articles';
@@ -241,6 +264,7 @@ final class Fiches extends Base
             'lineup' => $doc['type'] === 'match' ? \App\Front\Fiche::lineupRows($doc, $doc['match']['lineup']['rows'] ?? []) : [],
             'list' => $list,
             'proof' => $isNew ? null : Proofreader::forFiche($doc),
+            'lock' => $isNew ? null : self::openLock((int) $doc['id']),
         ], [
             'title' => $title,
             'crumb_html' => 'Contenus › <a href="/admin/' . e($list === 'moments' ? 'moments' : $list) . '">' . e(self::LISTS[$list]['title'] ?? 'Moments') . '</a>',
@@ -305,6 +329,10 @@ final class Fiches extends Base
             if (!$doc) {
                 return self::json(['ok' => false, 'error' => 'Fiche introuvable.'], 404);
             }
+            // Quelqu'un d'autre a la fiche ouverte : il faut d'abord « prendre la main ».
+            if ($locked = self::lockedJson("fiche:$id")) {
+                return $locked;
+            }
             // Modification simultanée ?
             $seen = (string) ($in['_modified'] ?? '');
             if ($seen !== '' && $seen !== (string) ($doc['modified'] ?? '') && empty($in['_force'])) {
@@ -356,12 +384,18 @@ final class Fiches extends Base
 
     public static function trash(Request $req, int $id): Response
     {
+        if ($m = self::lockMessage("fiche:$id")) {
+            return self::back('/admin/fiche/' . $id, null, $m);
+        }
         Store::trash($id, self::actor());
         return self::back('/admin/fiche/' . $id, 'Fiche mise à la corbeille. Elle n’est plus visible sur le site.');
     }
 
     public static function untrash(Request $req, int $id): Response
     {
+        if ($m = self::lockMessage("fiche:$id")) {
+            return self::back('/admin/fiche/' . $id, null, $m);
+        }
         Store::untrash($id, self::actor());
         return self::back('/admin/fiche/' . $id, 'Fiche sortie de la corbeille.');
     }
@@ -395,6 +429,9 @@ final class Fiches extends Base
         if (!Auth::can('restore')) {
             return self::back('/admin/fiche/' . $id . '#historique', null, 'La restauration de versions est réservée aux administrateurs.');
         }
+        if ($m = self::lockMessage("fiche:$id")) {
+            return self::back('/admin/fiche/' . $id . '#historique', null, $m);
+        }
         $doc = Store::restore($id, $n, self::actor());
         return $doc ? self::back('/admin/fiche/' . $id . '#historique', "Version v$n restaurée : une nouvelle version a été créée, elle-même réversible.") : self::back('/admin/fiche/' . $id, null, 'Version introuvable.');
     }
@@ -403,6 +440,9 @@ final class Fiches extends Base
     {
         if (!Translator::enabled()) {
             return self::back('/admin/fiche/' . $id . '#en', null, 'Traduction impossible : la clé Gemini n’est pas réglée (Réglages › Assistant IA).');
+        }
+        if ($m = self::lockMessage("fiche:$id")) {
+            return self::back('/admin/fiche/' . $id . '#en', null, $m);
         }
         @set_time_limit(300);
         $r = Translator::translateFiche($id, true, self::actor());

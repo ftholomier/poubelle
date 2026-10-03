@@ -13,7 +13,9 @@ use App\Data\Fiches as Store;
 use App\Data\Index;
 use App\Data\Media;
 use App\Core\RateLimiter;
+use App\Data\Activity;
 use App\Services\AiCosts;
+use App\Services\EditLock;
 use App\Services\Gemini;
 use App\Services\Proofreader;
 use App\Services\Search;
@@ -264,6 +266,43 @@ final class Api extends Base
     }
 
     /** Correcteur : « Ajouter au dictionnaire » (le mot n'est plus jamais corrigé). */
+    /**
+     * Verrou de modification (App\Services\EditLock) : l'éditeur ouvert signale sa présence
+     * toutes les 30 secondes, observe une fiche tenue par quelqu'un d'autre, prend la main, ou la
+     * libère en partant (navigator.sendBeacon : formulaire avec _csrf).
+     * Entrée : {key, mode: hold|watch|take|release, tab, idle (secondes), modified (version chargée)}.
+     */
+    public static function lock(Request $req): Response
+    {
+        $in = $req->json() ?: $req->post;
+        $key = (string) ($in['key'] ?? '');
+        $mode = (string) ($in['mode'] ?? 'hold');
+        $user = Auth::actor();
+        if (!$user || !EditLock::validKey($key) || !in_array($mode, ['hold', 'watch', 'take', 'release'], true)) {
+            return self::json(['ok' => false, 'error' => 'Demande invalide.'], 400);
+        }
+        $r = EditLock::ping($key, ['id' => (string) $user['id'], 'name' => (string) $user['name']], $mode, (string) ($in['tab'] ?? ''), (int) ($in['idle'] ?? 0));
+        $doc = preg_match('/^fiche:(\d+)$/', $key, $m) ? Store::get((int) $m[1]) : null;
+        if ($r['took'] !== null) {
+            Activity::log($user, 'a pris la main (modification en cours par ' . $r['took'] . ')', $doc ?: ['title' => $key]);
+        }
+        $out = [
+            'ok' => true, 'mine' => $r['mine'],
+            'holder' => $r['holder'] ? self::lockInfo($r['holder']) : null,
+            'taken' => $r['taken'] ? ['by' => $r['taken']['by'], 'at' => date('G \h i', (int) $r['taken']['at'])] : null,
+        ];
+        if ($doc) {
+            // Une nouvelle version a-t-elle été enregistrée depuis l'ouverture de l'éditeur ?
+            $out['modified'] = (string) ($doc['modified'] ?? '');
+            $seen = (string) ($in['modified'] ?? '');
+            if ($seen !== '' && $seen !== $out['modified']) {
+                $last = Store::versions((int) $doc['id'])[0] ?? null;
+                $out['saved'] = ['by' => (string) ($last['by'] ?? 'quelqu’un'), 'at' => date('G \h i', strtotime((string) $doc['modified']) ?: time())];
+            }
+        }
+        return self::json($out);
+    }
+
     public static function proofWord(Request $req): Response
     {
         $word = (string) ($req->json()['mot'] ?? '');

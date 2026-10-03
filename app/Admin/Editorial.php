@@ -57,6 +57,9 @@ final class Editorial extends Base
 
     public static function homeSave(Request $req): Response
     {
+        if ($locked = self::lockedJson('ecran:accueil', 'l’accueil')) {
+            return $locked;
+        }
         $in = $req->json();
         $user = self::actor();
         $line = fn ($v, int $max = 200) => Html::line($v, $max);
@@ -301,6 +304,9 @@ final class Editorial extends Base
         $all = Categories::all();
         if (!isset($all[$slug])) {
             return self::json(['error' => 'Rubrique introuvable.'], 404);
+        }
+        if ($locked = self::lockedJson(self::lockKey('ecran:rubrique-', $slug), 'cette rubrique')) {
+            return $locked;
         }
         $c = $all[$slug];
         $c['label'] = Html::line($in['label'] ?? '', 80) ?: null;

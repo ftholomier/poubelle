@@ -105,8 +105,8 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 
 ## Aide, teaser, recette et compléments (03/10, 06:31 → 10:10 UTC) — terminé
 - [x] Rubrique **Aide** du back-office : 17 chapitres (pas à pas, « Comment faire pour… »),
-      63 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (77 p.
-      avec le correcteur) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
+      65 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (80 p.
+      avec le correcteur, les coûts de l'IA et le verrou de modification) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
       (précision du client).
 - [x] **Bulles « ? »** sur chaque écran, carte et champ du back-office (souris, clavier, toucher).
 - [x] **Teaser** 1 min 55 en 1920×1080 calé sur la musique fournie ; v2 : aucune mention de
@@ -159,6 +159,13 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       tâches automatiques (et de l'assistant si souhaité) ; coût affiché après une
       vérification d'orthographe, une traduction ou une réindexation. `tests/couts.php` ;
       essai complet dans le navigateur avec un faux Gemini (pas de clé ici).
+- [x] **Verrou de modification nominatif** : une fiche ouverte par quelqu'un est signalée aux
+      autres (bandeau « Marie modifie cette fiche depuis 10 h 12 », lecture seule, mention
+      « ✎ Prénom » dans les listes) ; « Prendre la main » avec alerte immédiate de la personne
+      évincée et trace au journal ; libération à la fermeture, après 2 minutes sans nouvelles
+      ou 30 minutes d'inactivité ; enregistrements refusés côté serveur tant que le verrou est
+      tenu par un autre (fiches, contenus interactifs, accueil, rubriques, album ; actions
+      groupées). `tests/verrou.php` ; essai à deux navigateurs.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).

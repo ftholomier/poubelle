@@ -170,6 +170,9 @@ final class Collections extends Base
         if (!$schema) {
             return self::json(['error' => 'Contenu inconnu.'], 404);
         }
+        if ($locked = self::lockedJson("collection:$name", 'ce contenu')) {
+            return $locked;
+        }
         $in = $req->json();
         if (!empty($schema['object'])) {
             $out = self::cleanItem((array) ($in['data'] ?? []), $schema['fields']);
@@ -385,6 +388,9 @@ final class Collections extends Base
 
     public static function albumSave(Request $req): Response
     {
+        if ($locked = self::lockedJson('collection:album', 'l’album')) {
+            return $locked;
+        }
         $in = $req->json();
         $user = self::actor();
         $wanted = [];

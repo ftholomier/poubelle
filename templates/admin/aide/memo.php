@@ -116,7 +116,7 @@
       <h2>En cas de souci</h2>
       <ul>
         <li><b>Brouillon retrouvé</b> : « Le récupérer » ou « L’ignorer ».</li>
-        <li><b>Fiche modifiée par un autre</b> : rechargez avant d’enregistrer.</li>
+        <li><b>Fiche ouverte par un autre</b> : lecture seule ; « Prendre la main » si besoin.</li>
         <li><b>Erreur de saisie</b> : Historique › restaurer (administrateur).</li>
         <li><b>Fiche supprimée</b> : corbeille › restaurer.</li>
         <li>Guide complet : menu <b>Aide</b>.</li>

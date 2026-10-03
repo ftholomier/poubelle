@@ -93,7 +93,7 @@ $roleLabel = ['joueur' => 'Joueur', 'entraineur' => 'Entraîneur', 'dirigeant' =
             <td class="ellipsis" style="max-width:220px"><?= e(($c = Categories::primaryOf($s['categories'])) ? Categories::label($c) : '—') ?></td>
             <td><?= e(Fiches::TYPES[$s['type']] ?? $s['type']) ?></td>
           <?php endif; ?>
-          <td><span class="pill pill--<?= e($s['status']) ?>"><?= e(Fiches::STATUSES[$s['status']] ?? $s['status']) ?></span><?= $s['status'] === 'planifie' && $s['publish_at'] ? '<br><span class="xs muted">' . e(date('d/m H:i', strtotime($s['publish_at']))) . '</span>' : '' ?></td>
+          <td><span class="pill pill--<?= e($s['status']) ?>"><?= e(Fiches::STATUSES[$s['status']] ?? $s['status']) ?></span><?= $s['status'] === 'planifie' && $s['publish_at'] ? '<br><span class="xs muted">' . e(date('d/m H:i', strtotime($s['publish_at']))) . '</span>' : '' ?><?php if ($lk = $locks[(int) $s['id']] ?? null): ?><br><span class="lockpill<?= $lk['uid'] === $me ? ' lockpill--me' : '' ?>" title="<?= e($lk['uid'] === $me ? 'Vous avez cette fiche ouverte' : $lk['name'] . ' modifie cette fiche en ce moment') ?>">✎ <?= e($lk['uid'] === $me ? 'vous' : explode(' ', $lk['name'])[0]) ?></span><?php endif; ?></td>
           <td><?= $al ? '<span class="' . ($hi ? 'ko' : 'warn') . '" title="' . e(implode("\n", array_column($al, 'msg'))) . '">⚠ ' . count($al) . '</span>' : '<span class="ok">✓</span>' ?></td>
           <td><?= $s['has_en'] ? '<span class="ok">EN</span>' : '<span class="muted">—</span>' ?></td>
           <td class="xs muted nowrap"><?= e(Base::ago($s['modified'] ?? null)) ?></td>

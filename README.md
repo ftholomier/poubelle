@@ -33,7 +33,9 @@ traductions, qualité des données, **correcteur d'orthographe et de syntaxe** (
 règles du musée : chaque correction est proposée, l'historien accepte ou ignore ; relecture
 de fond de tout le musée dans Qualité › Orthographe), **coût de l'IA en temps réel**
 (dépense du jour et du mois, derniers appels, budget, relevé mensuel PDF et CSV à faire
-rembourser par l'association), sauvegardes, aide en ligne (guide,
+rembourser par l'association), **verrou nominatif** (une fiche ouverte par quelqu'un est
+signalée aux autres, en lecture seule, avec « Prendre la main »), sauvegardes, aide en
+ligne (guide,
 mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
 et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
 
@@ -119,6 +121,7 @@ contiennent le travail des historiens. Ne jamais les remplacer par ceux du dép�
 | [docs/TECHNIQUE.md](docs/TECHNIQUE.md) | développeur | architecture, données, caches, sécurité |
 | [docs/DECISIONS.md](docs/DECISIONS.md) | tous | choix validés avec le club |
 | [docs/AVANCEMENT.md](docs/AVANCEMENT.md) | tous | état du projet, contrôle d'exhaustivité |
+| [docs/IDEES.md](docs/IDEES.md) | association | idées en réserve (Allô Bonal, Rétro-Direct, Fil jaune…) |
 | `docs/maquette/` | tous | maquette graphique de référence |
 
 ## Reprise du WordPress

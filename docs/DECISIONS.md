@@ -81,6 +81,11 @@ Simple, ergonomique, intuitif **et** complet, pensé pour des historiens non tec
 - Masque de saisie dédié par type de fiche ; aides sous chaque champ ; vocabulaire métier.
 - Brouillon enregistré automatiquement, historique des versions + restauration,
   alerte en cas de modification simultanée.
+- Verrou de modification **nominatif et souple** (octobre 2026) : sans base de données,
+  une fiche ouverte est signalée aux autres (« Marie modifie cette fiche depuis 10 h 12 »,
+  lecture seule) plutôt que bloquée sans explication ; « Prendre la main » reste possible
+  pour ne jamais empêcher le travail (fiche oubliée ouverte), la personne évincée est
+  prévenue et la prise de main est journalisée.
 - Recherche globale au clavier (Ctrl+K), compositions et statistiques saisies en grille,
   joueurs choisis parmi les fiches existantes (création à la volée).
 - Aperçu « comme sur le site » ; statuts brouillon / à relire / publié + programmation.

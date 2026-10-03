@@ -712,6 +712,8 @@
       window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
       const save = async (extra = {}) => {
         if (busy) return;
+        // Verrou de modification (verrou.js) : lecture seule tant que quelqu'un d'autre modifie.
+        if (form.dataset.readonly) { BO.toast(form.dataset.readonly, true); return; }
         busy = true;
         $$('[data-save]').forEach(b => (b.disabled = true));
         const data = BO.collect(form);
@@ -720,6 +722,12 @@
         const r = await BO.post(form.dataset.url, data);
         busy = false;
         $$('[data-save]').forEach(b => (b.disabled = false));
+        if (r.locked) {
+          const go = BO.takeLock && await BO.confirm('Enregistrement impossible', r.locked + ' Prendre la main et enregistrer vos modifications ?', 'Prendre la main', true);
+          if (go && await BO.takeLock()) return save(extra);
+          if (!BO.takeLock) BO.toast(r.locked, true);
+          return;
+        }
         if (r.conflict) {
           const go = await BO.confirm('Modifiée entre-temps', r.conflict + ' Enregistrer quand même vos modifications ?', 'Écraser', true);
           if (go) { form.dataset.modified = r.modified; return save(extra); }

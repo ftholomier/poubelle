@@ -170,6 +170,7 @@ final class Router
         $r->post('/admin/api/correcteur/ignorer', fn ($q) => Api::proofIgnore($q));
         $r->post('/admin/api/correcteur/dictionnaire', fn ($q) => Api::proofWord($q));
         $r->get('/admin/api/couts', fn ($q) => Costs::api($q));
+        $r->post('/admin/api/verrou', fn ($q) => Api::lock($q));
 
         $res = $r->dispatch(new Request($req->method, $path, $req->query, $req->post, $req->files, $req->server, $req->body));
         if ($res instanceof Response) {

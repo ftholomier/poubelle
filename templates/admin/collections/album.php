@@ -3,7 +3,7 @@
 $list = $cards ?: array_map(fn ($c) => ['id' => $c['id'], 'name' => $c['name'], 'image' => null, 'thumb' => $c['image'], 'number' => $c['n'], 'rarity' => $c['tier'], 'matches' => null, 'status' => 'publie'], $auto);
 $rar = ['' => 'Automatique', 'legende' => 'Légende (rare)', 'actuel' => 'Actuel', 'classique' => 'Classique'];
 ?>
-<form class="stack" data-json-form data-url="/admin/album" novalidate>
+<form class="stack" data-json-form data-url="/admin/album" data-lock="collection:album" data-lock-what="l’album" novalidate>
   <div class="toolbar">
     <p class="small muted grow" style="margin:0">Chaque fiche visitée débloque la carte d’un joueur dans l’album du visiteur. Composez l’album dans l’ordre des numéros ; la rareté « Légende » rend une carte précieuse (offerte pour un sans-faute au quiz).</p>
     <a class="btn" href="/interactif/album/" target="_blank" rel="noopener">Voir l’album ↗</a>

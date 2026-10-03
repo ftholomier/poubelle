@@ -57,7 +57,7 @@ $renderItem = fn (array $fields, string $p = '@') => function ($it) use ($fields
     return $h . $trButton($fields, $p) . '</div>';
 };
 ?>
-<form class="stack" data-json-form data-url="/admin/collection/<?= e($name) ?>" novalidate>
+<form class="stack" data-json-form data-url="/admin/collection/<?= e($name) ?>" data-lock="collection:<?= e($name) ?>" data-lock-what="ce contenu" novalidate>
   <div class="toolbar">
     <p class="small muted grow" style="margin:0"><?= e($schema['help'] ?? '') ?></p>
     <?php if (!empty($schema['front'])): ?><a class="btn" href="<?= e($schema['front']) ?>" target="_blank" rel="noopener">Voir sur le site ↗</a><?php endif; ?>

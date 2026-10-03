@@ -59,6 +59,13 @@ Garde-fous :
 
 - Ce que vous tapez est gardé dans votre navigateur tant que ce n'est pas enregistré
   (coupure, fermeture d'onglet) : il est proposé à la réouverture de la fiche.
+- **Fiche déjà ouverte par quelqu'un d'autre** : un bandeau indique qui la modifie et
+  depuis quand ; vous la consultez en lecture seule (onglets et aperçu utilisables). Dès
+  qu'elle est refermée, le bandeau le dit (« Modifier maintenant » ou « Recharger pour
+  modifier »). **Prendre la main** permet de modifier quand même : la personne est prévenue
+  et ne peut plus enregistrer. Une fiche oubliée se libère après 30 minutes sans activité.
+  Dans les listes, « ✎ Prénom » signale les fiches ouvertes. Même protection pour les
+  contenus interactifs, l'accueil, les rubriques et l'album.
 - Si quelqu'un d'autre a enregistré la même fiche entre-temps, vous êtes prévenu au lieu
   d'écraser son travail.
 - Onglet **Historique** : chaque enregistrement est une version (qui, quand, quoi) ; la

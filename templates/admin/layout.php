@@ -105,6 +105,7 @@ if ($isAdmin) {
 <script src="<?= asset('admin/admin.js') ?>" defer></script>
 <script src="<?= asset('admin/wysiwyg.js') ?>" defer></script>
 <script src="<?= asset('admin/correcteur.js') ?>" defer></script>
+<script src="<?= asset('admin/verrou.js') ?>" defer></script>
 <?php foreach ($meta['scripts'] ?? [] as $js): ?><script src="<?= asset($js) ?>" defer></script><?php endforeach; ?>
 </body>
 </html>

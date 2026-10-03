@@ -66,6 +66,16 @@ HTML],
 [[img:editeur-brouillon.webp|Un brouillon non enregistré retrouvé : « Le récupérer » ou « L’ignorer »]]
 [[attention|<p>Le brouillon de secours est propre à l’ordinateur et au navigateur utilisés : il ne remplace pas l’enregistrement.</p>]]
 HTML],
+        ['id' => 'verrou', 'title' => 'Deux personnes sur la même fiche', 'html' => <<<'HTML'
+<p>Quand une collègue a déjà ouvert une fiche, vous le voyez tout de suite : un bandeau indique <b>qui la modifie et depuis quand</b>, et la fiche s’ouvre en <b>lecture seule</b>. Les onglets se consultent et l’aperçu fonctionne, mais rien ne peut être enregistré. Dans les listes de fiches, la mention <b>✎ Prénom</b> signale les fiches ouvertes en ce moment.</p>
+[[img:verrou.webp|Une fiche déjà ouverte : (1) qui la modifie et depuis quand, (2) prendre la main, (3) enregistrement impossible en lecture seule]]
+<ul>
+<li>Dès que la personne ferme la fiche, le bandeau vous le dit : <b>Modifier maintenant</b>, ou <b>Recharger pour modifier</b> si elle a enregistré une nouvelle version entre-temps.</li>
+<li><b>Prendre la main</b> (urgence, fiche oubliée ouverte) : vous pouvez modifier ; la personne est prévenue aussitôt et ne peut plus enregistrer. Le journal d’activité garde la trace de la prise de main.</li>
+<li>Une fiche oubliée se libère toute seule : après 30 minutes sans activité, ou 2 minutes après la fermeture de l’onglet (ordinateur éteint, coupure de réseau).</li>
+</ul>
+[[astuce|<p>Le même verrou protège les quiz, la frise et les autres contenus interactifs, l’accueil, les rubriques et l’album. Et si deux personnes enregistrent malgré tout la même fiche, la seconde est prévenue au lieu d’écraser le travail de la première.</p>]]
+HTML],
         ['id' => 'historique', 'title' => 'Historique des versions', 'html' => <<<'HTML'
 <p>L’onglet <b>Historique</b> liste chaque enregistrement : qui, quand, ce qui a changé, et la note de version. Pour une fiche reprise de l’ancien site, la première version est son état d’origine.</p>
 [[img:editeur-historique.webp|L’historique : chaque version peut être consultée ; un administrateur peut la restaurer]]

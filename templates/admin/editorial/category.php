@@ -4,7 +4,7 @@ use App\Admin\Form;
 use App\Data\Categories;
 use App\Data\Fiches;
 ?>
-<form class="editor" data-json-form data-url="/admin/rubriques" novalidate>
+<form class="editor" data-json-form data-url="/admin/rubriques" data-lock="<?= e(\App\Admin\Base::lockKey('ecran:rubrique-', $cat['slug'])) ?>" data-lock-what="cette rubrique" novalidate>
   <input type="hidden" name="slug" value="<?= e($cat['slug']) ?>">
   <div class="stack">
     <div class="card">
