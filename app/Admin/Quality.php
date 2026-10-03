@@ -93,14 +93,20 @@ final class Quality
     public static function all(): array
     {
         $d = Derived::get();
-        $out = ['stats' => [], 'liens' => [], 'orthographe' => [], 'credits' => [], 'carto' => [], 'traductions' => []];
+        $out = ['stats' => [], 'completer' => [], 'liens' => [], 'orthographe' => [], 'credits' => [], 'carto' => [], 'traductions' => []];
         foreach ($d['quality'] ?? [] as $a) {
             if ($a['code'] === 'nonrelie') {
                 continue; // listés plus bas (onglet des liens), avec le bouton de création de fiche
             }
             $s = Index::get((int) $a['id']);
-            // Noms reliés par rapprochement : à vérifier sur la fiche du joueur (onglet des liens).
-            $out[$a['code'] === 'rapproche' ? 'liens' : 'stats'][] = ['sev' => $a['sev'], 'msg' => $a['msg'], 'id' => (int) $a['id'], 'title' => $s['title'] ?? ('Fiche ' . $a['id']), 'url' => '/admin/fiche/' . (int) $a['id']];
+            // Noms reliés par rapprochement : à vérifier sur la fiche du joueur (onglet des liens) ;
+            // « xx » de l'ancien site, fiches à venir, arbitre, vidéos : onglet « À compléter ».
+            $tab = match ($a['code']) {
+                'rapproche' => 'liens',
+                'inconnu', 'avenir', 'arbitre', 'video' => 'completer',
+                default => 'stats',
+            };
+            $out[$tab][] = ['sev' => $a['sev'], 'msg' => $a['msg'], 'id' => (int) $a['id'], 'title' => $s['title'] ?? ('Fiche ' . $a['id']), 'url' => '/admin/fiche/' . (int) $a['id']];
         }
         $unlinked = $d['unlinked'] ?? [];
         uasort($unlinked, fn ($a, $b) => count($b['matches']) <=> count($a['matches']));
@@ -128,6 +134,16 @@ final class Quality
             if ($s['type'] === 'personne' && Index::visible($s) && empty($s['p']['birth_place']) && in_array('joueur', $s['p']['roles'] ?? [], true)) {
                 $out['carto'][] = ['sev' => 'basse', 'msg' => 'Lieu de naissance inconnu', 'id' => (int) $s['id'], 'title' => $s['title'], 'url' => '/admin/fiche/' . (int) $s['id'] . '#identite'];
             }
+        }
+        // Les plus graves d'abord (ordre d'origine gardé à gravité égale).
+        $rank = ['haute' => 0, 'moyenne' => 1, 'basse' => 2];
+        foreach ($out as $k => $list) {
+            $i = 0;
+            $keyed = array_map(function ($x) use (&$i, $rank) {
+                return [$rank[$x['sev']] ?? 3, $i++, $x];
+            }, $list);
+            usort($keyed, fn ($a, $b) => [$a[0], $a[1]] <=> [$b[0], $b[1]]);
+            $out[$k] = array_column($keyed, 2);
         }
         return $out;
     }

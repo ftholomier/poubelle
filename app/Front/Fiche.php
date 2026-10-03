@@ -33,8 +33,98 @@ final class Fiche
         return self::localize($doc);
     }
 
-    /** Remplace les champs par leur traduction anglaise quand elle existe. */
+    /** Fiche prête à afficher : traduction anglaise s'il y a lieu, « xx » de l'ancien site retirés. */
     private static function localize(array $doc): array
+    {
+        return self::hideUnknown(self::translated($doc));
+    }
+
+    /**
+     * Textes affichés sans les « xx » de l'ancien site (information inconnue : minute, lieu,
+     * arbitre…) ; la fiche elle-même n'est pas modifiée et l'écran Qualité les liste.
+     */
+    private static function hideUnknown(array $doc): array
+    {
+        $m = $doc['match'] ?? [];
+        $probe = json_encode([$doc['intro'] ?? '', array_column($doc['sections'] ?? [], 'html'), $doc['key_figure'] ?? null, $m['highlights'] ?? [], $m['reactions'] ?? [], $m['breves'] ?? [],
+            $m['referee'] ?? '', $m['stadium'] ?? '', $m['spectators_text'] ?? '', $m['round_text'] ?? '', $m['event'] ?? '', $m['goals'] ?? [], $m['goals_text'] ?? '', $m['header_extra'] ?? []], JSON_UNESCAPED_UNICODE);
+        if (!preg_match('/\bx{2,}\b/iu', (string) $probe)) {
+            return $doc;
+        }
+        $xx = fn ($v) => (bool) preg_match('/\bx{2,}\b/iu', (string) $v);
+        // Chiffre clé jamais rempli (« a joué xx matchs ») : pas affiché.
+        if (!empty($doc['key_figure']) && ($xx($doc['key_figure']['number'] ?? '') || $xx($doc['key_figure']['text'] ?? ''))) {
+            $doc['key_figure'] = null;
+        }
+        foreach (['referee', 'stadium', 'round_text', 'spectators_text', 'event'] as $k) {
+            if (isset($doc['match'][$k]) && $xx($doc['match'][$k])) {
+                $doc['match'][$k] = '';
+            }
+        }
+        if (isset($doc['match']['goals_text']) && $xx($doc['match']['goals_text'])) {
+            // « … ; xx pour la Sélection » : buteurs inconnus d'une équipe retirés.
+            $doc['match']['goals_text'] = trim((string) preg_replace(['/\s*;?\s*\bx{2,}\b\s+pour\s+[^;]+/iu', '/^\s*;\s*|\s*;\s*$/u'], '', (string) $doc['match']['goals_text']));
+        }
+        foreach ($doc['match']['goals'] ?? [] as $i => $g) {
+            if (is_array($g) && $xx($g['scorers'] ?? '')) {
+                unset($doc['match']['goals'][$i]);
+            }
+        }
+        if (isset($doc['match']['goals'])) {
+            $doc['match']['goals'] = array_values($doc['match']['goals']);
+        }
+        if (!empty($doc['match']['header_extra'])) {
+            $doc['match']['header_extra'] = array_values(array_filter(array_map(fn ($l) => self::textWithoutUnknown((string) $l), $doc['match']['header_extra']), fn ($l) => trim($l) !== ''));
+        }
+        if (isset($doc['match']['reactions'])) {
+            $doc['match']['reactions'] = array_values(array_filter(array_map(fn ($r) => is_array($r) ? ['text' => self::htmlWithoutUnknown((string) ($r['text'] ?? ''))] + $r : $r, $doc['match']['reactions']), fn ($r) => !is_array($r) || trim(strip_tags((string) $r['text'])) !== ''));
+        }
+        if (isset($doc['match']['breves'])) {
+            $doc['match']['breves'] = array_values(array_filter(array_map(fn ($b) => is_array($b) ? ['text' => self::htmlWithoutUnknown((string) ($b['text'] ?? ''))] + $b : self::htmlWithoutUnknown((string) $b), $doc['match']['breves']), fn ($b) => trim(strip_tags(is_array($b) ? (string) ($b['text'] ?? '') : (string) $b)) !== ''));
+        }
+        $doc['intro'] = self::htmlWithoutUnknown((string) ($doc['intro'] ?? ''));
+        foreach ($doc['sections'] ?? [] as $i => $sec) {
+            $doc['sections'][$i]['html'] = self::htmlWithoutUnknown((string) ($sec['html'] ?? ''));
+        }
+        foreach ($doc['match']['highlights'] ?? [] as $i => $h) {
+            if (preg_match('/^\s*x{2,}/iu', (string) ($h['minute'] ?? ''))) {
+                $doc['match']['highlights'][$i]['minute'] = '';
+            }
+            $doc['match']['highlights'][$i]['text'] = self::textWithoutUnknown((string) ($h['text'] ?? ''));
+        }
+        return $doc;
+    }
+
+    /** Texte riche : les « xx » sont retirés des seuls nœuds de texte. */
+    public static function htmlWithoutUnknown(string $html): string
+    {
+        if (!preg_match('/\bx{2,}\b/iu', $html)) {
+            return $html;
+        }
+        $out = (string) preg_replace_callback('/>([^<>]*\bx{2,}\b[^<>]*)</iu', fn ($m) => '>' . htmlspecialchars(self::textWithoutUnknown(html_entity_decode($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8')), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8') . '<', '>' . $html . '<');
+        // Éléments devenus vides (« <h4><strong></strong></h4> ») retirés.
+        for ($i = 0; $i < 3; $i++) {
+            $out = (string) preg_replace('#<(p|h[1-6]|li|strong|em|b|u|span)>\s*</\1>#u', '', $out);
+        }
+        return substr($out, 1, -1);
+    }
+
+    /** Récit : minute inconnue (« xx’ : »), ligne « Arbitre : xx » sans information, autres « xx ». */
+    public static function textWithoutUnknown(string $t): string
+    {
+        if (!preg_match('/\bx{2,}\b/iu', $t)) {
+            return $t;
+        }
+        if (preg_match('/^\s*[^:]{1,40}:\s*(?:M\.\s*)?x{2,}\s*$/iu', $t)) {
+            return '';
+        }
+        $lead = preg_match('/^\s/u', $t) ? ' ' : '';
+        $t = (string) preg_replace('/\s*\bx{2,}\s*[’\']\s*:?\s*/u', ' ', $t);
+        return $lead . self::withoutUnknown(trim($t));
+    }
+
+    /** Remplace les champs par leur traduction anglaise quand elle existe. */
+    private static function translated(array $doc): array
     {
         if (!I18n::isEn() || empty($doc['i18n']['en']['title'])) {
             return $doc;
@@ -413,19 +503,19 @@ final class Fiche
         $years = self::personYears($p);
         $roleLabel = self::roleLabel($p);
         $seoTitle = $doc['seo']['title'] ?: trim("$name – " . $roleLabel . ' ' . t('du FC Sochaux-Montbéliard') . ($years ? " ($years)" : ''));
-        $desc = $doc['seo']['description'] ?: trim(implode(' ', array_filter([
+        $desc = $doc['seo']['description'] ?: self::withoutUnknown(trim(implode(' ', array_filter([
             $name . ($p['position'] ? ', ' . $p['position'] : '') . ($years ? ' ' . t('au FCSM') . " ($years)" : '') . '.',
-            !empty($p['birth']['text']) ? ucfirst($p['birth']['text']) . '.' : '',
+            self::withoutUnknown((string) ($p['birth']['text'] ?? '')) !== '' ? ucfirst(self::withoutUnknown((string) $p['birth']['text'])) . '.' : '',
             $tot && $tot['matches'] ? $tot['matches'] . ' ' . t('matchs') . ', ' . $tot['goals'] . ' ' . t('buts') . '.' : '',
             excerpt(implode(' ', array_column($doc['sections'], 'html')), 120),
-        ])));
+        ]))));
         $base = base_url();
         $jsonld = array_filter([
             '@context' => 'https://schema.org',
             '@type' => 'Person',
             'name' => $name,
             'birthDate' => ($p['birth']['date']['precision'] ?? '') === 'day' ? $p['birth']['date']['iso'] : null,
-            'birthPlace' => !empty($p['birth']['place']['text']) ? ['@type' => 'Place', 'name' => $p['birth']['place']['text']] : null,
+            'birthPlace' => self::withoutUnknown((string) ($p['birth']['place']['text'] ?? '')) !== '' ? ['@type' => 'Place', 'name' => self::withoutUnknown((string) $p['birth']['place']['text'])] : null,
             'deathDate' => ($p['death']['date']['precision'] ?? '') === 'day' ? $p['death']['date']['iso'] : null,
             'height' => $p['height_cm'] ? ['@type' => 'QuantitativeValue', 'value' => $p['height_cm'], 'unitCode' => 'CMT'] : null,
             'jobTitle' => $roleLabel,
@@ -487,6 +577,27 @@ final class Fiche
             return $a === $b ? $a : "$a-$b";
         }
         return $a ? "$a" : '';
+    }
+
+    /**
+     * Ligne de la fiche d'identité sans les « xx » de l'ancien site (information inconnue) :
+     * « Décédé le xx à xx » → « Décédé », « né le 28 août 1915 à xx » → « né le 28 août 1915 »,
+     * « né le xx à xx » → '' (rien à montrer). La donnée elle-même n'est pas modifiée.
+     */
+    public static function withoutUnknown(string $v): string
+    {
+        if (!preg_match('/\bx{2,}\b/iu', $v)) {
+            return $v;
+        }
+        // « le xx xx 1940 » → « en 1940 », « le xx juillet 1940 » → « en juillet 1940 »
+        $v = (string) preg_replace(['/\ble\s+x{2,}\s+x{2,}\s+(\d{4})\b/iu', '/\ble\s+x{2,}\s+(\p{L}+)\s+(\d{4})\b/iu'], ['en $1', 'en $1 $2'], $v);
+        $v = (string) preg_replace('/\s*\b(?:le|à|a|en|au|du|de|vers)\s+x{2,}\b/iu', '', $v);
+        $v = (string) preg_replace(['/\bx{2,}\b/iu', '/\(\s*\)/u', '/\s{2,}/u'], ['', '', ' '], $v);
+        $v = trim($v, " \t,;:-–");
+        if (preg_match('/^\((.*)\)$/u', $v, $m)) {
+            $v = trim($m[1]); // « xx (Italie ?) » → « Italie ? »
+        }
+        return preg_match('/^n[ée]e?$/iu', $v) ? '' : $v;
     }
 
     public static function roleLabel(array $p): string
@@ -639,7 +750,10 @@ final class Fiche
         foreach ([['first_match', 'Premier match'], ['first_goal', 'Premier but'], ['last_match', 'Dernier match'], ['first_match_coached', 'Premier match dirigé'], ['last_match_coached', 'Dernier match dirigé']] as [$k, $label]) {
             if (!empty($p[$k])) {
                 $x = $find($p[$k]);
-                $out[] = ['label' => t($label), 'm' => $x, 'text' => $p[$k]];
+                // Modèle de l'ancien site jamais rempli (« Sochaux - xx du xx/xx/2025 : x-x ») : rien à montrer.
+                if ($x || !preg_match('/\bx{2,}\b|\bx-x\b/iu', (string) $p[$k])) {
+                    $out[] = ['label' => t($label), 'm' => $x, 'text' => $p[$k]];
+                }
             }
         }
         // Les buts : matchs où il a marqué plusieurs fois

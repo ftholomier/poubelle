@@ -700,8 +700,8 @@ final class PdfExport
             self::flow($l, 11.5)->render($lead);
         } elseif (!empty($p['subtitle'])) {
             $l->para([Layout::run((string) $p['subtitle'], 'serif-i', 11.5, 'navy')], ['after' => 10]);
-        } elseif (!empty($p['birth']['text'])) {
-            $l->para([Layout::run(ucfirst((string) $p['birth']['text']) . '.', 'serif-i', 11.5, 'navy')], ['after' => 10]);
+        } elseif (Fiche::withoutUnknown((string) ($p['birth']['text'] ?? '')) !== '') {
+            $l->para([Layout::run(ucfirst(Fiche::withoutUnknown((string) $p['birth']['text'])) . '.', 'serif-i', 11.5, 'navy')], ['after' => 10]);
         }
         if ($img) {
             $l->mr -= 150 + 22;
@@ -711,7 +711,7 @@ final class PdfExport
         // Fiche d'identité (libellés d'origine)
         $idRows = [];
         foreach ($p['fiche'] ?? [] as $r) {
-            $val = trim((string) ($r['value'] ?? ''));
+            $val = Fiche::withoutUnknown(trim((string) ($r['value'] ?? '')));
             if ($val === '' || (empty($r['label']) && mb_strtolower($val) === mb_strtolower($name))) {
                 continue;
             }

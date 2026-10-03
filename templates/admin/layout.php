@@ -47,7 +47,7 @@ if ($isAdmin) {
     </nav>
     <div class="side__foot">
       <?php $b = $side['backup']; ?>
-      <span><i class="dot<?= $side['backup_ok'] ? '' : ($b ? ' dot--warn' : ' dot--ko') ?>"></i><?= $b ? 'Sauvegarde du ' . e(Base::ago($b['at'])) : 'Aucune sauvegarde' ?></span>
+      <?php if ($isAdmin): ?><span><i class="dot<?= $side['backup_ok'] ? '' : ($b ? ' dot--warn' : ' dot--ko') ?>"></i><?= $b ? 'Sauvegarde du ' . e(Base::ago($b['at'])) : 'Aucune sauvegarde' ?></span><?php endif; ?>
       <span style="color:var(--mist)">J-<?= (int) $side['days'] ?> avant le centenaire</span>
     </div>
   </aside>

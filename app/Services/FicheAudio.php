@@ -254,11 +254,14 @@ final class FicheAudio
             $s[] = "$name, " . mb_strtolower($role) . " du FC Sochaux-Montbéliard$span.";
         }
         $story = mb_strtolower(self::plainText((string) ($d['intro'] ?? '') . ' ' . implode(' ', array_map(fn ($x) => (string) ($x['html'] ?? ''), array_slice($d['sections'] ?? [], 0, 1)))));
-        $place = mb_strtolower(trim((string) preg_replace('/\s*\(.*?\)/', '', (string) ($p['birth']['place']['text'] ?? ''))));
-        if (!$en && !empty($p['birth']['text']) && !($place !== '' && str_contains(mb_substr($story, 0, 200), $place))) {
-            $s[] = self::ucfirst(trim((string) preg_replace('/\s*\(\d{2,3}\)/', '', (string) $p['birth']['text']))) . '.';
+        // « xx » de l'ancien site (information inconnue) jamais lu à voix haute.
+        $birthText = Fiche::withoutUnknown((string) ($p['birth']['text'] ?? ''));
+        $birthPlace = Fiche::withoutUnknown((string) ($p['birth']['place']['text'] ?? ''));
+        $place = mb_strtolower(trim((string) preg_replace('/\s*\(.*?\)/', '', $birthPlace)));
+        if (!$en && $birthText !== '' && !($place !== '' && str_contains(mb_substr($story, 0, 200), $place))) {
+            $s[] = self::ucfirst(trim((string) preg_replace('/\s*\(\d{2,3}\)/', '', $birthText))) . '.';
         } elseif ($en && ($p['birth']['date']['precision'] ?? '') === 'day') {
-            $s[] = 'Born on ' . self::date((string) $p['birth']['date']['iso'], true, false) . (!empty($p['birth']['place']['text']) ? ' in ' . $p['birth']['place']['text'] : '') . '.';
+            $s[] = 'Born on ' . self::date((string) $p['birth']['date']['iso'], true, false) . ($birthPlace !== '' ? ' in ' . $birthPlace : '') . '.';
         }
         $tot = Derived::get()['person_totals'][$id] ?? null;
         // Comme la fiche : compositions du musée, sinon tableau de statistiques.
@@ -321,7 +324,8 @@ final class FicheAudio
     {
         // Un intertitre ou un élément de liste se lit comme une phrase (« Carrière de joueur. C'est… »).
         $html = (string) preg_replace('#([^.!?:;…\s])(\s*(?:</(?:strong|em|b|i|u)>\s*)*)</(h[1-6]|li|p)>#u', '$1.$2</$3>', $html);
-        return trim((string) preg_replace('/\s+/u', ' ', plain($html)));
+        // « xx » de l'ancien site (information inconnue) jamais lu à voix haute.
+        return trim((string) preg_replace('/\s+/u', ' ', Fiche::textWithoutUnknown(plain($html))));
     }
 
     private static function ucfirst(string $s): string
@@ -370,7 +374,7 @@ final class FicheAudio
         }
         if (isset($d['personne'])) {
             $p = $d['personne'];
-            $data['personne'] = ['nom' => ($p['display_name'] ?? '') ?: $d['title'], 'poste' => $p['position'] ?? '', 'rôles' => $p['roles'] ?? [], 'naissance' => $p['birth']['text'] ?? '',
+            $data['personne'] = ['nom' => ($p['display_name'] ?? '') ?: $d['title'], 'poste' => $p['position'] ?? '', 'rôles' => $p['roles'] ?? [], 'naissance' => Fiche::withoutUnknown((string) ($p['birth']['text'] ?? '')),
                 'années au club' => Fiche::personYears($p), 'totaux' => Derived::get()['person_totals'][(int) $d['id']] ?? null, 'sous-titre' => self::plainText((string) ($p['subtitle'] ?? ''))];
         }
         $data['texte'] = mb_substr(self::plainText(implode("\n", array_map(fn ($x) => (string) ($x['html'] ?? ''), $d['sections'] ?? []))), 0, 5000);

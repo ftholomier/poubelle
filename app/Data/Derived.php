@@ -188,12 +188,22 @@ final class Derived
         $persons = [];
         $articles = [];
         $mediaRefs = [];
+        $videoAlerts = [];
         foreach (Fiches::all() as $id => $doc) {
             $mediaRefs[$id] = Media::refsIn($doc);
             if (($doc['status'] ?? '') === 'corbeille') {
                 continue;
             }
             $vis = Fiches::isVisible($doc);
+            if ($vis && ($places = self::unknownPlaces($doc))) {
+                $videoAlerts[] = ['sev' => 'basse', 'code' => 'inconnu', 'msg' => 'Information inconnue notée « xx » sur l’ancien site (cachée sur le site public), à compléter ou à retirer : ' . implode(' ; ', $places), 'id' => (int) $id];
+            }
+            foreach ($doc['videos'] ?? [] as $v) {
+                if ($vis && !in_array($v['provider'] ?? '', ['youtube', 'dailymotion', 'vimeo', 'rutube', 'file'], true)) {
+                    $videoAlerts[] = ['sev' => 'basse', 'code' => 'video', 'msg' => 'Lien vidéo de l’ancien site non reconnu : recoller le bon lien (YouTube, Dailymotion…) dans l’onglet Médias', 'id' => (int) $id];
+                    break;
+                }
+            }
             if ($doc['type'] === 'match') {
                 $matches[$id] = $doc + ['_visible' => $vis];
             } elseif ($doc['type'] === 'personne') {
@@ -344,7 +354,7 @@ final class Derived
         $apps = [];       // apparitions : [person, match, goals, minutes, yellow, red, role, captain]
         $scorers = [];    // buteurs sochaliens : match => [[person|null, nom, minutes, penaltys]]
         $unlinked = [];   // noms de composition sans fiche
-        $quality = [];
+        $quality = $videoAlerts;
         $tableUse = [];
         $onThisDay = [];
 
@@ -516,9 +526,18 @@ final class Derived
             }
             if (!empty($m['date_text']) && $date) {
                 $pd = self::frDate($m['date_text']);
+                $wd = self::weekday($m['date_text']);
                 if ($pd && $pd !== $date) {
-                    $quality[] = ['sev' => 'moyenne', 'code' => 'date', 'msg' => 'Date du titre (' . date('d/m/Y', strtotime($date)) . ') ≠ date de la fiche (' . $m['date_text'] . ')', 'id' => $mid];
+                    $quality[] = ['sev' => 'moyenne', 'code' => 'date', 'msg' => 'Date en toutes lettres (« ' . $m['date_text'] . ' ») ≠ date de la fiche (' . date('d/m/Y', strtotime($date)) . ')', 'id' => $mid];
+                } elseif (!$pd) {
+                    $quality[] = ['sev' => 'basse', 'code' => 'date', 'msg' => 'Date en toutes lettres illisible (« ' . $m['date_text'] . ' ») ; date de la fiche : ' . date('d/m/Y', strtotime($date)), 'id' => $mid];
+                } elseif ($wd !== null && $wd !== (int) date('N', strtotime($date))) {
+                    $quality[] = ['sev' => 'basse', 'code' => 'date', 'msg' => 'Jour de la semaine incohérent dans « ' . $m['date_text'] . ' » : le ' . date('d/m/Y', strtotime($date)) . ' était un ' . self::WEEKDAYS[(int) date('N', strtotime($date)) - 1] . ' (jour ou date à vérifier)', 'id' => $mid];
                 }
+            }
+            $ex = (string) ($m['score']['extra'] ?? '');
+            if ($doc['_visible'] && stripos($ex, 'tab') !== false && empty($m['score']['pens'])) {
+                $quality[] = ['sev' => 'moyenne', 'code' => 'tab', 'msg' => 'Tirs au but sans le score de la séance (« ' . $ex . ' ») : le saisir dans Score › Tirs au but', 'id' => $mid];
             }
             if ((int) ($m['spectators'] ?? 0) > 90000) {
                 $quality[] = ['sev' => 'haute', 'code' => 'affluence', 'msg' => 'Affluence improbable (' . number_format((int) $m['spectators'], 0, ',', ' ') . ' spectateurs) : faute de frappe ? Elle est écartée des records.', 'id' => $mid];
@@ -586,7 +605,8 @@ final class Derived
         }
 
         // Fiches « à venir », photos sans crédit, statistiques incohérentes
-        foreach (array_merge($matches, $persons) as $id => $doc) {
+        // Union (et non array_merge, qui renumérote) : chaque alerte garde l'identifiant de sa fiche.
+        foreach ($matches + $persons as $id => $doc) {
             $txt = '';
             foreach ($doc['sections'] ?? [] as $s) {
                 $txt .= ' ' . strip_tags((string) $s['html']);
@@ -892,6 +912,57 @@ final class Derived
     }
 
     /** « Mardi 3 Novembre 1987 » → 1987-11-03 */
+    private const WEEKDAYS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+
+    /** Où une fiche contient des « xx » de l'ancien site (information inconnue), pour l'écran Qualité. */
+    private static function unknownPlaces(array $doc): array
+    {
+        $has = fn ($v) => (bool) preg_match('/\bx{2,}\b/iu', is_string($v) ? $v : (string) json_encode($v, JSON_UNESCAPED_UNICODE));
+        $out = [];
+        $p = $doc['personne'] ?? null;
+        if ($p) {
+            foreach ($p['fiche'] ?? [] as $r) {
+                if ($has($r['value'] ?? '')) {
+                    $out[] = 'fiche d’identité « ' . mb_strimwidth(trim((string) $r['value']), 0, 60, '…') . ' »';
+                    break;
+                }
+            }
+            foreach (['birth' => 'naissance', 'death' => 'décès'] as $k => $l) {
+                if ($has($p[$k]['date']['text'] ?? '') || $has($p[$k]['place']['city'] ?? '')) {
+                    $out[] = $l;
+                }
+            }
+            foreach (['subtitle' => 'sous-titre', 'first_match' => 'premier match', 'last_match' => 'dernier match', 'first_goal' => 'premier but'] as $k => $l) {
+                if ($has($p[$k] ?? '')) {
+                    $out[] = $l;
+                }
+            }
+        }
+        $m = $doc['match'] ?? null;
+        if ($m) {
+            foreach (['referee' => 'arbitre', 'spectators_text' => 'spectateurs', 'stadium' => 'stade', 'goals' => 'buteurs', 'highlights' => 'temps forts', 'reactions' => 'réactions', 'breves' => 'brèves'] as $k => $l) {
+                if ($has($m[$k] ?? '')) {
+                    $out[] = $l;
+                }
+            }
+        }
+        if ($has($doc['key_figure'] ?? '')) {
+            $out[] = 'chiffre clé';
+        }
+        if ($has($doc['intro'] ?? '') || $has(array_column($doc['sections'] ?? [], 'html'))) {
+            $out[] = 'texte';
+        }
+        return array_slice(array_values(array_unique($out)), 0, 5);
+    }
+
+    /** Jour de la semaine écrit en tête d'une date en lettres (1 = lundi), null s'il n'y en a pas. */
+    private static function weekday(string $s): ?int
+    {
+        $w = strtolower((string) preg_replace('/[^a-z].*$/s', '', Names::ascii(trim($s))));
+        $i = array_search($w, self::WEEKDAYS, true);
+        return $i === false ? null : $i + 1;
+    }
+
     private static function frDate(string $s): ?string
     {
         $months = ['janvier' => 1, 'fevrier' => 2, 'mars' => 3, 'avril' => 4, 'mai' => 5, 'juin' => 6, 'juillet' => 7, 'aout' => 8, 'septembre' => 9, 'octobre' => 10, 'novembre' => 11, 'decembre' => 12];

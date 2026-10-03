@@ -115,7 +115,11 @@ final class Dashboard extends Base
         $cat = isset($all[$req->str('cat')]) ? $req->str('cat') : 'stats';
         $sev = $req->str('niveau');
         $items = array_values(array_filter($all[$cat], fn ($i) => $sev === '' || $i['sev'] === $sev));
-        return self::html('admin/quality', ['all' => $all, 'cat' => $cat, 'sev' => $sev, 'items' => array_slice($items, 0, 400), 'total' => count($items), 'proof' => $cat === 'orthographe' ? \App\Services\Proofreader::summary() : null], ['title' => 'Qualité', 'crumb' => 'Pilotage', 'nav' => 'qualite']);
+        // 300 alertes par page (toutes restent accessibles).
+        $per = 300;
+        $pages = max(1, (int) ceil(count($items) / $per));
+        $page = min($pages, max(1, (int) $req->str('page')));
+        return self::html('admin/quality', ['all' => $all, 'cat' => $cat, 'sev' => $sev, 'items' => array_slice($items, ($page - 1) * $per, $per), 'total' => count($items), 'page' => $page, 'pages' => $pages, 'proof' => $cat === 'orthographe' ? \App\Services\Proofreader::summary() : null], ['title' => 'Qualité', 'crumb' => 'Pilotage', 'nav' => 'qualite']);
     }
 
     public static function journal(Request $req): Response

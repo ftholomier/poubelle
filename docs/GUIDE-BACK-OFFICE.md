@@ -267,10 +267,15 @@ Chaque alerte disparaît d'elle-même une fois la fiche corrigée.
 ## 10. Assistant IA
 
 La bulle en bas à droite du site répond aux visiteurs à partir des données du musée.
-Système › Assistant IA : questions posées, avis des visiteurs, export, réindexation après
-de grosses modifications. Les questions sont conservées pour une durée limitée (RGPD).
+Système › Assistant IA (administrateurs) : questions posées, avis des visiteurs, export,
+réindexation après de grosses modifications. Les questions sont conservées pour une durée limitée (RGPD).
 
 ## 11. Administration
+
+Réservés aux administrateurs : Utilisateurs, Réglages, Assistant IA, Fiches audio (écran du
+traitement groupé), Coûts IA, Sauvegardes et Tâches planifiées. Les montants dépensés en IA
+ne s'affichent que pour eux. Tout le reste, y compris les alertes de Pilotage › Qualité, est
+ouvert à tous les comptes.
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
 - **Réglages** (administrateur) : identité du site, e-mail, clés Gemini, correcteur
@@ -280,10 +285,10 @@ de grosses modifications. Les questions sont conservées pour une durée limité
 - **Fiches audio** : chaque fiche se raconte en 30 secondes sur le site (bouton
   « Écouter »), gratuitement avec la voix de l'appareil du visiteur. Dans l'éditeur, la carte
   « Écouter » permet de modifier le texte lu, de le faire rédiger par l'IA ou de lui donner
-  une **voix IA** naturelle (environ 0,6 centime). Système › Fiches audio : essayer sur
+  une **voix IA** naturelle (environ 0,6 centime). Système › Fiches audio (administrateurs) : essayer sur
   20 fiches puis passer tout le musée en voix IA en **traitement groupé** (moitié prix,
   environ 5 € pour toutes les fiches), suivi des envois.
-- **Coûts IA** : ce que coûte Gemini, calculé à chaque appel et mis à jour à l'écran toutes
+- **Coûts IA** (administrateurs) : ce que coûte Gemini, calculé à chaque appel et mis à jour à l'écran toutes
   les 10 secondes (aujourd'hui, ce mois-ci, à rembourser, budget, derniers appels avec la
   personne et la fiche concernées). Le mois terminé : relevé PDF à signer et détail CSV à
   remettre à l'association, puis « Noter le remboursement » (administrateur). Le tableau de
@@ -291,7 +296,7 @@ de grosses modifications. Les questions sont conservées pour une durée limité
   mettent en pause jusqu'au mois suivant. La facture Google fait foi.
 - **Sauvegardes** (administrateurs) : une sauvegarde complète est faite chaque jour ; on peut en lancer une
   et la télécharger. Gardez-en régulièrement une copie hors du serveur.
-- **Tâches planifiées** : état des tâches automatiques (publication programmée,
+- **Tâches planifiées** (administrateurs) : état des tâches automatiques (publication programmée,
   statistiques, traductions, correcteur d'orthographe, newsletter, carte…), avec un bouton
   pour en lancer une tout de suite.
 - **Corbeille** (lien « Voir la corbeille » sous les listes de fiches) : fiches mises à la

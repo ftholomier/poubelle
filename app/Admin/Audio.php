@@ -122,8 +122,7 @@ final class Audio extends Base
         } catch (\Throwable $e) {
             return self::json(['ok' => false, 'error' => $e->getMessage()], 502);
         }
-        $cost = AiCosts::request();
-        return self::json(['ok' => true, 'message' => $msg . ($cost['calls'] ? ' Coût : ' . $cost['label'] . '.' : ''), 'state' => self::stateOf($doc)]);
+        return self::json(['ok' => true, 'message' => $msg . self::aiCost(), 'state' => self::stateOf($doc)]);
     }
 
     /** État des deux langues pour la carte « Écouter » de l'éditeur. */

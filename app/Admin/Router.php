@@ -15,6 +15,9 @@ use App\Core\Session;
  */
 final class Router
 {
+    /** Adresses réservées aux administrateurs (en plus des comptes et des réglages, contrôlés écran par écran). */
+    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts)(/|$)#';
+
     public static function handle(Request $req): Response
     {
         Session::start();
@@ -55,6 +58,11 @@ final class Router
         }
         if ($post && str_starts_with($path, '/admin/api/') && !self::csrfOk($req)) {
             return Response::json(['error' => 'Session expirée : rechargez la page.'], 419);
+        }
+        // Écrans techniques (coûts de l'IA, assistant, traitement audio groupé, sauvegardes,
+        // tâches) : administrateurs seulement, comme les comptes et les réglages.
+        if (!Auth::isAdmin() && preg_match(self::ADMIN_ONLY, $path)) {
+            return str_starts_with($path, '/admin/api/') ? Response::json(['error' => 'Réservé aux administrateurs.'], 403) : (Base::denyUnlessAdmin() ?? Response::redirect('/admin'));
         }
 
         $r = new CoreRouter();

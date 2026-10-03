@@ -54,13 +54,13 @@ class Base
         ],
         'Système' => [
             ['traductions', 'Traductions EN', '/admin/traductions', false],
-            ['assistant', 'Assistant IA', '/admin/assistant', false],
-            ['audio', 'Fiches audio', '/admin/audio', false],
-            ['couts', 'Coûts IA', '/admin/couts-ia', false],
+            ['assistant', 'Assistant IA', '/admin/assistant', true],
+            ['audio', 'Fiches audio', '/admin/audio', true],
+            ['couts', 'Coûts IA', '/admin/couts-ia', true],
             ['utilisateurs', 'Utilisateurs', '/admin/utilisateurs', true],
             ['reglages', 'Réglages', '/admin/reglages', true],
-            ['sauvegardes', 'Sauvegardes', '/admin/sauvegardes', false],
-            ['taches', 'Tâches planifiées', '/admin/taches', false],
+            ['sauvegardes', 'Sauvegardes', '/admin/sauvegardes', true],
+            ['taches', 'Tâches planifiées', '/admin/taches', true],
         ],
         'Aide' => [
             ['aide', 'Guide d’utilisation', '/admin/aide', false],
@@ -141,11 +141,17 @@ class Base
         return $m === null ? null : self::json(['ok' => false, 'locked' => $m, 'error' => $m], 423);
     }
 
-    /** « Coût : 0,32 centime. » après une action qui a fait appel à Gemini (vide sinon). */
+    /** « Coût : 0,32 centime. » après une action qui a fait appel à Gemini (vide sinon ; coûts visibles des administrateurs seulement). */
     public static function aiCost(): string
     {
         $c = \App\Services\AiCosts::request();
-        return $c['calls'] ? ' Coût : ' . $c['label'] . '.' : '';
+        return $c['calls'] && Auth::isAdmin() ? ' Coût : ' . $c['label'] . '.' : '';
+    }
+
+    /** Coût des appels à Gemini de la requête, pour les réponses JSON (administrateurs seulement). */
+    public static function aiCostData(): ?array
+    {
+        return Auth::isAdmin() ? \App\Services\AiCosts::request() : null;
     }
 
     public static function json(mixed $data, int $status = 200): Response

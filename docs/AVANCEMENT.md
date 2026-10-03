@@ -236,6 +236,17 @@ Rapport détaillé : `docs/CONTROLE-2026-10.md`.
       - newsletter par bouton, exports CSV, fichiers reçus.
 - [x] Données : alertes Qualité « joueur inscrit deux fois » et « dates à vérifier » ;
       ancienne page d'accueil WordPress retirée ; 25 textes anglais ajoutés.
+- [x] Droits (décision du client) : Coûts IA, Assistant IA, Fiches audio, Sauvegardes et
+      Tâches réservés à l'administrateur, comme les montants dépensés en IA ; Qualité ouverte
+      à tous.
+- [x] Qualité :
+      - nouvel onglet « À compléter » (« xx » de l'ancien site, fiches à venir, vidéos) ;
+      - jour de la semaine incohérent, tirs au but non détaillés ;
+      - tri par gravité et pages de 300, toutes les alertes accessibles ;
+      - les alertes « à venir » et « statistiques incohérentes » ouvraient une mauvaise fiche :
+        corrigé.
+
+      Les « xx » sont cachés sur le site public (214 fiches).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

@@ -332,8 +332,8 @@ final class Chiffres
         foreach ($d['quality'] as $q) {
             if (in_array($q['code'], ['tableau', 'buts'], true)) {
                 $unsure[$q['id']] = true;
-            } elseif ($q['code'] === 'date') {
-                $badDate[$q['id']] = true;
+            } elseif ($q['code'] === 'date' && $q['sev'] !== 'basse') {
+                $badDate[$q['id']] = true; // (jour de la semaine seul faux : la date reste sûre)
             }
         }
         $apps = [];

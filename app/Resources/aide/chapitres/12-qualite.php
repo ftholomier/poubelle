@@ -5,18 +5,22 @@ return [
     'summary' => 'Le tableau Qualité, les liens joueurs, l’orthographe, les adversaires, stades et lieux : vérifier et corriger.',
     'sections' => [
         ['id' => 'tableau', 'title' => 'Le tableau Qualité', 'html' => <<<'HTML'
-<p>Pilotage › <b>Qualité</b> recense ce qui mérite une vérification, recalculé à chaque modification. Filtrez par niveau (hautes, moyennes, basses) ; « Corriger » ouvre la fiche concernée.</p>
+<p>Pilotage › <b>Qualité</b> recense ce qui mérite une vérification, recalculé à chaque modification et visible de tous les comptes. Les alertes les plus graves viennent en premier (300 par page) ; filtrez par niveau (hautes, moyennes, basses) ; « Corriger » ouvre la fiche concernée. L’onglet <b>À compléter</b> regroupe les informations manquantes : « xx » de l’ancien site, fiches « à venir », arbitre, liens vidéo cassés.</p>
 [[img:qualite.webp|Le tableau Qualité et ses onglets]]
 <table>
 <tr><th>Alerte</th><th>Ce qu’elle signifie</th><th>Que faire</th></tr>
 <tr><td>Total des buts ≠ buteurs</td><td>le score ne correspond pas aux buts de la composition</td><td>corriger le score ou les buts</td></tr>
-<tr><td>Date du titre ≠ date de la fiche</td><td>la date du titre d’origine diffère de la date saisie</td><td>vérifier la vraie date</td></tr>
+<tr><td>Date en toutes lettres ≠ date de la fiche</td><td>la date écrite en tête du match (« Samedi 12 août 1994 ») diffère de la date saisie</td><td>vérifier la vraie date</td></tr>
+<tr><td>Jour de la semaine incohérent</td><td>le jour écrit (« Jeudi 30 janvier 1991 ») ne correspond pas à la date : le jour ou la date est faux</td><td>corriger l’un ou l’autre</td></tr>
+<tr><td>Tirs au but sans le score de la séance</td><td>« (tab 9-8) » est écrit mais la séance n’est pas saisie</td><td>Score › Prolongation « Tirs au but » et les deux scores</td></tr>
 <tr><td>Même tableau de composition que…</td><td>une composition copiée d’un autre match sur l’ancien site</td><td>saisir la bonne composition</td></tr>
 <tr><td>Statistiques incohérentes</td><td>le total d’un tableau de statistiques ne correspond pas à la somme des saisons</td><td>corriger le tableau</td></tr>
 <tr><td>Tableau de statistiques identique à celui de N autres fiches</td><td>le même tableau recopié sur plusieurs fiches de joueurs (modèle de l’ancien site) : la fiche affiche les chiffres d’un autre joueur</td><td>saisir le vrai tableau du joueur, ou vider l’onglet Statistiques en attendant</td></tr>
 <tr><td>Joueur inscrit deux fois dans la composition</td><td>le même joueur figure sur deux lignes de la composition (il n’est compté qu’une fois dans les statistiques)</td><td>supprimer la ligne en trop, en gardant ses buts, remplacements et cartons</td></tr>
 <tr><td>Dates à vérifier</td><td>dates de la personne incohérentes : naissance improbable, décès avant la naissance, départ avant l’arrivée, arrivée à un âge impossible</td><td>corriger la date fautive sur la fiche de la personne</td></tr>
 <tr><td>Fiche marquée « à venir »</td><td>fiche annoncée sur l’ancien site mais pas encore rédigée</td><td>compléter ou laisser en brouillon</td></tr>
+<tr><td>Information inconnue notée « xx »</td><td>l’ancien site notait « xx » ce qui n’était pas connu (date, lieu, arbitre, minute…) ; le site public le cache</td><td>compléter l’information, ou retirer le « xx »</td></tr>
+<tr><td>Lien vidéo de l’ancien site non reconnu</td><td>le lien de la vidéo est cassé</td><td>onglet Médias : recoller le bon lien YouTube ou Dailymotion</td></tr>
 </table>
 HTML],
         ['id' => 'liens', 'title' => 'Liens joueurs', 'html' => <<<'HTML'

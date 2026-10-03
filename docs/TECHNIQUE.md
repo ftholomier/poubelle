@@ -143,6 +143,20 @@ officielle (`doublon` : une seule apparition, buts sans doublon de minute, temps
 plafonné) et dates d'une personne incohérentes (`dates` : naissance improbable, décès avant
 la naissance, départ avant l'arrivée, âge d'arrivée impossible).
 
+Autres alertes :
+- jour de la semaine incohérent avec la date ;
+- date en toutes lettres illisible ;
+- tirs au but sans score de séance (`tab`) ;
+- lien vidéo non reconnu (`video`) ;
+- « xx » de l'ancien site (`inconnu`, information inconnue, avec l'endroit : fiche
+  d'identité, naissance, arbitre, texte…).
+
+L'écran Qualité les range en onglets, « Statistiques et dates » et « À compléter »
+(`inconnu`, `avenir`, `arbitre`, `video`). Les plus graves viennent d'abord, 300 par page.
+À l'affichage public, les « xx » sont retirés des textes : `Fiche::hideUnknown()` dans
+`localize()`, `withoutUnknown()` pour la fiche d'identité, le résumé audio et les données
+schema.org. La fiche n'est pas modifiée.
+
 Les clubs et stades créés automatiquement (`data/collections/clubs.json`, `stades.json`)
 sont fusionnés sous verrou à la fin du calcul : seuls les ajouts et les noms des entrées
 encore « automatiques » sont écrits, une correction faite pendant le calcul est gardée.
@@ -447,7 +461,10 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   `X-CSRF`), en-têtes `X-Frame-Options: DENY` et `noindex`.
 - Deux niveaux (`App\Core\Auth::can()`) : l'utilisateur peut tout faire sauf la gestion
   des comptes (`users`), les réglages (`settings`), la suppression définitive (`destroy`)
-  et la restauration de versions (`restore`, `backup_restore`).
+  et la restauration de versions (`restore`, `backup_restore`). Écrans techniques réservés
+  aux administrateurs (`Router::ADMIN_ONLY`, menu `Base::NAV`) : Assistant IA, Fiches audio
+  (traitement groupé), Coûts IA, Sauvegardes, Tâches planifiées ; les coûts d'IA ne sont
+  affichés qu'aux administrateurs (`Base::aiCost()`, `aiCostData()`).
 - Formulaires : les écrans envoient du JSON (`public/assets/admin/admin.js`, champs nommés
   par chemin pointé : `match.referee`, répétitions `data-repeater`), contrôle de
   modification simultanée, brouillon conservé dans le navigateur.

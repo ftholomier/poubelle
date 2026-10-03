@@ -138,7 +138,23 @@ Aucune faille critique n'a été trouvée. Corrections apportées :
 ## 3. À vérifier par les historiens (données non modifiées)
 
 Ces points viennent des fiches reprises. Le site les gère sans erreur, mais ils méritent une
-correction. La plupart sont listés dans **Pilotage › Qualité**.
+correction. **Tous sont listés dans Pilotage › Qualité**, visible de tous les comptes :
+- onglet **Statistiques et dates** : scores, compositions, dates ;
+- onglet **À compléter** : « xx », fiches à venir, vidéos.
+
+Les alertes les plus graves viennent en premier, 300 par page. Avant, seules les 400
+premières s'affichaient.
+
+Au passage, un défaut a été corrigé : les alertes « fiche à venir » et « statistiques
+incohérentes » ouvraient une **mauvaise fiche**, à cause de numéros mélangés lors du calcul.
+
+**Les « xx » de l'ancien site.** L'ancien site notait « xx » quand une information était
+inconnue (« Décédé le xx à xx », « xx’ : » pour une minute, « Arbitre : xx »). Ces « xx »
+apparaissaient tels quels sur 214 fiches du site public, dans le résumé audio et dans les
+données lues par Google. Ils sont maintenant cachés à l'affichage, et la fiche n'est pas
+modifiée : « Décédé le xx à xx » devient « Décédé », et « né le xx xx 1940 à Montpellier »
+devient « né en 1940 à Montpellier ». Chaque fiche concernée figure dans Qualité › À
+compléter avec l'endroit du « xx ».
 
 **Compositions et statistiques**
 - **Joueur inscrit deux fois dans une composition officielle (10 matchs)** : 14991
@@ -179,19 +195,27 @@ correction. La plupart sont listés dans **Pilotage › Qualité**.
   « (tab 5-4) ».
 - **Vidéos dont le lien est cassé** sur l'ancien site : 12949 et 267. Les fiches s'enregistrent
   sans problème ; il suffit de recoller le bon lien YouTube.
-- **Dates inconnues saisies « xx »** sur l'ancien site : 101 dates de naissance, 102 dates
-  de décès et 94 lieux de naissance. Elles sont à compléter quand l'information est connue.
+- **Informations inconnues notées « xx »** sur l'ancien site : 214 fiches (dates et lieux
+  de naissance ou de décès, arbitres, minutes, chiffres clés…). Elles sont cachées sur le
+  site public et listées dans Qualité › À compléter.
 - **Ligne de jeu « E »** (hors liste) : fiche 5963. Elle est gardée telle quelle.
 - **Brouillon d'essai** « Test elfsight » (13259) : à supprimer.
 
-## 4. Points à arbitrer (choix d'organisation, pas des failles)
+## 4. Droits et points à arbitrer
 
-- Tout membre du back-office peut saisir un don hors ligne et émettre un reçu fiscal.
-  Faut-il réserver cela aux administrateurs ?
-- Tout membre peut consulter les coûts de l'IA, la liste des sauvegardes et des tâches.
-  C'est conforme au menu ; à restreindre si vous le souhaitez.
-- Renvoyer la newsletter d'une semaine déjà envoyée est désormais réservé aux
-  administrateurs.
+**Décidé le 3 octobre.** Sont réservés à l'administrateur :
+- les écrans Coûts IA, Assistant IA, Fiches audio (traitement groupé), Sauvegardes et
+  Tâches planifiées, en plus des Utilisateurs et des Réglages ;
+- toute mention de coût (messages après une traduction, une correction, une voix IA) ;
+- l'état des sauvegardes en bas du menu ;
+- le renvoi d'une newsletter déjà partie.
+
+Tout le reste est ouvert aux historiens, en particulier Pilotage › Qualité et toutes ses
+alertes.
+
+**Reste à décider.** Les dons hors ligne (chèque, espèces, virement) sont enregistrés à
+la main dans Communauté › Dons : ils comptent dans la jauge publique et peuvent donner
+lieu à un reçu fiscal. Tout membre du back-office peut aujourd'hui le faire.
 
 ## 5. Refaire les contrôles
 

@@ -14,7 +14,6 @@ use App\Data\Index;
 use App\Data\Media;
 use App\Core\RateLimiter;
 use App\Data\Activity;
-use App\Services\AiCosts;
 use App\Services\EditLock;
 use App\Services\Gemini;
 use App\Services\Proofreader;
@@ -208,7 +207,7 @@ final class Api extends Base
             return self::json(['ok' => false, 'error' => 'Traduction indisponible (clé Gemini non réglée).'], 422);
         }
         try {
-            return self::json(['ok' => true, 'translations' => \App\Services\Translator::strings($texts), 'cost' => AiCosts::request()]);
+            return self::json(['ok' => true, 'translations' => \App\Services\Translator::strings($texts), 'cost' => self::aiCostData()]);
         } catch (\Throwable $e) {
             return self::json(['ok' => false, 'error' => $e->getMessage()], 502);
         }
@@ -250,7 +249,7 @@ final class Api extends Base
         session_write_close();
         @set_time_limit(180);
         $r = Proofreader::check($fields, ['scope' => $scope, 'names' => $names]);
-        return self::json(['ok' => true, 'gemini' => Gemini::ready(), 'cost' => AiCosts::request()] + $r);
+        return self::json(['ok' => true, 'gemini' => Gemini::ready(), 'cost' => self::aiCostData()] + $r);
     }
 
     /** Correcteur : « Ignorer » (la correction n'est plus proposée pour cette fiche ou cet écran). */

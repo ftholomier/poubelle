@@ -6,6 +6,7 @@
  */
 
 use App\Core\View;
+use App\Front\Fiche;
 use App\Front\Site;
 
 $name = $p['display_name'] ?: $doc['title'];
@@ -35,12 +36,12 @@ if (($p['birth']['date']['precision'] ?? '') === 'day') {
 $cardNo = $albumNo ? str_pad((string) $albumNo, 3, '0', STR_PAD_LEFT) : null;
 $cardRows = array_values(array_filter([
     [t('Poste'), $isPlayer ? ($p['position'] ? ucfirst((string) $p['position']) : $cardRole) : $roleLabel],
-    [t('Né le'), $birth],
+    [t('Né le'), Fiche::withoutUnknown((string) $birth)],
     [t('Au club'), $years ? str_replace('-', ' – ', $years) : ''],
     $isPlayer ? [t('Matchs'), (string) ($big[0]['v'] ?? '')] : [t('Matchs dirigés'), (string) ($tot['coached'] ?? '')],
     $isPlayer ? [t('Buts'), (string) ($big[1]['v'] ?? '')] : null,
     $caps ? [t('Sélections'), (string) $caps] : null,
-    !empty($p['death']['date']['text']) ? [t('Décès'), ($p['death']['date']['precision'] ?? '') === 'day' ? date_num($p['death']['date']['iso']) : $p['death']['date']['text']] : null,
+    !empty($p['death']['date']['text']) ? [t('Décès'), ($p['death']['date']['precision'] ?? '') === 'day' ? date_num($p['death']['date']['iso']) : Fiche::withoutUnknown((string) $p['death']['date']['text'])] : null,
 ], fn ($r) => $r && $r[1] !== '' && $r[1] !== '0' && $r[1] !== '–'));
 
 // Récit : sections non vides (les sections vides restent modifiables dans le back-office).
@@ -50,7 +51,7 @@ $lead = trim((string) ($doc['intro'] ?? ''));
 // Fiche d'identité (ordre et libellés d'origine conservés).
 $idRows = [];
 foreach ($p['fiche'] ?? [] as $r) {
-    $v = trim((string) $r['value']);
+    $v = Fiche::withoutUnknown(trim((string) $r['value']));
     if ($v === '' || (!$r['label'] && mb_strtolower($v) === mb_strtolower($name))) {
         continue;
     }
@@ -141,10 +142,10 @@ $rowsHtml = function (array $list, bool $coach) {
       <?php endif; ?>
       <?php if ($lead !== ''): ?>
         <div class="phero__lead"><?= safe_html($lead) ?></div>
-      <?php elseif (!empty($p['subtitle'])): ?>
-        <p class="phero__lead"><?= e($p['subtitle']) ?></p>
-      <?php elseif (!empty($p['birth']['text'])): ?>
-        <p class="phero__lead"><?= e(ucfirst((string) $p['birth']['text'])) ?>.</p>
+      <?php elseif (Fiche::withoutUnknown((string) ($p['subtitle'] ?? '')) !== ''): ?>
+        <p class="phero__lead"><?= e(Fiche::withoutUnknown((string) $p['subtitle'])) ?></p>
+      <?php elseif (Fiche::withoutUnknown((string) ($p['birth']['text'] ?? '')) !== ''): ?>
+        <p class="phero__lead"><?= e(ucfirst(Fiche::withoutUnknown((string) $p['birth']['text']))) ?>.</p>
       <?php endif; ?>
       <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div>
     </div>

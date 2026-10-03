@@ -15,12 +15,12 @@ return [
 HTML],
         ['id' => 'taches', 'title' => 'Les tâches automatiques', 'html' => <<<'HTML'
 <p>Toutes les cinq minutes, le serveur lance les tâches planifiées : publication des fiches programmées, statistiques, traductions, correcteur d’orthographe, newsletter, géolocalisation des stades et lieux de naissance, vignettes des vidéos, assistant IA, synchronisation des dons, plan du site, sauvegarde, effacement des données personnelles trop anciennes (RGPD).</p>
-<p>Système › <b>Tâches planifiées</b> montre le dernier passage de chacune ; « Lancer » en exécute une tout de suite.</p>
+<p>Système › <b>Tâches planifiées</b> (administrateurs) montre le dernier passage de chacune ; « Lancer » en exécute une tout de suite.</p>
 [[img:taches.webp|Les tâches planifiées et leur dernier passage]]
 HTML],
         ['id' => 'sauvegardes', 'title' => 'Les sauvegardes', 'html' => <<<'HTML'
 <p>Une sauvegarde complète est faite chaque jour : fiches, médiathèque (description), rubriques, réglages, comptes, versions, messages, dons. Les photos elles-mêmes sont ajoutées le dimanche si l’option est cochée. L’hébergeur garde en plus ses propres sauvegardes.</p>
-<p>Système › <b>Sauvegardes</b> : liste, téléchargement, sauvegarde immédiate (téléchargement et sauvegarde immédiate réservés aux administrateurs : une archive contient la clé de chiffrement, les réglages et les comptes). Pour revenir à une sauvegarde complète, le webmestre décompresse l’archive et remplace les dossiers <code>data/</code> et <code>storage/</code> sur le serveur. Une fiche seule se restaure bien plus simplement depuis son onglet Historique.</p>
+<p>Système › <b>Sauvegardes</b> (administrateurs) : liste, téléchargement, sauvegarde immédiate (une archive contient la clé de chiffrement, les réglages et les comptes). Pour revenir à une sauvegarde complète, le webmestre décompresse l’archive et remplace les dossiers <code>data/</code> et <code>storage/</code> sur le serveur. Une fiche seule se restaure bien plus simplement depuis son onglet Historique.</p>
 [[img:sauvegardes.webp|Les sauvegardes]]
 [[astuce|<p>Téléchargez une sauvegarde de temps en temps et gardez-la ailleurs que sur le serveur (disque externe, espace de stockage du club).</p>]]
 HTML],
