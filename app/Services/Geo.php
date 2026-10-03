@@ -186,6 +186,9 @@ final class Geo
                 continue;
             }
             $hit = self::stadium($st, $online);
+            if (!$hit) {
+                $done['restants']++;
+            }
             if ($hit) {
                 $st['lat'] = $hit['lat'];
                 $st['lng'] = $hit['lng'];
@@ -219,6 +222,8 @@ final class Geo
             $known = isset(self::CITIES[Search::norm($city)]);
             if (self::place($city, (string) ($s['p']['birth_country'] ?? ''), $online)) {
                 $done['lieux']++;
+            } elseif (!isset(Collections::get('geo', [])[$key])) {
+                $done['restants']++; // pas de réponse du service : à reprendre
             }
             $seen[$key] = true;
             if (!$known) {
