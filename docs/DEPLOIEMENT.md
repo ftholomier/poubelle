@@ -8,8 +8,9 @@ Aucun accès SSH n'est nécessaire : tout se fait par FTP et depuis cPanel.
 
 - Hébergement o2switch (cPanel) et un logiciel FTP (FileZilla par exemple).
 - **PHP 8.3** (réglage de la version PHP dans cPanel), extensions : `gd` (avec WebP),
-  `curl`, `mbstring`, `intl`, `sodium`, `openssl`, `zip`, `fileinfo`, `json`
-  (`dom` et `xml` seulement pour les scripts de reprise WordPress).
+  `curl`, `mbstring`, `intl`, `sodium`, `openssl`, `zip`, `fileinfo`, `json`, `dom` et
+  `zlib` (export PDF des fiches ; actives par défaut chez o2switch), `xml` (scripts de reprise
+  WordPress seulement).
 - Espace disque : environ 7 Go (photos originales 5 Go, vignettes générées, sauvegardes).
 - Aucune base de données : tout est stocké en fichiers JSON.
 

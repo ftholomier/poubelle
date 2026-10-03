@@ -103,18 +103,38 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 - 03/10 03:15 UTC — CSP, vidéos Rutube, vignettes vidéo, statistiques des compositions,
   liens joueurs, données versionnées, guide de mise en ligne : développement terminé.
 
-## Aide et teaser (demande du 03/10, 06:31 UTC — en cours)
-Demande : rubrique « Aide » du back-office = vraie formation en ligne (texte, PDF, captures
-d'écran) pour rendre les historiens autonomes ; teaser vidéo promo calé sur la musique
-fournie (curseur qui navigue dans le back-office et le site, montée en puissance).
-- Réveils automatiques (send_later, à supprimer à la fin) : trig_01QFsVzpbiAUccqmZayCf5x1,
-  trig_01MoLdoE3wKnW2jgSDFDr6nf, trig_01JMyfRohknevGgPxyst9BkF, trig_019LzQSPQoJemcYKhyRt7Wu9,
-  trig_011AVAUWKkxLACHCUh68ECdv, trig_01CLYVCwRxMMuyYSaH4ECZj6, trig_01GrZeEvf6nTtYXGucYuzzjU.
-- [ ] Aide : écrans /admin/aide (chapitres, pas à pas, « Comment faire pour… »), aide contextuelle,
-      recherche — **pas de quiz ni de suivi de progression** (précision du client)
-- [ ] Aide : captures d'écran annotées (app/Resources/aide/img), PDF guide + mémo
-- [ ] Teaser : analyse musique, captures, animation, rendu MP4 (1920×1080)
-- [ ] Recette complète demandée ensuite : sécurité, ergonomie, mobile, fonctionnalités,
-      anti-spam, SEO (corriger ce qui doit l'être)
-- [ ] Tests, nettoyage (compte de capture, données), commit, envoi des fichiers
+## Aide, teaser, recette et compléments (03/10, 06:31 → 10:10 UTC) — terminé
+- [x] Rubrique **Aide** du back-office : 17 chapitres (pas à pas, « Comment faire pour… »),
+      60 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (72 p.)
+      et mémo (2 p.) ; **pas de quiz ni de suivi de progression** (précision du client).
+- [x] **Bulles « ? »** sur chaque écran, carte et champ du back-office (souris, clavier, toucher).
+- [x] **Teaser** 1 min 55 en 1920×1080 calé sur la musique fournie ; v2 : aucune mention de
+      l'ancien site (jamais ouvert au public), fin « 100 ans · Un siècle de Lions, réuni dans un
+      seul musée » au lieu d'un rendez-vous le 20 mai 2028 (le site ouvrira avant).
+- [x] **Recette** : sécurité (audit, redirections ouvertes, en-têtes, droits des rôles, API),
+      anti-spam (formulaires sans JavaScript, délais, limites), accessibilité (axe-core WCAG 2.1 AA :
+      0 erreur sur une soixantaine de pages du site et du back-office), mobile (0 débordement),
+      SEO (3 624 pages explorées, 0 lien cassé, anciennes adresses `/?p=` et `/?s=` en 301),
+      RGPD (aucun service tiers avant accord, hors fonds de carte OpenStreetMap sans cookie,
+      déclarés dans la politique de confidentialité), temps de réponse.
+- [x] **Logo du header** agrandi, pointe qui déborde sous la bande ; première ligne du header
+      sans débordement sur les écrans de portable.
+- [x] **Glisser-déposer** partout : ↑ / icône quatre flèches / ↓ sur chaque élément, trait jaune
+      d'insertion, défilement automatique, clavier, saisie directe de la position ; ordre
+      d'affichage par rubrique (manuel, chronologique, A–Z) appliqué aux mosaïques (décennies et
+      saisons dans l'ordre repris de WordPress) ; ordre des sous-rubriques ; calendrier des
+      100 moments réorganisable.
+- [x] **Export PDF** (vrai document, moteur `app/Pdf`) : fiches match / personne / article / objet /
+      moment, saisons, face-à-face, bilans, records ; FR et EN ; cache, limite par IP, noindex.
+- [x] Slider de l'accueil : silhouette « ? » écartée du tirage ; records : affluences impossibles
+      écartées et signalées dans Qualité (fiches 2112 et 22054 à corriger).
+- [x] Infographie A4 de toutes les fonctionnalités : `docs/sochaux-retro-fonctionnalites.pdf`.
+- [x] Nettoyage : compte de test supprimé (le back-office repart sur « Premier accès »), données
+      d'exemple des captures retirées, journaux et caches de test vidés.
 
+## Points de données à revoir par les historiens (relevés pendant la recette)
+- Affluences improbables : fiche 2112 (15 126 000) et fiche 22054 (100 001) — alertes Qualité.
+- Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).
+- 100 moments : aucun moment écrit pour l'instant (les semaines passées affichent « Bientôt »).
+- Saison 2026-2027 : le match du 02/10/2026 est en tête de l'ordre manuel (place par défaut du
+  plugin WordPress) : le glisser à sa place dans Rubriques & menus.
