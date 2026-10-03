@@ -22,6 +22,7 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
         <div<?= !empty($s['title']) ? ' title="' . e($s['title']) . '"' : '' ?>><b<?= !empty($s['yellow']) ? ' class="yellow"' : '' ?>><?= e($s['v']) ?></b><span><?= e($s['k']) ?></span></div>
       <?php endforeach; ?>
     </div>
+    <?php if ($matches): ?><div class="hero-actions"><?= \App\Core\View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::seasonUrl($season), 'light' => true]) ?></div><?php endif; ?>
   </div>
 </section>
 

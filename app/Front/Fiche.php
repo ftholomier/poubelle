@@ -27,6 +27,12 @@ final class Fiche
         };
     }
 
+    /** Fiche dans la langue de la page (export PDF compris). */
+    public static function localizeDoc(array $doc): array
+    {
+        return self::localize($doc);
+    }
+
     /** Remplace les champs par leur traduction anglaise quand elle existe. */
     private static function localize(array $doc): array
     {
@@ -70,6 +76,13 @@ final class Fiche
     // ================================================================== MATCH
 
     public static function match(Request $req, array $doc): Response
+    {
+        $v = self::matchData($doc);
+        return Pages::render('fiche-match', $v['vars'], $v['page']);
+    }
+
+    /** Données de la fiche (page du site et export PDF). @return array{vars:array,page:array} */
+    public static function matchData(array $doc): array
     {
         $m = $doc['match'];
         $d = Derived::match((int) $doc['id']) ?? [];
@@ -118,7 +131,7 @@ final class Fiche
             'eventStatus' => 'https://schema.org/EventScheduled',
         ];
 
-        return Pages::render('fiche-match', [
+        [$vars, $page] = [[
             'doc' => $doc,
             'm' => $m,
             'd' => $d,
@@ -139,7 +152,8 @@ final class Fiche
             'jsonld' => array_filter($jsonld),
             'body_class' => 'page-match',
             'styles' => ['css/fiche.css'],
-        ]);
+        ]];
+        return ['vars' => $vars, 'page' => $page];
     }
 
     /** Lignes de composition enrichies : lien vers la fiche du joueur, nom affiché. */
@@ -325,6 +339,13 @@ final class Fiche
 
     public static function person(Request $req, array $doc): Response
     {
+        $v = self::personData($doc);
+        return Pages::render('fiche-personne', $v['vars'], $v['page']);
+    }
+
+    /** Données de la fiche (page du site et export PDF). @return array{vars:array,page:array} */
+    public static function personData(array $doc): array
+    {
         $p = $doc['personne'];
         $id = (int) $doc['id'];
         $dd = Derived::get();
@@ -387,7 +408,7 @@ final class Fiche
             'url' => $base . url($doc['path']),
         ]);
 
-        return Pages::render('fiche-personne', [
+        [$vars, $page] = [[
             'doc' => $doc,
             'p' => $p,
             'tot' => $tot,
@@ -415,7 +436,8 @@ final class Fiche
             'body_class' => 'page-person',
             'styles' => ['css/fiche.css'],
             'scripts' => ['js/fiche.js'],
-        ]);
+        ]];
+        return ['vars' => $vars, 'page' => $page];
     }
 
     /** Numéro de la carte de l'album du centenaire (null si la personne n'y figure pas). */
@@ -537,7 +559,7 @@ final class Fiche
         return ['rows' => $rows, 'raw' => $stats, 'total_cols' => [$totM, $totG]];
     }
 
-    private static function statsTotals(?array $stats): array
+    public static function statsTotals(?array $stats): array
     {
         if (!$stats || empty($stats['rows'])) {
             return [];
@@ -645,6 +667,13 @@ final class Fiche
 
     public static function article(Request $req, array $doc): Response
     {
+        $v = self::articleData($doc);
+        return Pages::render('fiche-article', $v['vars'], $v['page']);
+    }
+
+    /** Données de la fiche (page du site et export PDF). @return array{vars:array,page:array} */
+    public static function articleData(array $doc): array
+    {
         $cat = Categories::primaryOf($doc['categories']);
         $root = $cat ? Categories::root($cat) : null;
         $crumbs = [['label' => t('Accueil'), 'href' => url('/')]];
@@ -668,7 +697,7 @@ final class Fiche
             }
         }
         $season = $doc['article']['season'] ?? null;
-        return Pages::render('fiche-article', [
+        [$vars, $page] = [[
             'doc' => $doc,
             'crumbs' => $crumbs,
             'kicker' => $cat ? t(Categories::label($cat)) : ($doc['type'] === 'page' ? '' : t('Le musée')),
@@ -691,6 +720,7 @@ final class Fiche
                 'author' => ['@type' => 'Organization', 'name' => 'Sochaux Rétro'],
                 'image' => $doc['featured_image'] ? base_url() . img($doc['featured_image'], 1200) : null,
             ],
-        ]);
+        ]];
+        return ['vars' => $vars, 'page' => $page];
     }
 }

@@ -23,6 +23,13 @@ final class Explore
 
     public static function season(Request $req, string $season): ?Response
     {
+        $v = self::seasonData($season);
+        return $v ? Pages::render('season', $v['vars'], $v['page']) : null;
+    }
+
+    /** Données d'une saison (page du site et export PDF). @return array{vars:array,page:array}|null */
+    public static function seasonData(string $season): ?array
+    {
         [$a, $b] = array_map('intval', explode('-', $season));
         if ($b !== $a + 1) {
             return null;
@@ -167,7 +174,7 @@ final class Explore
         ]));
         $label = substr($season, 0, 4) . '–' . substr($season, 7, 2);
 
-        return Pages::render('season', [
+        [$vars, $page] = [[
             'season' => $season,
             'label' => $label,
             'matches' => $matches,
@@ -190,7 +197,8 @@ final class Explore
             'body_class' => 'page-season',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
             'scripts' => ['js/explore.js'],
-        ]);
+        ]];
+        return ['vars' => $vars, 'page' => $page];
     }
 
     public static function seasons(Request $req): Response
@@ -275,14 +283,21 @@ final class Explore
 
     public static function opponent(Request $req, string $club): ?Response
     {
+        $v = self::opponentData($club);
+        if ($v === null) {
+            // Ancienne clé ou nom saisi : on tente le rapprochement
+            $key = Names::clubKey(str_replace('-', ' ', $club));
+            return $key !== $club && isset(Derived::get()['clubs'][$key]) ? Response::redirect(url('/face-a-face/' . $key . '/'), 301) : null;
+        }
+        return Pages::render('h2h', $v['vars'], $v['page']);
+    }
+
+    /** Données d'un face-à-face (page du site et export PDF). @return array{vars:array,page:array}|null */
+    public static function opponentData(string $club): ?array
+    {
         $d = Derived::get();
         $c = $d['clubs'][$club] ?? null;
         if (!$c) {
-            // Ancienne clé ou nom saisi : on tente le rapprochement
-            $key = Names::clubKey(str_replace('-', ' ', $club));
-            if ($key !== $club && isset($d['clubs'][$key])) {
-                return Response::redirect(url('/face-a-face/' . $key . '/'), 301);
-            }
             return null;
         }
         $name = Fiche::clubName($club);
@@ -298,7 +313,7 @@ final class Explore
             array_unshift($top, ['name' => $name, 'href' => url('/face-a-face/' . $club . '/'), 'on' => true]);
         }
         $data = self::bilanData($c['matches']);
-        return Pages::render('h2h', $data + [
+        [$vars, $page] = [$data + [
             'mode' => 'club',
             'eyebrow' => t('Face-à-face · historique complet'),
             'titleHtml' => 'Sochaux <span class="yellow">×</span> ' . e($name),
@@ -307,6 +322,7 @@ final class Explore
             'chips' => $top,
             'allHref' => url('/face-a-face/'),
             'shareImage' => '/partage/face-a-face/' . $club . '.png',
+            'pdfHref' => PdfExport::opponentUrl($club),
         ], [
             'title' => t('Sochaux – {club} : le face-à-face complet ({n} matchs)', ['club' => $name, 'n' => $data['t']['count']]),
             'description' => t('Bilan de Sochaux contre {club} : {v} victoires, {nn} nuls, {d} défaites, {gf} buts marqués et {ga} encaissés en {n} matchs.', ['club' => $name, 'v' => $data['t']['V'], 'nn' => $data['t']['N'], 'd' => $data['t']['D'], 'gf' => $data['t']['gf'], 'ga' => $data['t']['ga'], 'n' => $data['t']['count']]),
@@ -314,16 +330,24 @@ final class Explore
             'active' => 'matchs',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
             'scripts' => ['js/explore.js'],
-        ]);
+        ]];
+        return ['vars' => $vars, 'page' => $page];
     }
 
     /** Bilans : une compétition (/bilans/coupe-de-france/) ou un stade (/bilans/stade-auguste-bonal/). */
     public static function bilan(Request $req, string $key): ?Response
     {
-        $d = Derived::get();
         if ($key === 'auguste-bonal' || $key === 'bonal') {
             return Response::redirect(url('/bilans/stade-auguste-bonal/'), 301);
         }
+        $v = self::bilanPage($key);
+        return $v ? Pages::render('h2h', $v['vars'], $v['page']) : null;
+    }
+
+    /** Données d'un bilan (page du site et export PDF). @return array{vars:array,page:array}|null */
+    public static function bilanPage(string $key): ?array
+    {
+        $d = Derived::get();
         $chips = [];
         foreach (['coupe-de-france', 'coupe-de-la-ligue', 'coupe-d-europe', 'championnat'] as $k) {
             $chips[] = ['name' => t(Mosaic::COMPS[$k][0]), 'href' => url('/bilans/' . $k . '/'), 'on' => $k === $key];
@@ -338,7 +362,7 @@ final class Explore
             }
             $data = self::bilanData($ids, true);
             $title = t('Sochaux en {comp}', ['comp' => t($label)]);
-            return Pages::render('h2h', $data + [
+            return ['vars' => $data + [
                 'mode' => 'comp',
                 'eyebrow' => t('Bilan · calculé depuis les fiches matchs'),
                 'titleHtml' => e(t('Sochaux en')) . ' <span class="yellow">' . e(t($label)) . '</span>',
@@ -347,13 +371,14 @@ final class Explore
                 'chips' => $chips,
                 'allHref' => null,
                 'shareImage' => null,
-            ], [
+                'pdfHref' => PdfExport::bilanUrl($key),
+            ], 'page' => [
                 'title' => $title . ' : ' . t('le bilan complet'),
                 'description' => t('{title} : {n} matchs, {v} victoires, {nn} nuls, {d} défaites. Parcours saison par saison.', ['title' => $title, 'n' => $data['t']['count'], 'v' => $data['t']['V'], 'nn' => $data['t']['N'], 'd' => $data['t']['D']]),
                 'active' => 'matchs',
                 'styles' => ['css/mosaic.css', 'css/explore.css'],
                 'scripts' => ['js/explore.js'],
-            ]);
+            ]];
         }
         if (str_starts_with($key, 'stade-')) {
             $stade = substr($key, 6);
@@ -363,7 +388,7 @@ final class Explore
             }
             $name = self::stadiumName($stade);
             $data = self::bilanData($st['matches'], true, 'decade');
-            return Pages::render('h2h', $data + [
+            return ['vars' => $data + [
                 'mode' => 'stade',
                 'eyebrow' => t('Bilan · calculé depuis les fiches matchs'),
                 'titleHtml' => e(t('Sochaux au')) . ' <span class="yellow">' . e($name) . '</span>',
@@ -372,13 +397,14 @@ final class Explore
                 'chips' => $chips,
                 'allHref' => null,
                 'shareImage' => null,
-            ], [
+                'pdfHref' => PdfExport::bilanUrl($key),
+            ], 'page' => [
                 'title' => t('Sochaux au {stade} : le bilan complet', ['stade' => $name]),
                 'description' => t('Tous les matchs de Sochaux au {stade} : {n} matchs, {v} victoires, {nn} nuls, {d} défaites.', ['stade' => $name, 'n' => $data['t']['count'], 'v' => $data['t']['V'], 'nn' => $data['t']['N'], 'd' => $data['t']['D']]),
                 'active' => 'matchs',
                 'styles' => ['css/mosaic.css', 'css/explore.css'],
                 'scripts' => ['js/explore.js'],
-            ]);
+            ]];
         }
         return null;
     }

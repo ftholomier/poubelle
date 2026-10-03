@@ -10,6 +10,7 @@ $rankLabel = fn (int $r) => ordinal($r);
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Records')) ?></span></nav>
     <span class="eyebrow eyebrow--lg" style="color:var(--navy)"><?= e(t('Les records · calculés automatiquement')) ?></span>
     <h1 class="rhead__title"><?= e(t('Le livre')) ?><br><?= e(t('des records')) ?></h1>
+    <div class="hero-actions" style="margin-top:0"><?= \App\Core\View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::recordsUrl()]) ?></div>
     <nav class="rhead__tabs">
       <?php foreach ($tabs as $tb): ?><a href="<?= e($tb['href']) ?>"<?= $tb['on'] ? ' class="is-on" aria-current="page"' : '' ?>><?= e($tb['label']) ?></a><?php endforeach; ?>
     </nav>

@@ -34,6 +34,16 @@ HTML],
 </table>
 [[img:site-explorer.webp|Une page face-à-face, entièrement calculée]]
 HTML],
+        ['id' => 'pdf', 'title' => 'Télécharger en PDF', 'html' => <<<'HTML'
+<p>Chaque fiche (match, joueur, entraîneur, dirigeant, article, objet, moment) et chaque page de synthèse (saison, face-à-face, bilans, livre des records) a un bouton <b>Télécharger en PDF</b>. Ce n’est pas une impression de la page : c’est un vrai document A4 mis en page aux couleurs du musée, avec le blason, les polices du site, des pages numérotées, des signets et des liens cliquables.</p>
+<ul>
+<li><b>Match</b> : tableau d’affichage, fiche technique, chiffre clé, récit, minute par minute (buts surlignés), réactions, brèves, terrain avec la composition, face-à-face, galerie, vidéos.</li>
+<li><b>Personne</b> : photo façon carte de collection, grands chiffres, fiche d’identité, palmarès, récit, saison par saison, matchs marquants, la liste complète de ses matchs.</li>
+<li><b>Saison, face-à-face, bilans, records</b> : totaux, répartition victoires / nuls / défaites, faits marquants, tableaux complets.</li>
+</ul>
+[[auto|<p>Le PDF suit toujours la dernière version enregistrée : il est refait automatiquement dès qu’une fiche change. Il existe aussi en anglais depuis la version anglaise du site.</p>]]
+[[astuce|<p>Dans le back-office, le panneau Publication d’une fiche propose aussi <b>Télécharger le PDF</b>, même pour une fiche pas encore publiée.</p>]]
+HTML],
         ['id' => 'interactif', 'title' => 'Interactif, recherche, assistant, dons', 'html' => <<<'HTML'
 <ul>
 <li><b>Interactif</b> : quiz, album de cartes, maillots, frise, carte, centenaire (100 moments, Onze de légende), réserves du musée.</li>

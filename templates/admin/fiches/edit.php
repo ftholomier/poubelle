@@ -85,6 +85,7 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
         <?php if (!$isNew): ?><button type="button" class="btn" data-preview="/admin/fiche/<?= $id ?>/apercu" title="Aperçu comme sur le site (avec vos modifications en cours)">Aperçu</button><?php endif; ?>
       </div>
       <?php if (!$isNew && $visible && $doc['path']): ?><a class="linkbtn" href="<?= e($doc['path']) ?>" target="_blank" rel="noopener">Voir sur le site ↗</a><?php endif; ?>
+      <?php if (!$isNew): ?><a class="linkbtn" href="/pdf/fiche/<?= $id ?>.pdf" title="Le document PDF tel que les visiteurs le téléchargent (version enregistrée)" download>Télécharger le PDF ↓</a><?php endif; ?>
       <label class="f"><span class="f__k">Note de version <i>facultatif</i></span><input name="_message" maxlength="160" placeholder="ex. score corrigé d’après L’Est républicain"></label>
       <span class="xs muted">Ctrl+S pour enregistrer · brouillon gardé automatiquement sur cet ordinateur</span>
     </div>

@@ -163,6 +163,12 @@ final class Kernel
         $r->get('/sitemap.xml', fn () => Front\Seo::sitemap());
         $r->get('/recherche/', fn ($q) => Front\Pages::search($q));
         $r->get('/partage/{id}.png', fn ($q, $id) => ctype_digit($id) ? Front\Share::image((int) $id) : null);
+        // Export PDF (vrai document mis en page, pas une impression)
+        $r->get('/pdf/fiche/{id}.pdf', fn ($q, $id) => ctype_digit($id) ? Front\PdfExport::fiche($q, (int) $id) : null);
+        $r->get('/pdf/saison/{season}.pdf', fn ($q, $season) => Front\PdfExport::season($q, $season));
+        $r->get('/pdf/face-a-face/{club}.pdf', fn ($q, $club) => Front\PdfExport::opponent($q, $club));
+        $r->get('/pdf/bilan/{key}.pdf', fn ($q, $key) => Front\PdfExport::bilan($q, $key));
+        $r->get('/pdf/records.pdf', fn ($q) => Front\PdfExport::records($q));
         $r->get('/partage/face-a-face/{club}.png', fn ($q, $club) => Front\Share::faceToFace($club));
 
         // Explorer l'histoire (calculé)

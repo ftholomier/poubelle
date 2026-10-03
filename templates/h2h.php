@@ -42,6 +42,7 @@ $tones = ['yellow' => 'var(--yellow)', 'paper' => 'var(--paper)', 'sand' => 'var
     <div class="row" style="gap:12px;flex-wrap:wrap;align-items:center">
       <span class="hhead__note"><?= e(t('Calculé automatiquement depuis les fiches matchs du musée')) ?></span>
       <button type="button" class="btn btn--ghost-light btn--sm" data-share><?= e(t('Partager')) ?></button>
+      <?php if (!empty($pdfHref)): ?><?= \App\Core\View::partial('partials/pdf-button', ['href' => $pdfHref, 'light' => true]) ?><?php endif; ?>
     </div>
   </div>
 </section>

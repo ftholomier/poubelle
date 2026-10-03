@@ -57,6 +57,27 @@ final class Images
         ]);
     }
 
+    /** Chemin local d'une déclinaison WebP d'un média (créée au besoin), ou null (export PDF). */
+    public static function derivative(string $rel, int $width): ?string
+    {
+        $rel = ltrim(str_replace(['..', "\0", '\\'], '', $rel), '/');
+        if ($rel === '' || str_ends_with(strtolower($rel), '.svg')) {
+            return null;
+        }
+        $width = in_array($width, self::WIDTHS, true) ? $width : 800;
+        $src = Media::file($rel);
+        if (!$src) {
+            return null;
+        }
+        $dest = PUBLIC_PATH . "/media/$width/$rel.webp";
+        if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
+            if (!self::generate($src, $dest, $width, Media::get($rel)['edit'] ?? null)) {
+                return null;
+            }
+        }
+        return $dest;
+    }
+
     /**
      * @param array{rotate?:int,crop?:array{0:float,1:float,2:float,3:float}}|null $edit
      *        retouches non destructives saisies dans la médiathèque (l'original reste intact)

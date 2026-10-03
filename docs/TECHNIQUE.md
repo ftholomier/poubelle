@@ -101,6 +101,7 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `search.php` | index de recherche | à chaque enregistrement |
 | `media.php`, `media-versions.php`, `media-usage.json` | médiathèque, versions des fichiers retouchés, « utilisée dans » | à chaque modification |
 | `carte-*.json`, `sitemap.xml`, `share/` | données de la carte, plan du site, images de partage | à la demande |
+| `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change ; ménage des fichiers de plus de 30 jours |
 
 Après une modification de fichiers faite à la main (envoi FTP de `data/`, script), vider
 `storage/cache/` ou lancer `php bin/console.php index`, `derived` et `search`.
@@ -140,8 +141,33 @@ l'hébergeur vidéo qu'après l'accord du visiteur.
 | `Geo` | géolocalisation (répertoire intégré, puis Nominatim d'OpenStreetMap, une requête par seconde) |
 | `Backup` | sauvegardes ZIP de `data/` et des fichiers importants de `storage/` |
 | `Stats` | mesure d'audience sans cookie ni adresse IP |
-| `Pdf` | reçus fiscaux en PDF, sans bibliothèque |
+| `Pdf` | reçus fiscaux en PDF, sans bibliothèque (les exports des fiches utilisent `App\Pdf`, § 7 bis) |
 | `Cron` | tâches planifiées (§ 9) |
+
+## 7 bis. Export PDF (`App\Pdf`, `App\Front\PdfExport`)
+
+Un vrai document A4, pas une impression du navigateur, fabriqué en PHP pur (aucune
+bibliothèque à installer) :
+
+| Classe | Rôle |
+|---|---|
+| `Pdf\TrueType` | lit les polices TrueType (`app/Resources/fonts/`, instances fixes de Big Shoulders Display et Newsreader tirées des polices du site) et n'embarque que les glyphes employés (sous-ensemble) ; caractères absents remplacés (espaces fines, lettres accentuées rares) |
+| `Pdf\Writer` | écrit le fichier PDF 1.7 : polices Type0/CIDFontType2 avec table ToUnicode (texte sélectionnable et copiable), images JPEG (photos converties depuis les vignettes WebP) et PNG avec transparence (blason), liens, signets, métadonnées, langue |
+| `Pdf\Layout` | mise en page aux couleurs du musée : bandeau rayé et blason qui déborde, texte enrichi avec retour à la ligne, intertitres (signets), listes, citations, encadré « le chiffre », grilles, tableaux à en-tête répété, photos, galerie recadrée, bandeau courant et pieds de page « page n / total » |
+| `Pdf\HtmlFlow` | convertit le HTML des fiches (paragraphes, gras, italique, liens, listes, citations, tableaux, images) |
+| `Front\PdfExport` | contenu de chaque document (mêmes données que les pages : `Fiche::matchData()`, `personData()`, `articleData()`, `Explore::seasonData()`, `opponentData()`, `bilanPage()`), cache, réponse |
+
+Adresses : `/pdf/fiche/{id}.pdf`, `/pdf/saison/{saison}.pdf`, `/pdf/face-a-face/{club}.pdf`,
+`/pdf/bilan/{clé}.pdf`, `/pdf/records.pdf` (et `/en/pdf/…` en anglais). Réponse en
+téléchargement (`Content-Disposition: attachment`), `X-Robots-Tag: noindex` et `Disallow`
+dans `robots.txt` (pas de contenu en double pour Google). Fabrication limitée à 40 PDF
+par adresse IP et par 10 minutes (les PDF déjà en cache sont servis sans limite) ; une
+fiche non publiée n'est exportable que par un membre connecté du back-office.
+Repères : un match ≈ 0,5 s et 5 pages ; le joueur le plus capé (423 matchs) ≈ 1 à 3 s,
+24 pages, 65 Mo de mémoire au plus.
+
+Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
+`Front\PdfExport` (contenu) ; augmenter `PdfExport::VERSION` pour refaire les PDF en cache.
 
 ## 8. Back-office
 

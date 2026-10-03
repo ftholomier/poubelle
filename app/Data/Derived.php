@@ -325,7 +325,8 @@ final class Derived
                 'them' => $them,
                 'extra' => $score['extra'] ?? null,
                 'result' => $m['result'] ?? null,
-                'spectators' => $m['spectators'] ?? null,
+                // Affluence impossible (plus de 90 000 : faute de frappe) écartée des records et bilans
+                'spectators' => isset($m['spectators']) && (int) $m['spectators'] > 0 && (int) $m['spectators'] <= 90000 ? (int) $m['spectators'] : null,
                 'image' => $doc['featured_image'] ?? null,
                 'event' => $m['event'] ?? null,
             ];
@@ -393,6 +394,9 @@ final class Derived
                 if ($pd && $pd !== $date) {
                     $quality[] = ['sev' => 'moyenne', 'code' => 'date', 'msg' => 'Date du titre (' . date('d/m/Y', strtotime($date)) . ') ≠ date de la fiche (' . $m['date_text'] . ')', 'id' => $mid];
                 }
+            }
+            if ((int) ($m['spectators'] ?? 0) > 90000) {
+                $quality[] = ['sev' => 'haute', 'code' => 'affluence', 'msg' => 'Affluence improbable (' . number_format((int) $m['spectators'], 0, ',', ' ') . ' spectateurs) : faute de frappe ? Elle est écartée des records.', 'id' => $mid];
             }
             if (empty($m['referee']) && $decade && $decade >= 1970 && $doc['_visible'] && ($m['competition'] ?? '') !== 'Amical') {
                 $quality[] = ['sev' => 'basse', 'code' => 'arbitre', 'msg' => 'Arbitre non renseigné', 'id' => $mid];

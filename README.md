@@ -21,10 +21,16 @@ redirigées.
   centenaire (100 moments, Onze de légende), réserves du musée.
 - Recherche, assistant IA (Gemini) en bas à droite, dons (Stripe, PayPal), contact,
   contributions, newsletter « Ce jour-là ».
+- **Télécharger en PDF** sur chaque fiche et chaque page de synthèse (saison,
+  face-à-face, bilans, records) : un vrai document A4 mis en page aux couleurs du musée
+  (polices du site embarquées, blason, pages numérotées, signets, liens), fabriqué par le
+  serveur en PHP pur et mis en cache.
 
 **Back-office** (`/admin`) pour les historiens : fiches, compositions en grille,
-médiathèque, rubriques et menus, accueil, outils interactifs, communauté, dons,
-traductions, qualité des données, sauvegardes. Deux niveaux d'accès : administrateur
+médiathèque, rubriques et menus (ordre des fiches de chaque décennie, saison ou rubrique
+par glisser-déposer avec trait d'insertion), accueil, outils interactifs, communauté, dons,
+traductions, qualité des données, sauvegardes, aide en ligne (guide, mémo PDF, bulles
+« ? »). Deux niveaux d'accès : administrateur
 et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
 
 ## Technique en bref
@@ -44,7 +50,8 @@ app/            code PHP
   Core/         noyau : requête, routeur, sessions, comptes, réglages, stockage JSON
   Data/         fiches, index, rubriques, médiathèque, données calculées, compositions
   Services/     images, recherche, assistant IA, traduction, paiements, e-mails, tâches…
-  Front/        pages du site public
+  Front/        pages du site public (dont PdfExport : exports PDF)
+  Pdf/          moteur PDF maison : polices TrueType, écriture du fichier, mise en page
   Admin/        écrans du back-office
   Kernel.php    point d'entrée HTTP (langue, page d'attente, routes, redirections)
 bin/            console.php (commandes), dev-router.php (serveur local)

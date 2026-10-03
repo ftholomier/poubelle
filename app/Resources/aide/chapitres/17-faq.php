@@ -76,6 +76,9 @@ HTML],
         ['id' => 'anglais', 'title' => '… traduire une fiche en anglais', 'html' => <<<'HTML'
 <p>Onglet <b>Version EN</b> › « Traduire avec Gemini » › relisez › Enregistrer. Ou en série : Système › Traductions EN › onglet Fiches.</p>
 HTML],
+        ['id' => 'pdf', 'title' => '… obtenir le PDF d’une fiche', 'html' => <<<'HTML'
+<p>Sur le site, bouton <b>Télécharger en PDF</b> sous le titre de la fiche (ou de la saison, du face-à-face, du bilan, des records). Dans le back-office : panneau Publication de la fiche › <b>Télécharger le PDF</b>. Le document reprend la dernière version enregistrée. Voir <a href="/admin/aide/site-public#pdf">Télécharger en PDF</a>.</p>
+HTML],
         ['id' => 'perdu', 'title' => '… retrouver un texte non enregistré', 'html' => <<<'HTML'
 <p>Rouvrez la fiche sur le même ordinateur et le même navigateur : un bandeau propose « Le récupérer ». Sinon, l’onglet Historique contient la dernière version enregistrée.</p>
 HTML],
