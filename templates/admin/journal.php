@@ -3,7 +3,7 @@
 use App\Admin\Base;
 ?>
 <form class="toolbar" method="get" action="/admin/journal">
-  <select name="qui" onchange="this.form.submit()" aria-label="Personne"><option value="">Toute l’équipe</option><?php foreach ($people as $p): ?><option<?= $p === $who ? ' selected' : '' ?>><?= e($p) ?></option><?php endforeach; ?></select>
+  <select name="qui" data-autosubmit aria-label="Personne"><option value="">Toute l’équipe</option><?php foreach ($people as $p): ?><option<?= $p === $who ? ' selected' : '' ?>><?= e($p) ?></option><?php endforeach; ?></select>
   <span class="small muted">Qui a fait quoi, quand · les modifications de fiches sont réversibles depuis leur historique</span>
 </form>
 <div class="card">

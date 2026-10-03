@@ -84,25 +84,4 @@ $isWaiting = $group === 'waiting';
     <span class="small muted" data-saved></span>
   </div>
 </form>
-<?php if ($group === 'ai'): ?>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const b = document.querySelector('[data-models-refresh]');
-  if (!b) return;
-  b.addEventListener('click', async () => {
-    b.disabled = true;
-    const r = await BO.post('/admin/api/modeles', {});
-    b.disabled = false;
-    if (!r.ok) { BO.toast(r.error || 'Chargement impossible', true); return; }
-    document.querySelectorAll('[data-models]').forEach(box => {
-      const sel = box.querySelector('select');
-      const list = r[box.dataset.models] || {};
-      const cur = sel.value;
-      [...sel.options].slice(1).forEach(o => o.remove());
-      Object.entries(list).forEach(([id, label]) => { const o = new Option(label, id); if (id === cur) o.selected = true; sel.add(o); });
-    });
-    BO.toast('Liste des modèles mise à jour (' + Object.keys(r.generate || {}).length + ' modèles).');
-  });
-});
-</script>
-<?php endif; ?>
+

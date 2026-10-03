@@ -18,7 +18,7 @@ $stLabel = ['none' => ['Non traduite', 'ko'], 'auto' => ['Traduite (Gemini)', 'i
   </div>
   <form class="toolbar" method="get" action="/admin/traductions">
     <div class="search"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Rechercher en français ou en anglais…" aria-label="Rechercher"><button type="submit">→</button></div>
-    <select name="filtre" aria-label="Filtre" onchange="this.form.submit()"><option value="">Tous les libellés</option><option value="manquants"<?= $filter === 'manquants' ? ' selected' : '' ?>>Sans traduction</option></select>
+    <select name="filtre" aria-label="Filtre" data-autosubmit><option value="">Tous les libellés</option><option value="manquants"<?= $filter === 'manquants' ? ' selected' : '' ?>>Sans traduction</option></select>
     <span class="small muted"><?= $fmt($total) ?> résultat<?= $total > 1 ? 's' : '' ?></span>
   </form>
   <form class="stack" data-json-form data-url="/admin/traductions" novalidate>

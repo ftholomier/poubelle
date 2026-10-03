@@ -3,7 +3,9 @@
  * Télécharge les images citées par les fiches mais absentes de la médiathèque
  * WordPress (liste établie par import.php : storage/import/media-extra.json).
  *
- * Usage : WP_PASSWORD=... php scripts/wp/media-extra.php
+ * Usage : php scripts/wp/media-extra.php
+ * (les fichiers de /wp-content/uploads/ ne sont pas protégés par le mot de passe du front ;
+ * WP_PASSWORD n'est utilisé que s'il est défini).
  */
 declare(strict_types=1);
 
@@ -16,7 +18,9 @@ out(count($list) . ' image(s) hors médiathèque, ' . count($todo) . ' à télé
 if (!$todo) {
     exit(0);
 }
-login();
+if (getenv('WP_PASSWORD')) {
+    login();
+}
 $ok = 0;
 $errors = [];
 foreach ($todo as $rel => $url) {

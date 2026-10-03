@@ -33,13 +33,13 @@ $roleLabel = ['joueur' => 'Joueur', 'entraineur' => 'Entraîneur', 'dirigeant' =
   <?php if ($status !== ''): ?><input type="hidden" name="statut" value="<?= e($status) ?>"><?php endif; ?>
   <div class="search"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Rechercher dans <?= e(mb_strtolower($conf['title'])) ?>…" aria-label="Rechercher"><button type="submit" aria-label="Rechercher">→</button></div>
   <?php if ($slug === 'matchs'): ?>
-    <select name="saison" aria-label="Saison" onchange="this.form.submit()"><option value="">Toutes les saisons</option><?php foreach ($seasons as $s): ?><option<?= ($query['saison'] ?? '') === $s ? ' selected' : '' ?>><?= e($s) ?></option><?php endforeach; ?></select>
-    <select name="comp" aria-label="Compétition" onchange="this.form.submit()"><option value="">Toutes compétitions</option><?php foreach ($comps as $c): ?><option<?= ($query['comp'] ?? '') === $c ? ' selected' : '' ?>><?= e($c) ?></option><?php endforeach; ?></select>
+    <select name="saison" aria-label="Saison" data-autosubmit><option value="">Toutes les saisons</option><?php foreach ($seasons as $s): ?><option<?= ($query['saison'] ?? '') === $s ? ' selected' : '' ?>><?= e($s) ?></option><?php endforeach; ?></select>
+    <select name="comp" aria-label="Compétition" data-autosubmit><option value="">Toutes compétitions</option><?php foreach ($comps as $c): ?><option<?= ($query['comp'] ?? '') === $c ? ' selected' : '' ?>><?= e($c) ?></option><?php endforeach; ?></select>
   <?php elseif ($slug === 'personnes'): ?>
-    <select name="role" aria-label="Rubrique" onchange="this.form.submit()"><option value="">Toutes les rubriques</option><?php foreach (FicheForm::ROLES as $k => $l): ?><option value="<?= e($k) ?>"<?= ($query['role'] ?? '') === $k ? ' selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select>
-    <select name="filtre" aria-label="Filtre" onchange="this.form.submit()"><option value="">Toutes</option><option value="sans-naissance"<?= ($query['filtre'] ?? '') === 'sans-naissance' ? ' selected' : '' ?>>Sans lieu de naissance</option><option value="album"<?= ($query['filtre'] ?? '') === 'album' ? ' selected' : '' ?>>Dans l’album</option><option value="legendes"<?= ($query['filtre'] ?? '') === 'legendes' ? ' selected' : '' ?>>Légendes</option></select>
+    <select name="role" aria-label="Rubrique" data-autosubmit><option value="">Toutes les rubriques</option><?php foreach (FicheForm::ROLES as $k => $l): ?><option value="<?= e($k) ?>"<?= ($query['role'] ?? '') === $k ? ' selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select>
+    <select name="filtre" aria-label="Filtre" data-autosubmit><option value="">Toutes</option><option value="sans-naissance"<?= ($query['filtre'] ?? '') === 'sans-naissance' ? ' selected' : '' ?>>Sans lieu de naissance</option><option value="album"<?= ($query['filtre'] ?? '') === 'album' ? ' selected' : '' ?>>Dans l’album</option><option value="legendes"<?= ($query['filtre'] ?? '') === 'legendes' ? ' selected' : '' ?>>Légendes</option></select>
   <?php endif; ?>
-  <select name="tri" aria-label="Tri" onchange="this.form.submit()">
+  <select name="tri" aria-label="Tri" data-autosubmit>
     <?php foreach (($slug === 'matchs' ? ['date' => 'Date (récent)', 'date-asc' => 'Date (ancien)', 'modifie' => 'Dernière modification', 'titre' => 'Titre'] : ($slug === 'personnes' ? ['nom' => 'Nom', 'matchs' => 'Nombre de matchs', 'modifie' => 'Dernière modification'] : ['modifie' => 'Dernière modification', 'titre' => 'Titre', 'date' => 'Date de publication'])) as $k => $l): ?>
       <option value="<?= e($k) ?>"<?= $sort === $k ? ' selected' : '' ?>><?= e($l) ?></option>
     <?php endforeach; ?>

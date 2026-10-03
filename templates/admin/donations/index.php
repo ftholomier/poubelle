@@ -39,7 +39,7 @@ $pill = ['paid' => 'ok', 'active' => 'ok', 'pending' => 'warn', 'canceled' => 'i
 <form class="toolbar" method="get" action="/admin/dons">
   <?php if ($status !== ''): ?><input type="hidden" name="statut" value="<?= e($status) ?>"><?php endif; ?>
   <div class="search"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Nom, e-mail, n° de don…" aria-label="Rechercher un don"><button type="submit">→</button></div>
-  <select name="mode" aria-label="Mode" onchange="this.form.submit()"><?php foreach (['live' => 'Production', 'test' => 'Test', 'tous' => 'Test et production'] as $k => $l): ?><option value="<?= $k ?>"<?= $mode === $k ? ' selected' : '' ?>><?= $l ?></option><?php endforeach; ?></select>
+  <select name="mode" aria-label="Mode" data-autosubmit><?php foreach (['live' => 'Production', 'test' => 'Test', 'tous' => 'Test et production'] as $k => $l): ?><option value="<?= $k ?>"<?= $mode === $k ? ' selected' : '' ?>><?= $l ?></option><?php endforeach; ?></select>
   <span class="small muted"><?= $fmt($total) ?> don<?= $total > 1 ? 's' : '' ?></span>
 </form>
 

@@ -52,8 +52,9 @@
     if (!s.isCustom && s.tier) impact = s.tier.dataset.impact + '.';
     else if (s.amount >= 10) impact = fill(Math.floor(s.amount / 10) > 1 ? i18n.many : i18n.one, Math.floor(s.amount / 10));
     else impact = i18n.small || '';
-    impactLine.textContent = (s.monthly ? (i18n.monthPrefix || '') : '') + impact;
-    ctaAmount.textContent = s.amount || '…';
+    if (impactLine) impactLine.textContent = (s.monthly ? (i18n.monthPrefix || '') : '') + impact;
+    // Dons pas encore ouverts : pas de bouton d'envoi ni de montant à afficher.
+    if (ctaAmount) ctaAmount.textContent = s.amount || '…';
     if (ctaMonth) ctaMonth.hidden = !s.monthly;
   };
 

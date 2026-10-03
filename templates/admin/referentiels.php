@@ -19,7 +19,7 @@ $osm = fn ($lat, $lng) => $lat !== null && $lat !== '' ? 'https://www.openstreet
 <form class="toolbar" method="get" action="/admin/referentiels">
   <input type="hidden" name="onglet" value="<?= e($tab) ?>">
   <div class="search"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Rechercher…" aria-label="Rechercher"><button type="submit" aria-label="Rechercher">→</button></div>
-  <select name="filtre" aria-label="Filtre" onchange="this.form.submit()">
+  <select name="filtre" aria-label="Filtre" data-autosubmit>
     <option value="">Tout</option>
     <option value="sans-coordonnees"<?= $filter === 'sans-coordonnees' ? ' selected' : '' ?>>Sans coordonnées (absents de la carte)</option>
     <?php if ($tab !== 'lieux'): ?><option value="sans-ville"<?= $filter === 'sans-ville' ? ' selected' : '' ?>>Sans ville</option><?php endif; ?>

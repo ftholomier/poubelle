@@ -52,7 +52,7 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <?php if ($meta['jsonld']): ?>
 <script type="application/ld+json"><?= json_encode($meta['jsonld'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 <?php endif; ?>
-<script>document.documentElement.classList.add('js');try{var z=parseFloat(localStorage.getItem('fcsm-textsize'));if(z>1)document.documentElement.style.zoom=z}catch(e){}</script>
+<script nonce="<?= csp_nonce() ?>">document.documentElement.classList.add('js');try{var z=parseFloat(localStorage.getItem('fcsm-textsize'));if(z>1)document.documentElement.style.zoom=z}catch(e){}</script>
 </head>
 <body class="<?= e($page['body_class'] ?? '') ?>">
 <a class="skip-link" href="#contenu"><?= e(t('Aller au contenu')) ?></a>

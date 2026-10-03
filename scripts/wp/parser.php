@@ -159,6 +159,25 @@ function wp_media_rel(string $url, array $media): ?string
     return $index[$canon] ?? $orig;
 }
 
+/** Vidéo reconnue d'après l'adresse d'un lecteur intégré (YouTube, Dailymotion, Vimeo, Rutube). */
+function wp_video_from_src(string $src, string $title = ''): ?array
+{
+    $src = html_entity_decode($src, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    if (preg_match('#(?:youtube(?:-nocookie)?\.com/embed/+|youtu\.be/)([\w-]{6,})#', $src, $m)) {
+        return ['provider' => 'youtube', 'id' => $m[1], 'title' => $title];
+    }
+    if (preg_match('#player\.vimeo\.com/video/(\d+)#', $src, $m)) {
+        return ['provider' => 'vimeo', 'id' => $m[1], 'title' => $title];
+    }
+    if (preg_match('#(?:dailymotion\.com/embed/video/|geo\.dailymotion\.com/player(?:/[\w-]+)?\.html\?(?:.*&)?video=|dai\.ly/)([a-z0-9]{5,})#i', $src, $m)) {
+        return ['provider' => 'dailymotion', 'id' => $m[1], 'title' => $title];
+    }
+    if (preg_match('#rutube\.ru/(?:play/embed|video)/([a-f0-9]{20,})#i', $src, $m)) {
+        return ['provider' => 'rutube', 'id' => $m[1], 'title' => $title];
+    }
+    return null;
+}
+
 /** Nom canonique d'un fichier de la médiathèque (sans les suffixes ajoutés par WordPress). */
 function wp_media_canon(string $rel): string
 {
@@ -510,10 +529,8 @@ function wp_parse_page(string $html, array $media): ?array
             case 'video':
                 foreach ($xp->query('.//iframe', $el) as $if) {
                     $src = $if->getAttribute('src') ?: $if->getAttribute('data-src');
-                    if (preg_match('#(?:youtube(?:-nocookie)?\.com/embed/+|youtu\.be/)([\w-]{6,})#', $src, $vm)) {
-                        $out['videos'][] = ['provider' => 'youtube', 'id' => $vm[1], 'title' => ''];
-                    } elseif (preg_match('#player\.vimeo\.com/video/(\d+)#', $src, $vm)) {
-                        $out['videos'][] = ['provider' => 'vimeo', 'id' => $vm[1], 'title' => ''];
+                    if ($v = wp_video_from_src($src)) {
+                        $out['videos'][] = $v;
                     } elseif ($src) {
                         $out['videos'][] = ['provider' => 'iframe', 'url' => $src, 'title' => ''];
                     }
@@ -534,10 +551,9 @@ function wp_parse_page(string $html, array $media): ?array
                 // Vidéos intégrées dans un bloc « texte brut » (iframe YouTube / Vimeo).
                 foreach ($xp->query('.//iframe', $el) as $if) {
                     $src = $if->getAttribute('src') ?: $if->getAttribute('data-src');
-                    if (preg_match('#(?:youtube(?:-nocookie)?\.com/embed/+|youtu\.be/)([\w-]{6,})#', $src, $vm)) {
-                        $out['videos'][] = ['provider' => 'youtube', 'id' => $vm[1], 'title' => $if->getAttribute('title') !== 'YouTube video player' ? $if->getAttribute('title') : ''];
-                    } elseif (preg_match('#player\.vimeo\.com/video/(\d+)#', $src, $vm)) {
-                        $out['videos'][] = ['provider' => 'vimeo', 'id' => $vm[1], 'title' => ''];
+                    $vt = $if->getAttribute('title');
+                    if ($v = wp_video_from_src($src, preg_match('/video player|^Dailymotion|^Rutube/i', $vt) ? '' : $vt)) {
+                        $out['videos'][] = $v;
                     }
                 }
                 if (preg_match("/videoId\s*=\s*['\"]([\w-]+)['\"]/", $raw, $vm) && str_contains($raw, 'dailymotion')) {
@@ -593,16 +609,29 @@ function wp_parse_page(string $html, array $media): ?array
     }
     $flush();
 
-    // Vidéos YouTube insérées hors module vidéo (dans un bloc texte).
+    // Vidéos insérées hors module vidéo (lecteur dans un bloc texte) : reprises dans les vidéos
+    // de la fiche (les lecteurs intégrés au texte ne sont pas affichés tels quels).
     foreach ($out['sections'] as $s) {
-        if (preg_match_all('#youtube(?:-nocookie)?\.com/embed/+([\w-]{6,})#', $s['html'], $vm)) {
-            foreach ($vm[1] as $vid) {
-                if (!in_array($vid, array_column($out['videos'], 'id'), true)) {
-                    $out['videos'][] = ['provider' => 'youtube', 'id' => $vid, 'title' => ''];
+        if (preg_match_all('#<iframe\b[^>]*\bsrc="([^"]+)"#i', $s['html'], $vm)) {
+            foreach ($vm[1] as $src) {
+                $v = wp_video_from_src($src);
+                if ($v && !in_array($v['id'], array_column($out['videos'], 'id'), true)) {
+                    $out['videos'][] = $v;
                 }
             }
         }
     }
+
+    // Une même vidéo peut être repérée deux fois (lecteur + script) : une seule entrée.
+    $seenVid = [];
+    $out['videos'] = array_values(array_filter($out['videos'], function ($v) use (&$seenVid) {
+        $k = ($v['provider'] ?? '') . '|' . ($v['id'] ?? ($v['url'] ?? ''));
+        if (isset($seenVid[$k])) {
+            return false;
+        }
+        $seenVid[$k] = true;
+        return true;
+    }));
 
     // Les galeries peuvent répéter la même image (BeTheme) : on garde l'ordre, sans doublon exact.
     $seen = [];

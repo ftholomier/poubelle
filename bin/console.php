@@ -10,6 +10,7 @@
  *   php bin/console.php backup           sauvegarde immédiate
  *   php bin/console.php rag              (ré)indexe les données pour l'assistant IA
  *   php bin/console.php images [largeur] pré-génère les vignettes
+ *   php bin/console.php medias           complète dimensions, poids et empreintes des médias
  *   php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance (carte)
  */
 
@@ -83,7 +84,19 @@ switch ($cmd) {
         echo "$n vignettes générées\n";
         break;
 
+    case 'medias':
+        $total = 0;
+        $rounds = intdiv(count(\App\Data\Media::all()), 500) + 2;
+        while ($rounds-- > 0 && ($r = \App\Services\Cron::mediaFacts(500)) !== null) {
+            $total += (int) $r;
+            echo "$total média(s) complété(s)\n";
+        }
+        echo "Médiathèque à jour\n";
+        break;
+
     default:
-        echo file_get_contents(__FILE__, false, null, 0, 900);
+        // Aide : la liste des commandes en tête de ce fichier.
+        preg_match_all('/^ \*   (php .+)$/m', (string) file_get_contents(__FILE__), $m);
+        echo "Commandes :\n  " . implode("\n  ", $m[1]) . "\n";
 }
 printf("(%.1fs)\n", microtime(true) - $t0);

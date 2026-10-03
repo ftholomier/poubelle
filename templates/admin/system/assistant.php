@@ -20,9 +20,9 @@ $monthLabel = fn ($m) => $m ? $mois[(int) substr($m, 5, 2) - 1] . ' ' . substr($
 
 <div class="toolbar">
   <form class="toolbar" method="get" action="/admin/assistant">
-    <select name="mois" aria-label="Mois" onchange="this.form.submit()"><?php foreach ($months as $m): ?><option value="<?= e($m) ?>"<?= $m === $month ? ' selected' : '' ?>><?= e($monthLabel($m)) ?></option><?php endforeach; ?><?php if (!$months): ?><option>Aucune question</option><?php endif; ?></select>
+    <select name="mois" aria-label="Mois" data-autosubmit><?php foreach ($months as $m): ?><option value="<?= e($m) ?>"<?= $m === $month ? ' selected' : '' ?>><?= e($monthLabel($m)) ?></option><?php endforeach; ?><?php if (!$months): ?><option>Aucune question</option><?php endif; ?></select>
     <div class="search"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Rechercher dans les questions…" aria-label="Rechercher"><button type="submit">→</button></div>
-    <select name="filtre" aria-label="Filtre" onchange="this.form.submit()"><?php foreach (['' => 'Toutes', 'negatifs' => 'Avis négatifs', 'positifs' => 'Avis positifs', 'erreurs' => 'Erreurs'] as $k => $l): ?><option value="<?= $k ?>"<?= $filter === $k ? ' selected' : '' ?>><?= $l ?></option><?php endforeach; ?></select>
+    <select name="filtre" aria-label="Filtre" data-autosubmit><?php foreach (['' => 'Toutes', 'negatifs' => 'Avis négatifs', 'positifs' => 'Avis positifs', 'erreurs' => 'Erreurs'] as $k => $l): ?><option value="<?= $k ?>"<?= $filter === $k ? ' selected' : '' ?>><?= $l ?></option><?php endforeach; ?></select>
   </form>
   <span class="grow"></span>
   <a class="btn" href="/admin/assistant/export.csv<?= $month ? '?mois=' . e($month) : '' ?>">Export CSV</a>

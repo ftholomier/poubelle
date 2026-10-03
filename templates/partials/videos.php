@@ -1,13 +1,13 @@
 <?php
 /**
- * Vidéos (YouTube sans cookie, Dailymotion, Vimeo, fichiers) : chargées seulement après accord (cookies « vidéos »).
+ * Vidéos (YouTube sans cookie, Dailymotion, Vimeo, Rutube, fichiers) : chargées seulement après accord (cookies « vidéos »).
  * Variables : $videos, $title, $anchor
  */
 $list = array_values(array_filter(array_map('video_embed', $videos ?? [])));
 if (!$list) {
     return;
 }
-$names = ['youtube' => 'YouTube', 'dailymotion' => 'Dailymotion', 'vimeo' => 'Vimeo', 'iframe' => t('un site tiers')];
+$names = ['youtube' => 'YouTube', 'dailymotion' => 'Dailymotion', 'vimeo' => 'Vimeo', 'rutube' => 'Rutube', 'iframe' => t('un site tiers')];
 ?>
 <section class="videos" id="<?= e($anchor ?? 'video') ?>">
   <h2 class="h-section"><?= e($title ?? (count($list) > 1 ? t('Vidéos') : t('Vidéo'))) ?></h2>

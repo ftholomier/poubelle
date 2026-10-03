@@ -82,10 +82,26 @@ function cc_media(string $url, array $media): ?string
     return isset($media[$scaled]) ? $scaled : $rel;
 }
 
-function cc_youtube(string $s): array
+/** Identifiants des vidéos citées (YouTube, Dailymotion, Vimeo, Rutube). */
+function cc_videos(string $s): array
 {
-    preg_match_all('#(?:youtube(?:-nocookie)?\.com/(?:embed/|watch\?v=|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})#', $s, $m);
-    return array_values(array_unique($m[1]));
+    $ids = [];
+    $patterns = [
+        '#(?:youtube(?:-nocookie)?\.com/(?:embed/|watch\?v=|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})#',
+        '#(?:dailymotion\.com/(?:video|embed/video)/|geo\.dailymotion\.com/player(?:/[\w-]+)?\.html\?(?:[^"\s]*&)?video=|dai\.ly/)([a-z0-9]{5,})#i',
+        '#player\.vimeo\.com/video/(\d+)#',
+        '#rutube\.ru/(?:play/embed|video)/([a-f0-9]{20,})#i',
+    ];
+    // Lecteur Dailymotion créé par script : videoId = 'x…'
+    if (str_contains($s, 'dailymotion') && preg_match_all("/videoId\\s*[=:]\\s*['\"]([a-z0-9]{5,})['\"]/i", $s, $m)) {
+        array_push($ids, ...$m[1]);
+    }
+    foreach ($patterns as $re) {
+        if (preg_match_all($re, $s, $m)) {
+            array_push($ids, ...$m[1]);
+        }
+    }
+    return array_values(array_unique($ids));
 }
 
 /** Libellés de mise en page de l'ancien site, sans contenu propre. */
@@ -171,9 +187,11 @@ foreach (glob(DATA . '/fiches/*.json') ?: [] as $file) {
     }
     $newJson = json_encode($doc, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     $missImgs = array_values(array_filter(array_keys($oldImgs), fn ($r) => !str_contains((string) $newJson, $r)));
-    // Vidéos
-    $oldVids = cc_youtube($oldHtml);
-    $missVids = array_values(array_filter($oldVids, fn ($v) => !str_contains((string) $newJson, $v)));
+    // Vidéos : présentes dans les vidéos de la fiche ou en lien dans le texte (les lecteurs
+    // intégrés au texte ne sont pas affichés tels quels, ils ne comptent donc pas).
+    $oldVids = cc_videos($oldHtml);
+    $visible = (string) preg_replace('#<iframe\b.*?</iframe>#is', '', (string) $newJson);
+    $missVids = array_values(array_filter($oldVids, fn ($v) => !str_contains($visible, $v)));
     // Tableaux de la page d'origine (un même tableau affiché deux fois ne compte qu'une fois ;
     // les tableaux vides de mise en page sont ignorés)
     $distinct = [];

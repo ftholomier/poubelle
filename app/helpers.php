@@ -68,6 +68,13 @@ function url(string $path = '/'): string
     return $path;
 }
 
+/** Jeton propre à la requête autorisant les rares scripts écrits dans la page (politique CSP). */
+function csp_nonce(): string
+{
+    static $nonce = null;
+    return $nonce ??= rtrim(strtr(base64_encode(random_bytes(18)), '+/', '-_'), '=');
+}
+
 function asset(string $path): string
 {
     $file = PUBLIC_PATH . '/assets/' . $path;
@@ -224,6 +231,7 @@ function video_embed(array $v): ?array
         'youtube' => ['provider' => 'youtube', 'id' => $id, 'embed' => 'https://www.youtube-nocookie.com/embed/' . rawurlencode((string) $id) . '?rel=0', 'link' => 'https://www.youtube.com/watch?v=' . rawurlencode((string) $id), 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
         'dailymotion' => ['provider' => 'dailymotion', 'id' => $id, 'embed' => 'https://geo.dailymotion.com/player.html?video=' . rawurlencode((string) $id), 'link' => 'https://www.dailymotion.com/video/' . rawurlencode((string) $id), 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
         'vimeo' => ['provider' => 'vimeo', 'id' => $id, 'embed' => 'https://player.vimeo.com/video/' . rawurlencode((string) $id) . '?dnt=1', 'link' => 'https://vimeo.com/' . rawurlencode((string) $id), 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
+        'rutube' => ['provider' => 'rutube', 'id' => $id, 'embed' => 'https://rutube.ru/play/embed/' . rawurlencode((string) $id), 'link' => 'https://rutube.ru/video/' . rawurlencode((string) $id) . '/', 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
         'file' => ['provider' => 'file', 'id' => null, 'embed' => preg_replace('#^https?://(www\.)?fcsochauxretro\.com/wp-content/uploads/#', '/media/full/', $url), 'link' => $url, 'thumb' => null, 'title' => (string) ($v['title'] ?? '')],
         'iframe' => $url !== '' && preg_match('#^https://#', $url) ? ['provider' => 'iframe', 'id' => null, 'embed' => $url, 'link' => $url, 'thumb' => null, 'title' => (string) ($v['title'] ?? '')] : null,
         default => null,

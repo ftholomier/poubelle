@@ -25,11 +25,11 @@ $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
 <form class="toolbar" method="get" action="/admin/medias">
   <?php if ($filter !== ''): ?><input type="hidden" name="filtre" value="<?= e($filter) ?>"><?php endif; ?>
   <div class="search"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Nom de fichier, légende, crédit…" aria-label="Rechercher un média"><button type="submit" aria-label="Rechercher">→</button></div>
-  <select name="dossier" aria-label="Dossier" onchange="this.form.submit()">
+  <select name="dossier" aria-label="Dossier" data-autosubmit>
     <option value="">Tous les dossiers</option>
     <?php foreach ($folders as $f => $n): ?><option value="<?= e((string) $f) ?>"<?= $folder === (string) $f ? ' selected' : '' ?>><?= e($f === 'contributions' ? 'Contributions' : (string) $f) ?> (<?= $fmt($n) ?>)</option><?php endforeach; ?>
   </select>
-  <select name="tri" aria-label="Tri" onchange="this.form.submit()">
+  <select name="tri" aria-label="Tri" data-autosubmit>
     <?php foreach (['recent' => 'Plus récents', 'ancien' => 'Plus anciens', 'nom' => 'Nom de fichier'] as $k => $l): ?><option value="<?= e($k) ?>"<?= $sort === $k ? ' selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?>
   </select>
   <span class="small muted"><?= $fmt($total) ?> média<?= $total > 1 ? 's' : '' ?></span>

@@ -182,7 +182,8 @@ final class Cron
     }
 
     /** Complète les métadonnées techniques des médias (par lots, en une seule écriture). */
-    private static function mediaFacts(int $max): ?string
+    /** Complète dimensions, poids et empreinte (sha1) des fichiers de la médiathèque, par lots. */
+    public static function mediaFacts(int $max): ?string
     {
         $changes = [];
         foreach (\App\Data\Media::all() as $rel => $m) {

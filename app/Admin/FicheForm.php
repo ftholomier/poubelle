@@ -100,9 +100,12 @@ final class FicheForm
         if ($has('videos')) {
             $doc['videos'] = [];
             foreach ((array) $in['videos'] as $v) {
-                $parsed = self::video((string) ($v['url'] ?? ''), (string) ($v['provider'] ?? ''), (string) ($v['id'] ?? ''));
+                $url = trim((string) ($v['url'] ?? ''));
+                $parsed = self::video($url, (string) ($v['provider'] ?? ''), (string) ($v['id'] ?? ''));
                 if ($parsed) {
                     $doc['videos'][] = $parsed + ['title' => Html::line($v['title'] ?? '', 200)];
+                } elseif ($url !== '') {
+                    $errors['videos'] = 'Lien de vidéo non reconnu : ' . mb_substr($url, 0, 80) . ' (YouTube, Dailymotion, Vimeo, Rutube ou fichier vidéo).';
                 }
             }
         }
@@ -613,11 +616,14 @@ final class FicheForm
         if (preg_match('#(?:youtube\.com/(?:watch\?v=|embed/|shorts/|live/)|youtu\.be/)([\w-]{11})#', $url, $m)) {
             return ['provider' => 'youtube', 'id' => $m[1]];
         }
-        if (preg_match('#(?:dailymotion\.com/(?:video|embed/video)/|dai\.ly/)([a-z0-9]+)#i', $url, $m)) {
+        if (preg_match('#(?:dailymotion\.com/(?:video|embed/video)/|geo\.dailymotion\.com/player(?:/[\w-]+)?\.html\?(?:.*&)?video=|dai\.ly/)([a-z0-9]+)#i', $url, $m)) {
             return ['provider' => 'dailymotion', 'id' => $m[1]];
         }
         if (preg_match('#vimeo\.com/(?:video/)?(\d+)#', $url, $m)) {
             return ['provider' => 'vimeo', 'id' => $m[1]];
+        }
+        if (preg_match('#rutube\.ru/(?:play/embed|video)/([a-f0-9]{20,})#i', $url, $m)) {
+            return ['provider' => 'rutube', 'id' => strtolower($m[1])];
         }
         if (preg_match('#^/media/|^https?://.+\.(mp4|webm)$#i', $url)) {
             return ['provider' => 'file', 'id' => '', 'url' => $url];

@@ -21,17 +21,50 @@ final class Kernel
     public static function handle(Request $req): Response
     {
         try {
-            return self::dispatch($req);
+            $res = self::dispatch($req);
         } catch (\Throwable $e) {
             error_log((string) $e);
             if (Settings::get('general.debug', false)) {
-                return Response::html('<pre>' . htmlspecialchars((string) $e) . '</pre>', 500);
+                $res = Response::html('<pre>' . htmlspecialchars((string) $e) . '</pre>', 500);
+            } elseif ($req->wantsJson()) {
+                $res = Response::json(['error' => 'Erreur interne'], 500);
+            } else {
+                $res = Response::html(View::render('errors/500'), 500);
             }
-            if ($req->wantsJson()) {
-                return Response::json(['error' => 'Erreur interne'], 500);
-            }
-            return Response::html(View::render('errors/500'), 500);
         }
+        // Politique de sécurité du contenu sur toutes les pages HTML (site et back-office).
+        if ($res->file === null && str_starts_with((string) ($res->headers['Content-Type'] ?? ''), 'text/html')) {
+            $res->headers['Content-Security-Policy'] ??= self::csp($req);
+        }
+        return $res;
+    }
+
+    /**
+     * Scripts : uniquement ceux du site (plus le court script d'en-tête, signé par un jeton).
+     * Cadres : lecteurs vidéo reconnus. Envois de formulaire : le site et les pages de paiement.
+     */
+    private static function csp(Request $req): string
+    {
+        $frames = 'https://www.youtube-nocookie.com https://www.youtube.com https://geo.dailymotion.com https://www.dailymotion.com https://player.vimeo.com https://rutube.ru';
+        $pay = 'https://checkout.stripe.com https://www.paypal.com https://www.sandbox.paypal.com';
+        $rules = [
+            "default-src 'self'",
+            "script-src 'self' 'nonce-" . csp_nonce() . "'",
+            "style-src 'self' 'unsafe-inline'",
+            "img-src 'self' data: blob: https://tile.openstreetmap.org",
+            "font-src 'self'",
+            "connect-src 'self'",
+            "media-src 'self'",
+            "frame-src 'self' $frames",
+            "object-src 'none'",
+            "base-uri 'self'",
+            "form-action 'self' $pay",
+            "frame-ancestors 'self'",
+        ];
+        if (($req->server['HTTPS'] ?? '') === 'on' || ($req->server['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') {
+            $rules[] = 'upgrade-insecure-requests';
+        }
+        return implode('; ', $rules);
     }
 
     private static function dispatch(Request $req): Response

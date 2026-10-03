@@ -730,16 +730,26 @@
     if (!b) return;
     const rep = document.querySelector('[data-repeater="match.lineup"]');
     if (!rep) return;
-    const r = await BO.pasteTable('Importer une composition', 'Colonnes attendues : Poste (G, D, M, A, R, E), Nom et prénom, Buts, Remplacement, Cartons — comme dans les fiches de l’ancien site.');
+    const r = await BO.pasteTable('Importer une composition', 'Colonnes : Poste (G, D, M, A, R, E), Nom et prénom, Buts, Remplacement, Cartons — comme dans les fiches de l’ancien site. Avec une ligne d’en-tête, les colonnes sont reconnues dans n’importe quel ordre (dont « Numéro »).');
     if (!r || !r.rows.length) return;
     const rows = r.rows.slice(r.header ? 1 : 0);
+    // Colonnes : d'après la ligne d'en-tête si elle est reconnue, sinon dans l'ordre habituel.
+    const norm = v => String(v || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    let cols = { pos: 0, name: 1, num: -1, goals: 2, sub: 3, cards: 4 };
+    if (r.header) {
+      const h = r.rows[0].map(norm);
+      const find = re => h.findIndex(x => re.test(x));
+      const c = { pos: find(/^post/), name: find(/nom|joueur/), num: find(/^(n°|no\b|num|maillot)/), goals: find(/^but/), sub: find(/chang|rempl/), cards: find(/carton/) };
+      if (c.name >= 0) cols = c;
+    }
+    const at = (cells, i) => (i >= 0 ? String(cells[i] ?? '').trim() : '');
     const existing = $$(':scope > [data-item]', rep).filter(it => $('[data-field="name"]', it)?.value.trim());
     if (existing.length && await BO.confirm('Remplacer la composition actuelle ?', existing.length + ' joueur(s) déjà saisi(s). « Remplacer » efface la composition actuelle ; « Annuler » ajoute les joueurs à la suite.', 'Remplacer', true)) {
       $$(':scope > [data-item]', rep).forEach(it => it.remove());
     }
     const map = { gardien: 'G', defenseur: 'D', 'défenseur': 'D', milieu: 'M', attaquant: 'A', 'remplaçant': 'R', remplacant: 'R', 'entraîneur': 'E', entraineur: 'E' };
     rows.forEach(cells => {
-      let [pos, name, goals, sub, cards] = cells.concat(['', '', '', '', '']);
+      let [pos, name, num, goals, sub, cards] = [at(cells, cols.pos), at(cells, cols.name), at(cells, cols.num), at(cells, cols.goals), at(cells, cols.sub), at(cells, cols.cards)];
       if (!name && pos && !/^[GDMARE]$/i.test(pos)) { name = pos; pos = ''; }
       if (!String(name || '').trim()) return;
       const p = map[String(pos).toLowerCase()] || String(pos).trim().toUpperCase().slice(0, 1);
@@ -748,12 +758,37 @@
       const set = (f, v) => { const el = $('[data-field="' + f + '"]', node); if (el) el.value = v ?? ''; };
       set('position', /^[GDMARE]$/.test(p) ? p : '');
       set('name', String(name).trim());
+      set('number', num);
       set('goals_text', goals);
       set('sub_text', sub);
       set('cards_text', cards);
     });
     rep.dispatchEvent(new Event('input', { bubbles: true }));
     BO.toast(rows.length + ' ligne(s) importée(s). Vérifiez les postes puis enregistrez : les noms seront reliés aux fiches joueurs.');
+  });
+
+  // Listes de filtres : envoi du formulaire dès qu'un choix change.
+  document.addEventListener('change', e => {
+    const el = e.target.closest('[data-autosubmit]');
+    if (el && el.form) el.form.submit();
+  });
+
+  // Réglages › IA : recharger la liste des modèles Gemini depuis la clé enregistrée.
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('[data-models-refresh]');
+    if (!b) return;
+    b.disabled = true;
+    const r = await BO.post('/admin/api/modeles', {});
+    b.disabled = false;
+    if (!r.ok) { BO.toast(r.error || 'Chargement impossible', true); return; }
+    document.querySelectorAll('[data-models]').forEach(box => {
+      const sel = box.querySelector('select');
+      const list = r[box.dataset.models] || {};
+      const cur = sel.value;
+      [...sel.options].slice(1).forEach(o => o.remove());
+      Object.entries(list).forEach(([id, label]) => { const o = new Option(label, id); if (id === cur) o.selected = true; sel.add(o); });
+    });
+    BO.toast('Liste des modèles mise à jour (' + Object.keys(r.generate || {}).length + ' modèles).');
   });
 
   const prevInit = BO.init;
