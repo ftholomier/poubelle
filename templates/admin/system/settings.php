@@ -20,6 +20,8 @@ $isWaiting = $group === 'waiting';
 <?php endif; ?>
 <?php if ($group === 'ai'): ?>
   <p class="alert <?= $status['ready'] ? 'alert--ok' : '' ?>" style="margin:0"><?= $status['ready'] ? 'Clé Gemini enregistrée.' . (!empty($options['_error']) ? ' <b class="ko">La liste des modèles n’a pas pu être chargée : ' . e($options['_error']) . '</b>' : ' ' . count($options['gemini_generate_models']) . ' modèle(s) disponible(s) pour cette clé.') : 'Saisissez la clé API Gemini (Google AI Studio) puis enregistrez : la liste des modèles disponibles se charge automatiquement.' ?></p>
+<?php elseif ($group === 'couts'): ?>
+  <p class="alert alert--info" style="margin:0">Dépense en temps réel, relevés mensuels à faire rembourser et barème des modèles : <a href="/admin/couts-ia">Système › Coûts IA</a>.</p>
 <?php elseif ($group === 'mail'): ?>
   <p class="alert <?= $status['from'] ? 'alert--ok' : 'alert--error' ?>" style="margin:0"><?= $status['from'] ? 'Les e-mails partent de ' . e($status['from']) . '.' : 'Aucune adresse d’expédition : aucun e-mail ne peut partir (contact, contributions, dons, invitations).' ?></p>
 <?php elseif ($group === 'donations'): ?>

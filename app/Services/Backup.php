@@ -8,7 +8,7 @@ use App\Core\Settings;
 /**
  * Sauvegardes ZIP (storage/backups, hors du dossier public) : toutes les données
  * éditoriales (data/), les réglages chiffrés et leur clé, les versions, les boîtes
- * de réception, les dons et la newsletter. Les photos (volumineuses) sont ajoutées
+ * de réception, les dons, la newsletter et les frais d'IA. Les photos (volumineuses) sont ajoutées
  * le dimanche si l'option est cochée. Les plus anciennes sont supprimées.
  */
 final class Backup
@@ -28,6 +28,7 @@ final class Backup
         'storage/votes',
         'storage/counters.json',
         'storage/activity',
+        'storage/ia',
     ];
 
     /** @return array{file:string,size:int,files:int,ms:int}|array{error:string} */

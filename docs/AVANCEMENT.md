@@ -149,6 +149,16 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       `php bin/console.php correcteur`. Correcteur du navigateur activé dans les champs
       rédigés (anglais pour la version EN). Aide, mémo, guide PDF et captures à jour ;
       `tests/correcteur.php`. Essayé avec un faux Gemini local (pas de clé ici).
+- [x] **Coût de l'IA en temps réel** (Système › Coûts IA) : chaque réponse de Gemini est
+      comptée (jetons envoyés, en cache, produits, de réflexion × tarif du modèle), avec son
+      usage, son demandeur et sa fiche ; écran rafraîchi toutes les 10 s (aujourd'hui, mois,
+      à rembourser, budget, derniers appels, par usage) ; barème daté modifiable (tarifs
+      Google d'octobre 2026, hausses programmées des modèles 3.6 à 3.8 au 1er janvier 2027) ;
+      relevé mensuel PDF avec cases de signature et détail CSV pour l'association ;
+      remboursements notés, rappel au tableau de bord ; budget mensuel avec mise en pause des
+      tâches automatiques (et de l'assistant si souhaité) ; coût affiché après une
+      vérification d'orthographe, une traduction ou une réindexation. `tests/couts.php` ;
+      essai complet dans le navigateur avec un faux Gemini (pas de clé ici).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).

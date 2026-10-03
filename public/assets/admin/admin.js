@@ -102,7 +102,7 @@
     b.textContent = label;
     if (!r.ok) { BO.toast(r.error || 'Traduction impossible', true); return; }
     pairs.forEach(([src, dst]) => { const t = r.translations[src.value]; if (t) BO.setValue(dst, t); });
-    BO.toast('Traduit avec Gemini : relisez avant d’enregistrer.');
+    BO.toast('Traduit avec Gemini' + (r.cost && r.cost.label ? ' (coût : ' + r.cost.label + ')' : '') + ' : relisez avant d’enregistrer.');
   });
 
   /* ---------------------------------------------------------- menus déroulants, menu mobile */

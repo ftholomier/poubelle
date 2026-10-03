@@ -124,6 +124,9 @@ final class Cron
                 if (!Translator::enabled() || !Settings::get('translation.auto_translate', true)) {
                     return null;
                 }
+                if (AiCosts::paused('traduction')) {
+                    return 'en pause : budget IA du mois atteint';
+                }
                 $r = Translator::run(8);
                 return $r['done'] ? $r : null;
 
@@ -150,6 +153,9 @@ final class Cron
             case 'assistant':
                 if (!Rag::enabled() || !Gemini::embedModel()) {
                     return null;
+                }
+                if (AiCosts::paused('index')) {
+                    return 'en pause : budget IA du mois atteint';
                 }
                 return Rag::reindex(null, 300);
 

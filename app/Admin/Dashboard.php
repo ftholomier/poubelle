@@ -85,6 +85,16 @@ final class Dashboard extends Base
         if (!\App\Services\Gemini::ready() && \App\Core\Auth::isAdmin()) {
             $todos[] = ['#F6C400', 'Saisir la clé Gemini (assistant IA, traductions)', 'Réglages', '/admin/reglages?groupe=ai'];
         }
+        if (\App\Core\Auth::isAdmin()) {
+            // Frais d'IA avancés : mois terminés pas encore remboursés, budget du mois atteint.
+            $due = \App\Services\AiCosts::toReimburse(false);
+            if ($due['eur'] >= 0.01) {
+                $todos[] = ['#F6C400', 'Faire rembourser ' . number_format($due['eur'], 2, ',', ' ') . ' € de frais d’IA (' . implode(', ', array_map([Costs::class, 'monthLabel'], $due['months'])) . ')', 'Coûts IA', '/admin/couts-ia#mois'];
+            }
+            if (\App\Services\AiCosts::budget()['over']) {
+                $todos[] = ['#D9342B', 'Budget IA du mois atteint' . (\App\Services\AiCosts::paused('correcteur') ? ' : tâches automatiques en pause' : ''), 'Coûts IA', '/admin/couts-ia'];
+            }
+        }
         if (!(string) Settings::get('general.contact_email', '') && \App\Core\Auth::isAdmin()) {
             $todos[] = ['#D9342B', 'Renseigner l’e-mail de contact (messages, contributions)', 'Réglages', '/admin/reglages?groupe=general'];
         }

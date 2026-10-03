@@ -218,6 +218,9 @@
     }
     if (state.notice) html += '<span class="proof__notice">' + esc(state.notice) + '</span>';
     if (state.engine === 'regles' && !state.gemini) html += '<span class="proof__notice">Vérification complète (accords, conjugaison, syntaxe) : un administrateur règle la clé Gemini dans Réglages › Assistant IA.</span>';
+    // Coût de la vérification (frais de Gemini, voir Système › Coûts IA).
+    if (state.cost && state.cost.calls) html += '<span class="proof__cost">Coût de cette vérification : ' + esc(state.cost.label) + ' (' + plural(state.cost.calls, 'appel', 'appels') + ' à Gemini).</span>';
+    else if (state.engine === 'gemini') html += '<span class="proof__cost">Sans frais : ces textes avaient déjà été relus par Gemini.</span>';
     status(html);
     const tools = $('.proof__tools', panel);
     tools.hidden = false;
@@ -344,7 +347,7 @@
     const byK = Object.fromEntries(els.map(el => [keyOf(el), el]));
     const labels = {};
     state = {
-      form, btn, scope, engine: r.engine, gemini: r.gemini, notice: r.notice, count: els.length,
+      form, btn, scope, engine: r.engine, gemini: r.gemini, notice: r.notice, count: els.length, cost: r.cost,
       items: (r.items || []).filter(s => byK[s.k]).map((s, i) => Object.assign(s, { i, el: byK[s.k], status: 'todo', fieldLabel: labels[s.k] || (labels[s.k] = labelOf(byK[s.k])) })),
     };
     render();

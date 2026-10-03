@@ -85,7 +85,18 @@ return [
         'fields' => [
             'background' => ['label' => 'Vérifier l’orthographe de toutes les fiches en tâche de fond', 'type' => 'bool', 'default' => true, 'help' => 'Les corrections proposées s’affichent dans Qualité › Orthographe et dans chaque fiche. Rien n’est modifié sans l’accord d’un historien. Sans clé Gemini, seules les règles de base sont appliquées.'],
             'daily_calls' => ['label' => 'Appels à Gemini par jour pour la tâche de fond (plafond de coût)', 'type' => 'number', 'default' => 300, 'help' => 'Un appel vérifie environ 6 000 caractères. Un texte déjà vérifié n’est jamais renvoyé à Gemini. La vérification depuis l’éditeur n’est pas plafonnée.'],
-            'typography' => ['label' => 'Proposer aussi les corrections typographiques (« À », « 1re », « 2e », espaces)', 'type' => 'bool', 'default' => true],
+            'typography' => ['label' => 'Proposer aussi les corrections typographiques (« À », « 1re », « 2e », espaces)', 'type' => 'bool', 'default' => true, 'help' => 'Décoché, seules les fautes de langue et de ponctuation sont signalées : « 2ème », « A l’extérieur » ou « l’ équipe » ne sont plus proposés.'],
+        ],
+    ],
+    'couts' => [
+        'label' => 'Coûts IA',
+        'fields' => [
+            'payer' => ['label' => 'Qui règle la facture Google (avance de frais)', 'type' => 'text', 'default' => '', 'help' => 'Nom imprimé sur le relevé mensuel que l’association rembourse (écran Système › Coûts IA).'],
+            'eur_rate' => ['label' => 'Taux de change : 1 dollar = … euro', 'type' => 'number', 'default' => 0.86, 'step' => 0.0001, 'min' => 0.5, 'max' => 2, 'help' => 'Google fixe ses tarifs en dollars : reprenez le taux de votre facture pour que les euros correspondent.'],
+            'monthly_budget' => ['label' => 'Budget mensuel en euros (0 = sans limite)', 'type' => 'number', 'default' => 0, 'step' => 0.01, 'min' => 0],
+            'pause_tasks' => ['label' => 'Budget atteint : suspendre les tâches automatiques (traductions, correcteur, index de l’assistant)', 'type' => 'bool', 'default' => true, 'help' => 'Les règles de base du correcteur continuent, sans frais. Les boutons du back-office restent utilisables.'],
+            'pause_assistant' => ['label' => 'Budget atteint : suspendre aussi l’assistant du site', 'type' => 'bool', 'default' => false, 'help' => 'Les visiteurs lisent alors « L’assistant fait une pause : revenez bientôt ! » jusqu’au 1er du mois suivant.'],
+            'free_tier' => ['label' => 'Clé Gemini sur le niveau gratuit de Google (rien n’est facturé)', 'type' => 'bool', 'default' => false, 'help' => 'Les appels restent comptés, à 0 € ; le coût évité est indiqué à part.'],
         ],
     ],
     'donations' => [

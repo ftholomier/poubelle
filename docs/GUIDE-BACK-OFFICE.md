@@ -234,8 +234,15 @@ de grosses modifications. Les questions sont conservées pour une durée limité
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
 - **Réglages** (administrateur) : identité du site, e-mail, clés Gemini, correcteur
-  (vérification de fond, plafond quotidien d'appels à Gemini, typographie), Stripe et
-  PayPal, carte, centenaire, mentions légales, cookies, sauvegardes.
+  (vérification de fond, plafond quotidien d'appels à Gemini, typographie), coûts de l'IA
+  (qui avance les frais, taux de change, budget mensuel), Stripe et PayPal, carte,
+  centenaire, mentions légales, cookies, sauvegardes.
+- **Coûts IA** : ce que coûte Gemini, calculé à chaque appel et mis à jour à l'écran toutes
+  les 10 secondes (aujourd'hui, ce mois-ci, à rembourser, budget, derniers appels avec la
+  personne et la fiche concernées). Le mois terminé : relevé PDF à signer et détail CSV à
+  remettre à l'association, puis « Noter le remboursement » (administrateur). Le tableau de
+  bord rappelle les mois non remboursés. Budget atteint : les tâches automatiques se
+  mettent en pause jusqu'au mois suivant. La facture Google fait foi.
 - **Sauvegardes** (administrateurs) : une sauvegarde complète est faite chaque jour ; on peut en lancer une
   et la télécharger. Gardez-en régulièrement une copie hors du serveur.
 - **Tâches planifiées** : état des tâches automatiques (publication programmée,

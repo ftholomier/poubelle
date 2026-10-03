@@ -184,7 +184,7 @@ final class Fiches extends Base
                 }
             }
         });
-        return self::back($back, $n . ' fiche' . ($n > 1 ? 's' : '') . ' traitée' . ($n > 1 ? 's' : '') . '.');
+        return self::back($back, $n . ' fiche' . ($n > 1 ? 's' : '') . ' traitée' . ($n > 1 ? 's' : '') . '.' . self::aiCost());
     }
 
     // ------------------------------------------------------------------ masque de saisie
@@ -406,7 +406,7 @@ final class Fiches extends Base
         }
         @set_time_limit(300);
         $r = Translator::translateFiche($id, true, self::actor());
-        return $r === 'ok' ? self::back('/admin/fiche/' . $id . '#en', 'Traduction anglaise générée. Relisez-la et corrigez-la si besoin.') : self::back('/admin/fiche/' . $id . '#en', null, 'Traduction : ' . $r);
+        return $r === 'ok' ? self::back('/admin/fiche/' . $id . '#en', 'Traduction anglaise générée. Relisez-la et corrigez-la si besoin.' . self::aiCost()) : self::back('/admin/fiche/' . $id . '#en', null, 'Traduction : ' . $r);
     }
 
     /** Aperçu « comme sur le site » d'une fiche, même non publiée (données en cours de saisie si envoyées). */

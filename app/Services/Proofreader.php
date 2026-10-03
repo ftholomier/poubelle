@@ -236,7 +236,7 @@ final class Proofreader
         $notice = null;
         $calls = 0;
         if ($useAi && $prepared) {
-            [$ai, $notice, $calls] = self::aiCheck($prepared, (string) $model, $o['names'] ?? []);
+            [$ai, $notice, $calls] = self::aiCheck($prepared, (string) $model, $o['names'] ?? [], (string) ($o['scope'] ?? ''));
             foreach ($ai as $i => $items) {
                 $prepared[$i]['items'] = self::merge($prepared[$i]['items'], $items);
             }
@@ -352,7 +352,7 @@ final class Proofreader
     /**
      * @return array{0:array<int,list<array>>,1:?string,2:int} corrections par champ, message d'erreur, nombre d'appels
      */
-    private static function aiCheck(array $prepared, string $model, array $extraNames): array
+    private static function aiCheck(array $prepared, string $model, array $extraNames, string $ref = ''): array
     {
         $result = [];
         $pending = [];
@@ -407,6 +407,7 @@ final class Proofreader
             $payload = ['noms_connus' => self::namesIn($all, $protected, $extraNames), 'dictionnaire' => self::dictionaryIn($all), 'textes' => $texts];
             $jobs[] = [[['role' => 'user', 'text' => json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)]], self::instructions($b['lang']), [
                 'model' => $model, 'temperature' => 0.0, 'max_tokens' => 4096, 'json' => true, 'schema' => self::schema(), 'timeout' => 90,
+                'for' => 'correcteur', 'ref' => $ref,
             ]];
         }
         $answers = self::$ai ? (self::$ai)($jobs) : Gemini::generateMany($jobs);
@@ -950,8 +951,10 @@ final class Proofreader
             $state = ['day' => date('Y-m-d'), 'calls' => 0, 'pause' => $state['pause'] ?? 0];
         }
         $cap = $cap ?? max(0, (int) Settings::get('correcteur.daily_calls', 300));
+        // Gemini seulement dans le plafond du jour, hors pause (quota, budget IA du mois) ;
+        // sinon les règles du musée continuent, sans frais.
         $aiOk = function () use (&$state, $cap): bool {
-            return (self::$ai !== null || Gemini::ready()) && $state['calls'] < $cap && ($state['pause'] ?? 0) < time();
+            return (self::$ai !== null || Gemini::ready()) && $state['calls'] < $cap && ($state['pause'] ?? 0) < time() && !AiCosts::paused('correcteur');
         };
         $index = self::index();
         $dict = self::dictHash();

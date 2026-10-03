@@ -138,6 +138,7 @@ l'hébergeur vidéo qu'après l'accord du visiteur.
 | `Rag`, `Gemini` | assistant IA : index sémantique (`storage/ai/`), réponses limitées aux données du site, quotas, journal des questions (RGPD) |
 | `Translator`, `I18n` | traduction anglaise des fiches avec Gemini (champ `i18n.en`), libellés de l'interface (`t()`) |
 | `Proofreader` | correcteur d'orthographe et de syntaxe (§ 7 ter) |
+| `AiCosts` | coût de l'IA en temps réel, budget, remboursements (§ 7 quater) |
 | `Payments` | Stripe Checkout et abonnements, PayPal Orders v2 et abonnements, vérification des webhooks |
 | `Mailer`, `Newsletter` | e-mails (SMTP ou mail()), newsletter hebdomadaire « Ce jour-là » |
 | `Geo` | géolocalisation (répertoire intégré, puis Nominatim d'OpenStreetMap, une requête par seconde) |
@@ -210,6 +211,45 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   variable d'environnement `GEMINI_MOCK_URL=http://127.0.0.1:port/` dirige les appels vers
   un faux Gemini local ; impossible sur l'hébergement.
 
+## 7 quater. Coûts de l'IA (`App\Services\AiCosts`)
+
+- **Comptage** : chaque réponse de Gemini (`Gemini::generate`, `generateMany`, `embed`) est
+  enregistrée par `AiCosts::record()` avec son usage (`assistant`, `traduction`,
+  `correcteur`, `index`, `autre` : option `for` des appels), le demandeur (membre connecté,
+  « Visiteur du site » pour l'assistant, « Tâche automatique » en ligne de commande) et la
+  fiche concernée (option `ref` ou `AiCosts::$ref`, ex. `fiche:123`). Jetons lus dans
+  `usageMetadata` : envoyés (`promptTokenCount` + `toolUsePromptTokenCount`), dont lus dans
+  le cache (`cachedContentTokenCount`, tarif réduit), produits (`candidatesTokenCount`) et
+  de réflexion (`thoughtsTokenCount`, facturés comme des jetons produits). Embeddings sans
+  compte : estimation à 4 caractères par jeton (signalée). Une erreur d'écriture n'interrompt
+  jamais l'appel à Gemini.
+- **Barème** : dollars par million de jetons (entrée, sortie, entrée en cache) par début
+  d'identifiant de modèle ; la ligne au début d'identifiant le plus long l'emporte, puis la
+  plus récente déjà en vigueur (date « à partir du » : une hausse annoncée se saisit à
+  l'avance). Tarifs publics de Google d'octobre 2026 par défaut (`DEFAULT_PRICES`), barème
+  modifié dans l'écran : `storage/ia/tarifs.json`. Modèle inconnu : 0,50 $ / 3,00 $
+  (signalé « tarif par défaut »). Le coût est figé à l'appel : changer le barème ne
+  recalcule rien.
+- **Fichiers** (`storage/ia/`) : `AAAA-MM.jsonl` (une ligne par appel : date, usage,
+  modèle, jetons, coût en dollars, demandeur, fiche ; `g` = coût évité au niveau gratuit,
+  `e` = jetons estimés, `x` = tarif par défaut), `totaux.json` (cumuls par mois, jour, usage
+  et modèle, mis à jour sous verrou), `remboursements.json`, `tarifs.json`.
+- **Écran** Système › Coûts IA (`App\Admin\Costs`, `templates/admin/system/couts.php`,
+  `public/assets/admin/couts.js`) : chiffres rafraîchis toutes les 10 secondes par
+  `GET /admin/api/couts` quand l'onglet est visible ; relevé mensuel PDF
+  (`/admin/couts-ia/releve/AAAA-MM.pdf`, `Pdf\Layout` : totaux par usage, modèle et jour,
+  cases de signature) et détail CSV (`/admin/couts-ia/detail/AAAA-MM.csv`, UTF-8 avec BOM,
+  séparateur « ; » pour Excel). Remboursement noté par un administrateur, mois terminés
+  seulement ; rappel sur le tableau de bord.
+- **Budget** (Réglages › Coûts IA, en euros, au taux réglé) : une fois atteint,
+  `AiCosts::paused()` suspend les tâches automatiques (traductions, index de l'assistant,
+  Gemini dans la relecture de fond : les règles du musée continuent) et, si la case est
+  cochée, l'assistant du site (réponse 429 « L'assistant fait une pause »). Les boutons du
+  back-office ne sont jamais bloqués. Niveau gratuit de Google : appels comptés à 0 $.
+- **Coût d'une action** : `AiCosts::request()` (appels de la requête en cours) est renvoyé
+  par `/admin/api/correcteur` et `/admin/api/traduire` et ajouté aux messages de traduction
+  et de réindexation (`Admin\Base::aiCost()`).
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -249,6 +289,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `inbox/`, `newsletter/`, `dons/`, `votes/`, `counters.json`, `activity/` | messages et contributions, abonnés, dons, votes, compteurs, journal d'activité | oui |
 | `ai/` | index et journal de l'assistant | non (reconstructible, journal purgé) |
 | `correcteur/` | résultats de la vérification de fond, corrections ignorées | non (recalculé) |
+| `ia/` | dépense d'IA : détail des appels, cumuls, remboursements, barème (§ 7 quater) | oui |
 | `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques | non |
 
 ## 11. Sécurité
@@ -285,5 +326,7 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   cartons) sur tous les formats rencontrés dans les fiches d'origine.
 - `php tests/correcteur.php` : correcteur d'orthographe (texte des champs, règles du musée,
   contrôle des propositions de Gemini simulé, mots protégés, cache, découpage).
+- `php tests/couts.php` : coûts de l'IA (barème daté, calcul, cumuls, niveau gratuit,
+  budget et pause, remboursements, relevé PDF, détail CSV).
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

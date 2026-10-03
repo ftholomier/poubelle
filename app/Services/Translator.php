@@ -117,11 +117,14 @@ final class Translator
         if (!$src) {
             return 'rien à traduire';
         }
+        AiCosts::$ref = "fiche:$id";
         try {
             $out = self::translateMap($src);
         } catch (\Throwable $e) {
             self::fail($id, $e->getMessage());
             return 'erreur : ' . $e->getMessage();
+        } finally {
+            AiCosts::$ref = '';
         }
         $en = self::build($doc, $out);
         $en['_src'] = self::hash($doc);
@@ -268,6 +271,7 @@ final class Translator
             'max_tokens' => 8192,
             'json' => true,
             'timeout' => 90,
+            'for' => 'traduction',
         ]);
         $text = trim($g['text']);
         $text = preg_replace('/^```(?:json)?\s*|\s*```$/', '', $text);

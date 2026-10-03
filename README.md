@@ -31,7 +31,9 @@ médiathèque, rubriques et menus (ordre des fiches de chaque décennie, saison 
 par glisser-déposer avec trait d'insertion), accueil, outils interactifs, communauté, dons,
 traductions, qualité des données, **correcteur d'orthographe et de syntaxe** (Gemini et
 règles du musée : chaque correction est proposée, l'historien accepte ou ignore ; relecture
-de fond de tout le musée dans Qualité › Orthographe), sauvegardes, aide en ligne (guide,
+de fond de tout le musée dans Qualité › Orthographe), **coût de l'IA en temps réel**
+(dépense du jour et du mois, derniers appels, budget, relevé mensuel PDF et CSV à faire
+rembourser par l'association), sauvegardes, aide en ligne (guide,
 mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
 et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
 

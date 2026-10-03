@@ -120,6 +120,8 @@ final class Gemini
 
     /**
      * Génère une réponse. $contents : [['role' => 'user'|'model', 'text' => '…'], …].
+     * $opt['for'] : usage facturé (assistant, traduction, correcteur…), $opt['ref'] : fiche
+     * concernée ; chaque réponse est comptée dans les coûts IA (App\Services\AiCosts).
      * @return array{text:string,finish:string,tokens_in:int,tokens_out:int,model:string}
      */
     public static function generate(array $contents, ?string $system = null, array $opt = []): array
@@ -140,6 +142,7 @@ final class Gemini
             }
             $r = self::request('POST', $path, $body, (int) ($opt['timeout'] ?? 45));
         }
+        AiCosts::record((string) ($opt['for'] ?? 'autre'), $model, AiCosts::usage($r), $opt['ref'] ?? null);
         $out = self::parse($r, $model);
         if ($out['text'] === '' && $out['finish'] === 'MAX_TOKENS' && empty($opt['_retry'])) {
             // Le raisonnement interne a consommé le budget : on réessaie avec plus de marge.
@@ -178,6 +181,8 @@ final class Gemini
             curl_close($ch);
             try {
                 $r = self::decode($raw === false || $raw === null ? false : (string) $raw, $code, $err);
+                $opt = array_values($jobs)[$i][2] ?? [];
+                AiCosts::record((string) ($opt['for'] ?? 'autre'), $model, AiCosts::usage($r), $opt['ref'] ?? null);
                 $res = self::parse($r, $model);
                 if ($res['text'] === '' && $res['finish'] === 'MAX_TOKENS') {
                     throw new \RuntimeException('réponse tronquée');
@@ -250,9 +255,10 @@ final class Gemini
     /**
      * Embeddings d'une liste de textes (par lots de 100).
      * $task : RETRIEVAL_DOCUMENT ou RETRIEVAL_QUERY. Dimension réduite (256) si le modèle l'accepte.
+     * $for : usage facturé (« index » pour l'indexation, « assistant » pour une question).
      * @return list<list<float>>
      */
-    public static function embed(array $texts, string $task = 'RETRIEVAL_DOCUMENT', ?string $model = null, int $dim = 256): array
+    public static function embed(array $texts, string $task = 'RETRIEVAL_DOCUMENT', ?string $model = null, int $dim = 256, string $for = 'index'): array
     {
         $model ??= self::embedModel() ?? 'text-embedding-004';
         $out = [];
@@ -266,6 +272,12 @@ final class Gemini
                 }
                 $r = self::request('POST', 'models/' . rawurlencode($model) . ':batchEmbedContents', $req(false), 60);
             }
+            // Google n'indique pas toujours les jetons d'un embedding : estimation (4 caractères par jeton).
+            $usage = AiCosts::usage($r);
+            if ($usage['in'] <= 0) {
+                $usage = ['in' => (int) ceil(array_sum(array_map(fn ($t) => mb_strlen(mb_substr((string) $t, 0, 8000)), $batch)) / 4), 'est' => true];
+            }
+            AiCosts::record($for, $model, $usage);
             foreach ($r['embeddings'] ?? [] as $em) {
                 $out[] = array_map('floatval', $em['values'] ?? []);
             }

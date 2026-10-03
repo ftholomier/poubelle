@@ -52,6 +52,7 @@ class Base
         'Système' => [
             ['traductions', 'Traductions EN', '/admin/traductions', false],
             ['assistant', 'Assistant IA', '/admin/assistant', false],
+            ['couts', 'Coûts IA', '/admin/couts-ia', false],
             ['utilisateurs', 'Utilisateurs', '/admin/utilisateurs', true],
             ['reglages', 'Réglages', '/admin/reglages', true],
             ['sauvegardes', 'Sauvegardes', '/admin/sauvegardes', false],
@@ -93,6 +94,13 @@ class Base
             Session::flash('error', $error);
         }
         return Response::redirect($url, 303);
+    }
+
+    /** « Coût : 0,32 centime. » après une action qui a fait appel à Gemini (vide sinon). */
+    public static function aiCost(): string
+    {
+        $c = \App\Services\AiCosts::request();
+        return $c['calls'] ? ' Coût : ' . $c['label'] . '.' : '';
     }
 
     public static function json(mixed $data, int $status = 200): Response

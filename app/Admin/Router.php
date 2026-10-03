@@ -143,6 +143,12 @@ final class Router
         $r->get('/admin/assistant', fn ($q) => System::assistant($q));
         $r->post('/admin/assistant', fn ($q) => System::assistantAction($q));
         $r->get('/admin/assistant/export.csv', fn ($q) => System::assistantExport($q));
+        $r->get('/admin/couts-ia', fn ($q) => Costs::index($q));
+        $r->post('/admin/couts-ia/tarifs', fn ($q) => Costs::savePrices($q));
+        $r->post('/admin/couts-ia/tarifs/defaut', fn ($q) => Costs::resetPrices($q));
+        $r->post('/admin/couts-ia/rembourse', fn ($q) => Costs::reimburse($q));
+        $r->get('/admin/couts-ia/releve/{ym}', fn ($q, $ym) => Costs::statement($q, $ym));
+        $r->get('/admin/couts-ia/detail/{ym}', fn ($q, $ym) => Costs::csv($q, $ym));
         $r->get('/admin/utilisateurs', fn ($q) => System::users($q));
         $r->post('/admin/utilisateurs', fn ($q) => System::usersAction($q));
         $r->get('/admin/reglages', fn ($q) => System::settings($q));
@@ -163,6 +169,7 @@ final class Router
         $r->post('/admin/api/correcteur', fn ($q) => Api::proofread($q));
         $r->post('/admin/api/correcteur/ignorer', fn ($q) => Api::proofIgnore($q));
         $r->post('/admin/api/correcteur/dictionnaire', fn ($q) => Api::proofWord($q));
+        $r->get('/admin/api/couts', fn ($q) => Costs::api($q));
 
         $res = $r->dispatch(new Request($req->method, $path, $req->query, $req->post, $req->files, $req->server, $req->body));
         if ($res instanceof Response) {

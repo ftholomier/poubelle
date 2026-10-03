@@ -179,7 +179,7 @@ final class PdfExport
 
     // ================================================================== briques communes
 
-    private static function layout(string $path, string $running, string $title, string $subject): Layout
+    public static function layout(string $path, string $running, string $title, string $subject): Layout
     {
         $l = new Layout();
         $l->url = base_url() . url($path);
@@ -199,7 +199,7 @@ final class PdfExport
     }
 
     /** Surtitre, grand titre (réduit s'il est long) et sous-titre. */
-    private static function titleBlock(Layout $l, string $eyebrow, string $title, string $sub = '', string $pre = ''): void
+    public static function titleBlock(Layout $l, string $eyebrow, string $title, string $sub = '', string $pre = ''): void
     {
         if ($eyebrow !== '') {
             $l->para([Layout::run(mb_strtoupper($eyebrow), 'display-b', 9.6, 'blue', null, 1.3)], ['after' => 3]);
@@ -221,7 +221,7 @@ final class PdfExport
     }
 
     /** Grands chiffres dans des cartouches (matchs, buts, victoires…). @param list<array{0:string,1:string,2?:bool}> $items */
-    private static function bigNumbers(Layout $l, array $items): void
+    public static function bigNumbers(Layout $l, array $items): void
     {
         $items = array_values(array_filter($items, fn ($i) => $i[0] !== '' && $i[0] !== '–'));
         $n = count($items);

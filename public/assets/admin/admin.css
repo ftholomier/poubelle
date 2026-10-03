@@ -698,6 +698,7 @@ a.lstate:hover { background: var(--yellow); }
 .proof__status .ok { color: var(--okd); }
 .proof__status.is-error { background: var(--pink); }
 .proof__notice { display: block; width: 100%; font-size: 13px; color: var(--warn); }
+.proof__cost { display: block; width: 100%; font-size: 13px; color: var(--muted); }
 .proof__tools { display: flex; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--sand); }
 .proof__list { flex: 1; overflow: auto; padding: 4px 16px 16px; }
 .proof__field { all: unset; cursor: pointer; display: block; margin: 14px 0 6px; font-family: var(--display); font-weight: 800; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
@@ -726,3 +727,12 @@ body.has-proof .bo { padding-right: 440px; }
 @media (max-width: 1200px) { body.has-proof .bo { padding-right: 0; } }
 @media (max-width: 700px) { .proof { width: 100vw; border-left: 0; top: auto; height: 78vh; border-top: 3px solid var(--navy); } }
 @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+/* Coûts IA */
+.costs-live { display: inline-flex; align-items: center; gap: 6px; }
+.costs-live .dot { animation: costs-pulse 2s ease-in-out infinite; }
+.costs-live.is-off .dot { background: var(--red); animation: none; }
+@keyframes costs-pulse { 50% { opacity: .3; } }
+[data-live-recent] tr.is-new td { animation: moved 2.4s ease-out; }
+.costs-pay { gap: 6px; }
+.table td.costs-ref { max-width: 330px; }
+@media (prefers-reduced-motion: reduce) { .costs-live .dot, [data-live-recent] tr.is-new td { animation: none; } }

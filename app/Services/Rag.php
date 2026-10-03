@@ -75,6 +75,9 @@ final class Rag
         if (!RateLimiter::hit('chat-all', 'site', max(10, (int) Settings::get('ai.global_daily_limit', 2000)), 86400)) {
             return Response::json(['error' => t('L’assistant fait une pause : revenez demain !')], 429);
         }
+        if (AiCosts::paused('assistant')) {
+            return Response::json(['error' => t('L’assistant fait une pause : revenez bientôt !')], 429);
+        }
         $history = [];
         foreach (array_slice(is_array($in['history'] ?? null) ? $in['history'] : [], -6) as $h) {
             if (is_array($h) && in_array($h['role'] ?? '', ['user', 'model'], true) && is_string($h['text'] ?? null)) {
@@ -155,6 +158,7 @@ final class Rag
         $g = Gemini::generate($contents, $system, [
             'temperature' => (float) Settings::get('ai.temperature', 0.3),
             'max_tokens' => max(200, min(4000, (int) Settings::get('ai.max_output_tokens', 800))),
+            'for' => 'assistant',
         ]);
         $text = $g['text'] !== '' ? $g['text'] : t('Je n’ai pas trouvé de réponse fiable dans les fiches du musée. Essayez de reformuler, ou utilisez la recherche.');
         [$html, $cited] = self::render($text, $ctx);
@@ -280,7 +284,7 @@ final class Rag
         $qvec = null;
         if (Gemini::embedModel() && is_file(self::DOCVEC . '.bin')) {
             try {
-                $qvec = Gemini::embed([$q], 'RETRIEVAL_QUERY', Gemini::embedModel(), self::DIM)[0] ?? null;
+                $qvec = Gemini::embed([$q], 'RETRIEVAL_QUERY', Gemini::embedModel(), self::DIM, 'assistant')[0] ?? null;
             } catch (\Throwable $e) {
                 error_log('[assistant] embedding : ' . $e->getMessage());
             }

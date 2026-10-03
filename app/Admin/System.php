@@ -153,7 +153,7 @@ final class System extends Base
             }, []);
             self::forgetMissing(array_keys($tr));
             Activity::log($user, 'a traduit ' . count($tr) . ' libellé(s) avec Gemini', null);
-            return self::back('/admin/traductions', count($tr) . ' libellé(s) traduit(s) avec Gemini : relisez-les (filtre « tous »).');
+            return self::back('/admin/traductions', count($tr) . ' libellé(s) traduit(s) avec Gemini : relisez-les (filtre « tous »).' . self::aiCost());
         }
         if ($action === 'gemini-fiches') {
             if (!Translator::enabled()) {
@@ -162,7 +162,7 @@ final class System extends Base
             @set_time_limit(280);
             $r = Translator::run(max(1, min(30, (int) ($in['n'] ?? 10))));
             @unlink(STORAGE_PATH . '/cache/i18n-progress.json');
-            return self::back('/admin/traductions?onglet=fiches', ($r['done'] ?? 0) . ' fiche(s) traduite(s), ' . max(0, ($r['todo'] ?? 0) - ($r['done'] ?? 0)) . ' restante(s).');
+            return self::back('/admin/traductions?onglet=fiches', ($r['done'] ?? 0) . ' fiche(s) traduite(s), ' . max(0, ($r['todo'] ?? 0) - ($r['done'] ?? 0)) . ' restante(s).' . self::aiCost());
         }
         return self::back('/admin/traductions', null, 'Action inconnue.');
     }
@@ -222,7 +222,7 @@ final class System extends Base
             @set_time_limit(290);
             try {
                 $r = Rag::reindex(null, 400);
-                return self::back('/admin/assistant', 'Index de l’assistant mis à jour : ' . ($r['mode'] ?? 'sémantique') . ', ' . (int) ($r['embedded'] ?? 0) . ' fiche(s) indexée(s)' . (!empty($r['remaining']) ? ', ' . (int) $r['remaining'] . ' restante(s) (la tâche planifiée continue)' : '') . '.');
+                return self::back('/admin/assistant', 'Index de l’assistant mis à jour : ' . ($r['mode'] ?? 'sémantique') . ', ' . (int) ($r['embedded'] ?? 0) . ' fiche(s) indexée(s)' . (!empty($r['remaining']) ? ', ' . (int) $r['remaining'] . ' restante(s) (la tâche planifiée continue)' : '') . '.' . self::aiCost());
             } catch (\Throwable $e) {
                 return self::back('/admin/assistant', null, 'Indexation impossible : ' . $e->getMessage());
             }

@@ -48,6 +48,7 @@ final class Help extends Base
         'dons' => 'communaute#dons',
         'traductions' => 'anglais',
         'assistant' => 'administration#assistant',
+        'couts' => 'administration#couts',
         'utilisateurs' => 'administration#utilisateurs',
         'reglages' => 'administration#reglages',
         'sauvegardes' => 'administration#sauvegardes',

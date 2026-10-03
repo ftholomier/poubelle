@@ -78,6 +78,7 @@
         <tr><td>Contributions et messages des visiteurs</td><td>Communauté</td></tr>
         <tr><td>Ce qui reste à vérifier</td><td>Pilotage › Qualité</td></tr>
         <tr><td>Version anglaise</td><td>Système › Traductions EN, ou onglet Version EN</td></tr>
+        <tr><td>Coût de l’IA, relevé à faire rembourser</td><td>Système › Coûts IA</td></tr>
         <tr><td>Une ancienne version, une fiche supprimée</td><td>onglet Historique ; « Voir la corbeille »</td></tr>
       </table>
     </div>

@@ -82,6 +82,9 @@ HTML],
         ['id' => 'dictionnaire', 'title' => '… empêcher le correcteur de corriger un nom', 'html' => <<<'HTML'
 <p>Dans le correcteur, bouton <b>+ Dictionnaire</b> sur la proposition ; ou Qualité › Orthographe › <b>Dictionnaire du musée</b> › « Ajouter : mot » › Enregistrer. Pour une seule fiche, « Ignorer » suffit.</p>
 HTML],
+        ['id' => 'couts', 'title' => '… savoir ce que coûte l’IA et me faire rembourser', 'html' => <<<'HTML'
+<p>Système › <b>Coûts IA</b> : dépense du jour et du mois en direct. Le mois terminé : <b>Relevé PDF</b> et <b>CSV</b> à remettre à l’association, puis « Noter le remboursement » une fois payé. Budget mensuel : Réglages › Coûts IA. Voir [[aide:administration#couts|Coûts de l’IA et remboursement]].</p>
+HTML],
         ['id' => 'pdf', 'title' => '… obtenir le PDF d’une fiche', 'html' => <<<'HTML'
 <p>Sur le site, bouton <b>Télécharger en PDF</b> sous le titre de la fiche (ou de la saison, du face-à-face, du bilan, des records). Dans le back-office : panneau Publication de la fiche › <b>Télécharger le PDF</b>. Le document reprend la dernière version enregistrée. Voir <a href="/admin/aide/site-public#pdf">Télécharger en PDF</a>.</p>
 HTML],

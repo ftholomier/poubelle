@@ -104,6 +104,9 @@ copiées par lots de 100 chaque heure.
      défaut, soit environ deux semaines pour un premier passage complet du musée). Pour
      tout vérifier d'un coup, lancer une fois en SSH (ou en tâche cron temporaire)
      `php /home/<compte>/sochauxretro/bin/console.php correcteur` ;
+   - Coûts IA : nom de la personne qui paie la facture Google (imprimé sur le relevé
+     mensuel que l'association rembourse), taux de change de sa banque, budget mensuel
+     éventuel ; la dépense se suit dans Système › Coûts IA ;
    - Dons : clés Stripe et PayPal (mode test d'abord, puis production), voir § 8 ;
    - Mentions légales, cookies : à relire et compléter.
 4. Back-office › **Utilisateurs** : inviter les historiens (administrateur ou utilisateur).
