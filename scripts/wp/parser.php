@@ -145,7 +145,7 @@ function wp_media_rel(string $url, array $media): ?string
     if (!preg_match('#/wp-content/uploads/(.+)$#', $url, $m)) {
         return null;
     }
-    $rel = strtok($m[1], '?#');
+    $rel = rawurldecode((string) strtok($m[1], '?#'));
     if (isset($media[$rel])) {
         return $rel;
     }
@@ -153,11 +153,43 @@ function wp_media_rel(string $url, array $media): ?string
     if (isset($media[$orig])) {
         return $orig;
     }
-    $scaled = preg_replace('/(\.\w+)$/', '-scaled$1', $orig);
-    if (isset($media[$scaled])) {
-        return $scaled;
+    // Originaux renommés par WordPress : « -scaled », « -rotated », « -e1730061319153 » (image retouchée).
+    $canon = wp_media_canon($orig);
+    $index = wp_media_index($media);
+    return $index[$canon] ?? $orig;
+}
+
+/** Nom canonique d'un fichier de la médiathèque (sans les suffixes ajoutés par WordPress). */
+function wp_media_canon(string $rel): string
+{
+    return strtolower((string) preg_replace('/(-(scaled|rotated|e\d{10,}))+(\.\w+)$/i', '$3', $rel));
+}
+
+/** Index nom canonique → fichier réel (calculé une fois par médiathèque). */
+function wp_media_index(array $media): array
+{
+    static $cache = [];
+    $key = count($media) . ':' . array_key_first($media);
+    if (!isset($cache[$key])) {
+        $idx = [];
+        foreach (array_keys($media) as $rel) {
+            $idx[wp_media_canon((string) $rel)] ??= (string) $rel;
+        }
+        $cache = [$key => $idx];
     }
-    return $orig;
+    return $cache[$key];
+}
+
+/** Adresses d'images d'un texte ramenées au fichier réel de la médiathèque (sans miniature). */
+function wp_fix_media_src(string $html, array $media): string
+{
+    return (string) preg_replace_callback('#(src|href)="((?:https?://(?:www\.)?fcsochauxretro\.com)?/wp-content/uploads/[^"]+)"#i', function ($m) use ($media) {
+        if (!preg_match('/\.(jpe?g|png|gif|webp|bmp|pdf)(\?.*)?$/i', $m[2])) {
+            return $m[0];
+        }
+        $rel = wp_media_rel($m[2], $media);
+        return $rel !== null ? $m[1] . '="/wp-content/uploads/' . $rel . '"' : $m[0];
+    }, $html);
 }
 
 /**
@@ -289,6 +321,7 @@ function wp_parse_page(string $html, array $media): ?array
         'table_title' => null,
         'embeds' => [],
         'blocks' => [],
+        'listing' => [],
         'warnings' => [],
     ];
 
@@ -315,6 +348,7 @@ function wp_parse_page(string $html, array $media): ?array
 
     $section = null;
     $headerDone = false;
+    $pendingTitle = null; // intitulé (encadré, titre) du prochain tableau
     $flush = function () use (&$section, &$out) {
         if ($section !== null && empty($section['_header']) && ($section['html'] !== '' || $section['title'] !== null)) {
             $out['sections'][] = ['title' => $section['title'], 'html' => $section['html']];
@@ -330,6 +364,14 @@ function wp_parse_page(string $html, array $media): ?array
             case 'heading':
                 $title = wp_text($el);
                 if (!$headerDone && preg_match("/^Fiche (d.identit|du match)/iu", $title)) {
+                    // Bloc d'identité placé avant son titre « Fiche d'identité » : il devient l'en-tête.
+                    if ($section !== null && empty($section['_header']) && $section['title'] === null && $section['html'] !== '' && !$out['sections']) {
+                        $out['header'] = ['lines' => wp_lines($section['html']), 'html' => $section['html']];
+                        $headerDone = true;
+                        $section = null;
+                        break;
+                    }
+                    $flush();
                     $section = ['title' => $title, '_header' => true, 'html' => ''];
                     break;
                 }
@@ -340,17 +382,40 @@ function wp_parse_page(string $html, array $media): ?array
             case 'column':
                 $attr = $xp->query(".//div[contains(@class,'column_attr')]", $el)->item(0) ?? $el;
                 $tableEl = $xp->query('.//table', $attr)->item(0);
+                // Texte hors tableaux : un bloc qui mêle récit et tableau est gardé en entier dans le récit
+                // (tableaux compris) ; seul un bloc « tableau seul » devient un tableau de la fiche.
+                $outside = 0;
                 if ($tableEl instanceof DOMElement) {
+                    $outside = mb_strlen(wp_text($attr));
                     foreach ($xp->query('.//table', $attr) as $tb) {
-                        $out['tables'][] = wp_parse_table($tb);
+                        $outside -= mb_strlen(wp_text($tb));
+                    }
+                }
+                if ($tableEl instanceof DOMElement) {
+                    $first = count($out['tables']);
+                    foreach ($xp->query('.//table', $attr) as $tb) {
+                        $parsedTable = wp_parse_table($tb);
+                        if ($pendingTitle !== null) {
+                            $parsedTable['title'] = $pendingTitle;
+                            $pendingTitle = null;
+                        }
+                        $out['tables'][] = $parsedTable;
                     }
                     $out['table'] ??= $out['tables'][0];
-                    // Un intitulé (« Statistiques ») resté seul devient le titre du tableau.
-                    if ($section !== null && $section['html'] === '' && $section['title']) {
-                        $out['table_title'] ??= $section['title'];
-                        $section = null;
+                    if ($outside < 80) {
+                        // Un intitulé (« Statistiques ») resté seul devient le titre du tableau.
+                        if ($section !== null && $section['html'] === '' && $section['title']) {
+                            $out['table_title'] ??= $section['title'];
+                            $out['tables'][$first]['title'] ??= $section['title'];
+                            $section = null;
+                        }
+                        break;
                     }
-                    break;
+                    // Récit et tableau(x) dans le même bloc : les tableaux sont repris à part
+                    // (compositions, statistiques), le texte qui les entoure reste dans le récit.
+                    foreach (iterator_to_array($xp->query('.//table', $attr)) as $tb) {
+                        $tb->parentNode->removeChild($tb);
+                    }
                 }
                 $inner = wp_inner_html($attr);
                 $lines = wp_lines($inner);
@@ -377,7 +442,7 @@ function wp_parse_page(string $html, array $media): ?array
                     break;
                 }
                 $section ??= ['title' => null, 'html' => ''];
-                $section['html'] .= ($section['html'] !== '' ? "\n" : '') . wp_clean_html($inner);
+                $section['html'] .= ($section['html'] !== '' ? "\n" : '') . wp_fix_media_src(wp_clean_html($inner), $media);
                 // Images insérées dans le texte : on les répertorie aussi.
                 foreach ($xp->query('.//img', $attr) as $im) {
                     $rel = wp_media_rel($im->getAttribute('src'), $media);
@@ -394,6 +459,27 @@ function wp_parse_page(string $html, array $media): ?array
                 $num = $num !== '' ? $num : ($lines[0] ?? '');
                 $text = implode(' ', array_values(array_filter($lines, fn ($l) => $l !== $num)));
                 $out['key_figure'] = ['number' => $num, 'text' => trim($text)];
+                break;
+
+            // Listes automatiques d'articles (module « blog » du thème) : ce ne sont pas des contenus,
+            // seulement des liens vers des fiches importées par ailleurs. On garde la liste des liens
+            // pour retrouver la rubrique correspondante (mosaïque).
+            case 'blog':
+            case 'blog_news':
+            case 'blog_slider':
+            case 'blog_teaser':
+            case 'portfolio':
+            case 'portfolio_grid':
+            case 'portfolio_photo':
+            case 'portfolio_slider':
+                $links = [];
+                foreach ($xp->query('.//a[@href]', $el) as $a) {
+                    $path = parse_url($a->getAttribute('href'), PHP_URL_PATH);
+                    if (is_string($path) && $path !== '/' && !str_contains($path, '/wp-content/') && !str_starts_with($path, '/category/')) {
+                        $links[$path] = true;
+                    }
+                }
+                $out['listing'][] = ['module' => $it['type'], 'links' => array_keys($links)];
                 break;
 
             case 'image_gallery':
@@ -440,10 +526,20 @@ function wp_parse_page(string $html, array $media): ?array
             case 'icon_box_2':
             case 'icon_box':
                 $out['table_title'] = wp_text($el);
+                $pendingTitle = wp_text($el) ?: null;
                 break;
 
             case 'plain_text':
                 $raw = wp_inner_html($el);
+                // Vidéos intégrées dans un bloc « texte brut » (iframe YouTube / Vimeo).
+                foreach ($xp->query('.//iframe', $el) as $if) {
+                    $src = $if->getAttribute('src') ?: $if->getAttribute('data-src');
+                    if (preg_match('#(?:youtube(?:-nocookie)?\.com/embed/+|youtu\.be/)([\w-]{6,})#', $src, $vm)) {
+                        $out['videos'][] = ['provider' => 'youtube', 'id' => $vm[1], 'title' => $if->getAttribute('title') !== 'YouTube video player' ? $if->getAttribute('title') : ''];
+                    } elseif (preg_match('#player\.vimeo\.com/video/(\d+)#', $src, $vm)) {
+                        $out['videos'][] = ['provider' => 'vimeo', 'id' => $vm[1], 'title' => ''];
+                    }
+                }
                 if (preg_match("/videoId\s*=\s*['\"]([\w-]+)['\"]/", $raw, $vm) && str_contains($raw, 'dailymotion')) {
                     $out['videos'][] = ['provider' => 'dailymotion', 'id' => $vm[1], 'title' => ''];
                     break;
@@ -457,13 +553,18 @@ function wp_parse_page(string $html, array $media): ?array
                 $lines = wp_lines($raw);
                 if ($lines) {
                     $section ??= ['title' => null, 'html' => ''];
-                    $section['html'] .= "\n" . wp_clean_html($raw);
+                    $section['html'] .= "\n" . wp_fix_media_src(wp_clean_html($raw), $media);
                 }
                 break;
 
             case 'tabs':
                 foreach ($xp->query('.//table', $el) as $tb) {
-                    $out['tables'][] = wp_parse_table($tb);
+                    $parsedTable = wp_parse_table($tb);
+                    if ($pendingTitle !== null) {
+                        $parsedTable['title'] = $pendingTitle;
+                        $pendingTitle = null;
+                    }
+                    $out['tables'][] = $parsedTable;
                 }
                 if ($out['tables']) {
                     $out['table'] ??= $out['tables'][0];
@@ -654,9 +755,53 @@ function wp_parse_goals(?string $text): array
     return $out;
 }
 
-function wp_parse_lineup_row(array $r): array
+/**
+ * Rôle de chaque colonne d'un tableau de composition, d'après les intitulés
+ * (« Postes | Nom et prénom | Numéro | Buts | Changements | Cartons »…).
+ * @return array{position:list<int>,name:list<int>,number:list<int>,goals:list<int>,subs:list<int>,cards:list<int>,extra:array<int,string>}
+ */
+function wp_lineup_columns(array $headers): array
 {
-    $name = $r[1] ?? '';
+    $cols = ['position' => [], 'name' => [], 'number' => [], 'goals' => [], 'subs' => [], 'cards' => [], 'extra' => []];
+    foreach (array_values($headers) as $i => $h) {
+        $h = mb_strtolower(trim((string) $h));
+        $role = match (true) {
+            $h === '' && $i === 0, str_starts_with($h, 'poste') => 'position',
+            str_contains($h, 'nom') => 'name',
+            (bool) preg_match('/num[ée]ro|^n°|^no$/u', $h) => 'number',
+            (bool) preg_match('/^buts?\b|buteur/u', $h) => 'goals',
+            (bool) preg_match('/rempl|remp\.|changement|entr[ée]e|sortie/u', $h) => 'subs',
+            str_contains($h, 'carton') => 'cards',
+            default => 'extra',
+        };
+        if ($role === 'extra') {
+            $cols['extra'][$i] = trim((string) $headers[$i]);
+        } else {
+            $cols[$role][] = $i;
+        }
+    }
+    // Tableaux sans intitulés exploitables : ordre habituel Poste, Nom, Buts, Changements, Cartons.
+    foreach (['position' => 0, 'name' => 1] as $role => $i) {
+        if (!$cols[$role] && !in_array($i, array_merge(...array_values(array_filter($cols, 'array_is_list'))), true)) {
+            $cols[$role] = [$i];
+            unset($cols['extra'][$i]);
+        }
+    }
+    if (!$cols['goals'] && !$cols['subs'] && !$cols['cards'] && !$cols['number']) {
+        $cols['goals'] = [2];
+        $cols['subs'] = [3];
+        $cols['cards'] = [4];
+        $cols['extra'] = array_diff_key($cols['extra'], [2 => 1, 3 => 1, 4 => 1]);
+    }
+    return $cols;
+}
+
+function wp_parse_lineup_row(array $r, ?array $cols = null): array
+{
+    $cols ??= wp_lineup_columns([]);
+    $r = array_values($r);
+    $cell = fn (string $role) => trim(implode(' ', array_filter(array_map(fn ($i) => trim((string) ($r[$i] ?? '')), $cols[$role]), fn ($v) => $v !== '')));
+    $name = $cell('name');
     $captain = (bool) preg_match('/\((c|cap\.?|capitaine)\)/iu', $name);
     $minutes = function (string $s): array {
         if (!preg_match_all("/(\d+)\s*['’]?(?:\s*\+\s*(\d+))?/u", $s, $mm, PREG_SET_ORDER)) {
@@ -664,12 +809,21 @@ function wp_parse_lineup_row(array $r): array
         }
         return array_map(fn ($x) => isset($x[2]) && $x[2] !== '' ? "{$x[1]}+{$x[2]}" : $x[1], $mm);
     };
-    $sub = $r[3] ?? '';
-    $cards = $r[4] ?? '';
-    $goalsCell = $r[2] ?? '';
+    $sub = $cell('subs');
+    $cards = $cell('cards');
+    $goalsCell = $cell('goals');
+    $number = $cell('number');
+    $extra = [];
+    foreach ($cols['extra'] as $i => $label) {
+        if (trim((string) ($r[$i] ?? '')) !== '') {
+            $extra[$label !== '' ? $label : 'Colonne ' . ($i + 1)] = trim((string) $r[$i]);
+        }
+    }
     return [
-        'position' => strtoupper(trim($r[0] ?? '')),
+        'position' => strtoupper($cell('position')),
         'name' => trim(preg_replace('/\((c|cap\.?|capitaine)\)/iu', '', $name)),
+        'number' => $number !== '' ? $number : null,
+        'extra' => $extra ?: null,
         'captain' => $captain,
         'goals' => $minutes($goalsCell),
         'goals_text' => $goalsCell,

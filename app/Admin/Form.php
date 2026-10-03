@@ -189,7 +189,7 @@ final class Form
                 . (!empty($o['dup']) ? '<button type="button" class="iconbtn" data-rep-dup title="Dupliquer" aria-label="Dupliquer">⧉</button>' : '')
                 . '<button type="button" class="iconbtn" data-rep-del title="Supprimer" aria-label="Supprimer">✕</button></div></div>';
         };
-        $html = '<div class="rep' . (!empty($o['compact']) ? ' rep--compact' : '') . '" data-repeater="' . e($path) . '"' . (!empty($o['scalar']) ? ' data-scalar' : '') . '>';
+        $html = '<div class="rep' . (!empty($o['compact']) ? ' rep--compact' : '') . (!empty($o['rows']) ? ' rep--rows' : '') . '" data-repeater="' . e($path) . '"' . (!empty($o['scalar']) ? ' data-scalar' : '') . '>';
         foreach (array_values($items) as $i => $it) {
             $html .= $item($it, $i);
         }

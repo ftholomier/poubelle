@@ -260,23 +260,43 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
           t('Entraîneur') => array_filter($rows, fn ($r) => $r['position'] === 'E'),
           t('Autres') => array_filter($rows, fn ($r) => !in_array($r['position'], ['G', 'D', 'M', 'A', 'R', 'E'], true)),
       ];
+      // Intitulés d'origine du tableau, retrouvés par rôle (certaines feuilles ont une colonne « Numéro »).
       $hdr = $m['lineup']['headers'] ?? [];
+      $colLabel = function (string $re, string $default) use ($hdr): string {
+          foreach ($hdr as $h) {
+              if (preg_match($re, mb_strtolower((string) $h))) {
+                  return t((string) $h);
+              }
+          }
+          return t($default);
+      };
+      $hasNum = (bool) array_filter($rows, fn ($r) => ($r['number'] ?? null) !== null && $r['number'] !== '');
+      $extraCols = [];
+      foreach ($rows as $r) {
+          foreach (array_keys($r['extra'] ?? []) as $k) {
+              $extraCols[$k] = true;
+          }
+      }
+      $span = 5 + ($hasNum ? 1 : 0) + count($extraCols);
       ?>
       <div class="dtable-wrap">
         <table class="dtable lineup">
           <thead><tr>
-            <th scope="col"><?= e(trim((string) ($hdr[0] ?? '')) ?: t('Poste')) ?></th>
-            <th scope="col"><?= e($hdr[1] ?? t('Nom et prénom')) ?></th>
-            <th scope="col"><?= e($hdr[2] ?? t('Buts')) ?></th>
-            <th scope="col"><?= e($hdr[3] ?? t('Changements')) ?></th>
-            <th scope="col"><?= e($hdr[4] ?? t('Cartons')) ?></th>
+            <th scope="col"><?= e($colLabel('/^poste/', 'Poste')) ?></th>
+            <?php if ($hasNum): ?><th scope="col"><?= e($colLabel('/num[ée]ro/u', 'N°')) ?></th><?php endif; ?>
+            <th scope="col"><?= e($colLabel('/nom/', 'Nom et prénom')) ?></th>
+            <th scope="col"><?= e($colLabel('/^buts?\b|buteur/', 'Buts')) ?></th>
+            <th scope="col"><?= e($colLabel('/rempl|remp\.|changement/', 'Changements')) ?></th>
+            <th scope="col"><?= e($colLabel('/carton/', 'Cartons')) ?></th>
+            <?php foreach (array_keys($extraCols) as $x): ?><th scope="col"><?= e(t((string) $x)) ?></th><?php endforeach; ?>
           </tr></thead>
           <?php foreach ($groups as $label => $list): if (!$list) continue; ?>
           <tbody>
-            <tr class="lineup__group"><th colspan="5" scope="rowgroup"><?= e($label) ?></th></tr>
+            <tr class="lineup__group"><th colspan="<?= $span ?>" scope="rowgroup"><?= e($label) ?></th></tr>
             <?php foreach ($list as $r): ?>
             <tr>
               <td class="lineup__pos"><?= e($r['position']) ?></td>
+              <?php if ($hasNum): ?><td class="lineup__num"><?= e((string) ($r['number'] ?? '')) ?></td><?php endif; ?>
               <td class="lineup__name">
                 <?php if ($r['href']): ?><a href="<?= e($r['href']) ?>"><?= e($r['name']) ?></a><?php else: ?><?= e($r['name']) ?><?php endif; ?>
                 <?= !empty($r['captain']) ? '<abbr title="' . e(t('Capitaine')) . '">(c)</abbr>' : '' ?>
@@ -288,6 +308,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
                 <?php foreach ($r['red'] as $c): ?><span class="cardmark cardmark--r" title="<?= e(t('Carton rouge')) ?> <?= e($c) ?>'"></span><?php endforeach; ?>
                 <?= e($r['cards_text']) ?>
               </td>
+              <?php foreach (array_keys($extraCols) as $x): ?><td><?= e((string) ($r['extra'][$x] ?? '')) ?></td><?php endforeach; ?>
             </tr>
             <?php endforeach; ?>
           </tbody>
@@ -304,7 +325,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <table class="dtable lineup">
           <tbody>
           <?php foreach ($ol['rows'] as $r): ?>
-            <tr><td class="lineup__pos"><?= e($r['position']) ?></td><td class="lineup__name"><?= e($r['name']) ?><?= !empty($r['captain']) ? ' (c)' : '' ?></td><td><?= e($r['goals_text']) ?></td><td><?= e($r['sub_text']) ?></td><td><?= e($r['cards_text']) ?></td></tr>
+            <tr><td class="lineup__pos"><?= e($r['position']) ?></td><?= ($r['number'] ?? null) !== null ? '<td class="lineup__num">' . e((string) $r['number']) . '</td>' : '' ?><td class="lineup__name"><?= e($r['name']) ?><?= !empty($r['captain']) ? ' (c)' : '' ?></td><td><?= e($r['goals_text']) ?></td><td><?= e($r['sub_text']) ?></td><td><?= e($r['cards_text']) ?></td><?php foreach ($r['extra'] ?? [] as $x): ?><td><?= e((string) $x) ?></td><?php endforeach; ?></tr>
           <?php endforeach; ?>
           </tbody>
         </table>

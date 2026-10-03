@@ -259,6 +259,7 @@ foreach ($posts as $i => $p) {
             'tables' => $parsed['tables'],
             'table_title' => $parsed['table_title'],
             'blocks' => $parsed['blocks'],
+            'listing' => $parsed['listing'],
         ],
         'i18n' => [],
     ];
@@ -299,7 +300,16 @@ foreach ($posts as $i => $p) {
         if ($doc['type'] === 'personne' && $tb === ($parsed['tables'][0] ?? null) && isset($doc['personne']['stats'])) {
             continue;
         }
-        $doc['tables'][] = ['title' => '', 'headers' => $tb['headers'], 'rows' => $tb['rows'], 'source_table' => $tb['source_id']];
+        if (!$tb['headers'] && !$tb['rows']) {
+            continue; // tableau vide (mise en page)
+        }
+        // Un même tableau wpDataTables affiché deux fois sur la page n'est repris qu'une fois.
+        foreach ($doc['tables'] as $prev) {
+            if ($prev['headers'] === $tb['headers'] && $prev['rows'] === $tb['rows']) {
+                continue 2;
+            }
+        }
+        $doc['tables'][] = ['title' => (string) ($tb['title'] ?? ''), 'headers' => $tb['headers'], 'rows' => $tb['rows'], 'source_table' => $tb['source_id']];
     }
     $docs[$p['id']] = $doc;
 }
@@ -344,6 +354,41 @@ foreach ($docs as $id => &$doc) {
 }
 unset($doc);
 
+// Pages faites d'une liste automatique d'articles (module « blog ») : rubrique correspondante,
+// celle qui regroupe le plus d'articles de la liste. La page renvoie vers sa mosaïque.
+$byOldPath = [];
+foreach ($docs as $id => $d) {
+    if ($d['legacy']['path']) {
+        $byOldPath[$d['legacy']['path']] = $id;
+    }
+}
+foreach ($docs as $id => &$doc) {
+    $listings = $doc['legacy']['listing'] ?? [];
+    unset($doc['legacy']['listing']);
+    if (!$listings) {
+        continue;
+    }
+    $count = [];
+    $links = 0;
+    foreach ($listings as $l) {
+        foreach ($l['links'] as $path) {
+            $target = $docs[$byOldPath[$path] ?? 0] ?? null;
+            if (!$target || $target['id'] === $id) {
+                continue;
+            }
+            $links++;
+            foreach ($target['categories'] as $c) {
+                if (isset($catOut[$c]) && empty($catOut[$c]['technical']) && empty($catOut[$c]['season'])) {
+                    $count[$c] = ($count[$c] ?? 0) + 1;
+                }
+            }
+        }
+    }
+    arsort($count);
+    $doc['listing'] = ['module' => $listings[0]['module'], 'category' => array_key_first($count), 'links' => $links];
+}
+unset($doc);
+
 foreach ($catOut as $slug => $c) {
     if ($c['old_path']) {
         $redirects[$c['old_path']] = $c['path'] ?? '/';
@@ -377,6 +422,45 @@ foreach ($docs as $doc) {
         }
     }
 }
+// Images citées par les fiches mais absentes de la médiathèque WordPress (envoyées après
+// l'export ou détachées) : ajoutées à la médiathèque et listées pour téléchargement
+// (php scripts/wp/media-extra.php).
+$extra = [];
+foreach ($docs as $doc) {
+    $refs = [];
+    foreach (array_merge([$doc['featured_image']], $doc['gallery'], $doc['images']) as $g) {
+        $rel = is_array($g) ? ($g['image'] ?? null) : $g;
+        if ($rel) {
+            $refs[$rel] = is_array($g) ? $g : [];
+        }
+    }
+    foreach ($doc['sections'] as $sec) {
+        if (preg_match_all('~/wp-content/uploads/([^"\s?#]+\.(?:jpe?g|png|gif|webp|bmp|pdf))~i', (string) $sec['html'], $mm)) {
+            foreach ($mm[1] as $r) {
+                $refs[rawurldecode($r)] ??= [];
+            }
+        }
+    }
+    foreach ($refs as $rel => $g) {
+        if (isset($media[$rel])) {
+            continue;
+        }
+        $media[$rel] = [
+            'id' => null, 'file' => $rel, 'mime' => match (strtolower(pathinfo($rel, PATHINFO_EXTENSION))) {
+                'png' => 'image/png', 'gif' => 'image/gif', 'webp' => 'image/webp', 'pdf' => 'application/pdf', 'bmp' => 'image/bmp', default => 'image/jpeg',
+            },
+            'width' => null, 'height' => null, 'size' => null, 'title' => pathinfo($rel, PATHINFO_FILENAME),
+            'caption' => (string) ($g['caption'] ?? ''), 'credit' => (string) ($g['credit'] ?? ''), 'caption_raw' => (string) ($g['caption_raw'] ?? ''),
+            'alt' => '', 'rights' => '', 'date' => $doc['date'] ?? null, 'wp_parent' => $doc['id'], 'source' => 'hors médiathèque WordPress',
+        ];
+        $extra[$rel] = wp_url() . '/wp-content/uploads/' . implode('/', array_map('rawurlencode', explode('/', $rel)));
+    }
+}
+write_json(IMPORT_DIR . '/media-extra.json', $extra);
+if ($extra) {
+    $report['warnings'][] = count($extra) . ' image(s) hors médiathèque WordPress ajoutée(s) : php scripts/wp/media-extra.php pour les télécharger';
+}
+
 ksort($media);
 write_json(DATA . '/media.json', $media);
 write_json(DATA . '/categories.json', $catOut);
@@ -495,7 +579,7 @@ function build_match(array $doc, array $parsed, array $catSlugs, array $catOut, 
         $l = [
             'title' => $ti === 0 ? ($parsed['table_title'] ?: 'Composition Sochaux') : 'Composition',
             'headers' => $tb['headers'],
-            'rows' => array_map('wp_parse_lineup_row', $tb['rows']),
+            'rows' => array_map(fn ($row) => wp_parse_lineup_row($row, wp_lineup_columns($tb['headers'])), $tb['rows']),
             'source_table' => $tb['source_id'],
         ];
         if ($lineup === null) {

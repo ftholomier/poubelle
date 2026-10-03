@@ -49,29 +49,34 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
       <span class="card__note">Chaque nom est relié automatiquement à sa fiche joueur</span>
       <span class="row"><?= Form::text('match.formation', '', $m['formation'] ?? '', ['placeholder' => 'Formation 4-4-2', 'class' => 'f--inline']) ?><button type="button" class="btn btn--sm" data-lineup-paste>Importer depuis un tableau</button></span>
     </div>
-    <div class="card__body">
-      <div class="lhead" aria-hidden="true"><span></span><span>Poste</span><span>Joueur</span><span>Cap.</span><span>Buts</span><span>Remplacement</span><span>Cartons</span><span>Fiche</span></div>
+    <div class="card__body lineup-ed">
+      <div class="lhead" aria-hidden="true"><span>Poste</span><span>N°</span><span>Joueur</span><span>Cap.</span><span>Buts</span><span>Remplacement</span><span>Cartons</span><span title="Fiche joueur : ✓ reliée, + à créer">Fiche</span></div>
       <?= Form::repeater('match.lineup', '', $lineup ?: ($m['lineup']['rows'] ?? []), function ($r) {
           $pid = $r['pid'] ?? ($r['person_id'] ?? null);
-          $state = $pid ? '<a class="link-state link-state--ok" href="/admin/fiche/' . (int) $pid . '" target="_blank">Reliée</a>' : (!empty($r['name']) ? '<a class="link-state link-state--todo" href="/admin/fiche/nouvelle/personne?nom=' . e(rawurlencode(\App\Data\Names::display((string) $r['name']))) . '" target="_blank" title="Créer la fiche de ce joueur">À créer</a>' : '<span class="link-state">—</span>');
+          $state = $pid ? '<a class="lstate lstate--ok" href="/admin/fiche/' . (int) $pid . '" target="_blank" title="Fiche reliée : ouvrir" aria-label="Fiche reliée : ouvrir">✓</a>' : (!empty($r['name']) ? '<a class="lstate lstate--todo" href="/admin/fiche/nouvelle/personne?nom=' . e(rawurlencode(\App\Data\Names::display((string) $r['name']))) . '" target="_blank" title="Pas encore de fiche : la créer" aria-label="Créer la fiche de ce joueur">+</a>' : '<span class="lstate" aria-hidden="true">·</span>');
+          // Poste inconnu de la liste (saisie libre d'origine) : proposé tel quel pour ne pas le perdre.
+          $pos = (string) ($r['position'] ?? '');
+          $positions = array_key_exists($pos, FicheForm::POSITIONS) ? FicheForm::POSITIONS : [$pos => $pos] + FicheForm::POSITIONS;
           return '<div class="lrow">'
-              . '<select data-field="position" aria-label="Poste" class="in in--sm">' . implode('', array_map(fn ($k, $l) => '<option value="' . e($k) . '"' . ((string) ($r['position'] ?? '') === (string) $k ? ' selected' : '') . '>' . e($k !== '' ? $k . ' · ' . $l : $l) . '</option>', array_keys(FicheForm::POSITIONS), FicheForm::POSITIONS)) . '</select>'
+              . '<select data-field="position" aria-label="Poste" class="in in--sm">' . implode('', array_map(fn ($k, $l) => '<option value="' . e((string) $k) . '"' . ($pos === (string) $k ? ' selected' : '') . '>' . e($k !== '' && $k !== $l ? $k . ' · ' . $l : $l) . '</option>', array_keys($positions), $positions)) . '</select>'
+              . '<input class="in in--sm" data-field="number" value="' . e((string) ($r['number'] ?? '')) . '" placeholder="N°" aria-label="Numéro de maillot" inputmode="numeric">'
               . '<input class="in in--sm" data-field="name" value="' . e($r['name'] ?? '') . '" placeholder="NOM Prénom" aria-label="Joueur" data-ac="personnes" data-ac-id="person_id">'
+              . (!empty($r['extra']) ? '<input type="hidden" data-field="extra" data-type="json" value="' . e(json_encode($r['extra'], JSON_UNESCAPED_UNICODE)) . '">' : '')
               . '<input type="hidden" data-field="person_id" value="' . e((string) ($r['person_id'] ?? '')) . '" data-type="int">'
               . '<label class="toggle" title="Capitaine"><input type="checkbox" data-field="captain"' . (!empty($r['captain']) ? ' checked' : '') . '><span class="toggle__box"></span></label>'
               . '<input class="in in--sm" data-field="goals_text" value="' . e($r['goals_text'] ?? '') . '" placeholder="33\', 78\'" aria-label="Buts">'
               . '<input class="in in--sm" data-field="sub_text" value="' . e($r['sub_text'] ?? '') . '" placeholder="Sortie 75\'" aria-label="Remplacement">'
               . '<input class="in in--sm" data-field="cards_text" value="' . e($r['cards_text'] ?? '') . '" placeholder="J 50\'" aria-label="Cartons">'
               . $state . '</div>';
-      }, ['compact' => true, 'add' => 'Ajouter un joueur', 'blank' => ['position' => 'R']]) ?>
-      <p class="xs muted" style="margin:0">Postes : G gardien, D défenseur, M milieu, A attaquant (titulaires), R remplaçant, E entraîneur. Buts : minutes séparées par des virgules. Remplacement : « Entrée 75’ » ou « Sortie 81’ ». Cartons : « J 50’ » (jaune), « R 80’ » (rouge).</p>
+      }, ['compact' => true, 'rows' => true, 'add' => 'Ajouter un joueur', 'blank' => ['position' => 'R']]) ?>
+      <p class="xs muted" style="margin:0">Postes : G gardien, D défenseur, M milieu, A attaquant (titulaires), R remplaçant, E entraîneur. Buts : minutes séparées par des virgules. Remplacement : « Entrée 75’ » ou « Sortie 81’ ». Cartons : « J 50’ » (jaune), « R 80’ » (rouge). Fiche : ✓ reliée à la fiche du joueur, + fiche à créer.</p>
     </div>
   </div>
 
   <div class="card">
     <div class="card__head"><h2 class="card__t">Temps forts (minute par minute)</h2><span class="card__note">Alimente la frise du résumé sur la fiche</span></div>
     <div class="card__body">
-      <?= Form::repeater('match.highlights', '', $m['highlights'] ?? [], fn ($h) => '<div class="hrow">' . Form::text('@minute', 'Min.', $h['minute'] ?? '', ['placeholder' => "33"]) . Form::text('@text', 'Action', $h['text'] ?? '', ['class' => 'f--2']) . Form::toggle('@goal', 'But', !empty($h['goal'])) . Form::text('@score', 'Score', $h['score'] ?? '', ['placeholder' => '1-0']) . '</div>', ['compact' => true, 'add' => 'Ajouter une action']) ?>
+      <?= Form::repeater('match.highlights', '', $m['highlights'] ?? [], fn ($h) => '<div class="hrow">' . Form::text('@minute', 'Min.', $h['minute'] ?? '', ['placeholder' => "33"]) . Form::text('@text', 'Action', $h['text'] ?? '', ['class' => 'f--2']) . Form::toggle('@goal', 'But', !empty($h['goal'])) . Form::text('@score', 'Score', $h['score'] ?? '', ['placeholder' => '1-0']) . '</div>', ['compact' => true, 'rows' => true, 'add' => 'Ajouter une action']) ?>
     </div>
   </div>
   <div class="cols">

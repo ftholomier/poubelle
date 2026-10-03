@@ -261,6 +261,11 @@ final class Pages
             if (!Fiches::isVisible($doc) && !$preview) {
                 return null;
             }
+            // Ancienne page WordPress faite d'une simple liste d'articles : sa rubrique la remplace.
+            $cat = isset($doc['listing']['category']) && !self::hasContent($doc) ? Categories::get($doc['listing']['category']) : null;
+            if ($cat && !empty($cat['path']) && $cat['path'] !== $req->path) {
+                return Response::redirect(url($cat['path']), 301);
+            }
             return Fiche::show($req, $doc);
         }
         $cat = Categories::byPath($req->path);
@@ -275,6 +280,19 @@ final class Pages
             return Mosaic::show($req, Categories::get(Site::C_MATCHS));
         }
         return null;
+    }
+
+    /** La fiche a-t-elle un contenu propre (texte, images, vidéos, tableaux) ? */
+    private static function hasContent(array $doc): bool
+    {
+        foreach ($doc['sections'] ?? [] as $s) {
+            if (trim(strip_tags((string) ($s['html'] ?? ''))) !== '' || str_contains((string) ($s['html'] ?? ''), '<img')) {
+                return true;
+            }
+        }
+        return trim(strip_tags((string) ($doc['intro'] ?? ''))) !== ''
+            || !empty($doc['gallery']) || !empty($doc['images']) || !empty($doc['videos'])
+            || !empty($doc['embeds']) || !empty($doc['tables']);
     }
 
     // ------------------------------------------------------------------ recherche

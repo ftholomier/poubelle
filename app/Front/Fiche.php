@@ -197,7 +197,8 @@ final class Fiche
                 $x = $count === 1 ? 50 : 16 + (68 * $i / ($count - 1));
                 // Légère courbe : les joueurs du centre sont un peu plus reculés (comme la maquette).
                 $curve = $count >= 3 ? (abs($x - 50) < 20 ? ($pos === 'A' ? -5 : 3) : 0) : 0;
-                $placed[] = $r + ['x' => round($x, 1), 'y' => $y[$pos] + $curve, 'num' => $n++];
+                $seq = $n++;
+                $placed[] = $r + ['x' => round($x, 1), 'y' => $y[$pos] + $curve, 'num' => is_numeric($r['number'] ?? null) ? (int) $r['number'] : $seq];
             }
         }
         $formation = count($lines['D']) . '-' . count($lines['M']) . '-' . count($lines['A']);

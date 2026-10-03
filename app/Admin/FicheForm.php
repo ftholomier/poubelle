@@ -232,9 +232,17 @@ final class FicheForm
                 preg_match_all("/\bJ\s*(\d{1,3})/u", $cardsText, $ym);
                 preg_match_all("/\bR\s*(\d{1,3})/u", $cardsText, $rm);
                 $pos = (string) ($r['position'] ?? '');
+                $extra = [];
+                foreach ((array) ($r['extra'] ?? []) as $ek => $ev) {
+                    if (is_scalar($ev) && trim((string) $ev) !== '') {
+                        $extra[Html::line($ek, 60)] = Html::line($ev, 120);
+                    }
+                }
                 $rows[] = [
                     'position' => array_key_exists($pos, self::POSITIONS) ? $pos : Html::line($pos, 10),
                     'name' => $name,
+                    'number' => Html::line($r['number'] ?? '', 6) ?: null,
+                    'extra' => $extra ?: null,
                     'captain' => (bool) ($r['captain'] ?? false),
                     'goals' => $goalsText !== '' ? ($gm[1] ?: [$goalsText]) : [],
                     'goals_text' => $goalsText,
