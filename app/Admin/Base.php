@@ -168,6 +168,24 @@ class Base
         return self::html('admin/message', ['title' => 'Accès réservé', 'text' => 'Cette action est réservée aux administrateurs du back-office.', 'back' => '/admin'], ['title' => 'Accès réservé'], 403);
     }
 
+    /**
+     * Back-office ouvert sur une autre adresse que celle réglée (sous-domaine d'essai avant la
+     * bascule) : les liens envoyés par e-mail (invitations, mot de passe oublié) mèneraient à
+     * l'adresse réglée. Renvoie [adresse réglée, adresse utilisée], sinon null.
+     * @return array{0:string,1:string}|null
+     */
+    public static function addressMismatch(\App\Core\Request $req): ?array
+    {
+        $here = strtolower((string) ($req->server['HTTP_HOST'] ?? ''));
+        $set = strtolower((string) parse_url(base_url(), PHP_URL_HOST));
+        if ($set === '' || !preg_match('/^[a-z0-9.\-]+(:\d+)?$/', $here)) {
+            return null;
+        }
+        $here = (string) preg_replace('/:\d+$/', '', $here);
+        $norm = fn (string $h) => (string) preg_replace('/^www\./', '', $h);
+        return $norm($set) === $norm($here) ? null : [$set, $here];
+    }
+
     public static function actor(): array
     {
         return Auth::actor() ?? ['name' => 'Inconnu'];

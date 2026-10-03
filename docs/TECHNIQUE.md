@@ -601,7 +601,9 @@ sauvegarde, reçus annuels, purges RGPD.
   (empreinte factice, e-mail de réinitialisation envoyé après la réponse).
 - Liens d'invitation et de réinitialisation construits avec l'adresse du site réglée, jamais
   avec l'en-tête `Host` (sans adresse réglée, le lien n'est pas envoyé). Un compte désactivé
-  ne peut pas être réinvité.
+  ne peut pas être réinvité. Back-office ouvert sur une autre adresse que celle réglée
+  (sous-domaine d'essai) : le tableau de bord et l'écran Utilisateurs le signalent aux
+  administrateurs (`Base::addressMismatch()`, « www. » ignoré).
 - Page d'attente et mot de passe d'avant-lancement : l'API publique est fermée aussi (sauf
   les webhooks de paiement et le consentement aux cookies).
 - Adresses : caractères de contrôle retirés du chemin et des redirections (pas de

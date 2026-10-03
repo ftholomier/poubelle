@@ -97,6 +97,10 @@ final class Dashboard extends Base
         if ($noFiche) {
             $todos[] = ['#1F3FA8', 'Créer les fiches de ' . $noFiche . ' joueurs cités sans fiche', 'Qualité', '/admin/qualite?cat=liens'];
         }
+        // Site d'essai sur un sous-domaine : les liens des e-mails doivent y mener aussi.
+        if (\App\Core\Auth::isAdmin() && ($mis = self::addressMismatch($req))) {
+            $todos[] = ['#D9342B', 'Régler l’adresse du site : les liens des e-mails (invitations, mot de passe oublié) mènent à ' . $mis[0] . ', alors que le site est ouvert sur ' . $mis[1], 'Réglages', '/admin/reglages?groupe=general'];
+        }
         if (!\App\Services\Gemini::ready() && \App\Core\Auth::isAdmin()) {
             $todos[] = ['#F6C400', 'Saisir la clé Gemini (assistant IA, traductions)', 'Réglages', '/admin/reglages?groupe=ai'];
         }

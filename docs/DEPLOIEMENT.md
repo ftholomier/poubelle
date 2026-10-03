@@ -36,9 +36,12 @@ reprises directement depuis le WordPress actuel, sur le même hébergement (§ 4
    compris `data/` (les 2 940 fiches) et `storage/` (vide) ; les mises à jour suivantes
    se font autrement (§ 10). `data/` compte environ 5 900 petits fichiers : l'envoi prend
    quelques minutes.
-2. cPanel › Domaines : la **racine du document** du domaine (d'abord un sous-domaine de
-   test, voir § 7) doit être `/home/<compte>/sochauxretro/public`. Seul ce dossier est
-   visible depuis Internet ; le code et les données restent hors d'atteinte.
+2. cPanel › Domaines › Créer un domaine : d'abord un **sous-domaine d'essai** (par exemple
+   `nouveau.fcsochauxretro.com`, voir § 7), dont la **racine du document** est
+   `/home/<compte>/sochauxretro/public` (décocher « Partager la racine du document » si
+   cPanel le propose). Seul ce dossier est visible depuis Internet ; le code et les données
+   restent hors d'atteinte. `<compte>` est l'identifiant cPanel (Répertoire personnel
+   `/home/<compte>` dans la colonne d'informations de cPanel).
 3. HTTPS : certificat AutoSSL de cPanel, puis, dans `public/.htaccess`, retirer le `#`
    devant les deux lignes sous « HTTPS et domaine principal ».
 4. Ouvrir le site une première fois : la première page met quelques secondes à s'afficher
@@ -60,7 +63,9 @@ d'empreinte. Sans SSH, on le lance avec une tâche cron temporaire :
    ```
 
    - WordPress sur le même hébergement : `--depuis` copie les fichiers de disque à disque
-     (quelques minutes).
+     (quelques minutes). Le dossier est celui de la racine du document de
+     www.fcsochauxretro.com (cPanel › Domaines), suivi de `/wp-content/uploads` : en général
+     `/home/<compte>/public_html/wp-content/uploads` (on y voit des dossiers 2023, 2024…).
    - WordPress ailleurs : retirer `--depuis=…` ; les fichiers sont téléchargés depuis
      www.fcsochauxretro.com (4,9 Go, quelques heures, en plusieurs passages).
    - Si rien ne se passe, remplacer `php` par le PHP 8.3 (voir § 5).
@@ -122,7 +127,11 @@ copiées par lots de 100 chaque heure.
    fichiers de cPanel) ; le saisir avec votre nom, votre e-mail et un mot de passe.
    Le fichier est supprimé dès que le compte administrateur est créé.
 3. Back-office › **Réglages** :
-   - Général : adresse du site (`https://www.fcsochauxretro.com`), e-mail de contact ;
+   - Général : **adresse du site = l'adresse où il est installé** : pendant les essais,
+     celle du sous-domaine (`https://nouveau.fcsochauxretro.com`), car les liens des e-mails
+     (invitations, mot de passe oublié, newsletter) l'utilisent ; elle devient
+     `https://www.fcsochauxretro.com` le jour de la bascule (§ 7). Tant qu'elle ne correspond
+     pas, le tableau de bord et l'écran Utilisateurs le signalent. Puis l'e-mail de contact ;
      un mot de passe d'accès au site peut être posé pendant les essais ;
    - E-mail (SMTP) : boîte créée dans cPanel (serveur `mail.<domaine>`, port 465 SSL,
      identifiant = adresse complète) — sinon la fonction mail() de PHP est utilisée ;
@@ -150,15 +159,18 @@ copiées par lots de 100 chaque heure.
 ## 7. Bascule de www.fcsochauxretro.com
 
 1. Installer d'abord sur un sous-domaine de test (ex. `nouveau.fcsochauxretro.com`),
-   protégé par la page d'attente (Éditorial › Page d'attente) ou par le mot de passe
-   d'accès (Réglages › Général).
+   protégé dès le premier accès par la page d'attente (Éditorial › Page d'attente) ou par
+   le mot de passe d'accès (Réglages › Général) : les visiteurs ne voient rien et les
+   moteurs de recherche n'indexent rien (robots.txt fermé) ; les membres connectés du
+   back-office voient le site.
 2. Vérifier : Pilotage › Qualité › « Contrôler maintenant » (aucune nouvelle anomalie
    attendue, hormis les photos tant que leur copie n'est pas terminée), pages légales, un
    don en mode test, l'assistant IA.
 3. Le jour J :
+   - vérifier que la copie des photos est terminée (§ 4 : « 0 à télécharger ») ;
    - sauvegarde complète de WordPress (cPanel › JetBackup) ;
    - racine du document de `www.fcsochauxretro.com` → `/home/<compte>/sochauxretro/public` ;
-   - mettre l'adresse définitive dans Réglages › Général ;
+   - adresse du site `https://www.fcsochauxretro.com` dans Réglages › Général ;
    - désactiver la page d'attente et le mot de passe d'accès.
 4. Les **5 984 anciennes adresses** WordPress sont redirigées (301) vers les nouvelles,
    ainsi que les anciennes adresses d'images (`/wp-content/uploads/…`).

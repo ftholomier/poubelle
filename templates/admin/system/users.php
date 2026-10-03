@@ -1,5 +1,5 @@
 <?php
-/** Utilisateurs du back-office (administrateurs seulement). Variables : $users, $me, $counts, $link */
+/** Utilisateurs du back-office (administrateurs seulement). Variables : $users, $me, $counts, $link, $mismatch (adresse réglée ≠ adresse utilisée) */
 use App\Admin\Base;
 use App\Core\Auth;
 
@@ -43,6 +43,9 @@ $stLabel = ['active' => ['Actif', 'ok'], 'invited' => ['Invitation envoyée', 'w
     <form class="card card--pad" method="post" action="/admin/utilisateurs" id="inviter">
       <?= csrf_field() ?><input type="hidden" name="action" value="inviter">
       <h2 class="card__t card__t--sm">Inviter une personne</h2>
+      <?php if (!empty($mismatch)): ?>
+        <p class="alert alert--error" style="margin:0">Les liens d’invitation mèneront à <b><?= e($mismatch[0]) ?></b>, alors que ce site est ouvert sur <b><?= e($mismatch[1]) ?></b>. Réglez d’abord l’adresse du site dans <a href="/admin/reglages?groupe=general">Réglages › Général</a>.</p>
+      <?php endif; ?>
       <label class="f"><span class="f__k">Nom</span><input type="text" name="name" required maxlength="80" placeholder="Prénom Nom"></label>
       <label class="f"><span class="f__k">E-mail</span><input type="email" name="email" required maxlength="160"></label>
       <div class="seg" style="--n:2" role="radiogroup" aria-label="Niveau d’accès">
