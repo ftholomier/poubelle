@@ -130,6 +130,7 @@ final class Site
             ['title' => t('Jouer'), 'tools' => [
                 ['icon' => '?', 'label' => t('Quiz'), 'd' => t('Êtes-vous un vrai Lionceau ?'), 'href' => url('/interactif/quiz/')],
                 ['icon' => '▦', 'label' => t('Album'), 'd' => t('Collectionnez les cartes des Lions.'), 'href' => url('/interactif/album/')],
+                ['icon' => '⟿', 'label' => t('Fil jaune'), 'd' => t('Reliez deux Lionceaux par leurs matchs.'), 'href' => url('/interactif/fil-jaune/')],
             ]],
             ['title' => t('Participer'), 'tools' => [
                 ['icon' => 'XI', 'label' => t('Onze de légende'), 'd' => t('Votez pour le centenaire.'), 'href' => url('/centenaire/') . '#onze'],

@@ -323,6 +323,30 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   `public/assets/admin/retro.js`), anniversaires des 30 à 365 prochains jours, « Programmer
   à 20 h » en un clic.
 
+## 7 septies. Le Fil jaune (`App\Services\FilJaune`, `App\Front\Fil`)
+
+- **Réseau** : deux joueurs sont coéquipiers s'ils figurent dans la même composition
+  (rôle « joueur » des apparitions de `Derived` : titulaires et remplaçants entrés en jeu ;
+  fiches publiées seulement). `graph()` le construit à chaque page (quelques centièmes de
+  seconde) : `adj` (matchs joués ensemble), premier et dernier match de chaque paire,
+  matchs par joueur, adresses (dernier segment de l'adresse de la fiche).
+- **Chaîne** (`path()`) : distances depuis l'arrivée (parcours en largeur), puis descente par
+  le lien le plus solide (le plus de matchs ensemble) à longueur égale. `find()` retrouve un
+  joueur par adresse, numéro ou nom (le plus capé en cas d'homonymes).
+- **Records** (`records()`) : familles (composantes), plus grande distance et distance
+  moyenne (parcours depuis chaque joueur, 0,2 s), plus connectés, inséparables ; gardés dans
+  `storage/cache/fil-jaune.json`, refaits quand `storage/cache/derived.php` change.
+- **Défi du jour** (`daily()`) : tirage déterministe par date (`Random\Randomizer` sur
+  `Mt19937`, sans toucher au générateur global) de deux joueurs d'au moins 40 matchs à 3 ou 4
+  passes ; le visiteur choisit un coéquipier à chaque passe (`public/assets/js/filjaune.js`,
+  `GET /api/fil-jaune?id=` : coéquipiers d'un joueur, 300 requêtes par minute et par adresse),
+  progression gardée dans le navigateur, score à partager.
+- **Pages** : `/interactif/fil-jaune/` (recherche avec liste native `datalist`, défi,
+  records ; `?a=&b=` redirige vers la chaîne, `?de=` préremplit), `/interactif/fil-jaune/{a}/`
+  (constellation en SVG : coéquipiers en spirale du plus fidèle au plus rare, taille selon les
+  matchs ensemble), `/interactif/fil-jaune/{a}/{b}/` (la chaîne, avec le premier match de
+  chaque lien). Encadré « Le Fil jaune » sur les fiches des joueurs reliés.
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -379,7 +403,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `audio/` | fiches audio : texte lu et voix IA de chaque fiche, traitements groupés (§ 7 quinquies) ; `audio/jobs/` : fichiers d'échange temporaires | oui (sauf `jobs/`) ; les voix IA (`public/media/audio/`) avec les photos, le dimanche |
 | `retro/` | Rétro-Direct : spectateurs connectés, pic et réactions de chaque direct, « J'y étais ! » par match (§ 7 sexies) | oui |
 | `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
-| `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques | non |
+| `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques (dont `cache/fil-jaune.json`, records du Fil jaune) | non |
 
 ## 11. Sécurité
 
@@ -424,5 +448,7 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
 - `php tests/retro.php` : Rétro-Direct (chronologie : buts et score, mi-temps, prolongation,
   tirs au but, score retourné, buteurs ; programme et états ; anniversaires ; spectateurs et
   réactions ; agenda .ics).
+- `php tests/filjaune.php` : Fil jaune (réseau symétrique, joueurs retrouvés, chaîne la plus
+  courte, liens, familles et records, défi du jour).
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

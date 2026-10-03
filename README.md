@@ -18,9 +18,10 @@ redirigées.
   statistiques, tous leurs matchs reliés automatiquement.
 - Explorer : saisons, face-à-face, bilans par compétition et par stade, records.
 - INTERACTIF : **Rétro-Direct** (un grand match rejoué en direct, minute par minute, le
-  jour de son anniversaire, et tous les matchs à revivre en accéléré), quiz, album de
-  cartes, maillots, frise, carte OpenStreetMap, centenaire (100 moments, Onze de légende),
-  réserves du musée.
+  jour de son anniversaire, et tous les matchs à revivre en accéléré), **Fil jaune** (deux
+  joueurs reliés par les matchs joués ensemble, constellation des coéquipiers, défi du
+  jour), quiz, album de cartes, maillots, frise, carte OpenStreetMap, centenaire
+  (100 moments, Onze de légende), réserves du musée.
 - Recherche, assistant IA (Gemini) en bas à droite, dons (Stripe, PayPal), contact,
   contributions, newsletter « Ce jour-là ».
 - **Télécharger en PDF** sur chaque fiche et chaque page de synthèse (saison,

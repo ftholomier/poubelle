@@ -76,6 +76,7 @@
         <tr><td>Mettre le site en maintenance</td><td>Éditorial › Page d’attente</td></tr>
         <tr><td>Quiz, frise, maillots, carte, partenaires</td><td>Interactif › Quiz, frise, carte…</td></tr>
         <tr><td>Rejouer un grand match en direct</td><td>Interactif › Rétro-Direct</td></tr>
+        <tr><td>Relier les joueurs du Fil jaune</td><td>compositions des matchs (joueurs reliés ✓)</td></tr>
         <tr><td>Contributions et messages des visiteurs</td><td>Communauté</td></tr>
         <tr><td>Ce qui reste à vérifier</td><td>Pilotage › Qualité</td></tr>
         <tr><td>Version anglaise</td><td>Système › Traductions EN, ou onglet Version EN</td></tr>

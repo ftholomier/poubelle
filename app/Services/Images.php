@@ -204,7 +204,7 @@ final class Images
             if ($src && !is_file($dest) && self::generate($src, $dest, $width, $m['edit'] ?? null)) {
                 $n++;
                 if ($log && $n % 200 === 0) {
-                    $log("$n…");
+                    $log("{$n}…");
                 }
             }
         }

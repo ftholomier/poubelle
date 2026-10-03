@@ -354,6 +354,13 @@ final class Fiche
     public static function person(Request $req, array $doc): Response
     {
         $v = self::withAudio(self::personData($doc), $doc);
+        // Le Fil jaune : coéquipiers d'après les compositions, liens vers la constellation et la recherche.
+        $fj = \App\Services\FilJaune::player((int) $doc['id']);
+        if ($fj) {
+            $top = array_slice(\App\Services\FilJaune::teammates($fj['id']), 0, 3);
+            $v['vars']['filjaune'] = $fj + ['top' => array_map(fn ($t) => \App\Services\FilJaune::player($t['id']) + ['n' => $t['n']], $top)];
+            $v['page']['styles'] = array_merge($v['page']['styles'] ?? [], ['css/filjaune.css']);
+        }
         return Pages::render('fiche-personne', $v['vars'], $v['page']);
     }
 

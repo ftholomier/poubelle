@@ -203,6 +203,10 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   heure du coup d'envoi, présentation facultative (français, anglais). « Au programme » :
   voir, modifier, retirer ; public des directs passés (pic de spectateurs, réactions). Aucun
   coût : tout vient de la fiche du match.
+- **Fil jaune** (site, Interactif › Jouer) : rien à saisir, le site relie les joueurs par les
+  compositions des matchs (joueurs reliés à leur fiche). Chaque composition complétée,
+  surtout d'avant 1980, ajoute des liens ; une chaîne étonnante signale parfois un homonyme
+  relié à la mauvaise fiche.
 
 ## 7. Communauté
 

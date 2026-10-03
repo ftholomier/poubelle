@@ -193,6 +193,15 @@ $rowsHtml = function (array $list, bool $coach) {
       <?php if (!empty($p['then'])): ?>
         <div class="stack"><h2 class="h-3"><?= e(t('Après Sochaux')) ?></h2><ul class="plist"><?php foreach ($p['then'] as $h): ?><li><?= e($h) ?></li><?php endforeach; ?></ul></div>
       <?php endif; ?>
+      <?php if (!empty($filjaune)): $fj = $filjaune; ?>
+      <div class="fjbox">
+        <h2 class="h-3"><?= e(t('Le Fil jaune')) ?></h2>
+        <p><?= e(t('{n} coéquipiers dans les compositions du musée.', ['n' => $fj['mates']])) ?></p>
+        <?php if ($fj['top']): ?><p><b><?= e(t('Ses inséparables')) ?> :</b> <?= implode(', ', array_map(fn ($m) => '<a href="' . e(\App\Front\Fil::chainUrl($fj['id'], $m['id'])) . '">' . e($m['name']) . '</a> (' . e(t('{n} matchs', ['n' => $m['n']])) . ')', $fj['top'])) ?>.</p><?php endif; ?>
+        <a class="btn btn--sm btn--yellow" href="<?= e(\App\Front\Fil::starUrl($fj['id'])) ?>"><?= e(t('Sa constellation')) ?></a>
+        <a href="<?= e(\App\Front\Fil::base() . '?' . http_build_query(['de' => $fj['name']])) ?>#fj-search"><?= e(t('Le relier à un autre joueur')) ?> →</a>
+      </div>
+      <?php endif; ?>
       <?php if (!$story): ?><?= View::partial('partials/embeds', ['embeds' => $doc['embeds'] ?? []]) ?><?php endif; ?>
     </div>
   </div>

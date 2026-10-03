@@ -42,6 +42,7 @@ HTML],
 <p>En tapant un nom dans la colonne Joueur, la liste propose les fiches existantes : choisissez la bonne. La pastille verte <b>✓</b> indique une fiche reliée (cliquez pour l’ouvrir) ; la pastille rose <b>+</b> signale un joueur sans fiche (cliquez pour la créer, déjà remplie avec son nom).</p>
 [[img:match-autocomplete.webp|Les fiches proposées en tapant un nom]]
 [[astuce|<p>Même sans le choisir dans la liste, un nom bien écrit est relié automatiquement à la bonne fiche. Si un joueur est écrit autrement dans de vieilles compositions, ajoutez cette graphie dans sa fiche (« Autres graphies dans les compositions »).</p>]]
+[[auto|<p>Les joueurs reliés alimentent aussi le <b>Fil jaune</b> du site (Interactif › Jouer) : deux joueurs qui ont joué le même match deviennent coéquipiers, et le site relie n’importe quels deux Lionceaux de coéquipier en coéquipier. Chaque composition complétée, surtout d’avant 1980, tisse de nouveaux liens.</p>]]
 HTML],
         ['id' => 'importer', 'title' => '5. Importer une composition depuis un tableau', 'html' => <<<'HTML'
 <p>Bouton <b>Importer depuis un tableau</b> : collez un tableau copié depuis Excel, Word ou une page web. Avec une ligne d’en-tête (Poste, Nom, Numéro, Buts…), les colonnes sont reconnues dans n’importe quel ordre.</p>
@@ -50,7 +51,7 @@ HTML],
 HTML],
         ['id' => 'temps-forts', 'title' => '6. Temps forts, réactions et brèves', 'html' => <<<'HTML'
 <ul>
-<li><b>Temps forts</b> : une ligne par action (minute, texte) ; cochez « But » et indiquez le score du moment pour un but. Ils forment la frise minute par minute de la fiche.</li>
+<li><b>Temps forts</b> : une ligne par action (minute, texte) ; cochez « But » et indiquez le score du moment pour un but. Ils forment la frise minute par minute de la fiche et le déroulé du <b>Rétro-Direct</b> (voir [[aide:interactif#retro-direct|Le Rétro-Direct]]).</li>
 <li><b>Réactions</b> : qui parle et sa citation.</li>
 <li><b>Brèves</b> : anecdotes autour du match, une par bloc.</li>
 </ul>

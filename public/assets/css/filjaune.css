@@ -1,0 +1,140 @@
+/* ==========================================================================
+   Le Fil jaune : relier deux joueurs, constellation des coéquipiers, défi du jour
+   ========================================================================== */
+.fjhead__facts { margin: 0; font-size: 19px; color: #E7E2D4; }
+.fjhead__facts b { font-family: var(--display); font-weight: 900; font-size: 30px; color: var(--yellow); }
+.fjhead__title { font-size: clamp(44px, 8vw, 110px); }
+.fjhead__n { margin: 0; font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 26px; letter-spacing: .06em; }
+.fjhead__n b { font-size: clamp(64px, 9vw, 120px); line-height: .9; color: var(--yellow); }
+.fjland { padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(56px, 8vw, 96px); display: flex; flex-direction: column; gap: clamp(44px, 6vw, 72px); }
+.fjsec { display: flex; flex-direction: column; gap: 18px; }
+.fjsec > .h-section { font-size: clamp(36px, 5vw, 60px); }
+.fjnote { margin: 0; font-size: 17px; font-style: italic; color: var(--muted); max-width: 70ch; }
+.fjnote--box { font-style: normal; color: var(--navy); padding: 16px 20px; background: var(--paper); border-left: 6px solid var(--yellow); }
+.fjnote a { border-bottom: 2px solid currentColor; font-weight: 600; }
+.fjerror { margin: 0; padding: 14px 18px; background: var(--pink); border: 2px solid var(--red); font-size: 17px; }
+
+/* Formulaire */
+.fjform { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto; gap: 12px 14px; align-items: end; padding: 22px; background: var(--navy); border: 3px solid var(--yellow); }
+.fjform__f { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.fjform__f label { font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--yellow); }
+.fjform__f input { width: 100%; min-height: 52px; padding: 10px 14px; font: inherit; font-size: 19px; color: var(--navy); background: var(--paper); border: 2px solid var(--paper); }
+.fjform__f input:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+.fjform__swap { all: unset; cursor: pointer; width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: var(--yellow); border: 2px solid rgba(243,237,223,.4); }
+.fjform__swap:hover { background: var(--yellow); color: var(--navy); }
+.fjform__swap:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+.fjform__go { display: flex; align-items: center; gap: 14px; }
+.fjform__go .qbtn { box-shadow: none; min-height: 52px; box-sizing: border-box; }
+.fjform__go .linkbtn { color: var(--cream); white-space: nowrap; }
+@media (max-width: 860px) {
+  .fjform { grid-template-columns: minmax(0, 1fr) auto; }
+  .fjform__f:nth-of-type(2) { grid-column: 1 / 2; }
+  .fjform__swap { grid-row: 1 / 3; grid-column: 2; align-self: center; }
+  .fjform__go { grid-column: 1 / -1; }
+}
+
+/* Visages */
+.fjface { flex: none; width: 64px; height: 64px; border-radius: 50%; overflow: hidden; border: 3px solid var(--yellow); background: var(--navy); display: inline-flex; align-items: center; justify-content: center; }
+.fjface img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.fjface--sm { width: 48px; height: 48px; border-width: 2px; }
+.fjface__ph { font-family: var(--display); font-weight: 900; font-size: 26px; color: var(--yellow); }
+
+/* Défi du jour */
+.fjgame { padding: clamp(22px, 3vw, 36px); background: var(--paper); border: 2px solid var(--navy); box-shadow: 10px 10px 0 var(--yellow); }
+.fjgame__head { display: flex; flex-direction: column; gap: 10px; }
+.fjgame__lead { margin: 0; font-size: 19px; max-width: 62ch; }
+.fjgame__duel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(40px, 1fr) minmax(0, 1fr); align-items: center; gap: 14px; }
+.fjgame__end { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.fjgame__end:last-child { flex-direction: row-reverse; text-align: right; }
+.fjgame__end b { display: block; font-family: var(--display); font-weight: 900; font-size: 26px; line-height: 1; text-transform: uppercase; overflow-wrap: anywhere; }
+.fjgame__end small { font-size: 15px; color: var(--muted); }
+.fjgame__thread { height: 6px; background: repeating-linear-gradient(90deg, var(--yellow) 0 14px, transparent 14px 22px); }
+.fjgame__chain { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.fjgame__chain:empty { display: none; }
+.fjgame__chain li { display: inline-flex; align-items: center; gap: 6px; font-family: var(--display); font-weight: 800; font-size: 18px; text-transform: uppercase; }
+.fjgame__chain li + li::before { content: '→'; color: var(--blue); margin-right: 2px; }
+.fjgame__chain li span { padding: 4px 10px; background: var(--navy); color: var(--cream); }
+.fjgame__chain li.is-goal span { background: var(--yellow); color: var(--navy); }
+.fjgame__pick { display: flex; flex-direction: column; gap: 10px; }
+.fjgame__k { font-family: var(--display); font-weight: 800; font-size: 17px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); }
+.fjgame__filter { min-height: 46px; padding: 8px 12px; font: inherit; font-size: 18px; border: 2px solid var(--navy); background: #fff; max-width: 420px; }
+.fjgame__mates { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 8px; max-height: 360px; overflow: auto; }
+.fjgame__mates button { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; min-height: 44px; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 12px; border: 2px solid var(--navy); background: var(--cream); font-size: 17px; }
+.fjgame__mates button:hover, .fjgame__mates button:focus-visible { background: var(--yellow); outline: none; }
+.fjgame__mates button small { color: var(--muted); font-size: 14px; white-space: nowrap; }
+.fjgame__mates button.is-target { border-color: var(--yellow); box-shadow: inset 0 0 0 2px var(--yellow); }
+.fjgame__msg { margin: 0; font-size: 19px; font-weight: 600; }
+.fjgame__msg:empty { display: none; }
+.fjgame__msg.is-win { padding: 14px 18px; background: var(--navy); color: var(--yellow); font-family: var(--display); font-weight: 900; font-size: 26px; text-transform: uppercase; }
+@media (max-width: 560px) {
+  .fjgame__duel { grid-template-columns: 1fr; }
+  .fjgame__thread { height: 30px; width: 6px; margin-left: 29px; background: repeating-linear-gradient(180deg, var(--yellow) 0 8px, transparent 8px 14px); }
+  .fjgame__end:last-child { flex-direction: row; text-align: left; }
+}
+
+/* Records */
+.fjrec { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 20px; }
+.fjrec__box { display: flex; flex-direction: column; gap: 14px; padding: 22px; background: var(--paper); border: 2px solid var(--navy); }
+.fjrec__box--far { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+.fjrec__box--far .h-3 { color: var(--yellow); }
+.fjrec__box--far p { margin: 0; font-size: 18px; }
+.fjrec__box--far .btn--navy { background: var(--yellow); color: var(--navy); align-self: flex-start; }
+.fjrec__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.fjrec__list a { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
+.fjrec__list a:hover b { color: var(--blue); }
+.fjrec__list b { display: block; font-family: var(--display); font-weight: 900; font-size: 21px; line-height: 1.05; text-transform: uppercase; }
+.fjrec__list small { font-size: 15px; color: var(--muted); }
+.fjrec__n { flex: none; min-width: 58px; height: 48px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; background: var(--yellow); font-family: var(--display); font-weight: 900; font-size: 26px; }
+
+/* Chaîne */
+.fjchain { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; max-width: 760px; }
+.fjchain__p { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; }
+.fjcard { display: flex; align-items: center; gap: 16px; padding: 12px 20px 12px 12px; background: var(--paper); border: 2px solid var(--navy); min-width: 0; flex: 1 1 360px; transition: transform .2s var(--bounce), box-shadow .2s; }
+.fjcard:hover { color: var(--navy); transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--yellow); }
+.fjchain__p.is-end .fjcard { background: var(--navy); color: var(--cream); }
+.fjchain__p.is-end .fjcard small { color: var(--mist); }
+.fjcard__img { flex: none; width: 78px; height: 78px; border-radius: 50%; overflow: hidden; border: 3px solid var(--yellow); background: var(--navy); display: flex; align-items: center; justify-content: center; }
+.fjcard__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.fjcard__t { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.fjcard__t b { font-family: var(--display); font-weight: 900; font-size: clamp(24px, 3vw, 32px); line-height: 1; text-transform: uppercase; overflow-wrap: anywhere; }
+.fjcard__t small { font-size: 15px; color: var(--muted); }
+.fjchain__star { font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; border-bottom: 2px solid var(--yellow); }
+.fjchain__link { position: relative; margin-left: 50px; padding: 18px 0 18px 30px; border-left: 6px solid var(--yellow); display: flex; flex-direction: column; gap: 4px; }
+.fjchain__n { font-family: var(--display); font-weight: 800; font-size: 19px; text-transform: uppercase; letter-spacing: .04em; }
+.fjchain__n b { font-size: 30px; color: var(--blue); }
+.fjchain__y { color: var(--muted); font-weight: 700; }
+.fjchain__m { font-size: 17px; border-bottom: 1px solid rgba(14,31,77,.3); align-self: flex-start; }
+
+/* Constellation */
+.fjstar { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
+@media (max-width: 960px) { .fjstar { grid-template-columns: 1fr; } }
+.fjstar__fig { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.fjstar__fig svg { width: 100%; height: auto; display: block; background: radial-gradient(circle at 50% 50%, #1A2D63 0%, var(--navy) 70%); border: 3px solid var(--navy); }
+.fjstar__fig figcaption { font-size: 15px; font-style: italic; color: var(--muted); }
+.fjstar__halo { fill: none; stroke: rgba(246,196,0,.18); stroke-width: 2; stroke-dasharray: 4 10; }
+.fjstar__ray { stroke: rgba(243,237,223,.07); stroke-width: 1; }
+.fjstar__ray.is-top { stroke: rgba(246,196,0,.45); stroke-width: 2; }
+.fjstar__dot circle { fill: var(--mist); transition: fill .15s; }
+.fjstar__dot.is-top circle { fill: var(--yellow); }
+.fjstar__dot:hover circle, .fjstar__dot:focus circle { fill: #fff; }
+.fjstar__dot:focus { outline: none; }
+.fjstar__dot:focus-visible circle { stroke: #fff; stroke-width: 3; }
+.fjstar__dot text { fill: var(--cream); font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; paint-order: stroke; stroke: var(--navy); stroke-width: 4px; stroke-linejoin: round; }
+.fjstar__me { fill: var(--navy); stroke: var(--yellow); stroke-width: 6; }
+.fjstar__ini { fill: var(--yellow); font-family: var(--display); font-weight: 900; font-size: 48px; }
+.fjstar__side { display: flex; flex-direction: column; gap: 18px; }
+.fjall { border: 2px solid var(--navy); background: var(--paper); }
+.fjall summary { cursor: pointer; padding: 14px 18px; font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: .08em; text-transform: uppercase; }
+.fjall__list { margin: 0; padding: 0 18px 18px 46px; columns: 2; column-gap: 28px; font-size: 16px; }
+.fjall__list li { break-inside: avoid; padding: 2px 0; }
+.fjall__list a { border-bottom: 1px solid rgba(14,31,77,.25); }
+.fjall__n { font-family: var(--display); font-weight: 800; color: var(--blue); }
+@media (max-width: 560px) { .fjall__list { columns: 1; } .fjchain__link { margin-left: 36px; padding-left: 22px; } }
+
+/* Fiche joueur : encadré Fil jaune */
+.fjbox { display: flex; flex-direction: column; gap: 12px; padding: 22px; background: var(--navy); color: var(--cream); border: 3px solid var(--yellow); }
+.fjbox .h-3 { color: var(--yellow); }
+.fjbox p { margin: 0; font-size: 17px; }
+.fjbox a:not(.btn) { color: var(--cream); border-bottom: 1px solid rgba(243,237,223,.5); }
+.fjbox .btn { align-self: flex-start; }
+.fjgame__eyebrow { color: var(--blue); }

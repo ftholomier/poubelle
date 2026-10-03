@@ -32,7 +32,7 @@ déroulée par le navigateur. Back-office : calendrier des anniversaires propos�
 derbys, gros scores, anniversaires ronds). Exemples : Sochaux–Marseille 2-0 du 4 octobre 1986
 (40 ans), Sochaux–Toulon 7-2 du 19 octobre 1996 (30 ans).
 
-## Le Fil jaune — tous les Lionceaux sont reliés (gratuit)
+## Le Fil jaune — tous les Lionceaux sont reliés (gratuit) — réalisé (octobre 2026)
 
 Deux joueurs choisis, et le site trouve la chaîne des matchs joués ensemble qui les relie,
 chaque maillon menant à la fiche du match. Sur les compositions actuelles : 440 joueurs de

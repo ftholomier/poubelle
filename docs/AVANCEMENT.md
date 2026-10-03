@@ -183,6 +183,14 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       programmation en un clic, programme, public. Gratuit (aucune IA). `tests/retro.php` ;
       essai complet (programmation, compte à rebours, direct à la 38e minute, réactions,
       replay jusqu'aux tirs au but de la finale 1988, version anglaise, accessibilité).
+- [x] **Le Fil jaune** (Interactif › Jouer) : deux joueurs reliés par la chaîne la plus courte
+      de coéquipiers (matchs joués ensemble, premier match de chaque lien) ; constellation de
+      chaque joueur (SVG) ; records (442 joueurs dans la même famille, 6 passes au plus, 2,8
+      en moyenne ; les plus connectés, les inséparables, les plus éloignés ; la famille à part
+      des années 1960-1970, faute de compositions) ; défi du jour à jouer et à partager ;
+      encadré sur les fiches des joueurs. Rien à saisir : tout vient des compositions.
+      `tests/filjaune.php` ; essai complet (recherche, chaîne de 6 passes, constellation,
+      défi joué jusqu'au bout, version anglaise, accessibilité).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).

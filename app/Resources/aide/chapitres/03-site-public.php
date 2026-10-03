@@ -52,13 +52,19 @@ HTML],
 HTML],
         ['id' => 'interactif', 'title' => 'Interactif, recherche, assistant, dons', 'html' => <<<'HTML'
 <ul>
-<li><b>Interactif</b> : Rétro-Direct (les grands matchs rejoués en direct le jour anniversaire, voir [[aide:interactif#retro-direct|Le Rétro-Direct]]), quiz, album de cartes, maillots, frise, carte, centenaire (100 moments, Onze de légende), réserves du musée.</li>
+<li><b>Interactif</b> : Rétro-Direct (les grands matchs rejoués en direct le jour anniversaire, voir [[aide:interactif#retro-direct|Le Rétro-Direct]]), Fil jaune (voir ci-dessous), quiz, album de cartes, maillots, frise, carte, centenaire (100 moments, Onze de légende), réserves du musée.</li>
 <li><b>Recherche</b> : loupe en haut du site, sur toutes les fiches.</li>
 <li><b>Assistant IA</b> : bulle en bas à droite, qui répond à partir des données du musée.</li>
 <li><b>Contact, Contribuer, Newsletter, Faire un don</b> : leurs messages et leurs dons arrivent dans le menu Communauté.</li>
 <li><b>Anglais</b> : chaque page existe en anglais (bouton FR / EN) ; voir [[aide:anglais|Version anglaise]].</li>
 </ul>
 [[img:site-interactif.webp|La rubrique Interactif]]
+HTML],
+        ['id' => 'fil-jaune', 'title' => 'Le Fil jaune : tous les Lionceaux sont reliés', 'html' => <<<'HTML'
+<p>Interactif › Jouer › <b>Fil jaune</b> : le visiteur choisit deux joueurs ; le site trouve la chaîne la plus courte de coéquipiers qui les relie (deux joueurs sont coéquipiers s’ils ont joué le même match), chaque maillon menant à la fiche du premier match joué ensemble. Autour : la <b>constellation</b> de chaque joueur (tous ses coéquipiers, du plus fidèle au plus rare), les <b>records</b> (les plus connectés, les inséparables, les plus éloignés) et un <b>défi du jour</b> à partager : relier deux joueurs en choisissant soi-même un coéquipier à chaque passe. Sur la fiche d’un joueur, un encadré « Le Fil jaune » mène à sa constellation.</p>
+[[img:site-fil-jaune.webp|La constellation d’un joueur : ses coéquipiers, les plus fidèles au centre]]
+[[auto|<p>Tout est calculé à partir des compositions des fiches de match (titulaires et remplaçants entrés en jeu) dont les joueurs sont reliés à leur fiche : rien à saisir. Aujourd’hui, 442 joueurs forment une seule famille, reliés en 6 passes au plus ; 18 joueurs des années 1960-1970 forment une famille à part, faute de compositions des années 1970.</p>]]
+[[astuce|<p>Une chaîne étonnante (deux joueurs d’époques très différentes reliés par un seul match) révèle souvent un jubilé, un match de gala… ou une erreur de saisie (homonyme relié à la mauvaise fiche) : un bon moyen de repérer les compositions à vérifier.</p>]]
 HTML],
         ['id' => 'visibilite', 'title' => 'Qui voit quoi', 'html' => <<<'HTML'
 <ul>
