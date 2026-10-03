@@ -23,7 +23,8 @@ HTML],
 <p>Voir [[aide:fonctionnement#sauvegardes|Les sauvegardes]]. Réglages › Sauvegardes : heure de la sauvegarde quotidienne, nombre d’archives gardées, photos ajoutées le dimanche. Restaurer une sauvegarde complète (remplacer les dossiers <code>data/</code> et <code>storage/</code> sur le serveur) est une opération de webmestre, à réserver aux incidents graves.</p>
 HTML],
         ['id' => 'taches', 'title' => 'Tâches planifiées', 'html' => <<<'HTML'
-<p>Voir [[aide:fonctionnement#taches|Les tâches automatiques]]. Si le tableau indique qu’aucun passage n’a eu lieu depuis longtemps, prévenez le webmestre : la tâche cron du serveur est sans doute arrêtée.</p>
+<p>Voir [[aide:fonctionnement#taches|Les tâches automatiques]]. Le tableau donne, pour chaque tâche, sa fréquence, son dernier passage et son résultat ; « Lancer » en exécute une tout de suite.</p>
+[[attention|<p>Un bandeau rouge « La tâche planifiée n’est jamais passée » (ou un dernier passage ancien) signifie que la tâche cron du serveur n’est pas installée ou s’est arrêtée : prévenez le webmestre, qui vérifiera la ligne indiquée dans le bandeau chez l’hébergeur.</p>]]
 HTML],
         ['id' => 'journal', 'title' => 'Journal d’activité', 'html' => <<<'HTML'
 <p>Pilotage › <b>Journal</b> : toutes les actions de l’équipe (création, modification, publication, connexion…), filtrables par personne.</p>

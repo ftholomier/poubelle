@@ -42,7 +42,7 @@ HTML],
 <p>Le bouton <b>Aperçu</b> ouvre la fiche telle qu’elle sera sur le site, avec ce que vous venez de saisir, même sans avoir enregistré. Un bandeau jaune rappelle qu’il ne s’agit pas de la page publique.</p>
 HTML],
         ['id' => 'brouillon', 'title' => 'Brouillon de secours et modifications simultanées', 'html' => <<<'HTML'
-<p>Si le navigateur se ferme avant l’enregistrement, la fiche propose à la réouverture de récupérer le brouillon trouvé sur l’ordinateur.</p>
+<p>Ce que vous tapez est gardé au fur et à mesure dans le navigateur. Si l’onglet se ferme avant l’enregistrement (coupure, fausse manœuvre), la fiche le signale à la réouverture : <b>Le récupérer</b> enregistre aussitôt ce brouillon (une nouvelle version, visible dans l’Historique) ; <b>L’ignorer</b> l’efface et garde la fiche telle qu’elle était.</p>
 [[img:editeur-brouillon.webp|Un brouillon non enregistré retrouvé : « Le récupérer » ou « L’ignorer »]]
 [[attention|<p>Le brouillon de secours est propre à l’ordinateur et au navigateur utilisés : il ne remplace pas l’enregistrement.</p>]]
 HTML],

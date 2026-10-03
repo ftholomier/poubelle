@@ -52,7 +52,7 @@ $pill = ['paid' => 'ok', 'active' => 'ok', 'pending' => 'warn', 'canceled' => 'i
         <td class="xs nowrap"><?= e(date('d/m/Y H:i', strtotime((string) ($d['last_paid'] ?? $d['created'])))) ?></td>
         <td><a class="rowlink" href="/admin/dons/<?= e($d['id']) ?>"><?= e(trim(($d['donor']['first'] ?? '') . ' ' . ($d['donor']['last'] ?? '')) ?: '—') ?></a><br><span class="xs muted"><?= e($d['donor']['email'] ?? '') ?></span></td>
         <td class="t-num"><?= e(Front::money((int) $d['amount'])) ?><?= $d['frequency'] === 'month' ? ' <span class="xs">/ mois</span>' : '' ?><?= $d['frequency'] === 'month' && $paid ? '<br><span class="xs muted">' . e(Front::money($paid)) . ' versés</span>' : '' ?></td>
-        <td class="small"><?= e(Front::PROVIDERS[$d['provider']] ?? $d['provider']) ?><?= ($d['mode'] ?? '') === 'test' ? ' <span class="pill pill--info">test</span>' : '' ?></td>
+        <td class="small"><?= e($d['provider'] === 'manuel' && !empty($d['method_detail']) ? ucfirst((string) $d['method_detail']) : (Front::PROVIDERS[$d['provider']] ?? $d['provider'])) ?><?= ($d['mode'] ?? '') === 'test' ? ' <span class="pill pill--info">test</span>' : '' ?></td>
         <td><span class="pill pill--<?= $pill[$d['status']] ?? 'warn' ?>"><?= e(Front::STATUS[$d['status']] ?? $d['status']) ?></span></td>
         <td class="small"><?= !empty($d['wall']) ? (!empty($d['wall_hidden']) ? '<s class="muted">' . e($d['wall_name']) . '</s>' : e($d['wall_name'])) : '<span class="muted">discret</span>' ?></td>
         <td class="small"><?= e(implode(', ', Front::receiptNumbers($d))) ?: ($d['receipt'] ? '<span class="warn">demandé</span>' : '<span class="muted">—</span>') ?></td>

@@ -40,11 +40,11 @@ code { background: var(--cream); padding: 1px 4px; }
 .aide-sec th { background: var(--navy); color: var(--yellow); text-align: left; padding: 5px 8px; font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 12px; }
 .aide-sec td { border-bottom: 1px solid #d5d8e3; padding: 5px 8px; vertical-align: top; }
 .aide-fig { margin: 10px 0 14px; break-inside: avoid; page-break-inside: avoid; }
-.aide-fig img { border: 1.5px solid var(--navy); width: 100%; }
+.aide-fig img { border: 1.5px solid var(--navy); max-width: 100%; height: auto; max-height: 125mm; object-fit: contain; display: block; }
 .aide-fig figcaption { font-size: 12.5px; color: var(--muted); font-style: italic; margin-top: 4px; }
 .aide-fig__missing { display: none; }
 .aide-box { border: 1.5px solid var(--navy); padding: 8px 12px; margin: 10px 0; break-inside: avoid; font-size: 14px; }
-.aide-box b { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 13px; letter-spacing: .06em; display: block; }
+.aide-box > b { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 13px; letter-spacing: .06em; display: block; }
 .aide-box p { margin: 2px 0; }
 .aide-box--tip { background: var(--butter); }
 .aide-box--warn { background: var(--pink); }
@@ -53,22 +53,22 @@ code { background: var(--cream); padding: 1px 4px; }
 .aide-go { display: inline-block; font-family: var(--display); font-weight: 800; font-size: 12px; text-transform: uppercase; border: 1.5px solid var(--navy); padding: 2px 8px; color: var(--navy); }
 
 /* Mémo (2 pages A4) */
-.aide-memo { font-size: 12.5px; line-height: 1.4; max-width: 780px; }
+.aide-memo { font-size: 12px; line-height: 1.35; max-width: 780px; }
 .mpage { break-after: page; page-break-after: always; }
 .mpage:last-child { break-after: auto; page-break-after: auto; }
 .mhead { display: flex; align-items: center; gap: 14px; background: var(--navy); color: var(--cream); padding: 10px 14px; border: 2px solid var(--navy); box-shadow: 5px 5px 0 var(--yellow); margin-bottom: 12px; }
 .mhead img { width: 54px; }
 .mhead span { font-family: var(--display); font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--yellow); font-size: 11px; }
 .mhead h1 { margin: 2px 0 0; font-size: 30px; color: var(--cream); }
-.mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.mbox { border: 2px solid var(--navy); padding: 8px 12px; background: var(--paper); break-inside: avoid; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mbox { border: 2px solid var(--navy); padding: 6px 10px; background: var(--paper); break-inside: avoid; }
 .mbox--wide { grid-column: 1 / -1; }
 .mbox h2 { font-size: 17px; margin: 2px 0 6px; padding-bottom: 3px; border-bottom: 2px solid var(--yellow); }
 .mbox h2 + p, .mbox p { margin: 4px 0; }
 .mbox ul { margin: 4px 0; padding-left: 18px; }
 .mbox li { margin: 2px 0; }
 .mbox table { border-collapse: collapse; width: 100%; }
-.mbox td, .mbox th { padding: 3px 6px; border-bottom: 1px solid #dde0ea; vertical-align: top; text-align: left; }
+.mbox td, .mbox th { padding: 2px 6px; border-bottom: 1px solid #dde0ea; vertical-align: top; text-align: left; }
 .mbox th { background: var(--navy); color: var(--yellow); font-family: var(--display); text-transform: uppercase; font-size: 11px; }
 .mwhere td:last-child { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 12px; color: var(--blue); }
 

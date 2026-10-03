@@ -51,8 +51,8 @@ $osm = fn ($lat, $lng) => $lat !== null && $lat !== '' ? 'https://www.openstreet
             <?php if ($club): ?>
               <td><span class="imgmini" data-image-mini><input type="hidden" data-field="logo" value="<?= e((string) ($r['logo'] ?? '')) ?>"><button type="button" data-pick title="Choisir le logo"><?= !empty($r['logo']) ? '<img src="' . e(img($r['logo'], 160)) . '" alt="">' : '+' ?></button><button type="button" data-clear class="iconbtn" title="Retirer le logo" aria-label="Retirer le logo">✕</button></span></td>
             <?php endif; ?>
-            <td><input type="text" inputmode="decimal" data-field="lat" value="<?= e((string) ($r['lat'] ?? '')) ?>" aria-label="Latitude" placeholder="47.51"></td>
-            <td><input type="text" inputmode="decimal" data-field="lng" value="<?= e((string) ($r['lng'] ?? '')) ?>" aria-label="Longitude" placeholder="6.81"></td>
+            <td><input type="text" inputmode="decimal" data-field="lat" value="<?= e((string) ($r['lat'] ?? '')) ?>" aria-label="Latitude" placeholder="lat."></td>
+            <td><input type="text" inputmode="decimal" data-field="lng" value="<?= e((string) ($r['lng'] ?? '')) ?>" aria-label="Longitude" placeholder="long."></td>
             <td class="t-num"><?= (int) $r['count'] ?></td>
             <td class="nowrap">
               <?php if ($club && $r['count']): ?><a class="linkbtn" href="/face-a-face/<?= e(rawurlencode($r['id'])) ?>/" target="_blank" rel="noopener" title="Page face-à-face">Bilan ↗</a><?php endif; ?>

@@ -57,7 +57,7 @@ if ($isAdmin) {
       <button type="button" class="btn btn--sm side__toggle" data-nav-toggle aria-controls="side" aria-expanded="false">☰</button>
       <div class="top__title">
         <span class="top__crumb"><?= $meta['crumb_html'] ?? e($meta['crumb'] ?? '') ?></span>
-        <h1 class="top__h"><?= e($meta['title'] ?? '') ?></h1>
+        <h1 class="top__h"><span class="top__ht"><?= e($meta['title'] ?? '') ?></span></h1>
       </div>
       <button type="button" class="top__search" data-qk-open aria-label="Rechercher partout (Ctrl+K)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>

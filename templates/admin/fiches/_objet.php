@@ -5,7 +5,7 @@ use App\Data\Index;
 
 $o = $doc['objet'] ?? [];
 $cols = [];
-foreach (\App\Front\Interactive::reserves() as $c) {
+foreach (\App\Front\Pages::reserves() as $c) {
     $cols[$c['slug']] = $c['name'];
 }
 ?>

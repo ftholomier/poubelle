@@ -35,6 +35,17 @@ final class RateLimiter
         return $allowed;
     }
 
+    /** Oublie les essais d'une clé (ex. après une connexion réussie). */
+    public static function clear(string $bucket, string $key): void
+    {
+        $id = hash('sha256', $key);
+        JsonStore::update(STORAGE_PATH . '/ratelimit/' . $bucket . '.json', function ($data) use ($id) {
+            $data = is_array($data) ? $data : [];
+            unset($data[$id]);
+            return $data;
+        }, []);
+    }
+
     public static function remaining(string $bucket, string $key, int $max, int $windowSeconds): int
     {
         $data = JsonStore::read(STORAGE_PATH . '/ratelimit/' . $bucket . '.json', []) ?? [];

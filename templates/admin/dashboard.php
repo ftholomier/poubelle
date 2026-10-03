@@ -5,14 +5,15 @@ use App\Front\Donations;
 
 $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
 $max = max(1, max($series ?: [0]));
+$pl = fn ($n, string $one, string $many): string => (int) $n > 1 ? $many : $one;
 ?>
 <div class="kpis">
-  <a class="kpi" href="/admin/matchs"><b><?= $fmt($counts['match']) ?></b><span>fiches matchs</span><small><?= $month ? '+' . $fmt($month) . ' fiches ce mois' : 'aucune nouvelle ce mois' ?></small></a>
-  <a class="kpi" href="/admin/personnes"><b><?= $fmt($counts['personne']) ?></b><span>personnes</span><small><?= $fmt($noBirth) ?> sans lieu de naissance</small></a>
-  <a class="kpi<?= $contribs ? ' kpi--yellow' : '' ?>" href="/admin/contributions"><b><?= $fmt($contribs) ?></b><span>contributions à valider</span><small><?= $oldest ? 'plus ancienne : ' . e(Base::ago(date('c', $oldest))) : 'file vide' ?></small></a>
-  <a class="kpi<?= $high ? ' kpi--pink' : '' ?>" href="/admin/qualite"><b><?= $fmt($qualityTotal) ?></b><span>alertes qualité</span><small><?= $fmt($high) ?> haute<?= $high > 1 ? 's' : '' ?></small></a>
+  <a class="kpi" href="/admin/matchs"><b><?= $fmt($counts['match']) ?></b><span><?= $pl($counts['match'], 'fiche match', 'fiches matchs') ?></span><small><?= $month ? '+' . $fmt($month) . ' ' . $pl($month, 'fiche', 'fiches') . ' ce mois' : 'aucune nouvelle ce mois' ?></small></a>
+  <a class="kpi" href="/admin/personnes"><b><?= $fmt($counts['personne']) ?></b><span><?= $pl($counts['personne'], 'personne', 'personnes') ?></span><small><?= $fmt($noBirth) ?> sans lieu de naissance</small></a>
+  <a class="kpi<?= $contribs ? ' kpi--yellow' : '' ?>" href="/admin/contributions"><b><?= $fmt($contribs) ?></b><span><?= $pl($contribs, 'contribution à valider', 'contributions à valider') ?></span><small><?= $oldest ? 'plus ancienne : ' . e(Base::ago(date('c', $oldest))) : 'file vide' ?></small></a>
+  <a class="kpi<?= $high ? ' kpi--pink' : '' ?>" href="/admin/qualite"><b><?= $fmt($qualityTotal) ?></b><span><?= $pl($qualityTotal, 'alerte qualité', 'alertes qualité') ?></span><small><?= $fmt($high) ?> haute<?= $high > 1 ? 's' : '' ?></small></a>
   <a class="kpi" href="/admin/dons"><b><?= e(Donations::money($monthDons)) ?></b><span>dons ce mois</span><small><?= $fmt($gauge['raised']) ?> € au total</small></a>
-  <a class="kpi" href="/admin/newsletter"><b><?= $fmt($subs) ?></b><span>abonnés newsletter</span><small>« Ce jour-là », chaque semaine</small></a>
+  <a class="kpi" href="/admin/newsletter"><b><?= $fmt($subs) ?></b><span><?= $pl($subs, 'abonné newsletter', 'abonnés newsletter') ?></span><small>« Ce jour-là », chaque semaine</small></a>
 </div>
 
 <div class="cols">

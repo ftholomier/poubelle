@@ -117,6 +117,8 @@ final class Auth
             self::update($u['id'], ['password' => password_hash($password, PASSWORD_ARGON2ID)]);
             $u = self::find($u['id']);
         }
+        // Seuls les échecs comptent : une connexion réussie remet le compteur du compte à zéro.
+        RateLimiter::clear('login', $key);
         self::login($u);
         return ['ok' => true];
     }

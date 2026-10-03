@@ -52,6 +52,8 @@ final class Help extends Base
         'reglages' => 'administration#reglages',
         'sauvegardes' => 'administration#sauvegardes',
         'taches' => 'administration#taches',
+        'profil' => 'prise-en-main#profil',
+        'corbeille' => 'fiches#corbeille',
     ];
 
     /** @return array<string,array> chapitres dans l'ordre, par adresse */
@@ -137,13 +139,23 @@ final class Help extends Base
         return $res;
     }
 
-    /** Texte d'un chapitre prêt à afficher (repères remplacés). */
-    public static function render(string $html): string
+    /**
+     * Texte d'un chapitre prêt à afficher (repères remplacés). Pour l'impression et le PDF ($print) :
+     * images chargées d'emblée, renvois internes vers les ancres du document, liens d'écran absolus.
+     */
+    public static function render(string $html, bool $print = false): string
     {
-        $html = preg_replace_callback('/\[\[img:([a-z0-9-]+\.(?:webp|png|jpg))\|([^\]]*)\]\]/u', function ($m) {
+        $html = preg_replace_callback('/\[\[img:([a-z0-9-]+\.(?:webp|png|jpg))\|([^\]]*)\]\]/u', function ($m) use ($print) {
             $src = '/admin/aide/fichier/' . $m[1];
-            $exists = is_file(self::DIR . '/img/' . $m[1]);
-            return '<figure class="aide-fig">' . ($exists ? '<a href="' . e($src) . '" target="_blank" title="Agrandir"><img src="' . e($src) . '" alt="' . e($m[2]) . '" loading="lazy"></a>' : '<div class="aide-fig__missing">Capture à venir</div>')
+            $file = self::DIR . '/img/' . $m[1];
+            if (!is_file($file)) {
+                return $print ? '' : '<figure class="aide-fig"><div class="aide-fig__missing">Capture à venir</div><figcaption>' . e($m[2]) . '</figcaption></figure>';
+            }
+            $size = @getimagesize($file);
+            // Captures faites à 1,25× : affichées à leur taille réelle à l'écran, sans agrandissement.
+            $dims = $size ? ' width="' . (int) round($size[0] / 1.25) . '" height="' . (int) round($size[1] / 1.25) . '"' : '';
+            $img = '<img src="' . e($src) . '" alt="' . e($m[2]) . '"' . $dims . ($print ? '' : ' loading="lazy"') . '>';
+            return '<figure class="aide-fig">' . ($print ? $img : '<a href="' . e($src) . '" target="_blank" title="Agrandir">' . $img . '</a>')
                 . '<figcaption>' . e($m[2]) . '</figcaption></figure>';
         }, $html) ?? $html;
         $boxes = ['astuce' => ['Astuce', 'tip'], 'attention' => ['Attention', 'warn'], 'wp' => ['Avant, dans WordPress', 'wp'], 'auto' => ['Automatique', 'auto']];
@@ -151,8 +163,11 @@ final class Help extends Base
             [$label, $cls] = $boxes[$m[1]];
             return '<aside class="aide-box aide-box--' . $cls . '"><b>' . e($label) . '</b><div>' . $m[2] . '</div></aside>';
         }, $html) ?? $html;
-        $html = preg_replace_callback('/\[\[ecran:(\/admin[^|\]]*)\|([^\]]+)\]\]/u', fn ($m) => '<a class="btn btn--sm aide-go" href="' . e($m[1]) . '">' . e($m[2]) . ' →</a>', $html) ?? $html;
-        $html = preg_replace_callback('/\[\[aide:([a-z0-9-]+)(#[a-z0-9-]+)?\|([^\]]+)\]\]/u', fn ($m) => '<a href="/admin/aide/' . e($m[1]) . e($m[2] ?? '') . '">' . e($m[3]) . '</a>', $html) ?? $html;
+        $html = preg_replace_callback('/\[\[ecran:(\/admin[^|\]]*)\|([^\]]+)\]\]/u', fn ($m) => '<a class="btn btn--sm aide-go" href="' . e(($print ? base_url() : '') . $m[1]) . '">' . e($m[2]) . ' →</a>', $html) ?? $html;
+        $html = preg_replace_callback('/\[\[aide:([a-z0-9-]+)(?:#([a-z0-9-]+))?\|([^\]]+)\]\]/u', function ($m) use ($print) {
+            $href = $print ? '#' . $m[1] . (($m[2] ?? '') !== '' ? '-' . $m[2] : '') : '/admin/aide/' . $m[1] . (($m[2] ?? '') !== '' ? '#' . $m[2] : '');
+            return '<a href="' . e($href) . '">' . e($m[3]) . '</a>';
+        }, $html) ?? $html;
         return $html;
     }
 

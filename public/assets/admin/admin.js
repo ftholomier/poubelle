@@ -126,12 +126,13 @@
 
   /* ---------------------------------------------------------- recherche globale (Ctrl+K) */
   const qk = $('[data-qk]'), qkIn = $('[data-qk-input]'), qkRes = $('[data-qk-res]');
-  let qkTimer, qkSel = 0;
+  let qkTimer, qkSel = 0, qkSeq = 0;
   const qkOpen = () => { if (!qk) return; qk.hidden = false; qkIn.value = ''; qkRes.innerHTML = ''; setTimeout(() => qkIn.focus(), 10); qkSearch(); };
   const qkClose = () => { if (qk) qk.hidden = true; };
   async function qkSearch() {
-    const q = qkIn.value.trim();
+    const q = qkIn.value.trim(), seq = ++qkSeq;
     const r = await fetch('/admin/api/recherche?q=' + encodeURIComponent(q), { credentials: 'same-origin' }).then(x => x.json()).catch(() => ({ items: [] }));
+    if (seq !== qkSeq) return; // une recherche plus récente est partie entre-temps
     qkSel = 0;
     qkRes.innerHTML = (r.items || []).map((it, i) => '<a href="' + esc(it.url) + '" class="' + (i === 0 ? 'is-on' : '') + '"><span class="pill">' + esc(it.kind) + '</span><span>' + esc(it.title) + (it.meta ? ' <small>' + esc(it.meta) + '</small>' : '') + '</span><small>' + esc(it.status || '') + '</small></a>').join('') || '<p class="muted" style="padding:14px 18px;margin:0">' + (q ? 'Aucun résultat.' : 'Tapez quelques lettres…') + '</p>';
   }
@@ -522,6 +523,7 @@
           if (d && d.base === (form.dataset.modified || '') && Date.now() - d.at < 14 * 864e5) {
             const bar = document.createElement('div');
             bar.className = 'alert';
+            bar.style.gridColumn = '1 / -1'; // au-dessus des deux colonnes de l'éditeur
             bar.innerHTML = 'Un brouillon non enregistré du <b>' + new Date(d.at).toLocaleString('fr-FR') + '</b> a été retrouvé sur cet ordinateur. <button type="button" class="btn btn--sm btn--navy" data-draft-apply>Le récupérer</button> <button type="button" class="btn btn--sm" data-draft-drop>L’ignorer</button>';
             form.prepend(bar);
             $('[data-draft-drop]', bar).addEventListener('click', () => { localStorage.removeItem(draftKey); bar.remove(); });
@@ -795,7 +797,7 @@
   const hintConf = (() => { try { return JSON.parse(document.getElementById('bo-tips')?.textContent || '{}'); } catch (e) { return {}; } })();
   const hintKey = (el) => (el.querySelector('label')?.textContent || el.childNodes[0]?.textContent || el.textContent || '')
     .replace(/\s+/g, ' ').replace(/\s*\*\s*$/, '').trim().toLowerCase();
-  let hintPop = null, hintFor = null, hintTimer = null;
+  let hintPop = null, hintFor = null, hintTimer = null, hintAt = 0;
   const hideHint = () => { clearTimeout(hintTimer); if (hintPop) hintPop.hidden = true; if (hintFor) hintFor.setAttribute('aria-expanded', 'false'); hintFor = null; };
   const showHint = (btn) => {
     clearTimeout(hintTimer);
@@ -807,6 +809,7 @@
       document.body.appendChild(hintPop);
     }
     if (hintFor && hintFor !== btn) hintFor.setAttribute('aria-expanded', 'false');
+    if (hintFor !== btn || hintPop.hidden) hintAt = Date.now();
     hintFor = btn;
     hintPop.innerHTML = btn.dataset.hint + (btn.dataset.guide ? '<br><a href="' + btn.dataset.guide + '">Voir le guide de cet écran →</a>' : '');
     hintPop.hidden = false;
@@ -837,16 +840,29 @@
     }
     root.querySelectorAll('.card__t, .f__k').forEach(el => {
       if (el.closest('template')) return;
-      const k = hintKey(el);
-      if (k && k !== 'screen' && tips[k]) add(el, tips[k], null);
+      // Dans une liste d'éléments (galerie, temps forts…), la bulle n'est que sur le premier.
+      const item = el.closest('[data-item]');
+      if (item && item.previousElementSibling?.matches('[data-item]')) {
+        el.querySelectorAll('.hint').forEach(b => b.remove());
+        delete el.dataset.hinted;
+        return;
+      }
+      const k = hintKey(el), rep = el.closest('[data-repeater]');
+      const text = (rep && tips[rep.dataset.repeater + ':' + k]) || tips[k];
+      if (k && k !== 'screen' && text) add(el, text, null);
     });
   };
-  document.addEventListener('mouseover', e => { const b = e.target.closest('.hint'); if (b) showHint(b); });
-  document.addEventListener('mouseout', e => { const b = e.target.closest('.hint'); if (b && !b.contains(e.relatedTarget)) hintTimer = setTimeout(hideHint, 250); });
+  // Survol à la souris seulement : au toucher, les événements de souris simulés sont ignorés.
+  let lastTouch = 0;
+  document.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') lastTouch = Date.now(); }, true);
+  const byTouch = () => Date.now() - lastTouch < 1000;
+  document.addEventListener('mouseover', e => { const b = e.target.closest('.hint'); if (b && !byTouch()) showHint(b); });
+  document.addEventListener('mouseout', e => { const b = e.target.closest('.hint'); if (b && !byTouch() && !b.contains(e.relatedTarget)) hintTimer = setTimeout(hideHint, 250); });
   document.addEventListener('focusin', e => { const b = e.target.closest('.hint'); if (b) showHint(b); else if (hintPop && !hintPop.contains(e.target)) hideHint(); });
   document.addEventListener('click', e => {
     const b = e.target.closest('.hint');
-    if (b) { e.preventDefault(); e.stopPropagation(); if (hintFor === b && !hintPop.hidden && e.pointerType !== 'mouse') hideHint(); else showHint(b); return; }
+    // Au toucher, le focus ouvre déjà la bulle : un 2e appui sur le même « ? » la referme.
+    if (b) { e.preventDefault(); e.stopPropagation(); if (hintFor === b && !hintPop.hidden && e.pointerType !== 'mouse' && Date.now() - hintAt > 400) hideHint(); else showHint(b); return; }
     if (hintPop && !hintPop.hidden && !hintPop.contains(e.target)) hideHint();
   }, true);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && hintPop && !hintPop.hidden) hideHint(); });

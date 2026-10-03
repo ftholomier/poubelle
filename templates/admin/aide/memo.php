@@ -52,24 +52,9 @@
       </table>
       <p>« Importer depuis un tableau » : coller un tableau copié (Excel, Word, page web). Statistiques, saisons, face-à-face et records se recalculent seuls.</p>
     </div>
-    <div class="mbox">
-      <h2>Photos</h2>
-      <ul>
-        <li><b>Crédit obligatoire</b> à l’envoi, légende et droits ensuite.</li>
-        <li>Retouche (recadrage, rotation) sans abîmer l’original.</li>
-        <li>« Remplacer le fichier » met à jour la photo partout.</li>
-        <li>« Utilisée dans » : les fiches qui l’affichent.</li>
-      </ul>
-    </div>
-    <div class="mbox">
-      <h2>Ce que le site fait seul</h2>
-      <ul>
-        <li>Fiches des joueurs : tous leurs matchs, buts, cartons.</li>
-        <li>Pages saison, face-à-face, bilans, records.</li>
-        <li>Carte des origines et des stades.</li>
-        <li>Recherche, plan du site, images de partage.</li>
-        <li>Sauvegarde chaque jour.</li>
-      </ul>
+    <div class="mbox mbox--wide">
+      <h2>L’éditeur de texte</h2>
+      <p class="mtools"><b>G · I</b> gras, italique (Ctrl+B, Ctrl+I) · <b>Titre · Sous-titre</b> intertitres · <b>• Liste · 1. Liste</b> · <b>❝ Citation</b> · <b>🔗 Lien</b> vers une adresse · <b>🔗 Fiche</b> lien vers une fiche du musée · <b>🖼 Image</b> de la médiathèque · <b>⏱ Minute</b> minute de jeu en gras (33') · <b>⌫</b> retire la mise en forme d’un texte collé depuis Word · <b>↶</b> annuler · <b>&lt;/&gt;</b> code HTML (avancé).</p>
     </div>
   </div>
 </section>
@@ -93,6 +78,25 @@
         <tr><td>Version anglaise</td><td>Système › Traductions EN, ou onglet Version EN</td></tr>
         <tr><td>Une ancienne version, une fiche supprimée</td><td>onglet Historique ; « Voir la corbeille »</td></tr>
       </table>
+    </div>
+    <div class="mbox">
+      <h2>Photos</h2>
+      <ul>
+        <li><b>Crédit obligatoire</b> à l’envoi, légende et droits ensuite.</li>
+        <li>Retouche (recadrage, rotation) sans abîmer l’original.</li>
+        <li>« Remplacer le fichier » met à jour la photo partout.</li>
+        <li>« Utilisée dans » : les fiches qui l’affichent.</li>
+      </ul>
+    </div>
+    <div class="mbox">
+      <h2>Ce que le site fait seul</h2>
+      <ul>
+        <li>Fiches des joueurs : tous leurs matchs, buts, cartons.</li>
+        <li>Pages saison, face-à-face, bilans, records.</li>
+        <li>Carte des origines et des stades.</li>
+        <li>Recherche, plan du site, images de partage.</li>
+        <li>Sauvegarde chaque jour.</li>
+      </ul>
     </div>
     <div class="mbox">
       <h2>Avant de publier</h2>

@@ -22,6 +22,6 @@ $canRestore = Auth::can('restore');
         </div>
       </details>
     <?php endforeach; ?>
-    <?php if (!$versions): ?><div class="card__body muted">Aucune version enregistrée.</div><?php endif; ?>
+    <?php if (!$versions): ?><div class="card__body muted">Aucune modification depuis <?= !empty($doc['wp_id']) || !empty($doc['legacy']) ? 'la reprise de l’ancien site. Au premier enregistrement, l’état d’origine est conservé comme version 1' : 'la création de la fiche' ?>.</div><?php endif; ?>
   </div>
 </div>

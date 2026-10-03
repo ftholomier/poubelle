@@ -127,7 +127,7 @@ final class Fiches extends Base
     {
         $rows = array_filter(Index::all(), fn ($s) => $s['status'] === 'corbeille');
         uasort($rows, fn ($a, $b) => strcmp((string) ($b['modified'] ?? ''), (string) ($a['modified'] ?? '')));
-        return self::html('admin/fiches/trash', ['rows' => $rows], ['title' => 'Corbeille', 'crumb' => 'Contenus', 'nav' => '']);
+        return self::html('admin/fiches/trash', ['rows' => $rows], ['title' => 'Corbeille', 'crumb' => 'Contenus', 'nav' => 'corbeille']);
     }
 
     /** Actions groupées depuis une liste. */

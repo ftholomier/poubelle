@@ -63,7 +63,7 @@ final class Dashboard extends Base
             $todos[] = ['#D9342B', "Corriger $high alerte" . ($high > 1 ? 's' : '') . ' qualité haute (statistiques incohérentes)', 'Qualité', '/admin/qualite'];
         }
         if ($contribs) {
-            $todos[] = ['#F6C400', 'Valider ' . count($contribs) . ' contribution' . (count($contribs) > 1 ? 's' : ''), 'File', '/admin/contributions'];
+            $todos[] = ['#F6C400', 'Valider ' . count($contribs) . ' contribution' . (count($contribs) > 1 ? 's' : ''), 'Contributions', '/admin/contributions'];
         }
         if ($messages) {
             $todos[] = ['#1F3FA8', 'Répondre à ' . count($messages) . ' message' . (count($messages) > 1 ? 's' : ''), 'Messages', '/admin/messages'];

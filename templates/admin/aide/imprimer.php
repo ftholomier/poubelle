@@ -33,7 +33,7 @@ use App\Admin\Help;
   <?php foreach ($c['sections'] as $s): ?>
     <div class="aide-sec" id="<?= e($c['slug'] . '-' . $s['id']) ?>">
       <h3><?= e($s['title']) ?></h3>
-      <?= Help::render($s['html']) ?>
+      <?= Help::render($s['html'], true) ?>
     </div>
   <?php endforeach; ?>
 </section>

@@ -159,7 +159,7 @@ final class Account extends Base
             }
             return self::back('/admin/profil', 'Profil enregistré.');
         }
-        return self::html('admin/auth/profile', ['u' => $u, 'activity' => array_slice(array_values(array_filter(\App\Data\Activity::recent(300), fn ($a) => ($a['uid'] ?? '') === $u['id'])), 0, 30)], ['title' => 'Mon profil', 'crumb' => 'Compte']);
+        return self::html('admin/auth/profile', ['u' => $u, 'activity' => array_slice(array_values(array_filter(\App\Data\Activity::recent(300), fn ($a) => ($a['uid'] ?? '') === $u['id'])), 0, 30)], ['title' => 'Mon profil', 'crumb' => 'Compte', 'nav' => 'profil']);
     }
 
     /** Envoie un lien d'invitation ou de réinitialisation. */
