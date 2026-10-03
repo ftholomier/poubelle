@@ -13,6 +13,8 @@ return [
 <li><b>Décision</b> : ✓ Valider, ? Demander une précision (l’auteur reçoit un e-mail), ou Refuser.</li>
 <li>Pour une correction, faites-la dans la fiche concernée, puis validez la contribution.</li>
 </ol>
+<p><b>Un témoignage</b> (souvenir de match) peut être publié sur la fiche du match, dans le bloc <b>« Ils y étaient »</b> : choisissez la fiche du match dans « Fiche corrigée ou enrichie », relisez le <b>texte publié</b> (corrigez les fautes, raccourcissez au besoin) et la <b>signature</b> (prénom et initiale par défaut), laissez « Publier ce souvenir » coché, puis ✓ Valider. Refuser ou supprimer la contribution le retire de la fiche.</p>
+[[auto|<p>Sur chaque fiche de match, le bloc « Ils y étaient » compte aussi les visiteurs qui cliquent « J’y étais ! » et invite à raconter son souvenir (formulaire prérempli).</p>]]
 HTML],
         ['id' => 'messages', 'title' => 'Les messages du formulaire de contact', 'html' => <<<'HTML'
 <p>Communauté › <b>Messages</b> : chaque message indique l’objet choisi par le visiteur (devenir partenaire, confier une archive, signaler une erreur, autre demande). <b>Répondre par e-mail</b> envoie la réponse et la garde dans l’historique ; <b>Suivi</b> : statut (nouveau, lu, traité) et personne chargée de répondre.</p>

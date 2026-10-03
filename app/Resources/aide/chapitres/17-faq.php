@@ -94,6 +94,12 @@ HTML],
         ['id' => 'retro-direct', 'title' => '… rejouer un grand match en direct le jour de son anniversaire', 'html' => <<<'HTML'
 <p>Interactif › <b>Rétro-Direct</b> › « Anniversaires à venir » › <b>Programmer à 20 h</b>, ou « Programmer un match » pour choisir le match, la date et l’heure. Le jour J, à l’heure dite, le site déroule le match minute par minute. Voir [[aide:interactif#retro-direct|Le Rétro-Direct]].</p>
 HTML],
+        ['id' => 'temoignage', 'title' => '… publier le souvenir d’un supporter sur la fiche d’un match', 'html' => <<<'HTML'
+<p>Communauté › <b>Contributions</b> › le témoignage › choisissez la fiche du match, relisez le texte publié et la signature, « Publier ce souvenir » coché › <b>✓ Valider</b>. Il apparaît dans le bloc « Ils y étaient » de la fiche. Voir [[aide:communaute#contributions|Les contributions]].</p>
+HTML],
+        ['id' => 'kit', 'title' => '… imprimer le kit souvenirs du mois pour des anciens supporters', 'html' => <<<'HTML'
+<p>Sur le site : Interactif › Participer › <b>Kit souvenirs</b> › « Télécharger le kit » (PDF de 4 pages A4). Pour changer le match ou ajouter un mot d’introduction : Interactif › <b>Kit souvenirs</b> du back-office. Voir [[aide:interactif#souvenirs|Le kit souvenirs]].</p>
+HTML],
         ['id' => 'pdf', 'title' => '… obtenir le PDF d’une fiche', 'html' => <<<'HTML'
 <p>Sur le site, bouton <b>Télécharger en PDF</b> sous le titre de la fiche (ou de la saison, du face-à-face, du bilan, des records). Dans le back-office : panneau Publication de la fiche › <b>Télécharger le PDF</b>. Le document reprend la dernière version enregistrée. Voir <a href="/admin/aide/site-public#pdf">Télécharger en PDF</a>.</p>
 HTML],

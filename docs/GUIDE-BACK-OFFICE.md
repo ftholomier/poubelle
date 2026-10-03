@@ -203,6 +203,12 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   heure du coup d'envoi, présentation facultative (français, anglais). « Au programme » :
   voir, modifier, retirer ; public des directs passés (pic de spectateurs, réactions). Aucun
   coût : tout vient de la fiche du match.
+- **Kit souvenirs** (les Après-midi Bonal) : chaque mois, un PDF de 4 pages en gros
+  caractères à imprimer pour les anciens supporters (le grand match d'il y a N ans,
+  « Vous les reconnaissez ? », le quiz des anciens, « Racontez-nous » avec QR code). Pour le
+  mois en cours et les deux suivants : match choisi automatiquement ou par vous (autres
+  propositions, ou n'importe quel match), mot d'introduction, PDF à vérifier ; liste des
+  souvenirs publiés.
 - **Fil jaune** (site, Interactif › Jouer) : rien à saisir, le site relie les joueurs par les
   compositions des matchs (joueurs reliés à leur fiche). Chaque composition complétée,
   surtout d'avant 1980, ajoute des liens ; une chaîne étonnante signale parfois un homonyme
@@ -212,7 +218,9 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
 
 - **Contributions** (proposées par les visiteurs : corrections, photos, documents) : à
   traiter, demander une information, publier (les fichiers peuvent être versés dans la
-  médiathèque ou rattachés à une fiche), refuser.
+  médiathèque ou rattachés à une fiche), refuser. Un **témoignage** rattaché à une fiche de
+  match se publie à la validation dans le bloc « Ils y étaient » de la fiche (texte et
+  signature relus, case « Publier ce souvenir »).
 - **Messages** (formulaire de contact) : lire, répondre, attribuer, marquer comme traité.
 - **Newsletter « Ce jour-là »** : abonnés, aperçu, envoi de test, envoi.
 - **Dons** : jauge, liste filtrable, export CSV, ajout d'un don reçu hors ligne (chèque,

@@ -81,6 +81,11 @@ final class Fiche
         // « Revivre en direct » (Rétro-Direct) quand la fiche a assez de temps forts datés.
         $s = Index::get((int) $doc['id']);
         $v['vars']['retro'] = $s && \App\Services\RetroDirect::playable($doc) ? \App\Services\RetroDirect::url($s) : null;
+        // « Ils y étaient » : supporters présents au stade (« J'y étais ! ») et témoignages publiés.
+        $v['vars']['etais'] = \App\Services\RetroDirect::etais((int) $doc['id']);
+        $v['vars']['temoins'] = \App\Services\Souvenirs::testimonies((int) $doc['id']);
+        $v['page']['styles'] = array_merge($v['page']['styles'] ?? [], ['css/souvenirs.css']);
+        $v['page']['scripts'] = array_merge($v['page']['scripts'] ?? [], ['js/etais.js']);
         return Pages::render('fiche-match', $v['vars'], $v['page']);
     }
 

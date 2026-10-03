@@ -347,6 +347,35 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   matchs ensemble), `/interactif/fil-jaune/{a}/{b}/` (la chaîne, avec le premier match de
   chaque lien). Encadré « Le Fil jaune » sur les fiches des joueurs reliés.
 
+## 7 octies. Kit souvenirs et « Ils y étaient » (`App\Services\Souvenirs`, `App\Front\Kit`, `App\Services\Qr`)
+
+- **Match du mois** (`candidates()`, `match()`) : matchs joués ce mois-là les années passées
+  (3 temps forts au moins), classés par l'intérêt du Rétro-Direct, plus un bonus pour un
+  anniversaire rond, pour 30 à 60 ans d'âge et pour une vraie photo. Choix des historiens et
+  mot d'introduction dans `data/collections/souvenirs.json` (`{"2026-10": {"match", "intro"}}`).
+- **Kit** (`kit()`) : récit (buts d'abord, 8 temps forts au plus), brève, six visages (joueurs
+  de la composition avec une vraie photo, complétés par les joueurs de l'époque, ordre tiré
+  par mois), quiz (premier buteur de Sochaux et affluence, avec des réponses plausibles, puis
+  le quiz du site ; 3 réponses au plus, tirage déterministe par mois), questions pour
+  raconter, adresse du musée (`legal.address`, sinon `dons.org_address`) et e-mail.
+- **PDF** (`Kit::build()`, moteur `App\Pdf\Layout`) : 4 pages A4 en gros caractères ;
+  solutions à l'envers (`Layout::textUpsideDown()`) ; QR code vers `/souvenir/{id}/` (redirige
+  vers `/contribuer/?type=temoignage&fiche=…`). Cache `storage/cache/pdf/souvenirs-{mois}-{empreinte}.pdf`
+  (empreinte : données calculées, choix du mois, adresse du site, langue). Pages :
+  `/interactif/souvenirs/` (mois en cours, mois suivant à préparer, six mois passés, derniers
+  témoignages), `/interactif/souvenirs/{aaaa-mm}.pdf` (jusqu'à deux mois à l'avance).
+- **QR code** (`App\Services\Qr`, PHP pur) : mode octet, correction M, versions 1 à 10
+  (213 octets), Reed-Solomon sur GF(256), placement en zigzag, 8 masques et pénalités de la
+  norme ; `matrix()` et `svg()`. Vérifié par décodage (versions 1 à 10, accents).
+- **« Ils y étaient »** : sur chaque fiche de match, compteur « J'y étais ! »
+  (`RetroDirect::etais`, `public/assets/js/etais.js`), témoignages publiés, lien vers le
+  formulaire. Un témoignage validé (Communauté › Contributions) avec « Publier ce souvenir »,
+  rattaché à une fiche de match, est publié avec un texte et une signature relus
+  (`public`, `public_text`, `public_name` de la contribution) ; l'index
+  `storage/inbox/temoignages.json` est refait à chaque validation, refus ou suppression.
+- **Back-office** : Interactif › Kit souvenirs (`App\Admin\Kit`) : trois mois, choix du
+  match, mot d'introduction, PDF ; souvenirs publiés.
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -396,7 +425,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `media/originals/` | photos originales | le dimanche si l'option est cochée |
 | `users.json`, `settings.json`, `secret.key` | comptes, réglages, clé de chiffrement | oui |
 | `versions/` | historique des fiches et des collections | oui |
-| `inbox/`, `newsletter/`, `dons/`, `votes/`, `counters.json`, `activity/` | messages et contributions, abonnés, dons, votes, compteurs, journal d'activité | oui |
+| `inbox/`, `newsletter/`, `dons/`, `votes/`, `counters.json`, `activity/` | messages et contributions (dont `inbox/temoignages.json`, témoignages publiés), abonnés, dons, votes, compteurs, journal d'activité | oui |
 | `ai/` | index et journal de l'assistant | non (reconstructible, journal purgé) |
 | `correcteur/` | résultats de la vérification de fond, corrections ignorées | non (recalculé) |
 | `ia/` | dépense d'IA : détail des appels, cumuls, remboursements, barème (§ 7 quater) | oui |
@@ -450,5 +479,7 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   réactions ; agenda .ics).
 - `php tests/filjaune.php` : Fil jaune (réseau symétrique, joueurs retrouvés, chaîne la plus
   courte, liens, familles et records, défi du jour).
+- `php tests/souvenirs.php` : kit souvenirs (match du mois et choix des historiens, visages,
+  quiz, PDF de 4 pages), « Ils y étaient » (témoignages publiés seulement), QR code.
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

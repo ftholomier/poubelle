@@ -81,6 +81,9 @@ if ($videos) {
 if (!empty($doc['gallery'])) {
     $anchors['galerie'] = t('Galerie');
 }
+if (!empty($temoins)) {
+    $anchors['ils-y-etaient'] = t('Ils y étaient');
+}
 $matchName = $hasTeams ? $home['name'] . ' – ' . $away['name'] : $title;
 $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s*[»"”]\s*([.!?…]?)\s*$/u'], ['', '$1'], $s));
 ?>
@@ -223,6 +226,29 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
       </figure>
     <?php endforeach; ?>
     <?= View::partial('partials/videos', ['videos' => $doc['videos'] ?? []]) ?>
+
+    <?php if (isset($etais)): $tm = $temoins ?? []; ?>
+    <section class="iye" id="ils-y-etaient" aria-labelledby="iye-t" data-iye data-id="<?= (int) $doc['id'] ?>"
+      data-l1="<?= e(t('{n} supporter y était')) ?>" data-ln="<?= e(t('{n} supporters y étaient')) ?>">
+      <h2 class="h-section" id="iye-t"><?= e(t('Ils y étaient')) ?></h2>
+      <div class="iye__row">
+        <p class="iye__n" data-iye-n><?= $etais ? e(t($etais > 1 ? '{n} supporters y étaient' : '{n} supporter y était', ['n' => $etais])) : e(t('Vous étiez au stade ce jour-là ?')) ?></p>
+        <button type="button" class="btn btn--yellow" data-iye-btn><?= e(t('J’y étais !')) ?></button>
+      </div>
+      <?php if ($tm): ?>
+      <div class="iye__list">
+        <?php foreach ($tm as $q): ?>
+          <figure class="quote">
+            <span class="quote__mark" aria-hidden="true">«</span>
+            <blockquote><?= nl2br(e($q['text'])) ?></blockquote>
+            <figcaption><?= e($q['name']) ?></figcaption>
+          </figure>
+        <?php endforeach; ?>
+      </div>
+      <?php endif; ?>
+      <p class="iye__more"><?= e(t('Un souvenir, une photo, un billet de ce match ?')) ?> <a href="<?= e(url('/souvenir/' . (int) $doc['id'] . '/')) ?>"><?= e(t('Racontez-le au musée')) ?> →</a></p>
+    </section>
+    <?php endif; ?>
   </article>
 
   <aside class="fm-aside">

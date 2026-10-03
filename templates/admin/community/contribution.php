@@ -95,6 +95,15 @@ $linked = !empty($c['fiche_id']) ? Index::get((int) $c['fiche_id']) : null;
         <input type="text" data-ac="fiches" data-ac-id="fiche_id" placeholder="Fiche modifiée grâce à cette contribution" value="<?= $linked ? e($linked['title']) : '' ?>">
         <input type="hidden" name="fiche_id" value="<?= $linked ? (int) $linked['id'] : '' ?>">
       </div>
+      <?php if (($c['type'] ?? '') === 'temoignage'): $pub = $c['public'] ?? true; ?>
+      <div class="f iyebox" style="border:2px solid var(--navy);padding:12px;background:var(--cream)">
+        <span class="f__k">« Ils y étaient » sur la fiche du match</span>
+        <label class="row" style="gap:8px"><input type="checkbox" name="public" value="1"<?= $pub ? ' checked' : '' ?>> Publier ce souvenir sur la fiche du match choisie ci-dessus</label>
+        <label class="f"><span class="f__k">Texte publié <i>relu et corrigé si besoin · 1 500 caractères</i></span><textarea name="public_text" rows="6" maxlength="1500" class="in" data-proof="quote" spellcheck="true"><?= e((string) ($c['public_text'] ?? $c['description'] ?? '')) ?></textarea></label>
+        <label class="f"><span class="f__k">Signature</span><input type="text" name="public_name" maxlength="80" value="<?= e((string) ($c['public_name'] ?? \App\Services\Souvenirs::shortName((string) ($c['name'] ?? '')))) ?>"></label>
+        <span class="f__help">Le contributeur a autorisé la publication en envoyant son témoignage. Seulement sur une fiche de match ; « Valider » met le souvenir en ligne.</span>
+      </div>
+      <?php endif; ?>
       <div class="f"><span class="f__k">Message au contributeur</span><textarea name="message" rows="4" data-wysiwyg="mini" placeholder="Un mot de remerciement, une question ou le motif du refus…"></textarea></div>
       <div class="row">
         <button type="submit" name="action" value="valider" class="btn btn--navy">✓ Valider</button>

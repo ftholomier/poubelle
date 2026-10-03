@@ -41,7 +41,7 @@ défi du jour à partager, « galaxie jaune et bleue » des coéquipiers par dé
 (joueur le plus connecté). Révèle aussi les trous et les erreurs de saisie (homonymes) ; les
 compos d'avant 1980 sont encore rares.
 
-## Les Après-midi Bonal — kit souvenirs pour les EHPAD et les familles (gratuit, social)
+## Les Après-midi Bonal — kit souvenirs pour les anciens supporters (gratuit, social) — réalisé (octobre 2026)
 
 Chaque mois, un PDF de 4 pages en gros caractères fabriqué automatiquement : « Il y a 40 ans
 ce mois-ci » (le grand match du mois), « Vous les reconnaissez ? » (photos de joueurs de

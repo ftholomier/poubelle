@@ -120,6 +120,8 @@ final class Router
         $r->post('/admin/album', fn ($q) => Collections::albumSave($q));
         $r->get('/admin/retro-direct', fn ($q) => Retro::index($q));
         $r->post('/admin/retro-direct', fn ($q) => Retro::action($q));
+        $r->get('/admin/souvenirs', fn ($q) => Kit::index($q));
+        $r->post('/admin/souvenirs', fn ($q) => Kit::save($q));
 
         // Communauté
         $r->get('/admin/contributions', fn ($q) => Community::contributions($q));

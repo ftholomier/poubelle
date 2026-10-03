@@ -1,5 +1,5 @@
 <?php
-/** Contribuer (maquette « Contribuer ») : 4 étapes, fichiers, droits. Variables : $types, $flash, $ticket, $fiche */
+/** Contribuer (maquette « Contribuer ») : 4 étapes, fichiers, droits. Variables : $types, $flash, $ticket, $fiche, $type (choix prérempli) */
 $old = $flash['old'] ?? [];
 $o = fn (string $k) => (string) ($old[$k] ?? '');
 $after = [
@@ -44,7 +44,7 @@ $after = [
         <legend class="wz__t"><?= e(t('Que souhaitez-vous proposer ?')) ?></legend>
         <div class="ctypes">
           <?php foreach ($types as $k => [$icon, $label, $d]): ?>
-            <label class="ctype"><input type="radio" name="type" value="<?= e($k) ?>"<?= $o('type') === $k ? ' checked' : '' ?> required><span class="ctype__i" aria-hidden="true"><?= e($icon) ?></span><span class="ctype__l"><?= e(t($label)) ?></span><span class="ctype__d"><?= e(t($d)) ?></span></label>
+            <label class="ctype"><input type="radio" name="type" value="<?= e($k) ?>"<?= ($o('type') ?: ($type ?? '')) === $k ? ' checked' : '' ?> required><span class="ctype__i" aria-hidden="true"><?= e($icon) ?></span><span class="ctype__l"><?= e(t($label)) ?></span><span class="ctype__d"><?= e(t($d)) ?></span></label>
           <?php endforeach; ?>
         </div>
       </fieldset>

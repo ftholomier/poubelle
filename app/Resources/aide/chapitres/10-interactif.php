@@ -2,7 +2,7 @@
 return [
     'slug' => 'interactif',
     'title' => 'Les outils interactifs',
-    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct.',
+    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, kit souvenirs.',
     'sections' => [
         ['id' => 'principe', 'title' => 'Le principe', 'html' => <<<'HTML'
 <p>Interactif › <b>Quiz, frise, carte…</b> : chaque outil est une liste d’éléments (une question, une date, une époque, un lieu…) qu’on ajoute, modifie, réordonne par glisser-déposer et traduit. La carte de chaque outil indique les éléments <b>à valider</b> et ceux <b>sans anglais</b>.</p>
@@ -42,6 +42,13 @@ HTML],
 [[img:retro.webp|Le programme et les anniversaires proposés]]
 [[auto|<p>Tout vient de la fiche du match : temps forts et leur minute, buteurs, composition (entrées en jeu, cartons), brèves d’avant-match, réactions d’après-match, photos de la galerie à la mi-temps. Aucune IA, aucun coût. Le direct s’annonce dans le bandeau du site 7 jours avant, figure dans l’agenda à télécharger (.ics) et dans le plan du site.</p>]]
 [[astuce|<p>Avant un direct, relisez la fiche : minutes des temps forts et des buts, entrées en jeu, une belle photo à la une. Il faut au moins 4 temps forts datés. Tous les matchs qui en ont assez se revivent aussi <b>en accéléré</b> (×10, ×60), toute l’année : bouton « Revivre en direct » sur la fiche du match.</p>]]
+HTML],
+        ['id' => 'souvenirs', 'title' => 'Le kit souvenirs : les Après-midi Bonal', 'html' => <<<'HTML'
+<p>Chaque mois, le site fabrique un <b>kit de 4 pages en gros caractères</b> à imprimer pour les anciens supporters (en famille, au club des aînés, à la médiathèque, en maison de retraite) : le grand match d’il y a 30, 40 ou 50 ans (photo, score, buteurs, récit, anecdote), « Vous les reconnaissez ? » (six joueurs de l’époque à nommer, réponses à l’envers), le quiz des anciens (deux questions sur le match, quatre du quiz du site) et « Racontez-nous » (questions pour faire naître les souvenirs, QR code vers le formulaire de témoignage, adresse du musée). Il se télécharge sur la page Interactif › Participer › Kit souvenirs.</p>
+[[img:kit-souvenirs.webp|Les quatre pages du kit d’octobre 2026]]
+<p>Interactif › <b>Kit souvenirs</b> : pour le mois en cours et les deux suivants, le match choisi automatiquement (le plus marquant : temps forts, coupe, anniversaire rond, 30 à 60 ans d’âge, belle photo), les autres propositions et « Ou un autre match » ; un <b>mot d’introduction</b> facultatif ; le PDF à télécharger pour vérifier.</p>
+[[auto|<p>Le kit se refait tout seul quand une fiche change. Le QR code mène à l’adresse courte <code>/souvenir/{n° du match}/</code>, qui ouvre le formulaire « Contribuer » avec « Un témoignage » coché et le match rempli. Les témoignages reçus se publient sur la fiche du match (voir [[aide:communaute#contributions|Les contributions]]).</p>]]
+[[astuce|<p>Relisez la fiche du match du mois : temps forts, buteurs, photo à la une et une brève. Les visages viennent de la composition (joueurs reliés avec une vraie photo) : une composition complète donne un meilleur jeu.</p>]]
 HTML],
     ],
 ];

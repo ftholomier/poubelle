@@ -15,6 +15,7 @@ use App\Data\Media;
 use App\Front\Community as Front;
 use App\Services\Mailer;
 use App\Services\Newsletter;
+use App\Services\Souvenirs;
 
 /** Communauté : contributions, messages, newsletter. */
 final class Community extends Base
@@ -163,7 +164,15 @@ final class Community extends Base
                 if ($fid) {
                     $c['fiche_id'] = $fid;
                 }
+                // Témoignage : publié dans « Ils y étaient » sur la fiche du match (texte et signature relus).
+                if (($c['type'] ?? '') === 'temoignage') {
+                    $isMatch = !empty($c['fiche_id']) && (Index::get((int) $c['fiche_id'])['type'] ?? '') === 'match';
+                    $c['public'] = $isMatch && !empty($req->post['public']);
+                    $c['public_text'] = trim(mb_substr(str_replace("\r", '', (string) ($req->post['public_text'] ?? '')), 0, 1500)) ?: null;
+                    $c['public_name'] = Html::line($req->post['public_name'] ?? '', 80) ?: null;
+                }
                 self::saveContrib($c);
+                Souvenirs::reindex();
                 $sent = self::notify($c, 'valide', $note, $fid ? Store::get($fid) : null);
                 Activity::log($user, 'a validé la contribution', ['title' => $ticket]);
                 return self::back('/admin/contributions', 'Contribution validée.' . self::mailNote($sent));
@@ -171,6 +180,7 @@ final class Community extends Base
                 $c['status'] = 'refuse';
                 $c['handled'] = ['by' => $user['name'], 'at' => date('c'), 'action' => 'refuser', 'note' => $note];
                 self::saveContrib($c);
+                Souvenirs::reindex();
                 $sent = self::notify($c, 'refuse', $note);
                 Activity::log($user, 'a refusé la contribution', ['title' => $ticket]);
                 return self::back('/admin/contributions', 'Contribution refusée.' . self::mailNote($sent));
@@ -192,6 +202,7 @@ final class Community extends Base
                     @unlink($f);
                 }
                 @rmdir($dir);
+                Souvenirs::reindex();
                 Activity::log($user, 'a supprimé la contribution', ['title' => $ticket]);
                 return self::back('/admin/contributions', 'Contribution et fichiers supprimés.');
         }

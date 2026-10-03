@@ -191,6 +191,14 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       encadré sur les fiches des joueurs. Rien à saisir : tout vient des compositions.
       `tests/filjaune.php` ; essai complet (recherche, chaîne de 6 passes, constellation,
       défi joué jusqu'au bout, version anglaise, accessibilité).
+- [x] **Kit souvenirs « Les Après-midi Bonal »** (Interactif › Participer) : chaque mois, un PDF
+      de 4 pages A4 en gros caractères pour les anciens supporters (le grand match d'il y a N
+      ans, six visages à reconnaître, le quiz des anciens, « Racontez-nous » avec QR code vers
+      le formulaire de témoignage) ; match choisi automatiquement ou par les historiens (mot
+      d'introduction) ; QR code en PHP pur (vérifié par décodage). **« Ils y étaient »** sur
+      chaque fiche de match : « J'y étais ! », souvenirs publiés depuis les contributions (texte
+      et signature relus). `tests/souvenirs.php` ; essai complet (PDF et QR code lus,
+      témoignage envoyé, publié, retiré ; choix du mois ; accessibilité).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).

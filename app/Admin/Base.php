@@ -44,6 +44,7 @@ class Base
             ['interactif', 'Quiz, frise, carte…', '/admin/interactif', false],
             ['onze', 'Onze & album', '/admin/onze', false],
             ['retro', 'Rétro-Direct', '/admin/retro-direct', false],
+            ['souvenirs', 'Kit souvenirs', '/admin/souvenirs', false],
         ],
         'Communauté' => [
             ['contributions', 'Contributions', '/admin/contributions', false],

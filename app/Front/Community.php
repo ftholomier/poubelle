@@ -90,6 +90,7 @@ final class Community
             'flash' => Session::pull('flash_contrib'),
             'ticket' => preg_match('/^SR-\d{4}-\d{4,}$/', $req->str('merci')) ? $req->str('merci') : null,
             'fiche' => mb_substr($req->str('fiche'), 0, 200),
+            'type' => isset(self::TYPES[$req->str('type')]) ? $req->str('type') : '',
         ], [
             'title' => t('Contribuer au musée'),
             'description' => t('Une correction, une photo, un document, un témoignage : enrichissez le musée en ligne du FCSM.'),

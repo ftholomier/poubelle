@@ -169,6 +169,23 @@ final class Layout
         return $w;
     }
 
+    /**
+     * Texte retourné (à lire tête en bas, comme les solutions d'un jeu), centré sur $cx ;
+     * $y : haut de la ligne une fois la page retournée… c'est-à-dire sa ligne de base.
+     */
+    public function textUpsideDown(float $cx, float $y, string $s, string $font = 'serif', float $size = 10, string $color = 'ink'): void
+    {
+        if ($s === '') {
+            return;
+        }
+        $hex = '';
+        foreach ($this->fonts[$font]->glyphs($s) as $g) {
+            $hex .= sprintf('%04X', $g);
+        }
+        $w = $this->width($s, $font, $size);
+        $this->op(sprintf('BT /%s %.2F Tf %s 0 Tc -1 0 0 -1 %.2F %.2F Tm <%s> Tj ET', $this->pdf->fontRes($font), $size, self::col($color), $cx + $w / 2, self::H - $y, $hex));
+    }
+
     /** Texte coupé avec « … » s'il dépasse la largeur donnée. */
     public function fit(string $s, string $font, float $size, float $max, float $spacing = 0): string
     {

@@ -43,6 +43,7 @@ final class Help extends Base
         'interactif' => 'interactif',
         'onze' => 'interactif#onze-album',
         'retro' => 'interactif#retro-direct',
+        'souvenirs' => 'interactif#souvenirs',
         'contributions' => 'communaute#contributions',
         'messages' => 'communaute#messages',
         'newsletter' => 'communaute#newsletter',

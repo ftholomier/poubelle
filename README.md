@@ -20,8 +20,12 @@ redirigées.
 - INTERACTIF : **Rétro-Direct** (un grand match rejoué en direct, minute par minute, le
   jour de son anniversaire, et tous les matchs à revivre en accéléré), **Fil jaune** (deux
   joueurs reliés par les matchs joués ensemble, constellation des coéquipiers, défi du
-  jour), quiz, album de cartes, maillots, frise, carte OpenStreetMap, centenaire
+  jour), **kit souvenirs** (« Les Après-midi Bonal » : chaque mois, 4 pages en gros
+  caractères à imprimer pour les anciens supporters, avec QR code pour raconter ses
+  souvenirs), quiz, album de cartes, maillots, frise, carte OpenStreetMap, centenaire
   (100 moments, Onze de légende), réserves du musée.
+- **« Ils y étaient »** sur chaque fiche de match : « J'y étais ! » et souvenirs des
+  supporters publiés par l'équipe.
 - Recherche, assistant IA (Gemini) en bas à droite, dons (Stripe, PayPal), contact,
   contributions, newsletter « Ce jour-là ».
 - **Télécharger en PDF** sur chaque fiche et chaque page de synthèse (saison,
@@ -40,7 +44,8 @@ rembourser par l'association), **verrou nominatif** (une fiche ouverte par quelq
 signalée aux autres, en lecture seule, avec « Prendre la main »), **fiches audio** (chaque
 fiche se raconte en 30 secondes : voix du navigateur gratuite ou voix IA enregistrée,
 fiche par fiche ou pour tout le musée en traitement groupé), **Rétro-Direct** (programme
-des directs, anniversaires ronds proposés, public de chaque direct), sauvegardes, aide en
+des directs, anniversaires ronds proposés, public de chaque direct), **kit souvenirs** (match
+de chaque mois, mot d'introduction ; témoignages publiés sur les fiches), sauvegardes, aide en
 ligne (guide,
 mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
 et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).

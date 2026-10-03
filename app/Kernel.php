@@ -192,6 +192,10 @@ final class Kernel
         $r->get('/interactif/fil-jaune/', fn ($q) => Front\Fil::landing($q));
         $r->get('/interactif/fil-jaune/{a}/', fn ($q, $a) => Front\Fil::star($q, $a));
         $r->get('/interactif/fil-jaune/{a}/{b}/', fn ($q, $a, $b) => Front\Fil::chain($q, $a, $b));
+        $r->get('/interactif/souvenirs/', fn ($q) => Front\Kit::landing($q));
+        $r->get('/interactif/souvenirs/{ym}.pdf', fn ($q, $ym) => Front\Kit::pdf($q, $ym));
+        $r->get('/souvenir/', fn ($q) => Front\Kit::souvenir($q));
+        $r->get('/souvenir/{id}/', fn ($q, $id) => Front\Kit::souvenir($q, $id));
         $r->get('/centenaire/', fn ($q) => Front\Interactive::centenary($q));
         $r->get('/centenaire/100-moments/', fn ($q) => Front\Interactive::moments($q));
         $r->get('/reserves/', fn ($q) => Front\Interactive::reserves($q));

@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Les Après-midi Bonal (kit souvenirs) et « Ils y étaient » sur les fiches de match
+   ========================================================================== */
+.skland { padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(56px, 8vw, 96px); display: flex; flex-direction: column; gap: clamp(44px, 6vw, 72px); }
+.skmain { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); border: 3px solid var(--navy); background: var(--paper); box-shadow: 12px 12px 0 var(--yellow); }
+@media (max-width: 900px) { .skmain { grid-template-columns: 1fr; } }
+.skmain__img { background: var(--navy) url('../img/logo-sochaux-retro.png') center / 90px auto no-repeat; min-height: 260px; }
+.skmain__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.skmain__body { display: flex; flex-direction: column; gap: 16px; padding: clamp(22px, 3vw, 40px); }
+.skmain__body .eyebrow { color: var(--blue); }
+.skmain__body .h-section { font-size: clamp(38px, 5vw, 64px); }
+.skmain__match { margin: 0; font-size: 20px; line-height: 1.4; }
+.skmain__match b { font-family: var(--display); font-weight: 900; font-size: 30px; text-transform: uppercase; }
+.skpages { margin: 0; padding-left: 24px; display: flex; flex-direction: column; gap: 8px; font-size: 18px; line-height: 1.45; }
+.skpages b { font-family: var(--display); font-weight: 800; font-size: 20px; text-transform: uppercase; letter-spacing: .03em; margin-right: 4px; }
+.skbtn { font-size: 18px; padding: 16px 24px; }
+.sknote { margin: 0; font-size: 17px; font-style: italic; color: var(--muted); }
+.sknote a { font-style: normal; font-weight: 600; border-bottom: 2px solid currentColor; }
+.sksec { display: flex; flex-direction: column; gap: 20px; }
+.sksec > .h-section { font-size: clamp(36px, 5vw, 60px); }
+.sksteps { list-style: none; margin: 0; padding: 0; counter-reset: sk; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 20px; }
+.sksteps li { counter-increment: sk; display: flex; flex-direction: column; gap: 8px; padding: 22px; border-top: 4px solid var(--navy); background: var(--paper); font-size: 18px; line-height: 1.5; }
+.sksteps li::before { content: counter(sk, decimal-leading-zero); font-family: var(--display); font-weight: 900; font-size: 40px; line-height: 1; color: var(--blue); }
+.sksteps b { font-family: var(--display); font-weight: 900; font-size: 24px; text-transform: uppercase; line-height: 1.05; }
+.sktem { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 32px 24px; padding-top: 14px; }
+.sktem .quote figcaption a { border-bottom: 1px solid currentColor; }
+.skmonths { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 10px; }
+.skmonths a { display: flex; flex-direction: column; gap: 2px; padding: 14px 18px; border: 2px solid var(--navy); background: var(--paper); }
+.skmonths a:hover { background: var(--yellow); color: var(--navy); }
+.skmonths b { font-family: var(--display); font-weight: 900; font-size: 22px; text-transform: uppercase; }
+.skmonths span { font-size: 16px; color: var(--muted); }
+
+/* Fiche de match : « Ils y étaient » */
+.iye { display: flex; flex-direction: column; gap: 18px; padding: clamp(20px, 3vw, 32px); background: var(--navy); color: var(--cream); border: 3px solid var(--yellow); scroll-margin-top: 70px; }
+.iye .h-section { color: var(--yellow); font-size: clamp(34px, 4vw, 48px); }
+.iye__row { display: flex; align-items: center; gap: 14px 22px; flex-wrap: wrap; }
+.iye__n { margin: 0; font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: .03em; }
+.iye .btn[disabled] { opacity: 1; background: var(--cream); color: var(--navy); }
+.iye__list { display: flex; flex-direction: column; gap: 26px; padding-top: 14px; }
+.iye__list .quote { color: var(--navy); }
+.iye__more { margin: 0; font-size: 17px; }
+.iye__more a { color: var(--yellow); border-bottom: 2px solid currentColor; }

@@ -137,6 +137,7 @@ final class Site
                 ['icon' => '100', 'label' => t('100 moments'), 'd' => t('Un moment par semaine.'), 'href' => url('/centenaire/100-moments/')],
                 ['icon' => '✎', 'label' => t('Contribuer'), 'd' => t('Vos archives enrichissent le musée.'), 'href' => url('/contribuer/')],
                 ['icon' => '@', 'label' => t('Ce jour-là'), 'd' => t('La newsletter du musée.'), 'href' => url('/partage-et-newsletter/')],
+                ['icon' => '❝', 'label' => t('Kit souvenirs'), 'd' => t('Les Après-midi Bonal : à imprimer pour les anciens.'), 'href' => url('/interactif/souvenirs/')],
             ]],
         ];
     }
