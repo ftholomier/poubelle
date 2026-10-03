@@ -20,9 +20,13 @@ l'adresse www.fcsochauxretro.com de WordPress vers le nouveau site.
    Le dépôt contient le code et les données éditoriales (`data/` : fiches, médias,
    rubriques, redirections).
 2. Récupérer les **photos originales** (≈ 12 700 fichiers, 5 Go, hors dépôt) dans
-   `storage/media/originals/`. Le plus simple, tant que l'ancien site est en ligne :
-   `php scripts/wp/media-sync.php` sur le serveur (environ une heure ; relancer la commande
-   reprend là où elle s'est arrêtée ; `--verifier` contrôle les empreintes des fichiers).
+   `storage/media/originals/`. WordPress étant sur le même hébergement, le plus rapide est
+   de les copier depuis son dossier d'envoi (seuls les originaux utiles sont copiés, pas les
+   miniatures) :
+   `php scripts/wp/media-sync.php --depuis=/home/<compte>/public_html/wp-content/uploads`
+   Sans `--depuis`, les fichiers sont téléchargés depuis l'ancien site tant qu'il est en
+   ligne (environ une heure). Relancer la commande reprend là où elle s'est arrêtée ;
+   `--verifier` contrôle les empreintes des fichiers.
 3. Droits d'écriture pour le compte (dossiers 755, fichiers 644) sur `data/`, `storage/`
    et `public/media/`.
 4. cPanel › Domaines : la **racine du document** du domaine (ou du sous-domaine de test)

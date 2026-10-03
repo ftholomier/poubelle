@@ -5,7 +5,10 @@
  * WordPress est en ligne. Reprenable : relancer la commande reprend là où elle s'est arrêtée,
  * aucun fichier présent n'est écrasé.
  *
- * Usage : php scripts/wp/media-sync.php [--verifier]
+ * Usage : php scripts/wp/media-sync.php [--depuis=<dossier>] [--verifier]
+ *   --depuis    dossier « wp-content/uploads » de l'ancien site sur le même hébergement :
+ *               les fichiers y sont copiés directement (bien plus rapide), les autres sont
+ *               téléchargés.
  *   --verifier  contrôle aussi l'empreinte (sha1) des fichiers déjà présents et retélécharge
  *               ceux qui sont abîmés.
  */
@@ -16,6 +19,16 @@ require __DIR__ . '/lib.php';
 $media = read_json(ROOT . '/data/media.json') ?: [];
 $base = ROOT . '/storage/media/originals';
 $verify = in_array('--verifier', $argv, true);
+$from = null;
+foreach ($argv as $a) {
+    if (str_starts_with($a, '--depuis=')) {
+        $from = rtrim(substr($a, 9), '/');
+        if (!is_dir($from)) {
+            fwrite(STDERR, "Dossier introuvable : $from\n");
+            exit(1);
+        }
+    }
+}
 
 $todo = [];
 foreach ($media as $rel => $m) {
@@ -39,12 +52,19 @@ foreach ($todo as $rel => $m) {
     $file = "$base/$rel";
     ensure_dir(dirname($file));
     $part = "$file.part";
-    $fp = fopen($part, 'wb');
+    $local = $from !== null && is_file("$from/$rel") ? "$from/$rel" : null;
+    $fp = $local ? null : fopen($part, 'wb');
     try {
-        $r = http($url, ['timeout' => 300, 'curl' => [CURLOPT_FILE => $fp, CURLOPT_RETURNTRANSFER => false]], 3);
-        fclose($fp);
-        if ($r['code'] !== 200 || filesize($part) < 100) {
-            throw new RuntimeException('HTTP ' . $r['code']);
+        if ($local) {
+            if (!copy($local, $part)) {
+                throw new RuntimeException("copie impossible depuis $local");
+            }
+        } else {
+            $r = http($url, ['timeout' => 300, 'curl' => [CURLOPT_FILE => $fp, CURLOPT_RETURNTRANSFER => false]], 3);
+            fclose($fp);
+            if ($r['code'] !== 200 || filesize($part) < 100) {
+                throw new RuntimeException('HTTP ' . $r['code']);
+            }
         }
         if (!preg_match('/\.pdf$/i', $rel) && !@getimagesize($part)) {
             throw new RuntimeException('fichier reçu illisible');
@@ -55,7 +75,9 @@ foreach ($todo as $rel => $m) {
         rename($part, $file);
         $ok++;
     } catch (Throwable $e) {
-        @fclose($fp);
+        if (is_resource($fp)) {
+            fclose($fp);
+        }
         @unlink($part);
         $errors[$rel] = $url . ' : ' . $e->getMessage();
     }
