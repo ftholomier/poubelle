@@ -36,8 +36,8 @@ HTML],
 HTML],
         ['id' => 'niveaux', 'title' => 'Deux niveaux d’accès', 'html' => <<<'HTML'
 <ul>
-<li><b>Administrateur</b> : tout, y compris les utilisateurs, les réglages, la suppression définitive et la restauration de versions.</li>
-<li><b>Utilisateur</b> : tout le travail éditorial (fiches, médiathèque, rubriques, accueil, outils interactifs, contributions, dons…), sauf ces quatre opérations. Il peut mettre une fiche à la corbeille et consulter l’historique.</li>
+<li><b>Administrateur</b> : tout, y compris les utilisateurs, les réglages, la suppression définitive, la restauration de versions, les sauvegardes (lancer, télécharger) et le lancement manuel des tâches planifiées.</li>
+<li><b>Utilisateur</b> : tout le travail éditorial (fiches, médiathèque, rubriques, accueil, outils interactifs, contributions, dons…), sauf ces opérations. Il peut mettre une fiche à la corbeille, consulter l’historique, la liste des sauvegardes et l’état des tâches.</li>
 </ul>
 [[astuce|<p>Ce guide est toujours accessible par le menu <b>Aide</b> et par le bouton <b>? Aide</b> en haut de chaque écran, qui ouvre directement la partie qui le concerne. Les petites icônes <b>?</b> à côté des titres et des champs donnent une explication rapide au survol.</p>]]
 HTML],

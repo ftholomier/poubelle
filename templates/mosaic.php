@@ -80,7 +80,8 @@
       <span class="dpanel__label"><?= e(t('Décennie')) ?><?php if ($panel['allDecades']): ?> · <a href="<?= e($panel['allDecades']) ?>"><?= e(t('toutes')) ?></a><?php endif; ?></span>
       <div class="dpanel__tiles">
         <?php foreach ($panel['tiles'] as $d): ?>
-          <a class="dtile<?= $d['on'] ? ' is-on' : '' ?><?= !$d['count'] ? ' is-empty' : '' ?>" href="<?= e($d['href']) ?>" title="<?= e(decade_label((int) $d['full'], true) . ' : ' . $d['count'] . ' ' . t('matchs')) ?>"><?= e($d['label']) ?></a>
+          <?php $dt = decade_label((int) $d['full'], true) . ' : ' . $d['count'] . ' ' . ($d['count'] > 1 ? t('matchs') : t('match')); ?>
+          <?php if (!$d['count'] && !$d['on']): ?><span class="dtile is-empty" aria-disabled="true" title="<?= e($dt) ?>"><?= e($d['label']) ?></span><?php else: ?><a class="dtile<?= $d['on'] ? ' is-on' : '' ?><?= !$d['count'] ? ' is-empty' : '' ?>" href="<?= e($d['href']) ?>" title="<?= e($dt) ?>"><?= e($d['label']) ?></a><?php endif; ?>
         <?php endforeach; ?>
       </div>
     </div>

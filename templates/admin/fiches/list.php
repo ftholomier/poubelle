@@ -76,7 +76,8 @@ $roleLabel = ['joueur' => 'Joueur', 'entraineur' => 'Entraîneur', 'dirigeant' =
           <?php if ($slug === 'matchs'): $m = $s['m']; ?>
             <td class="t-num"><?= e(date_num($m['date'])) ?></td>
             <td><a class="rowlink" href="/admin/fiche/<?= (int) $s['id'] ?>"><?= e($m['home'] && $m['away'] ? $m['home'] . ' – ' . $m['away'] : $s['title']) ?></a><?= $m['event'] ? ' <span class="xs muted">' . e($m['event']) . '</span>' : '' ?></td>
-            <td class="ellipsis"><?= e(trim(($m['label'] ?: $m['competition']) . ' ' . ($m['round'] ?? ''))) ?></td>
+            <?php $lbl = (string) ($m['label'] ?: $m['competition']); $rd = trim((string) ($m['round'] ?? '')); ?>
+            <td class="ellipsis"><?= e(trim($lbl . (mb_strtolower($rd) !== mb_strtolower($lbl) ? ' ' . $rd : ''))) ?></td>
             <td class="t-num"><?= is_array($m['sh_score']) ? (int) $m['sh_score'][0] . '-' . (int) $m['sh_score'][1] : '—' ?></td>
           <?php elseif ($slug === 'personnes'): $p = $s['p']; ?>
             <td><?php if ($s['image']): ?><img class="thumb" src="<?= e(img($s['image'], 160)) ?>" alt="" loading="lazy"><?php endif; ?></td>

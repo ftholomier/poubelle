@@ -18,10 +18,10 @@ $labels = ['stats' => ['Statistiques incohérentes', 'Scores, buteurs, dates'], 
 <?php endif; ?>
 <div class="card">
   <?php foreach ($items as $i): ?>
-    <div class="card__row" style="grid-template-columns:100px minmax(0,1fr) minmax(0,280px) 110px">
+    <div class="card__row qrow">
       <span><span class="sev sev--<?= e($i['sev']) ?>"><?= e(ucfirst($i['sev'])) ?></span></span>
       <span><?= e($i['msg']) ?></span>
-      <span class="muted ellipsis" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><?= e($i['title']) ?></span>
+      <span class="muted ellipsis qrow__t"><?= e($i['title']) ?></span>
       <a class="btn btn--sm" href="<?= e($i['url']) ?>"><?= $cat === 'liens' ? (str_contains($i['url'], '/nouvelle/') ? 'Créer la fiche' : 'Vérifier') : 'Corriger' ?></a>
     </div>
   <?php endforeach; ?>

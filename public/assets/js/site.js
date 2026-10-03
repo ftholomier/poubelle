@@ -305,10 +305,8 @@
     map.forEach((_, id) => { const s = document.getElementById(id); if (s) io2.observe(s); });
   }
 
-  // Formulaires : anti-double envoi + horodatage anti-robot
+  // Formulaires : anti-double envoi (l'horodatage anti-robot est signé par le serveur)
   $$('form[data-protect]').forEach(f => {
-    const ts = f.querySelector('input[name=_ts]');
-    if (ts) ts.value = String(Math.floor(Date.now() / 1000));
     f.addEventListener('submit', () => { $$('button[type=submit]', f).forEach(b => { b.disabled = true; }); });
   });
 })();

@@ -20,6 +20,12 @@ final class Api
     {
         $p = rtrim($req->path, '/');
         $post = $req->method === 'POST';
+        // Contre la falsification de requêtes : hors webhooks (signés), un POST doit être du JSON.
+        // Un formulaire d'un autre site ne peut pas en envoyer, et fetch() depuis un autre site serait bloqué (CORS).
+        $ctype = strtolower((string) ($req->server['CONTENT_TYPE'] ?? $req->server['HTTP_CONTENT_TYPE'] ?? ''));
+        if ($post && !str_ends_with($p, '/webhook') && !str_starts_with($ctype, 'application/json')) {
+            return Response::json(['error' => t('Requête refusée.')], 415);
+        }
         try {
             $res = match (true) {
                 $p === '/api/recherche' => self::search($req),

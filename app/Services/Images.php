@@ -17,7 +17,8 @@ final class Images
 
     public static function serve(string $w, string $rel): Response
     {
-        $rel = ltrim(str_replace(['..', "\0", '\\'], '', rawurldecode($rel)), '/');
+        // Le chemin arrive déjà décodé (Request) : pas de second décodage.
+        $rel = ltrim(str_replace(['..', "\0", '\\'], '', $rel), '/');
         $isWebp = str_ends_with($rel, '.webp') && !is_file(Media::ORIGINALS . '/' . $rel);
         $srcRel = $isWebp ? substr($rel, 0, -5) : $rel;
         $src = Media::file($srcRel);
@@ -26,10 +27,16 @@ final class Images
             if (!$src) {
                 return self::placeholder();
             }
-            return new Response((string) file_get_contents($src), 200, [
-                'Content-Type' => mime_content_type($src) ?: 'application/octet-stream',
-                'Cache-Control' => 'public, max-age=2592000',
-            ]);
+            // Original servi tel quel : seulement des types sûrs, et jamais de script (SVG piégé…).
+            $mime = mime_content_type($src) ?: 'application/octet-stream';
+            $types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/tiff', 'image/avif', 'application/pdf'];
+            $headers = ['Content-Type' => in_array($mime, $types, true) ? $mime : 'application/octet-stream', 'Cache-Control' => 'public, max-age=2592000', 'X-Content-Type-Options' => 'nosniff'];
+            if (str_starts_with($mime, 'image/')) {
+                $headers['Content-Security-Policy'] = "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox";
+            } elseif (!in_array($mime, $types, true)) {
+                $headers['Content-Disposition'] = 'attachment';
+            }
+            return new Response((string) file_get_contents($src), 200, $headers);
         }
         $width = (int) $w;
         if (!in_array($width, self::WIDTHS, true)) {

@@ -283,6 +283,12 @@ final class Pages
     }
 
     /** La fiche a-t-elle un contenu propre (texte, images, vidéos, tableaux) ? */
+    /** Ancienne page-liste WordPress remplacée par sa rubrique (redirigée, donc absente du plan du site). */
+    public static function isListingRedirect(array $doc): bool
+    {
+        return isset($doc['listing']['category']) && !self::hasContent($doc);
+    }
+
     private static function hasContent(array $doc): bool
     {
         foreach ($doc['sections'] ?? [] as $s) {

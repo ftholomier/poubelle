@@ -246,7 +246,7 @@ final class Tips
         'utilisateurs' => [
             'screen' => 'Les membres de l’équipe : invitations, niveau d’accès, désactivation. Réservé aux administrateurs.',
             'inviter une personne' => 'La personne reçoit un lien pour choisir son mot de passe. Le lien peut aussi être copié et envoyé autrement.',
-            'deux niveaux d’accès' => 'Administrateur : tout. Utilisateur : tout sauf les utilisateurs, les réglages, la suppression définitive et la restauration de versions.',
+            'deux niveaux d’accès' => 'Administrateur : tout. Utilisateur : tout sauf les utilisateurs, les réglages, la suppression définitive, la restauration de versions, les sauvegardes et le lancement manuel des tâches.',
             'équipe du back-office' => 'Les comptes existants, leur niveau et leur dernière connexion.',
         ],
         'reglages' => [

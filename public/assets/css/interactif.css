@@ -175,7 +175,7 @@
 .mom.is-open { background: var(--yellow); }
 .mom.is-open:hover { transform: scale(1.06); z-index: 2; color: var(--navy); }
 .mom.is-due { background: var(--paper); }
-.mom.is-locked { background: var(--sand); color: #8A8471; cursor: not-allowed; }
+.mom.is-locked { background: var(--sand); color: #5C5646; cursor: not-allowed; }
 .conze { background: var(--blue); color: var(--cream); scroll-margin-top: 20px; }
 .conze__inner { padding-top: clamp(56px, 8vw, 104px); padding-bottom: clamp(56px, 8vw, 104px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(32px, 5vw, 64px); align-items: start; }
 .opick { display: flex; flex-direction: column; gap: 10px; background: var(--navy); border: 2px solid var(--yellow); padding: 18px; }

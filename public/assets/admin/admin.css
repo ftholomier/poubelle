@@ -6,7 +6,7 @@
 :root {
   --navy: #0E1F4D; --blue: #1F3FA8; --yellow: #F6C400; --cream: #F3EDDF; --paper: #FFFDF6; --sand: #E8DFC9;
   --muted: #3A4A75; --mist: #C9CFE0; --lav: #8E9AC0; --red: #D9342B; --ok: #CFE8C9; --okd: #2E8B4A; --pink: #F3C9C0;
-  --butter: #FFF3C2; --sky: #C9D6F3; --warn: #B5651D;
+  --butter: #FFF3C2; --sky: #C9D6F3; --warn: #97521A;
   --display: 'Big Shoulders Display', 'Arial Narrow', sans-serif; --serif: 'Newsreader', Georgia, serif;
 }
 *, *::before, *::after { box-sizing: border-box; }
@@ -613,3 +613,16 @@ a.lstate:hover { background: var(--yellow); }
   .top__help { font-size: 0; }
   .top__help span { font-size: 14px; }
 }
+
+/* Qualité : une alerte par ligne, empilée sur petit écran */
+.qrow { grid-template-columns: 100px minmax(0, 1fr) minmax(0, 280px) 110px; }
+.qrow__t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 760px) {
+  .qrow { grid-template-columns: auto minmax(0, 1fr); row-gap: 4px; }
+  .qrow > :nth-child(2) { grid-column: 2; }
+  .qrow__t { grid-column: 1 / -1; }
+  .qrow > .btn { grid-column: 1 / -1; justify-self: start; }
+}
+/* Liens dans un texte discret : soulignés (pas seulement colorés) */
+.muted a:not(.btn):not(.linkbtn), .xs a:not(.btn):not(.linkbtn) { text-decoration: underline; text-underline-offset: 2px; }
+

@@ -27,7 +27,7 @@ $pl = fn ($n, string $one, string $many): string => (int) $n > 1 ? $many : $one;
     </div>
     <div class="card card--pad">
       <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t">Audience · 30 jours</h2><a class="linkbtn" href="/admin/audience">Détails →</a></div>
-      <div class="spark" aria-label="Pages vues par jour"><?php foreach ($series as $d => $n): ?><i style="height:<?= max(1, round($n / $max * 100)) ?>%" data-t="<?= e(date('d/m', strtotime($d))) ?> · <?= $fmt($n) ?>"></i><?php endforeach; ?></div>
+      <div class="spark" role="img" aria-label="Pages vues par jour"><?php foreach ($series as $d => $n): ?><i style="height:<?= max(1, round($n / $max * 100)) ?>%" data-t="<?= e(date('d/m', strtotime($d))) ?> · <?= $fmt($n) ?>"></i><?php endforeach; ?></div>
       <span class="small muted"><?= $fmt(array_sum($series)) ?> pages vues · mesure interne, sans cookie<?= $top ? ' · les plus vues : ' . e(implode(', ', array_map(fn ($p) => $p === '/' ? 'accueil' : trim($p, '/'), array_slice(array_keys($top), 0, 3)))) : '' ?></span>
     </div>
     <?php if ($scheduled): ?>

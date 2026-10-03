@@ -67,10 +67,13 @@ final class Mosaic
         $catDecade = null;
 
         $extras = [];
+        $grandTotal = null;
         if ($kind === 'matchs') {
             // Les autres fiches de la rubrique (bilans de saison…) restent visibles au-dessus des matchs.
             $extras = array_values(array_filter($items, fn ($s) => $s['type'] !== 'match'));
             $items = array_values(array_filter($items, fn ($s) => $s['type'] === 'match'));
+            // Le compteur « matchs archivés » ne compte que les matchs (pas les bilans de saison).
+            $grandTotal = count($items);
             foreach (self::COMPS as $k => [$label, $cslug]) {
                 if ($cslug === $slug) {
                     $catComp = $k;
@@ -284,7 +287,7 @@ final class Mosaic
             'intro' => $intro,
             'unit' => t($conf['unit']),
             'total' => $total,
-            'grandTotal' => Site::count($slug),
+            'grandTotal' => $grandTotal ?? Site::count($slug),
             'countLabel' => self::countLabel($total, $kind),
             'tabs' => $tabs,
             'chips' => $chips,

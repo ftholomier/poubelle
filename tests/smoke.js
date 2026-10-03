@@ -15,12 +15,17 @@ const FRONT = ['/', '/matchs/', '/nos-lions/', '/nos-lions/joueurs/', '/supporte
   '/saisons/', '/face-a-face/', '/records/', '/recherche/?q=bonal', '/interactif/', '/interactif/quiz/',
   '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/centenaire/',
   '/centenaire/100-moments/', '/reserves/', '/contact/', '/contribuer/', '/faire-un-don/', '/newsletter/',
-  '/mentions-legales/', '/confidentialite/', '/cookies/', '/en/', '/en/matchs/'];
+  '/mentions-legales/', '/confidentialite/', '/cookies/', '/en/', '/en/matchs/', '/reserves/', '/bilans/coupe-de-france/',
+  '/interactif/carto/', '/en/interactif/quiz/'];
 const ADMIN = ['/admin', '/admin/qualite', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
   '/admin/objets', '/admin/referentiels', '/admin/medias', '/admin/accueil', '/admin/moments', '/admin/rubriques',
   '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/contributions',
   '/admin/messages', '/admin/newsletter', '/admin/dons', '/admin/traductions', '/admin/assistant',
-  '/admin/sauvegardes', '/admin/taches', '/admin/profil', '/admin/fiche/nouvelle/match', '/admin/fiche/nouvelle/personne'];
+  '/admin/sauvegardes', '/admin/taches', '/admin/profil', '/admin/fiche/nouvelle/match', '/admin/fiche/nouvelle/personne',
+  '/admin/fiche/nouvelle/article', '/admin/fiche/nouvelle/objet', '/admin/fiche/nouvelle/moment', '/admin/corbeille', '/admin/audience',
+  '/admin/album', '/admin/collection/quiz', '/admin/collection/frise', '/admin/collection/maillots', '/admin/collection/epopees',
+  '/admin/collection/lieux', '/admin/collection/partenaires', '/admin/collection/dons', '/admin/utilisateurs', '/admin/reglages',
+  '/admin/aide', '/admin/aide/prise-en-main', '/admin/aide/matchs', '/admin/aide/faq', '/admin/aide?q=composition', '/admin/aide/imprimer', '/admin/aide/memo'];
 
 (async () => {
   const browser = await chromium.launch();

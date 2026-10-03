@@ -17,7 +17,7 @@ $o = fn (string $k) => (string) ($old[$k] ?? '');
   </div>
   <form class="cform" method="post" action="<?= e(url('/contact/')) ?>" data-protect data-contact-form>
     <?= csrf_field() ?>
-    <input type="hidden" name="_ts" value="">
+    <input type="hidden" name="_ts" value="<?= e(form_ts()) ?>">
     <input type="hidden" name="reason" value="<?= e($reason) ?>" data-reason-input>
     <div class="hp" aria-hidden="true"><label>Site web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
     <span class="cform__obj"><?= e(t('Objet')) ?> : <b data-reason-label><?= e(t(Community::REASONS[$reason])) ?></b></span>

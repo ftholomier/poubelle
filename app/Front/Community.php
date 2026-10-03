@@ -134,7 +134,7 @@ final class Community
                 }
                 $ext = strtolower(pathinfo((string) $name, PATHINFO_EXTENSION));
                 $mime = (new \finfo(FILEINFO_MIME_TYPE))->file((string) $up['tmp_name'][$i]) ?: '';
-                if (($up['error'][$i] ?? 1) !== UPLOAD_ERR_OK || !in_array($ext, self::UPLOAD_EXT, true) || !preg_match('#^(image/|application/pdf$)#', $mime)) {
+                if (($up['error'][$i] ?? 1) !== UPLOAD_ERR_OK || !in_array($ext, self::UPLOAD_EXT, true) || !preg_match('#^(image/(jpeg|png|gif|webp|tiff)|application/pdf)$#', $mime)) {
                     $err = t('Le fichier « {f} » n’est pas accepté (JPG, PNG, WebP, TIFF ou PDF).', ['f' => mb_substr((string) $name, 0, 60)]);
                     break;
                 }
@@ -181,9 +181,13 @@ final class Community
         if (trim((string) ($req->post['website'] ?? '')) !== '') {
             return t('Envoi refusé.');
         }
-        $ts = (int) ($req->post['_ts'] ?? 0);
-        if ($ts > 0 && (time() - $ts < 3 || time() - $ts > 172800)) {
+        // Horodatage signé par le serveur : absent ou falsifié = robot ; trop rapide = robot.
+        $age = form_ts_age((string) ($req->post['_ts'] ?? ''));
+        if ($age === null || $age < 3) {
             return t('Merci de prendre le temps de remplir le formulaire.');
+        }
+        if ($age > 172800) {
+            return t('Le formulaire a expiré : rechargez la page puis renvoyez-le.');
         }
         if (!RateLimiter::hit($bucket, $req->ip(), $perHour, 3600)) {
             return t('Trop d’envois depuis votre connexion : réessayez dans une heure.');

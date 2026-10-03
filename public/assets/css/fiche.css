@@ -170,6 +170,7 @@ a.pitch__p:hover { transform: translate(-50%, -50%) scale(1.12); color: var(--ye
 .idcard__row:last-child { border-bottom: 0; }
 .idcard dt { font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); padding-top: 3px; }
 .idcard dd { margin: 0; font-size: 17px; }
+.idcard__sub dt { font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; padding: 0; }
 .idcard__line { padding: 9px 0; border-bottom: 1px solid rgba(14,31,77,.14); font-size: 17px; }
 .idcard__sub { padding: 14px 0 4px; font-family: var(--display); font-weight: 900; font-size: 18px; text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--navy); }
 .plist { list-style: none; margin: 0; padding: 0; border: 2px solid var(--navy); background: var(--paper); }

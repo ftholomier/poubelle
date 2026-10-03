@@ -20,7 +20,7 @@ HTML],
 HTML],
         ['id' => 'sauvegardes', 'title' => 'Les sauvegardes', 'html' => <<<'HTML'
 <p>Une sauvegarde complète est faite chaque jour : fiches, médiathèque (description), rubriques, réglages, comptes, versions, messages, dons. Les photos elles-mêmes sont ajoutées le dimanche si l’option est cochée. L’hébergeur garde en plus ses propres sauvegardes.</p>
-<p>Système › <b>Sauvegardes</b> : liste, téléchargement, sauvegarde immédiate. Pour revenir à une sauvegarde complète, le webmestre décompresse l’archive et remplace les dossiers <code>data/</code> et <code>storage/</code> sur le serveur. Une fiche seule se restaure bien plus simplement depuis son onglet Historique.</p>
+<p>Système › <b>Sauvegardes</b> : liste, téléchargement, sauvegarde immédiate (téléchargement et sauvegarde immédiate réservés aux administrateurs : une archive contient la clé de chiffrement, les réglages et les comptes). Pour revenir à une sauvegarde complète, le webmestre décompresse l’archive et remplace les dossiers <code>data/</code> et <code>storage/</code> sur le serveur. Une fiche seule se restaure bien plus simplement depuis son onglet Historique.</p>
 [[img:sauvegardes.webp|Les sauvegardes]]
 [[astuce|<p>Téléchargez une sauvegarde de temps en temps et gardez-la ailleurs que sur le serveur (disque externe, espace de stockage du club).</p>]]
 HTML],

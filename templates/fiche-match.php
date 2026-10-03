@@ -239,7 +239,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <?php if ($pitch): ?><span class="compo__formation"><?= e($pitch['formation']) ?></span><?php endif; ?>
       </div>
       <?php if ($pitch): ?>
-      <div class="pitch" role="img" aria-label="<?= e(t('Composition de Sochaux sur le terrain')) ?>">
+      <div class="pitch" role="group" aria-label="<?= e(t('Composition de Sochaux sur le terrain')) ?>">
         <span class="pitch__line pitch__line--box"></span>
         <span class="pitch__line pitch__line--half"></span>
         <span class="pitch__line pitch__line--circle"></span>

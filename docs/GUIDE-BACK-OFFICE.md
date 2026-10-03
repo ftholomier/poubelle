@@ -11,8 +11,10 @@ l'adresse `/admin` du site (par exemple `https://www.fcsochauxretro.com/admin`).
 - **Deux niveaux** :
   - *Administrateur* : tout.
   - *Utilisateur* : tout, sauf la gestion des utilisateurs, les réglages (clés API,
-    paiements, e-mail…), la suppression définitive et la restauration d'anciennes versions.
-    Il peut mettre à la corbeille et consulter l'historique.
+    paiements, e-mail…), la suppression définitive, la restauration d'anciennes versions,
+    les sauvegardes (lancer, télécharger : une archive contient les clés et les comptes) et
+    le lancement manuel des tâches planifiées. Il peut mettre à la corbeille et consulter
+    l'historique.
 - Votre profil (nom, mot de passe) : menu en haut à droite › « Mon profil ».
 
 ## 2. Se repérer
@@ -200,7 +202,7 @@ de grosses modifications. Les questions sont conservées pour une durée limité
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
 - **Réglages** (administrateur) : identité du site, e-mail, clés Gemini, Stripe et PayPal,
   carte, centenaire, mentions légales, cookies, sauvegardes.
-- **Sauvegardes** : une sauvegarde complète est faite chaque jour ; on peut en lancer une
+- **Sauvegardes** (administrateurs) : une sauvegarde complète est faite chaque jour ; on peut en lancer une
   et la télécharger. Gardez-en régulièrement une copie hors du serveur.
 - **Tâches planifiées** : état des tâches automatiques (publication programmée,
   statistiques, traductions, newsletter, carte…), avec un bouton pour en lancer une tout

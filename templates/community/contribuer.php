@@ -31,7 +31,7 @@ $after = [
   <?php else: ?>
   <form class="cwizard" method="post" action="<?= e(url('/contribuer/')) ?>" enctype="multipart/form-data" data-protect data-wizard>
     <?= csrf_field() ?>
-    <input type="hidden" name="_ts" value="">
+    <input type="hidden" name="_ts" value="<?= e(form_ts()) ?>">
     <div class="hp" aria-hidden="true"><label>Site web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
     <div class="cwizard__steps" data-wz-steps>
       <?php foreach ([t('Type'), t('Détails'), t('Droits'), t('Envoi')] as $i => $label): ?>

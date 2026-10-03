@@ -167,8 +167,8 @@ final class Donations
         if (trim((string) ($in['website'] ?? '')) !== '') {
             return ['error' => t('Envoi refusé.'), 'status' => 400];
         }
-        $ts = (int) ($in['_ts'] ?? 0);
-        if ($ts > 0 && time() - $ts < 2) {
+        $age = form_ts_age((string) ($in['_ts'] ?? ''));
+        if ($age === null || $age < 2) {
             return ['error' => t('Merci de prendre le temps de remplir le formulaire.')];
         }
         if (!RateLimiter::hit('don', $req->ip(), 12, 3600)) {
@@ -227,7 +227,7 @@ final class Donations
             'manage' => bin2hex(random_bytes(16)),
             'ext' => [],
             'payments' => [],
-            'ip' => hash('sha256', $req->ip() . date('Y-m-d') . (Settings::get('general.salt', '') ?: 'sr')),
+            'ip' => ip_hash($req->ip()),
         ];
         self::put($don);
         // La page de retour n'affiche le détail qu'au navigateur qui a créé le don.

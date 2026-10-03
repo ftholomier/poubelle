@@ -20,6 +20,10 @@ final class Kernel
 {
     public static function handle(Request $req): Response
     {
+        // La version de PHP n'a pas à être annoncée.
+        if (!headers_sent()) {
+            header_remove('X-Powered-By');
+        }
         try {
             $res = self::dispatch($req);
         } catch (\Throwable $e) {

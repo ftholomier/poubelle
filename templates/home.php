@@ -73,7 +73,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
 <?php if ($jour): ?>
 <section class="wrap" style="padding-top:var(--section)">
   <div class="today" data-reveal>
-    <a class="today__media" href="<?= e(url($jour['path'])) ?>" tabindex="-1">
+    <a class="today__media" href="<?= e(url($jour['path'])) ?>" tabindex="-1" aria-hidden="true">
       <?php if ($jour['image']): ?><img src="<?= e(img($jour['image'], 1200)) ?>" srcset="<?= e(srcset($jour['image'], [640, 1200])) ?>" sizes="(max-width:900px) 100vw, 50vw" alt="" loading="lazy"><?php else: ?><span class="ph"><?= icon_photo() ?></span><?php endif; ?>
     </a>
     <div class="today__body">

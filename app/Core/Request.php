@@ -20,7 +20,8 @@ final class Request
     {
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
         $path = rawurldecode(parse_url($uri, PHP_URL_PATH) ?: '/');
-        $path = '/' . ltrim(preg_replace('#/+#', '/', $path), '/');
+        // Les « \ » valent « / » pour les navigateurs : sans cela, « /\exemple.com » deviendrait une redirection externe.
+        $path = '/' . ltrim(preg_replace('#/+#', '/', str_replace('\\', '/', $path)), '/');
         return new self(
             strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET'),
             $path,

@@ -910,7 +910,7 @@ final class Rag
             // Journal désactivé : on ne garde que la mesure technique, sans contenu.
             $row = array_diff_key($row, ['q' => 1, 'a' => 1, 'page' => 1]);
         }
-        $row = ['at' => date('c'), 'ip' => substr(hash('sha256', $ip . date('Y-m-d') . Settings::get('general.salt', 'sr')), 0, 16)] + $row;
+        $row = ['at' => date('c'), 'ip' => ip_hash($ip, 16)] + $row;
         JsonStore::append(self::LOG_DIR . '/' . date('Y-m') . '.jsonl', $row);
     }
 

@@ -57,7 +57,7 @@ $i18n = [
 
     <form class="dcard" method="post" action="<?= e(url('/faire-un-don/')) ?>" data-don-form data-api="<?= e(url('/api/dons/session')) ?>" data-i18n="<?= e(json_encode($i18n, JSON_UNESCAPED_UNICODE)) ?>" data-min="<?= (int) $min ?>" data-max="<?= (int) $max ?>" novalidate>
       <?= csrf_field() ?>
-      <input type="hidden" name="_ts" value="">
+      <input type="hidden" name="_ts" value="<?= e(form_ts()) ?>">
       <div class="hp" aria-hidden="true"><label>Site web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
       <?php if ($open && $test): ?>
         <p class="dcard__test"><b><?= e(t('Mode test')) ?></b> · <?= e(t('aucun prélèvement réel. Carte de test : 4242 4242 4242 4242, date future, code 123.')) ?></p>

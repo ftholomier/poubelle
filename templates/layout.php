@@ -20,7 +20,7 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($meta['title']) ?></title>
-<meta name="description" content="<?= e($meta['description']) ?>">
+<meta name="description" content="<?= e(meta_description((string) $meta['description'])) ?>">
 <link rel="canonical" href="<?= e($meta['canonical']) ?>">
 <?php foreach ($meta['alternates'] as $alt): ?>
 <link rel="alternate" hreflang="<?= e($alt['lang']) ?>" href="<?= e($alt['href']) ?>">

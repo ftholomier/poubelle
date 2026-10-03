@@ -131,6 +131,48 @@ function excerpt(string $html, int $len = 180): string
     return mb_strlen($t) > $len ? rtrim(mb_substr($t, 0, $len - 1)) . '…' : $t;
 }
 
+/** Clé interne du site pour un usage donné (dérivée de storage/secret.key, jamais exposée). */
+function site_key(string $purpose): string
+{
+    static $k = null;
+    $k ??= \App\Core\Settings::key();
+    return hash_hmac('sha256', $purpose, $k);
+}
+
+/** Horodatage signé des formulaires publics (anti-robot) : posé par le serveur, valable sans JavaScript. */
+function form_ts(): string
+{
+    $t = (string) time();
+    return $t . '.' . substr(hash_hmac('sha256', $t, site_key('form-ts')), 0, 20);
+}
+
+/** Âge en secondes d'un horodatage form_ts(), ou null s'il manque ou a été falsifié. */
+function form_ts_age(string $v): ?int
+{
+    if (!preg_match('/^(\d{9,11})\.([a-f0-9]{20})$/', $v, $m) || !hash_equals(substr(hash_hmac('sha256', $m[1], site_key('form-ts')), 0, 20), $m[2])) {
+        return null;
+    }
+    return time() - (int) $m[1];
+}
+
+/** Empreinte d'une adresse IP, valable un jour (RGPD : l'adresse elle-même n'est jamais conservée). */
+function ip_hash(string $ip, int $len = 64): string
+{
+    return substr(hash_hmac('sha256', $ip . '|' . date('Y-m-d'), site_key('ip')), 0, $len);
+}
+
+/** Description pour Google (environ 160 caractères affichés) : coupée sur un mot. */
+function meta_description(string $text, int $len = 158): string
+{
+    $t = trim((string) preg_replace('/\s+/u', ' ', $text));
+    if (mb_strlen($t) <= $len) {
+        return $t;
+    }
+    $cut = mb_substr($t, 0, $len);
+    $sp = mb_strrpos($cut, ' ');
+    return rtrim($sp > $len * 0.6 ? mb_substr($cut, 0, $sp) : $cut, " ,;:.–-") . '…';
+}
+
 /**
  * HTML éditorial autorisé : on retire scripts, gestionnaires d'événements et
  * URLs javascript: (contenu saisi dans le back-office ou importé).
@@ -164,10 +206,13 @@ function safe_html(?string $html): string
     if (!$html) {
         return '';
     }
-    $html = preg_replace('#<(script|style|iframe|object|embed|form)\b[^>]*>.*?</\1>#is', '', $html);
+    $html = preg_replace('#<(script|style|iframe|object|embed|form|svg|math)\b[^>]*>.*?</\1>#is', '', $html);
     $html = preg_replace('#<(script|style|iframe|object|embed|form|input|button|meta|link)\b[^>]*>#i', '', $html);
     $html = preg_replace('/\son\w+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html);
-    $html = preg_replace('/(href|src)\s*=\s*(["\'])\s*javascript:[^"\']*\2/i', '$1="#"', $html);
+    $html = preg_replace_callback('/\b(href|src|action|formaction|xlink:href)\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', function ($m) {
+        $v = strtolower(preg_replace('/[\s\x00-\x1f]+/', '', html_entity_decode(trim($m[2], '"\''), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        return preg_match('#^(javascript|vbscript|data):#', $v) && !preg_match('#^data:image/(png|jpe?g|gif|webp);#', $v) ? $m[1] . '="#"' : $m[0];
+    }, $html);
     // Liens internes absolus de l'ancien site → relatifs ; images de l'ancien site → médiathèque.
     $html = str_replace(['https://www.fcsochauxretro.com/', 'http://www.fcsochauxretro.com/'], '/', $html);
     $html = preg_replace_callback('#(src)="/wp-content/uploads/([^"]+?)(-\d+x\d+)?(\.\w+)"#', function ($m) {

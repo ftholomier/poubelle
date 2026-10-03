@@ -169,11 +169,11 @@ $rowsHtml = function (array $list, bool $coach) {
       <dl>
         <?php foreach ($idRows as $r): ?>
           <?php if ($r['sub']): ?>
-            <div class="idcard__sub"><?= e($r['value']) ?></div>
+            <div class="idcard__sub"><dt><?= e($r['value']) ?></dt></div>
           <?php elseif ($r['label']): ?>
             <div class="idcard__row"><dt><?= e($r['label']) ?></dt><dd><?= e($r['value']) ?></dd></div>
           <?php else: ?>
-            <div class="idcard__line"><?= e($r['value']) ?></div>
+            <div class="idcard__line"><dd><?= e($r['value']) ?></dd></div>
           <?php endif; ?>
         <?php endforeach; ?>
       </dl>

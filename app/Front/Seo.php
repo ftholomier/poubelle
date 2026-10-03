@@ -87,6 +87,9 @@ final class Seo
             if (!$s['path'] || $s['path'] === '/') {
                 continue;
             }
+            if ($s['type'] === 'page' && ($doc = \App\Data\Fiches::get((int) $s['id'])) && Pages::isListingRedirect($doc)) {
+                continue;
+            }
             $prio = match ($s['type']) { 'personne' => '0.8', 'match' => '0.6', default => '0.7' };
             $add($s['path'], $s['modified'] ?: $s['date'], 'monthly', $prio, (bool) $s['has_en'], $s['image'], $s['title']);
         }

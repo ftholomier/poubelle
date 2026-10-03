@@ -7,7 +7,7 @@ $data = array_map(fn ($q) => ['q' => $q['q'], 'a' => array_values($q['a']), 'c' 
   <div class="quiz__inner">
     <div class="quiz__intro" data-step="intro">
       <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Quiz supporters · {n} questions', ['n' => $count])) ?></span>
-      <h1 class="quiz__title"><?= e(t('Êtes-vous un')) ?><br><span class="yellow"><?= e(t('vrai Lionceau ?')) ?></span></h1>
+      <h1 class="quiz__title"><?= e(t('Êtes-vous un')) ?><br><span class="yellow"><?= str_replace(' ?', '&nbsp;?', e(t('vrai Lionceau ?'))) ?></span></h1>
       <p class="quiz__lead"><?= e(t("{n} questions sur l'histoire du FCSM. Un seul essai par question, pas le droit de demander à papy.", ['n' => $count])) ?></p>
       <button type="button" class="qbtn" data-quiz-start><?= e(t("C'est parti !")) ?></button>
     </div>

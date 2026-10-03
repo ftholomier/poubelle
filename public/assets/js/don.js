@@ -23,8 +23,6 @@
 
   const form = $('[data-don-form]');
   if (!form) return;
-  const ts = $('input[name=_ts]', form);
-  if (ts) ts.value = String(Math.floor(Date.now() / 1000));
   let i18n = {};
   try { i18n = JSON.parse(form.dataset.i18n || '{}'); } catch (e) { /* valeurs par défaut */ }
   const min = +form.dataset.min || 1, max = +form.dataset.max || 5000;

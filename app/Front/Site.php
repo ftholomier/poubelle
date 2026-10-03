@@ -98,7 +98,7 @@ final class Site
                     ['label' => t('Saisons'), 'href' => url('/saisons/')],
                     ['label' => t('Face-à-face'), 'href' => url('/face-a-face/')],
                     ['label' => t('Records'), 'href' => url('/records/')],
-                    ['label' => t('Bilan à Bonal'), 'href' => url('/bilans/auguste-bonal/')],
+                    ['label' => t('Bilan à Bonal'), 'href' => url('/bilans/stade-auguste-bonal/')],
                     ['label' => t('Bilan en Coupe de France'), 'href' => url('/bilans/coupe-de-france/')],
                 ],
             ]],

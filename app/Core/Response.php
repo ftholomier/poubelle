@@ -31,6 +31,10 @@ final class Response
 
     public static function redirect(string $to, int $status = 302): self
     {
+        // Jamais d'adresse « //hôte » ou « /\hôte » (redirection vers un autre site) par accident.
+        if (preg_match('#^/[/\\\\]#', $to)) {
+            $to = '/' . ltrim($to, '/\\');
+        }
         return new self('', $status, ['Location' => $to]);
     }
 

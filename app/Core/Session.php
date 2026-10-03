@@ -19,7 +19,7 @@ final class Session
         session_set_cookie_params([
             'lifetime' => 0,
             'path' => '/',
-            'secure' => (($_SERVER['HTTPS'] ?? '') === 'on'),
+            'secure' => (($_SERVER['HTTPS'] ?? '') === 'on') || strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https',
             'httponly' => true,
             'samesite' => 'Lax',
         ]);

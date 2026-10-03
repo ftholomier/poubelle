@@ -287,7 +287,7 @@ final class Translator
             if ($tagsTr < $tagsSrc * 0.8) {
                 return $src;
             }
-            return safe_html($tr);
+            return \App\Admin\Html::clean($tr);
         }
         return trim(strip_tags($tr));
     }

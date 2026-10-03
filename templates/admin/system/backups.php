@@ -5,11 +5,15 @@ use App\Core\Auth;
 ?>
 <div class="toolbar">
   <p class="small muted grow" style="margin:0"><?= $enabled ? 'Sauvegarde automatique chaque jour à partir de ' . (int) $hour . ' h (données, réglages, comptes, journaux) ; les ' . (int) $keep . ' dernières sont conservées.' : 'La sauvegarde automatique est désactivée.' ?> Les photos originales, volumineuses, sont incluses dans une archive à part (« avec photos »).<?= $disk ? ' Espace libre : ' . e(Base::size((int) $disk)) . '.' : '' ?> Pensez à copier régulièrement une sauvegarde hors du serveur.</p>
+  <?php if (Auth::isAdmin()): ?>
   <form method="post" action="/admin/sauvegardes" class="row">
     <?= csrf_field() ?>
-    <?php if (Auth::isAdmin()): ?><label class="toggle small"><input type="checkbox" name="photos" value="1"><span class="toggle__box"></span><span>avec les photos</span></label><?php endif; ?>
+    <label class="toggle small"><input type="checkbox" name="photos" value="1"><span class="toggle__box"></span><span>avec les photos</span></label>
     <button type="submit" name="action" value="lancer" class="btn btn--navy">Sauvegarder maintenant</button>
   </form>
+  <?php else: ?>
+  <span class="small muted">Lancer et télécharger une sauvegarde : réservé aux administrateurs (elle contient les clés et les comptes).</span>
+  <?php endif; ?>
 </div>
 <div class="table">
   <table>
@@ -22,7 +26,7 @@ use App\Core\Auth;
         <td class="t-num"><?= e(Base::size($b['size'])) ?></td>
         <td><?= $b['photos'] ? '<span class="pill pill--yellow">Avec photos</span>' : '<span class="pill">Données</span>' ?></td>
         <td class="nowrap">
-          <?php if (!$b['photos'] || Auth::isAdmin()): ?><a class="btn btn--sm" href="/admin/sauvegardes/<?= e($b['file']) ?>">Télécharger</a><?php endif; ?>
+          <?php if (Auth::isAdmin()): ?><a class="btn btn--sm" href="/admin/sauvegardes/<?= e($b['file']) ?>">Télécharger</a><?php endif; ?>
           <?php if (Auth::can('destroy')): ?><form method="post" action="/admin/sauvegardes" style="display:inline" data-confirm="Supprimer cette sauvegarde ?||Supprimer|danger"><?= csrf_field() ?><input type="hidden" name="file" value="<?= e($b['file']) ?>"><button type="submit" name="action" value="supprimer" class="iconbtn" title="Supprimer" aria-label="Supprimer">✕</button></form><?php endif; ?>
         </td>
       </tr>

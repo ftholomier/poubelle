@@ -1,6 +1,7 @@
 <?php
 /** Tâches planifiées. Variables : $state, $tasks, $last */
 use App\Admin\Base;
+use App\Core\Auth;
 
 $every = fn (int $s) => match (true) {
     $s === 0 => 'à chaque passage (5 min)',
@@ -24,7 +25,7 @@ $late = !$last || $last < time() - 20 * 60;
         <td class="small"><?= e($every((int) $s)) ?></td>
         <td class="small nowrap"><?= $st ? e(Base::ago(date('c', (int) $st['at']))) : '<span class="muted">jamais</span>' ?></td>
         <td class="small"><?php if ($st): ?><?= $st['ok'] ? '<span class="ok">✓</span>' : '<span class="ko">✕</span>' ?> <?= e(is_string($st['result']) ? $st['result'] : json_encode($st['result'], JSON_UNESCAPED_UNICODE)) ?> <span class="xs muted">(<?= number_format($st['ms'] / 1000, 1, ',', ' ') ?> s)</span><?php endif; ?></td>
-        <td><form method="post" action="/admin/taches"><?= csrf_field() ?><input type="hidden" name="task" value="<?= e($k) ?>"><button type="submit" class="btn btn--sm">Lancer</button></form></td>
+        <td><?php if (Auth::isAdmin()): ?><form method="post" action="/admin/taches"><?= csrf_field() ?><input type="hidden" name="task" value="<?= e($k) ?>"><button type="submit" class="btn btn--sm">Lancer</button></form><?php endif; ?></td>
       </tr>
     <?php endforeach; ?>
     </tbody>

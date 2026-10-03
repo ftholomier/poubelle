@@ -528,10 +528,14 @@ final class System extends Base
 
     public static function backupsAction(Request $req): Response
     {
+        // Une sauvegarde contient la clé de chiffrement, les réglages et les comptes : administrateurs seulement.
+        if ($deny = self::denyUnlessAdmin()) {
+            return $deny;
+        }
         $action = (string) ($req->post['action'] ?? '');
         if ($action === 'lancer') {
             @set_time_limit(600);
-            $r = Backup::run(true, !empty($req->post['photos']) && Auth::isAdmin());
+            $r = Backup::run(true, !empty($req->post['photos']));
             Activity::log(self::actor(), 'a lancé une sauvegarde', ['title' => $r['file'] ?? '']);
             return isset($r['error']) ? self::back('/admin/sauvegardes', null, $r['error']) : self::back('/admin/sauvegardes', 'Sauvegarde créée : ' . $r['file'] . ' (' . Base::size($r['size']) . ', ' . $r['files'] . ' fichiers).');
         }
@@ -551,12 +555,12 @@ final class System extends Base
 
     public static function backupDownload(Request $req, string $file): Response
     {
+        if ($deny = self::denyUnlessAdmin()) {
+            return $deny;
+        }
         $p = Backup::path($file);
         if (!$p) {
             return Response::notFound();
-        }
-        if (str_contains($file, '-photos') && !Auth::isAdmin()) {
-            return self::denyUnlessAdmin() ?? Response::notFound();
         }
         Activity::log(self::actor(), 'a téléchargé une sauvegarde', ['title' => $file]);
         $res = new Response('', 200, ['Content-Type' => 'application/zip', 'Content-Disposition' => 'attachment; filename="' . $file . '"', 'Content-Length' => (string) filesize($p)]);
@@ -574,6 +578,10 @@ final class System extends Base
 
     public static function tasksRun(Request $req): Response
     {
+        // Certaines tâches envoient des e-mails ou purgent des données : administrateurs seulement.
+        if ($deny = self::denyUnlessAdmin()) {
+            return $deny;
+        }
         $task = (string) ($req->post['task'] ?? '');
         if (!isset(Cron::TASKS[$task])) {
             return self::back('/admin/taches', null, 'Tâche inconnue.');

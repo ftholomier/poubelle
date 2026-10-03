@@ -121,7 +121,7 @@ final class Settings
         return $plain === false ? null : $plain;
     }
 
-    private static function key(): string
+    public static function key(): string
     {
         if (!is_file(self::KEY_FILE)) {
             if (!is_dir(STORAGE_PATH)) {
