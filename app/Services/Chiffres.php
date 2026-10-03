@@ -109,6 +109,64 @@ final class Chiffres
     }
 
     /**
+     * Les chiffres sans faire attendre (page d'accueil) : la version en cache, même périmée ;
+     * un cache absent ou périmé est refait après l'envoi de la page.
+     */
+    public static function cached(): ?array
+    {
+        $c = JsonStore::read(sprintf(self::CACHE, I18n::lang()));
+        $ok = is_array($c) && ($c['v'] ?? 0) === self::V && !empty($c['chapters']);
+        if (!$ok || ($c['sig'] ?? '') !== self::signature()) {
+            self::refreshLater();
+        }
+        return $ok ? $c : null;
+    }
+
+    private static bool $later = false;
+
+    private static function refreshLater(): void
+    {
+        if (self::$later || PHP_SAPI === 'cli') {
+            return;
+        }
+        self::$later = true;
+        $lang = I18n::lang();
+        register_shutdown_function(function () use ($lang) {
+            if (function_exists('fastcgi_finish_request')) {
+                fastcgi_finish_request();
+            }
+            ignore_user_abort(true);
+            @set_time_limit(120);
+            I18n::set($lang);
+            self::all();
+        });
+    }
+
+    /**
+     * Le chiffre du jour : un chiffre par jour, dans un ordre mélangé à chaque cycle, sans
+     * répétition avant d'avoir montré tous les chiffres.
+     *
+     * @return array{stat:array, chapter:string, count:int}|null
+     */
+    public static function daily(?string $date = null, ?array $all = null): ?array
+    {
+        $all ??= self::cached();
+        $list = [];
+        foreach ($all['chapters'] ?? [] as $ch) {
+            foreach ($ch['stats'] as $s) {
+                $list[] = ['stat' => $s, 'chapter' => $ch['title']];
+            }
+        }
+        $n = count($list);
+        if (!$n) {
+            return null;
+        }
+        $day = intdiv((int) strtotime(($date ?? date('Y-m-d')) . ' 12:00:00 UTC'), 86400);
+        $order = (new \Random\Randomizer(new \Random\Engine\Mt19937(1928 + intdiv($day, $n))))->shuffleArray(range(0, $n - 1));
+        return $list[$order[$day % $n]] + ['count' => $n];
+    }
+
+    /**
      * Calcule d'avance les chiffres périmés, dans chaque langue du site (tâche planifiée).
      * @return int nombre de langues recalculées
      */

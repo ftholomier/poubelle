@@ -10,6 +10,7 @@ return [
 <li><b>Grand slider</b> : tirage au hasard parmi les fiches cochées « À la une » qui ont une image (comme l’ancien site), ou une liste choisie à la main dans l’ordre voulu.</li>
 <li><b>Compteurs et centenaire</b>, <b>Palmarès</b> (bandeau jaune), <b>Les grandes époques</b> (nom, dates, texte, image, dates clés), <b>Les réserves du musée</b>, <b>« Ils ont porté le lion »</b>, <b>Images des encarts</b> (quiz, maillots, frise, contribuer).</li>
 <li><b>Référencement de l’accueil</b> : titre et description pour Google.</li>
+<li><b>Le chiffre du jour</b> (onglet Textes &amp; compteurs) : un des 100 chiffres du FCSM affiché sous « Ce jour-là », un nouveau chaque jour ; la carte montre celui du jour, la case l’affiche ou le masque.</li>
 </ul>
 [[img:accueil-slider.webp|Le réglage du grand slider de l’accueil]]
 [[astuce|<p>Pour faire entrer une fiche dans le slider en tirage au hasard : cochez « À la une » dans son onglet « Classement &amp; SEO » et donnez-lui une image à la une.</p>]]

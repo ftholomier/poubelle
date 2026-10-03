@@ -50,6 +50,7 @@ final class Pages
             'jour' => $jour,
             'jourDoc' => $jourDoc,
             'jourLabel' => Site::dayMonth($jourDate),
+            'chiffre' => Settings::get('home.daily_figure', true) ? \App\Services\Chiffres::daily() : null,
             'eras' => array_map(function ($e) {
                 $e = Collections::loc($e, ['name', 'text']);
                 $e['facts'] = array_map(fn ($f) => Collections::loc($f, ['t']), $e['facts'] ?? []);

@@ -1,7 +1,7 @@
 <?php
 /**
  * Accueil & bandeau. Variables : $slider, $manual, $pool, $poolNoImage, $ticker, $home, $schema,
- * $palmares, $eras, $reserves, $teasers, $legends
+ * $palmares, $eras, $reserves, $teasers, $legends, $figure (chiffre du jour)
  */
 use App\Admin\Form;
 
@@ -70,6 +70,16 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
         <?= Form::text('home.centenary_date', $schema['centenary_date']['label'], $home['centenary_date'] ?? '2028-05-20', ['type' => 'date']) ?>
       </div>
       <p class="small muted" style="margin:0">Les compteurs de matchs et de joueurs sont calculés automatiquement à partir des fiches.</p>
+    </div>
+    <div class="card card--pad">
+      <h2 class="card__t">Le chiffre du jour</h2>
+      <?= Form::toggle('home.daily_figure', $schema['daily_figure']['label'], (bool) ($home['daily_figure'] ?? true)) ?>
+      <?php if ($figure): $fs = $figure['stat']; ?>
+        <p class="small" style="margin:0">Aujourd’hui : n° <?= (int) $fs['n'] ?>, <b><?= e($fs['label']) ?></b> : <?= e($fs['value'] . ($fs['unit'] !== '' ? ' ' . $fs['unit'] : '')) ?>. Un nouveau chiffre chaque jour, tiré parmi les <?= (int) $figure['count'] ?> de la page « Les chiffres du FCSM », sans répétition avant de les avoir tous montrés. Rien à saisir : tout est calculé depuis les fiches.</p>
+      <?php else: ?>
+        <p class="small muted" style="margin:0">Les chiffres sont en cours de calcul : le bloc apparaîtra sur l’accueil dans quelques instants.</p>
+      <?php endif; ?>
+      <a class="btn btn--sm" href="/chiffres/" target="_blank" rel="noopener" style="align-self:flex-start">Voir les 100 chiffres ↗</a>
     </div>
     <div class="card card--pad">
       <h2 class="card__t">« Ils ont porté le lion »</h2>

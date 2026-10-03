@@ -209,6 +209,11 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       (compositions recopiées, tableaux de carrière recopiés, dates de naissance invraisemblables) ;
       nouvelle alerte Qualité « tableau de statistiques identique » ; cache par langue calculé
       d'avance. `tests/chiffres.php` ; parcours et accessibilité (axe) sans erreur, FR et EN.
+- [x] **Le chiffre du jour** sur l'accueil (sous « Ce jour-là ») : un des 100 chiffres, un
+      nouveau chaque jour (ordre mélangé, sans répétition avant d'avoir tout montré), lien vers
+      sa carte sur la page des chiffres ; l'accueil n'attend jamais le calcul (cache, recalcul
+      après l'envoi de la page). Case « Afficher » et aperçu du jour dans Éditorial › Accueil &
+      bandeau ; essai complet (masquer, réafficher) et accessibilité sans erreur.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - **Tableaux de statistiques recopiés** : 594 fiches de joueurs partagent l'un de 34 tableaux

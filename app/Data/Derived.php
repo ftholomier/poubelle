@@ -68,7 +68,8 @@ final class Derived
             }
             ignore_user_abort(true);
             set_time_limit(300);
-            self::rebuildLocked();
+            // Les données refaites servent aussi aux recalculs qui suivent (les chiffres du FCSM).
+            self::$data = self::rebuildLocked();
         });
     }
 
@@ -627,7 +628,7 @@ final class Derived
             @opcache_invalidate(self::CACHE, true);
         }
         @unlink(self::DIRTY);
-        return $data;
+        return self::$data = $data;
     }
 
     /** Ajoute à l'index d'utilisation les médias des collections éditoriales et des rubriques. */

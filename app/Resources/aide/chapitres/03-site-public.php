@@ -5,7 +5,7 @@ return [
     'summary' => 'Ce que voient les visiteurs, d’où vient chaque élément et ce qui se met à jour tout seul.',
     'sections' => [
         ['id' => 'accueil', 'title' => 'L’accueil et les menus', 'html' => <<<'HTML'
-<p>L’accueil réunit le bandeau « En direct du musée », le grand slider des fiches « À la une », le compte à rebours du centenaire (20 mai 2028), « Ce jour-là », le palmarès, les grandes époques et les réserves.</p>
+<p>L’accueil réunit le bandeau « En direct du musée », le grand slider des fiches « À la une », le compte à rebours du centenaire (20 mai 2028), « Ce jour-là », <b>le chiffre du jour</b> (un des 100 chiffres du FCSM, un nouveau chaque jour, avec un lien vers la page des chiffres), le palmarès, les grandes époques et les réserves.</p>
 [[img:site-accueil.webp|L’accueil du site public]]
 <p>Les menus reprennent l’arborescence de l’ancien site : <b>Accueil, Matchs, Nos Lions, Supporters, Infrastructures, Symboles</b>, et la nouvelle rubrique <b>Interactif</b>. Chaque menu s’ouvre en méga-menu avec ses sous-rubriques.</p>
 [[img:site-megamenu.webp|Le méga-menu « Matchs »]]
@@ -38,6 +38,7 @@ HTML],
         ['id' => 'chiffres', 'title' => 'Les chiffres du FCSM : 100 statistiques', 'html' => <<<'HTML'
 <p>Matchs › Explorer › <b>Les chiffres</b> (adresse <a href="/chiffres/" target="_blank" rel="noopener">/chiffres/</a>, aussi dans Interactif › Explorer l’histoire) : cent statistiques du club en onze chapitres. Les monuments (meilleur buteur de l’histoire, recordman des matchs, club des 100 buts…), les buteurs, le chrono (but le plus rapide, remontadas, victoires arrachées), les gardiens et la défense (blanchissages, minutes d’invincibilité), les séries, les scores, les acteurs (passeurs, capitaines, entraîneurs), les adversaires, Bonal et les tribunes, les saisons, les Lions en portrait (âges records, tailles, origines). Chaque chiffre mène à la fiche du joueur ou du match concerné.</p>
 [[img:site-chiffres.webp|La page « Les chiffres du FCSM »]]
+<p>Sur l’accueil, <b>le chiffre du jour</b> en présente un chaque jour : les 100 défilent dans un ordre mélangé, sans répétition avant de les avoir tous montrés. Il se masque dans Éditorial › Accueil &amp; bandeau › Textes &amp; compteurs.</p>
 <table>
 <tr><th>Source (badge)</th><th>Ce qui est utilisé</th></tr>
 <tr><td>Carrières</td><td>l’onglet Statistiques des fiches joueurs, saison par saison depuis 1929 (records de toute une carrière)</td></tr>

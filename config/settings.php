@@ -43,6 +43,7 @@ return [
             'counter_community' => ['label' => 'Compteur : membres de la communauté', 'type' => 'text', 'default' => '11000+'],
             'counter_videos' => ['label' => 'Compteur : vidéos YouTube', 'type' => 'text', 'default' => '1400+'],
             'centenary_date' => ['label' => 'Date du centenaire (compte à rebours)', 'type' => 'date', 'default' => '2028-05-20'],
+            'daily_figure' => ['label' => 'Afficher « Le chiffre du jour » (un des 100 chiffres du FCSM, un nouveau chaque jour)', 'type' => 'bool', 'default' => true],
         ],
     ],
     'social' => [

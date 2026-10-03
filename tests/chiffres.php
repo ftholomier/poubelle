@@ -83,6 +83,23 @@ I18n::set('en');
 $eq('nombres et pourcentages en anglais', [C::num(5411061), C::num(0.9, 2), C::pct(0.543), C::nth(1), C::nth(120)], ['5,411,061', '0.90', '54%', '1st', '120th']);
 I18n::set('fr');
 
+// Le chiffre du jour : un par jour, chacun une fois par cycle, le même toute la journée.
+$mini = ['chapters' => [
+    ['title' => 'A', 'stats' => array_map(fn ($i) => ['key' => "k$i", 'n' => $i], range(1, 5))],
+    ['title' => 'B', 'stats' => array_map(fn ($i) => ['key' => "k$i", 'n' => $i], range(6, 7))],
+]];
+$day0 = intdiv((int) strtotime('2026-10-03 12:00:00 UTC'), 86400);
+$start = $day0 - $day0 % 7;
+$keys = [];
+for ($d = $start; $d < $start + 7; $d++) {
+    $keys[] = C::daily(gmdate('Y-m-d', $d * 86400), $mini)['stat']['key'];
+}
+$eq('chiffre du jour : les 7 chiffres en 7 jours, sans répétition', [count($keys), count(array_unique($keys))], [7, 7]);
+$eq('chiffre du jour : le même toute la journée', C::daily('2026-10-03', $mini), C::daily('2026-10-03', $mini));
+$pick = C::daily('2026-10-03', $mini);
+$eq('chiffre du jour : chapitre et nombre de chiffres', [in_array($pick['chapter'], ['A', 'B'], true), $pick['count']], [true, 7]);
+$eq('chiffre du jour : rien sans chiffres', C::daily('2026-10-03', ['chapters' => []]), null);
+
 // Les 100 chiffres du musée.
 $all = C::build();
 $flat = C::flat($all);
@@ -108,6 +125,8 @@ $eq('pas de chiffre en double (même match, même joueur)', [isset($flat['festiv
 I18n::set('en');
 $en = C::flat(C::build());
 I18n::set('fr');
+$day = C::daily(null, $all);
+$eq('chiffre du jour du musée : un des 100, avec son lien', [$day['count'], isset($flat[$day['stat']['key']])], [100, true]);
 $eq('version anglaise : titres traduits, liens /en/', [$en['buteur']['label'], str_starts_with($en['buteur']['who'][0]['href'], '/en/'), $en['buteur']['value']], ['The all-time top scorer', true, '254']);
 
 echo $fail ? "\n$fail échec(s)\n" : "\nTout est bon.\n";

@@ -10,7 +10,8 @@ redirigées.
 
 **Site public** (français et anglais)
 - Accueil : slider « À la une », bandeau « En direct du musée », compte à rebours du
-  centenaire (20 mai 2028), « Ce jour-là », palmarès, grandes époques.
+  centenaire (20 mai 2028), « Ce jour-là », le chiffre du jour (un des 100 chiffres du
+  FCSM), palmarès, grandes époques.
 - Rubriques d'origine avec méga-menus et mosaïques (filtres, tri, vue liste).
 - Fiches match : score, terrain et tableau de composition (numéros, buts, remplacements,
   cartons), temps forts, réactions, vidéos, galerie, face-à-face avec l'adversaire.

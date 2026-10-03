@@ -90,6 +90,30 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
 </section>
 <?php endif; ?>
 
+<?php if (!empty($chiffre)): $cs = $chiffre['stat']; ?>
+<section class="wrap" style="padding-top:clamp(48px,6vw,80px)" aria-labelledby="chiffre-du-jour">
+  <div class="dayfig" data-reveal>
+    <div class="dayfig__fig">
+      <span class="badge badge--yellow"><?= e(t('Le chiffre du jour')) ?></span>
+      <p class="dayfig__value"><b class="num"<?= preg_match('/^\d{1,3}(?:[\x{00A0}\x{202F} ,]\d{3})*$/u', $cs['value']) ? ' data-count' : '' ?>><?= e($cs['value']) ?></b><?php if ($cs['unit'] !== ''): ?> <span><?= e($cs['unit']) ?></span><?php endif; ?></p>
+    </div>
+    <div class="dayfig__body">
+      <span class="dayfig__kicker"><?= e(t('N° {n} sur {t}', ['n' => $cs['n'], 't' => $chiffre['count']])) ?> · <?= e($chiffre['chapter']) ?></span>
+      <h2 class="h-2 dayfig__label" id="chiffre-du-jour"><?= e($cs['label']) ?></h2>
+      <?php if ($cs['who']): ?>
+      <ul class="dayfig__who">
+        <?php foreach (array_slice($cs['who'], 0, 2) as $w): ?>
+          <li><a href="<?= e($w['href']) ?>"><span class="dayfig__img"><?php if (!empty($w['image'])): ?><img src="<?= e(img($w['image'], 160)) ?>" alt="" loading="lazy" width="40" height="40"><?php else: ?><span aria-hidden="true"><?= e(mb_strtoupper(mb_substr($w['name'], 0, 1))) ?></span><?php endif; ?></span><span><b><?= e($w['name']) ?></b><?php if (!empty($w['meta'])): ?><small><?= e($w['meta']) ?></small><?php endif; ?></span></a></li>
+        <?php endforeach; ?>
+      </ul>
+      <?php endif; ?>
+      <p class="dayfig__text"><?= e($cs['text']) ?></p>
+      <a class="btn btn--yellow" href="<?= e(url('/chiffres/') . '#' . $cs['key']) ?>" style="align-self:flex-start"><?= e(t('Les {n} chiffres du FCSM', ['n' => $chiffre['count']])) ?> →</a>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
+
 <section id="parcours" class="wrap section">
   <div class="sechead" data-reveal>
     <div class="stack gap-8" style="flex:1 1 420px;min-width:0">

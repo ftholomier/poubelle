@@ -412,6 +412,11 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
   adresses déjà dans la langue) ; signature : dates de `derived.php`, `index.php` et du
   dictionnaire anglais. Calcul complet : 5 s environ ; `warm()` le fait d'avance pour chaque
   langue dans la tâche « statistiques ».
+- **Chiffre du jour** (accueil, sous « Ce jour-là ») : `daily()` lit `cached()` (le cache,
+  même périmé : un cache absent ou périmé est refait après l'envoi de la page, l'accueil
+  n'attend jamais) ; un chiffre par jour, ordre mélangé par cycle (`Random\Randomizer` sur
+  `Mt19937`, graine 1928 + numéro du cycle), chacun une fois par cycle. Lien vers
+  `/chiffres/#clé` ; réglage `home.daily_figure` (Éditorial › Accueil & bandeau).
 - **Page** : `Explore::chiffres()`, gabarit `templates/chiffres.php`, styles
   `public/assets/css/chiffres.css` (compteurs animés par `site.js`, `data-count`, nombres
   entiers seulement). Liens : méga-menu Matchs › Explorer, Interactif › Explorer l'histoire,

@@ -171,7 +171,8 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   à la main), messages du bandeau « En direct du musée » (4 messages automatiques : ce
   jour-là, compte à rebours du centenaire, dernier match fiché, Rétro-Direct en cours ou dans
   les 7 jours ; plus les messages libres de l'équipe), introduction, palmarès, grandes
-  époques, réserves mises en avant.
+  époques, réserves mises en avant, **chiffre du jour** (un des 100 chiffres du FCSM sous
+  « Ce jour-là », un nouveau chaque jour : la carte montre celui du jour, une case le masque).
 - **Rubriques & menus** : **ordre d'affichage sur le site** (manuel, chronologique ou A–Z),
   **ordre des fiches** de la rubrique (toutes, sous-rubriques comprises : ↑ / ↓, icône
   quatre flèches à glisser avec trait jaune de dépôt, clic sur le numéro pour taper une

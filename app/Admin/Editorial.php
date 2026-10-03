@@ -52,6 +52,7 @@ final class Editorial extends Base
             'reserves' => Collections::get('reserves', Pages::defaultReserves()),
             'teasers' => Collections::get('teasers', []),
             'legends' => count(array_filter(Index::published('personne'), fn ($s) => $s['p']['legend'])),
+            'figure' => \App\Services\Chiffres::daily(),
         ], ['title' => 'Accueil & bandeau', 'crumb' => 'Éditorial', 'nav' => 'accueil']);
     }
 
@@ -100,6 +101,7 @@ final class Editorial extends Base
                     'wysiwyg' => Html::clean((string) $v),
                     'number' => is_numeric($v) ? (int) $v : ($f['default'] ?? 0),
                     'date' => preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $v) ? (string) $v : ($f['default'] ?? ''),
+                    'bool' => (bool) $v,
                     default => $line($v, 300),
                 };
             }
