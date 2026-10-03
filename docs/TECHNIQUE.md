@@ -102,6 +102,7 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `media.php`, `media-versions.php`, `media-usage.json` | médiathèque, versions des fichiers retouchés, « utilisée dans » | à chaque modification |
 | `carte-*.json`, `sitemap.xml`, `share/` | données de la carte, plan du site, images de partage | à la demande |
 | `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change ; ménage des fichiers de plus de 30 jours |
+| `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
 
 Après une modification de fichiers faite à la main (envoi FTP de `data/`, script), vider
 `storage/cache/` ou lancer `php bin/console.php index`, `derived` et `search`.
@@ -136,6 +137,7 @@ l'hébergeur vidéo qu'après l'accord du visiteur.
 | `Search` | recherche plein texte sans base de données (normalisation des accents, pondération des champs) |
 | `Rag`, `Gemini` | assistant IA : index sémantique (`storage/ai/`), réponses limitées aux données du site, quotas, journal des questions (RGPD) |
 | `Translator`, `I18n` | traduction anglaise des fiches avec Gemini (champ `i18n.en`), libellés de l'interface (`t()`) |
+| `Proofreader` | correcteur d'orthographe et de syntaxe (§ 7 ter) |
 | `Payments` | Stripe Checkout et abonnements, PayPal Orders v2 et abonnements, vérification des webhooks |
 | `Mailer`, `Newsletter` | e-mails (SMTP ou mail()), newsletter hebdomadaire « Ce jour-là » |
 | `Geo` | géolocalisation (répertoire intégré, puis Nominatim d'OpenStreetMap, une requête par seconde) |
@@ -169,6 +171,45 @@ Repères : un match ≈ 0,5 s et 5 pages ; le joueur le plus capé (423 matchs) 
 Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
 `Front\PdfExport` (contenu) ; augmenter `PdfExport::VERSION` pour refaire les PDF en cache.
 
+## 7 ter. Correcteur d'orthographe (`App\Services\Proofreader`)
+
+- **Champs vérifiés** : dans les formulaires, un champ de texte rédigé porte `data-proof`
+  (nature `text`, `title`, `quote` ou `caption`, option `proof` de `App\Admin\Form` ; par
+  défaut pour les éditeurs de texte riche) et `lang="en"` pour un champ `…_en` ou
+  `i18n_en.…`. Ces champs ont aussi `spellcheck` (soulignement du navigateur).
+  `public/assets/admin/correcteur.js` envoie leurs valeurs à `POST /admin/api/correcteur`
+  (bouton `[data-proofread]` : fiches, accueil, rubriques, collections) et affiche le
+  panneau des propositions.
+- **Texte** : le HTML est ramené à ses nœuds de texte, un retour à la ligne autour de chaque
+  bloc ; le même calcul côté navigateur retrouve le passage (contexte avant/après, rang de
+  l'occurrence, espaces tolérées) et ne modifie que les nœuds de texte : balises et liens
+  restent intacts. La valeur passe ensuite par `BO.setValue` (éditeur visuel rechargé,
+  formulaire marqué « non enregistré »).
+- **Règles du musée** (français, sans service extérieur) : mot répété, espace avant une
+  virgule ou un point, espace oubliée après la ponctuation, apostrophe d'élision suivie d'une
+  espace, ordinaux (« 2e », « 1re », « XXe »), « À » en tête de phrase. Volontairement
+  prudentes ; essayées sur les 2 940 fiches reprises (`tests/correcteur.php`).
+- **Gemini** (si la clé est réglée) : textes groupés par lots de 6 000 caractères (un texte
+  long est découpé aux paragraphes), lots envoyés en parallèle (`Gemini::generateMany`,
+  réponse JSON à structure imposée). Chaque proposition est contrôlée avant d'être montrée :
+  l'extrait doit exister dans le texte, les chiffres restent identiques, les mots protégés
+  (noms des personnes, clubs, stades, joueurs cités, dictionnaire du musée) ne changent pas,
+  une réécriture trop éloignée est écartée, une différence purement typographique aussi.
+- **Dictionnaire du musée** : collection `dictionnaire` (`data/collections/dictionnaire.json`,
+  écran Qualité › Dictionnaire du musée, bouton « + Dictionnaire » du panneau).
+- **Corrections ignorées** : `storage/correcteur/ignorees.json`, par fiche ou par écran.
+- **Tâche de fond** (`correcteur`, à chaque passage du cron, 40 s au plus) : vérifie d'abord
+  les fiches nouvelles ou modifiées, puis les autres ; résultat par fiche dans
+  `storage/correcteur/fiches/{id}.json`, résumé dans `storage/correcteur/index.json` (date
+  de modification de la fiche, nombre de corrections, fautes de langue, exemple).
+  Plafond quotidien d'appels (Réglages › Correcteur, 300 par défaut), pause d'une heure si
+  Gemini répond « quota atteint ». Un passage complet du musée demande environ 4 200 appels
+  (environ 10 millions de jetons envoyés) : `php bin/console.php correcteur` le fait d'un
+  coup, sans plafond.
+- **Essais sans clé** : avec le serveur de développement de PHP uniquement (`php -S`), la
+  variable d'environnement `GEMINI_MOCK_URL=http://127.0.0.1:port/` dirige les appels vers
+  un faux Gemini local ; impossible sur l'hébergement.
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -192,7 +233,8 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
 
 Une ligne de cron toutes les 5 minutes (`php bin/console.php cron`) ; chaque tâche a sa
 fréquence, l'état est dans `storage/cron.json`, un verrou empêche deux passages simultanés :
-publication des fiches programmées, statistiques, audience, traductions, newsletter,
+publication des fiches programmées, statistiques, audience, traductions, correcteur
+d'orthographe, newsletter,
 géolocalisation (toutes les 10 min), médiathèque, vignettes des vidéos (toutes les heures),
 assistant IA (toutes les heures), dons (toutes les heures), plan du site (chaque jour),
 sauvegarde, reçus annuels, purges RGPD.
@@ -206,6 +248,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `versions/` | historique des fiches et des collections | oui |
 | `inbox/`, `newsletter/`, `dons/`, `votes/`, `counters.json`, `activity/` | messages et contributions, abonnés, dons, votes, compteurs, journal d'activité | oui |
 | `ai/` | index et journal de l'assistant | non (reconstructible, journal purgé) |
+| `correcteur/` | résultats de la vérification de fond, corrections ignorées | non (recalculé) |
 | `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques | non |
 
 ## 11. Sécurité
@@ -240,5 +283,7 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
 
 - `php tests/lineup.php` : lecture des cellules de composition (buts, remplacements,
   cartons) sur tous les formats rencontrés dans les fiches d'origine.
+- `php tests/correcteur.php` : correcteur d'orthographe (texte des champs, règles du musée,
+  contrôle des propositions de Gemini simulé, mots protégés, cache, découpage).
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

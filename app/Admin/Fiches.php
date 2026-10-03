@@ -12,6 +12,7 @@ use App\Data\Fiches as Store;
 use App\Data\Index;
 use App\Data\Paths;
 use App\Data\Redirects;
+use App\Services\Proofreader;
 use App\Services\Search;
 use App\Services\Translator;
 
@@ -239,6 +240,7 @@ final class Fiches extends Base
             'enStatus' => $isNew ? 'none' : Translator::status($doc),
             'lineup' => $doc['type'] === 'match' ? \App\Front\Fiche::lineupRows($doc, $doc['match']['lineup']['rows'] ?? []) : [],
             'list' => $list,
+            'proof' => $isNew ? null : Proofreader::forFiche($doc),
         ], [
             'title' => $title,
             'crumb_html' => 'Contenus › <a href="/admin/' . e($list === 'moments' ? 'moments' : $list) . '">' . e(self::LISTS[$list]['title'] ?? 'Moments') . '</a>',

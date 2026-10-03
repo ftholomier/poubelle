@@ -160,6 +160,9 @@ final class Router
         $r->get('/admin/api/medias', fn ($q) => Api::media($q));
         $r->post('/admin/api/modeles', fn ($q) => Api::models($q));
         $r->post('/admin/api/traduire', fn ($q) => Api::translate($q));
+        $r->post('/admin/api/correcteur', fn ($q) => Api::proofread($q));
+        $r->post('/admin/api/correcteur/ignorer', fn ($q) => Api::proofIgnore($q));
+        $r->post('/admin/api/correcteur/dictionnaire', fn ($q) => Api::proofWord($q));
 
         $res = $r->dispatch(new Request($req->method, $path, $req->query, $req->post, $req->files, $req->server, $req->body));
         if ($res instanceof Response) {

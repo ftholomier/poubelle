@@ -70,6 +70,10 @@
     const lab = (ta.id && document.querySelector('label[for="' + ta.id + '"]')) || ta.closest('.f')?.querySelector('.f__k');
     const labText = lab ? [...lab.childNodes].filter(n => !n.classList?.contains('hint')).map(n => n.textContent).join('').replace(/\s+/g, ' ').trim() : '';
     area.setAttribute('aria-label', ta.getAttribute('aria-label') || labText || 'Texte');
+    // Correcteur du navigateur (soulignement rouge) dans la langue du champ.
+    area.spellcheck = true;
+    const lang = ta.getAttribute('lang') || ta.closest('[lang]')?.getAttribute('lang');
+    if (lang) area.setAttribute('lang', lang);
     area.innerHTML = clean(ta.value);
     if (mode === 'mini') area.style.minHeight = '70px';
     const foot = document.createElement('div');

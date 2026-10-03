@@ -72,6 +72,10 @@ final class Quality
         if (trim((string) ($doc['seo']['description'] ?? '')) === '' && in_array($doc['type'], ['article', 'page'], true)) {
             $out[] = ['warn', 'Description pour Google vide (un extrait sera utilisé)'];
         }
+        $proof = \App\Services\Proofreader::forFiche($doc);
+        if ($proof && $proof['n'] > 0) {
+            $out[] = ['warn', $proof['n'] . ' correction' . ($proof['n'] > 1 ? 's' : '') . ' d’orthographe proposée' . ($proof['n'] > 1 ? 's' : '') . ' (bouton « Vérifier l’orthographe »)'];
+        }
         $en = Translator::status($doc);
         if ($en === 'stale') {
             $out[] = ['warn', 'Version anglaise à revoir (le français a changé)'];
@@ -89,7 +93,7 @@ final class Quality
     public static function all(): array
     {
         $d = Derived::get();
-        $out = ['stats' => [], 'liens' => [], 'credits' => [], 'carto' => [], 'traductions' => []];
+        $out = ['stats' => [], 'liens' => [], 'orthographe' => [], 'credits' => [], 'carto' => [], 'traductions' => []];
         foreach ($d['quality'] ?? [] as $a) {
             if ($a['code'] === 'nonrelie') {
                 continue; // listés plus bas (onglet des liens), avec le bouton de création de fiche
@@ -103,6 +107,14 @@ final class Quality
         foreach (array_slice($unlinked, 0, 300, true) as $u) {
             $n = count($u['matches']);
             $out['liens'][] = ['sev' => $n >= 20 ? 'moyenne' : 'basse', 'msg' => 'Joueur cité dans ' . $n . ' composition' . ($n > 1 ? 's' : '') . ' sans fiche', 'id' => null, 'title' => $u['name'], 'url' => '/admin/fiche/nouvelle/personne?nom=' . rawurlencode($u['name'])];
+        }
+        // Correcteur d'orthographe (tâche de fond) : fiches avec des corrections proposées.
+        foreach (\App\Services\Proofreader::summary()['rows'] as $r) {
+            $out['orthographe'][] = [
+                'sev' => $r['hi'] >= 3 ? 'haute' : ($r['hi'] > 0 ? 'moyenne' : 'basse'),
+                'msg' => ($r['n'] > 1 ? $r['n'] . ' corrections proposées' : '1 correction proposée') . ($r['hi'] ? ' dont ' . $r['hi'] . ' faute' . ($r['hi'] > 1 ? 's' : '') . ' de langue' : ' (ponctuation, typographie)') . ($r['ex'] ? ' · ' . $r['ex'] : ''),
+                'id' => $r['id'], 'title' => $r['title'], 'url' => '/admin/fiche/' . $r['id'] . '#correcteur',
+            ];
         }
         foreach (Media::all() as $rel => $m) {
             if (trim((string) ($m['credit'] ?? '')) === '' && preg_match('/\.(jpe?g|png|gif|webp)$/i', (string) $rel)) {

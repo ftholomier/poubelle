@@ -20,13 +20,13 @@ $field = function (string $p, string $k, array $spec, array $item) {
             . (!empty($v[0]) ? '<a class="xs" href="https://www.openstreetmap.org/?mlat=' . e((string) $v[0]) . '&amp;mlon=' . e((string) $v[1]) . '#map=14/' . e((string) $v[0]) . '/' . e((string) $v[1]) . '" target="_blank" rel="noopener">Vérifier sur OpenStreetMap ↗</a>' : '') . '</div>',
         'answers' => '<div class="f f--full"><span class="f__k">' . e($label) . '</span><div class="fgrid">'
             . implode('', array_map(fn ($i) => '<input type="text" maxlength="120"' . (str_starts_with($p, '@') ? ' data-field="' . e(substr($p, 1) . $k) . '.' . $i . '"' : ' name="' . e($p . $k) . '.' . $i . '"') . ' value="' . e((string) (($v ?? [])[$i] ?? '')) . '" placeholder="Réponse ' . chr(65 + $i) . '" aria-label="Réponse ' . chr(65 + $i) . '">', range(0, 3))) . '</div></div>',
-        default => Form::text($p . $k, $label, (string) ($v ?? ''), ['maxlength' => $o['max'] ?? 300, 'placeholder' => $o['placeholder'] ?? '', 'class' => $cls]),
+        default => Form::text($p . $k, $label, (string) ($v ?? ''), ['maxlength' => $o['max'] ?? 300, 'placeholder' => $o['placeholder'] ?? '', 'class' => $cls, 'proof' => !empty($o['en']) || !empty($o['proof'])]),
     };
     if (!empty($o['en'])) {
         $ve = $item[$k . '_en'] ?? null;
         $html .= $type === 'answers'
             ? '<div class="f f--full"><span class="f__k">' . e($label) . ' (EN)</span><div class="fgrid">' . implode('', array_map(fn ($i) => '<input type="text" maxlength="120"' . (str_starts_with($p, '@') ? ' data-field="' . e(substr($p, 1) . $k) . '_en.' . $i . '"' : ' name="' . e($p . $k) . '_en.' . $i . '"') . ' value="' . e((string) (($ve ?? [])[$i] ?? '')) . '" aria-label="Réponse ' . chr(65 + $i) . ' en anglais">', range(0, 3))) . '</div></div>'
-            : Form::text($p . $k . '_en', $label . ' (EN)', (string) ($ve ?? ''), ['maxlength' => $o['max'] ?? 300, 'class' => $cls]);
+            : Form::text($p . $k . '_en', $label . ' (EN)', (string) ($ve ?? ''), ['maxlength' => $o['max'] ?? 300, 'class' => $cls, 'proof' => true]);
     }
     return $html;
 };
@@ -60,12 +60,13 @@ $renderItem = fn (array $fields, string $p = '@') => function ($it) use ($fields
 <form class="stack" data-json-form data-url="/admin/collection/<?= e($name) ?>" novalidate>
   <div class="toolbar">
     <p class="small muted grow" style="margin:0"><?= e($schema['help'] ?? '') ?></p>
-    <a class="btn" href="<?= e($schema['front']) ?>" target="_blank" rel="noopener">Voir sur le site ↗</a>
-    <button type="button" class="btn" data-tr-all>Traduire tout ce qui manque (EN)</button>
+    <?php if (!empty($schema['front'])): ?><a class="btn" href="<?= e($schema['front']) ?>" target="_blank" rel="noopener">Voir sur le site ↗</a><?php endif; ?>
+    <?php if (empty($schema['no_tr'])): ?><button type="button" class="btn" data-tr-all>Traduire tout ce qui manque (EN)</button><?php endif; ?>
+    <?php if (empty($schema['no_proof'])): ?><button type="button" class="btn" data-proofread>Vérifier l’orthographe</button><?php endif; ?>
     <button type="submit" class="btn btn--navy" data-save>Enregistrer</button>
     <span class="small muted" data-saved></span>
   </div>
-  <?php if ($isDefault): ?><p class="alert" style="margin:0">Contenu proposé au lancement du site, <b>à relire et valider</b> par un historien. Il devient le vôtre dès le premier enregistrement.</p><?php endif; ?>
+  <?php if ($isDefault && $data): ?><p class="alert" style="margin:0">Contenu proposé au lancement du site, <b>à relire et valider</b> par un historien. Il devient le vôtre dès le premier enregistrement.</p><?php endif; ?>
 
   <?php if (!empty($schema['object'])): ?>
     <div class="card card--pad">

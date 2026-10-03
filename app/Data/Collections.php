@@ -67,7 +67,7 @@ final class Collections
             'frise' => 'la frise', 'maillots' => 'les maillots', 'partenaires' => 'les partenaires', 'quiz' => 'le quiz',
             'epoques' => 'les grandes époques', 'palmares' => 'le palmarès', 'ticker' => 'le bandeau défilant',
             'slider' => "le slider d'accueil", 'lieux' => 'les lieux', 'clubs' => 'les adversaires', 'stades' => 'les stades',
-            'menus' => 'les menus', 'dons' => 'la page Faire un don', 'reserves' => 'les réserves du musée',
+            'menus' => 'les menus', 'dons' => 'la page Faire un don', 'reserves' => 'les réserves du musée', 'dictionnaire' => 'le dictionnaire du musée',
         ][$name] ?? $name;
     }
 }

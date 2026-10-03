@@ -10,12 +10,12 @@ return [
 [[attention|<p>Le site garde toujours au moins un administrateur actif.</p>]]
 HTML],
         ['id' => 'reglages', 'title' => 'Réglages', 'html' => <<<'HTML'
-<p>Système › <b>Réglages</b> (administrateurs), en onglets : Général (nom, adresse du site, e-mail de contact, mot de passe d’accès avant lancement), Page d’attente, Accueil, Réseaux sociaux, Assistant IA (clé Gemini et modèle), Traduction, Dons (Stripe, PayPal, objectifs), E-mail (serveur d’envoi), Newsletter, Carte, Centenaire, Mentions légales, Sauvegardes, Cookies et RGPD.</p>
+<p>Système › <b>Réglages</b> (administrateurs), en onglets : Général (nom, adresse du site, e-mail de contact, mot de passe d’accès avant lancement), Page d’attente, Accueil, Réseaux sociaux, Assistant IA (clé Gemini et modèle), Traduction, Correcteur (vérification de fond, plafond d’appels à Gemini, typographie), Dons (Stripe, PayPal, objectifs), E-mail (serveur d’envoi), Newsletter, Carte, Centenaire, Mentions légales, Sauvegardes, Cookies et RGPD.</p>
 [[img:reglages.webp|Les réglages : les clés secrètes ne sont jamais réaffichées]]
 [[astuce|<p>Les clés secrètes (API, mots de passe) sont chiffrées : laissez le champ vide pour garder la valeur enregistrée.</p>]]
 HTML],
         ['id' => 'assistant', 'title' => 'L’assistant IA', 'html' => <<<'HTML'
-<p>La bulle « Le guide du musée » répond aux visiteurs à partir des données du site (fiches, statistiques), grâce à Gemini. Réglages › Assistant IA : clé, modèle (liste chargée depuis la clé), nom, message d’accueil, limites quotidiennes.</p>
+<p>La bulle « Le guide du musée » répond aux visiteurs à partir des données du site (fiches, statistiques), grâce à Gemini. Réglages › Assistant IA : clé, modèle (liste chargée depuis la clé), nom, message d’accueil, limites quotidiennes. La même clé sert aux traductions et au correcteur d’orthographe.</p>
 <p>Système › <b>Assistant IA</b> : questions posées par mois, avis des visiteurs (utile / pas utile), export, réindexation après de grosses modifications.</p>
 [[img:assistant.webp|Le journal de l’assistant IA]]
 HTML],

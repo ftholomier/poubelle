@@ -6,7 +6,7 @@ use App\Services\Translator;
 $en = $doc['i18n']['en'] ?? [];
 $secs = $doc['sections'] ?? [];
 ?>
-<div class="fpanel" data-panel="en">
+<div class="fpanel" data-panel="en" lang="en">
   <div class="card card--pad">
     <div class="row" style="justify-content:space-between">
       <h2 class="card__t">Version anglaise</h2>
@@ -23,22 +23,22 @@ $secs = $doc['sections'] ?? [];
         'stale' => '<b>Le texte français a changé depuis cette traduction</b> : relisez-la ou relancez la traduction.',
         default => '',
     } ?></p>
-    <?= Form::text('i18n_en.title', 'Title', $en['title'] ?? '', ['class' => 'f--full', 'placeholder' => $doc['title'] ?? '']) ?>
-    <?php if ($doc['type'] === 'personne'): ?><?= Form::text('i18n_en.subtitle', 'Subtitle', $en['personne']['subtitle'] ?? '', ['class' => 'f--full', 'placeholder' => $doc['personne']['subtitle'] ?? '']) ?><?php endif; ?>
+    <?= Form::text('i18n_en.title', 'Title', $en['title'] ?? '', ['class' => 'f--full', 'placeholder' => $doc['title'] ?? '', 'proof' => 'title']) ?>
+    <?php if ($doc['type'] === 'personne'): ?><?= Form::text('i18n_en.subtitle', 'Subtitle', $en['personne']['subtitle'] ?? '', ['class' => 'f--full', 'placeholder' => $doc['personne']['subtitle'] ?? '', 'proof' => true]) ?><?php endif; ?>
     <?= Form::html('i18n_en.intro', 'Introduction', $en['intro'] ?? '') ?>
   </div>
   <?php foreach ($secs as $i => $s): ?>
     <div class="card card--pad">
       <span class="f__k">Bloc <?= $i + 1 ?> · <?= e($s['title'] ?? '') ?></span>
-      <?= Form::text("i18n_en.sections.$i.title", 'Heading', $en['sections'][$i]['title'] ?? '', ['class' => 'f--full', 'placeholder' => $s['title'] ?? '']) ?>
+      <?= Form::text("i18n_en.sections.$i.title", 'Heading', $en['sections'][$i]['title'] ?? '', ['class' => 'f--full', 'placeholder' => $s['title'] ?? '', 'proof' => 'title']) ?>
       <?= Form::html("i18n_en.sections.$i.html", 'Text', $en['sections'][$i]['html'] ?? '') ?>
       <details><summary class="xs muted" style="cursor:pointer">Voir le texte français</summary><div class="prose small" style="padding:8px 0"><?= safe_html($s['html'] ?? '') ?></div></details>
     </div>
   <?php endforeach; ?>
   <div class="card card--pad">
-    <?= Form::text('i18n_en.key_figure_text', 'Key figure caption', $en['key_figure']['text'] ?? '', ['class' => 'f--full', 'placeholder' => $doc['key_figure']['text'] ?? '']) ?>
-    <?= Form::text('i18n_en.seo.title', 'SEO title', $en['seo']['title'] ?? '', ['class' => 'f--full', 'count' => 60]) ?>
-    <?= Form::text('i18n_en.seo.description', 'SEO description', $en['seo']['description'] ?? '', ['class' => 'f--full', 'maxlength' => 320, 'count' => 160]) ?>
+    <?= Form::text('i18n_en.key_figure_text', 'Key figure caption', $en['key_figure']['text'] ?? '', ['class' => 'f--full', 'placeholder' => $doc['key_figure']['text'] ?? '', 'proof' => true]) ?>
+    <?= Form::text('i18n_en.seo.title', 'SEO title', $en['seo']['title'] ?? '', ['class' => 'f--full', 'count' => 60, 'proof' => 'title']) ?>
+    <?= Form::text('i18n_en.seo.description', 'SEO description', $en['seo']['description'] ?? '', ['class' => 'f--full', 'maxlength' => 320, 'count' => 160, 'proof' => true]) ?>
   </div>
 </div>
 

@@ -110,6 +110,16 @@ final class Collections extends Base
                     'url' => ['Site web', 'href', []],
                 ],
             ],
+            'dictionnaire' => [
+                'label' => 'Dictionnaire du musée', 'front' => '', 'item' => 'Mot', 'title' => 'mot', 'sort_alpha' => 'mot',
+                'hub' => false, 'no_tr' => true, 'no_proof' => true, 'nav' => 'qualite', 'crumb_html' => 'Pilotage › <a href="/admin/qualite?cat=orthographe">Qualité</a>',
+                'help' => 'Mots que le correcteur d’orthographe ne doit jamais corriger : noms propres, surnoms, mots du club ou du patois. Les noms des joueurs, clubs et stades du musée sont déjà reconnus.',
+                'default' => fn () => [],
+                'fields' => [
+                    'mot' => ['Mot ou expression', 'text', ['max' => 80, 'placeholder' => 'Lionceaux']],
+                    'note' => ['Remarque', 'text', ['max' => 160, 'full' => true, 'placeholder' => 'Surnom des joueurs du centre de formation']],
+                ],
+            ],
             'dons' => [
                 'label' => 'Page « Faire un don »', 'front' => '/faire-un-don/', 'object' => true,
                 'help' => 'Textes de la page de dons. Les montants, la jauge et les moyens de paiement se règlent dans Réglages › Dons.',
@@ -149,7 +159,8 @@ final class Collections extends Base
         }
         $versions = JsonStore::read(STORAGE_PATH . "/versions/collections/$name/index.json", []) ?: [];
         return self::html('admin/collections/edit', ['name' => $name, 'schema' => $schema, 'data' => $data, 'isDefault' => $isDefault, 'versions' => array_reverse(array_slice($versions, -8))], [
-            'title' => $schema['label'], 'crumb_html' => 'Interactif › <a href="/admin/interactif">Quiz, frise, carte…</a>', 'nav' => $name === 'dons' ? 'dons' : 'interactif',
+            'title' => $schema['label'], 'crumb_html' => $schema['crumb_html'] ?? 'Interactif › <a href="/admin/interactif">Quiz, frise, carte…</a>', 'nav' => $schema['nav'] ?? ($name === 'dons' ? 'dons' : 'interactif'),
+            'tips' => $name === 'dictionnaire' ? 'dictionnaire' : null,
         ]);
     }
 
@@ -183,12 +194,16 @@ final class Collections extends Base
                 $k = $schema['sort'];
                 usort($out, fn ($a, $b) => (int) ($a[$k] ?? 0) <=> (int) ($b[$k] ?? 0));
             }
+            if (!empty($schema['sort_alpha'])) {
+                $k = $schema['sort_alpha'];
+                usort($out, fn ($a, $b) => strcmp(\App\Data\Paths::slug((string) ($a[$k] ?? '')), \App\Data\Paths::slug((string) ($b[$k] ?? ''))));
+            }
         }
         Store::save($name, $out, self::actor(), 'Modification de ' . Store::label($name));
         if (in_array($name, ['epopees', 'lieux'], true)) {
             \App\Services\Geo::forget();
         }
-        return self::json(['ok' => true, 'message' => $schema['label'] . ' : enregistré.', 'modified' => date('c'), 'savedLabel' => 'Enregistré à ' . date('H:i'), 'reload' => !empty($schema['sort'])]);
+        return self::json(['ok' => true, 'message' => $schema['label'] . ' : enregistré.', 'modified' => date('c'), 'savedLabel' => 'Enregistré à ' . date('H:i'), 'reload' => !empty($schema['sort']) || !empty($schema['sort_alpha'])]);
     }
 
     /** Un élément contient-il autre chose que des cases à cocher ? */
@@ -276,7 +291,7 @@ final class Collections extends Base
     {
         $cards = [];
         foreach (self::schemas() as $name => $s) {
-            if ($name === 'dons') {
+            if ($name === 'dons' || ($s['hub'] ?? true) === false) {
                 continue;
             }
             $data = Store::get($name, null) ?? ($s['default'])();

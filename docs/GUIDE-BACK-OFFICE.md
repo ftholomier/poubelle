@@ -69,6 +69,27 @@ Les panneaux **Mis à jour automatiquement** et **Contrôle qualité** indiquent
 l'enregistrement recalcule (saison, fiches des joueurs, carte, records…) et les points à
 vérifier sur la fiche.
 
+### Orthographe
+
+Le panneau **Orthographe** (bouton **Vérifier l'orthographe**) relit tous les textes de la
+fiche, version anglaise comprise :
+
+- **Gemini** (quand la clé est réglée) : orthographe, accords, conjugaison, homophones
+  (a/à, et/est…), mots manquants ou en trop, constructions fautives, ponctuation, majuscules ;
+- **règles du musée** (toujours) : mot répété, espace avant une virgule ou un point, espace
+  oubliée après la ponctuation, « l' équipe », ordinaux (« 2e », « 1re » et non « 2ème »,
+  « 1ère »), « À » en tête de phrase.
+
+Chaque proposition montre le passage, la faute barrée, la correction et une explication.
+**Corriger** la reporte dans le champ (**Annuler** la retire), **Tout corriger** les applique
+toutes, **Ignorer** l'écarte pour cette fiche, **+ Dictionnaire** protège un nom propre ou
+un mot du club partout. Rien n'est modifié sans clic, ni publié avant **Enregistrer** (la
+note de version est remplie d'office). Le même bouton existe dans Accueil & bandeau,
+Rubriques & menus et les outils interactifs.
+
+Le correcteur vérifie aussi chaque fiche en tâche de fond quelques minutes après son
+enregistrement : le panneau annonce alors le nombre de corrections proposées.
+
 ### Fiche match
 
 | Onglet | Contenu |
@@ -186,6 +207,11 @@ Le tableau **Qualité** liste ce qui mérite une vérification, par onglet :
 - **Liens joueurs** : joueurs cités dans des compositions sans fiche (bouton « Créer la
   fiche »), et noms reliés automatiquement à une fiche par rapprochement (autre graphie,
   faute de frappe, nom incomplet) : à vérifier.
+- **Orthographe & syntaxe** : les fiches pour lesquelles le correcteur propose des
+  corrections (haute : au moins trois fautes de langue ; basse : ponctuation ou typographie
+  seulement). « Corriger » ouvre la fiche avec le correcteur. Le **dictionnaire du musée**
+  (lien au-dessus de la liste) contient les mots à ne jamais corriger ; les noms des joueurs,
+  clubs et stades du musée sont déjà reconnus.
 - **Photos sans crédit**, **lieux de naissance inconnus** (carte), **traductions à revoir**.
 
 Chaque alerte disparaît d'elle-même une fois la fiche corrigée.
@@ -207,13 +233,14 @@ de grosses modifications. Les questions sont conservées pour une durée limité
 ## 11. Administration
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
-- **Réglages** (administrateur) : identité du site, e-mail, clés Gemini, Stripe et PayPal,
-  carte, centenaire, mentions légales, cookies, sauvegardes.
+- **Réglages** (administrateur) : identité du site, e-mail, clés Gemini, correcteur
+  (vérification de fond, plafond quotidien d'appels à Gemini, typographie), Stripe et
+  PayPal, carte, centenaire, mentions légales, cookies, sauvegardes.
 - **Sauvegardes** (administrateurs) : une sauvegarde complète est faite chaque jour ; on peut en lancer une
   et la télécharger. Gardez-en régulièrement une copie hors du serveur.
 - **Tâches planifiées** : état des tâches automatiques (publication programmée,
-  statistiques, traductions, newsletter, carte…), avec un bouton pour en lancer une tout
-  de suite.
+  statistiques, traductions, correcteur d'orthographe, newsletter, carte…), avec un bouton
+  pour en lancer une tout de suite.
 - **Corbeille** (lien « Voir la corbeille » sous les listes de fiches) : fiches mises à la
   corbeille, à restaurer ; la suppression définitive est réservée aux administrateurs (une
   copie reste dans l'historique des versions).

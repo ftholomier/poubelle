@@ -17,7 +17,7 @@ const FRONT = ['/', '/matchs/', '/nos-lions/', '/nos-lions/joueurs/', '/supporte
   '/centenaire/100-moments/', '/reserves/', '/contact/', '/contribuer/', '/faire-un-don/', '/newsletter/',
   '/mentions-legales/', '/confidentialite/', '/cookies/', '/en/', '/en/matchs/', '/reserves/', '/bilans/coupe-de-france/',
   '/interactif/carto/', '/en/interactif/quiz/', '/matchs/annees-90/', '/records/', '/bilans/stade-auguste-bonal/'];
-const ADMIN = ['/admin', '/admin/qualite', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
+const ADMIN = ['/admin', '/admin/qualite', '/admin/qualite?cat=orthographe', '/admin/collection/dictionnaire', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
   '/admin/objets', '/admin/referentiels', '/admin/medias', '/admin/accueil', '/admin/moments', '/admin/rubriques',
   '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/contributions',
   '/admin/messages', '/admin/newsletter', '/admin/dons', '/admin/traductions', '/admin/assistant',

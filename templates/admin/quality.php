@@ -1,6 +1,6 @@
 <?php
-/** Qualité. Variables : $all, $cat, $sev, $items, $total */
-$labels = ['stats' => ['Statistiques incohérentes', 'Scores, buteurs, dates'], 'liens' => ['Liens joueurs', 'Sans fiche, ou reliés par rapprochement'], 'credits' => ['Photos sans crédit', 'Médiathèque'], 'carto' => ['Lieux de naissance inconnus', 'Carto des origines'], 'traductions' => ['Traductions à revoir', 'Version anglaise']];
+/** Qualité. Variables : $all, $cat, $sev, $items, $total, $proof (orthographe : avancement) */
+$labels = ['stats' => ['Statistiques incohérentes', 'Scores, buteurs, dates'], 'liens' => ['Liens joueurs', 'Sans fiche, ou reliés par rapprochement'], 'orthographe' => ['Orthographe & syntaxe', 'Corrections proposées par le correcteur'], 'credits' => ['Photos sans crédit', 'Médiathèque'], 'carto' => ['Lieux de naissance inconnus', 'Carto des origines'], 'traductions' => ['Traductions à revoir', 'Version anglaise']];
 ?>
 <div class="kpis">
   <?php foreach ($labels as $k => [$l, $d]): ?>
@@ -13,6 +13,9 @@ $labels = ['stats' => ['Statistiques incohérentes', 'Scores, buteurs, dates'], 
   </div>
   <span class="small muted"><?= (int) $total ?> alerte<?= $total > 1 ? 's' : '' ?> · recalculées automatiquement à chaque modification</span>
 </div>
+<?php if ($cat === 'orthographe' && $proof): ?>
+  <p class="small muted proofinfo">Le correcteur vérifie en tâche de fond chaque fiche nouvelle ou modifiée : <b><?= number_format($proof['checked'], 0, ',', ' ') ?> / <?= number_format($proof['total'], 0, ',', ' ') ?></b> fiches vérifiées<?= \App\Services\Gemini::ready() ? ', dont ' . number_format($proof['ai'], 0, ',', ' ') . ' avec Gemini (orthographe, accords, syntaxe)' : ' avec les règles de base (clé Gemini non réglée : pas de vérification des accords ni de la syntaxe)' ?>. « Corriger » ouvre la fiche avec le correcteur : vous acceptez ou ignorez chaque correction, puis enregistrez. Les noms propres se protègent dans le <a href="/admin/collection/dictionnaire">dictionnaire du musée</a> (<?= count(\App\Services\Proofreader::dictionary()) ?> mot<?= count(\App\Services\Proofreader::dictionary()) > 1 ? 's' : '' ?>).</p>
+<?php endif; ?>
 <?php if ($cat === 'liens'): ?>
   <p class="small muted">Un nom mal orthographié dans les compositions se relie à une fiche existante en l’ajoutant dans « Autres graphies dans les compositions » (fiche du joueur, onglet Identité). Les rapprochements automatiques (autre graphie, faute de frappe, nom incomplet) sont listés pour vérification.</p>
 <?php endif; ?>

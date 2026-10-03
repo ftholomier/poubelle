@@ -7,7 +7,7 @@ $mo = $doc['moment'] ?? [];
 ?>
 <div class="fpanel" data-panel="moment">
   <div class="card card--pad">
-    <?= Form::text('title', 'Titre du moment', $doc['title'] ?? '', ['required' => true, 'class' => 'f--full']) ?>
+    <?= Form::text('title', 'Titre du moment', $doc['title'] ?? '', ['required' => true, 'class' => 'f--full', 'proof' => 'title']) ?>
     <div class="fgrid">
       <?= Form::number('moment.number', 'Numéro (1 à 100)', $mo['number'] ?? null) ?>
       <?= Form::number('moment.year', 'Année du moment', $mo['year'] ?? null) ?>

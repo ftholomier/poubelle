@@ -14,7 +14,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
         <button type="button" data-tab="<?= $k ?>" role="tab"><?= e($l) ?></button>
       <?php endforeach; ?>
     </div>
-    <div class="row"><span class="small muted" data-saved></span><a class="btn" href="/" target="_blank" rel="noopener">Voir l’accueil ↗</a><button type="submit" class="btn btn--navy" data-save>Enregistrer</button></div>
+    <div class="row"><span class="small muted" data-saved></span><button type="button" class="btn" data-proofread>Vérifier l’orthographe</button><a class="btn" href="/" target="_blank" rel="noopener">Voir l’accueil ↗</a><button type="submit" class="btn btn--navy" data-save>Enregistrer</button></div>
   </div>
 
   <div class="fpanel" data-panel="slider">
@@ -46,10 +46,10 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <?= Form::repeater('ticker.messages', 'Messages de l’équipe', $ticker['messages'] ?? [], fn ($m) => '<div class="fgrid">'
           . Form::toggle('@on', 'Affiché', !empty($m['on']))
           . Form::text('@k', 'Étiquette', $m['k'] ?? '', ['placeholder' => 'Nouveau', 'maxlength' => 40])
-          . Form::text('@v', 'Message', $m['v'] ?? '', ['placeholder' => 'La carto des stades et des origines', 'maxlength' => 160, 'class' => 'f--2'])
+          . Form::text('@v', 'Message', $m['v'] ?? '', ['placeholder' => 'La carto des stades et des origines', 'maxlength' => 160, 'class' => 'f--2', 'proof' => true])
           . Form::text('@href', 'Lien', $m['href'] ?? '', ['placeholder' => '/interactif/carto/'])
           . Form::text('@k_en', 'Étiquette (EN)', $m['k_en'] ?? '', ['maxlength' => 40])
-          . Form::text('@v_en', 'Message (EN)', $m['v_en'] ?? '', ['maxlength' => 160, 'class' => 'f--2'])
+          . Form::text('@v_en', 'Message (EN)', $m['v_en'] ?? '', ['maxlength' => 160, 'class' => 'f--2', 'proof' => true])
           . '<div class="f" style="justify-content:flex-end">' . $tr('k,v') . '</div></div>', ['compact' => true, 'add' => 'Ajouter un message', 'blank' => ['on' => true]]) ?>
     </div>
   </div>
@@ -57,7 +57,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
   <div class="fpanel" data-panel="textes">
     <div class="card card--pad">
       <h2 class="card__t">Référencement de l’accueil</h2>
-      <?= Form::text('home.intro_title', $schema['intro_title']['label'], $home['intro_title'] ?? '', ['class' => 'f--full', 'maxlength' => 200]) ?>
+      <?= Form::text('home.intro_title', $schema['intro_title']['label'], $home['intro_title'] ?? '', ['class' => 'f--full', 'maxlength' => 200, 'proof' => 'title']) ?>
       <?= Form::html('home.intro_text', $schema['intro_text']['label'], $home['intro_text'] ?? '') ?>
     </div>
     <div class="card card--pad">
@@ -82,8 +82,8 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <h2 class="card__t">Palmarès (bandeau jaune)</h2>
       <?= Form::repeater('palmares', '', $palmares, fn ($p) => '<div class="fgrid">'
           . Form::text('@years', 'Chiffre', $p['years'] ?? '', ['placeholder' => '2×', 'maxlength' => 20])
-          . Form::text('@title', 'Titre', $p['title'] ?? '', ['placeholder' => 'Champion de France', 'maxlength' => 80, 'class' => 'f--2'])
-          . Form::text('@title_en', 'Titre (EN)', $p['title_en'] ?? '', ['maxlength' => 80, 'class' => 'f--2'])
+          . Form::text('@title', 'Titre', $p['title'] ?? '', ['placeholder' => 'Champion de France', 'maxlength' => 80, 'class' => 'f--2', 'proof' => 'title'])
+          . Form::text('@title_en', 'Titre (EN)', $p['title_en'] ?? '', ['maxlength' => 80, 'class' => 'f--2', 'proof' => 'title'])
           . '<div class="f" style="justify-content:flex-end">' . $tr('title') . '</div></div>', ['compact' => true, 'add' => 'Ajouter un titre']) ?>
     </div>
   </div>
@@ -93,14 +93,14 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <h2 class="card__t">Les grandes époques</h2>
       <?= Form::repeater('eras', '', $eras, fn ($e) => '<div class="fgrid">'
           . Form::text('@range', 'Période', $e['range'] ?? '', ['placeholder' => '1928–1945', 'maxlength' => 20])
-          . Form::text('@name', 'Nom', $e['name'] ?? '', ['placeholder' => 'Les pionniers', 'maxlength' => 80])
-          . Form::text('@name_en', 'Nom (EN)', $e['name_en'] ?? '', ['maxlength' => 80])
+          . Form::text('@name', 'Nom', $e['name'] ?? '', ['placeholder' => 'Les pionniers', 'maxlength' => 80, 'proof' => 'title'])
+          . Form::text('@name_en', 'Nom (EN)', $e['name_en'] ?? '', ['maxlength' => 80, 'proof' => 'title'])
           . Form::text('@href', 'Lien « Visiter cette époque »', $e['href'] ?? '', ['placeholder' => '/interactif/frise/#1928'])
           . Form::textarea('@text', 'Texte', $e['text'] ?? '', ['class' => 'f--full', 'rows' => 3])
           . Form::textarea('@text_en', 'Texte (EN)', $e['text_en'] ?? '', ['class' => 'f--full', 'rows' => 3])
           . Form::image('@image', 'Image', $e['image'] ?? null)
           . '<div class="f" style="justify-content:flex-end">' . $tr('name,text') . '</div></div>'
-          . Form::repeater('facts', 'Dates clés', $e['facts'] ?? [], fn ($f) => '<div class="fgrid">' . Form::text('@y', 'Année', $f['y'] ?? '', ['maxlength' => 12]) . Form::text('@t', 'Fait', $f['t'] ?? '', ['maxlength' => 120, 'class' => 'f--2']) . Form::text('@t_en', 'Fait (EN)', $f['t_en'] ?? '', ['maxlength' => 120, 'class' => 'f--2']) . '<div class="f" style="justify-content:flex-end">' . $tr('t') . '</div></div>', ['compact' => true, 'add' => 'Ajouter une date']),
+          . Form::repeater('facts', 'Dates clés', $e['facts'] ?? [], fn ($f) => '<div class="fgrid">' . Form::text('@y', 'Année', $f['y'] ?? '', ['maxlength' => 12]) . Form::text('@t', 'Fait', $f['t'] ?? '', ['maxlength' => 120, 'class' => 'f--2', 'proof' => true]) . Form::text('@t_en', 'Fait (EN)', $f['t_en'] ?? '', ['maxlength' => 120, 'class' => 'f--2', 'proof' => true]) . '<div class="f" style="justify-content:flex-end">' . $tr('t') . '</div></div>', ['compact' => true, 'add' => 'Ajouter une date']),
           ['add' => 'Ajouter une époque', 'numbered' => true]) ?>
     </div>
   </div>
@@ -112,9 +112,9 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <?= Form::repeater('reserves', '', $reserves, fn ($r) => '<div class="fgrid">'
           . Form::text('@slug', 'Identifiant (adresse)', $r['slug'] ?? '', ['placeholder' => 'affiches', 'maxlength' => 40, 'help' => '/reserves/<b>identifiant</b>/'])
           . Form::text('@name', 'Nom', $r['name'] ?? '', ['maxlength' => 40])
-          . Form::text('@desc', 'Sous-titre', $r['desc'] ?? '', ['maxlength' => 80])
+          . Form::text('@desc', 'Sous-titre', $r['desc'] ?? '', ['maxlength' => 80, 'proof' => true])
           . Form::text('@name_en', 'Nom (EN)', $r['name_en'] ?? '', ['maxlength' => 40])
-          . Form::text('@desc_en', 'Sous-titre (EN)', $r['desc_en'] ?? '', ['maxlength' => 80])
+          . Form::text('@desc_en', 'Sous-titre (EN)', $r['desc_en'] ?? '', ['maxlength' => 80, 'proof' => true])
           . Form::image('@image', 'Image', $r['image'] ?? null)
           . '<div class="f" style="justify-content:flex-end">' . $tr('name,desc') . '</div></div>', ['compact' => true, 'add' => 'Ajouter une collection']) ?>
     </div>

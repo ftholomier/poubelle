@@ -29,8 +29,10 @@ redirigées.
 **Back-office** (`/admin`) pour les historiens : fiches, compositions en grille,
 médiathèque, rubriques et menus (ordre des fiches de chaque décennie, saison ou rubrique
 par glisser-déposer avec trait d'insertion), accueil, outils interactifs, communauté, dons,
-traductions, qualité des données, sauvegardes, aide en ligne (guide, mémo PDF, bulles
-« ? »). Deux niveaux d'accès : administrateur
+traductions, qualité des données, **correcteur d'orthographe et de syntaxe** (Gemini et
+règles du musée : chaque correction est proposée, l'historien accepte ou ignore ; relecture
+de fond de tout le musée dans Qualité › Orthographe), sauvegardes, aide en ligne (guide,
+mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
 et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
 
 ## Technique en bref
@@ -41,7 +43,7 @@ et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
 - Seul `public/` est exposé sur Internet ; code, données et réglages restent en dehors.
 - Aucune dépendance à installer (ni Composer, ni npm).
 - Services externes, tous facultatifs et réglés dans le back-office : Gemini
-  (assistant, traduction), Stripe et PayPal (dons), SMTP (e-mails).
+  (assistant, traduction, correcteur d'orthographe), Stripe et PayPal (dons), SMTP (e-mails).
 
 ## Arborescence
 
@@ -94,6 +96,7 @@ php bin/console.php images [largeur] pré-génère les vignettes des photos
 php bin/console.php medias           complète dimensions, poids et empreintes des médias
 php bin/console.php videos           copie les vignettes des vidéos
 php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance
+php bin/console.php correcteur [secondes]  vérifie l'orthographe de toutes les fiches (sans plafond quotidien)
 ```
 
 ## Mise en ligne

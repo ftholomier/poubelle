@@ -135,6 +135,20 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 - [x] Nettoyage : compte de test supprimé (le back-office repart sur « Premier accès »), données
       d'exemple des captures retirées, journaux et caches de test vidés.
 
+- [x] **Correcteur d'orthographe et de syntaxe** dans le back-office : bouton « Vérifier
+      l'orthographe » (fiches, accueil, rubriques, outils interactifs), panneau des
+      propositions (faute barrée, correction, explication ; Corriger, Annuler, Tout corriger,
+      Ignorer, + Dictionnaire), passage sélectionné dans son champ, balises conservées.
+      Gemini (accords, conjugaison, homophones, syntaxe) et règles du musée sans service
+      extérieur (mot répété, ponctuation, ordinaux « 2e »/« 1re », « À »), essayées sur les
+      2 940 fiches. Propositions contrôlées (extrait présent, chiffres et noms propres
+      intacts, pas de réécriture). Dictionnaire du musée, corrections ignorées par fiche,
+      réponses en cache texte par texte. Tâche de fond + Qualité › Orthographe + tableau de
+      bord ; réglages (plafond quotidien, typographie) ; commande
+      `php bin/console.php correcteur`. Correcteur du navigateur activé dans les champs
+      rédigés (anglais pour la version EN). Aide, mémo, guide PDF et captures à jour ;
+      `tests/correcteur.php`. Essayé avec un faux Gemini local (pas de clé ici).
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).
 - 100 moments : aucun moment écrit pour l'instant (les semaines passées affichent « Bientôt »).

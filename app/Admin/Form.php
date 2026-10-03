@@ -72,8 +72,21 @@ final class Form
     {
         $id = self::id();
         $type = $o['type'] ?? 'text';
-        $ctl = '<input id="' . $id . '" type="' . e($type) . '"' . self::nameAttr($name) . ' value="' . e(is_scalar($value) ? (string) $value : '') . '"' . self::attrs($o) . '>';
+        $ctl = '<input id="' . $id . '" type="' . e($type) . '"' . self::nameAttr($name) . ' value="' . e(is_scalar($value) ? (string) $value : '') . '"' . self::attrs($o) . self::proof($name, $o, false) . '>';
         return self::wrap($label, $ctl, $o, $id);
+    }
+
+    /**
+     * Correcteur d'orthographe : un champ de texte rédigé porte data-proof (nature : text,
+     * title, quote, caption) ; un champ « …_en » est en anglais (lang="en").
+     * $o['proof'] : true ou nature pour l'activer, false pour l'exclure.
+     */
+    private static function proof(string $name, array $o, bool $default): string
+    {
+        $kind = $o['proof'] ?? $default;
+        $lang = $o['lang'] ?? (preg_match('/(^@?i18n_en\.|_en(\.\d+)?$)/', $name) ? 'en' : null);
+        $a = $kind ? ' data-proof="' . e(is_string($kind) ? $kind : 'text') . '" spellcheck="true"' : '';
+        return $a . ($lang ? ' lang="' . e($lang) . '"' : '');
     }
 
     public static function number(string $name, string $label, mixed $value, array $o = []): string
@@ -89,7 +102,7 @@ final class Form
     {
         $id = self::id();
         $rows = (int) ($o['rows'] ?? 4);
-        $ctl = '<textarea id="' . $id . '" rows="' . $rows . '" data-wysiwyg="mini"' . self::nameAttr($name) . self::attrs($o) . '>' . e(is_scalar($value) ? (string) $value : '') . '</textarea>';
+        $ctl = '<textarea id="' . $id . '" rows="' . $rows . '" data-wysiwyg="mini"' . self::nameAttr($name) . self::attrs($o) . self::proof($name, $o, true) . '>' . e(is_scalar($value) ? (string) $value : '') . '</textarea>';
         return self::wrap($label, $ctl, $o, $id);
     }
 
@@ -97,7 +110,7 @@ final class Form
     public static function html(string $name, string $label, mixed $value, array $o = []): string
     {
         $id = self::id();
-        $ctl = '<textarea id="' . $id . '" rows="6" data-wysiwyg="' . (!empty($o['mini']) ? 'mini' : 'full') . '"' . self::nameAttr($name) . self::attrs($o) . '>' . e(is_scalar($value) ? (string) $value : '') . '</textarea>';
+        $ctl = '<textarea id="' . $id . '" rows="6" data-wysiwyg="' . (!empty($o['mini']) ? 'mini' : 'full') . '"' . self::nameAttr($name) . self::attrs($o) . self::proof($name, $o, true) . '>' . e(is_scalar($value) ? (string) $value : '') . '</textarea>';
         return self::wrap($label, $ctl, $o + ['class' => 'f--full'], $id);
     }
 
@@ -105,7 +118,7 @@ final class Form
     public static function lines(string $name, string $label, array $list, array $o = []): string
     {
         $values = array_values(array_filter(array_map(fn ($x) => is_scalar($x) ? (string) $x : '', $list), fn ($x) => $x !== ''));
-        $field = fn ($v) => '<input type="text" data-field="_" value="' . e((string) $v) . '"' . (!empty($o['placeholder']) ? ' placeholder="' . e($o['placeholder']) . '"' : '') . ' aria-label="' . e($label) . '">';
+        $field = fn ($v) => '<input type="text" data-field="_" value="' . e((string) $v) . '"' . (!empty($o['placeholder']) ? ' placeholder="' . e($o['placeholder']) . '"' : '') . ' aria-label="' . e($label) . '"' . self::proof($name, $o, false) . '>';
         $rep = self::repeater($name, '', $values, fn ($v) => $field($v), ['scalar' => true, 'compact' => true, 'add' => $o['add'] ?? 'Ajouter une ligne']);
         return self::wrap($label, $rep, $o + ['class' => 'f--full']);
     }

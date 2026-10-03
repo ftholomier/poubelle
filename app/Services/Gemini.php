@@ -20,7 +20,18 @@ final class Gemini
 
     public static function key(): string
     {
-        return trim((string) Settings::get('ai.gemini_api_key', ''));
+        $key = trim((string) Settings::get('ai.gemini_api_key', ''));
+        return $key === '' && self::mock() ? 'essai' : $key;
+    }
+
+    /**
+     * Adresse d'un faux Gemini pour les tests automatiques : seulement avec le serveur de
+     * développement de PHP (« php -S »), jamais sur l'hébergement.
+     */
+    private static function mock(): ?string
+    {
+        $url = PHP_SAPI === 'cli-server' ? getenv('GEMINI_MOCK_URL') : false;
+        return is_string($url) && preg_match('#^http://127\.0\.0\.1:\d+/$#', $url) ? $url : null;
     }
 
     public static function ready(): bool
@@ -115,9 +126,88 @@ final class Gemini
     {
         $model = $opt['model'] ?? self::model();
         $maxOut = (int) ($opt['max_tokens'] ?? 800);
+        $body = self::body($contents, $system, $opt, $model);
+        $path = 'models/' . rawurlencode($model) . ':generateContent';
+        try {
+            $r = self::request('POST', $path, $body, (int) ($opt['timeout'] ?? 45));
+        } catch (\RuntimeException $e) {
+            if (isset($body['generationConfig']['thinkingConfig']) && preg_match('/think/i', $e->getMessage())) {
+                unset($body['generationConfig']['thinkingConfig']);
+            } elseif (isset($body['generationConfig']['responseSchema']) && preg_match('/schema/i', $e->getMessage())) {
+                unset($body['generationConfig']['responseSchema']);
+            } else {
+                throw $e;
+            }
+            $r = self::request('POST', $path, $body, (int) ($opt['timeout'] ?? 45));
+        }
+        $out = self::parse($r, $model);
+        if ($out['text'] === '' && $out['finish'] === 'MAX_TOKENS' && empty($opt['_retry'])) {
+            // Le raisonnement interne a consommé le budget : on réessaie avec plus de marge.
+            return self::generate($contents, $system, ['max_tokens' => $maxOut * 4, '_retry' => true] + $opt);
+        }
+        return $out;
+    }
+
+    /**
+     * Plusieurs générations en parallèle (correcteur : une fiche longue en plusieurs morceaux).
+     * $jobs : liste de [contents, system, opt]. Renvoie, dans le même ordre, le résultat de
+     * generate() ou ['error' => message, 'code' => code HTTP].
+     */
+    public static function generateMany(array $jobs): array
+    {
+        $out = [];
+        $handles = [];
+        $mh = curl_multi_init();
+        foreach (array_values($jobs) as $i => [$contents, $system, $opt]) {
+            $model = $opt['model'] ?? self::model();
+            $ch = self::handle('POST', 'models/' . rawurlencode($model) . ':generateContent', self::body($contents, $system, $opt, $model), (int) ($opt['timeout'] ?? 60));
+            curl_multi_add_handle($mh, $ch);
+            $handles[$i] = [$ch, $model];
+        }
+        do {
+            $status = curl_multi_exec($mh, $running);
+            if ($running) {
+                curl_multi_select($mh, 1.0);
+            }
+        } while ($running && $status === CURLM_OK);
+        foreach ($handles as $i => [$ch, $model]) {
+            $raw = curl_multi_getcontent($ch);
+            $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $err = curl_error($ch);
+            curl_multi_remove_handle($mh, $ch);
+            curl_close($ch);
+            try {
+                $r = self::decode($raw === false || $raw === null ? false : (string) $raw, $code, $err);
+                $res = self::parse($r, $model);
+                if ($res['text'] === '' && $res['finish'] === 'MAX_TOKENS') {
+                    throw new \RuntimeException('réponse tronquée');
+                }
+                $out[$i] = $res;
+            } catch (\RuntimeException $e) {
+                // Erreur passagère ou option refusée par le modèle : un nouvel essai, seul.
+                if ($e->getCode() === 429 || $e->getCode() === 401 || $e->getCode() === 403) {
+                    $out[$i] = ['error' => $e->getMessage(), 'code' => $e->getCode()];
+                    continue;
+                }
+                try {
+                    [$contents, $system, $opt] = array_values($jobs)[$i];
+                    $out[$i] = self::generate($contents, $system, $opt);
+                } catch (\Throwable $e2) {
+                    $out[$i] = ['error' => $e2->getMessage(), 'code' => $e2->getCode()];
+                }
+            }
+        }
+        curl_multi_close($mh);
+        ksort($out);
+        return $out;
+    }
+
+    /** Corps d'une requête de génération. $opt['schema'] : structure JSON imposée à la réponse. */
+    private static function body(array $contents, ?string $system, array $opt, string $model): array
+    {
         $body = [
             'contents' => array_map(fn ($c) => ['role' => $c['role'] === 'model' ? 'model' : 'user', 'parts' => [['text' => (string) $c['text']]]], $contents),
-            'generationConfig' => ['temperature' => (float) ($opt['temperature'] ?? 0.3), 'maxOutputTokens' => $maxOut],
+            'generationConfig' => ['temperature' => (float) ($opt['temperature'] ?? 0.3), 'maxOutputTokens' => (int) ($opt['max_tokens'] ?? 800)],
             'safetySettings' => array_map(fn ($c) => ['category' => $c, 'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'], ['HARM_CATEGORY_HARASSMENT', 'HARM_CATEGORY_HATE_SPEECH', 'HARM_CATEGORY_SEXUALLY_EXPLICIT', 'HARM_CATEGORY_DANGEROUS_CONTENT']),
         ];
         if ($system) {
@@ -125,6 +215,9 @@ final class Gemini
         }
         if (!empty($opt['json'])) {
             $body['generationConfig']['responseMimeType'] = 'application/json';
+            if (!empty($opt['schema'])) {
+                $body['generationConfig']['responseSchema'] = $opt['schema'];
+            }
         }
         // Raisonnement réduit au minimum : réponses rapides, jetons réservés au texte.
         if (preg_match('/gemini-2\.5-flash/', $model)) {
@@ -132,16 +225,12 @@ final class Gemini
         } elseif (preg_match('/gemini-([3-9])/', $model)) {
             $body['generationConfig']['thinkingConfig'] = ['thinkingLevel' => 'low'];
         }
-        $path = 'models/' . rawurlencode($model) . ':generateContent';
-        try {
-            $r = self::request('POST', $path, $body, (int) ($opt['timeout'] ?? 45));
-        } catch (\RuntimeException $e) {
-            if (!isset($body['generationConfig']['thinkingConfig']) || !preg_match('/think/i', $e->getMessage())) {
-                throw $e;
-            }
-            unset($body['generationConfig']['thinkingConfig']);
-            $r = self::request('POST', $path, $body, (int) ($opt['timeout'] ?? 45));
-        }
+        return $body;
+    }
+
+    /** Texte de la réponse (hors raisonnement interne) et consommation. */
+    private static function parse(array $r, string $model): array
+    {
         $cand = $r['candidates'][0] ?? [];
         $text = '';
         foreach ($cand['content']['parts'] ?? [] as $p) {
@@ -149,14 +238,9 @@ final class Gemini
                 $text .= (string) ($p['text'] ?? '');
             }
         }
-        $finish = (string) ($cand['finishReason'] ?? ($r['promptFeedback']['blockReason'] ?? ''));
-        if ($text === '' && $finish === 'MAX_TOKENS' && empty($opt['_retry'])) {
-            // Le raisonnement interne a consommé le budget : on réessaie avec plus de marge.
-            return self::generate($contents, $system, ['max_tokens' => $maxOut * 4, '_retry' => true] + $opt);
-        }
         return [
             'text' => trim($text),
-            'finish' => $finish,
+            'finish' => (string) ($cand['finishReason'] ?? ($r['promptFeedback']['blockReason'] ?? '')),
             'tokens_in' => (int) ($r['usageMetadata']['promptTokenCount'] ?? 0),
             'tokens_out' => (int) ($r['usageMetadata']['candidatesTokenCount'] ?? 0),
             'model' => $model,
@@ -202,7 +286,18 @@ final class Gemini
 
     private static function request(string $method, string $path, ?array $body = null, int $timeout = 30): array
     {
-        $ch = curl_init(self::BASE . $path);
+        $ch = self::handle($method, $path, $body, $timeout);
+        $raw = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err = curl_error($ch);
+        curl_close($ch);
+        return self::decode($raw === false ? false : (string) $raw, $code, $err);
+    }
+
+    /** @return \CurlHandle */
+    private static function handle(string $method, string $path, ?array $body, int $timeout)
+    {
+        $ch = curl_init((self::mock() ?? self::BASE) . $path);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => $timeout,
@@ -213,10 +308,11 @@ final class Gemini
         if ($body !== null) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         }
-        $raw = curl_exec($ch);
-        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $err = curl_error($ch);
-        curl_close($ch);
+        return $ch;
+    }
+
+    private static function decode(string|false $raw, int $code, string $err): array
+    {
         if ($raw === false || $code === 0) {
             throw new \RuntimeException('Gemini injoignable : ' . $err);
         }

@@ -2,7 +2,7 @@
 return [
     'slug' => 'qualite',
     'title' => 'Qualité des données',
-    'summary' => 'Le tableau Qualité, les liens joueurs, les adversaires, stades et lieux : vérifier et corriger.',
+    'summary' => 'Le tableau Qualité, les liens joueurs, l’orthographe, les adversaires, stades et lieux : vérifier et corriger.',
     'sections' => [
         ['id' => 'tableau', 'title' => 'Le tableau Qualité', 'html' => <<<'HTML'
 <p>Pilotage › <b>Qualité</b> recense ce qui mérite une vérification, recalculé à chaque modification. Filtrez par niveau (hautes, moyennes, basses) ; « Corriger » ouvre la fiche concernée.</p>
@@ -23,6 +23,16 @@ HTML],
 <li><b>Noms reliés par rapprochement</b> : le site a relié automatiquement un nom écrit autrement (apostrophe, faute de frappe, nom incomplet). « Vérifier » ouvre la fiche : si le lien est faux, choisissez le bon joueur dans la composition du match.</li>
 </ul>
 [[img:qualite-liens.webp|Les liens joueurs à créer ou à vérifier]]
+HTML],
+        ['id' => 'orthographe', 'title' => 'Orthographe et syntaxe', 'html' => <<<'HTML'
+<p>Onglet <b>Orthographe &amp; syntaxe</b> : les fiches pour lesquelles le correcteur propose des corrections, avec un exemple. Il vérifie en tâche de fond chaque fiche nouvelle ou modifiée, puis toutes les autres.</p>
+[[img:qualite-orthographe.webp|Qualité › Orthographe : (1) l’avancement de la vérification, (2) les corrections proposées et un exemple, (3) « Corriger » ouvre la fiche avec le correcteur]]
+<ul>
+<li>Niveau <b>haut</b> : au moins trois fautes de langue (orthographe, accord, conjugaison, syntaxe) ; <b>moyen</b> : une ou deux ; <b>bas</b> : ponctuation ou typographie seulement.</li>
+<li><b>Corriger</b> ouvre la fiche et lance le correcteur : acceptez ou ignorez chaque proposition, puis enregistrez. La fiche quitte la liste à la vérification suivante.</li>
+<li>Le <b>Dictionnaire du musée</b> (lien au-dessus de la liste) contient les mots que le correcteur ne doit jamais corriger. Les noms des joueurs, des clubs et des stades du musée sont déjà reconnus ; ajoutez-y surnoms, mots du club ou du patois, ou utilisez « + Dictionnaire » dans le correcteur.</li>
+</ul>
+[[attention|<p>Sans clé Gemini, seules les règles de base du musée sont appliquées (ponctuation, typographie, mots répétés) : les accords et la syntaxe ne sont pas vérifiés.</p>]]
 HTML],
         ['id' => 'autres', 'title' => 'Photos sans crédit, lieux, traductions', 'html' => <<<'HTML'
 <ul>

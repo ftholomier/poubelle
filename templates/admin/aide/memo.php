@@ -71,6 +71,7 @@
         <tr><td>Slider, bandeau, accueil</td><td>Éditorial › Accueil &amp; bandeau</td></tr>
         <tr><td>Ordre des fiches d’une décennie, d’une rubrique</td><td>Éditorial › Rubriques &amp; menus (↑ ↓ un cran, ✥ glisser plus loin)</td></tr>
         <tr><td>Le PDF d’une fiche</td><td>panneau Publication › Télécharger le PDF</td></tr>
+        <tr><td>Corriger l’orthographe et la syntaxe</td><td>panneau Orthographe › Vérifier l’orthographe ; Qualité › Orthographe</td></tr>
         <tr><td>Rediriger une ancienne adresse</td><td>Éditorial › Redirections</td></tr>
         <tr><td>Mettre le site en maintenance</td><td>Éditorial › Page d’attente</td></tr>
         <tr><td>Quiz, frise, maillots, carte, partenaires</td><td>Interactif › Quiz, frise, carte…</td></tr>
@@ -106,6 +107,7 @@
         <li>Titre et date justes, rubriques cochées.</li>
         <li>Image à la une (mosaïques, partage).</li>
         <li>Photos créditées, joueurs reliés (✓).</li>
+        <li>« Vérifier l’orthographe », puis Enregistrer.</li>
         <li>Aperçu, puis Publier.</li>
       </ul>
     </div>

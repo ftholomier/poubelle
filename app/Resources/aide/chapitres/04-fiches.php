@@ -2,7 +2,7 @@
 return [
     'slug' => 'fiches',
     'title' => 'Travailler avec les fiches',
-    'summary' => 'Listes, création, onglets, statuts, aperçu, historique des versions et corbeille.',
+    'summary' => 'Listes, création, onglets, correcteur d’orthographe, statuts, aperçu, historique des versions et corbeille.',
     'sections' => [
         ['id' => 'listes', 'title' => 'Les listes de fiches', 'html' => <<<'HTML'
 <p>Menu <b>Contenus</b> : Matchs, Personnes, Articles &amp; pages, Objets. Chaque liste se filtre (saison, compétition, rubrique, statut…), se trie et se cherche.</p>
@@ -18,14 +18,34 @@ HTML],
 [[astuce|<p>Pour une personne citée dans une composition sans fiche, le bouton <b>+</b> de la ligne de composition (ou « Créer la fiche » dans Qualité) ouvre une nouvelle fiche déjà remplie avec son nom.</p>]]
 HTML],
         ['id' => 'editeur', 'title' => 'L’éditeur et ses onglets', 'html' => <<<'HTML'
-<p>Une fiche s’édite en onglets, différents selon le type. À droite, quatre panneaux restent visibles :</p>
+<p>Une fiche s’édite en onglets, différents selon le type. À droite, cinq panneaux restent visibles :</p>
 <ul>
 <li><b>Publication</b> : statut, enregistrement, aperçu, note de version, corbeille ;</li>
+<li><b>Orthographe</b> : le correcteur d’orthographe et de syntaxe (voir ci-dessous) ;</li>
 <li><b>Mis à jour automatiquement</b> : ce que l’enregistrement recalcule ;</li>
 <li><b>Contrôle qualité</b> : ce qui reste à vérifier sur cette fiche ;</li>
 <li><b>Version EN</b> : l’état de la traduction anglaise.</li>
 </ul>
 [[img:editeur-publication.webp|Le panneau Publication : (1) statut, (2) enregistrer, (3) aperçu, (4) voir sur le site, (5) note de version]]
+HTML],
+        ['id' => 'orthographe', 'title' => 'Vérifier l’orthographe', 'html' => <<<'HTML'
+<p>Le bouton <b>Vérifier l’orthographe</b> (panneau « Orthographe », à droite) relit tous les textes de la fiche, version anglaise comprise : titres, introduction, blocs de texte, temps forts, réactions, brèves, légendes, référencement…</p>
+[[img:correcteur.webp|Le correcteur : (1) vérifier, (2) la faute barrée et sa correction, (3) corriger, (4) ignorer, (5) ajouter au dictionnaire, (6) tout corriger]]
+<ol>
+<li>Cliquez sur <b>Vérifier l’orthographe</b> : le panneau du correcteur s’ouvre, en quelques secondes (jusqu’à une minute pour une très longue fiche).</li>
+<li>Chaque proposition montre le passage, la faute <s>barrée</s>, la correction en vert et une explication. Cliquez sur le passage : l’onglet du champ s’ouvre et le passage y est sélectionné.</li>
+<li><b>Corriger</b> reporte la correction dans le champ (<b>Annuler</b> la retire) ; <b>Tout corriger</b> applique toutes les propositions restantes.</li>
+<li><b>Ignorer</b> écarte une proposition fausse : elle ne reviendra plus pour cette fiche. <b>+ Dictionnaire</b> protège un nom propre ou un mot du club sur toutes les fiches.</li>
+<li><b>Enregistrez</b> la fiche : la note de version « Corrections d’orthographe (correcteur) » est remplie pour vous.</li>
+</ol>
+<table>
+<tr><th>Qui relit</th><th>Ce qui est vérifié</th></tr>
+<tr><td>Gemini (quand la clé est réglée)</td><td>orthographe, accords, conjugaison, homophones (a/à, et/est, ces/ses…), mot manquant ou en trop, construction fautive, ponctuation, majuscules</td></tr>
+<tr><td>Règles du musée (toujours)</td><td>mot répété (« de de »), espace avant une virgule ou un point, espace oubliée après la ponctuation, « l’ équipe », ordinaux (« 2e », « 1re » et non « 2ème », « 1ère »), « À » en début de phrase</td></tr>
+</table>
+[[attention|<p>Le correcteur propose, vous décidez : relisez chaque proposition, surtout dans les citations, les noms propres et les termes d’époque. Rien n’est modifié sans votre clic, et rien n’est publié avant « Enregistrer ».</p>]]
+[[astuce|<p>Pendant la saisie, le navigateur souligne déjà en rouge les mots inconnus (clic droit pour une suggestion). Le correcteur va plus loin : accords, conjugaison et syntaxe. Le même bouton existe dans Accueil &amp; bandeau, Rubriques &amp; menus et les outils interactifs (quiz, frise, maillots…).</p>]]
+[[auto|<p>Le correcteur vérifie aussi chaque fiche en tâche de fond, quelques minutes après son enregistrement : le panneau « Orthographe » annonce alors le nombre de corrections proposées, et Qualité › Orthographe liste les fiches concernées.</p>]]
 HTML],
         ['id' => 'statuts', 'title' => 'Statuts et publication programmée', 'html' => <<<'HTML'
 <table>

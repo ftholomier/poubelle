@@ -80,6 +80,14 @@ return [
             'auto_translate' => ['label' => 'Traduire automatiquement les contenus avec Gemini', 'type' => 'bool', 'default' => true, 'help' => 'Les traductions sont stockées et corrigeables ; le français reste la référence.'],
         ],
     ],
+    'correcteur' => [
+        'label' => 'Correcteur',
+        'fields' => [
+            'background' => ['label' => 'Vérifier l’orthographe de toutes les fiches en tâche de fond', 'type' => 'bool', 'default' => true, 'help' => 'Les corrections proposées s’affichent dans Qualité › Orthographe et dans chaque fiche. Rien n’est modifié sans l’accord d’un historien. Sans clé Gemini, seules les règles de base sont appliquées.'],
+            'daily_calls' => ['label' => 'Appels à Gemini par jour pour la tâche de fond (plafond de coût)', 'type' => 'number', 'default' => 300, 'help' => 'Un appel vérifie environ 6 000 caractères. Un texte déjà vérifié n’est jamais renvoyé à Gemini. La vérification depuis l’éditeur n’est pas plafonnée.'],
+            'typography' => ['label' => 'Proposer aussi les corrections typographiques (« À », « 1re », « 2e », espaces)', 'type' => 'bool', 'default' => true],
+        ],
+    ],
     'donations' => [
         'label' => 'Dons',
         'fields' => [

@@ -13,6 +13,7 @@
  *   php bin/console.php medias           complète dimensions, poids et empreintes des médias
  *   php bin/console.php videos           copie les vignettes des vidéos (YouTube, Dailymotion…)
  *   php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance (carte)
+ *   php bin/console.php correcteur [secondes]  vérifie l'orthographe de toutes les fiches (sans plafond quotidien)
  */
 
 declare(strict_types=1);
@@ -72,6 +73,14 @@ switch ($cmd) {
     case 'backup':
         $r = \App\Services\Backup::run(true);
         echo json_encode($r, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n";
+        break;
+
+    case 'correcteur':
+        // Premier passage complet du correcteur (ou après un changement de clé) : sans plafond
+        // quotidien d'appels à Gemini, dans la limite du temps donné (30 minutes par défaut).
+        @set_time_limit(0);
+        $r = \App\Services\Proofreader::run(max(10, (int) ($argv[2] ?? 1800)), PHP_INT_MAX);
+        echo json_encode($r ?? ['fiches' => 0, 'message' => 'tout est déjà vérifié'], JSON_UNESCAPED_UNICODE) . "\n";
         break;
 
     case 'rag':

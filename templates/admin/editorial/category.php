@@ -60,8 +60,8 @@ use App\Data\Fiches;
     <div class="card card--pad">
       <h2 class="card__t">Libellés</h2>
       <div class="fgrid fgrid--2">
-        <?= Form::text('label', 'Libellé court (menus, fil d’Ariane)', $cat['label'] ?? '', ['placeholder' => $cat['name'], 'maxlength' => 80, 'help' => 'Vide : nom d’origine « ' . e($cat['name']) . ' ».']) ?>
-        <div class="f"><span class="f__k">Libellé anglais <button type="button" class="btn btn--sm btn--ghost" data-tr="label">Traduire</button></span><input type="text" name="label_en" aria-label="Libellé anglais" value="<?= e((string) ($cat['label_en'] ?? '')) ?>" maxlength="80" placeholder="Vide : traduction automatique de l’interface"></div>
+        <?= Form::text('label', 'Libellé court (menus, fil d’Ariane)', $cat['label'] ?? '', ['placeholder' => $cat['name'], 'maxlength' => 80, 'proof' => 'title', 'help' => 'Vide : nom d’origine « ' . e($cat['name']) . ' ».']) ?>
+        <div class="f"><span class="f__k">Libellé anglais <button type="button" class="btn btn--sm btn--ghost" data-tr="label">Traduire</button></span><input type="text" name="label_en" aria-label="Libellé anglais" data-proof="title" spellcheck="true" lang="en" value="<?= e((string) ($cat['label_en'] ?? '')) ?>" maxlength="80" placeholder="Vide : traduction automatique de l’interface"></div>
       </div>
     </div>
     <div class="card card--pad" data-tr-scope>
@@ -78,6 +78,7 @@ use App\Data\Fiches;
       <?= Form::number('position', 'Position dans le menu', $cat['position'] ?? null, ['placeholder' => 'auto', 'help' => !empty($cat['parent']) ? 'Plus simple : glissez les sous-rubriques dans la page de la rubrique parente.' : 'Plus petit = plus haut. Vide : ordre alphabétique ou chronologique.']) ?>
       <?= Form::toggle('technical', 'Masquer des menus et des filtres', !empty($cat['technical'])) ?>
       <button type="submit" class="btn btn--navy btn--block" data-save>Enregistrer</button>
+      <button type="button" class="btn btn--block" data-proofread>Vérifier l’orthographe</button>
       <span class="small muted" data-saved></span>
     </div>
     <div class="card card--pad">

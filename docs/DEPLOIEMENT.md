@@ -100,6 +100,10 @@ copiées par lots de 100 chaque heure.
      puis Tâches planifiées › « Index sémantique de l'assistant » pour indexer le site ;
    - Traduction : traduction anglaise automatique des fiches (Gemini), relue dans
      Back-office › Traductions EN ;
+   - Correcteur : vérification orthographique de fond (300 appels à Gemini par jour par
+     défaut, soit environ deux semaines pour un premier passage complet du musée). Pour
+     tout vérifier d'un coup, lancer une fois en SSH (ou en tâche cron temporaire)
+     `php /home/<compte>/sochauxretro/bin/console.php correcteur` ;
    - Dons : clés Stripe et PayPal (mode test d'abord, puis production), voir § 8 ;
    - Mentions légales, cookies : à relire et compléter.
 4. Back-office › **Utilisateurs** : inviter les historiens (administrateur ou utilisateur).

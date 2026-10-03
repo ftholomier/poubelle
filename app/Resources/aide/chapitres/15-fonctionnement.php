@@ -14,7 +14,7 @@ return [
 [[auto|<p>Le site n’utilise pas de base de données : tout est rangé dans des fichiers, ce qui le rend simple à sauvegarder et à déplacer.</p>]]
 HTML],
         ['id' => 'taches', 'title' => 'Les tâches automatiques', 'html' => <<<'HTML'
-<p>Toutes les cinq minutes, le serveur lance les tâches planifiées : publication des fiches programmées, statistiques, traductions, newsletter, géolocalisation des stades et lieux de naissance, vignettes des vidéos, assistant IA, synchronisation des dons, plan du site, sauvegarde, effacement des données personnelles trop anciennes (RGPD).</p>
+<p>Toutes les cinq minutes, le serveur lance les tâches planifiées : publication des fiches programmées, statistiques, traductions, correcteur d’orthographe, newsletter, géolocalisation des stades et lieux de naissance, vignettes des vidéos, assistant IA, synchronisation des dons, plan du site, sauvegarde, effacement des données personnelles trop anciennes (RGPD).</p>
 <p>Système › <b>Tâches planifiées</b> montre le dernier passage de chacune ; « Lancer » en exécute une tout de suite.</p>
 [[img:taches.webp|Les tâches planifiées et leur dernier passage]]
 HTML],
@@ -33,6 +33,7 @@ HTML],
 <li>Chaque membre a son propre compte ; ne partagez pas votre mot de passe.</li>
 <li>Les messages, contributions et dons contiennent des données personnelles : ne les exportez que pour les besoins du musée.</li>
 <li>Les questions posées à l’assistant IA sont conservées pour une durée limitée, puis effacées automatiquement.</li>
+<li>Pour la traduction anglaise et le correcteur d’orthographe, les textes des fiches sont envoyés à Gemini (Google) ; les messages, contributions et dons ne le sont jamais.</li>
 <li>Les visiteurs choisissent leurs cookies ; les vidéos ne se chargent qu’avec leur accord.</li>
 </ul>
 HTML],

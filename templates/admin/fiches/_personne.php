@@ -27,7 +27,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
     <?= Form::lines('personne.aliases', 'Autres graphies dans les compositions', (array) ($p['aliases'] ?? []), ['placeholder' => 'ex. CAMARA Razza', 'add' => 'Ajouter une graphie', 'help' => 'Les compositions qui écrivent le nom ainsi seront reliées à cette fiche (« Joueurs sans fiche » dans Qualité).']) ?>
     <?= Form::checks('personne.roles', 'Rubriques', $p['roles'] ?? ['joueur'], FicheForm::ROLES, ['help' => 'La première rubrique cochée détermine l’adresse de la fiche (/joueurs/…, /entraineurs/…).']) ?>
     <div class="fgrid">
-      <?= Form::text('personne.position', 'Poste (texte)', $p['position'] ?? '', ['placeholder' => 'défenseur latéral droit', 'class' => 'f--2']) ?>
+      <?= Form::text('personne.position', 'Poste (texte)', $p['position'] ?? '', ['placeholder' => 'défenseur latéral droit', 'class' => 'f--2', 'proof' => true]) ?>
       <?= Form::select('personne.line', 'Ligne (filtres, terrain)', $p['line'] ?? '', FicheForm::LINES, ['strict' => true]) ?>
       <?= Form::text('personne.nationality', 'Nationalité', $p['nationality'] ?? '') ?>
       <?= Form::text('personne.foot', 'Pied', $p['foot'] ?? '', ['placeholder' => 'droitier']) ?>
@@ -35,7 +35,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
       <?= Form::text('personne.weight', 'Poids', $p['weight'] ?? '', ['placeholder' => '72 kg']) ?>
       <?= Form::text('personne.shirt_numbers', 'Numéros portés', $p['shirt_numbers'] ?? '') ?>
     </div>
-    <?= Form::text('personne.subtitle', 'Sous-titre (accroche sous le nom)', $p['subtitle'] ?? '', ['class' => 'f--full', 'maxlength' => 300]) ?>
+    <?= Form::text('personne.subtitle', 'Sous-titre (accroche sous le nom)', $p['subtitle'] ?? '', ['class' => 'f--full', 'maxlength' => 300, 'proof' => true]) ?>
   </div>
   <div class="cols">
     <div class="card card--pad">
@@ -102,17 +102,17 @@ $matches = $pid ? Derived::personMatches($pid) : [];
   <div class="cols">
     <div class="card card--pad">
       <h2 class="card__t">Palmarès</h2>
-      <?= Form::repeater('personne.honours', '', $p['honours'] ?? [], fn ($h) => Form::text('@_', 'Titre', is_string($h) ? $h : '', ['placeholder' => 'Vainqueur de la Coupe Gambardella en 1983']), ['compact' => true, 'scalar' => true, 'add' => 'Ajouter un titre']) ?>
+      <?= Form::repeater('personne.honours', '', $p['honours'] ?? [], fn ($h) => Form::text('@_', 'Titre', is_string($h) ? $h : '', ['placeholder' => 'Vainqueur de la Coupe Gambardella en 1983', 'proof' => true]), ['compact' => true, 'scalar' => true, 'add' => 'Ajouter un titre']) ?>
     </div>
     <div class="card card--pad">
       <h2 class="card__t">Après Sochaux</h2>
-      <?= Form::repeater('personne.then', '', $p['then'] ?? [], fn ($h) => Form::text('@_', 'Étape', is_string($h) ? $h : ''), ['compact' => true, 'scalar' => true, 'add' => 'Ajouter une étape']) ?>
+      <?= Form::repeater('personne.then', '', $p['then'] ?? [], fn ($h) => Form::text('@_', 'Étape', is_string($h) ? $h : '', ['proof' => true]), ['compact' => true, 'scalar' => true, 'add' => 'Ajouter une étape']) ?>
     </div>
   </div>
   <div class="card card--pad">
     <h2 class="card__t">Fiche d’identité (tableau d’origine)</h2>
     <p class="small muted" style="margin:0">Lignes affichées telles quelles dans l’encadré « Fiche d’identité ». Laissez le libellé vide pour une ligne de texte libre.</p>
-    <?= Form::repeater('personne.fiche', '', $p['fiche'] ?? [], fn ($r) => '<div class="fgrid">' . Form::text('@label', 'Libellé', $r['label'] ?? '', ['placeholder' => 'Né le']) . Form::text('@value', 'Valeur', $r['value'] ?? '', ['class' => 'f--2']) . '</div>', ['compact' => true, 'add' => 'Ajouter une ligne']) ?>
+    <?= Form::repeater('personne.fiche', '', $p['fiche'] ?? [], fn ($r) => '<div class="fgrid">' . Form::text('@label', 'Libellé', $r['label'] ?? '', ['placeholder' => 'Né le', 'proof' => true]) . Form::text('@value', 'Valeur', $r['value'] ?? '', ['class' => 'f--2', 'proof' => true]) . '</div>', ['compact' => true, 'add' => 'Ajouter une ligne']) ?>
   </div>
   <div class="card card--pad">
     <h2 class="card__t">Matchs marquants</h2>

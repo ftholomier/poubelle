@@ -29,6 +29,7 @@ final class Cron
         'statistiques' => [0, 'Recalcul des statistiques si nécessaire'],
         'audience' => [0, 'Mesure d’audience anonyme (agrégation)'],
         'traductions' => [0, 'Traduction anglaise des fiches (Gemini)'],
+        'correcteur' => [0, 'Correcteur d’orthographe : vérification des fiches nouvelles ou modifiées'],
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
@@ -125,6 +126,9 @@ final class Cron
                 }
                 $r = Translator::run(8);
                 return $r['done'] ? $r : null;
+
+            case 'correcteur':
+                return Proofreader::run(40);
 
             case 'newsletter':
                 return Newsletter::tick();
@@ -248,6 +252,7 @@ final class Cron
         $out['limites'] = $old(STORAGE_PATH . '/ratelimit/*', 2 * 86400);
         $out['sessions'] = $old(STORAGE_PATH . '/sessions/sess_*', 14 * 86400);
         $out['partage'] = $old(STORAGE_PATH . '/cache/share/*.png', 30 * 86400);
+        $out['correcteur'] = Proofreader::purgeCache();
         // Dons abandonnés : les coordonnées des paiements jamais finalisés sont effacées après 30 jours.
         $out['dons_abandonnes'] = 0;
         foreach (Donations::all() as $d) {

@@ -38,7 +38,7 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
     <?= Form::text('match.goals_text', 'Buteurs (texte de l’en-tête)', $m['goals_text'] ?? '', ['class' => 'f--full', 'placeholder' => "Prat 33' pour Sochaux ; Robert 57' pour Nantes"]) ?>
     <?= Form::repeater('match.goals', 'Buts par équipe', $m['goals'] ?? [], fn ($g) => '<div class="fgrid">' . Form::text('@team', 'Équipe', $g['team'] ?? '') . Form::text('@scorers', 'Buteurs', $g['scorers'] ?? '', ['class' => 'f--2', 'placeholder' => "Prat 33', Thomas 78'"]) . '</div>', ['compact' => true, 'add' => 'Ajouter une équipe']) ?>
     <?= Form::lines('match.header_extra', 'Lignes complémentaires de l’en-tête', $m['header_extra'] ?? [], ['help' => 'Une information par ligne (ex. « Ruiz 38’, Alphonse 83’ pour Sochaux. »).']) ?>
-    <?= Form::text('match.event', 'Événement (match particulier)', $m['event'] ?? '', ['class' => 'f--full', 'placeholder' => 'ex. Inauguration du nouveau stade Bonal']) ?>
+    <?= Form::text('match.event', 'Événement (match particulier)', $m['event'] ?? '', ['class' => 'f--full', 'placeholder' => 'ex. Inauguration du nouveau stade Bonal', 'proof' => true]) ?>
   </div>
 </div>
 
@@ -60,7 +60,7 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
           return '<div class="lrow">'
               . '<select data-field="position" aria-label="Poste" class="in in--sm">' . implode('', array_map(fn ($k, $l) => '<option value="' . e((string) $k) . '"' . ($pos === (string) $k ? ' selected' : '') . '>' . e($k !== '' && $k !== $l ? $k . ' · ' . $l : $l) . '</option>', array_keys($positions), $positions)) . '</select>'
               . '<input class="in in--sm" data-field="number" value="' . e((string) ($r['number'] ?? '')) . '" placeholder="N°" aria-label="Numéro de maillot" inputmode="numeric">'
-              . '<input class="in in--sm" data-field="name" value="' . e($r['name'] ?? '') . '" placeholder="NOM Prénom" aria-label="Joueur" data-ac="personnes" data-ac-id="person_id">'
+              . '<input class="in in--sm" data-field="name" value="' . e($r['name'] ?? '') . '" placeholder="NOM Prénom" aria-label="Joueur" data-ac="personnes" data-ac-id="person_id" spellcheck="false">'
               . (!empty($r['extra']) ? '<input type="hidden" data-field="extra" data-type="json" value="' . e(json_encode($r['extra'], JSON_UNESCAPED_UNICODE)) . '">' : '')
               . '<input type="hidden" data-field="person_id" value="' . e((string) ($r['person_id'] ?? '')) . '" data-type="int">'
               . '<label class="toggle" title="Capitaine"><input type="checkbox" data-field="captain"' . (!empty($r['captain']) ? ' checked' : '') . '><span class="toggle__box"></span></label>'
@@ -76,14 +76,14 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
   <div class="card">
     <div class="card__head"><h2 class="card__t">Temps forts (minute par minute)</h2><span class="card__note">Alimente la frise du résumé sur la fiche</span></div>
     <div class="card__body">
-      <?= Form::repeater('match.highlights', '', $m['highlights'] ?? [], fn ($h) => '<div class="hrow">' . Form::text('@minute', 'Min.', $h['minute'] ?? '', ['placeholder' => "33"]) . Form::text('@text', 'Action', $h['text'] ?? '', ['class' => 'f--2']) . Form::toggle('@goal', 'But', !empty($h['goal'])) . Form::text('@score', 'Score', $h['score'] ?? '', ['placeholder' => '1-0']) . '</div>', ['compact' => true, 'rows' => true, 'add' => 'Ajouter une action']) ?>
+      <?= Form::repeater('match.highlights', '', $m['highlights'] ?? [], fn ($h) => '<div class="hrow">' . Form::text('@minute', 'Min.', $h['minute'] ?? '', ['placeholder' => "33"]) . Form::text('@text', 'Action', $h['text'] ?? '', ['class' => 'f--2', 'proof' => true]) . Form::toggle('@goal', 'But', !empty($h['goal'])) . Form::text('@score', 'Score', $h['score'] ?? '', ['placeholder' => '1-0']) . '</div>', ['compact' => true, 'rows' => true, 'add' => 'Ajouter une action']) ?>
     </div>
   </div>
   <div class="cols">
     <div class="card">
       <div class="card__head"><h2 class="card__t">Réactions</h2></div>
       <div class="card__body">
-        <?= Form::repeater('match.reactions', '', $m['reactions'] ?? [], fn ($r) => Form::text('@who', 'Qui', $r['who'] ?? '', ['placeholder' => 'Silvester Takac']) . Form::textarea('@text', 'Citation', $r['text'] ?? '', ['rows' => 3]), ['compact' => true, 'add' => 'Ajouter une réaction']) ?>
+        <?= Form::repeater('match.reactions', '', $m['reactions'] ?? [], fn ($r) => Form::text('@who', 'Qui', $r['who'] ?? '', ['placeholder' => 'Silvester Takac']) . Form::textarea('@text', 'Citation', $r['text'] ?? '', ['rows' => 3, 'proof' => 'quote']), ['compact' => true, 'add' => 'Ajouter une réaction']) ?>
       </div>
     </div>
     <div class="card">

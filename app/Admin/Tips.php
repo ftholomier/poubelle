@@ -15,6 +15,7 @@ final class Tips
     private const COMMON = [
         // Panneaux de l'éditeur de fiche
         'publication' => 'Choisissez le statut : <b>Brouillon</b> (invisible), <b>À relire</b>, <b>Planifié</b> (publication automatique à la date choisie) ou <b>Publié</b>. Enregistrez avec le bouton ou <b>Ctrl + S</b> ; une note de version aide à retrouver une modification.',
+        'orthographe' => 'Le correcteur relit tous les textes de l’écran : orthographe, accords, conjugaison et syntaxe (avec Gemini), plus les règles du musée (« 1re », « 2e », « À »…). Il propose, vous décidez : « Corriger », « Ignorer », ou « + Dictionnaire » pour un nom propre. Rien n’est enregistré avant « Enregistrer ».',
         'mis à jour automatiquement' => 'Ce que le site recalcule seul quand vous enregistrez cette fiche : saison, fiches des joueurs, carte, records, image de partage… Rien à faire de votre côté.',
         'contrôle qualité' => 'Les vérifications propres à cette fiche : score cohérent, photos sans crédit, image à la une manquante… Une alerte disparaît dès que la fiche est corrigée.',
         'version en' => 'État de la traduction anglaise de cette fiche. « À revoir » : le français a changé depuis la traduction.',
@@ -57,7 +58,12 @@ final class Tips
             'audience · 30 jours' => 'Pages vues sur le site public, mesurées sans cookie ni adresse IP.',
             'publications programmées' => 'Les fiches au statut « Planifié » et leur date de mise en ligne automatique.',
         ],
-        'qualite' => ['screen' => 'Tout ce qui mérite une vérification, classé par onglet : statistiques incohérentes, liens joueurs, photos sans crédit, lieux de naissance inconnus, traductions. Corrigez la fiche : l’alerte disparaît d’elle-même.'],
+        'qualite' => ['screen' => 'Tout ce qui mérite une vérification, classé par onglet : statistiques incohérentes, liens joueurs, orthographe et syntaxe, photos sans crédit, lieux de naissance inconnus, traductions. Corrigez la fiche : l’alerte disparaît d’elle-même.'],
+        'dictionnaire' => [
+            'screen' => 'Les mots que le correcteur d’orthographe ne doit jamais corriger : noms propres, surnoms, mots du club ou du patois. Les noms des joueurs, des clubs et des stades du musée sont déjà reconnus. Un mot s’ajoute aussi depuis le correcteur, bouton « + Dictionnaire ».',
+            'mot ou expression' => 'Écrit exactement comme il doit l’être (majuscules et accents compris). Il ne sera plus jamais signalé, sur aucune fiche.',
+            'remarque' => 'Facultatif : pourquoi ce mot est juste (surnom, ancien nom, mot local…), pour les autres historiens.',
+        ],
         'journal' => ['screen' => 'Qui a fait quoi et quand dans le back-office. Filtrez par personne ; utile pour retrouver une modification récente.'],
         'matchs' => [
             'screen' => 'Les fiches match. La liste se filtre par saison, compétition et statut ; dans une fiche, les onglets Infos, Compo & événements, Récit, Médias… se remplissent dans l’ordre que vous voulez.',
@@ -257,7 +263,10 @@ final class Tips
             'e-mail de réception des messages' => 'Où arrivent les messages du formulaire de contact, les nouvelles contributions et l’annonce des dons.',
             'adresse affichée sur les images de partage' => 'Le texte (ex. « fcsochauxretro.com ») écrit sur les images créées pour les réseaux sociaux.',
             'mot de passe d’accès au site public (pré-lancement)' => 'Tant qu’il est rempli, les visiteurs doivent le saisir pour voir le site (les membres connectés passent). Videz-le pour ouvrir le site à tous.',
-            'clé api gemini' => 'La clé Google AI Studio qui fait fonctionner l’assistant et les traductions. Elle est chiffrée et n’est plus affichée une fois enregistrée.',
+            'clé api gemini' => 'La clé Google AI Studio qui fait fonctionner l’assistant, les traductions et le correcteur d’orthographe. Elle est chiffrée et n’est plus affichée une fois enregistrée.',
+            'vérifier l’orthographe de toutes les fiches en tâche de fond' => 'Toutes les cinq minutes, le correcteur relit les fiches nouvelles ou modifiées (puis les autres) et range ses propositions dans Qualité › Orthographe. Il ne modifie jamais une fiche lui-même.',
+            'appels à gemini par jour pour la tâche de fond (plafond de coût)' => 'Nombre maximal d’appels à Gemini par jour pour la relecture de fond. Un texte déjà relu n’est jamais renvoyé : le coût ne porte que sur le nouveau.',
+            'proposer aussi les corrections typographiques (« à », « 1re », « 2e », espaces)' => 'Décoché, le correcteur ne signale plus que les fautes de langue et de ponctuation : « 2ème », « A l’extérieur » ou « l’ équipe » ne sont plus proposés.',
             'consignes de l’assistant' => 'Les instructions données à l’IA (ton, limites, sources). À modifier avec prudence.',
             'questions par visiteur et par jour' => 'Limite anti-abus de l’assistant pour un même visiteur.',
             'questions par jour pour tout le site (plafond de coût)' => 'Au-delà, l’assistant fait une pause jusqu’au lendemain : la facture Gemini reste maîtrisée.',

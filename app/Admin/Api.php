@@ -12,7 +12,9 @@ use App\Data\Derived;
 use App\Data\Fiches as Store;
 use App\Data\Index;
 use App\Data\Media;
+use App\Core\RateLimiter;
 use App\Services\Gemini;
+use App\Services\Proofreader;
 use App\Services\Search;
 
 /** API JSON internes du back-office (recherche globale, auto-complétion, médiathèque). */
@@ -207,5 +209,66 @@ final class Api extends Base
         } catch (\Throwable $e) {
             return self::json(['ok' => false, 'error' => $e->getMessage()], 502);
         }
+    }
+
+    /**
+     * Correcteur d'orthographe : corrections proposées pour les textes de l'écran.
+     * Entrée : {scope: "fiche:123", fields: [{k, value, html, lang, kind}]}.
+     */
+    public static function proofread(Request $req): Response
+    {
+        $in = $req->json();
+        $user = Auth::actor();
+        if (!RateLimiter::hit('correcteur', (string) ($user['id'] ?? 'anonyme'), 120, 3600)) {
+            return self::json(['ok' => false, 'error' => 'Beaucoup de vérifications en une heure : réessayez dans quelques minutes.'], 429);
+        }
+        $scope = (string) ($in['scope'] ?? '');
+        $scope = Proofreader::validScope($scope) ? $scope : '';
+        $fields = [];
+        $total = 0;
+        foreach (array_slice((array) ($in['fields'] ?? []), 0, 400) as $f) {
+            $k = is_array($f) ? (string) ($f['k'] ?? '') : '';
+            $v = is_array($f) ? (string) ($f['value'] ?? '') : '';
+            if (!preg_match('/^[a-z0-9_-]{1,24}$/i', $k) || trim($v) === '') {
+                continue;
+            }
+            $total += strlen($v);
+            if ($total > 800000) {
+                break;
+            }
+            $fields[] = ['k' => $k, 'value' => $v, 'html' => !empty($f['html']), 'lang' => ($f['lang'] ?? '') === 'en' ? 'en' : 'fr', 'kind' => (string) ($f['kind'] ?? 'text')];
+        }
+        $names = [];
+        if (preg_match('/^fiche:(\d+)$/', $scope, $m) && ($doc = Store::get((int) $m[1]))) {
+            $names = Proofreader::namesForDoc($doc);
+        }
+        // Gemini peut prendre quelques dizaines de secondes : la session est libérée pour
+        // que l'éditeur reste utilisable pendant ce temps.
+        session_write_close();
+        @set_time_limit(180);
+        $r = Proofreader::check($fields, ['scope' => $scope, 'names' => $names]);
+        return self::json(['ok' => true, 'gemini' => Gemini::ready()] + $r);
+    }
+
+    /** Correcteur : « Ignorer » (la correction n'est plus proposée pour cette fiche ou cet écran). */
+    public static function proofIgnore(Request $req): Response
+    {
+        $in = $req->json();
+        $scope = (string) ($in['scope'] ?? '');
+        if (!Proofreader::validScope($scope)) {
+            return self::json(['ok' => false, 'error' => 'Écran inconnu.'], 422);
+        }
+        Proofreader::ignore($scope, (string) ($in['sig'] ?? ''));
+        return self::json(['ok' => true]);
+    }
+
+    /** Correcteur : « Ajouter au dictionnaire » (le mot n'est plus jamais corrigé). */
+    public static function proofWord(Request $req): Response
+    {
+        $word = (string) ($req->json()['mot'] ?? '');
+        if (!Proofreader::addWord($word, Auth::actor())) {
+            return self::json(['ok' => false, 'error' => 'Mot invalide.'], 422);
+        }
+        return self::json(['ok' => true, 'message' => '« ' . trim($word) . ' » ajouté au dictionnaire du musée.']);
     }
 }

@@ -32,8 +32,8 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: 'fcsochauxretro.com';
   <div class="cols">
     <div class="card card--pad">
       <h2 class="card__t">Référencement</h2>
-      <?= Form::text('seo.title', 'Titre (Google & partage)', $doc['seo']['title'] ?? '', ['count' => 60, 'placeholder' => $doc['title'] ?? '', 'class' => 'f--full']) ?>
-      <?= Form::text('seo.description', 'Description', $doc['seo']['description'] ?? '', ['class' => 'f--full', 'maxlength' => 320, 'count' => 160, 'placeholder' => 'Résumé de la fiche en une ou deux phrases.']) ?>
+      <?= Form::text('seo.title', 'Titre (Google & partage)', $doc['seo']['title'] ?? '', ['count' => 60, 'placeholder' => $doc['title'] ?? '', 'class' => 'f--full', 'proof' => 'title']) ?>
+      <?= Form::text('seo.description', 'Description', $doc['seo']['description'] ?? '', ['class' => 'f--full', 'proof' => true, 'maxlength' => 320, 'count' => 160, 'placeholder' => 'Résumé de la fiche en une ou deux phrases.']) ?>
       <?= Form::text('path', 'Adresse de la page', $doc['path'] ?? '', ['hint' => 'automatique', 'help' => 'Calculée à partir du titre tant que la fiche n’a jamais été publiée. Si vous la changez ensuite, l’ancienne adresse est redirigée automatiquement (301).', 'class' => 'f--full']) ?>
       <?= Form::text('date', 'Date de publication', !empty($doc['date']) ? date('Y-m-d\TH:i', strtotime($doc['date'])) : '', ['type' => 'datetime-local']) ?>
     </div>

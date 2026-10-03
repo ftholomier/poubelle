@@ -74,6 +74,10 @@ final class Dashboard extends Base
         if (count($quality['credits'])) {
             $todos[] = ['#F6C400', 'Créditer ' . (count($quality['credits']) >= 500 ? '500+' : count($quality['credits'])) . ' photos', 'Médias', '/admin/medias?filtre=sans-credit'];
         }
+        $spell = count(array_filter($quality['orthographe'], fn ($q) => $q['sev'] !== 'basse'));
+        if ($spell) {
+            $todos[] = ['#1F3FA8', 'Corriger l’orthographe de ' . $spell . ' fiche' . ($spell > 1 ? 's' : '') . ' (corrections proposées)', 'Qualité', '/admin/qualite?cat=orthographe'];
+        }
         $noFiche = count(array_filter($quality['liens'], fn ($q) => $q['id'] === null));
         if ($noFiche) {
             $todos[] = ['#1F3FA8', 'Créer les fiches de ' . $noFiche . ' joueurs cités sans fiche', 'Qualité', '/admin/qualite?cat=liens'];
@@ -101,7 +105,7 @@ final class Dashboard extends Base
         $cat = isset($all[$req->str('cat')]) ? $req->str('cat') : 'stats';
         $sev = $req->str('niveau');
         $items = array_values(array_filter($all[$cat], fn ($i) => $sev === '' || $i['sev'] === $sev));
-        return self::html('admin/quality', ['all' => $all, 'cat' => $cat, 'sev' => $sev, 'items' => array_slice($items, 0, 400), 'total' => count($items)], ['title' => 'Qualité', 'crumb' => 'Pilotage', 'nav' => 'qualite']);
+        return self::html('admin/quality', ['all' => $all, 'cat' => $cat, 'sev' => $sev, 'items' => array_slice($items, 0, 400), 'total' => count($items), 'proof' => $cat === 'orthographe' ? \App\Services\Proofreader::summary() : null], ['title' => 'Qualité', 'crumb' => 'Pilotage', 'nav' => 'qualite']);
     }
 
     public static function journal(Request $req): Response

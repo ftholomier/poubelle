@@ -1,6 +1,6 @@
 <?php
 /**
- * Masque de saisie d'une fiche. Variables : $doc, $isNew, $versions, $checks, $auto, $enStatus, $lineup, $list
+ * Masque de saisie d'une fiche. Variables : $doc, $isNew, $versions, $checks, $auto, $enStatus, $lineup, $list, $proof
  */
 use App\Admin\Base;
 use App\Admin\Form;
@@ -88,6 +88,20 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
       <?php if (!$isNew): ?><a class="linkbtn" href="/pdf/fiche/<?= $id ?>.pdf" title="Le document PDF tel que les visiteurs le téléchargent (version enregistrée)" download>Télécharger le PDF ↓</a><?php endif; ?>
       <label class="f"><span class="f__k">Note de version <i>facultatif</i></span><input name="_message" maxlength="160" placeholder="ex. score corrigé d’après L’Est républicain"></label>
       <span class="xs muted">Ctrl+S pour enregistrer · brouillon gardé automatiquement sur cet ordinateur</span>
+    </div>
+
+    <div class="card card--pad proofcard">
+      <h2 class="card__t card__t--sm">Orthographe</h2>
+      <span class="xs muted" data-proof-state><?php
+        if (!empty($proof) && $proof['n'] > 0) {
+            echo 'La vérification automatique propose <b>' . (int) $proof['n'] . ' correction' . ($proof['n'] > 1 ? 's' : '') . '</b>' . ($proof['hi'] ? ', dont ' . (int) $proof['hi'] . ' faute' . ($proof['hi'] > 1 ? 's' : '') . ' de langue' : ' (ponctuation, typographie)') . '.';
+        } elseif (!empty($proof)) {
+            echo 'Vérifiée automatiquement' . (($proof['e'] ?? '') === 'gemini' ? '' : ' (règles de base)') . ' : aucune faute trouvée.';
+        } else {
+            echo 'Orthographe, accords et syntaxe de tous les textes de la fiche. Rien n’est modifié sans votre accord.';
+        }
+      ?></span>
+      <button type="button" class="btn btn--sm" data-proofread data-proof-scope="<?= $isNew ? '' : 'fiche:' . $id ?>">Vérifier l’orthographe<?= !empty($proof['n']) ? ' <em class="proofcount">' . (int) $proof['n'] . '</em>' : '' ?></button>
     </div>
 
     <?php if ($auto): ?>
