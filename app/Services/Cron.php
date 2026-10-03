@@ -123,6 +123,12 @@ final class Cron
 
             case 'statistiques':
                 $done = null;
+                // Photos originales en cours de copie (serveur neuf) : alertes refaites toutes
+                // les 30 minutes, pour que « Photos absentes » disparaisse à la fin de la copie.
+                $d = Derived::get();
+                if (strtotime((string) ($d['built'] ?? '')) < time() - 1800 && array_filter($d['quality'] ?? [], fn ($q) => $q['code'] === 'photos')) {
+                    Derived::markDirty();
+                }
                 if (Derived::isDirty()) {
                     $d = Derived::rebuild();
                     $done = sprintf('%d matchs, %d personnes reliées (%.1f s)', count($d['matches']), count($d['person_totals']), $d['duration']);

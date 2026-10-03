@@ -194,6 +194,9 @@ final class Images
     /** Pré-génère les vignettes (ligne de commande). */
     public static function warmup(int $width, ?callable $log = null): int
     {
+        if (!in_array($width, self::WIDTHS, true)) {
+            return 0; // largeur jamais demandée par les pages
+        }
         $n = 0;
         foreach (Media::all() as $rel => $m) {
             if (!str_starts_with((string) ($m['mime'] ?? ''), 'image/') || str_contains((string) $m['mime'], 'svg')) {

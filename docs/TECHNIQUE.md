@@ -214,7 +214,11 @@ encore « automatiques » sont écrits, une correction faite pendant le calcul e
 
 `/media/{largeur}/{fichier}.webp` (largeurs 160, 320, 480, 640, 800, 1200, 1600) :
 `App\Services\Images` génère la vignette WebP avec GD (en appliquant la retouche
-éventuelle) dans `public/media/…`, d'où Apache la sert ensuite directement. `img()` ajoute
+éventuelle) dans `public/media/…`, d'où Apache la sert ensuite directement.
+`php bin/console.php images [largeur]` les prépare à l'avance (800 par défaut, seulement une
+des largeurs ci-dessus). Sur un serveur neuf, tant que les originaux ne sont pas copiés
+(`scripts/wp/media-sync.php`), la tâche `statistiques` refait les alertes toutes les
+30 minutes pour que l'alerte `photos` disparaisse à la fin de la copie. `img()` ajoute
 `?v=` aux fichiers retouchés ou remplacés. Les vignettes des vidéos sont copiées dans
 `storage/media/originals/_video/` (`App\Services\VideoThumbs`) pour ne contacter
 l'hébergeur vidéo qu'après l'accord du visiteur.

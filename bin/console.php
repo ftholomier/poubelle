@@ -9,7 +9,7 @@
  *   php bin/console.php admin <email> <nom>   crée un compte administrateur (mot de passe demandé)
  *   php bin/console.php backup           sauvegarde immédiate
  *   php bin/console.php rag              (ré)indexe les données pour l'assistant IA
- *   php bin/console.php images [largeur] pré-génère les vignettes
+ *   php bin/console.php images [largeur] pré-génère les vignettes (800 par défaut ; 480, 1200…)
  *   php bin/console.php medias           complète dimensions, poids et empreintes des médias
  *   php bin/console.php videos           copie les vignettes des vidéos (YouTube, Dailymotion…)
  *   php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance (carte)
@@ -98,7 +98,12 @@ switch ($cmd) {
         break;
 
     case 'images':
-        $w = (int) ($argv[2] ?? 600);
+        // Largeurs demandées par les pages (480, 800 et 1200 pour la plupart des images).
+        $w = (int) ($argv[2] ?? 800);
+        if (!in_array($w, \App\Services\Images::WIDTHS, true)) {
+            fwrite(STDERR, 'Largeur possible : ' . implode(', ', \App\Services\Images::WIDTHS) . "\n");
+            exit(1);
+        }
         $n = \App\Services\Images::warmup($w, fn ($m) => print("$m\n"));
         echo "$n vignettes générées\n";
         break;

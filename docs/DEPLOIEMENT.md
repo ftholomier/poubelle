@@ -46,9 +46,12 @@ reprises directement depuis le WordPress actuel, sur le même hébergement (§ 4
 
 ## 4. Photos originales (une seule fois)
 
-Le script `scripts/wp/media-sync.php` copie les photos utiles depuis le dossier d'envoi de
-WordPress (seulement les originaux, pas les miniatures). Sans SSH, on le lance avec une
-tâche cron temporaire :
+La médiathèque elle-même (12 735 médias : légendes, crédits, dates, liens avec les fiches)
+arrive avec `data/media.json`. Il ne manque que les **fichiers originaux** (4,9 Go), qui ne
+sont pas dans le dépôt : le script `scripts/wp/media-sync.php` les reprend depuis le
+WordPress actuel, seulement les originaux (pas les miniatures de WordPress), sous les mêmes
+chemins (`2024/12/photo.jpg` → `storage/media/originals/2024/12/photo.jpg`), avec un contrôle
+d'empreinte. Sans SSH, on le lance avec une tâche cron temporaire :
 
 1. cPanel › Tâches Cron › ajouter une tâche toutes les 5 minutes avec la commande :
 
@@ -56,17 +59,37 @@ tâche cron temporaire :
    php /home/<compte>/sochauxretro/scripts/wp/media-sync.php --depuis=/home/<compte>/public_html/wp-content/uploads >> /home/<compte>/sochauxretro/storage/media-sync.log 2>&1
    ```
 
+   - WordPress sur le même hébergement : `--depuis` copie les fichiers de disque à disque
+     (quelques minutes).
+   - WordPress ailleurs : retirer `--depuis=…` ; les fichiers sont téléchargés depuis
+     www.fcsochauxretro.com (4,9 Go, quelques heures, en plusieurs passages).
+   - Si rien ne se passe, remplacer `php` par le PHP 8.3 (voir § 5).
 2. Suivre `storage/media-sync.log` avec le gestionnaire de fichiers de cPanel. Deux passages
    ne se chevauchent jamais ; chaque passage reprend là où le précédent s'est arrêté.
 3. Quand le journal indique « 0 à télécharger », **supprimer cette tâche cron**.
 
-Les photos absentes du dossier WordPress sont téléchargées depuis l'ancien site, tant qu'il
-est en ligne. En cas d'échec, le détail est dans `storage/import/media-sync-erreurs.json`.
+**À faire avant la bascule de l'adresse (§ 7)** : une fois www.fcsochauxretro.com tourné vers
+le nouveau site, l'ancien n'est plus joignable par cette adresse. Les photos absentes du
+dossier WordPress sont téléchargées depuis l'ancien site ; en cas d'échec, le détail est dans
+`storage/import/media-sync-erreurs.json` (relancer la tâche suffit souvent).
 
-Tant que la copie n'est pas terminée, le back-office le rappelle : tâche « Copier les photos
-originales sur le serveur » dans le tableau de bord (administrateurs) et alerte « Photos
-originales absentes du serveur » dans Qualité › Adresses et médias. Les deux disparaissent
-d'elles-mêmes à la fin de la copie.
+Tant que la copie n'est pas terminée, chaque image manquante est remplacée sur le site par
+un cadre beige avec un pictogramme, et le back-office le rappelle : tâche « Copier les photos originales sur le serveur » dans le
+tableau de bord (administrateurs) et alerte « Photos originales absentes du serveur » dans
+Qualité › Adresses et médias. Les deux disparaissent d'elles-mêmes dans la demi-heure qui suit
+la fin de la copie (tâche planifiée du § 5).
+
+Ensuite, tout est automatique :
+- les **vignettes** WebP (de 160 à 1 600 pixels de large) sont créées à la première
+  visite de chaque image, puis servies directement par Apache (`public/media/`, environ
+  2 Go à terme). Les préparer à l'avance n'est pas nécessaire ; pour le faire quand même :
+  `php /home/<compte>/sochauxretro/bin/console.php images 800` (puis 480 et 1200), en tâche
+  cron temporaire ;
+- les **vignettes des vidéos** (YouTube, Dailymotion…) sont copiées par la tâche planifiée ;
+- les **anciennes adresses d'images** de WordPress (`/wp-content/uploads/…`, y compris
+  les miniatures) sont redirigées vers les nouvelles ;
+- les **nouvelles photos** s'ajoutent dans Back-office › Médiathèque (JPG, PNG, GIF, WebP,
+  PDF, 25 Mo au plus) ; les photos reçues par « Contribuer » s'y versent en un clic.
 
 ## 5. Tâche planifiée du site (indispensable, permanente)
 
