@@ -341,9 +341,12 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   puis enregistrés par la **voix IA** (la voix des fiches, en français et en anglais : environ 15 à
   20 € pour tout le musée, le tarif des voix doublant au 1er janvier 2027) ; en attendant, un
   récit automatique, gratuit, est lu par la voix de l'appareil. Système › Fiches audio › carte
-  « Pages de synthèse racontées par l'IA » : où en sont les récits et les voix, « Rédiger et
-  enregistrer maintenant » ; Réglages › Fiches audio : rédaction de nuit et voix IA des pages
-  (activées par défaut).
+  « Pages de synthèse racontées par l'IA » : **essayer d'abord sur une page** (coller son adresse,
+  par exemple `/face-a-face/nancy/` : récit et voix tout de suite, quelques centimes), puis
+  « Lancer pour tout le musée ». Rien n'est dépensé avant ce lancement ; ensuite, la rédaction de
+  nuit prend le relais. Réglages › Fiches audio : rédaction de nuit et voix IA des pages.
+  Pour **une fiche**, l'essai se fait dans l'éditeur, carte « Écouter la fiche » : « Rédiger avec
+  l'IA » puis « Voix IA ».
 - **Coûts IA** (administrateurs) : ce que coûte Gemini, calculé à chaque appel et mis à jour à l'écran toutes
   les 10 secondes (aujourd'hui, ce mois-ci, à rembourser, budget, derniers appels avec la
   personne et la fiche concernées). Le mois terminé : relevé PDF à signer et détail CSV à
