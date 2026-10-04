@@ -385,6 +385,11 @@ final class Donations
             case 'checkout.session.completed':
             case 'checkout.session.async_payment_succeeded':
             case 'checkout.session.expired':
+                // Adhésion payée sur le site de l'association (même compte Stripe que les dons).
+                if (!empty($o['metadata']['adhesion'])) {
+                    \App\Vitrine\Membership::stripeSession($o);
+                    break;
+                }
                 self::syncStripeSession($o);
                 break;
             case 'invoice.paid':
@@ -408,6 +413,7 @@ final class Donations
                 $ref = (string) ($o['invoice'] ?? '') ?: (string) ($o['payment_intent'] ?? '');
                 if ($ref !== '' && ($o['refunded'] ?? false)) {
                     self::markRefunded($ref);
+                    \App\Vitrine\Membership::refunded($ref);
                 }
                 break;
         }
@@ -493,6 +499,10 @@ final class Donations
         $type = (string) ($ev['event_type'] ?? '');
         switch ($type) {
             case 'PAYMENT.CAPTURE.COMPLETED':
+                if (\App\Vitrine\Membership::validId((string) ($o['custom_id'] ?? ''))) {
+                    \App\Vitrine\Membership::paypalCaptureEvent($o);
+                    break;
+                }
                 $don = self::get((string) ($o['custom_id'] ?? ''));
                 if ($don && $don['provider'] === 'paypal') {
                     self::recordPayment($don['id'], (string) $o['id'], (int) round(((float) ($o['amount']['value'] ?? 0)) * 100), $o['create_time'] ?? null);

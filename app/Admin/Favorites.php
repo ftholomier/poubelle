@@ -52,7 +52,9 @@ final class Favorites extends Base
         }
         if ($admin) {
             foreach (Settings::schema() as $key => $tab) {
-                $out['Réglages'][] = ['label' => 'Réglages › ' . $tab['label'], 'url' => '/admin/reglages?groupe=' . $key];
+                if (empty($tab['hidden'])) {
+                    $out['Réglages'][] = ['label' => 'Réglages › ' . $tab['label'], 'url' => '/admin/reglages?groupe=' . $key];
+                }
             }
         }
         return $out;

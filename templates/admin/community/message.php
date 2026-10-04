@@ -10,7 +10,7 @@ $s = $m['status'] ?? 'nouveau';
 <div class="cols cols--wide">
   <div class="stack">
     <div class="card">
-      <div class="card__head"><h2 class="card__t"><?= e(Front::REASONS[$m['reason']] ?? 'Message') ?></h2><span class="pill pill--<?= ['nouveau' => 'warn', 'lu' => 'info', 'traite' => 'ok'][$s] ?? 'warn' ?>"><?= e(Community::M_STATUS[$s] ?? $s) ?></span></div>
+      <div class="card__head"><h2 class="card__t"><?= e(($m['site'] ?? '') === 'association' ? 'Site de l’association · ' . (\App\Vitrine\Forms::REASONS[$m['reason']] ?? 'Message') : (Front::REASONS[$m['reason']] ?? 'Message')) ?></h2><span class="pill pill--<?= ['nouveau' => 'warn', 'lu' => 'info', 'traite' => 'ok'][$s] ?? 'warn' ?>"><?= e(Community::M_STATUS[$s] ?? $s) ?></span></div>
       <div class="card__body">
         <div class="fgrid">
           <div class="f"><span class="f__k">De</span><span><b><?= e($m['name']) ?></b><?= !empty($m['org']) ? '<br>' . e($m['org']) : '' ?></span></div>

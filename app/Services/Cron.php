@@ -38,6 +38,7 @@ final class Cron
         'assistant' => [3600, 'Index sémantique de l’assistant IA'],
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
         'plan-du-site' => [86400, 'Plan du site (sitemap.xml)'],
+        'association' => [3600, 'Site de l’association : dernières vidéos YouTube, mesure d’audience'],
         'mises-a-jour' => [10800, 'Nouvelle version du site sur GitHub (vérification)'],
         'sauvegarde' => [3600, 'Sauvegarde quotidienne'],
         'recus-annuels' => [86400, 'Reçus fiscaux annuels (janvier)'],
@@ -193,6 +194,12 @@ final class Cron
                 \App\Front\Seo::build(true);
                 return 'ok';
 
+            case 'association':
+                \App\Vitrine\Stats::prune();
+                $abandoned = \App\Vitrine\Membership::expire();
+                $videos = \App\Vitrine\Videos::refresh();
+                return trim(($videos ?? '') . ($abandoned ? " · $abandoned adhésion(s) abandonnée(s)" : ''), ' ·') ?: null;
+
             case 'mises-a-jour':
                 $c = Updater::check(true);
                 return $c['error'] ? 'vérification impossible : ' . $c['error'] : (($m = Updater::available()) ? Updater::summary($m) : null);
@@ -303,6 +310,8 @@ final class Cron
                 $out['dons_abandonnes']++;
             }
         }
+        // Site de l'association : adhésions et propositions de bénévolat (durées de conservation).
+        $out['association'] = \App\Vitrine\Membership::purge() + \App\Vitrine\Forms::purgeVolunteers();
         return $out;
     }
 }

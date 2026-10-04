@@ -81,6 +81,10 @@ final class Kernel
         if ($req->path === '/admin' || str_starts_with($req->path, '/admin/') || !Front\Seo::hidden()) {
             return;
         }
+        // Site de l'association : ses propres règles (Vitrine\Kernel).
+        if (Vitrine\Host::matches($req) || Vitrine\Host::isPreview($req->path)) {
+            return;
+        }
         $res->headers['X-Robots-Tag'] ??= 'noindex, nofollow';
         if (Front\Seo::closed() && Auth::user()) {
             $res->headers['Cache-Control'] = 'private, no-store';
@@ -126,6 +130,15 @@ final class Kernel
         // Anciennes images WordPress (liens externes, moteurs) → médiathèque
         if (preg_match('#^/wp-content/uploads/(.+?)(-\d+x\d+)?(\.\w+)$#', $path, $m)) {
             return Response::redirect(img($m[1] . $m[3], 1200), 301);
+        }
+
+        // Site de l'association (www) : même application, autre adresse. Aperçu depuis le
+        // back-office du musée (administrateurs) : /apercu-association/…
+        if (Vitrine\Host::matches($req)) {
+            return Vitrine\Kernel::handle($req);
+        }
+        if (Vitrine\Host::isPreview($path)) {
+            return Vitrine\Kernel::preview($req);
         }
 
         // Back-office

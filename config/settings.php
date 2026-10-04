@@ -252,6 +252,31 @@ return [
             'media_weekly' => ['label' => 'Inclure les photos chaque dimanche (archive volumineuse)', 'type' => 'bool', 'default' => false],
         ],
     ],
+    'vitrine' => [
+        'label' => 'Site de l’association',
+        // Réglé dans le pavé « Site de l'association » du back-office (pas dans l'écran Réglages).
+        'hidden' => true,
+        'fields' => [
+            'open' => ['label' => 'Site de l’association ouvert au public', 'type' => 'bool', 'default' => false, 'help' => 'Fermé : les visiteurs voient une page d’attente et rien n’est indexé par les moteurs de recherche. L’aperçu reste disponible depuis le back-office.'],
+            'base_url' => ['label' => 'Adresse du site de l’association', 'type' => 'url', 'default' => 'https://www.fcsochauxretro.com', 'help' => 'Sans barre oblique finale. Le domaine doit mener au même dossier que le musée (cPanel › Domaines).'],
+            'aliases' => ['label' => 'Autres adresses redirigées vers ce site', 'type' => 'text', 'default' => 'fcsochauxretro.com', 'help' => 'Noms de domaine séparés par des virgules (par exemple l’adresse sans « www »).'],
+            'name' => ['label' => 'Nom de l’association', 'type' => 'text', 'default' => 'Sochaux Rétro'],
+            'tagline' => ['label' => 'Signature (sous le nom)', 'type' => 'text', 'default' => 'L’association qui fait vivre la mémoire du FC Sochaux-Montbéliard'],
+            'email' => ['label' => 'E-mail de réception (adhésions, bénévoles, messages)', 'type' => 'email', 'default' => '', 'help' => 'Vide : l’e-mail de réception du musée (Réglages › Général).'],
+            'phone' => ['label' => 'Téléphone affiché (facultatif)', 'type' => 'text', 'default' => ''],
+            'address' => ['label' => 'Adresse postale (bulletin d’adhésion, chèques)', 'type' => 'wysiwyg', 'default' => '', 'help' => 'Vide : l’adresse du siège (Réglages › Mentions légales).'],
+            'membership_online' => ['label' => 'Adhésion en ligne (carte bancaire, PayPal)', 'type' => 'bool', 'default' => true, 'help' => 'Avec les moyens de paiement des dons (Réglages › Dons). Sans eux, seul le bulletin à imprimer est proposé.'],
+            'helloasso' => ['label' => 'Page HelloAsso de l’association (facultatif)', 'type' => 'url', 'default' => '', 'help' => 'Ajoute un bouton « Adhérer avec HelloAsso » sur la page Adhérer.'],
+            'linkedin' => ['label' => 'LinkedIn (facultatif)', 'type' => 'url', 'default' => ''],
+            'agenda_retro' => ['label' => 'Agenda : ajouter les Rétro-Direct programmés au musée', 'type' => 'bool', 'default' => true],
+            'youtube_channel' => ['label' => 'Identifiant de la chaîne YouTube (UC…, facultatif)', 'type' => 'text', 'default' => '', 'help' => 'Pour afficher les dernières vidéos. Vide : retrouvé à partir du lien YouTube des réseaux sociaux.'],
+            'waiting_title' => ['label' => 'Page d’attente : titre', 'type' => 'text', 'default' => 'Le nouveau site de l’association arrive'],
+            'waiting_text' => ['label' => 'Page d’attente : texte', 'type' => 'wysiwyg', 'default' => '<p>Sochaux Rétro prépare le site de son association : nos actions, l’agenda, l’adhésion en ligne et toutes les façons de nous rejoindre.</p><p>En attendant, l’histoire du FC Sochaux-Montbéliard vous attend au musée en ligne.</p>'],
+            'seo_title' => ['label' => 'Titre de l’accueil (onglet du navigateur, Google)', 'type' => 'text', 'default' => 'Sochaux Rétro · L’association de la mémoire du FC Sochaux-Montbéliard'],
+            'seo_description' => ['label' => 'Description de l’accueil (Google, partage)', 'type' => 'text', 'default' => 'Sochaux Rétro rassemble, préserve et partage l’histoire du FC Sochaux-Montbéliard : musée en ligne, vidéos, archives, rencontres et préparation du centenaire du club en 2028.'],
+            'noindex' => ['label' => 'Masquer le site aux moteurs de recherche', 'type' => 'bool', 'default' => false, 'help' => 'Même ouvert, le site n’est pas indexé. Inutile tant qu’il est fermé.'],
+        ],
+    ],
     'privacy' => [
         'label' => 'Cookies et RGPD',
         'fields' => [

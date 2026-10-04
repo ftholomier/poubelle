@@ -370,6 +370,10 @@ final class System extends Base
     {
         $schema = Settings::schema();
         $group = $force ?? (isset($schema[$req->str('groupe')]) ? $req->str('groupe') : 'general');
+        // Groupe réglé dans un autre écran (site de l'association : pavé dédié).
+        if ($force === null && !empty($schema[$group]['hidden'])) {
+            return Response::redirect($group === 'vitrine' ? '/admin/association/reglages' : '/admin/reglages');
+        }
         if ($group === 'waiting' && $force === null) {
             return Response::redirect('/admin/page-attente');
         }
@@ -398,7 +402,9 @@ final class System extends Base
         $tabs = [];
         if (Auth::isAdmin()) {
             foreach ($schema as $g => $t) {
-                $tabs[] = [$t['label'], '/admin/reglages?groupe=' . $g, $g === $group];
+                if (empty($t['hidden'])) {
+                    $tabs[] = [$t['label'], '/admin/reglages?groupe=' . $g, $g === $group];
+                }
             }
         }
         return self::html('admin/system/settings', [

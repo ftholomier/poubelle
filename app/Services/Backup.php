@@ -24,6 +24,7 @@ final class Backup
         'storage/versions',
         'storage/inbox',
         'storage/dons',
+        'storage/vitrine',
         'storage/newsletter',
         'storage/votes',
         'storage/counters.json',

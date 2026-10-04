@@ -29,7 +29,7 @@ $tabs = ['actifs' => 'En cours', 'nouveau' => 'Non lus', 'traite' => 'Traités',
       <?php $s = $m['status'] ?? 'nouveau'; ?>
       <tr data-href="/admin/messages/<?= e($m['id']) ?>"<?= $s === 'nouveau' ? ' style="font-weight:700"' : '' ?>>
         <td class="xs nowrap"><?= e(Base::ago($m['at'] ?? null)) ?></td>
-        <td class="nowrap"><?= e(Front::REASONS[$m['reason']] ?? $m['reason']) ?></td>
+        <td class="nowrap"><?php if (($m['site'] ?? '') === 'association'): ?><span class="pill pill--info" title="Message envoyé depuis le site de l’association">Association</span> <?= e(\App\Vitrine\Forms::REASONS[$m['reason']] ?? $m['reason']) ?><?php else: ?><?= e(Front::REASONS[$m['reason']] ?? $m['reason']) ?><?php endif; ?></td>
         <td><a class="rowlink" href="/admin/messages/<?= e($m['id']) ?>"><?= e($m['name'] ?? '') ?></a><?= !empty($m['org']) ? '<br><span class="xs muted">' . e($m['org']) . '</span>' : '' ?></td>
         <td class="ellipsis" style="max-width:380px"><?= e(mb_substr((string) ($m['message'] ?? ''), 0, 160)) ?></td>
         <td class="small"><?= e($m['assigned'] ?? '') ?: '<span class="muted">—</span>' ?></td>
