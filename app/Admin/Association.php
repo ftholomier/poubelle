@@ -156,6 +156,37 @@ final class Association extends Base
                     'hidden' => ['Masquer', 'bool', []],
                 ],
             ],
+            // Page d'attente : écran à part (Site de l'association › Page d'attente), pas un onglet de Contenus.
+            'attente' => [
+                'label' => 'Page d’attente', 'object' => true,
+                'help' => 'Ce que voient les visiteurs tant que le site est fermé. Distincte de la page d’attente du musée (Éditorial › Page d’attente).',
+                'fields' => [
+                    'eyebrow' => ['Surtitre', 'text', ['max' => 80, 'wide' => true]],
+                    'title' => ['Titre', 'text', ['max' => 120, 'full' => true]],
+                    'text' => ['Texte', 'html', []],
+                    'image' => ['Photo (à gauche ; en haut sur téléphone)', 'image', []],
+                    'image_caption' => ['Légende de la photo', 'text', ['max' => 120, 'full' => true]],
+                    'badge' => ['Pastille sur la photo', 'text', ['max' => 24, 'placeholder' => 'Bientôt']],
+                    'items_title' => ['Titre de la liste', 'text', ['max' => 80, 'placeholder' => 'Ce qui vous attend']],
+                    'countdown' => ['Afficher un compte à rebours', 'bool', []],
+                    'countdown_date' => ['Date et heure de l’ouverture', 'datetime', []],
+                    'countdown_label' => ['Intitulé du compte à rebours', 'text', ['max' => 60, 'placeholder' => 'Ouverture dans']],
+                    'newsletter' => ['Inscription à la lettre « Ce jour-là »', 'bool', []],
+                    'newsletter_title' => ['Lettre : titre', 'text', ['max' => 80]],
+                    'newsletter_text' => ['Lettre : texte', 'text', ['max' => 240, 'full' => true]],
+                    'museum' => ['Encart « Le musée en ligne »', 'bool', ['help' => 'Avec un bouton vers le musée une fois celui-ci ouvert au public.']],
+                    'teaser' => ['Teaser vidéo du musée dans l’encart', 'bool', []],
+                    'contact' => ['E-mail de l’association', 'bool', ['help' => 'L’e-mail de réception réglé dans Réglages du site.']],
+                    'social' => ['Réseaux sociaux', 'bool', []],
+                ],
+                'lists' => [
+                    'items' => ['Ce qui vous attend', 'Élément', [
+                        'icon' => ['Pictogramme (1 à 3 signes)', 'text', ['max' => 3]],
+                        'title' => ['Titre', 'text', ['max' => 60]],
+                        'text' => ['Texte', 'text', ['max' => 180, 'full' => true]],
+                    ]],
+                ],
+            ],
             'tarifs' => [
                 'label' => 'Tarifs d’adhésion', 'object' => true, 'front' => '/nous-soutenir/adherer/',
                 'help' => 'Formules proposées sur la page Adhérer, le bulletin à imprimer et le paiement en ligne. Le code identifie la formule dans la liste des adhésions.',
@@ -179,12 +210,13 @@ final class Association extends Base
     /**
      * Champ d'un éditeur du pavé. $p : préfixe (« @ » dans une liste, « data. » pour un objet).
      * Types : text, long, html, int, bool, select, image, date, datetime, link, slug, file, lines.
+     * Largeur : « full » (toute la ligne) ou « wide » (deux colonnes).
      */
     public static function field(string $p, string $k, array $spec, array $item): string
     {
         [$label, $type, $o] = $spec + [2 => []];
         $v = $item[$k] ?? ($o['default'] ?? null);
-        $cls = !empty($o['full']) ? 'f--full' : '';
+        $cls = !empty($o['full']) ? 'f--full' : (!empty($o['wide']) ? 'f--2' : '');
         $help = isset($o['help']) ? e((string) $o['help']) : null;
         return match ($type) {
             'int' => Form::number($p . $k, $label, $v, ['min' => $o['min'] ?? null, 'max' => $o['max'] ?? null, 'class' => $cls]),
@@ -270,7 +302,24 @@ final class Association extends Base
         $open = ($req->post['open'] ?? '') === '1';
         Settings::save(['vitrine.open' => $open]);
         Activity::log(self::actor(), $open ? 'a ouvert au public' : 'a fermé au public', ['title' => 'Site de l’association', 'path' => '']);
-        return self::back('/admin/association', $open ? 'Le site de l’association est ouvert au public.' : 'Le site de l’association est fermé : les visiteurs voient la page d’attente.');
+        $back = ($req->post['back'] ?? '') === 'attente' ? '/admin/association/attente' : '/admin/association';
+        return self::back($back, $open ? 'Le site de l’association est ouvert au public.' : 'Le site de l’association est fermé : les visiteurs voient la page d’attente.');
+    }
+
+    // ------------------------------------------------------------------ page d'attente
+
+    /**
+     * Page d'attente du site (montrée tant qu'il est fermé) : état, aperçus, ouverture, contenu.
+     * Distincte de celle du musée (Éditorial › Page d'attente).
+     */
+    public static function waitingEdit(Request $req): Response
+    {
+        return self::html('admin/association/attente', [
+            'schema' => self::schemas()['attente'], 'data' => Content::waiting(), 'isDefault' => Store::isDefault('attente'), 'versions' => Store::versions('attente'),
+            'open' => Site::open(), 'base' => Host::base(), 'museumOpen' => !\App\Front\Seo::closed(), 'email' => Site::email(),
+            'teaserFile' => is_file(APP_DIR . '/Resources/video/teaser.mp4'),
+            'high' => count(array_filter(self::checklist(), fn ($c) => $c[0] === 'haute')),
+        ], self::meta('Page d’attente', 'asso-attente'));
     }
 
     /**
@@ -336,6 +385,9 @@ final class Association extends Base
 
     public static function contents(Request $req, string $name): Response
     {
+        if ($name === 'attente') {
+            return Response::redirect('/admin/association/attente');
+        }
         if ($name === 'pages') {
             $rows = [];
             foreach (Content::pageKeys() as $key => $label) {
@@ -406,7 +458,11 @@ final class Association extends Base
             Store::forget();
             Activity::log(self::actor(), 'a remis le contenu de départ', ['title' => 'Site de l’association · ' . $name, 'path' => '']);
         }
-        $back = str_starts_with($name, 'page-') ? '/admin/association/page/' . substr($name, 5) : '/admin/association/contenus/' . $name;
+        $back = match (true) {
+            str_starts_with($name, 'page-') => '/admin/association/page/' . substr($name, 5),
+            $name === 'attente' => '/admin/association/attente',
+            default => '/admin/association/contenus/' . $name,
+        };
         return self::back($back, 'Contenu de départ rétabli (votre version reste dans l’historique).');
     }
 

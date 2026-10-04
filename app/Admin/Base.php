@@ -54,6 +54,7 @@ class Base
         ],
         'Site de l’association' => [
             ['asso', 'Tableau de bord', '/admin/association', true],
+            ['asso-attente', 'Page d’attente', '/admin/association/attente', true],
             ['asso-contenus', 'Contenus', '/admin/association/contenus/pages', true],
             ['asso-adhesions', 'Adhésions', '/admin/association/adhesions', true],
             ['asso-benevoles', 'Bénévoles', '/admin/association/benevoles', true],

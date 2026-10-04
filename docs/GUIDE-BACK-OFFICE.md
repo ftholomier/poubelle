@@ -236,7 +236,8 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   par les moteurs de recherche et la page n'a aucun lien vers le back-office. Les membres
   **connectés** (par `/admin`) voient le vrai site, avec un bandeau jaune « Site fermé au
   public » ; déconnectés, la page d'attente. Boutons d'aperçu : la page telle que la voient
-  les visiteurs, et avec le teaser.
+  les visiteurs, et avec le teaser. Elle ne concerne que le musée : le site de l'association
+  a la sienne (§ 12).
 
 ## 6. Interactif
 
@@ -422,6 +423,13 @@ administrateurs ; les autres comptes ne le voient pas et n'y ont pas accès.
   **Ouvrir le site au public** / « Fermer le site », liste **À vérifier** (points rouges
   d'abord : tarifs d'exemple, e-mail de réception, mentions légales), adhérents de l'année,
   chèques attendus, propositions de bénévolat, messages reçus, audience.
+- **Page d'attente** : celle du site de l'association, montrée tant qu'il est fermé, distincte
+  de celle du musée (page claire en deux colonnes, photo de la tribune de Bonal « qui attend
+  son public » et pastille « Bientôt »). Texte et photo, liste « Ce qui vous attend »,
+  inscription à la lettre « Ce jour-là » (elle fonctionne site fermé), encart du musée en
+  ligne (bouton « Visiter le musée » une fois celui-ci ouvert, teaser vidéo facultatif),
+  e-mail et réseaux sociaux, compte à rebours facultatif. « Aperçu de la page d'attente »
+  la montre telle que la voient les visiteurs ; « Revenir à la page de départ » la rétablit.
 - **Contenus**, par onglets : textes des **pages**, **actions** (une page chacune, dans l'ordre
   du menu), **actualités** et **agenda** (datés ; brouillon possible ; les Rétro-Direct du musée
   et le centenaire s'ajoutent seuls à l'agenda), **équipe** (un membre n'est affiché que si son
@@ -442,6 +450,6 @@ administrateurs ; les autres comptes ne le voient pas et n'y ont pas accès.
 - Les **messages** du formulaire de contact du site arrivent dans Communauté › Messages, avec
   l'étiquette « Association ».
 - **Réglages du site** : adresse et noms redirigés, nom et signature, e-mail de réception,
-  téléphone et adresse postale, adhésion en ligne, lien HelloAsso, LinkedIn, page d'attente,
-  titre et description pour Google.
+  téléphone et adresse postale, adhésion en ligne, lien HelloAsso, LinkedIn, titre et
+  description pour Google.
 

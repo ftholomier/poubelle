@@ -318,6 +318,8 @@ final class Forms
     public static function newsletter(Request $req): Response
     {
         $backPath = (string) ($req->post['back'] ?? '/');
+        // Aperçu de la page d'attente (back-office) : le résultat s'y affiche.
+        $waitPreview = $backPath === 'attente' && Site::$preview;
         if (!preg_match('#^/[a-z0-9/_-]*$#', $backPath)) {
             $backPath = '/';
         }
@@ -329,7 +331,7 @@ final class Forms
             !RateLimiter::hit('vt-newsletter', $req->ip(), 10, 3600) => 'limite',
             default => self::subscribe(mb_strtolower(trim((string) ($req->post['email'] ?? ''))), $req),
         };
-        return Response::redirect(Host::url($backPath) . '?nl=' . $code . '&f=' . $anchor . '#' . $anchor, 303);
+        return Response::redirect(Host::url($backPath) . '?' . ($waitPreview ? 'apercu-attente=1&' : '') . 'nl=' . $code . '&f=' . $anchor . '#' . $anchor, 303);
     }
 
     /** Inscription (newsletter du musée) : code de NL_MESSAGES. */

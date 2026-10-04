@@ -249,14 +249,23 @@ final class Pages
     // ------------------------------------------------------------------ attente, teaser, erreurs
 
     /** Page d'attente (site fermé au public). */
+    /**
+     * Page d'attente (site fermé ; aperçu depuis le back-office). Sa propre page, distincte de
+     * celle du musée : réglée dans Site de l'association › Page d'attente.
+     */
     public static function waiting(): Response
     {
+        $w = Content::waiting();
         $html = View::render('vitrine/waiting', [
-            'title' => (string) Settings::get('vitrine.waiting_title', ''),
-            'text' => safe_html((string) Settings::get('vitrine.waiting_text', '')),
+            'w' => $w,
             'museumOpen' => !\App\Front\Seo::closed(),
+            'teaser' => !empty($w['museum']) && !empty($w['teaser']) && is_file(APP_DIR . '/Resources/video/teaser.mp4'),
+            'email' => !empty($w['contact']) ? Site::email() : '',
+            'social' => !empty($w['social']) ? Site::social() : [],
+            'preview' => Site::$preview,
         ]);
-        return new Response($html, 503, ['Content-Type' => 'text/html; charset=UTF-8', 'Retry-After' => '3600', 'Cache-Control' => 'no-store', 'X-Robots-Tag' => 'noindex, nofollow']);
+        $headers = ['Content-Type' => 'text/html; charset=UTF-8', 'Cache-Control' => 'no-store', 'X-Robots-Tag' => 'noindex, nofollow'];
+        return Site::$preview ? new Response($html, 200, $headers) : new Response($html, 503, $headers + ['Retry-After' => '3600']);
     }
 
     /** Teaser du musée (accueil du site de l'association). */

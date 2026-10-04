@@ -60,6 +60,7 @@ final class Help extends Base
         'profil' => 'prise-en-main#profil',
         'corbeille' => 'fiches#corbeille',
         'asso' => 'association#ouverture',
+        'asso-attente' => 'association#attente',
         'asso-contenus' => 'association#contenus',
         'asso-adhesions' => 'association#adhesions',
         'asso-benevoles' => 'association#benevoles',

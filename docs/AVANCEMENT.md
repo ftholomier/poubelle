@@ -381,10 +381,17 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Test automatique `tests/vitrine.php` (49 vérifications, dont une adhésion payée par un
       webhook Stripe signé) ; parcours complet dans un navigateur (pavé en admin, refus pour
       un compte historien, formulaires publics, ordinateur et téléphone).
+- [x] **Page d'attente propre au site de l'association** (04/10, demande du client), distincte
+      de celle du musée : page claire en deux colonnes, photo de la tribune de Bonal « qui
+      attend son public » et pastille « Bientôt », liste « Ce qui vous attend », inscription à
+      la lettre « Ce jour-là » (fonctionne site fermé), encart du musée (teaser facultatif),
+      e-mail, réseaux, compte à rebours facultatif. Écran dédié dans le pavé (Site de
+      l'association › Page d'attente) avec aperçu ; celle du musée reste dans Éditorial ›
+      Page d'attente. 19 vérifications de plus dans `tests/vitrine.php`.
 - [ ] À faire par l'association : compléter les points « À vérifier » du tableau de bord
-      (tarifs, équipe, statuts, mentions légales, e-mail de réception), puis, la copie des
-      photos terminée, faire mener www au même dossier que le musée (DEPLOIEMENT § 11) et
-      ouvrir le site.
+      (tarifs, équipe, statuts, mentions légales, e-mail de réception), relire la page
+      d'attente, puis, la copie des photos terminée, faire mener www au même dossier que le
+      musée (DEPLOIEMENT § 11) et ouvrir le site.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

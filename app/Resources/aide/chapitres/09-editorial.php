@@ -51,6 +51,7 @@ HTML],
 <li><b>Aperçu de la page</b> montre ce que voient les visiteurs ; les pages légales restent accessibles.</li>
 <li><b>Afficher le teaser vidéo</b> : décoché par défaut, la vidéo reste secrète (introuvable par le public). <b>Aperçu avec le teaser</b> la montre à l’équipe sans l’activer.</li>
 </ul>
+<p>Cette page ne concerne que le musée. Le site de l’association (www.fcsochauxretro.com) a sa propre page d’attente, différente, réglée par les administrateurs.</p>
 HTML],
     ],
 ];

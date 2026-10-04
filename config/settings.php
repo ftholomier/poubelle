@@ -270,8 +270,6 @@ return [
             'linkedin' => ['label' => 'LinkedIn (facultatif)', 'type' => 'url', 'default' => ''],
             'agenda_retro' => ['label' => 'Agenda : ajouter les Rétro-Direct programmés au musée', 'type' => 'bool', 'default' => true],
             'youtube_channel' => ['label' => 'Identifiant de la chaîne YouTube (UC…, facultatif)', 'type' => 'text', 'default' => '', 'help' => 'Pour afficher les dernières vidéos. Vide : retrouvé à partir du lien YouTube des réseaux sociaux.'],
-            'waiting_title' => ['label' => 'Page d’attente : titre', 'type' => 'text', 'default' => 'Le nouveau site de l’association arrive'],
-            'waiting_text' => ['label' => 'Page d’attente : texte', 'type' => 'wysiwyg', 'default' => '<p>Sochaux Rétro prépare le site de son association : nos actions, l’agenda, l’adhésion en ligne et toutes les façons de nous rejoindre.</p><p>En attendant, l’histoire du FC Sochaux-Montbéliard vous attend au musée en ligne.</p>'],
             'seo_title' => ['label' => 'Titre de l’accueil (onglet du navigateur, Google)', 'type' => 'text', 'default' => 'Sochaux Rétro · L’association de la mémoire du FC Sochaux-Montbéliard'],
             'seo_description' => ['label' => 'Description de l’accueil (Google, partage)', 'type' => 'text', 'default' => 'Sochaux Rétro rassemble, préserve et partage l’histoire du FC Sochaux-Montbéliard : musée en ligne, vidéos, archives, rencontres et préparation du centenaire du club en 2028.'],
             'noindex' => ['label' => 'Masquer le site aux moteurs de recherche', 'type' => 'bool', 'default' => false, 'help' => 'Même ouvert, le site n’est pas indexé. Inutile tant qu’il est fermé.'],

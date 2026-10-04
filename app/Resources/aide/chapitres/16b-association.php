@@ -2,7 +2,7 @@
 return [
     'slug' => 'association',
     'title' => 'Le site de l’association (www)',
-    'summary' => 'Le site vitrine de Sochaux Rétro sur www : contenus, actualités, agenda, adhésions, bénévoles, ouverture au public. Réservé aux administrateurs.',
+    'summary' => 'Le site vitrine de Sochaux Rétro sur www : page d’attente, contenus, actualités, agenda, adhésions, bénévoles, ouverture au public. Réservé aux administrateurs.',
     'admin' => true,
     'sections' => [
         ['id' => 'principe', 'title' => 'Deux sites, un seul back-office', 'admin' => true, 'html' => <<<'HTML'
@@ -23,7 +23,19 @@ HTML],
 <li>Vérifiez le rendu dans l’aperçu, sur ordinateur et sur téléphone.</li>
 <li>Cliquez <b>Ouvrir le site au public</b>. Le bouton devient « Fermer le site » pour revenir à la page d’attente à tout moment.</li>
 </ol>
-<p>Le texte de la page d’attente et les autres réglages (adresse, e-mail de réception, HelloAsso, référencement) sont dans <b>Réglages du site</b>.</p>
+<p>Ce que montre la page d’attente se règle dans <b>Page d’attente</b> (ci-dessous) ; l’adresse du site, l’e-mail de réception, HelloAsso et le référencement, dans <b>Réglages du site</b>.</p>
+HTML],
+        ['id' => 'attente', 'title' => 'La page d’attente du site', 'admin' => true, 'html' => <<<'HTML'
+<p>Tant que le site est fermé, les visiteurs de www.fcsochauxretro.com ne voient qu’une <b>page d’attente</b> : celle du site de l’association, différente de celle du musée (Éditorial › Page d’attente), et réglée à part dans <b>Site de l’association › Page d’attente</b>.</p>
+[[img:association-attente.webp|L’écran Page d’attente : (1) état et ouverture du site, (2) aperçu de la page d’attente, (3) texte et photo, (4) la liste « Ce qui vous attend », (5) les blocs affichés, (6) le compte à rebours]]
+<ul>
+<li><b>Texte et photo</b> : surtitre, titre, texte, photo (à gauche ; en haut sur téléphone), sa légende et la pastille « Bientôt » posée dessus.</li>
+<li><b>Ce qui vous attend</b> : ce que le site proposera, quatre éléments au plus ; liste vide, bloc masqué.</li>
+<li><b>Blocs de la page</b> : inscription à la lettre « Ce jour-là » (elle fonctionne site fermé), encart du musée en ligne (avec le bouton « Visiter le musée » dès qu’il est ouvert, et le teaser vidéo si vous le cochez), e-mail de l’association, réseaux sociaux.</li>
+<li><b>Compte à rebours</b> : jusqu’à l’ouverture prévue ; il disparaît de lui-même une fois la date passée.</li>
+</ul>
+<p>Enregistrez, puis contrôlez le résultat avec <b>Aperçu de la page d’attente</b>, sur ordinateur et sur téléphone. Elle n’est jamais indexée par les moteurs de recherche, et les pages légales restent accessibles. Elle disparaît dès que vous cliquez <b>Ouvrir le site au public</b>, et revient si vous refermez le site.</p>
+[[astuce|<p>« Revenir à la page de départ » rétablit la page livrée avec le site ; votre version reste dans l’historique en bas de l’écran.</p>]]
 HTML],
         ['id' => 'contenus', 'title' => 'Modifier les contenus', 'admin' => true, 'html' => <<<'HTML'
 <p><b>Contenus</b> regroupe, par onglets, tout ce qui s’affiche sur le site :</p>

@@ -225,4 +225,12 @@ réellement développé.
 - **Aucun cookie tiers** sur le site de l'association (vidéos YouTube en liens, vignettes
   copiées sur le serveur, mesure d'audience sans cookie) : pas de bandeau à valider.
 - Français uniquement ; même charte que le musée, mise en page plus aérée.
+- **Deux pages d'attente indépendantes** (demande du client) : celle du musée (Éditorial ›
+  Page d'attente, réglages `waiting.*`, ouverte aux éditeurs) et celle du site de
+  l'association (pavé, administrateurs). Même esprit (503, rien d'indexé, pages légales
+  servies, aperçu depuis le back-office, compte à rebours, teaser facultatif) mais une page
+  volontairement différente : claire et en deux colonnes plutôt que bleu nuit et centrée, avec
+  ce que l'association préparera et l'inscription à la lettre pour être prévenu de
+  l'ouverture. Son contenu suit le modèle des autres contenus du site (Store : contenu de
+  départ mis à jour avec le code, versions, retour au départ) plutôt que des réglages.
 

@@ -41,6 +41,33 @@ final class Content
         return $out;
     }
 
+    // ------------------------------------------------------------------ page d'attente
+
+    /** Valeurs de départ des anciens réglages « Page d'attente : titre / texte » (Réglages du site). */
+    private const OLD_WAITING = [
+        'Le nouveau site de l’association arrive',
+        '<p>Sochaux Rétro prépare le site de son association : nos actions, l’agenda, l’adhésion en ligne et toutes les façons de nous rejoindre.</p><p>En attendant, l’histoire du FC Sochaux-Montbéliard vous attend au musée en ligne.</p>',
+    ];
+
+    /**
+     * Page d'attente (site fermé) : contenu du back-office, complété par celui de départ. Un titre
+     * ou un texte saisi avant l'écran dédié (anciens réglages du site) est repris tant que la page
+     * n'a pas été enregistrée.
+     */
+    public static function waiting(): array
+    {
+        $w = Store::get('attente') + Store::defaults('attente');
+        if (Store::isDefault('attente')) {
+            foreach (['title' => 'vitrine.waiting_title', 'text' => 'vitrine.waiting_text'] as $k => $key) {
+                $v = trim((string) Settings::get($key, ''));
+                if ($v !== '' && !in_array($v, self::OLD_WAITING, true)) {
+                    $w[$k] = $v;
+                }
+            }
+        }
+        return $w;
+    }
+
     // ------------------------------------------------------------------ actions
 
     /** Les actions de l'association (pages « Nos actions »), dans l'ordre. */

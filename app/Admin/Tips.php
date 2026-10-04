@@ -197,6 +197,14 @@ final class Tips
             'date et heure cibles du compte à rebours' => 'Le moment visé par le compte à rebours (ex. la réouverture du site).',
             'intitulé du compte à rebours' => 'Le texte au-dessus du compte à rebours (ex. « Ouverture dans »).',
         ],
+        'asso-attente' => [
+            'screen' => 'La page que voient les visiteurs du site de l’association tant qu’il est fermé : texte, photo, liste « Ce qui vous attend », lettre d’information, encart du musée. Distincte de celle du musée. « Aperçu de la page d’attente » la montre telle quelle.',
+            'pastille sur la photo' => 'Le petit mot en jaune posé sur la photo (« Bientôt »). Vide : pas de pastille.',
+            'légende de la photo' => 'Écrite en bas de la photo, et lue par les lecteurs d’écran.',
+            'ce qui vous attend' => 'Ce que le site proposera, en quatre cases au plus. Pictogramme : un signe comme ◆ ★ ◎ ▣.',
+            'blocs de la page' => 'Ce qui s’affiche sous la liste : inscription à la lettre du musée (elle fonctionne même site fermé), encart du musée (avec « Visiter le musée » dès qu’il est ouvert), e-mail et réseaux sociaux.',
+            'date et heure de l’ouverture' => 'Le moment visé par le compte à rebours. Une fois passé, le compte à rebours disparaît de lui-même.',
+        ],
         'interactif' => [
             'screen' => 'Les outils interactifs du site : quiz, frise, maillots, carte (épopées, lieux), partenaires, page « Faire un don ». Chaque outil est une liste d’éléments à compléter, réordonner ou traduire.',
             'textes' => 'Les textes d’introduction de l’outil, en français et en anglais.',

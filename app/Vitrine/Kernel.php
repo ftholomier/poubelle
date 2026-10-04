@@ -14,7 +14,8 @@ use App\Data\Redirects;
  * Site de l'association (www) : distribution des pages.
  *
  * Ordre : domaine redirigé (sans « www ») ; back-office (sur le musée) ; consentement aux
- * cookies ; robots.txt et plan du site ; site fermé (page d'attente) ; pages ; anciennes
+ * cookies ; robots.txt et plan du site ; aperçu de la page d'attente ; site fermé (page
+ * d'attente, avec l'inscription à la lettre et le teaser qu'elle propose) ; pages ; anciennes
  * adresses du site WordPress, qui mènent au musée quand il les connaît ; page introuvable.
  */
 final class Kernel
@@ -83,6 +84,10 @@ final class Kernel
         if ($path === '/sitemap.xml') {
             return Seo::sitemap();
         }
+        // Aperçu de la page d'attente depuis le back-office (site ouvert ou fermé).
+        if (Site::$preview && $path === '/' && isset($req->query['apercu-attente'])) {
+            return Pages::waiting();
+        }
         // Anciens liens WordPress /?p=123 et /?s=… : au musée.
         if ($path === '/' && $req->query && ($to = Redirects::legacyQuery($req->query))) {
             return Response::redirect(Host::museum($to), 301);
@@ -91,8 +96,16 @@ final class Kernel
         $routes = self::routes();
         $own = $routes->route($path) !== null;
 
-        // Site fermé : page d'attente (l'aperçu du back-office montre le site).
+        // Site fermé : page d'attente (l'aperçu du back-office montre le site). Ce qu'elle
+        // propose reste servi : inscription à la lettre, teaser du musée.
         if (!Site::$preview && !Site::open() && !in_array($path, self::ALWAYS, true) && !str_starts_with($path, '/documents/')) {
+            $w = Content::waiting();
+            if ($path === '/newsletter/' && $req->method === 'POST' && !empty($w['newsletter'])) {
+                return Forms::newsletter($req);
+            }
+            if (preg_match('#^/video/teaser\.(mp4|jpg)$#', $path, $m) && !empty($w['museum']) && !empty($w['teaser']) && ($res = Pages::teaser($req, $m[1]))) {
+                return $res;
+            }
             if (!$own && ($to = self::museumTarget($req))) {
                 return Response::redirect($to, 301);
             }

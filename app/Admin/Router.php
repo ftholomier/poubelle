@@ -153,6 +153,7 @@ final class Router
         // Site de l'association (administrateurs seulement : voir ADMIN_ONLY)
         $r->get('/admin/association', fn ($q) => Association::index($q));
         $r->post('/admin/association/ouverture', fn ($q) => Association::toggle($q));
+        $r->get('/admin/association/attente', fn ($q) => Association::waitingEdit($q));
         $r->get('/admin/association/contenus', fn ($q) => Response::redirect('/admin/association/contenus/pages'));
         $r->get('/admin/association/contenus/{name}', fn ($q, $name) => Association::contents($q, $name));
         $r->post('/admin/association/contenus/{name}/depart', fn ($q, $name) => Association::reset($q, $name));

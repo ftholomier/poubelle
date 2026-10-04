@@ -19,6 +19,7 @@ $host = (string) parse_url($base, PHP_URL_HOST);
         Le domaine doit mener au même dossier que le musée (cPanel › Domaines)<?= $aliases ? ' ; ' . e(implode(', ', $aliases)) . ' redirige vers ' . e($host) : '' ?>.</span>
     </div>
     <div class="row" style="gap:8px">
+      <?php if (!$open): ?><a class="btn btn--light" href="/admin/association/attente">Page d’attente</a><?php endif; ?>
       <a class="btn<?= $open ? '' : ' btn--light' ?>" href="<?= e(Host::PREVIEW) ?>/" target="_blank" rel="noopener">Aperçu complet ↗</a>
       <?php if ($open): ?><a class="btn" href="<?= e($base) ?>/" target="_blank" rel="noopener"><?= e($host) ?> ↗</a><?php endif; ?>
       <form method="post" action="/admin/association/ouverture" data-confirm="<?= e($open ? 'Fermer le site au public ?|Les visiteurs verront la page d’attente et le site ne sera plus indexé.|Fermer le site|danger' : 'Ouvrir le site au public ?|' . ($high ? 'Il reste ' . $high . ' point(s) important(s) à vérifier (en rouge dans la liste). ' : '') . 'Le site deviendra visible de tous et indexé par les moteurs de recherche.|Ouvrir le site') ?>">

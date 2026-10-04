@@ -792,12 +792,22 @@ l'adresse du musée (`general.base_url`). Tout le reste est le musée.
 
 `Vitrine\Kernel::dispatch()`, dans l'ordre : `/admin…` → 302 vers le back-office du musée ;
 `/api/consentement` et webhooks des paiements → `Front\Api` ; robots.txt et sitemap.xml
-propres (`Vitrine\Seo`) ; anciens liens `/?p=` → musée ; site fermé (`vitrine.open` faux par
-défaut) : page d'attente 503 (pages légales servies) ; pages (`Kernel::routes()`) ; adresse
+propres (`Vitrine\Seo`) ; aperçu de la page d'attente (`?apercu-attente`, aperçu seulement) ;
+anciens liens `/?p=` → musée ; site fermé (`vitrine.open` faux par défaut) : page d'attente
+503 (pages légales et documents servis, ainsi que l'inscription à la lettre et le teaser si la
+page d'attente les montre) ; pages (`Kernel::routes()`) ; adresse
 sans barre finale d'une page du site → 301 ; **ancienne adresse WordPress que le musée
 connaît** (`App\Kernel::probe()` : page, fiche, rubrique ou redirection) → 301 vers le musée,
 même site fermé ; sinon 404 du site.
 
+- **Page d'attente** (`Vitrine\Pages::waiting()`, `templates/vitrine/waiting.php`) : la sienne,
+  distincte de celle du musée (`Front\Pages::waiting()`, réglages `waiting.*`). Contenu
+  `attente` du Store (`Content::waiting()` : enregistré, sinon `app/Resources/vitrine/attente.php` ;
+  un titre ou un texte saisi dans les anciens réglages `vitrine.waiting_title/_text` est repris
+  tant que la page n'a pas été enregistrée). Écran : pavé › Page d'attente
+  (`Association::waitingEdit()`, enregistrement par `/admin/association/contenus/attente`).
+  503 + `Retry-After`, `noindex`, `no-store` ; 200 dans l'aperçu
+  (`/apercu-association/?apercu-attente=1`, bandeau « Modifier », la lettre y ramène).
 - **Aperçu** : `/apercu-association/…` sur l'adresse du musée, réservé aux administrateurs.
   `Host::$prefix` préfixe alors tous les liens internes (`Host::url()`, `Pages::rich()` pour
   les textes saisis, redirections) ; `Site::$preview` montre les contenus « à vérifier »
@@ -1035,7 +1045,9 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   courte, liens, familles et records, défi du jour).
 - `php tests/souvenirs.php` : kit souvenirs (match du mois et choix des historiens, visages,
   quiz, PDF de 4 pages), « Ils y étaient » (témoignages publiés seulement), QR code.
-- `php tests/vitrine.php` : site de l'association (adresses et alias, page d'attente, aperçu
+- `php tests/vitrine.php` : site de l'association (adresses et alias, page d'attente propre au
+  site — contenu, lettre et teaser servis site fermé, compte à rebours, reprise des anciens
+  réglages, aperçu —, celle du musée intacte, aperçu
   réservé, anciennes adresses vers le musée, pages et plan du site, contenus « à vérifier »
   invisibles du public, agenda iCal, liens de l'aperçu, antispam, adhésion payée par un
   webhook Stripe signé puis remboursée, capture PayPal, purges RGPD, documents, nettoyage

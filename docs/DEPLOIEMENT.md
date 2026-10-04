@@ -276,11 +276,13 @@ bénévolat, contact) fait partie du même code que le musée : **rien d'autre �
 et chaque mise à jour depuis GitHub met à jour les deux sites. Il se pilote dans le
 back-office, pavé **Site de l'association** (administrateurs seulement).
 
-1. **Préparer sans attendre** : le site est fermé au départ (page d'attente). Depuis le
+1. **Préparer sans attendre** : le site est fermé au départ, derrière **sa propre page
+   d'attente** (pavé › Page d'attente ; celle du musée est indépendante). Depuis le
    back-office, « Aperçu complet » montre le site entier à l'adresse
-   `https://musee.fcsochauxretro.com/apercu-association/`, même tant que www mène encore au
-   WordPress. Parcourir la liste « À vérifier » du tableau de bord (tarifs d'adhésion,
-   e-mail de réception, mentions légales, contenus d'exemple).
+   `https://musee.fcsochauxretro.com/apercu-association/`, et « Aperçu de la page d'attente »
+   ce que verront les visiteurs, même tant que www mène encore au WordPress. Parcourir la
+   liste « À vérifier » du tableau de bord (tarifs d'adhésion, e-mail de réception, mentions
+   légales, contenus d'exemple).
 2. **Quand la copie des photos est terminée et vérifiée** (section 4), faire mener
    `www.fcsochauxretro.com` **et** `fcsochauxretro.com` au même dossier que le musée,
    `/home/<compte>/sochauxretro/public` :
