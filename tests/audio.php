@@ -131,11 +131,12 @@ use App\Front\Explore;
 use App\Front\Fiche;
 use App\Services\PageAudio as P;
 
+P::$dir = "$tmp/etat/pages";
 $v = Explore::opponentData('nancy')['vars'];
-$a = P::opponent(Fiche::clubName('nancy'), $v, false);
+$a = P::opponent('nancy', Fiche::clubName('nancy'), $v, false);
 $has('face-à-face : accroche, bilan, premier et dernier match, buteurs', $a['text'] ?? '', ['Entre Sochaux et Nancy, c’est une longue histoire : ' . $v['t']['count'] . ' rencontres', $v['t']['V'] . ' victoires sochaliennes', 'Tout a commencé le 29 août 1970, en Division 1 : une défaite 2 à 1 à l’extérieur.', 'Le dernier épisode s’est joué le', 'Côté buteurs,']);
 $eq('face-à-face : voix du navigateur, en français, dans la durée', [$a['url'], $a['lang'], A::words($a['text']) <= A::maxWords(), $a['secs'] > 0], [null, 'fr-FR', true, true]);
-$en = P::opponent('Nancy', $v, true);
+$en = P::opponent('nancy', 'Nancy', $v, true);
 $has('face-à-face en anglais', $en['text'] ?? '', ['Between Sochaux and Nancy', 'It all began on 29 August 1970, in Division 1: a 2–1 defeat away.']);
 $s = Explore::seasonData('1987-1988')['vars'];
 $a = P::season($s, 'Division 2', false);
@@ -145,7 +146,7 @@ $has('bilan d’une coupe : la finale, au 8e tour', P::competition('coupe-de-fra
 $b = Explore::bilanPage('stade-auguste-bonal')['vars'];
 $has('bilan à Bonal', P::stadium('auguste-bonal', 'Stade Auguste Bonal', $b, false)['text'] ?? '', ['Le stade Auguste-Bonal, c’est la maison des Lionceaux', 'Le premier match fiché ici date du']);
 $rows = Explore::recordRows('series');
-$has('records : en tête du classement, dates dites', P::records('series', 'Plus longues séries d’invincibilité', 'matchs', 'Toutes époques · toutes compétitions officielles', $rows, false)['text'] ?? '', ['En tête du classement : Du 3 octobre 1987 au 17 mai 1988, 32 matchs', 'Suivent du ', ', toutes compétitions officielles.']);
+$has('records : en tête du classement, dates dites', P::records('series', null, null, 'Plus longues séries d’invincibilité', 'matchs', 'Toutes époques · toutes compétitions officielles', $rows, false)['text'] ?? '', ['En tête du classement : Du 3 octobre 1987 au 17 mai 1988, 32 matchs', 'Suivent du ', ', toutes compétitions officielles.']);
 $all = \App\Services\Chiffres::all();
 $c = P::chiffres($all['chapters'], (int) $all['count'], false);
 $has('chiffres : un chiffre au moins par chapitre', $c['text'] ?? '', array_map(fn ($ch) => rtrim($ch['title'], '.') . '.', $all['chapters']));
@@ -157,8 +158,59 @@ $eq('texte pour la voix : milliers, scores, dates, tirets, saisons', [
 $values = new ReflectionProperty(\App\Core\Settings::class, 'values');
 $before = \App\Core\Settings::all();
 $values->setValue(null, ['audio.enabled' => false] + $before);
-$eq('audio désactivé : pas de bouton', P::opponent('Nancy', $v, false), null);
+$eq('audio désactivé : pas de bouton', P::opponent('nancy', 'Nancy', $v, false), null);
 $values->setValue(null, $before);
+
+// Récits rédigés par l'IA : même empreinte en français, en anglais et au traitement groupé.
+use App\Services\I18n;
+
+$sigOf = fn (string $slug) => P::sig(P::factsFor($slug));
+P::saveText('club-nancy', 'fr', "Le récit de l’IA.\n\nDevant 19 994 spectateurs.", $sigOf('club-nancy'), 'essai');
+P::saveText('club-nancy', 'en', 'The AI story.', $sigOf('club-nancy'), 'essai');
+$fr = P::opponent('nancy', 'Nancy', $v, false);
+I18n::set('en');
+$vEn = Explore::opponentData('nancy')['vars'];
+$enA = P::opponent('nancy', 'Nancy', $vEn, true);
+I18n::set('fr');
+$eq('IA : récit lu en français et en anglais (page en anglais : même empreinte)', [$fr['src'], $fr['text'], $enA['src'], $enA['text']], ['ai', "Le récit de l’IA.\n\nDevant 19994 spectateurs.", 'ai', 'The AI story.']);
+$pages = [
+    'saison-1987-1988' => fn (bool $e) => P::season(Explore::seasonData('1987-1988')['vars'], 'Division 2', $e),
+    'bilan-coupe-de-france' => fn (bool $e) => P::competition('coupe-de-france', 'Coupe de France', Explore::bilanPage('coupe-de-france')['vars'], $e),
+    'bilan-stade-auguste-bonal' => fn (bool $e) => P::stadium('auguste-bonal', 'Stade Auguste Bonal', Explore::bilanPage('stade-auguste-bonal')['vars'], $e),
+    'records-buteurs-1980' => fn (bool $e) => P::records('buteurs', 1980, null, 'x', 'buts', 'x', Explore::recordRows('buteurs', 1980), $e),
+    'chiffres' => fn (bool $e) => P::chiffres(\App\Services\Chiffres::all()['chapters'], 100, $e),
+];
+$src = [];
+foreach ($pages as $slug => $page) {
+    P::saveText($slug, 'fr', 'IA fr ' . $slug, $sigOf($slug));
+    P::saveText($slug, 'en', 'IA en ' . $slug, $sigOf($slug));
+    $src[$slug] = $page(false)['src'] ?? null;
+    I18n::set('en');
+    $src[$slug] .= '/' . ($page(true)['src'] ?? null);
+    I18n::set('fr');
+}
+$eq('IA : saison, coupe, Bonal, records, chiffres (français/anglais)', $src, array_fill_keys(array_keys($pages), 'ai/ai'));
+P::saveText('club-nancy', 'fr', 'Ancien récit.', 'empreinte-perimee');
+$eq('chiffres changés : récit automatique en attendant le nouveau', P::opponent('nancy', 'Nancy', $v, false)['src'] ?? null, 'auto');
+$plan = P::plan(false, ['club-nancy', 'club-metz', 'records-buteurs-1920-amical']);
+$eq('à rédiger : récit dépassé et récits manquants (page vide écartée)', [$plan['pages'], $plan['keys']], [2, ['page:club-nancy:fr', 'page:club-metz:fr', 'page:club-metz:en']]);
+$eq('tout refaire', count(P::plan(true, ['club-nancy'])['keys']), 2);
+[$req, $sig] = P::request('page:club-metz:fr', 'gemini-2.5-flash-lite');
+$body = json_encode($req, JSON_UNESCAPED_UNICODE);
+$eq('demande à l’IA : consigne de conteur, faits de la page, empreinte', [str_contains($body, 'le face-à-face entre Sochaux et Metz'), str_contains($body, 'premier match'), str_contains($body, 'au plus 450 mots'), $sig === $sigOf('club-metz')], [true, true, true, true]);
+$eq('clé inconnue ou page vide : rien d’envoyé', [P::request('page:club-inconnu:fr', 'm'), P::request('page:../x:fr', 'm'), P::parseKey('page:club-metz:de')], [null, null, null]);
+// Traitement groupé : rangement des récits, coût compté, pas de voix ensuite.
+$n = A::queueTexts(['page:club-metz:fr'], ['name' => 'Essai'], true);
+$job = array_values(array_filter(A::jobs(), fn ($j) => !empty($j['pages'])))[0];
+$eq('traitement groupé des récits : texte seulement', [$n, $job['kind'], $job['then_voice'], $job['keys']], [1, 'texte', false, ['page:club-metz:fr']]);
+$job['state'] = 'recup';
+JsonStore::write(A::$dir . "/jobs/{$job['id']}-textes.json", ['page:club-metz:fr' => $sigOf('club-metz')]);
+file_put_contents(A::$dir . "/jobs/{$job['id']}-resultats.jsonl", json_encode(['key' => 'page:club-metz:fr', 'response' => ['candidates' => [['content' => ['parts' => [['text' => "**Metz et Sochaux**, une histoire.\n\nSuite."]]]]], 'usageMetadata' => ['promptTokenCount' => 2500, 'candidatesTokenCount' => 500]]]) . "\n");
+$job = A::process($job, microtime(true) + 30);
+$m = P::opponent('metz', 'Metz', Explore::opponentData('metz')['vars'], false);
+$eq('récit rangé et lu sur la page', [$job['state'], $job['done'], $m['src'] ?? null, $m['text'] ?? null], ['termine', 1, 'ai', "Metz et Sochaux, une histoire.\n\nSuite."]);
+$eq('aucune voix commandée pour une page', count(array_filter(A::jobs(), fn ($j) => $j['kind'] === 'voix' && in_array('page:club-metz:fr', $j['keys'], true))), 0);
+$eq('coût compté pour la page', in_array('page:club-metz', array_column(AiCosts::lines(date('Y-m'), 5), 'r'), true), true);
 
 // Ménage.
 $rm = function (string $d) use (&$rm) {

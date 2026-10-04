@@ -12,6 +12,7 @@ use App\Data\Fiches as Store;
 use App\Services\AiCosts;
 use App\Services\FicheAudio;
 use App\Services\Gemini;
+use App\Services\PageAudio;
 
 /**
  * Système › Fiches audio : état des résumés de 30 secondes, passage de tout le musée en voix
@@ -45,7 +46,21 @@ final class Audio extends Base
             'jobs' => array_reverse(FicheAudio::jobs()), 'states' => self::STATES, 'recent' => self::recent(8),
             'ready' => Gemini::ready(), 'model' => Gemini::ready() ? Gemini::ttsModel() : null, 'voice' => FicheAudio::voice(),
             'spent' => AiCosts::fmt(AiCosts::eur($spent)), 'admin' => Auth::isAdmin(), 'enabled' => FicheAudio::enabled(),
+            'pages' => self::pagesCard(),
         ], ['title' => 'Fiches audio', 'crumb' => 'Système', 'nav' => 'audio', 'scripts' => ['admin/audio.js']]);
+    }
+
+    /** Carte « Pages de synthèse » : récits rédigés, dernier calcul, coût estimé (sans recalculer : 10 s). */
+    private static function pagesCard(): array
+    {
+        $last = PageAudio::lastPlan();
+        $max = count(PageAudio::slugs()) * count(PageAudio::LANGS);
+        $todo = $last['todo'] ?? null;
+        $running = (bool) array_filter(FicheAudio::jobs(), fn ($j) => !empty($j['pages']) && in_array($j['state'], ['attente', 'envoye', 'recup'], true));
+        return [
+            'stats' => PageAudio::stats(), 'last' => $last, 'running' => $running, 'auto' => (bool) Settings::get('audio.pages_ai', true),
+            'estimate' => PageAudio::estimate($todo ?? $max), 'all' => PageAudio::estimate(($last['pages'] ?? (int) ($max / 2)) * 2), 'upper' => $todo === null,
+        ];
     }
 
     /** POST /admin/audio : lancer le traitement groupé, annuler un travail. */
@@ -55,6 +70,18 @@ final class Audio extends Base
             return $deny;
         }
         $action = $req->str('action');
+        if ($action === 'pages') {
+            if (!Gemini::ready()) {
+                return self::back('/admin/audio', null, 'Il faut une clé Gemini (Réglages › Assistant IA).');
+            }
+            @set_time_limit(180);
+            $r = PageAudio::launch($req->str('refaire') !== '', self::actor());
+            if (!$r['text']) {
+                return self::back('/admin/audio', 'Les ' . $r['pages'] . ' pages de synthèse ont déjà leur récit rédigé par l’IA, à jour.');
+            }
+            Activity::log(self::actor(), 'a confié à l’IA les récits de ' . $r['text'] . ' page(s) de synthèse', null);
+            return self::back('/admin/audio', $r['text'] . ' récit(s) de pages de synthèse confiés à l’IA en traitement groupé (français et anglais) : la tâche planifiée les envoie à Google puis les range dès qu’ils sont prêts, en général en quelques heures. En attendant, le récit automatique est lu.');
+        }
         if ($action === 'annuler') {
             return FicheAudio::cancel($req->str('job')) ? self::back('/admin/audio', 'Traitement annulé.') : self::back('/admin/audio', null, 'Traitement introuvable ou déjà terminé.');
         }

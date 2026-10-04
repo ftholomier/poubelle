@@ -272,6 +272,7 @@ final class Tips
             'tout le musée en voix ia' => 'Estime le coût puis confie toutes les fiches sans voix IA à jour au traitement groupé de Google (résultats en quelques heures). Le coût réel s’affiche dans Coûts IA.',
             'traitements groupés' => 'Chaque envoi à Google et son état : en attente, chez Google, rangement des voix, terminé. La tâche planifiée s’en occupe seule ; « Annuler » arrête un envoi en cours.',
             'dernières voix ia' => 'Les dernières voix enregistrées : ▶ pour les écouter, le titre pour ouvrir la fiche.',
+            'pages de synthèse racontées par l’ia' => 'Face-à-face, saisons, bilans, records et chiffres racontés par l’IA, en français et en anglais. Chaque nuit, les récits manquants ou dont les chiffres ont changé sont rédigés ; « Rédiger les récits maintenant » n’attend pas la nuit. En attendant, le récit automatique est lu.',
         ],
         'couts' => [
             'screen' => 'Ce que coûte l’IA (Gemini), calculé à chaque appel : aujourd’hui, ce mois-ci et ce que l’association doit rembourser. Les chiffres se mettent à jour seuls toutes les 10 secondes.',

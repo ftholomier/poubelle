@@ -312,7 +312,7 @@ final class Explore
             $key = Names::clubKey(str_replace('-', ' ', $club));
             return $key !== $club && isset(Derived::get()['clubs'][$key]) ? Response::redirect(url('/face-a-face/' . $key . '/'), 301) : null;
         }
-        $v = self::withAudio($v, PageAudio::opponent(Fiche::clubName($club), $v['vars'], I18n::isEn()));
+        $v = self::withAudio($v, PageAudio::opponent($club, Fiche::clubName($club), $v['vars'], I18n::isEn()));
         return Pages::render('h2h', $v['vars'], $v['page']);
     }
 
@@ -674,7 +674,7 @@ final class Explore
             'noindex' => $decade !== null || $comp !== null,
             'styles' => ['css/mosaic.css', 'css/explore.css'],
         ]];
-        $v = self::withAudio($v, PageAudio::records($cat, t($title), t($unit), $scope, $rows, I18n::isEn()));
+        $v = self::withAudio($v, PageAudio::records($cat, $decade, $comp, t($title), t($unit), $scope, $rows, I18n::isEn()));
         return Pages::render('records', $v['vars'], $v['page']);
     }
 }

@@ -3,23 +3,40 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\JsonStore;
 use App\Data\Derived;
+use App\Data\Fiches;
 use App\Data\Index;
 use App\Front\Explore;
+use App\Front\Fiche;
+use App\Front\Mosaic;
+use App\Front\Unknown;
 
 /**
  * Pages de synthèse racontées à voix haute : face-à-face, bilans (compétition, stade), saisons,
  * livre des records et chiffres du FCSM.
  *
- * Ces pages sont calculées depuis toutes les fiches matchs ; leur récit l'est aussi, à chaque
- * affichage : une accroche, le bilan, les faits marquants (première et dernière rencontre, plus
- * large victoire, plus lourde défaite, affluence, buteurs, séries…), une conclusion. En français
- * ou en anglais, dans la durée maximale des fiches audio (Réglages › Fiches audio). Toujours à
- * jour et gratuit : la voix du navigateur le lit (bouton « Écouter », comme sur les fiches).
- * Seuls les faits calculés sont dits : rien n'est inventé.
+ * Récit rédigé par l'IA, comme un historien qui raconte (accroche, introduction, récit en
+ * paragraphes, conclusion), à partir des « faits » de la page : chiffres, premier et dernier
+ * match, grands matchs et début de leur fiche, buteurs, séries, finales, bilan de la saison…
+ * Rédaction en traitement groupé (moitié prix), en français et en anglais ; chaque nuit, les
+ * récits manquants ou dont les chiffres ont changé sont refaits (réglage « pages_ai »). Tant que
+ * le récit de l'IA manque ou ne correspond plus aux chiffres (empreinte des faits), le récit
+ * automatique est lu : construit à chaque affichage depuis les mêmes données, toujours à jour et
+ * gratuit. La voix du navigateur lit l'un ou l'autre (bouton « Écouter », comme sur les fiches).
+ *
+ * État : storage/audio/pages/{page}.json = ['fr' => ['text', 'sig', 'model', 'at'], 'en' => …].
  */
 final class PageAudio
 {
+    /** Version de la consigne de rédaction : la changer fait refaire les récits rédigés par l'IA. */
+    private const TEXT_VERSION = 1;
+    public const LANGS = ['fr', 'en'];
+    /** Classements du livre des records racontés (filtres de la page). */
+    private const RECORD_COMPS = ['championnat', 'coupe-de-france', 'coupe-de-la-ligue', 'coupe-d-europe', 'amical'];
+
+    public static string $dir = STORAGE_PATH . '/audio/pages';
+
     /**
      * Bouton « Écouter » (même forme que FicheAudio::forPage) pour des paragraphes, chacun une
      * liste de phrases ; null si l'audio est désactivé ou le texte vide.
@@ -44,10 +61,603 @@ final class PageAudio
             'secs' => (int) round(FicheAudio::words($text) / FicheAudio::WPM * 60)];
     }
 
-    // ------------------------------------------------------------------ face-à-face
+    // ------------------------------------------------------------------ sur le site
 
     /** Face-à-face contre un club. $v : variables de la page (Explore::opponentData). */
-    public static function opponent(string $name, array $v, bool $en): ?array
+    public static function opponent(string $club, string $name, array $v, bool $en): ?array
+    {
+        return self::choose('club-' . $club, fn () => self::clubFacts($name, $v), fn () => self::opponentAuto($name, $v, $en), $en);
+    }
+
+    /** Bilan d'une compétition (/bilans/coupe-de-france/…). */
+    public static function competition(string $key, string $label, array $v, bool $en): ?array
+    {
+        return self::choose('bilan-' . $key, fn () => self::compFacts($key, $v), fn () => self::competitionAuto($key, $label, $v, $en), $en);
+    }
+
+    /** Bilan dans un stade (/bilans/stade-auguste-bonal/…). */
+    public static function stadium(string $key, string $stadium, array $v, bool $en): ?array
+    {
+        return self::choose('bilan-stade-' . $key, fn () => self::stadiumFacts($key, Explore::stadiumName($key), $v), fn () => self::stadiumAuto($key, $stadium, $v, $en), $en);
+    }
+
+    /** Saison (/matchs/1987-1988/). */
+    public static function season(array $v, ?string $division, bool $en): ?array
+    {
+        return self::choose('saison-' . $v['season'], fn () => self::seasonFacts($v, $division), fn () => self::seasonAuto($v, $division, $en), $en);
+    }
+
+    /** Livre des records : le classement affiché (catégorie, décennie, compétition). */
+    public static function records(string $cat, ?int $decade, ?string $comp, string $title, string $unit, string $scope, array $rows, bool $en): ?array
+    {
+        $slug = self::recordsSlug($cat, $decade, $comp);
+        return self::choose($slug, fn () => self::factsFor($slug), fn () => self::recordsAuto($cat, $title, $unit, $scope, $rows, $en), $en);
+    }
+
+    /** « Les chiffres du FCSM ». */
+    public static function chiffres(array $chapters, int $count, bool $en): ?array
+    {
+        return self::choose('chiffres', fn () => self::factsFor('chiffres'), fn () => self::chiffresAuto($chapters, $count, $en), $en);
+    }
+
+    /** Récit d'une page : celui de l'IA s'il correspond toujours aux chiffres de la page, sinon l'automatique. */
+    private static function choose(string $slug, callable $facts, callable $auto, bool $en): ?array
+    {
+        if (!FicheAudio::enabled()) {
+            return null;
+        }
+        $lang = $en ? 'en' : 'fr';
+        $st = self::stored($slug)[$lang] ?? null;
+        if (is_array($st) && trim((string) ($st['text'] ?? '')) !== '' && ($f = $facts()) !== null && ($st['sig'] ?? '') === self::sig($f)) {
+            $paras = array_map(fn ($p) => self::speakable($p, $en), preg_split('/\n\s*\n/u', FicheAudio::paragraphs((string) $st['text'])) ?: []);
+            $text = implode("\n\n", array_filter($paras, fn ($p) => $p !== ''));
+            if ($text !== '') {
+                return ['text' => $text, 'url' => null, 'lang' => FicheAudio::LANGS[$lang], 'dur' => null,
+                    'secs' => (int) round(FicheAudio::words($text) / FicheAudio::WPM * 60), 'src' => 'ai'];
+            }
+        }
+        $a = $auto();
+        return $a ? $a + ['src' => 'auto'] : null;
+    }
+
+    // ------------------------------------------------------------------ récits de l'IA : état
+
+    /** Récits enregistrés d'une page : ['fr' => ['text', 'sig', 'model', 'at'], 'en' => …]. */
+    public static function stored(string $slug): array
+    {
+        if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
+            return [];
+        }
+        $s = JsonStore::read(self::$dir . '/' . $slug . '.json', []);
+        return is_array($s) ? $s : [];
+    }
+
+    public static function saveText(string $slug, string $lang, string $text, string $sig, string $model = ''): void
+    {
+        if (!preg_match('/^[a-z0-9-]+$/', $slug) || !in_array($lang, self::LANGS, true)) {
+            return;
+        }
+        @mkdir(self::$dir, 0775, true);
+        JsonStore::update(self::$dir . '/' . $slug . '.json', function ($s) use ($lang, $text, $sig, $model) {
+            $s = is_array($s) ? $s : [];
+            $s[$lang] = ['text' => trim($text), 'sig' => $sig, 'model' => $model, 'at' => date('c')];
+            return $s;
+        }, []);
+    }
+
+    /** Empreinte des faits racontés (et de la consigne, de la durée maximale) : change si les chiffres changent. */
+    public static function sig(array $facts): string
+    {
+        return substr(sha1((string) json_encode([self::TEXT_VERSION, FicheAudio::maxWords(), $facts], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)), 0, 16);
+    }
+
+    /** Clé d'un traitement groupé : « page:club-nancy:fr ». */
+    public static function key(string $slug, string $lang): string
+    {
+        return 'page:' . $slug . ':' . $lang;
+    }
+
+    public static function isKey(string $key): bool
+    {
+        return str_starts_with($key, 'page:');
+    }
+
+    /** [page, langue] d'une clé, ou null. */
+    public static function parseKey(string $key): ?array
+    {
+        return preg_match('/^page:([a-z0-9-]+):(fr|en)$/', $key, $m) ? [$m[1], $m[2]] : null;
+    }
+
+    private static function recordsSlug(string $cat, ?int $decade, ?string $comp): string
+    {
+        return 'records-' . $cat . ($decade ? '-' . $decade : '') . ($comp ? '-' . $comp : '');
+    }
+
+    /** Toutes les pages qui peuvent se raconter (les vides sont écartées par factsFor()). */
+    public static function slugs(): array
+    {
+        $d = Derived::get();
+        $out = [];
+        foreach ($d['clubs'] ?? [] as $club => $c) {
+            if (($c['count'] ?? 0) > 0 && $club !== 'sochaux' && preg_match('/^[a-z0-9-]+$/', (string) $club)) {
+                $out[] = 'club-' . $club;
+            }
+        }
+        foreach ($d['seasons'] ?? [] as $season => $S) {
+            if (!empty($S['matches']) && preg_match('/^\d{4}-\d{4}$/', (string) $season)) {
+                $out[] = 'saison-' . $season;
+            }
+        }
+        foreach (array_keys(Mosaic::COMPS) as $k) {
+            $out[] = 'bilan-' . $k;
+        }
+        foreach (array_keys($d['stades'] ?? []) as $k) {
+            if (preg_match('/^[a-z0-9-]+$/', (string) $k)) {
+                $out[] = 'bilan-stade-' . $k;
+            }
+        }
+        foreach (array_keys(Explore::RECORDS) as $cat) {
+            foreach (array_merge([null], range(1920, (int) date('Y'), 10)) as $dec) {
+                foreach (array_merge([null], self::RECORD_COMPS) as $comp) {
+                    $out[] = self::recordsSlug($cat, $dec, $comp);
+                }
+            }
+        }
+        $out[] = 'chiffres';
+        return $out;
+    }
+
+    /**
+     * Faits d'une page, calculés comme sur le site mais toujours en français (la même empreinte
+     * pour les deux langues) ; null si la page n'existe pas ou n'a rien à raconter.
+     */
+    public static function factsFor(string $slug): ?array
+    {
+        $prev = I18n::lang();
+        I18n::set('fr');
+        try {
+            if (preg_match('/^club-([a-z0-9-]+)$/', $slug, $m)) {
+                $v = Explore::opponentData($m[1]);
+                return $v ? self::clubFacts(Fiche::clubName($m[1]), $v['vars']) : null;
+            }
+            if (preg_match('/^saison-(\d{4}-\d{4})$/', $slug, $m)) {
+                $v = Explore::seasonData($m[1]);
+                return $v ? self::seasonFacts($v['vars'], Derived::get()['seasons'][$m[1]]['division'] ?? null) : null;
+            }
+            if (preg_match('/^bilan-stade-([a-z0-9-]+)$/', $slug, $m)) {
+                $v = Explore::bilanPage('stade-' . $m[1]);
+                return $v ? self::stadiumFacts($m[1], Explore::stadiumName($m[1]), $v['vars']) : null;
+            }
+            if (preg_match('/^bilan-([a-z0-9-]+)$/', $slug, $m) && isset(Mosaic::COMPS[$m[1]])) {
+                $v = Explore::bilanPage($m[1]);
+                return $v ? self::compFacts($m[1], $v['vars']) : null;
+            }
+            if (preg_match('/^records-([a-z]+)(?:-(\d{4}))?(?:-([a-z-]+))?$/', $slug, $m) && isset(Explore::RECORDS[$m[1]])) {
+                $comp = ($m[3] ?? '') !== '' ? $m[3] : null;
+                if ($comp !== null && !in_array($comp, self::RECORD_COMPS, true)) {
+                    return null;
+                }
+                return self::recordsFacts($m[1], ($m[2] ?? '') !== '' ? (int) $m[2] : null, $comp);
+            }
+            if ($slug === 'chiffres') {
+                $all = Chiffres::all();
+                return self::chiffresFacts($all['chapters'] ?? [], (int) ($all['count'] ?? 0));
+            }
+            return null;
+        } finally {
+            I18n::set($prev);
+        }
+    }
+
+    // ------------------------------------------------------------------ récits de l'IA : rédaction
+
+    /** Consigne et faits envoyés à Gemini pour raconter une page. */
+    public static function aiPrompt(array $facts, string $lang): array
+    {
+        $en = $lang === 'en';
+        [$subject, $focus] = self::subject($facts, $en);
+        $max = FicheAudio::maxWords();
+        $min = rtrim(rtrim(number_format(FicheAudio::maxMinutes(), 1, $en ? '.' : ',', ''), '0'), '.,');
+        $system = $en
+            ? "You are a historian of FC Sochaux-Montbéliard and a passionate storyteller. You tell, out loud, a page of the online museum Sochaux Rétro: $subject. This page is calculated from the museum’s match pages; the data below give its figures and its highlights. Your script will be read by a synthetic voice.\n"
+                . "Bring it to life, as if you were telling it to supporters gathered around you:\n"
+                . "- a hook that makes people want to listen;\n"
+                . "- an introduction that sets out the subject and the era;\n"
+                . "- the heart of the story in several paragraphs: $focus;\n"
+                . "- a conclusion that puts things in perspective and leaves a strong image.\n"
+                . "Rules:\n"
+                . "- only facts found in the data: never invent a figure, a date, a name or an anecdote; do not recite every number, pick the most telling ones and tell them;\n"
+                . "- the figures cover the matches recorded in the museum: say \"the museum holds…\" rather than \"Sochaux played in all…\";\n"
+                . "- real sentences, varied and well punctuated, with natural transitions; paragraphs separated by a blank line; no list, no title, no emoji, no stage directions;\n"
+                . "- write for the ear: scores as \"3–1\", clear dates (\"on 11 June 1988\");\n"
+                . "- at most $max words (about $min minutes); the length follows the richness of the data;\n"
+                . "- in English. Answer with the script only."
+            : "Tu es historien du FC Sochaux-Montbéliard et conteur passionné. Tu racontes à voix haute une page du musée en ligne Sochaux Rétro : $subject. Cette page est calculée à partir des fiches de matchs du musée ; les données ci-dessous en donnent les chiffres et les moments marquants. Ton texte sera lu par une voix de synthèse.\n"
+                . "Fais-la revivre, comme si tu la racontais à des supporters réunis autour de toi :\n"
+                . "– une accroche qui donne envie d’écouter ;\n"
+                . "– une introduction qui pose le sujet et l’époque ;\n"
+                . "– le cœur du récit en plusieurs paragraphes : $focus ;\n"
+                . "– une conclusion qui met en perspective et laisse une image forte.\n"
+                . "Règles :\n"
+                . "– uniquement des faits présents dans les données : n’invente rien, ni chiffre, ni date, ni nom, ni anecdote ; ne récite pas tous les chiffres, choisis les plus parlants et raconte-les ;\n"
+                . "– les chiffres portent sur les matchs fichés dans le musée : dis « le musée compte… » plutôt que « Sochaux a joué en tout… » ;\n"
+                . "– de vraies phrases, variées et bien ponctuées, avec des transitions naturelles ; paragraphes séparés par une ligne vide ; ni liste, ni titre, ni émoji, ni indication de mise en scène ;\n"
+                . "– écris pour l’oreille : scores « 3 à 1 », dates claires (« le 11 juin 1988 ») ;\n"
+                . "– au plus $max mots (environ $min minutes) ; la longueur suit la richesse des données ;\n"
+                . "– en français. Réponds seulement par le texte à dire.";
+        return [$system, (string) json_encode($facts, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)];
+    }
+
+    /** [sujet, ce que le récit doit couvrir] selon le type de page. */
+    private static function subject(array $f, bool $en): array
+    {
+        return match ($f['page'] ?? '') {
+            'face-à-face' => $en
+                ? ["the head-to-head between Sochaux and {$f['adversaire']}, all their meetings recorded in the museum", 'what the record says about this rivalry, the first meeting, the big matches (wide wins, painful defeats, crowds, finals), the scorers, the streaks, the latest chapter']
+                : ["le face-à-face entre Sochaux et {$f['adversaire']}, toutes leurs rencontres fichées dans le musée", 'ce que dit le bilan de ce duel, la première rencontre, les grands matchs (larges victoires, défaites marquantes, affluences, finales), les buteurs, les séries, le dernier épisode'],
+            'saison' => $en
+                ? ["the {$f['saison']} season of FC Sochaux-Montbéliard", 'the context (division, coach), the league and cup campaigns, the big matches, the men (scorers, most used players), what the season review tells']
+                : ["la saison {$f['saison']} du FC Sochaux-Montbéliard", 'le contexte (division, entraîneur), le parcours en championnat et en coupe, les grands matchs, les hommes (buteurs, joueurs les plus utilisés), ce que raconte le bilan de la saison'],
+            'bilan d’une compétition' => $en
+                ? ["the record of Sochaux in the {$f['compétition']}", 'the record, the runs season after season, the finals and the great exploits, the painful defeats, the scorers']
+                : ["le bilan de Sochaux en {$f['compétition']}", 'le bilan, les parcours saison après saison, les finales et les exploits, les défaites marquantes, les buteurs'],
+            'bilan dans un stade' => $en
+                ? ["the record of Sochaux at {$f['stade']}", 'what this ground means, the record, the great nights, the crowds, the best years']
+                : ["le bilan de Sochaux au {$f['stade']}", 'ce que représente ce stade, le bilan, les grandes soirées, les affluences, les années fastes'],
+            'livre des records' => $en
+                ? ["a ranking of the Sochaux record book: {$f['classement']} ({$f['portée']})", 'who leads the ranking and what these figures mean, then the names that follow']
+                : ["un classement du livre des records du FCSM : {$f['classement']} ({$f['portée']})", 'qui domine le classement et ce que représentent ces chiffres, puis les noms qui suivent'],
+            default => $en
+                ? ["Sochaux in numbers, {$f['statistiques']} statistics calculated since 1929", 'a journey chapter by chapter through the most striking figures, with the names and dates behind them']
+                : ["les chiffres du FCSM, {$f['statistiques']} statistiques calculées depuis 1929", 'un parcours chapitre par chapitre à travers les chiffres les plus marquants, avec les noms et les dates qui les accompagnent'],
+        };
+    }
+
+    /** Demande du traitement groupé pour une clé « page:… », et l'empreinte des faits ; null si la page n'a rien à raconter. */
+    public static function request(string $key, string $model): ?array
+    {
+        $k = self::parseKey($key);
+        $facts = $k ? self::factsFor($k[0]) : null;
+        if (!$facts) {
+            return null;
+        }
+        [$system, $user] = self::aiPrompt($facts, $k[1]);
+        return [Gemini::requestBody([['role' => 'user', 'text' => $user]], $system, ['temperature' => 0.6, 'max_tokens' => FicheAudio::aiTokens()], $model), self::sig($facts)];
+    }
+
+    /**
+     * Ce qu'il reste à faire rédiger : récits manquants ou dont les chiffres ont changé (tous si
+     * $redo). ['keys' => clés « page:… », 'pages' => pages qui se racontent].
+     */
+    public static function plan(bool $redo = false, ?array $only = null): array
+    {
+        $keys = [];
+        $n = 0;
+        foreach ($only ?? self::slugs() as $slug) {
+            $facts = self::factsFor($slug);
+            if (!$facts) {
+                continue;
+            }
+            $n++;
+            $sig = self::sig($facts);
+            $st = self::stored($slug);
+            foreach (self::LANGS as $lang) {
+                if ($redo || ($st[$lang]['sig'] ?? '') !== $sig || trim((string) ($st[$lang]['text'] ?? '')) === '') {
+                    $keys[] = self::key($slug, $lang);
+                }
+            }
+        }
+        if ($only === null) {
+            @mkdir(self::$dir, 0775, true);
+            JsonStore::write(dirname(self::$dir) . '/pages-plan.json', ['at' => time(), 'pages' => $n, 'todo' => $redo ? null : count($keys)]);
+        }
+        return ['keys' => $keys, 'pages' => $n];
+    }
+
+    /** Dernier calcul de ce qu'il reste à rédiger : ['at', 'pages', 'todo'] ou null. */
+    public static function lastPlan(): ?array
+    {
+        $p = JsonStore::read(dirname(self::$dir) . '/pages-plan.json', null);
+        return is_array($p) ? $p : null;
+    }
+
+    /** Coût estimé de $n récits en traitement groupé (moitié prix) : faits d'environ 3 000 jetons. */
+    public static function estimate(int $n): array
+    {
+        $p = AiCosts::price(Gemini::ready() ? FicheAudio::textModel() : 'gemini-2.5-flash-lite');
+        $usd = $n * (3000 * $p['in'] + (FicheAudio::maxWords() * 0.8 * 1.7 + 60) * $p['out']) / 1e6 / 2;
+        return ['usd' => $usd, 'eur' => AiCosts::eur($usd)];
+    }
+
+    /** Confie au traitement groupé les récits à rédiger (envoyés par la tâche planifiée). */
+    public static function launch(bool $redo, ?array $user, ?array $only = null): array
+    {
+        $plan = self::plan($redo, $only);
+        $jobs = $plan['keys'] ? FicheAudio::queueTexts($plan['keys'], $user, true) : 0;
+        return ['text' => count($plan['keys']), 'jobs' => $jobs, 'pages' => $plan['pages']];
+    }
+
+    /** Récits rédigés par l'IA, par langue. */
+    public static function stats(): array
+    {
+        $out = ['fr' => 0, 'en' => 0];
+        foreach (glob(self::$dir . '/*.json') ?: [] as $f) {
+            $s = JsonStore::read($f, []);
+            foreach (self::LANGS as $lang) {
+                if (trim((string) ($s[$lang]['text'] ?? '')) !== '') {
+                    $out[$lang]++;
+                }
+            }
+        }
+        return $out;
+    }
+
+    // ------------------------------------------------------------------ récits de l'IA : faits
+
+    /** Un match dit à l'IA : date, compétition, tour, lieu, score (domicile d'abord), résultat, affluence, début de sa fiche. */
+    private static function matchFacts(?array $x, bool $story = false): ?array
+    {
+        if (!$x) {
+            return null;
+        }
+        $f = [
+            'date' => (string) $x['date'],
+            'compétition' => trim((string) (($x['label'] ?? '') ?: ($x['comp'] ?? ''))),
+            'tour' => self::round((string) ($x['round'] ?? ''), false) ?: null,
+            'adversaire' => (string) ($x['opp'] ?? ''),
+            'lieu' => self::rank((string) ($x['round'] ?? '')) === 100 && !empty($x['stade']) ? Explore::stadiumName((string) $x['stade']) . ' (terrain neutre)'
+                : (!empty($x['sh']) ? (($x['stade'] ?? '') === 'auguste-bonal' ? 'à domicile, au stade Auguste-Bonal' : 'à domicile') : 'à l’extérieur'),
+            'score' => $x['us'] === null || $x['us'] === '' ? null
+                : $x['home'] . ' ' . (!empty($x['sh']) ? $x['us'] : $x['them']) . '-' . (!empty($x['sh']) ? $x['them'] : $x['us']) . ' ' . $x['away'],
+            'résultat' => ['V' => 'victoire de Sochaux', 'N' => 'match nul', 'D' => 'défaite de Sochaux'][$x['result'] ?? ''] ?? null,
+        ];
+        $extra = mb_strtolower((string) ($x['extra'] ?? ''));
+        if (preg_match('/\ba\.?\s?p\b|prol/u', $extra)) {
+            $f['prolongation'] = 'oui';
+        }
+        if (str_contains($extra, 'tab') && preg_match('/(\d+)\s*-\s*(\d+)/', $extra, $m)) {
+            $f['tirs au but'] = 'remportés par ' . (($x['result'] ?? '') === 'V' ? 'Sochaux' : $x['opp']) . ', ' . max((int) $m[1], (int) $m[2]) . '-' . min((int) $m[1], (int) $m[2]);
+        }
+        if (($x['spectators'] ?? 0) > 0) {
+            $f['spectateurs'] = (int) $x['spectators'];
+        }
+        if ($story && ($doc = Fiches::get((int) $x['id']))) {
+            $txt = self::plainOf((string) ($doc['intro'] ?? ''));
+            if ($txt === '') {
+                $txt = self::plainOf((string) ($doc['sections'][0]['html'] ?? ''));
+            }
+            if ($txt !== '') {
+                $f['début de sa fiche'] = mb_strimwidth($txt, 0, 700, '…');
+            }
+        }
+        return array_filter($f, fn ($v) => $v !== null && $v !== '');
+    }
+
+    /** Une ligne par match : « 1988-06-11 · Coupe de France, finale · Metz 1-1 Sochaux · défaite (tirs au but) ». */
+    private static function line(array $x): string
+    {
+        $f = self::matchFacts($x);
+        return implode(' · ', array_filter([
+            $f['date'], $f['compétition'] . (isset($f['tour']) ? ', ' . $f['tour'] : ''), $f['score'] ?? 'score inconnu',
+            ['V' => 'victoire', 'N' => 'nul', 'D' => 'défaite'][$x['result'] ?? ''] ?? null,
+            isset($f['tirs au but']) ? 'tirs au but ' . $f['tirs au but'] : (isset($f['prolongation']) ? 'après prolongation' : null),
+        ]));
+    }
+
+    private static function plainOf(string $html): string
+    {
+        // « xx » de l'ancien site (information inconnue) jamais transmis.
+        return trim((string) preg_replace('/\s+/u', ' ', Unknown::text(plain($html))));
+    }
+
+    private static function vndFacts(int $V, int $N, int $D): array
+    {
+        return ['victoires' => $V, 'nuls' => $N, 'défaites' => $D];
+    }
+
+    /** [nom => buts] des meilleurs buteurs sochaliens d'une série de matchs. */
+    private static function scorerFacts(array $ids, int $n): array
+    {
+        $out = [];
+        foreach (self::scorers($ids, $n) as $s) {
+            $out[$s['name']] = $s['g'];
+        }
+        return $out;
+    }
+
+    private static function clubFacts(string $name, array $v): ?array
+    {
+        $chrono = self::chrono($v['list'] ?? []);
+        if (!$chrono) {
+            return null;
+        }
+        $t = $v['t'];
+        $last = $chrono[count($chrono) - 1];
+        [$best, $worst, $crowd] = self::extremes($chrono);
+        $home = array_values(array_filter($chrono, fn ($x) => !empty($x['sh'])));
+        $away = array_values(array_filter($chrono, fn ($x) => empty($x['sh'])));
+        $run = self::unbeaten($chrono);
+        return array_filter([
+            'page' => 'face-à-face',
+            'adversaire' => $name,
+            'matchs fichés dans le musée' => (int) $t['count'],
+            'période' => self::year($chrono[0]) . '-' . self::year($last),
+            'résultats de Sochaux' => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
+            'buts' => ['marqués par Sochaux' => (int) $t['gf'], 'encaissés par Sochaux' => (int) $t['ga']],
+            'à domicile' => $home ? self::vndFacts(...self::vnd($home)) : null,
+            'à l’extérieur' => $away ? self::vndFacts(...self::vnd($away)) : null,
+            'compétitions' => $v['comps'] ?? [],
+            'premier match' => self::matchFacts($chrono[0], true),
+            'dernier match' => count($chrono) > 1 ? self::matchFacts($last, true) : null,
+            'plus large victoire' => self::matchFacts($best, true),
+            'plus lourde défaite' => self::matchFacts($worst, true),
+            'plus forte affluence' => self::matchFacts($crowd),
+            'meilleurs buteurs sochaliens' => self::scorerFacts(array_column($chrono, 'id'), 5),
+            'plus longue série sans défaite' => $run ? ['matchs' => $run['n'], 'du' => $run['from']['date'], 'au' => $run['to']['date']] : null,
+            'tous les matchs' => count($chrono) <= 80 ? array_map([self::class, 'line'], $chrono) : null,
+        ], fn ($x) => $x !== null && $x !== []);
+    }
+
+    private static function seasonFacts(array $v, ?string $division): ?array
+    {
+        $matches = self::chrono($v['matches'] ?? []);
+        if (!$matches) {
+            return null;
+        }
+        [$V, $N, $D] = self::vnd($matches);
+        $gf = $ga = 0;
+        foreach ($matches as $x) {
+            if ($x['us'] !== null && $x['us'] !== '') {
+                $gf += (int) $x['us'];
+                $ga += (int) $x['them'];
+            }
+        }
+        [$best, $worst, $crowd] = self::extremes($matches);
+        $cups = [];
+        foreach ($matches as $x) {
+            if (!in_array($x['comp'], ['Championnat', 'Amical'], true)) {
+                $cups[trim((string) (($x['label'] ?? '') ?: $x['comp']))][] = self::line($x);
+            }
+        }
+        $squad = $v['squad'] ?? [];
+        usort($squad, fn ($a, $b) => $b['mj'] <=> $a['mj']);
+        $review = null;
+        if (!empty($v['bilan']['id']) && ($doc = Fiches::get((int) $v['bilan']['id']))) {
+            $txt = self::plainOf((string) ($doc['intro'] ?? '') . "\n" . implode("\n", array_map(fn ($sec) => (string) ($sec['html'] ?? ''), $doc['sections'] ?? [])));
+            $review = $txt !== '' ? ['titre' => (string) $doc['title'], 'texte' => mb_strimwidth($txt, 0, 6000, '…')] : null;
+        }
+        return array_filter([
+            'page' => 'saison',
+            'saison' => (string) $v['season'],
+            'division' => $division,
+            'saison en cours' => !empty($v['current']) ? 'oui' : null,
+            'matchs fichés dans le musée' => count($v['matches'] ?? []),
+            'résultats' => self::vndFacts($V, $N, $D),
+            'buts' => ['marqués' => $gf, 'encaissés' => $ga],
+            'entraîneurs' => array_column(array_map(fn ($c) => ['n' => $c['name'], 'm' => $c['n']], $v['coaches'] ?? []), 'm', 'n'),
+            'meilleurs buteurs' => array_column(array_map(fn ($c) => ['n' => $c['name'], 'g' => $c['g']], array_slice($v['scorers'] ?? [], 0, 8)), 'g', 'n'),
+            'joueurs les plus utilisés (matchs)' => array_column(array_map(fn ($c) => ['n' => $c['name'], 'm' => $c['mj']], array_slice($squad, 0, 6)), 'm', 'n'),
+            'coupes' => $cups,
+            'plus large victoire' => self::matchFacts($best, true),
+            'plus lourde défaite' => self::matchFacts($worst, true),
+            'plus forte affluence' => self::matchFacts($crowd),
+            'tous les matchs' => count($matches) <= 80 ? array_map([self::class, 'line'], $matches) : null,
+            'bilan de la saison (fiche du musée)' => $review,
+        ], fn ($x) => $x !== null && $x !== []);
+    }
+
+    private static function compFacts(string $key, array $v): ?array
+    {
+        $chrono = self::chrono($v['list'] ?? []);
+        if (!$chrono || !isset(Mosaic::COMPS[$key])) {
+            return null;
+        }
+        $t = $v['t'];
+        [$best, $worst, $crowd] = self::extremes($chrono);
+        $groups = $v['groups'] ?? [];
+        usort($groups, fn ($a, $b) => strcmp((string) $a['key'], (string) $b['key']));
+        $seasons = [];
+        foreach ($groups as $g) {
+            $s = self::vndFacts((int) $g['V'], (int) $g['N'], (int) $g['D']) + ['matchs' => (int) $g['n']];
+            if ($key !== 'championnat' && !empty($g['last'])) {
+                $s['dernier match'] = self::line($g['last']);
+            }
+            $seasons[(string) $g['key']] = $s;
+        }
+        $finals = array_values(array_filter($chrono, fn ($x) => self::rank((string) ($x['round'] ?? '')) === 100));
+        return array_filter([
+            'page' => 'bilan d’une compétition',
+            'compétition' => Mosaic::COMPS[$key][0],
+            'matchs fichés dans le musée' => (int) $t['count'],
+            'période' => self::year($chrono[0]) . '-' . self::year($chrono[count($chrono) - 1]),
+            'résultats de Sochaux' => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
+            'buts' => ['marqués par Sochaux' => (int) $t['gf'], 'encaissés par Sochaux' => (int) $t['ga']],
+            'saison par saison' => $seasons,
+            'finales' => $finals ? array_map(fn ($x) => self::matchFacts($x, true), array_slice($finals, 0, 8)) : null,
+            'premier match' => self::matchFacts($chrono[0], true),
+            'dernier match' => self::matchFacts($chrono[count($chrono) - 1], true),
+            'plus large victoire' => self::matchFacts($best, true),
+            'plus lourde défaite' => self::matchFacts($worst, true),
+            'plus forte affluence' => self::matchFacts($crowd),
+            'meilleurs buteurs sochaliens' => self::scorerFacts(array_column($chrono, 'id'), 6),
+        ], fn ($x) => $x !== null && $x !== []);
+    }
+
+    private static function stadiumFacts(string $key, string $name, array $v): ?array
+    {
+        $chrono = self::chrono($v['list'] ?? []);
+        if (!$chrono) {
+            return null;
+        }
+        $t = $v['t'];
+        [$best, $worst, $crowd] = self::extremes($chrono);
+        $decades = [];
+        foreach ($v['groups'] ?? [] as $g) {
+            $decades[(string) $g['key']] = self::vndFacts((int) $g['V'], (int) $g['N'], (int) $g['D']) + ['matchs' => (int) $g['n']];
+        }
+        ksort($decades);
+        return array_filter([
+            'page' => 'bilan dans un stade',
+            'stade' => $key === 'auguste-bonal' ? 'stade Auguste-Bonal, à Montbéliard : le stade du FC Sochaux-Montbéliard' : $name,
+            'matchs fichés dans le musée' => (int) $t['count'],
+            'période' => self::year($chrono[0]) . '-' . self::year($chrono[count($chrono) - 1]),
+            'résultats de Sochaux' => self::vndFacts((int) $t['V'], (int) $t['N'], (int) $t['D']),
+            'buts' => ['marqués par Sochaux' => (int) $t['gf'], 'encaissés par Sochaux' => (int) $t['ga']],
+            'décennie par décennie' => $decades,
+            'premier match fiché' => self::matchFacts($chrono[0], true),
+            'dernier match' => self::matchFacts($chrono[count($chrono) - 1], true),
+            'plus large victoire' => self::matchFacts($best, true),
+            'plus lourde défaite' => self::matchFacts($worst, true),
+            'plus forte affluence' => self::matchFacts($crowd, true),
+            'meilleurs buteurs sochaliens' => self::scorerFacts(array_column($chrono, 'id'), 5),
+            'tous les matchs' => count($chrono) <= 40 ? array_map([self::class, 'line'], $chrono) : null,
+        ], fn ($x) => $x !== null && $x !== []);
+    }
+
+    private static function recordsFacts(string $cat, ?int $decade, ?string $comp): ?array
+    {
+        $rows = Explore::recordRows($cat, $decade, $comp, 10);
+        if (!$rows) {
+            return null;
+        }
+        [, $title, $unit] = Explore::RECORDS[$cat];
+        $lines = [];
+        foreach ($rows as $i => $r) {
+            $lines[] = array_filter(['rang' => $i + 1, 'nom' => (string) $r['name'], 'valeur' => (string) $r['v'], 'détail' => (string) ($r['meta'] ?? '')], fn ($x) => $x !== '');
+        }
+        return [
+            'page' => 'livre des records',
+            'classement' => $title,
+            'portée' => ($decade ? 'années ' . $decade : 'toutes époques') . ', ' . ($comp ? Mosaic::COMPS[$comp][0] : 'toutes compétitions officielles'),
+            'unité' => $unit,
+            'classement détaillé' => $lines,
+        ];
+    }
+
+    private static function chiffresFacts(array $chapters, int $count): ?array
+    {
+        $out = [];
+        foreach ($chapters as $ch) {
+            $stats = [];
+            foreach ($ch['stats'] ?? [] as $st) {
+                $stats[] = array_filter([
+                    'chiffre' => (string) $st['label'],
+                    'valeur' => trim($st['value'] . ' ' . ($st['unit'] ?? '')),
+                    'qui ou quoi' => implode(', ', array_map(fn ($w) => (string) $w['name'], $st['who'] ?? [])),
+                    'précision' => trim((string) ($st['text'] ?? '')),
+                ], fn ($x) => $x !== '');
+            }
+            if ($stats) {
+                $out[] = ['chapitre' => (string) $ch['title'], 'présentation' => (string) ($ch['intro'] ?? ''), 'chiffres' => $stats];
+            }
+        }
+        return $out ? ['page' => 'les chiffres du FCSM', 'statistiques' => $count, 'chapitres' => $out] : null;
+    }
+
+    // ------------------------------------------------------------------ récits automatiques
+
+    /** Face-à-face (récit automatique). */
+    private static function opponentAuto(string $name, array $v, bool $en): ?array
     {
         $chrono = self::chrono($v['list'] ?? []);
         $t = $v['t'] ?? [];
@@ -139,7 +749,7 @@ final class PageAudio
     // ------------------------------------------------------------------ bilans
 
     /** Bilan d'une compétition (/bilans/coupe-de-france/…). $label : nom affiché de la compétition. */
-    public static function competition(string $key, string $label, array $v, bool $en): ?array
+    private static function competitionAuto(string $key, string $label, array $v, bool $en): ?array
     {
         $chrono = self::chrono($v['list'] ?? []);
         $t = $v['t'] ?? [];
@@ -223,7 +833,7 @@ final class PageAudio
     }
 
     /** Bilan dans un stade (/bilans/stade-auguste-bonal/…). */
-    public static function stadium(string $key, string $stadium, array $v, bool $en): ?array
+    private static function stadiumAuto(string $key, string $stadium, array $v, bool $en): ?array
     {
         $chrono = self::chrono($v['list'] ?? []);
         $t = $v['t'] ?? [];
@@ -275,7 +885,7 @@ final class PageAudio
     // ------------------------------------------------------------------ saisons
 
     /** Saison (/matchs/1987-1988/). $v : variables de la page (Explore::seasonData). */
-    public static function season(array $v, ?string $division, bool $en): ?array
+    private static function seasonAuto(array $v, ?string $division, bool $en): ?array
     {
         $matches = array_values(array_filter($v['matches'] ?? [], fn ($x) => !empty($x['date'])));
         if (!$matches) {
@@ -368,7 +978,7 @@ final class PageAudio
     // ------------------------------------------------------------------ records et chiffres
 
     /** Livre des records : le classement affiché. $rows : Explore::recordRows. */
-    public static function records(string $cat, string $title, string $unit, string $scope, array $rows, bool $en): ?array
+    private static function recordsAuto(string $cat, string $title, string $unit, string $scope, array $rows, bool $en): ?array
     {
         if (!$rows) {
             return null;
@@ -394,7 +1004,7 @@ final class PageAudio
     }
 
     /** « Les chiffres du FCSM » : le plus marquant de chaque chapitre. */
-    public static function chiffres(array $chapters, int $count, bool $en): ?array
+    private static function chiffresAuto(array $chapters, int $count, bool $en): ?array
     {
         if (!$chapters) {
             return null;

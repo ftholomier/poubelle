@@ -50,7 +50,8 @@ rembourser par l'association), **verrou nominatif** (une fiche ouverte par quelq
 signalée aux autres, en lecture seule, avec « Prendre la main »), **fiches audio** (chaque
 fiche est expliquée à voix haute (3 minutes au plus, réglable) : voix du navigateur gratuite ou voix IA enregistrée,
 fiche par fiche ou pour tout le musée en traitement groupé ; les pages de synthèse, face-à-face,
-saisons, bilans, records et chiffres, se racontent aussi, gratuitement), **Rétro-Direct** (programme
+saisons, bilans, records et chiffres, sont racontées par l'IA, refaites chaque nuit quand leurs
+chiffres changent), **Rétro-Direct** (programme
 des directs, anniversaires ronds proposés, public de chaque direct), **kit souvenirs** (match
 de chaque mois, mot d'introduction ; témoignages publiés sur les fiches), sauvegardes, aide en
 ligne (guide,

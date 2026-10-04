@@ -295,6 +295,9 @@ final class Costs extends Base
         if (str_starts_with($ref, 'ecran:')) {
             return 'écran ' . substr($ref, 6);
         }
+        if (str_starts_with($ref, 'page:')) {
+            return 'récit de la page ' . str_replace('-', ' ', substr($ref, 5));
+        }
         return $ref;
     }
 }

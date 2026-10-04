@@ -469,7 +469,7 @@ final class FicheAudio
     }
 
     /** Jetons de réponse accordés à l'IA : de quoi écrire le texte le plus long, avec de la marge. */
-    private static function aiTokens(): int
+    public static function aiTokens(): int
     {
         return max(400, self::maxWords() * 4);
     }
@@ -738,6 +738,17 @@ final class FicheAudio
         return ['jobs' => count($made), 'text' => count($plan['text']), 'voice' => count($plan['voice'])];
     }
 
+    /** Textes à faire rédiger en traitement groupé, sans voix IA ensuite (pages de synthèse). Nombre d'envois créés. */
+    public static function queueTexts(array $keys, ?array $user, bool $pages = false): int
+    {
+        $n = 0;
+        foreach (array_chunk(array_values($keys), self::BATCH_TEXT) as $chunk) {
+            self::saveJob(self::newJob('texte', $chunk, $user, false) + ($pages ? ['pages' => true] : []));
+            $n++;
+        }
+        return $n;
+    }
+
     private static function newJob(string $kind, array $keys, ?array $user, bool $thenVoice): array
     {
         return [
@@ -840,6 +851,14 @@ final class FicheAudio
         $side = [];
         $fp = fopen($in, 'wb');
         foreach ($job['keys'] as $key) {
+            // Récit d'une page de synthèse (face-à-face, saison, bilan, records, chiffres).
+            if (PageAudio::isKey($key)) {
+                if ($job['kind'] === 'texte' && ($p = PageAudio::request($key, (string) $job['model']))) {
+                    [$req, $side[$key]] = $p;
+                    fwrite($fp, json_encode(['key' => $key, 'request' => $req], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
+                }
+                continue;
+            }
             [$id, $lang] = explode('-', $key) + [1 => 'fr'];
             $doc = Fiches::get((int) $id);
             if (!$doc) {
@@ -862,7 +881,7 @@ final class FicheAudio
         $job['batch'] = Gemini::batchCreate($job['model'], $file, 'Sochaux Rétro · ' . ($job['kind'] === 'voix' ? 'voix' : 'résumés') . ' · ' . $job['id']);
         $job['state'] = 'envoye';
         $job['polled'] = time();
-        $job['message'] = 'Envoyé à Google : ' . count($side) . ' fiche(s).';
+        $job['message'] = 'Envoyé à Google : ' . count($side) . (!empty($job['pages']) ? ' récit(s) de pages.' : ' fiche(s).');
         @unlink($in);
         return $job;
     }
@@ -906,8 +925,28 @@ final class FicheAudio
         while (($line = fgets($fp)) !== false) {
             $row = json_decode($line, true);
             $key = (string) ($row['key'] ?? ($row['metadata']['key'] ?? ''));
-            [$id, $lang] = explode('-', $key) + [1 => 'fr'];
             $resp = $row['response'] ?? null;
+            if (PageAudio::isKey($key)) {
+                $pk = PageAudio::parseKey($key);
+                if (!$pk || !is_array($resp) || !isset($side[$key])) {
+                    $job['errors']++;
+                } else {
+                    AiCosts::record('audio', (string) $job['model'], AiCosts::usage($resp) + ['batch' => true], 'page:' . $pk[0]);
+                    $text = self::cleanAi(Gemini::responseText($resp));
+                    if ($text !== '') {
+                        PageAudio::saveText($pk[0], $pk[1], $text, (string) $side[$key], (string) $job['model']);
+                        $job['done']++;
+                    } else {
+                        $job['errors']++;
+                    }
+                }
+                $job['cursor'] = ftell($fp);
+                if (microtime(true) > $deadline) {
+                    break;
+                }
+                continue;
+            }
+            [$id, $lang] = explode('-', $key) + [1 => 'fr'];
             if ($key === '' || !is_array($resp) || !isset($side[$key])) {
                 $job['errors']++;
             } elseif ($job['kind'] === 'texte') {
@@ -945,7 +984,7 @@ final class FicheAudio
         }
         if ($eof) {
             $job['state'] = 'termine';
-            $job['message'] = $job['done'] . ' fiche(s) traitée(s)' . ($job['errors'] ? ', ' . $job['errors'] . ' en échec' : '') . '.';
+            $job['message'] = $job['done'] . (!empty($job['pages']) ? ' récit(s) rédigé(s)' : ' fiche(s) traitée(s)') . ($job['errors'] ? ', ' . $job['errors'] . ' en échec' : '') . '.';
             if (!empty($job['ready'])) {
                 foreach (array_chunk($job['ready'], self::voiceBatch()) as $chunk) {
                     self::saveJob(self::newJob('voix', $chunk, ['name' => $job['by']], false));
@@ -964,10 +1003,15 @@ final class FicheAudio
         }
     }
 
-    /** Chaque nuit (après 2 h) : refait les voix IA devenues anciennes (réglage « auto_update »). */
+    /**
+     * Chaque nuit (après 2 h) : refait les voix IA devenues anciennes (réglage « auto_update ») et
+     * fait rédiger les récits des pages de synthèse manquants ou dépassés (réglage « pages_ai »).
+     */
     private static function nightly(): ?string
     {
-        if (!Settings::get('audio.auto_update', true) || (int) date('G') < 2) {
+        $voices = (bool) Settings::get('audio.auto_update', true);
+        $pages = (bool) Settings::get('audio.pages_ai', true) && (bool) Settings::get('audio.ai_text', true);
+        if ((!$voices && !$pages) || (int) date('G') < 2) {
             return null;
         }
         $meta = JsonStore::read(self::$dir . '/jobs.json', []) ?: [];
@@ -979,6 +1023,16 @@ final class FicheAudio
             $j['nightly'] = date('Y-m-d');
             return $j;
         }, []);
+        $log = [];
+        if ($pages && !AiCosts::paused('audio')) {
+            $r = PageAudio::launch(false, null);
+            if ($r['text']) {
+                $log[] = $r['text'] . ' récit(s) de pages de synthèse confiés à l’IA (traitement groupé)';
+            }
+        }
+        if (!$voices) {
+            return $log ? implode(' ; ', $log) : null;
+        }
         $stale = [];
         foreach (glob(self::$dir . '/*.json') ?: [] as $f) {
             if (!preg_match('#/(\d+)\.json$#', $f, $m)) {
@@ -998,11 +1052,11 @@ final class FicheAudio
                 }
             }
         }
-        if (!$stale) {
-            return null;
+        if ($stale) {
+            self::launch([], false, null, $stale);
+            $log[] = count($stale) . ' voix IA à refaire (traitement groupé)';
         }
-        self::launch([], false, null, $stale);
-        return count($stale) . ' voix IA à refaire (traitement groupé)';
+        return $log ? implode(' ; ', $log) : null;
     }
 
     /** Chiffres de l'écran de suivi (fiches publiées, voix IA, textes IA…). */

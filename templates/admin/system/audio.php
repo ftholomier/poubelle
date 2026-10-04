@@ -1,6 +1,7 @@
 <?php
 /**
- * Fiches audio. Variables : $stats, $plan, $aiText, $texts (textes à rédiger par l'IA : n, batch, model), $batch, $direct, $jobs, $states, $recent, $ready, $model, $voice, $spent, $admin, $enabled
+ * Fiches audio. Variables : $stats, $plan, $aiText, $texts (textes à rédiger par l'IA : n, batch, model), $batch, $direct, $jobs, $states, $recent, $ready, $model, $voice, $spent, $admin, $enabled,
+ * $pages (pages de synthèse : stats, last, running, auto, estimate, all, upper)
  */
 use App\Admin\Base;
 
@@ -79,6 +80,25 @@ $kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
     </div>
   </section>
   <section class="card">
+    <div class="card__head"><h2 class="card__t">Pages de synthèse racontées par l’IA</h2><span class="card__note">face-à-face, saisons, bilans, records, chiffres</span></div>
+    <div class="card__body">
+      <p class="small" style="margin:0">Chaque page de synthèse a son bouton « Écouter ». L’IA la raconte comme un historien, à partir de ses chiffres et des fiches de ses grands matchs (premier et dernier match, plus belles victoires, finales, buteurs, séries, bilan de la saison…), en français et en anglais. Tant que son récit manque ou que les chiffres ont changé, le récit automatique, gratuit, est lu.</p>
+      <p class="small" style="margin:0"><?php if ($pages['stats']['fr'] + $pages['stats']['en'] === 0): ?>Aucun récit rédigé par l’IA pour l’instant<?php else: ?><b><?= $fmt($pages['stats']['fr']) ?></b> récit<?= $pages['stats']['fr'] > 1 ? 's' : '' ?> en français et <b><?= $fmt($pages['stats']['en']) ?></b> en anglais rédigés par l’IA<?php endif; ?><?php if ($pages['last']): ?> ; au dernier calcul (<?= e(Base::ago(date('c', (int) $pages['last']['at']))) ?>), <?= $fmt($pages['last']['pages']) ?> pages se racontent<?= $pages['last']['todo'] !== null ? ', ' . $fmt($pages['last']['todo']) . ' récit' . ($pages['last']['todo'] > 1 ? 's' : '') . ' à rédiger' : '' ?><?php endif; ?>.</p>
+      <p class="small" style="margin:0">Coût estimé<?= $pages['upper'] ? ', au plus' : '' ?> : <b><?= e($eur($pages['estimate']['eur'])) ?></b> (traitement groupé, moitié prix ; tout refaire : <?= e($eur($pages['all']['eur'])) ?>). <?= $pages['auto'] ? 'Chaque nuit, les récits manquants ou dépassés sont rédigés automatiquement.' : 'Rédaction automatique de nuit désactivée' . ($admin ? ' (<a href="/admin/reglages?groupe=audio">Réglages › Fiches audio</a>)' : '') . '.' ?></p>
+      <?php if ($pages['running']): ?><p class="small" style="margin:0"><span class="pill pill--info">En cours</span> Un traitement groupé de récits est en cours (tableau ci-dessous).</p><?php endif; ?>
+      <?php if (!$ready): ?>
+        <p class="small" style="margin:0">Il faut une clé Gemini<?= $admin ? ' (<a href="/admin/reglages?groupe=ai">Réglages › Assistant IA</a>)' : '' ?>.</p>
+      <?php elseif ($admin): ?>
+        <form method="post" action="/admin/audio" class="row" style="gap:12px" data-confirm="Faire rédiger les récits des pages par l’IA ?|Les récits manquants ou dépassés, en français et en anglais (coût estimé : <?= e($eur($pages['estimate']['eur'])) ?>, compté dans Coûts IA). Le calcul prend une dizaine de secondes.|Lancer">
+          <?= csrf_field() ?><input type="hidden" name="action" value="pages">
+          <label class="row" style="gap:6px" title="Réécrire aussi les récits déjà rédigés et à jour"><input type="checkbox" name="refaire" value="1"> Tout refaire</label>
+          <button type="submit" class="btn btn--navy">Rédiger les récits maintenant</button>
+          <span class="xs muted">Résultat en quelques heures.</span>
+        </form>
+      <?php endif; ?>
+    </div>
+  </section>
+  <section class="card">
     <div class="card__head"><h2 class="card__t">Comment ça marche</h2></div>
     <div class="card__body small">
       <p style="margin:0"><b>Gratuit, par défaut :</b> chaque fiche propose « Écouter ». Le texte est tiré de la fiche (date, score, buteurs, carrière, puis le texte de la fiche), dans la durée maximale réglée, et lu par la voix du navigateur du visiteur. Rédigé par l’IA, il explique toute la fiche : une fiche courte reste courte.</p>
@@ -97,7 +117,7 @@ $kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
       <?php foreach ($jobs as $j): [$label, $tone] = $states[$j['state']] ?? [$j['state'], 'info']; ?>
         <tr>
           <td class="small nowrap"><?= e(Base::ago(date('c', (int) $j['created']))) ?><br><span class="xs muted"><?= e((string) $j['by']) ?></span></td>
-          <td class="small"><?= e($kind[$j['kind']] ?? $j['kind']) ?></td>
+          <td class="small"><?= e(!empty($j['pages']) ? 'Récits des pages de synthèse' : ($kind[$j['kind']] ?? $j['kind'])) ?></td>
           <td class="t-num"><?= count($j['keys']) ?></td>
           <td><span class="pill pill--<?= e($tone) ?>"><?= e($label) ?></span></td>
           <td class="small"><?= (int) $j['done'] ?> / <?= count($j['keys']) ?><?= $j['errors'] ? ' · <span class="ko">' . (int) $j['errors'] . ' en échec</span>' : '' ?><?= $j['message'] !== '' ? '<br><span class="xs muted">' . e((string) $j['message']) . '</span>' : '' ?></td>
