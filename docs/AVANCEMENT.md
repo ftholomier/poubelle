@@ -345,6 +345,16 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       dans les fiches, 12 720 photos, 237 adversaires ; fin « Des matchs à revivre, des Lions à retrouver, des
       souvenirs à partager », puis « Explorez · Jouez · Partagez ».
 
+## Présentation du projet en PDF (04/10, demande du client) — terminé
+- [x] `docs/sochaux-retro-presentation.pdf` : 27 pages 16:9 pour présenter le projet à quelqu'un
+      qui le découvre, en **montée en puissance** (jauge de 1 à 5 sur chaque page, couleurs de
+      plus en plus intenses) : point de départ (2 940 fiches, 1,8 million de mots), puis
+      « Le classique » (accueil, contenu, mobile et anglais), « Le malin » (fiches match,
+      joueurs reliés, saisons, face-à-face, records, 100 chiffres), « Le vivant » (jeux,
+      centenaire, contributions, PDF), « Le bluffant » (Rétro-Direct, Fil jaune, Écouter) et
+      « Le truc de dingue » (guide du musée, saisie dans le back-office, IA des historiens,
+      chiffres techniques), fin « Un siècle de Lions. Un seul musée. »
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;
