@@ -156,7 +156,7 @@ final class PageAudio
     private static function voiceOf(array $st): ?array
     {
         $a = $st['audio'] ?? null;
-        if (!is_array($a) || empty($a['file']) || ($a['th'] ?? '') !== sha1(trim((string) ($st['text'] ?? '')))) {
+        if (!is_array($a) || empty($a['file']) || (int) ($a['v'] ?? 1) < FicheAudio::VOICE_VERSION || ($a['th'] ?? '') !== sha1(trim((string) ($st['text'] ?? '')))) {
             return null;
         }
         return is_file(FicheAudio::$media . '/' . $a['file']) ? $a : null;
@@ -169,7 +169,7 @@ final class PageAudio
             return null;
         }
         $base = sprintf('%s-%s-%s', $slug, $lang, substr(sha1($text . '|' . $voice . '|' . $model . '|' . strlen($pcm)), 0, 10));
-        $entry = FicheAudio::encodeVoice($base, $pcm, $rate, 'audio/pages') + ['th' => sha1(trim($text)), 'voice' => $voice, 'model' => $model, 'at' => date('c')];
+        $entry = FicheAudio::encodeVoice($base, $pcm, $rate, 'audio/pages') + ['th' => sha1(trim($text)), 'voice' => $voice, 'model' => $model, 'v' => FicheAudio::VOICE_VERSION, 'at' => date('c')];
         $old = null;
         @mkdir(self::$dir, 0775, true);
         JsonStore::update(self::$dir . '/' . $slug . '.json', function ($s) use ($lang, $entry, &$old) {
@@ -192,7 +192,7 @@ final class PageAudio
         if ($text === '') {
             return null;
         }
-        return [Gemini::speechRequest(self::sayText($text, $k[1] === 'en'), $voice, FicheAudio::style($k[1])), $text];
+        return [Gemini::speechRequest(self::sayText($text, $k[1] === 'en'), $voice), $text];
     }
 
     /** Le récit tel qu'il est affiché et dit : paragraphes, chaque paragraphe préparé pour la voix. */
@@ -470,7 +470,7 @@ final class PageAudio
         self::saveText($slug, $lang, $text, self::sig($facts), $model);
         $out = ['text' => $text, 'voice' => null];
         if ($voice) {
-            $r = Gemini::speech(self::sayText($text, $lang === 'en'), FicheAudio::voice(), FicheAudio::style($lang), 'page:' . $slug);
+            $r = Gemini::speech(self::sayText($text, $lang === 'en'), FicheAudio::voice(), '', 'page:' . $slug);
             $out['voice'] = self::storeVoice($slug, $lang, $r['pcm'], $r['rate'], $text, (string) $r['model'], FicheAudio::voice());
         }
         return $out;

@@ -238,6 +238,19 @@ $vj = array_values(array_filter(A::jobs(), fn ($j) => $j['kind'] === 'voix' && !
 $eq('récit rédigé : sa voix IA commandée ensuite', [count($vj), $vj[0]['state'] ?? null], [1, 'attente']);
 $eq('voix des pages désactivées : récits seuls', P::launch(false, null, ['club-nancy'], false)['voice'], 0);
 
+// Voix IA : le texte seul, jamais la consigne de ton (le modèle la lisait à voix haute).
+$req = \App\Services\Gemini::speechRequest('Le texte.', 'Charon');
+$eq('voix : seul le texte est envoyé', $req['contents'][0]['parts'][0]['text'], 'Le texte.');
+[$sreq] = P::speechRequest('page:club-metz:fr', 'Charon');
+$eq('voix d’une page : seul le récit est envoyé', $sreq['contents'][0]['parts'][0]['text'], 'Un nouveau récit.');
+// Voix enregistrée avant la correction (sans version) : plus jouée, à refaire.
+P::storeVoice('club-metz', 'fr', $pcm, 24000, 'Un nouveau récit.', 'essai', 'Charon');
+$st = P::stored('club-metz');
+$eq('nouvelle voix jouée', (bool) (P::opponent('metz', 'Metz', Explore::opponentData('metz')['vars'], false)['url'] ?? null), true);
+unset($st['fr']['audio']['v']);
+JsonStore::write(P::$dir . '/club-metz.json', $st);
+$eq('ancienne voix (consigne lue) : plus jouée, à refaire', [P::opponent('metz', 'Metz', Explore::opponentData('metz')['vars'], false)['url'] ?? null, in_array('page:club-metz:fr', P::plan(false, ['club-metz'])['voices'], true)], [null, true]);
+
 // Essai sur une page : adresse du site ↔ page ; rien la nuit avant le premier lancement complet.
 $urls = ['/face-a-face/nancy/', 'https://musee.fcsochauxretro.com/en/matchs/1987-1988/', '/bilans/stade-auguste-bonal/', '/bilans/coupe-de-france', '/records/?cat=series&decennie=1980&comp=championnat', '/records/', '/en/chiffres/', '/fiche/inconnue/', '/records/?cat=pirate'];
 $eq('adresse → page', array_map(fn ($u) => P::slugFromUrl($u), $urls), [['club-nancy', 'fr'], ['saison-1987-1988', 'en'], ['bilan-stade-auguste-bonal', 'fr'], ['bilan-coupe-de-france', 'fr'], ['records-series-1980-championnat', 'fr'], ['records-buteurs', 'fr'], ['chiffres', 'en'], null, null]);

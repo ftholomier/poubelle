@@ -40,8 +40,12 @@ final class FicheAudio
         'Achird' => 'amicale', 'Iapetus' => 'claire', 'Schedar' => 'égale', 'Kore' => 'ferme', 'Orus' => 'ferme',
         'Algenib' => 'rocailleuse', 'Vindemiatrix' => 'douce', 'Puck' => 'enjouée',
     ];
-    public const STYLE = 'Lis d’une voix chaleureuse et posée, comme un commentateur radio qui raconte un souvenir';
-    private const STYLE_EN = 'Read in a warm, calm voice, like a radio commentator sharing a memory';
+    /**
+     * Version de l'enregistrement des voix IA : 2 = le texte seul. Avant, une consigne de ton
+     * (« Lis d'une voix chaleureuse… ») précédait le texte et le modèle la lisait à voix haute :
+     * ces voix ne sont plus jouées et sont refaites la nuit suivante.
+     */
+    public const VOICE_VERSION = 2;
     /** Fiches par traitement groupé : 30 secondes de voix pèsent environ 2 Mo dans les résultats. */
     public const BATCH_VOICE = 150;
     public const BATCH_TEXT = 800;
@@ -81,10 +85,6 @@ final class FicheAudio
         return isset(self::VOICES[$v]) ? $v : 'Charon';
     }
 
-    public static function style(string $lang): string
-    {
-        return $lang === 'en' ? self::STYLE_EN : (trim((string) Settings::get('audio.style', '')) ?: self::STYLE);
-    }
 
     // ------------------------------------------------------------------ état
 
@@ -510,7 +510,7 @@ final class FicheAudio
     public static function audio(array $doc, string $lang, ?array $cur = null): ?array
     {
         $a = self::state((int) $doc['id'])[$lang]['audio'] ?? null;
-        if (!$a || empty($a['file']) || !is_file(self::$media . '/' . $a['file'])) {
+        if (!$a || empty($a['file']) || (int) ($a['v'] ?? 1) < self::VOICE_VERSION || !is_file(self::$media . '/' . $a['file'])) {
             return null;
         }
         $cur ??= self::current($doc, $lang);
@@ -522,7 +522,7 @@ final class FicheAudio
     {
         $cur = self::current($doc, $lang);
         $voice = self::voice();
-        $r = Gemini::speech($cur['text'], $voice, self::style($lang), 'fiche:' . (int) $doc['id']);
+        $r = Gemini::speech($cur['text'], $voice, '', 'fiche:' . (int) $doc['id']);
         return self::storeVoice((int) $doc['id'], $lang, $r['pcm'], $r['rate'], $cur['text'], $r['model'], $voice);
     }
 
@@ -530,7 +530,7 @@ final class FicheAudio
     public static function storeVoice(int $id, string $lang, string $pcm, int $rate, string $text, string $model, string $voice): array
     {
         $base = sprintf('%d-%s-%s', $id, $lang, substr(sha1($text . '|' . $voice . '|' . $model . '|' . strlen($pcm)), 0, 10));
-        $entry = self::encodeVoice($base, $pcm, $rate) + ['th' => sha1($text), 'voice' => $voice, 'model' => $model, 'at' => date('c')];
+        $entry = self::encodeVoice($base, $pcm, $rate) + ['th' => sha1($text), 'voice' => $voice, 'model' => $model, 'v' => self::VOICE_VERSION, 'at' => date('c')];
         $old = null;
         self::update($id, function ($s) use ($lang, $entry, &$old) {
             $old = $s[$lang]['audio']['file'] ?? null;
@@ -892,7 +892,7 @@ final class FicheAudio
                 $side[$key] = self::sig($doc, $lang);
             } else {
                 $text = self::current($doc, $lang)['text'];
-                $req = Gemini::speechRequest($text, $job['voice'], self::style($lang));
+                $req = Gemini::speechRequest($text, $job['voice']);
                 $side[$key] = $text;
             }
             fwrite($fp, json_encode(['key' => $key, 'request' => $req], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");

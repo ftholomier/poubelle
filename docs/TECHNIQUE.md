@@ -466,7 +466,7 @@ souvenirs) pour refaire les PDF en cache.
   « Lancer pour tout le musée » (`activate()`, `storage/audio/pages-etat.json`).
   `plan()` liste aussi les voix manquantes des récits à jour (`voices`), confiées par `launch()`
   (`FicheAudio::queueVoices()`). Demande : `PageAudio::speechRequest()` (le récit rangé, passé par
-  `speakable()`, voix et ton réglés) ; rangement : `PageAudio::storeVoice()` via
+  `speakable()`, voix réglée, sans consigne de ton) ; rangement : `PageAudio::storeVoice()` via
   `FicheAudio::encodeVoice()` (MP3 si ffmpeg, sinon WAV) dans
   `public/media/audio/pages/{page}-{langue}-{empreinte}.mp3`, ancienne voix supprimée. Jouée
   (`url` du bouton) seulement si son empreinte `th` est celle du récit affiché.
