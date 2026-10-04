@@ -60,5 +60,6 @@ $email = Site::email();
     <a href="<?= e(Host::url('/cookies/')) ?>">Cookies</a>
     <a href="<?= e(Host::url('/plan-du-site/')) ?>">Plan du site</a>
     <a class="vf__museum" href="<?= e(Host::museum('/')) ?>" target="_blank" rel="noopener">Le musée en ligne ↗</a>
+    <span class="vf__credit">Site développé par <span class="vcredit">Frédéric Tholomier | <a href="https://le-digital.com/" target="_blank" rel="noopener">LE-DIGITAL.com</a></span></span>
   </div>
 </footer>

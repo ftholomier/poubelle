@@ -108,7 +108,7 @@ $desc = mb_substr(trim((string) preg_replace('/\s+/u', ' ', strip_tags($text))),
           <?php foreach ($social as $k => [$label, $href]): ?><a href="<?= e($href) ?>" rel="noopener" target="_blank" aria-label="<?= e($label) ?>" title="<?= e($label) ?>"><?= \App\Core\View::partial('vitrine/partials/icon', ['name' => $k]) ?></a><?php endforeach; ?>
         </div>
       <?php endif; ?>
-      <p class="vwait__legal">© <?= date('Y') ?> <?= e($name) ?> · <a href="<?= e(Host::url('/mentions-legales/')) ?>">Mentions légales</a> · <a href="<?= e(Host::url('/confidentialite/')) ?>">Confidentialité</a></p>
+      <p class="vwait__legal">© <?= date('Y') ?> <?= e($name) ?> · <a href="<?= e(Host::url('/mentions-legales/')) ?>">Mentions légales</a> · <a href="<?= e(Host::url('/confidentialite/')) ?>">Confidentialité</a><br>Site développé par <span class="vcredit">Frédéric Tholomier | <a href="https://le-digital.com/" target="_blank" rel="noopener">LE-DIGITAL.com</a></span></p>
     </footer>
   </div>
 </main>
