@@ -231,6 +231,19 @@ final class FicheForm
         if (array_key_exists('competition', $m)) {
             $cur['competition'] = in_array($m['competition'], self::COMPETITIONS, true) ? $m['competition'] : Html::line($m['competition'], 80);
         }
+        // Tour en toutes lettres de l'ancien site (« 15e journée de D1 ») : effacé quand la journée saisie
+        // change (la page affiche alors la journée saisie). Date ou tour d'origine qui contredit la fiche
+        // (en-tête resté d'un autre match) : remplacé à l'enregistrement, comme la page l'affiche déjà.
+        $roundKey = fn ($r) => mb_strtolower((string) preg_replace('/^J0*(?=\d)/i', 'J', trim((string) $r)));
+        if (array_key_exists('round', $m) && !array_key_exists('round_text', $m) && $roundKey($cur['round'] ?? '') !== $roundKey($doc['match']['round'] ?? '')) {
+            $cur['round_text'] = '';
+        }
+        if (\App\Services\MatchText::roundIssue($cur)) {
+            $cur['round_text'] = '';
+        }
+        if (\App\Services\MatchText::dateIssue($cur)) {
+            $cur['date_text'] = date_fr((string) $cur['date'], true);
+        }
         if (array_key_exists('venue', $m)) {
             $cur['sochaux_home'] = $m['venue'] !== 'exterieur';
         }

@@ -130,6 +130,19 @@ enregistrement : le panneau annonce alors le nombre de corrections proposées.
 Les statistiques des joueurs (matchs, buts, minutes, cartons), les pages saison, les
 face-à-face et les records se recalculent seuls à partir des compositions.
 
+**Une fiche = un match.** Pour un nouveau match, créez une nouvelle fiche (+ Nouveau ›
+Fiche match) plutôt que de reprendre celle du match précédent. Si l'on change l'adversaire
+ou la date (de plus de deux jours) d'une fiche qui a déjà des textes, une composition ou
+des photos, l'enregistrement s'arrête sur « Est-ce bien le même match ? » : « Annuler » pour
+un autre match (puis nouvelle fiche), « Même match : enregistrer » pour corriger une erreur
+de saisie (la correction est notée dans l'historique).
+
+Sur les fiches reprises de l'ancien site, la date et le tour écrits en toutes lettres
+(« Vendredi 21 août 2026 », « 3e journée de Ligue 2 ») ne s'affichent que s'ils concordent
+avec la date et la journée saisies ; sinon la page affiche les champs saisis, un encadré
+jaune le signale dans l'onglet Infos et l'ancien texte est remplacé à l'enregistrement. La
+page affiche la journée saisie (« J15 » → « 15e journée »).
+
 ### Fiche personne
 
 | Onglet | Contenu |
@@ -254,8 +267,10 @@ Le tableau **Qualité** liste ce qui mérite une vérification, par onglet :
 
 - **Statistiques et dates** : score différent de la somme des buteurs, textes d'un autre
   match sous l'en-tête de celui-ci (adversaire jamais nommé, réaction de l'entraîneur d'un
-  autre club : l'IA ne raconte pas la fiche avant correction), date du titre
-  différente de la date du match, tableau de composition identique à celui d'un autre match
+  autre club : l'IA ne raconte pas la fiche avant correction), date ou tour en toutes
+  lettres de l'ancien site qui contredit la fiche (« 3e journée de Ligue 2 » pour un amical,
+  « 38e journée » pour la J3, « de D2 » pour un match de Division 1), match de coupe rangé en
+  championnat, tableau de composition identique à celui d'un autre match
   (copié par erreur sur l'ancien site), statistiques personnelles incohérentes, tableau de
   statistiques identique sur plusieurs fiches de joueurs (modèle recopié : la fiche affiche
   les chiffres d'un autre joueur), dates d'une personne impossibles ; matchs sans date,

@@ -10,8 +10,10 @@ return [
 <table>
 <tr><th>Alerte</th><th>Ce qu’elle signifie</th><th>Que faire</th></tr>
 <tr><td>Total des buts ≠ buteurs</td><td>le score ne correspond pas aux buts de la composition</td><td>corriger le score ou les buts</td></tr>
-<tr><td>Date en toutes lettres ≠ date de la fiche</td><td>la date écrite en tête du match (« Samedi 12 août 1994 ») diffère de la date saisie</td><td>vérifier la vraie date</td></tr>
-<tr><td>Jour de la semaine incohérent</td><td>le jour écrit (« Jeudi 30 janvier 1991 ») ne correspond pas à la date : le jour ou la date est faux</td><td>corriger l’un ou l’autre</td></tr>
+<tr><td>Date en toutes lettres ≠ date de la fiche</td><td>la date écrite en tête du match par l’ancien site (« Samedi 12 août 1994 ») diffère de la date saisie ; la page du match affiche la date saisie</td><td>onglet Infos : vérifier la vraie date (la corriger si l’ancien texte avait raison) ; en enregistrant la fiche, l’ancien texte est remplacé</td></tr>
+<tr><td>Jour de la semaine incohérent</td><td>le jour écrit (« Jeudi 30 janvier 1991 ») ne correspond pas à la date : le jour ou la date est faux ; la page affiche le jour qui va avec la date saisie</td><td>vérifier la date, puis enregistrer la fiche</td></tr>
+<tr><td>Tour en toutes lettres « … »</td><td>le tour écrit en tête du match par l’ancien site contredit la fiche : journée de championnat pour un match amical, journée éloignée de celle saisie (« 38e journée » pour la J3), autre division (« de D2 » pour un match de Division 1), autre tour de coupe. Souvent un en-tête resté d’un autre match. La page, l’écoute et l’assistant utilisent la journée saisie (une ou deux journées d’écart ne sont pas signalées : match en retard)</td><td>onglet Infos : vérifier « Journée / tour » ; en enregistrant la fiche, l’ancien texte est remplacé</td></tr>
+<tr><td>Match de « Coupe de France » rangé dans la compétition « Championnat »</td><td>un match de coupe classé en championnat : il compte dans les chiffres du championnat (points, saisons)</td><td>onglet Infos › Compétition : choisir la coupe</td></tr>
 <tr><td>Tirs au but sans le score de la séance</td><td>« (tab 9-8) » est écrit mais la séance n’est pas saisie</td><td>Score › Prolongation « Tirs au but » et les deux scores</td></tr>
 <tr><td>Même tableau de composition que…</td><td>une composition copiée d’un autre match sur l’ancien site</td><td>saisir la bonne composition</td></tr>
 <tr><td>Statistiques incohérentes</td><td>le total d’un tableau de statistiques ne correspond pas à la somme des saisons</td><td>corriger le tableau</td></tr>

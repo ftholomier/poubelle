@@ -839,6 +839,12 @@
           if (go) { form.dataset.modified = r.modified; return save(extra); }
           return;
         }
+        // Le serveur fait confirmer (garde-fou : fiche d'un match réutilisée pour un autre) puis on renvoie.
+        if (r.confirm) {
+          const c = r.confirm;
+          if (await BO.confirm(c.title || 'Confirmer', c.text || '', c.ok || 'Confirmer', true)) return save(Object.assign({}, extra, c.extra || {}));
+          return;
+        }
         if (!r.ok) { BO.toast(r.error || 'Enregistrement impossible', true); if (r.field) highlight(r.field); return; }
         dirty = false;
         if (draftKey) { try { localStorage.removeItem(draftKey); } catch (e) { /* */ } }

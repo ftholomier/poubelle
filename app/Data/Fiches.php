@@ -506,6 +506,8 @@ final class Fiches
         'match.referee' => 'Arbitre', 'match.lineup' => 'Composition', 'match.highlights' => 'Temps forts',
         'match.reactions' => 'Réactions', 'match.breves' => 'Brèves', 'match.competition' => 'Compétition',
         'match.home' => 'Domicile', 'match.away' => 'Extérieur', 'match.goals_text' => 'Buteurs',
+        'match.date_text' => 'Date en toutes lettres', 'match.round_text' => 'Tour en toutes lettres', 'match.round' => 'Journée / tour',
+        'match.competition_label' => 'Libellé de la compétition', 'match.season' => 'Saison',
         'personne.birth' => 'Naissance', 'personne.position' => 'Poste', 'personne.stats' => 'Statistiques',
         'personne.fiche' => "Fiche d'identité", 'personne.album' => "Carte de l'album", 'i18n' => 'Traduction EN',
     ];

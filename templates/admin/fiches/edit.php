@@ -37,6 +37,7 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
   <?php if ($isNew): ?><input type="hidden" name="_type" value="<?= e($type) ?>"><?php endif; ?>
   <div class="stack">
     <?php if ($doc['status'] === 'corbeille'): ?><p class="alert alert--error">Cette fiche est à la corbeille : elle n’est pas visible sur le site.</p><?php endif; ?>
+    <?php if ($type === 'match' && !$isNew && ($why = \App\Services\MatchText::otherMatch($doc))): ?><p class="alert alert--error" role="alert">⚠ <?= e($why) ?></p><?php endif; ?>
     <div class="ftabs" data-ftabs role="tablist">
       <?php foreach ($tabs as $k => $l): ?><button type="button" data-tab="<?= e($k) ?>" role="tab"><?= e($l) ?><?php if (!empty($counts[$k])): ?><em><?= (int) $counts[$k] ?></em><?php endif; ?></button><?php endforeach; ?>
     </div>

@@ -582,16 +582,13 @@ final class Derived
                 if ($us !== null && $rows && $teamGoals > 0 && $teamGoals !== $us) {
                     $quality[] = ['sev' => 'haute', 'code' => 'buts', 'msg' => "Total des buts ($us) ≠ somme des buteurs de la composition ($teamGoals)", 'id' => $mid];
                 }
-                if (!empty($m['date_text']) && is_string($m['date_text']) && $date) {
-                    $pd = self::frDate($m['date_text']);
-                    $wd = self::weekday($m['date_text']);
-                    if ($pd && $pd !== $date) {
-                        $quality[] = ['sev' => 'moyenne', 'code' => 'date', 'ref' => 'ecart', 'msg' => 'Date en toutes lettres (« ' . $m['date_text'] . ' ») ≠ date de la fiche (' . date('d/m/Y', strtotime($date)) . ')', 'id' => $mid];
-                    } elseif (!$pd) {
-                        $quality[] = ['sev' => 'basse', 'code' => 'date', 'ref' => 'illisible', 'msg' => 'Date en toutes lettres illisible (« ' . $m['date_text'] . ' ») ; date de la fiche : ' . date('d/m/Y', strtotime($date)), 'id' => $mid];
-                    } elseif ($wd !== null && $wd !== (int) date('N', strtotime($date))) {
-                        $quality[] = ['sev' => 'basse', 'code' => 'date', 'ref' => 'jour', 'msg' => 'Jour de la semaine incohérent dans « ' . $m['date_text'] . ' » : le ' . date('d/m/Y', strtotime($date)) . ' était un ' . self::WEEKDAYS[(int) date('N', strtotime($date)) - 1] . ' (jour ou date à vérifier)', 'id' => $mid];
-                    }
+                // En-tête de l'ancien site (date, tour en toutes lettres) qui contredit la fiche : la page
+                // affiche les champs saisis (MatchText::header) ; l'ancien texte s'efface à l'enregistrement.
+                if ($di = \App\Services\MatchText::dateIssue($m)) {
+                    $quality[] = $di + ['code' => 'date', 'id' => $mid];
+                }
+                if ($ri = \App\Services\MatchText::roundIssue($m)) {
+                    $quality[] = $ri + ['code' => 'tour', 'id' => $mid];
                 }
                 $ex = (string) ($m['score']['extra'] ?? '');
                 if ($doc['_visible'] && stripos($ex, 'tab') !== false && empty($m['score']['pens'])) {
@@ -1068,8 +1065,6 @@ final class Derived
         return null;
     }
 
-    private const WEEKDAYS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
-
     /** Buts saisis : entier (ou « 2 », 2.0 d'un fichier retouché à la main) ; null s'il n'y en a pas de lisible. */
     private static function goals(mixed $v): ?int
     {
@@ -1091,6 +1086,11 @@ final class Derived
         $date = is_scalar($m['date'] ?? null) ? (string) $m['date'] : null;
         $today = date('Y-m-d');
         $official = !in_array($m['competition'] ?? '', self::OFFICIAL_EXCLUDED, true) && empty($m['event']);
+        // Match de coupe rangé en championnat : compté dans les chiffres du championnat (points, saisons).
+        $label = is_scalar($m['competition_label'] ?? null) ? trim((string) $m['competition_label']) : '';
+        if (($m['competition'] ?? '') === 'Championnat' && preg_match('/\bcoupe\b/iu', $label)) {
+            $out[] = ['sev' => 'moyenne', 'code' => 'competition', 'ref' => 'coupe', 'msg' => "Match de « $label » rangé dans la compétition « Championnat » : compté avec les matchs de championnat (onglet Infos › Compétition)"];
+        }
         if (!$date) {
             if ($vis) {
                 $out[] = ['sev' => 'haute', 'code' => 'match-date', 'ref' => 'absente', 'msg' => 'Date du match non renseignée : absent des saisons, des bilans et de « Ce jour-là » (onglet Infos)'];
@@ -1283,25 +1283,6 @@ final class Derived
             $out[] = 'texte';
         }
         return array_slice(array_values(array_unique($out)), 0, 5);
-    }
-
-    /** Jour de la semaine écrit en tête d'une date en lettres (1 = lundi), null s'il n'y en a pas. */
-    private static function weekday(string $s): ?int
-    {
-        $w = strtolower((string) preg_replace('/[^a-z].*$/s', '', Names::ascii(trim($s))));
-        $i = array_search($w, self::WEEKDAYS, true);
-        return $i === false ? null : $i + 1;
-    }
-
-    /** « Mardi 3 Novembre 1987 » → 1987-11-03 */
-    private static function frDate(string $s): ?string
-    {
-        $months = ['janvier' => 1, 'fevrier' => 2, 'mars' => 3, 'avril' => 4, 'mai' => 5, 'juin' => 6, 'juillet' => 7, 'aout' => 8, 'septembre' => 9, 'octobre' => 10, 'novembre' => 11, 'decembre' => 12];
-        $a = Names::ascii($s);
-        if (preg_match('/(\d{1,2})(?:er)?\s+([a-z]+)\s+(\d{4})/', $a, $m) && isset($months[$m[2]]) && checkdate($months[$m[2]], (int) $m[1], (int) $m[3])) {
-            return sprintf('%04d-%02d-%02d', $m[3], $months[$m[2]], $m[1]);
-        }
-        return null;
     }
 
     // ------------------------------------------------------------------ lectures

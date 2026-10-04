@@ -57,6 +57,8 @@ $noScore['result'] = null;
 $eq('match officiel joué sans score', $codes($check($noScore)), ['score']);
 $eq('amical sans score : rien', $check(array_replace($noScore, ['competition' => 'Amical'])), []);
 $eq('tournoi (événement) sans score : rien', $check(array_replace($noScore, ['event' => 'Tournoi en salle'])), []);
+$eq('match de coupe rangé en championnat', array_map(fn ($a) => [$a['code'], $a['ref']], $check($match(['competition_label' => 'Coupe de France']))), [['competition', 'coupe']]);
+$eq('championnat (libellé Division 1) : rien', $check($match(['competition_label' => 'Division 1'])), []);
 $rows = function (int $starters, array $extra = []) {
     $r = [['position' => 'G', 'name' => 'Gardien Un']];
     for ($i = 1; $i < $starters; $i++) {

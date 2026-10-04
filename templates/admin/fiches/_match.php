@@ -12,6 +12,13 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
 ?>
 <div class="fpanel" data-panel="infos">
   <div class="card card--pad">
+    <?php // En-tête de l'ancien site (date, tour en toutes lettres) qui contredit les champs ci-dessous.
+    $issues = array_filter([\App\Services\MatchText::dateIssue($m), \App\Services\MatchText::roundIssue($m)]); ?>
+    <?php if ($issues): ?>
+      <div class="alert" role="status" style="margin-bottom:12px"><b>En-tête de l’ancien site à vérifier</b>
+        <ul style="margin:6px 0"><?php foreach ($issues as $i): ?><li><?= e($i['msg']) ?></li><?php endforeach; ?></ul>
+        La page du match affiche la date et la journée saisies ci-dessous : corrigez-les si l’ancien texte avait raison. À l’enregistrement, l’ancien texte est remplacé (il reste dans l’Historique).</div>
+    <?php endif; ?>
     <div class="fgrid">
       <?= Form::text('match.date', 'Date', $m['date'] ?? '', ['type' => 'date', 'hint' => 'saison calculée']) ?>
       <?= Form::select('match.competition', 'Compétition', $m['competition'] ?? 'Championnat', $comps) ?>

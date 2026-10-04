@@ -108,8 +108,11 @@ $eq('amical de juin : saison gardée si la date ne change pas', $apply($m, ['mat
 $new = $apply($m, ['match' => ['date' => '1989-06-27']])['match'];
 $eq('amical de juin : jour corrigé, saison gardée', [$new['season'], $new['date_text']], ['1989-1990', 'Mardi 27 juin 1989']);
 $eq('date changée de mois : saison recalculée', $apply($m, ['match' => ['date' => '1989-05-20']])['match']['season'], '1988-1989');
+$m = Fiches::get(12891);
+$eq('date en toutes lettres d’origine gardée (« Dimanche 4 aout 1991 »)', $apply($m, ['match' => ['date' => $m['match']['date']]])['match']['date_text'], $m['match']['date_text']);
+// … sauf si elle contredit la date (en-tête resté d'un autre match) : remplacée, comme sur la page.
 $m = Fiches::get(290);
-$eq('date en toutes lettres d’origine gardée', $apply($m, ['match' => ['date' => $m['match']['date']]])['match']['date_text'], $m['match']['date_text']);
+$eq('date d’origine contredite (12 août pour le 13) : remplacée à l’enregistrement', $apply($m, ['match' => ['date' => '1994-08-13']])['match']['date_text'], 'Samedi 13 août 1994');
 
 // Texte riche repris (intertitres h5) : gardé tant qu'il n'est pas modifié.
 $a = Fiches::get(12899);

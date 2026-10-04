@@ -34,10 +34,14 @@ final class Fiche
         return self::localize($doc);
     }
 
-    /** Fiche prête à afficher : traduction anglaise s'il y a lieu, « xx » de l'ancien site retirés (Unknown). */
+    /**
+     * Fiche prête à afficher : traduction anglaise s'il y a lieu, en-tête d'un match conforme à ses
+     * champs (date et tour de l'ancien site écartés s'ils les contredisent : MatchText::header),
+     * « xx » de l'ancien site retirés (Unknown).
+     */
     private static function localize(array $doc): array
     {
-        return Unknown::doc(self::translated($doc));
+        return Unknown::doc(\App\Services\MatchText::header(self::translated($doc)));
     }
 
     /** Remplace les champs par leur traduction anglaise quand elle existe. */

@@ -13,7 +13,9 @@ return [
 <li><b>Stade</b>, <b>Spectateurs</b> (en chiffres), <b>Arbitre</b>.</li>
 </ul>
 [[img:match-infos.webp|L’onglet Infos d’une fiche match]]
-[[auto|<p>Le titre de la fiche (« J23 – Rouen / Sochaux – National – 04/03/2024 – 1-0 ») et son adresse sont proposés automatiquement à partir de ces informations.</p>]]
+[[auto|<p>Le titre de la fiche (« J23 – Rouen / Sochaux – National – 04/03/2024 – 1-0 ») et son adresse sont proposés automatiquement à partir de ces informations. La page du match affiche la journée saisie (« J15 » devient « 15e journée »).</p>]]
+<p><b>Une fiche = un match.</b> Pour un nouveau match, créez toujours une nouvelle fiche, ne réutilisez pas celle du match précédent : si vous changez l’adversaire ou la date (de plus de deux jours) d’une fiche qui a déjà des textes, une composition ou des photos, le back-office vous arrête avant d’enregistrer (« Est-ce bien le même match ? »). « Annuler », puis <b>+ Nouveau › Fiche match</b> s’il s’agit d’un autre match ; « Même match : enregistrer » s’il s’agit de corriger une erreur de saisie (la correction est notée dans l’Historique).</p>
+<p>Sur une fiche reprise de l’ancien site, un encadré jaune en tête de l’onglet Infos signale un en-tête d’origine qui contredit la fiche (date « Vendredi 21 août » pour un match du 2 octobre, « 3e journée de Ligue 2 » pour un amical) : la page du match affiche déjà la date et la journée saisies ; vérifiez-les, l’ancien texte est remplacé à l’enregistrement. Un encadré rouge en haut de la fiche signale des textes qui racontent un autre match (voir Qualité).</p>
 HTML],
         ['id' => 'score', 'title' => '2. Le score et les buteurs', 'html' => <<<'HTML'
 <ul>

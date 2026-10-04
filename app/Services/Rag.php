@@ -447,7 +447,7 @@ final class Rag
     {
         $type = $doc['type'];
         if ($type === 'match' && !empty($doc['match'])) {
-            $m = $doc['match'];
+            $m = MatchText::header($doc, false)['match']; // tour d'origine écarté s'il contredit la fiche
             $score = isset($m['score']['home']) ? $m['score']['home'] . '-' . $m['score']['away'] : '';
             if (!empty($m['score']['extra'])) {
                 $score .= ' (' . ($m['score']['extra'] === 'tab' ? 'tirs au but' : 'après prolongation') . ')';

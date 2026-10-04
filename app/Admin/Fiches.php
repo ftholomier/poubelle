@@ -347,6 +347,12 @@ final class Fiches extends Base
         if ($errors) {
             return self::json(['ok' => false, 'error' => reset($errors), 'field' => array_key_first($errors), 'errors' => $errors], 422);
         }
+        // Garde-fou : la fiche d'un match réutilisée pour un autre (adversaire ou date changés sur une fiche
+        // déjà remplie). Le navigateur fait confirmer puis renvoie la fiche avec « _same_match ».
+        $switch = $isNew ? null : \App\Services\MatchText::switched($before, $doc);
+        if ($switch && empty($in['_same_match'])) {
+            return self::json(['ok' => false, 'confirm' => ['title' => 'Est-ce bien le même match ?', 'text' => $switch['text'], 'ok' => 'Même match : enregistrer', 'extra' => ['_same_match' => 1]]], 409);
+        }
         // Adresse : automatique tant que la fiche n'a jamais été publiée, sinon modifiable à la main.
         $wasPublished = !$isNew && (($before['status'] ?? '') === 'publie' || !empty($before['published_once']));
         $typed = trim((string) ($in['path'] ?? ''));
@@ -372,6 +378,9 @@ final class Fiches extends Base
             $doc['published_once'] = true;
         }
         $message = Html::line($in['_message'] ?? '', 160);
+        if ($switch && $message === '') {
+            $message = Html::line('En-tête corrigé (même match) : ' . implode(', ', $switch['changes']), 160);
+        }
         $saved = Store::save($doc, self::actor(), $message);
         if (!$isNew && ($before['path'] ?? '') !== '' && $before['path'] !== $saved['path'] && $wasPublished) {
             Redirects::add($before['path'], $saved['path']);

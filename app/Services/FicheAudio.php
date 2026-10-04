@@ -153,6 +153,10 @@ final class FicheAudio
         if (isset($d['match'])) {
             $m = $d['match'];
             $facts[] = [$m['date'] ?? '', $m['home']['name'] ?? '', $m['away']['name'] ?? '', $m['score'] ?? '', $m['goals'] ?? '', $m['stadium'] ?? '', $m['spectators'] ?? '', $m['highlights'] ?? '', $m['breves'] ?? ''];
+            // Tour d'origine contredit par la fiche (en-tête d'un autre match) : récit de l'IA à refaire.
+            if (MatchText::roundIssue($m)) {
+                $facts[] = 'tour : ' . MatchText::roundLabel($m);
+            }
         }
         if (isset($d['personne'])) {
             $p = $d['personne'];
@@ -289,7 +293,8 @@ final class FicheAudio
             [$soch, $opp] = $sochHome ? [$home, $away] : [$away, $home];
             [$gs, $go] = $sochHome ? [(int) $m['score']['home'], (int) $m['score']['away']] : [(int) $m['score']['away'], (int) $m['score']['home']];
             $comp = trim((string) (($m['competition_label'] ?? '') ?: ($m['competition'] ?? '')));
-            $round = trim((string) preg_replace('/(\d+)\s*(?:ème|eme|è)\b/u', '$1e', (string) ($m['round_text'] ?? '')));
+            // Tour d'origine contredit par la fiche (journée de championnat pour un amical…) : non lu.
+            $round = MatchText::roundIssue($m) ? '' : trim((string) preg_replace('/(\d+)\s*(?:ème|eme|è)\b/u', '$1e', (string) ($m['round_text'] ?? '')));
             // « 24e journée de D2 » dit tout ; sinon la compétition seule.
             $head = !$en && $round !== '' && str_contains($round, ' ') ? $round : $comp;
             if (preg_match('/amical/i', $comp)) {
@@ -460,7 +465,7 @@ final class FicheAudio
         $en = $lang === 'en';
         $data = ['type' => Fiches::TYPES[$d['type']] ?? $d['type'], 'titre' => $d['title'], 'introduction' => self::plainText((string) ($d['intro'] ?? ''))];
         if (isset($d['match'])) {
-            $m = $d['match'];
+            $m = MatchText::header($d, false)['match'];
             $data['match'] = [
                 'date' => $m['date'] ?? null, 'compétition' => ($m['competition_label'] ?? '') ?: ($m['competition'] ?? ''), 'tour' => $m['round_text'] ?? '',
                 'domicile' => $m['home']['name'] ?? '', 'extérieur' => $m['away']['name'] ?? '', 'score' => $m['score'] ?? null,

@@ -182,8 +182,14 @@ plafonné) et dates d'une personne incohérentes (`dates` : naissance improbable
 la naissance, départ avant l'arrivée, âge d'arrivée impossible).
 
 Autres alertes :
-- jour de la semaine incohérent avec la date ;
-- date en toutes lettres illisible ;
+- en-tête de l'ancien site qui contredit la fiche (`App\Services\MatchText::dateIssue()` et
+  `roundIssue()`) : date en toutes lettres différente de la date (`date`, `ecart`), jour de la
+  semaine incohérent (`jour`), date illisible (`illisible`) ; tour en toutes lettres
+  (`tour`) : journée de championnat pour un amical (`amical`), journée à plus de deux
+  journées de celle saisie (`journee` ; une ou deux d'écart = match en retard, non signalé),
+  autre division (`division`, « de D2 » pour la Division 1), autre tour de coupe (`coupe`) ;
+- match de coupe rangé dans la compétition « Championnat » (`competition`, compté avec le
+  championnat dans les chiffres) ;
 - tirs au but sans score de séance (`tab`) ;
 - lien vidéo non reconnu (`video`) ;
 - « xx » de l'ancien site (`inconnu`, information inconnue, avec l'endroit : fiche
@@ -206,7 +212,31 @@ signalée sur 1 664, sans fausse alerte, les coulisses de la semaine qui citent 
 restant tranquilles). `FicheAudio::blocked()` en tire la règle de l'audio : ni récit de
 l'IA (plan, envoi groupé, boutons de l'éditeur refusés avec la raison), ni ses textes (seul
 l'en-tête du match est lu, sauf texte audio écrit à la main), ni extrait dans les récits des
-pages de synthèse ; la consigne de l'IA dit aussi que l'en-tête d'un match fait foi. Personnes : date impossible au calendrier (dans `dates`),
+pages de synthèse ; la consigne de l'IA dit aussi que l'en-tête d'un match fait foi.
+
+En-tête affiché : `MatchText::header()` (appelé par `Fiche::localize()`, donc page, PDF,
+Rétro-Direct, kit souvenirs, et par l'assistant) ne garde la date et le tour en toutes
+lettres de l'ancien site que s'ils concordent avec les champs saisis ; sinon la page
+affiche la date saisie (`date_text` vidé → `date_fr()`) et la journée saisie
+(`roundLabel()` : « J15 » → « 15e journée », « 1/8e aller » → « 8e de finale aller »,
+« Matchday 15 » en anglais, où la date vient toujours de la date saisie). Les fiches créées
+au back-office (sans tour en toutes lettres) affichent ainsi leur journée. L'audio ne lit
+pas un tour contredit et l'IA reçoit la journée saisie ; l'empreinte du récit de l'IA ne
+change que pour ces fiches-là. À l'enregistrement (`FicheForm::match()`), le tour en toutes
+lettres est effacé quand la journée saisie change (« J04 » = « J4 »), et un en-tête
+contredit est remplacé (l'ancien reste dans l'historique).
+
+Garde-fou de l'éditeur : `MatchText::switched($avant, $après)` repère l'adversaire changé
+(autre club : ni même clé, ni même nom à l'espace près, ni même club du référentiel) ou la
+date déplacée de plus de deux jours sur une fiche déjà remplie (textes d'au moins 30 mots,
+composition, temps forts, réactions, photos ou vidéos). `Fiches::save()` répond alors 409
+avec `confirm` (titre, texte, bouton, `extra: {_same_match: 1}`) ; `admin.js` affiche
+`BO.confirm` et renvoie la fiche avec `extra` si la personne confirme ; la version est notée
+« En-tête corrigé (même match) : adversaire A → B, date … » quand aucune note n'est saisie.
+L'éditeur affiche aussi, en haut, l'alerte « Texte d'un autre match ? » et, dans l'onglet
+Infos, l'encadré « En-tête de l'ancien site à vérifier ».
+
+Personnes : date impossible au calendrier (dans `dates`),
 aucune rubrique (`role`), même nom qu'une autre fiche sans dates de naissance différentes
 (`homonyme`). Toutes les fiches (`ficheChecks`) : titre vide (`titre`), adresse vide, mal
 formée ou partagée par deux fiches (`adresse`), rubrique supprimée (`rubrique`), image absente
@@ -726,7 +756,8 @@ souvenirs) pour refaire les PDF en cache.
   `FicheForm::apply()` garde la valeur d'origine de tout champ que la personne n'a pas
   touché, même quand le masque ne sait pas la représenter (HTML repris de l'ancien site,
   date à la seconde, date partielle non reconnue comme « juin 1978 ? », score « a.p » ou
-  « (4-5 tab) », lieu de décès détaillé, date en toutes lettres et saison d'un match, ligne
+  « (4-5 tab) », lieu de décès détaillé, date en toutes lettres et saison d'un match (sauf
+  en-tête qui contredit la fiche : remplacé, voir `MatchText::header()`), ligne
   de jeu hors liste, vidéo « iframe »), et `settle()` laisse un champ vide sous sa forme
   d'origine (`null`, `""` ou liste vide) sans ajouter de champ vide. « Déjà publiée »
   (`published_once`) n'est retenu qu'au changement de statut. Vérification :
@@ -847,6 +878,11 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   change, voix commandées après les récits, voix des pages désactivées ; fin de voix nettoyée,
   encodeur MP3 : trames, silence, 22,05 kHz, décodage par ffmpeg s'il est là ; conversion des
   voix WAV, morceaux de voix recollés, résumés gardés d'un affichage à l'autre).
+- `php tests/entete.php` : en-tête des matchs (date et tour en toutes lettres contredits,
+  match en retard non signalé, journée affichée en français et en anglais, page, audio, IA
+  et assistant, enregistrement qui suit la journée saisie) et garde-fou « Est-ce bien le même
+  match ? » (autre adversaire, autre date, date corrigée d'un jour, même club autrement écrit,
+  fiche vide, premier adversaire saisi).
 - `php tests/favoris.php` : favoris du back-office (adresses du back-office seulement, choix
   selon le rôle, favoris d'un compte filtrés et noms nettoyés).
 - `php tests/retro.php` : Rétro-Direct (chronologie : buts et score, mi-temps, prolongation,
