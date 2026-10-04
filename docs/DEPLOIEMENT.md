@@ -1,8 +1,10 @@
 # Sochaux Rétro — mise en ligne sur o2switch
 
 Guide pas à pas pour installer le musée par FTP sur **musee.fcsochauxretro.com**, l'ouvrir
-aux historiens puis au public. L'adresse www.fcsochauxretro.com reste celle de l'association
-(son site WordPress). Aucun accès SSH n'est nécessaire : tout se fait par FTP et depuis cPanel.
+aux historiens puis au public. La même installation sert aussi le **site de l'association**
+sur www.fcsochauxretro.com (section 11), une fois la copie des photos terminée : d'ici là,
+www reste l'ancien WordPress. Aucun accès SSH n'est nécessaire : tout se fait par FTP et
+depuis cPanel.
 
 ## 1. Prérequis
 
@@ -199,11 +201,12 @@ copiées par lots de 100 chaque heure.
    « Afficher le teaser vidéo », décochée par défaut ; « Aperçu avec le teaser » le montre à
    l'équipe sans l'activer). Tant qu'il n'est montré nulle part au public, la vidéo reste
    introuvable par une adresse directe.
-5. **www.fcsochauxretro.com** reste le site de l'association : y mettre un lien bien visible
-   vers le musée. L'ancien WordPress n'ayant jamais été public ni indexé, aucune redirection
-   n'est nécessaire. Si d'anciennes adresses du musée avaient circulé (`/2015/03/…`), le musée
-   les reconnaît : ses 5 984 redirections intégrées les mènent à la bonne fiche, sur
-   musee.fcsochauxretro.com.
+5. **www.fcsochauxretro.com** devient le site de l'association, servi par la même
+   installation (section 11) ; il met en avant le musée sur toutes ses pages. L'ancien
+   WordPress n'ayant jamais été public ni indexé, aucune redirection n'est indispensable ;
+   si d'anciennes adresses avaient circulé (`/2015/03/…`, `/matchs/…`), le site de
+   l'association les envoie de lui-même au musée (301), qui les reconnaît grâce à ses 5 984
+   redirections intégrées.
 
 Garder le dossier WordPress tant que la copie des photos n'est pas terminée et vérifiée
 (il en est la source).
@@ -265,3 +268,51 @@ réglages et les dons.
 - Les scripts de `scripts/wp/` servent uniquement à la reprise de WordPress : relancer
   `scripts/wp/import.php` **écrase les fiches reprises**. Ne plus l'utiliser une fois les
   historiens au travail.
+
+## 11. Site de l'association sur www.fcsochauxretro.com
+
+Le site de l'association (présentation, actions, actualités, agenda, adhésion en ligne,
+bénévolat, contact) fait partie du même code que le musée : **rien d'autre à installer**,
+et chaque mise à jour depuis GitHub met à jour les deux sites. Il se pilote dans le
+back-office, pavé **Site de l'association** (administrateurs seulement).
+
+1. **Préparer sans attendre** : le site est fermé au départ (page d'attente). Depuis le
+   back-office, « Aperçu complet » montre le site entier à l'adresse
+   `https://musee.fcsochauxretro.com/apercu-association/`, même tant que www mène encore au
+   WordPress. Parcourir la liste « À vérifier » du tableau de bord (tarifs d'adhésion,
+   e-mail de réception, mentions légales, contenus d'exemple).
+2. **Quand la copie des photos est terminée et vérifiée** (section 4), faire mener
+   `www.fcsochauxretro.com` **et** `fcsochauxretro.com` au même dossier que le musée,
+   `/home/<compte>/sochauxretro/public` :
+   - si le domaine est un domaine ajouté (cPanel › **Domaines**, bouton « Gérer ») : changer
+     sa **racine du document** pour ce dossier ;
+   - si c'est le **domaine principal** du compte (racine `public_html`, non modifiable dans
+     cPanel) : renommer d'abord `public_html` en `public_html-wordpress` (Gestionnaire de
+     fichiers ; c'est l'ancien WordPress, gardé tel quel), puis créer une tâche cron d'une
+     minute avec la commande
+     `ln -s /home/<compte>/sochauxretro/public /home/<compte>/public_html`,
+     et la supprimer dès que le lien `public_html` apparaît (ou demander ce lien au support
+     o2switch).
+
+   Vérifier ensuite le certificat HTTPS des deux noms (cPanel › SSL/TLS Status, « Run
+   AutoSSL »).
+3. Ouvrir `https://www.fcsochauxretro.com/` : la page d'attente du site de l'association
+   s'affiche (et `fcsochauxretro.com` redirige vers www). Les anciennes adresses du
+   WordPress qui existent au musée y sont redirigées automatiquement.
+4. Dans le tableau de bord du pavé : **Ouvrir le site au public**. Le site devient indexable ;
+   soumettre `https://www.fcsochauxretro.com/sitemap.xml` dans Google Search Console
+   (propriété `https://www.fcsochauxretro.com`).
+5. Le dossier du WordPress (`public_html-wordpress` ou l'ancienne racine) peut alors être
+   archivé (sauvegarde) puis supprimé.
+
+Adresses : l'adresse du site et les noms redirigés vers lui se règlent dans le pavé
+(Réglages du site) ; par défaut `https://www.fcsochauxretro.com` et `fcsochauxretro.com`.
+
+**Adhésion en ligne** : elle utilise les clés Stripe et PayPal des dons (section 8), sans
+nouveau webhook : les adresses `…/api/dons/stripe/webhook` et `…/api/dons/paypal/webhook` du
+musée confirment aussi les cotisations. Sans paiement en ligne, le site propose le chèque et
+un bulletin à imprimer ; un lien HelloAsso peut être ajouté dans les réglages du pavé.
+
+**Données** : textes modifiés dans le pavé dans `data/vitrine/` ; adhésions et propositions de
+bénévolat dans `storage/vitrine/` (comprises dans les sauvegardes, jamais dans le dépôt,
+effacées automatiquement selon les durées annoncées sur la page Confidentialité).

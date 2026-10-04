@@ -410,3 +410,38 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 - **Corbeille** (lien « Voir la corbeille » sous les listes de fiches) : fiches mises à la
   corbeille, à restaurer ; la suppression définitive est réservée aux administrateurs (une
   copie reste dans l'historique des versions).
+
+## 12. Site de l'association (administrateurs)
+
+Le pavé **Site de l'association** du menu pilote le site www.fcsochauxretro.com (présentation,
+actions, actualités, agenda, adhésion, bénévolat, contact). Il n'apparaît que pour les
+administrateurs ; les autres comptes ne le voient pas et n'y ont pas accès.
+
+- **Tableau de bord** : site ouvert ou fermé (page d'attente au départ), bouton « Aperçu
+  complet » (le site entier, même fermé, avec les contenus « à vérifier » signalés en rouge),
+  **Ouvrir le site au public** / « Fermer le site », liste **À vérifier** (points rouges
+  d'abord : tarifs d'exemple, e-mail de réception, mentions légales), adhérents de l'année,
+  chèques attendus, propositions de bénévolat, messages reçus, audience.
+- **Contenus**, par onglets : textes des **pages**, **actions** (une page chacune, dans l'ordre
+  du menu), **actualités** et **agenda** (datés ; brouillon possible ; les Rétro-Direct du musée
+  et le centenaire s'ajoutent seuls à l'agenda), **équipe** (un membre n'est affiché que si son
+  nom est saisi) et pôles de bénévoles, **partenaires**, **presse** (revue de presse),
+  **documents** (statuts, comptes rendus : « Déposer un fichier » puis Enregistrer), **tarifs**
+  d'adhésion. Liens des boutons : « /page/ » (ce site), « musee:/page/ » (le musée),
+  « https://… » (autre site), « social:youtube » (réseau social réglé).
+- **À vérifier** : ce qui n'a pas pu être connu en préparant le site est coché « à vérifier ».
+  Une actualité ou un événement à vérifier reste invisible du public tant que la case n'est
+  pas décochée. Aucun nom de personne, de partenaire ni article de presse n'a été inventé.
+- Textes de départ : mis à jour avec le code tant qu'ils n'ont pas été modifiés ; dès le
+  premier enregistrement, ils sont à vous (« Revenir au contenu de départ » les rétablit,
+  votre version reste dans l'historique).
+- **Adhésions** : en ligne (carte bancaire ou PayPal, avec les clés des dons), par chèque
+  (« Règlement attendu » jusqu'à « Marquer comme payée »), sur papier (« + Adhésion papier ») ;
+  filtres par année et statut, e-mail de bienvenue, export CSV.
+- **Bénévoles** : propositions reçues, suivi (contacté, actif, classé), note interne, export.
+- Les **messages** du formulaire de contact du site arrivent dans Communauté › Messages, avec
+  l'étiquette « Association ».
+- **Réglages du site** : adresse et noms redirigés, nom et signature, e-mail de réception,
+  téléphone et adresse postale, adhésion en ligne, lien HelloAsso, LinkedIn, page d'attente,
+  titre et description pour Google.
+

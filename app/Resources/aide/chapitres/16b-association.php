@@ -17,6 +17,7 @@ return [
 HTML],
         ['id' => 'ouverture', 'title' => 'Aperçu et ouverture au public', 'admin' => true, 'html' => <<<'HTML'
 <p>Le site est <b>fermé au départ</b> : les visiteurs voient une page d’attente et rien n’est indexé par Google. Vous le voyez en entier dans l’<b>aperçu</b> (adresse /apercu-association/ du musée), y compris les contenus « à vérifier », signalés par une étiquette rouge.</p>
+[[img:association-tableau.webp|Le tableau de bord du site : (1) site fermé ou ouvert, (2) aperçu complet, (3) ouvrir le site au public, (4) adhésions, bénévolat, messages et audience, (5) la liste « À vérifier », (6) le pavé dans le menu]]
 <ol>
 <li>Parcourez la liste <b>À vérifier</b> du tableau de bord : points rouges d’abord (tarifs, e-mail de réception, mentions légales), puis les jaunes.</li>
 <li>Vérifiez le rendu dans l’aperçu, sur ordinateur et sur téléphone.</li>
@@ -34,6 +35,7 @@ HTML],
 <li><b>Partenaires</b>, <b>Presse</b> (revue de presse) et <b>Documents</b> (statuts, comptes rendus : « Déposer un fichier », puis Enregistrer).</li>
 <li><b>Tarifs d’adhésion</b> : les formules, leurs montants, un montant libre « à partir de ».</li>
 </ul>
+[[img:association-contenus.webp|Les contenus, ici les actualités : (1) les onglets, (2) l’aperçu de la page, (3) enregistrer, (4) l’adresse de la page, (5) la case « À vérifier », (6) déplacer, dupliquer ou supprimer]]
 <p>Liens dans les boutons : « /page/ » pour ce site, « musee:/page/ » pour le musée, « https://… » pour un autre site, « social:youtube » pour un réseau social réglé.</p>
 [[astuce|<p>Les textes livrés au départ sont mis à jour avec le code tant que vous ne les avez pas modifiés. Dès votre premier enregistrement, ils sont à vous ; « Revenir au contenu de départ » les rétablit (votre version reste dans l’historique).</p>]]
 <p><b>À vérifier</b> : ce qui n’a pas pu être connu en préparant le site (dates d’événements, histoire de l’association, tarifs…) est marqué « à vérifier ». Une actualité ou un événement à vérifier reste <b>invisible du public</b> tant que la case n’est pas décochée ; aucun nom de personne, de partenaire ni article de presse n’a été inventé.</p>

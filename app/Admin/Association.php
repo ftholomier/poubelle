@@ -188,15 +188,15 @@ final class Association extends Base
         $help = isset($o['help']) ? e((string) $o['help']) : null;
         return match ($type) {
             'int' => Form::number($p . $k, $label, $v, ['min' => $o['min'] ?? null, 'max' => $o['max'] ?? null, 'class' => $cls]),
-            'bool' => Form::toggle($p . $k, $label, (bool) $v, ['help' => $help]),
+            'bool' => Form::toggle($p . $k, $label, (bool) $v, ['help' => $help, 'class' => $cls ?: 'f--2']),
             'select' => Form::select($p . $k, $label, (string) ($v ?? ''), $o['options'] ?? [], ['strict' => true]),
-            'image' => Form::image($p . $k, $label, is_string($v) && $v !== '' ? $v : null),
+            'image' => Form::image($p . $k, $label, is_string($v) && $v !== '' ? $v : null, ['class' => $cls ?: 'f--2']),
             'html' => Form::html($p . $k, $label, (string) ($v ?? ''), []),
             'long' => Form::textarea($p . $k, $label, (string) ($v ?? ''), ['plain' => true, 'rows' => 3, 'class' => 'f--full', 'maxlength' => $o['max'] ?? 600, 'proof' => true]),
             'date' => Form::text($p . $k, $label, (string) ($v ?? ''), ['type' => 'date', 'class' => $cls]),
             'datetime' => Form::text($p . $k, $label, str_replace(' ', 'T', (string) ($v ?? '')), ['type' => 'datetime-local', 'class' => $cls]),
             'link' => Form::text($p . $k, $label, (string) ($v ?? ''), ['placeholder' => '/page/, musee:/page/ ou https://…', 'maxlength' => 300, 'class' => $cls]),
-            'slug' => Form::text($p . $k, $label, (string) ($v ?? ''), ['maxlength' => $o['max'] ?? 80, 'placeholder' => 'rempli d’après le titre', 'hint' => 'lettres, chiffres, tirets', 'class' => $cls]),
+            'slug' => Form::text($p . $k, $label, (string) ($v ?? ''), ['maxlength' => $o['max'] ?? 80, 'placeholder' => 'rempli d’après le titre', 'hint' => 'lettres, chiffres, tirets', 'class' => $cls ?: (($o['max'] ?? 80) >= 60 ? 'f--2' : '')]),
             'file' => self::fileField($p . $k, $label, (string) ($v ?? '')),
             'lines' => Form::lines($p . $k, $label, is_array($v) ? $v : [], ['add' => 'Ajouter un point']),
             default => Form::text($p . $k, $label, (string) ($v ?? ''), ['maxlength' => $o['max'] ?? 300, 'placeholder' => $o['placeholder'] ?? '', 'class' => $cls, 'proof' => true]),

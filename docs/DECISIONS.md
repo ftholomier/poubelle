@@ -206,3 +206,23 @@ réellement développé.
 - Sécurité : politique CSP sur toutes les pages (scripts du site uniquement ; lecteurs vidéo,
   tuiles OpenStreetMap et pages de paiement explicitement autorisés).
 - Mise en ligne : voir `docs/DEPLOIEMENT.md`.
+
+## Site de l'association (www), 04/10
+- **Même application que le musée**, reconnue par l'adresse demandée (www et ses alias) : un
+  seul code, une seule mise à jour depuis GitHub, un seul back-office. Le back-office reste sur
+  le musée (www/admin y renvoie).
+- **Piloté uniquement par les administrateurs** : pavé dédié du menu, masqué et refusé (403)
+  aux autres comptes, aperçu compris.
+- **Fermé au départ**, aperçu complet depuis le back-office avant même que www mène au
+  serveur ; ouverture par un bouton du tableau de bord.
+- **Rien d'inventé sur les personnes** : pas de noms, de partenaires ni d'articles de presse
+  fictifs ; les contenus d'exemple (dates, tarifs, événements) sont « à vérifier », et une
+  actualité ou un événement à vérifier n'est jamais montré au public.
+- Contenus de départ dans le code (mis à jour depuis GitHub), modifications dans `data/`,
+  données personnelles dans `storage/` (jamais dans le dépôt, purges RGPD).
+- **Adhésion** : mêmes prestataires de paiement que les dons (pas de nouveau compte ni de
+  nouveau webhook) ; chèque et bulletin papier toujours possibles ; HelloAsso en simple lien.
+- **Aucun cookie tiers** sur le site de l'association (vidéos YouTube en liens, vignettes
+  copiées sur le serveur, mesure d'audience sans cookie) : pas de bandeau à valider.
+- Français uniquement ; même charte que le musée, mise en page plus aérée.
+

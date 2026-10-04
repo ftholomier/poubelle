@@ -37,6 +37,12 @@ redirigées.
   (polices du site embarquées, blason, pages numérotées, signets, liens), fabriqué par le
   serveur en PHP pur et mis en cache.
 
+**Site de l'association** (www.fcsochauxretro.com, même installation) : présentation de
+Sochaux Rétro, six actions, actualités, agenda (avec les Rétro-Direct du musée, abonnement
+iCal), adhésion en ligne (carte, PayPal, chèque, bulletin à imprimer), bénévolat, contact,
+partenaires, espace presse ; fermé au public tant qu'un administrateur ne l'ouvre pas, aperçu
+complet depuis le back-office ; les anciennes adresses de www mènent au musée.
+
 **Back-office** (`/admin`) pour les historiens : fiches, compositions en grille,
 médiathèque, rubriques et menus (ordre des fiches de chaque décennie, saison ou rubrique
 par glisser-déposer avec trait d'insertion), accueil, outils interactifs, communauté, dons,

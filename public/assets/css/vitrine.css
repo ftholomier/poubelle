@@ -437,9 +437,9 @@ a.vpartner:hover img { filter: none; }
 .vbulletin__head h1 { font-family: var(--display); font-weight: 900; font-size: 26pt; text-transform: uppercase; line-height: 1; margin: 0; }
 .vbulletin__head p { margin: 4px 0 0; }
 .vbulletin h2 { font-family: var(--display); font-weight: 900; font-size: 15pt; text-transform: uppercase; margin: 16px 0 8px; border-left: 6px solid #F6C400; padding-left: 8px; }
-.vbulletin__choices { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.vbulletin__choices { overflow-wrap: anywhere; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .vbulletin__box { display: inline-block; width: 13px; height: 13px; border: 1.5px solid #0E1F4D; margin-right: 8px; vertical-align: -1px; }
-.vbulletin__lines p { margin: 0 0 12px; }
+.vbulletin__lines p { margin: 0 0 12px; overflow-wrap: anywhere; }
 .vbulletin__addr { border-left: 3px solid #F6C400; padding-left: 10px; margin: 8px 0 12px; }
 .vbulletin__addr p { margin: 0; }
 .vbulletin__sign { margin-top: 26px; }

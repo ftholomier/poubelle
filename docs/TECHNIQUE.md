@@ -32,28 +32,30 @@ sur la page « Arrêt de jeu » quand un administrateur est connecté.
 
 1. `/media/{largeur}/{fichier}.webp` : vignettes générées à la volée (§ 6).
 2. `/wp-content/uploads/…` : redirection 301 vers la médiathèque (anciens liens d'images).
-3. `/admin…` : back-office (`App\Admin\Router`, § 8).
-4. Préfixe `/en` : passage en anglais, puis traitement normal de l'adresse sans préfixe.
-5. `/api/…` : API JSON du site (`App\Front\Api`) : recherche, assistant, carte, votes,
+3. Adresse du **site de l'association** (www et ses alias) → `App\Vitrine\Kernel::handle()` ;
+   `/apercu-association/…` sur le musée → `Vitrine\Kernel::preview()` (§ 7 undecies).
+4. `/admin…` : back-office (`App\Admin\Router`, § 8).
+5. Préfixe `/en` : passage en anglais, puis traitement normal de l'adresse sans préfixe.
+6. `/api/…` : API JSON du site (`App\Front\Api`) : recherche, assistant, carte, votes,
    dons et leurs webhooks. Les webhooks des paiements et le consentement aux cookies ne sont
    jamais bloqués ; le reste de l'API est fermé avec le site (page d'attente, mot de passe).
-6. `/video/teaser.mp4` et `.jpg` (`Front\Pages::teaser()`, fichiers dans
+7. `/video/teaser.mp4` et `.jpg` (`Front\Pages::teaser()`, fichiers dans
    `app/Resources/video/`, hors de `public/`) : servis au public seulement quand le teaser est
    montré (case de la page d'attente, ou accueil une fois le site ouvert), à l'équipe
    connectée toujours ; lecture par morceaux (`Range`, `Response::media()`) pour l'avance
    rapide et Safari ; sinon l'adresse suit le chemin ordinaire (page d'attente ou 404).
-7. Page d'attente, puis mot de passe d'accès éventuel. La page d'attente est **active par
+8. Page d'attente, puis mot de passe d'accès éventuel. La page d'attente est **active par
    défaut** (`waiting.enabled` vaut `true` tant que rien n'est enregistré : une installation
    neuve est fermée au public). Les membres connectés du back-office voient le site, avec un
    bandeau `.team-bar` « Site fermé au public » (gabarit `layout.php`) ; les pages légales et
    `robots.txt` restent servis ; la page d'attente (503, `no-store`) n'a aucun lien vers le
    back-office.
-8. Adresse sans barre finale → 301 vers l'adresse avec barre finale.
-9. Routes fixes (accueil, explorer, interactif, communauté, dons, pages légales…), déclarées
+9. Adresse sans barre finale → 301 vers l'adresse avec barre finale.
+10. Routes fixes (accueil, explorer, interactif, communauté, dons, pages légales…), déclarées
    dans `Kernel::routes()`.
-10. Fiche ou rubrique à cette adresse (`Front\Pages::byPath()` : index des fiches, puis
+11. Fiche ou rubrique à cette adresse (`Front\Pages::byPath()` : index des fiches, puis
     rubriques).
-11. Ancienne adresse connue (`data/redirects.json`) → 301 ; sinon page 404 et adresse
+12. Ancienne adresse connue (`data/redirects.json`) → 301 ; sinon page 404 et adresse
     notée dans `storage/404.json` (Back-office › Redirections › Adresses introuvables).
 
 Site fermé ou masqué (`Front\Seo::closed()` : page d'attente ou mot de passe ;
@@ -781,6 +783,60 @@ et par personne ; la session est libérée pendant l'appel (10 à 60 s).
 - **Réglages** › Recherche sur le web : activation, modèle (vide : celui de l'assistant), plafond.
 - **Essais** : `WebCheck::$ai` remplace l'appel à Gemini (`tests/recherche.php`).
 
+## 7 undecies. Site de l'association (`App\Vitrine`, www)
+
+La même application sert le musée et le site de l'association. `Vitrine\Host` reconnaît
+l'adresse demandée : celle du site (`vitrine.base_url`, par défaut www.fcsochauxretro.com) ou
+un alias (`vitrine.aliases`, par défaut le domaine nu, redirigé en 301 vers www) ; jamais
+l'adresse du musée (`general.base_url`). Tout le reste est le musée.
+
+`Vitrine\Kernel::dispatch()`, dans l'ordre : `/admin…` → 302 vers le back-office du musée ;
+`/api/consentement` et webhooks des paiements → `Front\Api` ; robots.txt et sitemap.xml
+propres (`Vitrine\Seo`) ; anciens liens `/?p=` → musée ; site fermé (`vitrine.open` faux par
+défaut) : page d'attente 503 (pages légales servies) ; pages (`Kernel::routes()`) ; adresse
+sans barre finale d'une page du site → 301 ; **ancienne adresse WordPress que le musée
+connaît** (`App\Kernel::probe()` : page, fiche, rubrique ou redirection) → 301 vers le musée,
+même site fermé ; sinon 404 du site.
+
+- **Aperçu** : `/apercu-association/…` sur l'adresse du musée, réservé aux administrateurs.
+  `Host::$prefix` préfixe alors tous les liens internes (`Host::url()`, `Pages::rich()` pour
+  les textes saisis, redirections) ; `Site::$preview` montre les contenus « à vérifier »
+  (étiquette rouge) et un bandeau ; réponses `noindex` et `no-store`.
+- **Contenus** (`Vitrine\Store`, `Vitrine\Content`) : contenus de départ dans
+  `app/Resources/vitrine/*.php` (livrés et mis à jour avec le code) ; dès qu'un contenu est
+  enregistré dans le pavé, `data/vitrine/{nom}.json` le remplace (versions dans
+  `storage/versions/vitrine/`). Pages : un fichier par page (`page-{clé}.json`), complété par
+  les champs de départ ajoutés plus tard. Une actualité ou un événement « à vérifier »
+  (`a_verifier`), un brouillon ou une actualité datée dans le futur ne sont pas publics ;
+  un membre de l'équipe sans nom n'est pas affiché.
+- **Agenda** : événements saisis + Rétro-Direct programmés au musée (`vitrine.agenda_retro`)
+  + centenaire ; export iCalendar `/agenda/agenda.ics` (lignes repliées à 75 octets).
+- **Formulaires** (`Vitrine\Forms`) : adhésion, bénévolat, contact (boîte
+  `storage/inbox/messages/`, champ `site: association`), newsletter du musée sans session
+  (résultat dans l'adresse : `?nl=code&f=formulaire`). Antispam : CSRF (sauf newsletter),
+  champ piège, horodatage signé `form_ts()`, limites par IP (`vt-*`).
+- **Adhésions** (`Vitrine\Membership`, `storage/vitrine/adhesions.json`) : Stripe Checkout
+  (`metadata.adhesion`) ou commande PayPal (`custom_id` « A… ») avec les clés des dons ;
+  statut relu chez le prestataire au retour, par les webhooks des dons (étendus :
+  `Front\Donations::stripeWebhook()` et `paypalWebhook()` passent la main aux adhésions),
+  ou par la tâche planifiée (`Membership::expire()`). Paiements idempotents (référence du
+  prestataire). Chèque : statut `offline`, réglé dans le pavé.
+- **Documents publics** (`Vitrine\Documents`) : `data/vitrine/documents/` (dépôt dans le pavé :
+  PDF, images, ZIP, contrôlés par extension et type réel) et le dossier de presse livré
+  (`app/Resources/vitrine/fichiers/`), servis par `/documents/{fichier}`.
+- **Vidéos** (`Vitrine\Videos`) : flux RSS public de la chaîne YouTube, relu toutes les
+  6 heures par la tâche `association` ; vignettes copiées dans `storage/vitrine/videos/` :
+  aucune requête vers Google depuis les pages, d'où l'absence de bandeau cookies.
+- **Audience** (`Vitrine\Stats`) : une ligne « heure|page » par page vue
+  (`storage/vitrine/stats/`), robots exclus, rien tant que le site est fermé.
+- **Gabarits** `templates/vitrine/`, styles `public/assets/css/vitrine.css` (en plus de
+  `site.css`), script `public/assets/js/vitrine.js` (menu mobile, formulaire d'adhésion).
+- **Pavé d'administration** `App\Admin\Association` (`/admin/association…`, dans
+  `Router::ADMIN_ONLY`) : tableau de bord et `checklist()`, éditeurs génériques (schémas,
+  `cleanItem()`, adresses uniques), pages (champs déduits du contenu de départ par
+  `pageFields()`), adhésions, bénévoles, réglages (groupe `vitrine`, caché de l'écran
+  Réglages général par `'hidden' => true`).
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -852,7 +908,10 @@ publication des fiches programmées, statistiques (et les 100 chiffres du FCSM),
 d'orthographe, newsletter,
 géolocalisation (toutes les 10 min), médiathèque, vignettes des vidéos (toutes les heures),
 assistant IA (toutes les heures), dons (toutes les heures), plan du site (chaque jour),
-sauvegarde, reçus annuels, purges RGPD.
+site de l'association (toutes les heures : vidéos YouTube, adhésions non confirmées,
+journaux d'audience), sauvegarde, reçus annuels, purges RGPD (dont adhésions abandonnées
+après 30 jours, coordonnées des adhérents 3 ans après leur année, bénévoles sans suite
+après 2 ans).
 
 ## 10. `storage/` (hors dépôt)
 
@@ -868,6 +927,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `ia/` | dépense d'IA : détail des appels, cumuls, remboursements, barème (§ 7 quater) | oui |
 | `audio/` | fiches audio : texte lu et voix IA de chaque fiche, traitements groupés (§ 7 quinquies) ; `audio/pages/` : récits des pages de synthèse rédigés par l'IA ; `audio/jobs/` : fichiers d'échange temporaires | oui (sauf `jobs/`) ; les voix IA (`public/media/audio/`) avec les photos, le dimanche |
 | `retro/` | Rétro-Direct : spectateurs connectés, pic et réactions de chaque direct, « J'y étais ! » par match (§ 7 sexies) | oui |
+| `vitrine/` | site de l'association : adhésions, propositions de bénévolat, audience, vidéos YouTube récentes (§ 7 undecies) | oui |
 | `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
 | `controle.json` | dernier contrôle complet (bouton « Contrôler maintenant ») : clés des alertes, nouvelles, historique | non (le contrôle suivant le refait ; sans lui, comparaison avec la référence livrée) |
 | `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques (dont `cache/fil-jaune.json`, records du Fil jaune, et `cache/chiffres-*.json`, les 100 chiffres) | non |
@@ -975,6 +1035,11 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   courte, liens, familles et records, défi du jour).
 - `php tests/souvenirs.php` : kit souvenirs (match du mois et choix des historiens, visages,
   quiz, PDF de 4 pages), « Ils y étaient » (témoignages publiés seulement), QR code.
+- `php tests/vitrine.php` : site de l'association (adresses et alias, page d'attente, aperçu
+  réservé, anciennes adresses vers le musée, pages et plan du site, contenus « à vérifier »
+  invisibles du public, agenda iCal, liens de l'aperçu, antispam, adhésion payée par un
+  webhook Stripe signé puis remboursée, capture PayPal, purges RGPD, documents, nettoyage
+  des saisies du pavé, pavé réservé aux administrateurs).
 - `php tests/chiffres.php` : les chiffres du FCSM (tableaux de carrière et tableaux recopiés,
   buts minute par minute, séries par blocs de saisons, quotas, passeurs, âges, mise en forme
   française et anglaise ; puis les 100 chiffres du musée et les garde-fous contre les données

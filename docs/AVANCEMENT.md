@@ -355,6 +355,37 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       « Le truc de dingue » (guide du musée, saisie dans le back-office, IA des historiens,
       chiffres techniques), fin « Un siècle de Lions. Un seul musée. »
 
+## Site de l'association sur www (04/10, demande du client) — prêt, fermé au public
+- [x] **Une seule installation, deux adresses** : musee.fcsochauxretro.com (le musée) et
+      www.fcsochauxretro.com (l'association) ; fcsochauxretro.com redirige vers www ; les
+      anciennes adresses WordPress de www que le musée connaît y sont redirigées. Mis à jour
+      depuis GitHub comme le musée.
+- [x] Pages : accueil (teaser, chiffres, actions, actualités, agenda, centenaire, soutien,
+      newsletter), qui sommes-nous, équipe, statuts et documents, six actions (musée en ligne,
+      vidéos et réseaux, collections et archives, expositions et rencontres, Après-midi Bonal,
+      centenaire 2028), actualités, agenda (Rétro-Direct du musée inclus, abonnement iCal),
+      nous soutenir, adhérer, bénévolat, partenaires, presse (kit média avec la présentation
+      PDF), contact, mentions légales, confidentialité, cookies (aucun bandeau : aucun cookie
+      tiers), plan du site.
+- [x] **Formulaires** : adhésion (carte et PayPal avec les clés des dons, chèque, bulletin à
+      imprimer, HelloAsso facultatif), bénévolat, contact (dans Communauté › Messages),
+      newsletter « Ce jour-là ». Antispam comme sur le musée.
+- [x] **Pavé « Site de l'association »** du back-office, réservé aux administrateurs : tableau
+      de bord (ouverture, aperçu, points à vérifier), contenus, adhésions (export CSV),
+      bénévoles, réglages ; chapitre d'aide (admins).
+- [x] **Contenus de départ** rédigés à partir de ce que fait vraiment le musée ; rien
+      d'inventé sur les personnes, partenaires ou articles de presse. Ce qui ne pouvait pas
+      être connu est marqué « à vérifier » : récit des débuts de l'association, gouvernance,
+      **tarifs d'exemple (15, 10, 25, 50 €)**, durée de l'adhésion, expositions et rencontres,
+      une actualité et trois événements d'exemple (invisibles du public).
+- [x] Test automatique `tests/vitrine.php` (49 vérifications, dont une adhésion payée par un
+      webhook Stripe signé) ; parcours complet dans un navigateur (pavé en admin, refus pour
+      un compte historien, formulaires publics, ordinateur et téléphone).
+- [ ] À faire par l'association : compléter les points « À vérifier » du tableau de bord
+      (tarifs, équipe, statuts, mentions légales, e-mail de réception), puis, la copie des
+      photos terminée, faire mener www au même dossier que le musée (DEPLOIEMENT § 11) et
+      ouvrir le site.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

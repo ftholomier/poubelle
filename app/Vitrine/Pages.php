@@ -30,7 +30,6 @@ final class Pages
         ], [
             'full_title' => (string) Settings::get('vitrine.seo_title', '') ?: Site::name(),
             'description' => (string) Settings::get('vitrine.seo_description', ''),
-            'image' => !empty($p['hero_image']) ? img((string) $p['hero_image'], 1200) : '',
             'active' => 'accueil',
             'body_class' => 'vt-home',
             'jsonld' => Site::organizationLd(),
