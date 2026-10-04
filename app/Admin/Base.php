@@ -52,6 +52,13 @@ class Base
             ['newsletter', 'Newsletter', '/admin/newsletter', false],
             ['dons', 'Dons', '/admin/dons', false],
         ],
+        'Site de l’association' => [
+            ['asso', 'Tableau de bord', '/admin/association', true],
+            ['asso-contenus', 'Contenus', '/admin/association/contenus/pages', true],
+            ['asso-adhesions', 'Adhésions', '/admin/association/adhesions', true],
+            ['asso-benevoles', 'Bénévoles', '/admin/association/benevoles', true],
+            ['asso-reglages', 'Réglages du site', '/admin/association/reglages', true],
+        ],
         'Système' => [
             ['traductions', 'Traductions EN', '/admin/traductions', false],
             ['assistant', 'Assistant IA', '/admin/assistant', true],
@@ -232,6 +239,11 @@ class Base
         $b['qualite'] = $high;
         // Nouvelle version du code sur GitHub (d'après la dernière vérification, sans appel réseau).
         $b['majs'] = Auth::isAdmin() && \App\Services\Updater::available() ? 1 : 0;
+        // Site de l'association (administrateurs) : chèques attendus, propositions de bénévolat nouvelles.
+        if (Auth::isAdmin()) {
+            $b['asso-adhesions'] = count(array_filter(\App\Vitrine\Membership::all(), fn ($a) => $a['status'] === 'offline'));
+            $b['asso-benevoles'] = count(array_filter(\App\Core\JsonStore::read(\App\Vitrine\Forms::VOLUNTEERS, []) ?: [], fn ($v) => ($v['status'] ?? 'nouveau') === 'nouveau'));
+        }
         return $b;
     }
 

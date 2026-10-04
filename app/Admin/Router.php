@@ -16,7 +16,7 @@ use App\Core\Session;
 final class Router
 {
     /** Adresses réservées aux administrateurs (en plus des comptes et des réglages, contrôlés écran par écran). */
-    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu)(/|$)#';
+    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|association)(/|$)#';
 
     public static function handle(Request $req): Response
     {
@@ -149,6 +149,27 @@ final class Router
         $r->get('/admin/dons/{id}', fn ($q, $id) => Donations::show($q, $id));
         $r->post('/admin/dons/{id}', fn ($q, $id) => Donations::update($q, $id));
         $r->get('/admin/dons/recu/{num}', fn ($q, $num) => Donations::receipt($q, $num));
+
+        // Site de l'association (administrateurs seulement : voir ADMIN_ONLY)
+        $r->get('/admin/association', fn ($q) => Association::index($q));
+        $r->post('/admin/association/ouverture', fn ($q) => Association::toggle($q));
+        $r->get('/admin/association/contenus', fn ($q) => Response::redirect('/admin/association/contenus/pages'));
+        $r->get('/admin/association/contenus/{name}', fn ($q, $name) => Association::contents($q, $name));
+        $r->post('/admin/association/contenus/{name}/depart', fn ($q, $name) => Association::reset($q, $name));
+        $r->post('/admin/association/contenus/{name}', fn ($q, $name) => Association::contentsSave($q, $name));
+        $r->get('/admin/association/page/{key}', fn ($q, $key) => Association::pageEdit($q, $key));
+        $r->post('/admin/association/page/{key}/depart', fn ($q, $key) => Association::reset($q, 'page-' . $key));
+        $r->post('/admin/association/page/{key}', fn ($q, $key) => Association::pageSave($q, $key));
+        $r->post('/admin/association/documents/envoi', fn ($q) => Association::upload($q));
+        $r->get('/admin/association/adhesions', fn ($q) => Association::memberships($q));
+        $r->post('/admin/association/adhesions', fn ($q) => Association::membershipAdd($q));
+        $r->get('/admin/association/adhesions/export.csv', fn ($q) => Association::membershipsExport($q));
+        $r->get('/admin/association/adhesions/{id}', fn ($q, $id) => Association::membership($q, $id));
+        $r->post('/admin/association/adhesions/{id}', fn ($q, $id) => Association::membershipAction($q, $id));
+        $r->get('/admin/association/benevoles', fn ($q) => Association::volunteers($q));
+        $r->post('/admin/association/benevoles', fn ($q) => Association::volunteersAction($q));
+        $r->get('/admin/association/benevoles/export.csv', fn ($q) => Association::volunteersExport($q));
+        $r->get('/admin/association/reglages', fn ($q) => Association::settings($q));
 
         // Système
         $r->get('/admin/traductions', fn ($q) => System::translations($q));

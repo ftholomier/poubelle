@@ -59,6 +59,11 @@ final class Help extends Base
         'taches' => 'administration#taches',
         'profil' => 'prise-en-main#profil',
         'corbeille' => 'fiches#corbeille',
+        'asso' => 'association#ouverture',
+        'asso-contenus' => 'association#contenus',
+        'asso-adhesions' => 'association#adhesions',
+        'asso-benevoles' => 'association#benevoles',
+        'asso-reglages' => 'association#ouverture',
     ];
 
     /** Captures réservées aux administrateurs (montants des coûts de l'IA). */
@@ -77,6 +82,10 @@ final class Help extends Base
             $all = [];
             foreach (glob(self::DIR . '/chapitres/*.php') ?: [] as $file) {
                 $c = require $file;
+                // Chapitre réservé aux administrateurs (site de l'association) : absent pour les autres.
+                if (!$admin && !empty($c['admin'])) {
+                    continue;
+                }
                 if (!$admin) {
                     $c['sections'] = array_values(array_map(fn ($s) => ['html' => Tips::withoutCosts((string) $s['html'])] + $s, array_filter($c['sections'], fn ($s) => empty($s['admin']))));
                 }

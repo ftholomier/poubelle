@@ -28,6 +28,7 @@ $here = \App\Admin\Favorites::here($meta);
     <a class="side__brand" href="/admin"><img src="/assets/img/logo-sochaux-retro.png" alt=""><span><b>Sochaux rétro</b><small>Back-office</small></span></a>
     <nav aria-label="Menu du back-office">
       <?php foreach (Base::NAV as $group => $items): ?>
+        <?php if (!$isAdmin && !array_filter($items, fn ($it) => !$it[3])) { continue; } ?>
         <span class="side__group"><?= e($group) ?></span>
         <?php foreach ($items as [$key, $label, $href, $adminOnly]): ?>
           <?php if ($adminOnly && !$isAdmin) { continue; } ?>

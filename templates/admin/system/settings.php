@@ -29,6 +29,8 @@ $isWaiting = $group === 'waiting';
   <p class="alert alert--info" style="margin:0">Dépense en temps réel, relevés mensuels à faire rembourser et barème des modèles : <a href="/admin/couts-ia">Système › Coûts IA</a>.</p>
 <?php elseif ($group === 'mail'): ?>
   <p class="alert <?= $status['from'] ? 'alert--ok' : 'alert--error' ?>" style="margin:0"><?= $status['from'] ? 'Les e-mails partent de ' . e($status['from']) . '.' : 'Aucune adresse d’expédition : aucun e-mail ne peut partir (contact, contributions, dons, invitations).' ?></p>
+<?php elseif ($group === 'vitrine'): ?>
+  <p class="alert <?= $status['open'] ? 'alert--ok' : '' ?>" style="margin:0">Site de l’association <b><?= $status['open'] ? 'ouvert au public' : 'fermé (page d’attente)' ?></b> sur <?= e($status['base']) ?>. Ouverture, points à vérifier et aperçu : <a href="/admin/association">tableau de bord du site</a>. Réseaux sociaux (Facebook, Instagram, X, YouTube) : ceux du musée, <a href="/admin/reglages?groupe=social">Réglages › Réseaux sociaux</a>.</p>
 <?php elseif ($group === 'donations'): ?>
   <p class="alert <?= $status['methods'] ? 'alert--ok' : '' ?>" style="margin:0">Mode <b><?= $status['test'] ? 'test' : 'production' ?></b> · moyens de paiement actifs : <?= e(implode(', ', $status['methods']) ?: 'aucun (activez les dons et saisissez les clés)') ?>. Adresses des webhooks : <code><?= e(base_url()) ?>/api/dons/stripe/webhook</code> et <code><?= e(base_url()) ?>/api/dons/paypal/webhook</code>.</p>
 <?php endif; ?>
