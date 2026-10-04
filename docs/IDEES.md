@@ -54,6 +54,7 @@ preuve d'impact.
 ## La fiche qui se raconte en 30 secondes (gratuit ou ~20 €) — réalisé (octobre 2026)
 
 Une icône haut-parleur sur chaque fiche lit un résumé de 30 secondes (environ 75 mots).
+Porté ensuite à une explication complète de la fiche, 3 minutes au plus (réglable).
 - Gratuit : voix du navigateur et résumé construit à partir des données de la fiche.
 - Voix naturelle (Gemini 3.8 Flash TTS, octobre 2026 : 9 $ le million de jetons audio, 25
   jetons par seconde) : environ 0,6 centime par fiche, soit environ 20 € pour les 2 940

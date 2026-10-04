@@ -360,7 +360,7 @@ final class Gemini
     public static function speech(string $text, string $voice, string $style = '', ?string $ref = null): array
     {
         $model = self::ttsModel();
-        $r = self::request('POST', 'models/' . rawurlencode($model) . ':generateContent', self::speechRequest($text, $voice, $style), 120);
+        $r = self::request('POST', 'models/' . rawurlencode($model) . ':generateContent', self::speechRequest($text, $voice, $style), 300);
         AiCosts::record('audio', $model, AiCosts::usage($r), $ref);
         $a = self::speechAudio($r);
         if (!$a) {

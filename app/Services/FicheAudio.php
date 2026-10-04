@@ -12,7 +12,8 @@ use App\Front\Fiche;
 use App\Front\Unknown;
 
 /**
- * Fiches audio : chaque fiche se raconte en 30 secondes (75 mots au plus).
+ * Fiches audio : chaque fiche est expliquée à voix haute, en entier, aussi longuement que son
+ * contenu le demande, sans dépasser la durée réglée (3 minutes par défaut, 150 mots par minute).
  *
  * Texte lu, par ordre de priorité : écrit à la main par un historien, rédigé par l'IA (s'il
  * correspond toujours à la fiche), sinon résumé automatique construit à partir des données
@@ -28,7 +29,10 @@ use App\Front\Unknown;
  */
 final class FicheAudio
 {
-    public const WORDS = 75;
+    /** Débit de lecture retenu pour passer d'une durée à un nombre de mots. */
+    public const WPM = 150;
+    /** Version de la consigne de rédaction : la changer fait refaire les textes rédigés par l'IA. */
+    private const TEXT_VERSION = 3;
     public const LANGS = ['fr' => 'fr-FR', 'en' => 'en-GB'];
     /** Voix de Gemini proposées (nom => caractère). */
     public const VOICES = [
@@ -38,7 +42,7 @@ final class FicheAudio
     ];
     public const STYLE = 'Lis d’une voix chaleureuse et posée, comme un commentateur radio qui raconte un souvenir';
     private const STYLE_EN = 'Read in a warm, calm voice, like a radio commentator sharing a memory';
-    /** Fiches par traitement groupé : la voix pèse environ 2 Mo par fiche dans les résultats. */
+    /** Fiches par traitement groupé : 30 secondes de voix pèsent environ 2 Mo dans les résultats. */
     public const BATCH_VOICE = 150;
     public const BATCH_TEXT = 800;
 
@@ -48,6 +52,23 @@ final class FicheAudio
     /** Compression MP3 : null = ffmpeg détecté automatiquement, false = WAV (essais). */
     public static ?bool $mp3 = null;
     private static ?string $ffmpeg = null;
+
+    /** Mots au plus du texte lu : durée maximale réglée (minutes) × 150 mots par minute. */
+    public static function maxWords(): int
+    {
+        return (int) round(self::maxMinutes() * self::WPM);
+    }
+
+    public static function maxMinutes(): float
+    {
+        return max(0.5, min(10.0, (float) Settings::get('audio.max_minutes', 3)));
+    }
+
+    /** Fiches par lot de voix : environ 300 Mo de résultats au plus, quelle que soit la durée. */
+    private static function voiceBatch(): int
+    {
+        return max(10, (int) floor(self::BATCH_VOICE * 75 / self::maxWords()));
+    }
 
     public static function enabled(): bool
     {
@@ -110,7 +131,7 @@ final class FicheAudio
     public static function sig(array $doc, string $lang): string
     {
         $d = self::localized($doc, $lang);
-        $facts = [$d['title'] ?? '', $d['intro'] ?? '', array_column($d['sections'] ?? [], 'html')];
+        $facts = [self::TEXT_VERSION, self::maxWords(), $d['title'] ?? '', $d['intro'] ?? '', array_column($d['sections'] ?? [], 'html')];
         if (isset($d['match'])) {
             $m = $d['match'];
             $facts[] = [$m['date'] ?? '', $m['home']['name'] ?? '', $m['away']['name'] ?? '', $m['score'] ?? '', $m['goals'] ?? '', $m['stadium'] ?? '', $m['spectators'] ?? '', $m['highlights'] ?? '', $m['breves'] ?? ''];
@@ -145,7 +166,7 @@ final class FicheAudio
         return $doc;
     }
 
-    /** Résumé automatique (gratuit) : quelques phrases tirées des données, 75 mots au plus. */
+    /** Texte automatique (gratuit) : les faits tirés des données, puis le texte de la fiche, dans la durée maximale. */
     public static function template(array $doc, string $lang): string
     {
         // « xx » de l'ancien site (information inconnue) jamais lus à voix haute.
@@ -156,24 +177,20 @@ final class FicheAudio
             'personne' => self::personSentences($d, $en),
             default => [rtrim(trim((string) $d['title']), '.') . '.'],
         };
-        // Récit : l'introduction, sinon une brève, sinon le début du texte.
-        $story = self::plainText((string) ($d['intro'] ?? ''));
-        if ($story === '' && isset($d['personne'])) {
-            $story = self::plainText((string) ($d['personne']['subtitle'] ?? ''));
+        // Récit : l'introduction, puis tout le texte de la fiche et ses brèves, jusqu'à la durée maximale.
+        $story = [self::plainText((string) ($d['intro'] ?? ''))];
+        if (isset($d['personne'])) {
+            $story[] = self::plainText((string) ($d['personne']['subtitle'] ?? ''));
         }
-        if ($story === '' && !empty($d['match']['breves'][0])) {
-            $story = self::plainText((string) $d['match']['breves'][0]);
+        $story[] = self::plainText(implode("\n", array_map(fn ($x) => (string) ($x['html'] ?? ''), $d['sections'] ?? [])));
+        foreach ($d['match']['breves'] ?? [] as $b) {
+            $story[] = self::plainText((string) $b);
         }
-        if ($story === '') {
-            $story = self::plainText(implode("\n", array_map(fn ($x) => (string) ($x['html'] ?? ''), array_slice($d['sections'] ?? [], 0, 3))));
+        // Pas de récit en français dans le texte anglais.
+        if (!$en || !empty($doc['i18n']['en']['title'])) {
+            $s = array_merge($s, array_filter($story, fn ($x) => $x !== ''));
         }
-        if ($en && $story !== '' && empty($doc['i18n']['en']['title'])) {
-            $story = ''; // pas de récit en français dans le résumé anglais
-        }
-        if ($story !== '') {
-            $s[] = $story;
-        }
-        return self::fit($s, self::WORDS);
+        return self::fit($s, self::maxWords());
     }
 
     private static function matchSentences(array $d, bool $en): array
@@ -369,8 +386,8 @@ final class FicheAudio
                 'date' => $m['date'] ?? null, 'compétition' => ($m['competition_label'] ?? '') ?: ($m['competition'] ?? ''), 'tour' => $m['round_text'] ?? '',
                 'domicile' => $m['home']['name'] ?? '', 'extérieur' => $m['away']['name'] ?? '', 'score' => $m['score'] ?? null,
                 'stade' => $m['stadium'] ?? '', 'spectateurs' => $m['spectators'] ?? null, 'arbitre' => $m['referee'] ?? '', 'buteurs' => $m['goals'] ?? [],
-                'temps forts' => array_map(fn ($h) => trim(($h['minute'] ?? '') . "' " . self::plainText((string) ($h['text'] ?? ''))), array_slice($m['highlights'] ?? [], 0, 20)),
-                'brèves' => array_map(fn ($b) => self::plainText((string) $b), array_slice($m['breves'] ?? [], 0, 5)),
+                'temps forts' => array_map(fn ($h) => trim(($h['minute'] ?? '') . "' " . self::plainText((string) ($h['text'] ?? ''))), array_slice($m['highlights'] ?? [], 0, 80)),
+                'brèves' => array_map(fn ($b) => self::plainText((string) $b), array_slice($m['breves'] ?? [], 0, 30)),
             ];
         }
         if (isset($d['personne'])) {
@@ -378,26 +395,90 @@ final class FicheAudio
             $data['personne'] = ['nom' => ($p['display_name'] ?? '') ?: $d['title'], 'poste' => $p['position'] ?? '', 'rôles' => $p['roles'] ?? [], 'naissance' => (string) ($p['birth']['text'] ?? ''),
                 'années au club' => Fiche::personYears($p), 'totaux' => Derived::get()['person_totals'][(int) $d['id']] ?? null, 'sous-titre' => self::plainText((string) ($p['subtitle'] ?? ''))];
         }
-        $data['texte'] = mb_substr(self::plainText(implode("\n", array_map(fn ($x) => (string) ($x['html'] ?? ''), $d['sections'] ?? []))), 0, 5000);
+        $data['texte'] = mb_substr(self::plainText(implode("\n", array_map(fn ($x) => (string) ($x['html'] ?? ''), $d['sections'] ?? []))), 0, 40000);
+        $max = self::maxWords();
+        $min = rtrim(rtrim(number_format(self::maxMinutes(), 1, $en ? '.' : ',', ''), '0'), '.,');
         $system = $en
-            ? 'You write the script of a 30-second audio summary of a page from the online museum of FC Sochaux-Montbéliard (Sochaux Rétro). Rules: 55 to 75 words; short sentences made to be read aloud; only facts found in the page, never invent anything; no list, no title, no emoji; write scores as "2–1"; warm storyteller tone; in English. Answer with the script only.'
-            : 'Tu écris le texte d’un résumé audio de 30 secondes d’une fiche du musée en ligne du FC Sochaux-Montbéliard (Sochaux Rétro). Règles : entre 55 et 75 mots ; phrases courtes, faites pour être dites à voix haute ; uniquement des faits présents dans la fiche, sans rien inventer ; pas de liste, pas de titre, pas d’émoji ; écris les scores « 2 à 1 » ; ton chaleureux de conteur ; en français. Réponds seulement par le texte à lire.';
+            ? "You are a historian of FC Sochaux-Montbéliard and a passionate storyteller. You tell, out loud, a page from the online museum Sochaux Rétro; your script will be read by a synthetic voice.\n"
+                . "Bring the story back to life, as if you were telling it to supporters gathered around you:\n"
+                . "- a hook that makes people want to listen;\n"
+                . "- an introduction that sets the scene: the era, what was at stake, the atmosphere;\n"
+                . "- the heart of the story in several paragraphs. For a match: the build-up, how the game unfolded, the goals and turning points, behind the scenes, the anecdotes, the men. For a person: the beginnings, the career at the club, the great moments, the style, the figures, the legacy. For any other subject: what there is to know, told the same way;\n"
+                . "- a conclusion that puts things in perspective and leaves a strong image.\n"
+                . "Rules:\n"
+                . "- only facts found in the page: never invent a figure, a quote or an anecdote; a thin page gives a short story rather than a padded one;\n"
+                . "- real sentences, varied and well punctuated, with natural transitions; paragraphs separated by a blank line; no list, no title, no emoji, no stage directions;\n"
+                . "- write for the ear: scores as \"2–1\", clear dates;\n"
+                . "- at most $max words (about $min minutes); the length follows the richness of the page;\n"
+                . "- in English. Answer with the script only."
+            : "Tu es historien du FC Sochaux-Montbéliard et conteur passionné. Tu racontes à voix haute une fiche du musée en ligne Sochaux Rétro ; ton texte sera lu par une voix de synthèse.\n"
+                . "Fais revivre l’histoire, comme si tu la racontais à des supporters réunis autour de toi :\n"
+                . "– une accroche qui donne envie d’écouter ;\n"
+                . "– une introduction qui pose le décor : l’époque, l’enjeu, l’ambiance ;\n"
+                . "– le cœur du récit en plusieurs paragraphes. Pour un match : l’avant-match, le déroulé, les buts et les tournants, les coulisses, les anecdotes, les hommes. Pour une personne : ses débuts, son parcours au club, ses grands moments, son style, ses chiffres, ce qu’elle a laissé. Pour un autre sujet : ce qu’il faut en savoir, raconté de la même façon ;\n"
+                . "– une conclusion qui met en perspective et laisse une image forte.\n"
+                . "Règles :\n"
+                . "– uniquement des faits présents dans la fiche : n’invente rien, ni chiffre, ni citation, ni anecdote ; une fiche mince donne un récit court plutôt que délayé ;\n"
+                . "– de vraies phrases, variées et bien ponctuées, avec des transitions naturelles ; paragraphes séparés par une ligne vide ; ni liste, ni titre, ni émoji, ni indication de mise en scène ;\n"
+                . "– écris pour l’oreille : scores « 2 à 1 », dates claires ;\n"
+                . "– au plus $max mots (environ $min minutes) ; la longueur suit la richesse de la fiche ;\n"
+                . "– en français. Réponds seulement par le texte à dire.";
         return [$system, (string) json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)];
     }
 
-    /** Nettoie la réponse de l'IA : sans balisage ni guillemets d'encadrement, 90 mots au plus. */
+    /** Nettoie la réponse de l'IA : sans balisage ni guillemets d'encadrement, paragraphes gardés, dans la durée maximale (+ 15 %). */
     public static function cleanAi(string $t): string
     {
-        $t = trim((string) preg_replace(['/[*_#`]+/u', '/\s+/u'], ['', ' '], $t));
-        $t = trim($t, " \"«»“”'");
-        return self::words($t) > 90 ? self::fit([$t], 90) : $t;
+        $t = trim(self::paragraphs((string) preg_replace('/[*_#`]+/u', '', $t)), " \"«»“”'\n");
+        $max = (int) round(self::maxWords() * 1.15);
+        return self::words($t) > $max ? self::fitText($t, $max) : $t;
+    }
+
+    /** Texte en paragraphes (un par ligne de la saisie, séparés par une ligne vide), espaces simples à l'intérieur. */
+    public static function paragraphs(string $t): string
+    {
+        $paras = array_map(fn ($p) => trim((string) preg_replace('/\s+/u', ' ', $p)), preg_split('/\s*\n\s*/u', str_replace(["\r\n", "\r"], "\n", $t)) ?: []);
+        return implode("\n\n", array_values(array_filter($paras, fn ($p) => $p !== '')));
+    }
+
+    /** Coupe un texte en paragraphes à $max mots, à la fin d'une phrase. */
+    public static function fitText(string $t, int $max): string
+    {
+        $out = [];
+        $n = 0;
+        foreach (preg_split('/\n\s*\n/u', $t) ?: [] as $p) {
+            $w = self::words($p);
+            if ($n + $w <= $max) {
+                $out[] = trim($p);
+                $n += $w;
+                continue;
+            }
+            if (($keep = self::fit([$p], $max - $n)) !== '') {
+                $out[] = $keep;
+            }
+            break;
+        }
+        return implode("\n\n", $out);
+    }
+
+    /** Modèle qui rédige les textes audio : réglage propre, sinon le « Modèle de réponse » de l'assistant. */
+    public static function textModel(): string
+    {
+        $m = trim((string) Settings::get('audio.text_model', ''));
+        return $m !== '' ? $m : Gemini::model();
+    }
+
+    /** Jetons de réponse accordés à l'IA : de quoi écrire le texte le plus long, avec de la marge. */
+    private static function aiTokens(): int
+    {
+        return max(400, self::maxWords() * 4);
     }
 
     /** Rédige le texte avec Gemini (tarif normal) et l'enregistre. */
     public static function writeAiText(array $doc, string $lang): array
     {
         [$system, $user] = self::aiPrompt($doc, $lang);
-        $g = Gemini::generate([['role' => 'user', 'text' => $user]], $system, ['temperature' => 0.4, 'max_tokens' => 400, 'for' => 'audio', 'ref' => 'fiche:' . (int) $doc['id']]);
+        $g = Gemini::generate([['role' => 'user', 'text' => $user]], $system, ['model' => self::textModel(), 'temperature' => 0.6, 'max_tokens' => self::aiTokens(), 'for' => 'audio', 'ref' => 'fiche:' . (int) $doc['id']]);
         $text = self::cleanAi($g['text']);
         if ($text === '') {
             throw new \RuntimeException('Gemini n’a pas rédigé de résumé.');
@@ -537,7 +618,8 @@ final class FicheAudio
             return null;
         }
         $a = self::audio($doc, $lang, $cur);
-        return ['text' => $cur['text'], 'url' => $a['url'] ?? null, 'lang' => self::LANGS[$lang], 'dur' => $a['dur'] ?? null];
+        $sec = (float) ($a['dur'] ?? 0) ?: self::words($cur['text']) / self::WPM * 60;
+        return ['text' => $cur['text'], 'url' => $a['url'] ?? null, 'lang' => self::LANGS[$lang], 'dur' => $a['dur'] ?? null, 'secs' => (int) round($sec)];
     }
 
     // ------------------------------------------------------------------ traitement groupé
@@ -573,9 +655,9 @@ final class FicheAudio
      * Ce qu'il reste à faire pour passer tout le musée en voix IA :
      * ['text' => clés à faire rédiger d'abord, 'voice' => clés à faire lire, 'words' => mots en moyenne].
      */
-    public static function plan(array $langs, bool $redo = false, ?array $only = null): array
+    public static function plan(array $langs, bool $redo = false, ?array $only = null, bool $textOnly = false): array
     {
-        $aiText = (bool) Settings::get('audio.ai_text', false);
+        $aiText = (bool) Settings::get('audio.ai_text', true);
         $text = $voice = [];
         $words = 0;
         $n = 0;
@@ -594,10 +676,20 @@ final class FicheAudio
                 if ($cur['text'] === '') {
                     continue;
                 }
+                $key = (int) $id . '-' . $lang;
+                if ($textOnly) {
+                    // Textes seulement : à rédiger (ou à refaire) par l'IA ; jamais un texte écrit à la main.
+                    if ($cur['src'] === 'manual' || ($cur['src'] === 'ai' && !$redo)) {
+                        continue;
+                    }
+                    $text[] = $key;
+                    $words += self::words($cur['text']);
+                    $n++;
+                    continue;
+                }
                 if (!$redo && self::audio($doc, $lang, $cur)) {
                     continue;
                 }
-                $key = (int) $id . '-' . $lang;
                 if ($aiText && $cur['src'] === 'auto') {
                     $text[] = $key;
                 } else {
@@ -607,18 +699,18 @@ final class FicheAudio
                 $n++;
             }
         }
-        return ['text' => $text, 'voice' => $voice, 'words' => $n ? $words / $n : 60.0];
+        return ['text' => $text, 'voice' => $voice, 'words' => $n ? $words / $n : self::maxWords() * 0.6];
     }
 
     /** Coût estimé en dollars (traitement groupé : moitié prix) pour $nText rédactions et $nVoice voix. */
-    public static function estimate(int $nText, int $nVoice, float $words, bool $batch = true): array
+    public static function estimate(int $nText, int $nVoice, float $words, bool $batch = true, bool $voice = true): array
     {
         $tts = AiCosts::price(Gemini::ready() ? Gemini::ttsModel() : 'gemini-3.8-flash-tts');
-        $txt = AiCosts::price(Gemini::ready() ? Gemini::model() : 'gemini-3.1-flash-lite');
+        $txt = AiCosts::price(Gemini::ready() ? self::textModel() : 'gemini-2.5-flash-lite');
         $seconds = max(10.0, $words / 2.5); // environ 150 mots par minute
         $voiceUsd = ($words * 1.6 + 40) * $tts['in'] / 1e6 + $seconds * 25 * $tts['out'] / 1e6;
-        $textUsd = 2500 * $txt['in'] / 1e6 + 160 * $txt['out'] / 1e6;
-        $usd = ($nText * $textUsd + ($nVoice + $nText) * $voiceUsd) * ($batch ? 0.5 : 1);
+        $textUsd = 8000 * $txt['in'] / 1e6 + ($words * 1.7 + 60) * $txt['out'] / 1e6;
+        $usd = ($nText * $textUsd + ($voice ? ($nVoice + $nText) * $voiceUsd : 0)) * ($batch ? 0.5 : 1);
         return ['usd' => $usd, 'eur' => AiCosts::eur($usd), 'per' => AiCosts::eur($voiceUsd * ($batch ? 0.5 : 1)), 'seconds' => $seconds];
     }
 
@@ -626,18 +718,18 @@ final class FicheAudio
      * Lance le traitement groupé (créé ici, envoyé à Google par la tâche planifiée).
      * $limit : seulement les N premières fiches (pour écouter la voix avant de tout lancer).
      */
-    public static function launch(array $langs, bool $redo, ?array $user, ?array $keys = null, int $limit = 0): array
+    public static function launch(array $langs, bool $redo, ?array $user, ?array $keys = null, int $limit = 0, bool $textOnly = false): array
     {
-        $plan = self::plan($langs, $redo, $keys);
+        $plan = self::plan($langs, $redo, $keys, $textOnly);
         if ($limit > 0) {
             $plan['text'] = array_slice($plan['text'], 0, $limit);
             $plan['voice'] = array_slice($plan['voice'], 0, max(0, $limit - count($plan['text'])));
         }
         $made = [];
         foreach (array_chunk($plan['text'], self::BATCH_TEXT) as $chunk) {
-            $made[] = self::newJob('texte', $chunk, $user, true);
+            $made[] = self::newJob('texte', $chunk, $user, !$textOnly);
         }
-        foreach (array_chunk($plan['voice'], self::BATCH_VOICE) as $chunk) {
+        foreach (array_chunk($plan['voice'], self::voiceBatch()) as $chunk) {
             $made[] = self::newJob('voix', $chunk, $user, false);
         }
         foreach ($made as $job) {
@@ -650,7 +742,7 @@ final class FicheAudio
     {
         return [
             'id' => $kind[0] . date('ymdHis') . bin2hex(random_bytes(3)), 'kind' => $kind, 'keys' => array_values($keys), 'state' => 'attente',
-            'model' => $kind === 'voix' ? Gemini::ttsModel() : Gemini::model(), 'voice' => self::voice(), 'then_voice' => $thenVoice,
+            'model' => $kind === 'voix' ? Gemini::ttsModel() : self::textModel(), 'voice' => self::voice(), 'then_voice' => $thenVoice,
             'batch' => null, 'cursor' => 0, 'done' => 0, 'errors' => 0, 'created' => time(), 'updated' => time(), 'polled' => 0,
             'by' => (string) ($user['name'] ?? 'Tâche automatique'), 'message' => '',
         ];
@@ -755,7 +847,7 @@ final class FicheAudio
             }
             if ($job['kind'] === 'texte') {
                 [$system, $user] = self::aiPrompt($doc, $lang);
-                $req = Gemini::requestBody([['role' => 'user', 'text' => $user]], $system, ['temperature' => 0.4, 'max_tokens' => 400], $job['model']);
+                $req = Gemini::requestBody([['role' => 'user', 'text' => $user]], $system, ['temperature' => 0.6, 'max_tokens' => self::aiTokens()], $job['model']);
                 $side[$key] = self::sig($doc, $lang);
             } else {
                 $text = self::current($doc, $lang)['text'];
@@ -855,7 +947,7 @@ final class FicheAudio
             $job['state'] = 'termine';
             $job['message'] = $job['done'] . ' fiche(s) traitée(s)' . ($job['errors'] ? ', ' . $job['errors'] . ' en échec' : '') . '.';
             if (!empty($job['ready'])) {
-                foreach (array_chunk($job['ready'], self::BATCH_VOICE) as $chunk) {
+                foreach (array_chunk($job['ready'], self::voiceBatch()) as $chunk) {
                     self::saveJob(self::newJob('voix', $chunk, ['name' => $job['by']], false));
                 }
             }

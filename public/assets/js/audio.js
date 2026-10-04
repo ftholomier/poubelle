@@ -1,4 +1,4 @@
-/* Fiches : bouton « Écouter » (résumé de 30 secondes). Voix IA enregistrée si elle existe, sinon voix du navigateur. */
+/* Fiches : bouton « Écouter » (explication audio de la fiche). Voix IA enregistrée si elle existe, sinon voix du navigateur. */
 (() => {
   'use strict';
   const btn = document.querySelector('[data-audio]');

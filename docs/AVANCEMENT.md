@@ -167,7 +167,7 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       ou 30 minutes d'inactivité ; enregistrements refusés côté serveur tant que le verrou est
       tenu par un autre (fiches, contenus interactifs, accueil, rubriques, album ; actions
       groupées). `tests/verrou.php` ; essai à deux navigateurs.
-- [x] **Fiches audio** : bouton « Écouter (30 s) » sur chaque fiche du site (match, personne,
+- [x] **Fiches audio** : bouton « Écouter » sur chaque fiche du site (match, personne,
       article), texte lu affiché ; gratuit par défaut (résumé automatique tiré des données, voix
       du navigateur) ; dans l'éditeur, texte modifiable, rédaction par l'IA, voix IA Gemini
       enregistrée (MP3) ; Système › Fiches audio : estimation, essai sur 20 fiches, tout le

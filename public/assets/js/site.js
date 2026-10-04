@@ -55,6 +55,19 @@
       e.currentTarget.setAttribute('aria-expanded', on ? 'true' : 'false');
     });
     document.addEventListener('click', () => lg?.classList.remove('is-open'));
+
+    // En-tête collant : hauteur de la barre (--head-h, pour décaler ancres et barres collantes)
+    // et état « collé » (blason réduit) dès que la barre touche le haut de l'écran.
+    const bar = $('.masthead', header);
+    if (bar) {
+      const setH = () => document.documentElement.style.setProperty('--head-h', bar.offsetHeight + 'px');
+      setH();
+      if ('ResizeObserver' in window) new ResizeObserver(setH).observe(bar); else addEventListener('resize', setH);
+      let raf = 0;
+      const stuck = () => { raf = 0; header.classList.toggle('is-stuck', scrollY > 0 && bar.getBoundingClientRect().top <= 0); };
+      addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(stuck); }, { passive: true });
+      stuck();
+    }
   }
 
   /* ---------------------------------------------------------- taille du texte */
@@ -130,18 +143,30 @@
 
   /* ---------------------------------------------------------- apparitions + compteurs */
   if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(entries => entries.forEach(en => {
-      if (!en.isIntersecting) return;
-      const el = en.target;
+    const pending = new Set($$('[data-reveal],[data-reveal-x]'));
+    const reveal = (el, delay) => {
+      if (!pending.delete(el)) return;
       io.unobserve(el);
-      const sibs = [...el.parentElement.children].filter(c => c.hasAttribute('data-reveal') || c.hasAttribute('data-reveal-x'));
-      const d = Math.max(0, sibs.indexOf(el)) * 100;
       setTimeout(() => {
         el.classList.add('is-in');
         $$('[data-count]', el).concat(el.hasAttribute('data-count') ? [el] : []).forEach(c => countUp(c));
-      }, motion ? Math.min(d, 600) : 0);
-    }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    $$('[data-reveal],[data-reveal-x]').forEach(el => io.observe(el));
+      }, delay);
+    };
+    // Seuil 0 : un bloc plus haut que l'écran apparaît aussi (avec 12 %, jamais).
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      const sibs = [...el.parentElement.children].filter(c => c.hasAttribute('data-reveal') || c.hasAttribute('data-reveal-x'));
+      reveal(el, motion ? Math.min(Math.max(0, sibs.indexOf(el)) * 100, 600) : 0);
+    }), { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+    pending.forEach(el => io.observe(el));
+    // Filet de sécurité : un défilement très rapide peut faire passer un bloc d'un bord à
+    // l'autre de l'écran entre deux images, sans que l'observateur le voie. À l'arrêt du
+    // défilement, tout bloc déjà atteint (à l'écran ou au-dessus) est affiché.
+    let sweepTimer = 0;
+    const sweep = () => pending.forEach(el => { const r = el.getBoundingClientRect(); if ((r.width || r.height) && r.top < innerHeight) reveal(el, 0); });
+    addEventListener('scroll', () => { clearTimeout(sweepTimer); if (pending.size) sweepTimer = setTimeout(sweep, 150); }, { passive: true });
+    addEventListener('load', sweep);
   } else {
     $$('[data-reveal],[data-reveal-x]').forEach(el => el.classList.add('is-in'));
   }

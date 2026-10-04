@@ -48,7 +48,7 @@ de fond de tout le musée dans Qualité › Orthographe), **coût de l'IA en tem
 (dépense du jour et du mois, derniers appels, budget, relevé mensuel PDF et CSV à faire
 rembourser par l'association), **verrou nominatif** (une fiche ouverte par quelqu'un est
 signalée aux autres, en lecture seule, avec « Prendre la main »), **fiches audio** (chaque
-fiche se raconte en 30 secondes : voix du navigateur gratuite ou voix IA enregistrée,
+fiche est expliquée à voix haute (3 minutes au plus, réglable) : voix du navigateur gratuite ou voix IA enregistrée,
 fiche par fiche ou pour tout le musée en traitement groupé), **Rétro-Direct** (programme
 des directs, anniversaires ronds proposés, public de chaque direct), **kit souvenirs** (match
 de chaque mois, mot d'introduction ; témoignages publiés sur les fiches), sauvegardes, aide en

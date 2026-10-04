@@ -383,8 +383,9 @@ final class System extends Base
         }
         $options = [];
         if ($group === 'audio') {
-            $m = Gemini::ready() ? Gemini::models() : ['tts' => []];
+            $m = Gemini::ready() ? Gemini::models() : ['tts' => [], 'generate' => []];
             $options['gemini_tts_models'] = (array) ($m['tts'] ?? []);
+            $options['gemini_generate_models'] = (array) ($m['generate'] ?? []);
         }
         if ($group === 'ai') {
             $m = Gemini::ready() ? Gemini::models() : ['generate' => [], 'embed' => [], 'error' => null];

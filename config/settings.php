@@ -58,6 +58,31 @@ return [
             'youtube' => ['label' => 'YouTube', 'type' => 'url', 'default' => 'https://youtube.com/@SochauxRetro'],
         ],
     ],
+    'footer' => [
+        'label' => 'Pied de page',
+        'fields' => [
+            'title' => ['label' => 'Titre, 1re ligne', 'type' => 'text', 'default' => 'Un partenariat ?'],
+            'title_en' => ['label' => 'Titre, 1re ligne (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
+            'title2' => ['label' => 'Titre, 2e ligne', 'type' => 'text', 'default' => 'Besoin d\'une information ?'],
+            'title2_en' => ['label' => 'Titre, 2e ligne (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
+            'text' => ['label' => 'Phrase sous le titre', 'type' => 'text', 'default' => 'On vous répond dans les plus brefs délais.'],
+            'text_en' => ['label' => 'Phrase sous le titre (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
+            'button1' => ['label' => 'Bouton jaune : texte', 'type' => 'text', 'default' => 'Contactez-nous', 'help' => 'Vide : bouton masqué.'],
+            'button1_en' => ['label' => 'Bouton jaune : texte (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
+            'button1_link' => ['label' => 'Bouton jaune : lien', 'type' => 'text', 'default' => '/contact/', 'help' => 'Page du musée (/contact/) ou autre site (https://…).'],
+            'button2' => ['label' => 'Bouton contour : texte', 'type' => 'text', 'default' => 'L\'équipe Sochaux rétro', 'help' => 'Vide : bouton masqué.'],
+            'button2_en' => ['label' => 'Bouton contour : texte (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
+            'button2_link' => ['label' => 'Bouton contour : lien', 'type' => 'text', 'default' => '/supporters/l-equipe-de-sochaux-retro/', 'help' => 'Page du musée (/contact/) ou autre site (https://…).'],
+            'tagline' => ['label' => 'Accroche sous le logo', 'type' => 'text', 'default' => 'Le musée en ligne du FCSM'],
+            'tagline_en' => ['label' => 'Accroche sous le logo (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
+            'copyright' => ['label' => 'Ligne du bas', 'type' => 'text', 'default' => '© {année} FC Sochaux rétro', 'help' => '{année} : l’année en cours.'],
+            'copyright_en' => ['label' => 'Ligne du bas (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
+            'credit' => ['label' => 'Mention « Propulsé par »', 'type' => 'text', 'default' => 'Propulsé par', 'help' => 'Vide : mention masquée.'],
+            'credit_en' => ['label' => 'Mention « Propulsé par » (anglais)', 'type' => 'text', 'default' => '', 'help' => 'Vide : la traduction d’origine, tant que le texte français n’a pas changé.'],
+            'credit_name' => ['label' => 'Nom affiché après la mention', 'type' => 'text', 'default' => 'LE-DIGITAL.com'],
+            'credit_link' => ['label' => 'Lien de ce nom', 'type' => 'text', 'default' => 'https://www.le-digital.com'],
+        ],
+    ],
     'ai' => [
         'label' => 'Assistant IA',
         'fields' => [
@@ -95,8 +120,10 @@ return [
     'audio' => [
         'label' => 'Fiches audio',
         'fields' => [
-            'enabled' => ['label' => 'Bouton « Écouter » sur les fiches (résumé de 30 secondes)', 'type' => 'bool', 'default' => true, 'help' => 'Sans voix IA, le résumé est lu par la voix du navigateur du visiteur : gratuit.'],
-            'ai_text' => ['label' => 'Faire rédiger les résumés par l’IA lors du traitement groupé (sinon : résumé automatique tiré des données)', 'type' => 'bool', 'default' => false, 'help' => 'Environ 0,02 centime par fiche en traitement groupé. Chaque texte reste modifiable dans la fiche.'],
+            'enabled' => ['label' => 'Bouton « Écouter » sur les fiches (explication audio de la fiche)', 'type' => 'bool', 'default' => true, 'help' => 'Sans voix IA, le texte est lu par la voix du navigateur du visiteur : gratuit.'],
+            'max_minutes' => ['label' => 'Durée maximale d’une explication (minutes)', 'type' => 'number', 'default' => 3, 'step' => 0.5, 'min' => 0.5, 'max' => 10, 'help' => 'Chaque fiche est expliquée en entier, aussi longuement que son contenu le demande, sans dépasser cette durée (environ 150 mots par minute) : une fiche courte reste courte. Plus long : voix IA plus chère. Changer la durée fait refaire les textes rédigés par l’IA.'],
+            'ai_text' => ['label' => 'Faire rédiger les explications par l’IA lors du traitement groupé (sinon : texte automatique tiré de la fiche)', 'type' => 'bool', 'default' => true, 'help' => 'Environ 0,05 centime par fiche avec un modèle Flash-Lite (« Modèle de réponse » de l’assistant), moitié prix en traitement groupé. Chaque texte reste modifiable dans la fiche.'],
+            'text_model' => ['label' => 'Modèle qui rédige les textes audio', 'type' => 'select', 'options_from' => 'gemini_generate_models', 'empty' => 'Le « Modèle de réponse » de l’assistant', 'default' => '', 'help' => 'Un modèle Flash (sans « Lite ») raconte mieux : quelques euros pour tout le musée en traitement groupé, contre environ 1 € avec Flash-Lite.'],
             'tts_model' => ['label' => 'Modèle de voix IA', 'type' => 'select', 'options_from' => 'gemini_tts_models', 'default' => ''],
             'voice' => ['label' => 'Voix', 'type' => 'select', 'default' => 'Charon', 'options' => [
                 'Charon' => 'Charon (informative)', 'Sadaltager' => 'Sadaltager (savante)', 'Gacrux' => 'Gacrux (mûre)', 'Sulafat' => 'Sulafat (chaleureuse)',

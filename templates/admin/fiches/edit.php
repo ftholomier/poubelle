@@ -110,10 +110,10 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
 
     <?php if (!$isNew && \App\Services\FicheAudio::enabled()): $audioState = \App\Admin\Audio::stateOf($doc); ?>
       <div class="card card--pad audiocard" data-audio-card data-id="<?= $id ?>" data-state="<?= e(json_encode($audioState, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) ?>" data-nocollect>
-        <h2 class="card__t card__t--sm">Écouter (30 s)</h2>
+        <h2 class="card__t card__t--sm">Écouter la fiche</h2>
         <?php if (count($audioState) > 1): ?><div class="seg" style="--n:2" role="radiogroup" aria-label="Langue du résumé"><?php foreach ($audioState as $l => $x): ?><label><input type="radio" name="_audio_lang" value="<?= e($l) ?>"<?= $l === 'fr' ? ' checked' : '' ?> data-nocollect><span><?= $l === 'fr' ? 'Français' : 'Anglais' ?></span></label><?php endforeach; ?></div><?php endif; ?>
         <span class="xs muted" data-audio-info></span>
-        <label class="f"><span class="f__k">Texte lu <i>75 mots au plus</i></span><textarea rows="7" data-audio-textarea spellcheck="true"></textarea></label>
+        <label class="f"><span class="f__k">Texte lu <i><?= \App\Services\FicheAudio::maxWords() ?> mots au plus (<?= e(rtrim(rtrim(number_format(\App\Services\FicheAudio::maxMinutes(), 1, ',', ''), '0'), ',')) ?> min)</i></span><textarea rows="14" data-audio-textarea spellcheck="true"></textarea></label>
         <div class="row">
           <button type="button" class="btn btn--sm" data-audio-play>▶ Écouter</button>
           <button type="button" class="btn btn--sm btn--navy" data-audio-save hidden>Garder ce texte</button>

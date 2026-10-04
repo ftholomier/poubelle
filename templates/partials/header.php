@@ -8,7 +8,7 @@ $nav = Site::nav($active ?? '');
 $ticker = Site::ticker();
 $lang = I18n::lang();
 ?>
-<header class="site-header" data-header>
+<header class="site-header<?= $ticker ? ' has-ticker' : '' ?>" data-header>
   <?php if ($ticker): ?>
   <div class="ticker" role="region" aria-label="<?= e(t('En direct du musée')) ?>">
     <span class="ticker__label"><span class="ticker__dot" aria-hidden="true"></span><?= e(t('En direct du musée')) ?></span>

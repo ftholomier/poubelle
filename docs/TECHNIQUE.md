@@ -307,7 +307,7 @@ refait quand la fiche ou sa photo change (`Share::VERSION` pour tout refaire).
 | `Translator`, `I18n` | traduction anglaise des fiches avec Gemini (champ `i18n.en`), libellés de l'interface (`t()`) |
 | `Proofreader` | correcteur d'orthographe et de syntaxe (§ 7 ter) |
 | `AiCosts` | coût de l'IA en temps réel, budget, remboursements (§ 7 quater) |
-| `FicheAudio` | fiches audio : résumé de 30 secondes, voix IA, traitement groupé (§ 7 quinquies) |
+| `FicheAudio` | fiches audio : explication de la fiche (durée maximale réglable, 3 min), voix IA, traitement groupé (§ 7 quinquies) |
 | `Payments` | Stripe Checkout et abonnements, PayPal Orders v2 et abonnements, vérification des webhooks |
 | `Mailer`, `Newsletter` | e-mails (SMTP ou mail()), newsletter hebdomadaire « Ce jour-là » |
 | `Geo` | géolocalisation (répertoire intégré, puis Nominatim d'OpenStreetMap, une requête par seconde) |
@@ -428,16 +428,24 @@ souvenirs) pour refaire les PDF en cache.
 
 ## 7 quinquies. Fiches audio (`App\Services\FicheAudio`)
 
-- **Sur le site** : bouton « Écouter (30 s) » des fiches (`templates/partials/audio-button.php`,
+- **Sur le site** : bouton « Écouter (durée) » des fiches (`templates/partials/audio-button.php`,
   `public/assets/js/audio.js`), caché sans JavaScript. Il joue la voix IA enregistrée si elle
   correspond au texte lu, sinon lit le texte avec la synthèse vocale du navigateur
   (`speechSynthesis`, phrase par phrase, meilleure voix de la langue). Le texte lu s'affiche
   sous le bouton pendant l'écoute.
-- **Texte lu** (75 mots au plus), par ordre de priorité : écrit à la main (`src: manual`),
+- **Texte lu** (`maxWords()` : durée maximale `audio.max_minutes`, 3 par défaut, × 150 mots),
+  par ordre de priorité : écrit à la main (`src: manual`),
   rédigé par Gemini (`src: ai`, valable tant que l'empreinte `sig` des titres, textes et faits
   de la fiche n'a pas changé : modifier une photo ne l'invalide pas), sinon résumé automatique
-  construit à la volée (`template()` : date, stade, score, buteurs, carrière, introduction ou
-  brève ; abréviations dites en toutes lettres). Version anglaise pour les fiches traduites.
+  construit à la volée (`template()` : date, stade, score, buteurs, carrière, puis
+  introduction, texte et brèves de la fiche ; abréviations dites en toutes lettres). La
+  consigne de l'IA demande d'expliquer toute la fiche, longueur selon son contenu ; l'empreinte
+  `sig` inclut la version de cette consigne et la durée maximale (les changer fait refaire les
+  textes IA). Consigne : un historien qui raconte (accroche, décor, récit en paragraphes,
+  conclusion), paragraphes gardés (`paragraphs()`, `fitText()`). Modèle de rédaction :
+  `textModel()` (`audio.text_model`, sinon `ai.model`). `plan(..., textOnly: true)` /
+  `launch(..., textOnly: true)` : textes seulement, sans voix IA (carte « Réécrire les textes
+  avec l'IA »). Lots de voix : `voiceBatch()`, environ 300 Mo de résultats quelle que soit la durée. Version anglaise pour les fiches traduites.
 - **Voix IA** : `Gemini::speech()` (modèle de voix réglé ou le meilleur disponible, voix et
   consigne de ton réglables), PCM 16 bits mono converti en MP3 48 kbit/s par ffmpeg s'il est
   présent, sinon WAV. Fichier `public/media/audio/{id}-{langue}-{empreinte}.mp3`, servi

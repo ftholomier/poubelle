@@ -112,7 +112,7 @@ $rowsHtml = function (array $list, bool $coach) {
           </span>
         </span>
       </button>
-      <span class="phero__hint" aria-hidden="true">↻ <?= e(t('Cliquez pour retourner la carte')) ?></span>
+      <span class="phero__hint" aria-hidden="true">↻ <span class="hint-hover"><?= e(t('Survolez la carte pour la retourner')) ?></span><span class="hint-touch"><?= e(t('Touchez la carte pour la retourner')) ?></span></span>
     </div>
     <div class="phero__text">
       <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>">

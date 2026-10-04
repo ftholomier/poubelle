@@ -310,16 +310,22 @@ montants dépensés en IA ne s'affichent que pour eux. Tout le reste, y compris 
 Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
-- **Réglages** (administrateur) : identité du site, e-mail, clés Gemini, correcteur
+- **Réglages** (administrateur) : identité du site, e-mail, **pied de page** (titre, phrase,
+  deux boutons et leurs liens, accroche, ligne du bas et mention « Propulsé par », en
+  français et en anglais ; un texte vide masque l'élément), clés Gemini, correcteur
   (vérification de fond, plafond quotidien d'appels à Gemini, typographie), coûts de l'IA
   (qui avance les frais, taux de change, budget mensuel), Stripe et PayPal, carte,
   centenaire, mentions légales, cookies, sauvegardes.
-- **Fiches audio** : chaque fiche se raconte en 30 secondes sur le site (bouton
-  « Écouter »), gratuitement avec la voix de l'appareil du visiteur. Dans l'éditeur, la carte
+- **Fiches audio** : chaque fiche est expliquée à voix haute sur le site (bouton
+  « Écouter »), en entier, dans la durée maximale réglée (3 minutes par défaut), gratuitement
+  avec la voix de l'appareil du visiteur. Rédigé par l'IA, le texte raconte la fiche comme un
+  historien (accroche, décor, récit en paragraphes, conclusion, uniquement les faits de la
+  fiche) ; Système › Fiches audio › « Réécrire les textes avec l'IA » les refait tous, sans voix
+  IA (environ 1 € avec Flash-Lite ; un modèle Flash, réglable à part, raconte mieux). Dans l'éditeur, la carte
   « Écouter » permet de modifier le texte lu, de le faire rédiger par l'IA ou de lui donner
-  une **voix IA** naturelle (environ 0,6 centime). Système › Fiches audio (administrateurs) : essayer sur
+  une **voix IA** naturelle (environ 3 centimes pour 3 minutes). Système › Fiches audio (administrateurs) : essayer sur
   20 fiches puis passer tout le musée en voix IA en **traitement groupé** (moitié prix,
-  environ 5 € pour toutes les fiches), suivi des envois.
+  environ 40 € pour toutes les fiches en 3 minutes au plus), suivi des envois.
 - **Coûts IA** (administrateurs) : ce que coûte Gemini, calculé à chaque appel et mis à jour à l'écran toutes
   les 10 secondes (aujourd'hui, ce mois-ci, à rembourser, budget, derniers appels avec la
   personne et la fiche concernées). Le mois terminé : relevé PDF à signer et détail CSV à

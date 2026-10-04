@@ -20,7 +20,7 @@
 .mhead__tabs a.is-on { background: var(--yellow); color: var(--navy); }
 
 /* Barre d'outils collante */
-.mtools { position: sticky; top: 0; z-index: 30; background: var(--cream); border-bottom: 2px solid var(--navy); }
+.mtools { position: sticky; top: var(--head-h, 0px); z-index: 30; background: var(--cream); border-bottom: 2px solid var(--navy); }
 .mtools__inner { padding-top: 14px; padding-bottom: 14px; display: flex; flex-direction: column; gap: 12px; }
 @media (max-width: 700px) {
   .mtools { position: static; }

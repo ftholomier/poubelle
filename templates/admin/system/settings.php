@@ -54,7 +54,7 @@ $isWaiting = $group === 'waiting';
               $opts = $f['options'] ?? ($options[$f['options_from'] ?? ''] ?? []);
               if (!empty($f['options_from'])) {
                   echo '<div class="f" data-models="' . e(['gemini_embedding_models' => 'embed', 'gemini_tts_models' => 'tts'][$f['options_from']] ?? 'generate') . '">';
-                  echo Form::select($k, $f['label'], (string) $v, $opts, ['empty' => $f['options_from'] === 'gemini_embedding_models' ? 'Aucun (recherche plein texte)' : 'Automatique (meilleur modèle disponible)', 'help' => $o['help']]);
+                  echo Form::select($k, $f['label'], (string) $v, $opts, ['empty' => $f['empty'] ?? ($f['options_from'] === 'gemini_embedding_models' ? 'Aucun (recherche plein texte)' : 'Automatique (meilleur modèle disponible)'), 'help' => $o['help']]);
                   echo '</div>';
               } else {
                   echo Form::select($k, $f['label'], (string) $v, $opts, $o + ['strict' => true]);

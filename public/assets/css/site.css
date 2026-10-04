@@ -175,7 +175,12 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .ph svg { width: 34%; max-width: 90px; }
 
 /* ---------------------------------------------------------------- en-tête */
-.site-header { position: relative; z-index: 50; }
+/* En-tête collant : le bandeau « En direct du musée » s'en va au défilement, la barre logo +
+   menu reste en haut de l'écran, sur un fond crème un peu transparent et flouté. --head-h
+   (hauteur de cette barre, posée par site.js) décale ancres et barres collantes des pages. */
+.site-header { position: sticky; top: 0; z-index: 50; }
+.site-header.has-ticker { top: -36px; }
+html { scroll-padding-top: var(--head-h, 0px); }
 .ticker {
   background: var(--navy); color: var(--cream); font-family: var(--display); font-weight: 700; font-size: 15px;
   letter-spacing: .12em; text-transform: uppercase; height: 36px; display: flex; align-items: center; overflow: hidden; position: relative;
@@ -192,14 +197,17 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .ticker .k { color: var(--yellow); }
 .ticker .star { color: var(--yellow); margin-left: 30px; }
 
-.masthead { background: var(--cream); border-bottom: 2px solid var(--navy); position: relative; }
+.masthead { background: rgba(243, 237, 223, .82); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); border-bottom: 2px solid var(--navy); position: relative; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .masthead { background: var(--cream); } }
 .masthead__logo {
   position: absolute; left: clamp(12px, 3vw, 40px); top: 6px; z-index: 3; display: block; transform-origin: 50% 40%;
   filter: drop-shadow(0 4px 0 rgba(14,31,77,.25)); transition: transform .35s cubic-bezier(.3,1.6,.5,1);
 }
 .masthead__logo:hover { transform: rotate(-8deg) scale(1.06); }
 /* Le blason est plus haut que la bande : sa pointe déborde sous le header. */
-.masthead__logo img { height: 132px; width: auto; }
+.masthead__logo img { height: 132px; width: auto; transition: height .3s var(--ease); }
+/* Une fois la barre collée en haut, le blason rentre dans la bande pour ne pas masquer la page. */
+.site-header.is-stuck .masthead__logo img { height: 98px; }
 .masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 140px); padding-right: clamp(12px, 3vw, 40px); }
 .masthead__top { height: 48px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(14,31,77,.18); }
 .masthead__name { font-family: var(--display); font-weight: 900; font-size: 20px; text-transform: uppercase; white-space: nowrap; }
@@ -299,6 +307,7 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 }
 @media (max-width: 1099px) {
   .masthead__logo img { height: 76px; }
+  .site-header.is-stuck .masthead__logo img { height: 56px; }
   .masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 80px); }
   .masthead__top { border-bottom: 0; height: 64px; }
   .masthead__name, .masthead__tag, .hsize, .hlang, .hcontrib, .mainnav { display: none !important; }
@@ -582,7 +591,7 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 
 /* ---------------------------------------------------------------- composants partagés des fiches */
 /* Onglets d'ancrage collants (jaune) */
-.anchornav { background: var(--yellow); border-bottom: 2px solid var(--navy); position: sticky; top: 0; z-index: 40; }
+.anchornav { background: var(--yellow); border-bottom: 2px solid var(--navy); position: sticky; top: var(--head-h, 0px); z-index: 40; }
 .anchornav__inner { display: flex; gap: clamp(16px, 3vw, 36px); overflow-x: auto; scrollbar-width: none; font-family: var(--display); font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: .08em; }
 .anchornav__inner::-webkit-scrollbar { display: none; }
 .anchornav a { padding: 16px 0; white-space: nowrap; border-bottom: 4px solid transparent; margin-bottom: -2px; }
@@ -709,5 +718,5 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .audiobtn svg { flex: none; }
 .audiobtn.is-playing { background: var(--cream); }
 .audiotext { flex: 1 0 100%; margin: 2px 0 0; background: var(--cream); color: var(--navy); border: 2px solid var(--navy); padding: 10px 14px; font-size: 16px; line-height: 1.5; }
-.audiotext [data-audio-say] { display: block; max-width: 78ch; }
+.audiotext [data-audio-say] { display: block; max-width: 78ch; white-space: pre-line; }
 .audiotext__k { display: block; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); margin-bottom: 2px; }

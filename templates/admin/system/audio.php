@@ -1,6 +1,6 @@
 <?php
 /**
- * Fiches audio. Variables : $stats, $plan, $aiText, $batch, $direct, $jobs, $states, $recent, $ready, $model, $voice, $spent, $admin, $enabled
+ * Fiches audio. Variables : $stats, $plan, $aiText, $texts (textes à rédiger par l'IA : n, batch, model), $batch, $direct, $jobs, $states, $recent, $ready, $model, $voice, $spent, $admin, $enabled
  */
 use App\Admin\Base;
 
@@ -12,7 +12,7 @@ $kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
 <?php if (!$enabled): ?><p class="alert" style="margin:0">Le bouton « Écouter » est désactivé sur le site (<a href="/admin/reglages?groupe=audio">Réglages › Fiches audio</a>).</p><?php endif; ?>
 
 <div class="kpis">
-  <div class="kpi kpi--yellow"><b><?= $fmt($stats['fiches']) ?></b><span>fiches qui se racontent</span><small>résumé de 30 s, voix du navigateur : gratuit</small></div>
+  <div class="kpi kpi--yellow"><b><?= $fmt($stats['fiches']) ?></b><span>fiches qui se racontent</span><small>explication complète (<?= e(rtrim(rtrim(number_format(\App\Services\FicheAudio::maxMinutes(), 1, ',', ''), '0'), ',')) ?> min au plus), voix du navigateur : gratuit</small></div>
   <div class="kpi"><b><?= $fmt($stats['fr_voice']) ?></b><span>voix IA en français</span><small><?= $stats['bytes'] ? e(Base::size((int) $stats['bytes'])) . ' sur le serveur' : 'aucune pour l’instant' ?></small></div>
   <div class="kpi"><b><?= $fmt($stats['en_voice']) ?></b><span>voix IA en anglais</span><small>fiches traduites seulement</small></div>
   <div class="kpi"><b><?= $fmt($stats['ai_text'] + $stats['manual']) ?></b><span>textes rédigés</span><small><?= $fmt($stats['ai_text']) ?> par l’IA · <?= $fmt($stats['manual']) ?> à la main</small></div>
@@ -51,10 +51,38 @@ $kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
     </div>
   </section>
   <section class="card">
+    <div class="card__head"><h2 class="card__t">Réécrire les textes avec l’IA</h2><span class="card__note">sans voix IA : lus par la voix du navigateur, gratuite</span></div>
+    <div class="card__body">
+      <p class="small" style="margin:0">L’IA raconte chaque fiche comme un historien : une accroche, le décor, le récit en paragraphes (coulisses, anecdotes, hommes), une conclusion ; uniquement des faits de la fiche, dans la durée maximale réglée. Les textes écrits à la main ne sont jamais remplacés.</p>
+      <?php if (!$ready): ?>
+        <p class="small" style="margin:0">Il faut une clé Gemini<?= $admin ? ' (<a href="/admin/reglages?groupe=ai">Réglages › Assistant IA</a>)' : '' ?>.</p>
+      <?php elseif (!$texts['n']): ?>
+        <p class="small" style="margin:0"><span class="ok">✓</span> Tous les textes sont rédigés (par l’IA ou à la main). « Tout refaire » ci-dessous les réécrit quand même.</p>
+      <?php else: ?>
+        <p class="small" style="margin:0"><b><?= $fmt($texts['n']) ?> texte<?= $texts['n'] > 1 ? 's' : '' ?></b> à rédiger (automatiques ou plus à jour). Modèle <?= e((string) $texts['model']) ?> ; coût estimé : <b><?= e($eur($texts['batch']['eur'])) ?></b> (traitement groupé, moitié prix).</p>
+      <?php endif; ?>
+      <?php if ($ready && $admin): ?>
+        <form method="post" action="/admin/audio" class="stack" style="gap:10px" data-confirm="Faire réécrire les textes par l’IA ?|20 fiches pour essayer, ou toutes (coût estimé : <?= e($eur($texts['batch']['eur'])) ?>), comptées dans Coûts IA.|Lancer">
+          <?= csrf_field() ?><input type="hidden" name="action" value="lancer"><input type="hidden" name="quoi" value="textes">
+          <div class="row">
+            <label class="row" style="gap:6px"><input type="checkbox" name="langues[]" value="fr" checked> Français</label>
+            <label class="row" style="gap:6px"><input type="checkbox" name="langues[]" value="en" checked> Anglais (fiches traduites)</label>
+            <label class="row" style="gap:6px" title="Réécrire aussi les textes déjà rédigés par l’IA (jamais ceux écrits à la main)"><input type="checkbox" name="refaire" value="1"<?= $texts['n'] ? '' : ' checked' ?>> Tout refaire</label>
+          </div>
+          <div class="row">
+            <label class="row" style="gap:6px"><input type="radio" name="nombre" value="essai" checked> Essayer d’abord sur 20 fiches</label>
+            <label class="row" style="gap:6px"><input type="radio" name="nombre" value="tout"> Toutes les fiches</label>
+          </div>
+          <div class="row"><button type="submit" class="btn btn--navy">Réécrire les textes</button><span class="xs muted">Résultat en quelques heures ; à relire dans l’éditeur de chaque fiche (carte « Écouter la fiche »).</span></div>
+        </form>
+      <?php endif; ?>
+    </div>
+  </section>
+  <section class="card">
     <div class="card__head"><h2 class="card__t">Comment ça marche</h2></div>
     <div class="card__body small">
-      <p style="margin:0"><b>Gratuit, par défaut :</b> chaque fiche propose « Écouter (30 s) ». Le résumé est tiré des données (date, score, buteurs, carrière, introduction) et lu par la voix du navigateur du visiteur.</p>
-      <p style="margin:0"><b>Voix IA :</b> Gemini lit le résumé d’une voix naturelle, enregistrée une fois pour toutes. Depuis l’éditeur d’une fiche (carte « Écouter »), ou pour tout le musée ici, en traitement groupé. Une fiche modifiée retrouve sa voix IA la nuit suivante<?= $admin ? ' (<a href="/admin/reglages?groupe=audio">Réglages › Fiches audio</a>)' : '' ?>.</p>
+      <p style="margin:0"><b>Gratuit, par défaut :</b> chaque fiche propose « Écouter ». Le texte est tiré de la fiche (date, score, buteurs, carrière, puis le texte de la fiche), dans la durée maximale réglée, et lu par la voix du navigateur du visiteur. Rédigé par l’IA, il explique toute la fiche : une fiche courte reste courte.</p>
+      <p style="margin:0"><b>Voix IA :</b> Gemini lit le texte d’une voix naturelle, enregistrée une fois pour toutes. Depuis l’éditeur d’une fiche (carte « Écouter »), ou pour tout le musée ici, en traitement groupé. Une fiche modifiée retrouve sa voix IA la nuit suivante<?= $admin ? ' (<a href="/admin/reglages?groupe=audio">Réglages › Fiches audio</a>)' : '' ?>.</p>
       <p style="margin:0"><b>Texte lu :</b> modifiable dans chaque fiche, ou rédigé par l’IA. Il s’affiche sous le bouton pendant l’écoute (accessibilité).</p>
     </div>
   </section>

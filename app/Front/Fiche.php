@@ -97,7 +97,7 @@ final class Fiche
     }
 
     /**
-     * Bouton « Écouter » (résumé de 30 secondes) : données et script de la page. La fiche telle
+     * Bouton « Écouter » (explication audio de la fiche) : données et script de la page. La fiche telle
      * qu'enregistrée (même empreinte qu'au back-office : texte de l'IA et voix enregistrée reconnus).
      */
     private static function withAudio(array $v, array $doc): array

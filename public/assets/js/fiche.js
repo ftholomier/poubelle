@@ -4,9 +4,11 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-  // Carte de collection : clic, Entrée ou Espace pour la retourner.
+  // Carte de collection : au survol de la souris (CSS) ; sur écran tactile, au toucher.
+  const hover = matchMedia('(hover: hover) and (pointer: fine)');
   $$('[data-flip]').forEach(card => {
     card.addEventListener('click', () => {
+      if (hover.matches) return;
       const on = card.classList.toggle('is-flipped');
       card.setAttribute('aria-pressed', on ? 'true' : 'false');
     });

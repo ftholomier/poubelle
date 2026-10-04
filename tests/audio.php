@@ -33,7 +33,8 @@ $has = fn (string $label, string $text, array $parts) => $eq($label, array_value
 $match = Fiches::get(2431);
 $t = A::template($match, 'fr');
 $has('match : date, stade, score, buteurs', $t, ['Dimanche 28 février 1988, Stade Auguste Bonal.', '24e journée de D2 : Sochaux bat Le Puy 2 à 1, devant 6795 spectateurs.', 'Buts : Sauzée 37e et 61e pour Sochaux ; Faure 72e pour Le Puy.', 'évacuation de la neige']);
-$eq('match : 75 mots au plus', A::words($t) <= A::WORDS, true);
+$eq('match : dans la durée maximale', A::words($t) <= A::maxWords(), true);
+$eq('durée maximale par défaut : 3 min, 450 mots', [A::maxMinutes(), A::maxWords()], [3.0, 450]);
 $t = A::template(Fiches::get(22054), 'fr');
 $has('penalty dit en toutes lettres', $t, ['Durbant 74e sur penalty']);
 // Tirs au but : le vainqueur de la séance et son score (Sochaux à domicile, puis à l'extérieur, puis battu).
@@ -72,6 +73,14 @@ $eq('texte écrit à la main', A::current($changed, 'fr')['src'], 'manual');
 A::resetText($id, 'fr');
 $eq('retour à l’automatique', A::current($match, 'fr')['src'], 'auto');
 $eq('réponse de l’IA nettoyée', A::cleanAi("**« Le match du siècle. »**"), 'Le match du siècle.');
+$eq('paragraphes de l’IA gardés', A::cleanAi("Un soir de mai.\n\n  Bonal   chavire.\nLa fin."), "Un soir de mai.\n\nBonal chavire.\n\nLa fin.");
+$eq('texte trop long coupé en fin de phrase, paragraphes gardés', A::fitText("Un deux trois.\n\nQuatre cinq. Six sept huit neuf.", 5), "Un deux trois.\n\nQuatre cinq.");
+// Textes seulement (sans voix IA) : à rédiger par l'IA, jamais un texte écrit à la main.
+$eq('textes seulement : texte automatique à rédiger', in_array($id . '-fr', A::plan(['fr'], false, [$id . '-fr'], true)['text'], true), true);
+A::saveText($id, 'fr', 'Texte écrit par un historien.', 'manual');
+$eq('textes seulement : texte écrit à la main épargné', A::plan(['fr'], true, [$id . '-fr'], true)['text'], []);
+A::resetText($id, 'fr');
+$eq('estimation sans voix : moins chère', A::estimate(10, 0, 270, true, false)['usd'] < A::estimate(10, 0, 270, true)['usd'], true);
 
 // Voix enregistrée.
 $pcm = str_repeat(pack('v', 1000), 24000);

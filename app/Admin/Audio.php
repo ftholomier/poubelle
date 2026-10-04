@@ -27,16 +27,20 @@ final class Audio extends Base
     public static function index(Request $req): Response
     {
         $plan = FicheAudio::plan(['fr', 'en']);
-        $aiText = (bool) Settings::get('audio.ai_text', false);
+        $planText = FicheAudio::plan(['fr', 'en'], false, null, true);
+        $aiText = (bool) Settings::get('audio.ai_text', true);
         $nText = count($plan['text']);
         $nVoice = count($plan['voice']);
-        $words = $aiText ? 70.0 : $plan['words'];
+        // Texte rédigé par l'IA : en moyenne 60 % de la durée maximale (une fiche courte reste courte).
+        $aiWords = FicheAudio::maxWords() * 0.6;
+        $words = $aiText ? $aiWords : $plan['words'];
         $spent = 0.0;
         foreach (AiCosts::totals() as $t) {
             $spent += (float) ($t['uses']['audio']['usd'] ?? 0);
         }
         return self::html('admin/system/audio', [
             'stats' => FicheAudio::stats(), 'plan' => $plan, 'aiText' => $aiText,
+            'texts' => ['n' => count($planText['text']), 'batch' => FicheAudio::estimate(count($planText['text']), 0, $aiWords, true, false), 'model' => Gemini::ready() ? FicheAudio::textModel() : null],
             'batch' => FicheAudio::estimate($nText, $nVoice, $words, true), 'direct' => FicheAudio::estimate($nText, $nVoice, $words, false),
             'jobs' => array_reverse(FicheAudio::jobs()), 'states' => self::STATES, 'recent' => self::recent(8),
             'ready' => Gemini::ready(), 'model' => Gemini::ready() ? Gemini::ttsModel() : null, 'voice' => FicheAudio::voice(),
@@ -56,12 +60,17 @@ final class Audio extends Base
         }
         if ($action === 'lancer') {
             if (!Gemini::ready()) {
-                return self::back('/admin/audio', null, 'La voix IA nécessite une clé Gemini (Réglages › Assistant IA).');
+                return self::back('/admin/audio', null, 'Il faut une clé Gemini (Réglages › Assistant IA).');
             }
             $langs = array_values(array_intersect((array) ($req->post['langues'] ?? []), ['fr', 'en'])) ?: ['fr'];
-            $r = FicheAudio::launch($langs, $req->str('refaire') !== '', self::actor(), null, $req->str('nombre') === 'essai' ? 20 : 0);
+            $textOnly = $req->str('quoi') === 'textes';
+            $r = FicheAudio::launch($langs, $req->str('refaire') !== '', self::actor(), null, $req->str('nombre') === 'essai' ? 20 : 0, $textOnly);
             if (!$r['jobs']) {
-                return self::back('/admin/audio', 'Toutes les fiches ont déjà leur voix IA à jour.');
+                return self::back('/admin/audio', $textOnly ? 'Tous les textes sont déjà rédigés.' : 'Toutes les fiches ont déjà leur voix IA à jour.');
+            }
+            if ($textOnly) {
+                Activity::log(self::actor(), 'a lancé la rédaction par l’IA des textes audio de ' . $r['text'] . ' fiche(s)', null);
+                return self::back('/admin/audio', $r['text'] . ' texte(s) confiés à l’IA en traitement groupé : la tâche planifiée les envoie à Google puis les range dès qu’ils sont prêts, en général en quelques heures. Ils sont lus par la voix du navigateur, gratuite.');
             }
             Activity::log(self::actor(), 'a lancé la voix IA de ' . ($r['text'] + $r['voice']) . ' fiche(s) en traitement groupé', null);
             return self::back('/admin/audio', ($r['text'] + $r['voice']) . ' fiche(s) confiées au traitement groupé (' . $r['jobs'] . ' envoi' . ($r['jobs'] > 1 ? 's' : '') . ') : la tâche planifiée les envoie à Google puis range les voix dès qu’elles sont prêtes, en général en quelques heures.');
@@ -83,13 +92,14 @@ final class Audio extends Base
         }
         $id = (int) $doc['id'];
         session_write_close();
-        @set_time_limit(180);
+        @set_time_limit(360);
         try {
             switch ((string) ($in['action'] ?? 'etat')) {
                 case 'enregistrer':
-                    $text = trim((string) preg_replace('/\s+/u', ' ', strip_tags((string) ($in['text'] ?? ''))));
-                    if ($text === '' || mb_strlen($text) > 1200) {
-                        return self::json(['ok' => false, 'error' => 'Le texte lu doit faire entre 1 et 1 200 caractères (environ 75 mots pour 30 secondes).'], 422);
+                    $text = FicheAudio::paragraphs(strip_tags((string) ($in['text'] ?? '')));
+                    $max = FicheAudio::maxWords() * 9;
+                    if ($text === '' || mb_strlen($text) > $max) {
+                        return self::json(['ok' => false, 'error' => 'Le texte lu doit faire entre 1 et ' . number_format($max, 0, ',', ' ') . ' caractères (environ ' . FicheAudio::maxWords() . ' mots, la durée maximale réglée).'], 422);
                     }
                     FicheAudio::saveText($id, $lang, $text, 'manual');
                     $msg = 'Texte enregistré : c’est lui qui sera lu.';
@@ -103,7 +113,7 @@ final class Audio extends Base
                         return self::json(['ok' => false, 'error' => 'Clé Gemini non réglée (Réglages › Assistant IA).'], 422);
                     }
                     FicheAudio::writeAiText($doc, $lang);
-                    $msg = 'Résumé rédigé par l’IA.';
+                    $msg = 'Texte rédigé par l’IA : relisez-le avant de lui donner une voix IA.';
                     break;
                 case 'voix':
                     if (!Gemini::ready()) {
