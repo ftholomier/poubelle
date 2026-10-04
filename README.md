@@ -64,7 +64,9 @@ et utilisateur. Voir le [guide du back-office](docs/GUIDE-BACK-OFFICE.md).
 - HTML, CSS et JavaScript natifs ; carte Leaflet + OpenStreetMap ; polices hébergées sur
   le site.
 - Seul `public/` est exposé sur Internet ; code, données et réglages restent en dehors.
-- Aucune dépendance à installer (ni Composer, ni npm).
+- Aucune dépendance à installer (ni Composer, ni npm). Les voix IA sont compressées en MP3
+  par un encodeur écrit en PHP (`app/Services/Mp3Encoder.php`, adapté de shine, sous licence
+  LGPL 2 : `docs/licences/LGPL-2.0.txt`) quand le serveur n'a pas ffmpeg.
 - Services externes, tous facultatifs et réglés dans le back-office : Gemini
   (assistant, traduction, correcteur d'orthographe), Stripe et PayPal (dons), SMTP (e-mails).
 

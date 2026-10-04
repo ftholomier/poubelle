@@ -13,6 +13,7 @@ use App\Core\JsonStore;
 use App\Data\Fiches;
 use App\Services\AiCosts;
 use App\Services\FicheAudio as A;
+use App\Services\Mp3Encoder;
 
 $tmp = sys_get_temp_dir() . '/audio-test-' . bin2hex(random_bytes(4));
 A::$dir = "$tmp/etat";
@@ -105,6 +106,74 @@ $v2 = A::storeVoice($id, 'fr', $pcm . $pcm, 24000, $cur['text'], 'gemini-3.8-fla
 $eq('ancienne voix supprimée', [is_file(A::$media . '/' . $v['file']), is_file(A::$media . '/' . $v2['file'])], [false, true]);
 A::deleteVoice($id, 'fr');
 $eq('voix supprimée', [A::audio($match, 'fr'), is_file(A::$media . '/' . $v2['file'])], [null, false]);
+
+// Fin de voix nettoyée : grésillement ou long silence après la dernière phrase ; voix seule intacte.
+$voix = '';
+for ($i = 0; $i < 48000; $i++) { // 2 s de « voyelle » à 150 Hz, attaque et fin douces
+    $s = $i / 24000;
+    $x = 0.3 * sin(2 * M_PI * 150 * $s) + 0.2 * sin(2 * M_PI * 300 * $s) + 0.1 * sin(2 * M_PI * 450 * $s);
+    $voix .= pack('v', (int) round(32767 * $x * min(1, $s * 20, (2 - $s) * 20)) & 0xFFFF);
+}
+mt_srand(7);
+$bruit = '';
+for ($i = 0; $i < 24000; $i++) {
+    $bruit .= pack('v', mt_rand(-8000, 8000) & 0xFFFF);
+}
+$net = A::trimTail($voix . $bruit, 24000, $cut);
+$eq('grésillement final retiré', [strlen($net) <= strlen($voix) + 0.26 * 48000, $cut >= 0.7], [true, true]);
+$net = A::trimTail($voix . str_repeat("\0\0", 48000), 24000, $cut);
+$eq('long silence final retiré', [strlen($net) <= strlen($voix) + 0.26 * 48000, $cut >= 1.7], [true, true]);
+$eq('voix seule intacte', [A::trimTail($voix, 24000, $cut) === $voix, $cut], [true, 0.0]);
+$eq('WAV relu', [A::fromWav(A::wav($voix, 24000)), A::fromWav('ID3' . str_repeat("\0", 60))], [['pcm' => $voix, 'rate' => 24000], null]);
+// Voix renvoyée en plusieurs morceaux : recollés ; ce qui n'est pas de l'audio est ignoré.
+$part = fn (string $b, string $m = 'audio/L16;codec=pcm;rate=24000') => ['inlineData' => ['mimeType' => $m, 'data' => base64_encode($b)]];
+$eq('voix en plusieurs morceaux recollés', \App\Services\Gemini::speechAudio(['candidates' => [['content' => ['parts' => [$part("\x01\x00\x02\x00"), ['text' => 'transcription'], $part("\x03\x00"), $part('PNG', 'image/png')]]]]]),
+    ['pcm' => "\x01\x00\x02\x00\x03\x00", 'rate' => 24000, 'mime' => 'audio/L16;codec=pcm;rate=24000']);
+
+// Encodeur MP3 du site (sans ffmpeg) : MPEG-2 Layer III mono, débit constant.
+$mp3 = Mp3Encoder::encode($voix, 24000, 64);
+$frames = intdiv(48000 + 1152 + 575, 576);
+$sync = true;
+for ($o = 0; $o < strlen($mp3); $o += 192) {
+    $sync = $sync && substr($mp3, $o, 4) === "\xFF\xF3\x84\xC4";
+}
+$eq('MP3 : une trame de 192 octets par granule, en-têtes valides', [strlen($mp3), $sync], [$frames * 192, true]);
+$side = fn (string $f) => bindec(substr(implode('', array_map(fn ($c) => sprintf('%08b', ord($c)), str_split(substr($f, 4, 9)))), 9, 12));
+$silence = Mp3Encoder::encode(str_repeat("\0\0", 24000), 24000, 48);
+$eq('MP3 : silence codé sans un bit de données', array_unique(array_map($side, str_split($silence, 144))), [0]);
+// 22,05 kHz : trames de 156 ou 157 octets (octet de bourrage une fois sur n), toutes enchaînées.
+$m22 = Mp3Encoder::encode(substr($voix, 0, 44100), 22050, 48);
+for ($o = 0, $n22 = 0; $o + 4 <= strlen($m22) && substr($m22, $o, 2) === "\xFF\xF3"; $n22++) {
+    $o += 156 + (ord($m22[$o + 2]) >> 1 & 1);
+}
+$eq('MP3 : trames à 22,05 kHz enchaînées jusqu’au bout', [$o, $n22], [strlen($m22), intdiv(22050 + 1152 + 575, 576)]);
+// Décodé par ffmpeg quand il est là : même niveau, fidèle (décalage du codeur et du décodeur : 1057 échantillons).
+if (is_executable('/usr/bin/ffmpeg')) {
+    file_put_contents("$tmp/essai.mp3", $mp3);
+    $dec = (string) shell_exec('/usr/bin/ffmpeg -v error -i ' . escapeshellarg("$tmp/essai.mp3") . ' -f s16le -');
+    $a = array_values(unpack('s*', $voix));
+    $b = array_values(unpack('s*', $dec));
+    $sig = $err = $dot = 0.0;
+    foreach ($a as $i => $x) {
+        $y = $b[$i + 1057] ?? 0;
+        $sig += $x * $x;
+        $err += ($y - $x) ** 2;
+        $dot += $x * $y;
+    }
+    $eq('MP3 décodé : même niveau, rapport signal/bruit > 35 dB', [round($dot / $sig, 2), 10 * log10($sig / max(1, $err)) > 35], [1.0, true]);
+}
+// Voix enregistrées en WAV : converties en MP3 par la tâche planifiée, l'ancien fichier supprimé.
+$w = A::storeVoice($id, 'fr', $voix, 24000, $cur['text'], 'gemini-3.8-flash-tts', 'Charon');
+$ff = new ReflectionProperty(A::class, 'ffmpeg');
+$ff->setValue(null, ''); // comme chez o2switch : pas de ffmpeg, l'encodeur du site
+A::$mp3 = null;
+$n = A::convertWavs(microtime(true) + 60);
+$a = A::state($id)['fr']['audio'];
+$eq('voix WAV convertie en MP3', [$n, str_ends_with($a['file'], '.mp3'), is_file(A::$media . '/' . $a['file']), is_file(A::$media . '/' . $w['file']), A::audio($match, 'fr')['url'] ?? null, $a['voice']],
+    [1, true, true, false, '/media/' . $a['file'], 'Charon']);
+$eq('plus rien à convertir', A::convertWavs(microtime(true) + 60), 0);
+A::$mp3 = false;
+A::deleteVoice($id, 'fr');
 
 // Rangement des résultats d'un traitement groupé (fichier JSONL de Google).
 @mkdir(A::$dir . '/jobs', 0775, true);

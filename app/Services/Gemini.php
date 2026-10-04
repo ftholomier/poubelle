@@ -340,20 +340,32 @@ final class Gemini
 
     /**
      * Audio d'une réponse de voix : ['pcm' => octets bruts (16 bits, mono), 'rate' => fréquence].
-     * Google renvoie du PCM « audio/L16;codec=pcm;rate=24000 ».
+     * Google renvoie du PCM « audio/L16;codec=pcm;rate=24000 », parfois en plusieurs morceaux mis
+     * bout à bout ici ; tout ce qui n'est pas de l'audio (texte) est laissé de côté.
      */
     public static function speechAudio(array $r): ?array
     {
+        $pcm = '';
+        $rate = $mime = null;
         foreach ($r['candidates'][0]['content']['parts'] ?? [] as $p) {
             $d = $p['inlineData'] ?? $p['inline_data'] ?? null;
-            if (is_array($d) && !empty($d['data'])) {
-                $mime = (string) ($d['mimeType'] ?? $d['mime_type'] ?? '');
-                $rate = preg_match('/rate=(\d+)/', $mime, $m) ? (int) $m[1] : 24000;
-                $pcm = base64_decode((string) $d['data'], true);
-                return $pcm === false || $pcm === '' ? null : ['pcm' => $pcm, 'rate' => $rate, 'mime' => $mime];
+            if (!is_array($d) || empty($d['data'])) {
+                continue;
             }
+            $m = (string) ($d['mimeType'] ?? $d['mime_type'] ?? '');
+            if ($m !== '' && !str_starts_with($m, 'audio/')) {
+                continue;
+            }
+            $r1 = preg_match('/rate=(\d+)/', $m, $mm) ? (int) $mm[1] : 24000;
+            $chunk = base64_decode((string) $d['data'], true);
+            if ($chunk === false || $chunk === '' || ($rate !== null && $r1 !== $rate)) {
+                continue;
+            }
+            $rate ??= $r1;
+            $mime ??= $m;
+            $pcm .= strlen($chunk) % 2 ? substr($chunk, 0, -1) : $chunk;
         }
-        return null;
+        return $pcm === '' ? null : ['pcm' => $pcm, 'rate' => $rate, 'mime' => $mime];
     }
 
     /** Lit un texte à voix haute (une demande, tarif normal) ; coût compté (usage « audio »). */

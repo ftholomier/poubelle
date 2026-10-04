@@ -546,7 +546,7 @@ final class PageAudio
     /** Récits rédigés par l'IA et voix IA qui les lisent, par langue ; place des voix. */
     public static function stats(): array
     {
-        $out = ['fr' => 0, 'en' => 0, 'voice_fr' => 0, 'voice_en' => 0, 'bytes' => 0];
+        $out = ['fr' => 0, 'en' => 0, 'voice_fr' => 0, 'voice_en' => 0, 'bytes' => 0, 'wav' => 0];
         foreach (glob(self::$dir . '/*.json') ?: [] as $f) {
             $s = JsonStore::read($f, []);
             foreach (self::LANGS as $lang) {
@@ -555,6 +555,7 @@ final class PageAudio
                     if ($a = self::voiceOf($s[$lang])) {
                         $out['voice_' . $lang]++;
                         $out['bytes'] += (int) ($a['bytes'] ?? 0);
+                        $out['wav'] += str_ends_with((string) $a['file'], '.wav') ? 1 : 0;
                     }
                 }
             }

@@ -158,8 +158,8 @@ copiées par lots de 100 chaque heure.
    - Fiches audio : bouton « Écouter » (gratuit, actif par défaut) ; pour la voix IA, choisir
      la voix puis Système › Fiches audio › « Essayer d'abord sur 20 fiches », écouter, et
      lancer toutes les fiches. Le dossier `public/media/audio/` doit être inscriptible (comme
-     `public/media/`) ; si l'hébergement fournit ffmpeg, les voix sont compressées en MP3
-     (sinon WAV, plus lourd) ;
+     `public/media/`) ; les voix sont enregistrées en MP3 (par ffmpeg si l'hébergement le
+     fournit, sinon par l'encodeur MP3 du site, en PHP : rien à installer) ;
    - Coûts IA : nom de la personne qui paie la facture Google (imprimé sur le relevé
      mensuel que l'association rembourse), taux de change de sa banque, budget mensuel
      éventuel ; la dépense se suit dans Système › Coûts IA ;

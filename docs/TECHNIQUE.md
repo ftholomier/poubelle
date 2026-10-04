@@ -478,7 +478,7 @@ souvenirs) pour refaire les PDF en cache.
   `plan()` liste aussi les voix manquantes des récits à jour (`voices`), confiées par `launch()`
   (`FicheAudio::queueVoices()`). Demande : `PageAudio::speechRequest()` (le récit rangé, passé par
   `speakable()`, voix réglée, sans consigne de ton) ; rangement : `PageAudio::storeVoice()` via
-  `FicheAudio::encodeVoice()` (MP3 si ffmpeg, sinon WAV) dans
+  `FicheAudio::encodeVoice()` (MP3, voir « Voix IA ») dans
   `public/media/audio/pages/{page}-{langue}-{empreinte}.mp3`, ancienne voix supprimée. Jouée
   (`url` du bouton) seulement si son empreinte `th` est celle du récit affiché.
 - **Texte lu** (`maxWords()` : durée maximale `audio.max_minutes`, 3 par défaut, × 150 mots),
@@ -494,11 +494,35 @@ souvenirs) pour refaire les PDF en cache.
   `textModel()` (`audio.text_model`, sinon `ai.model`). `plan(..., textOnly: true)` /
   `launch(..., textOnly: true)` : textes seulement, sans voix IA (carte « Réécrire les textes
   avec l'IA »). Lots de voix : `voiceBatch()`, environ 300 Mo de résultats quelle que soit la durée. Version anglaise pour les fiches traduites.
-- **Voix IA** : `Gemini::speech()` (modèle de voix réglé ou le meilleur disponible, voix et
-  consigne de ton réglables), PCM 16 bits mono converti en MP3 48 kbit/s par ffmpeg s'il est
-  présent, sinon WAV. Fichier `public/media/audio/{id}-{langue}-{empreinte}.mp3`, servi
-  directement par Apache (mis en cache un an : le nom change avec le contenu). Valable tant
-  que l'empreinte `th` du texte lu ne change pas.
+- **Voix IA** : `Gemini::speech()` (modèle de voix réglé ou le meilleur disponible, voix
+  réglable ; le texte seul est envoyé), PCM 16 bits mono à 24 kHz (`Gemini::speechAudio()`
+  recolle les morceaux d'une réponse en plusieurs parties et ignore ce qui n'est pas de
+  l'audio). `FicheAudio::encodeVoice()` :
+  1. **fin nettoyée** (`trimTail()`) : la synthèse ajoute parfois du bruit (grésillement) ou un
+     long silence après la dernière phrase. Dernier son voisé cherché en remontant depuis la fin
+     (trames de 20 ms assez fortes et périodiques : autocorrélation ≥ 0,5 pour une hauteur de
+     70 à 400 Hz, signal pré-accentué ramené vers 8 kHz ; 3 trames de suite), coupe 0,26 s
+     après (consonne finale) ou dès que le niveau tombe 35 dB sous la voix, fondu de 50 ms ;
+  2. **MP3** : ffmpeg (LAME, 48 kbit/s) s'il est sur le serveur, sinon l'encodeur du site
+     `App\Services\Mp3Encoder` (cas d'o2switch), sinon WAV en dernier recours.
+
+  `Mp3Encoder` : PHP pur, adapté de shine (licence LGPL 2 pour ce seul fichier,
+  `docs/licences/LGPL-2.0.txt`) ; MPEG-2 Layer III mono, 16 / 22,05 / 24 kHz, débit constant
+  (`FicheAudio::MP3_KBPS` = 64 kbit/s, un peu plus que LAME faute de modèle psychoacoustique).
+  Banc de filtres polyphase (fenêtre de la norme, matrice repliée en 32 × 32), MDCT des blocs
+  longs, réduction du repliement ; pour chaque granule, le pas de quantification le plus fin qui
+  tient dans le débit (dichotomie puis pas à pas), tables de Huffman choisies par région, sans
+  facteurs d'échelle ni réservoir de bits : chaque trame se suffit à elle-même, sa fin est
+  remplie de données annexes. Quadruplets dans l'ordre de la norme (8v + 4w + 2x + y ; shine
+  les inverse). Mesures : voix rendue au même niveau, rapport signal/bruit 45 dB à 64 kbit/s
+  (39 à 48), environ 6 % du temps réel en local (3 min de voix : une dizaine de secondes) ;
+  décodage vérifié par ffmpeg et Chromium (tests/audio.php).
+
+  Fichier `public/media/audio/{id}-{langue}-{empreinte}.mp3`, servi directement par Apache (mis
+  en cache un an : le nom change avec le contenu). Valable tant que l'empreinte `th` du texte
+  lu ne change pas. Les voix enregistrées en WAV avant l'encodeur sont converties par la tâche
+  planifiée (`convertWavs()`, avec le temps qui reste au passage « audio », fin nettoyée,
+  ancien fichier supprimé ; nombre restant affiché dans Système › Fiches audio).
 - **Traitement groupé** (API Batch de Google, moitié prix) : `launch()` crée des travaux de
   150 fiches (voix) ou 800 (résumés IA, suivis automatiquement des voix) dans
   `storage/audio/jobs.json` ; la tâche planifiée `audio` (et `php bin/console.php audio`)

@@ -46,6 +46,8 @@ final class FicheAudio
      * ces voix ne sont plus jouées et sont refaites la nuit suivante.
      */
     public const VOICE_VERSION = 2;
+    /** Débit des voix en MP3 avec l'encodeur du site (kbit/s) : sans modèle psychoacoustique, un peu plus que les 48 de ffmpeg. */
+    public const MP3_KBPS = 64;
     /** Fiches par traitement groupé : 30 secondes de voix pèsent environ 2 Mo dans les résultats. */
     public const BATCH_VOICE = 150;
     public const BATCH_TEXT = 800;
@@ -209,12 +211,14 @@ final class FicheAudio
         }
         self::$tplChanged = false;
         try {
-            @mkdir(dirname(self::$templates), 0775, true);
-            $tmp = self::$templates . '.' . bin2hex(random_bytes(4)) . '.tmp';
-            if (@file_put_contents($tmp, serialize(['code' => self::templateCode(), 'items' => self::$tpl])) !== false) {
-                @rename($tmp, self::$templates);
+            $dir = dirname(self::$templates);
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0775, true);
             }
-            @unlink($tmp);
+            $tmp = self::$templates . '.' . bin2hex(random_bytes(4)) . '.tmp';
+            if (@file_put_contents($tmp, serialize(['code' => self::templateCode(), 'items' => self::$tpl])) === false || !@rename($tmp, self::$templates)) {
+                @unlink($tmp);
+            }
         } catch (\Throwable) {
             // cache facultatif
         }
@@ -612,12 +616,12 @@ final class FicheAudio
         if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
             throw new \RuntimeException('Dossier impossible à créer : ' . $dir);
         }
-        $wav = self::wav($pcm, $rate);
-        $file = $base . '.wav';
+        $pcm = self::trimTail($pcm, $rate);
+        $file = null;
         if ($ff = self::ffmpeg()) {
             $tmp = self::$dir . "/tmp-$base.wav";
             @mkdir(self::$dir, 0775, true);
-            file_put_contents($tmp, $wav);
+            file_put_contents($tmp, self::wav($pcm, $rate));
             $out = "$dir/$base.mp3";
             exec(escapeshellarg($ff) . ' -loglevel error -y -i ' . escapeshellarg($tmp) . ' -ac 1 -codec:a libmp3lame -b:a 48k ' . escapeshellarg($out) . ' 2>&1', $o, $code);
             @unlink($tmp);
@@ -627,10 +631,221 @@ final class FicheAudio
                 @unlink($out);
             }
         }
-        if ($file === $base . '.wav') {
-            file_put_contents("$dir/$file", $wav);
+        // Sans ffmpeg (o2switch) : encodeur MP3 du site, en PHP (environ 10 s de calcul pour 3 min de voix).
+        if ($file === null && self::$mp3 !== false && isset(Mp3Encoder::RATES[$rate])) {
+            try {
+                self::put("$dir/$base.mp3", Mp3Encoder::encode($pcm, $rate, self::MP3_KBPS));
+                $file = $base . '.mp3';
+            } catch (\Throwable $e) {
+                error_log('[audio] MP3 : ' . $e->getMessage());
+            }
+        }
+        if ($file === null) {
+            self::put("$dir/$base.wav", self::wav($pcm, $rate));
+            $file = $base . '.wav';
         }
         return ['file' => "$sub/$file", 'dur' => round(strlen($pcm) / (2 * max(1, $rate)), 1), 'bytes' => (int) filesize("$dir/$file")];
+    }
+
+    /** Écrit un fichier d'un coup (jamais servi à moitié écrit). */
+    private static function put(string $path, string $data): void
+    {
+        $tmp = $path . '.' . bin2hex(random_bytes(4)) . '.tmp';
+        if (file_put_contents($tmp, $data) === false || !rename($tmp, $path)) {
+            @unlink($tmp);
+            throw new \RuntimeException('Écriture impossible : ' . $path);
+        }
+    }
+
+    /**
+     * Fin de la voix nettoyée : la synthèse vocale ajoute parfois, après la dernière phrase, du
+     * bruit (grésillement) ou un long silence. Coupe 0,26 s après le dernier son voisé (voyelle,
+     * consonne sonore : son périodique, au moins 60 ms de suite), plus tôt si le silence revient,
+     * avec un fondu de 50 ms. $cut reçoit les secondes retirées.
+     */
+    public static function trimTail(string $pcm, int $rate, ?float &$cut = null): string
+    {
+        $cut = 0.0;
+        $fs = intdiv($rate, 50); // trames de 20 ms
+        $total = intdiv(strlen($pcm), 2);
+        $nf = intdiv($total, max(1, $fs));
+        if ($fs < 160 || $nf < 50) {
+            return $pcm;
+        }
+        $db = [];
+        for ($f = 0; $f < $nf; $f++) {
+            $e = 0.0;
+            foreach (unpack("v$fs", $pcm, $f * $fs * 2) as $v) {
+                $v = $v > 32767 ? $v - 65536 : $v;
+                $e += $v * $v;
+            }
+            $db[$f] = 10 * log10($e / $fs / 1073741824 + 1e-12);
+        }
+        // Niveau de la voix : les trames fortes (9e décile), silences exclus.
+        $loud = array_values(array_filter($db, fn ($d) => $d > -60));
+        if (!$loud) {
+            return $pcm;
+        }
+        sort($loud);
+        $ref = $loud[(int) floor(0.9 * (count($loud) - 1))];
+        // Dernier son voisé, en remontant depuis la fin (30 s au plus) : 3 trames périodiques de suite.
+        $last = -1;
+        $run = 0;
+        for ($f = $nf - 1; $f >= max(0, $nf - 1500); $f--) {
+            $voiced = $db[$f] > $ref - 30 && self::periodicity($pcm, $f * $fs, $fs, $rate) >= 0.5;
+            $run = $voiced ? $run + 1 : 0;
+            if ($run === 3) {
+                $last = $f + 2;
+                break;
+            }
+        }
+        if ($last < 0) {
+            return $pcm;
+        }
+        $end = min($nf, $last + 14); // 0,26 s pour la consonne finale (« s », « ch »…)
+        for ($f = $last + 1; $f < $end; $f++) {
+            if ($db[$f] < $ref - 35) {
+                $end = $f;
+                break;
+            }
+        }
+        $keep = $end * $fs;
+        if ($total - $keep < intdiv($rate, 10)) {
+            return $pcm; // moins de 0,1 s à retirer : rien à faire
+        }
+        $cut = round(($total - $keep) / $rate, 2);
+        // Fondu de sortie (50 ms) sur la fin gardée.
+        $fade = min($keep, intdiv($rate, 20));
+        $tail = '';
+        $i = 0;
+        foreach (unpack("v$fade", $pcm, ($keep - $fade) * 2) as $v) {
+            $v = $v > 32767 ? $v - 65536 : $v;
+            $tail .= pack('v', (int) round($v * 0.5 * (1 + cos(M_PI * ++$i / $fade))) & 0xFFFF);
+        }
+        return substr($pcm, 0, ($keep - $fade) * 2) . $tail;
+    }
+
+    /**
+     * Périodicité d'une trame (0 à 1) : autocorrélation normalisée la plus forte pour une hauteur
+     * de voix de 70 à 400 Hz, sur le signal pré-accentué ramené vers 8 kHz. Une voyelle dépasse
+     * 0,8 ; un bruit, blanc ou grave, reste sous 0,4.
+     */
+    private static function periodicity(string $pcm, int $start, int $len, int $rate): float
+    {
+        $d = max(1, intdiv($rate, 8000));
+        $sr = $rate / $d;
+        [$lo, $hi] = [(int) floor($sr / 400), (int) ceil($sr / 70)];
+        $need = min($len + $d * ($hi + 1), intdiv(strlen($pcm), 2) - $start);
+        if ($need < $len) {
+            return 0.0;
+        }
+        $y = [];
+        $prev = 0;
+        $acc = 0.0;
+        $k = 0;
+        foreach (unpack("v$need", $pcm, $start * 2) as $v) {
+            $v = $v > 32767 ? $v - 65536 : $v;
+            $acc += $v - 0.95 * $prev;
+            $prev = $v;
+            if (++$k === $d) {
+                $y[] = $acc;
+                $acc = 0.0;
+                $k = 0;
+            }
+        }
+        $n = intdiv($len, $d);
+        $hi = min($hi, count($y) - $n);
+        $e0 = 0.0;
+        for ($i = 0; $i < $n; $i++) {
+            $e0 += $y[$i] * $y[$i];
+        }
+        $best = 0.0;
+        for ($t = $lo; $t <= $hi && $e0 > 0; $t++) {
+            $c = $e1 = 0.0;
+            for ($i = 0; $i < $n; $i++) {
+                $c += $y[$i] * $y[$i + $t];
+                $e1 += $y[$i + $t] * $y[$i + $t];
+            }
+            if ($e1 > 0 && ($r = $c / sqrt($e0 * $e1)) > $best) {
+                $best = $r;
+            }
+        }
+        return $best;
+    }
+
+    /** PCM et fréquence d'un fichier WAV (16 bits mono), null s'il n'en est pas un. */
+    public static function fromWav(string $wav): ?array
+    {
+        if (strlen($wav) < 44 || !str_starts_with($wav, 'RIFF') || substr($wav, 8, 4) !== 'WAVE') {
+            return null;
+        }
+        $rate = null;
+        for ($p = 12; $p + 8 <= strlen($wav);) {
+            $id = substr($wav, $p, 4);
+            $len = unpack('V', $wav, $p + 4)[1];
+            if ($id === 'fmt ') {
+                $f = unpack('vfmt/vch/Vrate/Vbps/valign/vbits', $wav, $p + 8);
+                if ($f['fmt'] !== 1 || $f['ch'] !== 1 || $f['bits'] !== 16) {
+                    return null;
+                }
+                $rate = $f['rate'];
+            } elseif ($id === 'data' && $rate) {
+                $pcm = substr($wav, $p + 8, $len);
+                return ['pcm' => strlen($pcm) % 2 ? substr($pcm, 0, -1) : $pcm, 'rate' => $rate];
+            }
+            $p += 8 + $len + ($len % 2);
+        }
+        return null;
+    }
+
+    /**
+     * Voix enregistrées en WAV (avant l'encodeur MP3 du site) : converties en MP3, fin nettoyée,
+     * tant qu'il reste du temps ; l'ancien fichier est supprimé. Nombre de voix converties.
+     */
+    public static function convertWavs(float $deadline): int
+    {
+        if (self::$mp3 === false) {
+            return 0;
+        }
+        $n = 0;
+        $stores = array_merge(
+            array_filter(glob(self::$dir . '/*.json') ?: [], fn ($f) => (bool) preg_match('#/\d+\.json$#', $f)),
+            glob(PageAudio::$dir . '/*.json') ?: []
+        );
+        foreach ($stores as $store) {
+            foreach (JsonStore::read($store, []) ?: [] as $lang => $x) {
+                $old = $x['audio']['file'] ?? '';
+                if (!is_string($old) || !str_ends_with($old, '.wav')) {
+                    continue;
+                }
+                if (microtime(true) >= $deadline) {
+                    return $n;
+                }
+                $w = is_file(self::$media . '/' . $old) ? self::fromWav((string) file_get_contents(self::$media . '/' . $old)) : null;
+                if (!$w || (!self::ffmpeg() && !isset(Mp3Encoder::RATES[$w['rate']]))) {
+                    continue;
+                }
+                $e = self::encodeVoice(basename($old, '.wav'), $w['pcm'], $w['rate'], dirname($old));
+                if (str_ends_with($e['file'], '.wav')) {
+                    return $n; // encodeur en échec : on réessaiera au prochain passage
+                }
+                $done = false;
+                JsonStore::update($store, function ($s) use ($lang, $old, $e, &$done) {
+                    if (($s[$lang]['audio']['file'] ?? null) === $old) {
+                        $s[$lang]['audio'] = $e + $s[$lang]['audio'];
+                        $done = true;
+                    }
+                    return $s;
+                }, []);
+                if ($done && $e['file'] !== $old) {
+                    @unlink(self::$media . '/' . $old);
+                    $n++;
+                } elseif (!$done && $e['file'] !== $old) {
+                    @unlink(self::$media . '/' . $e['file']); // voix remplacée entre-temps
+                }
+            }
+        }
+        return $n;
     }
 
     public static function deleteVoice(int $id, string $lang): void
@@ -930,6 +1145,9 @@ final class FicheAudio
         if ($r = self::nightly()) {
             $log[] = $r;
         }
+        if ($n = self::convertWavs($deadline)) {
+            $log[] = $n . ' voix converties en MP3';
+        }
         return $log ? implode(' ; ', $log) : null;
     }
 
@@ -1170,7 +1388,7 @@ final class FicheAudio
     /** Chiffres de l'écran de suivi (fiches publiées, voix IA, textes IA…). */
     public static function stats(): array
     {
-        $out = ['fiches' => 0, 'fr_voice' => 0, 'en_voice' => 0, 'ai_text' => 0, 'manual' => 0, 'en' => 0, 'bytes' => 0];
+        $out = ['fiches' => 0, 'fr_voice' => 0, 'en_voice' => 0, 'ai_text' => 0, 'manual' => 0, 'en' => 0, 'bytes' => 0, 'wav' => 0];
         foreach (Index::published() as $id => $s) {
             $out['fiches']++;
             $st = self::state((int) $id);
@@ -1184,6 +1402,7 @@ final class FicheAudio
                 if (!empty($x['audio']['file']) && is_file(self::$media . '/' . $x['audio']['file'])) {
                     $out[$lang === 'en' ? 'en_voice' : 'fr_voice']++;
                     $out['bytes'] += (int) ($x['audio']['bytes'] ?? 0);
+                    $out['wav'] += str_ends_with((string) $x['audio']['file'], '.wav') ? 1 : 0;
                 }
                 if (($x['src'] ?? '') === 'ai') {
                     $out['ai_text']++;

@@ -14,7 +14,7 @@ $kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
 
 <div class="kpis">
   <div class="kpi kpi--yellow"><b><?= $fmt($stats['fiches']) ?></b><span>fiches qui se racontent</span><small>explication complète (<?= e(rtrim(rtrim(number_format(\App\Services\FicheAudio::maxMinutes(), 1, ',', ''), '0'), ',')) ?> min au plus), voix du navigateur : gratuit</small></div>
-  <div class="kpi"><b><?= $fmt($stats['fr_voice']) ?></b><span>voix IA en français</span><small><?= $stats['bytes'] ? e(Base::size((int) $stats['bytes'])) . ' sur le serveur' : 'aucune pour l’instant' ?></small></div>
+  <div class="kpi"><b><?= $fmt($stats['fr_voice']) ?></b><span>voix IA en français</span><small><?= $stats['bytes'] ? e(Base::size((int) $stats['bytes'])) . ' sur le serveur' : 'aucune pour l’instant' ?><?= ($wav = $stats['wav'] + $pages['stats']['wav']) ? ' · ' . $fmt($wav) . ' encore en WAV, converties en MP3 par la tâche planifiée' : '' ?></small></div>
   <div class="kpi"><b><?= $fmt($stats['en_voice']) ?></b><span>voix IA en anglais</span><small>fiches traduites seulement</small></div>
   <div class="kpi"><b><?= $fmt($stats['ai_text'] + $stats['manual']) ?></b><span>textes rédigés</span><small><?= $fmt($stats['ai_text']) ?> par l’IA · <?= $fmt($stats['manual']) ?> à la main</small></div>
   <div class="kpi"><b><?= e($spent) ?></b><span>dépensé en audio</span><small><a href="/admin/couts-ia">détail dans Coûts IA</a></small></div>
