@@ -1,7 +1,7 @@
 # Sochaux Rétro — guide du back-office
 
 Pour les historiens et les administrateurs du musée en ligne. Le back-office s'ouvre à
-l'adresse `/admin` du site (par exemple `https://www.fcsochauxretro.com/admin`).
+l'adresse `/admin` du site (`https://musee.fcsochauxretro.com/admin`).
 
 ## 1. Accès
 
@@ -172,7 +172,8 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   jour-là, compte à rebours du centenaire, dernier match fiché, Rétro-Direct en cours ou dans
   les 7 jours ; plus les messages libres de l'équipe), introduction, palmarès, grandes
   époques, réserves mises en avant, **chiffre du jour** (un des 100 chiffres du FCSM sous
-  « Ce jour-là », un nouveau chaque jour : la carte montre celui du jour, une case le masque).
+  « Ce jour-là », un nouveau chaque jour : la carte montre celui du jour, une case le masque),
+  **teaser vidéo** (1 min 55, sous les compteurs ; le public le voit à l'ouverture du site).
 - **Rubriques & menus** : **ordre d'affichage sur le site** (manuel, chronologique ou A–Z),
   **ordre des fiches** de la rubrique (toutes, sous-rubriques comprises : ↑ / ↓, icône
   quatre flèches à glisser avec trait jaune de dépôt, clic sur le numéro pour taper une
@@ -183,9 +184,13 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
 - **Redirections** : anciennes adresses redirigées (301) ; onglet « Adresses
   introuvables » : adresses demandées par des visiteurs qui n'existent pas, à rediriger en
   un clic vers la bonne fiche.
-- **Page d'attente** : à activer pendant une opération ; logo, texte, compte à rebours
-  facultatif. Les membres connectés du back-office voient toujours le site normal ; le
-  bouton d'aperçu montre la page d'attente.
+- **Page d'attente** : **active dès l'installation**, à décocher le jour de l'ouverture (puis à
+  réactiver pendant une opération) ; logo, texte, compte à rebours facultatif, teaser vidéo
+  (décoché par défaut : la vidéo reste secrète). Tant qu'elle est active, rien n'est indexé
+  par les moteurs de recherche et la page n'a aucun lien vers le back-office. Les membres
+  **connectés** (par `/admin`) voient le vrai site, avec un bandeau jaune « Site fermé au
+  public » ; déconnectés, la page d'attente. Boutons d'aperçu : la page telle que la voient
+  les visiteurs, et avec le teaser.
 
 ## 6. Interactif
 
@@ -322,7 +327,9 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   et la télécharger. Gardez-en régulièrement une copie hors du serveur.
 - **Tâches planifiées** (administrateurs) : état des tâches automatiques (publication programmée,
   statistiques, traductions, correcteur d'orthographe, newsletter, carte…), avec un bouton
-  pour en lancer une tout de suite.
+  pour en lancer une tout de suite ; carte **Serveur** : version de PHP, extensions, dossiers
+  inscriptibles et dernières erreurs du journal PHP (un réglage manquant est aussi rappelé en
+  tête du tableau de bord).
 - **Corbeille** (lien « Voir la corbeille » sous les listes de fiches) : fiches mises à la
   corbeille, à restaurer ; la suppression définitive est réservée aux administrateurs (une
   copie reste dans l'historique des versions).

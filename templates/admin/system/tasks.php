@@ -31,3 +31,23 @@ $late = !$last || $last < time() - 20 * 60;
     </tbody>
   </table>
 </div>
+<?php
+// Hébergement : ce que le site exige (PHP 8.3, extensions, dossiers inscriptibles) et dernières erreurs.
+$srv = \App\Services\ServerCheck::problems();
+$errs = \App\Services\ServerCheck::lastErrors(10);
+?>
+<div class="card" id="serveur">
+  <div class="card__head"><h2 class="card__t">Serveur</h2><span class="card__note">PHP <?= e(PHP_VERSION) ?> · mémoire <?= e((string) ini_get('memory_limit')) ?> · durée maximale d’une page <?= e((string) ini_get('max_execution_time')) ?> s</span></div>
+  <div class="card--pad stack" style="gap:10px">
+    <?php if ($srv): ?>
+      <ul class="small ko" style="margin:0;padding-left:18px"><?php foreach ($srv as $p): ?><li><?= e($p) ?></li><?php endforeach; ?></ul>
+    <?php else: ?>
+      <p class="small ok" style="margin:0">✓ Version de PHP, extensions et droits des dossiers conformes.</p>
+    <?php endif; ?>
+    <details>
+      <summary class="small">Dernières erreurs du journal PHP (<?= count($errs) ?>)</summary>
+      <?php if ($errs): ?><ol class="xs" style="margin:8px 0 0;padding-left:18px;font-family:monospace;word-break:break-word"><?php foreach ($errs as $l): ?><li><?= e($l) ?></li><?php endforeach; ?></ol>
+      <?php else: ?><p class="xs muted" style="margin:8px 0 0">Aucune erreur enregistrée.</p><?php endif; ?>
+    </details>
+  </div>
+</div>

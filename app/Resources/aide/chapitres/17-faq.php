@@ -47,7 +47,7 @@ HTML],
 <p>Éditorial › Accueil &amp; bandeau › Bandeau « En direct du musée » › « Ajouter un message » (étiquette, message, lien) › « Traduire en anglais » › Enregistrer.</p>
 HTML],
         ['id' => 'maintenance', 'title' => '… fermer le site pendant une opération', 'html' => <<<'HTML'
-<p>Éditorial › <b>Page d’attente</b> › cochez « Activer la page d’attente » › texte (et compte à rebours si vous voulez) › Enregistrer. Décochez pour rouvrir.</p>
+<p>Éditorial › <b>Page d’attente</b> › cochez « Activer la page d’attente » › texte (et compte à rebours si vous voulez) › Enregistrer. Décochez pour rouvrir. Pendant ce temps, l’équipe connectée voit le site normalement (bandeau jaune) et rien n’est indexé par Google.</p>
 HTML],
         ['id' => 'contribution', 'title' => '… traiter une contribution d’un visiteur', 'html' => <<<'HTML'
 <p>Communauté › Contributions › ouvrez-la › publiez les fichiers (médiathèque, fiche ou objet) › « ✓ Valider », « ? Demander une précision » ou « Refuser ».</p>

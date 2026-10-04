@@ -26,6 +26,7 @@ final class Kernel
         }
         try {
             $res = self::dispatch($req);
+            self::unindexed($req, $res);
         } catch (\Throwable $e) {
             error_log((string) $e);
             if (Settings::get('general.debug', false)) {
@@ -33,7 +34,7 @@ final class Kernel
             } elseif ($req->wantsJson()) {
                 $res = Response::json(['error' => 'Erreur interne'], 500);
             } else {
-                $res = Response::html(View::render('errors/500'), 500);
+                $res = Response::html(View::render('errors/500', ['admin' => self::errorForAdmin($e)]), 500);
             }
         }
         // Politique de sécurité du contenu sur toutes les pages HTML (site et back-office).
@@ -41,6 +42,41 @@ final class Kernel
             $res->headers['Content-Security-Policy'] ??= self::csp($req);
         }
         return $res;
+    }
+
+    /**
+     * Pour un administrateur connecté (jamais pour le public) : l'erreur et les réglages du serveur
+     * à revoir, sur la page « Arrêt de jeu », pour corriger sans chercher dans le journal.
+     * @return array{error:string,checks:list<string>}|null
+     */
+    private static function errorForAdmin(\Throwable $e): ?array
+    {
+        try {
+            if (!Auth::isAdmin()) {
+                return null;
+            }
+            return [
+                'error' => get_class($e) . ' : ' . $e->getMessage() . ' (' . str_replace(APP_ROOT . '/', '', $e->getFile()) . ', ligne ' . $e->getLine() . ')',
+                'checks' => Services\ServerCheck::problems(),
+            ];
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
+    /**
+     * Site fermé au public (page d'attente, mot de passe d'accès) ou masqué aux moteurs : rien
+     * n'est indexé, pas même ce que voit l'équipe connectée, qui n'est gardé dans aucun cache.
+     */
+    private static function unindexed(Request $req, Response $res): void
+    {
+        if ($req->path === '/admin' || str_starts_with($req->path, '/admin/') || !Front\Seo::hidden()) {
+            return;
+        }
+        $res->headers['X-Robots-Tag'] ??= 'noindex, nofollow';
+        if (Front\Seo::closed() && Auth::user()) {
+            $res->headers['Cache-Control'] = 'private, no-store';
+        }
     }
 
     /**
@@ -106,9 +142,15 @@ final class Kernel
             return Front\Api::handle($req);
         }
 
-        // Aperçu de la page d'attente depuis le back-office
+        // Teaser vidéo de la page d'attente : servi seulement s'il est activé, ou à l'équipe connectée
+        // (avant les verrous du site fermé, qui renverraient la page d'attente à sa place) ; sinon
+        // l'adresse suit le chemin ordinaire (page d'attente, ou page introuvable).
+        if (($path === '/video/teaser.mp4' || $path === '/video/teaser.jpg') && ($res = Front\Pages::teaser($req, $path))) {
+            return $res;
+        }
+        // Aperçu de la page d'attente depuis le back-office (« &teaser=1 » : avec le teaser)
         if ($path === '/' && isset($req->query['apercu-attente']) && Auth::user()) {
-            return Front\Pages::waiting();
+            return Front\Pages::waiting(isset($req->query['teaser']));
         }
         // Page d'attente (les membres connectés du back-office voient le site)
         if (Settings::get('waiting.enabled', false) && !Auth::user()) {

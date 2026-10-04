@@ -1,5 +1,9 @@
 <?php
-/** Erreur serveur : page autonome (sans gabarit commun, qui peut être la cause de l'erreur). */
+/**
+ * Erreur serveur : page autonome (sans gabarit commun, qui peut être la cause de l'erreur).
+ * $admin (administrateur connecté seulement) : l'erreur et les réglages du serveur à revoir.
+ */
+$admin = $admin ?? null;
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,6 +28,13 @@ a{display:inline-block;align-self:flex-start;background:#F6C400;color:#0E1F4D;pa
   <p>Un petit incident technique nous empêche d'afficher cette page. L'équipe a été prévenue ; réessayez dans quelques instants.</p>
   <p lang="en"><em>A technical issue prevented this page from loading. Please try again shortly.</em></p>
   <a href="/">Retour à l'accueil</a>
+  <?php if ($admin): ?>
+  <section style="margin-top:12px;padding:16px;border:2px solid #F6C400;font-size:15px;line-height:1.5">
+    <p style="font-size:15px"><b>Pour l’administrateur</b> (visible de vous seul) : <code style="word-break:break-word"><?= htmlspecialchars($admin['error'], ENT_QUOTES, 'UTF-8') ?></code></p>
+    <?php if ($admin['checks']): ?><ul style="margin:8px 0 0;padding-left:18px"><?php foreach ($admin['checks'] as $c): ?><li><?= htmlspecialchars($c, ENT_QUOTES, 'UTF-8') ?></li><?php endforeach; ?></ul><?php endif; ?>
+    <p style="font-size:15px;margin-top:8px">Détail : back-office › Tâches planifiées › Serveur.</p>
+  </section>
+  <?php endif; ?>
 </main>
 </body>
 </html>

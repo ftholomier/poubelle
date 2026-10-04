@@ -1,7 +1,8 @@
 <?php
 /**
  * Page d'attente (réglages > Page d'attente) : logo, texte WYSIWYG, compte à rebours optionnel.
- * Page autonome. Variables : $logo, $title, $text, $countdown, $countdownDate, $countdownLabel, $social
+ * Page autonome. Variables : $logo, $title, $text, $countdown, $countdownDate, $countdownLabel, $social,
+ * $teaser (vidéo affichée). Aucun lien vers le back-office : l'équipe s'y rend par /admin.
  */
 
 use App\Core\Settings;
@@ -19,7 +20,7 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($title ?: $site) ?> | <?= e($site) ?></title>
-<meta name="robots" content="noindex">
+<meta name="robots" content="noindex, nofollow">
 <meta name="description" content="<?= e(mb_substr(trim(strip_tags($text)), 0, 160)) ?>">
 <meta property="og:title" content="<?= e($title ?: $site) ?>">
 <meta property="og:image" content="<?= e(base_url()) ?>/assets/img/partage-defaut.png">
@@ -38,6 +39,11 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
     <?php endif; ?>
     <?php if ($title !== ''): ?><h1 class="h-xl" style="color:var(--cream)"><?= e($title) ?></h1><?php endif; ?>
     <?php if (trim(strip_tags($text)) !== ''): ?><div class="prose"><?= safe_html($text) ?></div><?php endif; ?>
+    <?php if (!empty($teaser)): ?>
+      <video class="waiting__teaser" controls playsinline preload="none" poster="/video/teaser.jpg" width="1920" height="1080" aria-label="<?= e(t('Teaser vidéo du musée')) ?>">
+        <source src="/video/teaser.mp4" type="video/mp4">
+      </video>
+    <?php endif; ?>
     <?php if ($countdown && $countdownDate !== '' && strtotime($countdownDate) > time()): ?>
       <div class="stack" style="width:100%;gap:14px;align-items:center">
         <?php if ($countdownLabel !== ''): ?><span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e($countdownLabel) ?></span><?php endif; ?>
@@ -49,7 +55,6 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
         <?php foreach ($links as $label => $href): ?><a href="<?= e($href) ?>" rel="noopener" target="_blank"><?= e($label) ?></a><?php endforeach; ?>
       </div>
     <?php endif; ?>
-    <a class="waiting__login" href="/admin/connexion"><?= e(t('Accès équipe')) ?></a>
   </div>
 </main>
 <script src="<?= asset('js/site.js') ?>" defer></script>

@@ -14,17 +14,18 @@ return [
         'fields' => [
             'site_name' => ['label' => 'Nom du site', 'type' => 'text', 'default' => 'Sochaux Rétro'],
             'site_tagline' => ['label' => 'Signature', 'type' => 'text', 'default' => 'Le musée en ligne du FCSM'],
-            'base_url' => ['label' => 'Adresse du site', 'type' => 'url', 'default' => 'https://www.fcsochauxretro.com', 'help' => 'Sans barre oblique finale.'],
+            'base_url' => ['label' => 'Adresse du site', 'type' => 'url', 'default' => 'https://musee.fcsochauxretro.com', 'help' => 'Sans barre oblique finale.'],
             'contact_email' => ['label' => 'E-mail de réception des messages', 'type' => 'email', 'default' => ''],
-            'domain_label' => ['label' => 'Adresse affichée sur les images de partage', 'type' => 'text', 'default' => 'fcsochauxretro.com'],
+            'domain_label' => ['label' => 'Adresse affichée sur les images de partage', 'type' => 'text', 'default' => 'musee.fcsochauxretro.com'],
             'front_password' => ['label' => 'Mot de passe d’accès au site public (pré-lancement)', 'type' => 'secret', 'default' => '', 'help' => 'Laisser vide pour un site ouvert à tous.'],
+            'noindex' => ['label' => 'Masquer le site aux moteurs de recherche', 'type' => 'bool', 'default' => false, 'help' => 'Même ouvert au public, le site n’est pas indexé (Google…). Inutile tant que la page d’attente est active : rien n’est indexé.'],
             'debug' => ['label' => 'Afficher les erreurs (développement)', 'type' => 'bool', 'default' => false],
         ],
     ],
     'waiting' => [
         'label' => "Page d'attente",
         'fields' => [
-            'enabled' => ['label' => "Activer la page d'attente", 'type' => 'bool', 'default' => false, 'help' => "Les visiteurs voient uniquement cette page. Les membres connectés du back-office voient le site normalement."],
+            'enabled' => ['label' => "Activer la page d'attente", 'type' => 'bool', 'default' => true, 'help' => "Les visiteurs voient uniquement cette page et rien n'est indexé par les moteurs de recherche. Les membres connectés du back-office voient le site normalement. Active dès l'installation : décochez le jour de l'ouverture."],
             'logo' => ['label' => 'Logo', 'type' => 'image', 'default' => '', 'help' => 'Vide : logo Sochaux Rétro.'],
             'title' => ['label' => 'Titre', 'type' => 'text', 'default' => 'Le musée ouvre bientôt ses portes'],
             'text' => ['label' => 'Texte', 'type' => 'wysiwyg', 'default' => "<p>Sochaux Rétro prépare son nouveau musée en ligne : près d'un siècle de jaune et de bleu, rassemblé pièce par pièce.</p><p>Revenez très vite !</p>"],
@@ -32,6 +33,7 @@ return [
             'countdown_date' => ['label' => 'Date et heure cibles du compte à rebours', 'type' => 'datetime', 'default' => '2026-12-01T10:00', 'show_if' => 'countdown'],
             'countdown_label' => ['label' => 'Intitulé du compte à rebours', 'type' => 'text', 'default' => "Ouverture dans", 'show_if' => 'countdown'],
             'show_social' => ['label' => 'Afficher les liens vers les réseaux sociaux', 'type' => 'bool', 'default' => true],
+            'teaser' => ['label' => 'Afficher le teaser vidéo (1 min 55)', 'type' => 'bool', 'default' => false, 'help' => 'Décoché : la vidéo reste secrète, introuvable par le public. « Aperçu avec le teaser » la montre à l’équipe sans l’activer.'],
         ],
     ],
     'home' => [
@@ -44,6 +46,7 @@ return [
             'counter_videos' => ['label' => 'Compteur : vidéos YouTube', 'type' => 'text', 'default' => '1400+'],
             'centenary_date' => ['label' => 'Date du centenaire (compte à rebours)', 'type' => 'date', 'default' => '2028-05-20'],
             'daily_figure' => ['label' => 'Afficher « Le chiffre du jour » (un des 100 chiffres du FCSM, un nouveau chaque jour)', 'type' => 'bool', 'default' => true],
+            'teaser' => ['label' => 'Afficher le teaser vidéo sur l’accueil (le public le voit à l’ouverture du site)', 'type' => 'bool', 'default' => true],
         ],
     ],
     'social' => [

@@ -412,7 +412,7 @@ final class System extends Base
             'ai' => ['ready' => Gemini::ready(), 'check' => null],
             'mail' => ['from' => (string) Settings::get('mail.from_email', '') ?: (string) Settings::get('general.contact_email', '')],
             'donations' => ['methods' => \App\Front\Donations::methods(), 'test' => \App\Front\Donations::testMode()],
-            'waiting' => ['enabled' => (bool) Settings::get('waiting.enabled', false)],
+            'waiting' => ['enabled' => (bool) Settings::get('waiting.enabled', false), 'teaser' => is_file(APP_DIR . '/Resources/video/teaser.mp4')],
             default => [],
         };
     }
@@ -522,7 +522,7 @@ final class System extends Base
         Activity::log(self::actor(), 'a modifié les réglages', ['title' => $schema[$group]['label']]);
         $msg = 'Réglages « ' . $schema[$group]['label'] . ' » enregistrés.';
         if ($group === 'waiting') {
-            $msg = Settings::get('waiting.enabled', false) ? 'Page d’attente ACTIVÉE : les visiteurs ne voient plus qu’elle (vous voyez le site car vous êtes connecté).' : 'Page d’attente désactivée : le site est ouvert à tous.';
+            $msg = Settings::get('waiting.enabled', false) ? 'Page d’attente ACTIVÉE : les visiteurs ne voient plus qu’elle et rien n’est indexé (vous voyez le site car vous êtes connecté).' : 'Page d’attente désactivée : le site est ouvert à tous' . (Settings::get('general.noindex', false) ? ' (toujours masqué aux moteurs de recherche : Réglages › Général).' : ' et aux moteurs de recherche.');
         }
         return self::json(['ok' => true, 'message' => $msg, 'savedLabel' => 'Enregistré à ' . date('H:i'), 'reload' => $group === 'ai' || $group === 'waiting']);
     }

@@ -51,6 +51,7 @@ final class Pages
             'jourDoc' => $jourDoc,
             'jourLabel' => Site::dayMonth($jourDate),
             'chiffre' => Settings::get('home.daily_figure', true) ? \App\Services\Chiffres::daily() : null,
+            'teaser' => Settings::get('home.teaser', true) && is_file(self::TEASER . '.mp4'),
             'eras' => array_map(function ($e) {
                 $e = Collections::loc($e, ['name', 'text']);
                 $e['facts'] = array_map(fn ($f) => Collections::loc($f, ['t']), $e['facts'] ?? []);
@@ -335,7 +336,8 @@ final class Pages
 
     // ------------------------------------------------------------------ attente, accès, erreurs
 
-    public static function waiting(): Response
+    /** Page d'attente. $teaser : aperçu de l'équipe avec le teaser, même s'il n'est pas encore activé. */
+    public static function waiting(bool $teaser = false): Response
     {
         $html = View::render('waiting', [
             'logo' => (string) Settings::get('waiting.logo', ''),
@@ -345,8 +347,31 @@ final class Pages
             'countdownDate' => (string) Settings::get('waiting.countdown_date', ''),
             'countdownLabel' => (string) Settings::get('waiting.countdown_label', ''),
             'social' => (bool) Settings::get('waiting.show_social', true),
+            'teaser' => ($teaser || Settings::get('waiting.teaser', false)) && is_file(self::TEASER . '.mp4'),
         ]);
-        return new Response($html, 503, ['Content-Type' => 'text/html; charset=UTF-8', 'Retry-After' => '3600']);
+        return new Response($html, 503, ['Content-Type' => 'text/html; charset=UTF-8', 'Retry-After' => '3600', 'Cache-Control' => 'no-store', 'X-Robots-Tag' => 'noindex, nofollow']);
+    }
+
+    /** Teaser vidéo (1 min 55) et son image d'attente, hors de public/ : jamais servis directement. */
+    private const TEASER = APP_DIR . '/Resources/video/teaser';
+
+    /**
+     * /video/teaser.mp4 et .jpg : pour le public, seulement quand le teaser est montré (page
+     * d'attente, ou accueil une fois le site ouvert) ; pour l'équipe connectée, toujours (aperçu) ;
+     * sinon introuvables, pour garder la surprise.
+     */
+    public static function teaser(Request $req, string $path): ?Response
+    {
+        $jpg = str_ends_with($path, '.jpg');
+        $file = self::TEASER . ($jpg ? '.jpg' : '.mp4');
+        $on = (bool) Settings::get('waiting.teaser', false) || (Settings::get('home.teaser', true) && !Seo::closed());
+        if (!is_file($file) || (!$on && !\App\Core\Auth::user())) {
+            return null;
+        }
+        $res = Response::media($file, $jpg ? 'image/jpeg' : 'video/mp4', $req->server['HTTP_RANGE'] ?? null);
+        $res->headers['Cache-Control'] = $on ? 'public, max-age=86400' : 'private, no-store';
+        $res->headers['X-Content-Type-Options'] = 'nosniff';
+        return $res;
     }
 
     /** Mot de passe d'accès au site public (pré-lancement). */

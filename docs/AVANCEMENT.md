@@ -284,6 +284,27 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Limites honnêtes (serveur o2switch, Stripe, e-mails, Gemini, navigateurs, charge) et
       vérifications à faire juste après la mise en ligne : § 7 du rapport.
 
+## Mise en ligne sur musee.fcsochauxretro.com (04/10) — en cours
+- [x] Le musée reste sur **musee.fcsochauxretro.com** ; www.fcsochauxretro.com reste le site
+      de l'association (l'ancien WordPress n'a jamais été public ni indexé : aucune
+      redirection à prévoir). `docs/DEPLOIEMENT.md` réécrit en conséquence (§ 1, 3, 6, 7).
+- [x] **Site fermé par défaut** dès l'installation (page d'attente) : le public ne voit
+      qu'elle, sans lien vers le back-office ; l'équipe connectée voit le vrai site, avec un
+      bandeau jaune « Site fermé au public » ; rien n'est indexé (robots.txt fermé, en-tête
+      noindex sur toutes les réponses, rien en cache pour l'équipe). Réglage « Masquer le
+      site aux moteurs de recherche » pour garder le site hors de Google même ouvert.
+- [x] **Teaser vidéo** (1 min 55) : sur l'accueil (le public le voit à l'ouverture),
+      et en option sur la page d'attente (décochée : surprise gardée, vidéo introuvable par
+      le public) ; aperçu pour l'équipe ; lecture par morceaux (avance rapide, iPhone).
+- [x] **Vérification du serveur** : message clair « Réglage du serveur en cours » si PHP 8.3
+      ou une extension indispensable manque (cas rencontré : PHP 8.1, puis extensions
+      absentes en 8.3) ; carte Serveur dans Tâches planifiées, tâche en tête du tableau de
+      bord, erreur détaillée pour un administrateur connecté.
+- [x] `tests/attente.php` (56 vérifications) et parcours complet dans le navigateur
+      (visiteur, connexion, déconnexion, téléphone).
+- [ ] Copie des photos depuis WordPress, tâche planifiée, réglages (adresse, e-mail), essais
+      sur le vrai serveur, puis ouverture (`docs/DEPLOIEMENT.md`, § 4 à 7).
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

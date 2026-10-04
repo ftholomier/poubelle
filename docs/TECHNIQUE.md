@@ -19,6 +19,15 @@ Pour un développeur qui reprend le code. Le guide d'installation est dans
 
 ## 2. Cheminement d'une requête
 
+Avant tout, `app/bootstrap.php` vérifie l'hébergement : PHP 8.3 et les extensions sans
+lesquelles rien ne marche (`mbstring`, `intl`, `dom`, `sodium`, `ctype`, chiffrement
+Argon2) ; s'il manque quelque chose, une page autonome « Réglage du serveur en cours » (503)
+dit quoi régler dans cPanel, au lieu d'une erreur 500 muette. Le point complet (toutes les
+extensions, dossiers inscriptibles, dernières erreurs du journal PHP) est fait par
+`App\Services\ServerCheck`, montré aux administrateurs : carte Serveur de Tâches
+planifiées, tâche « Régler le serveur » en tête du tableau de bord, et détail de l'erreur
+sur la page « Arrêt de jeu » quand un administrateur est connecté.
+
 `App\Kernel::dispatch()`, dans l'ordre :
 
 1. `/media/{largeur}/{fichier}.webp` : vignettes générées à la volée (§ 6).
@@ -26,16 +35,33 @@ Pour un développeur qui reprend le code. Le guide d'installation est dans
 3. `/admin…` : back-office (`App\Admin\Router`, § 8).
 4. Préfixe `/en` : passage en anglais, puis traitement normal de l'adresse sans préfixe.
 5. `/api/…` : API JSON du site (`App\Front\Api`) : recherche, assistant, carte, votes,
-   dons et leurs webhooks ; jamais bloquée par la page d'attente.
-6. Page d'attente (si activée, sauf pour les membres connectés du back-office et les pages
-   légales), puis mot de passe d'accès éventuel.
-7. Adresse sans barre finale → 301 vers l'adresse avec barre finale.
-8. Routes fixes (accueil, explorer, interactif, communauté, dons, pages légales…), déclarées
+   dons et leurs webhooks. Les webhooks des paiements et le consentement aux cookies ne sont
+   jamais bloqués ; le reste de l'API est fermé avec le site (page d'attente, mot de passe).
+6. `/video/teaser.mp4` et `.jpg` (`Front\Pages::teaser()`, fichiers dans
+   `app/Resources/video/`, hors de `public/`) : servis au public seulement quand le teaser est
+   montré (case de la page d'attente, ou accueil une fois le site ouvert), à l'équipe
+   connectée toujours ; lecture par morceaux (`Range`, `Response::media()`) pour l'avance
+   rapide et Safari ; sinon l'adresse suit le chemin ordinaire (page d'attente ou 404).
+7. Page d'attente, puis mot de passe d'accès éventuel. La page d'attente est **active par
+   défaut** (`waiting.enabled` vaut `true` tant que rien n'est enregistré : une installation
+   neuve est fermée au public). Les membres connectés du back-office voient le site, avec un
+   bandeau `.team-bar` « Site fermé au public » (gabarit `layout.php`) ; les pages légales et
+   `robots.txt` restent servis ; la page d'attente (503, `no-store`) n'a aucun lien vers le
+   back-office.
+8. Adresse sans barre finale → 301 vers l'adresse avec barre finale.
+9. Routes fixes (accueil, explorer, interactif, communauté, dons, pages légales…), déclarées
    dans `Kernel::routes()`.
-9. Fiche ou rubrique à cette adresse (`Front\Pages::byPath()` : index des fiches, puis
-   rubriques).
-10. Ancienne adresse connue (`data/redirects.json`) → 301 ; sinon page 404 et adresse
+10. Fiche ou rubrique à cette adresse (`Front\Pages::byPath()` : index des fiches, puis
+    rubriques).
+11. Ancienne adresse connue (`data/redirects.json`) → 301 ; sinon page 404 et adresse
     notée dans `storage/404.json` (Back-office › Redirections › Adresses introuvables).
+
+Site fermé ou masqué (`Front\Seo::closed()` : page d'attente ou mot de passe ;
+`Seo::hidden()` : en plus, Réglages › Général › « Masquer le site aux moteurs de recherche ») :
+`Kernel::unindexed()` ajoute `X-Robots-Tag: noindex, nofollow` à toute réponse hors
+back-office, y compris ce que voit l'équipe connectée, qui reçoit en plus
+`Cache-Control: private, no-store` ; `robots.txt` répond `Disallow: /` ; la mesure d'audience
+ne compte rien tant que le site est fermé (`public/index.php`).
 
 Toute réponse HTML reçoit un en-tête Content-Security-Policy (`Kernel::csp()`) : scripts du
 site uniquement (le court script d'en-tête du gabarit est signé par `csp_nonce()`),
@@ -730,6 +756,10 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
 - `php tests/inconnu.php` : « xx » de l'ancien site (lignes de la fiche d'identité,
   naissance et décès, références de match, temps forts, réactions, chiffre clé, texte riche,
   fiche anglaise, cas limites).
+- `php tests/attente.php` : ouverture du site (installation neuve fermée, page d'attente
+  pour le public et vrai site pour l'équipe connectée, bandeau, aucun lien vers le
+  back-office, noindex et cache partout, robots.txt, mot de passe d'accès, site ouvert ou
+  masqué aux moteurs, teaser secret ou montré, lecture par morceaux de la vidéo).
 - `php tests/pdf.php` : polices du PDF et des images de partage (lettres stylisées, emoji,
   séparateurs, « ? » seulement pour une écriture absente, texte copiable exact), symboles des
   compositions, citation posée dans une liste et numérotation.

@@ -6,6 +6,8 @@
  * Usage :
  *   SR_BASE=http://127.0.0.1:8080 node tests/smoke.js
  *   SR_EMAIL=… SR_PASSWORD=… node tests/smoke.js     (ajoute les écrans du back-office)
+ * Avec un compte, la connexion se fait d'abord : le site est alors parcouru comme le voit
+ * l'équipe, ce qui permet de le vérifier même fermé au public (page d'attente, mot de passe).
  * Code de sortie 1 si un problème est trouvé.
  */
 const { chromium } = require('playwright');
@@ -46,6 +48,17 @@ const ADMIN = ['/admin', '/admin/qualite', '/admin/qualite?nouveau=1', '/admin/q
     console.log(String(code).padEnd(4) + u);
   };
 
+  // Connexion d'abord (si un compte est fourni) : le site fermé au public reste visible de l'équipe.
+  let logged = false;
+  if (process.env.SR_EMAIL && process.env.SR_PASSWORD) {
+    await page.goto(BASE + '/admin/connexion');
+    await page.fill('input[name=email]', process.env.SR_EMAIL);
+    await page.fill('input[name=password]', process.env.SR_PASSWORD);
+    await Promise.all([page.waitForNavigation(), page.click('button[type=submit]')]);
+    logged = !page.url().includes('/connexion');
+    if (!logged) problems.push('[ADMIN] connexion refusée');
+  }
+
   // Une fiche match et une fiche personne prises dans les mosaïques.
   for (const u of FRONT) await visit(u);
   for (const sel of ['/matchs/', '/nos-lions/joueurs/']) {
@@ -54,16 +67,8 @@ const ADMIN = ['/admin', '/admin/qualite', '/admin/qualite?nouveau=1', '/admin/q
     if (href) await visit(href);
   }
 
-  if (process.env.SR_EMAIL && process.env.SR_PASSWORD) {
-    await page.goto(BASE + '/admin/connexion');
-    await page.fill('input[name=email]', process.env.SR_EMAIL);
-    await page.fill('input[name=password]', process.env.SR_PASSWORD);
-    await Promise.all([page.waitForNavigation(), page.click('button[type=submit]')]);
-    if (page.url().includes('/connexion')) {
-      problems.push('[ADMIN] connexion refusée');
-    } else {
-      for (const u of ADMIN) await visit(u);
-    }
+  if (logged) {
+    for (const u of ADMIN) await visit(u);
   }
 
   await browser.close();

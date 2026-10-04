@@ -10,7 +10,7 @@ return [
 [[attention|<p>Le site garde toujours au moins un administrateur actif.</p>]]
 HTML],
         ['id' => 'reglages', 'title' => 'Réglages', 'html' => <<<'HTML'
-<p>Système › <b>Réglages</b> (administrateurs), en onglets : Général (nom, adresse du site, e-mail de contact, mot de passe d’accès avant lancement), Page d’attente, Accueil, Réseaux sociaux, Assistant IA (clé Gemini et modèle), Traduction, Correcteur (vérification de fond, plafond d’appels à Gemini, typographie), Fiches audio (voix, ton, résumés IA), Coûts IA (qui avance les frais, taux de change, budget mensuel), Dons (Stripe, PayPal, objectifs), E-mail (serveur d’envoi), Newsletter, Carte, Centenaire, Mentions légales, Sauvegardes, Cookies et RGPD.</p>
+<p>Système › <b>Réglages</b> (administrateurs), en onglets : Général (nom, adresse du site, e-mail de contact, mot de passe d’accès avant lancement, « Masquer le site aux moteurs de recherche » même ouvert au public), Page d’attente, Accueil, Réseaux sociaux, Assistant IA (clé Gemini et modèle), Traduction, Correcteur (vérification de fond, plafond d’appels à Gemini, typographie), Fiches audio (voix, ton, résumés IA), Coûts IA (qui avance les frais, taux de change, budget mensuel), Dons (Stripe, PayPal, objectifs), E-mail (serveur d’envoi), Newsletter, Carte, Centenaire, Mentions légales, Sauvegardes, Cookies et RGPD.</p>
 [[img:reglages.webp|Les réglages : les clés secrètes ne sont jamais réaffichées]]
 [[astuce|<p>Les clés secrètes (API, mots de passe) sont chiffrées : laissez le champ vide pour garder la valeur enregistrée.</p>]]
 HTML],
@@ -48,6 +48,7 @@ HTML],
 HTML],
         ['id' => 'taches', 'title' => 'Tâches planifiées', 'html' => <<<'HTML'
 <p>Voir [[aide:fonctionnement#taches|Les tâches automatiques]]. Le tableau donne, pour chaque tâche, sa fréquence, son dernier passage et son résultat ; « Lancer » en exécute une tout de suite.</p>
+<p>La carte <b>Serveur</b>, en bas de l’écran, vérifie l’hébergement : version de PHP (8.3), extensions, dossiers inscriptibles ; et liste les dernières erreurs du journal PHP. Un réglage manquant s’affiche aussi en tête du tableau de bord (« Régler le serveur ») et, pour un administrateur connecté, sur la page « Arrêt de jeu » en cas d’erreur.</p>
 [[attention|<p>Un bandeau rouge « La tâche planifiée n’est jamais passée » (ou un dernier passage ancien) signifie que la tâche cron du serveur n’est pas installée ou s’est arrêtée : prévenez le webmestre, qui vérifiera la ligne indiquée dans le bandeau chez l’hébergeur.</p>]]
 HTML],
         ['id' => 'journal', 'title' => 'Journal d’activité', 'html' => <<<'HTML'

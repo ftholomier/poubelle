@@ -289,9 +289,9 @@ final class Tips
         ],
         'reglages' => [
             'screen' => 'Les réglages du site (l’équivalent d’un fichier de configuration) : identité, e-mail, assistant IA, traduction, dons, carte, mentions légales, cookies, sauvegardes. Les clés secrètes sont chiffrées et ne sont jamais réaffichées.',
-            'adresse du site' => 'L’adresse officielle du site (https://www.fcsochauxretro.com), utilisée dans les e-mails, le plan du site et les partages. Sans « / » à la fin.',
+            'adresse du site' => 'L’adresse officielle du musée (https://musee.fcsochauxretro.com), utilisée dans les e-mails, le plan du site et les partages. Sans « / » à la fin.',
             'e-mail de réception des messages' => 'Où arrivent les messages du formulaire de contact, les nouvelles contributions et l’annonce des dons.',
-            'adresse affichée sur les images de partage' => 'Le texte (ex. « fcsochauxretro.com ») écrit sur les images créées pour les réseaux sociaux.',
+            'adresse affichée sur les images de partage' => 'Le texte (ex. « musee.fcsochauxretro.com ») écrit sur les images créées pour les réseaux sociaux.',
             'mot de passe d’accès au site public (pré-lancement)' => 'Tant qu’il est rempli, les visiteurs doivent le saisir pour voir le site (les membres connectés passent). Videz-le pour ouvrir le site à tous.',
             'clé api gemini' => 'La clé Google AI Studio qui fait fonctionner l’assistant, les traductions et le correcteur d’orthographe. Elle est chiffrée et n’est plus affichée une fois enregistrée.',
             'appels à gemini par jour pour la tâche de fond (plafond de coût)' => 'Nombre maximal d’appels à Gemini par jour pour la relecture de fond. Un texte déjà relu n’est jamais renvoyé : le coût ne porte que sur le nouveau.',

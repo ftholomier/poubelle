@@ -124,8 +124,8 @@ php bin/console.php audio [secondes]       fiches audio : envoie et range les tr
 ## Mise en ligne
 
 Sur o2switch, par FTP, sans SSH : voir [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md)
-(récupération des fichiers, photos, tâche cron, premier accès, bascule du domaine, dons,
-mises à jour).
+(récupération des fichiers, réglage de PHP, photos, tâche cron, premier accès, ouverture du
+musée sur musee.fcsochauxretro.com, dons, mises à jour).
 
 Important : une fois le site en service, les dossiers `data/` et `storage/` du serveur
 contiennent le travail des historiens. Ne jamais les remplacer par ceux du dépôt.

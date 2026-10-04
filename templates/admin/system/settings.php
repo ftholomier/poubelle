@@ -12,9 +12,12 @@ $isWaiting = $group === 'waiting';
     <div class="row" style="justify-content:space-between">
       <div class="stack" style="gap:4px">
         <span class="d" style="font-weight:900;font-size:24px;text-transform:uppercase;<?= $status['enabled'] ? 'color:var(--yellow)' : '' ?>"><?= $status['enabled'] ? '● Page d’attente active' : '○ Site ouvert à tous' ?></span>
-        <span class="small"><?= $status['enabled'] ? 'Les visiteurs voient uniquement la page d’attente. Vous, connecté au back-office, voyez le site normalement. Les pages légales restent accessibles.' : 'Activez la page d’attente pour fermer temporairement le site public (travaux, lancement…).' ?></span>
+        <span class="small"><?= $status['enabled'] ? 'Les visiteurs voient uniquement la page d’attente et rien n’est indexé par les moteurs de recherche. Vous, connecté au back-office, voyez le site normalement (un bandeau jaune le rappelle). Les pages légales restent accessibles.' : 'Activez la page d’attente pour fermer temporairement le site public (travaux, lancement…).' ?></span>
       </div>
-      <a class="btn<?= $status['enabled'] ? ' btn--light' : '' ?>" href="/?apercu-attente=1" target="_blank" rel="noopener">Aperçu de la page ↗</a>
+      <div class="row" style="gap:8px">
+        <a class="btn<?= $status['enabled'] ? ' btn--light' : '' ?>" href="/?apercu-attente=1" target="_blank" rel="noopener">Aperçu de la page ↗</a>
+        <?php if ($status['teaser']): ?><a class="btn<?= $status['enabled'] ? ' btn--light' : '' ?>" href="/?apercu-attente=1&amp;teaser=1" target="_blank" rel="noopener">Aperçu avec le teaser ↗</a><?php endif; ?>
+      </div>
     </div>
   </div>
 <?php endif; ?>

@@ -60,6 +60,14 @@ final class Dashboard extends Base
             }
         }
         $todos = [];
+        // Hébergement à régler (version de PHP, extensions, droits des dossiers) : en tête de liste.
+        if (\App\Core\Auth::isAdmin() && ($srv = \App\Services\ServerCheck::problems())) {
+            $todos[] = ['#D9342B', 'Régler le serveur : ' . rtrim($srv[0], '.') . (count($srv) > 1 ? ' (et ' . (count($srv) - 1) . ' autre' . (count($srv) > 2 ? 's' : '') . ' réglage' . (count($srv) > 2 ? 's' : '') . ')' : ''), 'Serveur', '/admin/taches#serveur'];
+        }
+        // Site ouvert au public mais toujours masqué aux moteurs de recherche : à ne pas oublier.
+        if (\App\Core\Auth::isAdmin() && !\App\Front\Seo::closed() && \App\Core\Settings::get('general.noindex', false)) {
+            $todos[] = ['#F6C400', 'Le site est ouvert mais masqué aux moteurs de recherche : décocher « Masquer le site aux moteurs de recherche » quand il doit être trouvé sur Google', 'Réglages', '/admin/reglages?groupe=general'];
+        }
         // Anomalies apparues depuis le dernier contrôle complet (bouton « Contrôler maintenant »).
         $fresh = array_sum(array_map(fn ($l) => count(array_filter($l, fn ($i) => $i['new'])), $quality));
         if ($fresh) {

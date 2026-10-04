@@ -15,12 +15,23 @@ final class Seo
 {
     private const CACHE = STORAGE_PATH . '/cache/sitemap.xml';
 
+    /** Site pas encore ouvert au public : page d'attente active ou mot de passe d'accès. */
+    public static function closed(): bool
+    {
+        return (bool) Settings::get('waiting.enabled', false) || (string) Settings::get('general.front_password', '') !== '';
+    }
+
+    /** Rien ne doit être indexé : site fermé au public, ou masqué aux moteurs (Réglages › Général). */
+    public static function hidden(): bool
+    {
+        return self::closed() || (bool) Settings::get('general.noindex', false);
+    }
+
     public static function robots(): Response
     {
         $base = base_url();
-        $closed = Settings::get('waiting.enabled', false) || Settings::get('general.front_password', '') || Settings::get('general.noindex', false);
         $lines = ['User-agent: *'];
-        if ($closed) {
+        if (self::hidden()) {
             // Site pas encore ouvert : rien ne doit être indexé.
             $lines[] = 'Disallow: /';
         } else {

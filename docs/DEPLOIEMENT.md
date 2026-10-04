@@ -1,16 +1,20 @@
 # Sochaux Rétro — mise en ligne sur o2switch
 
-Guide pas à pas pour installer le site par FTP, l'ouvrir aux historiens puis basculer
-l'adresse www.fcsochauxretro.com de WordPress vers le nouveau site.
-Aucun accès SSH n'est nécessaire : tout se fait par FTP et depuis cPanel.
+Guide pas à pas pour installer le musée par FTP sur **musee.fcsochauxretro.com**, l'ouvrir
+aux historiens puis au public. L'adresse www.fcsochauxretro.com reste celle de l'association
+(son site WordPress). Aucun accès SSH n'est nécessaire : tout se fait par FTP et depuis cPanel.
 
 ## 1. Prérequis
 
 - Hébergement o2switch (cPanel) et un logiciel FTP (FileZilla par exemple).
-- **PHP 8.3** (réglage de la version PHP dans cPanel), extensions : `gd` (avec WebP),
-  `curl`, `mbstring`, `intl`, `sodium`, `openssl`, `zip`, `fileinfo`, `json`, `dom` et
-  `zlib` (export PDF des fiches ; actives par défaut chez o2switch), `xml` (scripts de reprise
-  WordPress seulement).
+- **PHP 8.3** : cPanel › Sélectionner une version de PHP. Chez o2switch, **chaque version a
+  sa propre liste d'extensions** : après avoir choisi 8.3, onglet Extensions, cocher `mbstring`,
+  `intl`, `sodium`, `gd` (avec WebP), `curl`, `openssl`, `zip`, `fileinfo`, `dom`, `ctype`,
+  `iconv`, `zlib`, `json`, `xml` (scripts de reprise WordPress) ; conseillées : `opcache`
+  (vitesse) et `exif` (sens des photos prises au téléphone). Avec une version trop ancienne ou
+  une extension indispensable absente, le site affiche « Réglage du serveur en cours » avec la
+  liste de ce qui manque ; une fois connecté, Back-office › Tâches planifiées › Serveur fait
+  le point complet.
 - Espace disque : environ 7 Go (photos originales 5 Go, vignettes générées, sauvegardes).
 - Aucune base de données : tout est stocké en fichiers JSON.
 
@@ -36,15 +40,17 @@ reprises directement depuis le WordPress actuel, sur le même hébergement (§ 4
    compris `data/` (les 2 940 fiches) et `storage/` (vide) ; les mises à jour suivantes
    se font autrement (§ 10). `data/` compte environ 5 900 petits fichiers : l'envoi prend
    quelques minutes.
-2. cPanel › Domaines › Créer un domaine : d'abord un **sous-domaine d'essai** (par exemple
-   `nouveau.fcsochauxretro.com`, voir § 7), dont la **racine du document** est
+2. cPanel › Domaines › Créer un domaine : le **sous-domaine du musée**
+   `musee.fcsochauxretro.com`, dont la **racine du document** est
    `/home/<compte>/sochauxretro/public` (décocher « Partager la racine du document » si
    cPanel le propose). Seul ce dossier est visible depuis Internet ; le code et les données
    restent hors d'atteinte. `<compte>` est l'identifiant cPanel (Répertoire personnel
    `/home/<compte>` dans la colonne d'informations de cPanel).
 3. HTTPS : certificat AutoSSL de cPanel, puis, dans `public/.htaccess`, retirer le `#`
    devant les deux lignes sous « HTTPS et domaine principal ».
-4. Ouvrir le site une première fois : la première page met quelques secondes à s'afficher
+4. Ouvrir le site une première fois : il est **fermé au public dès l'installation** (page
+   d'attente, rien n'est indexé par les moteurs de recherche) ; aller directement à
+   `/admin/premier-acces` (§ 6). La première page du site met quelques secondes à s'afficher
    (construction des index), les suivantes sont immédiates.
 
 ## 4. Photos originales (une seule fois)
@@ -73,9 +79,9 @@ d'empreinte. Sans SSH, on le lance avec une tâche cron temporaire :
    ne se chevauchent jamais ; chaque passage reprend là où le précédent s'est arrêté.
 3. Quand le journal indique « 0 à télécharger », **supprimer cette tâche cron**.
 
-**À faire avant la bascule de l'adresse (§ 7)** : une fois www.fcsochauxretro.com tourné vers
-le nouveau site, l'ancien n'est plus joignable par cette adresse. Les photos absentes du
-dossier WordPress sont téléchargées depuis l'ancien site ; en cas d'échec, le détail est dans
+Le WordPress de www.fcsochauxretro.com reste en place (site de l'association) : rien ne
+presse, la copie peut être relancée à tout moment. Les photos absentes du dossier WordPress
+sont téléchargées depuis l'ancien site ; en cas d'échec, le détail est dans
 `storage/import/media-sync-erreurs.json` (relancer la tâche suffit souvent).
 
 Tant que la copie n'est pas terminée, chaque image manquante est remplacée sur le site par
@@ -122,17 +128,17 @@ copiées par lots de 100 chaque heure.
 
 ## 6. Premier accès au back-office
 
-1. Ouvrir `https://<domaine>/admin/premier-acces`.
+1. Ouvrir `https://musee.fcsochauxretro.com/admin/premier-acces`.
 2. Un code est écrit dans `storage/premier-acces.txt` (lisible avec le gestionnaire de
    fichiers de cPanel) ; le saisir avec votre nom, votre e-mail et un mot de passe.
-   Le fichier est supprimé dès que le compte administrateur est créé.
+   Le fichier est supprimé dès que le compte administrateur est créé. Le tableau de bord
+   signale en tête tout réglage du serveur qui manquerait (« Régler le serveur »).
 3. Back-office › **Réglages** :
-   - Général : **adresse du site = l'adresse où il est installé** : pendant les essais,
-     celle du sous-domaine (`https://nouveau.fcsochauxretro.com`), car les liens des e-mails
-     (invitations, mot de passe oublié, newsletter) l'utilisent ; elle devient
-     `https://www.fcsochauxretro.com` le jour de la bascule (§ 7). Tant qu'elle ne correspond
-     pas, le tableau de bord et l'écran Utilisateurs le signalent. Puis l'e-mail de contact ;
-     un mot de passe d'accès au site peut être posé pendant les essais ;
+   - Général : **adresse du site** `https://musee.fcsochauxretro.com` (valeur par défaut,
+     à vérifier) : les liens des e-mails (invitations, mot de passe oublié, newsletter)
+     l'utilisent ; si elle ne correspond pas à l'adresse ouverte, le tableau de bord et
+     l'écran Utilisateurs le signalent. « Adresse affichée sur les images de partage » :
+     `musee.fcsochauxretro.com`. Puis l'e-mail de contact ;
    - E-mail (SMTP) : boîte créée dans cPanel (serveur `mail.<domaine>`, port 465 SSL,
      identifiant = adresse complète) — sinon la fonction mail() de PHP est utilisée ;
    - Assistant IA : clé Gemini, bouton « Recharger la liste des modèles », choix du modèle,
@@ -156,48 +162,55 @@ copiées par lots de 100 chaque heure.
 4. Back-office › **Utilisateurs** : inviter les historiens (administrateur ou utilisateur).
    Le lien d'invitation part par e-mail et peut aussi être copié.
 
-## 7. Bascule de www.fcsochauxretro.com
+## 7. Ouverture du musée
 
-1. Installer d'abord sur un sous-domaine de test (ex. `nouveau.fcsochauxretro.com`),
-   protégé dès le premier accès par la page d'attente (Éditorial › Page d'attente) ou par
-   le mot de passe d'accès (Réglages › Général) : les visiteurs ne voient rien et les
-   moteurs de recherche n'indexent rien (robots.txt fermé) ; les membres connectés du
-   back-office voient le site.
-2. Vérifier : Pilotage › Qualité › « Contrôler maintenant » (aucune nouvelle anomalie
+1. **Pendant la préparation**, le site est fermé au public dès l'installation : page d'attente
+   (Éditorial › Page d'attente, active par défaut) ou mot de passe d'accès (Réglages ›
+   Général). Les visiteurs ne voient qu'elle, la page ne propose aucun lien vers le
+   back-office, et rien n'est indexé (robots.txt fermé, en-tête « noindex » sur toutes les
+   réponses). Les membres de l'équipe **connectés** au back-office (`/admin`) voient le vrai
+   site, avec un bandeau jaune « Site fermé au public » en haut de chaque page ; déconnectés,
+   ils retrouvent la page d'attente.
+2. **Vérifier** : Pilotage › Qualité › « Contrôler maintenant » (aucune nouvelle anomalie
    attendue, hormis les photos tant que leur copie n'est pas terminée), pages légales, un
-   don en mode test, l'assistant IA, une invitation envoyée à soi-même (e-mails), le PDF
-   d'un match et celui d'un joueur. Si possible, le test de fumée des écrans du back-office
-   contre le sous-domaine (`SR_BASE=https://nouveau.fcsochauxretro.com SR_EMAIL=…
-   SR_PASSWORD=… node tests/smoke.js`, voir `docs/CONTROLE-2026-10.md`, § 5) : tous les
-   essais automatiques ont tourné sur le serveur de développement, celui-ci est le seul sur
-   le vrai serveur (les pages publiques, cachées par la page d'attente, le sont après la
-   bascule).
-3. Le jour J :
+   don en mode test, l'assistant IA, une invitation envoyée à soi-même et « Mot de passe
+   oublié » (e-mails), le PDF d'un match et celui d'un joueur. Si possible, le test de fumée
+   avec un compte (`SR_BASE=https://musee.fcsochauxretro.com SR_EMAIL=… SR_PASSWORD=… node
+   tests/smoke.js`, voir `docs/CONTROLE-2026-10.md`, § 5) : il se connecte d'abord et parcourt
+   tout le site et le back-office comme l'équipe, même fermé au public. Tous les autres essais
+   automatiques ont tourné sur le serveur de développement.
+3. **Le jour de l'ouverture** :
    - vérifier que la copie des photos est terminée (§ 4 : « 0 à télécharger ») ;
-   - sauvegarde complète de WordPress (cPanel › JetBackup) ;
-   - racine du document de `www.fcsochauxretro.com` → `/home/<compte>/sochauxretro/public` ;
-   - adresse du site `https://www.fcsochauxretro.com` dans Réglages › Général ;
-   - désactiver la page d'attente et le mot de passe d'accès ;
+   - adresse du site `https://musee.fcsochauxretro.com` dans Réglages › Général (par
+     défaut), et « Masquer le site aux moteurs de recherche » décoché ;
+   - décocher la page d'attente (et vider le mot de passe d'accès s'il a servi) ;
    - « Contrôler maintenant », puis le test de fumée des pages publiques
-     (`SR_BASE=https://www.fcsochauxretro.com node tests/smoke.js`).
-4. Les **5 984 anciennes adresses** WordPress sont redirigées (301) vers les nouvelles,
-   ainsi que les anciennes adresses d'images (`/wp-content/uploads/…`).
-   Les adresses demandées mais introuvables sont listées dans Back-office › Redirections,
-   onglet « Adresses introuvables », avec la fiche la plus proche à rediriger.
-5. Google Search Console : soumettre `https://www.fcsochauxretro.com/sitemap.xml`.
+     (`SR_BASE=https://musee.fcsochauxretro.com node tests/smoke.js`) ;
+   - Google Search Console : ajouter la propriété `https://musee.fcsochauxretro.com` et
+     soumettre `https://musee.fcsochauxretro.com/sitemap.xml`.
+4. **Le teaser vidéo** (1 min 55) apparaît sur l'accueil à l'ouverture (Éditorial › Accueil
+   pour le masquer) ; il peut aussi être montré plus tôt sur la page d'attente (case
+   « Afficher le teaser vidéo », décochée par défaut ; « Aperçu avec le teaser » le montre à
+   l'équipe sans l'activer). Tant qu'il n'est montré nulle part au public, la vidéo reste
+   introuvable par une adresse directe.
+5. **www.fcsochauxretro.com** reste le site de l'association : y mettre un lien bien visible
+   vers le musée. L'ancien WordPress n'ayant jamais été public ni indexé, aucune redirection
+   n'est nécessaire. Si d'anciennes adresses du musée avaient circulé (`/2015/03/…`), le musée
+   les reconnaît : ses 5 984 redirections intégrées les mènent à la bonne fiche, sur
+   musee.fcsochauxretro.com.
 
-Garder le dossier WordPress quelque temps après la bascule (il n'est plus visible, mais
-il reste la source des photos d'origine).
+Garder le dossier WordPress tant que la copie des photos n'est pas terminée et vérifiée
+(il en est la source).
 
 ## 8. Dons (Stripe et PayPal)
 
 - Stripe : clés publique et secrète ; webhook vers
-  `https://www.fcsochauxretro.com/api/dons/stripe/webhook` avec les événements
+  `https://musee.fcsochauxretro.com/api/dons/stripe/webhook` avec les événements
   `checkout.session.completed`, `checkout.session.async_payment_succeeded`,
   `checkout.session.expired`, `invoice.paid`, `customer.subscription.deleted`,
   `charge.refunded` ; copier le secret de signature dans les réglages.
 - PayPal : application REST (identifiant et secret) ; webhook vers
-  `https://www.fcsochauxretro.com/api/dons/paypal/webhook` avec les événements
+  `https://musee.fcsochauxretro.com/api/dons/paypal/webhook` avec les événements
   `PAYMENT.CAPTURE.COMPLETED`, `PAYMENT.CAPTURE.REFUNDED`, `PAYMENT.SALE.COMPLETED`,
   `PAYMENT.SALE.REFUNDED`, `BILLING.SUBSCRIPTION.ACTIVATED`, `BILLING.SUBSCRIPTION.CANCELLED`,
   `BILLING.SUBSCRIPTION.EXPIRED`, `BILLING.SUBSCRIPTION.SUSPENDED` ; copier l'identifiant

@@ -72,6 +72,12 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <p class="small muted" style="margin:0">Les compteurs de matchs et de joueurs sont calculés automatiquement à partir des fiches.</p>
     </div>
     <div class="card card--pad">
+      <h2 class="card__t">Le teaser vidéo</h2>
+      <?= Form::toggle('home.teaser', $schema['teaser']['label'], (bool) ($home['teaser'] ?? true)) ?>
+      <p class="small" style="margin:0">La vidéo de présentation (1 min 55), sous les compteurs de l’accueil. Tant que la page d’attente est active, le public ne la voit pas ; l’équipe connectée, si. Pour la montrer aussi sur la page d’attente : Éditorial › Page d’attente.</p>
+      <a class="btn btn--sm" href="/#teaser" target="_blank" rel="noopener" style="align-self:flex-start">Voir sur l’accueil ↗</a>
+    </div>
+    <div class="card card--pad">
       <h2 class="card__t">Le chiffre du jour</h2>
       <?= Form::toggle('home.daily_figure', $schema['daily_figure']['label'], (bool) ($home['daily_figure'] ?? true)) ?>
       <?php if ($figure): $fs = $figure['stat']; ?>

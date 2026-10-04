@@ -70,6 +70,21 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
   </div>
 </section>
 
+<?php if (!empty($teaser)): ?>
+<section id="teaser" class="bg-navy" aria-labelledby="teaser-titre">
+  <div class="wrap section hteaser">
+    <div class="stack gap-8" data-reveal>
+      <span class="eyebrow"><?= e(t('Le musée en vidéo')) ?></span>
+      <h2 class="h-section" id="teaser-titre"><?= e(t('Un siècle de Lions, réuni dans un seul musée')) ?></h2>
+      <p class="hteaser__text"><?= e(t('Deux minutes pour découvrir le musée : près d’un siècle de matchs, de joueurs et de souvenirs du FC Sochaux-Montbéliard.')) ?></p>
+    </div>
+    <video class="hteaser__video" controls playsinline preload="none" poster="/video/teaser.jpg" width="1920" height="1080" aria-label="<?= e(t('Teaser vidéo du musée')) ?>" data-reveal>
+      <source src="/video/teaser.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+<?php endif; ?>
+
 <?php if ($jour): ?>
 <section class="wrap" style="padding-top:var(--section)">
   <div class="today" data-reveal>
