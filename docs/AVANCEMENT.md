@@ -329,6 +329,22 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] `tests/accueil.php` ; aide (texte, capture, « Comment faire pour… »), bulles « ? »,
       guide PDF (99 p.), guide du back-office et doc technique à jour.
 
+## Teaser grand public (04/10, demande du client) — terminé
+- [x] **Même musique, mêmes temps forts** (1 min 55), mais uniquement le site public : aucune
+      scène du back-office, aucune mention des historiens. C'est désormais la vidéo montrée au
+      public (accueil, page d'attente) ; la version précédente, qui présentait aussi le
+      back-office, reste dans l'historique du dépôt pour les présentations à l'équipe.
+- [x] Après « Explorez » (accueil, matchs, fiches, joueurs, face-à-face, chiffres, « Écouter »,
+      anglais, Rétro-Direct, quiz, Fil jaune, mobile) : **« À vous de jouer ! »** — album des
+      Lions (une carte se retourne, gagnée), frise, comparateur de maillots, le guide du musée
+      qui répond sur Roger Courtois (réponse tirée de sa fiche : 350 buts en 404 matchs,
+      champion de France 1935 et 1938, Coupe de France 1937), une photo de famille proposée
+      au musée, le vote du Onze de légende, le PDF d'une fiche ; montage : Ce jour-là,
+      100 moments, réserves, records, Nos Lions, stade Bonal, kit souvenirs, dons.
+- [x] Chiffres pour le public : 1 664 matchs racontés, 1 212 portraits de Lions, 1 063 vidéos
+      dans les fiches, 12 720 photos, 237 adversaires ; fin « Des matchs à revivre, des Lions à retrouver, des
+      souvenirs à partager », puis « Explorez · Jouez · Partagez ».
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;
