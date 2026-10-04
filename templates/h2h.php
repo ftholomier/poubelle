@@ -1,7 +1,8 @@
 <?php
 /**
  * Face-à-face (maquette « Face à face ») et bilans par compétition ou par stade (même moteur).
- * Variables : $mode, $eyebrow, $titleHtml, $crumbs, $here, $chips, $allHref, $t, $highlights, $list, $groups, $groupBy, $comps, $shareImage
+ * Variables : $mode, $eyebrow, $titleHtml, $crumbs, $here, $chips, $allHref, $t, $highlights, $list, $groups, $groupBy, $comps, $shareImage,
+ * $audio (bouton « Écouter », App\Services\PageAudio)
  */
 
 use App\Front\Site;
@@ -43,6 +44,7 @@ $tones = ['yellow' => 'var(--yellow)', 'paper' => 'var(--paper)', 'sand' => 'var
       <span class="hhead__note"><?= e(t('Calculé automatiquement depuis les fiches matchs du musée')) ?></span>
       <button type="button" class="btn btn--ghost-light btn--sm" data-share><?= e(t('Partager')) ?></button>
       <?php if (!empty($pdfHref)): ?><?= \App\Core\View::partial('partials/pdf-button', ['href' => $pdfHref, 'light' => true]) ?><?php endif; ?>
+      <?= !empty($audio) ? \App\Core\View::partial('partials/audio-button', ['audio' => $audio]) : '' ?>
     </div>
   </div>
 </section>

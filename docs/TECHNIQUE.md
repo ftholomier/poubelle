@@ -308,6 +308,7 @@ refait quand la fiche ou sa photo change (`Share::VERSION` pour tout refaire).
 | `Proofreader` | correcteur d'orthographe et de syntaxe (§ 7 ter) |
 | `AiCosts` | coût de l'IA en temps réel, budget, remboursements (§ 7 quater) |
 | `FicheAudio` | fiches audio : explication de la fiche (durée maximale réglable, 3 min), voix IA, traitement groupé (§ 7 quinquies) |
+| `PageAudio` | pages de synthèse racontées (face-à-face, saisons, bilans, records, chiffres) : récit calculé à chaque affichage depuis les données de la page, en français ou en anglais, dans la durée de `FicheAudio`, lu par la voix du navigateur (§ 7 quinquies) |
 | `Updater` | mises à jour en un clic depuis GitHub (Système › Mises à jour) : dernière version de la branche (API, flux Atom en secours), changements, application du seul code qui a changé (`app/`, `bin/`, `config/`, `scripts/`, `templates/`, `public/` sauf `public/media/`), libellés `data/i18n/en.json` fusionnés, `public/.htaccess` modifié gardé, fichiers retirés du dépôt supprimés (manifeste CRC32), sauvegarde et retour arrière, pause du site pendant la copie (`storage/update/maintenance`, lu par le Kernel), caches vidés sauf `storage/cache/correcteur/` ; synchronisation : à chaque vérification, empreintes Git (`sha1("blob <taille>\0<contenu>")`) des fichiers du serveur comparées à l'arborescence de la version (API `git/trees`, un appel par dossier du code, listes gardées sous leur empreinte dans `storage/update/arbres/`), fins de ligne ignorées pour les fichiers texte ; site mis en ligne par FTP et identique : version reconnue (manifeste écrit, sans le `.htaccess` réglé à la main) ; fichiers différents : « Synchroniser avec GitHub » |
 | `Payments` | Stripe Checkout et abonnements, PayPal Orders v2 et abonnements, vérification des webhooks |
 | `Mailer`, `Newsletter` | e-mails (SMTP ou mail()), newsletter hebdomadaire « Ce jour-là » |
@@ -434,6 +435,15 @@ souvenirs) pour refaire les PDF en cache.
   correspond au texte lu, sinon lit le texte avec la synthèse vocale du navigateur
   (`speechSynthesis`, phrase par phrase, meilleure voix de la langue). Le texte lu s'affiche
   sous le bouton pendant l'écoute.
+- **Pages de synthèse** (`App\Services\PageAudio`) : même bouton sur les face-à-face, saisons,
+  bilans, records et chiffres (`Explore::withAudio()`). Le récit est construit à chaque affichage
+  à partir des variables de la page (`opponent()`, `competition()`, `stadium()`, `season()`,
+  `records()`, `chiffres()`) : accroche selon le nombre de rencontres, bilan et sa tendance,
+  domicile et extérieur, compétitions, premier et dernier match, plus large victoire, plus lourde
+  défaite, affluence, buteurs (compositions, `Derived::apps`), série sans défaite, finales et
+  tour le plus avancé des coupes, conclusion. `speakable()` prépare le texte pour la voix
+  (milliers sans espace, scores « 7 à 0 », dates en toutes lettres, saisons « 1987‑1988 » à
+  trait d'union insécable). Gratuit, sans état ni cache, coupé à `FicheAudio::maxWords()`.
 - **Texte lu** (`maxWords()` : durée maximale `audio.max_minutes`, 3 par défaut, × 150 mots),
   par ordre de priorité : écrit à la main (`src: manual`),
   rédigé par Gemini (`src: ai`, valable tant que l'empreinte `sig` des titres, textes et faits
@@ -748,7 +758,9 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
 - `php tests/verrou.php` : verrou de modification (prise, observation, prise de main,
   onglets multiples, libération, expiration, inactivité).
 - `php tests/audio.php` : fiches audio (résumés automatiques, texte retenu, voix enregistrée,
-  rangement des résultats d'un traitement groupé, coût à moitié prix, barème des voix).
+  rangement des résultats d'un traitement groupé, coût à moitié prix, barème des voix) et pages
+  de synthèse racontées (face-à-face en français et en anglais, saison, coupe, Bonal, records,
+  chiffres, texte préparé pour la voix, audio désactivé).
 - `php tests/retro.php` : Rétro-Direct (chronologie : buts et score, mi-temps, prolongation,
   tirs au but, score retourné, buteurs ; programme et états ; anniversaires ; spectateurs et
   réactions ; agenda .ics).

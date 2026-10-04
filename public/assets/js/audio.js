@@ -1,4 +1,4 @@
-/* Fiches : bouton « Écouter » (explication audio de la fiche). Voix IA enregistrée si elle existe, sinon voix du navigateur. */
+/* Fiches et pages de synthèse : bouton « Écouter » (explication audio). Voix IA enregistrée si elle existe, sinon voix du navigateur. */
 (() => {
   'use strict';
   const btn = document.querySelector('[data-audio]');

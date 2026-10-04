@@ -64,6 +64,8 @@ HTML],
 <p>À côté de « Télécharger en PDF », le bouton <b>Écouter</b> (avec sa durée) explique la fiche à voix haute, en entier, en 3 minutes au plus : pour un match, la date, le stade, le score, les buteurs, puis le récit, les faits marquants et la suite ; pour un joueur, son poste, ses années au club, ses matchs et son histoire. Une fiche courte reste courte. Le texte lu s’affiche sous le bouton pendant l’écoute (accessibilité : malvoyants, personnes âgées, lecture difficile). Un second clic arrête.</p>
 [[img:site-ecouter.webp|Le bouton « Écouter » et le texte lu]]
 <p>Par défaut, c’est la voix de l’appareil du visiteur qui lit : c’est gratuit. Quand une fiche a reçu sa <b>voix IA</b> (voix naturelle de Gemini, enregistrée), c’est elle que l’on entend. Voir [[aide:administration#audio|Fiches audio]].</p>
+<p>Les <b>pages de synthèse</b> se racontent aussi : face-à-face, saisons, bilans (par compétition, à Bonal), livre des records et chiffres du FCSM. Leur récit est calculé à partir des fiches à chaque affichage (l’accroche, le bilan, le premier et le dernier match, la plus large victoire, les buteurs, les séries, une conclusion) : il est toujours à jour et ne coûte rien.</p>
+[[auto|<p>Une fiche corrigée, un match ajouté : le récit des pages de synthèse en tient compte tout seul, dès l’affichage suivant.</p>]]
 HTML],
         ['id' => 'interactif', 'title' => 'Interactif, recherche, assistant, dons', 'html' => <<<'HTML'
 <ul>

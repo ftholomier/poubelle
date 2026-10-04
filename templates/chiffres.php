@@ -1,7 +1,7 @@
 <?php
 /**
  * « Les chiffres du FCSM » : 100 statistiques calculées (App\Services\Chiffres).
- * Variables : $chapters (key, title, intro, stats), $count, $scope
+ * Variables : $chapters (key, title, intro, stats), $count, $scope, $audio (bouton « Écouter »)
  */
 use App\Services\Chiffres;
 
@@ -16,6 +16,7 @@ $first = $scope['careers_from'] ?? 1929;
     <span class="eyebrow eyebrow--lg" style="color:var(--navy)"><?= e(t('{n} chiffres · calculés automatiquement', ['n' => $count])) ?></span>
     <h1 class="rhead__title"><?= e(t('Les chiffres')) ?><br><?= e(t('du FCSM')) ?></h1>
     <p class="chead__lead"><?= e(t('De {y} à aujourd’hui, {n} statistiques tirées de toute la mémoire du musée : les carrières saison par saison, les matchs racontés minute par minute et les fiches des Lions.', ['y' => $first, 'n' => $count])) ?></p>
+    <?php if (!empty($audio)): ?><div class="hero-actions" style="margin-top:0"><?= \App\Core\View::partial('partials/audio-button', ['audio' => $audio, 'navy' => true]) ?></div><?php endif; ?>
     <dl class="chead__scope">
       <div><dt><?= e(Chiffres::num((int) $scope['careers'])) ?></dt><dd><?= e(t('carrières détaillées saison par saison')) ?></dd></div>
       <div><dt><?= e(Chiffres::num((int) $scope['matches'])) ?></dt><dd><?= e(t('matchs officiels racontés')) ?></dd></div>

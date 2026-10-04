@@ -11,6 +11,8 @@ use App\Data\Derived;
 use App\Data\Fiches;
 use App\Data\Index;
 use App\Data\Names;
+use App\Services\I18n;
+use App\Services\PageAudio;
 
 /**
  * « Explorer l'histoire » : pages entièrement calculées depuis les fiches matchs
@@ -24,7 +26,21 @@ final class Explore
     public static function season(Request $req, string $season): ?Response
     {
         $v = self::seasonData($season);
-        return $v ? Pages::render('season', $v['vars'], $v['page']) : null;
+        if (!$v) {
+            return null;
+        }
+        $v = self::withAudio($v, PageAudio::season($v['vars'], Derived::get()['seasons'][$season]['division'] ?? null, I18n::isEn()));
+        return Pages::render('season', $v['vars'], $v['page']);
+    }
+
+    /** Bouton « Écouter » d'une page de synthèse : récit calculé, lu par la voix du navigateur. */
+    private static function withAudio(array $v, ?array $audio): array
+    {
+        $v['vars']['audio'] = $audio;
+        if ($audio) {
+            $v['page']['scripts'] = array_merge($v['page']['scripts'] ?? [], ['js/audio.js']);
+        }
+        return $v;
     }
 
     /** Données d'une saison (page du site et export PDF). @return array{vars:array,page:array}|null */
@@ -296,6 +312,7 @@ final class Explore
             $key = Names::clubKey(str_replace('-', ' ', $club));
             return $key !== $club && isset(Derived::get()['clubs'][$key]) ? Response::redirect(url('/face-a-face/' . $key . '/'), 301) : null;
         }
+        $v = self::withAudio($v, PageAudio::opponent(Fiche::clubName($club), $v['vars'], I18n::isEn()));
         return Pages::render('h2h', $v['vars'], $v['page']);
     }
 
@@ -348,7 +365,14 @@ final class Explore
             return Response::redirect(url('/bilans/stade-auguste-bonal/'), 301);
         }
         $v = self::bilanPage($key);
-        return $v ? Pages::render('h2h', $v['vars'], $v['page']) : null;
+        if (!$v) {
+            return null;
+        }
+        $audio = $v['vars']['mode'] === 'stade'
+            ? PageAudio::stadium(substr($key, 6), (string) $v['vars']['here'], $v['vars'], I18n::isEn())
+            : PageAudio::competition($key, (string) $v['vars']['here'], $v['vars'], I18n::isEn());
+        $v = self::withAudio($v, $audio);
+        return Pages::render('h2h', $v['vars'], $v['page']);
     }
 
     /** Données d'un bilan (page du site et export PDF). @return array{vars:array,page:array}|null */
@@ -610,12 +634,14 @@ final class Explore
     {
         $all = \App\Services\Chiffres::all();
         $scope = $all['scope'];
-        return Pages::render('chiffres', ['chapters' => $all['chapters'], 'count' => $all['count'], 'scope' => $scope], [
+        $v = ['vars' => ['chapters' => $all['chapters'], 'count' => $all['count'], 'scope' => $scope], 'page' => [
             'title' => t('Les chiffres du FCSM : {n} statistiques depuis 1929', ['n' => $all['count']]),
             'description' => t('Meilleur buteur de l’histoire, recordman des matchs, plus longue invincibilité, but le plus rapide, affluences : {n} chiffres du FC Sochaux-Montbéliard calculés depuis les fiches du musée.', ['n' => $all['count']]),
             'active' => 'matchs',
             'styles' => ['css/explore.css', 'css/chiffres.css'],
-        ]);
+        ]];
+        $v = self::withAudio($v, PageAudio::chiffres($all['chapters'], (int) $all['count'], I18n::isEn()));
+        return Pages::render('chiffres', $v['vars'], $v['page']);
     }
 
     public static function records(Request $req): Response
@@ -639,14 +665,16 @@ final class Explore
             $compChips[] = ['label' => t(Mosaic::COMPS[$k][0]), 'href' => url('/records/') . $qs(['comp' => $k]), 'on' => $comp === $k];
         }
         $scope = ($decade ? decade_label($decade) : t('Toutes époques')) . ' · ' . ($comp ? t(Mosaic::COMPS[$comp][0]) : t('toutes compétitions officielles'));
-        return Pages::render('records', [
+        $v = ['vars' => [
             'cat' => $cat, 'title' => t($title), 'unit' => t($unit), 'rows' => $rows, 'tabs' => $tabs, 'decs' => $decs, 'compChips' => $compChips, 'scope' => $scope,
-        ], [
+        ], 'page' => [
             'title' => t($title) . ' – ' . t('Le livre des records du FCSM'),
             'description' => t('{title} du FC Sochaux-Montbéliard ({scope}), calculés automatiquement depuis les fiches matchs du musée.', ['title' => t($title), 'scope' => $scope]),
             'active' => 'matchs',
             'noindex' => $decade !== null || $comp !== null,
             'styles' => ['css/mosaic.css', 'css/explore.css'],
-        ]);
+        ]];
+        $v = self::withAudio($v, PageAudio::records($cat, t($title), t($unit), $scope, $rows, I18n::isEn()));
+        return Pages::render('records', $v['vars'], $v['page']);
     }
 }

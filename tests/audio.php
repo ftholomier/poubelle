@@ -2,7 +2,7 @@
 /**
  * Fiches audio (App\Services\FicheAudio) : résumés automatiques, texte retenu (main, IA,
  * automatique), voix enregistrée, rangement des résultats d'un traitement groupé, coût à
- * moitié prix. Usage : php tests/audio.php (code de sortie 1 en cas d'échec). N'écrit que
+ * moitié prix ; pages de synthèse racontées (App\Services\PageAudio). Usage : php tests/audio.php (code de sortie 1 en cas d'échec). N'écrit que
  * dans un dossier temporaire.
  */
 declare(strict_types=1);
@@ -125,6 +125,40 @@ $eq('tarif des voix', [AiCosts::price('gemini-3.8-flash-tts')['out'], AiCosts::p
 $eq('voix inconnue : jamais au tarif du texte', [AiCosts::price('gemini-9-flash-tts')['out'], AiCosts::price('gemini-9-flash-tts')['known']], [20.0, false]);
 $e = A::estimate(0, 100, 60);
 $eq('estimation', [round($e['seconds']), round($e['usd'], 4)], [24.0, round(100 * ((60 * 1.6 + 40) * 0.5 / 1e6 + 24 * 25 * 9 / 1e6) / 2, 4)]);
+
+// Pages de synthèse racontées (App\Services\PageAudio) : récit calculé, gratuit, dans la durée.
+use App\Front\Explore;
+use App\Front\Fiche;
+use App\Services\PageAudio as P;
+
+$v = Explore::opponentData('nancy')['vars'];
+$a = P::opponent(Fiche::clubName('nancy'), $v, false);
+$has('face-à-face : accroche, bilan, premier et dernier match, buteurs', $a['text'] ?? '', ['Entre Sochaux et Nancy, c’est une longue histoire : ' . $v['t']['count'] . ' rencontres', $v['t']['V'] . ' victoires sochaliennes', 'Tout a commencé le 29 août 1970, en Division 1 : une défaite 2 à 1 à l’extérieur.', 'Le dernier épisode s’est joué le', 'Côté buteurs,']);
+$eq('face-à-face : voix du navigateur, en français, dans la durée', [$a['url'], $a['lang'], A::words($a['text']) <= A::maxWords(), $a['secs'] > 0], [null, 'fr-FR', true, true]);
+$en = P::opponent('Nancy', $v, true);
+$has('face-à-face en anglais', $en['text'] ?? '', ['Between Sochaux and Nancy', 'It all began on 29 August 1970, in Division 1: a 2–1 defeat away.']);
+$s = Explore::seasonData('1987-1988')['vars'];
+$a = P::season($s, 'Division 2', false);
+$has('saison : bilan, banc, buteurs, coupe jusqu’en finale (tirs au but)', $a['text'] ?? '', ['Retour sur la saison 1987‑1988, vécue en Division 2.', 'Sur le banc : Sylvester Takac.', 'Le meilleur buteur de la saison est Stéphane Paille', 'En Coupe de France, l’aventure s’arrête en finale : un match nul 1 à 1 après prolongation, puis une séance de tirs au but perdue 5 à 4']);
+$b = Explore::bilanPage('coupe-de-france')['vars'];
+$has('bilan d’une coupe : la finale, au 8e tour', P::competition('coupe-de-france', 'Coupe de France', $b, false)['text'] ?? '', ['La Coupe de France, l’épreuve de tous les exploits', 'Sochaux a atteint la finale le 11 juin 1988, contre Metz', 'au 8e tour de la Coupe de France']);
+$b = Explore::bilanPage('stade-auguste-bonal')['vars'];
+$has('bilan à Bonal', P::stadium('auguste-bonal', 'Stade Auguste Bonal', $b, false)['text'] ?? '', ['Le stade Auguste-Bonal, c’est la maison des Lionceaux', 'Le premier match fiché ici date du']);
+$rows = Explore::recordRows('series');
+$has('records : en tête du classement, dates dites', P::records('series', 'Plus longues séries d’invincibilité', 'matchs', 'Toutes époques · toutes compétitions officielles', $rows, false)['text'] ?? '', ['En tête du classement : Du 3 octobre 1987 au 17 mai 1988, 32 matchs', 'Suivent du ', ', toutes compétitions officielles.']);
+$all = \App\Services\Chiffres::all();
+$c = P::chiffres($all['chapters'], (int) $all['count'], false);
+$has('chiffres : un chiffre au moins par chapitre', $c['text'] ?? '', array_map(fn ($ch) => rtrim($ch['title'], '.') . '.', $all['chapters']));
+$eq('chiffres : dans la durée', A::words($c['text']) <= A::maxWords(), true);
+$eq('texte pour la voix : milliers, scores, dates, tirets, saisons', [
+    P::speakable('19 994 spectateurs, Sochaux – Toulon 7-2, le 12/09/1989, carrière 1933–1952, saison 1987-1988', false),
+    P::speakable('Sochaux – Toulon 7-2', true),
+], ['19994 spectateurs, Sochaux contre Toulon 7 à 2, le 12 septembre 1989, carrière de 1933 à 1952, saison 1987‑1988', 'Sochaux against Toulon 7–2']);
+$values = new ReflectionProperty(\App\Core\Settings::class, 'values');
+$before = \App\Core\Settings::all();
+$values->setValue(null, ['audio.enabled' => false] + $before);
+$eq('audio désactivé : pas de bouton', P::opponent('Nancy', $v, false), null);
+$values->setValue(null, $before);
 
 // Ménage.
 $rm = function (string $d) use (&$rm) {

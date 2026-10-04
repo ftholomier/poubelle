@@ -332,6 +332,11 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   une **voix IA** naturelle (environ 3 centimes pour 3 minutes). Système › Fiches audio (administrateurs) : essayer sur
   20 fiches puis passer tout le musée en voix IA en **traitement groupé** (moitié prix,
   environ 40 € pour toutes les fiches en 3 minutes au plus), suivi des envois.
+  Les **pages de synthèse** ont aussi leur bouton « Écouter » : face-à-face, saisons, bilans
+  (Coupe de France, championnat, Europe, stade Bonal…), livre des records et chiffres du FCSM.
+  Leur récit (accroche, bilan, premier et dernier match, plus large victoire, buteurs, séries,
+  conclusion) est calculé à chaque affichage depuis les fiches : toujours à jour, gratuit, lu par
+  la voix de l'appareil, dans la même durée maximale. Rien à faire dans le back-office.
 - **Coûts IA** (administrateurs) : ce que coûte Gemini, calculé à chaque appel et mis à jour à l'écran toutes
   les 10 secondes (aujourd'hui, ce mois-ci, à rembourser, budget, derniers appels avec la
   personne et la fiche concernées). Le mois terminé : relevé PDF à signer et détail CSV à

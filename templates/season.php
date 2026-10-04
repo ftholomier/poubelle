@@ -1,7 +1,8 @@
 <?php
 /**
  * Page d'une saison (maquette « Saison ») : chiffres, fil de la saison, résultats, buteurs, effectif.
- * Variables : $season, $label, $matches, $sums, $comps, $scorers, $squad, $coaches, $bilan, $hero, $prev, $next, $current, $catPath
+ * Variables : $season, $label, $matches, $sums, $comps, $scorers, $squad, $coaches, $bilan, $hero, $prev, $next, $current, $catPath,
+ * $audio (bouton « Écouter », App\Services\PageAudio)
  */
 
 use App\Front\Site;
@@ -22,7 +23,7 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
         <div<?= !empty($s['title']) ? ' title="' . e($s['title']) . '"' : '' ?>><b<?= !empty($s['yellow']) ? ' class="yellow"' : '' ?>><?= e($s['v']) ?></b><span><?= e($s['k']) ?></span></div>
       <?php endforeach; ?>
     </div>
-    <?php if ($matches): ?><div class="hero-actions"><?= \App\Core\View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::seasonUrl($season), 'light' => true]) ?></div><?php endif; ?>
+    <?php if ($matches): ?><div class="hero-actions"><?= \App\Core\View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::seasonUrl($season), 'light' => true]) ?><?= !empty($audio) ? \App\Core\View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div><?php endif; ?>
   </div>
 </section>
 

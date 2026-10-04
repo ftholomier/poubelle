@@ -358,7 +358,7 @@ final class FicheAudio
     }
 
     /** « dimanche 28 février 1988 », « Sunday 28 February 1988 ». */
-    private static function date(?string $iso, bool $en, bool $withDay = true): string
+    public static function date(?string $iso, bool $en, bool $withDay = true): string
     {
         $ts = $iso ? strtotime($iso) : false;
         if (!$ts) {
