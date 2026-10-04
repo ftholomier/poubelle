@@ -7,19 +7,9 @@ use App\Core\Auth;
 
 $nav = $meta['nav'] ?? '';
 $isAdmin = Auth::isAdmin();
-$new = [
-    ['Fiche match', '/admin/fiche/nouvelle/match'],
-    ['Personne', '/admin/fiche/nouvelle/personne'],
-    ['Article', '/admin/fiche/nouvelle/article'],
-    ['Page', '/admin/fiche/nouvelle/page'],
-    ['Objet des réserves', '/admin/fiche/nouvelle/objet'],
-    ['Moment du centenaire', '/admin/fiche/nouvelle/moment'],
-    ['Question de quiz', '/admin/collection/quiz#nouveau'],
-    ['Message du bandeau', '/admin/accueil#bandeau'],
-];
-if ($isAdmin) {
-    $new[] = ['Inviter un utilisateur', '/admin/utilisateurs#inviter'];
-}
+$new = Base::createLinks($isAdmin);
+$favs = \App\Admin\Favorites::mine();
+$here = \App\Admin\Favorites::here($meta);
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -81,6 +71,12 @@ if ($isAdmin) {
           <form method="post" action="/admin/deconnexion"><?= csrf_field() ?><button type="submit" style="width:100%;box-sizing:border-box">Se déconnecter</button></form>
         </div>
       </div>
+      <nav class="favs" aria-label="Mes favoris" data-favs>
+        <span class="favs__star" aria-hidden="true">★</span>
+        <span class="favs__list" data-favs-list><?php foreach ($favs as $f): ?><a href="<?= e($f['url']) ?>" class="favs__a<?= $here && $f['url'] === $here['url'] ? ' is-on' : '' ?>"<?= $here && $f['url'] === $here['url'] ? ' aria-current="page"' : '' ?>><?= e($f['label']) ?></a><?php endforeach; ?></span>
+        <?php if (!$favs): ?><span class="favs__hint" data-favs-hint>Vos écrans les plus utilisés, à un clic :</span><?php endif; ?>
+        <button type="button" class="favs__add" data-fav-open aria-haspopup="dialog">+ Ajouter un favori</button>
+      </nav>
     </header>
     <?php if (!empty($meta['tabs'])): ?>
       <nav class="tabsbar" aria-label="Sections">
@@ -101,6 +97,7 @@ if ($isAdmin) {
     <div class="qk__hint">↑ ↓ pour choisir · Entrée pour ouvrir · Échap pour fermer</div>
   </div>
 </div>
+<script type="application/json" id="bo-favs"><?= json_encode(['favs' => $favs, 'here' => $here, 'choices' => \App\Admin\Favorites::choices(), 'max' => \App\Admin\Favorites::MAX], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
 <script type="application/json" id="bo-tips"><?= json_encode(['guide' => \App\Admin\Help::urlFor($nav), 'tips' => \App\Admin\Tips::forNav($meta['tips'] ?? $nav)], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
 <script src="<?= asset('admin/admin.js') ?>" defer></script>
 <script src="<?= asset('admin/wysiwyg.js') ?>" defer></script>

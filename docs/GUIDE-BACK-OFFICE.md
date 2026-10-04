@@ -35,6 +35,10 @@ Le menu de gauche regroupe les écrans :
 - **Tableau de bord** : chiffres du musée, dernières modifications, choses à faire
   (photos à créditer, joueurs sans fiche, contributions à traiter…).
 - **« + Nouveau »** en haut : créer un match, une personne, un article, un objet…
+- **Favoris** (ligne ★ sous le titre) : « + Ajouter un favori » ouvre la liste de tout ce
+  qu'on peut y mettre (la page affichée, les écrans du menu, les créations, les groupes des
+  Réglages pour les administrateurs, avec une recherche) ; vos favoris s'y renomment, se
+  déplacent et se retirent. Douze au plus, propres à chaque compte.
 
 ## 3. Les fiches
 

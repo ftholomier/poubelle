@@ -24,6 +24,16 @@ HTML],
 <li><b>Votre compte</b> : profil, mot de passe, déconnexion.</li>
 <li><b>À faire</b> : contributions à traiter, photos à créditer, joueurs sans fiche… Chaque ligne mène à l’écran concerné.</li>
 </ol>
+<p>Sous le titre, la ligne <b>★ Favoris</b> garde vos écrans les plus utilisés à un clic (voir ci-dessous).</p>
+HTML],
+        ['id' => 'favoris', 'title' => 'Vos favoris, en haut de chaque écran', 'html' => <<<'HTML'
+<p>Pour ne plus chercher dans le menu de gauche, mettez vos écrans les plus utilisés dans la bande du haut, sous le titre : un clic sur un favori ouvre l’écran.</p>
+<ol>
+<li>Cliquez sur <b>+ Ajouter un favori</b>.</li>
+<li>La fenêtre propose d’abord <b>Cette page</b> (l’écran affiché, par exemple une fiche que vous reprenez souvent, ou une liste filtrée), puis tous les écrans du menu, les créations (« Fiche match », « Personne »…) et, pour les administrateurs, chaque groupe des Réglages. Tapez quelques lettres dans « Chercher un écran à ajouter » pour filtrer.</li>
+<li><b>☆ Ajouter</b> le met dans la bande ; <b>★ Ajouté</b> l’en retire.</li>
+</ol>
+<p>En haut de la même fenêtre, vos favoris se <b>renomment</b> (cliquez dans le nom, tapez, <kbd>Entrée</kbd>), se <b>déplacent</b> (↑ ↓) et se <b>retirent</b> (✕). Douze au plus. Chacun a les siens : vos favoris ne changent rien pour vos collègues.</p>
 HTML],
         ['id' => 'recherche', 'title' => 'Trouver n’importe quoi : la recherche globale', 'html' => <<<'HTML'
 <p>Cliquez dans la barre « Rechercher partout » ou tapez <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>⌘</kbd> + <kbd>K</kbd> sur Mac) depuis n’importe quel écran. Tapez quelques lettres : un nom de joueur, un adversaire, une saison, un nom de fichier photo, un écran (« redirections »).</p>

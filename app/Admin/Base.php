@@ -68,6 +68,25 @@ class Base
         ],
     ];
 
+    /** Liens du bouton « + Nouveau » (et des favoris, rubrique « Créer »). */
+    public static function createLinks(bool $admin): array
+    {
+        $new = [
+            ['Fiche match', '/admin/fiche/nouvelle/match'],
+            ['Personne', '/admin/fiche/nouvelle/personne'],
+            ['Article', '/admin/fiche/nouvelle/article'],
+            ['Page', '/admin/fiche/nouvelle/page'],
+            ['Objet des réserves', '/admin/fiche/nouvelle/objet'],
+            ['Moment du centenaire', '/admin/fiche/nouvelle/moment'],
+            ['Question de quiz', '/admin/collection/quiz#nouveau'],
+            ['Message du bandeau', '/admin/accueil#bandeau'],
+        ];
+        if ($admin) {
+            $new[] = ['Inviter un utilisateur', '/admin/utilisateurs#inviter'];
+        }
+        return $new;
+    }
+
     /**
      * Rend un écran dans la coque du back-office.
      * $meta : title, crumb, nav (clé active), tabs [[libellé, url, actif, compteur]], bare (sans coque)

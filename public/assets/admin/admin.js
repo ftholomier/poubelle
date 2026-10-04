@@ -77,6 +77,105 @@
     el.dispatchEvent(new Event('input', { bubbles: true }));
   };
 
+  /* ---------------------------------------------------------- favoris (bande du haut)
+     « + Ajouter un favori » ouvre une fenêtre : mes favoris (renommer, monter, descendre, retirer),
+     la page affichée, puis tout ce qu'on peut ajouter (écrans du menu, créations, réglages). */
+  (() => {
+    const bar = $('[data-favs]');
+    let data = null;
+    try { data = JSON.parse($('#bo-favs')?.textContent || 'null'); } catch (e) { /* */ }
+    if (!bar || !data) return;
+    let favs = data.favs || [];
+    const isFav = url => favs.some(f => f.url === url);
+    const drawBar = () => {
+      $('[data-favs-list]', bar).innerHTML = favs.map(f => {
+        const on = data.here && f.url === data.here.url;
+        return '<a href="' + esc(f.url) + '" class="favs__a' + (on ? ' is-on" aria-current="page' : '') + '">' + esc(f.label) + '</a>';
+      }).join('');
+      const hint = $('[data-favs-hint]', bar);
+      if (hint) hint.hidden = favs.length > 0;
+    };
+    const save = async payload => {
+      const r = await BO.post('/admin/api/favoris', payload);
+      if (!r.ok) { BO.toast(r.error || 'Favori non enregistré.', true); return false; }
+      favs = r.favs;
+      drawBar();
+      return true;
+    };
+    const open = () => {
+      const opener = document.activeElement;
+      const m = document.createElement('div');
+      m.className = 'modal';
+      m.innerHTML = '<div class="modal__box" style="width:min(660px,100%)" role="dialog" aria-modal="true" aria-labelledby="fav-t">'
+        + '<div class="row" style="justify-content:space-between;align-items:center;gap:10px"><h2 class="modal__t" id="fav-t">Mes favoris</h2><button type="button" class="btn btn--sm" data-close aria-label="Fermer">✕</button></div>'
+        + '<p class="small muted" style="margin:0">Des liens directs dans la bande du haut, pour ne plus chercher dans le menu de gauche (' + data.max + ' au plus). Rien que pour vous : chacun a les siens.</p>'
+        + '<div class="fav-pick" data-mine></div>'
+        + '<input type="search" data-filter placeholder="Chercher un écran à ajouter…" aria-label="Chercher un écran à ajouter" style="font:inherit;padding:8px 10px;border:2px solid var(--navy)">'
+        + '<div class="fav-pick" data-all></div></div>';
+      const box = $('.modal__box', m);
+      const mine = $('[data-mine]', m), all = $('[data-all]', m), filter = $('[data-filter]', m);
+      const drawMine = () => {
+        mine.innerHTML = '<h3>Dans la bande du haut (' + favs.length + ' / ' + data.max + ')</h3>' + (favs.length ? favs.map((f, i) =>
+          '<div class="fav-row is-fav" data-url="' + esc(f.url) + '"><input type="text" value="' + esc(f.label) + '" maxlength="40" aria-label="Nom du favori" data-rename>'
+          + '<button type="button" class="btn btn--sm" data-move="-1" aria-label="Monter"' + (i ? '' : ' disabled') + '>↑</button>'
+          + '<button type="button" class="btn btn--sm" data-move="1" aria-label="Descendre"' + (i < favs.length - 1 ? '' : ' disabled') + '>↓</button>'
+          + '<button type="button" class="btn btn--sm" data-del aria-label="Retirer des favoris">✕</button></div>').join('')
+          : '<p class="small muted" style="margin:0">Aucun favori pour l’instant : choisissez ci-dessous.</p>');
+      };
+      const line = (it, note) => '<div class="fav-row' + (isFav(it.url) ? ' is-fav' : '') + '" data-url="' + esc(it.url) + '" data-label="' + esc(it.label) + '" data-text="' + esc((it.label + ' ' + note).toLowerCase()) + '">'
+        + '<span class="fav-row__l"><b>' + esc(it.label) + '</b>' + (note ? '<small>' + esc(note) + '</small>' : '') + '</span>'
+        + '<button type="button" class="btn btn--sm' + (isFav(it.url) ? ' btn--navy' : '') + '" data-toggle aria-pressed="' + isFav(it.url) + '">' + (isFav(it.url) ? '★ Ajouté' : '☆ Ajouter') + '</button></div>';
+      const drawAll = () => {
+        let h = '';
+        if (data.here) h += '<section><h3>Cette page</h3>' + line(data.here, data.here.url) + '</section>';
+        for (const [group, items] of Object.entries(data.choices || {})) {
+          h += '<section><h3>' + esc(group) + '</h3>' + items.map(it => line(it, '')).join('') + '</section>';
+        }
+        all.innerHTML = h;
+        applyFilter();
+      };
+      const applyFilter = () => {
+        const q = filter.value.trim().toLowerCase();
+        $$('section', all).forEach(sec => {
+          let n = 0;
+          $$('.fav-row', sec).forEach(r => { const ok = !q || r.dataset.text.includes(q); r.hidden = !ok; n += ok; });
+          sec.hidden = !n;
+        });
+      };
+      const redraw = () => { drawMine(); drawAll(); };
+      const close = () => { m.remove(); document.removeEventListener('keydown', key); opener?.focus?.(); };
+      const key = e => { if (e.key === 'Escape') close(); };
+      m.addEventListener('click', async e => {
+        if (e.target === m || e.target.closest('[data-close]')) { close(); return; }
+        const row = e.target.closest('.fav-row');
+        const url = row?.dataset.url;
+        if (!url) return;
+        if (e.target.closest('[data-toggle]')) {
+          if (await save(isFav(url) ? { action: 'retirer', url } : { action: 'ajouter', url, label: row.dataset.label })) redraw();
+        } else if (e.target.closest('[data-del]')) {
+          if (await save({ action: 'retirer', url })) redraw();
+        } else if (e.target.closest('[data-move]')) {
+          const urls = favs.map(f => f.url), i = urls.indexOf(url), j = i + +e.target.closest('[data-move]').dataset.move;
+          if (i < 0 || j < 0 || j >= urls.length) return;
+          [urls[i], urls[j]] = [urls[j], urls[i]];
+          if (await save({ action: 'ordre', urls })) { drawMine(); $('[data-url="' + CSS.escape(url) + '"] [data-move="' + (j > i ? 1 : -1) + '"]', mine)?.focus(); }
+        }
+      });
+      m.addEventListener('change', async e => {
+        const inp = e.target.closest('[data-rename]');
+        if (inp && await save({ action: 'renommer', url: inp.closest('.fav-row').dataset.url, label: inp.value })) drawAll();
+      });
+      m.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('[data-rename]')) { e.preventDefault(); e.target.blur(); } });
+      filter.addEventListener('input', applyFilter);
+      document.addEventListener('keydown', key);
+      redraw();
+      document.body.appendChild(m);
+      filter.focus();
+      box.scrollTop = 0;
+    };
+    $('[data-fav-open]', bar).addEventListener('click', open);
+  })();
+
   /* ---------------------------------------------------------- traduction ponctuelle (Gemini)
      <button data-tr="champ"> traduit le champ « champ » vers « champ_en » dans le même bloc ;
      <button data-tr-all> traduit tous les champs « *_en » vides du bloc. */

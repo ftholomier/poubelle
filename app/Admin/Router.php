@@ -189,12 +189,19 @@ final class Router
         $r->get('/admin/api/couts', fn ($q) => Costs::api($q));
         $r->post('/admin/api/verrou', fn ($q) => Api::lock($q));
         $r->post('/admin/api/audio', fn ($q) => Audio::api($q));
+        $r->post('/admin/api/favoris', fn ($q) => Favorites::api($q));
 
         $res = $r->dispatch(new Request($req->method, $path, $req->query, $req->post, $req->files, $req->server, $req->body));
         if ($res instanceof Response) {
             return $res;
         }
         return Response::html(Base::page('admin/message', ['title' => 'Page introuvable', 'text' => 'Cette page du back-office n’existe pas.', 'back' => '/admin'], ['title' => 'Page introuvable']), 404);
+    }
+
+    /** Écran réservé aux administrateurs (en plus de ceux qui le vérifient eux-mêmes : comptes, réglages…). */
+    public static function adminOnly(string $path): bool
+    {
+        return (bool) preg_match(self::ADMIN_ONLY, $path);
     }
 
     private static function csrfOk(Request $req): bool

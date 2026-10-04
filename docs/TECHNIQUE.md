@@ -683,6 +683,15 @@ souvenirs) pour refaire les PDF en cache.
   (`Base::aiCost()`, `aiCostData()`). Dans `App\Admin\Donations`, l'enregistrement d'un don
   hors ligne (`manuel`), l'émission d'un reçu (`recu`) et le remboursement noté d'un don hors
   ligne (`rembourse`) sont refusés aux autres comptes, et cachés dans les écrans.
+- **Favoris** (`App\Admin\Favorites`) : ligne ★ de la bande du haut (`templates/admin/layout.php`),
+  liens directs propres à chaque compte (clé `favoris` de `storage/users.json`, 12 au plus,
+  nom de 40 caractères). « + Ajouter un favori » ouvre une fenêtre (`admin.js`, données
+  `#bo-favs` : favoris, page affichée, `choices()` = écrans de `Base::NAV` permis, créations
+  `Base::createLinks()`, groupes des Réglages pour les administrateurs) ; `POST
+  /admin/api/favoris` (`ajouter`, `retirer`, `renommer`, `ordre`). Adresses du back-office
+  seulement (`clean()` : `/admin`, `/admin/…`, `/admin?…`, ni espace ni `//`) ; les écrans
+  réservés aux administrateurs (`Base::NAV`, `Router::adminOnly()`) ne sont ni proposés ni
+  gardés pour les autres comptes.
 - Formulaires : les écrans envoient du JSON (`public/assets/admin/admin.js`, champs nommés
   par chemin pointé : `match.referee`, répétitions `data-repeater`), contrôle de
   modification simultanée, brouillon conservé dans le navigateur.
@@ -825,7 +834,11 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   français, en anglais et au traitement groupé, récit dépassé remplacé par l'automatique, pages
   à rédiger, demande envoyée, rangement des résultats, coût compté ; voix des pages : demande sur
   le récit rangé, rangement et lecture sur la page, ancienne voix plus jouée quand le récit
-  change, voix commandées après les récits, voix des pages désactivées).
+  change, voix commandées après les récits, voix des pages désactivées ; fin de voix nettoyée,
+  encodeur MP3 : trames, silence, 22,05 kHz, décodage par ffmpeg s'il est là ; conversion des
+  voix WAV, morceaux de voix recollés, résumés gardés d'un affichage à l'autre).
+- `php tests/favoris.php` : favoris du back-office (adresses du back-office seulement, choix
+  selon le rôle, favoris d'un compte filtrés et noms nettoyés).
 - `php tests/retro.php` : Rétro-Direct (chronologie : buts et score, mi-temps, prolongation,
   tirs au but, score retourné, buteurs ; programme et états ; anniversaires ; spectateurs et
   réactions ; agenda .ics).
