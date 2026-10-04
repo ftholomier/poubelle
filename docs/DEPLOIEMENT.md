@@ -65,7 +65,7 @@ d'empreinte. Sans SSH, on le lance avec une tâche cron temporaire :
 1. cPanel › Tâches Cron › ajouter une tâche toutes les 5 minutes avec la commande :
 
    ```
-   php /home/<compte>/sochauxretro/scripts/wp/media-sync.php --depuis=/home/<compte>/public_html/wp-content/uploads >> /home/<compte>/sochauxretro/storage/media-sync.log 2>&1
+   /opt/alt/php83/usr/bin/php /home/<compte>/sochauxretro/scripts/wp/media-sync.php --depuis=/home/<compte>/public_html/wp-content/uploads >> /home/<compte>/sochauxretro/storage/media-sync.log 2>&1
    ```
 
    - WordPress sur le même hébergement : `--depuis` copie les fichiers de disque à disque
@@ -74,7 +74,10 @@ d'empreinte. Sans SSH, on le lance avec une tâche cron temporaire :
      `/home/<compte>/public_html/wp-content/uploads` (on y voit des dossiers 2023, 2024…).
    - WordPress ailleurs : retirer `--depuis=…` ; les fichiers sont téléchargés depuis
      www.fcsochauxretro.com (4,9 Go, quelques heures, en plusieurs passages).
-   - Si rien ne se passe, remplacer `php` par le PHP 8.3 (voir § 5).
+   - `/opt/alt/php83/usr/bin/php` est le PHP 8.3 « ligne de commande » d'o2switch. La simple
+     commande `php` des tâches cron y lance le PHP du site web : le journal n'affiche alors
+     que « Status: 500 Internal Server Error » (ou « A lancer avec le PHP en ligne de
+     commande »).
 2. Suivre `storage/media-sync.log` avec le gestionnaire de fichiers de cPanel. Deux passages
    ne se chevauchent jamais ; chaque passage reprend là où le précédent s'est arrêté.
 3. Quand le journal indique « 0 à télécharger », **supprimer cette tâche cron**.
@@ -94,7 +97,7 @@ Ensuite, tout est automatique :
 - les **vignettes** WebP (de 160 à 1 600 pixels de large) sont créées à la première
   visite de chaque image, puis servies directement par Apache (`public/media/`, environ
   2 Go à terme). Les préparer à l'avance n'est pas nécessaire ; pour le faire quand même :
-  `php /home/<compte>/sochauxretro/bin/console.php images 800` (puis 480 et 1200), en tâche
+  `/opt/alt/php83/usr/bin/php /home/<compte>/sochauxretro/bin/console.php images 800` (puis 480 et 1200), en tâche
   cron temporaire ;
 - les **vignettes des vidéos** (YouTube, Dailymotion…) sont copiées par la tâche planifiée ;
 - les **anciennes adresses d'images** de WordPress (`/wp-content/uploads/…`, y compris
@@ -107,7 +110,7 @@ Ensuite, tout est automatique :
 cPanel › Tâches Cron, une ligne toutes les 5 minutes :
 
 ```
-php /home/<compte>/sochauxretro/bin/console.php cron >/dev/null 2>&1
+/opt/alt/php83/usr/bin/php /home/<compte>/sochauxretro/bin/console.php cron >/dev/null 2>&1
 ```
 
 Elle publie les fiches programmées, recalcule les statistiques, traduit, envoie la
@@ -116,9 +119,11 @@ médiathèque, copie les vignettes des vidéos, indexe l'assistant, synchronise 
 régénère le plan du site, sauvegarde et purge les données personnelles anciennes.
 
 Pour vérifier qu'elle fonctionne : Back-office › Tâches planifiées affiche l'heure du dernier
-passage de chaque tâche. Si rien n'apparaît après 10 minutes, la commande `php` utilise
-probablement une autre version que 8.3 : remplacer `php` par le chemin complet du PHP 8.3
-(chez o2switch, en général `/opt/alt/php83/usr/bin/php` ; le support o2switch le confirme).
+passage de chaque tâche. Si rien n'apparaît après 10 minutes, vérifier le chemin du PHP :
+`/opt/alt/php83/usr/bin/php` est le PHP 8.3 « ligne de commande » d'o2switch (la simple
+commande `php` des tâches cron y lance le PHP du site web, qui ne convient pas ; le support
+o2switch confirme le chemin au besoin). Le tableau de bord rappelle aussi la tâche si elle
+ne passe plus.
 
 Après l'installation, environ 900 stades et lieux de naissance restent à placer sur la
 carte : la géolocalisation (OpenStreetMap, une requête par seconde) les traite par lots
@@ -148,7 +153,7 @@ copiées par lots de 100 chaque heure.
    - Correcteur : vérification orthographique de fond (300 appels à Gemini par jour par
      défaut, soit environ deux semaines pour un premier passage complet du musée). Pour
      tout vérifier d'un coup, lancer une fois en SSH (ou en tâche cron temporaire)
-     `php /home/<compte>/sochauxretro/bin/console.php correcteur` ;
+     `/opt/alt/php83/usr/bin/php /home/<compte>/sochauxretro/bin/console.php correcteur` ;
    - Fiches audio : bouton « Écouter » (gratuit, actif par défaut) ; pour la voix IA, choisir
      la voix puis Système › Fiches audio › « Essayer d'abord sur 20 fiches », écouter, et
      lancer toutes les fiches. Le dossier `public/media/audio/` doit être inscriptible (comme

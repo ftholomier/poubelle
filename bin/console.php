@@ -21,6 +21,13 @@
 
 declare(strict_types=1);
 
+// À lancer avec le PHP « ligne de commande ». Chez o2switch, la commande « php » des tâches
+// cron est celle du site web : rien ne marcherait (journal « Status: 500 Internal Server Error »).
+if (PHP_SAPI !== 'cli') {
+    echo "A lancer avec le PHP en ligne de commande : /opt/alt/php83/usr/bin/php (et non « php »).\n";
+    exit(1);
+}
+
 require __DIR__ . '/../app/bootstrap.php';
 
 use App\Data\Derived;

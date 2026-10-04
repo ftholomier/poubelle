@@ -10,10 +10,12 @@ $every = fn (int $s) => match (true) {
     default => 'une fois par jour',
 };
 $late = !$last || $last < time() - 20 * 60;
+// PHP « ligne de commande » du serveur, à côté de celui du site (o2switch : …/usr/bin/lsphp → …/usr/bin/php).
+$cli = PHP_SAPI === 'cli' ? PHP_BINARY : (is_file($c = dirname(PHP_BINARY) . '/php') ? $c : 'php');
 ?>
 <p class="alert <?= $late ? 'alert--error' : 'alert--ok' ?>" style="margin:0">
   <?= $last ? 'Dernier passage de la tâche planifiée : ' . e(Base::ago(date('c', (int) $last))) . '.' : 'La tâche planifiée n’est jamais passée.' ?>
-  <?php if ($late): ?> Vérifiez la ligne cron chez l’hébergeur : <code>*/5 * * * * php <?= e(APP_ROOT) ?>/bin/console.php cron</code><?php endif; ?>
+  <?php if ($late): ?> Vérifiez la ligne cron chez l’hébergeur (toutes les 5 minutes) : <code><?= e($cli) ?> <?= e(APP_ROOT) ?>/bin/console.php cron &gt;/dev/null 2&gt;&amp;1</code><?php endif; ?>
 </p>
 <div class="table">
   <table>
