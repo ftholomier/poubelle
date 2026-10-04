@@ -186,6 +186,7 @@ final class Router
         $r->post('/admin/api/correcteur', fn ($q) => Api::proofread($q));
         $r->post('/admin/api/correcteur/ignorer', fn ($q) => Api::proofIgnore($q));
         $r->post('/admin/api/correcteur/dictionnaire', fn ($q) => Api::proofWord($q));
+        $r->post('/admin/api/recherche-web', fn ($q) => Api::webCheck($q));
         $r->get('/admin/api/couts', fn ($q) => Costs::api($q));
         $r->post('/admin/api/verrou', fn ($q) => Api::lock($q));
         $r->post('/admin/api/audio', fn ($q) => Audio::api($q));

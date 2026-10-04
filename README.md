@@ -44,7 +44,9 @@ traductions, qualité des données (avec un bouton **Contrôler maintenant** : c
 complet en quelques secondes, anomalies nouvelles et corrigées depuis le contrôle
 précédent), **correcteur d'orthographe et de syntaxe** (Gemini et
 règles du musée : chaque correction est proposée, l'historien accepte ou ignore ; relecture
-de fond de tout le musée dans Qualité › Orthographe), **coût de l'IA en temps réel**
+de fond de tout le musée dans Qualité › Orthographe), **recherche sur le web** (aide à
+l'historien : l'IA cherche avec Google ce qui pourrait corriger ou compléter une fiche et
+propose, sources à l'appui ; rien n'est modifié sans l'historien), **coût de l'IA en temps réel**
 (dépense du jour et du mois, derniers appels, budget, relevé mensuel PDF et CSV à faire
 rembourser par l'association), **verrou nominatif** (une fiche ouverte par quelqu'un est
 signalée aux autres, en lecture seule, avec « Prendre la main »), **fiches audio** (chaque

@@ -487,8 +487,10 @@ souvenirs) pour refaire les PDF en cache.
   recalcule rien.
 - **Fichiers** (`storage/ia/`) : `AAAA-MM.jsonl` (une ligne par appel : date, usage,
   modèle, jetons, coût en dollars, demandeur, fiche ; `g` = coût évité au niveau gratuit,
-  `e` = jetons estimés, `x` = tarif par défaut), `totaux.json` (cumuls par mois, jour, usage
-  et modèle, mis à jour sous verrou), `remboursements.json`, `tarifs.json`.
+  `e` = jetons estimés, `x` = tarif par défaut, `q` = recherches Google), `totaux.json`
+  (cumuls par mois, jour, usage et modèle, recherches Google du mois, mis à jour sous verrou),
+  `remboursements.json`, `tarifs.json`. Recherches Google (recherche sur le web des fiches,
+  § 7 decies) : facturées à part, part gratuite déduite (`AiCosts::searchCost()`).
 - **Écran** Système › Coûts IA (`App\Admin\Costs`, `templates/admin/system/couts.php`,
   `public/assets/admin/couts.js`) : chiffres rafraîchis toutes les 10 secondes par
   `GET /admin/api/couts` quand l'onglet est visible ; relevé mensuel PDF
@@ -735,6 +737,40 @@ souvenirs) pour refaire les PDF en cache.
   entiers seulement). Liens : méga-menu Matchs › Explorer, Interactif › Explorer l'histoire,
   page des records, plan du site.
 
+## 7 decies. Recherche sur le web (`App\Services\WebCheck`)
+
+Aide à l'historien : le bouton **Chercher sur le web** de l'éditeur (carte `[data-webcheck]`,
+`public/assets/admin/recherche.js`) appelle `POST /admin/api/recherche-web` (`Api::webCheck`) :
+fiche existante, recherche activée et clé Gemini réglée, plafond mensuel (`recherche.monthly_limit`,
+300 par défaut, compté dans les cumuls des coûts IA, usage `recherche`), 20 recherches par heure
+et par personne ; la session est libérée pendant l'appel (10 à 60 s).
+
+- **Demande** : `WebCheck::prompt()` = consigne (sources seulement, pas d'homonyme ni d'autre
+  match, divergences / compléments / pistes, 12 au plus, réponse JSON) + `describe()` : la fiche
+  telle qu'elle s'affiche (`MatchText::header()`, « xx » retirés) en lignes courtes, champs vides
+  marqués « non renseigné » (match : date, compétition, équipes, score, buteurs, stade, affluence,
+  arbitre, composition ; personne : naissance, décès, années au club, totaux du musée, fiche
+  d'identité, sélections), plus le début du texte (2 500 caractères). `Gemini::generate()` avec
+  l'outil `google_search` (`$opt['tools']`) et la réponse complète (`$opt['raw']`).
+- **Réponse** (`WebCheck::parse()`) : JSON lu même entouré de « ```json » ; type et confiance
+  normalisés, textes nettoyés et bornés, divergences d'abord. Sources : `groundingChunks`
+  (adresses http(s) seulement, liens de redirection de Google gardés tels quels) ; chaque
+  proposition est reliée aux pages des `groundingSupports` qui recouvrent l'endroit où elle est
+  écrite dans la réponse (positions en octets, comptées dans le texte brut de chaque partie de
+  la réponse, `partIndex`). Recherches lancées (`webSearchQueries`) et
+  suggestions de Google (`searchEntryPoint.renderedContent`) gardées : le panneau affiche ces
+  dernières telles quelles, comme Google le demande, dans un cadre isolé (`iframe` `srcdoc`,
+  `sandbox` sans scripts, liens dans un nouvel onglet).
+- **Conservation** : dernier résultat de chaque fiche dans `storage/recherche-web/{id}.json`,
+  relu 30 jours (« Voir les propositions », sans nouvel appel), effacé ensuite par la tâche de
+  ménage. Rien n'est jamais écrit dans la fiche ; le journal d'activité note la recherche.
+- **Coût** (`AiCosts`) : jetons du modèle + recherches Google comptées à part (`usage()['search']`,
+  ligne `q`, cumul mensuel `search`, demandes du jour `sp`) : Gemini 3 et suivants, 5 000
+  recherches gratuites par mois puis 0,014 $ l'une ; modèles plus anciens, 1 500 demandes
+  gratuites par jour puis 0,035 $ la demande (`AiCosts::SEARCH`, `searchCost()`).
+- **Réglages** › Recherche sur le web : activation, modèle (vide : celui de l'assistant), plafond.
+- **Essais** : `WebCheck::$ai` remplace l'appel à Gemini (`tests/recherche.php`).
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -818,6 +854,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `inbox/`, `newsletter/`, `dons/`, `votes/`, `counters.json`, `activity/` | messages et contributions (dont `inbox/temoignages.json`, témoignages publiés), abonnés, dons, votes, compteurs, journal d'activité | oui |
 | `ai/` | index et journal de l'assistant | non (reconstructible, journal purgé) |
 | `correcteur/` | résultats de la vérification de fond, corrections ignorées | non (recalculé) |
+| `recherche-web/` | dernier résultat de la recherche sur le web de chaque fiche, 30 jours (§ 7 decies) | non (refait en relançant la recherche) |
 | `ia/` | dépense d'IA : détail des appels, cumuls, remboursements, barème (§ 7 quater) | oui |
 | `audio/` | fiches audio : texte lu et voix IA de chaque fiche, traitements groupés (§ 7 quinquies) ; `audio/pages/` : récits des pages de synthèse rédigés par l'IA ; `audio/jobs/` : fichiers d'échange temporaires | oui (sauf `jobs/`) ; les voix IA (`public/media/audio/`) avec les photos, le dimanche |
 | `retro/` | Rétro-Direct : spectateurs connectés, pic et réactions de chaque direct, « J'y étais ! » par match (§ 7 sexies) | oui |
@@ -909,6 +946,10 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   et assistant, enregistrement qui suit la journée saisie) et garde-fou « Est-ce bien le même
   match ? » (autre adversaire, autre date, date corrigée d'un jour, même club autrement écrit,
   fiche vide, premier adversaire saisi).
+- `php tests/recherche.php` : recherche sur le web (fiche décrite à Gemini, en-tête contredit
+  écarté, champs vides signalés, propositions lues et reliées à leurs pages, adresse non web
+  écartée, réponse illisible ou en plusieurs parties, champs mal formés, résultat gardé 30 jours
+  puis effacé, coût des recherches Google).
 - `php tests/perf.php` : optimisations sans changement de résultat (cache de calculs, repliement
   ASCII identique à ICU, index des apparitions, ordre des rubriques, plans de l'écran audio).
 - `php tests/favoris.php` : favoris du back-office (adresses du back-office seulement, choix

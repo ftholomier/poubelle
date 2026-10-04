@@ -42,7 +42,8 @@ $eq('modèle inconnu : tarif par défaut', [C::price('mistral-large')['known'], 
 $lite = C::price('gemini-3.1-flash-lite');
 $eq('coût d’un million de jetons', C::cost(['in' => 1_000_000, 'cached' => 200_000, 'out' => 100_000, 'think' => 50_000], $lite), 0.43);
 $eq('jetons de réflexion facturés', C::cost(['in' => 0, 'out' => 0, 'think' => 1_000_000], $lite), 1.5);
-$eq('lecture de usageMetadata', C::usage(['usageMetadata' => ['promptTokenCount' => 1200, 'cachedContentTokenCount' => 200, 'candidatesTokenCount' => 300, 'thoughtsTokenCount' => 90, 'toolUsePromptTokenCount' => 10]]), ['in' => 1210, 'cached' => 200, 'out' => 300, 'think' => 90, 'est' => false]);
+$eq('lecture de usageMetadata', C::usage(['usageMetadata' => ['promptTokenCount' => 1200, 'cachedContentTokenCount' => 200, 'candidatesTokenCount' => 300, 'thoughtsTokenCount' => 90, 'toolUsePromptTokenCount' => 10]]), ['in' => 1210, 'cached' => 200, 'out' => 300, 'think' => 90, 'est' => false, 'search' => 0]);
+$eq('recherches Google comptées', C::usage(['candidates' => [['groundingMetadata' => ['webSearchQueries' => ['a', 'b', 'c']]]]])['search'], 3);
 $eq('réponse sans usage', C::usage([])['in'], 0);
 
 // Montants lisibles.

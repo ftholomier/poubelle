@@ -2,7 +2,7 @@
 return [
     'slug' => 'fiches',
     'title' => 'Travailler avec les fiches',
-    'summary' => 'Listes, création, onglets, correcteur d’orthographe, statuts, aperçu, historique des versions et corbeille.',
+    'summary' => 'Listes, création, onglets, correcteur d’orthographe, recherche sur le web, statuts, aperçu, historique des versions et corbeille.',
     'sections' => [
         ['id' => 'listes', 'title' => 'Les listes de fiches', 'html' => <<<'HTML'
 <p>Menu <b>Contenus</b> : Matchs, Personnes, Articles &amp; pages, Objets. Chaque liste se filtre (saison, compétition, rubrique, statut…), se trie et se cherche.</p>
@@ -18,10 +18,11 @@ HTML],
 [[astuce|<p>Pour une personne citée dans une composition sans fiche, le bouton <b>+</b> de la ligne de composition (ou « Créer la fiche » dans Qualité) ouvre une nouvelle fiche déjà remplie avec son nom.</p>]]
 HTML],
         ['id' => 'editeur', 'title' => 'L’éditeur et ses onglets', 'html' => <<<'HTML'
-<p>Une fiche s’édite en onglets, différents selon le type. À droite, cinq panneaux restent visibles :</p>
+<p>Une fiche s’édite en onglets, différents selon le type. À droite, des panneaux restent visibles :</p>
 <ul>
 <li><b>Publication</b> : statut, enregistrement, aperçu, note de version, corbeille ;</li>
 <li><b>Orthographe</b> : le correcteur d’orthographe et de syntaxe (voir ci-dessous) ;</li>
+<li><b>Recherche sur le web</b> : l’IA cherche sur Internet ce qui pourrait corriger ou compléter la fiche (voir ci-dessous) ;</li>
 <li><b>Mis à jour automatiquement</b> : ce que l’enregistrement recalcule ;</li>
 <li><b>Contrôle qualité</b> : ce qui reste à vérifier sur cette fiche ;</li>
 <li><b>Version EN</b> : l’état de la traduction anglaise.</li>
@@ -46,6 +47,22 @@ HTML],
 [[attention|<p>Le correcteur propose, vous décidez : relisez chaque proposition, surtout dans les citations, les noms propres et les termes d’époque. Rien n’est modifié sans votre clic, et rien n’est publié avant « Enregistrer ».</p>]]
 [[astuce|<p>Pendant la saisie, le navigateur souligne déjà en rouge les mots inconnus (clic droit pour une suggestion). Le correcteur va plus loin : accords, conjugaison et syntaxe. Le même bouton existe dans Accueil &amp; bandeau, Rubriques &amp; menus et les outils interactifs (quiz, frise, maillots…).</p>]]
 [[auto|<p>Le correcteur vérifie aussi chaque fiche en tâche de fond, quelques minutes après son enregistrement : le panneau « Orthographe » annonce alors le nombre de corrections proposées, et Qualité › Orthographe liste les fiches concernées.</p>]]
+HTML],
+        ['id' => 'recherche-web', 'title' => 'Chercher sur le web (aide à l’historien)', 'html' => <<<'HTML'
+<p>Le bouton <b>Chercher sur le web</b> (panneau « Recherche sur le web », à droite) demande à l’IA de chercher avec Google ce qui concerne exactement cette fiche, puis de le comparer à ce qui est saisi. Un panneau s’ouvre en 10 à 60 secondes ; vous pouvez continuer à travailler pendant ce temps.</p>
+<table>
+<tr><th>Rubrique du panneau</th><th>Ce que l’IA propose</th></tr>
+<tr><td>Divergences avec la fiche</td><td>ce que les sources disent autrement que la fiche : date, score, buteurs, affluence, arbitre, composition, naissance, parcours…</td></tr>
+<tr><td>Compléments</td><td>ce qui manque à la fiche, en particulier les champs vides (arbitre, spectateurs…)</td></tr>
+<tr><td>Pistes à consulter</td><td>pages, archives, photos ou vidéos qui méritent un coup d’œil</td></tr>
+</table>
+<ol>
+<li>Chaque proposition indique ce que dit la fiche, ce que disent les sources, un niveau de confiance et les <b>pages</b> qui l’appuient : ouvrez-les (nouvel onglet) et vérifiez.</li>
+<li>Si c’est juste, reportez l’information vous-même dans la fiche (<b>Copier</b> met le texte de la proposition dans le presse-papiers), puis enregistrez, avec une note de version qui cite la source.</li>
+<li>En bas du panneau : toutes les pages consultées et les recherches Google faites par l’IA (affichées comme Google le demande).</li>
+</ol>
+[[attention|<p>L’IA peut se tromper ou confondre deux matchs, deux homonymes : ne reportez jamais une information sans avoir lu la source. Rien n’est modifié dans la fiche sans vous.</p>]]
+[[auto|<p>Le dernier résultat de chaque fiche reste consultable 30 jours (« Voir les propositions ») sans nouvelle recherche. La recherche n’a lieu que quand on clique, jamais en tâche de fond ; un plafond mensuel se règle dans Réglages › Recherche sur le web.</p>]]
 HTML],
         ['id' => 'statuts', 'title' => 'Statuts et publication programmée', 'html' => <<<'HTML'
 <table>

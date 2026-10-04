@@ -133,6 +133,8 @@ final class Gemini
      * Génère une réponse. $contents : [['role' => 'user'|'model', 'text' => '…'], …].
      * $opt['for'] : usage facturé (assistant, traduction, correcteur…), $opt['ref'] : fiche
      * concernée ; chaque réponse est comptée dans les coûts IA (App\Services\AiCosts).
+     * $opt['tools'] : outils du modèle (recherche Google : [['google_search' => new \stdClass()]]),
+     * $opt['raw'] : renvoyer aussi la réponse complète (« raw »).
      * @return array{text:string,finish:string,tokens_in:int,tokens_out:int,model:string}
      */
     public static function generate(array $contents, ?string $system = null, array $opt = []): array
@@ -159,7 +161,8 @@ final class Gemini
             // Le raisonnement interne a consommé le budget : on réessaie avec plus de marge.
             return self::generate($contents, $system, ['max_tokens' => $maxOut * 4, '_retry' => true] + $opt);
         }
-        return $out;
+        // Réponse complète sur demande (sources d'une recherche Google : groundingMetadata).
+        return !empty($opt['raw']) ? $out + ['raw' => $r] : $out;
     }
 
     /**
@@ -240,6 +243,9 @@ final class Gemini
         ];
         if ($system) {
             $body['systemInstruction'] = ['parts' => [['text' => $system]]];
+        }
+        if (!empty($opt['tools'])) {
+            $body['tools'] = $opt['tools'];
         }
         if (!empty($opt['json'])) {
             $body['generationConfig']['responseMimeType'] = 'application/json';

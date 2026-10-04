@@ -101,6 +101,26 @@ Rubriques & menus et les outils interactifs.
 Le correcteur vérifie aussi chaque fiche en tâche de fond quelques minutes après son
 enregistrement : le panneau annonce alors le nombre de corrections proposées.
 
+### Recherche sur le web (aide à l'historien)
+
+Le panneau **Recherche sur le web** (bouton **Chercher sur le web**) demande à l'IA de
+chercher avec Google ce qui concerne exactement la fiche, puis de le comparer à la saisie.
+En 10 à 60 secondes, un panneau liste :
+
+- les **divergences avec la fiche** (date, score, buteurs, affluence, arbitre, composition,
+  naissance, parcours…), avec ce que dit la fiche et ce que disent les sources ;
+- les **compléments** (surtout les champs vides) ;
+- les **pistes à consulter** (pages, archives, photos, vidéos).
+
+Chaque proposition porte un niveau de confiance et les pages qui l'appuient (ouvertes dans
+un nouvel onglet). Rien n'est modifié : on lit la source, puis on reporte soi-même
+(**Copier** met le texte dans le presse-papiers) et on enregistre avec une note de version
+qui cite la source. En bas du panneau : les pages consultées et les recherches Google de
+l'IA. Le dernier résultat reste consultable 30 jours (**Voir les propositions**). La
+recherche n'a lieu que sur clic, jamais en tâche de fond ; activation, modèle et plafond
+mensuel (300 par défaut) dans Réglages › Recherche sur le web. Coût : environ 1 centime
+la recherche (les recherches Google sont gratuites jusqu'à 5 000 par mois avec Gemini 3).
+
 ### Fiche match
 
 | Onglet | Contenu |

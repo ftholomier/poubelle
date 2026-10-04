@@ -263,7 +263,7 @@ final class Cron
         return "$n média(s) complété(s)";
     }
 
-    /** Purges : journaux de l'assistant, consentements (13 mois), e-mails (12 mois), limites, sessions, caches. */
+    /** Purges : journaux de l'assistant, consentements (13 mois), e-mails (12 mois), limites, sessions, caches, recherches sur le web (30 jours). */
     private static function housekeeping(): array
     {
         $out = ['assistant' => Rag::purgeLogs()];
@@ -294,6 +294,7 @@ final class Cron
         $out['sessions'] = $old(STORAGE_PATH . '/sessions/sess_*', 14 * 86400);
         $out['partage'] = $old(STORAGE_PATH . '/cache/share/*.png', 30 * 86400);
         $out['correcteur'] = Proofreader::purgeCache();
+        $out['recherche_web'] = WebCheck::purge();
         // Dons abandonnés : les coordonnées des paiements jamais finalisés sont effacées après 30 jours.
         $out['dons_abandonnes'] = 0;
         foreach (Donations::all() as $d) {

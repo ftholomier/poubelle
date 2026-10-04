@@ -18,6 +18,7 @@ use App\Services\EditLock;
 use App\Services\Gemini;
 use App\Services\Proofreader;
 use App\Services\Search;
+use App\Services\WebCheck;
 
 /** API JSON internes du back-office (recherche globale, auto-complétion, médiathèque). */
 final class Api extends Base
@@ -250,6 +251,40 @@ final class Api extends Base
         @set_time_limit(180);
         $r = Proofreader::check($fields, ['scope' => $scope, 'names' => $names]);
         return self::json(['ok' => true, 'gemini' => Gemini::ready(), 'cost' => self::aiCostData()] + $r);
+    }
+
+    /**
+     * Recherche sur le web pour une fiche (aide à l'historien) : propositions de Gemini avec leurs
+     * sources, rien n'est modifié dans la fiche. Entrée : {id}.
+     */
+    public static function webCheck(Request $req): Response
+    {
+        $id = (int) ($req->json()['id'] ?? 0);
+        $doc = $id > 0 ? Store::get($id) : null;
+        if (!$doc) {
+            return self::json(['ok' => false, 'error' => 'Fiche introuvable.'], 404);
+        }
+        if (!WebCheck::enabled()) {
+            return self::json(['ok' => false, 'error' => 'Recherche sur le web indisponible : clé Gemini à régler (Réglages › Assistant IA) ou recherche désactivée (Réglages › Recherche sur le web).'], 422);
+        }
+        $quota = WebCheck::quota();
+        if ($quota['over']) {
+            return self::json(['ok' => false, 'error' => 'Plafond de ' . $quota['limit'] . ' recherches sur le web atteint ce mois-ci (Réglages › Recherche sur le web).'], 429);
+        }
+        $user = Auth::actor();
+        if (!RateLimiter::hit('recherche-web', (string) ($user['id'] ?? 'anonyme'), 20, 3600)) {
+            return self::json(['ok' => false, 'error' => 'Beaucoup de recherches en une heure : réessayez dans quelques minutes.'], 429);
+        }
+        // Gemini cherche pendant 10 à 60 secondes : la session est libérée, l'éditeur reste utilisable.
+        \App\Core\Session::release();
+        @set_time_limit(180);
+        try {
+            $r = WebCheck::run($doc);
+        } catch (\Throwable $e) {
+            return self::json(['ok' => false, 'error' => 'Recherche impossible : ' . $e->getMessage()], 502);
+        }
+        Activity::log($user, 'a lancé une recherche sur le web', $doc);
+        return self::json(['ok' => true, 'result' => $r, 'cost' => self::aiCostData()]);
     }
 
     /** Correcteur : « Ignorer » (la correction n'est plus proposée pour cette fiche ou cet écran). */

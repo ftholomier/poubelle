@@ -265,11 +265,12 @@ final class Fiches extends Base
             'list' => $list,
             'proof' => $isNew ? null : Proofreader::forFiche($doc),
             'lock' => $isNew ? null : self::openLock((int) $doc['id']),
+            'web' => !$isNew && \App\Services\WebCheck::enabled() ? ['last' => \App\Services\WebCheck::last((int) $doc['id'])] : null,
         ], [
             'title' => $title,
             'crumb_html' => 'Contenus › <a href="/admin/' . e($list === 'moments' ? 'moments' : $list) . '">' . e(self::LISTS[$list]['title'] ?? 'Moments') . '</a>',
             'nav' => $list === 'moments' ? 'moments' : $list,
-            'scripts' => ['admin/audio.js'],
+            'scripts' => ['admin/audio.js', 'admin/recherche.js'],
         ]);
     }
 

@@ -118,6 +118,14 @@ return [
             'typography' => ['label' => 'Proposer aussi les corrections typographiques (« À », « 1re », « 2e », espaces)', 'type' => 'bool', 'default' => true, 'help' => 'Décoché, seules les fautes de langue et de ponctuation sont signalées : « 2ème », « A l’extérieur » ou « l’ équipe » ne sont plus proposés.'],
         ],
     ],
+    'recherche' => [
+        'label' => 'Recherche sur le web',
+        'fields' => [
+            'enabled' => ['label' => 'Bouton « Chercher sur le web » dans les fiches (aide à l’historien)', 'type' => 'bool', 'default' => true, 'help' => 'Gemini cherche avec Google ce qui pourrait corriger ou compléter la fiche et propose, avec ses sources. Rien n’est modifié : l’historien vérifie et reporte lui-même. Seulement quand on clique : jamais en tâche de fond.'],
+            'model' => ['label' => 'Modèle qui fait la recherche', 'type' => 'select', 'options_from' => 'gemini_generate_models', 'empty' => 'Le « Modèle de réponse » de l’assistant', 'default' => '', 'help' => 'Un modèle Flash (sans « Lite ») cherche et compare mieux. Avec Gemini 3, 5 000 recherches Google gratuites par mois, puis 1,4 centime de dollar l’une (une recherche de fiche en lance 2 à 5).'],
+            'monthly_limit' => ['label' => 'Recherches par mois pour tout le back-office (plafond de coût, 0 = sans limite)', 'type' => 'number', 'default' => 300, 'min' => 0],
+        ],
+    ],
     'audio' => [
         'label' => 'Fiches audio',
         'fields' => [

@@ -1,7 +1,8 @@
 <?php
 /**
  * Masque de saisie d'une fiche. Variables : $doc, $isNew, $versions, $checks, $auto, $enStatus, $lineup, $list, $proof,
- * $lock (verrou de modification : key, tab, holder = personne qui modifie déjà la fiche)
+ * $lock (verrou de modification : key, tab, holder = personne qui modifie déjà la fiche),
+ * $web (recherche sur le web disponible : dernier résultat gardé, ou null)
  */
 use App\Admin\Base;
 use App\Admin\Form;
@@ -108,6 +109,17 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
       ?></span>
       <button type="button" class="btn btn--sm" data-proofread data-proof-scope="<?= $isNew ? '' : 'fiche:' . $id ?>">Vérifier l’orthographe<?= !empty($proof['n']) ? ' <em class="proofcount">' . (int) $proof['n'] . '</em>' : '' ?></button>
     </div>
+
+    <?php if (!empty($web)): $wlast = $web['last']; $nb = $wlast ? count($wlast['items']) : 0; ?>
+      <div class="card card--pad webcard" data-webcheck data-id="<?= $id ?>" data-nocollect<?= $wlast ? ' data-last="' . e(json_encode($wlast, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) . '"' : '' ?>>
+        <h2 class="card__t card__t--sm">Recherche sur le web</h2>
+        <span class="xs muted" data-web-state><?php if ($wlast): ?>Dernière recherche le <?= e(date('d/m/Y', (int) strtotime((string) $wlast['at']))) ?><?= ($wlast['by'] ?? '') !== '' ? ' par ' . e($wlast['by']) : '' ?> : <b><?= $nb ? $nb . ' proposition' . ($nb > 1 ? 's' : '') : 'rien de nouveau' ?></b>.<?php else: ?>L’IA cherche sur Internet ce qui pourrait corriger ou compléter cette fiche, avec ses sources. Rien n’est modifié : à vous de vérifier et de reporter.<?php endif; ?></span>
+        <div class="row">
+          <button type="button" class="btn btn--sm" data-web-run title="Gemini cherche avec Google (10 à 60 secondes)<?= \App\Core\Auth::isAdmin() ? ' : environ 1 centime' : '' ?>"><?= $wlast ? 'Relancer' : 'Chercher sur le web' ?></button>
+          <button type="button" class="btn btn--sm" data-web-show<?= $wlast ? '' : ' hidden' ?>>Voir les propositions</button>
+        </div>
+      </div>
+    <?php endif; ?>
 
     <?php if (!$isNew && \App\Services\FicheAudio::enabled()): $audioState = \App\Admin\Audio::stateOf($doc); ?>
       <div class="card card--pad audiocard" data-audio-card data-id="<?= $id ?>" data-state="<?= e(json_encode($audioState, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) ?>" data-nocollect>

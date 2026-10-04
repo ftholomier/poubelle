@@ -28,8 +28,16 @@ final class AiCosts
         'correcteur' => 'Correcteur d’orthographe',
         'index' => 'Index de l’assistant',
         'audio' => 'Fiches audio',
+        'recherche' => 'Recherche sur le web (fiches)',
         'autre' => 'Autre',
     ];
+
+    /**
+     * Recherche Google pendant une réponse (« ancrage », recherche sur le web des fiches), dollars,
+     * octobre 2026 : Gemini 3 et suivants facturent chaque recherche lancée, 5 000 gratuites par
+     * mois ; les modèles plus anciens, chaque demande qui cherche, 1 500 gratuites par jour.
+     */
+    public const SEARCH = ['query' => 0.014, 'free_month' => 5000, 'prompt' => 0.035, 'free_day' => 1500];
 
     /**
      * Tarifs publics de Google (dollars US par million de jetons, octobre 2026) :
@@ -172,6 +180,8 @@ final class AiCosts
             'out' => (int) ($m['candidatesTokenCount'] ?? 0),
             'think' => (int) ($m['thoughtsTokenCount'] ?? 0),
             'est' => false,
+            // Recherches Google lancées par le modèle (facturées à part, voir SEARCH).
+            'search' => count((array) ($response['candidates'][0]['groundingMetadata']['webSearchQueries'] ?? [])),
         ];
     }
 
@@ -189,6 +199,10 @@ final class AiCosts
             }
             $price = self::price($model);
             $usd = self::cost($u, $price);
+            $search = max(0, (int) ($u['search'] ?? 0));
+            if ($search > 0) {
+                $usd += self::searchCost($model, $search, date('Y-m'), date('d'));
+            }
             $free = (bool) Settings::get('couts.free_tier', false);
             $billed = $free ? 0.0 : $usd;
             $line = [
@@ -208,6 +222,9 @@ final class AiCosts
             if (!$price['known']) {
                 $line['x'] = 1; // modèle absent du barème : tarif par défaut
             }
+            if ($search > 0) {
+                $line['q'] = $search; // recherches Google lancées
+            }
             JsonStore::append(self::$dir . '/' . substr($line['at'], 0, 7) . '.jsonl', $line);
             JsonStore::update(self::$dir . '/totaux.json', function ($t) use ($line) {
                 $t = is_array($t) ? $t : [];
@@ -224,6 +241,11 @@ final class AiCosts
                 $day = substr($line['at'], 8, 2);
                 $d = $mo['days'][$day] ?? [];
                 $add($d);
+                // Recherches Google : par mois (Gemini 3) et demandes qui cherchent, par jour (modèles plus anciens).
+                if (!empty($line['q'])) {
+                    $mo['search'] = ($mo['search'] ?? 0) + $line['q'];
+                    $d['sp'] = ($d['sp'] ?? 0) + 1;
+                }
                 $mo['days'][$day] = $d;
                 $f = $mo['uses'][$line['f']] ?? [];
                 $add($f);
@@ -241,6 +263,24 @@ final class AiCosts
         } catch (\Throwable $e) {
             error_log('[coûts IA] ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Coût des recherches Google d'un appel, compte tenu de la part gratuite déjà consommée :
+     * recherches du mois (Gemini 3 et suivants) ou demandes du jour qui ont cherché (avant).
+     */
+    public static function searchCost(string $model, int $queries, string $ym, string $day): float
+    {
+        if ($queries <= 0) {
+            return 0.0;
+        }
+        $mo = self::totals()[$ym] ?? [];
+        if (preg_match('/gemini-(?:[3-9]|\d{2,})/', $model)) {
+            $used = (int) ($mo['search'] ?? 0);
+            $free = self::SEARCH['free_month'];
+            return (max(0, $used + $queries - $free) - max(0, $used - $free)) * self::SEARCH['query'];
+        }
+        return (int) ($mo['days'][$day]['sp'] ?? 0) >= self::SEARCH['free_day'] ? self::SEARCH['prompt'] : 0.0;
     }
 
     /** Qui a déclenché l'appel : membre connecté, tâche automatique ou visiteur (assistant). */
