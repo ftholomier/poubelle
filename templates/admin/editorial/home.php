@@ -1,6 +1,6 @@
 <?php
 /**
- * Accueil & bandeau. Variables : $slider, $manual, $pool, $poolNoImage, $ticker, $home, $schema,
+ * Accueil & bandeau. Variables : $slider, $manual, $pool, $poolSmall, $poolNoImage, $slideMin, $ticker, $home, $schema,
  * $palmares, $eras, $reserves, $teasers, $legends, $figure (chiffre du jour)
  */
 use App\Admin\Form;
@@ -22,14 +22,16 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <h2 class="card__t">Grand slider de l’accueil</h2>
       <?= Form::seg('slider.mode', 'Contenu du slider', $slider['mode'] ?? 'random', ['random' => 'Tirage au hasard', 'manual' => 'Sélection manuelle']) ?>
       <div data-show-if="slider.mode" data-show-value="random">
-        <p class="alert alert--info" style="margin:0">À chaque visite, <b><?= (int) ($home['slider_count'] ?? 5) ?></b> fiches sont tirées au hasard parmi les <b><?= (int) $pool ?></b> fiches publiées marquées « À la une » qui ont une image à la une<?= $poolNoImage ? ' (' . (int) $poolNoImage . ' autres fiches « À la une » n’ont pas de vraie photo — pas d’image ou silhouette « ? » — et n’apparaissent pas)' : '' ?>. Cochez « À la une » dans l’onglet « Classement & SEO » d’une fiche pour l’ajouter.</p>
+        <?php $minTxt = number_format($slideMin[0], 0, ',', ' ') . ' × ' . number_format($slideMin[1], 0, ',', ' ') . ' pixels'; ?>
+        <p class="alert alert--info" style="margin:0">À chaque visite, <b><?= (int) ($home['slider_count'] ?? 5) ?></b> fiches sont tirées au hasard parmi les <b><?= number_format((int) $pool, 0, ',', ' ') ?></b> fiches publiées marquées « À la une » dont la photo à la une est assez grande pour rester nette en plein écran (au moins <?= e($minTxt) ?>).<?= $poolSmall ? ' Écartées : ' . number_format((int) $poolSmall, 0, ',', ' ') . ' fiches à la photo trop petite' . ($poolNoImage ? ' et ' . (int) $poolNoImage . ' sans vraie photo (pas d’image ou silhouette « ? »)' : '') . '.' : ($poolNoImage ? ' Écartées : ' . (int) $poolNoImage . ' fiches sans vraie photo (pas d’image ou silhouette « ? »).' : '') ?> Cochez « À la une » dans l’onglet « Classement & SEO » d’une fiche pour l’ajouter ; un plus grand scan de sa photo (Médiathèque › « Remplacer le fichier… ») la fait entrer dans le tirage.</p>
       </div>
       <div data-show-if="slider.mode" data-show-value="manual">
         <?= Form::repeater('slider.ids', 'Fiches du slider, dans l’ordre', $manual, fn ($it) => '<div class="row" style="gap:10px;flex-wrap:nowrap">'
             . (!empty($it['image']) ? '<img src="' . e(img($it['image'], 160)) . '" alt="" style="width:72px;height:48px;object-fit:cover;border:1px solid var(--navy)">' : '')
             . '<input type="text" class="in in--sm" data-ac="fiches" data-ac-id="id" value="' . e($it['title'] ?? '') . '" placeholder="Tapez le titre d’une fiche…" aria-label="Fiche" style="flex:1">'
-            . '<input type="hidden" data-field="id" data-type="int" value="' . (int) ($it['id'] ?? 0) . '"></div>', ['compact' => true, 'numbered' => true, 'add' => 'Ajouter une fiche']) ?>
-        <span class="f__help">Les fiches sans image à la une ou non publiées sont ignorées sur le site.</span>
+            . '<input type="hidden" data-field="id" data-type="int" value="' . (int) ($it['id'] ?? 0) . '">'
+            . (!empty($it['small']) ? '<span class="pill pill--warn" title="' . e($it['small']) . '">photo trop petite</span>' : '') . '</div>', ['compact' => true, 'numbered' => true, 'add' => 'Ajouter une fiche']) ?>
+        <span class="f__help">Les fiches sans image à la une ou non publiées sont ignorées sur le site. « Photo trop petite » : moins de <?= e($minTxt) ?>, elle paraîtra floue en plein écran.</span>
       </div>
     </div>
   </div>

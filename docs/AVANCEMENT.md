@@ -317,6 +317,18 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       « Voir le texte de l'audio » ; 4 questions ajoutées à « Comment faire pour… ».
 - [x] **Guide PDF** (98 p.), **mémo** (2 p.) et **infographie A4** régénérés.
 
+## Slider de l'accueil : photos nettes seulement (04/10, demande du client) — terminé
+- [x] Le tirage au hasard ne prend plus que les fiches « À la une » dont la photo fait au
+      moins **1 200 × 600 pixels** (nette en plein écran) : 613 fiches sur 2 300 (562 matchs,
+      36 personnes, 15 articles) ; les 1 687 autres (dont 665 de moins de 400 pixels de
+      large, jusqu'à 40 × 60) restent « À la une » mais ne sont plus tirées. S'il n'en
+      restait aucune, le tirage reprendrait toutes les vraies photos.
+- [x] Back-office : la carte du slider compte les fiches écartées (photo trop petite, sans
+      vraie photo) ; en sélection manuelle, étiquette « photo trop petite » ; dans la fiche,
+      la case « À la une » signale une image trop petite (ou absente).
+- [x] `tests/accueil.php` ; aide (texte, capture, « Comment faire pour… »), bulles « ? »,
+      guide PDF (99 p.), guide du back-office et doc technique à jour.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

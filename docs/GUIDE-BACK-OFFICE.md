@@ -204,16 +204,22 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
 ## 5. Éditorial
 
 - **Accueil & bandeau** : slider « À la une » (tirage au hasard parmi les fiches cochées
-  « À la une » qui ont une vraie photo — la silhouette « ? » est écartée —, ou liste choisie
-  à la main), messages du bandeau « En direct du musée » (4 messages automatiques : ce
-  jour-là, compte à rebours du centenaire, dernier match fiché, Rétro-Direct en cours ou dans
-  les 7 jours ; plus les messages libres de l'équipe), introduction, palmarès, grandes
-  époques, réserves mises en avant, **chiffre du jour** (un des 100 chiffres du FCSM sous
-  « Ce jour-là », un nouveau chaque jour : la carte montre celui du jour, une case le masque),
-  **teaser vidéo** (1 min 55, sous les compteurs ; le public le voit à l'ouverture du site).
-  Les grandes époques, les réserves et les encarts (quiz, maillots, frise, contribuer) ont
-  une **photo choisie au départ** dans la médiathèque, comme les dates de la frise et les
-  époques du comparateur de maillots : bouton « Choisir… » pour la remplacer.
+  « À la une » dont la vraie photo — la silhouette « ? » est écartée — fait au moins
+  1 200 × 600 pixels, pour rester nette en plein écran, ou liste choisie à la main),
+  messages du bandeau « En direct du musée » (4 messages automatiques : ce jour-là, compte à
+  rebours du centenaire, dernier match fiché, Rétro-Direct en cours ou dans les 7 jours ;
+  plus les messages libres de l'équipe), introduction, palmarès, grandes époques, réserves
+  mises en avant, **chiffre du jour** (un des 100 chiffres du FCSM sous « Ce jour-là », un
+  nouveau chaque jour : la carte montre celui du jour, une case le masque), **teaser vidéo**
+  (1 min 55, sous les compteurs ; le public le voit à l'ouverture du site). Les grandes
+  époques, les réserves et les encarts (quiz, maillots, frise, contribuer) ont une **photo
+  choisie au départ** dans la médiathèque, comme les dates de la frise et les époques du
+  comparateur de maillots : bouton « Choisir… » pour la remplacer. **Photos trop petites
+  pour le slider** : la carte du slider compte les fiches « À la une » écartées du tirage
+  pour cette raison ; en sélection manuelle, l'étiquette « photo trop petite » signale une
+  photo qui paraîtra floue ; dans la fiche, la case « À la une » le dit aussi. Un plus grand
+  scan (Médiathèque › la photo › « Remplacer le fichier… ») fait entrer la fiche dans le
+  tirage.
 - **Rubriques & menus** : **ordre d'affichage sur le site** (manuel, chronologique ou A–Z),
   **ordre des fiches** de la rubrique (toutes, sous-rubriques comprises : ↑ / ↓, icône
   quatre flèches à glisser avec trait jaune de dépôt, clic sur le numéro pour taper une

@@ -81,7 +81,41 @@ final class Pages
         ]);
     }
 
-    /** Slider : N fiches « À la une » tirées au hasard (avec image), ou la sélection manuelle du back-office. */
+    /**
+     * Taille minimale (largeur, hauteur en pixels) d'une photo tirée au hasard pour le grand slider :
+     * plein écran (jusqu'à 1 920 × 840) avec un léger zoom, une photo plus petite y paraît floue.
+     */
+    public static array $slideMin = [1200, 600];
+
+    /** Photo assez grande pour le grand slider (dimensions de la médiathèque). */
+    public static function slideReady(?string $image): bool
+    {
+        $m = $image ? Media::get($image) : null;
+        return (int) ($m['width'] ?? 0) >= self::$slideMin[0] && (int) ($m['height'] ?? 0) >= self::$slideMin[1];
+    }
+
+    /**
+     * Fiches que le tirage au hasard peut montrer : « À la une », vraie photo, assez grande.
+     * Recalculé quand les fiches ou la médiathèque changent. @return list<int>
+     */
+    public static function slidePool(): array
+    {
+        return \App\Core\Memo::get('slider-tirage', [Index::CACHE, Media::FILE, __FILE__], implode('x', self::$slideMin), function () {
+            $ids = [];
+            foreach (Index::published() as $s) {
+                if ($s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image']) && self::slideReady($s['image'])) {
+                    $ids[] = (int) $s['id'];
+                }
+            }
+            return $ids;
+        });
+    }
+
+    /**
+     * Slider : N fiches « À la une » tirées au hasard parmi celles dont la photo est assez grande
+     * (sinon, s'il n'y en a aucune, parmi toutes celles qui ont une vraie photo), ou la sélection
+     * manuelle du back-office.
+     */
     public static function slides(int $n): array
     {
         $conf = Collections::get('slider', ['mode' => 'random', 'ids' => []]);
@@ -94,8 +128,21 @@ final class Pages
                 }
             }
         } else {
-            $pool = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));
-            shuffle($pool);
+            $ids = self::slidePool();
+            shuffle($ids);
+            foreach ($ids as $id) {
+                $s = Index::get($id);
+                if ($s && Index::visible($s)) {
+                    $pool[] = $s;
+                    if (count($pool) >= max(1, $n)) {
+                        break;
+                    }
+                }
+            }
+            if (!$pool) {
+                $pool = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));
+                shuffle($pool);
+            }
         }
         $out = [];
         foreach (array_slice($pool, 0, max(1, $n)) as $s) {

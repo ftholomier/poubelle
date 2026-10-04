@@ -34,10 +34,17 @@ final class Editorial extends Base
         $manual = [];
         foreach ($slider['ids'] ?? [] as $id) {
             if ($s = Index::get((int) $id)) {
-                $manual[] = ['id' => (int) $id, 'title' => $s['title'], 'image' => $s['image'], 'status' => $s['status']];
+                $m = $s['image'] ? \App\Data\Media::get($s['image']) : null;
+                $manual[] = ['id' => (int) $id, 'title' => $s['title'], 'image' => $s['image'], 'status' => $s['status'],
+                    // Photo trop petite pour le plein écran : bulle avec sa taille.
+                    'small' => !$s['image'] || Pages::slideReady($s['image']) ? ''
+                        : (empty($m['width']) ? 'Taille inconnue (photo absente de la médiathèque)' : 'Photo de ' . (int) $m['width'] . ' × ' . (int) ($m['height'] ?? 0) . ' pixels : floue en plein écran')];
             }
         }
-        $pool = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));
+        // Tirage au hasard : fiches « À la une » dont la photo est assez grande ; les autres sont comptées à part.
+        $withPhoto = count(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));
+        $pool = Pages::slidePool();
+        $poolSmall = max(0, $withPhoto - count($pool));
         $poolNoImage = count(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && (!$s['image'] || Index::isPlaceholderImage($s['image']))));
         $ticker = Collections::get('ticker', ['auto' => ['jour' => true, 'centenaire' => true, 'dernier' => true], 'messages' => Site::defaultTickerMessages()]);
         $home = [];
@@ -45,7 +52,7 @@ final class Editorial extends Base
             $home[$k] = Settings::get("home.$k");
         }
         return self::html('admin/editorial/home', [
-            'slider' => $slider, 'manual' => $manual, 'pool' => count($pool), 'poolNoImage' => $poolNoImage,
+            'slider' => $slider, 'manual' => $manual, 'pool' => count($pool), 'poolSmall' => $poolSmall, 'poolNoImage' => $poolNoImage, 'slideMin' => Pages::$slideMin,
             'ticker' => $ticker, 'home' => $home, 'schema' => Settings::schema()['home']['fields'],
             'palmares' => Collections::get('palmares', Pages::defaultPalmares()),
             'eras' => Collections::get('epoques', Pages::defaultEras()),

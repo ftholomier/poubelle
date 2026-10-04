@@ -27,7 +27,23 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: 'fcsochauxretro.com';
       </details>
     <?php endforeach; ?>
     <input type="hidden" name="categories__present" value="1">
-    <?= Form::toggle('a_la_une', 'À la une (slider de l’accueil, tirage aléatoire)', !empty($doc['a_la_une'])) ?>
+    <?php
+    // Tirage au hasard du grand slider : seulement les vraies photos assez grandes pour rester nettes en plein écran.
+    $uneImg = (string) ($doc['featured_image'] ?? '');
+    $uneM = $uneImg !== '' ? \App\Data\Media::get($uneImg) : null;
+    $uneHelp = '';
+    if ($uneImg === '') {
+        $uneHelp = 'Sans image à la une, la fiche n’est pas tirée au hasard dans le slider.';
+    } elseif (\App\Data\Index::isPlaceholderImage($uneImg)) {
+        $uneHelp = 'Image à la une générique (silhouette « ? ») : la fiche n’est pas tirée au hasard dans le slider. Choisissez une vraie photo.';
+    } elseif (empty($uneM['width'])) {
+        $uneHelp = 'Image à la une absente de la médiathèque (taille inconnue) : la fiche n’est pas tirée au hasard dans le slider.';
+    } elseif (!\App\Front\Pages::slideReady($uneImg)) {
+        $uneMin = number_format(\App\Front\Pages::$slideMin[0], 0, ',', ' ') . ' × ' . number_format(\App\Front\Pages::$slideMin[1], 0, ',', ' ');
+        $uneHelp = 'Image à la une trop petite pour le grand slider (' . (int) $uneM['width'] . ' × ' . (int) ($uneM['height'] ?? 0) . ' pixels ; il en faut au moins ' . $uneMin . ') : la fiche n’est pas tirée au hasard. Un plus grand scan (Médiathèque › « Remplacer le fichier… ») la fait entrer dans le tirage.';
+    }
+    ?>
+    <?= Form::toggle('a_la_une', 'À la une (slider de l’accueil, tirage aléatoire)', !empty($doc['a_la_une']), ['help' => $uneHelp !== '' ? e($uneHelp) : null]) ?>
   </div>
   <div class="cols">
     <div class="card card--pad">

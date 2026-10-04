@@ -17,7 +17,9 @@ Récapitulatif des choix pris avec le client, à respecter pendant le développe
 - Tableaux de composition et de statistiques conservés **en tableaux** ; ils proviennent
   de wpDataTables (stockage séparé) et doivent être repris explicitement.
 - Vidéos : intégrations YouTube (aucun fichier vidéo hébergé).
-- Slider d'accueil : 5 articles tirés au hasard dans « À la une » à chaque chargement.
+- Slider d'accueil : 5 articles tirés au hasard dans « À la une » à chaque chargement
+  (04/10 : seulement ceux dont la photo fait au moins 1 200 × 600 pixels, nette en plein
+  écran).
 
 ## Fonctionnalités demandées
 - Back-office pour les historiens (masques de saisie par type).

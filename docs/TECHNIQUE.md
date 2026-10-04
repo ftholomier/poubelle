@@ -133,7 +133,7 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `audio-resumes.ser` | résumés automatiques des fiches audio (texte lu par défaut), avec l'empreinte de chaque fiche (et, pour une personne, de ses totaux de matchs et de buts) : l'écran Système › Fiches audio et les traitements groupés ne les recalculent pas (4 s pour tout le musée sinon) | à chaque calcul sur tout le musée, pour les seules fiches modifiées ; tout est refait si `FicheAudio.php`, `Unknown.php` ou `MatchText.php` change |
 | `controle-site.php` | vérifications du site hors fiches (redirections, référentiels, rubriques, textes de l'interface), pour le compteur d'alertes graves du menu | refaites dès qu'un des fichiers lus change (empreinte des dates et tailles) et à chaque contrôle complet |
 | `ascii-fold.php` | table caractère → ASCII minuscule tirée d'ICU pour `Names::ascii()` (latin, ponctuation, symboles, lettres mathématiques, émojis : 6 900 caractères d'écriture latine ou commune) | refaite si la version d'ICU ou les plages changent |
-| `memo/*.php` | calculs coûteux gardés par `App\Core\Memo` : réseau du Fil jaune, ordre de chaque rubrique et personnes par ordre alphabétique, compteurs des menus, dernier match fiché, numéros de l'album, plans de l'écran Fiches audio | refaits dès qu'un fichier source change (date et taille : index des fiches, rubriques, réglages, état des voix, code du calcul) ou que les données calculées sont refaites, et au plus tard après 5 minutes (publications programmées) |
+| `memo/*.php` | calculs coûteux gardés par `App\Core\Memo` : réseau du Fil jaune, ordre de chaque rubrique et personnes par ordre alphabétique, compteurs des menus, dernier match fiché, numéros de l'album, plans de l'écran Fiches audio, fiches que le slider de l'accueil peut tirer au hasard | refaits dès qu'un fichier source change (date et taille : index des fiches, rubriques, réglages, état des voix, code du calcul) ou que les données calculées sont refaites, et au plus tard après 5 minutes (publications programmées) |
 
 **Travail après l'envoi de la page** (recalcul de `derived.php` et des 100 chiffres, mesure
 d'audience, e-mail de mot de passe oublié) : `Response::detach()` libère la session puis termine
@@ -182,6 +182,16 @@ Fil jaune 88 → 18 ms) ; back-office sous 20 ms, sauf Tableau de bord, Médiath
   gravité sans tri.
 Pas de cache de pages entières : l'accueil tire ses photos au hasard à chaque visite, les
 formulaires portent un jeton, et le gain resterait faible devant le temps réseau.
+
+**Slider de l'accueil** (`Pages::slides()`) : en tirage au hasard, seulement les fiches
+publiées « À la une » dont la vraie photo (silhouette « ? » écartée) fait au moins
+`Pages::$slideMin` (1 200 × 600 pixels, dimensions lues dans la médiathèque) : le slider
+occupe toute la largeur de l'écran (jusqu'à 840 pixels de haut, avec un léger zoom), une photo
+plus petite y paraît floue. La liste (`Pages::slidePool()`, 613 fiches sur 2 300 en
+octobre 2026 : 562 matchs, 36 personnes, 15 articles) est gardée par `Memo` et refaite quand
+l'index des fiches ou `data/media.json` change ; s'il n'en reste aucune, le tirage reprend
+toutes les fiches « À la une » qui ont une vraie photo. La sélection manuelle n'est pas
+filtrée : le back-office y signale les photos trop petites.
 
 ## 5. Données calculées (`App\Data\Derived`)
 
@@ -954,6 +964,10 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   ASCII identique à ICU, index des apparitions, ordre des rubriques, plans de l'écran audio).
 - `php tests/favoris.php` : favoris du back-office (adresses du back-office seulement, choix
   selon le rôle, favoris d'un compte filtrés et noms nettoyés).
+- `php tests/accueil.php` : slider de l'accueil (tirage limité aux photos d'au moins
+  1 200 × 600 pixels, petites photos écartées, liste gardée en cache, tirage de secours sur
+  toutes les vraies photos ; signalement dans la fiche : image trop petite, absente,
+  générique ou inconnue de la médiathèque).
 - `php tests/retro.php` : Rétro-Direct (chronologie : buts et score, mi-temps, prolongation,
   tirs au but, score retourné, buteurs ; programme et états ; anniversaires ; spectateurs et
   réactions ; agenda .ics).
