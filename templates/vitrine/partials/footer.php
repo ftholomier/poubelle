@@ -24,6 +24,7 @@ $email = Site::email();
     <div class="vf__brand">
       <a href="<?= e(Host::url('/')) ?>" class="vf__logo"><img src="/assets/img/logo-sochaux-retro.png" alt="" width="70" height="79" loading="lazy"><span><b><?= e(Site::name()) ?></b><small>L’association</small></span></a>
       <?php if (($tag = Site::tagline()) !== ''): ?><p class="vf__tag"><?= e($tag) ?></p><?php endif; ?>
+      <a class="btn btn--yellow vf__museum" href="<?= e(Host::museum('/')) ?>" target="_blank" rel="noopener">Entrer dans le musée ↗</a>
       <?php if ($social): ?>
       <div class="vsocial" aria-label="Réseaux sociaux">
         <?php foreach ($social as $k => [$label, $href]): ?>
@@ -59,7 +60,6 @@ $email = Site::email();
     <a href="<?= e(Host::url('/confidentialite/')) ?>">Confidentialité</a>
     <a href="<?= e(Host::url('/cookies/')) ?>">Cookies</a>
     <a href="<?= e(Host::url('/plan-du-site/')) ?>">Plan du site</a>
-    <a class="vf__museum" href="<?= e(Host::museum('/')) ?>" target="_blank" rel="noopener">Le musée en ligne ↗</a>
     <span class="vf__credit">Site développé par <span class="vcredit">Frédéric Tholomier | <a href="https://le-digital.com/" target="_blank" rel="noopener">LE-DIGITAL.com</a></span></span>
   </div>
 </footer>

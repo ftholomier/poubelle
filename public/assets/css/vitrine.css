@@ -242,7 +242,8 @@ a.vpartner:hover img { filter: none; }
 .vf__logo span { display: flex; flex-direction: column; line-height: 1; }
 .vf__logo b { font-family: var(--display); font-weight: 900; font-size: 28px; text-transform: uppercase; }
 .vf__logo small { font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .24em; text-transform: uppercase; color: var(--yellow); margin-top: 5px; }
-.vf__tag { margin: 18px 0; font-size: 17px; opacity: .85; max-width: 34ch; }
+.vf__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+.vf__tag { margin: 0; font-size: 17px; opacity: .85; max-width: 34ch; }
 .vf__col { display: flex; flex-direction: column; gap: 9px; }
 .vf__col h2 { font-family: var(--display); font-weight: 800; font-size: 16px; letter-spacing: .2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 6px; }
 .vf__col a { color: var(--cream); font-size: 17px; opacity: .88; }
@@ -255,7 +256,6 @@ a.vpartner:hover img { filter: none; }
 .vf__bar a:hover { color: var(--yellow); }
 .vf__credit { flex-basis: 100%; text-align: center; font-size: 14px; }
 .vcredit { white-space: nowrap; }
-.vf__museum { color: var(--yellow) !important; }
 @media (max-width: 1000px) { .vf__main { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .vf__main { grid-template-columns: 1fr; } }
 .vsocial { display: flex; flex-wrap: wrap; gap: 10px; }

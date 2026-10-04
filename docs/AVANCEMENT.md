@@ -413,6 +413,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       sous le texte en pleine largeur sous 1024 px.
 - [x] Menu de l'association : libellés toujours sur une ligne (ils se coupaient entre 1241 et
       1300 px).
+- [x] Pied de page de l'association : « Site développé par Frédéric Tholomier |
+      LE-DIGITAL.com » (aussi sur la page d'attente) ; bouton jaune « Entrer dans le musée »
+      sous la signature, à la place du lien texte de la barre du bas.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
