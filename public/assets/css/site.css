@@ -230,6 +230,8 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .hlang > .hbtn { white-space: nowrap; }
 .hlang__menu { position: absolute; top: calc(100% + 6px); right: 0; background: var(--paper); border: 2px solid var(--navy); box-shadow: 4px 4px 0 var(--navy); display: none; flex-direction: column; min-width: 150px; z-index: 5; }
 .hlang.is-open .hlang__menu { display: flex; }
+/* Liste ouverte : la barre passe devant les méga-menus, sinon la liste, qui déborde sous la barre, est cachée. */
+.masthead:has(.hlang.is-open) { z-index: 5; }
 .hlang__menu a { padding: 10px 14px; display: flex; justify-content: space-between; gap: 12px; font-size: 17px; }
 .hlang__menu a:hover, .hlang__menu a.is-on { background: var(--yellow); color: var(--navy); }
 .hlang__menu b { font-family: var(--display); font-weight: 800; }

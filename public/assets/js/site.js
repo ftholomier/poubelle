@@ -13,8 +13,16 @@
   if (header) {
     let openKey = null, closeTimer = null;
     const megas = $$('[data-mega]', header);
+    // Langue : jamais en même temps qu'un méga-menu (il recouvrirait la liste).
+    const lg = $('[data-lang]', header);
+    const setLang = (on) => {
+      if (!lg) return;
+      lg.classList.toggle('is-open', on);
+      $('[data-lang-toggle]', lg)?.setAttribute('aria-expanded', on ? 'true' : 'false');
+    };
     const setOpen = (key) => {
       openKey = key;
+      if (key) setLang(false);
       megas.forEach(m => m.classList.toggle('is-open', m.dataset.mega === key));
       $$('[data-mega-trigger]', header).forEach(a => {
         const on = a.dataset.megaTrigger === key;
@@ -34,7 +42,7 @@
     header.addEventListener('mouseleave', () => { closeTimer = setTimeout(() => setOpen(null), 180); });
     header.addEventListener('mouseenter', () => clearTimeout(closeTimer));
     $('.masthead__logo', header)?.addEventListener('mouseenter', () => setOpen(null));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { setOpen(null); closeSearch(); } });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { setOpen(null); setLang(false); closeSearch(); } });
     document.addEventListener('click', e => { if (!header.contains(e.target)) setOpen(null); });
 
     // Menu mobile
@@ -47,14 +55,13 @@
     });
 
     // Langue
-    const lg = $('[data-lang]', header);
     $('[data-lang-toggle]', lg || document)?.addEventListener('click', (e) => {
       e.stopPropagation();
       const on = !lg.classList.contains('is-open');
-      lg.classList.toggle('is-open', on);
-      e.currentTarget.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) setOpen(null);
+      setLang(on);
     });
-    document.addEventListener('click', () => lg?.classList.remove('is-open'));
+    document.addEventListener('click', () => setLang(false));
 
     // En-tête collant : hauteur de la barre (--head-h, pour décaler ancres et barres collantes)
     // et état « collé » (blason réduit) dès que la barre touche le haut de l'écran.
