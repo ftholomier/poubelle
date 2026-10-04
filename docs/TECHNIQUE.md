@@ -554,7 +554,7 @@ souvenirs) pour refaire les PDF en cache.
   `then_voice` ; à la fin, les voix de ses pages sont commandées (travail `voix` marqué `pages`).
   Essai : `tryPage()` (adresse → page par `slugFromUrl()`, récit par `Gemini::generate` et voix
   par `Gemini::speech`, tout de suite au tarif normal). La rédaction de nuit ne commence qu'après
-  « Lancer pour tout le musée » (`activate()`, `storage/audio/pages-etat.json`).
+  « Lancer pour toutes les pages » (`activate()`, `storage/audio/pages-etat.json`).
   `plan()` liste aussi les voix manquantes des récits à jour (`voices`), confiées par `launch()`
   (`FicheAudio::queueVoices()`). Demande : `PageAudio::speechRequest()` (le récit rangé, passé par
   `speakable()`, voix réglée, sans consigne de ton) ; rangement : `PageAudio::storeVoice()` via

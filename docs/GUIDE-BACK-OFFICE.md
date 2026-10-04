@@ -378,8 +378,9 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   IA (environ 1 € avec Flash-Lite ; un modèle Flash, réglable à part, raconte mieux). Dans l'éditeur, la carte
   « Écouter » permet de modifier le texte lu, de le faire rédiger par l'IA ou de lui donner
   une **voix IA** naturelle (environ 3 centimes pour 3 minutes). Système › Fiches audio (administrateurs) : essayer sur
-  20 fiches puis passer tout le musée en voix IA en **traitement groupé** (moitié prix,
-  environ 40 € pour toutes les fiches en 3 minutes au plus), suivi des envois.
+  20 fiches puis passer toutes les fiches en voix IA (carte « Toutes les fiches en voix IA ») en
+  **traitement groupé** (moitié prix, environ 40 € pour toutes les fiches en 3 minutes au plus),
+  suivi des envois. Les pages de synthèse n'y sont pas comprises : elles se lancent à part.
   Les **pages de synthèse** ont aussi leur bouton « Écouter » : face-à-face, saisons, bilans
   (Coupe de France, championnat, Europe, stade Bonal…), livre des records et chiffres du FCSM.
   L'IA les raconte comme un historien, en français et en anglais, à partir de leurs chiffres et
@@ -391,7 +392,7 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   récit automatique, gratuit, est lu par la voix de l'appareil. Système › Fiches audio › carte
   « Pages de synthèse racontées par l'IA » : **essayer d'abord sur une page** (coller son adresse,
   par exemple `/face-a-face/nancy/` : récit et voix tout de suite, quelques centimes), puis
-  « Lancer pour tout le musée ». Rien n'est dépensé avant ce lancement ; ensuite, la rédaction de
+  « Lancer pour toutes les pages ». Rien n'est dépensé avant ce lancement ; ensuite, la rédaction de
   nuit prend le relais. Réglages › Fiches audio : rédaction de nuit et voix IA des pages.
   Pour **une fiche**, l'essai se fait dans l'éditeur, carte « Écouter la fiche » : « Rédiger avec
   l'IA » puis « Voix IA ».
