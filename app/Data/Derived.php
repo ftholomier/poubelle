@@ -990,6 +990,21 @@ final class Derived
                 $usage[$rel][] = 'c:' . $name;
             }
         }
+        // Collections jamais enregistrées : leurs images par défaut sont affichées, donc utilisées.
+        $defaults = [
+            'epoques' => fn () => \App\Front\Pages::defaultEras(),
+            'reserves' => fn () => \App\Front\Pages::defaultReserves(),
+            'teasers' => fn () => \App\Front\Pages::defaultTeasers(),
+            'frise' => fn () => Seeds::frise(),
+            'maillots' => fn () => Seeds::maillots(),
+        ];
+        foreach ($defaults as $name => $default) {
+            if (!is_file(Collections::DIR . "/$name.json")) {
+                foreach (Media::refsIn($default()) as $rel) {
+                    $usage[$rel][] = 'c:' . $name;
+                }
+            }
+        }
         foreach (Media::refsIn(Categories::all()) as $rel) {
             $usage[$rel][] = 'c:rubriques';
         }

@@ -43,7 +43,7 @@ foreach ($todo as $rel => $url) {
         if ($r['code'] !== 200 || filesize($part) < 100) {
             throw new RuntimeException('HTTP ' . $r['code']);
         }
-        if (!preg_match('/\.pdf$/i', $rel) && !@getimagesize($part)) {
+        if (!media_file_ok($part, $rel)) {
             throw new RuntimeException('fichier reçu illisible');
         }
         rename($part, $file);

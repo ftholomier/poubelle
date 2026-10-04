@@ -30,6 +30,24 @@ function out(string $msg): void
 }
 
 /**
+ * Le fichier copié ou téléchargé est-il bien du type annoncé par son nom (et non une page
+ * d'erreur HTML) ? Photos : lisibles par PHP ; SVG, ZIP, PDF : leur signature.
+ */
+function media_file_ok(string $file, string $rel): bool
+{
+    $head = (string) @file_get_contents($file, false, null, 0, 4096);
+    return match (strtolower(pathinfo($rel, PATHINFO_EXTENSION))) {
+        'pdf' => str_starts_with($head, '%PDF'),
+        'svg' => (bool) preg_match('/<svg[\s>]/i', $head),
+        'zip' => str_starts_with($head, "PK\x03\x04") || str_starts_with($head, "PK\x05\x06"),
+        // getimagesize() ne reconnaît pas tous les AVIF : signature « ftyp » d'un fichier ISO-BMFF.
+        'avif' => @getimagesize($file) || (substr($head, 4, 4) === 'ftyp' && in_array(substr($head, 8, 4), ['avif', 'avis', 'mif1', 'msf1'], true)),
+        'mp3', 'm4a', 'ogg', 'wav', 'mp4', 'webm', 'mov' => $head !== '' && !preg_match('/^\s*</', $head),
+        default => (bool) @getimagesize($file),
+    };
+}
+
+/**
  * Chemin relatif sûr dans la médiathèque (clé de data/media.json, adresse WordPress) : jamais de
  * sortie du dossier (« .. », chemin absolu, octet nul, barre inverse) et seulement des fichiers de
  * média (jamais un script que le serveur exécuterait).

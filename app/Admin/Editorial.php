@@ -50,7 +50,7 @@ final class Editorial extends Base
             'palmares' => Collections::get('palmares', Pages::defaultPalmares()),
             'eras' => Collections::get('epoques', Pages::defaultEras()),
             'reserves' => Collections::get('reserves', Pages::defaultReserves()),
-            'teasers' => Collections::get('teasers', []),
+            'teasers' => Collections::get('teasers', Pages::defaultTeasers()),
             'legends' => count(array_filter(Index::published('personne'), fn ($s) => $s['p']['legend'])),
             'figure' => \App\Services\Chiffres::daily(),
         ], ['title' => 'Accueil & bandeau', 'crumb' => 'Éditorial', 'nav' => 'accueil']);

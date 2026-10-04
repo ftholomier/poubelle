@@ -52,19 +52,19 @@ final class Seeds
     public static function frise(): array
     {
         $e = [
-            [1928, 'Fondation du club', 'Le FC Sochaux voit le jour le 20 mai 1928.', 'n'],
-            [1931, 'Ouverture du stade de la Forge', 'Le futur stade Auguste-Bonal accueille ses premiers matchs.', ''],
-            [1935, 'Premier titre de champion de France', '', 'y'],
-            [1937, 'Première Coupe de France', '', 'y'],
-            [1938, 'Second titre de champion de France', '', 'y'],
-            [1974, 'Le premier centre de formation de France', '', ''],
-            [1981, 'Demi-finale de la Coupe UEFA', "Face à l'AZ Alkmaar, le sommet européen du club.", 'y'],
-            [1983, 'Coupe Gambardella', 'Victoire 1-0 face à Lens en finale, à Lille.', ''],
-            [1988, 'Finale de la Coupe de France', 'Face au FC Metz, au Parc des Princes. Saison record : 147 buts.', ''],
-            [2000, 'Un nouveau stade Bonal', 'Le stade est entièrement reconstruit.', ''],
-            [2004, 'Coupe de la Ligue', 'Victoire face à Nantes aux tirs au but.', 'y'],
-            [2007, 'Deuxième Coupe de France', "Victoire face à l'OM au Stade de France, aux tirs au but.", 'y'],
-            [2028, 'Le centenaire', 'Rendez-vous le 20 mai 2028.', 'n'],
+            [1928, 'Fondation du club', 'Le FC Sochaux voit le jour le 20 mai 1928.', 'n', '2024/11/1928-FC-Sochaux3b1-1536x992-1.jpg'],
+            [1931, 'Ouverture du stade de la Forge', 'Le futur stade Auguste-Bonal accueille ses premiers matchs.', '', '2025/03/Tribune-terminee-1931-Bis-1.jpg'],
+            [1935, 'Premier titre de champion de France', '', 'y', '2024/12/5-79.jpg'],
+            [1937, 'Première Coupe de France', '', 'y', '2025/03/Phanphare-Peugeot-coupe-de-France-37-a-Paris.jpg'],
+            [1938, 'Second titre de champion de France', '', 'y', '2024/12/906_001.jpg'],
+            [1974, 'Le premier centre de formation de France', '', '', '2024/05/programme-.png'],
+            [1981, 'Demi-finale de la Coupe UEFA', "Face à l'AZ Alkmaar, le sommet européen du club.", 'y', '2024/11/inbound6599480284613850309.jpg'],
+            [1983, 'Coupe Gambardella', 'Victoire 1-0 face à Lens en finale, à Lille.', '', '2025/03/le-fc-sochaux-vainqueur-de-sa-premiere-coupe-gambardella-en-1983-conter-lens-grace-a-un-but-de-stephane-p.jpg'],
+            [1988, 'Finale de la Coupe de France', 'Face au FC Metz, au Parc des Princes. Saison record : 147 buts.', '', '2024/04/equipe_finale_cdf_88_2.jpg'],
+            [2000, 'Un nouveau stade Bonal', 'Le stade est entièrement reconstruit.', '', '2025/11/519640823_1128725095737251_737815365501537839_n.jpg'],
+            [2004, 'Coupe de la Ligue', 'Victoire face à Nantes aux tirs au but.', 'y', '2025/01/photos-il-y-a-quinze-ans-sochaux-remportait-la-coupe-de-la-ligue-au-stade-de-france-1554725436.jpg'],
+            [2007, 'Deuxième Coupe de France', "Victoire face à l'OM au Stade de France, aux tirs au but.", 'y', '2026/06/le-onze-de-depart-de-sochaux-non-vous-ne-revez-pas-mickael-isabey-n-est-pas-retenu-il-n-est-meme-pas-sur-la-feuille-de-match-photo-alexandre-marchi-1589306142.jpg'],
+            [2028, 'Le centenaire', 'Rendez-vous le 20 mai 2028.', 'n', '2025/03/le-deplacement-des-supporters-de-reims-a-sochaux-sera-encadre-1705584005.jpg'],
         ];
         $en = [
             ['The club is founded', 'FC Sochaux is born on 20 May 1928.'],
@@ -81,12 +81,21 @@ final class Seeds
             ['Second Coupe de France', 'Victory against OM at the Stade de France, on penalties.'],
             ['The centenary', 'See you on 20 May 2028.'],
         ];
-        return array_map(fn ($x, $t) => ['year' => $x[0], 'title' => $x[1], 'text' => $x[2], 'title_en' => $t[0], 'text_en' => $t[1], 'tone' => $x[3], 'image' => null, 'href' => null, 'validated' => false], $e, $en);
+        return array_map(fn ($x, $t) => ['year' => $x[0], 'title' => $x[1], 'text' => $x[2], 'title_en' => $t[0], 'text_en' => $t[1], 'tone' => $x[3], 'image' => $x[4] ?? null, 'href' => null, 'validated' => false], $e, $en);
     }
 
     public static function maillots(): array
     {
-        return array_map(fn ($y) => ['era' => (string) $y, 'label' => 'Années ' . ($y < 2000 ? substr((string) $y, 2) : $y), 'image' => null, 'text' => ''], [1930, 1950, 1970, 1980, 2000, 2020]);
+        // Photos d'équipe de chaque époque, à remplacer au besoin par des maillots photographiés de face.
+        $img = [
+            1930 => '2024/11/1932-1er-match-zyro-image6-768x470-1.jpg',
+            1950 => '2024/12/312_001.jpg',
+            1970 => '2026/06/FC-SOCHAUX-MONTBELIARD-1970-71.jpg',
+            1980 => '2026/06/fc-sochaux-1978-79.jpg',
+            2000 => '2026/06/le-onze-de-depart-de-sochaux-non-vous-ne-revez-pas-mickael-isabey-n-est-pas-retenu-il-n-est-meme-pas-sur-la-feuille-de-match-photo-alexandre-marchi-1589306142.jpg',
+            2020 => '2026/05/FCSM-LPF43-2025-2026-1-Michael-Desprez.jpg',
+        ];
+        return array_map(fn ($y) => ['era' => (string) $y, 'label' => 'Années ' . ($y < 2000 ? substr((string) $y, 2) : $y), 'image' => $img[$y], 'text' => ''], array_keys($img));
     }
 
     public static function epopees(): array

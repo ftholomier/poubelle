@@ -48,7 +48,10 @@ final class Images
         $dest = PUBLIC_PATH . "/media/$width/$srcRel.webp";
         if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
             if (!self::generate($src, $dest, $width, Media::get($srcRel)['edit'] ?? null)) {
-                return self::placeholder();
+                // AVIF que GD ne sait pas lire : l'original, que les navigateurs affichent.
+                return self::isAvif($src)
+                    ? new Response((string) file_get_contents($src), 200, ['Content-Type' => 'image/avif', 'Cache-Control' => 'public, max-age=86400', 'X-Content-Type-Options' => 'nosniff'])
+                    : self::placeholder();
             }
         }
         return new Response((string) file_get_contents($dest), 200, [
@@ -85,11 +88,10 @@ final class Images
     public static function generate(string $src, string $dest, int $width, ?array $edit = null): bool
     {
         $info = @getimagesize($src);
-        if (!$info) {
+        if (!$info && !self::isAvif($src)) {
             return self::copySvg($src, $dest);
         }
-        [$w, $h, $type] = $info;
-        if ($w * $h > 120_000_000) {
+        if ($info && $info[0] * $info[1] > 120_000_000) {
             return false;
         }
         $im = self::open($src, $edit);
@@ -118,25 +120,27 @@ final class Images
     }
 
     /**
-     * Ouvre une image (JPEG, PNG, GIF, WebP, BMP) en tenant compte de l'orientation EXIF,
-     * puis applique les retouches de la médiathèque : rotation (degrés, sens horaire)
-     * et recadrage (fractions x, y, largeur, hauteur de l'image pivotée).
+     * Ouvre une image (JPEG, PNG, GIF, WebP, BMP, et AVIF si GD le lit) en tenant compte de
+     * l'orientation EXIF, puis applique les retouches de la médiathèque : rotation (degrés,
+     * sens horaire) et recadrage (fractions x, y, largeur, hauteur de l'image pivotée).
      */
     public static function open(string $src, ?array $edit = null): ?\GdImage
     {
         $info = @getimagesize($src);
-        if (!$info || $info[0] * $info[1] > 120_000_000) {
+        // getimagesize() ne reconnaît pas tous les AVIF : leur signature suffit.
+        $type = $info[2] ?? (self::isAvif($src) ? IMAGETYPE_AVIF : null);
+        if ($type === null || ($info && $info[0] * $info[1] > 120_000_000)) {
             return null;
         }
         ini_set('memory_limit', '1536M');
         set_time_limit(120);
-        $type = $info[2];
         $im = match ($type) {
             IMAGETYPE_JPEG => @imagecreatefromjpeg($src),
             IMAGETYPE_PNG => @imagecreatefrompng($src),
             IMAGETYPE_GIF => @imagecreatefromgif($src),
             IMAGETYPE_WEBP => @imagecreatefromwebp($src),
             IMAGETYPE_BMP => @imagecreatefrombmp($src),
+            IMAGETYPE_AVIF => function_exists('imagecreatefromavif') ? @imagecreatefromavif($src) : false,
             default => false,
         };
         if (!$im) {
@@ -177,6 +181,13 @@ final class Images
         return $im;
     }
 
+    /** Fichier AVIF, reconnu à sa signature (boîte « ftyp » d'un fichier ISO-BMFF). */
+    public static function isAvif(string $file): bool
+    {
+        $head = (string) @file_get_contents($file, false, null, 0, 12);
+        return substr($head, 4, 4) === 'ftyp' && in_array(substr($head, 8, 4), ['avif', 'avis', 'mif1', 'msf1'], true);
+    }
+
     private static function copySvg(string $src, string $dest): bool
     {
         // SVG et formats non matriciels : pas de redimensionnement.
@@ -188,7 +199,8 @@ final class Images
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#E8DFC9"/>'
             . '<g fill="none" stroke="#0E1F4D" stroke-opacity=".35" stroke-width="6"><rect x="150" y="105" width="100" height="80" rx="6"/>'
             . '<circle cx="178" cy="132" r="9"/><path d="M155 180l35-30 25 20 15-12 20 22"/></g></svg>';
-        return new Response($svg, 200, ['Content-Type' => 'image/svg+xml', 'Cache-Control' => 'public, max-age=600']);
+        // Jamais gardée par le navigateur : l'image s'affiche dès que l'original arrive (copie des médias).
+        return new Response($svg, 200, ['Content-Type' => 'image/svg+xml', 'Cache-Control' => 'no-store']);
     }
 
     /** Pré-génère les vignettes (ligne de commande). */

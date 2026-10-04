@@ -8,7 +8,7 @@ return [
 <p>Éditorial › <b>Accueil &amp; bandeau</b>. Chaque bloc de la page d’accueil a sa carte ; enregistrez avec le bouton en bas de page.</p>
 <ul>
 <li><b>Grand slider</b> : tirage au hasard parmi les fiches cochées « À la une » qui ont une image (comme l’ancien site), ou une liste choisie à la main dans l’ordre voulu.</li>
-<li><b>Compteurs et centenaire</b>, <b>Palmarès</b> (bandeau jaune), <b>Les grandes époques</b> (nom, dates, texte, image, dates clés), <b>Les réserves du musée</b>, <b>« Ils ont porté le lion »</b>, <b>Images des encarts</b> (quiz, maillots, frise, contribuer).</li>
+<li><b>Compteurs et centenaire</b>, <b>Palmarès</b> (bandeau jaune), <b>Les grandes époques</b> (nom, dates, texte, image, dates clés), <b>Les réserves du musée</b>, <b>« Ils ont porté le lion »</b>, <b>Images des encarts</b> (quiz, maillots, frise, contribuer). Une photo de la médiathèque est choisie au départ pour chaque époque, réserve et encart (et pour la frise et le comparateur de maillots) : « Choisir… » pour la remplacer.</li>
 <li><b>Référencement de l’accueil</b> : titre et description pour Google.</li>
 <li><b>Le chiffre du jour</b> (onglet Textes &amp; compteurs) : un des 100 chiffres du FCSM affiché sous « Ce jour-là », un nouveau chaque jour ; la carte montre celui du jour, la case l’affiche ou le masque.</li>
 <li><b>Le teaser vidéo</b> (onglet Textes &amp; compteurs) : la vidéo de présentation du musée (1 min 55), sous les compteurs. Tant que la page d’attente est active, le public ne la voit pas : seule l’équipe connectée la voit.</li>

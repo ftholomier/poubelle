@@ -59,7 +59,7 @@ final class Pages
             }, Collections::get('epoques', self::defaultEras())),
             'reserves' => self::reserves(),
             'legends' => $legends,
-            'teasers' => Collections::get('teasers', []),
+            'teasers' => Collections::get('teasers', self::defaultTeasers()),
             'decades' => self::decadeLinks(),
         ];
         $introTitle = trim((string) Settings::get('home.intro_title', ''));
@@ -183,11 +183,11 @@ final class Pages
     public static function defaultEras(): array
     {
         return [
-            ['range' => '1928–1945', 'name' => 'Les pionniers', 'text' => "Fondé avec le soutien de Peugeot, le club adopte très tôt le professionnalisme et s'impose parmi les meilleurs de France avant-guerre.", 'image' => null, 'href' => '/interactif/frise/#1928', 'facts' => [['y' => '1928', 't' => 'Fondation du club'], ['y' => '1935', 't' => 'Premier titre de champion de France'], ['y' => '1937', 't' => 'Coupe de France'], ['y' => '1938', 't' => 'Second titre de champion']]],
-            ['range' => '1946–1970', 'name' => "L'après-guerre", 'text' => "Le club se reconstruit et forme ses propres joueurs : le centre de formation sochalien commence à faire parler de lui.", 'image' => null, 'href' => '/interactif/frise/#1946', 'facts' => [['y' => '1955', 't' => 'Coupe Gambardella'], ['y' => '1963', 't' => 'Coupe Gambardella'], ['y' => '1964', 't' => 'Coupe Gambardella']]],
-            ['range' => '1971–1990', 'name' => "L'âge d'or de Bonal", 'text' => "Une génération formée au club porte Sochaux jusqu'en demi-finale européenne et fait vibrer le stade Bonal.", 'image' => null, 'href' => '/interactif/frise/#1971', 'facts' => [['y' => '1981', 't' => 'Demi-finale de Coupe UEFA'], ['y' => '1983', 't' => 'Coupe Gambardella'], ['y' => '1988', 't' => 'Finale de Coupe de France']]],
-            ['range' => '1991–2010', 'name' => 'Le renouveau', 'text' => "Retour au premier plan et nouveaux trophées : le Lion rugit de nouveau au Stade de France.", 'image' => null, 'href' => '/interactif/frise/#1991', 'facts' => [['y' => '2004', 't' => 'Coupe de la Ligue'], ['y' => '2007', 't' => 'Coupe de France'], ['y' => '2007', 't' => 'Coupe Gambardella']]],
-            ['range' => '2011–auj.', 'name' => "L'époque récente", 'text' => "Des hauts, des bas, et une fidélité intacte des supporters jaune et bleu.", 'image' => null, 'href' => '/interactif/frise/#2011', 'facts' => [['y' => '2028', 't' => 'Centenaire du club']]],
+            ['range' => '1928–1945', 'name' => 'Les pionniers', 'text' => "Fondé avec le soutien de Peugeot, le club adopte très tôt le professionnalisme et s'impose parmi les meilleurs de France avant-guerre.", 'image' => '2026/05/1937-01-19-Le_Miroir_des_sports-photo-match-Bradac-ia1.jpg', 'href' => '/interactif/frise/#1928', 'facts' => [['y' => '1928', 't' => 'Fondation du club'], ['y' => '1935', 't' => 'Premier titre de champion de France'], ['y' => '1937', 't' => 'Coupe de France'], ['y' => '1938', 't' => 'Second titre de champion']]],
+            ['range' => '1946–1970', 'name' => "L'après-guerre", 'text' => "Le club se reconstruit et forme ses propres joueurs : le centre de formation sochalien commence à faire parler de lui.", 'image' => '2024/12/roger-courtois-pepi-humpal-et-rene-gardien-les-trois-meilleurs-buteurs-de-l-histoire-du-fcsm-ont-durant-quatre-saisons-evolue-les-trois-de-47-a-51-sous-le-maillot-jaune-et-bleu-marq.jpg', 'href' => '/interactif/frise/#1946', 'facts' => [['y' => '1955', 't' => 'Coupe Gambardella'], ['y' => '1963', 't' => 'Coupe Gambardella'], ['y' => '1964', 't' => 'Coupe Gambardella']]],
+            ['range' => '1971–1990', 'name' => "L'âge d'or de Bonal", 'text' => "Une génération formée au club porte Sochaux jusqu'en demi-finale européenne et fait vibrer le stade Bonal.", 'image' => '2024/11/673b3.jpg', 'href' => '/interactif/frise/#1971', 'facts' => [['y' => '1981', 't' => 'Demi-finale de Coupe UEFA'], ['y' => '1983', 't' => 'Coupe Gambardella'], ['y' => '1988', 't' => 'Finale de Coupe de France']]],
+            ['range' => '1991–2010', 'name' => 'Le renouveau', 'text' => "Retour au premier plan et nouveaux trophées : le Lion rugit de nouveau au Stade de France.", 'image' => '2025/03/que-le-jaune-soit-or-et-que-le-bleu-soit-roi-1652281058.jpg', 'href' => '/interactif/frise/#1991', 'facts' => [['y' => '2004', 't' => 'Coupe de la Ligue'], ['y' => '2007', 't' => 'Coupe de France'], ['y' => '2007', 't' => 'Coupe Gambardella']]],
+            ['range' => '2011–auj.', 'name' => "L'époque récente", 'text' => "Des hauts, des bas, et une fidélité intacte des supporters jaune et bleu.", 'image' => '2024/01/1.-Supporter.jpeg', 'href' => '/interactif/frise/#2011', 'facts' => [['y' => '2028', 't' => 'Centenaire du club']]],
         ];
     }
 
@@ -213,12 +213,23 @@ final class Pages
     public static function defaultReserves(): array
     {
         return [
-            ['slug' => 'maillots', 'name' => 'Maillots', 'desc' => 'tenues portées', 'image' => null],
-            ['slug' => 'affiches', 'name' => 'Affiches', 'desc' => 'matchs & tournois', 'image' => null],
-            ['slug' => 'programmes', 'name' => 'Programmes', 'desc' => 'feuilles de match', 'image' => null],
-            ['slug' => 'photos', 'name' => 'Photos', 'desc' => "d'équipe & de match", 'image' => null],
-            ['slug' => 'presse', 'name' => 'Presse', 'desc' => 'coupures & unes', 'image' => null],
-            ['slug' => 'supporters', 'name' => 'Supporters', 'desc' => 'écharpes, billets, fanions', 'image' => null],
+            ['slug' => 'maillots', 'name' => 'Maillots', 'desc' => 'tenues portées', 'image' => '2026/06/sochaux-home-football-shirt-1983-1985-s_44935_1.jpg'],
+            ['slug' => 'affiches', 'name' => 'Affiches', 'desc' => 'matchs & tournois', 'image' => '2024/02/FC-BARR-1994049.jpg'],
+            ['slug' => 'programmes', 'name' => 'Programmes', 'desc' => 'feuilles de match', 'image' => '2023/12/sochaux-sprint.png'],
+            ['slug' => 'photos', 'name' => 'Photos', 'desc' => "d'équipe & de match", 'image' => '2025/12/Effectif-F.C-Sochaux-1938.jpg'],
+            ['slug' => 'presse', 'name' => 'Presse', 'desc' => 'coupures & unes', 'image' => '2024/02/Une-Est-Republicain.png'],
+            ['slug' => 'supporters', 'name' => 'Supporters', 'desc' => 'écharpes, billets, fanions', 'image' => '2025/11/Kop-Sochalien-Collection-privee-numero-2-.png'],
+        ];
+    }
+
+    /** Images des encarts de l'accueil (« Jouez avec l'histoire », « Contribuer »), modifiables dans le back-office. */
+    public static function defaultTeasers(): array
+    {
+        return [
+            'quiz' => '2025/11/00.jpg',
+            'maillots' => '2026/06/01-retro-Peugeot-sur-le-maillot-MICHELIN-1024x683-1.jpg',
+            'frise' => '2024/12/claude-quittet-lors-de-la-finale-de-1967-perdue-par-sochaux-face-a-lyon-il-est-felicite-par-le-general-de-gaulle-photo-d-archives-er-1480960505.jpg',
+            'contribuer' => '2024/09/IMG_20221102_151654_edit_352581944522239-scaled.jpg',
         ];
     }
 

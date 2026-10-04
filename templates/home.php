@@ -21,7 +21,8 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
         <?php foreach ($slides as $i => $s): ?>
           <div class="hero__copy<?= $i === 0 ? ' is-on' : '' ?>" data-copy="<?= $i ?>">
             <span class="eyebrow eyebrow--yellow eyebrow--lg"><?= e($s['kind']) ?></span>
-            <<?= $i === 0 ? 'h1' : 'h2' ?> class="hero__title"><?= e($s['title']) ?></<?= $i === 0 ? 'h1' : 'h2' ?>>
+            <?php $tl = mb_strlen((string) $s['title']); ?>
+            <<?= $i === 0 ? 'h1' : 'h2' ?> class="hero__title<?= $tl > 32 ? ' hero__title--xl' : ($tl > 22 ? ' hero__title--l' : '') ?>"><?= e($s['title']) ?></<?= $i === 0 ? 'h1' : 'h2' ?>>
             <?php if ($s['text']): ?><p class="hero__lead"><?= e($s['text']) ?></p><?php endif; ?>
             <a class="btn btn--yellow" href="<?= e($s['href']) ?>" tabindex="<?= $i === 0 ? '0' : '-1' ?>"><?= e(t('En savoir plus')) ?></a>
           </div>

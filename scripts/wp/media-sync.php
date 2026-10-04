@@ -79,7 +79,7 @@ foreach ($todo as $rel => $m) {
                 throw new RuntimeException('HTTP ' . $r['code']);
             }
         }
-        if (!preg_match('/\.pdf$/i', $rel) && !@getimagesize($part)) {
+        if (!media_file_ok($part, $rel)) {
             throw new RuntimeException('fichier reçu illisible');
         }
         if (!empty($m['sha1']) && sha1_file($part) !== $m['sha1']) {

@@ -174,6 +174,9 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   époques, réserves mises en avant, **chiffre du jour** (un des 100 chiffres du FCSM sous
   « Ce jour-là », un nouveau chaque jour : la carte montre celui du jour, une case le masque),
   **teaser vidéo** (1 min 55, sous les compteurs ; le public le voit à l'ouverture du site).
+  Les grandes époques, les réserves et les encarts (quiz, maillots, frise, contribuer) ont
+  une **photo choisie au départ** dans la médiathèque, comme les dates de la frise et les
+  époques du comparateur de maillots : bouton « Choisir… » pour la remplacer.
 - **Rubriques & menus** : **ordre d'affichage sur le site** (manuel, chronologique ou A–Z),
   **ordre des fiches** de la rubrique (toutes, sous-rubriques comprises : ↑ / ↓, icône
   quatre flèches à glisser avec trait jaune de dépôt, clic sur le numéro pour taper une

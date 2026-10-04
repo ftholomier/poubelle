@@ -286,7 +286,10 @@ encore « automatiques » sont écrits, une correction faite pendant le calcul e
 des largeurs ci-dessus). Sur un serveur neuf, tant que les originaux ne sont pas copiés
 (`scripts/wp/media-sync.php`), la tâche `statistiques` refait les alertes toutes les
 30 minutes pour que l'alerte `photos` disparaisse à la fin de la copie. `img()` ajoute
-`?v=` aux fichiers retouchés ou remplacés. Les vignettes des vidéos sont copiées dans
+`?v=` aux fichiers retouchés ou remplacés. Original absent ou illisible : cadre beige servi
+en `Cache-Control: no-store`, pour que la photo apparaisse dès que l'original arrive (jamais
+gardé par le navigateur). AVIF : vignette si GD sait le lire (`imagecreatefromavif`), sinon
+l'original est servi tel quel (les navigateurs l'affichent). Les vignettes des vidéos sont copiées dans
 `storage/media/originals/_video/` (`App\Services\VideoThumbs`) pour ne contacter
 l'hébergeur vidéo qu'après l'accord du visiteur.
 

@@ -456,24 +456,28 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 /* ==========================================================================
    Accueil
    ========================================================================== */
-.hero { position: relative; height: min(86vh, 840px); min-height: 600px; background: var(--navy); overflow: hidden; color: var(--cream); }
+.hero { position: relative; background: var(--navy); overflow: hidden; color: var(--cream); }
 .hero__slide { position: absolute; inset: 0; opacity: 0; z-index: 1; transition: opacity .9s ease; }
 .hero__slide.is-on { opacity: 1; z-index: 2; }
 .hero__slide img { width: 100%; height: 100%; object-fit: cover; }
 .hero__slide.is-on img { animation: kenburns 8s ease-out forwards; }
 @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
 .hero__shade { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(90deg, rgba(14,31,77,.92) 0%, rgba(14,31,77,.55) 45%, rgba(14,31,77,.05) 80%); }
-.hero__ui { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; justify-content: space-between; padding-top: clamp(40px, 6vw, 80px); pointer-events: none; }
+/* Hauteur : celle de l'écran (bornée), ou plus si le texte le demande : rien n'est jamais coupé. */
+.hero__ui { position: relative; z-index: 4; min-height: max(600px, min(86vh, 840px)); display: flex; flex-direction: column; justify-content: space-between; padding-top: clamp(40px, 6vw, 80px); pointer-events: none; }
 .hero__top { display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; align-items: flex-start; }
-.hero__text { position: relative; max-width: 640px; flex: 1 1 420px; min-width: 0; }
-.hero__copy { display: none; flex-direction: column; gap: 22px; }
-.hero__copy.is-on { display: flex; }
+.hero__text { position: relative; max-width: 640px; flex: 1 1 420px; min-width: 0; display: grid; }
+/* Textes des diapositives superposés : la plus haute fixe la hauteur, le slider ne saute pas. */
+.hero__copy { grid-area: 1 / 1; display: flex; flex-direction: column; gap: 22px; visibility: hidden; }
+.hero__copy.is-on { visibility: visible; }
 .hero__copy.is-on > * { animation: heroIn .65s var(--ease) backwards; }
 .hero__copy.is-on > *:nth-child(2) { animation-delay: .09s; }
 .hero__copy.is-on > *:nth-child(3) { animation-delay: .18s; }
 .hero__copy.is-on > *:nth-child(4) { animation-delay: .27s; }
 @keyframes heroIn { from { opacity: 0; transform: translateY(26px); clip-path: inset(0 0 100% 0); } to { opacity: 1; transform: none; clip-path: inset(0 0 0 0); } }
-.hero__title { font-family: var(--display); font-weight: 900; font-size: clamp(60px, 8.5vw, 128px); line-height: .92; text-transform: uppercase; text-wrap: balance; }
+.hero__title { font-family: var(--display); font-weight: 900; font-size: clamp(60px, 8.5vw, 128px); line-height: .92; text-transform: uppercase; text-wrap: balance; overflow-wrap: anywhere; }
+.hero__title--l { font-size: clamp(46px, 6.2vw, 96px); }
+.hero__title--xl { font-size: clamp(38px, 4.8vw, 74px); }
 .hero__lead { margin: 0; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.45; max-width: 36ch; text-wrap: pretty; }
 .hero__copy .btn { pointer-events: auto; align-self: flex-start; }
 .hero__count { display: flex; flex-direction: column; align-items: flex-end; gap: 18px; pointer-events: auto; }
@@ -493,10 +497,9 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .hero.is-paused .hero__thumb.is-on .hero__bar i { animation: none; width: 100%; }
 @keyframes fcsmBar { from { width: 0; } to { width: 100%; } }
 .hero__tkind { font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: .14em; color: var(--yellow); }
-.hero__ttitle { font-family: var(--display); font-weight: 700; font-size: 21px; text-transform: uppercase; line-height: 1.05; }
+.hero__ttitle { font-family: var(--display); font-weight: 700; font-size: 21px; text-transform: uppercase; line-height: 1.05; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
 @media (max-width: 700px) {
-  .hero { height: auto; min-height: 640px; }
-  .hero__ui { position: relative; min-height: 640px; }
+  .hero__ui { min-height: 640px; }
   .hero__count { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
   .hero__thumbs { grid-template-columns: 1fr 1fr; }
 }

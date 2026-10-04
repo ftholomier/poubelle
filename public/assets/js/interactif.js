@@ -120,6 +120,10 @@
     const paint = (side, idx) => {
       const e = eras[idx] || {}; const el = $(`[data-jimg="${side}"]`, box);
       el.style.backgroundImage = e.image ? `url("${e.image}")` : '';
+      // Photo large (équipe, match) : elle remplit le cadre ; maillot photographié seul, en
+      // hauteur : il reste entier sur le fond neutre.
+      el.style.backgroundSize = '';
+      if (e.image) { const im = new Image(); im.onload = () => { if (el.style.backgroundImage.includes(e.image)) el.style.backgroundSize = im.naturalWidth >= im.naturalHeight * 1.3 ? 'cover' : ''; }; im.src = e.image; }
       el.innerHTML = e.image ? '' : `<em>${esc(T('Maillot · ', 'Shirt · ') + (e.label || ''))}</em>`;
       $(`[data-jtag="${side}"]`, box).textContent = e.label || '';
       $(`[data-jtext="${side}"]`, jers).textContent = e.text || '';
