@@ -403,6 +403,17 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       s'efface désormais sous 1520 px et la recherche devient une loupe entre 1100 et 1199 px.
       Contrôle : 21 pages × 5 largeurs (360 à 1920 px), aucun débordement.
 
+## Mentions légales, menu et vidéo de l'accueil de l'association (04/10, demande du client) — terminé
+- [x] Mentions légales du musée (français, anglais) et de l'association : rubrique
+      « Développement » — Frédéric Tholomier | LE-DIGITAL.com (lien vers le-digital.com).
+      Les pages légales de l'association chargent désormais leur feuille de style (encadrés,
+      tableaux).
+- [x] Accueil de l'association : vidéo nettement plus grande (747 × 420 px sur grand écran au
+      lieu de 518 × 291) ; bandeau aligné sur l'en-tête (1440 px), vidéo sur 7/12 de la largeur,
+      sous le texte en pleine largeur sous 1024 px.
+- [x] Menu de l'association : libellés toujours sur une ligne (ils se coupaient entre 1241 et
+      1300 px).
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;
