@@ -20,9 +20,11 @@ use App\Front\Unknown;
  * Récit rédigé par l'IA, comme un historien qui raconte (accroche, introduction, récit en
  * paragraphes, conclusion), à partir des « faits » de la page : chiffres, premier et dernier
  * match, grands matchs et début de leur fiche, buteurs, séries, finales, bilan de la saison…
- * Rédaction en traitement groupé (moitié prix), en français et en anglais ; chaque nuit, les
- * récits manquants ou dont les chiffres ont changé sont refaits (réglage « pages_ai »), puis lus
- * par la voix IA de Gemini, enregistrée (réglage « pages_voice », public/media/audio/pages/).
+ * Essai sur une page (tout de suite, tarif normal), puis lancement pour tout le musée depuis
+ * Système › Fiches audio (traitement groupé, moitié prix), en français et en anglais. Après ce
+ * premier lancement seulement, chaque nuit, les récits manquants ou dont les chiffres ont changé
+ * sont refaits (réglage « pages_ai »), puis lus par la voix IA de Gemini, enregistrée (réglage
+ * « pages_voice », public/media/audio/pages/).
  * Tant que le récit de l'IA manque ou ne correspond plus aux chiffres (empreinte des faits), le
  * récit automatique est lu : construit à chaque affichage depuis les mêmes données, toujours à
  * jour et gratuit, par la voix du navigateur (bouton « Écouter », comme sur les fiches). La voix
@@ -113,8 +115,7 @@ final class PageAudio
         $lang = $en ? 'en' : 'fr';
         $st = self::stored($slug)[$lang] ?? null;
         if (is_array($st) && trim((string) ($st['text'] ?? '')) !== '' && ($f = $facts()) !== null && ($st['sig'] ?? '') === self::sig($f)) {
-            $paras = array_map(fn ($p) => self::speakable($p, $en), preg_split('/\n\s*\n/u', FicheAudio::paragraphs((string) $st['text'])) ?: []);
-            $text = implode("\n\n", array_filter($paras, fn ($p) => $p !== ''));
+            $text = self::sayText((string) $st['text'], $en);
             if ($text !== '') {
                 $a = self::voiceOf($st);
                 return ['text' => $text, 'url' => $a ? '/media/' . $a['file'] : null, 'lang' => FicheAudio::LANGS[$lang], 'dur' => $a['dur'] ?? null,
@@ -191,9 +192,13 @@ final class PageAudio
         if ($text === '') {
             return null;
         }
-        $en = $k[1] === 'en';
-        $say = implode("\n\n", array_map(fn ($p) => self::speakable($p, $en), preg_split('/\n\s*\n/u', FicheAudio::paragraphs($text)) ?: []));
-        return [Gemini::speechRequest($say, $voice, FicheAudio::style($k[1])), $text];
+        return [Gemini::speechRequest(self::sayText($text, $k[1] === 'en'), $voice, FicheAudio::style($k[1])), $text];
+    }
+
+    /** Le récit tel qu'il est affiché et dit : paragraphes, chaque paragraphe préparé pour la voix. */
+    private static function sayText(string $text, bool $en): string
+    {
+        return implode("\n\n", array_filter(array_map(fn ($p) => self::speakable($p, $en), preg_split('/\n\s*\n/u', FicheAudio::paragraphs($text)) ?: []), fn ($p) => $p !== ''));
     }
 
     /** Empreinte des faits racontés (et de la consigne, de la durée maximale) : change si les chiffres changent. */
@@ -443,6 +448,93 @@ final class PageAudio
         $v = $voices ? $plan['voices'] : [];
         $jobs += $v ? FicheAudio::queueVoices($v, $user, true) : 0;
         return ['text' => count($plan['keys']), 'voice' => count($v) + ($voices ? count($plan['keys']) : 0), 'jobs' => $jobs, 'pages' => $plan['pages']];
+    }
+
+    /**
+     * Essai sur une page, tout de suite (tarif normal) : récit rédigé par l'IA, puis sa voix IA si
+     * $voice. ['text', 'voice' => voix enregistrée ou null].
+     */
+    public static function tryPage(string $slug, string $lang, bool $voice): array
+    {
+        $facts = self::factsFor($slug);
+        if (!$facts) {
+            throw new \RuntimeException('Cette page n’a rien à raconter (aucun match fiché).');
+        }
+        [$system, $user] = self::aiPrompt($facts, $lang);
+        $model = FicheAudio::textModel();
+        $g = Gemini::generate([['role' => 'user', 'text' => $user]], $system, ['model' => $model, 'temperature' => 0.6, 'max_tokens' => FicheAudio::aiTokens(), 'for' => 'audio', 'ref' => 'page:' . $slug]);
+        $text = FicheAudio::cleanAi((string) $g['text']);
+        if ($text === '') {
+            throw new \RuntimeException('Gemini n’a pas rédigé de récit.');
+        }
+        self::saveText($slug, $lang, $text, self::sig($facts), $model);
+        $out = ['text' => $text, 'voice' => null];
+        if ($voice) {
+            $r = Gemini::speech(self::sayText($text, $lang === 'en'), FicheAudio::voice(), FicheAudio::style($lang), 'page:' . $slug);
+            $out['voice'] = self::storeVoice($slug, $lang, $r['pcm'], $r['rate'], $text, (string) $r['model'], FicheAudio::voice());
+        }
+        return $out;
+    }
+
+    /** [page, langue] d'une adresse du site (« /face-a-face/nancy/ », « /en/chiffres/ », « /records/?cat=series »), ou null. */
+    public static function slugFromUrl(string $url): ?array
+    {
+        $p = parse_url(trim($url));
+        $path = (string) ($p['path'] ?? '');
+        parse_str((string) ($p['query'] ?? ''), $q);
+        $lang = 'fr';
+        if (preg_match('#^/en(/|$)#', $path)) {
+            $lang = 'en';
+            $path = substr($path, 3);
+        }
+        $path = '/' . trim($path, '/') . '/';
+        if (preg_match('#^/face-a-face/([a-z0-9-]+)/$#', $path, $m)) {
+            return ['club-' . $m[1], $lang];
+        }
+        if (preg_match('#^/matchs/(\d{4}-\d{4})/$#', $path, $m)) {
+            return ['saison-' . $m[1], $lang];
+        }
+        if (preg_match('#^/bilans/([a-z0-9-]+)/$#', $path, $m)) {
+            return ['bilan-' . $m[1], $lang];
+        }
+        if ($path === '/records/') {
+            $cat = (string) ($q['cat'] ?? 'buteurs');
+            $dec = preg_match('/^(19|20)\d0$/', (string) ($q['decennie'] ?? '')) ? (int) $q['decennie'] : null;
+            $comp = in_array($q['comp'] ?? '', self::RECORD_COMPS, true) ? (string) $q['comp'] : null;
+            return isset(Explore::RECORDS[$cat]) ? [self::recordsSlug($cat, $dec, $comp), $lang] : null;
+        }
+        return $path === '/chiffres/' ? ['chiffres', $lang] : null;
+    }
+
+    /** Adresse d'une page sur le site. */
+    public static function urlFor(string $slug, string $lang): string
+    {
+        $pre = $lang === 'en' ? '/en' : '';
+        if (preg_match('/^records-([a-z]+)(?:-(\d{4}))?(?:-([a-z-]+))?$/', $slug, $m)) {
+            $q = array_filter(['cat' => $m[1] === 'buteurs' ? null : $m[1], 'decennie' => ($m[2] ?? '') ?: null, 'comp' => ($m[3] ?? '') ?: null]);
+            return $pre . '/records/' . ($q ? '?' . http_build_query($q) : '');
+        }
+        return $pre . match (true) {
+            str_starts_with($slug, 'club-') => '/face-a-face/' . substr($slug, 5) . '/',
+            str_starts_with($slug, 'saison-') => '/matchs/' . substr($slug, 7) . '/',
+            str_starts_with($slug, 'bilan-') => '/bilans/' . substr($slug, 6) . '/',
+            default => '/chiffres/',
+        };
+    }
+
+    /**
+     * La rédaction de nuit ne commence qu'après le premier lancement pour tout le musée (Système ›
+     * Fiches audio) : rien n'est dépensé tant que l'administrateur n'a pas essayé puis validé.
+     */
+    public static function activated(): bool
+    {
+        return !empty(JsonStore::read(dirname(self::$dir) . '/pages-etat.json', [])['activated']);
+    }
+
+    public static function activate(?array $user): void
+    {
+        @mkdir(dirname(self::$dir), 0775, true);
+        JsonStore::write(dirname(self::$dir) . '/pages-etat.json', ['activated' => date('c'), 'by' => (string) ($user['name'] ?? 'Inconnu')]);
     }
 
     /** Voix IA pour les récits des pages (Réglages › Fiches audio). */

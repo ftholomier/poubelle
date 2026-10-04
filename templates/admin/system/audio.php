@@ -1,7 +1,7 @@
 <?php
 /**
  * Fiches audio. Variables : $stats, $plan, $aiText, $texts (textes à rédiger par l'IA : n, batch, model), $batch, $direct, $jobs, $states, $recent, $ready, $model, $voice, $spent, $admin, $enabled,
- * $pages (pages de synthèse : stats, last, running, auto, estimate, all, upper, voices, voiceEstimate, voiceAll)
+ * $pages (pages de synthèse : stats, last, running, auto, estimate, all, upper, voices, voiceEstimate, voiceAll, activated)
  */
 use App\Admin\Base;
 
@@ -84,16 +84,22 @@ $kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
     <div class="card__body">
       <p class="small" style="margin:0">Chaque page de synthèse a son bouton « Écouter ». L’IA la raconte comme un historien, à partir de ses chiffres et des fiches de ses grands matchs (premier et dernier match, plus belles victoires, finales, buteurs, séries, bilan de la saison…), en français et en anglais<?= $pages['voices'] ? ', puis la voix IA enregistre le récit' : '' ?>. Tant que son récit manque ou que les chiffres ont changé, le récit automatique, gratuit, est lu par la voix du navigateur.</p>
       <p class="small" style="margin:0"><?php if ($pages['stats']['fr'] + $pages['stats']['en'] === 0): ?>Aucun récit rédigé par l’IA pour l’instant<?php else: ?><b><?= $fmt($pages['stats']['fr']) ?></b> récit<?= $pages['stats']['fr'] > 1 ? 's' : '' ?> en français et <b><?= $fmt($pages['stats']['en']) ?></b> en anglais rédigés par l’IA, dont <b><?= $fmt($pages['stats']['voice_fr'] + $pages['stats']['voice_en']) ?></b> lus par la voix IA<?= $pages['stats']['bytes'] ? ' (' . e(Base::size((int) $pages['stats']['bytes'])) . ')' : '' ?><?php endif; ?><?php if ($pages['last']): ?> ; au dernier calcul (<?= e(Base::ago(date('c', (int) $pages['last']['at']))) ?>), <?= $fmt($pages['last']['pages']) ?> pages se racontent<?= $pages['last']['todo'] !== null ? ', ' . $fmt($pages['last']['todo']) . ' récit' . ($pages['last']['todo'] > 1 ? 's' : '') . ' à rédiger' : '' ?><?php endif; ?>.</p>
-      <p class="small" style="margin:0">Coût estimé<?= $pages['upper'] ? ', au plus' : '' ?> : <b><?= e($eur($pages['estimate']['eur'])) ?></b> pour les récits<?= $pages['voices'] ? ', <b>' . e($eur($pages['voiceEstimate']['eur'])) . '</b> pour les voix IA' : '' ?> (traitement groupé, moitié prix ; tout refaire : <?= e($eur($pages['all']['eur'] + ($pages['voices'] ? $pages['voiceAll']['eur'] : 0))) ?>). <?= $pages['auto'] ? 'Chaque nuit, les récits manquants ou dépassés sont rédigés' . ($pages['voices'] ? ' puis enregistrés en voix IA' : '') . ' automatiquement.' : 'Rédaction automatique de nuit désactivée' . ($admin ? ' (<a href="/admin/reglages?groupe=audio">Réglages › Fiches audio</a>)' : '') . '.' ?></p>
+      <p class="small" style="margin:0">Coût estimé<?= $pages['upper'] ? ', au plus' : '' ?> : <b><?= e($eur($pages['estimate']['eur'])) ?></b> pour les récits<?= $pages['voices'] ? ', <b>' . e($eur($pages['voiceEstimate']['eur'])) . '</b> pour les voix IA' : '' ?> (traitement groupé, moitié prix ; tout refaire : <?= e($eur($pages['all']['eur'] + ($pages['voices'] ? $pages['voiceAll']['eur'] : 0))) ?>). <?php if (!$pages['auto']): ?>Rédaction automatique de nuit désactivée<?= $admin ? ' (<a href="/admin/reglages?groupe=audio">Réglages › Fiches audio</a>)' : '' ?>.<?php elseif ($pages['activated']): ?>Chaque nuit, les récits manquants ou dépassés sont rédigés<?= $pages['voices'] ? ' puis enregistrés en voix IA' : '' ?> automatiquement.<?php else: ?><b>Rien n’est encore lancé :</b> essayez d’abord sur une page ; la rédaction de nuit commencera après « Lancer pour tout le musée ».<?php endif; ?></p>
       <?php if ($pages['running']): ?><p class="small" style="margin:0"><span class="pill pill--info">En cours</span> Un traitement groupé de récits est en cours (tableau ci-dessous).</p><?php endif; ?>
       <?php if (!$ready): ?>
         <p class="small" style="margin:0">Il faut une clé Gemini<?= $admin ? ' (<a href="/admin/reglages?groupe=ai">Réglages › Assistant IA</a>)' : '' ?>.</p>
       <?php elseif ($admin): ?>
+        <form method="post" action="/admin/audio" class="row" style="gap:10px;align-items:flex-end" data-confirm="Essayer sur cette page ?|Le récit est rédigé tout de suite<?= $pages['voices'] ? ', puis enregistré par la voix IA (une à deux minutes)' : '' ?>, au tarif normal : moins d’un centime pour le récit<?= $pages['voices'] ? ', quelques centimes pour la voix' : '' ?>.|Essayer">
+          <?= csrf_field() ?><input type="hidden" name="action" value="pages-essai">
+          <label class="stack" style="gap:4px;flex:1 1 260px"><span class="xs muted">Adresse de la page à essayer</span><input type="text" name="page" value="/face-a-face/nancy/" required placeholder="/face-a-face/nancy/, /matchs/1987-1988/, /chiffres/…"></label>
+          <?php if ($pages['voices']): ?><label class="row" style="gap:6px"><input type="checkbox" name="voix" value="1" checked> avec la voix IA</label><?php endif; ?>
+          <button type="submit" class="btn">Essayer sur cette page</button>
+        </form>
         <form method="post" action="/admin/audio" class="row" style="gap:12px" data-confirm="Faire rédiger les récits des pages par l’IA ?|Les récits manquants ou dépassés, en français et en anglais<?= $pages['voices'] ? ', puis leurs voix IA' : '' ?> (coût estimé : <?= e($eur($pages['estimate']['eur'] + ($pages['voices'] ? $pages['voiceEstimate']['eur'] : 0))) ?>, compté dans Coûts IA). Le calcul prend une dizaine de secondes.|Lancer">
           <?= csrf_field() ?><input type="hidden" name="action" value="pages">
           <label class="row" style="gap:6px" title="Réécrire aussi les récits déjà rédigés et à jour"><input type="checkbox" name="refaire" value="1"> Tout refaire</label>
-          <button type="submit" class="btn btn--navy"><?= $pages['voices'] ? 'Rédiger et enregistrer maintenant' : 'Rédiger les récits maintenant' ?></button>
-          <span class="xs muted">Résultat en quelques heures.</span>
+          <button type="submit" class="btn btn--navy"><?= $pages['activated'] ? ($pages['voices'] ? 'Rédiger et enregistrer maintenant' : 'Rédiger les récits maintenant') : 'Lancer pour tout le musée' ?></button>
+          <span class="xs muted">Résultat en quelques heures<?= $pages['activated'] ? '' : ' ; la rédaction de nuit prend le relais ensuite' ?>.</span>
         </form>
       <?php endif; ?>
     </div>

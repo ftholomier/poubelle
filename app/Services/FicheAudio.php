@@ -1063,7 +1063,7 @@ final class FicheAudio
             return $j;
         }, []);
         $log = [];
-        if ($pages && !AiCosts::paused('audio')) {
+        if ($pages && PageAudio::activated() && !AiCosts::paused('audio')) {
             $r = PageAudio::launch(false, null);
             if ($r['text'] || $r['voice']) {
                 $log[] = $r['text'] . ' récit(s) de pages de synthèse et ' . $r['voice'] . ' voix confiés à l’IA (traitement groupé)';

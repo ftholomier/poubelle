@@ -238,6 +238,15 @@ $vj = array_values(array_filter(A::jobs(), fn ($j) => $j['kind'] === 'voix' && !
 $eq('récit rédigé : sa voix IA commandée ensuite', [count($vj), $vj[0]['state'] ?? null], [1, 'attente']);
 $eq('voix des pages désactivées : récits seuls', P::launch(false, null, ['club-nancy'], false)['voice'], 0);
 
+// Essai sur une page : adresse du site ↔ page ; rien la nuit avant le premier lancement complet.
+$urls = ['/face-a-face/nancy/', 'https://musee.fcsochauxretro.com/en/matchs/1987-1988/', '/bilans/stade-auguste-bonal/', '/bilans/coupe-de-france', '/records/?cat=series&decennie=1980&comp=championnat', '/records/', '/en/chiffres/', '/fiche/inconnue/', '/records/?cat=pirate'];
+$eq('adresse → page', array_map(fn ($u) => P::slugFromUrl($u), $urls), [['club-nancy', 'fr'], ['saison-1987-1988', 'en'], ['bilan-stade-auguste-bonal', 'fr'], ['bilan-coupe-de-france', 'fr'], ['records-series-1980-championnat', 'fr'], ['records-buteurs', 'fr'], ['chiffres', 'en'], null, null]);
+$eq('page → adresse', [P::urlFor('club-nancy', 'fr'), P::urlFor('saison-1987-1988', 'en'), P::urlFor('records-series-1980-championnat', 'fr'), P::urlFor('records-buteurs', 'fr'), P::urlFor('bilan-stade-auguste-bonal', 'fr'), P::urlFor('chiffres', 'en')],
+    ['/face-a-face/nancy/', '/en/matchs/1987-1988/', '/records/?cat=series&decennie=1980&comp=championnat', '/records/', '/bilans/stade-auguste-bonal/', '/en/chiffres/']);
+$before = P::activated();
+P::activate(['name' => 'Essai']);
+$eq('rédaction de nuit : seulement après le premier lancement complet', [$before, P::activated()], [false, true]);
+
 // Ménage.
 $rm = function (string $d) use (&$rm) {
     foreach (glob("$d/*") ?: [] as $f) {

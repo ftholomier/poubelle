@@ -63,7 +63,7 @@ final class Audio extends Base
             'stats' => PageAudio::stats(), 'last' => $last, 'running' => $running, 'auto' => (bool) Settings::get('audio.pages_ai', true),
             'estimate' => PageAudio::estimate($todo ?? $max), 'all' => PageAudio::estimate($all), 'upper' => $todo === null,
             'voices' => $voices, 'voiceEstimate' => PageAudio::voiceEstimate($voices ? ($todo ?? $max) + (int) ($last['voices'] ?? 0) : 0),
-            'voiceAll' => PageAudio::voiceEstimate($all),
+            'voiceAll' => PageAudio::voiceEstimate($all), 'activated' => PageAudio::activated(),
         ];
     }
 
@@ -74,11 +74,30 @@ final class Audio extends Base
             return $deny;
         }
         $action = $req->str('action');
+        if ($action === 'pages-essai') {
+            if (!Gemini::ready()) {
+                return self::back('/admin/audio', null, 'Il faut une clé Gemini (Réglages › Assistant IA).');
+            }
+            $page = PageAudio::slugFromUrl($req->str('page'));
+            if (!$page) {
+                return self::back('/admin/audio', null, 'Adresse non reconnue : collez celle d’un face-à-face, d’une saison, d’un bilan, des records ou des chiffres (par exemple /face-a-face/nancy/).');
+            }
+            session_write_close();
+            @set_time_limit(360);
+            try {
+                $r = PageAudio::tryPage($page[0], $page[1], $req->str('voix') !== '' && PageAudio::voicesOn());
+            } catch (\Throwable $e) {
+                return self::back('/admin/audio', null, 'Essai impossible : ' . $e->getMessage());
+            }
+            Activity::log(self::actor(), 'a essayé le récit IA de la page ' . PageAudio::urlFor($page[0], $page[1]), null);
+            return self::back('/admin/audio', 'Récit rédigé (' . FicheAudio::words($r['text']) . ' mots)' . ($r['voice'] ? ' et voix IA enregistrée (' . (int) round((float) $r['voice']['dur']) . ' s)' : '') . ' : écoutez-le sur la page ' . PageAudio::urlFor($page[0], $page[1]) . ' (bouton « Écouter »).' . self::aiCost());
+        }
         if ($action === 'pages') {
             if (!Gemini::ready()) {
                 return self::back('/admin/audio', null, 'Il faut une clé Gemini (Réglages › Assistant IA).');
             }
             @set_time_limit(180);
+            PageAudio::activate(self::actor()); // la rédaction de nuit prend le relais ensuite
             $r = PageAudio::launch($req->str('refaire') !== '', self::actor());
             if (!$r['text'] && !$r['voice']) {
                 return self::back('/admin/audio', 'Les ' . $r['pages'] . ' pages de synthèse ont déjà leur récit rédigé par l’IA, à jour' . (PageAudio::voicesOn() ? ', et sa voix IA.' : '.'));
