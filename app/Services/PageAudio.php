@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Core\JsonStore;
+use App\Core\Settings;
 use App\Data\Derived;
 use App\Data\Fiches;
 use App\Data\Index;
@@ -20,12 +21,15 @@ use App\Front\Unknown;
  * paragraphes, conclusion), à partir des « faits » de la page : chiffres, premier et dernier
  * match, grands matchs et début de leur fiche, buteurs, séries, finales, bilan de la saison…
  * Rédaction en traitement groupé (moitié prix), en français et en anglais ; chaque nuit, les
- * récits manquants ou dont les chiffres ont changé sont refaits (réglage « pages_ai »). Tant que
- * le récit de l'IA manque ou ne correspond plus aux chiffres (empreinte des faits), le récit
- * automatique est lu : construit à chaque affichage depuis les mêmes données, toujours à jour et
- * gratuit. La voix du navigateur lit l'un ou l'autre (bouton « Écouter », comme sur les fiches).
+ * récits manquants ou dont les chiffres ont changé sont refaits (réglage « pages_ai »), puis lus
+ * par la voix IA de Gemini, enregistrée (réglage « pages_voice », public/media/audio/pages/).
+ * Tant que le récit de l'IA manque ou ne correspond plus aux chiffres (empreinte des faits), le
+ * récit automatique est lu : construit à chaque affichage depuis les mêmes données, toujours à
+ * jour et gratuit, par la voix du navigateur (bouton « Écouter », comme sur les fiches). La voix
+ * enregistrée n'est jouée que si elle lit bien le récit affiché.
  *
- * État : storage/audio/pages/{page}.json = ['fr' => ['text', 'sig', 'model', 'at'], 'en' => …].
+ * État : storage/audio/pages/{page}.json = ['fr' => ['text', 'sig', 'model', 'at', 'audio' =>
+ * ['file', 'th' (empreinte du texte lu), 'voice', 'model', 'dur', 'bytes', 'at']], 'en' => …].
  */
 final class PageAudio
 {
@@ -112,8 +116,9 @@ final class PageAudio
             $paras = array_map(fn ($p) => self::speakable($p, $en), preg_split('/\n\s*\n/u', FicheAudio::paragraphs((string) $st['text'])) ?: []);
             $text = implode("\n\n", array_filter($paras, fn ($p) => $p !== ''));
             if ($text !== '') {
-                return ['text' => $text, 'url' => null, 'lang' => FicheAudio::LANGS[$lang], 'dur' => null,
-                    'secs' => (int) round(FicheAudio::words($text) / FicheAudio::WPM * 60), 'src' => 'ai'];
+                $a = self::voiceOf($st);
+                return ['text' => $text, 'url' => $a ? '/media/' . $a['file'] : null, 'lang' => FicheAudio::LANGS[$lang], 'dur' => $a['dur'] ?? null,
+                    'secs' => (int) round((float) ($a['dur'] ?? 0) ?: FicheAudio::words($text) / FicheAudio::WPM * 60), 'src' => 'ai'];
             }
         }
         $a = $auto();
@@ -140,9 +145,55 @@ final class PageAudio
         @mkdir(self::$dir, 0775, true);
         JsonStore::update(self::$dir . '/' . $slug . '.json', function ($s) use ($lang, $text, $sig, $model) {
             $s = is_array($s) ? $s : [];
-            $s[$lang] = ['text' => trim($text), 'sig' => $sig, 'model' => $model, 'at' => date('c')];
+            // L'ancienne voix reste rangée (remplacée par la suivante) mais ne lit plus ce texte : plus jouée.
+            $s[$lang] = ['text' => trim($text), 'sig' => $sig, 'model' => $model, 'at' => date('c')] + array_intersect_key($s[$lang] ?? [], ['audio' => 1]);
             return $s;
         }, []);
+    }
+
+    /** Voix IA enregistrée qui lit bien le récit rangé ($st : état d'une langue), sinon null. */
+    private static function voiceOf(array $st): ?array
+    {
+        $a = $st['audio'] ?? null;
+        if (!is_array($a) || empty($a['file']) || ($a['th'] ?? '') !== sha1(trim((string) ($st['text'] ?? '')))) {
+            return null;
+        }
+        return is_file(FicheAudio::$media . '/' . $a['file']) ? $a : null;
+    }
+
+    /** Enregistre la voix IA d'un récit (MP3 si possible, sinon WAV) et remplace la précédente. */
+    public static function storeVoice(string $slug, string $lang, string $pcm, int $rate, string $text, string $model, string $voice): ?array
+    {
+        if (!preg_match('/^[a-z0-9-]+$/', $slug) || !in_array($lang, self::LANGS, true)) {
+            return null;
+        }
+        $base = sprintf('%s-%s-%s', $slug, $lang, substr(sha1($text . '|' . $voice . '|' . $model . '|' . strlen($pcm)), 0, 10));
+        $entry = FicheAudio::encodeVoice($base, $pcm, $rate, 'audio/pages') + ['th' => sha1(trim($text)), 'voice' => $voice, 'model' => $model, 'at' => date('c')];
+        $old = null;
+        @mkdir(self::$dir, 0775, true);
+        JsonStore::update(self::$dir . '/' . $slug . '.json', function ($s) use ($lang, $entry, &$old) {
+            $s = is_array($s) ? $s : [];
+            $old = $s[$lang]['audio']['file'] ?? null;
+            $s[$lang]['audio'] = $entry;
+            return $s;
+        }, []);
+        if ($old && $old !== $entry['file'] && str_starts_with((string) $old, 'audio/pages/')) {
+            @unlink(FicheAudio::$media . '/' . $old);
+        }
+        return $entry;
+    }
+
+    /** Demande de voix du traitement groupé pour une clé « page:… » : le récit rangé, préparé pour la voix ; null s'il manque. */
+    public static function speechRequest(string $key, string $voice): ?array
+    {
+        $k = self::parseKey($key);
+        $text = $k ? trim((string) (self::stored($k[0])[$k[1]]['text'] ?? '')) : '';
+        if ($text === '') {
+            return null;
+        }
+        $en = $k[1] === 'en';
+        $say = implode("\n\n", array_map(fn ($p) => self::speakable($p, $en), preg_split('/\n\s*\n/u', FicheAudio::paragraphs($text)) ?: []));
+        return [Gemini::speechRequest($say, $voice, FicheAudio::style($k[1])), $text];
     }
 
     /** Empreinte des faits racontés (et de la consigne, de la durée maximale) : change si les chiffres changent. */
@@ -326,12 +377,14 @@ final class PageAudio
     }
 
     /**
-     * Ce qu'il reste à faire rédiger : récits manquants ou dont les chiffres ont changé (tous si
-     * $redo). ['keys' => clés « page:… », 'pages' => pages qui se racontent].
+     * Ce qu'il reste à faire : récits manquants ou dont les chiffres ont changé (tous si $redo),
+     * voix IA manquantes des récits à jour. ['keys' => récits à rédiger, 'voices' => voix à
+     * enregistrer (clés « page:… »), 'pages' => pages qui se racontent].
      */
     public static function plan(bool $redo = false, ?array $only = null): array
     {
         $keys = [];
+        $voices = [];
         $n = 0;
         foreach ($only ?? self::slugs() as $slug) {
             $facts = self::factsFor($slug);
@@ -344,14 +397,16 @@ final class PageAudio
             foreach (self::LANGS as $lang) {
                 if ($redo || ($st[$lang]['sig'] ?? '') !== $sig || trim((string) ($st[$lang]['text'] ?? '')) === '') {
                     $keys[] = self::key($slug, $lang);
+                } elseif (!self::voiceOf($st[$lang])) {
+                    $voices[] = self::key($slug, $lang);
                 }
             }
         }
         if ($only === null) {
             @mkdir(self::$dir, 0775, true);
-            JsonStore::write(dirname(self::$dir) . '/pages-plan.json', ['at' => time(), 'pages' => $n, 'todo' => $redo ? null : count($keys)]);
+            JsonStore::write(dirname(self::$dir) . '/pages-plan.json', ['at' => time(), 'pages' => $n, 'todo' => $redo ? null : count($keys), 'voices' => $redo ? null : count($voices)]);
         }
-        return ['keys' => $keys, 'pages' => $n];
+        return ['keys' => $keys, 'voices' => $voices, 'pages' => $n];
     }
 
     /** Dernier calcul de ce qu'il reste à rédiger : ['at', 'pages', 'todo'] ou null. */
@@ -359,6 +414,13 @@ final class PageAudio
     {
         $p = JsonStore::read(dirname(self::$dir) . '/pages-plan.json', null);
         return is_array($p) ? $p : null;
+    }
+
+    /** Coût estimé de $n voix IA de récits (environ 250 mots en moyenne), en traitement groupé. */
+    public static function voiceEstimate(int $n): array
+    {
+        $e = FicheAudio::estimate(0, $n, min(250.0, FicheAudio::maxWords() * 0.6), true);
+        return ['usd' => $e['usd'], 'eur' => $e['eur']];
     }
 
     /** Coût estimé de $n récits en traitement groupé (moitié prix) : faits d'environ 3 000 jetons. */
@@ -369,23 +431,39 @@ final class PageAudio
         return ['usd' => $usd, 'eur' => AiCosts::eur($usd)];
     }
 
-    /** Confie au traitement groupé les récits à rédiger (envoyés par la tâche planifiée). */
-    public static function launch(bool $redo, ?array $user, ?array $only = null): array
+    /**
+     * Confie au traitement groupé les récits à rédiger, puis leurs voix IA, et les voix manquantes
+     * des récits déjà à jour (réglage « pages_voice », ou $voices). Envoyés par la tâche planifiée.
+     */
+    public static function launch(bool $redo, ?array $user, ?array $only = null, ?bool $voices = null): array
     {
+        $voices ??= self::voicesOn();
         $plan = self::plan($redo, $only);
-        $jobs = $plan['keys'] ? FicheAudio::queueTexts($plan['keys'], $user, true) : 0;
-        return ['text' => count($plan['keys']), 'jobs' => $jobs, 'pages' => $plan['pages']];
+        $jobs = $plan['keys'] ? FicheAudio::queueTexts($plan['keys'], $user, true, $voices) : 0;
+        $v = $voices ? $plan['voices'] : [];
+        $jobs += $v ? FicheAudio::queueVoices($v, $user, true) : 0;
+        return ['text' => count($plan['keys']), 'voice' => count($v) + ($voices ? count($plan['keys']) : 0), 'jobs' => $jobs, 'pages' => $plan['pages']];
     }
 
-    /** Récits rédigés par l'IA, par langue. */
+    /** Voix IA pour les récits des pages (Réglages › Fiches audio). */
+    public static function voicesOn(): bool
+    {
+        return (bool) Settings::get('audio.pages_voice', true);
+    }
+
+    /** Récits rédigés par l'IA et voix IA qui les lisent, par langue ; place des voix. */
     public static function stats(): array
     {
-        $out = ['fr' => 0, 'en' => 0];
+        $out = ['fr' => 0, 'en' => 0, 'voice_fr' => 0, 'voice_en' => 0, 'bytes' => 0];
         foreach (glob(self::$dir . '/*.json') ?: [] as $f) {
             $s = JsonStore::read($f, []);
             foreach (self::LANGS as $lang) {
                 if (trim((string) ($s[$lang]['text'] ?? '')) !== '') {
                     $out[$lang]++;
+                    if ($a = self::voiceOf($s[$lang])) {
+                        $out['voice_' . $lang]++;
+                        $out['bytes'] += (int) ($a['bytes'] ?? 0);
+                    }
                 }
             }
         }

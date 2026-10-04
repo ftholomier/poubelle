@@ -212,6 +212,32 @@ $eq('récit rangé et lu sur la page', [$job['state'], $job['done'], $m['src'] ?
 $eq('aucune voix commandée pour une page', count(array_filter(A::jobs(), fn ($j) => $j['kind'] === 'voix' && in_array('page:club-metz:fr', $j['keys'], true))), 0);
 $eq('coût compté pour la page', in_array('page:club-metz', array_column(AiCosts::lines(date('Y-m'), 5), 'r'), true), true);
 
+// Voix IA des récits des pages : demandée sur le récit rangé, jouée seulement si elle le lit.
+$pcm = str_repeat("\0\0", 24000);
+[$sreq, $said] = P::speechRequest('page:club-metz:fr', 'Charon');
+$eq('demande de voix : le récit rangé, préparé pour la voix', [$said, str_contains(json_encode($sreq, JSON_UNESCAPED_UNICODE), 'Metz et Sochaux, une histoire.'), P::speechRequest('page:club-inconnu:fr', 'Charon')], ["Metz et Sochaux, une histoire.\n\nSuite.", true, null]);
+$voiceJob = ['id' => 'vpage', 'kind' => 'voix', 'keys' => ['page:club-metz:fr'], 'state' => 'recup', 'model' => 'gemini-3.8-flash-tts', 'voice' => 'Charon', 'then_voice' => false, 'pages' => true, 'cursor' => 0, 'done' => 0, 'errors' => 0, 'by' => 'Essai'];
+JsonStore::write(A::$dir . '/jobs/vpage-textes.json', ['page:club-metz:fr' => $said]);
+file_put_contents(A::$dir . '/jobs/vpage-resultats.jsonl', json_encode(['key' => 'page:club-metz:fr', 'response' => ['candidates' => [['content' => ['parts' => [['inlineData' => ['mimeType' => 'audio/L16;codec=pcm;rate=24000', 'data' => base64_encode($pcm)]]]]]], 'usageMetadata' => ['promptTokenCount' => 40, 'candidatesTokenCount' => 25]]]) . "\n");
+$voiceJob = A::process($voiceJob, microtime(true) + 30);
+$m = P::opponent('metz', 'Metz', Explore::opponentData('metz')['vars'], false);
+$eq('voix rangée et jouée sur la page', [$voiceJob['state'], $voiceJob['message'], (bool) preg_match('#^/media/audio/pages/club-metz-fr-[0-9a-f]{10}\.wav$#', (string) ($m['url'] ?? '')), $m['dur'] ?? null, $m['secs'] ?? null], ['termine', '1 voix de pages enregistrée(s).', true, 1.0, 1]);
+$file = A::$media . '/' . P::stored('club-metz')['fr']['audio']['file'];
+$eq('fichier de la voix', [is_file($file), P::stats()['voice_fr']], [true, 1]);
+$planV = P::plan(false, ['club-metz']);
+$eq('voix à faire : pas pour un récit à jour qui l’a déjà ; récit manquant d’abord rédigé', [$planV['keys'], $planV['voices']], [['page:club-metz:en'], []]);
+P::saveText('club-metz', 'fr', 'Un nouveau récit.', $sigOf('club-metz'));
+$m = P::opponent('metz', 'Metz', Explore::opponentData('metz')['vars'], false);
+$eq('récit refait : l’ancienne voix ne joue plus, nouvelle voix à faire', [$m['url'] ?? null, $m['text'] ?? null, in_array('page:club-metz:fr', P::plan(false, ['club-metz'])['voices'], true)], [null, 'Un nouveau récit.', true]);
+// Récits puis voix : un traitement de récits commande ensuite les voix de ses pages.
+$tj = ['id' => 'tpage', 'kind' => 'texte', 'keys' => ['page:club-metz:en'], 'state' => 'recup', 'model' => 'gemini-2.5-flash-lite', 'voice' => 'Charon', 'then_voice' => true, 'pages' => true, 'cursor' => 0, 'done' => 0, 'errors' => 0, 'by' => 'Essai'];
+JsonStore::write(A::$dir . '/jobs/tpage-textes.json', ['page:club-metz:en' => $sigOf('club-metz')]);
+file_put_contents(A::$dir . '/jobs/tpage-resultats.jsonl', json_encode(['key' => 'page:club-metz:en', 'response' => ['candidates' => [['content' => ['parts' => [['text' => 'Metz and Sochaux.']]]]], 'usageMetadata' => ['promptTokenCount' => 2500, 'candidatesTokenCount' => 50]]]) . "\n");
+A::process($tj, microtime(true) + 30);
+$vj = array_values(array_filter(A::jobs(), fn ($j) => $j['kind'] === 'voix' && !empty($j['pages']) && in_array('page:club-metz:en', $j['keys'], true)));
+$eq('récit rédigé : sa voix IA commandée ensuite', [count($vj), $vj[0]['state'] ?? null], [1, 'attente']);
+$eq('voix des pages désactivées : récits seuls', P::launch(false, null, ['club-nancy'], false)['voice'], 0);
+
 // Ménage.
 $rm = function (string $d) use (&$rm) {
     foreach (glob("$d/*") ?: [] as $f) {

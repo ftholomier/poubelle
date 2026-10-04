@@ -65,7 +65,7 @@ final class FicheAudio
     }
 
     /** Fiches par lot de voix : environ 300 Mo de résultats au plus, quelle que soit la durée. */
-    private static function voiceBatch(): int
+    public static function voiceBatch(): int
     {
         return max(10, (int) floor(self::BATCH_VOICE * 75 / self::maxWords()));
     }
@@ -81,7 +81,7 @@ final class FicheAudio
         return isset(self::VOICES[$v]) ? $v : 'Charon';
     }
 
-    private static function style(string $lang): string
+    public static function style(string $lang): string
     {
         return $lang === 'en' ? self::STYLE_EN : (trim((string) Settings::get('audio.style', '')) ?: self::STYLE);
     }
@@ -529,29 +529,8 @@ final class FicheAudio
     /** Enregistre l'audio (MP3 si possible, sinon WAV) et remplace l'éventuel fichier précédent. */
     public static function storeVoice(int $id, string $lang, string $pcm, int $rate, string $text, string $model, string $voice): array
     {
-        if (!is_dir(self::$media . '/audio') && !mkdir(self::$media . '/audio', 0775, true) && !is_dir(self::$media . '/audio')) {
-            throw new \RuntimeException('Dossier impossible à créer : ' . self::$media . '/audio');
-        }
         $base = sprintf('%d-%s-%s', $id, $lang, substr(sha1($text . '|' . $voice . '|' . $model . '|' . strlen($pcm)), 0, 10));
-        $wav = self::wav($pcm, $rate);
-        $file = $base . '.wav';
-        if ($ff = self::ffmpeg()) {
-            $tmp = self::$dir . "/tmp-$base.wav";
-            @mkdir(self::$dir, 0775, true);
-            file_put_contents($tmp, $wav);
-            $out = self::$media . '/audio' . "/$base.mp3";
-            exec(escapeshellarg($ff) . ' -loglevel error -y -i ' . escapeshellarg($tmp) . ' -ac 1 -codec:a libmp3lame -b:a 48k ' . escapeshellarg($out) . ' 2>&1', $o, $code);
-            @unlink($tmp);
-            if ($code === 0 && is_file($out) && filesize($out) > 0) {
-                $file = $base . '.mp3';
-            } else {
-                @unlink($out);
-            }
-        }
-        if ($file === $base . '.wav') {
-            file_put_contents(self::$media . '/audio' . "/$file", $wav);
-        }
-        $entry = ['file' => "audio/$file", 'th' => sha1($text), 'voice' => $voice, 'model' => $model, 'dur' => round(strlen($pcm) / (2 * max(1, $rate)), 1), 'bytes' => (int) filesize(self::$media . '/audio' . "/$file"), 'at' => date('c')];
+        $entry = self::encodeVoice($base, $pcm, $rate) + ['th' => sha1($text), 'voice' => $voice, 'model' => $model, 'at' => date('c')];
         $old = null;
         self::update($id, function ($s) use ($lang, $entry, &$old) {
             $old = $s[$lang]['audio']['file'] ?? null;
@@ -562,6 +541,37 @@ final class FicheAudio
             @unlink(self::$media . '/' . $old);
         }
         return $entry + ['url' => '/media/' . $entry['file']];
+    }
+
+    /**
+     * Range une voix dans public/media/{$sub}/ : MP3 si ffmpeg est présent, sinon WAV.
+     * ['file' => chemin sous media/, 'dur' => secondes, 'bytes'].
+     */
+    public static function encodeVoice(string $base, string $pcm, int $rate, string $sub = 'audio'): array
+    {
+        $dir = self::$media . '/' . $sub;
+        if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
+            throw new \RuntimeException('Dossier impossible à créer : ' . $dir);
+        }
+        $wav = self::wav($pcm, $rate);
+        $file = $base . '.wav';
+        if ($ff = self::ffmpeg()) {
+            $tmp = self::$dir . "/tmp-$base.wav";
+            @mkdir(self::$dir, 0775, true);
+            file_put_contents($tmp, $wav);
+            $out = "$dir/$base.mp3";
+            exec(escapeshellarg($ff) . ' -loglevel error -y -i ' . escapeshellarg($tmp) . ' -ac 1 -codec:a libmp3lame -b:a 48k ' . escapeshellarg($out) . ' 2>&1', $o, $code);
+            @unlink($tmp);
+            if ($code === 0 && is_file($out) && filesize($out) > 0) {
+                $file = $base . '.mp3';
+            } else {
+                @unlink($out);
+            }
+        }
+        if ($file === $base . '.wav') {
+            file_put_contents("$dir/$file", $wav);
+        }
+        return ['file' => "$sub/$file", 'dur' => round(strlen($pcm) / (2 * max(1, $rate)), 1), 'bytes' => (int) filesize("$dir/$file")];
     }
 
     public static function deleteVoice(int $id, string $lang): void
@@ -738,12 +748,23 @@ final class FicheAudio
         return ['jobs' => count($made), 'text' => count($plan['text']), 'voice' => count($plan['voice'])];
     }
 
-    /** Textes à faire rédiger en traitement groupé, sans voix IA ensuite (pages de synthèse). Nombre d'envois créés. */
-    public static function queueTexts(array $keys, ?array $user, bool $pages = false): int
+    /** Textes à faire rédiger en traitement groupé (pages de synthèse), voix IA ensuite si $thenVoice. Nombre d'envois créés. */
+    public static function queueTexts(array $keys, ?array $user, bool $pages = false, bool $thenVoice = false): int
     {
         $n = 0;
         foreach (array_chunk(array_values($keys), self::BATCH_TEXT) as $chunk) {
-            self::saveJob(self::newJob('texte', $chunk, $user, false) + ($pages ? ['pages' => true] : []));
+            self::saveJob(self::newJob('texte', $chunk, $user, $thenVoice) + ($pages ? ['pages' => true] : []));
+            $n++;
+        }
+        return $n;
+    }
+
+    /** Voix IA à enregistrer en traitement groupé (pages de synthèse). Nombre d'envois créés. */
+    public static function queueVoices(array $keys, ?array $user, bool $pages = false): int
+    {
+        $n = 0;
+        foreach (array_chunk(array_values($keys), self::voiceBatch()) as $chunk) {
+            self::saveJob(self::newJob('voix', $chunk, $user, false) + ($pages ? ['pages' => true] : []));
             $n++;
         }
         return $n;
@@ -853,7 +874,8 @@ final class FicheAudio
         foreach ($job['keys'] as $key) {
             // Récit d'une page de synthèse (face-à-face, saison, bilan, records, chiffres).
             if (PageAudio::isKey($key)) {
-                if ($job['kind'] === 'texte' && ($p = PageAudio::request($key, (string) $job['model']))) {
+                $p = $job['kind'] === 'texte' ? PageAudio::request($key, (string) $job['model']) : PageAudio::speechRequest($key, (string) $job['voice']);
+                if ($p) {
                     [$req, $side[$key]] = $p;
                     fwrite($fp, json_encode(['key' => $key, 'request' => $req], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
                 }
@@ -876,12 +898,18 @@ final class FicheAudio
             fwrite($fp, json_encode(['key' => $key, 'request' => $req], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
         }
         fclose($fp);
+        if (!$side) {
+            @unlink($in);
+            $job['state'] = 'termine';
+            $job['message'] = 'Rien à envoyer : les textes ont changé entre-temps.';
+            return $job;
+        }
         JsonStore::write(self::$dir . "/jobs/{$job['id']}-textes.json", $side);
         $file = Gemini::uploadFile($in, 'application/jsonl', 'sochaux-retro-' . $job['id']);
         $job['batch'] = Gemini::batchCreate($job['model'], $file, 'Sochaux Rétro · ' . ($job['kind'] === 'voix' ? 'voix' : 'résumés') . ' · ' . $job['id']);
         $job['state'] = 'envoye';
         $job['polled'] = time();
-        $job['message'] = 'Envoyé à Google : ' . count($side) . (!empty($job['pages']) ? ' récit(s) de pages.' : ' fiche(s).');
+        $job['message'] = 'Envoyé à Google : ' . count($side) . (!empty($job['pages']) ? ($job['kind'] === 'voix' ? ' voix de pages.' : ' récit(s) de pages.') : ' fiche(s).');
         @unlink($in);
         return $job;
     }
@@ -930,11 +958,21 @@ final class FicheAudio
                 $pk = PageAudio::parseKey($key);
                 if (!$pk || !is_array($resp) || !isset($side[$key])) {
                     $job['errors']++;
-                } else {
+                } elseif ($job['kind'] === 'texte') {
                     AiCosts::record('audio', (string) $job['model'], AiCosts::usage($resp) + ['batch' => true], 'page:' . $pk[0]);
                     $text = self::cleanAi(Gemini::responseText($resp));
                     if ($text !== '') {
                         PageAudio::saveText($pk[0], $pk[1], $text, (string) $side[$key], (string) $job['model']);
+                        $ready[] = $key;
+                        $job['done']++;
+                    } else {
+                        $job['errors']++;
+                    }
+                } else {
+                    AiCosts::record('audio', (string) $job['model'], AiCosts::usage($resp) + ['batch' => true], 'page:' . $pk[0]);
+                    $a = Gemini::speechAudio($resp);
+                    if ($a) {
+                        PageAudio::storeVoice($pk[0], $pk[1], $a['pcm'], $a['rate'], (string) $side[$key], (string) $job['model'], (string) $job['voice']);
                         $job['done']++;
                     } else {
                         $job['errors']++;
@@ -984,10 +1022,11 @@ final class FicheAudio
         }
         if ($eof) {
             $job['state'] = 'termine';
-            $job['message'] = $job['done'] . (!empty($job['pages']) ? ' récit(s) rédigé(s)' : ' fiche(s) traitée(s)') . ($job['errors'] ? ', ' . $job['errors'] . ' en échec' : '') . '.';
+            $what = empty($job['pages']) ? ' fiche(s) traitée(s)' : ($job['kind'] === 'voix' ? ' voix de pages enregistrée(s)' : ' récit(s) rédigé(s)');
+            $job['message'] = $job['done'] . $what . ($job['errors'] ? ', ' . $job['errors'] . ' en échec' : '') . '.';
             if (!empty($job['ready'])) {
                 foreach (array_chunk($job['ready'], self::voiceBatch()) as $chunk) {
-                    self::saveJob(self::newJob('voix', $chunk, ['name' => $job['by']], false));
+                    self::saveJob(self::newJob('voix', $chunk, ['name' => $job['by']], false) + (!empty($job['pages']) ? ['pages' => true] : []));
                 }
             }
             unset($job['ready']);
@@ -1026,8 +1065,8 @@ final class FicheAudio
         $log = [];
         if ($pages && !AiCosts::paused('audio')) {
             $r = PageAudio::launch(false, null);
-            if ($r['text']) {
-                $log[] = $r['text'] . ' récit(s) de pages de synthèse confiés à l’IA (traitement groupé)';
+            if ($r['text'] || $r['voice']) {
+                $log[] = $r['text'] . ' récit(s) de pages de synthèse et ' . $r['voice'] . ' voix confiés à l’IA (traitement groupé)';
             }
         }
         if (!$voices) {

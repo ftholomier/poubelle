@@ -57,9 +57,13 @@ final class Audio extends Base
         $max = count(PageAudio::slugs()) * count(PageAudio::LANGS);
         $todo = $last['todo'] ?? null;
         $running = (bool) array_filter(FicheAudio::jobs(), fn ($j) => !empty($j['pages']) && in_array($j['state'], ['attente', 'envoye', 'recup'], true));
+        $all = ($last['pages'] ?? (int) ($max / 2)) * 2;
+        $voices = PageAudio::voicesOn();
         return [
             'stats' => PageAudio::stats(), 'last' => $last, 'running' => $running, 'auto' => (bool) Settings::get('audio.pages_ai', true),
-            'estimate' => PageAudio::estimate($todo ?? $max), 'all' => PageAudio::estimate(($last['pages'] ?? (int) ($max / 2)) * 2), 'upper' => $todo === null,
+            'estimate' => PageAudio::estimate($todo ?? $max), 'all' => PageAudio::estimate($all), 'upper' => $todo === null,
+            'voices' => $voices, 'voiceEstimate' => PageAudio::voiceEstimate($voices ? ($todo ?? $max) + (int) ($last['voices'] ?? 0) : 0),
+            'voiceAll' => PageAudio::voiceEstimate($all),
         ];
     }
 
@@ -76,11 +80,11 @@ final class Audio extends Base
             }
             @set_time_limit(180);
             $r = PageAudio::launch($req->str('refaire') !== '', self::actor());
-            if (!$r['text']) {
-                return self::back('/admin/audio', 'Les ' . $r['pages'] . ' pages de synthèse ont déjà leur récit rédigé par l’IA, à jour.');
+            if (!$r['text'] && !$r['voice']) {
+                return self::back('/admin/audio', 'Les ' . $r['pages'] . ' pages de synthèse ont déjà leur récit rédigé par l’IA, à jour' . (PageAudio::voicesOn() ? ', et sa voix IA.' : '.'));
             }
-            Activity::log(self::actor(), 'a confié à l’IA les récits de ' . $r['text'] . ' page(s) de synthèse', null);
-            return self::back('/admin/audio', $r['text'] . ' récit(s) de pages de synthèse confiés à l’IA en traitement groupé (français et anglais) : la tâche planifiée les envoie à Google puis les range dès qu’ils sont prêts, en général en quelques heures. En attendant, le récit automatique est lu.');
+            Activity::log(self::actor(), 'a confié à l’IA les récits de ' . $r['text'] . ' page(s) de synthèse et ' . $r['voice'] . ' voix', null);
+            return self::back('/admin/audio', ($r['text'] ? $r['text'] . ' récit(s)' : 'Aucun récit') . ' à rédiger et ' . $r['voice'] . ' voix IA à enregistrer, confiés au traitement groupé (français et anglais) : la tâche planifiée les envoie à Google puis les range dès qu’ils sont prêts, en général en quelques heures (les voix suivent les récits). En attendant, le récit automatique est lu.');
         }
         if ($action === 'annuler') {
             return FicheAudio::cancel($req->str('job')) ? self::back('/admin/audio', 'Traitement annulé.') : self::back('/admin/audio', null, 'Traitement introuvable ou déjà terminé.');

@@ -308,7 +308,7 @@ refait quand la fiche ou sa photo change (`Share::VERSION` pour tout refaire).
 | `Proofreader` | correcteur d'orthographe et de syntaxe (§ 7 ter) |
 | `AiCosts` | coût de l'IA en temps réel, budget, remboursements (§ 7 quater) |
 | `FicheAudio` | fiches audio : explication de la fiche (durée maximale réglable, 3 min), voix IA, traitement groupé (§ 7 quinquies) |
-| `PageAudio` | pages de synthèse racontées (face-à-face, saisons, bilans, records, chiffres) : récit rédigé par l'IA (traitement groupé de `FicheAudio`, refait la nuit quand les chiffres changent), sinon récit automatique calculé à chaque affichage ; français et anglais, lu par la voix du navigateur (§ 7 quinquies) |
+| `PageAudio` | pages de synthèse racontées (face-à-face, saisons, bilans, records, chiffres) : récit rédigé par l'IA puis voix IA enregistrée (traitements groupés de `FicheAudio`, refaits la nuit quand les chiffres changent), sinon récit automatique calculé à chaque affichage, lu par la voix du navigateur ; français et anglais (§ 7 quinquies) |
 | `Updater` | mises à jour en un clic depuis GitHub (Système › Mises à jour) : dernière version de la branche (API, flux Atom en secours), changements, application du seul code qui a changé (`app/`, `bin/`, `config/`, `scripts/`, `templates/`, `public/` sauf `public/media/`), libellés `data/i18n/en.json` fusionnés, `public/.htaccess` modifié gardé, fichiers retirés du dépôt supprimés (manifeste CRC32), sauvegarde et retour arrière, pause du site pendant la copie (`storage/update/maintenance`, lu par le Kernel), caches vidés sauf `storage/cache/correcteur/` ; synchronisation : à chaque vérification, empreintes Git (`sha1("blob <taille>\0<contenu>")`) des fichiers du serveur comparées à l'arborescence de la version (API `git/trees`, un appel par dossier du code, listes gardées sous leur empreinte dans `storage/update/arbres/`), fins de ligne ignorées pour les fichiers texte ; site mis en ligne par FTP et identique : version reconnue (manifeste écrit, sans le `.htaccess` réglé à la main) ; fichiers différents : « Synchroniser avec GitHub » |
 | `Payments` | Stripe Checkout et abonnements, PayPal Orders v2 et abonnements, vérification des webhooks |
 | `Mailer`, `Newsletter` | e-mails (SMTP ou mail()), newsletter hebdomadaire « Ce jour-là » |
@@ -459,6 +459,14 @@ souvenirs) pour refaire les PDF en cache.
   `audio.pages_ai`) confie les récits manquants ou dépassés (`plan()`, une dizaine de secondes,
   dernier calcul dans `storage/audio/pages-plan.json`). Coûts : usage « Fiches audio », référence
   `page:{page}`.
+- **Voix IA des pages** (réglage `audio.pages_voice`) : un traitement de récits de pages a
+  `then_voice` ; à la fin, les voix de ses pages sont commandées (travail `voix` marqué `pages`).
+  `plan()` liste aussi les voix manquantes des récits à jour (`voices`), confiées par `launch()`
+  (`FicheAudio::queueVoices()`). Demande : `PageAudio::speechRequest()` (le récit rangé, passé par
+  `speakable()`, voix et ton réglés) ; rangement : `PageAudio::storeVoice()` via
+  `FicheAudio::encodeVoice()` (MP3 si ffmpeg, sinon WAV) dans
+  `public/media/audio/pages/{page}-{langue}-{empreinte}.mp3`, ancienne voix supprimée. Jouée
+  (`url` du bouton) seulement si son empreinte `th` est celle du récit affiché.
 - **Texte lu** (`maxWords()` : durée maximale `audio.max_minutes`, 3 par défaut, × 150 mots),
   par ordre de priorité : écrit à la main (`src: manual`),
   rédigé par Gemini (`src: ai`, valable tant que l'empreinte `sig` des titres, textes et faits
@@ -777,7 +785,9 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   de synthèse racontées (face-à-face en français et en anglais, saison, coupe, Bonal, records,
   chiffres, texte préparé pour la voix, audio désactivé ; récits de l'IA : même empreinte en
   français, en anglais et au traitement groupé, récit dépassé remplacé par l'automatique, pages
-  à rédiger, demande envoyée, rangement des résultats, coût compté, pas de voix).
+  à rédiger, demande envoyée, rangement des résultats, coût compté ; voix des pages : demande sur
+  le récit rangé, rangement et lecture sur la page, ancienne voix plus jouée quand le récit
+  change, voix commandées après les récits, voix des pages désactivées).
 - `php tests/retro.php` : Rétro-Direct (chronologie : buts et score, mi-temps, prolongation,
   tirs au but, score retourné, buteurs ; programme et états ; anniversaires ; spectateurs et
   réactions ; agenda .ics).

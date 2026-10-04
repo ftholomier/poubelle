@@ -65,7 +65,8 @@ HTML],
 [[img:site-ecouter.webp|Le bouton « Écouter » et le texte lu]]
 <p>Par défaut, c’est la voix de l’appareil du visiteur qui lit : c’est gratuit. Quand une fiche a reçu sa <b>voix IA</b> (voix naturelle de Gemini, enregistrée), c’est elle que l’on entend. Voir [[aide:administration#audio|Fiches audio]].</p>
 <p>Les <b>pages de synthèse</b> se racontent aussi : face-à-face, saisons, bilans (par compétition, à Bonal), livre des records et chiffres du FCSM. L’IA les raconte comme un historien, à partir de leurs chiffres et des fiches de leurs grands matchs : l’accroche, le bilan, le premier et le dernier match, les plus belles victoires, les finales, les buteurs, les séries, une conclusion.</p>
-[[auto|<p>Une fiche corrigée, un match ajouté : la nuit suivante, l’IA réécrit le récit des pages dont les chiffres ont changé. En attendant, un récit automatique, toujours exact, est lu.</p>]]
+<p>Ces récits sont lus par la <b>voix IA</b> enregistrée, la même que pour les fiches, en français comme en anglais.</p>
+[[auto|<p>Une fiche corrigée, un match ajouté : la nuit suivante, l’IA réécrit le récit des pages dont les chiffres ont changé, puis l’enregistre de nouveau. En attendant, un récit automatique, toujours exact, est lu par la voix de l’appareil.</p>]]
 HTML],
         ['id' => 'interactif', 'title' => 'Interactif, recherche, assistant, dons', 'html' => <<<'HTML'
 <ul>

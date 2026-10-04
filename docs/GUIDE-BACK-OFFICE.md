@@ -337,10 +337,13 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   L'IA les raconte comme un historien, en français et en anglais, à partir de leurs chiffres et
   des fiches de leurs grands matchs (premier et dernier match, plus belles victoires, finales,
   buteurs, séries, bilan de la saison). Chaque nuit, les récits manquants ou dont les chiffres ont
-  changé sont rédigés en traitement groupé (moins d'un euro pour tout le musée avec Flash-Lite) ;
-  en attendant, un récit automatique, gratuit, est lu. Système › Fiches audio › carte « Pages de
-  synthèse racontées par l'IA » : où en sont les récits, « Rédiger les récits maintenant » ;
-  Réglages › Fiches audio : rédaction de nuit (activée par défaut).
+  changé sont rédigés en traitement groupé (moins d'un euro pour tout le musée avec Flash-Lite),
+  puis enregistrés par la **voix IA** (la voix des fiches, en français et en anglais : environ 15 à
+  20 € pour tout le musée, le tarif des voix doublant au 1er janvier 2027) ; en attendant, un
+  récit automatique, gratuit, est lu par la voix de l'appareil. Système › Fiches audio › carte
+  « Pages de synthèse racontées par l'IA » : où en sont les récits et les voix, « Rédiger et
+  enregistrer maintenant » ; Réglages › Fiches audio : rédaction de nuit et voix IA des pages
+  (activées par défaut).
 - **Coûts IA** (administrateurs) : ce que coûte Gemini, calculé à chaque appel et mis à jour à l'écran toutes
   les 10 secondes (aujourd'hui, ce mois-ci, à rembourser, budget, derniers appels avec la
   personne et la fiche concernées). Le mois terminé : relevé PDF à signer et détail CSV à

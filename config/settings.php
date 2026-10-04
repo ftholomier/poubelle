@@ -133,7 +133,8 @@ return [
             ]],
             'style' => ['label' => 'Consigne de ton donnée à la voix', 'type' => 'text', 'default' => 'Lis d’une voix chaleureuse et posée, comme un commentateur radio qui raconte un souvenir'],
             'auto_update' => ['label' => 'Refaire chaque nuit la voix IA des fiches modifiées (traitement groupé)', 'type' => 'bool', 'default' => true],
-            'pages_ai' => ['label' => 'Faire raconter par l’IA les pages de synthèse (face-à-face, saisons, bilans, records, chiffres)', 'type' => 'bool', 'default' => true, 'help' => 'Chaque nuit, les récits manquants ou dont les chiffres ont changé sont rédigés en traitement groupé, en français et en anglais (moins d’un euro pour tout le musée avec Flash-Lite). En attendant, le récit automatique, gratuit, est lu. Les récits sont lus par la voix du navigateur.'],
+            'pages_ai' => ['label' => 'Faire raconter par l’IA les pages de synthèse (face-à-face, saisons, bilans, records, chiffres)', 'type' => 'bool', 'default' => true, 'help' => 'Chaque nuit, les récits manquants ou dont les chiffres ont changé sont rédigés en traitement groupé, en français et en anglais (moins d’un euro pour tout le musée avec Flash-Lite). En attendant, le récit automatique, gratuit, est lu.'],
+            'pages_voice' => ['label' => 'Voix IA pour les récits des pages de synthèse (enregistrée après chaque nouveau récit)', 'type' => 'bool', 'default' => true, 'help' => 'La voix naturelle de Gemini réglée ci-dessus, en français et en anglais : environ 15 à 20 € pour tout le musée en traitement groupé (le tarif des voix double au 1er janvier 2027), puis quelques centimes quand un récit est refait. Sinon : voix du navigateur, gratuite.'],
         ],
     ],
     'update' => [
