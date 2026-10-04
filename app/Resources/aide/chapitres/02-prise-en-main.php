@@ -15,7 +15,7 @@ return [
 HTML],
         ['id' => 'tableau-de-bord', 'title' => 'Le tableau de bord', 'html' => <<<'HTML'
 <p>C’est la page d’arrivée. Elle résume l’état du musée et ce qui vous attend.</p>
-[[img:tableau-de-bord.webp|Le tableau de bord : (1) le menu, (2) la recherche globale, (3) « + Nouveau », (4) l’aide de l’écran, (5) votre compte, (6) la liste « À faire »]]
+[[img:tableau-de-bord.webp|Le tableau de bord : (1) le menu, (2) la recherche globale, (3) « + Nouveau », (4) l’aide de l’écran, (5) votre compte, (6) la liste « À faire », (7) vos favoris]]
 <ol>
 <li><b>Le menu</b>, à gauche, regroupe les écrans par thème : Pilotage, Contenus, Éditorial, Interactif, Communauté, Système et Aide.</li>
 <li><b>La recherche globale</b> trouve une fiche, une photo ou un écran.</li>
@@ -34,6 +34,7 @@ HTML],
 <li><b>☆ Ajouter</b> le met dans la bande ; <b>★ Ajouté</b> l’en retire.</li>
 </ol>
 <p>En haut de la même fenêtre, vos favoris se <b>renomment</b> (cliquez dans le nom, tapez, <kbd>Entrée</kbd>), se <b>déplacent</b> (↑ ↓) et se <b>retirent</b> (✕). Douze au plus. Chacun a les siens : vos favoris ne changent rien pour vos collègues.</p>
+[[img:favoris.webp|La fenêtre « + Ajouter un favori » : (1) vos favoris, renommables, (2) monter, descendre, retirer, (3) chercher un écran, (4) ajouter la page affichée ou un autre écran]]
 HTML],
         ['id' => 'recherche', 'title' => 'Trouver n’importe quoi : la recherche globale', 'html' => <<<'HTML'
 <p>Cliquez dans la barre « Rechercher partout » ou tapez <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>⌘</kbd> + <kbd>K</kbd> sur Mac) depuis n’importe quel écran. Tapez quelques lettres : un nom de joueur, un adversaire, une saison, un nom de fichier photo, un écran (« redirections »).</p>

@@ -512,8 +512,8 @@ souvenirs) pour refaire les PDF en cache.
 - **Sur le site** : bouton « Écouter (durée) » des fiches (`templates/partials/audio-button.php`,
   `public/assets/js/audio.js`), caché sans JavaScript. Il joue la voix IA enregistrée si elle
   correspond au texte lu, sinon lit le texte avec la synthèse vocale du navigateur
-  (`speechSynthesis`, phrase par phrase, meilleure voix de la langue). Le texte lu s'affiche
-  sous le bouton pendant l'écoute.
+  (`speechSynthesis`, phrase par phrase, meilleure voix de la langue). Le texte lu reste caché :
+  le lien discret « Voir le texte de l'audio » (`[data-audio-show]`) l'affiche ou le masque.
 - **Pages de synthèse** (`App\Services\PageAudio`) : même bouton sur les face-à-face, saisons,
   bilans, records et chiffres (`Explore::withAudio()`). Le récit est construit à chaque affichage
   à partir des variables de la page (`opponent()`, `competition()`, `stadium()`, `season()`,

@@ -32,6 +32,7 @@ HTML],
 <p><b>Tout le musée</b> : Système › <b>Fiches audio</b> estime le coût puis confie les fiches au <b>traitement groupé</b> de Google, à moitié prix (environ 40 € pour les 2 940 fiches en 3 minutes au plus ; le tarif de la voix double au 1er janvier 2027). Commencez par <b>Essayer d’abord sur 20 fiches</b> pour écouter le résultat. Google répond en quelques heures ; la tâche planifiée range les voix et chaque fiche bascule toute seule sur sa voix IA.</p>
 [[img:audio.webp|Système › Fiches audio : voix enregistrées, estimation, traitements groupés]]
 <p><b>Pages de synthèse</b> (face-à-face, saisons, bilans, records, chiffres) : l’IA les raconte aussi, en français et en anglais, à partir de leurs chiffres et des fiches de leurs grands matchs, puis la <b>voix IA</b> enregistre chaque récit. Chaque nuit, les récits manquants ou dont les chiffres ont changé sont rédigés puis enregistrés en traitement groupé (moins d’un euro pour les récits avec Flash-Lite, environ 15 à 20 € pour toutes les voix ; le tarif des voix double au 1er janvier 2027). En attendant, le récit automatique, gratuit et toujours exact, est lu par la voix de l’appareil. Carte <b>Pages de synthèse racontées par l’IA</b> : <b>essayez d’abord sur une page</b> (collez son adresse, par exemple <code>/face-a-face/nancy/</code> : le récit et sa voix sont faits tout de suite, pour quelques centimes ; écoutez-les sur la page), puis <b>Lancer pour tout le musée</b>. Rien n’est dépensé avant ce lancement ; ensuite, la rédaction de nuit prend le relais, et <b>Rédiger et enregistrer maintenant</b> (ou <b>Tout refaire</b>) n’attend pas la nuit. Réglages › Fiches audio : la voix IA des pages se coupe à part.</p>
+[[img:audio-pages.webp|Carte « Pages de synthèse racontées par l’IA » : essayer sur une page, puis lancer pour tout le musée]]
 [[astuce|<p>Réglages › <b>Fiches audio</b> : durée maximale, choix de la voix (Charon, Gacrux, Sulafat…), rédaction des explications par l’IA lors du traitement groupé, et mise à jour de nuit des voix des fiches modifiées. Chaque dépense apparaît dans Coûts IA (usage « Fiches audio »).</p>]]
 HTML],
         ['id' => 'couts', 'title' => 'Coûts de l’IA et remboursement', 'admin' => true, 'html' => <<<'HTML'
@@ -50,6 +51,7 @@ HTML],
 HTML],
         ['id' => 'majs', 'title' => 'Mises à jour du site', 'admin' => true, 'html' => <<<'HTML'
 <p>Système › <b>Mises à jour</b> (administrateurs) : la version installée, la dernière version publiée sur GitHub et la liste des changements. <b>Appliquer la mise à jour</b> remplace en quelques secondes les seuls fichiers du code qui ont changé ; le site affiche « Mise à jour en cours » pendant la copie.</p>
+[[img:mises-a-jour.webp|Système › Mises à jour : version installée, version disponible, changements et historique]]
 <ul>
 <li><b>Jamais touchés :</b> les fiches, la médiathèque et leurs traductions, les réglages, les comptes, les journaux, les coûts IA, les photos et les voix.</li>
 <li><b>Avec précaution :</b> les nouveaux libellés anglais de l’interface sont ajoutés sans modifier les traductions existantes ; un fichier <code>.htaccess</code> réglé à la main sur le serveur est gardé.</li>

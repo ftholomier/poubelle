@@ -26,6 +26,7 @@
         <tr><td><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td>enregistrer la fiche ouverte</td></tr>
         <tr><td><b>+ Nouveau</b></td><td>créer un match, une personne, un article…</td></tr>
         <tr><td><b>? Aide</b></td><td>l’aide de l’écran affiché ; les « ? » donnent une aide rapide</td></tr>
+        <tr><td><b>★ Favoris</b></td><td>vos écrans à un clic : « + Ajouter un favori », dans la bande du haut</td></tr>
       </table>
     </div>
     <div class="mbox">
@@ -70,15 +71,15 @@
         <tr><td>Corriger un adversaire, un stade, un lieu</td><td>Contenus › Saisons, adversaires, lieux</td></tr>
         <tr><td>Slider, bandeau, accueil</td><td>Éditorial › Accueil &amp; bandeau</td></tr>
         <tr><td>Ordre des fiches d’une décennie, d’une rubrique</td><td>Éditorial › Rubriques &amp; menus (↑ ↓ un cran, ✥ glisser plus loin)</td></tr>
-        <tr><td>Le PDF d’une fiche</td><td>panneau Publication › Télécharger le PDF</td></tr>
         <tr><td>Corriger l’orthographe et la syntaxe</td><td>panneau Orthographe › Vérifier l’orthographe ; Qualité › Orthographe</td></tr>
+        <tr><td>Vérifier ou compléter une fiche, sources à l’appui</td><td>panneau Recherche sur le web › Chercher sur le web</td></tr>
         <tr><td>Rediriger une adresse, fermer le site un moment</td><td>Éditorial › Redirections, Page d’attente</td></tr>
-        <tr><td>Quiz, frise, maillots, carte, partenaires</td><td>Interactif › Quiz, frise, carte…</td></tr>
-        <tr><td>Rétro-Direct, kit souvenirs, « Ils y étaient »</td><td>Interactif › Rétro-Direct, Kit souvenirs ; témoignages : Contributions</td></tr>
+        <tr><td>Quiz, frise, carte, Rétro-Direct, kit souvenirs</td><td>Interactif ; témoignages « Ils y étaient » : Contributions</td></tr>
         <tr><td>Contributions et messages des visiteurs</td><td>Communauté</td></tr>
         <tr><td>Ce qui reste à vérifier, les nouvelles anomalies</td><td>Pilotage › Qualité › Contrôler maintenant</td></tr>
         <tr><td>Version anglaise</td><td>Système › Traductions EN, ou onglet Version EN</td></tr>
-        <tr><td>Voix « Écouter » des fiches</td><td>carte Écouter de l’éditeur</td></tr>
+        <tr><td>Voix « Écouter » des fiches et des pages de synthèse</td><td>carte Écouter de l’éditeur ; Système › Fiches audio</td></tr>
+        <tr><td>Installer la dernière version du site (admin.)</td><td>Système › Mises à jour</td></tr>
         <tr><td>Une ancienne version, une fiche supprimée</td><td>onglet Historique ; « Voir la corbeille »</td></tr>
       </table>
     </div>
@@ -86,20 +87,17 @@
       <h2>Photos</h2>
       <ul>
         <li><b>Crédit obligatoire</b> à l’envoi, légende et droits ensuite.</li>
-        <li>Retouche (recadrage, rotation) sans abîmer l’original.</li>
-        <li>« Remplacer le fichier » met à jour la photo partout.</li>
-        <li>« Utilisée dans » : les fiches qui l’affichent.</li>
+        <li>Retouche sans abîmer l’original.</li>
+        <li>« Remplacer le fichier » : la photo change partout.</li>
       </ul>
     </div>
     <div class="mbox">
       <h2>Ce que le site fait seul</h2>
       <ul>
         <li>Fiches des joueurs : tous leurs matchs, buts, cartons.</li>
-        <li>Pages saison, face-à-face, bilans, records.</li>
-        <li>Carte des origines et des stades.</li>
-        <li>Recherche, plan du site, images de partage.</li>
-        <li>PDF de chaque fiche, toujours à jour.</li>
-        <li>Sauvegarde chaque jour.</li>
+        <li>Saisons, face-à-face, bilans, records, carte.</li>
+        <li>PDF et voix « Écouter » de chaque fiche.</li>
+        <li>Recherche, partage, sauvegarde chaque jour.</li>
       </ul>
     </div>
     <div class="mbox">
@@ -117,6 +115,7 @@
       <ul>
         <li><b>Brouillon retrouvé</b> : « Le récupérer » ou « L’ignorer ».</li>
         <li><b>Fiche ouverte par un autre</b> : lecture seule ; « Prendre la main » si besoin.</li>
+        <li><b>« Est-ce bien le même match ? »</b> : autre match → Annuler, puis + Nouveau.</li>
         <li><b>Erreur de saisie</b> : Historique › restaurer (administrateur).</li>
         <li><b>Fiche supprimée</b> : corbeille › restaurer.</li>
         <li>Guide complet : menu <b>Aide</b>.</li>

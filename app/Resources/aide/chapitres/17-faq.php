@@ -109,6 +109,18 @@ HTML],
         ['id' => 'pdf', 'title' => '… obtenir le PDF d’une fiche', 'html' => <<<'HTML'
 <p>Sur le site, bouton <b>Télécharger en PDF</b> sous le titre de la fiche (ou de la saison, du face-à-face, du bilan, des records). Dans le back-office : panneau Publication de la fiche › <b>Télécharger le PDF</b>. Le document reprend la dernière version enregistrée. Voir <a href="/admin/aide/site-public#pdf">Télécharger en PDF</a>.</p>
 HTML],
+        ['id' => 'web', 'title' => '… vérifier ou compléter une fiche avec des sources sur Internet', 'html' => <<<'HTML'
+<p>Panneau <b>Recherche sur le web</b> de la fiche › <b>Chercher sur le web</b> : l’IA propose divergences, compléments et pistes, chacune avec ses pages. Ouvrez la source, vérifiez, reportez vous-même (<b>Copier</b> aide), puis enregistrez avec une note de version qui cite la source. Voir [[aide:fiches#recherche-web|Chercher sur le web]].</p>
+HTML],
+        ['id' => 'meme-match', 'title' => '… répondre à « Est-ce bien le même match ? »', 'html' => <<<'HTML'
+<p>Le back-office pose la question quand l’adversaire ou la date change sur une fiche déjà remplie. Autre match : <b>Annuler</b>, puis <b>+ Nouveau › Fiche match</b>. Erreur de saisie sur ce même match : <b>Même match : enregistrer</b>. Voir [[aide:matchs#creer|Créer la fiche]].</p>
+HTML],
+        ['id' => 'favori', 'title' => '… avoir mes écrans préférés à un clic', 'html' => <<<'HTML'
+<p>Bande du haut › <b>+ Ajouter un favori</b> › <b>☆ Ajouter</b> sur « Cette page » ou sur un écran de la liste. Renommer, déplacer, retirer : dans la même fenêtre. Voir [[aide:prise-en-main#favoris|Vos favoris]].</p>
+HTML],
+        ['id' => 'mise-a-jour', 'title' => '… installer la dernière version du site', 'admin' => true, 'html' => <<<'HTML'
+<p>Système › <b>Mises à jour</b> (administrateurs) › <b>Appliquer la mise à jour</b> : seuls les fichiers du code qui ont changé sont remplacés, jamais les fiches, photos ou réglages, et un retour arrière reste possible. Voir [[aide:administration#majs|Mises à jour du site]].</p>
+HTML],
         ['id' => 'perdu', 'title' => '… retrouver un texte non enregistré', 'html' => <<<'HTML'
 <p>Rouvrez la fiche sur le même ordinateur et le même navigateur : un bandeau propose « Le récupérer ». Sinon, l’onglet Historique contient la dernière version enregistrée.</p>
 HTML],

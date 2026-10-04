@@ -61,6 +61,8 @@ HTML],
 <li>Si c’est juste, reportez l’information vous-même dans la fiche (<b>Copier</b> met le texte de la proposition dans le presse-papiers), puis enregistrez, avec une note de version qui cite la source.</li>
 <li>En bas du panneau : toutes les pages consultées et les recherches Google faites par l’IA (affichées comme Google le demande).</li>
 </ol>
+[[img:recherche-web.webp|Le panneau « Recherche sur le web » (exemple) : (1) ce que dit la fiche, (2) ce que disent les sources, (3) les pages qui l’appuient, (4) copier la proposition, (5) le niveau de confiance]]
+[[img:recherche-web-sources.webp|En bas du panneau : les pages consultées et les recherches Google de l’IA]]
 [[attention|<p>L’IA peut se tromper ou confondre deux matchs, deux homonymes : ne reportez jamais une information sans avoir lu la source. Rien n’est modifié dans la fiche sans vous.</p>]]
 [[auto|<p>Le dernier résultat de chaque fiche reste consultable 30 jours (« Voir les propositions ») sans nouvelle recherche. La recherche n’a lieu que quand on clique, jamais en tâche de fond ; un plafond mensuel se règle dans Réglages › Recherche sur le web.</p>]]
 HTML],

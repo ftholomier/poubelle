@@ -305,6 +305,18 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [ ] Copie des photos depuis WordPress, tâche planifiée, réglages (adresse, e-mail), essais
       sur le vrai serveur, puis ouverture (`docs/DEPLOIEMENT.md`, § 4 à 7).
 
+## Teaser, aide et documents PDF à jour (04/10) — terminé
+- [x] **Teaser** (1 min 55, mêmes temps forts de la musique) refait avec le site et le
+      back-office d'aujourd'hui : accueil, Les chiffres du FCSM, « Écouter », Rétro-Direct,
+      Fil jaune ; recherche sur le web, correcteur, fiches audio, favoris, mises à jour en un
+      clic ; adresse musee.fcsochauxretro.com ; chiffres du 4 octobre 2026 (2 938 fiches,
+      12 735 photos, 1 077 vidéos, 26 111 apparitions, 237 adversaires).
+- [x] **Aide** : toutes les captures refaites (bande des favoris, nouvel accueil, menu fixe,
+      éditeur), 6 nouvelles (favoris, recherche sur le web, garde-fou « Est-ce bien le même
+      match ? », mises à jour, pages de synthèse racontées) ; « Écouter » décrit avec le lien
+      « Voir le texte de l'audio » ; 4 questions ajoutées à « Comment faire pour… ».
+- [x] **Guide PDF** (98 p.), **mémo** (2 p.) et **infographie A4** régénérés.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;
