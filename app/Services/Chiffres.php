@@ -132,10 +132,7 @@ final class Chiffres
         self::$later = true;
         $lang = I18n::lang();
         register_shutdown_function(function () use ($lang) {
-            if (function_exists('fastcgi_finish_request')) {
-                fastcgi_finish_request();
-            }
-            ignore_user_abort(true);
+            \App\Core\Response::detach();
             @set_time_limit(120);
             I18n::set($lang);
             self::all();

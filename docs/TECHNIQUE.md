@@ -130,7 +130,18 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records, kits souvenirs) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change (kit souvenirs : un fichier par langue, refait seulement si le contenu du kit change) ; ménage des fichiers de plus de 30 jours |
 | `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
 | `chiffres-{fr,en}.json` | les 100 chiffres du FCSM (§ 7 nonies), déjà mis en forme dans chaque langue | refaits quand `derived.php`, `index-2.php` ou le dictionnaire anglais changent ; calculés d'avance par la tâche « statistiques » |
+| `audio-resumes.ser` | résumés automatiques des fiches audio (texte lu par défaut), avec l'empreinte de chaque fiche : l'écran Système › Fiches audio et les traitements groupés ne les recalculent pas (4 s pour tout le musée sinon) | à chaque calcul sur tout le musée, pour les seules fiches modifiées ; tout est refait si `FicheAudio.php` ou `Unknown.php` change |
 | `controle-site.php` | vérifications du site hors fiches (redirections, référentiels, rubriques, textes de l'interface), pour le compteur d'alertes graves du menu | refaites dès qu'un des fichiers lus change (empreinte des dates et tailles) et à chaque contrôle complet |
+
+**Travail après l'envoi de la page** (recalcul de `derived.php` et des 100 chiffres, mesure
+d'audience, e-mail de mot de passe oublié) : `Response::detach()` libère la session puis termine
+la page (`fastcgi_finish_request()` sous PHP-FPM, `litespeed_finish_request()` sous LiteSpeed).
+Sans cela, le fichier de session reste verrouillé jusqu'à la fin du calcul et le clic suivant
+dans le back-office attend (plusieurs secondes après chaque enregistrement). Les calculs longs
+faits pendant une page (écran Fiches audio, lancement d'un traitement groupé, vérification
+GitHub) appellent `Session::release()` d'abord : la session se rouvre d'elle-même au prochain
+accès (message, jeton des formulaires créé avant). `Settings::schema()` et `defaults()` sont lus
+une fois par page (chaque réglage jamais enregistré relisait `config/settings.php`).
 
 `index-2.php` et `search.php` sont modifiés par `App\Core\PhpCache::update()` : le fichier est
 relu sous verrou, seules les fiches enregistrées sont remplacées, puis il est réécrit. Un

@@ -11,7 +11,8 @@ aux historiens puis au public. L'adresse www.fcsochauxretro.com reste celle de l
   sa propre liste d'extensions** : après avoir choisi 8.3, onglet Extensions, cocher `mbstring`,
   `intl`, `sodium`, `gd` (avec WebP), `curl`, `openssl`, `zip`, `fileinfo`, `dom`, `ctype`,
   `iconv`, `zlib`, `json`, `xml` (scripts de reprise WordPress) ; conseillées : `opcache`
-  (vitesse) et `exif` (sens des photos prises au téléphone). Avec une version trop ancienne ou
+  (vitesse : sans lui, chaque page relit tout le code et les données calculées, plusieurs Mo ;
+  Tâches planifiées › Serveur le signale) et `exif` (sens des photos prises au téléphone). Avec une version trop ancienne ou
   une extension indispensable absente, le site affiche « Réglage du serveur en cours » avec la
   liste de ce qui manque ; une fois connecté, Back-office › Tâches planifiées › Serveur fait
   le point complet.

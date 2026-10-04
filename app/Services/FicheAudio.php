@@ -166,8 +166,67 @@ final class FicheAudio
         return $doc;
     }
 
+    /** Résumés automatiques déjà calculés (écran Fiches audio, traitements groupés : 4 s pour tout le musée sinon). */
+    public static string $templates = STORAGE_PATH . '/cache/audio-resumes.ser';
+    /** @var array<string,array{0:string,1:string}> clé fiche-langue => [empreinte de la fiche, texte] */
+    private static array $tpl = [];
+    private static bool $tplLoaded = false;
+    private static bool $tplChanged = false;
+
     /** Texte automatique (gratuit) : les faits tirés des données, puis le texte de la fiche, dans la durée maximale. */
     public static function template(array $doc, string $lang): string
+    {
+        $key = (int) ($doc['id'] ?? 0) . '-' . $lang;
+        $hash = hash('xxh128', $lang . '|' . self::maxWords() . '|' . serialize($doc));
+        if (($hit = self::$tpl[$key] ?? null) && $hit[0] === $hash) {
+            return $hit[1];
+        }
+        $text = self::buildTemplate($doc, $lang);
+        self::$tpl[$key] = [$hash, $text];
+        self::$tplChanged = true;
+        return $text;
+    }
+
+    /** Charge les résumés déjà calculés (calcul sur tout le musée), s'ils datent du code actuel. */
+    private static function loadTemplates(): void
+    {
+        if (self::$tplLoaded) {
+            return;
+        }
+        self::$tplLoaded = true;
+        $raw = is_file(self::$templates) ? @file_get_contents(self::$templates) : false;
+        $c = $raw ? @unserialize($raw, ['allowed_classes' => false]) : null;
+        if (is_array($c) && ($c['code'] ?? null) === self::templateCode() && is_array($c['items'] ?? null)) {
+            self::$tpl += $c['items'];
+        }
+    }
+
+    /** Garde les résumés calculés pour le prochain affichage (seulement s'il y en a de nouveaux). */
+    private static function saveTemplates(): void
+    {
+        if (!self::$tplLoaded || !self::$tplChanged) {
+            return;
+        }
+        self::$tplChanged = false;
+        try {
+            @mkdir(dirname(self::$templates), 0775, true);
+            $tmp = self::$templates . '.' . bin2hex(random_bytes(4)) . '.tmp';
+            if (@file_put_contents($tmp, serialize(['code' => self::templateCode(), 'items' => self::$tpl])) !== false) {
+                @rename($tmp, self::$templates);
+            }
+            @unlink($tmp);
+        } catch (\Throwable) {
+            // cache facultatif
+        }
+    }
+
+    /** Version du code qui fabrique les résumés : un fichier changé (mise à jour, envoi FTP) les fait recalculer. */
+    private static function templateCode(): string
+    {
+        return @filemtime(__FILE__) . ':' . @filemtime(APP_DIR . '/Front/Unknown.php');
+    }
+
+    private static function buildTemplate(array $doc, string $lang): string
     {
         // « xx » de l'ancien site (information inconnue) jamais lus à voix haute.
         $d = Unknown::doc(self::localized($doc, $lang));
@@ -335,7 +394,7 @@ final class FicheAudio
 
     public static function words(string $t): int
     {
-        return $t === '' ? 0 : count(preg_split('/\s+/u', trim($t)) ?: []);
+        return (int) preg_match_all('/\S+/u', $t);
     }
 
     private static function plainText(string $html): string
@@ -666,6 +725,16 @@ final class FicheAudio
      * ['text' => clés à faire rédiger d'abord, 'voice' => clés à faire lire, 'words' => mots en moyenne].
      */
     public static function plan(array $langs, bool $redo = false, ?array $only = null, bool $textOnly = false): array
+    {
+        self::loadTemplates();
+        try {
+            return self::computePlan($langs, $redo, $only, $textOnly);
+        } finally {
+            self::saveTemplates();
+        }
+    }
+
+    private static function computePlan(array $langs, bool $redo, ?array $only, bool $textOnly): array
     {
         $aiText = (bool) Settings::get('audio.ai_text', true);
         $text = $voice = [];

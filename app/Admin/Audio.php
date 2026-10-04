@@ -6,6 +6,7 @@ namespace App\Admin;
 use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
+use App\Core\Session;
 use App\Core\Settings;
 use App\Data\Activity;
 use App\Data\Fiches as Store;
@@ -27,6 +28,8 @@ final class Audio extends Base
 
     public static function index(Request $req): Response
     {
+        // Calcul sur tout le musée : les autres pages du back-office restent utilisables pendant ce temps.
+        Session::release();
         $plan = FicheAudio::plan(['fr', 'en']);
         $planText = FicheAudio::plan(['fr', 'en'], false, null, true);
         $aiText = (bool) Settings::get('audio.ai_text', true);
@@ -97,6 +100,7 @@ final class Audio extends Base
                 return self::back('/admin/audio', null, 'Il faut une clé Gemini (Réglages › Assistant IA).');
             }
             @set_time_limit(180);
+            Session::release();
             PageAudio::activate(self::actor()); // la rédaction de nuit prend le relais ensuite
             $r = PageAudio::launch($req->str('refaire') !== '', self::actor());
             if (!$r['text'] && !$r['voice']) {
@@ -114,6 +118,7 @@ final class Audio extends Base
             }
             $langs = array_values(array_intersect((array) ($req->post['langues'] ?? []), ['fr', 'en'])) ?: ['fr'];
             $textOnly = $req->str('quoi') === 'textes';
+            Session::release();
             $r = FicheAudio::launch($langs, $req->str('refaire') !== '', self::actor(), null, $req->str('nombre') === 'essai' ? 20 : 0, $textOnly);
             if (!$r['jobs']) {
                 return self::back('/admin/audio', $textOnly ? 'Tous les textes sont déjà rédigés.' : 'Toutes les fiches ont déjà leur voix IA à jour.');

@@ -28,6 +28,19 @@ final class Session
         session_start();
     }
 
+    /**
+     * Libère la session (et le verrou de son fichier) avant un long calcul : les autres pages du
+     * back-office ouvertes par la même personne n'attendent pas la fin. Elle se rouvre d'elle-même
+     * au prochain accès (message affiché, jeton des formulaires, déjà créé ici).
+     */
+    public static function release(): void
+    {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            self::csrfToken();
+            session_write_close();
+        }
+    }
+
     public static function get(string $key, mixed $default = null): mixed
     {
         self::start();

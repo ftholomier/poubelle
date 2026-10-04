@@ -18,6 +18,8 @@ final class Updates extends Base
         if ($deny = self::denyUnlessAdmin()) {
             return $deny;
         }
+        // Vérification sur GitHub (une fois par heure au plus) : le reste du back-office n'attend pas.
+        \App\Core\Session::release();
         return self::html('admin/system/updates', [
             'check' => Updater::check(), 'installed' => Updater::installed(), 'available' => Updater::available() !== null,
             'history' => array_slice(Updater::history(), 0, 10), 'backups' => Updater::backups(),

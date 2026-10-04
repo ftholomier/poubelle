@@ -24,19 +24,25 @@ final class Settings
     /** Description des réglages (onglets, champs, types) pour le back-office. */
     public static function schema(): array
     {
-        return require APP_ROOT . '/config/settings.php';
+        // Lu une fois par page : Settings::get() s'en sert à chaque réglage jamais enregistré.
+        return self::$schema ??= require APP_ROOT . '/config/settings.php';
     }
+
+    private static ?array $schema = null;
+    private static ?array $defaults = null;
 
     /** @return array<string,mixed> valeurs par défaut, à plat (« groupe.champ ») */
     public static function defaults(): array
     {
-        $out = [];
-        foreach (self::schema() as $group => $tab) {
-            foreach ($tab['fields'] as $name => $f) {
-                $out["$group.$name"] = $f['default'] ?? null;
+        if (self::$defaults === null) {
+            self::$defaults = [];
+            foreach (self::schema() as $group => $tab) {
+                foreach ($tab['fields'] as $name => $f) {
+                    self::$defaults["$group.$name"] = $f['default'] ?? null;
+                }
             }
         }
-        return $out;
+        return self::$defaults;
     }
 
     public static function isSecret(string $key): bool

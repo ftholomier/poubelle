@@ -41,6 +41,10 @@ final class ServerCheck
                 $out[] = "Extension PHP « $ext » absente ($use) : à cocher dans cPanel › Sélectionner une version de PHP › Extensions.";
             }
         }
+        // Sans OPcache, chaque page relit tout le code et les données calculées (plusieurs Mo) : nettement plus lent.
+        if (PHP_SAPI !== 'cli' && !(extension_loaded('Zend OPcache') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN))) {
+            $out[] = 'OPcache désactivé : chaque page relit tout le code, le site et le back-office sont nettement plus lents (cPanel › Sélectionner une version de PHP › Extensions : cocher « opcache »).';
+        }
         if (function_exists('gd_info') && empty(gd_info()['WebP Support'])) {
             $out[] = 'GD sans le format WebP : les vignettes des photos ne peuvent pas être créées.';
         }

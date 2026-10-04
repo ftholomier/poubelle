@@ -72,10 +72,7 @@ final class Derived
         }
         self::$scheduled = true;
         register_shutdown_function(function () {
-            if (function_exists('fastcgi_finish_request')) {
-                fastcgi_finish_request();
-            }
-            ignore_user_abort(true);
+            \App\Core\Response::detach();
             set_time_limit(300);
             // Les données refaites servent aussi aux recalculs qui suivent (les chiffres du FCSM).
             // Recalcul déjà en cours dans un autre processus : on ne l'attend pas.

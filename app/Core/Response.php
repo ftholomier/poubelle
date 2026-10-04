@@ -71,6 +71,24 @@ final class Response
         return self::html(View::render('errors/404', [], 'layout'), 404);
     }
 
+    /**
+     * Travail fait après l'envoi de la page (recalculs, mesure d'audience) : la page part tout de
+     * suite (PHP-FPM ou LiteSpeed) et la session est libérée, sinon le clic suivant dans le
+     * back-office attendrait la fin du calcul (verrou du fichier de session).
+     */
+    public static function detach(): void
+    {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } elseif (function_exists('litespeed_finish_request')) {
+            litespeed_finish_request();
+        }
+        ignore_user_abort(true);
+    }
+
     public function send(): void
     {
         http_response_code($this->status);

@@ -121,11 +121,7 @@ final class Account extends Base
                     $token = Auth::invite($u['id']);
                     // Envoi après la réponse : même durée de réponse que le compte existe ou non.
                     register_shutdown_function(function () use ($u, $token) {
-                        if (function_exists('fastcgi_finish_request')) {
-                            fastcgi_finish_request();
-                        } elseif (function_exists('litespeed_finish_request')) {
-                            litespeed_finish_request();
-                        }
+                        Response::detach();
                         self::mailLink($u, $token, 'reset');
                     });
                 }

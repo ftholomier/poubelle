@@ -18,6 +18,7 @@ $tmp = sys_get_temp_dir() . '/audio-test-' . bin2hex(random_bytes(4));
 A::$dir = "$tmp/etat";
 A::$media = "$tmp/media";
 A::$mp3 = false;
+A::$templates = "$tmp/resumes.ser";
 AiCosts::$dir = "$tmp/ia";
 $fail = 0;
 $eq = function (string $label, $got, $exp) use (&$fail) {
@@ -80,6 +81,13 @@ $eq('textes seulement : texte automatique à rédiger', in_array($id . '-fr', A:
 A::saveText($id, 'fr', 'Texte écrit par un historien.', 'manual');
 $eq('textes seulement : texte écrit à la main épargné', A::plan(['fr'], true, [$id . '-fr'], true)['text'], []);
 A::resetText($id, 'fr');
+// Résumés automatiques gardés d'un calcul sur tout le musée au suivant (écran Fiches audio).
+$auto = A::template($match, 'fr');
+$eq('résumés calculés gardés pour le prochain affichage', is_file(A::$templates) && str_contains((string) file_get_contents(A::$templates), $auto), true);
+$retouche = $match;
+$retouche['intro'] = 'Une introduction toute neuve pour l’essai.';
+$eq('fiche modifiée : résumé recalculé', str_contains(A::template($retouche, 'fr'), 'toute neuve'), true);
+$eq('fiche inchangée : même résumé', A::template($match, 'fr'), $auto);
 $eq('estimation sans voix : moins chère', A::estimate(10, 0, 270, true, false)['usd'] < A::estimate(10, 0, 270, true)['usd'], true);
 
 // Voix enregistrée.
