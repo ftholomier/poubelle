@@ -56,6 +56,7 @@ return [
             'instagram' => ['label' => 'Instagram', 'type' => 'url', 'default' => 'https://instagram.com/sochauxretro'],
             'x' => ['label' => 'X (Twitter)', 'type' => 'url', 'default' => 'https://x.com/SochauxRetro'],
             'youtube' => ['label' => 'YouTube', 'type' => 'url', 'default' => 'https://youtube.com/@SochauxRetro'],
+            'official' => ['label' => 'Site officiel du FC Sochaux-Montbéliard (lien discret sous le titre de l’en-tête)', 'type' => 'url', 'default' => 'https://www.fcsochaux.fr', 'help' => 'Vide : lien masqué.'],
         ],
     ],
     'footer' => [

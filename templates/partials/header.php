@@ -7,6 +7,7 @@ use App\Services\I18n;
 $nav = Site::nav($active ?? '');
 $ticker = Site::ticker();
 $lang = I18n::lang();
+$official = trim((string) \App\Core\Settings::get('social.official', ''));
 ?>
 <header class="site-header<?= $ticker ? ' has-ticker' : '' ?>" data-header>
   <?php if ($ticker): ?>
@@ -30,8 +31,10 @@ $lang = I18n::lang();
     </a>
     <div class="masthead__inner">
       <div class="masthead__top">
-        <span class="masthead__name">Sochaux rétro</span>
-        <span class="masthead__tag"><?= e(t('Le musée en ligne du FCSM · depuis 1928')) ?></span>
+        <span class="masthead__id">
+          <span class="masthead__line"><span class="masthead__name">Sochaux rétro</span><span class="masthead__tag"><?= e(t('Le musée en ligne du FCSM · depuis 1928')) ?></span></span>
+          <?php if ($official !== ''): ?><a class="masthead__official" href="<?= e($official) ?>" rel="noopener" target="_blank"><?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?> ↗</a><?php endif; ?>
+        </span>
         <button type="button" class="hbtn hsearch" data-search-open aria-label="<?= e(t('Rechercher dans le musée')) ?>">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
           <span><?= e(t('Un match, un joueur, une saison…')) ?></span>
@@ -155,6 +158,7 @@ $lang = I18n::lang();
       <button type="button" data-textsize><?= e(t('Taille du texte')) ?> · <span data-textsize-label>100%</span></button>
       <a href="<?= e(url('/contribuer/')) ?>"><?= e(t('Contribuer')) ?></a>
     </div>
+    <?php if ($official !== ''): ?><a class="mobilemenu__official" href="<?= e($official) ?>" rel="noopener" target="_blank"><?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?> ↗</a><?php endif; ?>
   </div>
 
   <div class="searchlayer" data-searchlayer role="dialog" aria-modal="true" aria-label="<?= e(t('Rechercher dans le musée')) ?>">
