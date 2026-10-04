@@ -592,7 +592,7 @@ final class PageAudio
         if (($x['spectators'] ?? 0) > 0) {
             $f['spectateurs'] = (int) $x['spectators'];
         }
-        if ($story && ($doc = Fiches::get((int) $x['id']))) {
+        if ($story && ($doc = Fiches::get((int) $x['id'])) && !FicheAudio::blocked($doc)) {
             $txt = self::plainOf((string) ($doc['intro'] ?? ''));
             if ($txt === '') {
                 $txt = self::plainOf((string) ($doc['sections'][0]['html'] ?? ''));

@@ -91,6 +91,28 @@ $eq('fiche modifiée : résumé recalculé', str_contains(A::template($retouche,
 $eq('fiche inchangée : même résumé', A::template($match, 'fr'), $auto);
 $eq('estimation sans voix : moins chère', A::estimate(10, 0, 270, true, false)['usd'] < A::estimate(10, 0, 270, true)['usd'], true);
 
+// Fiche dont les textes racontent un autre match (compte rendu copié, seul l'en-tête changé) :
+// signalée, ni récit de l'IA ni ces textes, seulement l'en-tête ; jamais de fausse alerte.
+$copie = $match;
+$copie['intro'] = '';
+$copie['match']['highlights'] = $copie['match']['breves'] = $copie['match']['reactions'] = [];
+$compte = str_repeat('Les Lionceaux ont souffert en seconde période mais la charnière a tenu bon jusqu’au coup de sifflet final. ', 6);
+$copie['sections'] = [
+    ['title' => 'Résumé de la rencontre', 'html' => '<p>' . $compte . '</p>'],
+    ['title' => 'Réactions d’après match', 'html' => '<p>Sylvain Ripoll (Entraîneur de Guingamp) : « Je suis très en colère, on a fait la sieste pendant vingt minutes. »</p>'],
+];
+$why = \App\Services\MatchText::otherMatch($copie);
+$eq('texte d’un autre match signalé (réaction de l’entraîneur d’un autre club)', [is_string($why) && str_contains($why, 'Le Puy') && str_contains($why, 'Guingamp'), A::blocked($copie) === $why], [true, true]);
+$eq('fiche signalée : seul l’en-tête est lu, rien de ses textes', [A::current($copie, 'fr')['src'], str_contains(A::current($copie, 'fr')['text'], 'Ripoll'), str_contains(A::current($copie, 'fr')['text'], 'Le Puy 2 à 1')], ['auto', false, true]);
+$amical = $copie;
+$amical['sections'] = [['title' => 'Brèves', 'html' => '<p>' . $compte . ' Plus de 16 000 personnes pour cette deuxième journée de Ligue 2.</p>']];
+$amical['match']['competition'] = $amical['match']['competition_label'] = 'Amical';
+$eq('journée de championnat racontée pour un match amical : signalée', str_contains((string) \App\Services\MatchText::otherMatch($amical), '« cette deuxième journée de Ligue 2 »'), true);
+$nomme = $copie;
+$nomme['sections'][0]['html'] .= '<p>Le Puy a pourtant poussé jusqu’au bout.</p>';
+$eq('adversaire nommé (coulisses, observateurs…) : pas d’alerte', [\App\Services\MatchText::otherMatch($nomme), \App\Services\MatchText::otherMatch($match), A::blocked($match)], [null, null, null]);
+$eq('consigne de l’IA : l’en-tête du match fait foi', [str_contains(A::aiPrompt($match, 'fr')[0], 'son en-tête fait foi'), str_contains(A::aiPrompt($match, 'en')[0], 'its header is authoritative')], [true, true]);
+
 // Voix enregistrée.
 $pcm = str_repeat(pack('v', 1000), 24000);
 $wav = A::wav($pcm, 24000);

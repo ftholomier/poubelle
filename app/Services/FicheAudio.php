@@ -101,6 +101,18 @@ final class FicheAudio
         return JsonStore::update(self::$dir . "/$id.json", fn ($s) => $fn(is_array($s) ? $s : []), []);
     }
 
+    /**
+     * Fiche que l'IA ne raconte pas tant qu'elle n'est pas corrigée : textes d'un autre match sous
+     * l'en-tête de celui-ci (alerte « texte d'un autre match ? » de Qualité). Raison, ou null.
+     */
+    public static function blocked(array $doc): ?string
+    {
+        static $memo = [];
+        $k = (int) ($doc['id'] ?? 0) . '|' . ($doc['modified'] ?? '') . '|' . md5(serialize($doc['sections'] ?? []));
+        $why = $memo[$k] ??= (($doc['type'] ?? '') === 'match' ? MatchText::otherMatch($doc) : null) ?? '';
+        return $why !== '' ? $why : null;
+    }
+
     /** Langues d'une fiche : le français, et l'anglais si la fiche est traduite. */
     public static function langs(array $doc): array
     {
@@ -119,6 +131,10 @@ final class FicheAudio
         $text = trim((string) ($st['text'] ?? ''));
         if ($text !== '' && ($st['src'] ?? '') === 'manual') {
             return ['text' => $text, 'src' => 'manual', 'outdated' => false];
+        }
+        // Textes d'un autre match sous l'en-tête : ni le récit de l'IA, ni ces textes, seulement l'en-tête.
+        if (self::blocked($doc)) {
+            return ['text' => self::template($doc, $lang), 'src' => 'auto', 'outdated' => ($st['src'] ?? '') === 'ai'];
         }
         if ($text !== '' && ($st['src'] ?? '') === 'ai') {
             if (($st['sig'] ?? '') === self::sig($doc, $lang)) {
@@ -227,7 +243,7 @@ final class FicheAudio
     /** Version du code qui fabrique les résumés : un fichier changé (mise à jour, envoi FTP) les fait recalculer. */
     private static function templateCode(): string
     {
-        return @filemtime(__FILE__) . ':' . @filemtime(APP_DIR . '/Front/Unknown.php');
+        return @filemtime(__FILE__) . ':' . @filemtime(APP_DIR . '/Front/Unknown.php') . ':' . @filemtime(APP_DIR . '/Services/MatchText.php');
     }
 
     private static function buildTemplate(array $doc, string $lang): string
@@ -249,8 +265,8 @@ final class FicheAudio
         foreach ($d['match']['breves'] ?? [] as $b) {
             $story[] = self::plainText((string) $b);
         }
-        // Pas de récit en français dans le texte anglais.
-        if (!$en || !empty($doc['i18n']['en']['title'])) {
+        // Pas de récit en français dans le texte anglais ; aucun texte d'une fiche signalée (autre match).
+        if ((!$en || !empty($doc['i18n']['en']['title'])) && !self::blocked($doc)) {
             $s = array_merge($s, array_filter($story, fn ($x) => $x !== ''));
         }
         return self::fit($s, self::maxWords());
@@ -470,6 +486,7 @@ final class FicheAudio
                 . "- a conclusion that puts things in perspective and leaves a strong image.\n"
                 . "Rules:\n"
                 . "- only facts found in the page: never invent a figure, a quote or an anecdote; a thin page gives a short story rather than a padded one;\n"
+                . "- for a match, its header is authoritative (date, competition, teams, score, scorers): a passage about another match (another opponent, another competition, a contradicting score) was pasted by mistake, leave it out entirely;\n"
                 . "- real sentences, varied and well punctuated, with natural transitions; paragraphs separated by a blank line; no list, no title, no emoji, no stage directions;\n"
                 . "- write for the ear: scores as \"2–1\", clear dates;\n"
                 . "- at most $max words (about $min minutes); the length follows the richness of the page;\n"
@@ -482,6 +499,7 @@ final class FicheAudio
                 . "– une conclusion qui met en perspective et laisse une image forte.\n"
                 . "Règles :\n"
                 . "– uniquement des faits présents dans la fiche : n’invente rien, ni chiffre, ni citation, ni anecdote ; une fiche mince donne un récit court plutôt que délayé ;\n"
+                . "– pour un match, son en-tête fait foi (date, compétition, équipes, score, buteurs) : un passage qui parle d’un autre match (autre adversaire, autre compétition, score qui ne correspond pas) a été copié par erreur, n’en dis rien ;\n"
                 . "– de vraies phrases, variées et bien ponctuées, avec des transitions naturelles ; paragraphes séparés par une ligne vide ; ni liste, ni titre, ni émoji, ni indication de mise en scène ;\n"
                 . "– écris pour l’oreille : scores « 2 à 1 », dates claires ;\n"
                 . "– au plus $max mots (environ $min minutes) ; la longueur suit la richesse de la fiche ;\n"
@@ -952,7 +970,7 @@ final class FicheAudio
     private static function computePlan(array $langs, bool $redo, ?array $only, bool $textOnly): array
     {
         $aiText = (bool) Settings::get('audio.ai_text', true);
-        $text = $voice = [];
+        $text = $voice = $blocked = [];
         $words = 0;
         $n = 0;
         $want = $only !== null ? array_flip($only) : null;
@@ -960,6 +978,11 @@ final class FicheAudio
         foreach ($ids as $id) {
             $doc = Fiches::get((int) $id);
             if (!$doc || !Fiches::isVisible($doc)) {
+                continue;
+            }
+            // Textes d'un autre match : rien n'est confié à l'IA avant correction (alerte de Qualité).
+            if (self::blocked($doc)) {
+                $blocked[] = (int) $id;
                 continue;
             }
             foreach (self::langs($doc) as $lang) {
@@ -993,7 +1016,7 @@ final class FicheAudio
                 $n++;
             }
         }
-        return ['text' => $text, 'voice' => $voice, 'words' => $n ? $words / $n : self::maxWords() * 0.6];
+        return ['text' => $text, 'voice' => $voice, 'words' => $n ? $words / $n : self::maxWords() * 0.6, 'blocked' => $blocked];
     }
 
     /** Coût estimé en dollars (traitement groupé : moitié prix) pour $nText rédactions et $nVoice voix. */
@@ -1170,8 +1193,8 @@ final class FicheAudio
             }
             [$id, $lang] = explode('-', $key) + [1 => 'fr'];
             $doc = Fiches::get((int) $id);
-            if (!$doc) {
-                continue;
+            if (!$doc || self::blocked($doc)) {
+                continue; // fiche disparue, ou signalée entre-temps (textes d'un autre match)
             }
             if ($job['kind'] === 'texte') {
                 [$system, $user] = self::aiPrompt($doc, $lang);

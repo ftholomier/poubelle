@@ -606,6 +606,10 @@ final class Derived
                 foreach (self::matchChecks($m, $us, $them, $doc['_visible']) as $a) {
                     $quality[] = $a + ['id' => $mid];
                 }
+                // Textes d'un autre match sous l'en-tête de celui-ci (compte rendu copié par erreur).
+                if ($doc['_visible'] && ($why = \App\Services\MatchText::otherMatch($doc))) {
+                    $quality[] = ['sev' => 'haute', 'code' => 'autre-match', 'msg' => $why, 'id' => $mid];
+                }
             } catch (\Throwable $e) {
                 // Match aux données inattendues (fichier retouché à la main) : retiré des statistiques
                 // (apparitions, buteurs, bilans) et signalé, le reste du calcul continue.

@@ -252,7 +252,9 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
 
 Le tableau **Qualité** liste ce qui mérite une vérification, par onglet :
 
-- **Statistiques et dates** : score différent de la somme des buteurs, date du titre
+- **Statistiques et dates** : score différent de la somme des buteurs, textes d'un autre
+  match sous l'en-tête de celui-ci (adversaire jamais nommé, réaction de l'entraîneur d'un
+  autre club : l'IA ne raconte pas la fiche avant correction), date du titre
   différente de la date du match, tableau de composition identique à celui d'un autre match
   (copié par erreur sur l'ancien site), statistiques personnelles incohérentes, tableau de
   statistiques identique sur plusieurs fiches de joueurs (modèle recopié : la fiche affiche

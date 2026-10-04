@@ -196,7 +196,17 @@ et de juillet tolérés), résultat incohérent avec le score ou tirs au but sur
 (`resultat`), score d'un match à venir ou match officiel joué sans score (`score`),
 composition d'un match officiel (`compo` : minute d'entrée sur une ligne de titulaire, plus
 de 11 titulaires, deux gardiens, moins de 9), même match saisi deux fois (`doublon-match`,
-même jour et même adversaire). Personnes : date impossible au calendrier (dans `dates`),
+même jour et même adversaire), textes d'un autre match (`autre-match`, haute,
+`App\Services\MatchText::otherMatch()` : texte d'au moins 60 mots qui ne nomme jamais
+l'adversaire — ni son nom, ni une variante du référentiel, ni un mot distinctif, à l'espace
+près —, plus une preuve nette : réaction d'après-match de l'entraîneur, du gardien, du
+président ou d'un joueur d'un autre club, ou « deuxième journée de Ligue 2 » pour un amical ;
+les preuves d'abord, le texte entier ensuite : 0,4 s pour tout le musée ; une seule fiche
+signalée sur 1 664, sans fausse alerte, les coulisses de la semaine qui citent d'autres clubs
+restant tranquilles). `FicheAudio::blocked()` en tire la règle de l'audio : ni récit de
+l'IA (plan, envoi groupé, boutons de l'éditeur refusés avec la raison), ni ses textes (seul
+l'en-tête du match est lu, sauf texte audio écrit à la main), ni extrait dans les récits des
+pages de synthèse ; la consigne de l'IA dit aussi que l'en-tête d'un match fait foi. Personnes : date impossible au calendrier (dans `dates`),
 aucune rubrique (`role`), même nom qu'une autre fiche sans dates de naissance différentes
 (`homonyme`). Toutes les fiches (`ficheChecks`) : titre vide (`titre`), adresse vide, mal
 formée ou partagée par deux fiches (`adresse`), rubrique supprimée (`rubrique`), image absente

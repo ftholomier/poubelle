@@ -164,18 +164,22 @@ final class Audio extends Base
                     $msg = 'Retour au résumé automatique.';
                     break;
                 case 'ia-texte':
-                    if (!Gemini::ready()) {
-                        return self::json(['ok' => false, 'error' => 'Clé Gemini non réglée (Réglages › Assistant IA).'], 422);
-                    }
-                    FicheAudio::writeAiText($doc, $lang);
-                    $msg = 'Texte rédigé par l’IA : relisez-le avant de lui donner une voix IA.';
-                    break;
                 case 'voix':
+                    $voice = ($in['action'] ?? '') === 'voix';
+                    // Textes d'un autre match : ni récit de l'IA, ni voix (sauf sur un texte écrit à la main).
+                    if (($why = FicheAudio::blocked($doc)) && (!$voice || FicheAudio::current($doc, $lang)['src'] !== 'manual')) {
+                        return self::json(['ok' => false, 'error' => $why], 422);
+                    }
                     if (!Gemini::ready()) {
                         return self::json(['ok' => false, 'error' => 'Clé Gemini non réglée (Réglages › Assistant IA).'], 422);
                     }
-                    FicheAudio::makeVoice($doc, $lang);
-                    $msg = 'Voix IA enregistrée : c’est elle que les visiteurs entendront.';
+                    if ($voice) {
+                        FicheAudio::makeVoice($doc, $lang);
+                        $msg = 'Voix IA enregistrée : c’est elle que les visiteurs entendront.';
+                    } else {
+                        FicheAudio::writeAiText($doc, $lang);
+                        $msg = 'Texte rédigé par l’IA : relisez-le avant de lui donner une voix IA.';
+                    }
                     break;
                 case 'supprimer-voix':
                     FicheAudio::deleteVoice($id, $lang);
@@ -201,6 +205,7 @@ final class Audio extends Base
                 'words' => FicheAudio::words($cur['text']), 'url' => $a['url'] ?? null, 'dur' => $a['dur'] ?? null,
                 'voice' => $a['voice'] ?? null, 'at' => isset($a['at']) ? self::ago($a['at']) : null,
                 'hasVoice' => !empty(FicheAudio::state((int) $doc['id'])[$lang]['audio']), 'lang' => FicheAudio::LANGS[$lang],
+                'blocked' => FicheAudio::blocked($doc),
             ];
         }
         return $out;

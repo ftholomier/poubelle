@@ -91,7 +91,7 @@ final class Quality
 
     /** Onglets de l'écran Qualité : libellé, description. */
     public const TABS = [
-        'stats' => ['Statistiques et dates', 'Scores, buteurs, compositions, dates'],
+        'stats' => ['Statistiques et dates', 'Scores, buteurs, compositions, dates, textes d’un autre match'],
         'completer' => ['À compléter', '« xx » de l’ancien site, fiches à venir, vidéos'],
         'liens' => ['Liens joueurs', 'Sans fiche, rapprochements, doublons'],
         'site' => ['Adresses et médias', 'Adresses, rubriques, images, redirections'],
@@ -113,7 +113,7 @@ final class Quality
     private const CODE_ANCHORS = [
         'adresse' => 'seo', 'rubrique' => 'seo', 'image' => 'medias', 'video' => 'medias', 'traduction' => 'en', 'avenir' => 'recit',
         'match-date' => 'infos', 'date' => 'infos', 'saison' => 'infos', 'score' => 'infos', 'resultat' => 'infos', 'tab' => 'infos', 'affluence' => 'infos', 'arbitre' => 'infos',
-        'compo' => 'compo', 'doublon' => 'compo', 'buts' => 'compo', 'tableau' => 'compo',
+        'compo' => 'compo', 'doublon' => 'compo', 'buts' => 'compo', 'tableau' => 'compo', 'autre-match' => 'recit',
         'dates' => 'identite', 'role' => 'identite', 'homonyme' => 'identite', 'stats' => 'stats', 'stats-copie' => 'stats',
     ];
 

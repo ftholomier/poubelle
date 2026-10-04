@@ -79,6 +79,18 @@
     $('[data-audio-act="automatique"]', card).hidden = s.src === 'auto';
     $('[data-audio-act="supprimer-voix"]', card).hidden = !s.hasVoice;
     $('[data-audio-act="voix"]', card).textContent = s.url ? 'Refaire la voix IA' : 'Voix IA';
+    // Textes d'un autre match : l'IA ne raconte pas la fiche avant correction (alerte de Qualité).
+    let warn = $('[data-audio-blocked]', card);
+    if (s.blocked && !warn) {
+      warn = document.createElement('p');
+      warn.className = 'small';
+      warn.setAttribute('data-audio-blocked', '');
+      warn.style.cssText = 'margin:0;padding:8px 10px;border-left:4px solid var(--red);background:var(--cream)';
+      info.after(warn);
+    }
+    if (warn) { warn.hidden = !s.blocked; warn.textContent = s.blocked ? '⚠ ' + s.blocked + ' Seul l’en-tête du match est lu.' : ''; }
+    $('[data-audio-act="ia-texte"]', card).hidden = !!s.blocked;
+    $('[data-audio-act="voix"]', card).hidden = !!s.blocked && s.src !== 'manual';
   }
   // Le texte lu n'appartient pas à la fiche : il ne la marque pas « modifiée ».
   ['input', 'change'].forEach(ev => card.addEventListener(ev, e => {
