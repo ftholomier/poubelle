@@ -356,7 +356,9 @@ final class Search
             }
             $full = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags(str_replace(['</p>', '</li>', '<br>'], ' ', implode(' ', $parts))), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
             if ($full !== '') {
-                $ascii = Names::ascii($full);
+                // Signes combinants (❤️, 1️⃣, é écrit e + ´) retirés : sinon tout le texte passe par ICU,
+                // lent, pour une position de toute façon approchée.
+                $ascii = Names::ascii(preg_replace('/\p{M}+/u', '', $full) ?? $full);
                 $pos = false;
                 foreach ($tokens as $t) {
                     $p = strpos($ascii, $t);
@@ -435,6 +437,21 @@ final class Search
             return $out;
         }
         $r = self::query($q, null, 10);
+        $out = self::shortcuts($q, $r);
+        foreach ($r['items'] as $s) {
+            $d = self::describe($s);
+            $out[] = $d + ['href' => url($s['path'])];
+        }
+        return array_slice($out, 0, 12);
+    }
+
+    /**
+     * Raccourcis d'une recherche déjà faite (résultat de query()) : page de la saison reconnue,
+     * face-à-face de l'adversaire reconnu.
+     */
+    public static function shortcuts(string $q, array $r): array
+    {
+        $out = [];
         // Saison reconnue : page de la saison en premier
         if ($r['season'] && isset(Derived::get()['seasons'][$r['season']])) {
             $n = count(Derived::get()['seasons'][$r['season']]['matches'] ?? []);
@@ -453,10 +470,6 @@ final class Search
             $c = Derived::get()['clubs'][$key];
             $out[] = ['type' => t('Face-à-face'), 'label' => 'Sochaux × ' . \App\Front\Fiche::clubName($key), 'meta' => $c['count'] . ' ' . t('matchs') . ' · ' . $c['v'] . 'V ' . $c['n'] . 'N ' . $c['d'] . 'D', 'href' => url('/face-a-face/' . $key . '/')];
         }
-        foreach ($r['items'] as $s) {
-            $d = self::describe($s);
-            $out[] = $d + ['href' => url($s['path'])];
-        }
-        return array_slice($out, 0, 12);
+        return $out;
     }
 }

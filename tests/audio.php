@@ -89,6 +89,18 @@ $retouche = $match;
 $retouche['intro'] = 'Une introduction toute neuve pour l’essai.';
 $eq('fiche modifiée : résumé recalculé', str_contains(A::template($retouche, 'fr'), 'toute neuve'), true);
 $eq('fiche inchangée : même résumé', A::template($match, 'fr'), $auto);
+// Résumé d'un joueur : ses totaux (matchs, buts) viennent des compositions, hors de sa fiche.
+$dd = new ReflectionProperty(\App\Data\Derived::class, 'data');
+$saved = \App\Data\Derived::get();
+$pid = (int) array_key_first(array_filter($saved['person_totals'], fn ($t) => ($t['matches'] ?? 0) > 5 && ($t['coached'] ?? 0) === 0));
+$joueur = \App\Data\Fiches::get($pid);
+$avant = A::template($joueur, 'fr');
+$plus = $saved;
+$plus['person_totals'][$pid]['matches'] = 999;
+$dd->setValue(null, $plus);
+$eq('nouveau match du joueur : résumé recalculé (totaux à jour)', str_contains(A::template($joueur, 'fr'), '999 matchs'), true);
+$dd->setValue(null, $saved);
+$eq('totaux revenus : résumé d’avant', A::template($joueur, 'fr'), $avant);
 $eq('estimation sans voix : moins chère', A::estimate(10, 0, 270, true, false)['usd'] < A::estimate(10, 0, 270, true)['usd'], true);
 
 // Fiche dont les textes racontent un autre match (compte rendu copié, seul l'en-tête changé) :

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Front;
 
+use App\Core\Memo;
 use App\Core\Settings;
 use App\Data\Categories;
 use App\Data\Collections;
@@ -28,8 +29,9 @@ final class Site
     /** Nombre de fiches visibles par rubrique (sous-rubriques comprises). */
     public static function count(string $slug): int
     {
-        if (self::$counts === null) {
-            self::$counts = [];
+        // Compteurs des menus gardés en cache tant que les fiches et les rubriques ne changent pas.
+        self::$counts ??= Memo::get('compteurs-rubriques', [Index::CACHE, Categories::FILE, __FILE__], '', function () {
+            $counts = [];
             $direct = [];
             foreach (Index::published() as $s) {
                 foreach ($s['categories'] as $c) {
@@ -41,9 +43,10 @@ final class Site
                 foreach (Categories::descendants($cs, true) as $d) {
                     $ids += $direct[$d] ?? [];
                 }
-                self::$counts[$cs] = count($ids);
+                $counts[$cs] = count($ids);
             }
-        }
+            return $counts;
+        });
         return self::$counts[$slug] ?? 0;
     }
 
@@ -217,13 +220,16 @@ final class Site
 
     private static function lastMatchCreated(): ?array
     {
-        $best = null;
-        foreach (Index::published('match') as $s) {
-            if (!$best || strcmp((string) $s['date'], (string) $best['date']) > 0) {
-                $best = $s;
+        $id = Memo::get('dernier-match-fiche', [Index::CACHE, __FILE__], '', function () {
+            $best = null;
+            foreach (Index::published('match') as $s) {
+                if (!$best || strcmp((string) $s['date'], (string) $best['date']) > 0) {
+                    $best = $s;
+                }
             }
-        }
-        return $best ? Derived::match($best['id']) : null;
+            return $best['id'] ?? 0;
+        });
+        return $id ? Derived::match((int) $id) : null;
     }
 
     // ------------------------------------------------------------------ SEO

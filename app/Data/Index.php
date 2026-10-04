@@ -167,6 +167,7 @@ final class Index
                 self::$items[$id] = $summary;
             }
             self::$byPath = null;
+            self::$published = [];
         }
         if (self::$defer === 0) {
             self::flush();
@@ -216,6 +217,7 @@ final class Index
     {
         self::$items = $items;
         self::$byPath = null;
+        self::$published = [];
         return $items;
     }
 
@@ -256,8 +258,12 @@ final class Index
 
     public static function published(?string $type = null): array
     {
-        return array_filter(self::all(), fn ($s) => self::visible($s) && ($type === null || $s['type'] === $type));
+        // Gardé pour la requête : menus, compteurs et listes le demandent plusieurs fois par page.
+        return self::$published[$type ?? '*'] ??= array_filter(self::all(), fn ($s) => self::visible($s) && ($type === null || $s['type'] === $type));
     }
+
+    /** @var array<string,array<int,array>> fiches visibles par type, pour la requête en cours */
+    private static array $published = [];
 
     public static function byPath(string $path): ?array
     {
@@ -280,9 +286,37 @@ final class Index
      */
     public static function inCategory(string $slug, bool $withChildren = true): array
     {
-        $slugs = $withChildren ? Categories::descendants($slug, true) : [$slug];
-        $items = array_filter(self::published(), fn ($s) => (bool) array_intersect($slugs, $s['categories']));
-        return self::ordered($items, $slug);
+        // Ordre de la rubrique gardé en cache tant que les fiches et les rubriques ne changent pas.
+        $ids = \App\Core\Memo::get('rubrique/' . $slug . ($withChildren ? '' : '/seule'), [self::CACHE, Categories::FILE, __FILE__], '', function () use ($slug, $withChildren) {
+            $slugs = $withChildren ? Categories::descendants($slug, true) : [$slug];
+            $items = array_filter(self::published(), fn ($s) => (bool) array_intersect($slugs, $s['categories']));
+            return array_column(self::ordered($items, $slug), 'id');
+        });
+        return self::pick($ids);
+    }
+
+    /** Personnes d'une rubrique (et de ses sous-rubriques) par ordre alphabétique (fiche précédente / suivante). */
+    public static function personsByName(string $slug): array
+    {
+        $ids = \App\Core\Memo::get('personnes-par-nom/' . $slug, [self::CACHE, Categories::FILE, __FILE__], '', function () use ($slug) {
+            $list = array_values(array_filter(self::inCategory($slug), fn ($s) => $s['type'] === 'personne'));
+            usort($list, fn ($a, $b) => strcoll(self::sortName($a), self::sortName($b)));
+            return array_column($list, 'id');
+        });
+        return self::pick($ids);
+    }
+
+    /** Résumés des fiches dans l'ordre donné (fiches disparues entre-temps écartées). */
+    private static function pick(array $ids): array
+    {
+        $all = self::all();
+        $out = [];
+        foreach ($ids as $id) {
+            if (isset($all[$id])) {
+                $out[] = $all[$id];
+            }
+        }
+        return $out;
     }
 
     /** Applique l'ordre manuel de la rubrique, puis le tri naturel pour les fiches non classées. */
@@ -318,15 +352,13 @@ final class Index
     public static function sortName(array $s): string
     {
         static $cache = [];
-        static $tr = null;
         $key = $s['id'] ?? null;
         if ($key !== null && isset($cache[$key])) {
             return $cache[$key];
         }
         $last = $s['p']['last'] ?? $s['title'];
         $first = $s['p']['first'] ?? '';
-        $tr ??= \Transliterator::create('Any-Latin; Latin-ASCII');
-        $name = mb_strtolower(($tr ? $tr->transliterate("$last $first") : false) ?: "$last $first");
+        $name = Names::ascii("$last $first");
         if ($key !== null) {
             $cache[$key] = $name;
         }

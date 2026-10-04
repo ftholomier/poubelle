@@ -31,9 +31,13 @@ final class FilJaune
      */
     public static function graph(): array
     {
-        if (self::$g !== null) {
-            return self::$g;
-        }
+        // Réseau gardé en cache tant que l'index des fiches et les données calculées ne changent pas
+        // (70 ms à refaire : chaque fiche joueur en a besoin).
+        return self::$g ??= \App\Core\Memo::get('fil-jaune-reseau', [Index::CACHE, __FILE__], (string) (Derived::get()['built'] ?? ''), fn () => self::build());
+    }
+
+    private static function build(): array
+    {
         $d = Derived::get();
         $M = $d['matches'] ?? [];
         $byMatch = [];
@@ -75,12 +79,13 @@ final class FilJaune
             $slug = basename(rtrim((string) (Index::get((int) $pid)['path'] ?? ''), '/'));
             $slugs[isset($slugs[$slug]) || $slug === '' ? (string) $pid : $slug] = $pid;
         }
-        return self::$g = ['adj' => $adj, 'first' => $first, 'last' => $last, 'games' => $games, 'slugs' => $slugs];
+        return ['adj' => $adj, 'first' => $first, 'last' => $last, 'games' => $games, 'slugs' => $slugs];
     }
 
     public static function forget(): void
     {
         self::$g = null;
+        \App\Core\Memo::forget();
     }
 
     public static function has(int $pid): bool

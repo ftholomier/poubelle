@@ -199,7 +199,9 @@ final class FicheAudio
     public static function template(array $doc, string $lang): string
     {
         $key = (int) ($doc['id'] ?? 0) . '-' . $lang;
-        $hash = hash('xxh128', $lang . '|' . self::maxWords() . '|' . serialize($doc));
+        // Le résumé d'une personne cite ses totaux (matchs, buts), calculés hors de la fiche.
+        $tot = ($doc['type'] ?? '') === 'personne' ? serialize(Derived::get()['person_totals'][(int) ($doc['id'] ?? 0)] ?? null) : '';
+        $hash = hash('xxh128', $lang . '|' . self::maxWords() . '|' . serialize($doc) . '|' . $tot);
         if (($hit = self::$tpl[$key] ?? null) && $hit[0] === $hash) {
             return $hit[1];
         }
@@ -974,10 +976,18 @@ final class FicheAudio
 
     private static function computePlan(array $langs, bool $redo, ?array $only, bool $textOnly): array
     {
+        return self::computePlans($langs, $redo, $only)[$textOnly ? 1 : 0];
+    }
+
+    /**
+     * Les deux plans en un seul passage sur les fiches (chaque fiche n'est lue qu'une fois) :
+     * [0] voix à faire (et textes de l'IA à rédiger avant), [1] textes seuls à rédiger.
+     */
+    private static function computePlans(array $langs, bool $redo, ?array $only): array
+    {
         $aiText = (bool) Settings::get('audio.ai_text', true);
-        $text = $voice = $blocked = [];
-        $words = 0;
-        $n = 0;
+        $p = [['text' => [], 'voice' => [], 'words' => 0, 'n' => 0], ['text' => [], 'voice' => [], 'words' => 0, 'n' => 0]];
+        $blocked = [];
         $want = $only !== null ? array_flip($only) : null;
         $ids = $want !== null ? array_unique(array_map(fn ($k) => (int) $k, $only)) : array_keys(Index::published());
         foreach ($ids as $id) {
@@ -999,29 +1009,42 @@ final class FicheAudio
                     continue;
                 }
                 $key = (int) $id . '-' . $lang;
-                if ($textOnly) {
-                    // Textes seulement : à rédiger (ou à refaire) par l'IA ; jamais un texte écrit à la main.
-                    if ($cur['src'] === 'manual' || ($cur['src'] === 'ai' && !$redo)) {
-                        continue;
-                    }
-                    $text[] = $key;
-                    $words += self::words($cur['text']);
-                    $n++;
-                    continue;
+                $w = null;
+                // Textes seulement : à rédiger (ou à refaire) par l'IA ; jamais un texte écrit à la main.
+                if (!($cur['src'] === 'manual' || ($cur['src'] === 'ai' && !$redo))) {
+                    $p[1]['text'][] = $key;
+                    $p[1]['words'] += $w ??= self::words($cur['text']);
+                    $p[1]['n']++;
                 }
                 if (!$redo && self::audio($doc, $lang, $cur)) {
                     continue;
                 }
-                if ($aiText && $cur['src'] === 'auto') {
-                    $text[] = $key;
-                } else {
-                    $voice[] = $key;
-                }
-                $words += self::words($cur['text']);
-                $n++;
+                $p[0][$aiText && $cur['src'] === 'auto' ? 'text' : 'voice'][] = $key;
+                $p[0]['words'] += $w ??= self::words($cur['text']);
+                $p[0]['n']++;
             }
         }
-        return ['text' => $text, 'voice' => $voice, 'words' => $n ? $words / $n : self::maxWords() * 0.6, 'blocked' => $blocked];
+        return array_map(fn ($x) => ['text' => $x['text'], 'voice' => $x['voice'], 'words' => $x['n'] ? $x['words'] / $x['n'] : self::maxWords() * 0.6, 'blocked' => $blocked], $p);
+    }
+
+    /**
+     * Plans affichés par l'écran Fiches audio (voix à faire, textes seuls à rédiger), gardés en
+     * cache tant que les fiches, les totaux calculés, l'état des voix, les réglages et ce code ne
+     * changent pas : l'écran s'ouvre sans relire les 3 000 fiches. Le lancement d'un traitement
+     * recalcule toujours (plan()).
+     * @return array{0:array,1:array}
+     */
+    public static function overview(): array
+    {
+        $files = [Index::CACHE, self::$dir, Settings::FILE, __FILE__, APP_DIR . '/Services/MatchText.php', APP_DIR . '/Front/Unknown.php'];
+        return \App\Core\Memo::get('audio-plans', $files, self::maxWords() . '|' . (Derived::get()['built'] ?? ''), function () {
+            self::loadTemplates();
+            try {
+                return self::computePlans(['fr', 'en'], false, null);
+            } finally {
+                self::saveTemplates();
+            }
+        });
     }
 
     /** Coût estimé en dollars (traitement groupé : moitié prix) pour $nText rédactions et $nVoice voix. */

@@ -72,12 +72,21 @@ final class Medias extends Base
             $list[$rel] = $m;
         }
         krsort($folders, SORT_NATURAL);
-        $key = fn (string $rel, array $m) => (string) ($m['added'] ?? $m['date'] ?? $rel);
+        // Clés de tri calculées une fois (et non à chaque comparaison) : tri stable, même ordre.
+        $keys = [];
+        foreach ($list as $rel => $m) {
+            $keys[$rel] = $sort === 'nom' ? basename((string) $rel) : (string) ($m['added'] ?? $m['date'] ?? $rel);
+        }
         match ($sort) {
-            'nom' => uksort($list, fn ($a, $b) => strnatcasecmp(basename((string) $a), basename((string) $b))),
-            'ancien' => uksort($list, fn ($a, $b) => strcmp($key((string) $a, $list[$a]), $key((string) $b, $list[$b]))),
-            default => uksort($list, fn ($a, $b) => strcmp($key((string) $b, $list[$b]), $key((string) $a, $list[$a]))),
+            'nom' => asort($keys, SORT_NATURAL | SORT_FLAG_CASE),
+            'ancien' => asort($keys, SORT_STRING),
+            default => arsort($keys, SORT_STRING),
         };
+        $sorted = [];
+        foreach ($keys as $rel => $_) {
+            $sorted[$rel] = $list[$rel];
+        }
+        $list = $sorted;
         $total = count($list);
         $pages = max(1, (int) ceil($total / self::PER_PAGE));
         $page = min($pages, max(1, (int) $req->str('page', '1')));

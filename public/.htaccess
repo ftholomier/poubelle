@@ -27,14 +27,20 @@ AddDefaultCharset UTF-8
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(self)"
-    <FilesMatch "\.(woff2|webp|jpg|jpeg|png|svg|css|js|ico|mp3|wav)$">
+    # Fichiers à adresse versionnée (?v=…) : gardés un an par le navigateur, sans revalidation.
+    <FilesMatch "\.(woff2|webp|avif|jpg|jpeg|png|gif|svg|css|js|ico|mp3|wav)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    # Fond de carte (fichier fixe, sans version) : un mois.
+    <FilesMatch "\.topojson$">
+        Header set Cache-Control "public, max-age=2592000"
     </FilesMatch>
 </IfModule>
 
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/avif "access plus 1 year"
     ExpiresByType font/woff2 "access plus 1 year"
     ExpiresByType audio/mpeg "access plus 1 year"
     ExpiresByType audio/wav "access plus 1 year"
@@ -46,6 +52,7 @@ AddDefaultCharset UTF-8
 
 AddType font/woff2 .woff2
 AddType image/webp .webp
+AddType image/avif .avif
 AddType application/json .topojson
 
 # Fichiers sensibles jamais servis

@@ -483,12 +483,10 @@ final class Fiche
     /** Numéro de la carte de l'album du centenaire (null si la personne n'y figure pas). */
     private static function albumNumber(int $id): ?int
     {
-        foreach (Interactive::albumCards() as $c) {
-            if ($c['id'] === $id) {
-                return $c['n'];
-            }
-        }
-        return null;
+        // Numéros de l'album gardés en cache (la liste des cartes se refait seulement quand les données changent).
+        $numbers = \App\Core\Memo::get('album-numeros', [Index::CACHE, APP_DIR . '/Front/Interactive.php'], (string) (Derived::get()['built'] ?? ''),
+            fn () => array_column(Interactive::albumCards(), 'n', 'id'));
+        return $numbers[$id] ?? null;
     }
 
     public static function personYears(array $p): string
@@ -574,8 +572,7 @@ final class Fiche
         if (!$rubric) {
             return [null, null];
         }
-        $list = array_values(array_filter(Index::inCategory($rubric), fn ($s) => $s['type'] === 'personne'));
-        usort($list, fn ($a, $b) => strcoll(Index::sortName($a), Index::sortName($b)));
+        $list = Index::personsByName($rubric);
         foreach ($list as $i => $s) {
             if ($s['id'] === (int) $doc['id']) {
                 return [$list[$i - 1] ?? null, $list[$i + 1] ?? null];

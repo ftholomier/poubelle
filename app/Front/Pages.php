@@ -326,7 +326,8 @@ final class Pages
         $pages = max(1, (int) ceil($r['total'] / $per));
         $base = url('/recherche/');
         $qs = fn (array $p) => \App\Front\Mosaic::qs(array_filter(['q' => $q, 'type' => $type] + $p, fn ($v) => $v !== null));
-        $suggest = $q !== '' ? array_slice(array_values(array_filter(\App\Services\Search::suggest($q), fn ($x) => in_array($x['type'], [t('Saison'), t('Face-à-face')], true))), 0, 3) : [];
+        // Raccourcis (saison, face-à-face) tirés de la même recherche, sans la refaire.
+        $suggest = $q !== '' ? array_slice(\App\Services\Search::shortcuts($q, $r), 0, 3) : [];
         return self::render('search', [
             'q' => $q,
             'r' => $r,

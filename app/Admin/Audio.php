@@ -30,8 +30,7 @@ final class Audio extends Base
     {
         // Calcul sur tout le musée : les autres pages du back-office restent utilisables pendant ce temps.
         Session::release();
-        $plan = FicheAudio::plan(['fr', 'en']);
-        $planText = FicheAudio::plan(['fr', 'en'], false, null, true);
+        [$plan, $planText] = FicheAudio::overview();
         $aiText = (bool) Settings::get('audio.ai_text', true);
         $nText = count($plan['text']);
         $nVoice = count($plan['voice']);

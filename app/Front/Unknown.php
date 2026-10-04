@@ -28,7 +28,9 @@ final class Unknown
 
     public static function has(mixed $v): bool
     {
-        return (bool) preg_match(self::RE, is_string($v) ? $v : (string) json_encode($v, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $s = is_string($v) ? $v : (string) json_encode($v, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        // Chaque marque contient « xx » (ou « x-x ») : sans eux, pas besoin de l'expression complète.
+        return (stripos($s, 'xx') !== false || str_contains($s, 'x-x')) && preg_match(self::RE, $s);
     }
 
     /**

@@ -177,15 +177,14 @@ final class Quality
         foreach (Controle::siteChecks() as $c) {
             $add($c['tab'], $c);
         }
-        // Les plus graves d'abord (ordre d'origine gardé à gravité égale).
+        // Les plus graves d'abord (ordre d'origine gardé à gravité égale) : rangement par gravité, sans tri.
         $rank = ['haute' => 0, 'moyenne' => 1, 'basse' => 2];
         foreach ($out as $k => $list) {
-            $i = 0;
-            $keyed = array_map(function ($x) use (&$i, $rank) {
-                return [$rank[$x['sev']] ?? 3, $i++, $x];
-            }, $list);
-            usort($keyed, fn ($a, $b) => [$a[0], $a[1]] <=> [$b[0], $b[1]]);
-            $out[$k] = array_column($keyed, 2);
+            $by = [[], [], [], []];
+            foreach ($list as $x) {
+                $by[$rank[$x['sev']] ?? 3][] = $x;
+            }
+            $out[$k] = array_merge(...$by);
         }
         return $out;
     }

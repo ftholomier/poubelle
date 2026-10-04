@@ -15,7 +15,7 @@ namespace App\Core;
  */
 final class Settings
 {
-    private const FILE = STORAGE_PATH . '/settings.json';
+    public const FILE = STORAGE_PATH . '/settings.json';
     private const KEY_FILE = STORAGE_PATH . '/secret.key';
     private const PREFIX = 'enc:';
 

@@ -8,12 +8,87 @@ final class Names
 {
     public static function ascii(string $s): string
     {
+        if (str_contains($s, '&')) {
+            $s = html_entity_decode($s, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        }
+        // Texte en ASCII : rien à translittérer.
+        if (!preg_match('/[^\x00-\x7F]/', $s)) {
+            return strtolower($s);
+        }
+        // Lettres latines, ponctuation, symboles et émojis : table de correspondance tirée d'ICU
+        // (même résultat, sans les 10 ms de démarrage d'ICU, quinze à vingt-cinq fois plus vite) ;
+        // autres écritures et signes combinants : ICU lui-même.
+        if (($map = self::foldMap()) && preg_match_all('/[^\x00-\x7F]/u', $s, $m)) {
+            $sub = [];
+            foreach ($m[0] as $c) {
+                if (!isset($sub[$c])) {
+                    // Hors table (autre écriture, signe combinant : é écrit e + ´, ❤️, 1️⃣) : ICU, seul exact.
+                    if (!isset($map[$c])) {
+                        return self::icu($s);
+                    }
+                    $sub[$c] = $map[$c];
+                }
+            }
+            return strtolower(strtr($s, $sub));
+        }
+        return self::icu($s);
+    }
+
+    /**
+     * Caractères de la table, sans contexte pour ICU : latin (accents, ligatures), lettres
+     * modificatives, ponctuation, exposants, monnaies, symboles, flèches, pictogrammes, lettres
+     * mathématiques (« 𝗴𝗿𝗮𝘀 » des réseaux sociaux), sélecteurs de variante, émojis. Les accents
+     * « combinants » (é écrit e + ´) n'y sont pas : ICU ne les retire que derrière une lettre.
+     */
+    private const FOLD_RANGES = [[0x80, 0x24F], [0x2B0, 0x2FF], [0x1D00, 0x1DBF], [0x1E00, 0x1EFF], [0x2000, 0x20CF],
+        [0x2100, 0x27BF], [0x2900, 0x2BFF], [0xFE00, 0xFE0F], [0x1D400, 0x1D7FF], [0x1F000, 0x1FAFF]];
+    private const FOLD_CACHE = STORAGE_PATH . '/cache/ascii-fold.php';
+
+    private static function icu(string $s): string
+    {
         static $tr = null;
-        $s = html_entity_decode($s, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         // Translittérateur créé une seule fois (le recréer à chaque appel coûte cher).
         $tr ??= \Transliterator::create('Any-Latin; Latin-ASCII; Lower()');
         $t = $tr ? $tr->transliterate($s) : false;
         return $t === false ? mb_strtolower($s) : $t;
+    }
+
+    /**
+     * Table caractère => ASCII minuscule, calculée une fois par ICU pour les caractères de
+     * FOLD_RANGES (gardée en cache, refaite si la version d'ICU ou les plages changent). Null sans ICU.
+     */
+    private static function foldMap(): ?array
+    {
+        static $map = null;
+        if ($map !== null) {
+            return $map ?: null;
+        }
+        $ver = (defined('INTL_ICU_VERSION') ? INTL_ICU_VERSION : '') . ':' . md5(json_encode(self::FOLD_RANGES) . ':latin+common');
+        $c = is_file(self::FOLD_CACHE) ? @include self::FOLD_CACHE : null;
+        if (is_array($c) && ($c['icu'] ?? null) === $ver && is_array($c['map'] ?? null)) {
+            return $map = $c['map'];
+        }
+        $map = [];
+        if (!class_exists(\Transliterator::class) || !\Transliterator::create('Any-Latin; Latin-ASCII; Lower()')) {
+            return null;
+        }
+        foreach (self::FOLD_RANGES as [$a, $b]) {
+            for ($cp = $a; $cp <= $b; $cp++) {
+                $ch = mb_chr($cp, 'UTF-8');
+                // Seulement l'écriture latine et les caractères communs à toutes les écritures : une
+                // lettre grecque ou bopomofo (ᵝ, ˪) change la ponctuation voisine pour ICU (« ; » → « ? »).
+                // Marques combinantes (⃣ du « 1️⃣ ») : dépendent de ce qui précède, laissées à ICU.
+                if ($ch !== false && in_array(\IntlChar::getIntPropertyValue($cp, \IntlChar::PROPERTY_SCRIPT), [0, 25], true) && !preg_match('/^\p{M}$/u', $ch)) {
+                    $map[$ch] = self::icu($ch);
+                }
+            }
+        }
+        try {
+            \App\Core\PhpCache::write(self::FOLD_CACHE, ['icu' => $ver, 'map' => $map]);
+        } catch (\Throwable) {
+            // cache facultatif
+        }
+        return $map;
     }
 
     /** @return list<string> */

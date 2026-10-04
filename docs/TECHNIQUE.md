@@ -130,8 +130,10 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records, kits souvenirs) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change (kit souvenirs : un fichier par langue, refait seulement si le contenu du kit change) ; ménage des fichiers de plus de 30 jours |
 | `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
 | `chiffres-{fr,en}.json` | les 100 chiffres du FCSM (§ 7 nonies), déjà mis en forme dans chaque langue | refaits quand `derived.php`, `index-2.php` ou le dictionnaire anglais changent ; calculés d'avance par la tâche « statistiques » |
-| `audio-resumes.ser` | résumés automatiques des fiches audio (texte lu par défaut), avec l'empreinte de chaque fiche : l'écran Système › Fiches audio et les traitements groupés ne les recalculent pas (4 s pour tout le musée sinon) | à chaque calcul sur tout le musée, pour les seules fiches modifiées ; tout est refait si `FicheAudio.php` ou `Unknown.php` change |
+| `audio-resumes.ser` | résumés automatiques des fiches audio (texte lu par défaut), avec l'empreinte de chaque fiche (et, pour une personne, de ses totaux de matchs et de buts) : l'écran Système › Fiches audio et les traitements groupés ne les recalculent pas (4 s pour tout le musée sinon) | à chaque calcul sur tout le musée, pour les seules fiches modifiées ; tout est refait si `FicheAudio.php`, `Unknown.php` ou `MatchText.php` change |
 | `controle-site.php` | vérifications du site hors fiches (redirections, référentiels, rubriques, textes de l'interface), pour le compteur d'alertes graves du menu | refaites dès qu'un des fichiers lus change (empreinte des dates et tailles) et à chaque contrôle complet |
+| `ascii-fold.php` | table caractère → ASCII minuscule tirée d'ICU pour `Names::ascii()` (latin, ponctuation, symboles, lettres mathématiques, émojis : 6 900 caractères d'écriture latine ou commune) | refaite si la version d'ICU ou les plages changent |
+| `memo/*.php` | calculs coûteux gardés par `App\Core\Memo` : réseau du Fil jaune, ordre de chaque rubrique et personnes par ordre alphabétique, compteurs des menus, dernier match fiché, numéros de l'album, plans de l'écran Fiches audio | refaits dès qu'un fichier source change (date et taille : index des fiches, rubriques, réglages, état des voix, code du calcul) ou que les données calculées sont refaites, et au plus tard après 5 minutes (publications programmées) |
 
 **Travail après l'envoi de la page** (recalcul de `derived.php` et des 100 chiffres, mesure
 d'audience, e-mail de mot de passe oublié) : `Response::detach()` libère la session puis termine
@@ -156,6 +158,30 @@ calcul (environ 200 Mo pour 3 000 fiches).
 
 Après une modification de fichiers faite à la main (envoi FTP de `data/`, script), vider
 `storage/cache/` ou lancer `php bin/console.php index`, `derived` et `search`.
+
+**Temps d'accès** (mesurés avec OPcache, comme sur o2switch ; octobre 2026) : toutes les pages
+publiques entre 8 et 25 ms (fiche joueur 120 → 21 ms, recherche 207 → 23 ms, saison 96 → 17 ms,
+Fil jaune 88 → 18 ms) ; back-office sous 20 ms, sauf Tableau de bord, Médiathèque et Qualité
+(35-40 ms ; 8 000 alertes) ; écran Fiches audio 1 s → 8 ms. Ce qui coûtait :
+- `Names::ascii()` (repliement des accents, partout : recherche, tri des noms, rapprochements)
+  démarrait ICU (10 ms) puis translittérait lentement ; la table `ascii-fold.php` donne le même
+  résultat (vérifié sur tout le musée et sur 700 000 chaînes au hasard), 15 à 25 fois plus vite ;
+  un texte avec un caractère hors table (autre écriture, accent « combinant ») passe par ICU ;
+- `Derived::lineupLinks()` et `personMatches()` parcouraient les 26 000 apparitions à chaque
+  appel (une page de saison en fait une soixantaine) : index `app_index` (rangs par match et par
+  personne) calculé avec les données (refait par requête pour un cache plus ancien) ;
+- le réseau du Fil jaune (70 ms) était refait à chaque fiche joueur, les rubriques retriées à
+  chaque page, les compteurs des menus recomptés : `Memo` (ci-dessus) ;
+- la page de recherche refaisait toute la recherche pour ses raccourcis (saison, face-à-face) :
+  `Search::shortcuts()` reprend le résultat ; `Unknown::has()` ne lance l'expression complète
+  que si le texte contient « xx » ;
+- l'écran Fiches audio relisait deux fois les 3 000 fiches : un seul passage pour les deux plans
+  (`computePlans()`), gardé par `Memo` (`FicheAudio::overview()`) ; le lancement d'un traitement
+  recalcule toujours ;
+- Médiathèque : clés de tri calculées une fois (12 700 fichiers) ; Qualité : alertes rangées par
+  gravité sans tri.
+Pas de cache de pages entières : l'accueil tire ses photos au hasard à chaque visite, les
+formulaires portent un jeton, et le gain resterait faible devant le temps réseau.
 
 ## 5. Données calculées (`App\Data\Derived`)
 
@@ -883,6 +909,8 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   et assistant, enregistrement qui suit la journée saisie) et garde-fou « Est-ce bien le même
   match ? » (autre adversaire, autre date, date corrigée d'un jour, même club autrement écrit,
   fiche vide, premier adversaire saisi).
+- `php tests/perf.php` : optimisations sans changement de résultat (cache de calculs, repliement
+  ASCII identique à ICU, index des apparitions, ordre des rubriques, plans de l'écran audio).
 - `php tests/favoris.php` : favoris du back-office (adresses du back-office seulement, choix
   selon le rôle, favoris d'un compte filtrés et noms nettoyés).
 - `php tests/retro.php` : Rétro-Direct (chronologie : buts et score, mi-temps, prolongation,

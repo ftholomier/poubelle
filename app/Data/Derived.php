@@ -916,6 +916,7 @@ final class Derived
             'duration' => round(microtime(true) - $t0, 2),
             'matches' => $M,
             'apps' => $apps,
+            'app_index' => self::appIndex($apps),
             'scorers' => $scorers,
             'person_totals' => $personTotals,
             'by_person' => array_map(fn ($l) => array_map(fn ($a) => $a[1], $l), $byPerson),
@@ -1297,8 +1298,9 @@ final class Derived
     {
         $d = self::get();
         $out = [];
-        foreach ($d['apps'] as $a) {
-            if ($a[0] === $pid && $d['matches'][$a[1]]['v']) {
+        foreach (self::appsOf('p', $pid) as $i) {
+            $a = $d['apps'][$i];
+            if ($d['matches'][$a[1]]['v']) {
                 $out[] = $d['matches'][$a[1]] + ['goals' => $a[2], 'minutes' => $a[3], 'yellow' => $a[4], 'red' => $a[5], 'role' => $a[6], 'captain' => $a[7], 'pos' => $a[8]];
             }
         }
@@ -1309,13 +1311,37 @@ final class Derived
     /** Identifiant de fiche relié à une ligne de composition (pour les liens). */
     public static function lineupLinks(int $mid): array
     {
-        $out = [];
-        foreach (self::get()['apps'] as $a) {
-            if ($a[1] === $mid) {
-                $out[] = $a;
-            }
+        $apps = self::get()['apps'];
+        return array_map(fn ($i) => $apps[$i], self::appsOf('m', $mid));
+    }
+
+    /**
+     * Rangs des apparitions d'une personne ('p') ou d'un match ('m') dans « apps », sans parcourir
+     * les 26 000 lignes à chaque appel (une page de saison en demande une soixantaine). Index
+     * calculé avec les données, ou une fois par requête pour un cache d'avant l'index.
+     * @return list<int>
+     */
+    private static function appsOf(string $k, int $id): array
+    {
+        static $built = null;
+        $d = self::get();
+        $idx = $d['app_index'] ?? null;
+        if (!is_array($idx)) {
+            $built = $built !== null && $built[0] === $d['built'] ? $built : [$d['built'], self::appIndex($d['apps'])];
+            $idx = $built[1];
         }
-        return $out;
+        return $idx[$k][$id] ?? [];
+    }
+
+    /** @return array{m:array<int,list<int>>,p:array<int,list<int>>} rangs des apparitions par match et par personne */
+    private static function appIndex(array $apps): array
+    {
+        $idx = ['m' => [], 'p' => []];
+        foreach ($apps as $i => $a) {
+            $idx['m'][$a[1]][] = $i;
+            $idx['p'][$a[0]][] = $i;
+        }
+        return $idx;
     }
 
     /** Matchs joués à cette date (jour et mois), du plus récent au plus ancien. */
