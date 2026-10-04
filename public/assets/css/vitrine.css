@@ -445,7 +445,6 @@ a.vpartner:hover img { filter: none; }
 .vwait__intro .eyebrow { color: var(--blue); }
 .vwait__title { margin: 0; font-family: var(--display); font-weight: 900; font-size: clamp(46px, 5.6vw, 92px); line-height: .9; text-transform: uppercase; color: var(--navy); text-wrap: balance; }
 .vwait__text { font-size: clamp(18px, 1.4vw, 21px); max-width: 56ch; }
-.vwait__text p + p { margin-top: .7em; }
 .vwait__h { margin: 0; font-family: var(--display); font-weight: 900; font-size: clamp(24px, 2.2vw, 30px); line-height: 1; text-transform: uppercase; }
 .vwait__cd { display: flex; flex-direction: column; gap: 12px; }
 .vwait__cd .eyebrow { color: var(--blue); }

@@ -393,6 +393,16 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       d'attente, puis, la copie des photos terminée, faire mener www au même dossier que le
       musée (DEPLOIEMENT § 11) et ouvrir le site.
 
+## Lisibilité des textes et en-tête du musée (04/10, demande du client) — terminé
+- [x] **Espace entre les paragraphes** rétabli dans tous les textes (fiches, articles, pages
+      légales, site de l'association, pages d'attente) : une règle CSS (`.prose p`) annulait
+      l'écart prévu entre les blocs depuis le début du projet. Les intertitres sont aérés
+      d'autant ; les adresses trop longues passent à la ligne au lieu de déborder.
+- [x] **En-tête du musée** : la ligne du haut débordait de l'écran entre 1440 et 1455 px de
+      large (depuis l'ajout du lien vers le site officiel) et entre 1100 et 1180 px. L'accroche
+      s'efface désormais sous 1520 px et la recherche devient une loupe entre 1100 et 1199 px.
+      Contrôle : 21 pages × 5 largeurs (360 à 1920 px), aucun débordement.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

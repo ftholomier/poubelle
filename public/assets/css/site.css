@@ -308,9 +308,17 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .mobilemenu > a.mobilemenu__official { margin-top: 18px; padding: 0; border: 0; font-family: var(--serif); font-weight: 400; font-size: 15px; text-transform: none; color: var(--mist); text-decoration: underline; text-underline-offset: 3px; }
 .mobilemenu > a.mobilemenu__official:hover { color: var(--yellow); }
 
-@media (max-width: 1439px) {
+/* Sous 1520 px, l'accroche cède la place (avec le lien vers le site officiel, la ligne du haut
+   déborderait de l'écran, à 1440 px par exemple). */
+@media (max-width: 1519px) {
   .masthead__tagtext { display: none; }
   .masthead__tagtext + .masthead__official::before { content: none; }
+}
+/* Entre 1100 et 1199 px, la recherche devient une loupe (comme sur téléphone) : la ligne du
+   haut tient sans déborder de l'écran. */
+@media (max-width: 1199px) {
+  .hsearch { min-width: 0; width: 64px; justify-content: center; }
+  .hsearch span { display: none; }
 }
 @media (max-width: 1099px) {
   .masthead__logo img { height: 76px; }
@@ -375,18 +383,20 @@ html { scroll-padding-top: var(--head-h, 0px); }
 @media (prefers-reduced-motion: reduce) { .js [data-reveal], .js [data-reveal-x] { opacity: 1; transform: none; } }
 
 /* ---------------------------------------------------------------- contenu éditorial */
-.prose { font-size: 19px; line-height: 1.65; }
+.prose { font-size: 19px; line-height: 1.65; overflow-wrap: break-word; }
+/* Marges par défaut retirées sans priorité (:where) : l'écart entre blocs (paragraphes, listes,
+   citations) vient de la règle suivante, qu'une règle « .prose p » écraserait. */
+.prose :where(p, ul, ol, blockquote) { margin: 0; }
 .prose > * + * { margin-top: 1em; }
-.prose p { margin: 0; }
 .prose h2, .prose h3, .prose h4 { font-family: var(--display); text-transform: uppercase; line-height: 1.05; margin-top: 1.4em; }
 .prose h2 { font-size: 34px; font-weight: 900; }
 .prose h3 { font-size: 26px; font-weight: 800; }
 .prose h4 { font-size: 22px; font-weight: 800; }
 .prose a { color: var(--blue); border-bottom: 2px solid var(--yellow); }
-.prose ul, .prose ol { padding-left: 1.2em; margin: 0; }
+.prose ul, .prose ol { padding-left: 1.2em; }
 .prose li + li { margin-top: .4em; }
 .prose li.li-quote { list-style: none; }
-.prose blockquote { margin: 0; border-left: 6px solid var(--yellow); padding: 4px 0 4px 20px; font-style: italic; }
+.prose blockquote { border-left: 6px solid var(--yellow); padding: 4px 0 4px 20px; font-style: italic; }
 .prose img { border: 2px solid var(--navy); margin: 1em 0; }
 .prose table { border-collapse: collapse; width: 100%; font-size: 16px; }
 .prose td, .prose th { border: 1px solid rgba(14,31,77,.25); padding: 6px 8px; }
