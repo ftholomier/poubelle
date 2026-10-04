@@ -236,7 +236,7 @@ final class Pages
             'extra' => safe_html($g('extra')),
             'online' => Forms::onlineMembership(),
             'updated' => '2026-10-04',
-        ], ['title' => $titles[$key], 'description' => $titles[$key] . ' du site de l’association ' . Site::name() . '.', 'body_class' => 'vt-legal']);
+        ], ['title' => $titles[$key], 'description' => $titles[$key] . ' du site de l’association ' . Site::name() . '.', 'body_class' => 'vt-legal', 'styles' => ['css/legal.css']]);
     }
 
     public static function siteMap(Request $req): Response

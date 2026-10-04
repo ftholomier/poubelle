@@ -24,6 +24,8 @@ $en = I18n::isEn();
       </ul>
       <h2>Hosting</h2>
       <div class="legal__card"><?= $host ?: '<p>—</p>' ?></div>
+      <h2>Development</h2>
+      <p>The website was developed by <b>Frédéric Tholomier | <a href="https://le-digital.com/" rel="noopener" target="_blank">LE-DIGITAL.com</a></b>.</p>
       <h2>Purpose of the site</h2>
       <p><?= e($site) ?> is an online museum dedicated to the history of FC Sochaux-Montbéliard since 1928: matches, players, coaches, executives, supporters, stadiums and symbols. Its content is written and checked by volunteer historians.</p>
       <h2>Intellectual property</h2>
@@ -51,6 +53,8 @@ $en = I18n::isEn();
       </ul>
       <h2>Hébergement</h2>
       <div class="legal__card"><?= $host ?: '<p>—</p>' ?></div>
+      <h2>Développement</h2>
+      <p>Le développement du site a été effectué par <b>Frédéric Tholomier | <a href="https://le-digital.com/" rel="noopener" target="_blank">LE-DIGITAL.com</a></b>.</p>
       <h2>Objet du site</h2>
       <p><?= e($site) ?> est un musée en ligne consacré à l’histoire du FC Sochaux-Montbéliard depuis 1928 : matchs, joueurs, entraîneurs, dirigeants, supporters, stades et symboles. Ses contenus sont rédigés et vérifiés par des historiens bénévoles.</p>
       <h2>Propriété intellectuelle</h2>

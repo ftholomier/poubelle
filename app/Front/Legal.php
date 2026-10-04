@@ -51,7 +51,7 @@ final class Legal
             'donations' => (bool) Settings::get('donations.enabled', false),
             'receipts' => (bool) Settings::get('donations.tax_receipts', false),
             'analytics' => (string) Settings::get('privacy.analytics_id', '') !== '',
-            'updated' => '2026-10-03',
+            'updated' => $key === 'mentions' ? '2026-10-04' : '2026-10-03',
         ];
         $title = \App\Services\I18n::isEn() ? $en : $fr;
         return Pages::render('legal/' . $key, $vars + ['title' => $title], [

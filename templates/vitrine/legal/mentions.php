@@ -22,6 +22,8 @@ use App\Vitrine\Site;
     </ul>
     <h2>Hébergement</h2>
     <div class="legal__card"><?= $host ?: '<p>—</p>' ?></div>
+    <h2>Développement</h2>
+    <p>Le développement du site a été effectué par <b>Frédéric Tholomier | <a href="https://le-digital.com/" rel="noopener" target="_blank">LE-DIGITAL.com</a></b>.</p>
     <h2>Objet du site</h2>
     <p>Ce site présente l’association <?= e(Site::name()) ?>, ses actions, son agenda et les moyens de la soutenir (adhésion, bénévolat, dons, archives). Le musée en ligne de l’association est publié à l’adresse <a href="<?= e(Host::museum('/')) ?>"><?= e(Host::museumHost()) ?></a>, qui a ses propres mentions légales.</p>
     <h2>Propriété intellectuelle</h2>
