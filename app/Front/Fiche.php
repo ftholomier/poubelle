@@ -295,15 +295,18 @@ final class Fiche
     /** Bilan face à cet adversaire (global et à la date du match). */
     public static function headToHead(string $club, int $mid, ?string $date): ?array
     {
-        $dd = Derived::get();
-        $g = $dd['clubs'][$club] ?? null;
+        $g = Derived::part('clubs')[$club] ?? null;
         if (!$g) {
             return null;
         }
         $before = ['v' => 0, 'n' => 0, 'd' => 0];
         $prev = [];
+        $M = Derived::part('matches');
         foreach ($g['matches'] as $id) {
-            $x = $dd['matches'][$id];
+            $x = $M[$id] ?? null;
+            if (!$x) {
+                continue;
+            }
             if ($id === $mid || ($date && strcmp((string) $x['date'], $date) >= 0)) {
                 continue;
             }
@@ -338,12 +341,12 @@ final class Fiche
         if (!$season) {
             return [null, null];
         }
-        $list = Derived::get()['seasons'][$season]['matches'] ?? [];
+        $list = Derived::part('seasons')[$season]['matches'] ?? [];
         $i = array_search((int) $doc['id'], $list, true);
         if ($i === false) {
             return [null, null];
         }
-        $dd = Derived::get()['matches'];
+        $dd = Derived::part('matches');
         return [isset($list[$i - 1]) ? $dd[$list[$i - 1]] : null, isset($list[$i + 1]) ? $dd[$list[$i + 1]] : null];
     }
 
@@ -388,8 +391,7 @@ final class Fiche
     {
         $p = $doc['personne'];
         $id = (int) $doc['id'];
-        $dd = Derived::get();
-        $tot = $dd['person_totals'][$id] ?? null;
+        $tot = Derived::part('person_totals')[$id] ?? null;
         $matches = Derived::personMatches($id);
         $playerMatches = array_values(array_filter($matches, fn ($x) => $x['role'] === 'player'));
         $coachMatches = array_values(array_filter($matches, fn ($x) => $x['role'] === 'coach'));
@@ -484,7 +486,7 @@ final class Fiche
     private static function albumNumber(int $id): ?int
     {
         // Numéros de l'album gardés en cache (la liste des cartes se refait seulement quand les données changent).
-        $numbers = \App\Core\Memo::get('album-numeros', [Index::CACHE, APP_DIR . '/Front/Interactive.php'], (string) (Derived::get()['built'] ?? ''),
+        $numbers = \App\Core\Memo::get('album-numeros', [Index::CACHE, APP_DIR . '/Front/Interactive.php'], Derived::built(),
             fn () => array_column(Interactive::albumCards(), 'n', 'id'));
         return $numbers[$id] ?? null;
     }
@@ -669,7 +671,7 @@ final class Fiche
             return $out;
         }
         $byDate = [];
-        foreach (Derived::get()['matches'] as $x) {
+        foreach (Derived::part('matches') as $x) {
             if ($x['date'] && $x['v']) {
                 $byDate[$x['date']][] = $x;
             }

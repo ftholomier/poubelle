@@ -161,7 +161,7 @@ final class RetroDirect
         }
         $today = date('Y-m-d', $now);
         $out = [];
-        foreach (Derived::get()['matches'] ?? [] as $id => $dm) {
+        foreach (Derived::part('matches') as $id => $dm) {
             if (empty($dm['v']) || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', (string) ($dm['date'] ?? ''), $d) || (int) ($dm['hl'] ?? 0) < 5) {
                 continue;
             }
@@ -198,7 +198,7 @@ final class RetroDirect
     public static function classics(int $limit = 8): array
     {
         $out = [];
-        foreach (Derived::get()['matches'] ?? [] as $id => $dm) {
+        foreach (Derived::part('matches') as $id => $dm) {
             if (!empty($dm['v']) && (int) ($dm['hl'] ?? 0) >= 8 && ($s = Index::get((int) $id))) {
                 $out[] = ['id' => (int) $id, 'score' => self::interest($dm, $s), 's' => $s, 'dm' => $dm];
             }

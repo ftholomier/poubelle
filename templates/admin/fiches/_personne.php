@@ -12,7 +12,7 @@ $death = $p['death'] ?? [];
 $dt = fn ($d) => FicheForm::dateText($d);
 $geo = \App\Data\Collections::get('geo', []);
 $pid = (int) $doc['id'];
-$tot = Derived::get()['person_totals'][$pid] ?? null;
+$tot = Derived::part('person_totals')[$pid] ?? null;
 $matches = $pid ? Derived::personMatches($pid) : [];
 ?>
 <div class="fpanel" data-panel="identite">

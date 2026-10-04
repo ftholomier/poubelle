@@ -26,3 +26,9 @@ if ($request->method === 'GET' && $response->status === 200 && !str_starts_with(
         \App\Services\Stats::hit($request->path, (string) ($request->server['HTTP_USER_AGENT'] ?? ''), \App\Services\I18n::lang());
     }
 }
+
+// Juste après une mise à jour : index et données calculées refaits avec le nouveau code, après
+// l'envoi de la page (la version précédente sert en attendant : personne n'attend leur calcul).
+if (is_file(STORAGE_PATH . '/cache/apres-mise-a-jour')) {
+    \App\Services\Updater::refresh();
+}

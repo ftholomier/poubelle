@@ -53,15 +53,29 @@ final class PhpCache
     }
 
     /**
+     * Cache manquant : calculé une seule fois, même si plusieurs pages le demandent ensemble (les
+     * autres attendent le verrou, puis lisent le fichier tout juste écrit au lieu de tout refaire).
+     *
+     * @param callable():array $compute
+     */
+    public static function remember(string $file, callable $compute): array
+    {
+        return self::update($file, fn (?array $cur) => $cur ?? $compute(), true);
+    }
+
+    /**
      * Lecture-modification-écriture sous verrou exclusif.
      *
      * @param callable(?array):array $fn reçoit le contenu actuel (null si le cache n'existe pas)
      */
-    public static function update(string $file, callable $fn): array
+    public static function update(string $file, callable $fn, bool $onlyIfMissing = false): array
     {
         if (isset(self::$held[$file])) {
-            $data = $fn(self::read($file));
-            self::write($file, $data);
+            $cur = self::read($file);
+            $data = $fn($cur);
+            if (!($onlyIfMissing && $cur !== null)) {
+                self::write($file, $data);
+            }
             return $data;
         }
         $dir = dirname($file);
@@ -74,8 +88,12 @@ final class PhpCache
         }
         self::$held[$file] = true;
         try {
-            $data = $fn(self::read($file));
-            self::write($file, $data);
+            $cur = self::read($file);
+            $data = $fn($cur);
+            // Déjà fait par un autre processus pendant l'attente : rien à réécrire.
+            if (!($onlyIfMissing && $cur !== null)) {
+                self::write($file, $data);
+            }
             return $data;
         } finally {
             unset(self::$held[$file]);

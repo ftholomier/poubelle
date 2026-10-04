@@ -234,3 +234,15 @@ réellement développé.
   l'ouverture. Son contenu suit le modèle des autres contenus du site (Store : contenu de
   départ mis à jour avec le code, versions, retour au départ) plutôt que des réglages.
 
+## Caches et vitesse, 04/10
+- **Caches PHP gardés, mais découpés** : un tableau PHP servi par OPcache ne coûte rien tant
+  qu'il est en mémoire (aucune copie), ce que ni JSON ni `serialize` n'égalent (relus à chaque
+  page). Son défaut, la relecture complète quand il change ou qu'OPcache repart de zéro, est
+  réglé en le découpant : données calculées en parties nommées d'après leur contenu (une partie
+  inchangée n'est pas réécrite), compositions rangées par joueur et par match, médiathèque en
+  16 groupes. `Derived::get()` (tout) reste pour les calculs d'ensemble (chiffres du FCSM, Fil
+  jaune, assistant, tâche planifiée).
+- **Mise à jour sans attente** : les gros caches de données survivent à une mise à jour et sont
+  refaits juste après, en arrière-plan ; un changement de format passe toujours par un nouveau
+  numéro (`Derived::VERSION`, `index-N.php`), recalculé tout de suite.
+- **Compression** : laissée à o2switch (Brotli), plus efficace qu'un gzip fait par PHP.

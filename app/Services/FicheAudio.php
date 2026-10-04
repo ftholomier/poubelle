@@ -200,7 +200,7 @@ final class FicheAudio
     {
         $key = (int) ($doc['id'] ?? 0) . '-' . $lang;
         // Le résumé d'une personne cite ses totaux (matchs, buts), calculés hors de la fiche.
-        $tot = ($doc['type'] ?? '') === 'personne' ? serialize(Derived::get()['person_totals'][(int) ($doc['id'] ?? 0)] ?? null) : '';
+        $tot = ($doc['type'] ?? '') === 'personne' ? serialize(Derived::part('person_totals')[(int) ($doc['id'] ?? 0)] ?? null) : '';
         $hash = hash('xxh128', $lang . '|' . self::maxWords() . '|' . serialize($doc) . '|' . $tot);
         if (($hit = self::$tpl[$key] ?? null) && $hit[0] === $hash) {
             return $hit[1];
@@ -367,7 +367,7 @@ final class FicheAudio
         } elseif ($en && ($p['birth']['date']['precision'] ?? '') === 'day') {
             $s[] = 'Born on ' . self::date((string) $p['birth']['date']['iso'], true, false) . ($birthPlace !== '' ? ' in ' . $birthPlace : '') . '.';
         }
-        $tot = Derived::get()['person_totals'][$id] ?? null;
+        $tot = Derived::part('person_totals')[$id] ?? null;
         // Comme la fiche : compositions du musée, sinon tableau de statistiques.
         // Entraîneur : son tableau de statistiques peut être celui du banc, il n'est pas lu comme des matchs joués.
         $coach = ($roles[0] ?? '') === 'entraineur';
@@ -479,7 +479,7 @@ final class FicheAudio
         if (isset($d['personne'])) {
             $p = $d['personne'];
             $data['personne'] = ['nom' => ($p['display_name'] ?? '') ?: $d['title'], 'poste' => $p['position'] ?? '', 'rôles' => $p['roles'] ?? [], 'naissance' => (string) ($p['birth']['text'] ?? ''),
-                'années au club' => Fiche::personYears($p), 'totaux' => Derived::get()['person_totals'][(int) $d['id']] ?? null, 'sous-titre' => self::plainText((string) ($p['subtitle'] ?? ''))];
+                'années au club' => Fiche::personYears($p), 'totaux' => Derived::part('person_totals')[(int) $d['id']] ?? null, 'sous-titre' => self::plainText((string) ($p['subtitle'] ?? ''))];
         }
         $data['texte'] = mb_substr(self::plainText(implode("\n", array_map(fn ($x) => (string) ($x['html'] ?? ''), $d['sections'] ?? []))), 0, 40000);
         $max = self::maxWords();
@@ -1037,7 +1037,7 @@ final class FicheAudio
     public static function overview(): array
     {
         $files = [Index::CACHE, self::$dir, Settings::FILE, __FILE__, APP_DIR . '/Services/MatchText.php', APP_DIR . '/Front/Unknown.php'];
-        return \App\Core\Memo::get('audio-plans', $files, self::maxWords() . '|' . (Derived::get()['built'] ?? ''), function () {
+        return \App\Core\Memo::get('audio-plans', $files, self::maxWords() . '|' . (Derived::built()), function () {
             self::loadTemplates();
             try {
                 return self::computePlans(['fr', 'en'], false, null);

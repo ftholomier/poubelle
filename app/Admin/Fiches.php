@@ -49,10 +49,10 @@ final class Fiches extends Base
             $counts[$s['status']] = ($counts[$s['status']] ?? 0) + 1;
         }
         $quality = [];
-        foreach (Derived::get()['quality'] ?? [] as $a) {
+        foreach (Derived::part('quality') as $a) {
             $quality[(int) $a['id']][] = $a;
         }
-        $totals = Derived::get()['person_totals'] ?? [];
+        $totals = Derived::part('person_totals');
         $geo = \App\Data\Collections::get('geo', []);
         // Filtres
         $items = array_filter($all, function ($s) use ($status, $q, $req, $slug) {
@@ -295,7 +295,7 @@ final class Fiches extends Base
             }
             $out[] = ['Records et bilans recalculés', '/records/'];
         } elseif ($doc['type'] === 'personne') {
-            $t = Derived::get()['person_totals'][(int) $doc['id']] ?? null;
+            $t = Derived::part('person_totals')[(int) $doc['id']] ?? null;
             if ($t) {
                 $out[] = [$t['matches'] . ' matchs, ' . $t['goals'] . ' buts reliés depuis les compositions', null];
             }

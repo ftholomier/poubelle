@@ -209,8 +209,9 @@ final class Search
         if (self::$docs === null) {
             $d = is_file(self::CACHE) ? include self::CACHE : null;
             if (!is_array($d)) {
-                self::rebuild();
-                $d = self::$docs ?? [];
+                // Index de recherche absent : refait une seule fois pour tous.
+                self::$changes = [];
+                $d = PhpCache::remember(self::CACHE, fn () => self::scan());
             }
             self::$docs = $d;
         }
@@ -256,7 +257,7 @@ final class Search
         $required = count($tokens) > 1 ? array_values(array_diff($tokens, ['sochaux'])) : $tokens;
         $years = array_values(array_unique($out['years']));
         $phrase = self::norm($q);
-        $totals = Derived::get()['person_totals'] ?? [];
+        $totals = Derived::part('person_totals');
 
         $scored = self::score($tokens, $required, $years, $phrase, $out['season'], $totals, true);
         if (!$scored && count($required) > 1) {
@@ -453,21 +454,21 @@ final class Search
     {
         $out = [];
         // Saison reconnue : page de la saison en premier
-        if ($r['season'] && isset(Derived::get()['seasons'][$r['season']])) {
-            $n = count(Derived::get()['seasons'][$r['season']]['matches'] ?? []);
+        if ($r['season'] && isset(Derived::part('seasons')[$r['season']])) {
+            $n = count(Derived::part('seasons')[$r['season']]['matches'] ?? []);
             $out[] = ['type' => t('Saison'), 'label' => t('Saison') . ' ' . $r['season'], 'meta' => $n . ' ' . t('matchs'), 'href' => url('/matchs/' . $r['season'] . '/')];
         } elseif (count($r['years']) === 1 && !$r['tokens']) {
             $y = $r['years'][0];
             foreach ([($y - 1) . '-' . $y, $y . '-' . ($y + 1)] as $se) {
-                if (isset(Derived::get()['seasons'][$se])) {
-                    $out[] = ['type' => t('Saison'), 'label' => t('Saison') . ' ' . $se, 'meta' => count(Derived::get()['seasons'][$se]['matches'] ?? []) . ' ' . t('matchs'), 'href' => url('/matchs/' . $se . '/')];
+                if (isset(Derived::part('seasons')[$se])) {
+                    $out[] = ['type' => t('Saison'), 'label' => t('Saison') . ' ' . $se, 'meta' => count(Derived::part('seasons')[$se]['matches'] ?? []) . ' ' . t('matchs'), 'href' => url('/matchs/' . $se . '/')];
                 }
             }
         }
         // Adversaire reconnu : face-à-face
         $key = Names::clubKey($q);
-        if ($key !== '' && $key !== 'sochaux' && isset(Derived::get()['clubs'][$key])) {
-            $c = Derived::get()['clubs'][$key];
+        if ($key !== '' && $key !== 'sochaux' && isset(Derived::part('clubs')[$key])) {
+            $c = Derived::part('clubs')[$key];
             $out[] = ['type' => t('Face-à-face'), 'label' => 'Sochaux × ' . \App\Front\Fiche::clubName($key), 'meta' => $c['count'] . ' ' . t('matchs') . ' · ' . $c['v'] . 'V ' . $c['n'] . 'N ' . $c['d'] . 'D', 'href' => url('/face-a-face/' . $key . '/')];
         }
         return $out;

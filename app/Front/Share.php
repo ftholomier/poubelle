@@ -49,7 +49,7 @@ final class Share
 
     public static function faceToFace(string $club): Response
     {
-        $c = Derived::get()['clubs'][$club] ?? null;
+        $c = Derived::part('clubs')[$club] ?? null;
         if (!$c) {
             return self::fallback();
         }

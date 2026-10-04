@@ -157,7 +157,7 @@ TXT;
             $lines[] = 'Décès : ' . $v($p['death']['text'] ?? 'non renseigné (vivant ou inconnu)');
             $lines[] = 'Nationalité : ' . $v($p['nationality'] ?? '');
             $lines[] = 'Au FCSM : ' . $v(Fiche::personYears($p));
-            $tot = Derived::get()['person_totals'][(int) $d['id']] ?? null;
+            $tot = Derived::part('person_totals')[(int) $d['id']] ?? null;
             if ($tot) {
                 $lines[] = 'Au FCSM d’après les compositions du musée : ' . (int) ($tot['matches'] ?? 0) . ' matchs, ' . (int) ($tot['goals'] ?? 0) . ' buts' . (!empty($tot['coached']) ? ', ' . (int) $tot['coached'] . ' matchs comme entraîneur' : '');
             }

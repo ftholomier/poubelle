@@ -124,10 +124,10 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 
 | Fichier | Contenu | Mise à jour |
 |---|---|---|
-| `index-2.php` | résumé de chaque fiche (titre, adresse, type, rubriques, extrait sans « xx », empreinte des textes relus par le correcteur…) ; le numéro change quand le contenu du résumé change, l'ancien fichier est alors ignoré | à chaque enregistrement ; reconstruit s'il manque |
-| `derived.php` | données calculées (§ 5) | marqué « à recalculer » à chaque enregistrement, recalculé après l'envoi de la page ou par la tâche planifiée |
+| `index-2.php` | résumé de chaque fiche (titre, adresse, type, rubriques, extrait sans « xx », empreinte des textes relus par le correcteur…) ; le numéro change quand le contenu du résumé change, l'ancien fichier est alors ignoré | à chaque enregistrement ; reconstruit s'il manque (une seule fois, même si plusieurs pages le demandent ensemble) |
+| `derived.php` + `derived/` | données calculées (§ 5) : `derived.php` n'est qu'un résumé (version, date, durée, nom du fichier de chaque partie) ; chaque partie (`matches`, `seasons`, `person_totals`, `apps`…) a son fichier dans `derived/`, nommé d'après son contenu, et les compositions sont aussi rangées par joueur (`apps_p.0` à `apps_p.15`) et par match (`apps_m.*`) : une page ne lit que ce qu'elle affiche (`Derived::part()`, `match()`, `personMatches()`, `lineupLinks()`) | marqué « à recalculer » à chaque enregistrement, recalculé après l'envoi de la page ou par la tâche planifiée ; une partie inchangée garde son fichier (déjà en mémoire d'OPcache) ; les fichiers du calcul précédent restent jusqu'au suivant (une page en cours peut encore les lire) |
 | `search.php` | index de recherche | à chaque enregistrement |
-| `media.php`, `media-versions.php`, `media-usage.json` | médiathèque, versions des fichiers retouchés, « utilisée dans » | à chaque modification |
+| `media.php`, `media/`, `media-versions.php`, `media-usage.json` | médiathèque (entière, et en 16 groupes selon le chemin du fichier : `Media::get()` n'en lit qu'un), versions des fichiers retouchés, « utilisée dans » | à chaque modification |
 | `carte-*.json`, `sitemap.xml`, `share/` | données de la carte, plan du site, images de partage | à la demande |
 | `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records, kits souvenirs) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change (kit souvenirs : un fichier par langue, refait seulement si le contenu du kit change) ; ménage des fichiers de plus de 30 jours |
 | `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
@@ -157,6 +157,24 @@ recrée `derived.dirty` et un nouveau calcul suivra (un calcul interrompu depuis
 15 minutes est refait). Le recalcul d'après-page ne fait jamais attendre : si un autre
 processus calcule déjà, il abandonne. La limite de mémoire est portée à 512 Mo pendant le
 calcul (environ 200 Mo pour 3 000 fiches).
+
+**Pourquoi tant de petits fichiers** : un cache PHP est quasi gratuit tant qu'OPcache le garde en
+mémoire, mais coûte sa relecture complète quand il change (recalcul après un enregistrement) ou
+qu'OPcache repart de zéro (mise à jour, redémarrage de PHP). Avec un seul `derived.php` de 9 Mo,
+lu par le bandeau de l'en-tête sur toutes les pages, chaque page « à froid » perdait près d'une
+seconde. Mesures à froid (OPcache vide), avant → après : mentions légales 356 → 87 ms, accueil
+895 → 159 ms, fiche de match 238 → 98 ms, liste des matchs 730 → 118 ms, fiche d'un joueur de
+500 matchs 429 → 187 ms ; site de l'association 147-171 → 70-80 ms.
+
+**Après une mise à jour** (`Updater::afterChange()`) : les caches sont vidés, sauf les gros
+caches de données (`derived*`, `index-*.php`, `search.php`, `media*`) qui servent encore ; la
+marque `apres-mise-a-jour` demande de les refaire avec le nouveau code (`Updater::refresh()`) :
+par la première page qui suit, au moins 5 s après et une fois envoyée (seulement si PHP sait
+terminer la page avant : PHP-FPM ou LiteSpeed), sinon par la tâche planifiée « statistiques ».
+Avant, le premier visiteur attendait le recalcul de tout (plusieurs secondes). Une nouvelle
+version de `Derived::VERSION` ou un nouveau numéro d'index restent recalculés tout de suite.
+Système › Tâches planifiées, carte Serveur : mémoire d'OPcache utilisée et alerte si elle est
+trop petite, ou si PHP ne sait pas terminer une page avant son travail d'après-page.
 
 Après une modification de fichiers faite à la main (envoi FTP de `data/`, script), vider
 `storage/cache/` ou lancer `php bin/console.php index`, `derived` et `search`.

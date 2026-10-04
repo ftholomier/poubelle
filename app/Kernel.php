@@ -300,7 +300,6 @@ final class Kernel
     /** Page calculée à paramètre : même vérification que la page ; null = elle passe la main (404 de la route). */
     private static function probeRoute(string $pattern, array $p, string $pre): ?array
     {
-        $d = fn () => Data\Derived::get();
         switch ($pattern) {
             case '/matchs/{season}/':
                 $season = (string) $p['season'];
@@ -312,14 +311,14 @@ final class Kernel
                         return [200, null, 'page'];
                     }
                 }
-                return isset($d()['seasons'][$season]) ? [200, null, 'page'] : null;
+                return isset(Data\Derived::part('seasons')[$season]) ? [200, null, 'page'] : null;
             case '/face-a-face/{club}/':
                 $club = (string) $p['club'];
-                if (isset($d()['clubs'][$club])) {
+                if (isset(Data\Derived::part('clubs')[$club])) {
                     return [200, null, 'page'];
                 }
                 $key = Data\Names::clubKey(str_replace('-', ' ', $club));
-                return $key !== $club && isset($d()['clubs'][$key]) ? [301, $pre . '/face-a-face/' . $key . '/', 'page'] : null;
+                return $key !== $club && isset(Data\Derived::part('clubs')[$key]) ? [301, $pre . '/face-a-face/' . $key . '/', 'page'] : null;
             case '/bilans/{key}/':
                 $key = (string) $p['key'];
                 if ($key === 'auguste-bonal' || $key === 'bonal') {
@@ -327,14 +326,14 @@ final class Kernel
                 }
                 if (isset(Front\Mosaic::COMPS[$key])) {
                     $family = Front\Mosaic::COMPS[$key][2];
-                    foreach ($d()['matches'] as $x) {
+                    foreach (Data\Derived::part('matches') as $x) {
                         if ($x['v'] && $x['comp'] === $family) {
                             return [200, null, 'page'];
                         }
                     }
                     return null;
                 }
-                return str_starts_with($key, 'stade-') && isset($d()['stades'][substr($key, 6)]) ? [200, null, 'page'] : null;
+                return str_starts_with($key, 'stade-') && isset(Data\Derived::part('stades')[substr($key, 6)]) ? [200, null, 'page'] : null;
             case '/interactif/retro-direct/{slug}/':
                 $s = Services\RetroDirect::bySlug((string) $p['slug']);
                 $doc = $s ? Data\Fiches::get((int) $s['id']) : null;

@@ -120,9 +120,7 @@ final class PdfExport
     /** Empreinte : version de la mise en page + données calculées (statistiques, liens entre fiches). */
     private static function stamp(string $extra = ''): string
     {
-        Derived::get();
-        $d = @filemtime(STORAGE_PATH . '/cache/derived.php') ?: 0;
-        return substr(sha1(self::VERSION . '|' . $d . '|' . $extra . '|' . base_url()), 0, 12);
+        return substr(sha1(self::VERSION . '|' . Derived::built() . '|' . $extra . '|' . base_url()), 0, 12);
     }
 
     private static function respond(Request $req, string $key, string $name, callable $build, bool $cache = true): Response

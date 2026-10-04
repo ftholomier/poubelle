@@ -113,8 +113,8 @@ final class Api extends Base
                 break;
             case 'clubs':
                 $seen = [];
-                foreach (Derived::get()['clubs'] ?? [] as $key => $c) {
-                    $first = Derived::get()['matches'][$c['matches'][0] ?? 0]['opp'] ?? $key;
+                foreach (Derived::part('clubs') as $key => $c) {
+                    $first = Derived::part('matches')[$c['matches'][0] ?? 0]['opp'] ?? $key;
                     if (str_contains(Search::norm((string) $first), $q)) {
                         $seen[$first] = true;
                         $items[] = ['label' => $first, 'meta' => $c['count'] . ' matchs', 'value' => $first];
@@ -133,7 +133,7 @@ final class Api extends Base
                     }
                 }
                 if (!$items) {
-                    foreach (Derived::get()['stades'] ?? [] as $key => $st) {
+                    foreach (Derived::part('stades') as $key => $st) {
                         $name = \App\Front\Explore::stadiumName((string) $key);
                         if (str_contains(Search::norm($name), $q)) {
                             $items[] = ['label' => $name, 'meta' => ($st['count'] ?? 0) . ' matchs', 'value' => $name];

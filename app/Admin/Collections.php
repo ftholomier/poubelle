@@ -375,7 +375,7 @@ final class Collections extends Base
 
     public static function album(Request $req): Response
     {
-        $tot = Derived::get()['person_totals'] ?? [];
+        $tot = Derived::part('person_totals');
         $in = [];
         foreach (Index::all() as $s) {
             if ($s['type'] === 'personne' && $s['status'] !== 'corbeille' && !empty($s['p']['album']['in'])) {

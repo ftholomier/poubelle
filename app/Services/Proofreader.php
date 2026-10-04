@@ -667,7 +667,7 @@ final class Proofreader
                 }
             }
         }
-        foreach (array_keys(Derived::get()['unlinked'] ?? []) as $name) {
+        foreach (array_keys(Derived::part('unlinked')) as $name) {
             $add(\App\Data\Names::display((string) $name));
         }
         // Dictionnaire : tous les mots, quelle que soit la casse.

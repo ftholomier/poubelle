@@ -124,18 +124,17 @@ final class Cron
                 return $n ? "$n fiche(s) publiée(s)" : null;
 
             case 'statistiques':
-                $done = null;
-                // Photos originales en cours de copie (serveur neuf) : alertes refaites toutes
-                // les 30 minutes, pour que « Photos absentes » disparaisse à la fin de la copie.
-                $d = Derived::get();
+                // Juste après une mise à jour : index, données calculées et recherche refaits avec
+                // le nouveau code, si aucune page ne l'a déjà fait.
+                $done = Updater::refresh() ? 'index et données calculées refaits après la mise à jour' : null;
                 // Photos copiées sur le serveur hors du back-office (copie depuis WordPress, envoi par FTP) :
                 // les alertes « photo absente » sont revues toutes les 30 minutes tant qu'il en reste.
-                if (strtotime((string) ($d['built'] ?? '')) < time() - 1800 && array_filter($d['quality'] ?? [], fn ($q) => $q['code'] === 'photos' || ($q['ref'] ?? '') === 'serveur')) {
+                if (strtotime(Derived::built()) < time() - 1800 && array_filter(Derived::part('quality'), fn ($q) => $q['code'] === 'photos' || ($q['ref'] ?? '') === 'serveur')) {
                     Derived::markDirty();
                 }
                 if (Derived::isDirty()) {
                     $d = Derived::rebuild();
-                    $done = sprintf('%d matchs, %d personnes reliées (%.1f s)', count($d['matches']), count($d['person_totals']), $d['duration']);
+                    $done = trim(($done ? $done . ' ; ' : '') . sprintf('%d matchs, %d personnes reliées (%.1f s)', count($d['matches']), count($d['person_totals']), $d['duration']));
                 }
                 // « Les chiffres du FCSM » recalculés d'avance : le visiteur n'attend pas.
                 $n = Chiffres::warm();

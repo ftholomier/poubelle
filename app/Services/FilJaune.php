@@ -33,7 +33,7 @@ final class FilJaune
     {
         // Réseau gardé en cache tant que l'index des fiches et les données calculées ne changent pas
         // (70 ms à refaire : chaque fiche joueur en a besoin).
-        return self::$g ??= \App\Core\Memo::get('fil-jaune-reseau', [Index::CACHE, __FILE__], (string) (Derived::get()['built'] ?? ''), fn () => self::build());
+        return self::$g ??= \App\Core\Memo::get('fil-jaune-reseau', [Index::CACHE, __FILE__], Derived::built(), fn () => self::build());
     }
 
     private static function build(): array
@@ -215,7 +215,7 @@ final class FilJaune
             return null;
         }
         $k = min($a, $b) . '-' . max($a, $b);
-        $M = Derived::get()['matches'] ?? [];
+        $M = Derived::part('matches');
         return ['n' => $n, 'first' => $M[$g['first'][$k]] ?? null, 'last' => $M[$g['last'][$k]] ?? null];
     }
 

@@ -286,7 +286,7 @@ final class Pages
         $list = array_values(array_filter(Index::published('personne'), fn ($s) => $s['p']['legend'] && $s['image']));
         if (count($list) < $n) {
             // Proposition par défaut (à valider dans le back-office) : les plus capés avec photo.
-            $tot = Derived::get()['person_totals'];
+            $tot = Derived::part('person_totals');
             $cands = array_values(array_filter(Index::published('personne'), fn ($s) => $s['image'] && in_array('joueur', $s['p']['roles'], true) && !$s['p']['legend']));
             usort($cands, fn ($a, $b) => ($tot[$b['id']]['matches'] ?? 0) <=> ($tot[$a['id']]['matches'] ?? 0));
             $list = array_merge($list, array_slice($cands, 0, $n - count($list)));

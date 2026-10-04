@@ -82,7 +82,7 @@ final class Interactive
     /** Les cartes de l'album : sélection du back-office, sinon proposition automatique. */
     public static function albumCards(): array
     {
-        $tot = Derived::get()['person_totals'] ?? [];
+        $tot = Derived::part('person_totals');
         $people = array_values(array_filter(Index::published('personne'), fn ($s) => !empty($s['p']['album']['in'])));
         if (!$people) {
             // Proposition (à valider) : légendes puis joueurs et entraîneurs les plus présents, avec photo.
@@ -94,7 +94,7 @@ final class Interactive
         usort($people, fn ($a, $b) => ($a['p']['album']['number'] ?? 9999) <=> ($b['p']['album']['number'] ?? 9999) ?: strcmp(Index::sortName($a), Index::sortName($b)));
         $current = Explore::currentSeason();
         $prevSeason = ((int) substr($current, 0, 4) - 1) . '-' . substr($current, 0, 4);
-        $M = Derived::get()['matches'] ?? [];
+        $M = Derived::part('matches');
         $lines = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A' => t('Attaquant')];
         $out = [];
         foreach ($people as $i => $s) {
@@ -182,14 +182,13 @@ final class Interactive
             $res->headers['Cache-Control'] = 'public, max-age=600';
             return $res;
         }
-        $d = Derived::get();
-        $M = $d['matches'];
+        $M = Derived::part('matches');
         $stades = [];
         foreach (Collections::get('stades', []) as $st) {
             $stades[$st['id']] = $st;
         }
         $places = [];
-        foreach ($d['stades'] ?? [] as $key => $st) {
+        foreach (Derived::part('stades') as $key => $st) {
             $info = $stades[$key] ?? null;
             if (!$info || !isset($info['lat'], $info['lng']) || $info['lat'] === null) {
                 continue;
@@ -214,7 +213,7 @@ final class Interactive
         // Origines : lieu de naissance géolocalisé
         $geo = Collections::get('geo', []);
         $people = [];
-        $tot = $d['person_totals'] ?? [];
+        $tot = Derived::part('person_totals');
         foreach (Index::published('personne') as $s) {
             $p = $s['p'];
             $placeKey = trim(($p['birth_place'] ?? '') . '|' . ($p['birth_country'] ?? ''), '|');
@@ -318,7 +317,7 @@ final class Interactive
     /** Candidats au Onze : joueurs des fiches, triés par nombre de matchs. */
     public static function onzeCandidates(): array
     {
-        $tot = Derived::get()['person_totals'] ?? [];
+        $tot = Derived::part('person_totals');
         $out = [];
         foreach (Index::published('personne') as $s) {
             if (!in_array('joueur', $s['p']['roles'], true) || empty($s['p']['line'])) {

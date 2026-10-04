@@ -15,12 +15,34 @@ use App\Core\JsonStore;
  */
 final class Derived
 {
+    /** Résumé du dernier calcul (version, date, fichier de chaque partie) : quelques lignes, lues par chaque page. */
     private const CACHE = STORAGE_PATH . '/cache/derived.php';
+    /**
+     * Les parties du calcul, un fichier chacune, nommé d'après son contenu : une page ne charge que
+     * ce qu'elle affiche (un seul gros fichier coûtait près d'une seconde à relire, à chaque
+     * recalcul et à chaque redémarrage de PHP), et une partie que le recalcul n'a pas changée
+     * garde son fichier, déjà en mémoire (OPcache).
+     */
+    private const DIR = STORAGE_PATH . '/cache/derived';
     private const DIRTY = STORAGE_PATH . '/cache/derived.dirty';
     /** Marque « sale » prise en charge par le recalcul en cours (un enregistrement fait pendant le calcul recrée DIRTY). */
     private const CLAIM = STORAGE_PATH . '/cache/derived.building';
-    private const VERSION = 7;
+    public const VERSION = 8;
+    /** Parties du calcul (clés de get() ; « version », « built », « duration », « no_credit » sont dans le résumé). */
+    private const PARTS = ['matches', 'apps', 'scorers', 'person_totals', 'by_person', 'seasons', 'clubs', 'stades', 'comps', 'on_this_day', 'unlinked', 'quality', 'bilans'];
+    /**
+     * Compositions rangées aussi par personne (« apps_p.N ») et par match (« apps_m.N ») en autant
+     * de fichiers : une fiche de joueur ou de match n'en lit qu'un, pas les 26 000 lignes.
+     */
+    private const BUCKETS = 16;
+    /** Tout le calcul (get(), ou juste recalculé) */
     private static ?array $data = null;
+    /** Résumé du calcul servi pendant cette requête */
+    private static ?array $meta = null;
+    /** @var array<string,array> parties déjà lues pendant cette requête */
+    private static array $parts = [];
+    /** @var array{0:string,1:array}|null compositions par personne et par match, quand tout le calcul est en mémoire */
+    private static ?array $grouped = null;
 
     public const OFFICIAL_EXCLUDED = ['Amical', "Coupe d'été", 'Coupes diverses'];
 
@@ -31,36 +53,123 @@ final class Derived
             @mkdir($dir, 0775, true);
         }
         @touch(self::DIRTY);
-        self::$data = null;
+        self::forget();
         self::scheduleRebuild();
     }
 
     /**
-     * Données calculées. Si le cache est périmé, on sert la version précédente et on
-     * recalcule après l'envoi de la page (le visiteur ou l'historien n'attend pas).
+     * Tout le calcul (toutes les parties : pour les calculs d'ensemble). Une page qui n'en
+     * affiche qu'une partie passe par part(), match(), personMatches()…
      */
     public static function get(): array
     {
         if (self::$data !== null) {
             return self::$data;
         }
-        if ($d = self::cached()) {
+        $m = self::meta();
+        if (self::$data !== null) {
+            return self::$data;
+        }
+        $d = array_diff_key($m, ['parts' => true]);
+        foreach (self::PARTS as $p) {
+            $d[$p] = self::part($p);
+        }
+        return self::$data = $d;
+    }
+
+    /**
+     * Une partie du calcul (« matches », « seasons », « person_totals »…), sans lire les autres.
+     * Calcul périmé : la version précédente est servie, et refaite après l'envoi de la page.
+     */
+    public static function part(string $name): array
+    {
+        if (self::$data !== null) {
+            return self::fromData($name);
+        }
+        if (isset(self::$parts[$name])) {
+            return self::$parts[$name];
+        }
+        $v = self::load(self::meta(), $name);
+        if (!is_array($v)) {
+            // Fichier retiré par un calcul plus récent (longue requête) ou effacé : dernier calcul
+            // enregistré, sinon recalcul complet.
+            self::forget();
+            $v = self::load(self::meta(), $name);
+            if ($v === null) {
+                self::rebuild();
+                $v = self::fromData($name);
+            }
+        }
+        return self::$parts[$name] = $v;
+    }
+
+    /** Date du calcul servi (empreinte des caches qui en dépendent). */
+    public static function built(): string
+    {
+        return (string) (self::$data['built'] ?? self::meta()['built'] ?? '');
+    }
+
+    /** Oublie le calcul gardé en mémoire pendant la requête (relu au prochain besoin). */
+    private static function forget(): void
+    {
+        self::$data = self::$meta = self::$grouped = null;
+        self::$parts = [];
+    }
+
+    /** Résumé du calcul servi ; recalcul immédiat s'il manque (première visite, nouvelle version du calcul). */
+    private static function meta(): array
+    {
+        if (self::$meta !== null) {
+            return self::$meta;
+        }
+        if ($m = self::cached()) {
             if (self::isDirty()) {
                 self::scheduleRebuild();
             }
-            return self::$data = $d;
+            return self::$meta = $m;
         }
-        return self::$data = self::rebuildLocked();
+        self::rebuildLocked();
+        return self::$meta ?? [];
     }
 
-    /** Dernier calcul enregistré (null s'il manque ou date d'une version précédente). */
+    /** Partie lue dans son fichier, ou dans le calcul tout juste fait (null : fichier absent ou illisible). */
+    private static function load(array $meta, string $name): ?array
+    {
+        if (self::$data !== null) {
+            return self::fromData($name);
+        }
+        $file = $meta['parts'][$name] ?? null;
+        if (!is_string($file) || !preg_match('/^[a-z_]+(?:\.\d+)?-[0-9a-f]{12}\.php$/', $file)) {
+            return null;
+        }
+        $v = @include self::DIR . '/' . $file;
+        return is_array($v) ? $v : null;
+    }
+
+    /**
+     * Partie tirée du calcul déjà en mémoire. Les compositions d'un groupe (« apps_p.3 ») sont alors
+     * celles de toutes les personnes (ou de tous les matchs), regroupées une fois par requête.
+     */
+    private static function fromData(string $name): array
+    {
+        if (!preg_match('/^apps_([pm])\.\d+$/', $name, $m)) {
+            return self::$data[$name] ?? [];
+        }
+        $built = (string) (self::$data['built'] ?? '');
+        if (self::$grouped === null || self::$grouped[0] !== $built) {
+            self::$grouped = [$built, self::groupApps(self::$data['apps'] ?? [])];
+        }
+        return self::$grouped[1][$m[1]];
+    }
+
+    /** Résumé du dernier calcul enregistré (null s'il manque ou date d'une version précédente). */
     private static function cached(): ?array
     {
         if (!is_file(self::CACHE)) {
             return null;
         }
-        $d = include self::CACHE;
-        return is_array($d) && ($d['version'] ?? 0) === self::VERSION ? $d : null;
+        $m = @include self::CACHE;
+        return is_array($m) && ($m['version'] ?? 0) === self::VERSION && is_array($m['parts'] ?? null) ? $m : null;
     }
 
     private static bool $scheduled = false;
@@ -76,7 +185,7 @@ final class Derived
             set_time_limit(300);
             // Les données refaites servent aussi aux recalculs qui suivent (les chiffres du FCSM).
             // Recalcul déjà en cours dans un autre processus : on ne l'attend pas.
-            self::$data = self::rebuildLocked(false) ?? self::$data;
+            self::rebuildLocked(false);
         });
     }
 
@@ -90,19 +199,24 @@ final class Derived
         return is_file(self::CLAIM) && (@filemtime(self::CLAIM) ?: time()) < time() - 900;
     }
 
-    /** Recalcule si c'est encore nécessaire ; sans attente ($wait = false), null si un recalcul est déjà en cours. */
-    private static function rebuildLocked(bool $wait = true): ?array
+    /**
+     * Recalcule si c'est encore nécessaire (le calcul servi ensuite est le nouveau) ; sans attente
+     * ($wait = false), rien si un recalcul est déjà en cours.
+     */
+    private static function rebuildLocked(bool $wait = true): void
     {
         $fp = self::lock($wait);
         if (!$fp) {
-            return null;
+            return;
         }
         try {
-            // Un autre processus a peut-être reconstruit pendant l'attente.
-            if (!self::isDirty() && ($d = self::cached())) {
-                return $d;
+            // Un autre processus a peut-être recalculé pendant l'attente.
+            if (!self::isDirty() && ($m = self::cached())) {
+                self::forget();
+                self::$meta = $m;
+                return;
             }
-            return self::build();
+            self::build();
         } finally {
             flock($fp, LOCK_UN);
             fclose($fp);
@@ -163,8 +277,79 @@ final class Derived
             @unlink(self::CLAIM);
             throw $e;
         }
+        try {
+            $meta = self::store($data);
+        } catch (\Throwable $e) {
+            // Disque plein, dossier protégé… : le calcul sert quand même à cette requête.
+            error_log('[données calculées] ' . $e->getMessage());
+            $meta = self::summary($data, []);
+        }
         @unlink(self::CLAIM);
+        self::forget();
+        self::$meta = $meta;
         return self::$data = $data;
+    }
+
+    /**
+     * Enregistre le calcul : chaque partie dans son fichier (gardé tel quel si elle n'a pas changé),
+     * puis le résumé qui les désigne. Les fichiers qui ne servent plus sont effacés, sauf ceux du
+     * calcul précédent : une page en cours peut encore les lire.
+     */
+    private static function store(array $data): array
+    {
+        if (!is_dir(self::DIR) && !@mkdir(self::DIR, 0775, true) && !is_dir(self::DIR)) {
+            throw new \RuntimeException('Dossier impossible à créer : ' . self::DIR);
+        }
+        $parts = [];
+        foreach (self::PARTS as $p) {
+            $parts[$p] = $data[$p] ?? [];
+        }
+        foreach (self::groupApps($data['apps'] ?? []) as $k => $byId) {
+            $buckets = array_fill(0, self::BUCKETS, []);
+            foreach ($byId as $id => $rows) {
+                $buckets[self::bucket($id)][$id] = $rows;
+            }
+            foreach ($buckets as $n => $rows) {
+                $parts["apps_$k.$n"] = $rows;
+            }
+        }
+        $files = [];
+        foreach ($parts as $p => $v) {
+            $code = '<?php return ' . var_export($v, true) . ";\n";
+            $name = $p . '-' . substr(md5($code), 0, 12) . '.php';
+            if (!is_file(self::DIR . '/' . $name)) {
+                self::write(self::DIR . '/' . $name, $code);
+            }
+            $files[$p] = $name;
+        }
+        $prev = is_file(self::CACHE) ? @include self::CACHE : null;
+        $meta = self::summary($data, $files);
+        self::write(self::CACHE, '<?php return ' . var_export($meta, true) . ";\n");
+        $keep = array_flip(array_merge(array_values($files), is_array($prev['parts'] ?? null) ? array_values($prev['parts']) : []));
+        foreach (glob(self::DIR . '/*') ?: [] as $f) {
+            if (!isset($keep[basename($f)])) {
+                @unlink($f);
+            }
+        }
+        return $meta;
+    }
+
+    /** Résumé d'un calcul : ses quelques valeurs simples et le fichier de chaque partie. */
+    private static function summary(array $data, array $files): array
+    {
+        return ['version' => $data['version'], 'built' => $data['built'], 'duration' => $data['duration'], 'no_credit' => (int) ($data['no_credit'] ?? 0), 'parts' => $files];
+    }
+
+    private static function write(string $file, string $code): void
+    {
+        $tmp = $file . '.' . bin2hex(random_bytes(4));
+        if (file_put_contents($tmp, $code, LOCK_EX) === false || !@rename($tmp, $file)) {
+            @unlink($tmp);
+            throw new \RuntimeException('Écriture impossible : ' . $file);
+        }
+        if (function_exists('opcache_invalidate')) {
+            @opcache_invalidate($file, true);
+        }
     }
 
     private static function bytes(string $v): int
@@ -916,7 +1101,6 @@ final class Derived
             'duration' => round(microtime(true) - $t0, 2),
             'matches' => $M,
             'apps' => $apps,
-            'app_index' => self::appIndex($apps),
             'scorers' => $scorers,
             'person_totals' => $personTotals,
             'by_person' => array_map(fn ($l) => array_map(fn ($a) => $a[1], $l), $byPerson),
@@ -930,12 +1114,6 @@ final class Derived
             'no_credit' => $noCredit,
             'bilans' => array_values(array_filter($articles, fn ($a) => $a['kind'] === 'bilan_saison')),
         ];
-        $tmp = self::CACHE . '.' . bin2hex(random_bytes(4));
-        file_put_contents($tmp, '<?php return ' . var_export($data, true) . ";\n", LOCK_EX);
-        rename($tmp, self::CACHE);
-        if (function_exists('opcache_invalidate')) {
-            @opcache_invalidate(self::CACHE, true);
-        }
         return $data;
     }
 
@@ -1290,18 +1468,18 @@ final class Derived
 
     public static function match(int $id): ?array
     {
-        return self::get()['matches'][$id] ?? null;
+        return self::part('matches')[$id] ?? null;
     }
 
     /** @return list<array> matchs (résumés) d'une personne, avec sa ligne de composition */
     public static function personMatches(int $pid): array
     {
-        $d = self::get();
+        $M = self::part('matches');
         $out = [];
-        foreach (self::appsOf('p', $pid) as $i) {
-            $a = $d['apps'][$i];
-            if ($d['matches'][$a[1]]['v']) {
-                $out[] = $d['matches'][$a[1]] + ['goals' => $a[2], 'minutes' => $a[3], 'yellow' => $a[4], 'red' => $a[5], 'role' => $a[6], 'captain' => $a[7], 'pos' => $a[8]];
+        foreach (self::appsOf('p', $pid) as $a) {
+            $x = $M[$a[1]] ?? null;
+            if ($x && $x['v']) {
+                $out[] = $x + ['goals' => $a[2], 'minutes' => $a[3], 'yellow' => $a[4], 'red' => $a[5], 'role' => $a[6], 'captain' => $a[7], 'pos' => $a[8]];
             }
         }
         usort($out, fn ($x, $y) => strcmp((string) $x['date'], (string) $y['date']));
@@ -1311,45 +1489,41 @@ final class Derived
     /** Identifiant de fiche relié à une ligne de composition (pour les liens). */
     public static function lineupLinks(int $mid): array
     {
-        $apps = self::get()['apps'];
-        return array_map(fn ($i) => $apps[$i], self::appsOf('m', $mid));
+        return self::appsOf('m', $mid);
     }
 
     /**
-     * Rangs des apparitions d'une personne ('p') ou d'un match ('m') dans « apps », sans parcourir
-     * les 26 000 lignes à chaque appel (une page de saison en demande une soixantaine). Index
-     * calculé avec les données, ou une fois par requête pour un cache d'avant l'index.
-     * @return list<int>
+     * Lignes de composition d'une personne ('p') ou d'un match ('m'), dans l'ordre de « apps »,
+     * lues dans le seul fichier de leur groupe : une fiche n'ouvre pas les 26 000 lignes.
+     * @return list<array>
      */
     private static function appsOf(string $k, int $id): array
     {
-        static $built = null;
-        $d = self::get();
-        $idx = $d['app_index'] ?? null;
-        if (!is_array($idx)) {
-            $built = $built !== null && $built[0] === $d['built'] ? $built : [$d['built'], self::appIndex($d['apps'])];
-            $idx = $built[1];
-        }
-        return $idx[$k][$id] ?? [];
+        return self::part('apps_' . $k . '.' . self::bucket($id))[$id] ?? [];
     }
 
-    /** @return array{m:array<int,list<int>>,p:array<int,list<int>>} rangs des apparitions par match et par personne */
-    private static function appIndex(array $apps): array
+    private static function bucket(int $id): int
     {
-        $idx = ['m' => [], 'p' => []];
-        foreach ($apps as $i => $a) {
-            $idx['m'][$a[1]][] = $i;
-            $idx['p'][$a[0]][] = $i;
+        return abs($id) % self::BUCKETS;
+    }
+
+    /** @return array{p:array<int,list<array>>,m:array<int,list<array>>} lignes de composition par personne et par match */
+    private static function groupApps(array $apps): array
+    {
+        $by = ['p' => [], 'm' => []];
+        foreach ($apps as $a) {
+            $by['p'][$a[0]][] = $a;
+            $by['m'][$a[1]][] = $a;
         }
-        return $idx;
+        return $by;
     }
 
     /** Matchs joués à cette date (jour et mois), du plus récent au plus ancien. */
     public static function onThisDay(?string $mmdd = null): array
     {
-        $d = self::get();
-        $ids = $d['on_this_day'][$mmdd ?? date('m-d')] ?? [];
-        $list = array_map(fn ($id) => $d['matches'][$id], $ids);
+        $ids = self::part('on_this_day')[$mmdd ?? date('m-d')] ?? [];
+        $M = self::part('matches');
+        $list = array_values(array_filter(array_map(fn ($id) => $M[$id] ?? null, $ids)));
         usort($list, fn ($a, $b) => strcmp((string) $b['date'], (string) $a['date']));
         return $list;
     }

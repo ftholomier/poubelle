@@ -14,6 +14,12 @@ final class Media
     public const FILE = DATA_PATH . '/media.json';
     public const ORIGINALS = STORAGE_PATH . '/media/originals';
     private const CACHE = STORAGE_PATH . '/cache/media.php';
+    /**
+     * La même médiathèque en BUCKETS fichiers (selon le chemin du média) : une page qui affiche
+     * quelques images n'en lit qu'un ou deux, pas les 7 Mo de toute la médiathèque.
+     */
+    private const PARTS = STORAGE_PATH . '/cache/media';
+    private const BUCKETS = 16;
     private const USAGE = STORAGE_PATH . '/cache/media-usage.json';
     /** Versions des médias retouchés ou remplacés (petit fichier lu par img() sur toutes les pages). */
     private const VERSIONS = STORAGE_PATH . '/cache/media-versions.php';
@@ -22,6 +28,8 @@ final class Media
     public const UPLOAD_EXT = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'];
     public const UPLOAD_MAX = 25 * 1024 * 1024;
     private static ?array $items = null;
+    /** @var array<int,array> groupes de la médiathèque déjà lus pendant la requête */
+    private static array $parts = [];
     private static ?array $usage = null;
 
     /** @return array<string,array> par chemin relatif */
@@ -40,7 +48,27 @@ final class Media
 
     public static function get(?string $rel): ?array
     {
-        return $rel ? (self::all()[$rel] ?? null) : null;
+        if (!$rel) {
+            return null;
+        }
+        if (self::$items !== null) {
+            return self::$items[$rel] ?? null;
+        }
+        $b = crc32($rel) % self::BUCKETS;
+        if (!isset(self::$parts[$b])) {
+            $f = self::PARTS . "/$b.php";
+            $v = is_file($f) && is_file(self::FILE) && filemtime($f) >= filemtime(self::FILE) ? @include $f : null;
+            if (!is_array($v)) {
+                // Groupe absent ou dépassé : toute la médiathèque est relue, et ses groupes refaits.
+                $all = self::all();
+                if (!is_file($f) || filemtime($f) < filemtime(self::FILE)) {
+                    self::cache($all);
+                }
+                return $all[$rel] ?? null;
+            }
+            self::$parts[$b] = $v;
+        }
+        return self::$parts[$b][$rel] ?? null;
     }
 
     public static function file(string $rel): ?string
@@ -166,7 +194,9 @@ final class Media
     public static function forget(): void
     {
         self::$items = null;
+        self::$parts = [];
         @unlink(self::CACHE);
+        array_map('unlink', glob(self::PARTS . '/*.php') ?: []);
     }
 
     public static function remove(string $rel): void
@@ -190,7 +220,18 @@ final class Media
                 $versions[(string) $rel] = substr(md5(json_encode($m['edit'] ?? null) . '|' . ($m['replaced'] ?? '')), 0, 8);
             }
         }
-        foreach ([self::CACHE => $items, self::VERSIONS => $versions] as $file => $data) {
+        $parts = array_fill(0, self::BUCKETS, []);
+        foreach ($items as $rel => $m) {
+            $parts[crc32((string) $rel) % self::BUCKETS][(string) $rel] = $m;
+        }
+        if (!is_dir(self::PARTS)) {
+            @mkdir(self::PARTS, 0775, true);
+        }
+        $files = [self::CACHE => $items, self::VERSIONS => $versions];
+        foreach ($parts as $b => $part) {
+            $files[self::PARTS . "/$b.php"] = $part;
+        }
+        foreach ($files as $file => $data) {
             $tmp = $file . '.' . bin2hex(random_bytes(4));
             file_put_contents($tmp, '<?php return ' . var_export($data, true) . ";\n", LOCK_EX);
             rename($tmp, $file);
@@ -199,5 +240,6 @@ final class Media
             }
         }
         self::$versions = $versions;
+        self::$parts = [];
     }
 }

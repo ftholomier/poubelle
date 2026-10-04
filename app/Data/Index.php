@@ -118,7 +118,9 @@ final class Index
                 self::$items = include self::CACHE;
             }
             if (!is_array(self::$items)) {
-                self::rebuild();
+                // Index absent (installation, cache vidé) : refait une seule fois pour tous.
+                self::$changes = [];
+                self::loaded(PhpCache::remember(self::CACHE, fn () => self::scan()));
             }
         }
         return self::$items;

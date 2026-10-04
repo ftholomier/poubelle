@@ -417,6 +417,31 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       LE-DIGITAL.com » (aussi sur la page d'attente) ; bouton jaune « Entrer dans le musée »
       sous la signature, à la place du lien texte de la barre du bas.
 
+## Vitesse du site, fiches audio, menu des langues (04/10, demande du client) — terminé
+- [x] **Mesures en ligne** : quand ses caches sont en mémoire, le serveur répond en 10 à 20 ms ;
+      o2switch compresse déjà les pages et les styles en Brotli (CSS 62 → 17 Ko, page 38 →
+      11 Ko), rien à ajouter. Les lenteurs venaient de deux causes :
+      1. **après chaque mise à jour**, tous les caches étaient effacés : la première page
+         refaisait l'index des fiches, les données calculées et la recherche (3,5 s en local,
+         davantage en ligne : pic de 6,7 s mesuré) ;
+      2. **chaque page relisait 16 Mo de caches** (données calculées pour le bandeau de
+         l'en-tête, médiathèque), gratuits tant qu'ils restent en mémoire, mais près d'une
+         seconde à chaque recalcul après un enregistrement, mise à jour ou redémarrage de PHP.
+- [x] Données calculées découpées en parties (une page ne lit que ce qu'elle affiche ; une
+      partie inchangée garde son fichier, déjà en mémoire) ; médiathèque en 16 groupes. Mesures
+      à froid, avant → après : mentions légales 356 → 87 ms, accueil 895 → 159 ms, fiche de
+      match 238 → 98 ms, fiche d'un joueur de 500 matchs 429 → 187 ms, liste des matchs 730 →
+      118 ms, chiffres du FCSM 1 748 → 44 ms ; site de l'association 147-171 → 70-80 ms.
+- [x] **Mise à jour** : les gros caches de données sont gardés et refaits en arrière-plan avec
+      le nouveau code (page suivante une fois envoyée, sinon tâche planifiée) ; un index
+      manquant n'est refait qu'une fois, même demandé par plusieurs pages en même temps.
+- [x] Système › Tâches planifiées, carte Serveur : mémoire d'OPcache, et alerte si elle est trop
+      petite ou si PHP ne sait pas terminer une page avant son travail d'après-page.
+- [x] **Fiches audio** : « Tout le musée en voix IA » ne faisait que les fiches ; la carte
+      devient « Toutes les fiches en voix IA » et précise que les pages de synthèse se lancent à
+      part (« Lancer pour toutes les pages »).
+- [x] **En-tête du musée** : la liste FR/EN n'est plus cachée par un méga-menu resté ouvert.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

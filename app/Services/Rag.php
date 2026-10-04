@@ -121,7 +121,7 @@ final class Rag
     public static function answer(string $q, array $history = [], string $lang = 'fr'): array
     {
         // Question isolée déjà posée récemment : réponse en cache (24 h).
-        $cacheKey = !$history ? hash('sha256', $lang . '|' . Search::norm($q) . '|' . Settings::get('ai.model', '') . '|' . Derived::get()['version']) : null;
+        $cacheKey = !$history ? hash('sha256', $lang . '|' . Search::norm($q) . '|' . Settings::get('ai.model', '') . '|' . Derived::VERSION) : null;
         if ($cacheKey && is_file($f = self::ANSWER_CACHE . "/$cacheKey.json") && (@filemtime($f) ?: 0) > time() - 86400) {
             $c = JsonStore::read($f, null);
             if (is_array($c)) {
@@ -400,7 +400,7 @@ final class Rag
         }
         $keyTokens = array_filter(explode(' ', Search::norm($keys)), fn ($t) => strlen($t) > 2 && !ctype_digit($t));
         $hits = [];
-        foreach (Derived::get()['matches'] as $id => $x) {
+        foreach (Derived::part('matches') as $id => $x) {
             if (!$x['v'] || !str_starts_with((string) $x['date'], $prefix)) {
                 continue;
             }
@@ -470,7 +470,7 @@ final class Rag
         if ($type === 'personne' && !empty($doc['personne'])) {
             $p = $doc['personne'];
             $roles = ['joueur' => 'joueur', 'entraineur' => 'entraîneur', 'dirigeant' => 'dirigeant', 'personnage' => 'personnage'];
-            $tot = Derived::get()['person_totals'][(int) $doc['id']] ?? null;
+            $tot = Derived::part('person_totals')[(int) $doc['id']] ?? null;
             $bits = [
                 trim(($p['display_name'] ?? $doc['title']) . (!empty($p['nickname']) ? ' (« ' . $p['nickname'] . ' »)' : '')),
                 implode(', ', array_map(fn ($r) => $roles[$r] ?? $r, $p['roles'] ?? [])) . ' du FC Sochaux-Montbéliard',
@@ -610,7 +610,7 @@ final class Rag
     /** Documents calculés : livre des records, face-à-face, saisons, stades, frise, palmarès. */
     private static function virtualDocs(): array
     {
-        $version = (string) (Derived::get()['version'] ?? '');
+        $version = (string) Derived::VERSION;
         $cached = is_file(self::VIRTUAL) ? include self::VIRTUAL : null;
         if (is_array($cached) && ($cached['version'] ?? '') === $version && ($cached['day'] ?? '') === date('Y-m-d')) {
             return $cached['docs'];

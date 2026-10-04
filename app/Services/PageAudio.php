@@ -232,14 +232,13 @@ final class PageAudio
     /** Toutes les pages qui peuvent se raconter (les vides sont écartées par factsFor()). */
     public static function slugs(): array
     {
-        $d = Derived::get();
         $out = [];
-        foreach ($d['clubs'] ?? [] as $club => $c) {
+        foreach (Derived::part('clubs') as $club => $c) {
             if (($c['count'] ?? 0) > 0 && $club !== 'sochaux' && preg_match('/^[a-z0-9-]+$/', (string) $club)) {
                 $out[] = 'club-' . $club;
             }
         }
-        foreach ($d['seasons'] ?? [] as $season => $S) {
+        foreach (Derived::part('seasons') as $season => $S) {
             if (!empty($S['matches']) && preg_match('/^\d{4}-\d{4}$/', (string) $season)) {
                 $out[] = 'saison-' . $season;
             }
@@ -247,7 +246,7 @@ final class PageAudio
         foreach (array_keys(Mosaic::COMPS) as $k) {
             $out[] = 'bilan-' . $k;
         }
-        foreach (array_keys($d['stades'] ?? []) as $k) {
+        foreach (array_keys(Derived::part('stades')) as $k) {
             if (preg_match('/^[a-z0-9-]+$/', (string) $k)) {
                 $out[] = 'bilan-stade-' . $k;
             }
@@ -278,7 +277,7 @@ final class PageAudio
             }
             if (preg_match('/^saison-(\d{4}-\d{4})$/', $slug, $m)) {
                 $v = Explore::seasonData($m[1]);
-                return $v ? self::seasonFacts($v['vars'], Derived::get()['seasons'][$m[1]]['division'] ?? null) : null;
+                return $v ? self::seasonFacts($v['vars'], Derived::part('seasons')[$m[1]]['division'] ?? null) : null;
             }
             if (preg_match('/^bilan-stade-([a-z0-9-]+)$/', $slug, $m)) {
                 $v = Explore::bilanPage('stade-' . $m[1]);
@@ -1338,7 +1337,7 @@ final class PageAudio
     {
         $want = array_flip(array_map('intval', $matchIds));
         $acc = [];
-        foreach (Derived::get()['apps'] ?? [] as $a) {
+        foreach (Derived::part('apps') as $a) {
             if (isset($want[(int) $a[1]]) && ($a[6] ?? '') === 'player' && (int) $a[2] > 0) {
                 $acc[(int) $a[0]] = ($acc[(int) $a[0]] ?? 0) + (int) $a[2];
             }

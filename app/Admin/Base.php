@@ -232,7 +232,7 @@ class Base
         // Alertes graves de l'écran Qualité (hors orthographe, relue en tâche de fond) : calculées
         // et vérifications du site (redirections, référentiels, textes de l'interface).
         $high = 0;
-        foreach (array_merge(Derived::get()['quality'] ?? [], \App\Services\Controle::siteChecks()) as $q) {
+        foreach (array_merge(Derived::part('quality'), \App\Services\Controle::siteChecks()) as $q) {
             if (($q['sev'] ?? '') === 'haute' && ($q['code'] ?? '') !== 'nonrelie') {
                 $high++;
             }

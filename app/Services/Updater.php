@@ -47,6 +47,15 @@ final class Updater
     private const MAX_ZIP = 400 * 1024 * 1024;
     private const KEEP_BACKUPS = 5;
     private const CHECK_TTL = 3600;
+    /**
+     * Caches de données gardés après une mise à jour (index des fiches, données calculées, index
+     * de recherche, médiathèque) : ils servent encore le temps que la requête suivante les refasse
+     * en arrière-plan avec le nouveau code. Les effacer faisait attendre le premier visiteur
+     * pendant leur calcul (plusieurs secondes). Chemins relatifs au dossier des caches.
+     */
+    private const KEEP_CACHES = '#^(?:derived\.php|derived/.+|index-\d+\.php|search\.php|media\.php|media-versions\.php|media/.+|[^/]+\.lock)$#';
+    /** Marque « caches à refaire » posée par la mise à jour, prise par la requête suivante (public/index.php). */
+    private const REFRESH = 'apres-mise-a-jour';
 
     public static string $root = APP_ROOT;
     public static string $dir = STORAGE_PATH . '/update';
@@ -826,21 +835,71 @@ final class Updater
     /**
      * Après une mise à jour : caches vidés (ils se refont seuls) et code PHP relu. Jamais le
      * dossier correcteur/ : les textes déjà relus par l'IA y sont gardés (sinon, relus et payés
-     * une seconde fois).
+     * une seconde fois). Les gros caches de données restent en place et seront refaits par la
+     * requête suivante, après l'envoi de sa page (refresh()).
      */
     private static function afterChange(): void
     {
-        $dir = self::$cacheDir;
+        $dir = str_replace('\\', '/', self::$cacheDir);
         $it = is_dir($dir) ? new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) : [];
         foreach ($it as $f) {
             $path = str_replace('\\', '/', $f->getPathname());
-            if ($f->isFile() && !str_contains($path, '/cache/correcteur/') && !in_array($f->getFilename(), ['.gitkeep', '.htaccess'], true)) {
+            $rel = ltrim(substr($path, strlen($dir)), '/');
+            if ($f->isFile() && !str_starts_with($rel, 'correcteur/') && !in_array($f->getFilename(), ['.gitkeep', '.htaccess'], true) && !preg_match(self::KEEP_CACHES, $rel)) {
                 @unlink($f->getPathname());
             }
         }
+        @file_put_contents($dir . '/' . self::REFRESH, (string) time());
         if (function_exists('opcache_reset')) {
             @opcache_reset();
         }
+    }
+
+    /**
+     * Après une mise à jour, refait l'index des fiches, les données calculées et l'index de
+     * recherche gardés par afterChange(), avec le nouveau code ; une seule exécution. Depuis une
+     * page, une fois celle-ci envoyée, au moins 5 s après la mise à jour (le temps que PHP relise
+     * tout le code) et seulement si l'hébergement sait terminer la page avant (sinon le visiteur
+     * attendrait : la tâche planifiée s'en charge). Vrai si les caches ont été refaits.
+     */
+    public static function refresh(): bool
+    {
+        $flag = self::$cacheDir . '/' . self::REFRESH;
+        $at = @filemtime($flag);
+        if ($at === false) {
+            // Calcul interrompu (délai dépassé) : repris.
+            $busy = @filemtime($flag . '.en-cours');
+            if (!$busy || $busy > time() - 900 || !@rename($flag . '.en-cours', $flag)) {
+                return false;
+            }
+            $at = $busy;
+        }
+        $web = PHP_SAPI !== 'cli';
+        if ($web && ($at > time() - 5 || (!function_exists('fastcgi_finish_request') && !function_exists('litespeed_finish_request')))) {
+            return false;
+        }
+        if (!@rename($flag, $flag . '.en-cours')) {
+            return false;
+        }
+        if ($web) {
+            \App\Core\Response::detach();
+        }
+        @set_time_limit(600);
+        // Toutes les fiches relues trois fois : environ 250 Mo.
+        $limit = (string) ini_get('memory_limit');
+        if ($limit !== '-1' && @ini_parse_quantity($limit) < 512 * 1048576) {
+            @ini_set('memory_limit', '512M');
+        }
+        try {
+            \App\Data\Index::rebuild();
+            \App\Data\Derived::rebuild();
+            \App\Services\Search::rebuild();
+        } catch (\Throwable $e) {
+            error_log('[après mise à jour] ' . $e->getMessage());
+        } finally {
+            @unlink($flag . '.en-cours');
+        }
+        return true;
     }
 
     /** Une seule mise à jour à la fois. */

@@ -21,7 +21,7 @@ final class Quality
         $out = [];
         $codes = [];
         $id = (int) $doc['id'];
-        foreach (Derived::get()['quality'] ?? [] as $a) {
+        foreach (Derived::part('quality') as $a) {
             if ((int) $a['id'] === $id) {
                 $out[] = [$a['sev'] === 'haute' ? 'ko' : 'warn', $a['msg']];
                 $codes[$a['code']] = true;
@@ -124,7 +124,6 @@ final class Quality
      */
     public static function all(): array
     {
-        $d = Derived::get();
         $out = array_fill_keys(array_keys(self::TABS), []);
         $add = function (string $tab, array $i) use (&$out) {
             $i += ['id' => null, 'code' => '', 'url' => null];
@@ -133,7 +132,7 @@ final class Quality
             $i['new'] = Controle::isNew($tab, $i['key'], $i);
             $out[$tab][] = $i;
         };
-        foreach ($d['quality'] ?? [] as $a) {
+        foreach (Derived::part('quality') as $a) {
             if ($a['code'] === 'nonrelie') {
                 continue; // listés plus bas (onglet des liens), avec le bouton de création de fiche
             }
@@ -149,7 +148,7 @@ final class Quality
                 'title' => $s['title'] ?? ($a['title'] ?? ('Fiche ' . $id)),
                 'url' => $id ? '/admin/fiche/' . $id . ($anchor !== '' ? '#' . $anchor : '') : null]);
         }
-        $unlinked = $d['unlinked'] ?? [];
+        $unlinked = Derived::part('unlinked');
         uasort($unlinked, fn ($a, $b) => count($b['matches']) <=> count($a['matches']));
         foreach ($unlinked as $u) {
             $n = count($u['matches']);

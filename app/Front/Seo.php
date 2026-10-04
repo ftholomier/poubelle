@@ -90,11 +90,10 @@ final class Seo
             }
         }
         // Saisons et adversaires (pages calculées)
-        $d = Derived::get();
-        foreach (array_keys($d['seasons'] ?? []) as $season) {
+        foreach (array_keys(Derived::part('seasons')) as $season) {
             $add('/matchs/' . $season . '/', null, 'monthly', '0.6', true);
         }
-        foreach ($d['clubs'] ?? [] as $club => $c) {
+        foreach (Derived::part('clubs') as $club => $c) {
             if (($c['count'] ?? 0) > 0) {
                 $add('/face-a-face/' . $club . '/', null, 'monthly', '0.5', true);
             }

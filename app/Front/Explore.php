@@ -29,7 +29,7 @@ final class Explore
         if (!$v) {
             return null;
         }
-        $v = self::withAudio($v, PageAudio::season($v['vars'], Derived::get()['seasons'][$season]['division'] ?? null, I18n::isEn()));
+        $v = self::withAudio($v, PageAudio::season($v['vars'], Derived::part('seasons')[$season]['division'] ?? null, I18n::isEn()));
         return Pages::render('season', $v['vars'], $v['page']);
     }
 
@@ -50,8 +50,7 @@ final class Explore
         if ($b !== $a + 1) {
             return null;
         }
-        $d = Derived::get();
-        $S = $d['seasons'][$season] ?? null;
+        $S = Derived::part('seasons')[$season] ?? null;
         $cat = null;
         foreach (Categories::all() as $c) {
             if (($c['season'] ?? null) === $season) {
@@ -61,7 +60,7 @@ final class Explore
         if (!$S && !$cat) {
             return null;
         }
-        $M = $d['matches'];
+        $M = Derived::part('matches');
         $ids = $S['matches'] ?? [];
         $matches = array_values(array_filter(array_map(fn ($id) => $M[$id] ?? null, $ids), fn ($x) => $x && $x['v']));
         usort($matches, fn ($x, $y) => strcmp((string) $x['date'], (string) $y['date']));
@@ -162,7 +161,7 @@ final class Explore
 
         // Bilan de la saison (article) et photo d'en-tête
         $bilan = null;
-        foreach ($d['bilans'] ?? [] as $bl) {
+        foreach (Derived::part('bilans') as $bl) {
             if (($bl['season'] ?? null) === $season && !empty($bl['_visible'])) {
                 $bilan = Index::get((int) $bl['id']);
             }
@@ -219,10 +218,9 @@ final class Explore
 
     public static function seasons(Request $req): Response
     {
-        $d = Derived::get();
         $byDecade = [];
         foreach (self::allSeasons() as $s) {
-            $S = $d['seasons'][$s] ?? null;
+            $S = Derived::part('seasons')[$s] ?? null;
             $res = $S['res'] ?? ['V' => 0, 'N' => 0, 'D' => 0];
             $n = count($S['matches'] ?? []);
             $decade = intdiv((int) substr($s, 0, 4), 10) * 10;
@@ -246,7 +244,7 @@ final class Explore
                 $set[$c['season']] = true;
             }
         }
-        foreach (array_keys(Derived::get()['seasons'] ?? []) as $s) {
+        foreach (array_keys(Derived::part('seasons')) as $s) {
             $set[$s] = true;
         }
         $list = array_keys($set);
@@ -277,13 +275,13 @@ final class Explore
 
     public static function opponents(Request $req): Response
     {
-        $d = Derived::get();
+        $M = Derived::part('matches');
         $list = [];
-        foreach ($d['clubs'] ?? [] as $club => $c) {
+        foreach (Derived::part('clubs') as $club => $c) {
             if (($c['count'] ?? 0) === 0 || $club === 'sochaux') {
                 continue;
             }
-            $official = array_values(array_filter($c['matches'], fn ($id) => !in_array($d['matches'][$id]['comp'] ?? '', Derived::OFFICIAL_EXCLUDED, true)));
+            $official = array_values(array_filter($c['matches'], fn ($id) => !in_array($M[$id]['comp'] ?? '', Derived::OFFICIAL_EXCLUDED, true)));
             $list[] = [
                 'club' => $club,
                 'name' => Fiche::clubName($club),
@@ -310,7 +308,7 @@ final class Explore
         if ($v === null) {
             // Ancienne clé ou nom saisi : on tente le rapprochement
             $key = Names::clubKey(str_replace('-', ' ', $club));
-            return $key !== $club && isset(Derived::get()['clubs'][$key]) ? Response::redirect(url('/face-a-face/' . $key . '/'), 301) : null;
+            return $key !== $club && isset(Derived::part('clubs')[$key]) ? Response::redirect(url('/face-a-face/' . $key . '/'), 301) : null;
         }
         $v = self::withAudio($v, PageAudio::opponent($club, Fiche::clubName($club), $v['vars'], I18n::isEn()));
         return Pages::render('h2h', $v['vars'], $v['page']);
@@ -319,14 +317,13 @@ final class Explore
     /** Données d'un face-à-face (page du site et export PDF). @return array{vars:array,page:array}|null */
     public static function opponentData(string $club): ?array
     {
-        $d = Derived::get();
-        $c = $d['clubs'][$club] ?? null;
+        $c = Derived::part('clubs')[$club] ?? null;
         if (!$c) {
             return null;
         }
         $name = Fiche::clubName($club);
         $top = [];
-        $clubs = $d['clubs'];
+        $clubs = Derived::part('clubs');
         uasort($clubs, fn ($x, $y) => $y['count'] <=> $x['count']);
         foreach (array_slice($clubs, 0, 12, true) as $k => $x) {
             if ($k !== 'sochaux') {
@@ -378,7 +375,7 @@ final class Explore
     /** Données d'un bilan (page du site et export PDF). @return array{vars:array,page:array}|null */
     public static function bilanPage(string $key): ?array
     {
-        $d = Derived::get();
+        $M = Derived::part('matches');
         $chips = [];
         foreach (['coupe-de-france', 'coupe-de-la-ligue', 'coupe-d-europe', 'championnat'] as $k) {
             $chips[] = ['name' => t(Mosaic::COMPS[$k][0]), 'href' => url('/bilans/' . $k . '/'), 'on' => $k === $key];
@@ -387,7 +384,7 @@ final class Explore
 
         if (isset(Mosaic::COMPS[$key])) {
             [$label, , $family] = Mosaic::COMPS[$key];
-            $ids = array_keys(array_filter($d['matches'], fn ($x) => $x['v'] && $x['comp'] === $family));
+            $ids = array_keys(array_filter($M, fn ($x) => $x['v'] && $x['comp'] === $family));
             if (!$ids) {
                 return null;
             }
@@ -413,7 +410,7 @@ final class Explore
         }
         if (str_starts_with($key, 'stade-')) {
             $stade = substr($key, 6);
-            $st = $d['stades'][$stade] ?? null;
+            $st = Derived::part('stades')[$stade] ?? null;
             if (!$st) {
                 return null;
             }
@@ -456,7 +453,7 @@ final class Explore
      */
     public static function bilanData(array $ids, bool $withGroups = false, string $group = 'season'): array
     {
-        $M = Derived::get()['matches'];
+        $M = Derived::part('matches');
         $list = array_values(array_filter(array_map(fn ($id) => $M[$id] ?? null, $ids), fn ($x) => $x && $x['v']));
         usort($list, fn ($x, $y) => strcmp((string) $y['date'], (string) $x['date']));
         $t = ['V' => 0, 'N' => 0, 'D' => 0, 'count' => count($list), 'gf' => 0, 'ga' => 0];
@@ -535,8 +532,7 @@ final class Explore
     /** Lignes d'un classement du livre des records (aussi utilisées par l'assistant IA). */
     public static function recordRows(string $cat, ?int $decade = null, ?string $comp = null, int $limit = 25): array
     {
-        $d = Derived::get();
-        $M = $d['matches'];
+        $M = Derived::part('matches');
         $okMatch = function (array $x) use ($decade, $comp): bool {
             if (!$x['v']) {
                 return false;
@@ -556,7 +552,7 @@ final class Explore
             case 'matchs':
             case 'entraineurs':
                 $acc = [];
-                foreach ($d['apps'] as $a) {
+                foreach (Derived::part('apps') as $a) {
                     [$pid, $mid, $g, , , , $role] = $a;
                     $x = $M[$mid] ?? null;
                     if (!$x || !$okMatch($x)) {

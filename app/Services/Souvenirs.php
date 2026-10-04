@@ -60,7 +60,7 @@ final class Souvenirs
     {
         [$year, $month] = array_map('intval', explode('-', $ym));
         $out = [];
-        foreach (Derived::get()['matches'] ?? [] as $id => $dm) {
+        foreach (Derived::part('matches') as $id => $dm) {
             if (empty($dm['v']) || !preg_match('/^(\d{4})-(\d{2})-\d{2}$/', (string) ($dm['date'] ?? ''), $d) || (int) $d[2] !== $month || (int) $d[1] >= $year || (int) ($dm['hl'] ?? 0) < 3) {
                 continue;
             }
@@ -166,7 +166,7 @@ final class Souvenirs
     /** « Vous les reconnaissez ? » : six joueurs de l'époque avec une vraie photo (ceux du match d'abord). */
     public static function faces(array $rows, int $year, string $ym): array
     {
-        $tot = Derived::get()['person_totals'] ?? [];
+        $tot = Derived::part('person_totals');
         $picked = [];
         $add = function (?array $s) use (&$picked) {
             if ($s && $s['type'] === 'personne' && Index::visible($s) && !empty($s['image']) && !Index::isPlaceholderImage($s['image']) && !isset($picked[$s['id']])) {

@@ -45,6 +45,12 @@ final class ServerCheck
         if (PHP_SAPI !== 'cli' && !(extension_loaded('Zend OPcache') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN))) {
             $out[] = 'OPcache désactivé : chaque page relit tout le code, le site et le back-office sont nettement plus lents (cPanel › Sélectionner une version de PHP › Extensions : cocher « opcache »).';
         }
+        if (($o = self::opcache()) && ($o['full'] || $o['oom'] > 0)) {
+            $out[] = 'Mémoire d’OPcache trop petite (' . $o['used'] . ' Mo utilisés sur ' . $o['total'] . ') : le code et les données sont relus et recompilés trop souvent. À augmenter (réglage opcache.memory_consumption, 256 Mo) dans cPanel › Sélectionner une version de PHP › Options, ou auprès de l’hébergeur.';
+        }
+        if (PHP_SAPI !== 'cli' && !self::finishesEarly()) {
+            $out[] = 'PHP ne sait pas terminer une page avant la fin du travail qui la suit (mode ' . PHP_SAPI . ') : après un enregistrement, le recalcul des statistiques fait attendre la personne. Un PHP en mode PHP-FPM ou LiteSpeed (cPanel, ou l’hébergeur) l’évite.';
+        }
         if (function_exists('gd_info') && empty(gd_info()['WebP Support'])) {
             $out[] = 'GD sans le format WebP : les vignettes des photos ne peuvent pas être créées.';
         }
@@ -54,6 +60,35 @@ final class ServerCheck
             }
         }
         return $out;
+    }
+
+    /**
+     * Mémoire d'OPcache (code et caches compilés gardés en mémoire) : null s'il est absent ou que
+     * l'hébergeur en cache l'état.
+     * @return array{used:int,total:int,full:bool,oom:int,scripts:int,hits:float}|null
+     */
+    public static function opcache(): ?array
+    {
+        $st = function_exists('opcache_get_status') ? @opcache_get_status(false) : false;
+        if (!is_array($st) || empty($st['opcache_enabled'])) {
+            return null;
+        }
+        $m = $st['memory_usage'] ?? [];
+        $used = (int) ($m['used_memory'] ?? 0) + (int) ($m['wasted_memory'] ?? 0);
+        return [
+            'used' => (int) round($used / 1048576),
+            'total' => (int) round(($used + (int) ($m['free_memory'] ?? 0)) / 1048576),
+            'full' => !empty($st['cache_full']),
+            'oom' => (int) ($st['opcache_statistics']['oom_restarts'] ?? 0),
+            'scripts' => (int) ($st['opcache_statistics']['num_cached_scripts'] ?? 0),
+            'hits' => round((float) ($st['opcache_statistics']['opcache_hit_rate'] ?? 0), 1),
+        ];
+    }
+
+    /** La page part avant le travail fait après elle (recalculs, mesure d'audience) : PHP-FPM ou LiteSpeed. */
+    public static function finishesEarly(): bool
+    {
+        return function_exists('fastcgi_finish_request') || function_exists('litespeed_finish_request');
     }
 
     /**

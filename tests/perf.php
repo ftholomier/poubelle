@@ -72,6 +72,26 @@ $eq('composition d’un match : mêmes lignes', Derived::lineupLinks($mid), $sca
 $pid = (int) $d['apps'][0][0];
 $eq('matchs d’un joueur : autant que de lignes visibles', count(Derived::personMatches($pid)), count(array_filter($d['apps'], fn ($a) => $a[0] === $pid && $d['matches'][$a[1]]['v'])));
 
+// Page de fiche : seules ses parties sont lues (le fichier du groupe de ses compositions, pas les
+// 26 000 lignes), pour le même résultat que tout le calcul en mémoire.
+$avant = [Derived::lineupLinks($mid), Derived::personMatches($pid)];
+(new ReflectionMethod(Derived::class, 'forget'))->invoke(null);
+$eq('fiche lue partie par partie : mêmes compositions et mêmes matchs', [Derived::lineupLinks($mid), Derived::personMatches($pid)], $avant);
+$lues = array_keys((new ReflectionProperty(Derived::class, 'parts'))->getValue());
+sort($lues);
+$attendu = ['apps_m.' . ($mid % 16), 'apps_p.' . ($pid % 16), 'matches'];
+sort($attendu);
+$eq('fiche : seules les parties utiles sont lues', $lues, $attendu);
+$eq('date du calcul sans tout relire', Derived::built(), $d['built']);
+
+// Médiathèque : une image est cherchée dans son seul groupe, même description qu'en entier.
+$tout = \App\Data\Media::all();
+$rel = (string) array_rand($tout);
+(new ReflectionProperty(\App\Data\Media::class, 'items'))->setValue(null, null);
+(new ReflectionProperty(\App\Data\Media::class, 'parts'))->setValue(null, []);
+$eq('média lu dans son groupe : même description', \App\Data\Media::get($rel), $tout[$rel]);
+$eq('un seul groupe de la médiathèque lu', count((new ReflectionProperty(\App\Data\Media::class, 'parts'))->getValue()), 1);
+
 // Rubriques : ordre en cache identique au calcul direct.
 $slug = 'joueurs';
 $direct = Index::ordered(array_filter(Index::published(), fn ($s) => (bool) array_intersect(Categories::descendants($slug, true), $s['categories'])), $slug);
