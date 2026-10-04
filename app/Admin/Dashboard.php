@@ -120,6 +120,9 @@ final class Dashboard extends Base
         if (\App\Core\Auth::isAdmin() && ($mis = self::addressMismatch($req))) {
             $todos[] = ['#D9342B', 'Régler l’adresse du site : les liens des e-mails (invitations, mot de passe oublié) mènent à ' . $mis[0] . ', alors que le site est ouvert sur ' . $mis[1], 'Réglages', '/admin/reglages?groupe=general'];
         }
+        if (\App\Core\Auth::isAdmin() && ($maj = \App\Services\Updater::available())) {
+            $todos[] = ['#F6C400', \App\Services\Updater::summary($maj), 'Mises à jour', '/admin/mises-a-jour'];
+        }
         if (!\App\Services\Gemini::ready() && \App\Core\Auth::isAdmin()) {
             $todos[] = ['#F6C400', 'Saisir la clé Gemini (assistant IA, traductions)', 'Réglages', '/admin/reglages?groupe=ai'];
         }

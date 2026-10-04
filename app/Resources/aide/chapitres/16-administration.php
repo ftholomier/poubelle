@@ -47,6 +47,16 @@ HTML],
         ['id' => 'sauvegardes', 'title' => 'Sauvegardes et restauration', 'html' => <<<'HTML'
 <p>Voir [[aide:fonctionnement#sauvegardes|Les sauvegardes]]. Réglages › Sauvegardes : heure de la sauvegarde quotidienne, nombre d’archives gardées, photos ajoutées le dimanche. Restaurer une sauvegarde complète (remplacer les dossiers <code>data/</code> et <code>storage/</code> sur le serveur) est une opération de webmestre, à réserver aux incidents graves.</p>
 HTML],
+        ['id' => 'majs', 'title' => 'Mises à jour du site', 'admin' => true, 'html' => <<<'HTML'
+<p>Système › <b>Mises à jour</b> (administrateurs) : la version installée, la dernière version publiée sur GitHub et la liste des changements. <b>Appliquer la mise à jour</b> remplace en quelques secondes les seuls fichiers du code qui ont changé ; le site affiche « Mise à jour en cours » pendant la copie.</p>
+<ul>
+<li><b>Jamais touchés :</b> les fiches, la médiathèque et leurs traductions, les réglages, les comptes, les journaux, les coûts IA, les photos et les voix.</li>
+<li><b>Avec précaution :</b> les nouveaux libellés anglais de l’interface sont ajoutés sans modifier les traductions existantes ; un fichier <code>.htaccess</code> réglé à la main sur le serveur est gardé.</li>
+<li><b>Retour arrière :</b> avant chaque mise à jour, les fichiers remplacés sont sauvegardés ; « Revenir à cette version » les remet en place.</li>
+<li><b>Synchronisation :</b> chaque vérification compare aussi le code du serveur à GitHub, fichier par fichier. Après un envoi par FTP, la version est reconnue si tout est identique ; sinon, les fichiers oubliés ou différents sont listés et <b>Synchroniser avec GitHub</b> les remplace en un clic.</li>
+</ul>
+<p>Le site vérifie tout seul toutes les 3 heures ; une nouvelle version s’annonce au tableau de bord et par une pastille dans le menu. Dépôt GitHub et branche suivie : Réglages › <b>Mises à jour</b>.</p>
+HTML],
         ['id' => 'taches', 'title' => 'Tâches planifiées', 'html' => <<<'HTML'
 <p>Voir [[aide:fonctionnement#taches|Les tâches automatiques]]. Le tableau donne, pour chaque tâche, sa fréquence, son dernier passage et son résultat ; « Lancer » en exécute une tout de suite.</p>
 <p>La carte <b>Serveur</b>, en bas de l’écran, vérifie l’hébergement : version de PHP (8.3), extensions, dossiers inscriptibles ; et liste les dernières erreurs du journal PHP. Un réglage manquant s’affiche aussi en tête du tableau de bord (« Régler le serveur ») et, pour un administrateur connecté, sur la page « Arrêt de jeu » en cas d’erreur.</p>

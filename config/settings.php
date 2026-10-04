@@ -135,6 +135,14 @@ return [
             'auto_update' => ['label' => 'Refaire chaque nuit la voix IA des fiches modifiées (traitement groupé)', 'type' => 'bool', 'default' => true],
         ],
     ],
+    'update' => [
+        'label' => 'Mises à jour',
+        'fields' => [
+            'repo' => ['label' => 'Dépôt GitHub (propriétaire/nom)', 'type' => 'text', 'default' => 'ftholomier/poubelle'],
+            'branch' => ['label' => 'Branche à suivre', 'type' => 'text', 'default' => 'claude/sweet-einstein-hawxrw', 'help' => 'La dernière version publiée sur cette branche est proposée dans Système › Mises à jour.'],
+            'token' => ['label' => 'Jeton GitHub (facultatif)', 'type' => 'secret', 'default' => '', 'help' => 'Inutile pour un dépôt public. Nécessaire si le dépôt devient privé : GitHub › Settings › Developer settings › Fine-grained tokens, accès « Contents : Read-only » à ce seul dépôt.'],
+        ],
+    ],
     'couts' => [
         'label' => 'Coûts IA',
         'fields' => [

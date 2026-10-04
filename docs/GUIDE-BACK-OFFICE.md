@@ -28,7 +28,7 @@ Le menu de gauche regroupe les écrans :
 | Éditorial | Accueil & bandeau, 100 moments, Rubriques & menus, Redirections, Page d'attente |
 | Interactif | Quiz, frise, carte, maillots, partenaires… ; Onze & album |
 | Communauté | Contributions, Messages, Newsletter, Dons |
-| Système | Traductions EN, Assistant IA, Utilisateurs, Réglages, Sauvegardes, Tâches planifiées |
+| Système | Traductions EN, Assistant IA, Utilisateurs, Réglages, Sauvegardes, Tâches planifiées, Mises à jour |
 
 - **Recherche globale** : `Ctrl + K` (ou la barre en haut) trouve une fiche, une photo,
   un écran.
@@ -310,6 +310,12 @@ montants dépensés en IA ne s'affichent que pour eux. Tout le reste, y compris 
 Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 
 - **Utilisateurs** (administrateur) : inviter, changer le niveau, désactiver un compte.
+- **Mises à jour** (administrateur) : nouvelle version du site sur GitHub, liste des
+  changements, « Appliquer la mise à jour » en un clic (le code seulement, jamais les fiches,
+  médias, réglages ni comptes), sauvegarde et « Revenir à cette version ». Vérification
+  automatique toutes les 3 heures, signalée au tableau de bord. Chaque vérification compare
+  aussi le code du serveur à GitHub, fichier par fichier : version reconnue après un envoi
+  par FTP, fichier oublié ou retouché signalé (« Synchroniser avec GitHub »).
 - **Réglages** (administrateur) : identité du site, e-mail, **pied de page** (titre, phrase,
   deux boutons et leurs liens, accroche, ligne du bas et mention « Propulsé par », en
   français et en anglais ; un texte vide masque l'élément), clés Gemini, correcteur

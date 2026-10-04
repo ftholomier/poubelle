@@ -241,9 +241,24 @@ Dès que les historiens travaillent dans le back-office, **les dossiers `data/` 
 `storage/` du serveur font foi** : ils contiennent leurs saisies, les comptes, les
 réglages et les dons.
 
-- Pour une nouvelle version du code, n'envoyer par FTP que `app/`, `bin/`, `config/`,
-  `public/` (sauf `public/media/`), `scripts/` et `templates/`, puis vider le dossier
-  `storage/cache/` : tout ce qu'il contient se reconstruit à la visite suivante.
+- Pour une nouvelle version du code : **Système › Mises à jour** (administrateurs). L'écran
+  compare la version installée à la dernière version de la branche GitHub réglée
+  (Réglages › Mises à jour), liste les changements et les applique en un clic : il ne
+  remplace que les fichiers du code qui ont changé (`app/`, `bin/`, `config/`, `scripts/`,
+  `templates/`, `public/` sauf `public/media/`), ajoute les nouveaux libellés anglais sans
+  toucher aux traductions du serveur, garde un `public/.htaccess` réglé à la main, vide les
+  caches (sauf `storage/cache/correcteur/`) et sauvegarde d'abord les fichiers remplacés
+  (« Revenir à cette version »). Vérification automatique toutes les 3 heures ; le tableau
+  de bord signale une nouvelle version. La toute première fois, l'écran lui-même doit être
+  envoyé par FTP (ou toute version qui le contient).
+- **Synchronisation** : chaque vérification compare aussi le code du serveur, fichier par
+  fichier, à la dernière version de GitHub (empreintes Git, rien n'est téléchargé ; les fins
+  de ligne converties par un logiciel FTP en mode texte ne comptent pas). Après un envoi par
+  FTP, « Vérifier maintenant » reconnaît la version si tout est identique, ou liste les
+  fichiers oubliés ou différents : « Synchroniser avec GitHub » les remplace en un clic.
+- À défaut, par FTP : n'envoyer que ces mêmes dossiers, puis vider `storage/cache/` **sauf le
+  dossier `correcteur/`** (réponses du correcteur déjà payées) : le reste se reconstruit à la
+  visite suivante.
 - **Ne jamais renvoyer `data/` ni `storage/`** depuis le dépôt : cela effacerait le
   travail fait dans le back-office.
 - Les scripts de `scripts/wp/` servent uniquement à la reprise de WordPress : relancer

@@ -61,6 +61,7 @@ class Base
             ['reglages', 'Réglages', '/admin/reglages', true],
             ['sauvegardes', 'Sauvegardes', '/admin/sauvegardes', true],
             ['taches', 'Tâches planifiées', '/admin/taches', true],
+            ['majs', 'Mises à jour', '/admin/mises-a-jour', true],
         ],
         'Aide' => [
             ['aide', 'Guide d’utilisation', '/admin/aide', false],
@@ -210,6 +211,8 @@ class Base
             }
         }
         $b['qualite'] = $high;
+        // Nouvelle version du code sur GitHub (d'après la dernière vérification, sans appel réseau).
+        $b['majs'] = Auth::isAdmin() && \App\Services\Updater::available() ? 1 : 0;
         return $b;
     }
 

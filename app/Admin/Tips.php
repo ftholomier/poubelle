@@ -315,6 +315,7 @@ final class Tips
             'screen' => 'Une sauvegarde complète est faite chaque jour (données, réglages, comptes, versions…). Téléchargez-en régulièrement une pour la garder hors du serveur.',
             'restaurer' => 'Pour revenir à une sauvegarde : décompressez l’archive et remplacez les dossiers data/ et storage/ sur le serveur (gestionnaire de fichiers de l’hébergeur). Une fiche seule se restaure plus simplement depuis son onglet Historique.',
         ],
+        'majs' => ['screen' => 'Nouvelle version du site sur GitHub : la liste des changements, puis « Appliquer la mise à jour » (le code seulement : jamais les fiches, médias, réglages ni comptes). Le code du serveur est aussi comparé fichier par fichier à GitHub : un fichier oublié lors d’un envoi FTP est signalé et remplacé en un clic. Une sauvegarde permet de revenir en arrière.'],
         'taches' => ['screen' => 'Les tâches automatiques (toutes les 5 minutes) : publication programmée, statistiques, traductions, newsletter, carte, sauvegarde… et leur dernier passage. « Lancer » en exécute une tout de suite.'],
         'corbeille' => ['screen' => 'Les fiches mises à la corbeille : elles ne sont plus visibles sur le site. « Sortir de la corbeille » les remet dans leur statut d’avant ; la suppression définitive est réservée aux administrateurs (une copie reste dans l’historique des versions).'],
         'profil' => [

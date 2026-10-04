@@ -210,12 +210,11 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .site-header.is-stuck .masthead__logo img { height: 98px; }
 .masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 140px); padding-right: clamp(12px, 3vw, 40px); }
 .masthead__top { height: 48px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(14,31,77,.18); }
-.masthead__id { display: flex; flex-direction: column; justify-content: center; gap: 1px; min-width: 0; }
-.masthead__line { display: flex; align-items: baseline; gap: 10px; }
 .masthead__name { font-family: var(--display); font-weight: 900; font-size: 20px; text-transform: uppercase; white-space: nowrap; }
-/* Lien discret vers le site officiel du club, sous le titre. */
-.masthead__official { font-size: 13px; line-height: 1.2; color: var(--muted); white-space: nowrap; text-decoration: underline; text-decoration-color: rgba(14,31,77,.25); text-underline-offset: 2px; }
-.masthead__official:hover { color: var(--blue); text-decoration-color: currentColor; }
+/* Lien vers le site officiel du club : la suite de l'accroche, dans le même style ; souligné au survol. */
+.masthead__official { color: inherit; border-bottom: 1px dotted transparent; transition: color .15s, border-color .15s; }
+.masthead__official:hover, .masthead__official:focus-visible { color: var(--blue); border-bottom-color: currentColor; }
+.masthead__tagtext + .masthead__official::before { content: '·'; display: inline-block; margin: 0 .45em; color: var(--muted); }
 .masthead__tag { font-style: italic; font-size: 15px; color: var(--muted); white-space: nowrap; }
 .hbtn {
   height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 2px solid var(--navy);
@@ -310,14 +309,15 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .mobilemenu > a.mobilemenu__official:hover { color: var(--yellow); }
 
 @media (max-width: 1439px) {
-  .masthead__tag { display: none; }
+  .masthead__tagtext { display: none; }
+  .masthead__tagtext + .masthead__official::before { content: none; }
 }
 @media (max-width: 1099px) {
   .masthead__logo img { height: 76px; }
   .site-header.is-stuck .masthead__logo img { height: 56px; }
   .masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 80px); }
   .masthead__top { border-bottom: 0; height: 64px; }
-  .masthead__id, .masthead__tag, .hsize, .hlang, .hcontrib, .mainnav { display: none !important; }
+  .masthead__name, .masthead__tag, .hsize, .hlang, .hcontrib, .mainnav { display: none !important; }
   .hsearch { min-width: 38px; width: 64px; justify-content: center; }
   .hsearch span { display: none; }
   .hburger { display: inline-flex; }

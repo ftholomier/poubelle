@@ -31,10 +31,8 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
     </a>
     <div class="masthead__inner">
       <div class="masthead__top">
-        <span class="masthead__id">
-          <span class="masthead__line"><span class="masthead__name">Sochaux rétro</span><span class="masthead__tag"><?= e(t('Le musée en ligne du FCSM · depuis 1928')) ?></span></span>
-          <?php if ($official !== ''): ?><a class="masthead__official" href="<?= e($official) ?>" rel="noopener" target="_blank"><?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?> ↗</a><?php endif; ?>
-        </span>
+        <span class="masthead__name">Sochaux rétro</span>
+        <span class="masthead__tag"><span class="masthead__tagtext"><?= e(t('Le musée en ligne du FCSM · depuis 1928')) ?></span><?php if ($official !== ''): ?><a class="masthead__official" href="<?= e($official) ?>" rel="noopener" target="_blank" title="<?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?>"><?= e(t('Site officiel du FCSM')) ?> ↗</a><?php endif; ?></span>
         <button type="button" class="hbtn hsearch" data-search-open aria-label="<?= e(t('Rechercher dans le musée')) ?>">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
           <span><?= e(t('Un match, un joueur, une saison…')) ?></span>

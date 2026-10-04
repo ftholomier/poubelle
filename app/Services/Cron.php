@@ -38,6 +38,7 @@ final class Cron
         'assistant' => [3600, 'Index sémantique de l’assistant IA'],
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
         'plan-du-site' => [86400, 'Plan du site (sitemap.xml)'],
+        'mises-a-jour' => [10800, 'Nouvelle version du site sur GitHub (vérification)'],
         'sauvegarde' => [3600, 'Sauvegarde quotidienne'],
         'recus-annuels' => [86400, 'Reçus fiscaux annuels (janvier)'],
         'menage' => [86400, 'Purges RGPD et fichiers temporaires'],
@@ -191,6 +192,10 @@ final class Cron
             case 'plan-du-site':
                 \App\Front\Seo::build(true);
                 return 'ok';
+
+            case 'mises-a-jour':
+                $c = Updater::check(true);
+                return $c['error'] ? 'vérification impossible : ' . $c['error'] : (($m = Updater::available()) ? Updater::summary($m) : null);
 
             case 'sauvegarde':
                 // Une fois par jour, à partir de l'heure réglée.

@@ -308,6 +308,7 @@ refait quand la fiche ou sa photo change (`Share::VERSION` pour tout refaire).
 | `Proofreader` | correcteur d'orthographe et de syntaxe (§ 7 ter) |
 | `AiCosts` | coût de l'IA en temps réel, budget, remboursements (§ 7 quater) |
 | `FicheAudio` | fiches audio : explication de la fiche (durée maximale réglable, 3 min), voix IA, traitement groupé (§ 7 quinquies) |
+| `Updater` | mises à jour en un clic depuis GitHub (Système › Mises à jour) : dernière version de la branche (API, flux Atom en secours), changements, application du seul code qui a changé (`app/`, `bin/`, `config/`, `scripts/`, `templates/`, `public/` sauf `public/media/`), libellés `data/i18n/en.json` fusionnés, `public/.htaccess` modifié gardé, fichiers retirés du dépôt supprimés (manifeste CRC32), sauvegarde et retour arrière, pause du site pendant la copie (`storage/update/maintenance`, lu par le Kernel), caches vidés sauf `storage/cache/correcteur/` ; synchronisation : à chaque vérification, empreintes Git (`sha1("blob <taille>\0<contenu>")`) des fichiers du serveur comparées à l'arborescence de la version (API `git/trees`, un appel par dossier du code, listes gardées sous leur empreinte dans `storage/update/arbres/`), fins de ligne ignorées pour les fichiers texte ; site mis en ligne par FTP et identique : version reconnue (manifeste écrit, sans le `.htaccess` réglé à la main) ; fichiers différents : « Synchroniser avec GitHub » |
 | `Payments` | Stripe Checkout et abonnements, PayPal Orders v2 et abonnements, vérification des webhooks |
 | `Mailer`, `Newsletter` | e-mails (SMTP ou mail()), newsletter hebdomadaire « Ce jour-là » |
 | `Geo` | géolocalisation (répertoire intégré, puis Nominatim d'OpenStreetMap, une requête par seconde) |
@@ -767,6 +768,11 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
 - `php tests/inconnu.php` : « xx » de l'ancien site (lignes de la fiche d'identité,
   naissance et décès, références de match, temps forts, réactions, chiffre clé, texte riche,
   fiche anglaise, cas limites).
+- `php tests/updater.php` : mises à jour en un clic (fichiers du code seulement, données et
+  médias jamais touchés, `.htaccess` gardé, libellés fusionnés, suppression des fichiers retirés,
+  sauvegarde et retour arrière, archive piégée refusée, API et flux Atom, pause du site,
+  synchronisation : empreintes Git, fins de ligne, image abîmée, version reconnue, dossiers en
+  cache, fichier retouché signalé puis remplacé, limite de l'API).
 - `php tests/attente.php` : ouverture du site (installation neuve fermée, page d'attente
   pour le public et vrai site pour l'équipe connectée, bandeau, aucun lien vers le
   back-office, noindex et cache partout, robots.txt, mot de passe d'accès, site ouvert ou
