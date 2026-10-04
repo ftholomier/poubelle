@@ -5,6 +5,7 @@
   if (!btn) return;
   const box = document.querySelector('[data-audio-text]');
   const say = box && box.querySelector('[data-audio-say]');
+  const show = document.querySelector('[data-audio-show]');
   const label = btn.querySelector('[data-audio-label]');
   const playLabel = label.textContent, stopLabel = btn.dataset.stop || 'Stop';
   const lang = btn.dataset.audioLang || 'fr-FR';
@@ -12,6 +13,16 @@
   const synth = window.speechSynthesis && window.SpeechSynthesisUtterance ? window.speechSynthesis : null;
   if (!say || (!src && !synth)) return;
   btn.hidden = false;
+  // Le texte lu reste caché à l'écoute : un lien discret l'affiche pour qui en a besoin.
+  if (show) {
+    const showLabel = show.textContent, hideLabel = show.dataset.hide || showLabel;
+    show.hidden = false;
+    show.addEventListener('click', () => {
+      box.hidden = !box.hidden;
+      show.setAttribute('aria-expanded', box.hidden ? 'false' : 'true');
+      show.textContent = box.hidden ? showLabel : hideLabel;
+    });
+  }
   let audio = null, playing = false, run = 0;
 
   const set = on => {
@@ -53,7 +64,6 @@
   }
   btn.addEventListener('click', () => {
     if (playing) { stop(); return; }
-    box.hidden = false;
     if (src) {
       audio = audio || new Audio(src);
       audio.onended = () => set(false);

@@ -725,6 +725,9 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .audiobtn svg { flex: none; }
 .audiobtn.is-playing { background: var(--cream); }
 .audiobtn.btn--navy.is-playing { color: var(--navy); }
+.audiolink { align-self: center; background: none; border: 0; padding: 4px 2px; font: inherit; font-size: 14px; color: inherit; opacity: .8; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.audiolink:hover, .audiolink[aria-expanded="true"] { opacity: 1; }
+.audiolink[hidden] { display: none; }
 .audiotext { flex: 1 0 100%; margin: 2px 0 0; background: var(--cream); color: var(--navy); border: 2px solid var(--navy); padding: 10px 14px; font-size: 16px; line-height: 1.5; }
 .audiotext [data-audio-say] { display: block; max-width: 78ch; white-space: pre-line; }
 .audiotext__k { display: block; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); margin-bottom: 2px; }
