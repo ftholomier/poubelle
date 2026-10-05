@@ -66,6 +66,27 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'fonts' =>
         <h2 class="card__t card__t--sm">Essai des champs du client</h2>
         <div data-fields></div>
       </section>
+      <section class="card card--pad" data-sale>
+        <h2 class="card__t card__t--sm">Vente</h2>
+        <div class="pgrid">
+          <label class="f"><span class="f__k">Prix TTC (€)</span><input class="in in--sm" type="number" min="0" step="0.5" data-sale-price value="<?= e(number_format($model['sale']['price'] / 100, 2, '.', '')) ?>"></label>
+          <?php foreach ($support['sizes'] as $sz): if (count($support['sizes']) < 2) { break; } ?>
+          <label class="f"><span class="f__k">Supplément <?= e($sz) ?> (€)</span><input class="in in--sm" type="number" min="0" step="0.5" data-sale-extra="<?= e($sz) ?>" value="<?= isset($model['sale']['extra'][$sz]) ? e(number_format($model['sale']['extra'][$sz] / 100, 2, '.', '')) : '' ?>"></label>
+          <?php endforeach; ?>
+        </div>
+        <label class="f"><span class="f__k">Description pour la boutique</span><textarea class="in" rows="2" data-sale-desc><?= e($model['sale']['desc']) ?></textarea></label>
+        <?php if (count($support['colors']) > 1): ?>
+        <div class="f"><span class="f__k">Couleurs du produit proposées au client</span><div class="row" style="gap:8px;flex-wrap:wrap">
+          <?php foreach ($support['colors'] as $cn => $hex): ?><label class="toggle"><input type="checkbox" data-sale-color value="<?= e($hex) ?>"<?= in_array($hex, $model['sale']['colors'], true) ? ' checked' : '' ?>><span class="toggle__box"></span><span><i class="dot" style="background:<?= e($hex) ?>"></i> <?= e($cn) ?></span></label><?php endforeach; ?>
+        </div></div>
+        <?php endif; ?>
+        <div class="f"><span class="f__k">Couleurs des textes du client (vide : celle du modèle)</span><div class="row" style="gap:8px;flex-wrap:wrap">
+          <?php foreach ($palette as $cn => $hex): ?><label class="toggle" title="<?= e($cn) ?>"><input type="checkbox" data-sale-tcolor value="<?= e($hex) ?>"<?= in_array($hex, $model['sale']['text_colors'], true) ? ' checked' : '' ?>><span class="toggle__box"></span><span><i class="dot" style="background:<?= e($hex) ?>"></i></span></label><?php endforeach; ?>
+        </div></div>
+        <label class="toggle"><input type="checkbox" data-sale-tsizes<?= $model['sale']['text_sizes'] ? ' checked' : '' ?>><span class="toggle__box"></span><span>Taille du texte au choix (petit, moyen, grand)</span></label>
+        <label class="toggle"><input type="checkbox" data-sale-pos<?= $model['sale']['positions'] ? ' checked' : '' ?>><span class="toggle__box"></span><span>Position du texte au choix (haut, centre, bas : seules celles qui ne recouvrent pas le logo sont proposées)</span></label>
+        <p class="xs muted" style="margin:6px 0 0">En vente quand « Prêt à la vente » est coché et le prix renseigné. Les choix du client restent dans la charte : jamais de police, de photo ni de placement libre.</p>
+      </section>
       <?php if ($support['note'] !== ''): ?><p class="xs muted" style="margin:0"><b>Consignes de l’imprimeur :</b> <?= e($support['note']) ?></p><?php endif; ?>
     </aside>
   </div>

@@ -98,7 +98,7 @@ final class Kernel
 
         // Site fermé : page d'attente (l'aperçu du back-office montre le site). Ce qu'elle
         // propose reste servi : inscription à la lettre, teaser du musée.
-        if (!Site::$preview && !Site::open() && !in_array($path, self::ALWAYS, true) && !str_starts_with($path, '/documents/')) {
+        if (!Site::$preview && !Site::open() && !in_array($path, self::ALWAYS, true) && !str_starts_with($path, '/documents/') && !str_starts_with($path, '/boutique/commande/')) {
             $w = Content::waiting();
             if ($path === '/newsletter/' && $req->method === 'POST' && !empty($w['newsletter'])) {
                 return Forms::newsletter($req);
@@ -170,6 +170,14 @@ final class Kernel
         $r->get('/nous-soutenir/adherer/bulletin/', fn ($q) => Forms::membershipPaper($q));
         $r->get('/nous-soutenir/benevolat/', fn ($q) => Forms::volunteer($q));
         $r->post('/nous-soutenir/benevolat/', fn ($q) => Forms::volunteerSend($q));
+        $r->get('/boutique/', fn ($q) => ShopPages::index($q));
+        $r->get('/boutique/panier/', fn ($q) => ShopPages::cartPage($q));
+        $r->post('/boutique/panier/', fn ($q) => ShopPages::cartAction($q));
+        $r->post('/boutique/commander/', fn ($q) => ShopPages::checkout($q));
+        $r->post('/boutique/apercu/', fn ($q) => ShopPages::livePreview($q));
+        $r->get('/boutique/commande/{token}/', fn ($q, $token) => ShopPages::track($q, $token));
+        $r->post('/boutique/commande/{token}/', fn ($q, $token) => ShopPages::trackMessage($q, $token));
+        $r->get('/boutique/{id}/', fn ($q, $id) => ShopPages::product($q, $id));
         $r->get('/partenaires/', fn ($q) => Pages::partners($q));
         $r->get('/presse/', fn ($q) => Pages::press($q));
         $r->get('/presse/presentation-sochaux-retro.pdf', fn ($q) => Pages::pressKit($q));

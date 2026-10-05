@@ -124,7 +124,169 @@ final class Catalog
             'id' => (string) $m['id'], 'name' => (string) ($m['name'] ?? 'Modèle'), 'support' => $sup['key'], 'faces' => $faces,
             'color' => $colors ? (in_array($color, $colors, true) ? $color : reset($colors)) : '',
             'active' => (bool) ($m['active'] ?? false), 'updated' => (string) ($m['updated'] ?? ''), 'by' => (string) ($m['by'] ?? ''),
+            'sale' => self::sale((array) ($m['sale'] ?? []), $sup),
         ];
+    }
+
+    /**
+     * Vente d'un modèle : prix (centimes), supplément par taille, description, et choix laissés au
+     * client, toujours dans la charte : couleurs du produit (parmi celles du support), couleurs des
+     * textes du client (palette), trois tailles de texte, trois positions (haut, centre, bas).
+     */
+    public static function sale(array $s, array $sup): array
+    {
+        $extra = [];
+        foreach ((array) ($s['extra'] ?? []) as $size => $c) {
+            if (in_array($size, $sup['sizes'], true) && (int) $c > 0) {
+                $extra[$size] = min(100000, (int) $c);
+            }
+        }
+        $colors = array_values(array_intersect(array_map('strtoupper', (array) ($s['colors'] ?? [])), $sup['colors']));
+        $tcolors = array_values(array_unique(array_filter(array_map(fn ($c) => strtoupper((string) $c), (array) ($s['text_colors'] ?? [])), fn ($c) => in_array($c, array_values(Vector::PALETTE), true))));
+        return [
+            'price' => max(0, min(100000, (int) ($s['price'] ?? 0))), 'extra' => $extra,
+            'desc' => mb_substr(trim((string) ($s['desc'] ?? '')), 0, 600),
+            'colors' => $colors ?: array_values($sup['colors']), 'text_colors' => array_slice($tcolors, 0, 8),
+            'text_sizes' => !empty($s['text_sizes']), 'positions' => !empty($s['positions']),
+        ];
+    }
+
+    /** En vente : prêt, avec un prix, sur un support actif. */
+    public static function sellable(array $m): bool
+    {
+        $sup = self::support($m['support']);
+        return $m['active'] && $m['sale']['price'] > 0 && $sup && $sup['active'];
+    }
+
+    /** Prix unitaire (centimes) pour une taille. */
+    public static function price(array $m, string $size = ''): int
+    {
+        return $m['sale']['price'] + (int) ($m['sale']['extra'][$size] ?? 0);
+    }
+
+    public const TEXT_SIZES = ['s' => [0.85, 'Petit'], 'm' => [1.0, 'Moyen'], 'l' => [1.15, 'Grand']];
+    public const POSITIONS = ['haut' => 'En haut', 'centre' => 'Au centre', 'bas' => 'En bas'];
+
+    /**
+     * Choix du client appliqués au modèle (couleur du produit, couleur et taille des textes du
+     * client, position) ; un choix non proposé est ignoré. @return array{0:array,1:array} [modèle, choix retenus]
+     */
+    public static function applyOptions(array $m, array $o): array
+    {
+        $s = $m['sale'];
+        $opt = ['color' => $m['color'], 'tcolor' => '', 'tsize' => 'm', 'pos' => ''];
+        $c = strtoupper((string) ($o['color'] ?? ''));
+        if ($c !== '' && in_array($c, $s['colors'], true)) {
+            $opt['color'] = $m['color'] = $c;
+        }
+        $tc = strtoupper((string) ($o['tcolor'] ?? ''));
+        if ($tc !== '' && in_array($tc, $s['text_colors'], true)) {
+            $opt['tcolor'] = $tc;
+        }
+        if ($s['text_sizes'] && isset(self::TEXT_SIZES[$o['tsize'] ?? ''])) {
+            $opt['tsize'] = (string) $o['tsize'];
+        }
+        $pos = (string) ($o['pos'] ?? '');
+        if ($s['positions'] && isset(self::POSITIONS[$pos])) {
+            $opt['pos'] = $pos;
+        }
+        $f = self::TEXT_SIZES[$opt['tsize']][0];
+        foreach ($m['faces'] as $fk => $face) {
+            $client = [];
+            foreach ($face['layers'] as $i => $l) {
+                if (($l['type'] ?? '') === 'text' && ($l['mode'] ?? '') === 'client') {
+                    if ($opt['tcolor'] !== '') {
+                        $l['color'] = $opt['tcolor'];
+                    }
+                    if ($f !== 1.0) {
+                        $l['size'] = round((float) ($l['size'] ?? 24) * $f, 2);
+                    }
+                    $face['layers'][$i] = $l;
+                    $client[] = $i;
+                }
+            }
+            if ($opt['pos'] !== '' && $client) {
+                $top = INF;
+                $bottom = -INF;
+                foreach ($client as $i) {
+                    $l = $face['layers'][$i];
+                    $top = min($top, (float) $l['y']);
+                    $bottom = max($bottom, (float) $l['y'] + ((float) ($l['h'] ?? 0) > 0 ? (float) $l['h'] : Vector::textHeight($l)));
+                }
+                $gh = $bottom - $top;
+                $to = ['haut' => $face['h'] * 0.08, 'centre' => ($face['h'] - $gh) / 2, 'bas' => $face['h'] * 0.92 - $gh][$opt['pos']];
+                foreach ($client as $i) {
+                    $face['layers'][$i]['y'] = round((float) $face['layers'][$i]['y'] + $to - $top, 2);
+                }
+            }
+            $m['faces'][$fk] = $face;
+        }
+        return [$m, $opt];
+    }
+
+    /**
+     * Positions vraiment proposées : celles où les textes du client ne chevauchent pas le reste du
+     * dessin (logo, textes fixes) et restent dans la face. @return array<string,string>
+     */
+    public static function positions(array $m): array
+    {
+        if (!$m['sale']['positions']) {
+            return [];
+        }
+        $out = [];
+        foreach (self::POSITIONS as $k => $label) {
+            [$mm] = self::applyOptions($m, ['pos' => $k]);
+            $ok = true;
+            foreach ($mm['faces'] as $face) {
+                $fixed = [];
+                $client = [];
+                foreach (Vector::shapes($face['layers'], []) as $sh) {
+                    $b = Vector::bbox($sh['d']);
+                    $l = null;
+                    foreach ($face['layers'] as $x) {
+                        if ($x['id'] === $sh['layer']) {
+                            $l = $x;
+                        }
+                    }
+                    if (!$b || !$l) {
+                        continue;
+                    }
+                    if (($l['mode'] ?? '') === 'client') {
+                        $client[] = $l['h'] ?? 0 ? [$l['x'], $l['y'], $l['x'] + $l['w'], $l['y'] + $l['h']] : $b;
+                    } else {
+                        $fixed[] = $b;
+                    }
+                }
+                foreach ($client as $c) {
+                    if ($c[1] < -0.5 || $c[3] > $face['h'] + 0.5) {
+                        $ok = false;
+                    }
+                    foreach ($fixed as $b) {
+                        if ($c[0] < $b[2] && $c[2] > $b[0] && $c[1] < $b[3] && $c[3] > $b[1]) {
+                            $ok = false;
+                        }
+                    }
+                }
+            }
+            if ($ok) {
+                $out[$k] = $label;
+            }
+        }
+        return count($out) > 1 ? $out : [];
+    }
+
+    /** Fichier d'impression PDF (toutes les faces dessinées) d'un modèle, avec les réponses du client. */
+    public static function printPdf(array $m, array $values, string $title, array $extra = []): string
+    {
+        $sup = self::support($m['support']);
+        $faces = [];
+        $colorName = (string) (array_search($m['color'], $sup['colors'], true) ?: '');
+        foreach ($m['faces'] as $f) {
+            if ($f['layers'] || $f['bg']) {
+                $faces[] = ['name' => $title . ' · ' . $sup['name'] . ' · ' . $f['label'] . ' · ' . $f['w'] . ' × ' . $f['h'] . ' mm' . ($f['bleed'] ? ' + ' . $f['bleed'] . ' mm de fonds perdus' : '') . ($colorName !== '' ? ' · support ' . $colorName : '') . ($extra ? ' · ' . implode(' · ', $extra) : ''), 'side' => $f, 'values' => $values];
+            }
+        }
+        return $faces ? Vector::pdf($faces, ['title' => $title, 'cmyk' => true]) : '';
     }
 
     /**
@@ -202,7 +364,7 @@ final class Catalog
         $m['updated'] = date('c');
         $m['by'] = (string) ($user['name'] ?? '');
         $model = self::model($m);
-        $store = ['id' => $model['id'], 'name' => $model['name'], 'support' => $model['support'], 'color' => $model['color'], 'active' => $model['active'], 'updated' => $model['updated'], 'by' => $model['by'], 'faces' => []];
+        $store = ['id' => $model['id'], 'name' => $model['name'], 'support' => $model['support'], 'color' => $model['color'], 'active' => $model['active'], 'updated' => $model['updated'], 'by' => $model['by'], 'sale' => $model['sale'], 'faces' => []];
         foreach ($model['faces'] as $fk => $f) {
             $store['faces'][$fk] = ['bg' => $f['bg'], 'layers' => array_map([self::class, 'cleanLayer'], $f['layers'])];
         }

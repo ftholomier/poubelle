@@ -141,6 +141,11 @@ final class Kernel
             return Vitrine\Kernel::preview($req);
         }
 
+        // Espace de l'imprimeur de la boutique (séparé du back-office)
+        if ($path === '/imprimeur' || str_starts_with($path, '/imprimeur/')) {
+            return Shop\PrinterSpace::handle($req);
+        }
+
         // Back-office
         if ($path === '/admin' || str_starts_with($path, '/admin/')) {
             return Admin\Router::handle($req);

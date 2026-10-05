@@ -50,3 +50,19 @@ table.shoptexts { width: 100%; table-layout: fixed; border-collapse: collapse; }
 .shoped__align { display: inline-flex; gap: 2px; margin-left: auto; }
 .shoped__align .btn { min-width: 30px; padding-left: 6px; padding-right: 6px; }
 .shoped__align.is-off { opacity: .4; pointer-events: none; }
+.dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); vertical-align: -1px; }
+/* Commandes */
+.shoporder { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
+.shoporder__main, .shoporder__side { display: grid; gap: 16px; }
+@media (max-width: 1000px) { .shoporder { grid-template-columns: 1fr; } }
+.shopitem { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid rgba(14,31,77,.12); }
+.shopitem__img { width: 110px; flex: 0 0 110px; background: #f3eddf; border-radius: 6px; }
+.shopitem__img > svg { width: 100%; height: auto; display: block; }
+.shopitem__txt { flex: 1; }
+.shopst { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; background: #e6e2d6; color: #0e1f4d; white-space: nowrap; }
+.shopst--paid { background: #fdc729; } .shopst--production { background: #cfe0ff; } .shopst--shipped { background: #c9ecd1; } .shopst--delivered { background: #9ed7a9; }
+.shopst--canceled, .shopst--refunded { background: #f3c9c4; } .shopst--pending { background: #eee; color: #666; }
+.shopmsg { padding: 8px 10px; border-radius: 8px; background: #f3eddf; margin: 6px 0; } .shopmsg p { margin: 2px 0 0; }
+.shopmsg--imprimeur, .shopmsg--association { background: #e5ecfb; margin-left: 30px; }
+.shophist { margin: 0; padding-left: 18px; } .shophist li { margin: 0 0 6px; }
+table.shoporders { width: 100%; border-collapse: collapse; } .shoporders th, .shoporders td { padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(14,31,77,.1); vertical-align: top; }

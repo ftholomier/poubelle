@@ -198,7 +198,8 @@ final class Cron
                 \App\Vitrine\Stats::prune();
                 $abandoned = \App\Vitrine\Membership::expire();
                 $videos = \App\Vitrine\Videos::refresh();
-                return trim(($videos ?? '') . ($abandoned ? " · $abandoned adhésion(s) abandonnée(s)" : ''), ' ·') ?: null;
+                $orders = \App\Shop\Orders::expire();
+                return trim(($videos ?? '') . ($abandoned ? " · $abandoned adhésion(s) abandonnée(s)" : '') . ($orders ? " · $orders commande(s) non payée(s) annulée(s)" : ''), ' ·') ?: null;
 
             case 'mises-a-jour':
                 $c = Updater::check(true);

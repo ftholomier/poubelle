@@ -589,9 +589,28 @@
         "name": "T-shirt « Slogan au choix »",
         "support": "tshirt",
         "color": "#0E1F4D",
-        "active": false,
-        "updated": "2026-10-05T12:17:18+02:00",
+        "active": true,
+        "updated": "2026-10-05T13:06:19+02:00",
         "by": "",
+        "sale": {
+            "price": 2500,
+            "extra": {
+                "XXL": 300
+            },
+            "desc": "T-shirt bio bleu nuit, logo de l’association et le slogan de votre choix.",
+            "colors": [
+                "#0E1F4D",
+                "#1A1A1A",
+                "#FFFFFF"
+            ],
+            "text_colors": [
+                "#F6C400",
+                "#FFFFFF",
+                "#0E1F4D"
+            ],
+            "text_sizes": true,
+            "positions": true
+        },
         "faces": {
             "avant": {
                 "bg": "",
@@ -624,7 +643,9 @@
                         "field": "phrase",
                         "label": "Votre slogan",
                         "max": 30,
-                        "list": "slogans"
+                        "list": "slogans",
+                        "h": 60,
+                        "min": 20
                     }
                 ]
             },

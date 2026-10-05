@@ -386,6 +386,11 @@ final class Donations
             case 'checkout.session.async_payment_succeeded':
             case 'checkout.session.expired':
                 // Adhésion payée sur le site de l'association (même compte Stripe que les dons).
+                // Commande de la boutique (même compte Stripe).
+                if (!empty($o['metadata']['commande'])) {
+                    \App\Shop\Orders::stripeSession($o);
+                    break;
+                }
                 if (!empty($o['metadata']['adhesion'])) {
                     \App\Vitrine\Membership::stripeSession($o);
                     break;
@@ -414,6 +419,9 @@ final class Donations
                 if ($ref !== '' && ($o['refunded'] ?? false)) {
                     self::markRefunded($ref);
                     \App\Vitrine\Membership::refunded($ref);
+                }
+                if (!empty($o['payment_intent'])) {
+                    \App\Shop\Orders::refundedAtStripe((string) $o['payment_intent'], (int) ($o['amount_refunded'] ?? 0));
                 }
                 break;
         }

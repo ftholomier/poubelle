@@ -9,6 +9,7 @@ use App\Core\Response;
 use App\Data\Activity;
 use App\Shop\Catalog;
 use App\Shop\Mockup;
+use App\Shop\Orders;
 use App\Shop\Texts;
 use App\Shop\Vector;
 
@@ -65,6 +66,113 @@ final class Shop extends Base
         $key = Catalog::saveSupport($key, $data, Auth::user());
         Activity::log(self::actor(), 'a modifié le support « ' . $name . ' » de la boutique', ['path' => '/admin/boutique/supports']);
         return self::back('/admin/boutique/supports#s-' . $key, 'Support « ' . $name . ' » enregistré.');
+    }
+
+    // ------------------------------------------------------------------ réglages de la boutique
+
+    public static function settings(Request $req): Response
+    {
+        return self::html('admin/boutique/reglages', ['c' => Orders::config(), 'payable' => \App\Services\Payments::stripeReady(), 'models' => Catalog::models()],
+            ['title' => 'Réglages de la boutique', 'crumb' => 'Boutique', 'nav' => 'boutique-reglages']);
+    }
+
+    public static function saveSettings(Request $req): Response
+    {
+        $eur = fn (string $k) => (int) round((float) str_replace(',', '.', $req->str($k)) * 100);
+        $email = trim($req->str('printer_email'));
+        if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return self::back('/admin/boutique/reglages', null, 'L’adresse e-mail de l’imprimeur n’est pas valide.');
+        }
+        $before = Orders::config();
+        $c = Orders::saveConfig([
+            'open' => $req->str('open') === '1', 'printer_name' => $req->str('printer_name'), 'printer_email' => $email,
+            'shipping' => $eur('shipping'), 'free_from' => $eur('free_from'), 'delay' => $req->str('delay'),
+            'alert_email' => $req->str('alert_email'), 'cgv' => $req->str('cgv'),
+        ]);
+        Activity::log(self::actor(), 'a modifié les réglages de la boutique' . ($before['printer_email'] !== $c['printer_email'] ? ' (adresse de l’imprimeur changée)' : ''), ['path' => '/admin/boutique/reglages']);
+        return self::back('/admin/boutique/reglages', 'Réglages de la boutique enregistrés.');
+    }
+
+    // ------------------------------------------------------------------ commandes
+
+    public static function orders(Request $req): Response
+    {
+        $st = $req->str('statut');
+        $all = Orders::all();
+        $list = $st !== '' ? array_values(array_filter($all, fn ($o) => $o['status'] === $st)) : array_values(array_filter($all, fn ($o) => $o['status'] !== 'pending' || strtotime($o['created']) > time() - 86400));
+        return self::html('admin/boutique/commandes', ['orders' => $list, 'all' => $all, 'st' => $st],
+            ['title' => 'Commandes', 'crumb' => 'Boutique', 'nav' => 'boutique-commandes']);
+    }
+
+    public static function order(Request $req, string $id): Response
+    {
+        $o = Orders::get($id);
+        if (!$o) {
+            return self::back('/admin/boutique/commandes', null, 'Commande introuvable.');
+        }
+        return self::html('admin/boutique/commande', ['o' => $o, 'previews' => self::orderPreviews($o), 'base' => '/admin/boutique/commandes/' . $o['id'], 'who' => 'association'],
+            ['title' => 'Commande ' . $o['id'], 'crumb' => 'Boutique › Commandes', 'nav' => 'boutique-commandes']);
+    }
+
+    /** Aperçus (SVG) des articles d'une commande. @return list<string> */
+    public static function orderPreviews(array $o): array
+    {
+        $out = [];
+        foreach ($o['items'] as $it) {
+            $m = Catalog::find($it['model']);
+            $sup = $m ? Catalog::support($m['support']) : null;
+            if (!$m || !$sup) {
+                $out[] = '';
+                continue;
+            }
+            [$mm] = Catalog::applyOptions($m, $it['opts']);
+            $fk = array_key_first(array_filter($mm['faces'], fn ($f) => $f['layers'])) ?? array_key_first($mm['faces']);
+            $out[] = Mockup::render($sup['mockup'], (string) $fk, $mm['faces'][$fk], $mm['color'], $it['values'])['svg'];
+        }
+        return $out;
+    }
+
+    /** POST /admin/boutique/commandes/{id} : étape, suivi, message, remboursement, paiement hors ligne. */
+    public static function orderAction(Request $req, string $id): Response
+    {
+        $o = Orders::get($id);
+        $back = '/admin/boutique/commandes/' . $id;
+        if (!$o) {
+            return self::back('/admin/boutique/commandes', null, 'Commande introuvable.');
+        }
+        $who = (string) (Auth::user()['name'] ?? 'association');
+        switch ($req->str('action')) {
+            case 'status':
+                $st = $req->str('status');
+                Orders::setStatus($id, $st, $who, $req->str('note'), $req->str('notify') === '1', ['carrier' => $req->str('carrier'), 'number' => $req->str('number'), 'url' => $req->str('url')]);
+                Activity::log(self::actor(), 'a passé la commande ' . $id . ' à « ' . (Orders::STATUSES[$st] ?? $st) . ' »', ['path' => $back]);
+                return self::back($back, 'Étape enregistrée.');
+            case 'message':
+                Orders::message($id, 'association', $req->str('text'));
+                return self::back($back . '#messages', 'Message envoyé au client.');
+            case 'refund':
+                $r = Orders::refund($id, (int) round((float) str_replace(',', '.', $req->str('amount')) * 100), $who);
+                if (isset($r['error'])) {
+                    return self::back($back, null, 'Remboursement impossible : ' . $r['error']);
+                }
+                Activity::log(self::actor(), 'a remboursé ' . Orders::money($r['cents']) . ' sur la commande ' . $id, ['path' => $back]);
+                return self::back($back, 'Remboursement de ' . Orders::money($r['cents']) . ' effectué.');
+            case 'paid':
+                Orders::markPaid($id, '', $o['total'], $who . ' (hors ligne)');
+                return self::back($back, 'Paiement enregistré : la commande part chez l’imprimeur.');
+        }
+        return self::back($back, null, 'Action inconnue.');
+    }
+
+    /** GET /admin/boutique/commandes/{id}/pdf/{n} : fichier d'impression d'un article. */
+    public static function orderPdf(Request $req, string $id, string $n): Response
+    {
+        $o = Orders::get($id);
+        $pdf = $o ? Orders::pdf($o, (int) $n - 1) : null;
+        if ($pdf === null) {
+            return self::back('/admin/boutique/commandes/' . $id, null, 'Fichier indisponible (commande non payée ?).');
+        }
+        return new Response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="' . $o['id'] . '-' . (int) $n . '.pdf"', 'Cache-Control' => 'private, no-store']);
     }
 
     // ------------------------------------------------------------------ banque de textes
@@ -195,6 +303,7 @@ final class Shop extends Base
         $saved = Catalog::saveModel([
             'id' => $id, 'name' => trim((string) ($in['name'] ?? '')) ?: $m['name'], 'support' => $m['support'],
             'color' => (string) ($in['color'] ?? $m['color']), 'active' => (bool) ($in['active'] ?? $m['active']), 'faces' => $in['faces'],
+            'sale' => is_array($in['sale'] ?? null) ? $in['sale'] : $m['sale'],
         ], Auth::user());
         Activity::log(self::actor(), 'a modifié le modèle « ' . $saved['name'] . ' » de la boutique', ['path' => '/admin/boutique/modeles/' . $id]);
         return self::json(['ok' => true, 'model' => $saved]);

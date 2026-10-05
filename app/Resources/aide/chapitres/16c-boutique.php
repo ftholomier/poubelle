@@ -50,6 +50,37 @@ HTML],
 <p>Avant de vendre un slogan, vérifiez qu’il n’est pas déposé comme marque (base de l’INPI).</p>
 [[img:boutique-textes.webp|La banque de textes : chaque phrase, sa note ou sa source, et la case « Validée »]]
 HTML],
+        ['id' => 'vente', 'title' => 'Mettre un modèle en vente', 'admin' => true, 'html' => <<<'HTML'
+<p>Dans l’éditeur, la carte <b>Vente</b> : prix TTC, supplément par taille (XXL…), description, et les choix laissés au client, toujours dans la charte :</p>
+<ul>
+<li><b>Couleurs du produit</b> proposées (parmi celles du support) ;</li>
+<li><b>Couleurs des textes</b> du client (palette du club) ;</li>
+<li><b>Taille du texte</b> : petit, moyen, grand ;</li>
+<li><b>Position du texte</b> : haut, centre, bas ; seules les positions où le texte ne recouvre pas le logo sont proposées.</li>
+</ul>
+<p>Le modèle est en vente quand « Prêt à la vente » est coché et qu’il a un prix. Le client ne choisit jamais la police, ne déplace rien et n’envoie aucune image.</p>
+[[img:boutique-produit.webp|La page d’un article : aperçu en direct, phrase au choix, couleurs, taille et position du texte, taille du vêtement]]
+HTML],
+        ['id' => 'commandes', 'title' => 'Les commandes', 'admin' => true, 'html' => <<<'HTML'
+<p>Le client paie par carte (Stripe, les mêmes clés que les dons et les adhésions) : l’argent arrive sur le compte de l’association. La commande payée part aussitôt chez l’imprimeur, avec un <b>PDF d’impression par article</b>, et le client reçoit un e-mail avec son lien de suivi.</p>
+<ul>
+<li><b>Boutique › Commandes</b> : toutes les commandes par étape (payée, en fabrication, expédiée, livrée, annulée, remboursée).</li>
+<li>Dans une commande : les articles et leurs PDF, l’adresse de livraison, les messages avec le client, l’historique, et les actions : changer l’étape, <b>rembourser</b> (tout ou partie, directement par Stripe), « paiement reçu hors ligne » (chèque, espèces).</li>
+<li>Chaque étape envoie un e-mail au client (case « Prévenir le client »). Les commandes jamais payées sont annulées au bout de deux jours.</li>
+</ul>
+[[img:boutique-commande.webp|Une commande : articles et PDF, messages, livraison, étape, remboursement, historique]]
+HTML],
+        ['id' => 'imprimeur', 'title' => 'L’espace imprimeur et le service client', 'admin' => true, 'html' => <<<'HTML'
+<p>L’imprimeur a son propre espace, séparé du back-office : <b>/imprimeur/</b> sur l’adresse du musée. Il saisit son e-mail et reçoit un lien de connexion (valable 30 minutes, une seule fois). Seule l’adresse réglée dans <b>Boutique › Réglages</b> peut entrer : la changer coupe l’accès de l’ancienne.</p>
+<ul>
+<li>Il voit les commandes payées (à fabriquer, en fabrication, expédiées), télécharge les PDF, passe chaque commande « en fabrication » puis « expédiée » avec le transporteur et le numéro de suivi.</li>
+<li><b>Service client</b> : le client écrit depuis sa page de suivi ; l’imprimeur est prévenu par e-mail et répond depuis son espace ; le client reçoit la réponse par e-mail. L’association lit tous les échanges dans la commande.</li>
+</ul>
+[[img:boutique-imprimeur.webp|L’espace imprimeur : une commande expédiée, avec le numéro de suivi et les messages du client]]
+HTML],
+        ['id' => 'reglages', 'title' => 'Les réglages de la boutique', 'admin' => true, 'html' => <<<'HTML'
+<p><b>Boutique › Réglages</b> : ouverture de la boutique, frais de port et seuil de livraison offerte, délai annoncé, nom et e-mail de l’imprimeur, e-mail d’alerte de l’association à chaque commande payée, conditions de vente. Tant que le site de l’association est fermé, la boutique n’est visible que dans son aperçu.</p>
+HTML],
         ['id' => 'pdf', 'title' => 'Le fichier pour l’imprimeur', 'admin' => true, 'html' => <<<'HTML'
 <p><b>PDF imprimeur</b> (dans l’éditeur ou la liste des modèles) : un PDF <b>vectoriel</b>, une page par face dessinée, au <b>format exact</b>, avec les <b>fonds perdus</b>, les <b>traits de coupe</b> et un repère dans la marge (modèle, face, dimensions, couleur du support). Couleurs en <b>CMJN</b> (les couleurs de la charte ont leur équivalent d’imprimerie).</p>
 <p>Les champs du client essayés dans l’éditeur sont repris dans le PDF : c’est exactement ce que recevra l’imprimeur pour une commande.</p>

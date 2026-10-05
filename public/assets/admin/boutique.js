@@ -368,12 +368,21 @@
   /* ------------------------------------------------------------ enregistrer */
   $('[data-name]').addEventListener('input', () => { dirty = true; });
   $('[data-active]').addEventListener('change', () => { dirty = true; });
+  $('[data-sale]').addEventListener('input', () => { dirty = true; });
   $('[data-save]').addEventListener('click', async () => {
     const b = $('[data-save]');
     b.disabled = true;
     const faces = {};
     for (const k of faceKeys) faces[k] = { bg: model.faces[k].bg || '', layers: model.faces[k].layers || [] };
-    const r = await BO.post(location.pathname, { name: $('[data-name]').value, color: model.color, active: $('[data-active]').checked, faces });
+    const eur = v => Math.round((parseFloat(String(v).replace(',', '.')) || 0) * 100);
+    const extra = {};
+    $$('[data-sale-extra]').forEach(i => { if (eur(i.value) > 0) extra[i.dataset.saleExtra] = eur(i.value); });
+    const sale = {
+      price: eur($('[data-sale-price]').value), extra, desc: $('[data-sale-desc]').value,
+      colors: $$('[data-sale-color]:checked').map(i => i.value), text_colors: $$('[data-sale-tcolor]:checked').map(i => i.value),
+      text_sizes: $('[data-sale-tsizes]').checked, positions: $('[data-sale-pos]').checked,
+    };
+    const r = await BO.post(location.pathname, { name: $('[data-name]').value, color: model.color, active: $('[data-active]').checked, faces, sale });
     b.disabled = false;
     if (!r.ok) { BO.toast(r.error || 'Modèle non enregistré.', true); return; }
     dirty = false;

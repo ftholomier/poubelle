@@ -518,7 +518,13 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - Supports : t-shirt, sweat, mug, mug émaillé, tote bag, **casquette**, **écharpe**, posters A3/A2, carte, sticker.
 - Éditeur de modèles à remplir (logo, textes, formes, champs du client), aperçus sur le produit.
 - Banque de textes : 46 slogans et 14 anecdotes du rapport (anecdotes à valider par un historien), propositions de l'IA ; un champ du client peut proposer une liste de phrases au choix.
-- À venir : lot B (produits et prix, boutique en ligne, Stripe, espace imprimeur, suivi client, e-mails), lot C (tableau de bord, remboursements, relevés imprimeur, « Ton match »).
+## Boutique, lot B : la vente (05/10, demande du client) — terminé
+
+- Prix et suppléments par taille ; choix du client calibrés (couleur du produit, couleur et taille du texte, position sans recouvrir le logo).
+- Boutique sur le site de l'association : catalogue, article avec aperçu en direct, panier, livraison, paiement Stripe (l'association encaisse), page de suivi avec messages.
+- Espace imprimeur séparé (/imprimeur/, lien de connexion par e-mail) : PDF par article, étapes, numéro de suivi, réponses aux clients.
+- BO : Boutique › Commandes (étapes, remboursement Stripe, paiement hors ligne), Boutique › Réglages (imprimeur, port, délai, alertes, conditions de vente).
+- À venir : lot C (tableau de bord et chiffre d'affaires, relevés de l'imprimeur, « Ton match »).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
