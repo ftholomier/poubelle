@@ -770,8 +770,8 @@ visite : `/interactif/planche-contact/`, `/interactif/le-lion-illustre/` (journa
   d'au moins 1 000 px de large si possible), deux articles, « En images », brèves ; titres =
   fiches, textes = légendes. Vestiaire : ambiance sombre, fond flouté et très assombri fixé à l'écran
   (`Walls::LOCKER_ROOM` : les maillots jaunes suspendus dans le vestiaire des pros, photo de la
-  médiathèque, crédit en bas du mur ; sans elle, carrelage sombre seul) ;
-  24 tirages (rotation, punaise ou scotch), déplacés au
+  médiathèque assombrie mais lisible, crédit en bas du mur ; sans elle, carrelage sombre seul) ;
+  15 tirages, 3 lignes de 5 (rotation, punaise ou scotch), déplacés au
   pointeur (capture après 6 px : le clic reste un clic). Mosaïque : motif « 100 », « FCSM »,
   « 1928 » ou « 2028 » en lettres de 5 × 7 cases (24 × 11 cases) ou 3 × 5 sur deux lignes pour
   les téléphones (`Walls::grid()`), photos en niveaux de gris teintées (jaune pour le motif),

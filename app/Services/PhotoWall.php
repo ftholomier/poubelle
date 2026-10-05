@@ -468,6 +468,31 @@ final class PhotoWall
         return $out;
     }
 
+    /** Code court et stable d'une photo (export PDF d'un tirage : la page envoie les codes des photos montrées). */
+    public static function code(string $rel): string
+    {
+        return substr(md5($rel), 0, 10);
+    }
+
+    /**
+     * Photos des murs d'après leurs codes, dans l'ordre donné ; un code inconnu (photo retirée des
+     * murs entre-temps, code inventé) est ignoré. @param list<string> $codes @return list<array>
+     */
+    public static function byCodes(array $codes): array
+    {
+        $map = [];
+        foreach (self::photos() as $p) {
+            $map[self::code($p['r'])] = $p;
+        }
+        $out = [];
+        foreach ($codes as $c) {
+            if (isset($map[$c])) {
+                $out[] = $map[$c];
+            }
+        }
+        return $out;
+    }
+
     /** Décennies proposées au filtre (assez de photos datées). @return array<int,int> décennie => nombre */
     public static function decades(int $min = 12): array
     {

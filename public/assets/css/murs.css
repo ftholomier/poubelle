@@ -105,12 +105,12 @@
 .wall--vestiaire::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: var(--navy); border-top: 8px solid var(--yellow); }
 /* Au fond, le vestiaire des pros dans la pénombre : flouté, très assombri, fixé à l'écran (on le voit en entier
    en faisant défiler) ; par-dessus, un voile bleu nuit plus dense sur les bords et le carrelage à peine visible. */
-.vm__backdrop { position: absolute; inset: 0; background: #080e22 var(--bg) center 40% / cover no-repeat fixed; filter: blur(5px) brightness(.34) saturate(1.2) contrast(1.05); pointer-events: none; }
-.vm__tiles { position: absolute; inset: 0; background-image: linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), radial-gradient(ellipse 85% 75% at 50% 38%, rgba(6, 12, 32, .18), rgba(4, 8, 22, .78)); background-size: 56px 56px, 56px 56px, auto; pointer-events: none; }
+.vm__backdrop { position: absolute; inset: 0; background: #080e22 var(--bg) center 40% / cover no-repeat fixed; filter: blur(3px) brightness(.6) saturate(1.15); pointer-events: none; }
+.vm__tiles { position: absolute; inset: 0; background-image: linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), radial-gradient(ellipse 90% 80% at 50% 40%, rgba(6, 12, 32, .05), rgba(4, 8, 22, .5)); background-size: 56px 56px, 56px 56px, auto; pointer-events: none; }
 .vm__bgcredit { position: absolute; z-index: 2; right: var(--gutter); bottom: 20px; margin: 0; font-size: 13px; font-style: italic; color: var(--mist); }
 .vm { position: relative; z-index: 1; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
 .vm__stencil { position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg); font-family: var(--display); font-weight: 900; font-size: clamp(90px, 18vw, 260px); line-height: 1; letter-spacing: .06em; text-transform: uppercase; color: var(--yellow); opacity: .07; pointer-events: none; white-space: nowrap; }
-.vm__wall { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 46px 30px; padding-top: 16px; }
+.vm__wall { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 46px 30px; padding-top: 16px; }
 .vm__print { position: relative; margin: 0; background: #fffdf8; padding: 12px 12px 50px; z-index: var(--z); box-shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 14px 30px rgba(0, 0, 0, .55); transform: translate(calc(var(--x) + var(--dx, 0px)), calc(var(--y) + var(--dy, 0px))) rotate(var(--r)); animation: vmIn .6s var(--bounce) both; animation-delay: calc(var(--i) * 35ms); transition: box-shadow .25s; }
 @keyframes vmIn { from { opacity: 0; transform: translate(var(--x), calc(var(--y) - 46px)) rotate(calc(var(--r) * 2.4)); } }
 .vm__print:hover { box-shadow: 0 2px 2px rgba(0, 0, 0, .3), 0 22px 40px rgba(0, 0, 0, .65); }
@@ -125,6 +125,7 @@
 .vm__hold { position: absolute; z-index: 2; pointer-events: none; }
 .vm__print--tape .vm__hold { top: -13px; left: 50%; width: 96px; height: 26px; margin-left: -48px; background: rgba(246, 196, 0, .6); transform: rotate(var(--t)); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
 .vm__print--pin .vm__hold { top: -8px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff9183 0 18%, #d9342b 45%, #8f1d16 100%); box-shadow: 3px 5px 5px rgba(0, 0, 0, .35); }
+@media (max-width: 1000px) { .vm__wall { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 640px) {
   .vm__wall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 18px; }
   .vm__print { padding: 8px 8px 38px; transform: translate(calc(var(--x) * .4), calc(var(--y) * .4)) rotate(calc(var(--r) * .6)); }

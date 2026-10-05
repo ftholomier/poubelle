@@ -28,6 +28,13 @@ final class Walls
     /** Fond flouté du mur du vestiaire : le vestiaire des pros (photo du club, médiathèque). */
     public const LOCKER_ROOM = '2025/02/Vestiaire-24-FCSM.jpg';
 
+    /** Murs exportables en PDF (bouton « Télécharger en PDF ») : clé => adresse de l'export. */
+    public const PDF = [
+        'planche' => '/interactif/planche-contact/pdf/',
+        'journal' => '/interactif/le-lion-illustre/pdf/',
+        'mosaique' => '/interactif/mosaique/pdf/',
+    ];
+
     /** Pavés de la rubrique Interactif (accueil et méga-menu). @return list<array> */
     public static function tools(): array
     {
@@ -62,7 +69,7 @@ final class Walls
 
     public static function lockerRoom(Request $req): Response
     {
-        $photos = PhotoWall::draw(24, self::filters($req) + ['width' => 480]);
+        $photos = PhotoWall::draw(15, self::filters($req) + ['width' => 480]); // 3 lignes de 5
         $prints = [];
         foreach ($photos as $i => $p) {
             $prints[] = self::view($p) + [
@@ -105,7 +112,7 @@ final class Walls
             $credits[$p['who']] = ($credits[$p['who']] ?? 0) + 1;
         }
         arsort($credits);
-        return self::page($req, 'mosaique', ['wide' => $wide, 'narrow' => $narrow, 'photos' => $views, 'motif' => $motif, 'motifs' => array_combine($keys, array_map('t', array_values(self::MOTIFS))), 'credits' => $credits],
+        return self::page($req, 'mosaique', ['wide' => $wide, 'narrow' => $narrow, 'photos' => $views, 'unique' => array_column($photos, 'r'), 'motif' => $motif, 'motifs' => array_combine($keys, array_map('t', array_values(self::MOTIFS))), 'credits' => $credits],
             t('La grande mosaïque : des centaines de photos du musée qui dessinent ensemble un motif du centenaire. Survolez une case pour voir la photo.'));
     }
 
@@ -213,16 +220,49 @@ final class Walls
         return implode(' · ', array_filter($parts));
     }
 
+    /**
+     * Formulaire caché du bouton « Télécharger en PDF », placé dans le mur (refait à chaque tirage) :
+     * codes des photos montrées, dans l'ordre, numéro de la planche ou de l'édition, motif et
+     * filtres. Vide pour le mur du vestiaire et quand aucune photo n'est montrée.
+     */
+    private static function pdfForm(string $kind, array $v): string
+    {
+        $rels = match ($kind) {
+            'planche' => array_column($v['photos'], 'rel'),
+            'journal' => array_column(array_merge($v['lead'] ? [$v['lead']] : [], $v['side'], $v['row'], $v['briefs']), 'rel'),
+            'mosaique' => $v['unique'],
+            default => [],
+        };
+        if (!isset(self::PDF[$kind]) || !$rels) {
+            return '';
+        }
+        $fields = [
+            'photos' => implode('.', array_map([PhotoWall::class, 'code'], $rels)),
+            'n' => (string) ($v['sheet'] ?? $v['number'] ?? ''),
+            'motif' => (string) ($v['motif'] ?? ''),
+            'decennie' => (string) ($v['filters']['decade'] ?? ''),
+            'photographe' => (string) ($v['filters']['who'] ?? ''),
+        ];
+        $html = '<form id="wall-pdf" method="post" action="' . e(url(self::PDF[$kind])) . '" hidden>';
+        foreach ($fields as $k => $val) {
+            if ($val !== '') {
+                $html .= '<input type="hidden" name="' . $k . '" value="' . e($val) . '">';
+            }
+        }
+        return $html . '</form>';
+    }
+
     /** Page complète, ou seulement le mur pour « Nouveau tirage » et les filtres (sans recharger). */
     private static function page(Request $req, string $kind, array $vars, string $description): Response
     {
         $w = self::WALLS[$kind];
         $f = self::filters($req);
         $vars += ['kind' => $kind, 'filters' => $f];
+        $vars['pdfForm'] = self::pdfForm($kind, $vars);
         $counts = PhotoWall::counts($f['decade'], $f['who']);
         if ($req->str('partiel') === '1') {
-            // Le mur, et les nombres de photos des filtres pour ce choix (mis à jour par murs.js).
-            $res = Response::html(View::partial('interactif/murs/' . $kind, $vars)
+            // Le mur, son formulaire d'export PDF et les nombres de photos des filtres pour ce choix (mis à jour par murs.js).
+            $res = Response::html(View::partial('interactif/murs/' . $kind, $vars) . $vars['pdfForm']
                 . '<script type="application/json" data-wall-counts>' . json_encode($counts, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '</script>');
             $res->headers['Cache-Control'] = 'no-store';
             $res->headers['X-Robots-Tag'] = 'noindex';

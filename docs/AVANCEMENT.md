@@ -498,7 +498,8 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] **Planche-contact** : plus aucun trait de crayon autour des photos (ni ronds, ni mots
       griffonnés).
 - [x] **Mur du vestiaire** : ambiance sombre ; au fond, flouté et très assombri, le vestiaire
-      des pros du FCSM avec ses maillots jaunes suspendus (photo du club, créditée en bas du mur).
+      des pros du FCSM avec ses maillots jaunes suspendus (photo du club, créditée en bas du mur) ;
+      15 photos par tirage (3 lignes de 5).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
