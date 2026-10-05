@@ -26,6 +26,9 @@ final class Anecdotes
 
     private const SYSTEM = 'Tu rédiges une anecdote pour un produit dérivé (t-shirt, mug, poster) de Sochaux Rétro, '
         . 'le musée des supporters du FC Sochaux-Montbéliard (les Lionceaux, jaune et bleu, stade Auguste-Bonal). '
+        . 'Une ANECDOTE, pas un compte rendu : dans le fait fourni, cherche l’angle le plus étonnant, le plus fier ou le plus insolite, celui qu’un supporter aura envie de raconter : '
+        . 'un record ou un rang dans l’histoire du club, une première fois, un détail de coulisses, une prime, une phrase marquante, un parcours hors du commun, un chiffre frappant. '
+        . 'Évite la simple mention « X marque pour Sochaux le … » si le fait offre mieux. '
         . 'Règles strictes : utilise UNIQUEMENT le fait fourni, n’ajoute aucune information, aucun chiffre, aucune date qui n’y figure pas ; '
         . 'cite TOUJOURS les noms précis donnés dans le fait : le joueur ou l’entraîneur concerné (prénom et nom), l’adversaire, la compétition, la date du match — jamais « un Lionceau » ou « un joueur » quand le nom est connu ; n’utilise aucun nom absent du fait ; une seule phrase AFFIRMATIVE, en français, au présent ou au passé : jamais de question, jamais « Le saviez-vous », « Saviez-vous » ni point d’interrogation ; '
         . 'ton fier et chaleureux, jamais moqueur envers l’adversaire ; pas de guillemets, pas d’émoji ; respecte la longueur maximale demandée.';
@@ -33,7 +36,7 @@ final class Anecdotes
     /** Réserve : les anecdotes déjà rédigées par l'IA, resservies sans IA quand le budget du jour est atteint. */
     public const POOL_MAX = 600;
     /** Version de la consigne : seules les anecdotes de la version en cours sont ressorties du stock. */
-    public const VERSION = 2;
+    public const VERSION = 3;
 
     private static function poolFile(): string
     {
@@ -135,10 +138,12 @@ final class Anecdotes
      * match) ; avec un sujet choisi par le client (« m:ID » un match, « p:ID » un joueur ou un
      * entraîneur), un fait sur ce sujet.
      */
-    public static function fact(string $topic = ''): array
+    public static function fact(string $topic = '', int $n = 0): array
     {
         if ($topic !== '') {
-            return self::topicFact($topic) ?? ['', ''];
+            // Les faits du sujet, du plus « anecdotique » au plus banal : chaque nouveau tirage passe au suivant.
+            $all = self::topicFacts($topic);
+            return $all ? $all[$n % count($all)] : ['', ''];
         }
         if (random_int(0, 1) === 0) {
             $stats = array_values(array_filter(Chiffres::flat(), fn ($s) => ($s['value'] ?? '') !== '' && ($s['label'] ?? '') !== ''));
@@ -193,45 +198,137 @@ final class Anecdotes
         return [trim((string) preg_replace('/\s+/', ' ', $t)), 'match:' . $m['id']];
     }
 
-    /** Le fait d'un sujet choisi par le client, ou null si le sujet est inconnu. */
+    /** Le meilleur fait d'un sujet choisi par le client, ou null si le sujet est inconnu. */
     public static function topicFact(string $topic): ?array
     {
+        return self::topicFacts($topic)[0] ?? null;
+    }
+
+    /** @var array<string,list<array>> */
+    private static array $facts = [];
+
+    /**
+     * Les faits d'un sujet, classés du plus « anecdotique » au plus banal. Joueur : ses records et
+     * rangs dans les 100 chiffres du FCSM, le chiffre clé de sa fiche, les paragraphes de son
+     * histoire, son bilan, puis un match où il a marqué. Match : le chiffre clé, les coulisses
+     * (avant-match, primes, déclarations, réactions), puis le match lui-même et ses temps forts.
+     * @return list<array{0:string,1:string}>
+     */
+    public static function topicFacts(string $topic): array
+    {
         if (!preg_match('/^([mp]):(\d{1,9})$/', $topic, $x)) {
-            return null;
+            return [];
         }
-        if ($x[1] === 'm') {
-            foreach (self::matches() as $m) {
-                if ((string) $m['id'] === $x[2]) {
-                    return self::matchFact($m, true);
+        if (isset(self::$facts[$topic])) {
+            return self::$facts[$topic];
+        }
+        $id = (int) $x[2];
+        $out = [];
+        $doc = \App\Data\Fiches::get($id);
+        $clean = fn (string $h) => trim((string) preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags((string) preg_replace('/<\/(li|p)>/i', "\n", $h)), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        // Paragraphes (ou puces) d'une fiche, de 80 à 900 caractères, sans tableau de statistiques.
+        $paras = function (array $doc) use ($clean): array {
+            $ps = [];
+            foreach ((array) ($doc['sections'] ?? []) as $sec) {
+                if (preg_match('/statisti|composition|palmar/i', (string) ($sec['title'] ?? ''))) {
+                    continue;
+                }
+                foreach (preg_split('/<\/(?:p|li)>/i', (string) ($sec['html'] ?? '')) ?: [] as $chunk) {
+                    $t = Poster::tidy($clean($chunk));
+                    if (mb_strlen($t) >= 80) {
+                        $ps[] = mb_substr($t, 0, 900);
+                    }
                 }
             }
-            return null;
+            return $ps;
+        };
+        if ($x[1] === 'm') {
+            $m = null;
+            foreach (self::matches() as $mm) {
+                if ((int) $mm['id'] === $id) {
+                    $m = $mm;
+                }
+            }
+            if (!$m || !$doc) {
+                return self::$facts[$topic] = [];
+            }
+            [$base] = self::matchFact($m);
+            $k = (array) ($doc['key_figure'] ?? []);
+            if (trim((string) ($k['text'] ?? '')) !== '') {
+                $out[] = [$base . ' Le chiffre : ' . rtrim(Poster::tidy((string) $k['text']), '. ') . '.', 'match:' . $id];
+            }
+            foreach ($paras($doc) as $p) {
+                $out[] = [$base . ' ' . $p, 'match:' . $id];
+            }
+            foreach (['reactions', 'breves'] as $kk) {
+                foreach ((array) ($doc['match'][$kk] ?? []) as $r) {
+                    $t = Poster::tidy(is_array($r) ? implode(' ', array_filter($r, 'is_string')) : (string) $r);
+                    if (mb_strlen($t) >= 60) {
+                        $out[] = [$base . ' ' . mb_substr($t, 0, 700), 'match:' . $id];
+                    }
+                }
+            }
+            $out[] = self::matchFact($m, true);
+            return self::$facts[$topic] = self::unique($out);
         }
-        $s = \App\Data\Index::get((int) $x[2]);
+        $s = \App\Data\Index::get($id);
         if (!$s || ($s['type'] ?? '') !== 'personne' || !\App\Data\Index::visible($s)) {
-            return null;
+            return self::$facts[$topic] = [];
         }
         $p = (array) ($s['p'] ?? []);
         $name = (string) ($p['name'] ?? $s['title']);
-        // Une fois sur deux, un match où il a marqué (s'il y en a) ; sinon son parcours au club.
-        $goals = [];
-        foreach (Derived::part('scorers') as $mid => $list) {
-            foreach ((array) $list as $g) {
-                if ((int) ($g[0] ?? 0) === (int) $x[2]) {
-                    $goals[] = $mid;
+        $ref = 'personne:' . $id;
+        // 1. Records et rangs dans les 100 chiffres du FCSM.
+        foreach (Chiffres::flat() as $c) {
+            $who = (array) ($c['who'] ?? []);
+            $rank = null;
+            $val = '';
+            foreach ($who as $w) {
+                if ((int) ($w['id'] ?? 0) === $id || ($w['name'] ?? '') === $name) {
+                    $rank = 1;
+                    $val = (string) $c['value'];
+                }
+            }
+            foreach ((array) ($c['more'] ?? []) as $i => $w) {
+                if ($rank === null && ($w['name'] ?? '') === $name) {
+                    $rank = $i + 2;
+                    $val = (string) ($w['v'] ?? '');
+                }
+            }
+            if ($rank === null) {
+                continue;
+            }
+            $unit = (string) ($c['unit'] ?? '');
+            $holder = implode(', ', array_map(fn ($w) => (string) ($w['name'] ?? ''), $who));
+            $t = $rank === 1
+                ? $name . ' détient le record du FC Sochaux-Montbéliard « ' . $c['label'] . ' » : ' . $val . ' ' . $unit . '. ' . trim(strip_tags((string) ($c['text'] ?? '')))
+                : $name . ' est ' . $rank . 'e de l’histoire du FC Sochaux-Montbéliard au classement « ' . $c['label'] . ' », avec ' . $val . ' ' . $unit . ' (record : ' . $holder . ', ' . $c['value'] . ' ' . $unit . ').';
+            $out[] = [trim($t), $ref];
+        }
+        $records = $out;
+        $out = [];
+        // 2. Le chiffre clé de sa fiche, 3. les paragraphes de son histoire.
+        if ($doc) {
+            $k = (array) ($doc['key_figure'] ?? []);
+            if (trim((string) ($k['text'] ?? '')) !== '') {
+                $out[] = [rtrim(Poster::tidy((string) $k['text']), '. ') . '.', $ref];
+            }
+            foreach ($paras($doc) as $para) {
+                $out[] = [str_contains($para, $name) || str_contains($para, (string) ($p['last'] ?? '~')) ? $para : $name . ' : ' . $para, $ref];
+            }
+        }
+        // Records et histoire en alternance (les plus parlants d'abord), puis le reste.
+        $story = $out;
+        $out = [];
+        for ($i = 0; $i < max(count($records), count($story)); $i++) {
+            foreach ([$records[$i] ?? null, $story[$i] ?? null] as $f) {
+                if ($f) {
+                    $out[] = $f;
                 }
             }
         }
-        if ($goals && random_int(0, 1) === 0) {
-            $mid = $goals[random_int(0, count($goals) - 1)];
-            foreach (self::matches() as $m) {
-                if ((string) $m['id'] === (string) $mid) {
-                    [$t] = self::matchFact($m);
-                    return [$t . ' Ce jour-là, ' . $name . ' marque pour Sochaux.', 'personne:' . $x[2]];
-                }
-            }
-        }
-        $tot = (array) (Derived::part('person_totals')[(int) $x[2]] ?? []);
+        // 4. Son bilan au club.
+        $tot = (array) (Derived::part('person_totals')[$id] ?? []);
         $roles = str_replace('entraineur', 'entraîneur', implode(' et ', (array) ($p['roles'] ?? [])));
         $t = $name . ($roles !== '' ? ', ' . $roles : '') . (($p['position'] ?? '') !== '' ? ' (' . $p['position'] . ')' : '') . ' du FC Sochaux-Montbéliard'
             . (!empty($p['arrival']) ? ', au club de ' . $p['arrival'] . (!empty($p['departure']) && $p['departure'] != $p['arrival'] ? ' à ' . $p['departure'] : '') : '')
@@ -242,21 +339,41 @@ final class Anecdotes
         if (($tot['coached'] ?? 0) > 0) {
             $t .= ' Entraîneur de Sochaux sur ' . $tot['coached'] . ' matchs (' . $tot['v'] . ' victoires, ' . $tot['n'] . ' nuls, ' . $tot['d'] . ' défaites).';
         }
-        if (!empty($p['legend'])) {
-            $t .= ' Une légende du club.';
+        foreach (['legend' => ' Une légende du club.', 'formed' => ' Formé au club.', 'intl' => ' International.'] as $kk => $label) {
+            $t .= !empty($p[$kk]) ? $label : '';
         }
-        if (!empty($p['formed'])) {
-            $t .= ' Formé au club.';
+        $out[] = [trim((string) preg_replace('/\s+/', ' ', $t)), $ref];
+        // 5. En dernier : un ou deux matchs où il a marqué (les plus marquants).
+        $goals = [];
+        foreach (Derived::part('scorers') as $mid => $list) {
+            foreach ((array) $list as $g) {
+                if ((int) ($g[0] ?? 0) === $id) {
+                    $goals[(string) $mid] = true;
+                }
+            }
         }
-        if (!empty($p['intl'])) {
-            $t .= ' International.';
+        $gm = array_values(array_filter(self::matches(), fn ($m) => isset($goals[(string) $m['id']])));
+        usort($gm, fn ($a, $b) => (int) ($b['hl'] ?? 0) <=> (int) ($a['hl'] ?? 0));
+        foreach (array_slice($gm, 0, 2) as $m) {
+            [$mt] = self::matchFact($m);
+            $out[] = [$mt . ' Ce jour-là, ' . $name . ' marque pour Sochaux.', $ref];
         }
-        $doc = \App\Data\Fiches::get((int) $x[2]);
-        $intro = trim(html_entity_decode(strip_tags((string) ($doc['intro'] ?? '')), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
-        if ($intro !== '') {
-            $t .= ' ' . mb_substr($intro, 0, 500);
+        return self::$facts[$topic] = self::unique($out);
+    }
+
+    /** Faits sans doublon (même texte à la ponctuation près). */
+    private static function unique(array $facts): array
+    {
+        $seen = [];
+        $out = [];
+        foreach ($facts as $f) {
+            $k = self::key(mb_substr($f[0], -300));
+            if (!isset($seen[$k])) {
+                $seen[$k] = true;
+                $out[] = $f;
+            }
         }
-        return [trim((string) preg_replace('/\s+/', ' ', $t)), 'personne:' . $x[2]];
+        return $out;
     }
 
     /**
@@ -373,7 +490,7 @@ final class Anecdotes
             return self::fromPool($layers, $asked, $topic);
         }
         for ($try = 0; $try < 4; $try++) {
-            [$fact] = self::fact($topic);
+            [$fact] = self::fact($topic, count($asked) + $try);
             if ($fact === '') {
                 break;
             }

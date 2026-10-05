@@ -39,6 +39,10 @@ for ($i = 0; $i < 6; $i++) {
     $ok = $ok && str_contains(Anecdotes::fact('p:10258')[0], 'Stéphane Paille') || str_contains(Anecdotes::fact('p:10258')[0], 'Paille');
 }
 $eq('joueur : chaque fait le nomme', $ok, true);
+$facts = Anecdotes::topicFacts('p:10258');
+$eq('joueur : record d’abord, puis son histoire, le simple « il marque » en dernier', [str_contains($facts[0][0], 'classement'), str_contains($facts[1][0], '224 matchs'), str_contains(end($facts)[0], 'marque pour Sochaux')], [true, true, true]);
+$eq('« Une autre » : fait suivant', [Anecdotes::fact('p:10258', 0)[0] === $facts[0][0], Anecdotes::fact('p:10258', 1)[0] === $facts[1][0]], [true, true]);
+$eq('pas de fait en double', count($facts), count(array_unique(array_column($facts, 0))));
 $eq('sujet inconnu ou mal formé : refusé', [Anecdotes::topicFact('p:999999999'), Anecdotes::topicFact('m:abc'), Anecdotes::topicFact('../x')], [null, null, null]);
 
 // 3. Anecdote sur le sujet : l'IA rédige d'après le fait du sujet, vérifiée.
