@@ -28,7 +28,7 @@ $next = ['paid' => 'production', 'production' => 'shipped', 'shipped' => 'delive
         <?php endif; ?>
       </div>
       <?php endforeach; ?>
-      <p class="small" style="margin:10px 0 0;text-align:right">Livraison : <?= e($o['shipping'] ? Orders::money($o['shipping']) : 'offerte') ?> · <b>Total : <?= e(Orders::money($o['total'])) ?></b><?= $o['refunded'] ? ' · remboursé : ' . e(Orders::money($o['refunded'])) : '' ?></p>
+      <p class="small" style="margin:10px 0 0;text-align:right"><?php if ((int) ($o['discount'] ?? 0) > 0): ?>Code promo <?= e($o['promo']['code'] ?? '') ?> : −<?= e(Orders::money((int) $o['discount'])) ?> · <?php endif; ?>Livraison : <?= e($o['shipping'] ? Orders::money($o['shipping']) : 'offerte') ?> · <b>Total : <?= e(Orders::money($o['total'])) ?></b><?= $o['refunded'] ? ' · remboursé : ' . e(Orders::money($o['refunded'])) : '' ?></p>
       <?php if ($admin && isset($o['fee'])): ?><p class="xs muted" style="margin:2px 0 0;text-align:right">Frais Stripe : <?= e(Orders::money((int) $o['fee'])) ?> · net encaissé : <?= e(Orders::money((int) ($o['net'] ?? 0))) ?></p><?php endif; ?>
       <?php if ($admin && !empty($o['dispute'])): ?><p class="alert alert--error" style="margin:8px 0 0">Litige Stripe : <?= e($o['dispute']['status']) ?> (<?= e($o['dispute']['reason']) ?>), <?= e(Orders::money((int) $o['dispute']['amount'])) ?>. Répondez dans le tableau de bord Stripe avec la preuve d’expédition.</p><?php endif; ?>
     </section>

@@ -40,9 +40,12 @@ final class Orders
 
     // ------------------------------------------------------------------ réglages
 
+    /** Conditions de vente proposées par défaut (modifiables dans Boutique › Réglages). */
+    public const CGV = "Vendeur : association Sochaux Rétro (loi 1901). Contact : depuis la page de suivi de votre commande, ou par le formulaire de contact du site.\n\nProduits : objets aux couleurs de l’association, fabriqués à la demande pour vous par notre imprimeur partenaire, près de Sochaux. Les visuels sont des aperçus : de légères différences de teinte sont possibles à l’impression.\n\nPrix et paiement : prix en euros, toutes taxes comprises. Paiement sécurisé par carte bancaire (Stripe) ; la commande est fabriquée après la confirmation du paiement.\n\nFabrication et livraison : expédition sous 5 jours ouvrés environ après le paiement, à l’adresse indiquée (France, Belgique, Luxembourg, Suisse, Allemagne). Vous recevez un e-mail à chaque étape, avec le numéro de suivi du colis.\n\nRétractation : les articles étant personnalisés et fabriqués spécialement pour vous, le droit de rétractation ne s’applique pas (article L221-28 du Code de la consommation).\n\nDéfaut ou erreur : si un article arrive abîmé, mal imprimé ou différent de votre commande, écrivez-nous dans les 14 jours suivant la réception, avec une photo : nous le refaisons ou le remboursons, à votre choix.\n\nDonnées personnelles : vos coordonnées servent uniquement à fabriquer, expédier et suivre votre commande ; elles sont transmises à l’imprimeur pour la livraison et ne sont jamais revendues.\n\nLitiges : en cas de désaccord, contactez-nous d’abord ; vous pouvez aussi recourir gratuitement à un médiateur de la consommation.";
+
     public const CONFIG_DEFAULTS = [
         'open' => false, 'printer_name' => '', 'printer_email' => '', 'shipping' => 590, 'free_from' => 0,
-        'delay' => 'Fabriqué à la demande, expédié sous 5 jours ouvrés.', 'alert_email' => '', 'cgv' => '', 'ship_cost' => 590,
+        'delay' => 'Fabriqué à la demande, expédié sous 5 jours ouvrés.', 'alert_email' => '', 'cgv' => self::CGV, 'ship_cost' => 590,
     ];
 
     public static function config(): array
@@ -165,7 +168,7 @@ final class Orders
      * Crée la commande (en attente de paiement). $customer : name, email, phone, line1, line2, zip, city, country.
      * @return array{order?:array,error?:string}
      */
-    public static function create(array $items, array $customer): array
+    public static function create(array $items, array $customer, string $promo = ''): array
     {
         if (!$items) {
             return ['error' => 'Votre panier est vide.'];
@@ -187,11 +190,20 @@ final class Orders
             return ['error' => 'Complétez votre nom, votre e-mail et l’adresse de livraison.'];
         }
         $sub = array_sum(array_column($clean, 'total'));
-        $ship = self::shipping($sub);
+        $pr = null;
+        if (trim($promo) !== '') {
+            $pr = Promos::apply($promo, $clean, $c['email']);
+            if (isset($pr['error'])) {
+                return $pr;
+            }
+        }
+        $discount = (int) ($pr['discount'] ?? 0);
+        $ship = !empty($pr['free_shipping']) ? 0 : self::shipping($sub - $discount);
         $o = [
             'id' => 'SR' . date('ymd') . '-' . strtoupper(bin2hex(random_bytes(2))), 'token' => bin2hex(random_bytes(16)),
             'created' => date('c'), 'status' => 'pending', 'customer' => $c, 'items' => $clean,
-            'subtotal' => $sub, 'shipping' => $ship, 'total' => $sub + $ship, 'paid' => 0, 'refunded' => 0,
+            'subtotal' => $sub, 'discount' => $discount, 'promo' => $pr ? ['code' => $pr['code'], 'label' => $pr['label']] : null,
+            'shipping' => $ship, 'total' => $sub - $discount + $ship, 'paid' => 0, 'refunded' => 0,
             'tracking' => ['carrier' => '', 'number' => '', 'url' => ''], 'history' => [['at' => date('c'), 'status' => 'pending', 'by' => 'client', 'note' => '']],
             'messages' => [], 'ext' => [],
         ];
@@ -268,6 +280,17 @@ final class Orders
             $lines[] = ['quantity' => 1, 'price_data' => ['currency' => 'eur', 'unit_amount' => $o['shipping'], 'product_data' => ['name' => 'Livraison']]];
         }
         $lines = array_map(fn ($l) => array_filter($l, fn ($v) => $v !== null), $lines);
+        // Code promo : un coupon Stripe à usage unique, du montant exact de la remise.
+        $discounts = [];
+        if ((int) ($o['discount'] ?? 0) > 0) {
+            try {
+                $cp = self::stripeCall('POST', 'coupons', ['amount_off' => (int) $o['discount'], 'currency' => 'eur', 'duration' => 'once', 'max_redemptions' => 1, 'name' => mb_substr('Code ' . ($o['promo']['code'] ?? ''), 0, 40)]);
+                $discounts = [['coupon' => (string) $cp['id']]];
+            } catch (\Throwable $e) {
+                error_log('[boutique] coupon ' . $o['id'] . ' : ' . $e->getMessage());
+                return ['error' => 'Le paiement en ligne ne répond pas pour le moment : réessayez dans quelques minutes.'];
+            }
+        }
         foreach ($lines as &$l) {
             $l['price_data']['product_data'] = array_filter($l['price_data']['product_data'], fn ($v) => $v !== null && $v !== '');
         }
@@ -275,6 +298,7 @@ final class Orders
         try {
             $s = self::stripeCall('POST', 'checkout/sessions', [
                 'mode' => 'payment', 'line_items' => $lines, 'customer_email' => $o['customer']['email'],
+                ...($discounts ? ['discounts' => $discounts] : []),
                 'client_reference_id' => $o['id'], 'metadata' => ['commande' => $o['id']],
                 'payment_intent_data' => ['metadata' => ['commande' => $o['id']], 'description' => 'Boutique Sochaux Rétro · commande ' . $o['id']],
                 'success_url' => $base . '/boutique/commande/' . $o['token'] . '/?session_id={CHECKOUT_SESSION_ID}',
@@ -344,6 +368,9 @@ final class Orders
             return false;
         }
         Accounts::fetchFee($id);
+        if (!empty($o['promo']['code'])) {
+            Promos::used($o['promo']['code'], $o['id'], $o['customer']['email']);
+        }
         self::buildPdfs($o);
         $c = self::config();
         $link = self::trackingUrl($o);
@@ -530,6 +557,9 @@ final class Orders
         $h = '<table cellpadding="6" style="border-collapse:collapse;width:100%">';
         foreach ($o['items'] as $it) {
             $h .= '<tr style="border-bottom:1px solid #ddd"><td>' . $it['qty'] . ' × <b>' . e($it['name']) . '</b> (' . e($it['support']) . ')<br><small>' . e(self::describe($it)) . '</small></td><td align="right">' . e(self::money($it['total'])) . '</td></tr>';
+        }
+        if ((int) ($o['discount'] ?? 0) > 0) {
+            $h .= '<tr><td>Code promo ' . e($o['promo']['code'] ?? '') . '</td><td align="right">−' . e(self::money((int) $o['discount'])) . '</td></tr>';
         }
         $h .= '<tr><td>Livraison</td><td align="right">' . e($o['shipping'] ? self::money($o['shipping']) : 'offerte') . '</td></tr>';
         return $h . '<tr><td><b>Total</b></td><td align="right"><b>' . e(self::money($o['total'])) . '</b></td></tr></table>';

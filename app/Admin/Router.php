@@ -145,6 +145,8 @@ final class Router
         $r->get('/admin/boutique/supports', fn ($q) => Shop::supports($q));
         $r->post('/admin/boutique/supports', fn ($q) => Shop::saveSupport($q));
         $r->post('/admin/boutique/rapprochement', fn ($q) => Shop::reconcile($q));
+        $r->get('/admin/boutique/promos', fn ($q) => Shop::promos($q));
+        $r->post('/admin/boutique/promos', fn ($q) => Shop::savePromo($q));
         $r->get('/admin/boutique/releves', fn ($q) => Shop::statements($q));
         $r->get('/admin/boutique/releves/pdf', fn ($q) => Shop::statementFile($q, 'pdf'));
         $r->get('/admin/boutique/releves/csv', fn ($q) => Shop::statementFile($q, 'csv'));

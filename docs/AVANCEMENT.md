@@ -533,6 +533,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - Relevés mensuels de l'imprimeur (PDF, tableur) avec coût de fabrication par support et marge ; l'imprimeur voit son relevé sans la marge.
 - « Ton match » : le client donne une date, le musée retrouve le match et l'imprime (poster A3, t-shirt au dos) ; boutons « Ton match » dans l'éditeur.
 - Le texte du client n'est jamais de la couleur du produit.
+- Codes promo (pourcentage, montant, livraison offerte ; dates, minimum, plafond, une fois par client, modèles) appliqués au paiement Stripe par un coupon.
+- Panier redessiné (cartes, quantités −/+, récapitulatif, jauge de livraison offerte, code promo) ; pastille du nombre d'articles sur le bouton « Boutique » (cookie sr_cart, compatible avec le cache).
+- Conditions de vente proposées par défaut.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

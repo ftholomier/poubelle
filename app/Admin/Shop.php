@@ -28,6 +28,37 @@ final class Shop extends Base
         ], ['title' => 'Boutique', 'crumb' => 'Boutique', 'nav' => 'boutique']);
     }
 
+    public static function promos(Request $req): Response
+    {
+        $code = $req->str('code');
+        return self::html('admin/boutique/promos', ['promos' => \App\Shop\Promos::all(), 'models' => Catalog::models(), 'edit' => $code !== '' ? \App\Shop\Promos::find($code) : null],
+            ['title' => 'Codes promo', 'crumb' => 'Boutique', 'nav' => 'boutique-promos']);
+    }
+
+    public static function savePromo(Request $req): Response
+    {
+        $old = \App\Shop\Promos::code($req->str('old'));
+        if ($req->str('action') === 'delete') {
+            \App\Shop\Promos::delete($old);
+            Activity::log(self::actor(), 'a supprimé le code promo ' . $old, ['path' => '/admin/boutique/promos']);
+            return self::back('/admin/boutique/promos', 'Code ' . $old . ' supprimé.');
+        }
+        $type = $req->str('type');
+        $v = (float) str_replace(',', '.', $req->str('value'));
+        try {
+            $p = \App\Shop\Promos::save([
+                'code' => $req->str('code'), 'type' => $type, 'value' => $type === 'percent' ? (int) $v : (int) round($v * 100),
+                'min' => (int) round((float) str_replace(',', '.', $req->str('min')) * 100), 'from' => $req->str('from'), 'to' => $req->str('to'),
+                'max' => (int) $req->str('max'), 'once' => $req->str('once') === '1', 'active' => $req->str('active') === '1',
+                'models' => (array) ($req->post['models'] ?? []), 'note' => $req->str('note'),
+            ], $old);
+        } catch (\InvalidArgumentException $e) {
+            return self::back('/admin/boutique/promos', null, $e->getMessage());
+        }
+        Activity::log(self::actor(), 'a enregistré le code promo ' . $p['code'], ['path' => '/admin/boutique/promos']);
+        return self::back('/admin/boutique/promos', 'Code ' . $p['code'] . ' enregistré.');
+    }
+
     /** POST /admin/boutique/rapprochement */
     public static function reconcile(Request $req): Response
     {

@@ -49,8 +49,9 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
         </div>
         <?php endif; ?>
         <a class="hcontrib" href="<?= e(url('/contribuer/')) ?>"><?= e(t('Contribuer')) ?></a>
-        <?php if (\App\Shop\ShopPages::visible()): ?><a class="hshop<?= ($active ?? '') === 'boutique' ? ' is-on' : '' ?>" href="<?= e(url('/boutique/')) ?>"><?= e(t('Boutique')) ?></a><?php endif; ?>
+        <?php if (\App\Shop\ShopPages::visible()): ?><span class="hshopw"><a class="hshop<?= ($active ?? '') === 'boutique' ? ' is-on' : '' ?>" href="<?= e(url('/boutique/')) ?>"><?= e(t('Boutique')) ?></a><a class="hcart" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden aria-label="<?= e(t('Voir mon panier')) ?>"><b data-cart-n>0</b></a></span><?php endif; ?>
         <a class="hdon" href="<?= e(url('/faire-un-don/')) ?>">♥ <?= e(t('Faire un don')) ?></a>
+        <?php if (\App\Shop\ShopPages::visible()): ?><a class="hcart-m" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden aria-label="<?= e(t('Voir mon panier')) ?>"><b data-cart-n>0</b></a><?php endif; ?>
         <button type="button" class="hburger" data-burger aria-label="<?= e(t('Menu')) ?>" aria-expanded="false">☰</button>
       </div>
       <nav class="mainnav" aria-label="<?= e(t('Menu principal')) ?>">
@@ -164,7 +165,7 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
       <a href="<?= e(url('/contribuer/')) ?>"><?= e(t('Contribuer')) ?></a>
     </div>
     <div class="mobilemenu__btns">
-      <?php if (\App\Shop\ShopPages::visible()): ?><a class="hshop" href="<?= e(url('/boutique/')) ?>"><?= e(t('La boutique')) ?></a><?php endif; ?>
+      <?php if (\App\Shop\ShopPages::visible()): ?><a class="hshop" href="<?= e(url('/boutique/')) ?>"><?= e(t('La boutique')) ?></a><a class="hshop hshop--cart" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden><?= e(t('Mon panier')) ?> (<span data-cart-n>0</span>)</a><?php endif; ?>
       <a class="hdon" href="<?= e(url('/faire-un-don/')) ?>">♥ <?= e(t('Faire un don')) ?></a>
     </div>
     <?php if ($official !== ''): ?><a class="mobilemenu__official" href="<?= e($official) ?>" rel="noopener" target="_blank"><?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?> ↗</a><?php endif; ?>

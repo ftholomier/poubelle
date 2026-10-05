@@ -349,4 +349,10 @@
   $$('form[data-protect]').forEach(f => {
     f.addEventListener('submit', () => { $$('button[type=submit]', f).forEach(b => { b.disabled = true; }); });
   });
+  // Boutique : pastille du nombre d'articles du panier (cookie « sr_cart » posé par la boutique).
+  const cartN = parseInt((document.cookie.match(/(?:^|;\s*)sr_cart=(\d+)/) || [])[1] || '0', 10);
+  if (cartN > 0) {
+    $$('[data-cart-badge]').forEach(b => { b.hidden = false; b.title = cartN + (cartN > 1 ? ' articles' : ' article') + ' dans le panier'; });
+    $$('[data-cart-n]').forEach(n => { n.textContent = cartN > 99 ? '99+' : String(cartN); });
+  }
 })();

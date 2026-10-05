@@ -13,6 +13,7 @@ use App\Data\Collections;
 use App\Shop\Catalog;
 use App\Shop\Accounts;
 use App\Shop\Orders;
+use App\Shop\Promos;
 use App\Shop\TonMatch;
 
 $fail = 0;
@@ -47,6 +48,9 @@ Orders::$stripe = function ($method, $path, $params) use (&$calls) {
     }
     if (str_starts_with($path, 'checkout/sessions/')) {
         return ['id' => 'cs_test_1', 'payment_status' => 'paid', 'payment_intent' => 'pi_test_1', 'amount_total' => 5890, 'metadata' => ['commande' => $GLOBALS['oid']]];
+    }
+    if ($path === 'coupons') {
+        return ['id' => 'co_test_1'];
     }
     return ['id' => 're_1'];
 };
@@ -122,6 +126,19 @@ $o = Orders::get($o['id']);
 $eq('remboursement partiel de 10 € par Stripe', [$rf['cents'] ?? 0, $calls[0][1], $calls[0][2]['amount'], $o['refunded'], $o['status']], [1000, 'refunds', 1000, 1000, 'shipped']);
 Orders::refund($o['id'], 0, 'admin');
 $eq('remboursement du reste : commande remboursée', [Orders::get($o['id'])['refunded'], Orders::get($o['id'])['status']], [5890, 'refunded']);
+
+// 6. Codes promo.
+Promos::save(['code' => 'lion10', 'type' => 'percent', 'value' => 10, 'min' => 4000, 'once' => true]);
+Promos::save(['code' => 'PORT', 'type' => 'shipping', 'value' => 0, 'to' => date('Y-m-d', strtotime('-1 day'))]);
+$cart = [['model' => $m['id'], 'size' => 'M', 'qty' => 2, 'values' => ['phrase' => 'Né pour rugir.']]];
+$cust = ['name' => 'Léa Essai', 'email' => 'lea.essai@example.org', 'line1' => '3 rue du Stade', 'zip' => '25600', 'city' => 'Sochaux', 'country' => 'FR'];
+$eq('code promo refusé : inconnu, expiré, minimum non atteint', [isset(Orders::create($cart, $cust, 'NOPE')['error']), isset(Orders::create($cart, $cust, 'PORT')['error']), isset(Orders::create([array_replace($cart[0], ['qty' => 1])], $cust, 'LION10')['error'])], [true, true, true]);
+$calls = [];
+$po = Orders::create($cart, $cust, 'lion10')['order'];
+Orders::checkout($po, 'https://www.example.org');
+$eq('LION10 : −10 % (5 €), total 45 € + 5,90 € ; coupon Stripe du montant de la remise', [$po['discount'], $po['total'], $calls[0][1], $calls[0][2]['amount_off'], $calls[1][2]['discounts'][0]['coupon'] ?? ''], [500, 5090, 'coupons', 500, 'co_test_1']);
+Orders::markPaid($po['id'], 'pi_test_3', $po['total']);
+$eq('utilisation comptée au paiement ; une seule fois par client', [count(Promos::find('LION10')['uses']), Orders::create($cart, $cust, 'LION10')['error'] ?? ''], [1, 'Vous avez déjà utilisé ce code promo.']);
 
 // 5. Ton match.
 $v = TonMatch::values('1988-06-11');

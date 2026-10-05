@@ -104,6 +104,10 @@ HTML],
 </ul>
 [[img:boutique-tonmatch.webp|« Ton match » : le client choisit sa date, le poster se met à jour avec le match trouvé]]
 HTML],
+        ['id' => 'promos', 'title' => 'Les codes promo', 'admin' => true, 'html' => <<<'HTML'
+<p><b>Boutique › Codes promo</b> : créez un code (ex. CENTENAIRE) et choisissez la remise : <b>pourcentage</b>, <b>montant fixe</b> ou <b>livraison offerte</b>. Options : dates de validité, montant d’achats minimum, nombre d’utilisations maximum, une seule fois par client (même e-mail), limité à certains modèles. Décochez « Actif » pour le suspendre.</p>
+<p>Le client saisit le code dans son panier (« J’ai un code promo ») : la remise s’affiche aussitôt et elle est appliquée au paiement Stripe. Une utilisation n’est comptée que quand la commande est payée ; la liste des commandes qui ont utilisé un code est dans sa fiche.</p>
+HTML],
         ['id' => 'reglages', 'title' => 'Les réglages de la boutique', 'admin' => true, 'html' => <<<'HTML'
 <p><b>Boutique › Réglages</b> : ouverture de la boutique, frais de port et seuil de livraison offerte, délai annoncé, nom et e-mail de l’imprimeur, e-mail d’alerte de l’association à chaque commande payée, conditions de vente. La boutique est sur le site du musée (bouton « Boutique » dans l’en-tête et le pied de page des deux sites ; l’adresse /boutique/ du site de l’association y renvoie). Avant l’ouverture, seule l’équipe connectée la voit.</p>
 HTML],

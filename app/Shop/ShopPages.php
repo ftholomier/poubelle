@@ -144,6 +144,19 @@ final class ShopPages
         return (int) array_sum(array_map(fn ($l) => (int) ($l['qty'] ?? 1), self::cart()));
     }
 
+    /**
+     * Nombre d'articles du panier dans un petit cookie lisible par le script du site : la pastille
+     * du bouton « Boutique » s'affiche sur toutes les pages, même mises en cache.
+     */
+    private static function syncBadge(): void
+    {
+        if (headers_sent()) {
+            return;
+        }
+        $n = self::count();
+        setcookie('sr_cart', (string) $n, ['expires' => $n ? time() + 30 * 86400 : time() - 3600, 'path' => '/', 'samesite' => 'Lax', 'secure' => (($_SERVER['HTTPS'] ?? '') === 'on')]);
+    }
+
     public static function cartPage(Request $req): Response
     {
         if ($r = self::closed()) {
@@ -161,14 +174,25 @@ final class ShopPages
         }
         if (count($keep) !== count(self::cart())) {
             Session::set(self::CART, $keep);
+            self::syncBadge();
         }
         $sub = array_sum(array_column($lines, 'total'));
+        $promo = null;
+        if (($code = (string) Session::get('shop_promo', '')) !== '' && $lines) {
+            $promo = Promos::apply($code, $lines);
+            if (isset($promo['error'])) {
+                Session::forget('shop_promo');
+                $promo = null;
+            }
+        }
+        $discount = (int) ($promo['discount'] ?? 0);
         $flash = Session::pull('shop_flash');
         if (!$flash && $req->str('annule') === '1') {
             $flash = ['type' => 'info', 'msg' => 'Paiement annulé : rien n’a été prélevé. Votre panier vous attend.'];
         }
         return self::page('panier', [
-            'lines' => $lines, 'sub' => $sub, 'ship' => $lines ? Orders::shipping($sub) : 0, 'config' => Orders::config(), 'count' => self::count(),
+            'lines' => $lines, 'sub' => $sub, 'promo' => $promo, 'discount' => $discount,
+            'ship' => $lines ? (!empty($promo['free_shipping']) ? 0 : Orders::shipping($sub - $discount)) : 0, 'config' => Orders::config(), 'count' => self::count(),
             'flash' => $flash, 'old' => Session::pull('shop_old', []), 'payable' => Orders::payable(), 'test' => \App\Core\Settings::get('donations.mode', 'test') !== 'live',
         ], ['title' => 'Votre panier', 'noindex' => true]);
     }
@@ -200,7 +224,27 @@ final class ShopPages
             }
             $cart[] = ['model' => $r['item']['model'], 'size' => $r['item']['size'], 'qty' => $r['item']['qty'], 'values' => $r['item']['values'], 'opts' => $r['item']['opts']];
             Session::set(self::CART, $cart);
+            self::syncBadge();
             Session::set('shop_flash', ['type' => 'ok', 'msg' => '« ' . $r['item']['name'] . ' » ajouté au panier.']);
+            return Response::redirect(self::u('/boutique/panier/'));
+        }
+        if ($do === 'promo') {
+            $code = Promos::code((string) ($req->post['code'] ?? ''));
+            $items = array_values(array_filter(array_map(fn ($in) => Orders::line($in)['item'] ?? null, $cart)));
+            $r = $code !== '' ? Promos::apply($code, $items) : ['error' => 'Saisissez un code promo.'];
+            if (!RateLimiter::hit('boutique-promo', $req->ip(), 30, 3600)) {
+                $r = ['error' => 'Trop d’essais : réessayez dans une heure.'];
+            }
+            if (isset($r['error'])) {
+                Session::set('shop_flash', ['type' => 'error', 'msg' => $r['error']]);
+            } else {
+                Session::set('shop_promo', $r['code']);
+                Session::set('shop_flash', ['type' => 'ok', 'msg' => 'Code ' . $r['code'] . ' appliqué : ' . $r['label'] . '.']);
+            }
+            return Response::redirect(self::u('/boutique/panier/'));
+        }
+        if ($do === 'unpromo') {
+            Session::forget('shop_promo');
             return Response::redirect(self::u('/boutique/panier/'));
         }
         $i = (int) ($req->post['line'] ?? -1);
@@ -211,6 +255,7 @@ final class ShopPages
                 $cart[$i]['qty'] = max(1, min(20, (int) ($req->post['qty'] ?? 1)));
             }
             Session::set(self::CART, $cart);
+            self::syncBadge();
         }
         return Response::redirect(self::u('/boutique/panier/'));
     }
@@ -242,7 +287,7 @@ final class ShopPages
             Session::set('shop_flash', ['type' => 'error', 'msg' => $err]);
             return Response::redirect($back);
         }
-        $r = Orders::create(self::cart(), $p);
+        $r = Orders::create(self::cart(), $p, (string) Session::get('shop_promo', ''));
         if (isset($r['error'])) {
             Session::set('shop_flash', ['type' => 'error', 'msg' => $r['error']]);
             return Response::redirect($back);
@@ -254,6 +299,7 @@ final class ShopPages
             return Response::redirect($back);
         }
         Session::forget('shop_old');
+        Session::forget('shop_promo');
         Session::set('shop_pending', $r['order']['id']);
         return Response::redirect($pay['url']);
     }
@@ -273,6 +319,7 @@ final class ShopPages
         // Commande payée : le panier est vidé.
         if ($o['status'] !== 'pending' && Session::get('shop_pending') === $o['id']) {
             Session::forget(self::CART);
+            self::syncBadge();
             Session::forget('shop_pending');
         }
         $previews = [];

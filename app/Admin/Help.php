@@ -54,6 +54,7 @@ final class Help extends Base
         'boutique-commandes' => 'boutique#commandes',
         'boutique-reglages' => 'boutique#reglages',
         'boutique-releves' => 'boutique#releves',
+        'boutique-promos' => 'boutique#promos',
         'contributions' => 'communaute#contributions',
         'messages' => 'communaute#messages',
         'newsletter' => 'communaute#newsletter',
