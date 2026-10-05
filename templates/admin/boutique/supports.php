@@ -13,6 +13,7 @@ $form = function (array $s, bool $new = false) use ($mockups): string {
       <label class="f"><span class="f__k">Aperçu</span><select class="in" name="mockup"><?php foreach ($mockups as $k => $l): ?><option value="<?= e($k) ?>"<?= $s['mockup'] === $k ? ' selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select></label>
       <label class="f"><span class="f__k">Référence chez l’imprimeur</span><input class="in" name="ref" value="<?= e($s['ref']) ?>" placeholder="ex. TS-BIO-150"></label>
       <label class="f"><span class="f__k">Coût de fabrication chez l’imprimeur (€ TTC / article)</span><input class="in" type="number" step="0.01" min="0" name="cost" value="<?= e(number_format(($s['cost'] ?? 0) / 100, 2, '.', '')) ?>"></label>
+      <label class="f"><span class="f__k">Commission de l’imprimeur (% du prix de vente TTC ; 0 : coût fixe ci-dessus)</span><input class="in" type="number" step="0.1" min="0" max="100" name="rate" value="<?= e(rtrim(rtrim(number_format((float) ($s['rate'] ?? 0), 2, '.', ''), '0'), '.')) ?>"></label>
       <label class="f"><span class="f__k">Tailles (séparées par des virgules)</span><input class="in" name="sizes" value="<?= e(implode(', ', $s['sizes'])) ?>" placeholder="S, M, L, XL"></label>
     </div>
     <div class="f"><span class="f__k">Faces imprimables (mm)</span>

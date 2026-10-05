@@ -77,6 +77,7 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
         <h2 class="card__t card__t--sm">Vente <span class="xs muted">(sans prix, le modèle n’apparaît pas dans la boutique)</span></h2>
         <div class="pgrid">
           <label class="f"><span class="f__k">Prix TTC (€)</span><input class="in in--sm" type="number" min="0" step="0.5" data-sale-price value="<?= e(number_format($model['sale']['price'] / 100, 2, '.', '')) ?>"></label>
+          <label class="f"><span class="f__k">Commission imprimeur (%)</span><input class="in in--sm" type="number" min="0" max="100" step="0.1" data-sale-rate placeholder="<?= e($support['rate'] > 0 ? rtrim(rtrim(number_format($support['rate'], 2, '.', ''), '0'), '.') . ' (support)' : 'coût fixe') ?>" value="<?= $model['sale']['rate'] !== null ? e(rtrim(rtrim(number_format($model['sale']['rate'], 2, '.', ''), '0'), '.')) : '' ?>"></label>
           <?php foreach ($support['sizes'] as $sz): if (count($support['sizes']) < 2) { break; } ?>
           <label class="f"><span class="f__k">Supplément <?= e($sz) ?> (€)</span><input class="in in--sm" type="number" min="0" step="0.5" data-sale-extra="<?= e($sz) ?>" value="<?= isset($model['sale']['extra'][$sz]) ? e(number_format($model['sale']['extra'][$sz] / 100, 2, '.', '')) : '' ?>"></label>
           <?php endforeach; ?>
@@ -87,7 +88,7 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
           <?php foreach ($support['colors'] as $cn => $hex): ?><label class="toggle"><input type="checkbox" data-sale-color value="<?= e($hex) ?>"<?= in_array($hex, $model['sale']['colors'], true) ? ' checked' : '' ?>><span class="toggle__box"></span><span><i class="dot" style="background:<?= e($hex) ?>"></i> <?= e($cn) ?></span></label><?php endforeach; ?>
         </div></div>
         <?php endif; ?>
-        <div class="f"><span class="f__k">Couleurs des textes du client (vide : celle du modèle)</span><div class="row" style="gap:8px;flex-wrap:wrap">
+        <div class="f"><span class="f__k">Couleurs des textes proposées en plus de Jaune, Bleu nuit et Blanc (le client ne voit que celles lisibles sur la couleur du produit choisie)</span><div class="row" style="gap:8px;flex-wrap:wrap">
           <?php foreach ($palette as $cn => $hex): ?><label class="toggle" title="<?= e($cn) ?>"><input type="checkbox" data-sale-tcolor value="<?= e($hex) ?>"<?= in_array($hex, $model['sale']['text_colors'], true) ? ' checked' : '' ?>><span class="toggle__box"></span><span><i class="dot" style="background:<?= e($hex) ?>"></i></span></label><?php endforeach; ?>
         </div></div>
         <label class="toggle"><input type="checkbox" data-sale-tsizes<?= $model['sale']['text_sizes'] ? ' checked' : '' ?>><span class="toggle__box"></span><span>Taille du texte au choix (petit, moyen, grand)</span></label>

@@ -79,6 +79,8 @@ final class Catalog
             'ref' => (string) ($s['ref'] ?? ''), 'note' => (string) ($s['note'] ?? ''),
             // Coût de fabrication chez l'imprimeur (centimes TTC par article) : relevés et marge.
             'cost' => max(0, min(100000, (int) ($s['cost'] ?? 0))),
+            // Commission de l'imprimeur (% du prix de vente TTC) ; 0 : on retient le coût fixe ci-dessus.
+            'rate' => round(max(0.0, min(100.0, (float) ($s['rate'] ?? 0))), 2),
             'active' => (bool) ($s['active'] ?? true), 'custom' => !isset(self::DEFAULTS[$key]),
         ];
     }
@@ -151,7 +153,50 @@ final class Catalog
             'desc' => mb_substr(trim((string) ($s['desc'] ?? '')), 0, 600),
             'colors' => $colors ?: array_values($sup['colors']), 'text_colors' => array_slice($tcolors, 0, 8),
             'text_sizes' => !empty($s['text_sizes']), 'positions' => !empty($s['positions']),
+            // Taux de commission propre au modèle (null : celui du support).
+            'rate' => isset($s['rate']) && $s['rate'] !== '' && $s['rate'] !== null ? round(max(0.0, min(100.0, (float) $s['rate'])), 2) : null,
         ];
+    }
+
+    /** Couleurs de texte toujours proposées (charte), en plus de celles cochées dans le modèle. */
+    public const TEXT_BASE = ['#F6C400', '#0E1F4D', '#FFFFFF'];
+
+    /** Contraste WCAG entre deux couleurs (1 à 21). */
+    public static function contrast(string $a, string $b): float
+    {
+        $lum = function (string $h): float {
+            $h = ltrim($h, '#');
+            $c = array_map(fn ($i) => hexdec(substr($h, $i, 2)) / 255, [0, 2, 4]);
+            $c = array_map(fn ($v) => $v <= 0.03928 ? $v / 12.92 : (($v + 0.055) / 1.055) ** 2.4, $c);
+            return 0.2126 * $c[0] + 0.7152 * $c[1] + 0.0722 * $c[2];
+        };
+        [$x, $y] = [$lum($a), $lum($b)];
+        return (max($x, $y) + 0.05) / (min($x, $y) + 0.05);
+    }
+
+    /** Couleurs de texte proposées au client : celles du modèle + la charte. */
+    public static function textChoices(array $m): array
+    {
+        return array_values(array_unique(array_merge($m['sale']['text_colors'], self::TEXT_BASE)));
+    }
+
+    /** Lisible sur la couleur du produit ? (contraste d'au moins 3). */
+    public static function readable(string $text, string $product): bool
+    {
+        return self::contrast($text, $product) >= 3.0;
+    }
+
+    /** Taux de commission de l'imprimeur pour un modèle (%, 0 : coût fixe du support). */
+    public static function rate(array $m, array $sup): float
+    {
+        return $m['sale']['rate'] ?? $sup['rate'];
+    }
+
+    /** Part de l'imprimeur sur un article vendu à $unit centimes : commission en %, sinon coût fixe. */
+    public static function printerShare(array $m, array $sup, int $unit): int
+    {
+        $r = self::rate($m, $sup);
+        return $r > 0 ? (int) round($unit * $r / 100) : (int) $sup['cost'];
     }
 
     /** En vente : prêt, avec un prix, sur un support actif. */
@@ -194,7 +239,7 @@ final class Catalog
             $opt['color'] = $m['color'] = $c;
         }
         $tc = strtoupper((string) ($o['tcolor'] ?? ''));
-        if ($tc !== '' && in_array($tc, $s['text_colors'], true) && $tc !== $m['color']) {
+        if ($tc !== '' && in_array($tc, self::textChoices($m), true) && self::readable($tc, $m['color'])) {
             $opt['tcolor'] = $tc;
         }
         if ($s['text_sizes'] && isset(self::TEXT_SIZES[$o['tsize'] ?? ''])) {
@@ -211,6 +256,12 @@ final class Catalog
                 if (($l['type'] ?? '') === 'text' && ($l['mode'] ?? '') === 'client') {
                     if ($opt['tcolor'] !== '') {
                         $l['color'] = $opt['tcolor'];
+                    } elseif (!self::readable(Vector::hex($l['color'] ?? '#0E1F4D', '#0E1F4D'), $face['bg'] !== '' ? Vector::hex($face['bg'], $m['color']) : $m['color'])) {
+                        // Couleur du modèle illisible sur ce produit : la couleur de la charte la plus contrastée.
+                        $bg = $face['bg'] !== '' ? Vector::hex($face['bg'], $m['color']) : $m['color'];
+                        $cands = self::TEXT_BASE;
+                        usort($cands, fn ($a, $b) => self::contrast($b, $bg) <=> self::contrast($a, $bg));
+                        $l['color'] = $cands[0];
                     }
                     if ($f !== 1.0) {
                         $l['size'] = round((float) ($l['size'] ?? 24) * $f, 2);

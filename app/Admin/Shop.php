@@ -137,6 +137,7 @@ final class Shop extends Base
             'sizes' => array_values(array_filter(array_map('trim', explode(',', $req->str('sizes'))))),
             'ref' => trim($req->str('ref')), 'note' => trim($req->str('note')), 'active' => $req->str('active') === '1',
             'cost' => (int) round((float) str_replace(',', '.', $req->str('cost')) * 100),
+            'rate' => (float) str_replace(',', '.', $req->str('rate')),
         ];
         $key = Catalog::saveSupport($key, $data, Auth::user());
         Activity::log(self::actor(), 'a modifié le support « ' . $name . ' » de la boutique', ['path' => '/admin/boutique/supports']);

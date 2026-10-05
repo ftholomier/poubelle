@@ -133,7 +133,8 @@ final class Orders
         return ['item' => [
             'model' => $m['id'], 'name' => $m['name'], 'support' => $sup['name'], 'size' => $sup['sizes'] ? $size : '',
             'color' => $opt['color'], 'color_name' => (string) (array_search($opt['color'], $sup['colors'], true) ?: ''),
-            'opts' => $opt, 'values' => $chk['values'], 'qty' => $qty, 'unit' => $unit, 'total' => $unit * $qty, 'cost' => (int) $sup['cost'],
+            'opts' => $opt, 'values' => $chk['values'], 'qty' => $qty, 'unit' => $unit, 'total' => $unit * $qty,
+            'cost' => Catalog::printerShare($m, $sup, $unit), 'rate' => Catalog::rate($m, $sup),
         ]];
     }
 

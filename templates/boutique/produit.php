@@ -65,10 +65,10 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
         <?php endforeach; ?>
       </fieldset>
       <?php endif; ?>
-      <?php if ($s['text_colors'] && $fields): ?>
+      <?php if ($fields): $tchoices = Catalog::textChoices($m); $tdef = ''; foreach ($tchoices as $hex) { if (Catalog::readable($hex, $m['color'])) { $tdef = $hex; break; } } ?>
       <fieldset class="shopopt"><legend>Couleur du texte</legend>
-        <?php foreach ($s['text_colors'] as $i => $hex): ?>
-        <label class="shopsw" title="<?= e($tnames[$hex] ?? $hex) ?>"><input type="radio" name="opts[tcolor]" value="<?= e($hex) ?>"<?= $i ? '' : ' checked' ?> data-shop-in><span style="background:<?= e($hex) ?>"></span><em><?= e($tnames[$hex] ?? '') ?></em></label>
+        <?php foreach ($tchoices as $hex): ?>
+        <label class="shopsw" title="<?= e($tnames[$hex] ?? $hex) ?>"><input type="radio" name="opts[tcolor]" value="<?= e($hex) ?>"<?= $hex === $tdef ? ' checked' : '' ?> data-shop-in><span style="background:<?= e($hex) ?>"></span><em><?= e($tnames[$hex] ?? '') ?></em></label>
         <?php endforeach; ?>
       </fieldset>
       <?php endif; ?>

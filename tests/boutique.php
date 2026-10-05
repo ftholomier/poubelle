@@ -111,6 +111,12 @@ $last = end($sl['items']);
 $eq('IA : doublons écartés, nouvelles phrases « à valider », pas encore proposées au client', [$n, $last['text'], $last['ok'], count(Texts::choices('slogans'))], [2, 'Le lion ne s’excuse pas.', false, 46]);
 Texts::$ai = null;
 
+// 6 bis. Commission de l'imprimeur : taux du modèle, sinon du support, sinon coût fixe.
+$supR = ['rate' => 30.0, 'cost' => 700];
+$eq('commission imprimeur : taux du modèle, du support, ou coût fixe', [
+    Catalog::printerShare(['sale' => ['rate' => 25.0]], $supR, 2000), Catalog::printerShare(['sale' => ['rate' => null]], $supR, 2000),
+    Catalog::printerShare(['sale' => ['rate' => null]], ['rate' => 0.0, 'cost' => 700], 2000),
+], [500, 600, 700]);
 // 7. Accès.
 $eq('écrans de la boutique réservés aux administrateurs', [Router::adminOnly('/admin/boutique'), Router::adminOnly('/admin/boutique/modeles/abc/pdf'), Router::adminOnly('/admin/boutique/textes')], [true, true, true]);
 

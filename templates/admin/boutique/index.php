@@ -26,9 +26,20 @@ $monthsFr = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août',
   <div class="kpi kpi--yellow"><b><?= e($m($d['day']['sales'])) ?></b><span>aujourd’hui</span><small><?= $d['day']['orders'] ?> commande<?= $d['day']['orders'] > 1 ? 's' : '' ?></small></div>
   <div class="kpi"><b><?= e($m($d['month']['sales'])) ?></b><span>ce mois-ci</span><small><?= $d['month']['orders'] ?> commandes · panier moyen <?= e($m($d['month']['basket'])) ?></small></div>
   <div class="kpi"><b><?= e($m($d['year']['sales'])) ?></b><span>cette année</span><small><?= $d['year']['items'] ?> articles vendus</small></div>
-  <div class="kpi"><b><?= e($m($d['year']['margin'])) ?></b><span>marge de l’année</span><small>après remboursements, frais Stripe (<?= e($m($d['year']['fees'])) ?>) et fabrication</small></div>
   <a class="kpi" href="/admin/boutique/commandes?statut=paid"><b><?= $d['todo']['paid'] ?></b><span>à fabriquer</span><small><?= $d['todo']['production'] ?> en fabrication · <?= $d['todo']['shipped'] ?> expédiées</small></a>
 </div>
+<section class="card">
+  <div class="card__head"><h2 class="card__t">Partage des ventes</h2><span class="card__note">commission de l’imprimeur réglée par support ou par modèle (taux en %)</span></div>
+  <table class="xs" style="width:100%">
+    <thead><tr><th style="text-align:left"></th><th>CA complet</th><th>Commission imprimeur</th><th>Remboursements et frais Stripe</th><th>Marge de l’association</th></tr></thead>
+    <tbody>
+    <?php foreach (['month' => 'Ce mois-ci', 'year' => 'Cette année', 'all' => 'Depuis l’ouverture'] as $pk => $pl): $p = $d[$pk]; ?>
+      <tr><td><b><?= e($pl) ?></b></td><td style="text-align:right"><?= e($m($p['sales'])) ?></td><td style="text-align:right"><?= e($m($p['cost'] + $p['ship_cost'])) ?><br><span class="muted">fabrication <?= e($m($p['cost'])) ?> · envois <?= e($m($p['ship_cost'])) ?></span></td><td style="text-align:right">−<?= e($m($p['refunds'] + $p['fees'])) ?></td><td style="text-align:right"><b><?= e($m($p['margin'])) ?></b></td></tr>
+    <?php endforeach; ?>
+    </tbody>
+  </table>
+  <p class="xs muted" style="margin:6px 0 0">La marge de l’association est la somme à refacturer à l’imprimeur si c’est lui qui encaisse ; si l’association encaisse (Stripe), c’est la commission qu’on lui reverse (relevés mensuels).</p>
+</section>
 <div class="cols" style="align-items:start">
   <section class="card card--pad">
     <h2 class="card__t">Ventes des 12 derniers mois</h2>

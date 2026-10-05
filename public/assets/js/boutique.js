@@ -34,11 +34,13 @@
   };
   const soon = (ms = 250) => { clearTimeout(timer); timer = setTimeout(render, ms); };
   form.addEventListener('input', e => { if (e.target.closest('[data-shop-in]')) soon(e.target.type === 'text' ? 350 : 60); });
-  // Texte jamais de la même couleur que le produit (il serait illisible).
+  // Couleurs du texte : seules celles lisibles sur la couleur du produit (contraste WCAG ≥ 3) sont proposées.
+  const lum = h => { const c = [1, 3, 5].map(i => parseInt(h.replace('#', '').padEnd(7, '0').slice(i - 1, i + 1), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+  const contrast = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
   const guard = () => {
     const pc = (form.querySelector('[name="opts[color]"]:checked') || {}).value || root.dataset.color || '';
     const tcs = [...form.querySelectorAll('[name="opts[tcolor]"]')];
-    tcs.forEach(r => { const same = r.value.toUpperCase() === pc.toUpperCase(); r.disabled = same; r.closest('label').classList.toggle('is-off', same); });
+    tcs.forEach(r => { const off = !pc || contrast(r.value, pc) < 3; r.disabled = off; r.closest('label').hidden = off; });
     const cur = tcs.find(r => r.checked);
     if (cur && cur.disabled) { const ok = tcs.find(r => !r.disabled); if (ok) ok.checked = true; }
   };
