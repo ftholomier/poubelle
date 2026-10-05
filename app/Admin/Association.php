@@ -166,6 +166,7 @@ final class Association extends Base
                     'text' => ['Texte', 'html', []],
                     'image' => ['Photo (à gauche ; en haut sur téléphone)', 'image', []],
                     'image_caption' => ['Légende de la photo', 'text', ['max' => 120, 'full' => true]],
+                    'image_credit' => ['Crédit de la photo', 'text', ['max' => 120, 'full' => true, 'placeholder' => 'Photographe, journal, club…']],
                     'badge' => ['Pastille sur la photo', 'text', ['max' => 24, 'placeholder' => 'Bientôt']],
                     'items_title' => ['Titre de la liste', 'text', ['max' => 80, 'placeholder' => 'Ce qui vous attend']],
                     'countdown' => ['Afficher un compte à rebours', 'bool', []],
@@ -231,7 +232,7 @@ final class Association extends Base
             'slug' => Form::text($p . $k, $label, (string) ($v ?? ''), ['maxlength' => $o['max'] ?? 80, 'placeholder' => 'rempli d’après le titre', 'hint' => 'lettres, chiffres, tirets', 'class' => $cls ?: (($o['max'] ?? 80) >= 60 ? 'f--2' : '')]),
             'file' => self::fileField($p . $k, $label, (string) ($v ?? '')),
             'lines' => Form::lines($p . $k, $label, is_array($v) ? $v : [], ['add' => 'Ajouter un point']),
-            default => Form::text($p . $k, $label, (string) ($v ?? ''), ['maxlength' => $o['max'] ?? 300, 'placeholder' => $o['placeholder'] ?? '', 'class' => $cls, 'proof' => true]),
+            default => Form::text($p . $k, $label, (string) ($v ?? ''), ['maxlength' => $o['max'] ?? 300, 'placeholder' => $o['placeholder'] ?? '', 'class' => $cls, 'proof' => true, 'help' => $help]),
         };
     }
 

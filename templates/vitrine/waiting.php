@@ -2,11 +2,12 @@
 /**
  * Page d'attente du site de l'association (site fermé, ou aperçu depuis le back-office).
  * Volontairement différente de celle du musée (fond bleu nuit, tout centré) : page claire en deux
- * colonnes, photo à gauche avec sa pastille, « ce qui vous attend », inscription à la lettre,
+ * colonnes, photo à gauche avec sa pastille, sa légende et son crédit, « ce qui vous attend », inscription à la lettre,
  * encart du musée en ligne, contact. Réglée dans Site de l'association › Page d'attente.
  * Variables : $w (contenu « attente »), $museumOpen, $teaser, $email, $social, $preview
  */
 use App\Data\Media;
+use App\Vitrine\Content;
 use App\Vitrine\Host;
 use App\Vitrine\Site;
 
@@ -16,6 +17,7 @@ $text = safe_html((string) ($w['text'] ?? ''));
 $image = (string) ($w['image'] ?? '');
 $hasImage = $image !== '' && Media::get($image);
 $caption = trim((string) ($w['image_caption'] ?? ''));
+$credit = Content::waitingCredit($w);
 $badge = trim((string) ($w['badge'] ?? ''));
 $items = array_values(array_filter((array) ($w['items'] ?? []), fn ($it) => is_array($it) && trim((string) ($it['title'] ?? '')) !== ''));
 $cdDate = str_replace(' ', 'T', (string) ($w['countdown_date'] ?? ''));
@@ -49,7 +51,12 @@ $desc = mb_substr(trim((string) preg_replace('/\s+/u', ' ', strip_tags($text))),
   <div class="vwait__photo<?= $hasImage ? '' : ' vwait__photo--none' ?>">
     <?php if ($hasImage): ?><img src="<?= e(img($image, 1600)) ?>" srcset="<?= e(srcset($image, [800, 1200, 1600])) ?>" sizes="(max-width: 900px) 100vw, 44vw" alt="<?= e($caption) ?>" fetchpriority="high"><?php endif; ?>
     <?php if ($badge !== ''): ?><span class="vwait__badge"><?= e($badge) ?></span><?php endif; ?>
-    <?php if ($caption !== '' && $hasImage): ?><span class="vwait__caption" aria-hidden="true"><?= e($caption) ?></span><?php endif; ?>
+    <?php if ($hasImage && ($caption !== '' || $credit !== '')): ?>
+      <div class="vwait__legend">
+        <?php if ($caption !== ''): ?><span class="vwait__caption" aria-hidden="true"><?= e($caption) ?></span><?php endif; ?>
+        <?php if ($credit !== ''): ?><small class="vwait__credit">Photo : <?= e($credit) ?></small><?php endif; ?>
+      </div>
+    <?php endif; ?>
   </div>
 
   <div class="vwait__main">

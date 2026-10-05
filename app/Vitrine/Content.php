@@ -56,7 +56,12 @@ final class Content
      */
     public static function waiting(): array
     {
-        $w = Store::get('attente') + Store::defaults('attente');
+        $saved = Store::get('attente');
+        $w = $saved + Store::defaults('attente');
+        // Page enregistrée avant le champ « Crédit » : le crédit de départ ne vaut que pour la photo de départ.
+        if (!array_key_exists('image_credit', $saved) && ($w['image'] ?? '') !== (Store::defaults('attente')['image'] ?? '')) {
+            $w['image_credit'] = '';
+        }
         if (Store::isDefault('attente')) {
             foreach (['title' => 'vitrine.waiting_title', 'text' => 'vitrine.waiting_text'] as $k => $key) {
                 $v = trim((string) Settings::get($key, ''));
@@ -66,6 +71,31 @@ final class Content
             }
         }
         return $w;
+    }
+
+    /**
+     * Crédit affiché sur la photo de la page d'attente (« Photo : … ») : celui saisi dans l'écran de
+     * la page, sinon celui de la photo dans la médiathèque ; vide sans photo.
+     */
+    public static function waitingCredit(array $w): string
+    {
+        $image = (string) ($w['image'] ?? '');
+        $m = $image !== '' ? Media::get($image) : null;
+        if (!$m) {
+            return '';
+        }
+        return self::credit(trim((string) ($w['image_credit'] ?? '')) ?: (string) ($m['credit'] ?? ''));
+    }
+
+    /** Crédit sans « © », « Crédit photo : »… de tête (« Photo : » est ajouté à l'affichage). */
+    public static function credit(string $raw): string
+    {
+        $s = trim((string) preg_replace('/\s+/u', ' ', $raw));
+        do {
+            $before = $s;
+            $s = trim((string) preg_replace('/^(?:(?:cr[ée]dits?(?:\s+photos?)?|photos?)(?!\p{L})\s*[:.\-–]?|©|\(c\))\s*/iu', '', $s));
+        } while ($s !== $before && $s !== '');
+        return $s;
     }
 
     // ------------------------------------------------------------------ actions

@@ -448,7 +448,8 @@ administrateurs ; les autres comptes ne le voient pas et n'y ont pas accès.
   chèques attendus, propositions de bénévolat, messages reçus, audience.
 - **Page d'attente** : celle du site de l'association, montrée tant qu'il est fermé, distincte
   de celle du musée (page claire en deux colonnes, photo de la tribune de Bonal « qui attend
-  son public » et pastille « Bientôt »). Texte et photo, liste « Ce qui vous attend »,
+  son public », créditée « Photo : FC Sochaux-Montbéliard », et pastille « Bientôt »). Texte
+  et photo (légende, crédit : vide, celui de la médiathèque), liste « Ce qui vous attend »,
   inscription à la lettre « Ce jour-là » (elle fonctionne site fermé), encart du musée en
   ligne (bouton « Visiter le musée » une fois celui-ci ouvert, teaser vidéo facultatif),
   e-mail et réseaux sociaux, compte à rebours facultatif. « Aperçu de la page d'attente »

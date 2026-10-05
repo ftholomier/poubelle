@@ -927,7 +927,10 @@ même site fermé ; sinon 404 du site.
   distincte de celle du musée (`Front\Pages::waiting()`, réglages `waiting.*`). Contenu
   `attente` du Store (`Content::waiting()` : enregistré, sinon `app/Resources/vitrine/attente.php` ;
   un titre ou un texte saisi dans les anciens réglages `vitrine.waiting_title/_text` est repris
-  tant que la page n'a pas été enregistrée). Écran : pavé › Page d'attente
+  tant que la page n'a pas été enregistrée). Crédit de la photo (`Content::waitingCredit()`) :
+  champ `image_credit`, sinon le crédit de la médiathèque, « © » ou « Crédit photo : » de tête
+  retirés, affiché « Photo : … » sous la légende ; une page enregistrée avant ce champ ne prend
+  le crédit de départ que si elle garde la photo de départ. Écran : pavé › Page d'attente
   (`Association::waitingEdit()`, enregistrement par `/admin/association/contenus/attente`).
   503 + `Retry-After`, `noindex`, `no-store` ; 200 dans l'aperçu
   (`/apercu-association/?apercu-attente=1`, bandeau « Modifier », la lettre y ramène).

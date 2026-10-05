@@ -29,7 +29,7 @@ HTML],
 <p>Tant que le site est fermé, les visiteurs de www.fcsochauxretro.com ne voient qu’une <b>page d’attente</b> : celle du site de l’association, différente de celle du musée (Éditorial › Page d’attente), et réglée à part dans <b>Site de l’association › Page d’attente</b>.</p>
 [[img:association-attente.webp|L’écran Page d’attente : (1) état et ouverture du site, (2) aperçu de la page d’attente, (3) texte et photo, (4) la liste « Ce qui vous attend », (5) les blocs affichés, (6) le compte à rebours]]
 <ul>
-<li><b>Texte et photo</b> : surtitre, titre, texte, photo (à gauche ; en haut sur téléphone), sa légende et la pastille « Bientôt » posée dessus.</li>
+<li><b>Texte et photo</b> : surtitre, titre, texte, photo (à gauche ; en haut sur téléphone), sa légende, son <b>crédit</b> (affiché sous la légende, « Photo : … » ; laissé vide, c’est celui de la photo dans la médiathèque) et la pastille « Bientôt » posée dessus.</li>
 <li><b>Ce qui vous attend</b> : ce que le site proposera, quatre éléments au plus ; liste vide, bloc masqué.</li>
 <li><b>Blocs de la page</b> : inscription à la lettre « Ce jour-là » (elle fonctionne site fermé), encart du musée en ligne (avec le bouton « Visiter le musée » dès qu’il est ouvert, et le teaser vidéo si vous le cochez), e-mail de l’association, réseaux sociaux.</li>
 <li><b>Compte à rebours</b> : jusqu’à l’ouverture prévue ; il disparaît de lui-même une fois la date passée.</li>

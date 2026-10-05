@@ -91,6 +91,7 @@ $r = $req('www.fcsochauxretro.com', '/');
 $eq('fermé : page d’attente 503, non indexée', [$r->status, $r->headers['X-Robots-Tag'] ?? '', $r->headers['Retry-After'] ?? '', str_contains($r->body, 'Notre nouveau site arrive')], [503, 'noindex, nofollow', '3600', true]);
 $eq('page d’attente : la sienne (pas celle du musée), liste, lettre, encart du musée', [str_contains($r->body, '<main class="vwait">'), str_contains($r->body, 'class="waiting"'), substr_count($r->body, '<li><span class="vwait__icon"'), str_contains($r->body, 'id="nl-wait"'), str_contains($r->body, 'vwait__museum')], [true, false, 4, true, true]);
 $eq('page d’attente : aucun lien vers le back-office ni vers l’aperçu', [str_contains($r->body, '/admin'), str_contains($r->body, 'apercu-association')], [false, false]);
+$eq('page d’attente : crédit de la photo de départ (image du site officiel du FCSM)', str_contains($r->body, '<small class="vwait__credit">Photo : FC Sochaux-Montbéliard</small>'), true);
 $eq('page d’attente : crédit du développement', [str_contains($r->body, 'Site développé par <span class="vcredit">Frédéric Tholomier | <a href="https://le-digital.com/"'), str_contains($r->body, '>LE-DIGITAL.com</a>')], [true, true]);
 $eq('page d’attente : sur toutes les adresses du site', [$req('www.fcsochauxretro.com', '/agenda/')->status, $req('www.fcsochauxretro.com', '/nous-soutenir/adherer/')->status], [503, 503]);
 $r = $req('www.fcsochauxretro.com', '/newsletter/', 'POST', [], ['email' => 'robot@example.org', 'website' => 'http://spam', '_ts' => form_ts(), 'back' => '/', 'anchor' => 'nl-wait']);
@@ -105,6 +106,28 @@ $eq('lettre masquée : l’inscription n’est plus servie site fermé', $req('w
 $eq('teaser montré : servi site fermé', $req('www.fcsochauxretro.com', '/video/teaser.jpg')->status, is_file(APP_DIR . '/Resources/video/teaser.jpg') ? 200 : 503);
 \App\Core\JsonStore::write(Store::DIR . '/attente.json', ['countdown' => true, 'countdown_date' => '2020-01-01 10:00'] + Store::defaults('attente'));
 $eq('compte à rebours dont la date est passée : masqué', str_contains($req('www.fcsochauxretro.com', '/')->body, 'data-countdown="'), false);
+$eq('crédit : « © », « Crédit photo : », « Photo » de tête retirés', [Content::credit('© Lionel Vadam'), Content::credit(' Crédit photo : L’Est Républicain'), Content::credit('Photo © Pierre Lorius'), Content::credit('Photographe inconnu'), Content::credit('©')], ['Lionel Vadam', 'L’Est Républicain', 'Pierre Lorius', 'Photographe inconnu', '']);
+$other = null;
+foreach (Media::all() as $rel => $m) {
+    if ((string) $rel !== Store::defaults('attente')['image'] && preg_match('/\.(jpe?g|png|webp)$/i', (string) $rel) && trim((string) ($m['credit'] ?? '')) !== '') {
+        $other = (string) $rel;
+        break;
+    }
+}
+$saved = Store::defaults('attente');
+unset($saved['image_credit']);
+\App\Core\JsonStore::write(Store::DIR . '/attente.json', ['image' => $other] + $saved);
+Store::forget();
+$eq('page enregistrée avant le champ « Crédit », autre photo : crédit de la médiathèque, pas celui de départ', Content::waitingCredit(Content::waiting()), Content::credit((string) Media::get((string) $other)['credit']));
+\App\Core\JsonStore::write(Store::DIR . '/attente.json', $saved);
+Store::forget();
+$eq('page enregistrée avant le champ, photo de départ : crédit de départ', Content::waitingCredit(Content::waiting()), 'FC Sochaux-Montbéliard');
+\App\Core\JsonStore::write(Store::DIR . '/attente.json', ['image_credit' => '© Jean Essai'] + Store::defaults('attente'));
+Store::forget();
+$eq('crédit saisi : affiché sur la photo, sans « © » en double', str_contains($req('www.fcsochauxretro.com', '/')->body, '<small class="vwait__credit">Photo : Jean Essai</small>'), true);
+\App\Core\JsonStore::write(Store::DIR . '/attente.json', ['image' => null] + Store::defaults('attente'));
+Store::forget();
+$eq('sans photo : ni légende ni crédit', [Content::waitingCredit(Content::waiting()), str_contains($req('www.fcsochauxretro.com', '/')->body, 'vwait__legend')], ['', false]);
 @unlink(Store::DIR . '/attente.json');
 Store::forget();
 $setting(['vitrine.waiting_title' => 'Un titre réglé avant l’écran dédié']);

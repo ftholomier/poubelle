@@ -442,7 +442,9 @@ a.vpartner:hover img { filter: none; }
 .vwait__photo--none { background: repeating-linear-gradient(135deg, var(--navy) 0 34px, var(--navy-2) 34px 68px); }
 .vwait__photo--none::after { display: none; }
 .vwait__badge { position: absolute; z-index: 2; right: clamp(18px, 3vw, 44px); top: 38%; transform: rotate(-7deg); background: var(--yellow); color: var(--navy); border: 3px solid var(--navy); box-shadow: 8px 8px 0 var(--navy); font-family: var(--display); font-weight: 900; font-size: clamp(34px, 4.4vw, 68px); line-height: 1; text-transform: uppercase; letter-spacing: .02em; padding: 12px 22px 10px; animation: vwait-badge 1.2s var(--bounce) .25s both; }
-.vwait__caption { position: absolute; z-index: 2; left: clamp(18px, 3vw, 40px); right: clamp(18px, 3vw, 40px); bottom: clamp(18px, 3vw, 34px); color: var(--cream); font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; }
+.vwait__legend { position: absolute; z-index: 2; left: clamp(18px, 3vw, 40px); right: clamp(18px, 3vw, 40px); bottom: clamp(18px, 3vw, 34px); display: flex; flex-direction: column; gap: 6px; color: var(--cream); }
+.vwait__caption { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; }
+.vwait__credit { font-size: 14px; line-height: 1.3; opacity: .9; }
 .vwait__main { display: flex; flex-direction: column; gap: clamp(26px, 3.4vw, 40px); padding: clamp(28px, 4.4vw, 64px) clamp(20px, 5.4vw, 88px) clamp(28px, 3vw, 40px); max-width: 860px; animation: vwait-in .7s var(--ease) both; }
 .vwait__brand { display: flex; align-items: center; gap: 12px; color: var(--navy); }
 .vwait__brand img { height: 58px; width: auto; }
@@ -489,13 +491,14 @@ a.vpartner:hover img { filter: none; }
 @media (max-width: 900px) {
   .vt .vwait { grid-template-columns: minmax(0, 1fr); }
   .vwait__photo { position: relative; height: clamp(240px, 46vh, 420px); border-right: 0; border-bottom: 8px solid var(--yellow); }
-  .vwait__badge { top: auto; bottom: 54px; right: 18px; box-shadow: 6px 6px 0 var(--navy); }
+  .vwait__badge { top: 22px; right: 18px; box-shadow: 6px 6px 0 var(--navy); }
   .vwait__main { max-width: none; }
 }
 @media (max-width: 560px) {
   .vwait__brand img { height: 48px; }
   .vwait__brand b { font-size: 22px; }
   .vwait__caption { font-size: 13px; letter-spacing: .1em; }
+  .vwait__credit { font-size: 12.5px; }
   .vwait__foot { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; }
   .vwait__legal { flex-basis: auto; }
 }

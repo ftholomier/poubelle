@@ -12,6 +12,7 @@ return [
     'text' => '<p>Sochaux Rétro prépare le site de son association : nos actions, l’agenda des rendez-vous, l’adhésion en ligne et toutes les façons de nous rejoindre.</p><p>Comme à Bonal avant le coup d’envoi, tout se met en place. Encore un peu de patience !</p>',
     'image' => '2024/02/1.-bonal.jpeg',
     'image_caption' => 'La tribune présidentielle de Bonal attend son public',
+    'image_credit' => 'FC Sochaux-Montbéliard',
     'badge' => 'Bientôt',
     'items_title' => 'Ce qui vous attend',
     'items' => [

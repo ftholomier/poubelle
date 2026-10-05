@@ -7,11 +7,21 @@
 use App\Admin\Association;
 use App\Admin\Base;
 use App\Admin\Form;
+use App\Data\Media;
+use App\Vitrine\Content;
 use App\Vitrine\Host;
 
 $host = (string) parse_url($base, PHP_URL_HOST);
 $fields = $schema['fields'];
 $f = fn (string $k) => Association::field('data.', $k, $fields[$k], $data);
+// Crédit de la photo : rappelle celui de la médiathèque (photo enregistrée), utilisé si le champ reste vide.
+$creditField = function () use ($fields, $data): string {
+    $spec = $fields['image_credit'];
+    $img = (string) ($data['image'] ?? '');
+    $lib = $img !== '' ? Content::credit((string) (Media::get($img)['credit'] ?? '')) : '';
+    $spec[2]['help'] = 'Affiché sur la photo : « Photo : … ». ' . ($lib !== '' ? 'Vide : celui de la médiathèque, « ' . $lib . ' ».' : 'Vide : aucun crédit affiché (la photo n’en a pas dans la médiathèque).');
+    return Association::field('data.', 'image_credit', $spec, $data);
+};
 [, $item, $itemFields] = $schema['lists']['items'];
 $render = function ($it) use ($itemFields) {
     $it = is_array($it) ? $it : [];
@@ -64,7 +74,7 @@ $confirm = $open
         </div>
         <div style="margin-top:16px"><?= $f('text') ?></div>
         <div class="fgrid" style="margin-top:16px">
-          <?= $f('image') ?><?= $f('image_caption') ?>
+          <?= $f('image') ?><?= $f('image_caption') ?><?= $creditField() ?>
         </div>
       </div>
       <div class="card card--pad">
