@@ -15,7 +15,7 @@ $meta = Site::meta($page, $path);
 $lang = I18n::lang();
 $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 ?><!DOCTYPE html>
-<html lang="<?= e($lang) ?>">
+<html lang="<?= e($lang) ?>" data-app="<?= Settings::get('app.enabled', true) ? '1' : '0' ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,7 +40,13 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0E1F4D">
 <link rel="icon" href="/assets/img/favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="/assets/img/logo-sochaux-retro.png">
+<link rel="apple-touch-icon" href="/assets/img/app/180.png">
+<?php if (Settings::get('app.enabled', true)): ?>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sochaux Rétro">
+<?php endif; ?>
 <link rel="preload" href="/assets/fonts/big-shoulders-display-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">

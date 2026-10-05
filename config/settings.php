@@ -215,6 +215,13 @@ return [
             'intro' => ['label' => 'Texte d’introduction', 'type' => 'wysiwyg', 'default' => '<p>Voici les matchs de cette semaine dans l’histoire du FC Sochaux-Montbéliard.</p>'],
         ],
     ],
+    'app' => [
+        'label' => 'Application du musée',
+        'fields' => [
+            'enabled' => ['label' => 'Application installable (écran d’accueil des téléphones) et lecture hors connexion', 'type' => 'bool', 'default' => true,
+                'help' => 'Décoché : l’application se retire d’elle-même des téléphones à leur prochaine visite (copies gardées effacées). Le site de l’association n’est pas concerné.'],
+        ],
+    ],
     'map' => [
         'label' => 'Carte',
         'fields' => [

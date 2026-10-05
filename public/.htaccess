@@ -31,6 +31,11 @@ AddDefaultCharset UTF-8
     <FilesMatch "\.(woff2|webp|avif|jpg|jpeg|png|gif|svg|css|js|ico|mp3|wav)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
+    # Application du musée : service worker, manifeste et page hors connexion toujours revérifiés
+    # (adresses fixes, sans version).
+    <FilesMatch "^(sw\.js|manifest\.webmanifest|hors-ligne\.html)$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
     # Fond de carte (fichier fixe, sans version) : un mois.
     <FilesMatch "\.topojson$">
         Header set Cache-Control "public, max-age=2592000"
@@ -54,6 +59,7 @@ AddType font/woff2 .woff2
 AddType image/webp .webp
 AddType image/avif .avif
 AddType application/json .topojson
+AddType application/manifest+json .webmanifest
 
 # Fichiers sensibles jamais servis
 <FilesMatch "^\.|\.(json|php\.bak|log|lock|md)$">

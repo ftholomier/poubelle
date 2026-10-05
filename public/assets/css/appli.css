@@ -1,0 +1,23 @@
+/* « L'appli du musée » (/appli/) : installation, avantages, notifications. */
+.appli { padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(56px, 8vw, 110px); }
+.appli__hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+.appli__card { background: var(--navy); color: var(--cream); padding: clamp(26px, 3.5vw, 40px); box-shadow: 10px 10px 0 var(--yellow); }
+.appli__card img { width: 88px; height: 88px; border-radius: 20px; margin-bottom: 20px; }
+.appli__card .h-3 { color: var(--yellow); margin: 0 0 12px; }
+.appli__card p { margin: 0 0 18px; color: rgba(243, 237, 223, .9); }
+.appli__card p:last-child { margin-bottom: 0; }
+.appli__steps { margin: 0; padding-left: 22px; display: grid; gap: 10px; }
+.appli__ico { display: inline-grid; place-items: center; width: 28px; height: 28px; border: 2px solid currentColor; border-radius: 6px; font-size: 15px; vertical-align: middle; margin: 0 2px; }
+.appli__perks { list-style: none; margin: clamp(48px, 7vw, 88px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.appli__perks li { border-top: 6px solid var(--navy); padding-top: 16px; }
+.appli__perk-ico { display: inline-grid; place-items: center; width: 44px; height: 44px; background: var(--yellow); color: var(--navy); font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+.appli__perk-t { font-family: var(--display); font-weight: 800; font-size: 24px; line-height: 1.05; text-transform: uppercase; margin: 0 0 8px; }
+.appli__perks p { margin: 0; }
+.appli__note { margin: 36px 0 0; font-style: italic; opacity: .8; max-width: 70ch; }
+@media (max-width: 900px) {
+  .appli__hero { grid-template-columns: 1fr; }
+  .appli__perks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .appli__perks { grid-template-columns: 1fr; }
+}

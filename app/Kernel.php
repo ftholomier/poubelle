@@ -451,6 +451,7 @@ final class Kernel
         $r->get('/faire-un-don/merci/', fn ($q) => Front\Donations::thanks($q));
         $r->any('/faire-un-don/gerer/{token}/', fn ($q, $token) => Front\Donations::manage($q, $token));
         $r->get('/faire-un-don/gerer/{token}/recu/{num}/', fn ($q, $token, $num) => Front\Donations::receiptDownload($q, $token, $num));
+        $r->get('/appli/', fn ($q) => Front\Appli::page($q));
         $r->get('/newsletter/', fn ($q) => Front\Community::newsletter($q));
         $r->get('/newsletter/confirmer/{token}/', fn ($q, $token) => Front\Community::newsletterConfirm($q, $token));
         $r->post('/newsletter/confirmer/{token}/', fn ($q, $token) => Front\Community::newsletterConfirm($q, $token));

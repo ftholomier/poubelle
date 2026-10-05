@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E1F4D">
+<title>Hors connexion · Sochaux Rétro</title>
+<link rel="icon" href="/assets/img/app/192.png" type="image/png">
+<style>
+@font-face{font-family:'BSD';font-weight:500 900;src:url('/assets/fonts/big-shoulders-display-normal-latin.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'NR';font-weight:400 500;src:url('/assets/fonts/newsreader-normal-latin.woff2') format('woff2');font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{min-height:100vh;background:#0E1F4D;color:#F3EDDF;font:18px/1.5 'NR',Georgia,serif;display:flex;justify-content:center;padding:48px 16px}
+main{width:100%;max-width:640px}
+img{display:block;width:96px;height:96px;border-radius:22px;margin:0 0 28px}
+.k{font:800 15px/1 'BSD',Arial,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#F6C400;margin:0 0 10px}
+h1{font:900 clamp(40px,9vw,64px)/.95 'BSD',Arial,sans-serif;text-transform:uppercase;margin:0 0 18px}
+p{margin:0 0 18px;color:rgba(243,237,223,.88)}
+button{font:800 17px/1 'BSD',Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;background:#F6C400;color:#0E1F4D;border:0;padding:15px 22px;cursor:pointer;box-shadow:5px 5px 0 rgba(246,196,0,.25)}
+button:focus-visible,a:focus-visible{outline:3px solid #F6C400;outline-offset:3px}
+h2{font:800 22px/1.1 'BSD',Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;margin:44px 0 12px;color:#F6C400}
+ul{list-style:none;margin:0;padding:0;border-top:1px solid rgba(243,237,223,.2)}
+li{border-bottom:1px solid rgba(243,237,223,.2)}
+li a{display:block;padding:12px 2px;color:#F3EDDF;text-decoration:none}
+li a:hover{color:#F6C400}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <img src="/assets/img/app/192.png" alt="">
+  <p class="k" data-t="Sochaux Rétro · le musée|Sochaux Rétro · the museum">Sochaux Rétro · le musée</p>
+  <h1 data-t="Pas de réseau pour le moment|No connection right now">Pas de réseau pour le moment</h1>
+  <p data-t="Le musée revient dès que le téléphone retrouve une connexion.|The museum will be back as soon as your phone is online again.">Le musée revient dès que le téléphone retrouve une connexion.</p>
+  <button type="button" data-retry data-t="Réessayer|Try again">Réessayer</button>
+  <section data-saved hidden>
+    <h2 data-t="Déjà consultées, lisibles sans réseau|Already visited, readable offline">Déjà consultées, lisibles sans réseau</h2>
+    <ul data-list></ul>
+  </section>
+</main>
+<script src="/assets/js/hors-ligne.js" defer></script>
+</body>
+</html>

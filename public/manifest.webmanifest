@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "Sochaux Rétro · le musée du FCSM",
+  "short_name": "Sochaux Rétro",
+  "description": "Le musée en ligne du FC Sochaux-Montbéliard : matchs, joueurs, records, Rétro-Direct, quiz et les 100 moments du centenaire.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0E1F4D",
+  "theme_color": "#0E1F4D",
+  "categories": ["sports", "education", "entertainment"],
+  "icons": [
+    { "src": "/assets/img/app/192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/app/512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/app/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Rétro-Direct", "short_name": "Rétro-Direct", "description": "Les grands matchs rejoués en direct", "url": "/interactif/retro-direct/", "icons": [{ "src": "/assets/img/app/192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Les 100 moments du centenaire", "short_name": "100 moments", "url": "/centenaire/100-moments/", "icons": [{ "src": "/assets/img/app/192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Le quiz", "short_name": "Quiz", "url": "/interactif/quiz/", "icons": [{ "src": "/assets/img/app/192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Rechercher un match, un joueur", "short_name": "Rechercher", "url": "/recherche/", "icons": [{ "src": "/assets/img/app/192.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}

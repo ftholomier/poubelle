@@ -349,6 +349,33 @@
   $$('form[data-protect]').forEach(f => {
     f.addEventListener('submit', () => { $$('button[type=submit]', f).forEach(b => { b.disabled = true; }); });
   });
+  /* ---------------------------------------------------------- application (PWA) */
+  // Le service worker garde pages, styles et images pour l'appli installée et la lecture hors
+  // connexion. Réglage décoché (Réglages › Application du musée) : il se retire et efface ses copies.
+  SR.app = { installable: false, prompt: null, standalone: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true };
+  if ('serviceWorker' in navigator && window.isSecureContext) {
+    if (document.documentElement.dataset.app === '1') {
+      addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+    } else {
+      navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});
+      if ('caches' in window) caches.keys().then(ks => ks.filter(k => k.startsWith('sr-')).forEach(k => caches.delete(k))).catch(() => {});
+    }
+  }
+  // Android, ordinateur : l'installation est proposée par le bouton de la page « L'appli du musée ».
+  addEventListener('beforeinstallprompt', (ev) => {
+    ev.preventDefault();
+    SR.app.prompt = ev;
+    SR.app.installable = true;
+    document.dispatchEvent(new CustomEvent('sr:app'));
+  });
+  addEventListener('appinstalled', () => {
+    SR.app.prompt = null;
+    SR.app.installable = false;
+    SR.app.standalone = true;
+    document.dispatchEvent(new CustomEvent('sr:app'));
+  });
+  if (SR.app.standalone) document.documentElement.classList.add('is-app');
+
   // Boutique : pastille du nombre d'articles du panier (cookie « sr_cart » posé par la boutique).
   const cartN = parseInt((document.cookie.match(/(?:^|;\s*)sr_cart=(\d+)/) || [])[1] || '0', 10);
   if (cartN > 0) {
