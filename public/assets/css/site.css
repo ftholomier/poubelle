@@ -206,8 +206,8 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .masthead__logo:hover { transform: rotate(-8deg) scale(1.06); }
 /* Le blason est plus haut que la bande : sa pointe déborde sous le header. */
 .masthead__logo img { height: 132px; width: auto; transition: height .3s var(--ease); }
-/* Une fois la barre collée en haut, le blason rentre dans la bande pour ne pas masquer la page. */
-.site-header.is-stuck .masthead__logo img { height: 98px; }
+/* Barre collée en haut : le blason garde sa pointe qui déborde sous la bande, un peu plus petit. */
+.site-header.is-stuck .masthead__logo img { height: 124px; }
 .masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 140px); padding-right: clamp(12px, 3vw, 40px); }
 .masthead__top { height: 48px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(14,31,77,.18); }
 .masthead__name { font-family: var(--display); font-weight: 900; font-size: 20px; text-transform: uppercase; white-space: nowrap; }
@@ -349,7 +349,7 @@ html { scroll-padding-top: var(--head-h, 0px); }
 }
 @media (max-width: 1099px) {
   .masthead__logo img { height: 76px; }
-  .site-header.is-stuck .masthead__logo img { height: 56px; }
+  .site-header.is-stuck .masthead__logo img { height: 76px; }
   .masthead__inner { padding-left: calc(clamp(12px, 3vw, 40px) + 80px); }
   .masthead__top { border-bottom: 0; height: 64px; }
   .masthead__name, .masthead__tag, .hsize, .hlang, .hcontrib, .mainnav, .masthead .hshopw { display: none !important; }
