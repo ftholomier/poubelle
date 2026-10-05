@@ -25,7 +25,7 @@ $form = function (array $s, bool $new = false) use ($mockups): string {
       <textarea class="in" name="colors" rows="3"><?= e(implode("\n", array_map(fn ($n, $h) => "$n : $h", array_keys($s['colors']), $s['colors']))) ?></textarea></label>
     <label class="f"><span class="f__k">Consignes de l’imprimeur</span><input class="in" name="note" value="<?= e($s['note']) ?>"></label>
     <div class="row" style="justify-content:space-between;align-items:center">
-      <label class="check"><input type="checkbox" name="active" value="1"<?= $s['active'] ? ' checked' : '' ?>> Proposé pour de nouveaux modèles</label>
+      <label class="toggle"><input type="checkbox" name="active" value="1"<?= $s['active'] ? ' checked' : '' ?>><span class="toggle__box"></span><span>Proposé pour de nouveaux modèles</span></label>
       <button class="btn btn--navy btn--sm"><?= $new ? 'Ajouter le support' : 'Enregistrer' ?></button>
     </div>
   </form>

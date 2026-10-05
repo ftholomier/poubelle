@@ -15,7 +15,7 @@ $data = ['model' => $model, 'support' => $support, 'fonts' => array_map(fn ($f) 
     <div class="f" style="margin:0"><span class="f__k">Face</span><div class="seg" data-faces></div></div>
     <div class="f" style="margin:0" data-colors-wrap><span class="f__k">Couleur du produit</span><div class="swatches" data-colors></div></div>
     <div class="shoped__acts">
-      <label class="check"><input type="checkbox" data-active<?= $model['active'] ? ' checked' : '' ?>> Prêt à la vente</label>
+      <label class="toggle"><input type="checkbox" data-active<?= $model['active'] ? ' checked' : '' ?>><span class="toggle__box"></span><span>Prêt à la vente</span></label>
       <a class="btn btn--ghost btn--sm" data-pdf href="/admin/boutique/modeles/<?= e($model['id']) ?>/pdf">PDF imprimeur</a>
       <button type="button" class="btn btn--navy" data-save>Enregistrer</button>
     </div>

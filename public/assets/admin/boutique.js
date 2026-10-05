@@ -150,7 +150,7 @@
 
   /* ------------------------------------------------------------ réglages du calque */
   const num = (k, lab, step = 0.5, min = '') => `<label class="f f--inline"><span class="f__k">${lab}</span><input class="in in--sm" type="number" step="${step}" ${min !== '' ? `min="${min}"` : ''} data-k="${k}" value="${esc(cur()[k] ?? '')}"></label>`;
-  const chk = (k, lab) => `<label class="check"><input type="checkbox" data-k="${k}"${cur()[k] ? ' checked' : ''}> ${lab}</label>`;
+  const chk = (k, lab) => `<label class="toggle"><input type="checkbox" data-k="${k}"${cur()[k] ? ' checked' : ''}><span class="toggle__box"></span><span>${lab}</span></label>`;
   function props() {
     const box = $('[data-props]');
     const l = cur();
@@ -167,7 +167,7 @@
       h += `<div class="seg" style="margin:6px 0">${['left', 'center', 'right'].map(a => `<button type="button" class="seg__b${l.align === a ? ' is-on' : ''}" data-align="${a}">${{ left: 'À gauche', center: 'Centré', right: 'À droite' }[a]}</button>`).join('')}</div>`;
       h += `<div class="row" style="gap:12px;flex-wrap:wrap">${chk('upper', 'Capitales')}${chk('fit', 'Réduire pour tenir sur la largeur')}</div>`;
       h += `<div class="f"><span class="f__k">Couleur</span>${colorPick('color', l.color, false)}</div>`;
-      h += `<label class="check"><input type="checkbox" data-client${l.mode === 'client' ? ' checked' : ''}> Rempli par le client</label>`;
+      h += `<label class="toggle"><input type="checkbox" data-client${l.mode === 'client' ? ' checked' : ''}><span class="toggle__box"></span><span>Rempli par le client</span></label>`;
       if (l.mode === 'client') h += `<div class="pgrid"><label class="f f--inline"><span class="f__k">Question posée</span><input class="in in--sm" data-k="label" value="${esc(l.label)}" placeholder="Votre prénom"></label><label class="f f--inline"><span class="f__k">Nom du champ</span><input class="in in--sm" data-k="field" value="${esc(l.field)}" placeholder="prenom"></label>${num('max', 'Caractères max', 1, 1)}</div><p class="xs muted" style="margin:4px 0 0">Deux calques avec le même nom de champ reçoivent le même texte (par exemple le prénom devant et au dos).</p>`;
     } else {
       h += `<div class="f"><span class="f__k">Remplissage</span>${colorPick('fill', l.fill || '', true)}</div><div class="f"><span class="f__k">Contour</span>${colorPick('stroke', l.stroke || '', true)}</div><div class="pgrid">${num('sw', 'Épaisseur du contour (mm)', 0.1, 0)}${l.type === 'rect' ? num('r', 'Arrondi (mm)', 0.5, 0) : ''}</div>`;
