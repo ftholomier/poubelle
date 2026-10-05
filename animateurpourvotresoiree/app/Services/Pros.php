@@ -244,6 +244,62 @@ final class Pros
         return count(self::publicIndex());
     }
 
+    /** Domaines acceptés pour chaque réseau social (variantes courtes et mobiles comprises). */
+    public const SOCIAL_HOSTS = [
+        'facebook' => ['facebook.com', 'fb.com', 'fb.me', 'fb.watch'],
+        'instagram' => ['instagram.com', 'instagr.am'],
+        'tiktok' => ['tiktok.com'],
+        'youtube' => ['youtube.com', 'youtu.be'],
+        'linkedin' => ['linkedin.com', 'lnkd.in'],
+    ];
+
+    /** Lien de réseau social normalisé (https://…), ou '' s'il ne correspond pas au réseau. */
+    public static function socialUrl(string $net, string $raw): string
+    {
+        $raw = trim($raw);
+        if ($raw !== '' && $raw[0] === '@' && in_array($net, ['instagram', 'tiktok'], true)) {
+            $raw = ($net === 'tiktok' ? 'tiktok.com/' : 'instagram.com/') . ($net === 'tiktok' ? $raw : substr($raw, 1));
+        }
+        $u = \App\Core\Str::url($raw);
+        $host = strtolower((string) parse_url($u, PHP_URL_HOST));
+        foreach (self::SOCIAL_HOSTS[$net] ?? [] as $d) {
+            if ($host === $d || str_ends_with($host, '.' . $d)) {
+                return $u;
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Vidéo lisible sur la fiche à partir d'un lien YouTube ou Vimeo, quelle que soit sa forme (watch?v=, youtu.be,
+     * shorts, live, embed, lien mobile, paramètres en plus, player.vimeo.com…). null si ce n'est pas une vidéo
+     * (lien de chaîne, de playlist seule…).
+     * @return array{src:string, label:string}|null
+     */
+    public static function video(string $url): ?array
+    {
+        $url = trim($url);
+        $host = strtolower((string) parse_url(\App\Core\Str::url($url), PHP_URL_HOST));
+        $path = (string) parse_url(\App\Core\Str::url($url), PHP_URL_PATH);
+        parse_str((string) parse_url(\App\Core\Str::url($url), PHP_URL_QUERY), $q);
+        $yt = preg_match('/(^|\.)(youtube\.com|youtube-nocookie\.com)$/', $host) === 1;
+        $id = null;
+        if ($host === 'youtu.be') {
+            $id = trim($path, '/');
+        } elseif ($yt && isset($q['v']) && is_string($q['v'])) {
+            $id = $q['v'];
+        } elseif ($yt && preg_match('#^/(?:shorts|live|embed|v)/([^/?]+)#', $path, $m)) {
+            $id = $m[1];
+        }
+        if ($id !== null && preg_match('/^[A-Za-z0-9_-]{6,15}$/', $id)) {
+            return ['src' => 'https://www.youtube-nocookie.com/embed/' . $id . '?autoplay=1&rel=0', 'label' => 'Vidéo YouTube'];
+        }
+        if (preg_match('/(^|\.)vimeo\.com$/', $host) && preg_match('#/(\d{5,12})(?:/|$)#', $path, $m)) {
+            return ['src' => 'https://player.vimeo.com/video/' . $m[1] . '?autoplay=1&dnt=1', 'label' => 'Vidéo Vimeo'];
+        }
+        return null;
+    }
+
     /** À appeler après toute modification d'une fiche. */
     public static function changed(): void
     {

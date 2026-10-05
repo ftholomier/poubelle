@@ -22,10 +22,8 @@ $zones = array_values(array_filter(array_map(static fn ($z) => Geo::dep((string)
 $rel = (string) Settings::get('links.pro_website_rel', 'noopener');
 $videos = [];
 foreach ((array) ($pro['videos'] ?? []) as $v) {
-    if (preg_match('~(?:youtube\.com/(?:watch\?v=|embed/|shorts/)|youtu\.be/)([A-Za-z0-9_\-]{6,15})~', (string) $v, $m)) {
-        $videos[] = ['src' => 'https://www.youtube-nocookie.com/embed/' . $m[1] . '?autoplay=1&rel=0', 'label' => 'Vidéo YouTube'];
-    } elseif (preg_match('~vimeo\.com/(?:video/)?(\d{5,12})~', (string) $v, $m)) {
-        $videos[] = ['src' => 'https://player.vimeo.com/video/' . $m[1] . '?autoplay=1&dnt=1', 'label' => 'Vidéo Vimeo'];
+    if ($vid = Pros::video((string) $v)) {
+        $videos[] = $vid;
     }
 }
 $socials = array_filter((array) ($pro['socials'] ?? []));

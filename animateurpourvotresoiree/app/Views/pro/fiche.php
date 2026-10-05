@@ -91,7 +91,7 @@ $socials = (array) old('socials', $pro['socials'] ?? []);
   <div class="box">
     <h2>Vidéos</h2>
     <div class="field"><label for="f-videos">Liens YouTube ou Vimeo (un par ligne, 4 maximum)</label>
-      <textarea id="f-videos" name="videos" rows="3" placeholder="https://www.youtube.com/watch?v=…"><?= e(implode("\n", (array) ($pro['videos'] ?? []))) ?></textarea><?= field_error('videos') ?></div>
+      <textarea id="f-videos" name="videos" rows="3" placeholder="https://www.youtube.com/watch?v=…"><?= e((string) old('videos', implode("\n", (array) ($pro['videos'] ?? [])))) ?></textarea><?= field_error('videos') ?></div>
   </div>
 
   <details class="box">

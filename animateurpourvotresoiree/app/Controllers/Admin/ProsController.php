@@ -331,7 +331,7 @@ final class ProsController extends AdminController
             }
         }
         $p['socials'] = $socials;
-        $p['videos'] = array_values(array_slice(array_filter(preg_split('/\s+/', (string) Request::input('videos', '')) ?: [], static fn ($v) => (bool) preg_match('~^https?://(www\.|m\.)?(youtube\.com|youtu\.be|vimeo\.com)/~i', $v)), 0, 6));
+        $p['videos'] = array_values(array_slice(array_filter(preg_split('/\s+/', (string) Request::input('videos', '')) ?: [], static fn ($v) => Pros::video($v) !== null), 0, 6));
         $price = trim((string) Request::input('price_from', ''));
         $p['price_from'] = $price === '' ? null : max(0, min(100000, (int) preg_replace('/\D/', '', $price)));
         $p['zones'] = array_values(array_filter(array_map(static fn ($z) => Geo::depCode((string) $z), (array) Request::arr('zones')), static fn ($z) => Geo::dep($z) !== null));

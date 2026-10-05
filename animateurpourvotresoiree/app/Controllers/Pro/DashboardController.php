@@ -219,16 +219,20 @@ final class DashboardController extends Controller
         if ($site !== '' && $p['website'] === '') {
             $errors['website'] = 'Adresse de site invalide.';
         }
+        // liens des réseaux et vidéos : un lien refusé n'empêche plus d'enregistrer le reste de la fiche
+        $warnings = [];
         $socials = [];
         foreach (self::SOCIALS as $net => $domain) {
-            $u = Str::url(Sanitizer::line((string) (Request::arr('socials')[$net] ?? ''), 255));
-            if ($u !== '') {
-                if (!str_contains(Str::domain($u), str_replace('.com', '', $domain))) {
-                    $errors['socials'] = 'Le lien ' . ucfirst($net) . ' doit pointer vers ' . $domain . '.';
-                    continue;
-                }
-                $socials[$net] = $u;
+            $raw = Sanitizer::line((string) (Request::arr('socials')[$net] ?? ''), 255);
+            if (trim($raw) === '') {
+                continue;
             }
+            $u = Pros::socialUrl($net, $raw);
+            if ($u === '') {
+                $warnings[] = 'le lien ' . ucfirst($net) . ' (il doit pointer vers ' . $domain . ')';
+                continue;
+            }
+            $socials[$net] = $u;
         }
         $p['socials'] = $socials;
         $videos = [];
@@ -237,8 +241,8 @@ final class DashboardController extends Controller
             if ($v === '') {
                 continue;
             }
-            if (!preg_match('~^https?://(www\.|m\.)?(youtube\.com|youtu\.be|vimeo\.com)/~i', $v)) {
-                $errors['videos'] = 'Seuls les liens YouTube et Vimeo sont acceptés.';
+            if (!Pros::video($v)) {
+                $warnings[] = 'la vidéo ' . Str::limit($v, 60) . ' (mettez le lien d\'une vidéo YouTube ou Vimeo, pas d\'une chaîne)';
                 continue;
             }
             if (count($videos) < 4) {
@@ -292,6 +296,9 @@ final class DashboardController extends Controller
         }
         Logger::audit('Fiche modifiée par le pro', ['pro' => (int) $pro['id']]);
         Session::flash('success', 'Votre fiche est enregistrée ✔');
+        if ($warnings) {
+            Session::flash('error', 'Non pris en compte : ' . implode(' ; ', $warnings) . '.');
+        }
         return $this->redirect('/espace-pro/fiche/');
     }
 
