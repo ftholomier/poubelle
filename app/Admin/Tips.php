@@ -243,6 +243,13 @@ final class Tips
             'mot d’introduction' => 'Quelques lignes affichées en tête du récit du match dans le PDF : le contexte, l’enjeu, une anecdote.',
             'ils y étaient' => 'Les témoignages publiés sur les fiches de match. Un témoignage reçu par « Contribuer » se publie à la validation (Communauté › Contributions), avec un texte et une signature que vous pouvez relire.',
         ],
+        'murs' => [
+            'screen' => 'Les quatre murs de photos de la rubrique Interactif (planche-contact, Le Lion illustré, mur du vestiaire, grande mosaïque) tirent des photos au hasard à chaque visite. Ici : combien y vont, pourquoi les autres n’y vont pas, et la liste des crédits à ne jamais montrer.',
+            'photos écartées' => 'Chaque raison ouvre la médiathèque sur les photos concernées. « Crédit sans auteur » : le crédit n’est qu’une date ou une légende (« Saison 1980-1981 ») ; corrigez-le et la photo rejoint les murs. « Dans aucune fiche publiée » : elle y viendra quand sa fiche sera publiée.',
+            'crédits exclus' => 'Agences photo, presse nationale, télévision, sites web : leurs photos ne vont jamais sur les murs. Une ligne par crédit ; un crédit qui contient l’un de ces mots est écarté (majuscules et accents ignorés). « Ce que retire chaque ligne » montre l’effet de la liste.',
+            'crédits montrés' => 'Tous les crédits affichés sous les photos des murs, du plus fréquent au plus rare. Un crédit étrange (une légende, un nom de match) se corrige dans la médiathèque ; une photo à ne pas montrer se retire avec la case « Jamais sur les murs de photos ».',
+            'vignettes des murs' => 'Les petites images des murs sont préparées d’avance par la tâche planifiée « Murs de photos » (toutes les 5 minutes, jusqu’à ce que tout soit prêt). « Préparer maintenant » en fait 20 secondes tout de suite.',
+        ],
         'contributions' => [
             'screen' => 'Les propositions des visiteurs (corrections, photos, documents). Traitez-les : demander une précision, publier (les fichiers vont dans la médiathèque ou une fiche) ou refuser.',
             'décision' => 'Publier la contribution, demander une information à son auteur ou la refuser (il est prévenu par e-mail).',

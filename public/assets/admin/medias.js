@@ -138,6 +138,8 @@
       + (it.raw && it.raw !== it.caption ? '<div class="alert alert--info small">Légende d’origine (ancien site) : ' + esc(it.raw) + '</div>' : '')
       + '<div class="f"><span class="f__k">Adresse de l’image</span><div class="row"><code class="small" style="overflow-wrap:anywhere;flex:1">' + esc(it.file) + '</code><button type="button" class="btn btn--sm" data-copy="' + esc(location.origin + it.full) + '">Copier le lien</button></div></div>'
       + '<div class="f"><span class="f__k">Utilisé dans</span>' + used + '</div>'
+      + (it.pdf ? '' : '<div class="f"><span class="f__k">Murs de photos <a class="xs" href="/admin/murs-photos" target="_blank" rel="noopener">régler ↗</a></span>'
+        + (it.wall ? '<span class="small muted">Pas sur les murs : ' + esc(it.wall) + '.</span>' : '<span class="small ok">✓ Peut être tirée au hasard sur les quatre murs de photos.</span>') + '</div>')
       + '</div>'
       + '<form class="stack" style="gap:12px" data-tr-scope>'
       + '<div class="fgrid fgrid--2">'
@@ -149,6 +151,7 @@
       + field('alt_en', 'Texte alternatif anglais', it.alt_en, { full: true })
       + field('date_text', 'Date ou époque', it.date_text, { max: 120, ph: 'Mai 1988' })
       + '</div>'
+      + (it.pdf ? '' : '<label class="toggle"><input type="checkbox" name="nowall"' + (it.nowall ? ' checked' : '') + '><span class="toggle__box"></span><span>Jamais sur les murs de photos <span class="xs muted">(photo à ne pas montrer au hasard, même bien créditée)</span></span></label>')
       + '<div class="row"><button type="submit" class="btn btn--navy">Enregistrer</button>'
       + (it.pdf ? '' : '<button type="button" class="btn" data-retouch>Recadrer · pivoter' + (it.edit ? ' ✓' : '') + '</button>')
       + '<label class="btn">Remplacer le fichier…<input type="file" hidden data-replace accept="' + (it.pdf ? 'application/pdf' : 'image/jpeg,image/png,image/gif,image/webp') + '"></label>'
@@ -160,6 +163,7 @@
       ev.preventDefault();
       const data = { file: it.file };
       ['caption', 'caption_en', 'credit', 'rights', 'alt', 'alt_en', 'date_text'].forEach(k => { data[k] = form[k].value; });
+      if (form.nowall) data.nowall = form.nowall.checked;
       const r = await BO.post('/admin/medias/enregistrer', data);
       if (!r.ok) { BO.toast(r.error || 'Enregistrement impossible', true); return; }
       BO.toast(r.message || 'Enregistré');

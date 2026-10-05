@@ -442,6 +442,27 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       part (« Lancer pour toutes les pages »).
 - [x] **En-tête du musée** : la liste FR/EN n'est plus cachée par un méga-menu resté ouvert.
 
+## Murs de photos (05/10, demande du client) — terminé
+- [x] Quatre pavés dans Interactif, un nouveau tirage au hasard à chaque visite (et « Nouveau
+      tirage » sans recharger), filtres par décennie et par photographe ou source :
+      **Planche-contact** (bandes de film, crédit imprimé dans la marge, loupe, un trait de
+      crayon gras par bande au plus), **Le Lion illustré** (journal : Une, articles, « En
+      images », brèves ; titres des fiches et légendes de la médiathèque, rien d'inventé),
+      **Le mur du vestiaire** (tirages punaisés ou scotchés, à déplacer à la souris), **La
+      grande mosaïque** (des centaines de photos dessinent « 100 », « FCSM », « 1928 » ou
+      « 2028 »). Agrandissement avec légende, crédit et lien vers la fiche ; anglais complet.
+- [x] Photos sûres seulement : crédit renseigné, sans « DR », sans crédit à risque (agences,
+      presse nationale, télévision, sites web : liste modifiable), sans crédit qui n'est qu'une
+      date ou une légende ; photo d'une fiche publiée ; 300 px au moins. Au 05/10 :
+      **4 975 photos** sur les murs, 33 photographes ou sources dans le filtre, 5 décennies.
+- [x] Back-office : Interactif › Murs de photos (photos écartées par raison avec lien vers la
+      médiathèque, crédits exclus, crédits montrés, vignettes) ; médiathèque : statut de la photo
+      et case « Jamais sur les murs de photos » ; tâche planifiée qui prépare les vignettes.
+- [x] Aide (Interactif › Les murs de photos, médiathèque), bulles d'aide, docs, tests.
+- À faire par les historiens : corriger les **126 crédits « sans auteur »** (une date ou une
+  légende tapée dans le champ Crédit) et compléter les 5 057 photos sans crédit, au fil de
+  l'eau : chaque photo corrigée rejoint les murs.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

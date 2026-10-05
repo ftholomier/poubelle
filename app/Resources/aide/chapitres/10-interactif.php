@@ -2,7 +2,7 @@
 return [
     'slug' => 'interactif',
     'title' => 'Les outils interactifs',
-    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, kit souvenirs.',
+    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, kit souvenirs, murs de photos.',
     'sections' => [
         ['id' => 'principe', 'title' => 'Le principe', 'html' => <<<'HTML'
 <p>Interactif › <b>Quiz, frise, carte…</b> : chaque outil est une liste d’éléments (une question, une date, une époque, un lieu…) qu’on ajoute, modifie, réordonne par glisser-déposer et traduit. La carte de chaque outil indique les éléments <b>à valider</b> et ceux <b>sans anglais</b>.</p>
@@ -49,6 +49,27 @@ HTML],
 <p>Interactif › <b>Kit souvenirs</b> : pour le mois en cours et les deux suivants, le match choisi automatiquement (le plus marquant : temps forts, coupe, anniversaire rond, 30 à 60 ans d’âge, belle photo), les autres propositions et « Ou un autre match » ; un <b>mot d’introduction</b> facultatif ; le PDF à télécharger pour vérifier.</p>
 [[auto|<p>Le kit se refait tout seul quand une fiche change. Le QR code mène à l’adresse courte <code>/souvenir/{n° du match}/</code>, qui ouvre le formulaire « Contribuer » avec « Un témoignage » coché et le match rempli. Les témoignages reçus se publient sur la fiche du match (voir [[aide:communaute#contributions|Les contributions]]).</p>]]
 [[astuce|<p>Relisez la fiche du match du mois : temps forts, buteurs, photo à la une et une brève. Les visages viennent de la composition (joueurs reliés avec une vraie photo) : une composition complète donne un meilleur jeu.</p>]]
+HTML],
+        ['id' => 'murs-photos', 'title' => 'Les murs de photos', 'html' => <<<'HTML'
+<p>Quatre pages de la rubrique Interactif montrent les photos de la médiathèque, <b>tirées au hasard à chaque visite</b> (bouton « Nouveau tirage » sans recharger la page), avec un filtre par décennie et par photographe ou source :</p>
+<ul>
+<li><b>Planche-contact</b> : des bandes de film, le numéro et le crédit imprimés dans la marge, une loupe au survol, quelques vues entourées au crayon gras ;</li>
+<li><b>Le Lion illustré</b> : un journal (Une, articles, « En images », brèves) dont les titres sont ceux des fiches et les textes les légendes de la médiathèque : rien n’est inventé ;</li>
+<li><b>Le mur du vestiaire</b> : des tirages punaisés ou scotchés au carrelage, crédit écrit à la main, à déplacer à la souris ;</li>
+<li><b>La grande mosaïque</b> : des centaines de photos qui dessinent « 100 », « FCSM », « 1928 » ou « 2028 » ; un bouton montre les photos en couleurs.</li>
+</ul>
+[[img:site-murs.webp|Les quatre murs : planche-contact, Le Lion illustré, mur du vestiaire, grande mosaïque]]
+<p>Un clic agrandit la photo, avec sa légende, son crédit et un lien vers sa fiche. <b>Le crédit est toujours affiché.</b></p>
+<p><b>Quelles photos ?</b> Seulement les photos sûres de la médiathèque :</p>
+<ul>
+<li>un <b>crédit renseigné</b>, qui n’est ni « DR » (droits réservés, auteur inconnu) ni un <b>crédit exclu</b> (agences photo, presse nationale, télévision, sites web), ni une simple date ou légende saisie à la place du crédit (« Saison 1980-1981 », « Sochaux-Metz ») ;</li>
+<li>une photo qui illustre au moins <b>une fiche publiée</b> (elle a donc été relue) ;</li>
+<li>au moins 300 pixels sur le petit côté (sinon floue en grand), et la case « Jamais sur les murs de photos » de la médiathèque non cochée.</li>
+</ul>
+<p>Interactif › <b>Murs de photos</b> : le nombre de photos montrées, les <b>photos écartées par raison</b> (un clic ouvre la médiathèque sur ces photos), la <b>liste des crédits exclus</b> (une ligne par crédit, modifiable ; « Ce que retire chaque ligne » en montre l’effet), tous les <b>crédits montrés</b> du plus fréquent au plus rare, et les vignettes préparées d’avance.</p>
+[[img:murs-photos.webp|L’écran Interactif › Murs de photos]]
+[[astuce|<p>Les « crédits à corriger » sont souvent une date ou une légende tapée dans le champ Crédit : corrigez le crédit dans la médiathèque (et mettez la date dans « Date ou époque ») et la photo rejoint les murs. Une photo qu’il ne faut pas montrer au hasard, même bien créditée : ouvrez-la dans la médiathèque et cochez <b>Jamais sur les murs de photos</b>.</p>]]
+[[auto|<p>Une même fiche ne donne pas plus de deux photos par tirage. La décennie vient de la fiche (date du match, année de l’objet ou du moment) ou de « Date ou époque » dans la médiathèque. Les graphies d’un même photographe sont réunies (« L’est républicain », « Est Républicain »). La tâche planifiée « Murs de photos » prépare les petites images d’avance ; tant qu’elles ne sont pas toutes prêtes, les photos déjà prêtes passent en premier.</p>]]
 HTML],
     ],
 ];

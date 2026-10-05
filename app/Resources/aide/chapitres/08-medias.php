@@ -22,11 +22,12 @@ HTML],
 <p>Cliquez une photo pour ouvrir sa fiche :</p>
 <ul>
 <li><b>Légende</b> : qui, où, quand.</li>
-<li><b>Crédit</b> : photographe, journal, collection.</li>
+<li><b>Crédit</b> : photographe, journal, collection. Pas de date ni de légende dans ce champ (elles vont dans « Date ou époque » et « Légende ») : une photo bien créditée peut aller sur les [[aide:interactif#murs-photos|murs de photos]].</li>
 <li><b>Droits / licence</b> : conditions d’usage (« Tous droits réservés », « cession du donateur », « CC BY-SA »…).</li>
 <li><b>Texte alternatif</b> : décrit l’image pour les personnes malvoyantes et pour Google.</li>
 <li>Légende et texte alternatif ont leur version anglaise.</li>
 <li><b>Utilisée dans</b> : les fiches qui affichent cette photo.</li>
+<li><b>Murs de photos</b> : indique si la photo peut être tirée au hasard sur les murs de photos de la rubrique Interactif, ou pourquoi elle ne l’est pas (sans crédit, « DR », crédit exclu, trop petite, fiche pas encore publiée…). La case <b>Jamais sur les murs de photos</b> l’en retire, même bien créditée.</li>
 </ul>
 [[img:medias-detail.webp|La fiche d’une photo : description, droits, « utilisée dans », actions]]
 <p><b>Modification groupée</b> : cochez plusieurs photos pour leur donner le même crédit ou les mêmes droits en une fois (« Remplacer aussi les valeurs déjà saisies » si besoin).</p>

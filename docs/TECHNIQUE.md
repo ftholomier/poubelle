@@ -135,7 +135,7 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `audio-resumes.ser` | résumés automatiques des fiches audio (texte lu par défaut), avec l'empreinte de chaque fiche (et, pour une personne, de ses totaux de matchs et de buts) : l'écran Système › Fiches audio et les traitements groupés ne les recalculent pas (4 s pour tout le musée sinon) | à chaque calcul sur tout le musée, pour les seules fiches modifiées ; tout est refait si `FicheAudio.php`, `Unknown.php` ou `MatchText.php` change |
 | `controle-site.php` | vérifications du site hors fiches (redirections, référentiels, rubriques, textes de l'interface), pour le compteur d'alertes graves du menu | refaites dès qu'un des fichiers lus change (empreinte des dates et tailles) et à chaque contrôle complet |
 | `ascii-fold.php` | table caractère → ASCII minuscule tirée d'ICU pour `Names::ascii()` (latin, ponctuation, symboles, lettres mathématiques, émojis : 6 900 caractères d'écriture latine ou commune) | refaite si la version d'ICU ou les plages changent |
-| `memo/*.php` | calculs coûteux gardés par `App\Core\Memo` : réseau du Fil jaune, ordre de chaque rubrique et personnes par ordre alphabétique, compteurs des menus, dernier match fiché, numéros de l'album, plans de l'écran Fiches audio, fiches que le slider de l'accueil peut tirer au hasard | refaits dès qu'un fichier source change (date et taille : index des fiches, rubriques, réglages, état des voix, code du calcul) ou que les données calculées sont refaites, et au plus tard après 5 minutes (publications programmées) |
+| `memo/*.php` | calculs coûteux gardés par `App\Core\Memo` : réseau du Fil jaune, ordre de chaque rubrique et personnes par ordre alphabétique, compteurs des menus, dernier match fiché, numéros de l'album, plans de l'écran Fiches audio, fiches que le slider de l'accueil peut tirer au hasard, photos des murs de photos | refaits dès qu'un fichier source change (date et taille : index des fiches, rubriques, réglages, état des voix, code du calcul) ou que les données calculées sont refaites, et au plus tard après 5 minutes (publications programmées) |
 
 **Travail après l'envoi de la page** (recalcul de `derived.php` et des 100 chiffres, mesure
 d'audience, e-mail de mot de passe oublié) : `Response::detach()` libère la session puis termine
@@ -729,6 +729,60 @@ souvenirs) pour refaire les PDF en cache.
 - **Back-office** : Interactif › Kit souvenirs (`App\Admin\Kit`) : trois mois, choix du
   match, mot d'introduction, PDF ; souvenirs publiés.
 
+## 7 octies bis. Murs de photos (`App\Services\PhotoWall`, `App\Front\Walls`)
+
+Quatre pages de la rubrique Interactif tirent des photos de la médiathèque au hasard à chaque
+visite : `/interactif/planche-contact/`, `/interactif/le-lion-illustre/` (journal),
+`/interactif/mur-du-vestiaire/` et `/interactif/mosaique/`.
+
+- **Photos montrables** (`PhotoWall::photos()`, `reason()`) : image JPG, PNG, GIF ou WebP ;
+  crédit renseigné, ni « DR » (`isDr()` : « DR », « D.R. », « droits réservés », auteur
+  inconnu…), ni crédit exclu (`risky()` : un mot de la liste `PhotoWall::RISKY` contenu dans le
+  crédit, comparé sans majuscules ni accents, ou une adresse de site web ; liste remplaçable
+  dans `data/collections/murs-photos.json`, clé `exclus`), ni « sans auteur » (`noAuthor()` :
+  une année, « saison », « années », ou un match « Sochaux-X » dans le crédit, une fois
+  l'auteur extrait par `credit()`) ; au moins 300 px sur le petit côté ; au moins une fiche
+  publiée qui l'utilise ; fichier présent ; pas de case `nowall` (médiathèque, « Jamais sur les
+  murs de photos »). Les raisons (`PhotoWall::REASONS`) sont comptées pour le back-office.
+- **Crédit** (`credit()`) : préfixes retirés (« Crédit photo : »), auteur entre parenthèses
+  après une légende (« Melisey (Lionel Vadam) »), légende recopiée avant le crédit
+  (« Finale 1988. L'est républicain », « Sochaux-Metz 1999-2000 -L'est républicain »),
+  photographe d'un journal (« L'est républicain Lionel Vadam » → « Lionel Vadam · L'Est
+  Républicain »), « X pour Y », « X / Y » ; graphies d'un même photographe ou d'une même
+  source réunies (`ALIASES`). `who` / `key` : le photographe ou la source, pour le filtre.
+- **Année** : `Date ou époque` de la médiathèque, sinon la fiche (date du match, année de
+  l'objet ou du moment, saison de l'article). Fiche liée (« Voir la fiche ») : match, puis
+  personne, article, objet, moment, page.
+- **Cache** : `Memo` « murs-photos » (≈ 2 Mo), refait quand l'index des fiches, la médiathèque,
+  « utilisée dans », la liste des crédits exclus ou `PhotoWall.php` changent, au plus tard
+  après 5 minutes ; 1 s à refaire pour 10 000 médias.
+- **Tirage** (`draw()`) : au hasard, deux photos au plus par fiche, celles dont la vignette
+  est prête d'abord (bit `t` : 160 et 480 px). Filtres : décennie (`decades()`, 12 photos
+  datées au moins) et photographe ou source (`photographers()`, 8 photos au moins) ;
+  `counts()` grise les choix vides une fois l'autre filtre choisi.
+- **Pages** (`App\Front\Walls`, gabarits `templates/interactif/murs/`, `css/murs.css`,
+  `js/murs.js`) : en-tête, filtres et bouton « Nouveau tirage » communs ; `?partiel=1` ne rend
+  que le mur, plus les nombres des filtres en JSON (`data-wall-counts`), pour refaire le tirage
+  sans recharger (`no-store`, `noindex`). Page filtrée : `noindex`. Agrandissement par
+  `SR.lightbox(items, i)` (`site.js`) avec crédit et lien vers la fiche.
+  Planche-contact : 36 vues paysage en bandes de 6, loupe ×2,6 (pointeur fin), un trait de
+  crayon au plus par bande (`Walls::marks()`, tracé SVG à main levée). Journal : Une (photo
+  d'au moins 1 000 px de large si possible), deux articles, « En images », brèves ; titres =
+  fiches, textes = légendes. Vestiaire : 24 tirages (rotation, punaise ou scotch), déplacés au
+  pointeur (capture après 6 px : le clic reste un clic). Mosaïque : motif « 100 », « FCSM »,
+  « 1928 » ou « 2028 » en lettres de 5 × 7 cases (24 × 11 cases) ou 3 × 5 sur deux lignes pour
+  les téléphones (`Walls::grid()`), photos en niveaux de gris teintées (jaune pour le motif),
+  crédits regroupés (dix, puis une liste dépliable).
+- **Police manuscrite** : Caveat (OFL 1.1, `docs/licences/OFL-1.1-Caveat.txt`), sous-ensembles
+  latin et latin étendu en woff2 dans `public/assets/fonts/`, chargés par `murs.css` seulement.
+- **Back-office** : Interactif › Murs de photos (`App\Admin\PhotoWalls`) : photos montrées,
+  écartées par raison (lien vers la médiathèque filtrée `?murs={raison}`), liste des crédits
+  exclus et ce que retire chaque ligne (`excludedHits()`), crédits montrés, vignettes prêtes
+  et « Préparer maintenant » (20 s). Médiathèque : statut de chaque photo et case
+  « Jamais sur les murs de photos » (`nowall`, retirée du média quand elle est décochée).
+- **Vignettes d'avance** : tâche planifiée `murs-photos` (`PhotoWall::prepare(40)`), à chaque
+  passage tant qu'il en manque.
+
 ## 7 nonies. Les chiffres du FCSM (`App\Services\Chiffres`, `/chiffres/`)
 
 - **Sources** (badge de chaque chiffre) : *Carrières* (onglet Statistiques des fiches
@@ -934,7 +988,8 @@ fréquence, l'état est dans `storage/cron.json`, un verrou empêche deux passag
 « rien à faire » ; une sauvegarde ratée est notée en échec) :
 publication des fiches programmées, statistiques (et les 100 chiffres du FCSM), audience, traductions, correcteur
 d'orthographe, newsletter,
-géolocalisation (toutes les 10 min), médiathèque, vignettes des vidéos (toutes les heures),
+géolocalisation (toutes les 10 min), médiathèque, vignettes des murs de photos (tant
+qu'il en manque), vignettes des vidéos (toutes les heures),
 assistant IA (toutes les heures), dons (toutes les heures), plan du site (chaque jour),
 site de l'association (toutes les heures : vidéos YouTube, adhésions non confirmées,
 journaux d'audience), sauvegarde, reçus annuels, purges RGPD (dont adhésions abandonnées
@@ -1061,6 +1116,9 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   réactions ; agenda .ics).
 - `php tests/filjaune.php` : Fil jaune (réseau symétrique, joueurs retrouvés, chaîne la plus
   courte, liens, familles et records, défi du jour).
+- `php tests/photos.php` : murs de photos (crédits DR, exclus, sans auteur ; crédit et
+  photographe extraits ; photos montrables seulement ; tirage, filtres et nombres ; motifs de
+  la mosaïque ; pages et fragment `?partiel=1` ; case « Jamais sur les murs »).
 - `php tests/souvenirs.php` : kit souvenirs (match du mois et choix des historiens, visages,
   quiz, PDF de 4 pages), « Ils y étaient » (témoignages publiés seulement), QR code.
 - `php tests/vitrine.php` : site de l'association (adresses et alias, page d'attente propre au

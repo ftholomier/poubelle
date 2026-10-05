@@ -20,7 +20,7 @@ final class Media
      */
     private const PARTS = STORAGE_PATH . '/cache/media';
     private const BUCKETS = 16;
-    private const USAGE = STORAGE_PATH . '/cache/media-usage.json';
+    public const USAGE = STORAGE_PATH . '/cache/media-usage.json';
     /** Versions des médias retouchés ou remplacés (petit fichier lu par img() sur toutes les pages). */
     private const VERSIONS = STORAGE_PATH . '/cache/media-versions.php';
     private static ?array $versions = null;
@@ -145,11 +145,12 @@ final class Media
         return self::usage();
     }
 
-    public static function put(string $rel, array $meta, ?array $user = null): void
+    /** @param list<string> $remove champs à retirer (case décochée : « nowall ») */
+    public static function put(string $rel, array $meta, ?array $user = null, array $remove = []): void
     {
-        self::$items = JsonStore::update(self::FILE, function ($all) use ($rel, $meta) {
+        self::$items = JsonStore::update(self::FILE, function ($all) use ($rel, $meta, $remove) {
             $all = $all ?: [];
-            $all[$rel] = array_merge($all[$rel] ?? ['file' => $rel], $meta);
+            $all[$rel] = array_diff_key(array_merge($all[$rel] ?? ['file' => $rel], $meta), array_flip($remove));
             return $all;
         }, []);
         self::cache(self::$items);

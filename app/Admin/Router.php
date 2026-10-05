@@ -131,6 +131,8 @@ final class Router
         $r->post('/admin/retro-direct', fn ($q) => Retro::action($q));
         $r->get('/admin/souvenirs', fn ($q) => Kit::index($q));
         $r->post('/admin/souvenirs', fn ($q) => Kit::save($q));
+        $r->get('/admin/murs-photos', fn ($q) => PhotoWalls::index($q));
+        $r->post('/admin/murs-photos', fn ($q) => PhotoWalls::save($q));
 
         // Communauté
         $r->get('/admin/contributions', fn ($q) => Community::contributions($q));

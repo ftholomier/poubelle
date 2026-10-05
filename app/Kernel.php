@@ -402,6 +402,10 @@ final class Kernel
         $r->get('/interactif/fil-jaune/', fn ($q) => Front\Fil::landing($q));
         $r->get('/interactif/fil-jaune/{a}/', fn ($q, $a) => Front\Fil::star($q, $a));
         $r->get('/interactif/fil-jaune/{a}/{b}/', fn ($q, $a, $b) => Front\Fil::chain($q, $a, $b));
+        $r->get('/interactif/planche-contact/', fn ($q) => Front\Walls::contactSheet($q));
+        $r->get('/interactif/le-lion-illustre/', fn ($q) => Front\Walls::newspaper($q));
+        $r->get('/interactif/mur-du-vestiaire/', fn ($q) => Front\Walls::lockerRoom($q));
+        $r->get('/interactif/mosaique/', fn ($q) => Front\Walls::mosaic($q));
         $r->get('/interactif/souvenirs/', fn ($q) => Front\Kit::landing($q));
         $r->get('/interactif/souvenirs/{ym}.pdf', fn ($q, $ym) => Front\Kit::pdf($q, $ym));
         $r->get('/souvenir/', fn ($q) => Front\Kit::souvenir($q));

@@ -1,8 +1,9 @@
 <?php
 /**
- * Médiathèque. Variables : $items, $total, $page, $pages, $counts, $folders, $filter, $folder, $sort, $q, $query, $canDelete
+ * Médiathèque. Variables : $items, $total, $page, $pages, $counts, $folders, $filter, $folder, $sort, $q, $wall, $query, $canDelete
  */
 use App\Admin\Medias;
+use App\Services\PhotoWall;
 
 $qs = function (array $over) use ($query): string {
     $p = array_filter(array_merge($query, $over), fn ($v) => $v !== null && $v !== '');
@@ -22,8 +23,13 @@ $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
   <?php endforeach; ?>
 </div>
 
+<?php if ($wall !== ''): ?>
+  <div class="alert alert--info small" style="margin:0">Murs de photos : <b><?= e($wall === 'montrees' ? 'photos montrées sur les murs' : 'photos écartées, ' . PhotoWall::REASONS[$wall]) ?></b>. <a href="/admin/murs-photos">Retour aux murs de photos</a> · <a href="/admin/medias<?= e($qs(['murs' => null, 'page' => null])) ?>">voir toute la médiathèque</a></div>
+<?php endif; ?>
+
 <form class="toolbar" method="get" action="/admin/medias">
   <?php if ($filter !== ''): ?><input type="hidden" name="filtre" value="<?= e($filter) ?>"><?php endif; ?>
+  <?php if ($wall !== ''): ?><input type="hidden" name="murs" value="<?= e($wall) ?>"><?php endif; ?>
   <div class="search"><input type="search" name="q" value="<?= e($q) ?>" placeholder="Nom de fichier, légende, crédit…" aria-label="Rechercher un média"><button type="submit" aria-label="Rechercher">→</button></div>
   <select name="dossier" aria-label="Dossier" data-autosubmit>
     <option value="">Tous les dossiers</option>

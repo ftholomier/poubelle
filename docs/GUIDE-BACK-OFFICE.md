@@ -198,8 +198,13 @@ reliés à la fiche.
   issues des contributions, récentes.
 - Modification groupée : cocher plusieurs photos pour leur donner le même crédit ou les
   mêmes droits.
+- **Murs de photos** : la fiche d'une photo dit si elle peut être tirée au hasard sur les
+  murs de photos (Interactif) ou pourquoi elle ne l'est pas ; la case **Jamais sur les murs
+  de photos** l'en retire, même bien créditée.
 
-Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
+Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité. Le champ Crédit
+ne contient que le photographe, le journal ou la collection : une date ou une légende va dans
+« Date ou époque » ou « Légende » (sinon la photo est écartée des murs de photos).
 
 ## 5. Éditorial
 
@@ -263,6 +268,14 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   mois en cours et les deux suivants : match choisi automatiquement ou par vous (autres
   propositions, ou n'importe quel match), mot d'introduction, PDF à vérifier ; liste des
   souvenirs publiés.
+- **Murs de photos** : quatre pages du site (planche-contact, journal « Le Lion illustré »,
+  mur du vestiaire, grande mosaïque) tirent des photos de la médiathèque au hasard à chaque
+  visite, avec un filtre par décennie et par photographe. Seules les photos sûres y vont :
+  crédit renseigné, ni « DR » ni crédit exclu (agences, presse nationale, télévision, sites
+  web), photo d'une fiche publiée, assez grande. L'écran montre les photos écartées par
+  raison (un clic ouvre la médiathèque sur elles : « crédit sans auteur » = une date ou une
+  légende à la place du crédit, à corriger), la liste des crédits exclus (modifiable, une
+  ligne par crédit), tous les crédits montrés et les vignettes préparées d'avance.
 - **Les chiffres du FCSM** (site, Matchs › Explorer et Interactif › Explorer l'histoire,
   adresse `/chiffres/`) : 100 statistiques en 11 chapitres, rien à saisir. Elles viennent des
   tableaux de statistiques des fiches joueurs (records de carrière depuis 1929), des fiches

@@ -1,5 +1,5 @@
 <?php
-/** Hub « Interactif ». Variables : $cards, $voters, $album, $momentsOpen, $stades, $stadesMissing, $retro */
+/** Hub « Interactif ». Variables : $cards, $voters, $album, $momentsOpen, $stades, $stadesMissing, $retro, $walls */
 $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
 ?>
 <div class="cols">
@@ -22,6 +22,10 @@ $fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
   <a class="card card--pad" href="/admin/retro-direct" style="color:var(--navy)">
     <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t">Rétro-Direct</h2><span class="d" style="font-weight:900;font-size:32px;line-height:1"><?= (int) $retro ?></span></div>
     <span class="small">direct(s) à venir · grands matchs rejoués le jour anniversaire</span><span class="linkbtn">Programmer →</span>
+  </a>
+  <a class="card card--pad" href="/admin/murs-photos" style="color:var(--navy)">
+    <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t">Murs de photos</h2><span class="d" style="font-weight:900;font-size:32px;line-height:1"><?= $fmt($walls) ?></span></div>
+    <span class="small">photos créditées sur les 4 murs · crédits exclus, crédits à corriger</span><span class="linkbtn">Régler →</span>
   </a>
   <a class="card card--pad" href="/admin/moments" style="color:var(--navy)">
     <div class="row" style="justify-content:space-between;align-items:baseline"><h2 class="card__t">100 moments</h2><span class="d" style="font-weight:900;font-size:32px;line-height:1"><?= (int) $momentsOpen ?></span></div>

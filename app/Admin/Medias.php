@@ -12,6 +12,7 @@ use App\Data\Index;
 use App\Data\Media;
 use App\Data\Paths;
 use App\Services\Images;
+use App\Services\PhotoWall;
 use App\Services\Search;
 
 /**
@@ -42,6 +43,9 @@ final class Medias extends Base
         $q = Search::norm($req->str('q'));
         $filter = isset(self::FILTERS[$req->str('filtre')]) ? $req->str('filtre') : '';
         $folder = $req->str('dossier');
+        // Lien de l'écran Interactif › Murs de photos : photos montrées, ou écartées pour une raison.
+        $wall = $req->str('murs');
+        $wall = $wall === 'montrees' || isset(PhotoWall::REASONS[$wall]) ? $wall : '';
         $sort = in_array($req->str('tri'), ['recent', 'ancien', 'nom'], true) ? $req->str('tri') : 'recent';
         $folders = [];
         $counts = array_fill_keys(array_keys(self::FILTERS), 0);
@@ -67,6 +71,9 @@ final class Medias extends Base
                 continue;
             }
             if ($q !== '' && !str_contains(Search::norm($rel . ' ' . ($m['title'] ?? '') . ' ' . ($m['caption'] ?? '') . ' ' . ($m['credit'] ?? '') . ' ' . ($m['alt'] ?? '') . ' ' . ($m['caption_raw'] ?? '')), $q)) {
+                continue;
+            }
+            if ($wall !== '' && PhotoWall::reasonKey(PhotoWall::reason($rel, $m, $usage)) !== $wall) {
                 continue;
             }
             $list[$rel] = $m;
@@ -96,8 +103,8 @@ final class Medias extends Base
         }
         return self::html('admin/medias/index', [
             'items' => $items, 'total' => $total, 'page' => $page, 'pages' => $pages, 'counts' => $counts,
-            'folders' => $folders, 'filter' => $filter, 'folder' => $folder, 'sort' => $sort, 'q' => $req->str('q'),
-            'query' => array_filter(['q' => $req->str('q'), 'filtre' => $filter, 'dossier' => $folder, 'tri' => $sort === 'recent' ? '' : $sort]),
+            'folders' => $folders, 'filter' => $filter, 'folder' => $folder, 'sort' => $sort, 'q' => $req->str('q'), 'wall' => $wall,
+            'query' => array_filter(['q' => $req->str('q'), 'filtre' => $filter, 'dossier' => $folder, 'tri' => $sort === 'recent' ? '' : $sort, 'murs' => $wall]),
             'canDelete' => Auth::can('destroy'),
         ], ['title' => 'Médiathèque', 'crumb' => 'Contenus', 'nav' => 'medias', 'scripts' => ['admin/medias.js']]);
     }
@@ -195,6 +202,9 @@ final class Medias extends Base
             'edit' => $m['edit'] ?? null,
             'used' => $used,
             'used_count' => count(array_unique($usage[$rel] ?? [])),
+            // Murs de photos (Interactif) : null si la photo y va, sinon pourquoi elle n'y va pas.
+            'wall' => $isPdf ? null : PhotoWall::reason($rel, $m, $usage),
+            'nowall' => !empty($m['nowall']),
         ];
     }
 
@@ -340,7 +350,12 @@ final class Medias extends Base
             'rights' => Html::line($d['rights'] ?? '', 250),
             'date_text' => Html::line($d['date_text'] ?? '', 120),
         ];
-        Media::put($rel, $meta, $user);
+        // « Jamais sur les murs de photos » (Interactif) : seulement si la case a été envoyée.
+        $wallOff = array_key_exists('nowall', $d) ? !empty($d['nowall']) : null;
+        if ($wallOff) {
+            $meta['nowall'] = true;
+        }
+        Media::put($rel, $meta, $user, $wallOff === false ? ['nowall'] : []);
         \App\Data\Derived::markDirty();
         return self::json(['ok' => true, 'message' => 'Média enregistré.', 'item' => self::item($rel, Media::get($rel) ?? [], Media::usage())]);
     }

@@ -246,3 +246,20 @@ réellement développé.
   refaits juste après, en arrière-plan ; un changement de format passe toujours par un nouveau
   numéro (`Derived::VERSION`, `index-N.php`), recalculé tout de suite.
 - **Compression** : laissée à o2switch (Brotli), plus efficace qu'un gzip fait par PHP.
+
+## Murs de photos, 05/10
+- **Quatre murs plutôt qu'un** (demande du client) : planche-contact, Le Lion illustré
+  (journal), mur du vestiaire, grande mosaïque ; chacun son pavé dans Interactif, mêmes filtres
+  (décennie, photographe ou source) et même agrandissement (crédit, lien vers la fiche).
+- **Prudence sur les droits** : une photo n'y va que si son crédit est renseigné et n'est ni
+  « DR » ni « à risque » (agences photo, presse nationale, télévision, produits, instances,
+  sites web : liste de départ dans le code, modifiable dans le back-office), et seulement si
+  elle illustre une fiche publiée (déjà relue). Un crédit qui n'est qu'une date ou une légende
+  (« Saison 1980-1981 », « Sochaux-Strasbourg ») ne nomme personne : écarté aussi, et signalé
+  à corriger. La presse régionale (L'Est Républicain…) et le club sont gardés : c'est le cœur
+  des archives. Une case de la médiathèque retire une photo précise.
+- **Rien d'inventé** dans le journal : titres = fiches, textes = légendes de la médiathèque.
+- **Police manuscrite Caveat** (OFL 1.1) pour les crédits « écrits à la main » du vestiaire et
+  la planche : auto-hébergée comme les autres polices, chargée sur ces pages seulement.
+- Vignettes préparées d'avance par une tâche planifiée ; en attendant, le tirage privilégie
+  les photos dont la vignette est prête (pas d'attente pour le visiteur).

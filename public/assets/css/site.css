@@ -458,6 +458,8 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .lightbox img { max-width: min(1400px, 100%); max-height: calc(100vh - 140px); width: auto; object-fit: contain; border: 2px solid var(--cream); background: var(--navy-2); }
 .lightbox__bar { display: flex; align-items: center; gap: 16px; color: var(--cream); max-width: 1000px; width: 100%; justify-content: space-between; }
 .lightbox__bar span { font-style: italic; font-size: 16px; text-align: center; flex: 1; }
+.lightbox__link { font-style: normal; white-space: nowrap; color: var(--yellow); border-bottom: 2px solid var(--yellow); font-family: var(--display); font-weight: 800; letter-spacing: .06em; text-transform: uppercase; font-size: 15px; }
+.lightbox__link:hover { color: var(--cream); border-bottom-color: var(--cream); }
 .lightbox button { width: 52px; height: 52px; border: 2px solid var(--cream); background: none; color: var(--cream); cursor: pointer; font-family: var(--display); font-weight: 800; font-size: 24px; flex-shrink: 0; }
 .lightbox button:hover { background: var(--yellow); color: var(--navy); border-color: var(--yellow); }
 .lightbox__close { position: absolute; top: 16px; right: 16px; }

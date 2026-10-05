@@ -217,10 +217,18 @@
     const it = lbItems[lbIndex];
     $('[data-lb-img]', lb).src = it.src;
     $('[data-lb-img]', lb).alt = it.alt || '';
-    $('[data-lb-caption]', lb).textContent = (it.caption ? it.caption + ' · ' : '') + (lbIndex + 1) + ' / ' + lbItems.length;
+    $('[data-lb-caption]', lb).textContent = (it.caption ? it.caption + ' · ' : '') + (it.credit ? '© ' + it.credit + ' · ' : '') + (lbIndex + 1) + ' / ' + lbItems.length;
+    // Photo d'un mur : lien vers la fiche qu'elle illustre.
+    const link = $('[data-lb-link]', lb);
+    if (link) {
+      link.hidden = !it.href;
+      link.href = it.href || '#';
+    }
   };
   const lbOpen = (items, i) => { lbItems = items; lb.hidden = false; lb.classList.add('is-open'); document.body.style.overflow = 'hidden'; lbShow(i); $('[data-lb-close]', lb).focus(); };
   const lbClose = () => { lb.classList.remove('is-open'); lb.hidden = true; document.body.style.overflow = ''; };
+  // Agrandissement ouvert par d'autres scripts (murs de photos) : [{src, alt, caption, credit, href}], rang.
+  if (lb) window.SR.lightbox = (items, i) => { if (items.length) lbOpen(items, i || 0); };
   $$('[data-gallery]').forEach(g => {
     const links = $$('[data-lb]', g);
     const items = links.map(a => ({ src: a.getAttribute('href'), caption: a.dataset.caption || '', alt: $('img', a)?.alt || '' }));

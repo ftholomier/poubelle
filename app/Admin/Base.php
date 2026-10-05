@@ -45,6 +45,7 @@ class Base
             ['onze', 'Onze & album', '/admin/onze', false],
             ['retro', 'Rétro-Direct', '/admin/retro-direct', false],
             ['souvenirs', 'Kit souvenirs', '/admin/souvenirs', false],
+            ['murs', 'Murs de photos', '/admin/murs-photos', false],
         ],
         'Communauté' => [
             ['contributions', 'Contributions', '/admin/contributions', false],

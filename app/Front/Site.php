@@ -132,6 +132,7 @@ final class Site
                 ['icon' => '→', 'label' => t('Frise'), 'd' => t('De 1928 à aujourd\'hui.'), 'href' => url('/interactif/frise/')],
                 ['icon' => '↔', 'label' => t('Maillots'), 'd' => t('Deux époques, un curseur.'), 'href' => url('/interactif/maillots/')],
             ]],
+            ['title' => t('Les murs de photos'), 'tools' => Walls::tools()],
             ['title' => t('Jouer'), 'tools' => [
                 ['icon' => '?', 'label' => t('Quiz'), 'd' => t('Êtes-vous un vrai Lionceau ?'), 'href' => url('/interactif/quiz/')],
                 ['icon' => '▦', 'label' => t('Album'), 'd' => t('Collectionnez les cartes des Lions.'), 'href' => url('/interactif/album/')],

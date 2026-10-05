@@ -318,6 +318,7 @@ final class Collections extends Base
             'momentsOpen' => count(array_filter($moments, fn ($m) => $m['open'])),
             'stades' => count(Store::get('stades', [])), 'stadesMissing' => count(array_filter(Store::get('stades', []), fn ($x) => empty($x['lat']))),
             'retro' => count(array_filter(\App\Services\RetroDirect::program(null, false), fn ($e) => $e['state'] !== 'termine')),
+            'walls' => count(\App\Services\PhotoWall::photos()),
         ], ['title' => 'Quiz, frise, carte…', 'crumb' => 'Interactif', 'nav' => 'interactif']);
     }
 

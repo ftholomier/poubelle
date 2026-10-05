@@ -34,6 +34,7 @@ final class Cron
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
+        'murs-photos' => [0, 'Murs de photos : vignettes préparées d’avance'],
         'videos' => [3600, 'Vignettes des vidéos (YouTube, Dailymotion, Vimeo, Rutube)'],
         'assistant' => [3600, 'Index sémantique de l’assistant IA'],
         'dons' => [3600, 'Synchronisation des dons (Stripe, PayPal)'],
@@ -172,6 +173,10 @@ final class Cron
 
             case 'medias':
                 return self::mediaFacts(400);
+
+            case 'murs-photos':
+                $r = PhotoWall::prepare(40.0);
+                return $r['done'] ? $r['done'] . ' vignette(s) préparée(s)' . ($r['left'] ? ', ' . $r['left'] . ' restante(s)' : ', tout est prêt') : null;
 
             case 'videos':
                 $r = VideoThumbs::run(100);
