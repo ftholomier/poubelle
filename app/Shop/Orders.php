@@ -52,7 +52,12 @@ final class Orders
     public static function config(): array
     {
         $c = (array) JsonStore::read(self::dir() . '/config.json', []);
-        return array_replace(self::CONFIG_DEFAULTS, array_intersect_key($c, self::CONFIG_DEFAULTS));
+        $c = array_replace(self::CONFIG_DEFAULTS, array_intersect_key($c, self::CONFIG_DEFAULTS));
+        // Conditions de vente vides (enregistrées avant le texte proposé) : le texte proposé.
+        if (trim((string) $c['cgv']) === '') {
+            $c['cgv'] = self::CGV;
+        }
+        return $c;
     }
 
     public static function saveConfig(array $c): array

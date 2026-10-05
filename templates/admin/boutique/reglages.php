@@ -35,8 +35,16 @@ $sell = array_filter($models, fn ($m) => Catalog::sellable($m));
     <h2 class="card__t" style="margin-top:18px">Alertes</h2>
     <label class="f"><span class="f__k">Prévenir l’association de chaque commande payée (e-mail)</span><input class="in" type="email" name="alert_email" value="<?= e($c['alert_email']) ?>"></label>
     <h2 class="card__t" style="margin-top:18px">Conditions de vente</h2>
-    <label class="f"><span class="f__k">Texte affiché avant le paiement (délai, retours, contact…)</span><textarea class="in" name="cgv" rows="6"><?= e($c['cgv']) ?></textarea></label>
+    <label class="f"><span class="f__k">Texte affiché avant le paiement (délai, retours, contact…)</span><textarea class="in" name="cgv" rows="12" data-cgv><?= e($c['cgv']) ?></textarea></label>
+    <p class="xs muted" style="margin:-4px 0 10px">Laissée vide, la case reprend le texte proposé. <button type="button" class="btn btn--sm btn--ghost" data-cgv-reset>Remettre le texte proposé</button></p>
+    <template data-cgv-default><?= e(\App\Shop\Orders::CGV) ?></template>
     <p class="xs muted">Produits personnalisés : le droit de rétractation ne s’applique pas (article L221-28 du Code de la consommation) ; un article défectueux est refait ou remboursé.</p>
     <div class="row" style="justify-content:flex-end"><button class="btn btn--navy">Enregistrer</button></div>
   </section>
 </form>
+<script nonce="<?= e(csp_nonce()) ?>">
+document.querySelector('[data-cgv-reset]')?.addEventListener('click', () => {
+  const t = document.querySelector('[data-cgv]'), d = document.querySelector('[data-cgv-default]');
+  if (t && d && (!t.value.trim() || confirm('Remplacer le texte actuel par le texte proposé ?'))) { t.value = d.content.textContent; t.dispatchEvent(new Event('input', { bubbles: true })); }
+});
+</script>
