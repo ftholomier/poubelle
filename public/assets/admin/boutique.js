@@ -163,7 +163,7 @@
     }
     if (k === 'anecdote') {
       // Anecdote tirée par le client sur la boutique (fait du musée mis en forme par l'IA, bouton « Une autre »).
-      Object.assign(l, { field: 'anecdote', label: 'Votre anecdote', text: 'Le saviez-vous ? En 1938, les Lionceaux sont champions de France pour la deuxième fois.', mode: 'client', fit: true, upper: false, font: 'serif-b', max: 140, h: r1(Math.min(h * 0.32, w * 0.4)), y: r1(h * 0.6), min: Math.max(7, Math.round(l.size * 0.3)) });
+      Object.assign(l, { valign: 'middle', field: 'anecdote', label: 'Votre anecdote', text: 'Le saviez-vous ? En 1938, les Lionceaux sont champions de France pour la deuxième fois.', mode: 'client', fit: true, upper: false, font: 'serif-b', max: 140, h: r1(Math.min(h * 0.32, w * 0.4)), y: r1(h * 0.6), min: Math.max(7, Math.round(l.size * 0.3)) });
     }
     if (k === 'match') {
       const tm = (D.tonmatch || []).find(x => x.field === b.dataset.field) || {};
@@ -173,7 +173,7 @@
       // Phrase au choix : le client choisit dans une liste de la banque de textes (réduite pour tenir dans un cadre).
       const lk = b.dataset.list || Object.keys(D.lists || {})[0] || '';
       const c = ((D.lists || {})[lk] || {}).choices || [];
-      Object.assign(l, { list: lk, field: 'phrase_' + lk, label: 'Votre phrase', text: c[0] || 'Votre phrase', fit: true, h: r1(Math.min(h * 0.3, w * 0.35)), y: r1(h * 0.62), min: sup.mockup === 'cap' ? 20 : Math.max(10, Math.round(l.size * 0.4)) });
+      Object.assign(l, { valign: 'middle', list: lk, field: 'phrase_' + lk, label: 'Votre phrase', text: c[0] || 'Votre phrase', fit: true, h: r1(Math.min(h * 0.3, w * 0.35)), y: r1(h * 0.62), min: sup.mockup === 'cap' ? 20 : Math.max(10, Math.round(l.size * 0.4)) });
       if (sup.mockup === 'cap') l.size = Math.max(l.size, 28);
     }
     l.id = uid();
@@ -199,6 +199,7 @@
       h += `<label class="f"><span class="f__k">${l.mode === 'client' ? 'Texte d’exemple (remplacé par celui du client)' : 'Texte'}</span><textarea class="in" rows="2" data-k="text">${esc(l.text)}</textarea></label>`;
       h += `<div class="pgrid"><label class="f f--inline"><span class="f__k">Police</span><select class="in in--sm" data-k="font">${Object.entries(D.fonts).map(([k, n]) => `<option value="${k}"${l.font === k ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label>${num('size', 'Corps (pt)', 1, 2)}${num('spacing', 'Espacement', 10)}${num('lh', 'Interligne', 0.05, 0.6)}</div>`;
       h += `<div class="seg" style="margin:6px 0">${['left', 'center', 'right'].map(a => `<button type="button" class="seg__b${l.align === a ? ' is-on' : ''}" data-align="${a}">${{ left: 'À gauche', center: 'Centré', right: 'À droite' }[a]}</button>`).join('')}</div>`;
+      if (+l.h > 0) h += `<div class="seg" style="margin:0 0 6px" title="Position du texte dans la hauteur du cadre">${['top', 'middle', 'bottom'].map(a => `<button type="button" class="seg__b${(l.valign || 'top') === a ? ' is-on' : ''}" data-valign="${a}">${{ top: '⤒ En haut', middle: '↕ Au milieu', bottom: '⤓ En bas' }[a]}</button>`).join('')}</div>`;
       h += `<div class="row" style="gap:12px;flex-wrap:wrap">${chk('upper', 'Capitales')}${chk('fit', 'Réduire pour tenir dans le cadre')}</div>`;
       if (l.fit) h += `<div class="pgrid">${num('h', 'Hauteur du cadre (mm, 0 : une ligne)', 1, 0)}${num('min', 'Corps minimum (pt)', 1, 2)}</div><p class="xs muted" style="margin:2px 0 6px">Le texte est réduit, puis passe sur plusieurs lignes si le cadre a une hauteur, sans descendre sous le corps minimum (lisibilité, broderie). Un texte qui ne tient pas, même au minimum, n’est pas proposé au client.</p>`;
       h += `<div class="f"><span class="f__k">Couleur</span>${colorPick('color', l.color, false)}</div>`;
@@ -229,7 +230,7 @@
     if (e.target.type === 'checkbox') l[k] = e.target.checked;
     else if (e.target.tagName === 'SELECT') l[k] = e.target.value;
     if (k === 'list' && l.list) { l.fit = true; if (l.field === 'prenom') { l.field = 'phrase'; l.label = 'Votre phrase'; } const c = (D.lists[l.list] || {}).choices || []; if (c.length) l.text = c[0]; }
-    if (k === 'style' || e.target.tagName === 'SELECT') props();
+    if (k === 'style' || k === 'h' || e.target.tagName === 'SELECT') props(); // hauteur : affiche ou masque « en haut / au milieu / en bas »
     list();
     changed(0);
   });
@@ -238,6 +239,8 @@
     if (!l) return;
     const a = e.target.closest('[data-align]');
     if (a) { l.align = a.dataset.align; props(); changed(0); }
+    const va = e.target.closest('[data-valign]');
+    if (va) { l.valign = va.dataset.valign; props(); changed(0); }
     if (e.target.closest('[data-center]')) {
       const b = last && last.boxes[l.id];
       if (l.type === 'text') { l.x = r1((F().w - l.w) / 2); l.align = 'center'; }

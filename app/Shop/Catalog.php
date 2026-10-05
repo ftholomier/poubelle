@@ -495,6 +495,7 @@ final class Catalog
             $out += [
                 'text' => mb_substr((string) ($l['text'] ?? ''), 0, 600), 'font' => isset(Vector::FONTS[$l['font'] ?? '']) ? $l['font'] : 'display',
                 'size' => $num($l['size'] ?? 24, 2, 400, 24), 'color' => Vector::hex($l['color'] ?? null), 'align' => in_array($l['align'] ?? '', ['left', 'center', 'right'], true) ? $l['align'] : 'left',
+                'valign' => in_array($l['valign'] ?? '', ['middle', 'bottom'], true) ? $l['valign'] : 'top',
                 'upper' => !empty($l['upper']), 'spacing' => $num($l['spacing'] ?? 0, -100, 600, 0), 'lh' => $num($l['lh'] ?? 1.1, 0.6, 3, 1.1), 'fit' => !empty($l['fit']),
                 'mode' => ($l['mode'] ?? '') === 'client' ? 'client' : 'fixed',
                 'field' => substr((string) preg_replace('/[^a-z0-9_]/', '', strtolower((string) ($l['field'] ?? ''))), 0, 30),

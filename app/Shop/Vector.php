@@ -208,6 +208,13 @@ final class Vector
         $w = (float) ($l['w'] ?? 100);
         // Première ligne de base : la hauteur des capitales sous le haut du calque, plus un peu d'air.
         $base = (float) ($l['y'] ?? 0) + ($lh - $mm) / 2 + $font->ascent * $k * 0.92;
+        // Cadre en hauteur : texte en haut, au milieu ou en bas du cadre.
+        $fh = (float) ($l['h'] ?? 0);
+        $va = (string) ($l['valign'] ?? 'top');
+        if ($fh > 0 && $va !== 'top') {
+            $free = max(0.0, $fh - count($lay['lines']) * $lh);
+            $base += $va === 'middle' ? $free / 2 : $free;
+        }
         $align = (string) ($l['align'] ?? 'left');
         $cmds = [];
         foreach ($lay['lines'] as $n => $line) {
