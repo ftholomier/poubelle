@@ -6,8 +6,9 @@ return [
     'sections' => [
         ['id' => 'connexion', 'title' => 'Se connecter', 'html' => <<<'HTML'
 <p>Un administrateur vous invite depuis l’écran Utilisateurs : vous recevez un e-mail avec un lien pour choisir votre mot de passe (au moins 10 caractères). Ensuite, connectez-vous à l’adresse <code>/admin</code> avec votre e-mail et ce mot de passe.</p>
-[[img:connexion.webp|L’écran de connexion, avec le lien « Mot de passe oublié »]]
+[[img:connexion.webp|L’écran de connexion, avec le lien « Mot de passe oublié » et, en fond, le petit match]]
 <ul>
+<li><b>En fond, un petit match se joue</b>, pour le plaisir : le FCSM fait tourner, marque, et le tableau d’affichage suit. Il ne gêne pas la saisie ; il reste immobile si votre appareil demande moins d’animations.</li>
 <li><b>Mot de passe oublié</b> : lien sous le formulaire ; un e-mail vous permet d’en choisir un nouveau.</li>
 <li>Après plusieurs essais erronés, la connexion est bloquée quelques minutes (protection contre les intrusions).</li>
 <li><b>Se déconnecter</b> : menu en haut à droite (vos initiales).</li>

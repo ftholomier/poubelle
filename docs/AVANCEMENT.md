@@ -576,4 +576,5 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Bandeau « Installer l'appli » sur téléphone (2e page vue, Android : bouton ; iPhone : les deux gestes ; « Plus tard » = 30 jours ; jamais dans l'appli ni par-dessus les cookies)
 - [x] Page d'attente : « Prévenez-moi de l'ouverture » (abonnement aux nouvelles, appli installable aussi sur iPhone) ; annonce de l'ouverture prête dans Communauté › Notifications, envoyée une seule fois
 - [x] Mesure : le service worker ne ralentit pas le back-office (pages chargées en 97 ms sans, 90 ms avec, en local)
+- [x] Écrans de connexion du back-office : un petit match en fond pour le plaisir (passes, tir, « BUT ! », confettis, filet qui tremble, tableau d'affichage avec score et minute) ; terrain debout sur téléphone ; image fixe si l'appareil demande moins d'animations
 - [ ] À faire après la mise en ligne en HTTPS : installer l'appli sur un Android et un iPhone, s'abonner, envoyer un essai (le vrai service de Google ou d'Apple ne peut pas être joint depuis l'environnement de développement)

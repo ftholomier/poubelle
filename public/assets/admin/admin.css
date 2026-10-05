@@ -458,8 +458,16 @@ input:checked + .switch::after { left: 18px; }
 .ac__list button:hover, .ac__list button.is-on { background: var(--yellow); }
 
 /* connexion */
-.auth { min-height: 100vh; display: grid; place-items: center; padding: 20px; background: var(--navy); }
-.auth__box { width: min(440px, 100%); background: var(--paper); border: 3px solid var(--yellow); box-shadow: 12px 12px 0 var(--yellow); padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+.auth { min-height: 100vh; display: grid; place-items: center; padding: 20px; background: radial-gradient(ellipse at 50% 40%, #16306f 0%, var(--navy) 70%); overflow: hidden; }
+/* Le match en fond (admin/connexion.js) et son tableau d'affichage */
+.auth__pitch { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.auth__board { position: fixed; top: 14px; left: 14px; display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(14,31,77,.82); border: 2px solid var(--yellow); color: #F3EDDF; font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; pointer-events: none; }
+.auth__board b { color: var(--yellow); font-size: 22px; font-weight: 900; min-width: 1ch; text-align: center; font-variant-numeric: tabular-nums; }
+.auth__board i { font-style: normal; color: var(--yellow); }
+.auth__board em { font-style: normal; margin-left: 8px; padding-left: 10px; border-left: 1px solid rgba(243,237,223,.35); opacity: .85; font-variant-numeric: tabular-nums; min-width: 3ch; }
+@media (max-height: 600px), (max-width: 360px) { .auth__board { display: none; } }
+@media (prefers-reduced-motion: reduce) { .auth__board { display: none; } }
+.auth__box { position: relative; z-index: 1; width: min(440px, 100%); background: var(--paper); border: 3px solid var(--yellow); box-shadow: 12px 12px 0 var(--yellow); padding: 28px; display: flex; flex-direction: column; gap: 16px; }
 .auth__brand { display: flex; align-items: center; gap: 12px; }
 .auth__brand img { height: 56px; }
 .auth__brand b { font-family: var(--display); font-weight: 900; font-size: 24px; text-transform: uppercase; display: block; line-height: 1; }
