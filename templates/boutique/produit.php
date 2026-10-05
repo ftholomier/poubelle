@@ -11,6 +11,8 @@ use App\Shop\ShopPages;
 $s = $m['sale'];
 $full = !$sup['colors']; // imprimé en entier : le client choisit le fond
 $fixed = \App\Shop\Poster::isFor($m); // poster souvenir : charte fixe, aucun choix de couleur
+$f0 = reset($sup['faces']);
+$native = (string) (array_search([(int) round($f0['w']), (int) round($f0['h'])], Catalog::PAPER, true) ?: 'A3'); // format d'origine, coché d'office
 $names = array_flip($full ? \App\Shop\Vector::PALETTE : $sup['colors']);
 $base = Catalog::applyOptions($m, [])[0]['color'];
 $tnames = array_flip(\App\Shop\Vector::PALETTE);
@@ -119,7 +121,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <div class="vgrid2">
         <?php if ($sup['sizes']): ?>
         <div class="field"><label for="f-size"><?= array_intersect($sup['sizes'], array_keys(Catalog::PAPER)) ? 'Format' : 'Taille' ?> *</label><select id="f-size" name="size" required data-shop-in>
-          <?php foreach ($sup['sizes'] as $i => $sz): ?><option value="<?= e($sz) ?>"<?= $sz === 'M' || $sz === 'A3' || (count($sup['sizes']) === 1) ? ' selected' : '' ?>><?= e($sz) ?><?= isset($s['extra'][$sz]) ? ' (+' . e(Orders::money($s['extra'][$sz])) . ')' : '' ?></option><?php endforeach; ?>
+          <?php foreach ($sup['sizes'] as $i => $sz): ?><option value="<?= e($sz) ?>"<?= $sz === 'M' || $sz === $native || (count($sup['sizes']) === 1) ? ' selected' : '' ?>><?= e($sz) ?><?= isset($s['extra'][$sz]) ? ' (+' . e(Orders::money($s['extra'][$sz])) . ')' : '' ?></option><?php endforeach; ?>
         </select></div>
         <?php endif; ?>
         <?php if ($fixed): ?><input type="hidden" name="qty" value="1"><?php else: ?><div class="field"><label for="f-qty">Quantité</label><input type="number" id="f-qty" name="qty" value="1" min="1" max="20" data-shop-in></div><?php endif; ?>

@@ -148,7 +148,7 @@ $tm = Catalog::saveModel(['name' => 'Poster essai Ton match', 'support' => 'post
     ['id' => 'a', 'type' => 'text', 'x' => 10, 'y' => 100, 'w' => 277, 'text' => 'match_affiche', 'size' => 60, 'fit' => true, 'mode' => 'client', 'field' => 'match_affiche'],
     ['id' => 'b', 'type' => 'text', 'x' => 10, 'y' => 200, 'w' => 277, 'text' => 'match_phrase', 'size' => 24, 'fit' => true, 'mode' => 'client', 'field' => 'match_phrase']]]]]);
 $noDate = Orders::line(['model' => $tm['id'], 'qty' => 1]);
-$ln = Orders::line(['model' => $tm['id'], 'qty' => 1, 'opts' => ['y' => '1988', 'mo' => '6', 'd' => '11'], 'values' => ['match_affiche' => 'Texte falsifié']]);
+$ln = Orders::line(['model' => $tm['id'], 'size' => 'A3', 'qty' => 1, 'opts' => ['y' => '1988', 'mo' => '6', 'd' => '11'], 'values' => ['match_affiche' => 'Texte falsifié']]);
 $eq('commande Ton match : date obligatoire ; valeurs fournies par le musée (pas par le client)', [isset($noDate['error']), $ln['item']['values']['match_affiche'] ?? '', $ln['item']['opts']['date'] ?? ''], [true, 'Metz 1-1 Sochaux · a.p., 5-4 t.a.b.', '1988-06-11']);
 Catalog::deleteModel($tm['id']);
 [, $same] = Catalog::applyOptions($m, ['color' => '#1A1A1A', 'tcolor' => '#1A1A1A']);

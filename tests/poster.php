@@ -60,9 +60,9 @@ $bad = Catalog::check($m, ['poster_match' => '12', 'poster_prenom' => '<script>'
 $eq('match hors liste, nom avec balise, nom trop long : refusés', array_keys($bad['errors']), ['poster_match', 'poster_prenom', 'poster_nom']);
 $ok = Catalog::check($m, ['poster_match' => Poster::SAMPLE, 'poster_prenom' => 'Jean-Pierre', 'poster_nom' => 'D’Arcy']);
 $eq('prénom composé et apostrophe acceptés', $ok['errors'], []);
-$line = Orders::line(['model' => 'testposter', 'values' => ['poster_match' => Poster::SAMPLE, 'poster_prenom' => 'Jean'], 'qty' => 1]);
+$line = Orders::line(['model' => 'testposter', 'size' => 'A3', 'values' => ['poster_match' => Poster::SAMPLE, 'poster_prenom' => 'Jean'], 'qty' => 1]);
 $eq('nom manquant : refusé', $line['error'] ?? '', 'Complétez « Nom ».');
-$line = Orders::line(['model' => 'testposter', 'values' => ['poster_match' => Poster::SAMPLE, 'poster_prenom' => 'Jean', 'poster_nom' => 'Dupont'], 'qty' => 1]);
+$line = Orders::line(['model' => 'testposter', 'size' => 'A3', 'values' => ['poster_match' => Poster::SAMPLE, 'poster_prenom' => 'Jean', 'poster_nom' => 'Dupont'], 'qty' => 1]);
 $eq('résumé de la commande', str_contains(Orders::describe($line['item']), 'Poster : Metz 1-1 Sochaux') && str_contains(Orders::describe($line['item']), 'pour Jean Dupont'), true);
 
 // 5. Dessin : SVG (lettres réutilisées), dédicace, PDF de l'imprimeur.
@@ -94,6 +94,7 @@ foreach (['A4', 'A3', 'A2'] as $sz) {
 $eq('A4, A3, A2 : format, cadre du poster, format fini du PDF', $dims, [[210, 297, 210], 210, [297, 420, 297], 297, [420, 594, 420], 420]);
 $line2 = Orders::line(['model' => 'testposter', 'size' => 'A2', 'values' => $line['item']['values'], 'qty' => 1]);
 $eq('format choisi par le client et résumé « Format A2 »', [$line2['item']['size'] ?? '', str_starts_with(Orders::describe($line2['item']), 'Format A2')], ['A2', true]);
+$eq('anciens supports Poster A3 et A2 : formats A4, A3, A2 proposés ; pas la carte postale', [Catalog::support('poster-a3')['sizes'], Catalog::support('poster-a2')['sizes'], Catalog::support('carte')['sizes']], [['A4', 'A3', 'A2'], ['A4', 'A3', 'A2'], []]);
 $eq('un t-shirt n’est jamais redimensionné', Catalog::scaleFace(['w' => 280, 'h' => 350, 'layers' => []], 'A4')['w'], 280);
 
 $eq('un seul exemplaire par article', Orders::line(['model' => 'testposter', 'size' => 'A3', 'values' => $line['item']['values'], 'qty' => 5])['item']['qty'], 1);

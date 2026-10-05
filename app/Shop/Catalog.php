@@ -72,11 +72,20 @@ final class Catalog
             $f = array_values((array) $f);
             $faces[(string) $fk] = ['label' => (string) ($f[0] ?? $fk), 'w' => max(10.0, (float) ($f[1] ?? 100)), 'h' => max(10.0, (float) ($f[2] ?? 100)), 'bleed' => max(0.0, min(10.0, (float) ($f[3] ?? 0)))];
         }
+        $sizes = array_values(array_filter(array_map('strval', (array) ($s['sizes'] ?? []))));
+        // Poster vectoriel au format A (A3, A2…) sans format choisi : proposé en A4, A3 et A2,
+        // le dessin étant réduit ou agrandi à l'identique (voir scaleFace).
+        if (!$sizes && ($s['mockup'] ?? '') === 'paper' && count($faces) === 1) {
+            $f = reset($faces);
+            if ($f['w'] >= 200 && abs($f['h'] / $f['w'] - M_SQRT2) < 0.01) {
+                $sizes = ['A4', 'A3', 'A2'];
+            }
+        }
         return [
             'key' => $key, 'name' => (string) ($s['name'] ?? $key), 'mockup' => isset(self::MOCKUPS[$s['mockup'] ?? '']) ? $s['mockup'] : 'paper',
             'faces' => $faces ?: ['recto' => ['label' => 'Recto', 'w' => 100, 'h' => 100, 'bleed' => 0]],
             'colors' => array_map(fn ($c) => Vector::hex($c, '#FFFFFF'), (array) ($s['colors'] ?? [])),
-            'sizes' => array_values(array_filter(array_map('strval', (array) ($s['sizes'] ?? [])))),
+            'sizes' => $sizes,
             'ref' => (string) ($s['ref'] ?? ''), 'note' => (string) ($s['note'] ?? ''),
             // Coût de fabrication chez l'imprimeur (centimes TTC par article) : relevés et marge.
             'cost' => max(0, min(100000, (int) ($s['cost'] ?? 0))),
