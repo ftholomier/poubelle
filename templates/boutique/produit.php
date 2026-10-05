@@ -25,7 +25,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
         <?php if (count($faces) > 1): ?>
         <div class="shopseg" role="group" aria-label="Face" data-faces><?php foreach ($faces as $i => $fk): ?><button type="button" class="shopseg__b<?= $i ? '' : ' is-on' ?>" data-face="<?= e($fk) ?>"><?= e($sup['faces'][$fk]['label']) ?></button><?php endforeach; ?></div>
         <?php endif; ?>
-        <button type="button" class="shop3dbtn" data-3d-toggle aria-pressed="false"><span aria-hidden="true">⟳</span> <b>Voir en 3D</b></button>
+        <?php if (!in_array($sup['mockup'], \App\Shop\ShopPages::NO_3D, true)): ?><button type="button" class="shop3dbtn" data-3d-toggle aria-pressed="false"><span aria-hidden="true">⟳</span> <b>Voir en 3D</b></button><?php endif; ?>
       </div>
       <p class="shopdisclaim">Aperçus et rendu 3D indicatifs, non contractuels : couleurs, proportions et placement du marquage peuvent légèrement varier sur le produit fabriqué.</p>
     </div>

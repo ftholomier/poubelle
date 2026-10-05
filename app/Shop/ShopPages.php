@@ -64,6 +64,9 @@ final class ShopPages
         return Mockup::render($sup['mockup'], (string) $fk, $mm['faces'][$fk], $mm['color'], $values)['svg'];
     }
 
+    /** Formes sans aperçu 3D tant qu'il n'y a pas de vrai modèle 3D (vêtements, casquette) : aperçu à plat seulement. */
+    public const NO_3D = ['tee', 'hoodie', 'cap'];
+
     /**
      * Pour l'aperçu 3D : le dessin à plat de chaque face (SVG vectoriel du fichier d'impression,
      * fond transparent sauf fond du modèle), la couleur du produit et la forme 3D à construire.
