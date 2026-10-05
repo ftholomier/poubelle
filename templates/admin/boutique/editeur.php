@@ -47,7 +47,11 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
         <div class="f" style="margin:10px 0 0"><span class="f__k">Phrase au choix du client (banque de textes)</span>
           <div class="row" style="gap:6px;flex-wrap:wrap">
           <?php foreach ($lists as $lk => $li): ?>
-            <button type="button" class="btn btn--sm btn--yellow" data-add="phrase" data-list="<?= e($lk) ?>" title="Le client choisira une phrase de cette liste (<?= count($li['choices']) ?> phrases validées)">+ <?= e($li['name']) ?></button>
+            <?php if ($li['choices']): ?>
+            <button type="button" class="btn btn--sm btn--yellow" data-add="phrase" data-list="<?= e($lk) ?>" title="Le client choisira une phrase de cette liste (<?= count($li['choices']) ?> phrases validées)">+ <?= e($li['name']) ?> <span class="xs">(<?= count($li['choices']) ?>)</span></button>
+            <?php else: ?>
+            <a class="btn btn--sm btn--ghost" href="/admin/boutique/textes#l-<?= e($lk) ?>" target="_blank" title="Aucune phrase validée dans cette liste : validez-en au moins une dans la banque de textes pour pouvoir l’utiliser">+ <?= e($li['name']) ?> <span class="xs">(0 validée · à valider)</span></a>
+            <?php endif; ?>
           <?php endforeach; ?>
           <a class="btn btn--sm btn--ghost" href="/admin/boutique/textes" target="_blank">Gérer les listes</a>
           </div>
