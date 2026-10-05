@@ -77,11 +77,12 @@
   }
 
   /* ------------------------------------------------------------ échanges avec le serveur */
-  async function ping(mode) {
+  // background : signal périodique, qui ne prolonge pas la session (voir session.js).
+  async function ping(mode, background = false) {
     if (busy) return null;
     busy = true;
     const idle = Math.round((Date.now() - lastAct) / 1000);
-    const r = await BO.post('/admin/api/verrou', { key, mode, tab, idle, modified: loaded }).catch(() => null);
+    const r = await BO.post('/admin/api/verrou', { key, mode, tab, idle, modified: loaded }, true, background).catch(() => null);
     busy = false;
     if (!r || !r.ok) return null;
     if (r.taken && state !== 'taken') { taken(r.taken); return r; }
@@ -156,6 +157,7 @@
     fd.append('key', key);
     fd.append('mode', 'release');
     fd.append('tab', tab);
+    fd.append('_bg', '1');
     navigator.sendBeacon('/admin/api/verrou', fd);
   }
   function tick() {
@@ -166,9 +168,9 @@
         show('<span class="lockbar__t">Fiche libérée après ' + Math.round(IDLE_MAX / 60000) + ' minutes sans activité, pour que d’autres puissent la modifier. Elle se verrouille de nouveau dès que vous reprenez.</span>', 'info');
         return;
       }
-      ping('hold');
+      ping('hold', true);
     } else if (state === 'other' || state === 'taken') {
-      ping('watch');
+      ping('watch', true);
     }
   }
   window.addEventListener('pagehide', () => { if (state === 'mine') release(); });

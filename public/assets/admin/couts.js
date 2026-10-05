@@ -54,7 +54,7 @@
     if (busy || document.hidden) return;
     busy = true;
     try {
-      const r = await fetch('/admin/api/couts', { credentials: 'same-origin', headers: { Accept: 'application/json' } });
+      const r = await fetch('/admin/api/couts', { credentials: 'same-origin', headers: { Accept: 'application/json', 'X-BO-Background': '1' } });
       if (!r.ok || !(r.headers.get('content-type') || '').includes('json')) throw new Error(String(r.status));
       render(await r.json());
       status?.classList.remove('is-off');

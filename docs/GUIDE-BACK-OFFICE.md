@@ -8,6 +8,10 @@ l'adresse `/admin` du site (`https://musee.fcsochauxretro.com/admin`).
 - **Invitation** : un administrateur vous invite (Système › Utilisateurs) ; vous recevez
   un lien pour choisir votre mot de passe. Mot de passe oublié : lien sur l'écran de
   connexion.
+- **Déconnexion automatique** après 30 minutes sans activité (clavier, souris, dans
+  n'importe quel onglet du back-office) ; « Toujours là ? » deux minutes avant, avec
+  « Rester connecté ». Une saisie sans enregistrement compte comme une activité. Après
+  reconnexion, retour à la même page ; une fiche en cours garde son brouillon sur l'ordinateur.
 - **Deux niveaux** :
   - *Administrateur* : tout.
   - *Utilisateur* : tout, sauf la gestion des utilisateurs, les réglages (clés API,

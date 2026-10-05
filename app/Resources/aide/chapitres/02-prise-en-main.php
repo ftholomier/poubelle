@@ -11,6 +11,7 @@ return [
 <li><b>Mot de passe oublié</b> : lien sous le formulaire ; un e-mail vous permet d’en choisir un nouveau.</li>
 <li>Après plusieurs essais erronés, la connexion est bloquée quelques minutes (protection contre les intrusions).</li>
 <li><b>Se déconnecter</b> : menu en haut à droite (vos initiales).</li>
+<li><b>Déconnexion automatique</b> : après <b>30 minutes sans activité</b> (ni clavier, ni souris, dans aucun onglet du back-office), vous êtes déconnecté. Deux minutes avant, une fenêtre « Toujours là ? » propose <b>Rester connecté</b>. Écrire un long texte sans enregistrer compte bien comme une activité. Après reconnexion, vous revenez sur la même page ; une fiche en cours de modification a gardé son brouillon sur l’ordinateur, proposé à sa réouverture.</li>
 </ul>
 HTML],
         ['id' => 'tableau-de-bord', 'title' => 'Le tableau de bord', 'html' => <<<'HTML'

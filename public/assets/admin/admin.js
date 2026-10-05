@@ -58,14 +58,18 @@
     if (b) setTimeout(() => { b.disabled = true; b.textContent = f.dataset.busy; }, 0);
   });
 
-  BO.post = async (url, data, isJson = true) => {
+  // background : appel automatique (verrou, rafraîchissement), qui ne prolonge pas la session.
+  BO.post = async (url, data, isJson = true, background = false) => {
     const opt = { method: 'POST', credentials: 'same-origin', headers: { 'X-CSRF': CSRF, Accept: 'application/json' } };
+    if (background) opt.headers['X-BO-Background'] = '1';
     if (isJson) { opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(data || {}); } else { opt.body = data; }
     const r = await fetch(url, opt);
     let j = {};
     try { j = await r.json(); } catch (e) { j = { error: 'Réponse inattendue du serveur (' + r.status + ').' }; }
     if (!r.ok && !j.error) j.error = 'Erreur ' + r.status;
     j._status = r.status;
+    // Session fermée (inactivité, mot de passe changé…) : session.js ramène à la page de connexion.
+    if (r.status === 401) document.dispatchEvent(new CustomEvent('bo:expired', { detail: j }));
     return j;
   };
 
@@ -807,7 +811,7 @@
       };
       form.addEventListener('input', e => { e.target.closest?.('.f')?.classList.add('is-dirty'); markDirty(); });
       form.addEventListener('change', markDirty);
-      window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+      window.addEventListener('beforeunload', e => { if (dirty && !BO.leaving) { e.preventDefault(); e.returnValue = ''; } });
       const save = async (extra = {}) => {
         if (busy) return;
         // Verrou de modification (verrou.js) : lecture seule tant que quelqu'un d'autre modifie.

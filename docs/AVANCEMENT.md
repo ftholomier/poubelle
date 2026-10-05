@@ -485,6 +485,16 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - À faire par les historiens : lancer le sommaire, trier, faire rédiger et dater les moments ;
   avant 1970 (peu de fiches de matchs), compléter avec leurs propres idées.
 
+## Retouches du 05/10 (demandes du client) — terminé
+- [x] **Page d'attente de l'association** : crédit de la photo affiché (« Photo : … » sous la
+      légende) ; champ « Crédit de la photo » dans l'écran, sinon le crédit de la médiathèque ;
+      photo de départ créditée « FC Sochaux-Montbéliard » (image du site officiel du club).
+- [x] **Déconnexion automatique du back-office** après 30 minutes sans activité, dans tous les
+      onglets ; « Toujours là ? » deux minutes avant (« Rester connecté ») ; une saisie sans
+      enregistrement compte comme une activité ; retour à la même page après reconnexion,
+      brouillon d'une fiche gardé ; le serveur ferme aussi la session si la page est fermée.
+      Les appels automatiques (verrou, coûts) ne prolongent pas la session. `tests/session.php`.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

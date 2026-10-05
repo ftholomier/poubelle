@@ -26,6 +26,12 @@ final class Auth
     private static ?array $current = null;
     private static bool $loaded = false;
 
+    /** Déconnexion automatique après 30 minutes sans activité. */
+    public const IDLE = 1800;
+
+    /** Compte dont la session vient d'être fermée pour inactivité (noté au journal par le back-office). */
+    public static ?array $expired = null;
+
     /** @return array<string,array> par id */
     public static function users(): array
     {
@@ -73,7 +79,43 @@ final class Auth
             Session::forget('uid');
             return null;
         }
+        // Sans activité depuis plus de 30 minutes : session fermée, la page de connexion le dit. Le
+        // navigateur ferme la session à l'heure dite ; le serveur, avec une marge (il n'apprend
+        // l'activité vue par le navigateur que toutes les 4 minutes), si la page n'est plus ouverte.
+        $now = time();
+        $seen = (int) Session::get('seen', 0);
+        if ($seen > 0 && $now - $seen > self::idleLimit() + self::idleGrace()) {
+            self::$expired = ['id' => $u['id'], 'name' => $u['name'], 'email' => $u['email']];
+            self::logout();
+            Session::set('idle_out', 1);
+            return null;
+        }
+        if (!self::passive() && $now - $seen >= 20) {
+            Session::set('seen', $now);
+        }
         return self::$current = $u;
+    }
+
+    /** Délai d'inactivité, en secondes (essais : BO_IDLE_SECONDS, avec le serveur de développement de PHP seulement). */
+    public static function idleLimit(): int
+    {
+        $t = PHP_SAPI === 'cli-server' ? (int) getenv('BO_IDLE_SECONDS') : 0;
+        return $t > 0 ? $t : self::IDLE;
+    }
+
+    /** Marge du serveur au-delà du délai (5 minutes ; l'activité lui est signalée au plus toutes les 4 minutes). */
+    public static function idleGrace(): int
+    {
+        return min(300, intdiv(self::idleLimit(), 4) + 10);
+    }
+
+    /**
+     * Appel automatique du navigateur (verrou d'une fiche, rafraîchissement d'un écran) : il ne
+     * prolonge pas la session ; seules les actions de la personne le font.
+     */
+    public static function passive(): bool
+    {
+        return ($_SERVER['HTTP_X_BO_BACKGROUND'] ?? '') === '1' || ($_POST['_bg'] ?? '') === '1';
     }
 
     public static function can(string $perm): bool
@@ -136,6 +178,7 @@ final class Auth
         unset($_SESSION['_csrf']); // nouveau jeton de formulaire pour la session connectée
         Session::set('uid', $u['id']);
         Session::set('ufp', self::fingerprint($u));
+        Session::set('seen', time());
         self::update($u['id'], ['last_login' => date('c')]);
         self::$current = self::find($u['id']);
         self::$loaded = true;

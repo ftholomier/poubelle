@@ -22,7 +22,7 @@ $here = \App\Admin\Favorites::here($meta);
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
 </head>
-<body>
+<body data-idle="<?= Auth::idleLimit() ?>">
 <div class="bo" data-bo>
   <aside class="side" id="side">
     <a class="side__brand" href="/admin"><img src="/assets/img/logo-sochaux-retro.png" alt=""><span><b>Sochaux rétro</b><small>Back-office</small></span></a>
@@ -104,6 +104,7 @@ $here = \App\Admin\Favorites::here($meta);
 <script src="<?= asset('admin/wysiwyg.js') ?>" defer></script>
 <script src="<?= asset('admin/correcteur.js') ?>" defer></script>
 <script src="<?= asset('admin/verrou.js') ?>" defer></script>
+<script src="<?= asset('admin/session.js') ?>" defer></script>
 <?php foreach ($meta['scripts'] ?? [] as $js): ?><script src="<?= asset($js) ?>" defer></script><?php endforeach; ?>
 </body>
 </html>

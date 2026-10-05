@@ -8,6 +8,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Core\Router as CoreRouter;
 use App\Core\Session;
+use App\Data\Activity;
 
 /**
  * Back-office (/admin) : connexion, contrôle d'accès à deux niveaux, jeton CSRF
@@ -51,8 +52,11 @@ final class Router
 
         $user = Auth::user();
         if (!$user) {
+            if (Auth::$expired) {
+                Activity::log(Auth::$expired, 'a été déconnecté après ' . Account::idleMinutes() . ' minutes sans activité', null);
+            }
             if (str_starts_with($path, '/admin/api/') || $req->wantsJson()) {
-                return Response::json(['error' => 'Session expirée : reconnectez-vous.'], 401);
+                return Response::json(Auth::$expired ? ['error' => 'Déconnecté après ' . Account::idleMinutes() . ' minutes sans activité : reconnectez-vous.', 'idle' => true] : ['error' => 'Session expirée : reconnectez-vous.'], 401);
             }
             return Response::redirect('/admin/connexion?r=' . rawurlencode($req->server['REQUEST_URI'] ?? '/admin'));
         }
@@ -67,6 +71,9 @@ final class Router
 
         $r = new CoreRouter();
         $r->post('/admin/deconnexion', fn ($q) => Account::logout($q));
+        // Inactivité : activité signalée par le navigateur (saisie sans enregistrement), déconnexion au bout du délai
+        $r->post('/admin/api/actif', fn ($q) => Account::stillHere($q));
+        $r->post('/admin/api/inactif', fn ($q) => Account::idleLogout($q));
         $r->any('/admin/profil', fn ($q) => Account::profile($q));
 
         // Aide (guide d'utilisation)

@@ -1076,7 +1076,17 @@ après 2 ans).
 - Politique CSP sur toutes les pages HTML ; jeton CSRF sur tous les formulaires.
 - Mots de passe hachés en Argon2id ; cookie de session `HttpOnly`, `SameSite=Lax`,
   `Secure` en HTTPS, identifiant de session imposé refusé (`use_strict_mode`), nouveau
-  jeton CSRF à la connexion ; limitation des tentatives (connexion : 8 par compte et par
+  jeton CSRF à la connexion ; déconnexion après 30 minutes sans activité (`Auth::IDLE`) :
+  le navigateur (`admin/session.js`, délai donné par `<body data-idle>`) suit clavier, souris
+  et toucher dans tous les onglets (stockage local), avertit 2 minutes avant (« Rester
+  connecté »), signale une saisie sans enregistrement au plus toutes les 4 minutes
+  (`/admin/api/actif`) et demande la déconnexion à l'heure dite (`/admin/api/inactif`,
+  refusée si le serveur a vu une action récente, notée au journal) ; le serveur garde la date
+  de la dernière action (`seen` en session) et ferme lui-même la session après le délai et
+  5 minutes de marge (page fermée). Les appels automatiques (verrou des fiches, coûts de
+  l'IA) portent `X-BO-Background: 1` (ou `_bg=1` pour le signal de fermeture) et ne
+  prolongent pas la session. Essais : `BO_IDLE_SECONDS` (serveur de développement de PHP
+  seulement) ; limitation des tentatives (connexion : 8 par compte et par
   adresse et 30 par adresse en 15 minutes, 30 par compte en une heure, débloqué par « Mot
   de passe oublié » ; une adresse IPv6 compte pour son bloc /64 ; formulaires, recherche,
   assistant, dons : quotas par adresse) ; même durée de réponse que le compte existe ou non
@@ -1161,6 +1171,9 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   ASCII identique à ICU, index des apparitions, ordre des rubriques, plans de l'écran audio).
 - `php tests/favoris.php` : favoris du back-office (adresses du back-office seulement, choix
   selon le rôle, favoris d'un compte filtrés et noms nettoyés).
+- `php tests/session.php` : déconnexion après 30 minutes sans activité (action qui prolonge,
+  appel automatique qui ne prolonge pas, marge du serveur, déconnexion demandée par le
+  navigateur refusée après une action récente, avis sur la page de connexion).
 - `php tests/accueil.php` : slider de l'accueil (tirage limité aux photos d'au moins
   1 200 × 600 pixels, petites photos écartées, liste gardée en cache, tirage de secours sur
   toutes les vraies photos ; signalement dans la fiche : image trop petite, absente,

@@ -8,6 +8,7 @@ use App\Core\JsonStore;
 use App\Core\RateLimiter;
 use App\Core\Request;
 use App\Core\Response;
+use App\Core\Session;
 use App\Data\Activity;
 use App\Services\Mailer;
 
@@ -28,6 +29,8 @@ final class Account extends Base
         if (Auth::user()) {
             return Response::redirect($back);
         }
+        // Déconnecté pour inactivité (par le serveur, ou par le navigateur : ?inactif=1) : on le dit.
+        $idle = Session::pull('idle_out') || $req->str('inactif') === '1' ? self::idleMinutes() : 0;
         $error = null;
         $email = '';
         if ($req->method === 'POST') {
@@ -39,7 +42,7 @@ final class Account extends Base
             }
             $error = $r['error'];
         }
-        return self::html('admin/auth/login', ['error' => $error, 'email' => $email, 'r' => $back], ['bare' => true, 'title' => 'Connexion']);
+        return self::html('admin/auth/login', ['error' => $error, 'email' => $email, 'r' => $back, 'idle' => $error ? 0 : $idle], ['bare' => true, 'title' => 'Connexion']);
     }
 
     /** Création du premier compte administrateur (seulement si aucun compte n'existe). */
@@ -136,6 +139,38 @@ final class Account extends Base
         Activity::log(Auth::actor(), 's’est déconnecté', null);
         Auth::logout();
         return Response::redirect('/admin/connexion');
+    }
+
+    /** Délai de la déconnexion automatique, en minutes. */
+    public static function idleMinutes(): int
+    {
+        return max(1, (int) round(Auth::idleLimit() / 60));
+    }
+
+    /**
+     * Activité vue par le navigateur sans échange avec le serveur (texte saisi sans enregistrer) :
+     * la session continue (la requête elle-même la prolonge).
+     */
+    public static function stillHere(Request $req): Response
+    {
+        return Response::json(['ok' => true, 'idle' => Auth::idleLimit()]);
+    }
+
+    /**
+     * Délai atteint dans le navigateur (aucune action dans aucun onglet) : déconnexion notée au
+     * journal. Refusée si le serveur a vu une action récente (autre onglet, autre fenêtre).
+     */
+    public static function idleLogout(Request $req): Response
+    {
+        $limit = Auth::idleLimit();
+        $age = time() - (int) Session::get('seen', 0);
+        if ($age < $limit - min(480, intdiv($limit, 3))) {
+            return Response::json(['ok' => false, 'active' => true, 'age' => $age]);
+        }
+        Activity::log(Auth::actor(), 'a été déconnecté après ' . self::idleMinutes() . ' minutes sans activité', null);
+        Auth::logout();
+        Session::set('idle_out', 1);
+        return Response::json(['ok' => true]);
     }
 
     public static function profile(Request $req): Response
