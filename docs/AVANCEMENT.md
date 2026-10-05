@@ -504,6 +504,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       « Télécharger en PDF », PDF du tirage affiché (mêmes photos, même numéro, même motif),
       photos cliquables vers leur fiche ; mosaïque sur deux pages (motif, puis couleurs et
       crédits). `tests/photos.php`.
+- [x] **Murs vides juste après une mise à jour** (il fallait cliquer sur « Nouveau mur ») :
+      le cache « médias utilisés par les fiches » est désormais gardé pendant la mise à jour,
+      et recalculé par les murs s'il manque.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

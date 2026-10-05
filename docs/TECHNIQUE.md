@@ -167,7 +167,8 @@ seconde. Mesures à froid (OPcache vide), avant → après : mentions légales 3
 500 matchs 429 → 187 ms ; site de l'association 147-171 → 70-80 ms.
 
 **Après une mise à jour** (`Updater::afterChange()`) : les caches sont vidés, sauf les gros
-caches de données (`derived*`, `index-*.php`, `search.php`, `media*`) qui servent encore ; la
+caches de données (`derived*`, `index-*.php`, `search.php`, `media*` dont `media-usage.json`, sans
+lequel les murs de photos seraient vides ; s'il manque, `PhotoWall` le recalcule) qui servent encore ; la
 marque `apres-mise-a-jour` demande de les refaire avec le nouveau code (`Updater::refresh()`) :
 par la première page qui suit, au moins 5 s après et une fois envoyée (seulement si PHP sait
 terminer la page avant : PHP-FPM ou LiteSpeed), sinon par la tâche planifiée « statistiques ».
