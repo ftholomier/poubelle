@@ -500,6 +500,10 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] **Mur du vestiaire** : ambiance sombre ; au fond, flouté et très assombri, le vestiaire
       des pros du FCSM avec ses maillots jaunes suspendus (photo du club, créditée en bas du mur) ;
       15 photos par tirage (3 lignes de 5).
+- [x] **Export PDF** de la planche-contact, du Lion illustré et de la grande mosaïque : bouton
+      « Télécharger en PDF », PDF du tirage affiché (mêmes photos, même numéro, même motif),
+      photos cliquables vers leur fiche ; mosaïque sur deux pages (motif, puis couleurs et
+      crédits). `tests/photos.php`.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

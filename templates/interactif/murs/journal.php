@@ -6,17 +6,8 @@
  */
 use App\Front\Walls;
 
-$kicker = function (array $p): string {
-    $k = match ($p['type']) {
-        'match' => t('Match'), 'personne' => t('Portrait'), 'article' => t('Archives'), 'objet' => t('Réserves'),
-        'moment' => t('Centenaire'), default => t('Musée'),
-    };
-    if ($p['type'] === 'match' && $p['date']) {
-        return $k . ' · ' . date_fr((string) $p['date']);
-    }
-    return $p['year'] ? $k . ' · ' . $p['year'] : $k;
-};
-$head = fn (array $p): string => $p['title'] !== '' ? $p['title'] : $p['caption'];
+$kicker = [Walls::class, 'kicker'];
+$head = [Walls::class, 'headline'];
 $i = 0;
 ?>
 <article class="lj">

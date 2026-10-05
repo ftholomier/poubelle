@@ -406,6 +406,10 @@ final class Kernel
         $r->get('/interactif/le-lion-illustre/', fn ($q) => Front\Walls::newspaper($q));
         $r->get('/interactif/mur-du-vestiaire/', fn ($q) => Front\Walls::lockerRoom($q));
         $r->get('/interactif/mosaique/', fn ($q) => Front\Walls::mosaic($q));
+        // Export PDF du tirage affiché (formulaire du bouton « Télécharger en PDF » ; en GET : retour au mur)
+        foreach (Front\Walls::PDF as $kind => $pdfPath) {
+            $r->any($pdfPath, fn ($q) => Front\WallPdf::handle($q, $kind));
+        }
         $r->get('/interactif/souvenirs/', fn ($q) => Front\Kit::landing($q));
         $r->get('/interactif/souvenirs/{ym}.pdf', fn ($q, $ym) => Front\Kit::pdf($q, $ym));
         $r->get('/souvenir/', fn ($q) => Front\Kit::souvenir($q));

@@ -16,6 +16,9 @@
 .wtools__again { min-height: 44px; padding-top: 10px; padding-bottom: 10px; }
 .wtools__again span { display: inline-block; transition: transform .5s var(--ease); }
 .wtools__again:hover span { transform: rotate(-200deg); }
+.wtools__pdf { min-height: 44px; padding-top: 10px; padding-bottom: 10px; }
+.wtools__pdf[disabled] { opacity: .45; cursor: not-allowed; }
+.wtools__pdf.is-busy { cursor: progress; }
 .wtools__others { margin-left: auto; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; min-height: 44px; font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; }
 .wtools__others a { color: var(--navy); border-bottom: 2px solid transparent; }
 .wtools__others a:hover, .wtools__others a:focus-visible { border-bottom-color: var(--navy); }

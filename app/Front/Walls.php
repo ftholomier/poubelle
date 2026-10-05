@@ -200,6 +200,25 @@ final class Walls
         ];
     }
 
+    /** Surtitre d'un article du journal : genre de la fiche, avec la date du match ou l'année. */
+    public static function kicker(array $p): string
+    {
+        $k = match ($p['type']) {
+            'match' => t('Match'), 'personne' => t('Portrait'), 'article' => t('Archives'), 'objet' => t('Réserves'),
+            'moment' => t('Centenaire'), default => t('Musée'),
+        };
+        if ($p['type'] === 'match' && $p['date']) {
+            return $k . ' · ' . date_fr((string) $p['date']);
+        }
+        return $p['year'] ? $k . ' · ' . $p['year'] : $k;
+    }
+
+    /** Titre d'un article du journal : celui de la fiche, sinon la légende de la photo. */
+    public static function headline(array $p): string
+    {
+        return $p['title'] !== '' ? $p['title'] : $p['caption'];
+    }
+
     /** Attributs qui ouvrent une photo en grand (légende, crédit, lien vers sa fiche). */
     public static function attrs(array $v, int $i): string
     {
@@ -208,7 +227,7 @@ final class Walls
     }
 
     /** Titre d'« édition spéciale » du journal quand un filtre est choisi. */
-    private static function special(array $f): string
+    public static function special(array $f): string
     {
         $parts = [];
         if ($f['decade']) {

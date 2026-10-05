@@ -123,7 +123,8 @@ final class PdfExport
         return substr(sha1(self::VERSION . '|' . Derived::built() . '|' . $extra . '|' . base_url()), 0, 12);
     }
 
-    private static function respond(Request $req, string $key, string $name, callable $build, bool $cache = true): Response
+    /** PDF envoyé en téléchargement : repris du cache s'il existe, sinon fabriqué (limité par adresse IP pour les visiteurs). */
+    public static function respond(Request $req, string $key, string $name, callable $build, bool $cache = true): Response
     {
         $file = self::DIR . '/' . preg_replace('/[^a-z0-9._-]/i', '-', $key) . '.pdf';
         if ($cache && is_file($file)) {

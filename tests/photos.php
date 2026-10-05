@@ -131,6 +131,37 @@ $eq('en anglais', [$en->status, str_contains($en->body, 'Next edition'), str_con
 $hub = $get('/interactif/');
 $eq('les quatre pavés dans Interactif', count(array_filter(array_column(Walls::WALLS, 0), fn ($u) => str_contains($hub->body, 'href="' . $u . '"'))), 4);
 
+// 6. Export PDF du tirage affiché
+$all = PhotoWall::photos();
+$codes = array_map([PhotoWall::class, 'code'], array_column(array_slice($all, 0, 3), 'r'));
+$eq('codes des photos : courts, stables, retrouvés dans l’ordre, code inconnu ignoré', [strlen($codes[0]), array_column(PhotoWall::byCodes([$codes[2], 'ffffffffff', $codes[0]]), 'r')], [10, [$all[2]['r'], $all[0]['r']]]);
+$fields = function (string $html): array {
+    preg_match_all('#<input type="hidden" name="(\w+)" value="([^"]*)"#', $html, $m, PREG_SET_ORDER);
+    return array_column($m, 2, 1);
+};
+$post = function (string $path, array $data) use ($get): Response {
+    I18n::set(str_starts_with($path, '/en/') ? 'en' : 'fr');
+    return Kernel::handle(new Request('POST', $path, [], $data, [], ['HTTP_HOST' => 'musee.fcsochauxretro.com', 'REQUEST_URI' => $path, 'REMOTE_ADDR' => '127.0.0.1', 'HTTP_USER_AGENT' => 'test-murs'], ''));
+};
+foreach (['planche' => [36, 1], 'journal' => [13, 1], 'mosaique' => [264, 2]] as $kind => [$max, $pages]) {
+    $page = $get(Walls::WALLS[$kind][0]);
+    $form = substr($page->body, (int) strpos($page->body, '<form id="wall-pdf"'));
+    $f = $fields(substr($form, 0, (int) strpos($form, '</form>')));
+    $ids = explode('.', $f['photos'] ?? '');
+    $r = $post(Walls::PDF[$kind], $f);
+    $eq("PDF « $kind » : bouton, codes des photos montrées, PDF de $pages page(s)", [
+        str_contains($page->body, 'data-wall-pdf'), count($ids) > 0 && count($ids) <= $max, $r->status, $r->headers['Content-Type'] ?? '', str_starts_with($r->body, '%PDF-'), substr_count($r->body, '/Type /Page '),
+        str_contains($r->headers['Content-Disposition'] ?? '', 'sochaux-retro-'),
+    ], [true, true, 200, 'application/pdf', true, $pages, true]);
+}
+$plan = $get('/interactif/planche-contact/', ['partiel' => '1']);
+preg_match('#Planche n° (\d{4})#u', $plan->body, $no);
+$eq('nouveau tirage : formulaire refait (36 photos, numéro de la planche affichée)', [count(explode('.', $fields($plan->body)['photos'] ?? '')), sprintf('%04d', (int) ($fields($plan->body)['n'] ?? 0))], [36, $no[1] ?? '']);
+$eq('mur du vestiaire : pas d’export PDF', str_contains($get('/interactif/mur-du-vestiaire/')->body, 'wall-pdf'), false);
+$eq('export sans photo valable ou en GET : retour au mur', [$post(Walls::PDF['planche'], ['photos' => 'zz.0000000000'])->status, $get(Walls::PDF['mosaique'])->headers['Location'] ?? ''], [302, url(Walls::WALLS['mosaique'][0])]);
+$en = $post('/en' . Walls::PDF['journal'], ['photos' => implode('.', $codes), 'n' => '42']);
+$eq('PDF en anglais', [$en->status, str_contains($en->body, '/Lang (en-GB)')], [200, true]);
+
 PhotoWall::forget();
 echo $fail ? "\n$fail échec(s)\n" : "\nTout est bon.\n";
 exit($fail ? 1 : 0);

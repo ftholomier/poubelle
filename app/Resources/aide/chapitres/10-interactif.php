@@ -60,6 +60,7 @@ HTML],
 </ul>
 [[img:site-murs.webp|Les quatre murs : planche-contact, Le Lion illustré, mur du vestiaire, grande mosaïque]]
 <p>Un clic agrandit la photo, avec sa légende, son crédit et un lien vers sa fiche. <b>Le crédit est toujours affiché.</b></p>
+<p><b>Télécharger en PDF</b> (planche-contact, Le Lion illustré, grande mosaïque) : le bouton de la barre jaune fabrique un vrai PDF du tirage affiché, avec les mêmes photos, le même numéro de planche ou d’édition et le même motif. La planche et le journal tiennent sur une page A4 ; la mosaïque fait deux pages A4 paysage (le motif, puis les photos en couleurs avec tous les crédits). Dans le PDF, chaque photo est un lien vers sa fiche. Après « Nouveau tirage », le bouton exporte le nouveau tirage.</p>
 <p><b>Quelles photos ?</b> Seulement les photos sûres de la médiathèque :</p>
 <ul>
 <li>un <b>crédit renseigné</b>, qui n’est ni « DR » (droits réservés, auteur inconnu) ni un <b>crédit exclu</b> (agences photo, presse nationale, télévision, sites web), ni une simple date ou légende saisie à la place du crédit (« Saison 1980-1981 », « Sochaux-Metz ») ;</li>

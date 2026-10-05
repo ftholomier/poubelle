@@ -3,9 +3,12 @@
  * Page commune des quatre murs de photos : en-tête, filtres (décennie, photographe), nouveau
  * tirage, liens vers les autres murs, puis le mur lui-même (refait sans recharger la page).
  * Un choix sans photo avec l'autre filtre (une décennie où ce photographe n'a rien) est grisé.
- * Variables : $kind, $wall, $filters, $decades, $photographers, $counts, $others, $count, + celles du mur
+ * Bouton « Télécharger en PDF » (planche-contact, journal, mosaïque) : il envoie le formulaire caché
+ * du mur ($pdfForm), refait avec chaque tirage.
+ * Variables : $kind, $wall, $filters, $decades, $photographers, $counts, $others, $count, $pdfForm, + celles du mur
  */
 use App\Core\View;
+use App\Front\Walls;
 
 [$path, $name, $intro, $again] = $wall;
 $motifs = $motifs ?? null;
@@ -45,6 +48,9 @@ $motifs = $motifs ?? null;
     </label>
     <?php endif; ?>
     <button type="submit" class="btn btn--navy wtools__again" data-wall-again><span aria-hidden="true">↻</span> <?= e(t($again)) ?></button>
+    <?php if (isset(Walls::PDF[$kind])): ?>
+      <button type="submit" form="wall-pdf" class="btn btn--ghost wtools__pdf pdfbtn" data-wall-pdf<?= $pdfForm === '' ? ' disabled' : '' ?>><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M12 3v12M6.5 10 12 15.5 17.5 10M4 20h16"/></svg><span><?= e(t('Télécharger en PDF')) ?></span></button>
+    <?php endif; ?>
     <nav class="wtools__others" aria-label="<?= e(t('Les autres murs de photos')) ?>">
       <?php foreach ($others as $o): ?><a href="<?= e(url($o[0])) ?>"><?= e(t($o[1])) ?></a><?php endforeach; ?>
     </nav>
@@ -52,5 +58,5 @@ $motifs = $motifs ?? null;
 </form>
 
 <div class="wall wall--<?= e($kind) ?>" data-wall="<?= e($kind) ?>" aria-live="polite">
-  <?= View::partial('interactif/murs/' . $kind, get_defined_vars()) ?>
+  <?= View::partial('interactif/murs/' . $kind, get_defined_vars()) ?><?= $pdfForm ?>
 </div>

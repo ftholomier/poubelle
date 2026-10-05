@@ -776,6 +776,17 @@ visite : `/interactif/planche-contact/`, `/interactif/le-lion-illustre/` (journa
   « 1928 » ou « 2028 » en lettres de 5 × 7 cases (24 × 11 cases) ou 3 × 5 sur deux lignes pour
   les téléphones (`Walls::grid()`), photos en niveaux de gris teintées (jaune pour le motif),
   crédits regroupés (dix, puis une liste dépliable).
+- **Export PDF** (`App\Front\WallPdf`, routes `Walls::PDF`) : le mur contient un formulaire caché
+  `#wall-pdf` (refait à chaque tirage) que le bouton « Télécharger en PDF » de la barre envoie en
+  POST (attribut `form`) : codes des photos (`PhotoWall::code()`, 10 caractères de l'empreinte du
+  chemin, relus par `PhotoWall::byCodes()` : seules les photos des murs sont acceptées), numéro de
+  planche ou d'édition, motif, filtres. GET ou aucune photo valable : retour au mur. Fabrication
+  par `PdfExport::respond()` (sans cache, limite par adresse IP). Planche : A4, bandes de film
+  légèrement tournées (`Layout::rotated()`). Journal : A4, la Une prend la place laissée par
+  « En images » et « Brèves » (une seule page). Mosaïque : A4 paysage (`Layout::$pw/$ph`), fond
+  sombre (`Layout::$dark` : pied de page clair), cases teintées avec GD comme à l'écran (gris,
+  luminosité, contraste, puis jaune ou bleu par la palette), puis une page en couleurs avec tous
+  les crédits. Chaque photo est un lien vers sa fiche. Mur du vestiaire : pas d'export.
 - **Police manuscrite** : Caveat (OFL 1.1, `docs/licences/OFL-1.1-Caveat.txt`), sous-ensembles
   latin et latin étendu en woff2 dans `public/assets/fonts/`, chargés par `murs.css` seulement.
 - **Back-office** : Interactif › Murs de photos (`App\Admin\PhotoWalls`) : photos montrées,

@@ -30,6 +30,11 @@ final class Layout
     ];
 
     public Writer $pdf;
+    /** Format des pages (A4 portrait ; A4 paysage : largeur et hauteur échangées avant la première page). */
+    public float $pw = self::W;
+    public float $ph = self::H;
+    /** Pages sur fond sombre (pied de page en couleurs claires). @var array<int,bool> */
+    public array $dark = [];
     public int $page = -1;
     public float $y = 0;
     public float $ml = 46;
@@ -61,12 +66,12 @@ final class Layout
 
     public function cw(): float
     {
-        return self::W - $this->ml - $this->mr;
+        return $this->pw - $this->ml - $this->mr;
     }
 
     public function bottom(): float
     {
-        return self::H - $this->mb;
+        return $this->ph - $this->mb;
     }
 
     public function room(): float
@@ -76,7 +81,7 @@ final class Layout
 
     public function newPage(): void
     {
-        $this->page = $this->pdf->addPage(self::W, self::H);
+        $this->page = $this->pdf->addPage($this->pw, $this->ph);
         $this->y = $this->mt;
         if ($this->page > 0) {
             $this->runningHeader();
@@ -116,12 +121,12 @@ final class Layout
     public function rect(float $x, float $y, float $w, float $h, ?string $fill = null, ?string $stroke = null, float $lw = 1): void
     {
         $paint = $fill && $stroke ? 'B' : ($fill ? 'f' : 'S');
-        $this->op('q ' . ($fill ? self::col($fill) . ' ' : '') . ($stroke ? self::col($stroke, false) . sprintf(' %.2F w ', $lw) : '') . sprintf('%.2F %.2F %.2F %.2F re %s Q', $x, self::H - $y - $h, $w, $h, $paint));
+        $this->op('q ' . ($fill ? self::col($fill) . ' ' : '') . ($stroke ? self::col($stroke, false) . sprintf(' %.2F w ', $lw) : '') . sprintf('%.2F %.2F %.2F %.2F re %s Q', $x, $this->ph - $y - $h, $w, $h, $paint));
     }
 
     public function line(float $x1, float $y1, float $x2, float $y2, string $color = 'navy', float $lw = 1): void
     {
-        $this->op(sprintf('q %s %.2F w %.2F %.2F m %.2F %.2F l S Q', self::col($color, false), $lw, $x1, self::H - $y1, $x2, self::H - $y2));
+        $this->op(sprintf('q %s %.2F w %.2F %.2F m %.2F %.2F l S Q', self::col($color, false), $lw, $x1, $this->ph - $y1, $x2, $this->ph - $y2));
     }
 
     public function width(string $s, string $font, float $size, float $spacing = 0): float
@@ -161,10 +166,10 @@ final class Layout
             $hex .= sprintf('%04X', $g);
         }
         // L'espacement des lettres (Tc) fait partie de l'état graphique : toujours le fixer.
-        $this->op(sprintf('BT /%s %.2F Tf %s %.2F Tc %.2F %.2F Td <%s> Tj ET', $this->pdf->fontRes($font), $size, self::col($color), $spacing, $x, self::H - $baseline, $hex));
+        $this->op(sprintf('BT /%s %.2F Tf %s %.2F Tc %.2F %.2F Td <%s> Tj ET', $this->pdf->fontRes($font), $size, self::col($color), $spacing, $x, $this->ph - $baseline, $hex));
         $w = $this->width($s, $font, $size, $spacing);
         if ($link) {
-            $this->pdf->link($this->page, $x, self::H - $baseline - $size * 0.25, $x + $w, self::H - $baseline + $size * 0.8, $link);
+            $this->pdf->link($this->page, $x, $this->ph - $baseline - $size * 0.25, $x + $w, $this->ph - $baseline + $size * 0.8, $link);
         }
         return $w;
     }
@@ -183,7 +188,7 @@ final class Layout
             $hex .= sprintf('%04X', $g);
         }
         $w = $this->width($s, $font, $size);
-        $this->op(sprintf('BT /%s %.2F Tf %s 0 Tc -1 0 0 -1 %.2F %.2F Tm <%s> Tj ET', $this->pdf->fontRes($font), $size, self::col($color), $cx + $w / 2, self::H - $y, $hex));
+        $this->op(sprintf('BT /%s %.2F Tf %s 0 Tc -1 0 0 -1 %.2F %.2F Tm <%s> Tj ET', $this->pdf->fontRes($font), $size, self::col($color), $cx + $w / 2, $this->ph - $y, $hex));
     }
 
     /** Texte coupé avec « … » s'il dépasse la largeur donnée. */
@@ -222,10 +227,10 @@ final class Layout
             $dh = $ih * $s;
             $dx = $x + ($w - $dw) / 2;
             $dy = $y + ($h - $dh) * $focusY;
-            $this->op(sprintf('q %.2F %.2F %.2F %.2F re W n %.2F 0 0 %.2F %.2F %.2F cm /%s Do Q', $x, self::H - $y - $h, $w, $h, $dw, $dh, $dx, self::H - $dy - $dh, $img['res']));
+            $this->op(sprintf('q %.2F %.2F %.2F %.2F re W n %.2F 0 0 %.2F %.2F %.2F cm /%s Do Q', $x, $this->ph - $y - $h, $w, $h, $dw, $dh, $dx, $this->ph - $dy - $dh, $img['res']));
             return;
         }
-        $this->op(sprintf('q %.2F 0 0 %.2F %.2F %.2F cm /%s Do Q', $w, $h, $x, self::H - $y - $h, $img['res']));
+        $this->op(sprintf('q %.2F 0 0 %.2F %.2F %.2F cm /%s Do Q', $w, $h, $x, $this->ph - $y - $h, $img['res']));
     }
 
     public function logo(float $x, float $y, float $h): void
@@ -234,6 +239,33 @@ final class Layout
         if ($img) {
             $this->drawImage($img, $x, $y, $h * $img['w'] / $img['h'], $h);
         }
+    }
+
+    /** Fond de toute la page. */
+    public function fillPage(string $color): void
+    {
+        $this->rect(0, 0, $this->pw, $this->ph, $color);
+    }
+
+    /** Polygone plein (sommets en coordonnées de la page, y depuis le haut). @param list<array{0:float,1:float}> $pts */
+    public function polygon(array $pts, string $fill): void
+    {
+        $d = '';
+        foreach ($pts as $i => [$x, $y]) {
+            $d .= sprintf('%.2F %.2F %s ', $x, $this->ph - $y, $i ? 'l' : 'm');
+        }
+        $this->op('q ' . self::col($fill) . ' ' . $d . 'h f Q');
+    }
+
+    /** Dessins faits par $draw tournés de $deg degrés (sens des aiguilles d'une montre) autour de ($cx, $cy). */
+    public function rotated(float $deg, float $cx, float $cy, callable $draw): void
+    {
+        $a = deg2rad(-$deg);
+        [$c, $s] = [cos($a), sin($a)];
+        $py = $this->ph - $cy;
+        $this->op(sprintf('q %.5F %.5F %.5F %.5F %.3F %.3F cm', $c, $s, -$s, $c, $cx - $c * $cx + $s * $py, $py - $s * $cx - $c * $py));
+        $draw();
+        $this->op('Q');
     }
 
     // ------------------------------------------------------------------ texte enrichi
@@ -412,7 +444,7 @@ final class Layout
         $t = mb_strtoupper($title);
         $lines = $this->wrap([self::run($t, 'display', 17, 'navy', null, 0.3)], $this->cw(), 1.05);
         if ($bookmark) {
-            $this->pdf->outline($title, $this->page, self::H - $this->y + 6);
+            $this->pdf->outline($title, $this->page, $this->ph - $this->y + 6);
         }
         $this->y += $this->drawLines($lines, $this->ml, $this->y, $this->cw());
         $this->rect($this->ml, $this->y + 2, 34, 3.2, 'yellow');
@@ -726,14 +758,14 @@ final class Layout
     public function masthead(string $kind): void
     {
         $h = 96;
-        $this->rect(0, 0, self::W, $h, 'navy');
+        $this->rect(0, 0, $this->pw, $h, 'navy');
         // Rayures obliques discrètes (comme le site)
-        $this->op(sprintf('q 0 %.2F %.2F %.2F re W n %s 1.6 w', self::H - $h, self::W, $h, self::col('stripe', false)));
-        for ($x = -120; $x < self::W + 60; $x += 15) {
-            $this->op(sprintf('%.2F %.2F m %.2F %.2F l', $x, self::H - $h, $x + 46, self::H));
+        $this->op(sprintf('q 0 %.2F %.2F %.2F re W n %s 1.6 w', $this->ph - $h, $this->pw, $h, self::col('stripe', false)));
+        for ($x = -120; $x < $this->pw + 60; $x += 15) {
+            $this->op(sprintf('%.2F %.2F m %.2F %.2F l', $x, $this->ph - $h, $x + 46, $this->ph));
         }
         $this->op('S Q');
-        $this->rect(0, $h, self::W, 4, 'yellow');
+        $this->rect(0, $h, $this->pw, 4, 'yellow');
         // Blason : la pointe dépasse sous le bandeau
         $this->logo($this->ml - 6, 12, 104);
         $x = $this->ml + 92 + 8;
@@ -742,9 +774,9 @@ final class Layout
         $this->text($x, 80, $this->url !== '' ? preg_replace('#^https?://#', '', rtrim($this->url, '/')) : '', 'serif', 8, 'mist', 0, $this->url !== '' ? $this->url : null);
         // Étiquette du document
         $kw = $this->width(mb_strtoupper($kind), 'display', 11, 1.2) + 22;
-        $this->rect(self::W - $this->mr - $kw + 3, 33, $kw, 22, 'deep');
-        $this->rect(self::W - $this->mr - $kw, 30, $kw, 22, 'yellow');
-        $this->text(self::W - $this->mr - $kw + 11, 30 + 11 + $this->cap('display', 11) / 2, mb_strtoupper($kind), 'display', 11, 'navy', 1.2);
+        $this->rect($this->pw - $this->mr - $kw + 3, 33, $kw, 22, 'deep');
+        $this->rect($this->pw - $this->mr - $kw, 30, $kw, 22, 'yellow');
+        $this->text($this->pw - $this->mr - $kw + 11, 30 + 11 + $this->cap('display', 11) / 2, mb_strtoupper($kind), 'display', 11, 'navy', 1.2);
         $this->y = $h + 34;
     }
 
@@ -752,13 +784,13 @@ final class Layout
     private function runningHeader(): void
     {
         $h = 30;
-        $this->rect(0, 0, self::W, $h, 'navy');
-        $this->rect(0, $h, self::W, 2.5, 'yellow');
+        $this->rect(0, 0, $this->pw, $h, 'navy');
+        $this->rect(0, $h, $this->pw, 2.5, 'yellow');
         $this->logo($this->ml - 2, 4, 33);
         $this->text($this->ml + 30, 19.5, mb_strtoupper($this->site), 'display', 11.5, 'cream', 0.5);
-        $max = self::W - $this->mr - ($this->ml + 160);
+        $max = $this->pw - $this->mr - ($this->ml + 160);
         $t = $this->fit($this->running, 'display-b', 10, $max, 0.4);
-        $this->text(self::W - $this->mr - $this->width($t, 'display-b', 10, 0.4), 19.5, $t, 'display-b', 10, 'yellow', 0.4);
+        $this->text($this->pw - $this->mr - $this->width($t, 'display-b', 10, 0.4), 19.5, $t, 'display-b', 10, 'yellow', 0.4);
         $this->y = $h + 26;
     }
 
@@ -768,21 +800,22 @@ final class Layout
         $total = $this->pdf->pageCount();
         for ($p = 0; $p < $total; $p++) {
             $this->page = $p;
-            $y = self::H - 42;
-            $this->line($this->ml, $y, self::W - $this->mr, $y, 'navy', 0.8);
+            $dark = !empty($this->dark[$p]);
+            $y = $this->ph - 42;
+            $this->line($this->ml, $y, $this->pw - $this->mr, $y, $dark ? 'muted' : 'navy', 0.8);
             $this->rect($this->ml, $y - 1.2, 24, 2.4, 'yellow');
-            $this->text($this->ml, $y + 13, $this->site . ' · ' . $this->tagline, 'serif-i', 7.6, 'muted');
+            $this->text($this->ml, $y + 13, $this->site . ' · ' . $this->tagline, 'serif-i', 7.6, $dark ? 'mist' : 'muted');
             if ($this->url !== '') {
                 $u = $this->fit(preg_replace('#^https?://#', '', $this->url), 'serif', 7.4, 330);
-                $this->text($this->ml, $y + 24, $u, 'serif', 7.4, 'blue', 0, $this->url);
+                $this->text($this->ml, $y + 24, $u, 'serif', 7.4, $dark ? 'yellow' : 'blue', 0, $this->url);
             }
             if ($this->exported !== '') {
                 $ew = $this->width($this->exported, 'serif', 7.4);
-                $this->text(self::W - $this->mr - $ew, $y + 24, $this->exported, 'serif', 7.4, 'muted');
+                $this->text($this->pw - $this->mr - $ew, $y + 24, $this->exported, 'serif', 7.4, $dark ? 'mist' : 'muted');
             }
             $pg = mb_strtoupper($this->pageWord) . ' ' . ($p + 1) . ' / ' . $total;
             $pw = $this->width($pg, 'display-b', 8.6, 0.8);
-            $this->text(self::W - $this->mr - $pw, $y + 13, $pg, 'display-b', 8.6, 'navy', 0.8);
+            $this->text($this->pw - $this->mr - $pw, $y + 13, $pg, 'display-b', 8.6, $dark ? 'cream' : 'navy', 0.8);
         }
         return $this->pdf->output();
     }

@@ -180,6 +180,20 @@
     });
   };
 
-  const init = () => { initLoupe(); initDrag(); initMosaic(); };
+  /* ---------------------------------------------------------- export PDF du tirage affiché */
+  const pdfBtn = $('[data-wall-pdf]');
+  const initPdf = () => { if (pdfBtn) pdfBtn.disabled = !$('#wall-pdf', wall); };
+  if (pdfBtn) {
+    const label = $('span', pdfBtn);
+    const idle = label.textContent;
+    pdfBtn.addEventListener('click', e => {
+      if (pdfBtn.classList.contains('is-busy')) { e.preventDefault(); return; }
+      // Quelques secondes de fabrication (mosaïque : des centaines de photos) : le bouton le dit.
+      setTimeout(() => { pdfBtn.classList.add('is-busy'); label.textContent = T('PDF en préparation…', 'Preparing the PDF…'); }, 0);
+      setTimeout(() => { pdfBtn.classList.remove('is-busy'); label.textContent = idle; }, 6000);
+    });
+  }
+
+  const init = () => { initLoupe(); initDrag(); initMosaic(); initPdf(); };
   init();
 })();
