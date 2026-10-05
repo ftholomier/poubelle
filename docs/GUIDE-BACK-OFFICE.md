@@ -448,6 +448,21 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 - **Boutique › Supports** : dimensions de la zone imprimable, fonds perdus, couleurs proposées et consignes de l'imprimeur pour chaque produit.
 - **Boutique › Banque de textes** : listes de phrases (slogans, anecdotes…). Seules les phrases « Validée » sont proposées au client ; « Proposer des phrases avec l’IA » en ajoute, à valider.
 - **Boutique › Modèles** : créer, dupliquer, activer ou supprimer un modèle. Dans l'éditeur, ajoutez le logo, des textes, des formes et des « champs du client » (prénom, numéro…) ; l'aperçu sur le produit et le fichier d'impression se mettent à jour. « PDF imprimeur » télécharge le fichier vectoriel prêt à imprimer.
+  L'ordre de la boutique se règle en glissant les modèles par leur poignée ⠿.
+- **Vente** (dans l'éditeur) : prix, supplément par taille, part de l'imprimeur (% ou € par
+  article), couleurs du produit ou du fond, couleurs des textes (seules les lisibles sont
+  proposées), taille et position du texte. Posters : un **prix par format** (A4, A3, A2).
+- **Pièces uniques — anecdote tirée par le client** : champ « + Anecdote tirée par le client ».
+  Le client peut choisir un sujet (match, joueur, entraîneur) dans les propositions du musée ;
+  l'IA rédige d'après la fiche (records, chiffre clé, histoire, coulisses d'abord), chaque
+  phrase est vérifiée (aucun nom ni nombre hors de la fiche), signée, et jamais revendue.
+  Sujet sans matière : le client est prévenu et reçoit une anecdote générique.
+- **Poster souvenir d'un match** : support « Poster (A4, A3, A2) », calque « + Poster souvenir
+  du match ». Le client choisit son match (fiches complètes seulement), donne prénom, nom et
+  format ; le poster est dédicacé et numéroté à la commande. Coût IA : ligne « Boutique
+  (posters souvenirs) » de Coûts IA.
+- Fiche produit : aperçu en direct, **zoom** en grand d'un clic, **vue 3D**.
+- **Réglages** : budget IA du jour (anecdotes et posters) ; conditions de vente vides = texte proposé.
 
 ## 12. Site de l'association (administrateurs)
 
@@ -471,7 +486,7 @@ administrateurs ; les autres comptes ne le voient pas et n'y ont pas accès.
 - **Contenus**, par onglets : textes des **pages**, **actions** (une page chacune, dans l'ordre
   du menu), **actualités** et **agenda** (datés ; brouillon possible ; les Rétro-Direct du musée
   et le centenaire s'ajoutent seuls à l'agenda), **équipe** (un membre n'est affiché que si son
-  nom est saisi) et pôles de bénévoles, **partenaires**, **presse** (revue de presse),
+  nom est saisi ; présentée en cartes à collectionner : photo, nom, rôle, mission, quelques mots, anecdote ; mêmes cartes sur le musée, Supporters › L'équipe de Sochaux Rétro) et pôles de bénévoles, **partenaires**, **presse** (revue de presse),
   **documents** (statuts, comptes rendus : « Déposer un fichier » puis Enregistrer), **tarifs**
   d'adhésion. Liens des boutons : « /page/ » (ce site), « musee:/page/ » (le musée),
   « https://… » (autre site), « social:youtube » (réseau social réglé).

@@ -560,3 +560,11 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
   (Éditorial › 100 moments).
 - Saison 2026-2027 : le match du 02/10/2026 est en tête de l'ordre manuel (place par défaut du
   plugin WordPress) : le glisser à sa place dans Rubriques & menus.
+
+## Octobre 2026 — boutique (suite), équipe
+- [x] L'équipe de Sochaux Rétro en cartes à collectionner (mission, quelques mots, anecdote), sur l'association et le musée
+- [x] Poster souvenir d'un match : générateur vectoriel (A3), choix du match par propositions, dédicace, numéro de pièce, IA vérifiée
+- [x] Posters en A4, A3, A2 au choix du client, un prix par format ; zoom de l'aperçu ; pastille « Pièce unique »
+- [x] Anecdote sur un sujet choisi par le client (match, joueur), faits classés du plus parlant au plus banal, alerte si sujet sans matière
+- [x] Aide (boutique, association, site public), guide et mémo PDF, infographie (2 pages), fichiers MD
+

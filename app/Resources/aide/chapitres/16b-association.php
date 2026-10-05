@@ -43,10 +43,11 @@ HTML],
 <li><b>Pages</b> : les textes de chaque page (accueil, qui sommes-nous, adhérer…).</li>
 <li><b>Actions</b> : une page par action, dans l’ordre du menu « Nos actions ».</li>
 <li><b>Actualités</b> et <b>Agenda</b> : datés ; un brouillon reste invisible. Les Rétro-Direct programmés au musée et le centenaire s’ajoutent seuls à l’agenda, qui s’exporte aussi au format iCal.</li>
-<li><b>Équipe</b> : un membre n’apparaît que si son nom est saisi ; les pôles décrivent les missions des bénévoles.</li>
+<li><b>Équipe</b> : l’équipe de Sochaux Rétro, présentée en <b>cartes à collectionner</b> façon Panini. Pour chaque membre : photo (avec son accord), nom, rôle, pôle, <b>sa mission</b>, <b>son anecdote</b> et quelques mots. Recto : photo, nom, rôle ; verso (au survol, ou au toucher sur mobile) : mission, quelques mots et anecdote. Les mêmes cartes s’affichent sur la page « L’équipe » de l’association et sur le musée (Supporters › L’équipe de Sochaux Rétro), chacune aux couleurs de son site. Un membre n’apparaît que si son nom est saisi ; les pôles décrivent les missions des bénévoles.</li>
 <li><b>Partenaires</b>, <b>Presse</b> (revue de presse) et <b>Documents</b> (statuts, comptes rendus : « Déposer un fichier », puis Enregistrer).</li>
 <li><b>Tarifs d’adhésion</b> : les formules, leurs montants, un montant libre « à partir de ».</li>
 </ul>
+[[img:association-equipe.webp|L’équipe en cartes à collectionner : sur le musée (en haut, une carte retournée) et sur le site de l’association (en bas)]]
 [[img:association-contenus.webp|Les contenus, ici les actualités : (1) les onglets, (2) l’aperçu de la page, (3) enregistrer, (4) l’adresse de la page, (5) la case « À vérifier », (6) déplacer, dupliquer ou supprimer]]
 <p>Liens dans les boutons : « /page/ » pour ce site, « musee:/page/ » pour le musée, « https://… » pour un autre site, « social:youtube » pour un réseau social réglé.</p>
 [[astuce|<p>Les textes livrés au départ sont mis à jour avec le code tant que vous ne les avez pas modifiés. Dès votre premier enregistrement, ils sont à vous ; « Revenir au contenu de départ » les rétablit (votre version reste dans l’historique).</p>]]

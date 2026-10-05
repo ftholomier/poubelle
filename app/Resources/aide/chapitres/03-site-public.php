@@ -14,6 +14,7 @@ HTML],
         ['id' => 'mosaiques', 'title' => 'Les rubriques en mosaïque', 'html' => <<<'HTML'
 <p>Chaque rubrique affiche ses fiches en mosaïque : vignettes avec image à la une, filtres, tri, vue liste et bouton « Afficher plus ». Une fiche apparaît dans toutes les rubriques cochées dans son onglet « Classement &amp; SEO ».</p>
 [[img:site-mosaique.webp|Une mosaïque de rubrique]]
+<p>Exception : <b>Supporters › L’équipe de Sochaux Rétro</b> présente l’équipe du musée en cartes à collectionner ; les membres se saisissent côté association (Association › Contenus › Équipe, réservé aux administrateurs).</p>
 [[astuce|<p>L’ordre des fiches d’une mosaïque se règle rubrique par rubrique dans Éditorial › Rubriques &amp; menus : ordre manuel (glisser-déposer, comme dans l’ancien WordPress), chronologique ou alphabétique. Les décennies et les saisons gardent l’ordre manuel repris de l’ancien site.</p>]]
 HTML],
         ['id' => 'fiches', 'title' => 'Les fiches', 'html' => <<<'HTML'
@@ -21,6 +22,7 @@ HTML],
 [[img:site-match.webp|Une fiche match : la composition sur le terrain et en tableau]]
 <p><b>Fiche personne</b> : carte à collectionner, identité, récit, statistiques et la liste de tous ses matchs, reliés automatiquement depuis les compositions.</p>
 [[img:site-joueur.webp|Une fiche joueur]]
+[[astuce|<p><b>Vos fiches font vivre la boutique.</b> Les anecdotes « pièce unique » (t-shirts, mugs…) et le poster souvenir d’un match sont rédigés à partir des fiches : chiffre clé, récit, coulisses d’avant-match, déclarations, réactions, composition et temps forts. Une fiche bien remplie donne des anecdotes et des posters plus riches ; une fiche corrigée corrige aussi les prochains.</p>]]
 HTML],
         ['id' => 'calcule', 'title' => 'Les pages calculées automatiquement', 'html' => <<<'HTML'
 <p>Ces pages n’ont rien à saisir : elles sont construites à partir des fiches match et se mettent à jour à chaque enregistrement.</p>
