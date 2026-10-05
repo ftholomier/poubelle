@@ -105,6 +105,11 @@ final class Anecdotes
      */
     public static function pick(array $layers, array $avoid, bool $aiAllowed, string $topic = ''): array
     {
+        if ($topic !== '' && !self::topicRich($topic)) {
+            // Rien de parlant dans la fiche de ce sujet : on le dit, et on revient au tirage du musée.
+            $r = self::pick($layers, $avoid, $aiAllowed);
+            return isset($r['error']) ? $r : $r + ['note' => 'Le musée n’a pas encore d’anecdote à raconter sur ce sujet : en voici une tirée dans toute l’histoire du club.'];
+        }
         $r = self::fromPool($layers, $avoid, $topic);
         if (isset($r['error']) && $aiAllowed) {
             $r = self::draw($layers, $avoid, $topic);
@@ -145,7 +150,15 @@ final class Anecdotes
             $all = self::topicFacts($topic);
             return $all ? $all[$n % count($all)] : ['', ''];
         }
-        if (random_int(0, 1) === 0) {
+        $dice = random_int(0, 2);
+        if ($dice === 2 && ($p = self::notablePerson())) {
+            // Un joueur marquant : un de ses faits les plus parlants (record, chiffre clé, histoire).
+            $best = array_slice(self::topicFacts('p:' . $p), 0, max(1, min(4, self::$rich['p:' . $p] ?? 0)));
+            if ($best && (self::$rich['p:' . $p] ?? 0) > 0) {
+                return $best[random_int(0, count($best) - 1)];
+            }
+        }
+        if ($dice === 0) {
             $stats = array_values(array_filter(Chiffres::flat(), fn ($s) => ($s['value'] ?? '') !== '' && ($s['label'] ?? '') !== ''));
             if ($stats) {
                 $s = $stats[random_int(0, count($stats) - 1)];
@@ -164,8 +177,22 @@ final class Anecdotes
         $pool = $hl && random_int(0, 2) > 0 ? $hl : $matches;
         $m = $pool[random_int(0, count($pool) - 1)];
         // Un des faits les plus parlants de sa fiche (chiffre clé, coulisses, déclarations), pas le simple score.
-        $best = array_slice(self::topicFacts('m:' . $m['id']), 0, 3);
+        $best = array_slice(self::topicFacts('m:' . $m['id']), 0, max(1, min(3, self::$rich['m:' . $m['id']] ?? 0)));
         return $best ? $best[random_int(0, count($best) - 1)] : self::matchFact($m);
+    }
+
+    /** Un joueur ou entraîneur marquant au hasard (légende, ou au moins 100 matchs avec le club). */
+    private static function notablePerson(): ?int
+    {
+        $tot = Derived::part('person_totals');
+        $ids = [];
+        foreach (\App\Data\Index::all() as $s) {
+            if (($s['type'] ?? '') === 'personne' && \App\Data\Index::visible($s)
+                && (!empty($s['p']['legend']) || (int) (($tot[$s['id']]['matches'] ?? 0) + ($tot[$s['id']]['coached'] ?? 0)) >= 100)) {
+                $ids[] = (int) $s['id'];
+            }
+        }
+        return $ids ? $ids[random_int(0, count($ids) - 1)] : null;
     }
 
     /** @return list<array> matchs publiés et datés */
@@ -209,6 +236,15 @@ final class Anecdotes
 
     /** @var array<string,list<array>> */
     private static array $facts = [];
+    /** @var array<string,int> nombre de faits « parlants » (records, chiffre clé, histoire, coulisses) par sujet */
+    private static array $rich = [];
+
+    /** Le musée a-t-il quelque chose de parlant à raconter sur ce sujet (pas seulement un score ou un bilan) ? */
+    public static function topicRich(string $topic): bool
+    {
+        self::topicFacts($topic);
+        return (self::$rich[$topic] ?? 0) > 0;
+    }
 
     /**
      * Les faits d'un sujet, classés du plus « anecdotique » au plus banal. Joueur : ses records et
@@ -271,6 +307,7 @@ final class Anecdotes
                     }
                 }
             }
+            self::$rich[$topic] = count(self::unique($out));
             $out[] = self::matchFact($m, true);
             return self::$facts[$topic] = self::unique($out);
         }
@@ -330,6 +367,7 @@ final class Anecdotes
                 }
             }
         }
+        self::$rich[$topic] = count(self::unique($out));
         // 4. Son bilan au club.
         $tot = (array) (Derived::part('person_totals')[$id] ?? []);
         $roles = str_replace('entraineur', 'entraîneur', implode(' et ', (array) ($p['roles'] ?? [])));

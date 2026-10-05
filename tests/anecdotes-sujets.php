@@ -65,6 +65,20 @@ Anecdotes::draw([$layer]); // une anecdote au hasard dans la réserve
 $r2 = Anecdotes::pick([$layer], [$r['text'] ?? ''], false, 'm:14188');
 $eq('sujet épuisé et pas d’IA : une au hasard, en le disant', [$r2['text'] ?? '', isset($r2['note'])], ['Une phrase générique sur les Lionceaux et leur public fidèle.', true]);
 
+// 5. Sujet sans rien de parlant dans sa fiche : on le dit et on revient au tirage du musée.
+@unlink($anFile);
+Anecdotes::$ai = fn ($sys, $ask) => 'Les Lionceaux ont un public fidèle et un stade mythique.';
+$poor = '';
+foreach (\App\Data\Index::all() as $s) {
+    if (($s['type'] ?? '') === 'personne' && \App\Data\Index::visible($s) && !Anecdotes::topicRich('p:' . $s['id'])) {
+        $poor = 'p:' . $s['id'];
+        break;
+    }
+}
+$r3 = Anecdotes::pick([$layer], [], true, $poor);
+$eq('sujet sans data : alerte, puis anecdote générique (réserve ou IA)', [$poor !== '', str_contains($r3['note'] ?? '', 'pas encore d’anecdote'), ($r3['text'] ?? '') !== ''], [true, true, true]);
+$eq('Paille et la finale 1988 : assez de matière', [Anecdotes::topicRich('p:10258'), Anecdotes::topicRich('m:14188')], [true, true]);
+
 Anecdotes::$ai = null;
 foreach ([$anFile, $anSold] as $i => $file) {
     $bk[$i] === null ? @unlink($file) : file_put_contents($file, $bk[$i]);
