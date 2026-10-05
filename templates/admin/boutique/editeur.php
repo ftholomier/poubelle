@@ -90,7 +90,7 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
         </div>
         <label class="f"><span class="f__k">Description pour la boutique</span><textarea class="in" rows="2" data-sale-desc><?= e($model['sale']['desc']) ?></textarea></label>
         <?php if (!$support['colors']): ?>
-        <div class="f"><span class="f__k">Couleurs du fond proposées au client (support imprimé en entier ; aucune cochée : le fond du modèle, sans choix)</span><div class="row" style="gap:8px;flex-wrap:wrap">
+        <div class="f"><span class="f__k">Couleurs du fond proposées au client (support imprimé en entier ; aucune cochée : bleu nuit, jaune, blanc, bleu roi et noir)</span><div class="row" style="gap:8px;flex-wrap:wrap">
           <?php foreach (\App\Shop\Vector::PALETTE as $cn => $hex): ?><label class="toggle" title="<?= e($cn) ?>"><input type="checkbox" data-sale-color value="<?= e($hex) ?>"<?= in_array($hex, $model['sale']['colors'], true) ? ' checked' : '' ?>><span class="toggle__box"></span><span><i class="dot" style="background:<?= e($hex) ?>"></i> <?= e($cn) ?></span></label><?php endforeach; ?>
         </div></div>
         <?php endif; ?>

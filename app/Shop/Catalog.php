@@ -162,8 +162,8 @@ final class Catalog
         return [
             'price' => max(0, min(100000, (int) ($s['price'] ?? 0))), 'extra' => $extra,
             'desc' => mb_substr(trim((string) ($s['desc'] ?? '')), 0, 600),
-            // Imprimé en entier : aucune couleur cochée = le fond du modèle, sans choix.
-            'colors' => $colors ?: array_values($sup['colors']), 'text_colors' => array_slice($tcolors, 0, 8),
+            // Imprimé en entier : sans couleur cochée, les fonds de la charte (comme les couleurs d'une casquette).
+            'colors' => $colors ?: ($sup['colors'] ? array_values($sup['colors']) : self::FULL_BG), 'text_colors' => array_slice($tcolors, 0, 8),
             'text_sizes' => !empty($s['text_sizes']), 'positions' => !empty($s['positions']),
             // Taux de commission propre au modèle (null : celui du support).
             'rate' => isset($s['rate']) && $s['rate'] !== '' && $s['rate'] !== null ? round(max(0.0, min(100.0, (float) $s['rate'])), 2) : null,
@@ -171,6 +171,9 @@ final class Catalog
             'fee' => isset($s['fee']) && $s['fee'] !== '' && $s['fee'] !== null ? max(0, min(100000, (int) $s['fee'])) : null,
         ];
     }
+
+    /** Fonds proposés par défaut sur un support imprimé en entier : bleu nuit, jaune, blanc, bleu roi, noir. */
+    public const FULL_BG = ['#0E1F4D', '#F6C400', '#FFFFFF', '#1E3FA8', '#111111'];
 
     /** Couleurs de texte toujours proposées (charte), en plus de celles cochées dans le modèle. */
     public const TEXT_BASE = ['#F6C400', '#0E1F4D', '#FFFFFF'];
