@@ -29,15 +29,20 @@
   const dark = () => { const h = (F().bg || model.color || '#FFFFFF').replace('#', ''); const n = parseInt(h, 16); return 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) < 140; };
 
   /* ------------------------------------------------------------ rendu (serveur) */
-  let busy = false, again = false, last = null;
+  let busy = false, again = false, last = null, pendingAfterDrag = false;
   const render = async () => {
     if (busy) { again = true; return; }
     busy = true;
     const f = F();
+    // positions envoyées : les boîtes renvoyées valent pour elles (cf. boxOf)
+    const sent = Object.fromEntries(f.layers.map(l => [l.id, [+l.x || 0, +l.y || 0]]));
     const r = await BO.post('/admin/boutique/apercu', { support: sup.key, face, color: model.color, bg: f.bg, layers: f.layers, values }, true, true).catch(() => null);
     busy = false;
     if (again) { again = false; render(); return; }
     if (!r || !r.ok) return;
+    // Pendant un glisser, ne pas remplacer le dessin sous la souris : on refera le rendu au lâcher.
+    if (drag) { again = false; pendingAfterDrag = true; return; }
+    r.pos = sent;
     last = r;
     $('[data-mock]').innerHTML = r.mockup;
     $('[data-print]').innerHTML = r.print;
@@ -272,7 +277,13 @@
   gridSel.addEventListener('change', () => { try { localStorage.setItem('shop.grid', gridSel.value); } catch (e) { /* */ } decorate(); });
   snapChk.addEventListener('change', () => { try { localStorage.setItem('shop.snap', snapChk.checked ? '1' : '0'); } catch (e) { /* */ } });
   // Boîte d'un calque (mm) : tracés réels si connus, sinon son cadre.
-  const boxOf = l => (last && last.boxes[l.id]) || [l.x, l.y, l.x + (+l.w || 0), l.y + (+l.h || 10)];
+  // Boîte d'un calque : celle du dernier rendu, décalée si le calque a bougé depuis.
+  const boxOf = l => {
+    const b = last && last.boxes[l.id], p = last && last.pos && last.pos[l.id];
+    if (!b) return [l.x, l.y, l.x + (+l.w || 0), l.y + (+l.h || 10)];
+    const dx = p ? l.x - p[0] : 0, dy = p ? l.y - p[1] : 0;
+    return [b[0] + dx, b[1] + dy, b[2] + dx, b[3] + dy];
+  };
   $('[data-tools]').addEventListener('click', e => {
     const b = e.target.closest('[data-al]'), l = cur();
     if (!b || !l) return;
@@ -343,7 +354,7 @@
       // Tolérance : 8 pixels à l'écran, convertis en mm.
       const tol = 8 / (drag.svg.getScreenCTM().a || 1);
       const s = snap([drag.box[0] + dx, drag.box[1] + dy, drag.box[2] + dx, drag.box[3] + dy], drag.id, tol);
-      if (s.x) mx += s.x.d; if (s.y) my += s.y.d;
+      if (s.x && isFinite(s.x.d)) mx += s.x.d; if (s.y && isFinite(s.y.d)) my += s.y.d;
       guides(drag.svg, s);
       // Silhouette de dépôt : où l'élément va se poser.
       let ghost = drag.svg.querySelector('[data-ghost]');
@@ -351,13 +362,20 @@
       ghost.setAttribute('x', drag.box[0] + mx); ghost.setAttribute('y', drag.box[1] + my); ghost.setAttribute('width', drag.box[2] - drag.box[0]); ghost.setAttribute('height', drag.box[3] - drag.box[1]);
       drag.svg.appendChild(ghost);
     } else guides(drag.svg, {});
+    if (!isFinite(mx) || !isFinite(my)) return;
     l.x = r1(drag.x + mx);
     l.y = r1(drag.y + my);
     $$(`[data-print] [data-layer="${CSS.escape(drag.id)}"]`).forEach(n => n.setAttribute('transform', `translate(${l.x - drag.x} ${l.y - drag.y})`));
     const sb = print.querySelector('[data-selbox]');
     if (sb) sb.setAttribute('transform', `translate(${l.x - drag.x} ${l.y - drag.y})`);
   });
-  const end = () => { if (drag) drag.svg.querySelectorAll('[data-guide]').forEach(n => n.remove()); if (drag && drag.moved) { props(); changed(0); } drag = null; };
+  const end = () => {
+    if (drag) drag.svg.querySelectorAll('[data-guide]').forEach(n => n.remove());
+    const moved = drag && drag.moved;
+    drag = null;
+    if (moved) { props(); changed(0); } else if (pendingAfterDrag) { pendingAfterDrag = false; render(); }
+    pendingAfterDrag = false;
+  };
   print.addEventListener('pointerup', end);
   print.addEventListener('pointercancel', end);
   document.addEventListener('keydown', e => {
