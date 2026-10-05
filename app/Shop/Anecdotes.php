@@ -27,7 +27,7 @@ final class Anecdotes
     private const SYSTEM = 'Tu rédiges une anecdote pour un produit dérivé (t-shirt, mug, poster) de Sochaux Rétro, '
         . 'le musée des supporters du FC Sochaux-Montbéliard (les Lionceaux, jaune et bleu, stade Auguste-Bonal). '
         . 'Règles strictes : utilise UNIQUEMENT le fait fourni, n’ajoute aucune information, aucun chiffre, aucune date qui n’y figure pas ; '
-        . 'ne cite aucun nom de personne (dis « un Lionceau », « notre meilleur buteur »…) ; une seule phrase AFFIRMATIVE, en français, au présent ou au passé : jamais de question, jamais « Le saviez-vous », « Saviez-vous » ni point d’interrogation ; '
+        . 'cite TOUJOURS les noms précis donnés dans le fait : le joueur ou l’entraîneur concerné (prénom et nom), l’adversaire, la compétition, la date du match — jamais « un Lionceau » ou « un joueur » quand le nom est connu ; n’utilise aucun nom absent du fait ; une seule phrase AFFIRMATIVE, en français, au présent ou au passé : jamais de question, jamais « Le saviez-vous », « Saviez-vous » ni point d’interrogation ; '
         . 'ton fier et chaleureux, jamais moqueur envers l’adversaire ; pas de guillemets, pas d’émoji ; respecte la longueur maximale demandée.';
 
     /** Réserve : les anecdotes déjà rédigées par l'IA, resservies sans IA quand le budget du jour est atteint. */
@@ -84,7 +84,9 @@ final class Anecdotes
             $stats = array_values(array_filter(Chiffres::flat(), fn ($s) => ($s['value'] ?? '') !== '' && ($s['label'] ?? '') !== ''));
             if ($stats) {
                 $s = $stats[random_int(0, count($stats) - 1)];
-                $t = $s['label'] . ' : ' . $s['value'] . (($s['unit'] ?? '') !== '' ? ' ' . $s['unit'] : '') . '. ' . trim((string) ($s['text'] ?? ''));
+                $who = implode(', ', array_filter(array_map(fn ($w) => (string) ($w['name'] ?? ''), (array) ($s['who'] ?? []))));
+                $t = $s['label'] . ' : ' . $s['value'] . (($s['unit'] ?? '') !== '' ? ' ' . $s['unit'] : '') . '. ' . trim((string) ($s['text'] ?? ''))
+                    . ($who !== '' ? ' Qui : ' . $who . '.' : '');
                 return [trim(strip_tags($t)), 'chiffre:' . $s['key']];
             }
         }
@@ -100,13 +102,41 @@ final class Anecdotes
         $t = 'Le ' . $v['match_date'] . ' : ' . $v['match_affiche'] . ($v['match_compet'] !== '' ? ' (' . $v['match_compet'] . ')' : '')
             . ($v['match_lieu'] !== '' ? ', à ' . $v['match_lieu'] : '') . ($v['match_public'] !== '' ? ', devant ' . $v['match_public'] : '')
             . '.';
+        $sc = Derived::part('scorers')[$m['id']] ?? Derived::part('scorers')[(string) $m['id']] ?? [];
+        $names = array_values(array_unique(array_filter(array_map(fn ($x) => trim((string) ($x[1] ?? '')), (array) $sc))));
+        if ($names) {
+            $t .= ' Buteurs sochaliens : ' . implode(', ', $names) . '.';
+        }
         return [trim((string) preg_replace('/\s+/', ' ', $t)), 'match:' . $m['id']];
+    }
+
+    /** Mots du club toujours permis, même absents du fait. */
+    private const OK_NAMES = ['sochaux', 'lionceaux', 'lionceau', 'fcsm', 'fc', 'montbeliard', 'bonal', 'auguste', 'auguste-bonal', 'peugeot', 'france', 'coupe', 'ligue', 'championnat'];
+
+    /** Les noms propres de la phrase absents du fait. */
+    private static function foreignNames(string $t, string $fact): array
+    {
+        $f = mb_strtolower(\App\Data\Names::ascii($fact));
+        preg_match_all('/(?<![\p{L}\'’])\p{Lu}[\p{L}\'’-]+/u', $t, $m, PREG_OFFSET_CAPTURE);
+        $bad = [];
+        foreach ($m[0] as [$w, $pos]) {
+            $k = mb_strtolower(\App\Data\Names::ascii(trim($w, "'’-")));
+            // Premier mot d'une phrase : majuscule de grammaire, pas forcément un nom.
+            if ($pos === 0 || preg_match('/[.!:;]\s*$/u', substr($t, 0, $pos))) {
+                continue;
+            }
+            if (in_array($k, self::OK_NAMES, true) || str_contains($f, $k)) {
+                continue;
+            }
+            $bad[] = $w;
+        }
+        return $bad;
     }
 
     /** Les nombres d'un texte (1 234 et 1234 comptent pareil). */
     private static function numbers(string $t): array
     {
-        preg_match_all('/\d[\d\x{202F}\x{00A0} .]*\d|\d/u', $t, $m);
+        preg_match_all('/\d[\d\x{202F}\x{00A0} .,]*\d|\d/u', $t, $m);
         return array_values(array_unique(array_map(fn ($n) => (string) preg_replace('/\D/', '', $n), $m[0])));
     }
 
@@ -161,6 +191,10 @@ final class Anecdotes
                 continue;
             }
             if ($t === '' || mb_strlen($t) > $max || isset($sold[self::key($t)]) || isset($avoid[self::key($t)])) {
+                continue;
+            }
+            // Aucun nom propre inventé : chaque mot à majuscule (hors début de phrase) doit figurer dans le fait.
+            if (self::foreignNames($t, $fact)) {
                 continue;
             }
             // Aucun nombre inventé : chaque nombre de la phrase doit figurer dans le fait.
