@@ -156,11 +156,13 @@ final class Catalog
                 $extra[$size] = min(100000, (int) $c);
             }
         }
-        $colors = array_values(array_intersect(array_map('strtoupper', (array) ($s['colors'] ?? [])), $sup['colors']));
+        // Support imprimé en entier (écharpe, poster…) : pas de couleur de produit, le client choisit la couleur du fond.
+        $colors = array_values(array_intersect(array_map('strtoupper', (array) ($s['colors'] ?? [])), $sup['colors'] ?: array_values(Vector::PALETTE)));
         $tcolors = array_values(array_unique(array_filter(array_map(fn ($c) => strtoupper((string) $c), (array) ($s['text_colors'] ?? [])), fn ($c) => in_array($c, array_values(Vector::PALETTE), true))));
         return [
             'price' => max(0, min(100000, (int) ($s['price'] ?? 0))), 'extra' => $extra,
             'desc' => mb_substr(trim((string) ($s['desc'] ?? '')), 0, 600),
+            // Imprimé en entier : aucune couleur cochée = le fond du modèle, sans choix.
             'colors' => $colors ?: array_values($sup['colors']), 'text_colors' => array_slice($tcolors, 0, 8),
             'text_sizes' => !empty($s['text_sizes']), 'positions' => !empty($s['positions']),
             // Taux de commission propre au modèle (null : celui du support).
@@ -255,9 +257,24 @@ final class Catalog
         if (TonMatch::parse($date)) {
             $opt['date'] = $date;
         }
+        $full = !(self::support($m['support'])['colors'] ?? []);
+        if ($full) {
+            // Imprimé en entier : la « couleur du produit » est le fond du dessin (lisibilité du texte comprise).
+            foreach ($m['faces'] as $face) {
+                if (($face['bg'] ?? '') !== '') {
+                    $opt['color'] = $m['color'] = Vector::hex($face['bg']);
+                    break;
+                }
+            }
+        }
         $c = strtoupper((string) ($o['color'] ?? ''));
         if ($c !== '' && in_array($c, $s['colors'], true)) {
             $opt['color'] = $m['color'] = $c;
+            if ($full) {
+                foreach ($m['faces'] as $fk => $face) {
+                    $m['faces'][$fk]['bg'] = $c;
+                }
+            }
         }
         $tc = strtoupper((string) ($o['tcolor'] ?? ''));
         if ($tc !== '' && in_array($tc, self::textChoices($m), true) && self::readable($tc, $m['color'])) {

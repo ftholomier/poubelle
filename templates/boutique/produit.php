@@ -9,12 +9,14 @@ use App\Shop\Orders;
 use App\Shop\ShopPages;
 
 $s = $m['sale'];
-$names = array_flip($sup['colors']);
+$full = !$sup['colors']; // imprimé en entier : le client choisit le fond
+$names = array_flip($full ? \App\Shop\Vector::PALETTE : $sup['colors']);
+$base = Catalog::applyOptions($m, [])[0]['color'];
 $tnames = array_flip(\App\Shop\Vector::PALETTE);
 ?>
 <?= \App\Core\View::partial('boutique/_bar', ['config' => $config, 'count' => $count]) ?>
 <section class="section--tight">
-  <div class="wrap shopprod" data-shop-product data-model="<?= e($m['id']) ?>" data-color="<?= e($m['color']) ?>" data-preview="<?= e(ShopPages::u('/boutique/apercu/')) ?>" data-3d="<?= e(asset('js/shop3d.js')) ?>" data-anecdote="<?= e(ShopPages::u('/boutique/anecdote/')) ?>">
+  <div class="wrap shopprod" data-shop-product data-model="<?= e($m['id']) ?>" data-color="<?= e($base) ?>" data-preview="<?= e(ShopPages::u('/boutique/apercu/')) ?>" data-3d="<?= e(asset('js/shop3d.js')) ?>" data-anecdote="<?= e(ShopPages::u('/boutique/anecdote/')) ?>">
     <div class="shopprod__view">
       <nav class="crumbs vcrumbs"><a href="<?= e(ShopPages::u('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span><?= e($m['name']) ?></span></nav>
       <div class="shopprod__stage">
@@ -80,13 +82,13 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <?php endforeach; ?>
 
       <?php if (count($s['colors']) > 1): ?>
-      <fieldset class="shopopt"><legend>Couleur</legend>
+      <fieldset class="shopopt"><legend><?= $full ? 'Couleur du fond' : 'Couleur' ?></legend>
         <?php foreach ($s['colors'] as $i => $hex): ?>
-        <label class="shopsw" title="<?= e($names[$hex] ?? $hex) ?>"><input type="radio" name="opts[color]" value="<?= e($hex) ?>"<?= $hex === $m['color'] ? ' checked' : '' ?> data-shop-in><span style="background:<?= e($hex) ?>"></span><em><?= e($names[$hex] ?? '') ?></em></label>
+        <label class="shopsw" title="<?= e($names[$hex] ?? $hex) ?>"><input type="radio" name="opts[color]" value="<?= e($hex) ?>"<?= $hex === ($s['colors'] && !in_array($base, $s['colors'], true) ? $s['colors'][0] : $base) ? ' checked' : '' ?> data-shop-in><span style="background:<?= e($hex) ?>"></span><em><?= e($names[$hex] ?? '') ?></em></label>
         <?php endforeach; ?>
       </fieldset>
       <?php endif; ?>
-      <?php if ($fields): $tchoices = Catalog::textChoices($m); $tdef = ''; foreach ($tchoices as $hex) { if (Catalog::readable($hex, $m['color'])) { $tdef = $hex; break; } } ?>
+      <?php if ($fields): $tchoices = Catalog::textChoices($m); $tdef = ''; foreach ($tchoices as $hex) { if (Catalog::readable($hex, $base)) { $tdef = $hex; break; } } ?>
       <fieldset class="shopopt"><legend>Couleur du texte</legend>
         <?php foreach ($tchoices as $hex): ?>
         <label class="shopsw" title="<?= e($tnames[$hex] ?? $hex) ?>"><input type="radio" name="opts[tcolor]" value="<?= e($hex) ?>"<?= $hex === $tdef ? ' checked' : '' ?> data-shop-in><span style="background:<?= e($hex) ?>"></span><em><?= e($tnames[$hex] ?? '') ?></em></label>
