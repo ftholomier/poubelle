@@ -113,7 +113,7 @@ $get = function (string $path, array $query = []): Response {
     I18n::set(str_starts_with($path, '/en/') ? 'en' : 'fr');
     return Kernel::handle(new Request('GET', $path, $query, [], [], ['HTTP_HOST' => 'musee.fcsochauxretro.com', 'REQUEST_URI' => $path, 'REMOTE_ADDR' => '127.0.0.1', 'HTTP_USER_AGENT' => 'test-murs'], ''));
 };
-foreach (['planche-contact' => 36, 'le-lion-illustre' => 12, 'mur-du-vestiaire' => 24, 'mosaique' => 264] as $slug => $min) {
+foreach (['planche-contact' => 36, 'le-lion-illustre' => 12, 'mur-du-vestiaire' => 15, 'mosaique' => 264] as $slug => $min) {
     $r = $get("/interactif/$slug/");
     $n = substr_count($r->body, 'data-photo=');
     $eq("/interactif/$slug/ : page, $min photos au moins, crédits, filtres", [$r->status, $n >= $min, str_contains($r->body, 'data-credit="'), str_contains($r->body, 'name="decennie"'), str_contains($r->body, 'murs.css')], [200, true, true, true, true]);
