@@ -105,8 +105,8 @@
 .wall--vestiaire::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: var(--navy); border-top: 8px solid var(--yellow); }
 /* Au fond, le vestiaire des pros dans la pénombre : flouté, très assombri, fixé à l'écran (on le voit en entier
    en faisant défiler) ; par-dessus, un voile bleu nuit plus dense sur les bords et le carrelage à peine visible. */
-.vm__backdrop { position: absolute; inset: 0; background: #080e22 var(--bg) center 40% / cover no-repeat fixed; filter: blur(3px) brightness(.6) saturate(1.15); pointer-events: none; }
-.vm__tiles { position: absolute; inset: 0; background-image: linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), radial-gradient(ellipse 90% 80% at 50% 40%, rgba(6, 12, 32, .05), rgba(4, 8, 22, .5)); background-size: 56px 56px, 56px 56px, auto; pointer-events: none; }
+.vm__backdrop { position: absolute; inset: 0; background: #080e22 var(--bg) center 40% / cover no-repeat fixed; filter: blur(3px) brightness(.47) saturate(1.15); pointer-events: none; }
+.vm__tiles { position: absolute; inset: 0; background-image: linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), radial-gradient(ellipse 90% 80% at 50% 40%, rgba(6, 12, 32, .1), rgba(4, 8, 22, .6)); background-size: 56px 56px, 56px 56px, auto; pointer-events: none; }
 .vm__bgcredit { position: absolute; z-index: 2; right: var(--gutter); bottom: 20px; margin: 0; font-size: 13px; font-style: italic; color: var(--mist); }
 .vm { position: relative; z-index: 1; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
 .vm__stencil { position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg); font-family: var(--display); font-weight: 900; font-size: clamp(90px, 18vw, 260px); line-height: 1; letter-spacing: .06em; text-transform: uppercase; color: var(--yellow); opacity: .07; pointer-events: none; white-space: nowrap; }
