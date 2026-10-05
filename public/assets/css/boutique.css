@@ -150,3 +150,16 @@
 .shopempty__t { font-family: var(--display); font-weight: 900; font-size: 32px; text-transform: uppercase; margin: 0 0 6px; }
 .vform-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 32px; align-items: start; }
 @media (max-width: 900px) { .vform-wrap { grid-template-columns: 1fr; } }
+
+/* Aperçu 3D (js/shop3d.js, chargé au premier clic sur « Voir en 3D ») */
+.shopprod__stage { position: relative; }
+.shopprod__3d { position: relative; aspect-ratio: 1 / 1; border: 2px solid var(--navy); background: radial-gradient(circle at 50% 38%, #fffdf7 0%, #efe7d4 70%); cursor: grab; touch-action: none; overflow: hidden; }
+.shopprod__3d:active { cursor: grabbing; }
+.shopprod__3d canvas { display: block; width: 100% !important; height: 100% !important; }
+.shopprod__3dhint { position: absolute; inset: auto 0 10px; margin: 0; text-align: center; font-size: 13px; color: rgba(14,31,77,.7); pointer-events: none; }
+.shopviewbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
+.shopviewbar .shopseg { margin-top: 0; }
+.shop3dbtn { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; border: 2px solid var(--navy); background: var(--yellow, #f6c400); color: var(--navy); padding: 7px 14px; font-family: var(--display); text-transform: uppercase; letter-spacing: .05em; cursor: pointer; box-shadow: 3px 3px 0 var(--navy); }
+.shop3dbtn span { font-size: 18px; line-height: 1; }
+.shop3dbtn[aria-pressed="true"] { background: var(--navy); color: #fff; }
+.shopdisclaim { margin: 10px 0 0; font-size: 12px; line-height: 1.45; color: rgba(14,31,77,.62); font-style: italic; }

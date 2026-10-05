@@ -9,14 +9,35 @@
   const form = root.querySelector('form');
   const svgBox = root.querySelector('[data-shop-svg]');
   const priceBox = root.querySelector('[data-shop-price]');
-  let face = '', timer = null, seq = 0;
+  let face = '', timer = null, seq = 0, v3d = null;
+  // Aperçu 3D : le module (Three.js) n'est chargé qu'au premier clic.
+  const box3d = root.querySelector('[data-shop-3d]'), btn3d = root.querySelector('[data-3d-toggle]');
+  const hint = root.querySelector('[data-3d-hint]'), faceBar = root.querySelector('[data-faces]');
+  const webgl = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } })();
+  if (btn3d && !webgl) btn3d.hidden = true;
+  btn3d?.addEventListener('click', async () => {
+    const on = btn3d.getAttribute('aria-pressed') !== 'true';
+    btn3d.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn3d.querySelector('b').textContent = on ? 'Retour à l’aperçu' : 'Voir en 3D';
+    svgBox.hidden = on; box3d.hidden = !on;
+    if (faceBar) faceBar.hidden = on;
+    if (!on) { v3d?.destroy(); v3d = null; return; }
+    hint.hidden = false; hint.textContent = 'Chargement de la 3D…';
+    try {
+      const mod = await import(root.dataset['3d']);
+      v3d = mod.viewer(box3d);
+      await render();
+      hint.hidden = false; hint.textContent = 'Faites tourner l’objet à la souris ou au doigt · molette ou pincement pour zoomer';
+      setTimeout(() => { hint.hidden = true; }, 4000);
+    } catch (e) { hint.textContent = 'La 3D n’est pas disponible sur cet appareil.'; }
+  });
   const state = () => {
     const fd = new FormData(form), values = {}, opts = {};
     for (const [k, v] of fd.entries()) {
       let m = k.match(/^values\[(.+)\]$/); if (m) values[m[1]] = String(v);
       m = k.match(/^opts\[(.+)\]$/); if (m) opts[m[1]] = String(v);
     }
-    return { model: root.dataset.model, values, opts, size: fd.get('size') || '', qty: +(fd.get('qty') || 1), face };
+    return { model: root.dataset.model, values, opts, size: fd.get('size') || '', qty: +(fd.get('qty') || 1), face, flat: !!v3d };
   };
   const render = async () => {
     const n = ++seq;
@@ -26,6 +47,7 @@
       const d = await r.json();
       if (n !== seq || !d.ok) return;
       svgBox.innerHTML = d.svg;
+      if (v3d && d.flat) { await v3d.set(d.flat); hint.hidden = true; }
       priceBox.textContent = d.price;
       const note = root.querySelector('[data-shop-note]');
       if (note) note.textContent = d.note || '';

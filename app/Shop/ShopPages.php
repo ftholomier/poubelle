@@ -64,6 +64,23 @@ final class ShopPages
         return Mockup::render($sup['mockup'], (string) $fk, $mm['faces'][$fk], $mm['color'], $values)['svg'];
     }
 
+    /**
+     * Pour l'aperçu 3D : le dessin à plat de chaque face (SVG vectoriel du fichier d'impression,
+     * fond transparent sauf fond du modèle), la couleur du produit et la forme 3D à construire.
+     */
+    public static function flat(array $m, array $opts = [], array $values = []): array
+    {
+        [$mm] = Catalog::applyOptions($m, $opts);
+        $sup = Catalog::support($mm['support']);
+        $faces = [];
+        foreach ($mm['faces'] as $fk => $f) {
+            $drawn = $f['layers'] || $f['bg'];
+            $faces[$fk] = ['w' => $f['w'], 'h' => $f['h'], 'bg' => $f['bg'] ? Vector::hex($f['bg']) : '', 'svg' => $drawn ? Vector::svg($f, $values) : ''];
+        }
+        $kind = $sup['mockup'] === 'mug' && str_contains($sup['key'], 'email') ? 'mug-email' : $sup['mockup'];
+        return ['kind' => $kind, 'color' => $mm['color'], 'faces' => $faces];
+    }
+
     // ------------------------------------------------------------------ catalogue, produit
 
     public static function index(Request $req): Response
@@ -123,7 +140,8 @@ final class ShopPages
         }
         $chk = Catalog::check($mm, array_filter(array_map('strval', (array) ($in['values'] ?? []))));
         $size = (string) ($in['size'] ?? '');
-        return Response::json(['ok' => true, 'svg' => self::preview($m, $opts, $values, (string) ($in['face'] ?? '')), 'errors' => $chk['errors'], 'note' => $note,
+        $flat = !empty($in['flat']) ? self::flat($m, $opts, $values) : null;
+        return Response::json(['ok' => true, 'svg' => self::preview($m, $opts, $values, (string) ($in['face'] ?? '')), 'flat' => $flat, 'errors' => $chk['errors'], 'note' => $note,
             'price' => Orders::money(Catalog::price($m, $size) * max(1, min(20, (int) ($in['qty'] ?? 1))))]);
     }
 

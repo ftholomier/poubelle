@@ -14,13 +14,20 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
 ?>
 <?= \App\Core\View::partial('boutique/_bar', ['config' => $config, 'count' => $count]) ?>
 <section class="section--tight">
-  <div class="wrap shopprod" data-shop-product data-model="<?= e($m['id']) ?>" data-color="<?= e($m['color']) ?>" data-preview="<?= e(ShopPages::u('/boutique/apercu/')) ?>">
+  <div class="wrap shopprod" data-shop-product data-model="<?= e($m['id']) ?>" data-color="<?= e($m['color']) ?>" data-preview="<?= e(ShopPages::u('/boutique/apercu/')) ?>" data-3d="<?= e(asset('js/shop3d.js')) ?>">
     <div class="shopprod__view">
       <nav class="crumbs vcrumbs"><a href="<?= e(ShopPages::u('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span><?= e($m['name']) ?></span></nav>
-      <div class="shopprod__img" data-shop-svg aria-live="polite"><?= $svg ?></div>
-      <?php if (count($faces) > 1): ?>
-      <div class="shopseg" role="group" aria-label="Face"><?php foreach ($faces as $i => $fk): ?><button type="button" class="shopseg__b<?= $i ? '' : ' is-on' ?>" data-face="<?= e($fk) ?>"><?= e($sup['faces'][$fk]['label']) ?></button><?php endforeach; ?></div>
-      <?php endif; ?>
+      <div class="shopprod__stage">
+        <div class="shopprod__img" data-shop-svg aria-live="polite"><?= $svg ?></div>
+        <div class="shopprod__3d" data-shop-3d hidden><p class="shopprod__3dhint" data-3d-hint>Chargement de la 3D…</p></div>
+      </div>
+      <div class="shopviewbar">
+        <?php if (count($faces) > 1): ?>
+        <div class="shopseg" role="group" aria-label="Face" data-faces><?php foreach ($faces as $i => $fk): ?><button type="button" class="shopseg__b<?= $i ? '' : ' is-on' ?>" data-face="<?= e($fk) ?>"><?= e($sup['faces'][$fk]['label']) ?></button><?php endforeach; ?></div>
+        <?php endif; ?>
+        <button type="button" class="shop3dbtn" data-3d-toggle aria-pressed="false"><span aria-hidden="true">⟳</span> <b>Voir en 3D</b></button>
+      </div>
+      <p class="shopdisclaim">Aperçus et rendu 3D indicatifs, non contractuels : couleurs, proportions et placement du marquage peuvent légèrement varier sur le produit fabriqué.</p>
     </div>
     <form class="shopprod__form vform" method="post" action="<?= e(ShopPages::u('/boutique/panier/')) ?>">
       <?= csrf_field() ?>
