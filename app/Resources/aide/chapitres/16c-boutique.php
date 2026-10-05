@@ -31,7 +31,7 @@ HTML],
 <li><b>Ajouter</b> : le logo (en couleurs, ou d’une seule couleur sur textile foncé), un texte, un <b>champ du client</b>, un rectangle ou un rond.</li>
 <li><b>Placer</b> : cliquez un élément dans le fichier d’impression et faites-le glisser ; les flèches du clavier le déplacent de 1 mm (10 mm avec Maj). « Centrer » le met au milieu de la largeur.</li>
 <li><b>Régler</b> : police (celles du site), corps, couleur de la charte, alignement, capitales, espacement ; « Réduire pour tenir sur la largeur » pour un prénom de longueur inconnue.</li>
-<li><b>Champ du client</b> : le texte d’exemple est remplacé par celui du client (« Votre prénom », 12 caractères au plus…). Essayez des prénoms longs dans « Essai des champs du client ».</li>
+<li><b>Champ du client</b> : le texte d’exemple est remplacé par celui du client (« Votre texte », 20 caractères au plus…). Essayez des prénoms longs dans « Essai des champs du client ».</li>
 <li><b>Enregistrer</b>, puis cochez <b>Prêt à la vente</b> quand le modèle est validé.</li>
 </ol>
 [[astuce|<p>Les pointillés bleus marquent le bord du produit fini ; la zone grisée, les fonds perdus. Un message signale ce qui dépasse de la zone imprimable, ou un texte trop petit pour la broderie d’une casquette.</p>]]

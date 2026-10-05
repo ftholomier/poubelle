@@ -154,7 +154,7 @@
     else if (k === 'rect' || k === 'ellipse') l = { type: k, x: r1(w * 0.3), y: r1(h * 0.3), w: r1(w * 0.4), h: r1(Math.min(h * 0.2, w * 0.4)), fill: k === 'ellipse' ? '#F6C400' : '', stroke: k === 'rect' ? '#F6C400' : '', sw: k === 'rect' ? r1(Math.max(0.5, w / 200)) : 0, r: 0 };
     else {
       const size = Math.max(8, Math.round(Math.min(w, h * 2) / 8));
-      l = { type: 'text', x: r1(w * 0.05), y: r1(h * 0.6), w: r1(w * 0.9), text: k === 'client' ? 'Votre prénom' : 'Jaune et bleu depuis 1928', font: 'display', size, color: dark() ? '#F6C400' : '#0E1F4D', align: 'center', upper: true, spacing: 0, lh: 1.1, fit: k !== 'text', mode: k === 'text' ? 'fixed' : 'client', field: k === 'client' ? 'prenom' : '', label: k === 'client' ? 'Votre prénom' : '', max: 20, h: 0, min: 10 };
+      l = { type: 'text', x: r1(w * 0.05), y: r1(h * 0.6), w: r1(w * 0.9), text: k === 'client' ? 'Votre texte' : 'Jaune et bleu depuis 1928', font: 'display', size, color: dark() ? '#F6C400' : '#0E1F4D', align: 'center', upper: true, spacing: 0, lh: 1.1, fit: k !== 'text', mode: k === 'text' ? 'fixed' : 'client', field: k === 'client' ? 'texte' : '', label: k === 'client' ? 'Votre texte' : '', max: 20, h: 0, min: 10 };
     }
     if (k === 'match') {
       const tm = (D.tonmatch || []).find(x => x.field === b.dataset.field) || {};
@@ -196,7 +196,7 @@
       h += `<label class="toggle"><input type="checkbox" data-client${l.mode === 'client' ? ' checked' : ''}><span class="toggle__box"></span><span>Rempli par le client</span></label>`;
       if (l.mode === 'client') h += `<label class="f"><span class="f__k">Réponse du client</span><select class="in in--sm" data-k="list"><option value="">Texte libre (il l’écrit)</option>${Object.entries(D.lists || {}).map(([k, v]) => `<option value="${esc(k)}"${l.list === k ? ' selected' : ''}>Choix dans la liste « ${esc(v.name)} » (${v.choices.length} phrases)</option>`).join('')}</select></label>`
         + (l.list ? `<p class="xs muted" style="margin:4px 0 0">Le client choisit une phrase validée de la liste. Gérez les phrases dans <a href="/admin/boutique/textes" target="_blank">Boutique › Banque de textes</a>. Les phrases trop longues pour le cadre sont écartées automatiquement (liste ci-dessous, dans l’essai des champs).</p>` : '')
-        + `<div class="pgrid"><label class="f f--inline"><span class="f__k">Question posée</span><input class="in in--sm" data-k="label" value="${esc(l.label)}" placeholder="${l.list ? 'Votre phrase' : 'Votre prénom'}"></label><label class="f f--inline"><span class="f__k">Nom du champ</span><input class="in in--sm" data-k="field" value="${esc(l.field)}" placeholder="prenom"></label>${l.list ? '' : num('max', 'Caractères max', 1, 1)}</div><p class="xs muted" style="margin:4px 0 0">Deux calques avec le même nom de champ reçoivent le même texte (par exemple le prénom devant et au dos).</p>`;
+        + `<div class="pgrid"><label class="f f--inline"><span class="f__k">Question posée</span><input class="in in--sm" data-k="label" value="${esc(l.label)}" placeholder="${l.list ? 'Votre phrase' : 'Votre texte'}"></label><label class="f f--inline"><span class="f__k">Nom du champ</span><input class="in in--sm" data-k="field" value="${esc(l.field)}" placeholder="prenom"></label>${l.list ? '' : num('max', 'Caractères max', 1, 1)}</div><p class="xs muted" style="margin:4px 0 0">Deux calques avec le même nom de champ reçoivent le même texte (par exemple le prénom devant et au dos).</p>`;
     } else {
       h += `<div class="f"><span class="f__k">Remplissage</span>${colorPick('fill', l.fill || '', true)}</div><div class="f"><span class="f__k">Contour</span>${colorPick('stroke', l.stroke || '', true)}</div><div class="pgrid">${num('sw', 'Épaisseur du contour (mm)', 0.1, 0)}${l.type === 'rect' ? num('r', 'Arrondi (mm)', 0.5, 0) : ''}</div>`;
     }
@@ -214,7 +214,7 @@
   box.addEventListener('change', e => {
     const l = cur();
     if (!l) return;
-    if (e.target.matches('[data-client]')) { l.mode = e.target.checked ? 'client' : 'fixed'; if (l.mode === 'client' && !l.field) { l.field = 'prenom'; l.label = 'Votre prénom'; l.fit = true; } props(); list(); changed(0); return; }
+    if (e.target.matches('[data-client]')) { l.mode = e.target.checked ? 'client' : 'fixed'; if (l.mode === 'client' && !l.field) { l.field = 'texte'; l.label = 'Votre texte'; l.fit = true; } props(); list(); changed(0); return; }
     const k = e.target.dataset.k;
     if (!k) return;
     if (e.target.type === 'checkbox') l[k] = e.target.checked;
