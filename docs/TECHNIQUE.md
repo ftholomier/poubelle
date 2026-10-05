@@ -770,7 +770,9 @@ visite : `/interactif/planche-contact/`, `/interactif/le-lion-illustre/` (journa
   courbes de Bézier, un peu plus d'un tour, rouge « crayon gras » avec grain de cire (filtre SVG
   `#pc-wax`), mot griffonné à côté). Journal : Une (photo
   d'au moins 1 000 px de large si possible), deux articles, « En images », brèves ; titres =
-  fiches, textes = légendes. Vestiaire : 24 tirages (rotation, punaise ou scotch), déplacés au
+  fiches, textes = légendes. Vestiaire : fond flouté fixé à l'écran (`Walls::LOCKER_ROOM`, photo du
+  vestiaire des pros dans la médiathèque, crédit en bas du mur ; sans elle, carrelage seul) ;
+  24 tirages (rotation, punaise ou scotch), déplacés au
   pointeur (capture après 6 px : le clic reste un clic). Mosaïque : motif « 100 », « FCSM »,
   « 1928 » ou « 2028 » en lettres de 5 × 7 cases (24 × 11 cases) ou 3 × 5 sur deux lignes pour
   les téléphones (`Walls::grid()`), photos en niveaux de gris teintées (jaune pour le motif),

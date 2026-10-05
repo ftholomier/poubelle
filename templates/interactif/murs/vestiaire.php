@@ -1,10 +1,16 @@
 <?php
 /**
  * Le mur du vestiaire : tirages façon Polaroid punaisés ou scotchés sur le carrelage, crédit écrit
- * à la main ; on les déplace à la souris. Variables : $prints
+ * à la main ; on les déplace à la souris. Au fond, flouté, le vestiaire des pros du FCSM.
+ * Variables : $prints, $backdrop (src, credit ; null sans la photo)
  */
 use App\Front\Walls;
 ?>
+<?php if (!empty($backdrop)): ?>
+  <div class="vm__backdrop" style="--bg:url('<?= e($backdrop['src']) ?>')" aria-hidden="true"></div>
+  <div class="vm__tiles" aria-hidden="true"></div>
+  <p class="vm__bgcredit"><?= e(t('Au fond : le vestiaire des pros du FCSM')) ?> · © <?= e($backdrop['credit']) ?></p>
+<?php endif; ?>
 <div class="vm">
   <div class="vm__wall">
     <span class="vm__stencil" aria-hidden="true">Sochaux</span>

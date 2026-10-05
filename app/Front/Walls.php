@@ -18,6 +18,9 @@ use App\Services\PhotoWall;
 final class Walls
 {
     /** Clé => [adresse, nom, phrase du pavé, bouton du nouveau tirage, icône] (textes traduits à l'affichage). */
+    /** Fond flouté du mur du vestiaire : le vestiaire des pros (photo du club, médiathèque). */
+    public const LOCKER_ROOM = '2024/01/1.-vestiaire.jpeg';
+
     public const WALLS = [
         'planche' => ['/interactif/planche-contact/', 'Planche-contact', 'Le film des archives, image par image, avec la loupe du labo.', 'Nouvelle planche', '35'],
         'journal' => ['/interactif/le-lion-illustre/', 'Le Lion illustré', 'Le journal des photos du musée : une nouvelle édition à chaque visite.', 'Édition suivante', 'N°'],
@@ -72,7 +75,9 @@ final class Walls
                 'z' => random_int(1, 9),
             ];
         }
-        return self::page($req, 'vestiaire', ['prints' => $prints],
+        $bg = \App\Data\Media::get(self::LOCKER_ROOM);
+        $backdrop = $bg ? ['src' => img(self::LOCKER_ROOM, 800), 'credit' => trim((string) ($bg['credit'] ?? '')) ?: 'FC Sochaux-Montbéliard'] : null;
+        return self::page($req, 'vestiaire', ['prints' => $prints, 'backdrop' => $backdrop],
             t('Le mur du vestiaire : des photos du musée punaisées et scotchées comme dans un vestiaire, à déplacer à la souris. Un nouveau mur à chaque visite.'));
     }
 

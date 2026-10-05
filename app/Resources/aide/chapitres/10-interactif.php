@@ -55,7 +55,7 @@ HTML],
 <ul>
 <li><b>Planche-contact</b> : des bandes de film, le numéro et le crédit imprimés dans la marge, une loupe au survol, quelques vues entourées d’un coup de crayon gras rouge, avec un mot griffonné à côté (« la bonne ! », « à tirer ! »), comme le photographe qui choisit au labo ;</li>
 <li><b>Le Lion illustré</b> : un journal (Une, articles, « En images », brèves) dont les titres sont ceux des fiches et les textes les légendes de la médiathèque : rien n’est inventé ;</li>
-<li><b>Le mur du vestiaire</b> : des tirages punaisés ou scotchés au carrelage, crédit écrit à la main, à déplacer à la souris ;</li>
+<li><b>Le mur du vestiaire</b> : des tirages punaisés ou scotchés au carrelage, crédit écrit à la main, à déplacer à la souris ; au fond, flouté, le vestiaire des pros du FCSM (photo du club, créditée en bas du mur) ;</li>
 <li><b>La grande mosaïque</b> : des centaines de photos qui dessinent « 100 », « FCSM », « 1928 » ou « 2028 » ; un bouton montre les photos en couleurs.</li>
 </ul>
 [[img:site-murs.webp|Les quatre murs : planche-contact, Le Lion illustré, mur du vestiaire, grande mosaïque]]
