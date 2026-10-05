@@ -81,22 +81,18 @@
       else if (e.key === 'Escape') close();
     });
   });
-  // Zoom : l'aperçu (vectoriel, donc net à toutes les tailles) en plein écran ; un clic agrandit encore.
+  // Zoom : l'aperçu (vectoriel, donc net à toutes les tailles) en grand dans une fenêtre.
   const zoom = document.createElement('dialog');
   zoom.className = 'shopzoom';
-  zoom.innerHTML = '<button type="button" class="shopzoom__x" aria-label="Fermer">×</button><div class="shopzoom__in" data-zoom-in></div><p class="shopzoom__hint">Cliquez pour agrandir encore · Échap pour fermer</p>';
+  zoom.innerHTML = '<button type="button" class="shopzoom__x" aria-label="Fermer">×</button><div class="shopzoom__in" data-zoom-in></div><p class="shopzoom__hint">Échap ou clic à côté pour fermer</p>';
   document.body.appendChild(zoom);
   const zin = zoom.querySelector('[data-zoom-in]');
-  const openZoom = () => { const svg = svgBox.querySelector('svg'); if (!svg) return; zin.innerHTML = ''; const c = svg.cloneNode(true); const vb = (c.getAttribute('viewBox') || '0 0 1 1').split(/[ ,]+/).map(Number); c.removeAttribute('class'); c.removeAttribute('width'); c.removeAttribute('height'); c.style.aspectRatio = vb[2] + ' / ' + vb[3]; zin.appendChild(c); zin.classList.remove('is-big'); zoom.showModal(); };
+  const openZoom = () => { const svg = svgBox.querySelector('svg'); if (!svg) return; zin.innerHTML = ''; const c = svg.cloneNode(true); const vb = (c.getAttribute('viewBox') || '0 0 1 1').split(/[ ,]+/).map(Number); c.removeAttribute('class'); c.removeAttribute('width'); c.removeAttribute('height'); c.style.aspectRatio = vb[2] + ' / ' + vb[3]; zin.appendChild(c); zoom.showModal(); };
   svgBox.setAttribute('role', 'button'); svgBox.tabIndex = 0; svgBox.title = 'Agrandir l’aperçu';
   svgBox.addEventListener('click', openZoom);
   svgBox.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openZoom(); } });
   zoom.querySelector('.shopzoom__x').addEventListener('click', () => zoom.close());
   zoom.addEventListener('click', e => { if (e.target === zoom) zoom.close(); });
-  zin.addEventListener('click', e => {
-    const big = zin.classList.toggle('is-big');
-    if (big) { const r = zin.getBoundingClientRect(); zin.scrollLeft = ((e.clientX - r.left) / r.width) * (zin.scrollWidth - r.width); zin.scrollTop = ((e.clientY - r.top) / r.height) * (zin.scrollHeight - r.height); }
-  });
   btn3d?.addEventListener('click', async () => {
     const on = btn3d.getAttribute('aria-pressed') !== 'true';
     btn3d.setAttribute('aria-pressed', on ? 'true' : 'false');
