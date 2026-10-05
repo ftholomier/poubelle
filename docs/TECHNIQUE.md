@@ -1049,6 +1049,15 @@ même site fermé ; sinon 404 du site.
   valeurs) ; les secrets (clés API, mots de passe) sont chiffrés avec sodium
   (`storage/secret.key`) et ne sont jamais renvoyés au navigateur.
 
+### Boutique (lot A : création des modèles)
+
+- `app/Shop/Vector.php` : moteur de dessin. Calques (logo, texte, rectangle, rond) en mm → tracés ; rendu SVG (aperçus) et PDF vectoriel (fichier imprimeur : CMJN, format fini `TrimBox`, fonds perdus `BleedBox`, traits de coupe, mention en marge). Les textes sont convertis en contours (`Pdf\TrueType::outline()`), le PDF n'embarque ni police ni image.
+- `app/Resources/shop/logo-sochaux-retro.svg` : logo redessiné en vectoriel (bleu #094687, jaune #FDC729), utilisable en deux couleurs ou en une.
+- `app/Shop/Catalog.php` : supports (t-shirt, sweat, mugs, tote bag, casquette, écharpe, posters A3/A2, carte, sticker ; dimensions surchargées dans `data/collections/boutique-supports.json`) et modèles (`boutique-modeles.json`), champs à remplir par le client (`mode: client`).
+- `app/Shop/Mockup.php` : aperçus vectoriels sur le produit (silhouettes, mug courbé, casquette découpée, écharpe à franges).
+- `app/Admin/Shop.php` + `templates/admin/boutique/` + `public/assets/admin/boutique.{js,css}` : écrans « Boutique » (administrateurs seuls), éditeur de modèles, aperçu JSON, PDF imprimeur (`/admin/boutique/modeles/{id}/pdf`, `?rvb=1` pour un PDF RVB).
+- Test : `tests/boutique.php`.
+
 ## 9. Tâches planifiées
 
 Une ligne de cron toutes les 5 minutes (`php bin/console.php cron`) ; chaque tâche a sa

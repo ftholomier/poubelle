@@ -17,7 +17,7 @@ use App\Data\Activity;
 final class Router
 {
     /** Adresses réservées aux administrateurs (en plus des comptes et des réglages, contrôlés écran par écran). */
-    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|association)(/|$)#';
+    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|association|boutique)(/|$)#';
 
     public static function handle(Request $req): Response
     {
@@ -140,6 +140,16 @@ final class Router
         $r->post('/admin/retro-direct', fn ($q) => Retro::action($q));
         $r->get('/admin/souvenirs', fn ($q) => Kit::index($q));
         $r->post('/admin/souvenirs', fn ($q) => Kit::save($q));
+        // Boutique (administrateurs seulement : voir ADMIN_ONLY)
+        $r->get('/admin/boutique', fn ($q) => Shop::index($q));
+        $r->get('/admin/boutique/supports', fn ($q) => Shop::supports($q));
+        $r->post('/admin/boutique/supports', fn ($q) => Shop::saveSupport($q));
+        $r->get('/admin/boutique/modeles', fn ($q) => Shop::models($q));
+        $r->post('/admin/boutique/modeles', fn ($q) => Shop::modelAction($q));
+        $r->post('/admin/boutique/apercu', fn ($q) => Shop::preview($q));
+        $r->get('/admin/boutique/modeles/{id}/pdf', fn ($q, $id) => Shop::pdf($q, $id));
+        $r->get('/admin/boutique/modeles/{id}', fn ($q, $id) => Shop::editor($q, $id));
+        $r->post('/admin/boutique/modeles/{id}', fn ($q, $id) => Shop::saveModel($q, $id));
         $r->get('/admin/murs-photos', fn ($q) => PhotoWalls::index($q));
         $r->post('/admin/murs-photos', fn ($q) => PhotoWalls::save($q));
 

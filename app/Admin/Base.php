@@ -53,6 +53,11 @@ class Base
             ['newsletter', 'Newsletter', '/admin/newsletter', false],
             ['dons', 'Dons', '/admin/dons', false],
         ],
+        'Boutique' => [
+            ['boutique', 'Tableau de bord', '/admin/boutique', true],
+            ['boutique-modeles', 'Modèles', '/admin/boutique/modeles', true],
+            ['boutique-supports', 'Supports', '/admin/boutique/supports', true],
+        ],
         'Site de l’association' => [
             ['asso', 'Tableau de bord', '/admin/association', true],
             ['asso-attente', 'Page d’attente', '/admin/association/attente', true],

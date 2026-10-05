@@ -1,0 +1,587 @@
+[
+    {
+        "id": "42c7ecb61e",
+        "name": "T-shirt « Jaune et bleu depuis 1928 »",
+        "support": "tshirt",
+        "color": "#0E1F4D",
+        "active": false,
+        "updated": "2026-10-05T11:19:15+02:00",
+        "by": "",
+        "faces": {
+            "avant": {
+                "bg": "",
+                "layers": [
+                    {
+                        "id": "l",
+                        "type": "logo",
+                        "x": 95,
+                        "y": 20,
+                        "w": 90,
+                        "style": "mono",
+                        "color": "#FDC729"
+                    },
+                    {
+                        "id": "t1",
+                        "type": "text",
+                        "x": 0,
+                        "y": 130,
+                        "w": 280,
+                        "text": "Jaune et bleu",
+                        "font": "display",
+                        "size": 96,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": true,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "t2",
+                        "type": "text",
+                        "x": 0,
+                        "y": 172,
+                        "w": 280,
+                        "text": "depuis 1928",
+                        "font": "display-b",
+                        "size": 44,
+                        "color": "#F3EDDF",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 120,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    }
+                ]
+            },
+            "dos": {
+                "bg": "",
+                "layers": [
+                    {
+                        "id": "d1",
+                        "type": "text",
+                        "x": 0,
+                        "y": 20,
+                        "w": 280,
+                        "text": "Un jour Lionceau,",
+                        "font": "display",
+                        "size": 60,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "d2",
+                        "type": "text",
+                        "x": 0,
+                        "y": 48,
+                        "w": 280,
+                        "text": "toujours Lionceau.",
+                        "font": "display",
+                        "size": 60,
+                        "color": "#F3EDDF",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "d3",
+                        "type": "text",
+                        "x": 0,
+                        "y": 110,
+                        "w": 280,
+                        "text": "Prénom",
+                        "font": "display",
+                        "size": 150,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": true,
+                        "mode": "client",
+                        "field": "prenom",
+                        "label": "Prénom au dos",
+                        "max": 12
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "6bcfaf2372",
+        "name": "Mug « Il fait toujours beau à Bonal »",
+        "support": "mug",
+        "color": "#FFFFFF",
+        "active": false,
+        "updated": "2026-10-05T11:19:16+02:00",
+        "by": "",
+        "faces": {
+            "tour": {
+                "bg": "",
+                "layers": [
+                    {
+                        "id": "l",
+                        "type": "logo",
+                        "x": 85,
+                        "y": 8,
+                        "w": 30,
+                        "style": "couleurs",
+                        "color": "#FDC729"
+                    },
+                    {
+                        "id": "t1",
+                        "type": "text",
+                        "x": 62,
+                        "y": 42,
+                        "w": 76,
+                        "text": "Il fait toujours beau à Bonal",
+                        "font": "display",
+                        "size": 30,
+                        "color": "#0E1F4D",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": true,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "t2",
+                        "type": "text",
+                        "x": 62,
+                        "y": 62,
+                        "w": 76,
+                        "text": "(même quand il pleut)",
+                        "font": "serif-i",
+                        "size": 20,
+                        "color": "#1E3FA8",
+                        "align": "center",
+                        "upper": false,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "0c17719d12",
+        "name": "Casquette brodée « blason »",
+        "support": "casquette",
+        "color": "#0E1F4D",
+        "active": false,
+        "updated": "2026-10-05T11:19:16+02:00",
+        "by": "",
+        "faces": {
+            "avant": {
+                "bg": "",
+                "layers": [
+                    {
+                        "id": "l",
+                        "type": "logo",
+                        "x": 33,
+                        "y": 2,
+                        "w": 34,
+                        "style": "mono",
+                        "color": "#FDC729"
+                    },
+                    {
+                        "id": "t",
+                        "type": "text",
+                        "x": 0,
+                        "y": 42,
+                        "w": 100,
+                        "text": "1928",
+                        "font": "display",
+                        "size": 30,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 200,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "260085f98a",
+        "name": "Écharpe « Cent ans de rugissements »",
+        "support": "echarpe",
+        "color": "",
+        "active": false,
+        "updated": "2026-10-05T11:19:16+02:00",
+        "by": "",
+        "faces": {
+            "recto": {
+                "bg": "#0E1F4D",
+                "layers": [
+                    {
+                        "id": "b1",
+                        "type": "rect",
+                        "x": -5,
+                        "y": -5,
+                        "w": 1410,
+                        "h": 27,
+                        "fill": "#F6C400",
+                        "stroke": "",
+                        "sw": 0,
+                        "r": 0
+                    },
+                    {
+                        "id": "b2",
+                        "type": "rect",
+                        "x": -5,
+                        "y": 158,
+                        "w": 1410,
+                        "h": 27,
+                        "fill": "#F6C400",
+                        "stroke": "",
+                        "sw": 0,
+                        "r": 0
+                    },
+                    {
+                        "id": "l1",
+                        "type": "logo",
+                        "x": 40,
+                        "y": 35,
+                        "w": 97,
+                        "style": "couleurs",
+                        "color": "#FDC729"
+                    },
+                    {
+                        "id": "l2",
+                        "type": "logo",
+                        "x": 1263,
+                        "y": 35,
+                        "w": 97,
+                        "style": "couleurs",
+                        "color": "#FDC729"
+                    },
+                    {
+                        "id": "t",
+                        "type": "text",
+                        "x": 170,
+                        "y": 34,
+                        "w": 1060,
+                        "text": "Cent ans de rugissements",
+                        "font": "display",
+                        "size": 200,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": true,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "s",
+                        "type": "text",
+                        "x": 170,
+                        "y": 134,
+                        "w": 1060,
+                        "text": "1928 · Sochaux Rétro · 2028",
+                        "font": "display-b",
+                        "size": 40,
+                        "color": "#F3EDDF",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 300,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "b023b30bb5",
+        "name": "Poster A3 « Ici, on parle lion couramment »",
+        "support": "poster-a3",
+        "color": "",
+        "active": false,
+        "updated": "2026-10-05T11:19:16+02:00",
+        "by": "",
+        "faces": {
+            "recto": {
+                "bg": "#0E1F4D",
+                "layers": [
+                    {
+                        "id": "f",
+                        "type": "rect",
+                        "x": 12,
+                        "y": 12,
+                        "w": 273,
+                        "h": 396,
+                        "fill": "",
+                        "stroke": "#F6C400",
+                        "sw": 1.5,
+                        "r": 0
+                    },
+                    {
+                        "id": "l",
+                        "type": "logo",
+                        "x": 98,
+                        "y": 40,
+                        "w": 100,
+                        "style": "couleurs",
+                        "color": "#FDC729"
+                    },
+                    {
+                        "id": "t1",
+                        "type": "text",
+                        "x": 20,
+                        "y": 175,
+                        "w": 257,
+                        "text": "Ici, on parle",
+                        "font": "display",
+                        "size": 90,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "t2",
+                        "type": "text",
+                        "x": 20,
+                        "y": 212,
+                        "w": 257,
+                        "text": "lion couramment.",
+                        "font": "display",
+                        "size": 90,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": true,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "t3",
+                        "type": "text",
+                        "x": 30,
+                        "y": 262,
+                        "w": 237,
+                        "text": "Musée en ligne du FC Sochaux-Montbéliard",
+                        "font": "serif-i",
+                        "size": 26,
+                        "color": "#F3EDDF",
+                        "align": "center",
+                        "upper": false,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "t4",
+                        "type": "text",
+                        "x": 20,
+                        "y": 352,
+                        "w": 257,
+                        "text": "Pour Julie",
+                        "font": "display",
+                        "size": 48,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": false,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": true,
+                        "mode": "client",
+                        "field": "dedicace",
+                        "label": "Dédicace",
+                        "max": 30
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "1c321e0e08",
+        "name": "Tote bag « Café, croissant, Lionceaux »",
+        "support": "tote",
+        "color": "#EFE6D2",
+        "active": false,
+        "updated": "2026-10-05T11:19:16+02:00",
+        "by": "",
+        "faces": {
+            "face": {
+                "bg": "",
+                "layers": [
+                    {
+                        "id": "l",
+                        "type": "logo",
+                        "x": 115,
+                        "y": 20,
+                        "w": 50,
+                        "style": "couleurs",
+                        "color": "#FDC729"
+                    },
+                    {
+                        "id": "t1",
+                        "type": "text",
+                        "x": 0,
+                        "y": 90,
+                        "w": 280,
+                        "text": "Café,",
+                        "font": "display",
+                        "size": 90,
+                        "color": "#0E1F4D",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "t2",
+                        "type": "text",
+                        "x": 0,
+                        "y": 130,
+                        "w": 280,
+                        "text": "croissant,",
+                        "font": "display",
+                        "size": 90,
+                        "color": "#0E1F4D",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    },
+                    {
+                        "id": "t3",
+                        "type": "text",
+                        "x": 0,
+                        "y": 170,
+                        "w": 280,
+                        "text": "Lionceaux.",
+                        "font": "display",
+                        "size": 90,
+                        "color": "#1E3FA8",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": false,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "451ffb1a29",
+        "name": "Sticker « Né pour rugir »",
+        "support": "sticker",
+        "color": "",
+        "active": false,
+        "updated": "2026-10-05T11:19:16+02:00",
+        "by": "",
+        "faces": {
+            "recto": {
+                "bg": "#F6C400",
+                "layers": [
+                    {
+                        "id": "l",
+                        "type": "logo",
+                        "x": 30,
+                        "y": 8,
+                        "w": 40,
+                        "style": "couleurs",
+                        "color": "#FDC729"
+                    },
+                    {
+                        "id": "t",
+                        "type": "text",
+                        "x": 4,
+                        "y": 58,
+                        "w": 92,
+                        "text": "Né pour rugir",
+                        "font": "display",
+                        "size": 42,
+                        "color": "#0E1F4D",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": true,
+                        "mode": "fixed",
+                        "field": "",
+                        "label": "",
+                        "max": 30
+                    }
+                ]
+            }
+        }
+    }
+]

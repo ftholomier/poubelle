@@ -54,6 +54,12 @@ final class Writer
         return count($this->pages) - 1;
     }
 
+    /** Format fini (TrimBox) et fonds perdus (BleedBox) d'une page, en points PDF : [x1, y1, x2, y2]. */
+    public function boxes(int $page, array $trim, array $bleed): void
+    {
+        $this->pages[$page]['boxes'] = sprintf(' /TrimBox [%.2F %.2F %.2F %.2F] /BleedBox [%.2F %.2F %.2F %.2F]', ...array_merge($trim, $bleed));
+    }
+
     public function pageCount(): int
     {
         return count($this->pages);
@@ -185,7 +191,7 @@ final class Writer
                 $ids = array_map(fn ($a) => $this->add($a) . ' 0 R', $p['annots']);
                 $annots = ' /Annots [' . implode(' ', $ids) . ']';
             }
-            $this->set($p['id'], sprintf('<< /Type /Page /Parent %d 0 R /MediaBox [0 0 %.2F %.2F] /Resources %d 0 R /Contents %d 0 R%s >>', $this->pagesId, $p['w'], $p['h'], $resId, $cid, $annots));
+            $this->set($p['id'], sprintf('<< /Type /Page /Parent %d 0 R /MediaBox [0 0 %.2F %.2F]%s /Resources %d 0 R /Contents %d 0 R%s >>', $this->pagesId, $p['w'], $p['h'], $p['boxes'] ?? '', $resId, $cid, $annots));
             $kids[] = $p['id'] . ' 0 R';
         }
         $this->set($this->pagesId, '<< /Type /Pages /Kids [' . implode(' ', $kids) . '] /Count ' . count($kids) . ' >>');

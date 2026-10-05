@@ -511,6 +511,14 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       dans le PDF et sur la page du kit, avec le récit de la version audio de la fiche ; la fiche complète du match en annexe du
       kit ; le même récit dans le PDF de chaque fiche de match.
 
+## Boutique, lot A : création des modèles (05/10, demande du client) — terminé
+
+- Logo de l'association redessiné en vectoriel (aucune photo dans la boutique).
+- Moteur de dessin vectoriel et PDF imprimeur HD (CMJN, fonds perdus 3 mm, traits de coupe, format exact).
+- Supports : t-shirt, sweat, mug, mug émaillé, tote bag, **casquette**, **écharpe**, posters A3/A2, carte, sticker.
+- Éditeur de modèles à remplir (logo, textes, formes, champs du client), aperçus sur le produit.
+- À venir : lot B (produits et prix, boutique en ligne, Stripe, espace imprimeur, suivi client, e-mails), lot C (tableau de bord, remboursements, relevés imprimeur, « Ton match »).
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;

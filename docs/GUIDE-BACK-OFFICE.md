@@ -439,6 +439,11 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   corbeille, à restaurer ; la suppression définitive est réservée aux administrateurs (une
   copie reste dans l'historique des versions).
 
+## 11 bis. Boutique (administrateurs)
+
+- **Boutique › Supports** : dimensions de la zone imprimable, fonds perdus, couleurs proposées et consignes de l'imprimeur pour chaque produit.
+- **Boutique › Modèles** : créer, dupliquer, activer ou supprimer un modèle. Dans l'éditeur, ajoutez le logo, des textes, des formes et des « champs du client » (prénom, numéro…) ; l'aperçu sur le produit et le fichier d'impression se mettent à jour. « PDF imprimeur » télécharge le fichier vectoriel prêt à imprimer.
+
 ## 12. Site de l'association (administrateurs)
 
 Le pavé **Site de l'association** du menu pilote le site www.fcsochauxretro.com (présentation,

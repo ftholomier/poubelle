@@ -338,6 +338,164 @@ final class TrueType
         return '';
     }
 
+    /** Glyphe d'un caractère (remplacements compris), -1 s'il n'y a rien à dessiner. */
+    public function glyphOf(string $ch): int
+    {
+        return $this->gid(mb_ord($ch, 'UTF-8'), $ch);
+    }
+
+    /**
+     * Contours d'un glyphe, en unités de la police (y vers le haut), pour dessiner le texte en
+     * tracés (impression : aucune police à fournir). Commandes : ['M', x, y], ['L', x, y],
+     * ['Q', cx, cy, x, y], ['Z']. Glyphes composés (lettres accentuées) compris.
+     * @return list<array>
+     */
+    public function outline(int $g, int $depth = 0): array
+    {
+        if ($g < 0 || $depth > 4 || !isset($this->tables['glyf'], $this->tables['loca'])) {
+            return [];
+        }
+        $loca = $this->tables['loca'][0];
+        [$o, $e] = $this->locFormat === 0
+            ? [$this->u16($loca + 2 * $g) * 2, $this->u16($loca + 2 * $g + 2) * 2]
+            : [$this->u32($loca + 4 * $g), $this->u32($loca + 4 * $g + 4)];
+        if ($e <= $o) {
+            return [];
+        }
+        $p = $this->tables['glyf'][0] + $o;
+        $nc = $this->i16($p);
+        if ($nc < 0) {
+            return $this->composite($p + 10, $depth);
+        }
+        $ends = [];
+        for ($i = 0; $i < $nc; $i++) {
+            $ends[] = $this->u16($p + 10 + 2 * $i);
+        }
+        $q = $p + 10 + 2 * $nc;
+        $q += 2 + $this->u16($q);
+        $np = $nc ? end($ends) + 1 : 0;
+        $flags = [];
+        while (count($flags) < $np) {
+            $f = ord($this->data[$q++]);
+            $flags[] = $f;
+            if ($f & 8) {
+                for ($r = ord($this->data[$q++]); $r > 0; $r--) {
+                    $flags[] = $f;
+                }
+            }
+        }
+        $read = function (int $short, int $same) use (&$q, $flags, $np): array {
+            $v = 0;
+            $out = [];
+            for ($i = 0; $i < $np; $i++) {
+                $f = $flags[$i];
+                if ($f & $short) {
+                    $d = ord($this->data[$q++]);
+                    $v += ($f & $same) ? $d : -$d;
+                } elseif (!($f & $same)) {
+                    $v += $this->i16($q);
+                    $q += 2;
+                }
+                $out[] = $v;
+            }
+            return $out;
+        };
+        $xs = $read(2, 16);
+        $ys = $read(4, 32);
+        $cmd = [];
+        $start = 0;
+        foreach ($ends as $end) {
+            $pts = [];
+            for ($i = $start; $i <= $end; $i++) {
+                $pts[] = [$xs[$i], $ys[$i], (bool) ($flags[$i] & 1)];
+            }
+            $start = $end + 1;
+            $n = count($pts);
+            if ($n < 2) {
+                continue;
+            }
+            // Point de départ sur la courbe (milieu de deux points de contrôle au besoin).
+            $k = 0;
+            while ($k < $n && !$pts[$k][2]) {
+                $k++;
+            }
+            if ($k === $n) {
+                $first = [($pts[0][0] + $pts[1][0]) / 2, ($pts[0][1] + $pts[1][1]) / 2];
+                $k = 0;
+            } else {
+                $first = [$pts[$k][0], $pts[$k][1]];
+                $k++;
+            }
+            $cmd[] = ['M', $first[0], $first[1]];
+            $ctrl = null;
+            for ($j = 0; $j < $n; $j++) {
+                $pt = $pts[($k + $j) % $n];
+                if ($pt[2]) {
+                    $cmd[] = $ctrl ? ['Q', $ctrl[0], $ctrl[1], $pt[0], $pt[1]] : ['L', $pt[0], $pt[1]];
+                    $ctrl = null;
+                } elseif ($ctrl) {
+                    $mx = ($ctrl[0] + $pt[0]) / 2;
+                    $my = ($ctrl[1] + $pt[1]) / 2;
+                    $cmd[] = ['Q', $ctrl[0], $ctrl[1], $mx, $my];
+                    $ctrl = [$pt[0], $pt[1]];
+                } else {
+                    $ctrl = [$pt[0], $pt[1]];
+                }
+            }
+            $cmd[] = $ctrl ? ['Q', $ctrl[0], $ctrl[1], $first[0], $first[1]] : ['L', $first[0], $first[1]];
+            $cmd[] = ['Z'];
+        }
+        return $cmd;
+    }
+
+    /** Glyphe composé : morceaux décalés (et mis à l'échelle). */
+    private function composite(int $p, int $depth): array
+    {
+        $out = [];
+        do {
+            $flags = $this->u16($p);
+            $g = $this->u16($p + 2);
+            $p += 4;
+            if ($flags & 1) {
+                [$dx, $dy] = [$this->i16($p), $this->i16($p + 2)];
+                $p += 4;
+            } else {
+                [$dx, $dy] = [$this->i8($p), $this->i8($p + 1)];
+                $p += 2;
+            }
+            [$a, $b, $c, $d] = [1.0, 0.0, 0.0, 1.0];
+            $f2 = fn (int $pp): float => $this->i16($pp) / 16384;
+            if ($flags & 8) {
+                $a = $d = $f2($p);
+                $p += 2;
+            } elseif ($flags & 0x40) {
+                [$a, $d] = [$f2($p), $f2($p + 2)];
+                $p += 4;
+            } elseif ($flags & 0x80) {
+                [$a, $b, $c, $d] = [$f2($p), $f2($p + 2), $f2($p + 4), $f2($p + 6)];
+                $p += 8;
+            }
+            if (!($flags & 2)) {
+                [$dx, $dy] = [0, 0]; // points à aligner : rare, ignoré
+            }
+            foreach ($this->outline($g, $depth + 1) as $cm) {
+                for ($i = 1; $i + 1 < count($cm); $i += 2) {
+                    [$x, $y] = [$cm[$i], $cm[$i + 1]];
+                    $cm[$i] = $a * $x + $c * $y + $dx;
+                    $cm[$i + 1] = $b * $x + $d * $y + $dy;
+                }
+                $out[] = $cm;
+            }
+        } while ($flags & 0x20);
+        return $out;
+    }
+
+    private function i8(int $p): int
+    {
+        $v = ord($this->data[$p]);
+        return $v >= 128 ? $v - 256 : $v;
+    }
+
     private function u16(int $p): int
     {
         return unpack('n', $this->data, $p)[1];
