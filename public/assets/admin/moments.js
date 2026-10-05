@@ -37,10 +37,10 @@
   };
 
   /* ------------------------------------------------------------ petite fenêtre */
-  const modal = html => {
+  const modal = (html, width) => {
     const m = document.createElement('div');
     m.className = 'modal';
-    m.innerHTML = '<div class="modal__box modal__box--wide" role="dialog" aria-modal="true" style="max-height:92vh;overflow:auto">' + html + '</div>';
+    m.innerHTML = '<div class="modal__box" role="dialog" aria-modal="true" style="width:min(' + width + 'px,100%)">' + html + '</div>';
     const close = () => { m.remove(); document.removeEventListener('keydown', key); };
     const key = e => { if (e.key === 'Escape') close(); };
     m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) close(); });
@@ -51,7 +51,7 @@
   };
 
   const ask = (title, label, placeholder) => new Promise(resolve => {
-    const { m, close } = modal('<h2 class="modal__t">' + esc(title) + '</h2><form class="stack" style="gap:12px"><label class="f"><span class="f__k">' + esc(label) + ' <i>facultatif</i></span><textarea class="in" rows="3" maxlength="300" placeholder="' + esc(placeholder) + '"></textarea></label><div class="row row--end"><button type="button" class="btn" data-close>Annuler</button><button type="submit" class="btn btn--navy">Écarter</button></div></form>');
+    const { m, close } = modal('<h2 class="modal__t">' + esc(title) + '</h2><form class="stack" style="gap:12px"><label class="f"><span class="f__k">' + esc(label) + ' <i>facultatif</i></span><textarea class="in" rows="3" maxlength="300" placeholder="' + esc(placeholder) + '"></textarea></label><div class="row row--end"><button type="button" class="btn" data-close>Annuler</button><button type="submit" class="btn btn--navy">Écarter</button></div></form>', 560);
     let answered = false;
     $('form', m).addEventListener('submit', e => { e.preventDefault(); answered = true; resolve($('textarea', m).value.trim()); close(); });
     m.addEventListener('click', e => { if (!answered && (e.target === m || e.target.closest('[data-close]'))) resolve(null); });
@@ -102,7 +102,7 @@
       + '<div class="f"><span class="f__k">Pourquoi ce moment compte</span><textarea class="in" name="why" rows="3" maxlength="700" data-proof="text" spellcheck="true">' + esc(idea.why || '') + '</textarea></div>'
       + '<div class="f"><span class="f__k">Fiches sources <i>celles qui racontent ce moment : l’IA n’écrira qu’à partir d’elles</i></span><ul class="small" data-src-list style="margin:0;padding-left:18px"></ul><input class="in in--sm" data-ac="fiches" placeholder="Ajouter une fiche : tapez un match, un joueur…" autocomplete="off"></div>'
       + '<div class="f"><span class="f__k">Photo</span><div class="row" style="gap:10px;align-items:center"><img data-img alt="" style="width:120px;aspect-ratio:16/9;object-fit:cover;border:2px solid var(--navy);background:var(--sand)"><button type="button" class="btn btn--sm" data-img-pick>Choisir…</button><button type="button" class="btn btn--sm btn--ghost" data-img-none>Retirer</button></div><span class="f__help">Vide : la photo d’une fiche source, de préférence créditée.</span></div>'
-      + '<div class="row row--end"><button type="button" class="btn" data-close>Annuler</button><button type="submit" class="btn btn--navy">Enregistrer</button></div></form>');
+      + '<div class="row row--end"><button type="button" class="btn" data-close>Annuler</button><button type="submit" class="btn btn--navy">Enregistrer</button></div></form>', 760);
     let sources = (idea.sources || []).slice();
     let image = idea.image || '';
     const list = $('[data-src-list]', m), img = $('[data-img]', m);

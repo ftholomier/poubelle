@@ -64,7 +64,7 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
               <form method="post" action="/admin/moments/date" class="row" style="gap:6px;flex-wrap:nowrap" title="Changer la date de parution">
                 <?= csrf_field() ?><input type="hidden" name="id" value="<?= (int) $r['id'] ?>">
                 <input type="date" name="date" class="in in--sm" value="<?= e(date('Y-m-d', $ts)) ?>" min="<?= e($tomorrow) ?>" max="<?= e($end) ?>" aria-label="Date de parution de « <?= e($r['title']) ?> »" required>
-                <input type="time" name="heure" class="in in--sm" value="<?= e(date('H:i', $ts)) ?>" aria-label="Heure de parution" style="width:9em">
+                <input type="time" name="heure" class="in in--sm" value="<?= e(date('H:i', $ts)) ?>" aria-label="Heure de parution" style="width:11em">
                 <button type="submit" class="btn btn--sm">Changer</button>
               </form>
             <?php endif; ?>

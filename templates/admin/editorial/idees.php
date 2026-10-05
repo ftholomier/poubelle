@@ -72,7 +72,7 @@ $active = $counts['proposee'] + $counts['retenue'];
         <?php if ($i['sources_info']): ?>
           <ul class="idea__src"><?php foreach ($i['sources_info'] as $s): ?><li><span class="xs muted"><?= e($types[$s['type']] ?? $s['type']) ?></span> <a href="/admin/fiche/<?= (int) $s['id'] ?>" target="_blank" rel="noopener"><?= e($s['title']) ?></a></li><?php endforeach; ?></ul>
         <?php else: ?><p class="xs warn" style="margin:0">Aucune fiche source : ajoutez-en une avant de demander un premier jet.</p><?php endif; ?>
-        <?php if ($i['suggest'] && $i['state'] !== 'ecartee'): ?><p class="xs muted" style="margin:0">Date anniversaire : <?= e(date_fr($i['suggest']['date'])) ?> (<?= (int) $i['suggest']['years'] ?> ans<?= $i['suggest']['taken'] ? ', jour déjà pris' : '' ?>)</p><?php endif; ?>
+        <?php if ($i['suggest'] && $i['state'] !== 'ecartee' && !($f && $f['date'] !== null)): ?><p class="xs muted" style="margin:0">Date anniversaire : <?= e(date_fr($i['suggest']['date'])) ?> (<?= (int) $i['suggest']['years'] ?> ans<?= $i['suggest']['taken'] ? ', jour déjà pris' : '' ?>)</p><?php endif; ?>
         <?php if ($i['state'] === 'ecartee' && $i['reason'] !== ''): ?><p class="xs" style="margin:0"><b>Écartée :</b> <?= e($i['reason']) ?></p><?php endif; ?>
         <?php if ($f): ?><p class="small" style="margin:0">Fiche : <a href="/admin/fiche/<?= (int) $f['id'] ?>"><?= e($f['title']) ?></a> · <?= $f['date'] !== null ? ($f['visible'] ? 'en ligne' : 'planifiée le ' . e(date_num(substr($f['date'], 0, 10)))) . ($f['number'] ? ' (n° ' . (int) $f['number'] . ')' : '') : ($f['status'] === 'relire' ? 'à relire' : 'brouillon') ?></p><?php endif; ?>
       </div>

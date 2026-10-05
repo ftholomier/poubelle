@@ -666,7 +666,8 @@ TXT;
         // Photo au crédit douteux (DR, agence, site web, sans crédit) : un point de plus à vérifier.
         $why = $img ? PhotoWall::reason($img) : null;
         if ($why !== null && preg_match('/crédit|sans crédit/u', $why)) {
-            $draft['checks'][] = 'Photo : ' . $why . ' (« ' . trim((string) (Media::get($img)['credit'] ?? '')) . ' ») : droits à vérifier, ou choisir une autre photo.';
+            $credit = trim((string) (Media::get($img)['credit'] ?? ''));
+            $draft['checks'][] = 'Photo : ' . $why . ($credit !== '' ? ' (« ' . $credit . ' »)' : '') . ' : droits à vérifier, ou choisir une autre photo.';
         }
         $doc = Fiches::blank('moment');
         $doc['title'] = $draft['title'];

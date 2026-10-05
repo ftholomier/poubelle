@@ -604,7 +604,7 @@
       list.className = 'ac__list';
       list.hidden = true;
       wrap.appendChild(list);
-      let timer, items = [], sel = -1;
+      let timer, items = [], sel = -1, picking = false;
       const idField = inp.dataset.acId ? (inp.closest('[data-item]') || inp.closest('form') || document).querySelector('[data-field="' + inp.dataset.acId + '"],[name="' + inp.dataset.acId + '"]') : null;
       const render = () => {
         list.innerHTML = items.map((it, i) => '<button type="button" class="' + (i === sel ? 'is-on' : '') + '" data-i="' + i + '">' + esc(it.label) + (it.meta ? '<small>' + esc(it.meta) + '</small>' : '') + '</button>').join('');
@@ -614,12 +614,16 @@
         inp.value = inp.dataset.acValue ? (it[inp.dataset.acValue] ?? it.value ?? it.label) : (it.value ?? it.label);
         if (idField) { idField.value = it.id ?? ''; idField.dispatchEvent(new Event('change', { bubbles: true })); }
         list.hidden = true;
+        // Prévient les autres écouteurs, sans relancer la recherche (la liste resterait ouverte)
+        picking = true;
         inp.dispatchEvent(new Event('input', { bubbles: true }));
+        picking = false;
         inp.dispatchEvent(new CustomEvent('ac:pick', { bubbles: true, detail: it }));
       };
       inp.addEventListener('input', e => {
         if (e.isTrusted && idField) idField.value = '';
         clearTimeout(timer);
+        if (picking) { items = []; return; }
         const q = inp.value.trim();
         if (q.length < 2) { items = []; render(); return; }
         timer = setTimeout(async () => {

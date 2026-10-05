@@ -53,11 +53,15 @@ $link = fn (int $id): string => ($s = Index::get($id)) ? '<a href="/admin/fiche/
             echo 'Pas encore de numéro : il est donné à la validation, selon la date de parution choisie.';
         }
       ?></span>
-      <?php if (!$online): ?>
-        <span class="f__help">Pour valider : statut <b>Planifié</b> et date de parution (panneau Publication), puis Enregistrer. Une seule validation suffit.</span>
+      <?php if (!$online): $planned = $dated ? substr((string) Moments::dateOf($doc), 0, 10) : null; ?>
+        <?php if ($planned): ?>
+          <span class="f__help">Parution prévue le <b><?= e(date_fr($planned)) ?></b> : le moment est validé. La date se change dans le panneau Publication, ou ci-dessous.</span>
+        <?php else: ?>
+          <span class="f__help">Pour valider : statut <b>Planifié</b> et date de parution (panneau Publication), puis Enregistrer. Une seule validation suffit.</span>
+        <?php endif; ?>
         <div class="row" style="gap:8px;margin-top:6px">
-          <?php if ($suggest): ?><button type="button" class="btn btn--sm btn--navy" data-plan-at="<?= e($suggest['date'] . 'T' . Moments::HOUR) ?>">Planifier à la date anniversaire : <?= e(date_fr($suggest['date'])) ?> (<?= (int) $suggest['years'] ?> ans<?= $suggest['taken'] ? ', jour déjà pris' : '' ?>)</button><?php endif; ?>
-          <button type="button" class="btn btn--sm" data-plan-at="">Choisir une autre date…</button>
+          <?php if ($suggest && $suggest['date'] !== $planned): ?><button type="button" class="btn btn--sm btn--navy" data-plan-at="<?= e($suggest['date'] . 'T' . Moments::HOUR) ?>"><?= $planned ? 'Paraître plutôt à la date anniversaire' : 'Planifier à la date anniversaire' ?> : <?= e(date_fr($suggest['date'])) ?> (<?= (int) $suggest['years'] ?> ans<?= $suggest['taken'] ? ', jour déjà pris' : '' ?>)</button><?php endif; ?>
+          <button type="button" class="btn btn--sm" data-plan-at=""><?= $planned ? 'Changer la date…' : 'Choisir une autre date…' ?></button>
         </div>
       <?php endif; ?>
     </div>

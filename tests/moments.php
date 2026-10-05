@@ -13,10 +13,12 @@ require __DIR__ . '/../app/bootstrap.php';
 
 use App\Data\Fiches;
 use App\Data\Index;
+use App\Data\Media;
 use App\Front\Interactive;
 use App\Services\AiCosts;
 use App\Services\MomentIdeas as Ideas;
 use App\Services\Moments;
+use App\Services\PhotoWall;
 
 $tmp = sys_get_temp_dir() . '/moments-test-' . bin2hex(random_bytes(4));
 mkdir($tmp, 0775, true);
@@ -164,6 +166,26 @@ $eq('fiche : « À relire », sans numéro ni date, récit et fiches liées', [$
 $eq('provenance (IA, sources, points à vérifier) gardée pour le back-office', [$doc['moment']['ai']['model'], $doc['moment']['ai']['checks'], $doc['moment']['ai']['by']], ['essai', ['Date exacte du premier match', 'Affluence'], 'Historien d’essai']);
 $eq('rien de la provenance dans les textes publiés', [str_contains($doc['intro'] . $doc['sections'][0]['html'] . $doc['title'] . $doc['seo']['description'], 'IA'), str_contains($doc['path'], '/centenaire/100-moments/')], [false, true]);
 $eq('un premier jet n’est jamais planifié ni publié par l’IA', Moments::check($doc), null);
+// Photo de l'idée sans crédit ou « DR » : un point de plus à vérifier, sans guillemets vides.
+$photo = function (string $why, bool $credited): ?string {
+    foreach (Media::all() as $rel => $m) {
+        if (PhotoWall::reason((string) $rel, $m, []) === $why && (trim((string) ($m['credit'] ?? '')) !== '') === $credited) {
+            return (string) $rel;
+        }
+    }
+    return null;
+};
+$photoCheck = function (?string $rel) use ($d, $me, $mine): string {
+    if ($rel === null) {
+        return '';
+    }
+    $checks = Ideas::draftDoc(['image' => $rel] + Ideas::get($mine['id']), $d, 'essai', $me)['moment']['ai']['checks'];
+    return (string) $checks[count($checks) - 1];
+};
+$noCredit = $photo('sans crédit', false);
+$dr = $photo('crédit DR', true);
+$eq('photo sans crédit : point à vérifier, sans « » vide', $noCredit === null || $photoCheck($noCredit) === 'Photo : sans crédit : droits à vérifier, ou choisir une autre photo.', true);
+$eq('photo « DR » : le crédit est cité', $dr === null || (str_starts_with($photoCheck($dr), 'Photo : crédit DR (« ') && str_ends_with($photoCheck($dr), ' ») : droits à vérifier, ou choisir une autre photo.')), true);
 
 // 8. Grille publique : 100 cases, sans date, « À venir » tant que le moment n'est pas en ligne.
 $grid = Interactive::moments100();
