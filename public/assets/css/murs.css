@@ -44,20 +44,11 @@
 .pc__edge b { color: #f4efe2; }
 .pc__edge span { overflow: hidden; text-overflow: ellipsis; }
 .pc__pic { position: relative; }
-/* Le trait entoure l'image (il mord sur ses bords et sur le film), jamais sur le crédit dessous. */
-.pc__mark { position: absolute; inset: -9% -6%; width: 112%; height: 118%; overflow: visible; pointer-events: none; }
-/* Crayon gras rouge : trait d'épaisseur constante à l'écran, grain de cire (filtre #pc-wax), tracé qui se dessine. */
-.pc__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-.pc__ink { fill: none; stroke: #e2402c; stroke-width: 5.6px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; opacity: .96; filter: url(#pc-wax); stroke-dasharray: 1; stroke-dashoffset: 1; animation: pcDraw 1s cubic-bezier(.5, .05, .4, 1) .5s forwards; }
-.pc__ink--2 { stroke-width: 2.4px; opacity: .55; transform: translate(.7px, -.6px); animation-delay: .56s; }
-.pc__note { position: absolute; z-index: 2; top: -27px; right: -6px; transform: rotate(var(--r, -6deg)); font-family: var(--hand); font-weight: 700; font-size: 25px; line-height: 1; color: #ff5639; white-space: nowrap; pointer-events: none; text-shadow: 0 1px 0 rgba(0, 0, 0, .55); opacity: 0; animation: pcNote .35s ease 1.45s forwards; }
-@keyframes pcNote { from { opacity: 0; transform: rotate(var(--r, -6deg)) translateY(3px); } to { opacity: 1; transform: rotate(var(--r, -6deg)); } }@keyframes pcDraw { to { stroke-dashoffset: 0; } }
 .pc__loupe { position: fixed; z-index: 70; width: 240px; height: 240px; border-radius: 50%; border: 3px solid #f4efe2; background: #111 no-repeat; box-shadow: 0 14px 40px rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(0, 0, 0, .4); pointer-events: none; transform: translate(-50%, -50%); display: none; }
 .pc__loupe.is-on { display: block; }
 @media (max-width: 1000px) {
   .pc__frames { grid-template-columns: repeat(6, minmax(150px, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; scrollbar-width: thin; }
   .pc__frame { scroll-snap-align: start; }
-  .pc__note { top: 3px; right: 5px; font-size: 19px; } /* bande qui défile : le mot reste sur l'image */
 }
 @media (max-width: 600px) { .pc__sheet, .pc__strip { transform: none; } .pc__sheet { padding: 10px 8px; } }
 
@@ -110,20 +101,20 @@
 }
 
 /* ---------------------------------------------------------------- le mur du vestiaire */
-.wall--vestiaire { overflow: hidden; padding: clamp(36px, 5vw, 72px) 0 clamp(96px, 10vw, 130px); background: #eef0ec; background-image: linear-gradient(90deg, rgba(14, 31, 77, .09) 1px, transparent 1px), linear-gradient(rgba(14, 31, 77, .09) 1px, transparent 1px); background-size: 56px 56px; }
+.wall--vestiaire { overflow: hidden; padding: clamp(36px, 5vw, 72px) 0 clamp(96px, 10vw, 130px); background: #080e22; background-image: linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px); background-size: 56px 56px; }
 .wall--vestiaire::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: var(--navy); border-top: 8px solid var(--yellow); }
-/* Au fond, le vestiaire des pros flouté, fixé à l'écran (on le voit en entier en faisant défiler) ; par-dessus,
-   le carrelage en transparence (les tirages y sont punaisés). */
-.vm__backdrop { position: absolute; inset: 0; background: #c9ced3 var(--bg) center 42% / cover no-repeat fixed; filter: blur(6px) saturate(1.1); pointer-events: none; }
-.vm__tiles { position: absolute; inset: 0; background: rgba(238, 240, 236, .38); background-image: linear-gradient(90deg, rgba(14, 31, 77, .12) 1px, transparent 1px), linear-gradient(rgba(14, 31, 77, .12) 1px, transparent 1px); background-size: 56px 56px; pointer-events: none; }
+/* Au fond, le vestiaire des pros dans la pénombre : flouté, très assombri, fixé à l'écran (on le voit en entier
+   en faisant défiler) ; par-dessus, un voile bleu nuit plus dense sur les bords et le carrelage à peine visible. */
+.vm__backdrop { position: absolute; inset: 0; background: #080e22 var(--bg) center 40% / cover no-repeat fixed; filter: blur(5px) brightness(.34) saturate(1.2) contrast(1.05); pointer-events: none; }
+.vm__tiles { position: absolute; inset: 0; background-image: linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), radial-gradient(ellipse 85% 75% at 50% 38%, rgba(6, 12, 32, .18), rgba(4, 8, 22, .78)); background-size: 56px 56px, 56px 56px, auto; pointer-events: none; }
 .vm__bgcredit { position: absolute; z-index: 2; right: var(--gutter); bottom: 20px; margin: 0; font-size: 13px; font-style: italic; color: var(--mist); }
 .vm { position: relative; z-index: 1; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
-.vm__stencil { position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg); font-family: var(--display); font-weight: 900; font-size: clamp(90px, 18vw, 260px); line-height: 1; letter-spacing: .06em; text-transform: uppercase; color: var(--navy); opacity: .06; pointer-events: none; white-space: nowrap; }
+.vm__stencil { position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg); font-family: var(--display); font-weight: 900; font-size: clamp(90px, 18vw, 260px); line-height: 1; letter-spacing: .06em; text-transform: uppercase; color: var(--yellow); opacity: .07; pointer-events: none; white-space: nowrap; }
 .vm__wall { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 46px 30px; padding-top: 16px; }
-.vm__print { position: relative; margin: 0; background: #fffdf8; padding: 12px 12px 50px; z-index: var(--z); box-shadow: 0 1px 1px rgba(0, 0, 0, .08), 0 12px 24px rgba(14, 31, 77, .22); transform: translate(calc(var(--x) + var(--dx, 0px)), calc(var(--y) + var(--dy, 0px))) rotate(var(--r)); animation: vmIn .6s var(--bounce) both; animation-delay: calc(var(--i) * 35ms); transition: box-shadow .25s; }
+.vm__print { position: relative; margin: 0; background: #fffdf8; padding: 12px 12px 50px; z-index: var(--z); box-shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 14px 30px rgba(0, 0, 0, .55); transform: translate(calc(var(--x) + var(--dx, 0px)), calc(var(--y) + var(--dy, 0px))) rotate(var(--r)); animation: vmIn .6s var(--bounce) both; animation-delay: calc(var(--i) * 35ms); transition: box-shadow .25s; }
 @keyframes vmIn { from { opacity: 0; transform: translate(var(--x), calc(var(--y) - 46px)) rotate(calc(var(--r) * 2.4)); } }
-.vm__print:hover { box-shadow: 0 2px 2px rgba(0, 0, 0, .08), 0 20px 36px rgba(14, 31, 77, .32); }
-.vm__print.is-dragging { box-shadow: 0 34px 56px rgba(14, 31, 77, .38); cursor: grabbing; }
+.vm__print:hover { box-shadow: 0 2px 2px rgba(0, 0, 0, .3), 0 22px 40px rgba(0, 0, 0, .65); }
+.vm__print.is-dragging { box-shadow: 0 34px 60px rgba(0, 0, 0, .7); cursor: grabbing; }
 .vm.can-drag .vm__shot { cursor: grab; }
 .vm__shot { display: block; width: 100%; padding: 0; border: 0; background: #ddd; cursor: zoom-in; }
 .vm__shot img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; user-select: none; -webkit-user-drag: none; }
@@ -172,8 +163,6 @@
 @media (hover: none) { .mo__t:not(.mo__t--empty):hover { transform: none; box-shadow: none; } .mo__t:hover img { filter: grayscale(1) brightness(.6) contrast(1.15); } .mo__t.is-on:hover img { filter: grayscale(1) brightness(1.75) contrast(.8); } .mo__t:hover::after { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .pc__ink { animation: none; stroke-dashoffset: 0; }
-  .pc__note { animation: none; opacity: 1; }
   .vm__print, .mo__t { animation: none; }
   .wtools__again span { transition: none; }
 }

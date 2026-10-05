@@ -765,13 +765,12 @@ visite : `/interactif/planche-contact/`, `/interactif/le-lion-illustre/` (journa
   que le mur, plus les nombres des filtres en JSON (`data-wall-counts`), pour refaire le tirage
   sans recharger (`no-store`, `noindex`). Page filtrée : `noindex`. Agrandissement par
   `SR.lightbox(items, i)` (`site.js`) avec crédit et lien vers la fiche.
-  Planche-contact : 36 vues paysage en bandes de 6, loupe ×2,6 (pointeur fin), un trait de
-  crayon au plus par bande (`Walls::marks()` et `Walls::loop()` : boucle à main levée lissée en
-  courbes de Bézier, un peu plus d'un tour, rouge « crayon gras » avec grain de cire (filtre SVG
-  `#pc-wax`), mot griffonné à côté). Journal : Une (photo
+  Planche-contact : 36 vues paysage en bandes de 6, loupe ×2,6 (pointeur fin), sans trait de
+  crayon (retiré à la demande du client). Journal : Une (photo
   d'au moins 1 000 px de large si possible), deux articles, « En images », brèves ; titres =
-  fiches, textes = légendes. Vestiaire : fond flouté fixé à l'écran (`Walls::LOCKER_ROOM`, photo du
-  vestiaire des pros dans la médiathèque, crédit en bas du mur ; sans elle, carrelage seul) ;
+  fiches, textes = légendes. Vestiaire : ambiance sombre, fond flouté et très assombri fixé à l'écran
+  (`Walls::LOCKER_ROOM` : les maillots jaunes suspendus dans le vestiaire des pros, photo de la
+  médiathèque, crédit en bas du mur ; sans elle, carrelage sombre seul) ;
   24 tirages (rotation, punaise ou scotch), déplacés au
   pointeur (capture après 6 px : le clic reste un clic). Mosaïque : motif « 100 », « FCSM »,
   « 1928 » ou « 2028 » en lettres de 5 × 7 cases (24 × 11 cases) ou 3 × 5 sur deux lignes pour

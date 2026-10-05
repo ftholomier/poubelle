@@ -445,9 +445,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 ## Murs de photos (05/10, demande du client) — terminé
 - [x] Quatre pavés dans Interactif, un nouveau tirage au hasard à chaque visite (et « Nouveau
       tirage » sans recharger), filtres par décennie et par photographe ou source :
-      **Planche-contact** (bandes de film, crédit imprimé dans la marge, loupe, un trait de
-      crayon gras par bande au plus), **Le Lion illustré** (journal : Une, articles, « En
-      images », brèves ; titres des fiches et légendes de la médiathèque, rien d'inventé),
+      **Planche-contact** (bandes de film, crédit imprimé dans la marge, loupe ; traits de
+      crayon retirés à la demande du client), **Le Lion illustré** (journal : Une, articles,
+      « En images », brèves ; titres des fiches et légendes de la médiathèque, rien d'inventé),
       **Le mur du vestiaire** (tirages punaisés ou scotchés, à déplacer à la souris), **La
       grande mosaïque** (des centaines de photos dessinent « 100 », « FCSM », « 1928 » ou
       « 2028 »). Agrandissement avec légende, crédit et lien vers la fiche ; anglais complet.
@@ -494,6 +494,11 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       enregistrement compte comme une activité ; retour à la même page après reconnexion,
       brouillon d'une fiche gardé ; le serveur ferme aussi la session si la page est fermée.
       Les appels automatiques (verrou, coûts) ne prolongent pas la session. `tests/session.php`.
+- [x] **Méga-menu Interactif** deux fois moins haut : une colonne par groupe, lignes compactes.
+- [x] **Planche-contact** : plus aucun trait de crayon autour des photos (ni ronds, ni mots
+      griffonnés).
+- [x] **Mur du vestiaire** : ambiance sombre ; au fond, flouté et très assombri, le vestiaire
+      des pros du FCSM avec ses maillots jaunes suspendus (photo du club, créditée en bas du mur).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

@@ -18,15 +18,15 @@ use App\Services\PhotoWall;
 final class Walls
 {
     /** Clé => [adresse, nom, phrase du pavé, bouton du nouveau tirage, icône] (textes traduits à l'affichage). */
-    /** Fond flouté du mur du vestiaire : le vestiaire des pros (photo du club, médiathèque). */
-    public const LOCKER_ROOM = '2024/01/1.-vestiaire.jpeg';
-
     public const WALLS = [
         'planche' => ['/interactif/planche-contact/', 'Planche-contact', 'Le film des archives, image par image, avec la loupe du labo.', 'Nouvelle planche', '35'],
         'journal' => ['/interactif/le-lion-illustre/', 'Le Lion illustré', 'Le journal des photos du musée : une nouvelle édition à chaque visite.', 'Édition suivante', 'N°'],
         'vestiaire' => ['/interactif/mur-du-vestiaire/', 'Le mur du vestiaire', 'Des tirages punaisés au carrelage, à déplacer à la main.', 'Nouveau mur', '▢'],
         'mosaique' => ['/interactif/mosaique/', 'La grande mosaïque', 'Des centaines de photos qui dessinent un motif du centenaire.', 'Nouvelle mosaïque', '▩'],
     ];
+
+    /** Fond flouté du mur du vestiaire : le vestiaire des pros (photo du club, médiathèque). */
+    public const LOCKER_ROOM = '2025/02/Vestiaire-24-FCSM.jpg';
 
     /** Pavés de la rubrique Interactif (accueil et méga-menu). @return list<array> */
     public static function tools(): array
@@ -40,8 +40,7 @@ final class Walls
         return self::page($req, 'planche', [
             'photos' => array_map([self::class, 'view'], $photos),
             'sheet' => random_int(120, 9999),
-            'marks' => self::marks(count($photos)),
-        ], t('Les archives photo du musée tirées comme une planche-contact de photographe : bandes de film, crédits imprimés dans la marge, loupe et images entourées au crayon gras.'));
+        ], t('Les archives photo du musée tirées comme une planche-contact de photographe : bandes de film, crédits imprimés dans la marge et loupe du labo.'));
     }
 
     public static function newspaper(Request $req): Response
@@ -212,61 +211,6 @@ final class Walls
             $parts[] = (string) (array_column(PhotoWall::photographers(), 'name', 'key')[$f['who']] ?? '');
         }
         return implode(' · ', array_filter($parts));
-    }
-
-    /**
-     * Traits de crayon gras autour de quelques images : au plus un par bande de six, comme le
-     * photographe qui marque la meilleure vue de chaque bande (pas toutes les bandes), avec un mot
-     * griffonné à côté (« la bonne ! »).
-     * @return array<int,array{d:string,note:string}> rang de l'image => tracé SVG (repère 120 × 90) et mot
-     */
-    private static function marks(int $n): array
-    {
-        $notes = ['la bonne !', 'celle-là !', 'à tirer !', 'top !'];
-        $out = [];
-        for ($s = 0; $s < $n; $s += 6) {
-            if (random_int(0, 9) >= 6) {
-                continue;
-            }
-            $i = $s + random_int(0, min(5, $n - 1 - $s));
-            $out[$i] = ['d' => self::loop(), 'note' => $notes[random_int(0, count($notes) - 1)]];
-        }
-        return $out;
-    }
-
-    /**
-     * Boucle tracée à main levée : un peu plus d'un tour, rayon qui ondule doucement, fin qui ne
-     * retombe pas sur le début (spirale légère) et repart vers l'extérieur ; courbe lissée.
-     */
-    public static function loop(): string
-    {
-        $rnd = fn (float $a, float $b): float => $a + ($b - $a) * random_int(0, 10000) / 10000;
-        [$cx, $cy] = [60 + $rnd(-2, 2), 45 + $rnd(-1.5, 1.5)];
-        [$rx, $ry] = [55 + $rnd(-2, 1.5), 40 + $rnd(-1.5, 1.5)];
-        $start = $rnd(0, 2 * M_PI);
-        $turn = 2 * M_PI * (1 + $rnd(.14, .32));
-        [$p1, $p2] = [$rnd(0, 2 * M_PI), $rnd(0, 2 * M_PI)];
-        $tilt = $rnd(-.07, .07);
-        $drift = $rnd(.03, .07) * (random_int(0, 1) ? 1 : -1);
-        $pts = [];
-        $n = 40;
-        for ($k = 0; $k <= $n; $k++) {
-            $t = $k / $n;
-            $a = $start + $turn * $t;
-            $r = 1 + .03 * sin(2 * $a + $p1) + .018 * sin(3 * $a + $p2) + $drift * ($t - .5) + ($t > .9 ? .5 * ($t - .9) : 0);
-            [$x, $y] = [$rx * $r * cos($a), $ry * $r * sin($a)];
-            $pts[] = [$cx + $x * cos($tilt) - $y * sin($tilt), $cy + $x * sin($tilt) + $y * cos($tilt)];
-        }
-        // Catmull-Rom → courbes de Bézier : un trait souple, sans angles.
-        $f = fn (float $v): string => (string) round($v, 1);
-        $d = 'M' . $f($pts[0][0]) . ' ' . $f($pts[0][1]);
-        for ($k = 0; $k < $n; $k++) {
-            [$a, $b, $c, $e] = [$pts[max(0, $k - 1)], $pts[$k], $pts[$k + 1], $pts[min($n, $k + 2)]];
-            $d .= ' C' . $f($b[0] + ($c[0] - $a[0]) / 6) . ' ' . $f($b[1] + ($c[1] - $a[1]) / 6)
-                . ' ' . $f($c[0] - ($e[0] - $b[0]) / 6) . ' ' . $f($c[1] - ($e[1] - $b[1]) / 6)
-                . ' ' . $f($c[0]) . ' ' . $f($c[1]);
-        }
-        return $d;
     }
 
     /** Page complète, ou seulement le mur pour « Nouveau tirage » et les filtres (sans recharger). */
