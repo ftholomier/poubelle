@@ -31,6 +31,7 @@ final class AiCosts
         'recherche' => 'Recherche sur le web (fiches)',
         'moments' => '100 moments (idées et premiers jets)',
         'boutique' => 'Boutique (banque de textes)',
+        'boutique-poster' => 'Boutique (posters souvenirs)',
         'autre' => 'Autre',
     ];
 
