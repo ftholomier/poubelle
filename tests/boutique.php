@@ -116,7 +116,8 @@ $supR = ['rate' => 30.0, 'cost' => 700];
 $eq('commission imprimeur : taux du modèle, du support, ou coût fixe', [
     Catalog::printerShare(['sale' => ['rate' => 25.0]], $supR, 2000), Catalog::printerShare(['sale' => ['rate' => null]], $supR, 2000),
     Catalog::printerShare(['sale' => ['rate' => null]], ['rate' => 0.0, 'cost' => 700], 2000),
-], [500, 600, 700]);
+    Catalog::printerShare(['sale' => ['rate' => null, 'fee' => 450]], $supR, 2000),
+], [500, 600, 700, 450]);
 // 7. Accès.
 $eq('écrans de la boutique réservés aux administrateurs', [Router::adminOnly('/admin/boutique'), Router::adminOnly('/admin/boutique/modeles/abc/pdf'), Router::adminOnly('/admin/boutique/textes')], [true, true, true]);
 

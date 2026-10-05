@@ -155,6 +155,8 @@ final class Catalog
             'text_sizes' => !empty($s['text_sizes']), 'positions' => !empty($s['positions']),
             // Taux de commission propre au modèle (null : celui du support).
             'rate' => isset($s['rate']) && $s['rate'] !== '' && $s['rate'] !== null ? round(max(0.0, min(100.0, (float) $s['rate'])), 2) : null,
+            // Ou une commission fixe en centimes par article (prioritaire sur le taux).
+            'fee' => isset($s['fee']) && $s['fee'] !== '' && $s['fee'] !== null ? max(0, min(100000, (int) $s['fee'])) : null,
         ];
     }
 
@@ -189,12 +191,15 @@ final class Catalog
     /** Taux de commission de l'imprimeur pour un modèle (%, 0 : coût fixe du support). */
     public static function rate(array $m, array $sup): float
     {
-        return $m['sale']['rate'] ?? $sup['rate'];
+        return ($m['sale']['fee'] ?? null) !== null ? 0.0 : ($m['sale']['rate'] ?? $sup['rate']);
     }
 
     /** Part de l'imprimeur sur un article vendu à $unit centimes : commission en %, sinon coût fixe. */
     public static function printerShare(array $m, array $sup, int $unit): int
     {
+        if (($m['sale']['fee'] ?? null) !== null) {
+            return (int) $m['sale']['fee'];
+        }
         $r = self::rate($m, $sup);
         return $r > 0 ? (int) round($unit * $r / 100) : (int) $sup['cost'];
     }
