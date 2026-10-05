@@ -12,27 +12,55 @@
   <button class="btn btn--yellow">Créer et dessiner</button>
 </form>
 <?php if (!$models): ?><p class="empty">Aucun modèle pour l’instant : créez le premier ci-dessus.</p><?php endif; ?>
-<?php if (count($models) > 1): ?><p class="xs muted" style="margin:0 0 8px">Glissez une carte par sa poignée ✥ pour la déplacer : la boutique présente les produits dans cet ordre (enregistré aussitôt).</p><?php endif; ?>
+<?php if (count($models) > 1): ?><p class="xs muted" style="margin:0 0 8px">Glissez une carte par sa poignée jaune ✥ pour la déplacer : la boutique présente les produits dans cet ordre (enregistré aussitôt).</p><?php endif; ?>
 <div class="shopgrid" data-sortable data-model-order>
-  <?php foreach ($models as $m): $s = $supports[$m['support']] ?? null; ?>
-    <article class="card shopcard" data-sort-item data-id="<?= e($m['id']) ?>"><button type="button" class="shopcard__grip" data-handle title="Glisser pour déplacer" aria-label="Déplacer « <?= e($m['name']) ?> »">✥</button>
-      <a class="shopcard__img" href="/admin/boutique/modeles/<?= e($m['id']) ?>"><?= $previews[$m['id']] ?? '' ?></a>
-      <div class="card--pad">
-        <a href="/admin/boutique/modeles/<?= e($m['id']) ?>"><b><?= e($m['name']) ?></b></a>
-        <div class="xs muted"><?= e($s['name'] ?? $m['support']) ?> · <?= \App\Shop\Catalog::sellable($m) ? '<span class="chip" style="background:#9ed7a9">en vente · ' . e(\App\Shop\Orders::money($m['sale']['price'])) . '</span>' : ($m['active'] ? '<span class="chip" style="background:#f3c9c4">pas en vente : ' . ($m['sale']['price'] <= 0 ? 'sans prix (carte « Vente » de l’éditeur)' : 'support désactivé') . '</span>' : 'brouillon') ?><?= $m['updated'] ? ' · ' . e(date_num(substr($m['updated'], 0, 10))) : '' ?></div>
-        <form method="post" action="/admin/boutique/modeles" class="row" style="gap:6px;margin-top:8px;flex-wrap:wrap">
+  <?php foreach ($models as $m): $s = $supports[$m['support']] ?? null; $u = '/admin/boutique/modeles/' . e($m['id']);
+    $st = \App\Shop\Catalog::sellable($m) ? ['on', 'En vente · ' . \App\Shop\Orders::money($m['sale']['price'])] : ($m['active'] ? ['warn', $m['sale']['price'] <= 0 ? 'Pas en vente : sans prix' : 'Pas en vente : support désactivé'] : ['off', 'Brouillon']); ?>
+    <article class="shopcard" data-sort-item data-id="<?= e($m['id']) ?>">
+      <span class="shopcard__grip" data-handle role="button" tabindex="0" title="Glisser pour déplacer" aria-label="Déplacer « <?= e($m['name']) ?> »">✥</span>
+      <span class="shopcard__st shopcard__st--<?= $st[0] ?>"><?= e($st[1]) ?></span>
+      <a class="shopcard__img" href="<?= $u ?>" draggable="false"><?= $previews[$m['id']] ?? '' ?></a>
+      <div class="shopcard__body">
+        <a class="shopcard__t" href="<?= $u ?>"><?= e($m['name']) ?></a>
+        <p class="shopcard__meta"><?= e($s['name'] ?? $m['support']) ?><?= $m['updated'] ? ' · modifié le ' . e(date_num(substr($m['updated'], 0, 10))) : '' ?></p>
+      </div>
+      <div class="shopcard__foot">
+        <a class="btn btn--sm btn--navy" href="<?= $u ?>">Modifier</a>
+        <a class="btn btn--sm btn--ghost" href="<?= $u ?>/pdf">PDF</a>
+        <form method="post" action="/admin/boutique/modeles" class="shopcard__tools">
           <?= csrf_field() ?><input type="hidden" name="id" value="<?= e($m['id']) ?>">
-          <a class="btn btn--sm btn--navy" href="/admin/boutique/modeles/<?= e($m['id']) ?>">Modifier</a>
-          <a class="btn btn--sm btn--ghost" href="/admin/boutique/modeles/<?= e($m['id']) ?>/pdf">PDF imprimeur</a>
-          <button class="btn btn--sm btn--ghost" name="action" value="toggle"><?= $m['active'] ? 'Mettre de côté' : 'Prêt à la vente' ?></button>
-          <button class="btn btn--sm btn--ghost" name="action" value="duplicate">Copier</button>
-          <button class="btn btn--sm btn--danger" name="action" value="delete" >Supprimer</button>
+          <button class="shopcard__ico" name="action" value="toggle" title="<?= $m['active'] ? 'Mettre de côté (retirer de la boutique)' : 'Prêt à la vente' ?>" aria-label="<?= $m['active'] ? 'Mettre de côté' : 'Prêt à la vente' ?>"><?= $m['active'] ? '⏸' : '▶' ?></button>
+          <button class="shopcard__ico" name="action" value="duplicate" title="Copier ce modèle" aria-label="Copier">⧉</button>
+        </form>
+        <form method="post" action="/admin/boutique/modeles" data-confirm="Supprimer ce modèle ?|« <?= e($m['name']) ?> » sera supprimé définitivement.|Supprimer|danger">
+          <?= csrf_field() ?><input type="hidden" name="id" value="<?= e($m['id']) ?>">
+          <button class="shopcard__ico shopcard__ico--danger" name="action" value="delete" title="Supprimer" aria-label="Supprimer">🗑</button>
         </form>
       </div>
     </article>
   <?php endforeach; ?>
 </div>
-<style>.shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}.shopcard{overflow:hidden;position:relative}.shopcard__grip{position:absolute;top:8px;left:8px;z-index:2;width:34px;height:34px;border:2px solid #0e1f4d;background:#f6c400;color:#0e1f4d;font-size:18px;cursor:grab;touch-action:none}.shopcard__grip:active{cursor:grabbing}.shopcard__img{display:block;background:#f3eddf;padding:10px}.shopcard__img > svg{display:block;width:100%;height:220px}</style>
+<style>
+.shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.shopcard{position:relative;display:flex;flex-direction:column;background:#fffdf7;border:2px solid #0e1f4d;box-shadow:4px 4px 0 #0e1f4d;overflow:hidden}
+.shopcard__grip{position:absolute;top:10px;left:10px;z-index:2;display:grid;place-items:center;width:32px;height:32px;border:2px solid #0e1f4d;background:#f6c400;color:#0e1f4d;font-size:17px;cursor:grab;touch-action:none;user-select:none}
+.shopcard__grip:active{cursor:grabbing}
+.shopcard__st{position:absolute;top:10px;right:10px;z-index:2;padding:4px 8px;font:700 11px/1 var(--display, sans-serif);letter-spacing:.06em;text-transform:uppercase;border:2px solid #0e1f4d;background:#fff}
+.shopcard__st--on{background:#9ed7a9}.shopcard__st--warn{background:#f3c9c4}.shopcard__st--off{background:#e6e1d4;color:#5a6070}
+.shopcard__img{display:block;background:#f3eddf;padding:44px 12px 10px;border-bottom:2px solid #0e1f4d}
+.shopcard__img > svg{display:block;width:100%;height:200px}
+.shopcard__body{padding:12px 14px 6px;flex:1}
+.shopcard__t{display:block;font-weight:700;font-size:16px;color:#0e1f4d;text-decoration:none;line-height:1.25}
+.shopcard__t:hover{text-decoration:underline}
+.shopcard__meta{margin:4px 0 0;font-size:12.5px;color:#5a6070}
+.shopcard__foot{display:flex;align-items:center;gap:6px;padding:10px 14px 12px;border-top:1px solid rgba(14,31,77,.12)}
+.shopcard__foot form{margin:0;display:flex;gap:4px}
+.shopcard__tools{margin-left:auto !important}
+.shopcard__ico{width:30px;height:30px;display:grid;place-items:center;border:1.5px solid rgba(14,31,77,.35);background:#fff;color:#0e1f4d;font-size:14px;cursor:pointer}
+.shopcard__ico:hover{border-color:#0e1f4d;background:#f6c400}
+.shopcard__ico--danger:hover{background:#f3c9c4}
+.shopcard.is-sorting-src{opacity:.35}
+</style>
 <script nonce="<?= e(csp_nonce()) ?>">
 document.querySelector('[data-model-order]')?.addEventListener('sorted', async e => {
   const ids = [...e.currentTarget.querySelectorAll(':scope > [data-sort-item]')].map(c => c.dataset.id);
