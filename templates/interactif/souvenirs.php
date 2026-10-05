@@ -1,6 +1,6 @@
 <?php
 /**
- * Les Après-midi Bonal : le kit souvenirs du mois.
+ * Raconte-moi Bonal : le kit souvenirs du mois.
  * Variables : $ym, $month, $kit (Souvenirs::kit), $next (ym, month, c), $past (ym, month, c), $temoins
  */
 use App\Front\Kit;
@@ -12,9 +12,9 @@ $m = $kit['m'] ?? [];
 ?>
 <section class="mhead skhead">
   <div class="wrap mhead__inner" style="padding-bottom:clamp(32px,4vw,56px)">
-    <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/interactif/')) ?>"><?= e(t('Interactif')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Les Après-midi Bonal')) ?></span></nav>
+    <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/interactif/')) ?>"><?= e(t('Interactif')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Raconte-moi Bonal')) ?></span></nav>
     <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Participer')) ?> · <?= e(t('Kit souvenirs')) ?></span>
-    <h1 class="mhead__title"><?= e(t('Les Après-midi Bonal')) ?></h1>
+    <h1 class="mhead__title"><?= e(t('Raconte-moi Bonal')) ?></h1>
     <p class="mhead__intro"><?= e(t('Chaque mois, un kit à imprimer en gros caractères pour partager les grandes heures du club avec les anciens supporters : en famille, au club des aînés, à la médiathèque, en maison de retraite.')) ?></p>
   </div>
 </section>

@@ -15,14 +15,14 @@ use App\Services\Qr;
 use App\Services\Souvenirs;
 
 /**
- * Les Après-midi Bonal (INTERACTIF › Participer) : page du kit souvenirs du mois, PDF de 4 pages
+ * Raconte-moi Bonal (INTERACTIF › Participer) : page du kit souvenirs du mois, PDF de 4 pages
  * en gros caractères, adresse courte « /souvenir/{match}/ » du QR code (vers le formulaire
  * de témoignage).
  */
 final class Kit
 {
     /** À augmenter quand la mise en page change (les PDF en cache sont alors refaits). */
-    public const VERSION = '2';
+    public const VERSION = '3';
     private const DIR = STORAGE_PATH . '/cache/pdf';
 
     public static function base(): string
@@ -62,7 +62,7 @@ final class Kit
             'next' => ['ym' => $next, 'month' => Souvenirs::monthLabel($next), 'c' => Souvenirs::match($next)],
             'past' => $past, 'temoins' => array_slice($temoins, 0, 4),
         ], [
-            'title' => t('Les Après-midi Bonal : le kit souvenirs du mois'),
+            'title' => t('Raconte-moi Bonal : le kit souvenirs du mois'),
             'description' => t('Chaque mois, un kit à imprimer en gros caractères pour partager les grandes heures du FC Sochaux-Montbéliard avec les anciens supporters : le grand match d’il y a 30 ou 40 ans, des visages à reconnaître, un quiz et des questions pour raconter.'),
             'active' => 'interactif',
             'body_class' => 'page-souvenirs',
@@ -136,7 +136,7 @@ final class Kit
         $m = $k['m'];
         $c = $k['match'];
         $s = $c['s'];
-        $l->running = t('Les Après-midi Bonal') . ' · ' . $k['month'];
+        $l->running = t('Raconte-moi Bonal') . ' · ' . $k['month'];
         $l->url = base_url() . self::base();
         $l->pageWord = t('Page');
         $l->exported = t('Kit souvenirs de {m}', ['m' => $k['month']]);
@@ -165,7 +165,7 @@ final class Kit
         $l->newPage();
         $l->masthead(t('Kit souvenirs') . ' · ' . $k['month']);
         $date = date_fr($m['date'] ?? null, true);
-        $title(t('Les Après-midi Bonal'), $c['ago'] > 1 ? t('Il y a {n} ans ce mois-ci', ['n' => $c['ago']]) : t('Ce mois-ci'), trim($date . ' · ' . ($m['stadium'] ?? ''), ' ·'));
+        $title(t('Raconte-moi Bonal'), $c['ago'] > 1 ? t('Il y a {n} ans ce mois-ci', ['n' => $c['ago']]) : t('Ce mois-ci'), trim($date . ' · ' . ($m['stadium'] ?? ''), ' ·'));
         $photo = !empty($s['image']) && !\App\Data\Index::isPlaceholderImage($s['image']) ? Images::derivative($s['image'], 1200) : null;
         $img = $photo ? $l->loadImage($photo) : null;
         if ($img) {

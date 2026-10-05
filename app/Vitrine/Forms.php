@@ -30,7 +30,7 @@ final class Forms
         'presse' => 'Presse',
         'archive' => 'Confier une archive',
         'evenement' => 'Proposer un événement',
-        'apres-midi-bonal' => 'Organiser un Après-midi Bonal',
+        'apres-midi-bonal' => 'Organiser une séance « Raconte-moi Bonal »',
         'documents' => 'Statuts et documents',
         'autre' => 'Autre demande',
     ];

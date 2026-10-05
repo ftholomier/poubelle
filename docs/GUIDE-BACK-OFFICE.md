@@ -275,7 +275,7 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   heure du coup d'envoi, présentation facultative (français, anglais). « Au programme » :
   voir, modifier, retirer ; public des directs passés (pic de spectateurs, réactions). Aucun
   coût : tout vient de la fiche du match.
-- **Kit souvenirs** (les Après-midi Bonal) : chaque mois, un PDF de 4 pages en gros
+- **Kit souvenirs** (Raconte-moi Bonal) : chaque mois, un PDF de 4 pages en gros
   caractères à imprimer pour les anciens supporters (le grand match d'il y a N ans,
   « Vous les reconnaissez ? », le quiz des anciens, « Racontez-nous » avec QR code). Pour le
   mois en cours et les deux suivants : match choisi automatiquement ou par vous (autres

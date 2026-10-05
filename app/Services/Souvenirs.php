@@ -14,7 +14,7 @@ use App\Front\Community;
 use App\Front\Fiche;
 
 /**
- * Les Après-midi Bonal : chaque mois, un kit souvenirs à imprimer en gros caractères, pour
+ * Raconte-moi Bonal : chaque mois, un kit souvenirs à imprimer en gros caractères, pour
  * partager les grandes heures du club avec les anciens supporters (en famille, au club, à la
  * médiathèque, en maison de retraite) : le grand match d'il y a N ans, « Vous les
  * reconnaissez ? », le quiz des anciens, « Racontez-nous ». Le match est choisi

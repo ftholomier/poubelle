@@ -41,7 +41,7 @@ return [
     ],
     [
         'slug' => 'apres-midi-bonal-le-kit-souvenirs',
-        'title' => 'Après-midi Bonal : un kit souvenirs pour nos aînés',
+        'title' => 'Raconte-moi Bonal : un kit souvenirs pour nos aînés',
         'date' => '2026-07-10',
         'image' => '2024/12/claude-quittet-lors-de-la-finale-de-1967-perdue-par-sochaux-face-a-lyon-il-est-felicite-par-le-general-de-gaulle-photo-d-archives-er-1480960505.jpg',
         'excerpt' => 'Chaque mois, quatre pages en gros caractères à imprimer pour faire revivre les grands matchs d’autrefois.',

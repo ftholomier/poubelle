@@ -18,7 +18,7 @@ match, un bloc « Ils y étaient » avec la voix des témoins (consentement oral
   téléphone (opérateur avec API : Twilio, Vonage…).
 - V2 conversation en direct (voix temps réel de Gemini) : petit service à côté d'o2switch ;
   de l'ordre de 1 à 2 € pour 20 minutes.
-- Financements possibles une fois « Les Après-midi Bonal » lancés : fondations, caisses de
+- Financements possibles une fois « Raconte-moi Bonal » lancés : fondations, caisses de
   retraite, Département (prévention de la perte d'autonomie).
 
 ## Le Rétro-Direct — « il y a 40 ans jour pour jour, en direct de Bonal » (gratuit) — réalisé (octobre 2026)
@@ -41,7 +41,7 @@ défi du jour à partager, « galaxie jaune et bleue » des coéquipiers par dé
 (joueur le plus connecté). Révèle aussi les trous et les erreurs de saisie (homonymes) ; les
 compos d'avant 1980 sont encore rares.
 
-## Les Après-midi Bonal — kit souvenirs pour les anciens supporters (gratuit, social) — réalisé (octobre 2026)
+## Raconte-moi Bonal — kit souvenirs pour les anciens supporters (gratuit, social) — réalisé (octobre 2026)
 
 Chaque mois, un PDF de 4 pages en gros caractères fabriqué automatiquement : « Il y a 40 ans
 ce mois-ci » (le grand match du mois), « Vous les reconnaissez ? » (photos de joueurs de

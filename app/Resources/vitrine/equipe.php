@@ -20,6 +20,6 @@ return [
         ['key' => 'musee', 'icon' => '◆', 'title' => 'Musée et historiens', 'text' => 'Rédiger les fiches, vérifier les dates, les scores et les compositions, sources à l’appui.'],
         ['key' => 'archives', 'icon' => '▤', 'title' => 'Archives et numérisation', 'text' => 'Collecter, scanner, restaurer et légender photos, affiches, programmes et coupures de presse.'],
         ['key' => 'communication', 'icon' => '▶', 'title' => 'Vidéos et réseaux', 'text' => 'Monter les vidéos, animer la communauté et faire connaître le musée.'],
-        ['key' => 'evenements', 'icon' => '◎', 'title' => 'Événements et rencontres', 'text' => 'Organiser expositions, projections, Après-midi Bonal et rendez-vous du centenaire.'],
+        ['key' => 'evenements', 'icon' => '◎', 'title' => 'Événements et rencontres', 'text' => 'Organiser expositions, projections, séances « Raconte-moi Bonal » et rendez-vous du centenaire.'],
     ],
 ];

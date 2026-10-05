@@ -11,7 +11,7 @@ use App\Data\Index;
 use App\Services\Souvenirs;
 
 /**
- * Interactif › Kit souvenirs (Les Après-midi Bonal) : le match de chaque mois (choisi
+ * Interactif › Kit souvenirs (Raconte-moi Bonal) : le match de chaque mois (choisi
  * automatiquement ou par les historiens), un mot d'introduction, le PDF ; les témoignages
  * publiés dans « Ils y étaient ».
  */

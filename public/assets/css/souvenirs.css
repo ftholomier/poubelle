@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Les Après-midi Bonal (kit souvenirs) et « Ils y étaient » sur les fiches de match
+   Raconte-moi Bonal (kit souvenirs) et « Ils y étaient » sur les fiches de match
    ========================================================================== */
 .skland { padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(56px, 8vw, 96px); display: flex; flex-direction: column; gap: clamp(44px, 6vw, 72px); }
 .skmain { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); border: 3px solid var(--navy); background: var(--paper); box-shadow: 12px 12px 0 var(--yellow); }

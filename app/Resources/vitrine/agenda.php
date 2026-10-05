@@ -21,7 +21,7 @@ return [
     ],
     [
         'slug' => 'apres-midi-bonal-exemple',
-        'title' => 'Après-midi Bonal : souvenirs de matchs avec nos aînés',
+        'title' => 'Raconte-moi Bonal : souvenirs de matchs avec nos aînés',
         'start' => '2026-11-18 14:30',
         'end' => '2026-11-18 16:30',
         'place' => 'Établissement partenaire à préciser',

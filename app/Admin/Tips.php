@@ -246,7 +246,7 @@ final class Tips
             'anniversaires à venir' => 'Les matchs dont c’est l’anniversaire rond (10, 20, 25, 30, 40, 50 ans…) dans la période choisie, avec assez de temps forts. « Intérêt » additionne temps forts, coupe, finale, victoire, gros score, affluence et fiche à la une. « Programmer à 20 h » l’ajoute en un clic (heure modifiable ensuite).',
         ],
         'souvenirs' => [
-            'screen' => 'Les Après-midi Bonal : chaque mois, un kit de 4 pages en gros caractères à imprimer pour les anciens supporters (le grand match d’il y a N ans, des visages à reconnaître, un quiz, « Racontez-nous »). Tout est fabriqué automatiquement ; ici, vous pouvez choisir le match et ajouter un mot d’introduction.',
+            'screen' => 'Raconte-moi Bonal : chaque mois, un kit de 4 pages en gros caractères à imprimer pour les anciens supporters (le grand match d’il y a N ans, des visages à reconnaître, un quiz, « Racontez-nous »). Tout est fabriqué automatiquement ; ici, vous pouvez choisir le match et ajouter un mot d’introduction.',
             'match du mois' => '« Automatique » retient le match le plus marquant joué ce mois-là (temps forts, coupe, anniversaire rond, 30 à 60 ans d’âge, belle photo). Les autres propositions sont classées par intérêt ; « Ou un autre match » permet de choisir n’importe quelle fiche.',
             'mot d’introduction' => 'Quelques lignes affichées en tête du récit du match dans le PDF : le contexte, l’enjeu, une anecdote.',
             'ils y étaient' => 'Les témoignages publiés sur les fiches de match. Un témoignage reçu par « Contribuer » se publie à la validation (Communauté › Contributions), avec un texte et une signature que vous pouvez relire.',

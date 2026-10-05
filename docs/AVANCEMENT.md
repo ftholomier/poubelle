@@ -192,7 +192,7 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       encadré sur les fiches des joueurs. Rien à saisir : tout vient des compositions.
       `tests/filjaune.php` ; essai complet (recherche, chaîne de 6 passes, constellation,
       défi joué jusqu'au bout, version anglaise, accessibilité).
-- [x] **Kit souvenirs « Les Après-midi Bonal »** (Interactif › Participer) : chaque mois, un PDF
+- [x] **Kit souvenirs « Raconte-moi Bonal »** (Interactif › Participer) : chaque mois, un PDF
       de 4 pages A4 en gros caractères pour les anciens supporters (le grand match d'il y a N
       ans, six visages à reconnaître, le quiz des anciens, « Racontez-nous » avec QR code vers
       le formulaire de témoignage) ; match choisi automatiquement ou par les historiens (mot
@@ -362,7 +362,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
       depuis GitHub comme le musée.
 - [x] Pages : accueil (teaser, chiffres, actions, actualités, agenda, centenaire, soutien,
       newsletter), qui sommes-nous, équipe, statuts et documents, six actions (musée en ligne,
-      vidéos et réseaux, collections et archives, expositions et rencontres, Après-midi Bonal,
+      vidéos et réseaux, collections et archives, expositions et rencontres, Raconte-moi Bonal,
       centenaire 2028), actualités, agenda (Rétro-Direct du musée inclus, abonnement iCal),
       nous soutenir, adhérer, bénévolat, partenaires, presse (kit média avec la présentation
       PDF), contact, mentions légales, confidentialité, cookies (aucun bandeau : aucun cookie
