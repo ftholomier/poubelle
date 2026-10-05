@@ -411,6 +411,13 @@
     const eur = v => Math.round((parseFloat(String(v).replace(',', '.')) || 0) * 100);
     const extra = {};
     $$('[data-sale-extra]').forEach(i => { if (eur(i.value) > 0) extra[i.dataset.saleExtra] = eur(i.value); });
+    // Papier (A4, A3, A2) : un prix par format ; le moins cher sert de prix de base (« à partir de »).
+    const fp = $$('[data-sale-fprice]').map(i => [i.dataset.saleFprice, eur(i.value)]).filter(([, v]) => v > 0);
+    if (fp.length) {
+      const base = Math.min(...fp.map(([, v]) => v));
+      $('[data-sale-price]').value = (base / 100).toFixed(2);
+      fp.forEach(([k, v]) => { if (v > base) extra[k] = v - base; });
+    }
     const sale = {
       price: eur($('[data-sale-price]').value), extra, desc: $('[data-sale-desc]').value,
       colors: $$('[data-sale-color]:checked').map(i => i.value), text_colors: $$('[data-sale-tcolor]:checked').map(i => i.value),

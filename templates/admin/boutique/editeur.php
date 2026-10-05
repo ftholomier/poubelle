@@ -82,14 +82,23 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
       <section class="card card--pad" data-sale>
         <h2 class="card__t card__t--sm">Vente <span class="xs muted">(sans prix, le modèle n’apparaît pas dans la boutique)</span></h2>
         <div class="pgrid">
+          <?php $paper = count($support['sizes']) > 1 && !array_diff($support['sizes'], array_keys(\App\Shop\Catalog::PAPER)); ?>
+          <?php if ($paper): ?>
+          <input type="hidden" data-sale-price value="<?= e(number_format($model['sale']['price'] / 100, 2, '.', '')) ?>">
+          <?php foreach ($support['sizes'] as $sz): $pc = $model['sale']['price'] + (int) ($model['sale']['extra'][$sz] ?? 0); ?>
+          <label class="f"><span class="f__k">Prix en <?= e($sz) ?> TTC (€)</span><input class="in in--sm" type="number" min="0" step="0.5" data-sale-fprice="<?= e($sz) ?>" value="<?= $model['sale']['price'] > 0 ? e(number_format($pc / 100, 2, '.', '')) : '' ?>"></label>
+          <?php endforeach; ?>
+          <?php else: ?>
           <label class="f"><span class="f__k">Prix TTC (€)</span><input class="in in--sm" type="number" min="0" step="0.5" data-sale-price value="<?= e(number_format($model['sale']['price'] / 100, 2, '.', '')) ?>"></label>
+          <?php endif; ?>
           <?php $feeOn = $model['sale']['fee'] !== null; $cv = $feeOn ? number_format($model['sale']['fee'] / 100, 2, '.', '') : ($model['sale']['rate'] !== null ? rtrim(rtrim(number_format($model['sale']['rate'], 2, '.', ''), '0'), '.') : ''); ?>
           <div class="f"><span class="f__k">Commission imprimeur</span><div class="row" style="gap:6px;flex-wrap:nowrap"><input class="in in--sm" type="number" min="0" step="0.01" data-sale-comm placeholder="<?= e($support['rate'] > 0 ? rtrim(rtrim(number_format($support['rate'], 2, '.', ''), '0'), '.') . ' % (support)' : number_format($support['cost'] / 100, 2, ',', '') . ' € (support)') ?>" value="<?= e($cv) ?>"><select class="in in--sm" data-sale-comm-unit style="width:auto"><option value="pct"<?= $feeOn ? '' : ' selected' ?>>%</option><option value="eur"<?= $feeOn ? ' selected' : '' ?>>€ / article</option></select></div></div>
-          <?php foreach ($support['sizes'] as $sz): if (count($support['sizes']) < 2) { break; } ?>
+          <?php foreach ($support['sizes'] as $sz): if (count($support['sizes']) < 2 || $paper) { break; } ?>
           <label class="f"><span class="f__k">Supplément <?= e($sz) ?> (€)</span><input class="in in--sm" type="number" min="0" step="0.5" data-sale-extra="<?= e($sz) ?>" value="<?= isset($model['sale']['extra'][$sz]) ? e(number_format($model['sale']['extra'][$sz] / 100, 2, '.', '')) : '' ?>"></label>
           <?php endforeach; ?>
         </div>
         <label class="f"><span class="f__k">Description pour la boutique</span><textarea class="in" rows="2" data-sale-desc><?= e($model['sale']['desc']) ?></textarea></label>
+        <?php $isPoster = \App\Shop\Poster::isFor($model); ?><div<?= $isPoster ? ' hidden' : '' ?>>
         <?php if (!$support['colors']): ?>
         <div class="f"><span class="f__k">Couleurs du fond proposées au client (support imprimé en entier ; aucune cochée : bleu nuit, jaune, blanc, bleu roi et noir)</span><div class="row" style="gap:8px;flex-wrap:wrap">
           <?php foreach (\App\Shop\Vector::PALETTE as $cn => $hex): ?><label class="toggle" title="<?= e($cn) ?>"><input type="checkbox" data-sale-color value="<?= e($hex) ?>"<?= in_array($hex, $model['sale']['colors'], true) ? ' checked' : '' ?>><span class="toggle__box"></span><span><i class="dot" style="background:<?= e($hex) ?>"></i> <?= e($cn) ?></span></label><?php endforeach; ?>
@@ -105,6 +114,7 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
         </div></div>
         <label class="toggle"><input type="checkbox" data-sale-tsizes<?= $model['sale']['text_sizes'] ? ' checked' : '' ?>><span class="toggle__box"></span><span>Taille du texte au choix (petit, moyen, grand)</span></label>
         <label class="toggle"><input type="checkbox" data-sale-pos<?= $model['sale']['positions'] ? ' checked' : '' ?>><span class="toggle__box"></span><span>Position du texte au choix (haut, centre, bas : seules celles qui ne recouvrent pas le logo sont proposées)</span></label>
+        </div><?php if ($isPoster): ?><p class="xs muted" style="margin:6px 0 0">Poster souvenir : sa charte est fixe, le client ne choisit ni couleur, ni taille, ni position du texte. Il choisit son match, son format, son prénom et son nom.</p><?php endif; ?>
         <p class="xs muted" style="margin:6px 0 0">En vente quand « Prêt à la vente » est coché et le prix renseigné. Les choix du client restent dans la charte : jamais de police, de photo ni de placement libre.</p>
       </section>
       <?php if ($support['note'] !== ''): ?><p class="xs muted" style="margin:0"><b>Consignes de l’imprimeur :</b> <?= e($support['note']) ?></p><?php endif; ?>
