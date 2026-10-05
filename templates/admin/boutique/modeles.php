@@ -18,7 +18,7 @@
       <a class="shopcard__img" href="/admin/boutique/modeles/<?= e($m['id']) ?>"><?= $previews[$m['id']] ?? '' ?></a>
       <div class="card--pad">
         <a href="/admin/boutique/modeles/<?= e($m['id']) ?>"><b><?= e($m['name']) ?></b></a>
-        <div class="xs muted"><?= e($s['name'] ?? $m['support']) ?> · <?= $m['active'] ? '<span class="chip">prêt à la vente</span>' : 'brouillon' ?><?= $m['updated'] ? ' · ' . e(date_num(substr($m['updated'], 0, 10))) : '' ?></div>
+        <div class="xs muted"><?= e($s['name'] ?? $m['support']) ?> · <?= \App\Shop\Catalog::sellable($m) ? '<span class="chip" style="background:#9ed7a9">en vente · ' . e(\App\Shop\Orders::money($m['sale']['price'])) . '</span>' : ($m['active'] ? '<span class="chip" style="background:#f3c9c4">pas en vente : ' . ($m['sale']['price'] <= 0 ? 'sans prix (carte « Vente » de l’éditeur)' : 'support désactivé') . '</span>' : 'brouillon') ?><?= $m['updated'] ? ' · ' . e(date_num(substr($m['updated'], 0, 10))) : '' ?></div>
         <form method="post" action="/admin/boutique/modeles" class="row" style="gap:6px;margin-top:8px;flex-wrap:wrap">
           <?= csrf_field() ?><input type="hidden" name="id" value="<?= e($m['id']) ?>">
           <a class="btn btn--sm btn--navy" href="/admin/boutique/modeles/<?= e($m['id']) ?>">Modifier</a>

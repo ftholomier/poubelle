@@ -1,16 +1,16 @@
 <?php
 /** Boutique : catalogue. Variables : $cards [m, sup, svg, from], $config, $count */
 use App\Shop\Orders;
-use App\Vitrine\Host;
+use App\Shop\ShopPages;
 ?>
-<?= \App\Core\View::partial('vitrine/partials/page-head', ['title' => 'La boutique', 'lead' => 'Des objets jaune et bleu à votre nom, fabriqués à la demande par un imprimeur local. Choisissez, personnalisez, on s’occupe du reste.', 'eyebrow' => 'Sochaux Rétro', 'crumbs' => [['Boutique', Host::url('/boutique/')]]]) ?>
-<?= \App\Core\View::partial('vitrine/boutique/_bar', ['config' => $config, 'count' => $count]) ?>
+<?= \App\Core\View::partial('boutique/_head', ['title' => 'La boutique', 'lead' => 'Des objets jaune et bleu à votre nom, fabriqués à la demande par un imprimeur local. Choisissez, personnalisez, on s’occupe du reste.', 'eyebrow' => 'Sochaux Rétro', 'crumbs' => [['Boutique', ShopPages::u('/boutique/')]]]) ?>
+<?= \App\Core\View::partial('boutique/_bar', ['config' => $config, 'count' => $count]) ?>
 <section class="section--tight">
   <div class="wrap">
     <?php if (!$cards): ?><p>Les premiers articles arrivent très bientôt.</p><?php endif; ?>
     <div class="shopgrid">
       <?php foreach ($cards as $c): ?>
-      <a class="shopcard" href="<?= e(Host::url('/boutique/' . $c['m']['id'] . '/')) ?>" data-reveal>
+      <a class="shopcard" href="<?= e(ShopPages::u('/boutique/' . $c['m']['id'] . '/')) ?>" data-reveal>
         <div class="shopcard__img"><?= $c['svg'] ?></div>
         <div class="shopcard__txt">
           <span class="eyebrow"><?= e($c['sup']['name']) ?></span>

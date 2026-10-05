@@ -386,7 +386,8 @@
     b.disabled = false;
     if (!r.ok) { BO.toast(r.error || 'Modèle non enregistré.', true); return; }
     dirty = false;
-    BO.toast('Modèle enregistré.');
+    if (sale.price <= 0 && $('[data-active]').checked) BO.toast('Modèle enregistré, mais pas encore en vente : indiquez son prix dans la carte « Vente ».', true);
+    else BO.toast($('[data-active]').checked ? 'Modèle enregistré : il est en vente dans la boutique.' : 'Modèle enregistré (brouillon).');
   });
   $('[data-pdf]').addEventListener('click', e => { if (dirty) { e.preventDefault(); BO.toast('Enregistrez d’abord le modèle : le PDF part de la version enregistrée.', true); } });
   window.addEventListener('beforeunload', e => { if (dirty && !BO.leaving) { e.preventDefault(); e.returnValue = ''; } });

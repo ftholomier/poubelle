@@ -67,7 +67,7 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'fonts' =>
         <div data-fields></div>
       </section>
       <section class="card card--pad" data-sale>
-        <h2 class="card__t card__t--sm">Vente</h2>
+        <h2 class="card__t card__t--sm">Vente <span class="xs muted">(sans prix, le modèle n’apparaît pas dans la boutique)</span></h2>
         <div class="pgrid">
           <label class="f"><span class="f__k">Prix TTC (€)</span><input class="in in--sm" type="number" min="0" step="0.5" data-sale-price value="<?= e(number_format($model['sale']['price'] / 100, 2, '.', '')) ?>"></label>
           <?php foreach ($support['sizes'] as $sz): if (count($support['sizes']) < 2) { break; } ?>

@@ -10,11 +10,11 @@ $sell = array_filter($models, fn ($m) => Catalog::sellable($m));
   <?= csrf_field() ?>
   <section class="card card--pad">
     <h2 class="card__t">Ouverture</h2>
-    <label class="toggle"><input type="checkbox" name="open" value="1"<?= $c['open'] ? ' checked' : '' ?>><span class="toggle__box"></span><span><b>Boutique ouverte</b> sur le site de l’association (adresse /boutique/)</span></label>
+    <label class="toggle"><input type="checkbox" name="open" value="1"<?= $c['open'] ? ' checked' : '' ?>><span class="toggle__box"></span><span><b>Boutique ouverte</b> sur le site du musée (adresse /boutique/, dans le menu ; le site de l’association y renvoie)</span></label>
     <ul class="small" style="margin:10px 0 0">
       <li><?= count($sell) ?> modèle<?= count($sell) > 1 ? 's' : '' ?> en vente (prêts à la vente, avec un prix).</li>
       <li>Paiement par carte (Stripe) : <?= $payable ? '<b>prêt</b>' : '<b style="color:var(--red)">clés Stripe absentes</b> : réglez-les dans Système › Réglages › Dons (les mêmes que pour les dons et les adhésions).' ?></li>
-      <li>Tant que le site de l’association est fermé, la boutique n’est visible que dans son aperçu (Site de l’association › Tableau de bord).</li>
+      <li>Avant l’ouverture, seule l’équipe connectée au back-office voit la boutique (pour les essais).</li>
     </ul>
     <h2 class="card__t" style="margin-top:18px">Livraison</h2>
     <div class="fgrid fgrid--2">

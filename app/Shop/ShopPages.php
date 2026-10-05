@@ -1,34 +1,50 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Vitrine;
+namespace App\Shop;
 
 use App\Core\RateLimiter;
 use App\Core\Request;
 use App\Core\Response;
 use App\Core\Session;
-use App\Shop\Catalog;
-use App\Shop\Mockup;
-use App\Shop\Orders;
+use App\Core\Auth;
+use App\Front\Pages;
 
 /**
- * Boutique en ligne sur le site de l'association : catalogue, personnalisation (choix calibrés,
+ * Boutique en ligne, sur le site du musée (celui qui a le trafic ; le site de l'association y renvoie) : catalogue, personnalisation (choix calibrés,
  * aperçu en direct rendu par le serveur), panier, commande payée par carte (Stripe Checkout),
  * page de suivi de commande avec messages à l'imprimeur. Fermée tant que l'administrateur ne
- * l'ouvre pas (Boutique › Réglages) ; visible dans l'aperçu du site.
+ * l'ouvre pas (Boutique › Réglages) ; l'équipe connectée au back-office la voit déjà.
  */
 final class ShopPages
 {
     private const CART = 'shop_cart';
 
+    /** Adresse d'une page de la boutique (site du musée). */
+    public static function u(string $path): string
+    {
+        return url($path);
+    }
+
+    /** Ouverte au public, ou visible par l'équipe connectée (essais avant l'ouverture). */
+    public static function visible(): bool
+    {
+        return Orders::open() || Auth::user() !== null;
+    }
+
     private static function closed(): ?Response
     {
-        return !Orders::open() && !Site::$preview ? Site::render('boutique/fermee', [], ['title' => 'Boutique', 'active' => 'boutique', 'styles' => ['css/boutique.css']]) : null;
+        return !self::visible() ? Pages::render('boutique/fermee', [], ['title' => 'Boutique', 'active' => 'boutique', 'styles' => ['css/boutique.css']]) : null;
     }
 
     private static function page(string $tpl, array $vars, array $page): Response
     {
-        return Site::render('boutique/' . $tpl, $vars, $page + ['active' => 'boutique', 'styles' => ['css/boutique.css'], 'scripts' => ['js/boutique.js']]);
+        return Pages::render('boutique/' . $tpl, $vars, $page + ['active' => 'boutique', 'styles' => ['css/boutique.css'], 'scripts' => ['js/boutique.js']]);
+    }
+
+    private static function notFound(): Response
+    {
+        return Pages::notFound();
     }
 
     /** @return list<array> modèles en vente */
@@ -70,7 +86,7 @@ final class ShopPages
         }
         $m = Catalog::find($id);
         if (!$m || !Catalog::sellable($m)) {
-            return Pages::notFound();
+            return self::notFound();
         }
         $sup = Catalog::support($m['support']);
         return self::page('produit', [
@@ -88,7 +104,7 @@ final class ShopPages
         }
         $in = $req->json();
         $m = Catalog::find((string) ($in['model'] ?? ''));
-        if (!$m || (!Catalog::sellable($m) && !Site::$preview) || (!Orders::open() && !Site::$preview && !\App\Core\Auth::isAdmin())) {
+        if (!$m || !self::visible() || (!Catalog::sellable($m) && Auth::user() === null)) {
             return Response::json(['error' => 'Article indisponible.'], 404);
         }
         $values = [];
@@ -148,7 +164,7 @@ final class ShopPages
         return self::page('panier', [
             'lines' => $lines, 'sub' => $sub, 'ship' => $lines ? Orders::shipping($sub) : 0, 'config' => Orders::config(), 'count' => self::count(),
             'flash' => $flash, 'old' => Session::pull('shop_old', []), 'payable' => Orders::payable(), 'test' => \App\Core\Settings::get('donations.mode', 'test') !== 'live',
-        ], ['title' => 'Votre panier', 'robots' => 'noindex']);
+        ], ['title' => 'Votre panier', 'noindex' => true]);
     }
 
     /** POST /boutique/panier/ : ajouter (depuis la page produit), changer une quantité, retirer. */
@@ -159,7 +175,7 @@ final class ShopPages
         }
         if (!Session::checkCsrf((string) ($req->post['_csrf'] ?? ''))) {
             Session::set('shop_flash', ['type' => 'error', 'msg' => 'Votre session a expiré : recommencez.']);
-            return Response::redirect(Host::url('/boutique/panier/'));
+            return Response::redirect(self::u('/boutique/panier/'));
         }
         $cart = self::cart();
         $do = (string) ($req->post['do'] ?? 'add');
@@ -170,16 +186,16 @@ final class ShopPages
             $r = Orders::line($in);
             if (isset($r['error'])) {
                 Session::set('shop_flash', ['type' => 'error', 'msg' => $r['error']]);
-                return Response::redirect(Host::url('/boutique/' . rawurlencode($in['model']) . '/'));
+                return Response::redirect(self::u('/boutique/' . rawurlencode($in['model']) . '/'));
             }
             if (count($cart) >= Orders::MAX_ITEMS) {
                 Session::set('shop_flash', ['type' => 'error', 'msg' => 'Votre panier est plein (' . Orders::MAX_ITEMS . ' articles).']);
-                return Response::redirect(Host::url('/boutique/panier/'));
+                return Response::redirect(self::u('/boutique/panier/'));
             }
             $cart[] = ['model' => $r['item']['model'], 'size' => $r['item']['size'], 'qty' => $r['item']['qty'], 'values' => $r['item']['values'], 'opts' => $r['item']['opts']];
             Session::set(self::CART, $cart);
             Session::set('shop_flash', ['type' => 'ok', 'msg' => '« ' . $r['item']['name'] . ' » ajouté au panier.']);
-            return Response::redirect(Host::url('/boutique/panier/'));
+            return Response::redirect(self::u('/boutique/panier/'));
         }
         $i = (int) ($req->post['line'] ?? -1);
         if (isset($cart[$i])) {
@@ -190,7 +206,7 @@ final class ShopPages
             }
             Session::set(self::CART, $cart);
         }
-        return Response::redirect(Host::url('/boutique/panier/'));
+        return Response::redirect(self::u('/boutique/panier/'));
     }
 
     /** POST /boutique/commander/ : coordonnées, commande, puis paiement chez Stripe. */
@@ -199,7 +215,7 @@ final class ShopPages
         if ($r = self::closed()) {
             return $r;
         }
-        $back = Host::url('/boutique/panier/') . '#commander';
+        $back = self::u('/boutique/panier/') . '#commander';
         $p = $req->post;
         Session::set('shop_old', array_intersect_key(array_map(fn ($v) => is_string($v) ? mb_substr($v, 0, 160) : '', $p), array_flip(['name', 'email', 'phone', 'line1', 'line2', 'zip', 'city', 'country'])));
         $err = null;
@@ -225,7 +241,7 @@ final class ShopPages
             Session::set('shop_flash', ['type' => 'error', 'msg' => $r['error']]);
             return Response::redirect($back);
         }
-        $base = Site::$preview ? base_url() . Host::PREVIEW : Host::base();
+        $base = base_url();
         $pay = Orders::checkout($r['order'], $base);
         if (isset($pay['error'])) {
             Session::set('shop_flash', ['type' => 'error', 'msg' => $pay['error']]);
@@ -242,7 +258,7 @@ final class ShopPages
     {
         $o = Orders::byToken($token);
         if (!$o) {
-            return Pages::notFound();
+            return self::notFound();
         }
         if ($o['status'] === 'pending' && ($sid = $req->str('session_id')) !== '') {
             Orders::syncReturn($o, $sid);
@@ -259,16 +275,16 @@ final class ShopPages
             $previews[] = $m ? self::preview($m, $it['opts'], $it['values']) : '';
         }
         return self::page('suivi', ['o' => $o, 'previews' => $previews, 'flash' => Session::pull('shop_flash'), 'config' => Orders::config(), 'count' => self::count()],
-            ['title' => 'Commande ' . $o['id'], 'robots' => 'noindex']);
+            ['title' => 'Commande ' . $o['id'], 'noindex' => true]);
     }
 
     public static function trackMessage(Request $req, string $token): Response
     {
         $o = Orders::byToken($token);
         if (!$o) {
-            return Pages::notFound();
+            return self::notFound();
         }
-        $back = Host::url('/boutique/commande/' . $token . '/') . '#messages';
+        $back = self::u('/boutique/commande/' . $token . '/') . '#messages';
         if (!Session::checkCsrf((string) ($req->post['_csrf'] ?? '')) || trim((string) ($req->post['website'] ?? '')) !== '') {
             Session::set('shop_flash', ['type' => 'error', 'msg' => 'Votre session a expiré : renvoyez le message.']);
         } elseif (!RateLimiter::hit('vt-boutique-msg', $req->ip(), 10, 3600)) {

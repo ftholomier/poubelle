@@ -99,7 +99,6 @@ final class Site
                 ['Confier vos archives', Host::museum('/contribuer/'), true],
                 ['Devenir partenaire', $u('/partenaires/') . '#devenir-partenaire', false],
             ]],
-            ...(\App\Shop\Orders::open() || self::$preview ? [['boutique', 'Boutique', $u('/boutique/'), []]] : []),
             ['contact', 'Contact', $u('/contact/'), []],
         ];
     }

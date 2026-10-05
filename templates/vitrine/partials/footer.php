@@ -17,6 +17,7 @@ $email = Site::email();
         <a class="btn btn--navy" href="<?= e(Host::url('/nous-soutenir/adherer/')) ?>">Adhérer</a>
         <a class="btn btn--ghost" href="<?= e(Host::url('/nous-soutenir/benevolat/')) ?>">Devenir bénévole</a>
         <a class="btn btn--ghost" href="<?= e(Host::museum('/faire-un-don/')) ?>" target="_blank" rel="noopener">♥ Faire un don</a>
+        <?php if (\App\Shop\Orders::open()): ?><a class="btn btn--ghost" href="<?= e(Host::museum('/boutique/')) ?>">La boutique</a><?php endif; ?>
       </div>
     </div>
   </div>

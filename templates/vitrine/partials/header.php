@@ -31,6 +31,7 @@ $active = $active ?? '';
     </nav>
     <div class="vh__cta">
       <a class="vh__museum" href="<?= e(Host::museum('/')) ?>" target="_blank" rel="noopener"><span class="vh__museum-k">Le musée</span><span class="vh__museum-v">en ligne</span> <span aria-hidden="true">↗</span></a>
+      <?php if (\App\Shop\Orders::open()): ?><a class="btn btn--navy btn--sm vh__shop" href="<?= e(Host::museum('/boutique/')) ?>">La boutique</a><?php endif; ?>
       <a class="btn btn--yellow btn--sm vh__join" href="<?= e(Host::url('/nous-soutenir/adherer/')) ?>">Adhérer</a>
       <button type="button" class="vh__burger" data-vburger aria-controls="vmenu" aria-expanded="false"><span aria-hidden="true" data-vburger-icon>☰</span><span class="sr-only">Menu</span></button>
     </div>
@@ -49,6 +50,7 @@ $active = $active ?? '';
       <?php endforeach; ?>
       <div class="row gap-8" style="margin-top:18px">
         <a class="btn btn--yellow" href="<?= e(Host::url('/nous-soutenir/adherer/')) ?>">Adhérer</a>
+        <?php if (\App\Shop\Orders::open()): ?><a class="btn btn--navy" href="<?= e(Host::museum('/boutique/')) ?>">La boutique</a><?php endif; ?>
         <a class="btn btn--ghost" href="<?= e(Host::museum('/')) ?>" target="_blank" rel="noopener">Le musée en ligne ↗</a>
       </div>
     </nav>

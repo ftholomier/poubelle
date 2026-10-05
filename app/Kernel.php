@@ -183,7 +183,8 @@ final class Kernel
             if ($api) {
                 return Response::json(['error' => t('Le site ouvrira bientôt.')], 503);
             }
-            if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true)) {
+            // Le suivi d'une commande de la boutique reste accessible (lien envoyé au client).
+            if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true) && !str_starts_with($path, '/boutique/commande/')) {
                 return Front\Pages::waiting();
             }
         }
@@ -432,6 +433,14 @@ final class Kernel
         $r->get('/mentions-legales/', fn ($q) => Front\Legal::page($q, 'mentions'));
         $r->get('/confidentialite/', fn ($q) => Front\Legal::page($q, 'confidentialite'));
         $r->get('/cookies/', fn ($q) => Front\Legal::page($q, 'cookies'));
+        $r->get('/boutique/', fn ($q) => Shop\ShopPages::index($q));
+        $r->get('/boutique/panier/', fn ($q) => Shop\ShopPages::cartPage($q));
+        $r->post('/boutique/panier/', fn ($q) => Shop\ShopPages::cartAction($q));
+        $r->post('/boutique/commander/', fn ($q) => Shop\ShopPages::checkout($q));
+        $r->post('/boutique/apercu/', fn ($q) => Shop\ShopPages::livePreview($q));
+        $r->get('/boutique/commande/{token}/', fn ($q, $token) => Shop\ShopPages::track($q, $token));
+        $r->post('/boutique/commande/{token}/', fn ($q, $token) => Shop\ShopPages::trackMessage($q, $token));
+        $r->get('/boutique/{id}/', fn ($q, $id) => Shop\ShopPages::product($q, $id));
         $r->get('/faire-un-don/', fn ($q) => Front\Donations::page($q));
         $r->post('/faire-un-don/', fn ($q) => Front\Donations::start($q));
         $r->get('/faire-un-don/merci/', fn ($q) => Front\Donations::thanks($q));

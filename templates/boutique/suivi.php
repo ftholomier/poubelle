@@ -1,12 +1,12 @@
 <?php
 /** Boutique : suivi d'une commande (lien secret envoyé au client). Variables : $o, $previews, $flash, $config, $count */
 use App\Shop\Orders;
-use App\Vitrine\Host;
+use App\Shop\ShopPages;
 
 $steps = array_keys(Orders::STEPS);
 $cur = array_search($o['status'], $steps, true);
 ?>
-<?= \App\Core\View::partial('vitrine/partials/page-head', ['title' => 'Commande ' . $o['id'], 'lead' => $o['status'] === 'pending' ? 'En attente du paiement.' : 'Merci ' . $o['customer']['name'] . ' ! Suivez ici la fabrication et l’envoi de votre commande.', 'eyebrow' => 'Boutique', 'crumbs' => [['Boutique', Host::url('/boutique/')]]]) ?>
+<?= \App\Core\View::partial('boutique/_head', ['title' => 'Commande ' . $o['id'], 'lead' => $o['status'] === 'pending' ? 'En attente du paiement.' : 'Merci ' . $o['customer']['name'] . ' ! Suivez ici la fabrication et l’envoi de votre commande.', 'eyebrow' => 'Boutique', 'crumbs' => [['Boutique', ShopPages::u('/boutique/')]]]) ?>
 <section class="section--tight">
   <div class="wrap shoptrack">
     <?= \App\Core\View::partial('vitrine/partials/flash', ['flash' => $flash]) ?>
@@ -37,7 +37,7 @@ $cur = array_search($o['status'], $steps, true);
     <?php foreach ($o['messages'] as $msg): ?>
       <div class="shopmsg shopmsg--<?= e($msg['from']) ?>"><small><?= e($msg['from'] === 'client' ? 'Vous' : ($msg['from'] === 'imprimeur' ? 'L’imprimeur' : 'L’association')) ?> · <?= e(date('d/m/Y H:i', strtotime($msg['at']))) ?></small><p><?= nl2br(e($msg['text'])) ?></p></div>
     <?php endforeach; ?>
-    <form method="post" action="<?= e(Host::url('/boutique/commande/' . $o['token'] . '/')) ?>" class="vform shopmsgform">
+    <form method="post" action="<?= e(ShopPages::u('/boutique/commande/' . $o['token'] . '/')) ?>" class="vform shopmsgform">
       <?= csrf_field() ?>
       <div class="hp" aria-hidden="true"><label for="tm-w">Ne pas remplir</label><input type="text" id="tm-w" name="website" tabindex="-1" autocomplete="off"></div>
       <div class="field"><label for="tm-text">Votre message</label><textarea id="tm-text" name="text" rows="4" required maxlength="2000"></textarea></div>

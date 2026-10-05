@@ -58,7 +58,7 @@ HTML],
 <li><b>Taille du texte</b> : petit, moyen, grand ;</li>
 <li><b>Position du texte</b> : haut, centre, bas ; seules les positions où le texte ne recouvre pas le logo sont proposées.</li>
 </ul>
-<p>Le modèle est en vente quand « Prêt à la vente » est coché et qu’il a un prix. Le client ne choisit jamais la police, ne déplace rien et n’envoie aucune image.</p>
+<p><b>Le modèle est en vente quand « Prêt à la vente » est coché ET qu’il a un prix</b> (sans prix, il n’apparaît pas dans la boutique ; la liste des modèles indique « pas en vente : sans prix »). Le client ne choisit jamais la police, ne déplace rien et n’envoie aucune image.</p>
 [[img:boutique-produit.webp|La page d’un article : aperçu en direct, phrase au choix, couleurs, taille et position du texte, taille du vêtement]]
 HTML],
         ['id' => 'commandes', 'title' => 'Les commandes', 'admin' => true, 'html' => <<<'HTML'
@@ -79,7 +79,7 @@ HTML],
 [[img:boutique-imprimeur.webp|L’espace imprimeur : une commande expédiée, avec le numéro de suivi et les messages du client]]
 HTML],
         ['id' => 'reglages', 'title' => 'Les réglages de la boutique', 'admin' => true, 'html' => <<<'HTML'
-<p><b>Boutique › Réglages</b> : ouverture de la boutique, frais de port et seuil de livraison offerte, délai annoncé, nom et e-mail de l’imprimeur, e-mail d’alerte de l’association à chaque commande payée, conditions de vente. Tant que le site de l’association est fermé, la boutique n’est visible que dans son aperçu.</p>
+<p><b>Boutique › Réglages</b> : ouverture de la boutique, frais de port et seuil de livraison offerte, délai annoncé, nom et e-mail de l’imprimeur, e-mail d’alerte de l’association à chaque commande payée, conditions de vente. La boutique est sur le site du musée (bouton « Boutique » dans l’en-tête et le pied de page des deux sites ; l’adresse /boutique/ du site de l’association y renvoie). Avant l’ouverture, seule l’équipe connectée la voit.</p>
 HTML],
         ['id' => 'pdf', 'title' => 'Le fichier pour l’imprimeur', 'admin' => true, 'html' => <<<'HTML'
 <p><b>PDF imprimeur</b> (dans l’éditeur ou la liste des modèles) : un PDF <b>vectoriel</b>, une page par face dessinée, au <b>format exact</b>, avec les <b>fonds perdus</b>, les <b>traits de coupe</b> et un repère dans la marge (modèle, face, dimensions, couleur du support). Couleurs en <b>CMJN</b> (les couleurs de la charte ont leur équivalent d’imprimerie).</p>

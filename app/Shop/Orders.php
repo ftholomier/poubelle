@@ -505,7 +505,7 @@ final class Orders
 
     public static function trackingUrl(array $o): string
     {
-        return \App\Vitrine\Host::base() . '/boutique/commande/' . $o['token'] . '/';
+        return base_url() . '/boutique/commande/' . $o['token'] . '/';
     }
 
     public static function itemsHtml(array $o): string

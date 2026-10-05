@@ -521,9 +521,10 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 ## Boutique, lot B : la vente (05/10, demande du client) — terminé
 
 - Prix et suppléments par taille ; choix du client calibrés (couleur du produit, couleur et taille du texte, position sans recouvrir le logo).
-- Boutique sur le site de l'association : catalogue, article avec aperçu en direct, panier, livraison, paiement Stripe (l'association encaisse), page de suivi avec messages.
+- Boutique sur le site du musée (bouton dans l'en-tête et le pied de page des deux sites ; www/boutique/ y renvoie) : catalogue, article avec aperçu en direct, panier, livraison, paiement Stripe (l'association encaisse), page de suivi avec messages.
 - Espace imprimeur séparé (/imprimeur/, lien de connexion par e-mail) : PDF par article, étapes, numéro de suivi, réponses aux clients.
 - BO : Boutique › Commandes (étapes, remboursement Stripe, paiement hors ligne), Boutique › Réglages (imprimeur, port, délai, alertes, conditions de vente).
+- Pied de page du musée refait : appel réglable, plan (Explorer, Interactif, Participer), boutons Boutique et Don, icônes des réseaux, lien vers l'association.
 - À venir : lot C (tableau de bord et chiffre d'affaires, relevés de l'imprimeur, « Ton match »).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)

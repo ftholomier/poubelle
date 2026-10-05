@@ -57,3 +57,30 @@
 .shopmsg { background: #fff; border-left: 4px solid var(--navy); padding: 8px 12px; margin: 8px 0; } .shopmsg p { margin: 4px 0 0; }
 .shopmsg--imprimeur, .shopmsg--association { border-left-color: var(--yellow); margin-left: 24px; }
 .shopmsgform { max-width: 640px; margin-top: 12px; }
+
+/* Mise en page commune (reprise du site de l’association) pour la boutique sur le musée. */
+.vbox .vsocial a, .vform-side .vsocial a { color: var(--navy); }
+.vpage-head__bg { position: absolute; inset: 0; }
+.vpage-head__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
+.vpage-head__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14,31,77,.95) 0%, rgba(14,31,77,.82) 55%, rgba(14,31,77,.6) 100%); }
+.vpage-head__in { position: relative; display: flex; flex-direction: column; gap: 16px; padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(44px, 6vw, 84px); }
+.vpage-head--img .vpage-head__in { padding-top: clamp(56px, 8vw, 112px); padding-bottom: clamp(60px, 8vw, 116px); }
+.vpage-head .eyebrow { color: var(--yellow); }
+.vpage-head__t { font-family: var(--display); font-weight: 900; font-size: clamp(46px, 7vw, 96px); line-height: .92; text-transform: uppercase; max-width: 18ch; text-wrap: balance; }
+.vpage-head__lead { font-size: clamp(19px, 1.6vw, 23px); line-height: 1.5; max-width: 54ch; margin: 0; opacity: .92; }
+.vcrumbs { font-size: 15px; color: var(--mist); }
+.vcrumbs a { color: var(--mist); }
+.vbox { background: var(--paper); border: 2px solid var(--navy); padding: 24px; }
+.vbox--y { background: var(--yellow); }
+.vbox--sticky { position: sticky; top: 104px; }
+.vbox .btn--block + .btn--block { margin-top: 12px; }
+.vbox--sticky { position: static; }
+.vform { background: var(--paper); border: 2px solid var(--navy); box-shadow: 10px 10px 0 var(--navy); padding: clamp(22px, 3vw, 40px); display: flex; flex-direction: column; gap: 20px; }
+.vform-side { display: flex; flex-direction: column; gap: 20px; }
+.vgrid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.vgrid2__full { grid-column: 1 / -1; }
+.vform-wrap { grid-template-columns: 1fr; }
+.vgrid2, .vchecks { grid-template-columns: 1fr; }
+.vform { box-shadow: 6px 6px 0 var(--navy); }.vpage-head { background: var(--navy); color: var(--cream); }
+.vpage-head .vpage-head__t { color: var(--cream); }
+.vpage-head .vcrumbs, .vpage-head .vcrumbs a { color: rgba(243, 237, 223, .75); }

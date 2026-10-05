@@ -49,6 +49,7 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
         </div>
         <?php endif; ?>
         <a class="hcontrib" href="<?= e(url('/contribuer/')) ?>"><?= e(t('Contribuer')) ?></a>
+        <?php if (\App\Shop\ShopPages::visible()): ?><a class="hshop<?= ($active ?? '') === 'boutique' ? ' is-on' : '' ?>" href="<?= e(url('/boutique/')) ?>"><?= e(t('Boutique')) ?></a><?php endif; ?>
         <a class="hdon" href="<?= e(url('/faire-un-don/')) ?>">♥ <?= e(t('Faire un don')) ?></a>
         <button type="button" class="hburger" data-burger aria-label="<?= e(t('Menu')) ?>" aria-expanded="false">☰</button>
       </div>
@@ -161,6 +162,10 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
       <?php foreach (I18n::enabled() as $code): ?><a href="<?= e(I18n::switchUrl($path ?? '/', $code)) ?>" class="<?= $code === $lang ? 'is-on' : '' ?>"><?= e(strtoupper($code)) ?></a><?php endforeach; ?>
       <button type="button" data-textsize><?= e(t('Taille du texte')) ?> · <span data-textsize-label>100%</span></button>
       <a href="<?= e(url('/contribuer/')) ?>"><?= e(t('Contribuer')) ?></a>
+    </div>
+    <div class="mobilemenu__btns">
+      <?php if (\App\Shop\ShopPages::visible()): ?><a class="hshop" href="<?= e(url('/boutique/')) ?>"><?= e(t('La boutique')) ?></a><?php endif; ?>
+      <a class="hdon" href="<?= e(url('/faire-un-don/')) ?>">♥ <?= e(t('Faire un don')) ?></a>
     </div>
     <?php if ($official !== ''): ?><a class="mobilemenu__official" href="<?= e($official) ?>" rel="noopener" target="_blank"><?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?> ↗</a><?php endif; ?>
   </div>

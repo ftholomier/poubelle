@@ -6,23 +6,23 @@
  */
 use App\Shop\Catalog;
 use App\Shop\Orders;
-use App\Vitrine\Host;
+use App\Shop\ShopPages;
 
 $s = $m['sale'];
 $names = array_flip($sup['colors']);
 $tnames = array_flip(\App\Shop\Vector::PALETTE);
 ?>
-<?= \App\Core\View::partial('vitrine/boutique/_bar', ['config' => $config, 'count' => $count]) ?>
+<?= \App\Core\View::partial('boutique/_bar', ['config' => $config, 'count' => $count]) ?>
 <section class="section--tight">
-  <div class="wrap shopprod" data-shop-product data-model="<?= e($m['id']) ?>" data-preview="<?= e(Host::url('/boutique/apercu/')) ?>">
+  <div class="wrap shopprod" data-shop-product data-model="<?= e($m['id']) ?>" data-preview="<?= e(ShopPages::u('/boutique/apercu/')) ?>">
     <div class="shopprod__view">
-      <nav class="crumbs vcrumbs"><a href="<?= e(Host::url('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span><?= e($m['name']) ?></span></nav>
+      <nav class="crumbs vcrumbs"><a href="<?= e(ShopPages::u('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span><?= e($m['name']) ?></span></nav>
       <div class="shopprod__img" data-shop-svg aria-live="polite"><?= $svg ?></div>
       <?php if (count($faces) > 1): ?>
       <div class="shopseg" role="group" aria-label="Face"><?php foreach ($faces as $i => $fk): ?><button type="button" class="shopseg__b<?= $i ? '' : ' is-on' ?>" data-face="<?= e($fk) ?>"><?= e($sup['faces'][$fk]['label']) ?></button><?php endforeach; ?></div>
       <?php endif; ?>
     </div>
-    <form class="shopprod__form vform" method="post" action="<?= e(Host::url('/boutique/panier/')) ?>">
+    <form class="shopprod__form vform" method="post" action="<?= e(ShopPages::u('/boutique/panier/')) ?>">
       <?= csrf_field() ?>
       <input type="hidden" name="do" value="add"><input type="hidden" name="model" value="<?= e($m['id']) ?>">
       <span class="eyebrow"><?= e($sup['name']) ?></span>
