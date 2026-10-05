@@ -38,7 +38,7 @@ $monthsFr = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août',
     <?php endforeach; ?>
     </tbody>
   </table>
-  <p class="xs muted" style="margin:6px 0 0">La marge de l’association est la somme à refacturer à l’imprimeur si c’est lui qui encaisse ; si l’association encaisse (Stripe), c’est la commission qu’on lui reverse (relevés mensuels).</p>
+  <p class="xs muted" style="margin:6px 0 0">L’association encaisse les ventes (Stripe) et reverse chaque mois la commission à l’imprimeur (Boutique › Relevés) ; la marge lui reste acquise.</p>
 </section>
 <div class="cols" style="align-items:start">
   <section class="card card--pad">
