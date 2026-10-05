@@ -194,8 +194,15 @@ final class ShopPages
             return Response::json(['error' => 'Ce modèle n’a pas d’anecdote.'], 404);
         }
         $avoid = array_slice(array_map('strval', (array) ($in['avoid'] ?? [])), 0, 30);
-        $budget = (int) Orders::config()['anec_daily'];
-        $r = $budget > 0 && RateLimiter::hit('boutique-anecdote-ia', 'site', $budget, 86400) ? Anecdotes::draw($layers, $avoid) : Anecdotes::fromPool($layers, $avoid);
+        $c = Orders::config();
+        $budget = (int) $c['anec_daily'];
+        // Le compteur du budget n'avance que si l'IA est vraiment sollicitée (stock épuisé pour ce client).
+        $aiAllowed = $budget > 0 && RateLimiter::remaining('boutique-anecdote-ia', 'site', $budget, 86400) > 0;
+        $r = Anecdotes::pick($layers, $avoid, $aiAllowed);
+        if (!isset($r['pool']) && !isset($r['error'])) {
+            RateLimiter::hit('boutique-anecdote-ia', 'site', $budget, 86400);
+        }
+        unset($r['pool']);
         return Response::json(isset($r['error']) ? ['ok' => false, 'error' => $r['error']] : ['ok' => true] + $r);
     }
 

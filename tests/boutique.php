@@ -139,6 +139,12 @@ $eq('anecdote : chiffre inventé refusé, phrase sûre signée, réserve, comman
 ], [true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.', true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.', true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.']);
 \App\Shop\Anecdotes::sold($good['text']);
 $eq('anecdote vendue : plus jamais proposée', isset(\App\Shop\Anecdotes::fromPool([$anLayer])['error']), true);
+// Stock : les anciennes entrées (texte seul, consigne périmée) ne ressortent pas ; sans IA, on puise dans le stock.
+\App\Core\JsonStore::write($anFile, ['Un vieux texte sans noms.', ['t' => 'Roger Courtois marque 254 buts.', 'v' => \App\Shop\Anecdotes::VERSION]]);
+$eq('stock : ancienne consigne écartée, version en cours reprise (sans IA)', [\App\Shop\Anecdotes::poolChoices([$anLayer]), \App\Shop\Anecdotes::pick([$anLayer], [], false)['text'] ?? ''], [['Roger Courtois marque 254 buts.'], 'Roger Courtois marque 254 buts.']);
+\App\Shop\Anecdotes::$ai = fn ($sys, $ask) => 'Les Lionceaux enchaînent les buts.';
+$eq('stock vu en entier par ce client : nouvelle anecdote par l’IA', \App\Shop\Anecdotes::pick([$anLayer], ['Roger Courtois marque 254 buts.'], true)['text'] ?? '', 'Les Lionceaux enchaînent les buts.');
+\App\Shop\Anecdotes::$ai = null;
 \App\Shop\Anecdotes::$ai = null;
 foreach ([[$anFile, $anBk[0]], [$anSold, $anBk[1]]] as [$f, $b]) { $b === null ? @unlink($f) : file_put_contents($f, $b); }
 

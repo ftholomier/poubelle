@@ -32,6 +32,8 @@ final class Anecdotes
 
     /** Réserve : les anecdotes déjà rédigées par l'IA, resservies sans IA quand le budget du jour est atteint. */
     public const POOL_MAX = 600;
+    /** Version de la consigne : seules les anecdotes de la version en cours sont ressorties du stock. */
+    public const VERSION = 2;
 
     private static function poolFile(): string
     {
@@ -41,32 +43,55 @@ final class Anecdotes
     /** Une anecdote de la réserve qui tient dans le cadre, ni vendue ni déjà vue par ce client. */
     public static function fromPool(array $layers, array $avoid = []): array
     {
+        $ok = self::poolChoices($layers, $avoid, 1);
+        return $ok ? ['text' => $ok[0], 'sig' => self::sign($ok[0]), 'pool' => true]
+            : ['error' => 'Pas d’autre anecdote disponible pour le moment : revenez un peu plus tard.'];
+    }
+
+    /** Anecdotes du stock (version en cours) ni vendues ni déjà vues, qui tiennent dans le cadre ; au plus $limit. */
+    public static function poolChoices(array $layers, array $avoid = [], int $limit = PHP_INT_MAX): array
+    {
         $sold = array_flip((array) JsonStore::read(self::soldFile(), []));
         $avoid = array_flip(array_map([self::class, 'key'], $avoid));
-        $pool = (array) JsonStore::read(self::poolFile(), []);
+        $pool = array_filter((array) JsonStore::read(self::poolFile(), []), fn ($e) => is_array($e) && (int) ($e['v'] ?? 0) === self::VERSION);
         shuffle($pool);
-        foreach ($pool as $t) {
-            $t = (string) $t;
-            if (isset($sold[self::key($t)]) || isset($avoid[self::key($t)])) {
+        $out = [];
+        foreach ($pool as $e) {
+            $t = (string) ($e['t'] ?? '');
+            if ($t === '' || isset($sold[self::key($t)]) || isset($avoid[self::key($t)])) {
                 continue;
             }
             $fit = true;
             foreach ($layers as $l) {
                 $fit = $fit && Vector::fits($l, [($l['field'] ?? self::FIELD) => $t]);
             }
-            if ($fit) {
-                return ['text' => $t, 'sig' => self::sign($t)];
+            if ($fit && count($out) < $limit) {
+                $out[] = $t;
+            }
+            if (count($out) >= $limit) {
+                break;
             }
         }
-        return ['error' => 'Pas d’autre anecdote disponible pour le moment : revenez un peu plus tard.'];
+        return $out;
+    }
+
+    /**
+     * Le tirage du client : toujours dans le stock déjà rédigé d'abord (aucun coût) ; quand ce client
+     * a déjà vu tout ce qui convient dans le stock, une nouvelle anecdote par l'IA (si le budget le permet).
+     */
+    public static function pick(array $layers, array $avoid, bool $aiAllowed): array
+    {
+        $r = self::fromPool($layers, $avoid);
+        return isset($r['error']) && $aiAllowed ? self::draw($layers, $avoid) : $r;
     }
 
     private static function keep(string $t): void
     {
         JsonStore::update(self::poolFile(), function ($all) use ($t) {
             $all = is_array($all) ? $all : [];
-            if (!in_array($t, $all, true)) {
-                $all[] = $t;
+            $all = array_values(array_filter($all, 'is_array')); // les anciennes entrées (texte seul, consigne périmée) s'effacent
+            if (!in_array($t, array_column($all, 't'), true)) {
+                $all[] = ['t' => $t, 'v' => self::VERSION];
             }
             return array_slice($all, -self::POOL_MAX);
         }, []);
