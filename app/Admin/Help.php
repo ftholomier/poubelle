@@ -35,6 +35,7 @@ final class Help extends Base
         'articles' => 'articles',
         'objets' => 'articles#objets',
         'moments' => 'articles#moments',
+        'moments-idees' => 'articles#moments-idees',
         'referentiels' => 'qualite#referentiels',
         'medias' => 'medias',
         'accueil' => 'editorial#accueil',

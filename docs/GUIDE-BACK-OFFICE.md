@@ -184,8 +184,10 @@ reliés à la fiche.
   sont aussi modifiables.
 - **Objets (réserves du musée)** : photo, collection, date, provenance, crédit, fiches
   liées.
-- **100 moments** (Éditorial) : un moment par semaine jusqu'au centenaire, numéro,
-  année, récit, fiches liées.
+- **100 moments** (Éditorial) : titre, année, date de l'événement, récit, image, fiches
+  liées. Le moment se valide en choisissant sa date de parution (Planifié et sa date, puis
+  Enregistrer ; « Planifier à la date anniversaire » la propose). Le numéro suit l'ordre des
+  dates et ne bouge plus une fois le moment en ligne.
 
 ## 4. Médiathèque
 
@@ -230,8 +232,15 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   quatre flèches à glisser avec trait jaune de dépôt, clic sur le numéro pour taper une
   position, tris rapides Date ↑ / Date ↓ / A → Z, recherche dans la liste), **ordre des
   sous-rubriques**, libellés (français et anglais), descriptions.
-- **100 moments** : calendrier ; les moments pas encore révélés changent de semaine par
-  glisser-déposer, puis « Enregistrer le calendrier ».
+- **100 moments** : calendrier de parution (date modifiable tant que le moment n'est pas en
+  ligne), moments à dater avec leur date anniversaire, points à surveiller (même jour, long
+  trou, sans image) et rythme à tenir jusqu'au centenaire. Sur le site, les moments à venir
+  restent « À venir », sans date.
+- **Boîte à idées** (100 moments) : l'IA propose des idées de moments appuyées sur les
+  fiches publiées (sommaire par époque, ou piste précise) ; vous retenez, modifiez, écartez
+  (la raison lui est rappelée) ou ajoutez les vôtres ; « Premier jet (IA) » crée la fiche
+  « À relire » avec ses sources et les points à vérifier, « Écrire moi-même » une fiche
+  préremplie. L'IA ne date ni ne publie rien ; rien ne l'indique sur le site.
 - **Redirections** : anciennes adresses redirigées (301) ; onglet « Adresses
   introuvables » : adresses demandées par des visiteurs qui n'existent pas, à rediriger en
   un clic vers la bonne fiche.

@@ -758,6 +758,12 @@ final class Fiche
                 $crumbs[] = ['label' => t(Categories::label($c['slug'])), 'href' => url($c['path'])];
             }
         }
+        // Moment du centenaire : son numéro et la série, au-dessus du titre.
+        $moment = $doc['type'] === 'moment' ? (int) ($doc['moment']['number'] ?? 0) : 0;
+        if ($doc['type'] === 'moment') {
+            $crumbs[] = ['label' => t('Centenaire'), 'href' => url('/centenaire/')];
+            $crumbs[] = ['label' => t('100 moments'), 'href' => url('/centenaire/100-moments/')];
+        }
         $active = match ($root) {
             'infrastructures', 'symboles', 'supporters' => $root,
             Site::C_MATCHS => 'matchs',
@@ -776,7 +782,7 @@ final class Fiche
         [$vars, $page] = [[
             'doc' => $doc,
             'crumbs' => $crumbs,
-            'kicker' => $cat ? t(Categories::label($cat)) : ($doc['type'] === 'page' ? '' : t('Le musée')),
+            'kicker' => $moment ? t('Moment n° {n}', ['n' => pad2($moment)]) . ' · ' . t('100 ans, 100 moments') : ($cat ? t(Categories::label($cat)) : ($doc['type'] === 'page' ? '' : t('Le musée'))),
             'related' => $related,
             'seasonLink' => $season ? url("/matchs/$season/") : null,
         ], [

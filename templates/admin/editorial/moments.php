@@ -1,45 +1,102 @@
 <?php
-/** Calendrier des 100 moments. Variables : $slots, $stats, $start, $next */
-use App\Core\Auth;
-use App\Data\Fiches;
-
-$label = ['en-ligne' => ['En ligne', 'ok'], 'pret' => ['Prêt', 'info'], 'brouillon' => ['Brouillon', 'warn'], 'manquant' => ['À écrire', 'ko']];
+/**
+ * Calendrier des 100 moments. Variables : $dated (moments validés, dans l'ordre de parution),
+ * $undated (à relire, brouillons ; « suggest » : date anniversaire proposée), $stats, $alerts,
+ * $pace, $end
+ */
+$fmt = fn ($n) => number_format((int) $n, 0, ',', ' ');
+$state = function (array $r): array {
+    if ($r['date'] !== null) {
+        return $r['visible'] ? ['En ligne', 'ok'] : ['Planifié', 'info'];
+    }
+    return $r['status'] === 'relire' ? ['À relire', 'warn'] : ['Brouillon', 'ko'];
+};
+$aiBadge = function (array $r): string {
+    if (!$r['ai']) {
+        return '';
+    }
+    return $r['validated']
+        ? ' <span class="xs muted" title="Premier jet rédigé par l’IA, relu et validé">1<sup>er</sup> jet IA · validé par ' . e((string) $r['validated']['by']) . '</span>'
+        : ' <span class="pill pill--relire" title="Premier jet rédigé par l’IA : à relire et vérifier avant de valider">1<sup>er</sup> jet IA à relire</span>';
+};
+$tomorrow = date('Y-m-d', strtotime('+1 day'));
 ?>
 <div class="kpis">
-  <div class="kpi"><b><?= (int) $stats['publies'] ?></b><span>moments en ligne</span><small>révélés au public</small></div>
-  <div class="kpi"><b><?= (int) $stats['prets'] ?></b><span>prêts</span><small>publiés, révélés à leur date</small></div>
-  <div class="kpi<?= $stats['manquants'] ? ' kpi--yellow' : '' ?>"><b><?= (int) $stats['manquants'] ?></b><span>à écrire</span><small><?= $next ? 'prochain : n° ' . (int) $next['n'] . ' le ' . e(date_num($next['date'])) : 'calendrier terminé' ?></small></div>
-  <?php if ($stats['doublons']): ?><div class="kpi kpi--pink"><b><?= (int) $stats['doublons'] ?></b><span>numéros en double</span><small>deux fiches pour le même numéro</small></div><?php endif; ?>
+  <div class="kpi"><b><?= (int) $stats['online'] ?></b><span>moments en ligne</span><small>sur 100</small></div>
+  <div class="kpi"><b><?= (int) $stats['planned'] ?></b><span>planifiés</span><small>validés, en ligne à leur date</small></div>
+  <div class="kpi<?= $stats['review'] ? ' kpi--yellow' : '' ?>"><b><?= (int) $stats['review'] ?></b><span>à relire</span><small><?= $stats['drafts'] ? (int) $stats['drafts'] . ' brouillon' . ($stats['drafts'] > 1 ? 's' : '') . ' en plus' : 'à valider avec une date' ?></small></div>
+  <a class="kpi" href="/admin/moments/idees"><b><?= (int) $stats['ideas'] ?></b><span>idées retenues</span><small>boîte à idées →</small></a>
 </div>
-<p class="small muted" style="margin:0">Un moment est révélé chaque semaine à partir du <b><?= e(date_num($start)) ?></b><?= Auth::isAdmin() ? ' (<a href="/admin/reglages?groupe=centenary">modifier la date</a>)' : '' ?>. Une fiche « Moment » publiée avec un numéro apparaît automatiquement dans sa case le jour venu.</p>
-<?php
-$sortable = !$stats['doublons'] && array_filter($slots, fn ($x) => !$x['past'] && $x['fiche']);
-$future = array_values(array_map(fn ($x) => ['n' => $x['n'], 'date' => $x['date'], 'label' => date_num($x['date'])], array_filter($slots, fn ($x) => !$x['past'])));
-?>
-<?php if ($sortable): ?>
-<p class="small muted" style="margin:0">Pour changer la semaine d’un moment pas encore révélé : <b>↑ / ↓</b> d’une semaine, ou attrapez l’icône <b>quatre flèches</b> et glissez-le plus loin (le <b>trait jaune</b> montre sa future place). Les dates se recalculent ; les moments déjà révélés ne bougent plus.</p>
-<div class="savebar" data-moments-bar hidden>
-  <span><b>Nouveau calendrier</b> non enregistré : les moments surlignés changent de semaine.</span>
-  <button type="button" class="btn btn--ghost btn--sm" data-moments-cancel>Annuler</button>
-  <button type="button" class="btn btn--navy btn--sm" data-moments-save>Enregistrer le calendrier</button>
+
+<p class="small" style="margin:0;max-width:95ch">
+  Vous choisissez la <b>date de parution</b> de chaque moment : dans la fiche, statut <b>Planifié</b> et sa date, puis <b>Enregistrer</b>. C’est la validation, une seule suffit.
+  Le <b>numéro</b> suit l’ordre des dates et ne change plus une fois le moment en ligne. Sur le site, les cases à venir restent « À venir », sans date.
+  <?php if ($pace['left']): ?>Il reste <b><?= (int) $pace['weeks'] ?> semaines</b> jusqu’au centenaire (<?= e(date_fr($end)) ?>) pour <b><?= (int) $pace['left'] ?> moment<?= $pace['left'] > 1 ? 's' : '' ?></b> à dater<?= $pace['weeks'] ? ', soit environ ' . e(str_replace('.', ',', (string) $pace['per_week'])) . ' par semaine' : '' ?>.<?php else: ?>Les 100 moments ont leur date.<?php endif; ?>
+</p>
+
+<div class="row">
+  <a class="btn btn--yellow" href="/admin/fiche/nouvelle/moment">+ Écrire un moment</a>
+  <a class="btn" href="/admin/moments/idees">Boîte à idées (IA)</a>
 </div>
-<?php elseif ($stats['doublons']): ?>
-<p class="alert" style="margin:0">Deux fiches portent le même numéro : corrigez le numéro de l’une d’elles pour pouvoir réorganiser le calendrier par glisser-déposer.</p>
+
+<?php if ($alerts): ?>
+  <section class="card" id="alertes">
+    <div class="card__head"><h2 class="card__t">À surveiller</h2><span class="card__note"><?= count($alerts) ?> point<?= count($alerts) > 1 ? 's' : '' ?></span></div>
+    <ul class="card__body small" style="margin:0;padding-left:34px">
+      <?php foreach ($alerts as $a): ?><li class="<?= $a['level'] === 'warn' ? 'warn' : '' ?>"><?= e($a['text']) ?></li><?php endforeach; ?>
+    </ul>
+  </section>
 <?php endif; ?>
-<div class="table">
-  <table>
-    <thead><tr><th>N°</th><th>Révélation</th><th>Moment</th><th>Année</th><th>État</th><th></th></tr></thead>
-    <tbody<?= $sortable ? ' data-sortable data-moments="' . e(json_encode($future)) . '"' : '' ?>>
-    <?php foreach ($slots as $s): $f = $s['fiche']; [$l, $c] = $label[$s['state']]; $mv = $sortable && !$s['past']; ?>
-      <tr class="<?= $next && $next['n'] === $s['n'] ? 'is-next' : '' ?>"<?= $f ? ' data-href="/admin/fiche/' . (int) $f['id'] . '"' : '' ?><?= $mv ? ' data-sort-item data-id="' . ($f ? (int) $f['id'] : '') . '" data-n0="' . (int) $s['n'] . '"' : '' ?>>
-        <td class="t-num"><span class="mvcell"><?= $mv ? \App\Admin\Form::mover('mover--sm') : '' ?><span data-slot-n><?= sprintf('%03d', $s['n']) ?></span></span></td>
-        <td class="nowrap<?= $s['past'] ? '' : ' muted' ?>" data-slot-date><?= e(date_num($s['date'])) ?></td>
-        <td><?php if ($f): ?><a class="rowlink" href="/admin/fiche/<?= (int) $f['id'] ?>"><?= e($f['title']) ?></a><?php foreach ($s['dups'] as $d): ?><br><span class="ko">Doublon :</span> <a href="/admin/fiche/<?= (int) $d['id'] ?>"><?= e($d['title']) ?></a><?php endforeach; ?><?php else: ?><span class="muted">—</span><?php endif; ?></td>
-        <td class="t-num"><?= e((string) ($f['mo']['year'] ?? '')) ?></td>
-        <td><span class="pill pill--<?= $c ?>"><?= e($l) ?></span><?= $f && $f['status'] !== 'publie' ? ' <span class="xs muted">' . e(Fiches::STATUSES[$f['status']] ?? '') . '</span>' : '' ?></td>
-        <td><?php if (!$f): ?><a class="btn btn--sm btn--yellow" data-write href="/admin/fiche/nouvelle/moment?numero=<?= (int) $s['n'] ?>&amp;date=<?= e($s['date']) ?>">+ Écrire</a><?php endif; ?></td>
-      </tr>
-    <?php endforeach; ?>
-    </tbody>
-  </table>
-</div>
+
+<section class="card" id="calendrier">
+  <div class="card__head"><h2 class="card__t">Calendrier de parution</h2><span class="card__note"><?= count($dated) ?> / 100 moments datés</span></div>
+  <div class="table" style="border:0">
+    <table>
+      <thead><tr><th>N°</th><th>Parution</th><th>Moment</th><th>Année</th><th>État</th></tr></thead>
+      <tbody>
+      <?php foreach ($dated as $r): [$l, $c] = $state($r); $ts = strtotime($r['date']); ?>
+        <tr id="m-<?= (int) $r['id'] ?>">
+          <td class="t-num"><?= $r['number'] ? sprintf('%03d', $r['number']) : '<span class="ko" title="Au-delà des 100">—</span>' ?></td>
+          <td class="nowrap">
+            <?php if ($r['visible']): ?>
+              <?= e(date_num(date('Y-m-d', $ts))) ?> <span class="xs muted"><?= e(date('G\hi', $ts)) ?></span>
+            <?php else: ?>
+              <form method="post" action="/admin/moments/date" class="row" style="gap:6px;flex-wrap:nowrap" title="Changer la date de parution">
+                <?= csrf_field() ?><input type="hidden" name="id" value="<?= (int) $r['id'] ?>">
+                <input type="date" name="date" class="in in--sm" value="<?= e(date('Y-m-d', $ts)) ?>" min="<?= e($tomorrow) ?>" max="<?= e($end) ?>" aria-label="Date de parution de « <?= e($r['title']) ?> »" required>
+                <input type="time" name="heure" class="in in--sm" value="<?= e(date('H:i', $ts)) ?>" aria-label="Heure de parution" style="width:9em">
+                <button type="submit" class="btn btn--sm">Changer</button>
+              </form>
+            <?php endif; ?>
+          </td>
+          <td><a class="rowlink" href="/admin/fiche/<?= (int) $r['id'] ?>"><?= e($r['title'] ?: 'Sans titre') ?></a><?= $aiBadge($r) ?></td>
+          <td class="t-num"><?= $r['year'] ? (int) $r['year'] : '' ?></td>
+          <td><span class="pill pill--<?= $c ?>"><?= e($l) ?></span></td>
+        </tr>
+      <?php endforeach; ?>
+      <?php if (!$dated): ?><tr><td colspan="5" class="muted" style="padding:20px;text-align:center">Aucun moment daté pour l’instant. Ouvrez un moment « À relire » ci-dessous, ou écrivez-en un.</td></tr><?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card" id="a-dater">
+  <div class="card__head"><h2 class="card__t">Moments à dater</h2><span class="card__note">à relire, puis valider avec une date dans la fiche</span></div>
+  <div class="table" style="border:0">
+    <table>
+      <thead><tr><th>Moment</th><th>Année</th><th>Événement</th><th>Date anniversaire proposée</th><th>État</th></tr></thead>
+      <tbody>
+      <?php foreach ($undated as $r): [$l, $c] = $state($r); $sg = $r['suggest']; ?>
+        <tr>
+          <td><a class="rowlink" href="/admin/fiche/<?= (int) $r['id'] ?>"><?= e($r['title'] ?: 'Sans titre') ?></a><?= $aiBadge($r) ?></td>
+          <td class="t-num"><?= $r['year'] ? (int) $r['year'] : '' ?></td>
+          <td class="nowrap small"><?= $r['event'] ? e(date_num($r['event'])) : '<span class="muted">—</span>' ?></td>
+          <td class="small"><?= $sg ? e(date_fr($sg['date'])) . ' <span class="xs muted">(' . (int) $sg['years'] . ' ans' . ($sg['taken'] ? ', jour déjà pris' : '') . ')</span>' : '<span class="muted">—</span>' ?></td>
+          <td><span class="pill pill--<?= $c ?>"><?= e($l) ?></span></td>
+        </tr>
+      <?php endforeach; ?>
+      <?php if (!$undated): ?><tr><td colspan="5" class="muted" style="padding:20px;text-align:center">Rien à dater. Les premiers jets rédigés depuis la boîte à idées arrivent ici, « À relire ».</td></tr><?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>

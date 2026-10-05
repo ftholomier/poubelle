@@ -113,7 +113,9 @@ final class Router
         $r->get('/admin/accueil', fn ($q) => Editorial::home($q));
         $r->post('/admin/accueil', fn ($q) => Editorial::homeSave($q));
         $r->get('/admin/moments', fn ($q) => Editorial::moments($q));
-        $r->post('/admin/moments/ordre', fn ($q) => Editorial::momentsOrder($q));
+        $r->post('/admin/moments/date', fn ($q) => Editorial::momentsDate($q));
+        $r->get('/admin/moments/idees', fn ($q) => MomentIdeas::index($q));
+        $r->post('/admin/moments/idees', fn ($q) => MomentIdeas::action($q));
         $r->get('/admin/rubriques', fn ($q) => Editorial::categories($q));
         $r->post('/admin/rubriques', fn ($q) => Editorial::categoriesSave($q));
         $r->get('/admin/redirections', fn ($q) => Editorial::redirects($q));

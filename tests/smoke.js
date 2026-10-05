@@ -26,7 +26,7 @@ const FRONT = ['/', '/matchs/', '/nos-lions/', '/nos-lions/joueurs/', '/supporte
   '/interactif/mosaique/', '/interactif/mosaique/?motif=1928&decennie=1990', '/en/interactif/le-lion-illustre/'];
 const ADMIN = ['/admin', '/admin/qualite', '/admin/qualite?nouveau=1', '/admin/qualite?cat=site', '/admin/qualite?cat=orthographe', '/admin/collection/dictionnaire', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
   '/admin/objets', '/admin/referentiels', '/admin/medias', '/admin/accueil', '/admin/moments', '/admin/rubriques',
-  '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/retro-direct', '/admin/souvenirs', '/admin/murs-photos', '/admin/medias?murs=sans-auteur', '/admin/aide/interactif', '/admin/contributions',
+  '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/retro-direct', '/admin/souvenirs', '/admin/murs-photos', '/admin/medias?murs=sans-auteur', '/admin/moments/idees', '/admin/aide/interactif', '/admin/contributions',
   '/admin/messages', '/admin/newsletter', '/admin/dons', '/admin/traductions', '/admin/assistant', '/admin/couts-ia', '/admin/reglages?groupe=couts', '/admin/audio', '/admin/reglages?groupe=audio',
   '/admin/sauvegardes', '/admin/taches', '/admin/profil', '/admin/fiche/nouvelle/match', '/admin/fiche/nouvelle/personne',
   '/admin/fiche/nouvelle/article', '/admin/fiche/nouvelle/objet', '/admin/fiche/nouvelle/moment', '/admin/corbeille', '/admin/audience',

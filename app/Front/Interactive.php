@@ -277,38 +277,38 @@ final class Interactive
     {
         return Pages::render('interactif/moments', ['moments' => self::moments100()], [
             'title' => t('100 ans, 100 moments'),
-            'description' => t('Jusqu’au centenaire, un moment de l’histoire du FCSM publié chaque semaine.'),
+            'description' => t('Jusqu’au centenaire, 100 moments de l’histoire du FCSM, dévoilés un à un.'),
             'active' => 'interactif',
             'styles' => ['css/mosaic.css', 'css/interactif.css'],
             'scripts' => ['js/interactif.js'],
         ]);
     }
 
-    /** 100 cases : une par semaine depuis la date de lancement, reliées aux fiches « moment ». */
+    /**
+     * 100 cases : la case n° X s'ouvre quand le moment n° X paraît (les historiens choisissent la
+     * date de chaque moment, le numéro suit l'ordre des dates). Les autres restent « À venir », sans
+     * date : la surprise est gardée.
+     */
     public static function moments100(): array
     {
-        $start = strtotime((string) Settings::get('centenary.moments_start', '2026-06-11')) ?: strtotime('2026-06-11');
         $byNumber = [];
         foreach (Index::published('moment') as $s) {
-            if (!empty($s['mo']['number'])) {
-                $byNumber[(int) $s['mo']['number']] = $s;
+            $n = (int) ($s['mo']['number'] ?? 0);
+            if ($n >= 1 && $n <= 100) {
+                $byNumber[$n] = $s;
             }
         }
         $out = [];
         for ($i = 1; $i <= 100; $i++) {
-            $date = strtotime('+' . (($i - 1) * 7) . ' days', $start);
             $s = $byNumber[$i] ?? null;
-            $open = $date <= time() && $s;
             $out[] = [
                 'n' => $i,
-                'date' => date('Y-m-d', $date),
-                'open' => (bool) $open,
-                'due' => $date <= time(),
+                'open' => $s !== null,
                 'title' => $s['title'] ?? null,
                 'year' => $s['mo']['year'] ?? null,
-                'href' => $open ? url($s['path']) : null,
-                'image' => $open ? $s['image'] : null,
-                'excerpt' => $open ? $s['excerpt'] : null,
+                'href' => $s ? url($s['path']) : null,
+                'image' => $s['image'] ?? null,
+                'excerpt' => $s['excerpt'] ?? null,
             ];
         }
         return $out;

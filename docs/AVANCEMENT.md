@@ -463,6 +463,28 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
   légende tapée dans le champ Crédit) et compléter les 5 057 photos sans crédit, au fil de
   l'eau : chaque photo corrigée rejoint les murs.
 
+## 100 moments : dates choisies et boîte à idées de l'IA (05/10, demande du client) — terminé
+- [x] **Dates choisies par les historiens** : la date de parution se choisit moment par moment
+      (statut « Planifié » et sa date) ; c'est la validation, une seule suffit (notée dans la
+      fiche). Le **numéro suit l'ordre des dates** et ne bouge plus une fois le moment en ligne.
+      Date anniversaire de l'événement proposée en un clic. Fin du calendrier « un moment par
+      semaine » et du glisser-déposer.
+- [x] **Site** : 100 cases, les moments parus s'ouvrent, les autres restent « À venir », sans
+      date ; page d'un moment « Moment n° X · 100 ans, 100 moments ». Rien sur l'IA.
+- [x] **Calendrier** (Éditorial › 100 moments) : moments datés (date modifiable avant
+      parution), moments à dater, points à surveiller (même jour, long trou, sans image,
+      numéro retiré), rythme jusqu'au centenaire.
+- [x] **Boîte à idées** : l'IA propose des idées appuyées sur les fiches publiées (sommaire
+      par époque, piste précise, « Autre idée ») ; les historiens retiennent, modifient,
+      écartent (raison rappelée à l'IA) ou ajoutent leurs idées ; couverture par décennie.
+      **Premier jet** : fiche « À relire » rédigée d'après les seules fiches sources, avec les
+      points à vérifier ; « Écrire moi-même » pour une fiche préremplie. L'IA ne date ni ne
+      publie rien. Coûts suivis (usage « 100 moments »).
+- [x] Aide (Articles › 100 moments, boîte à idées), bulles d'aide, docs, `tests/moments.php`,
+      parcours complet vérifié dans le navigateur avec un faux Gemini (aucun appel réel).
+- À faire par les historiens : lancer le sommaire, trier, faire rédiger et dater les moments ;
+  avant 1970 (peu de fiches de matchs), compléter avec leurs propres idées.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;
@@ -482,6 +504,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
   18075) : compositions d'une autre époque (alertes « buts » et « tableau » dans Qualité).
 - 94 fiches de personnes ont « xx » comme ville de naissance.
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).
-- 100 moments : aucun moment écrit pour l'instant (les semaines passées affichent « Bientôt »).
+- 100 moments : aucun moment écrit pour l'instant ; commencer par la boîte à idées
+  (Éditorial › 100 moments).
 - Saison 2026-2027 : le match du 02/10/2026 est en tête de l'ordre manuel (place par défaut du
   plugin WordPress) : le glisser à sa place dans Rubriques & menus.

@@ -137,15 +137,15 @@ $eq('chemin avec « .. » refusé', F::media('2024/../../config.php'), null);
 $eq('image déjà enregistrée gardée', F::media('2099/01/absente.jpg', ['2099/01/absente.jpg']), '2099/01/absente.jpg');
 $eq('image inconnue refusée', F::media('2099/01/absente.jpg'), null);
 
-// 100 moments : planifiés pour leur semaine tant qu'elle n'est pas arrivée.
-$mo = ['type' => 'moment', 'status' => 'publie', 'publish_at' => null, 'moment' => ['number' => 100]];
-$start = strtotime((string) \App\Core\Settings::get('centenary.moments_start', '2026-06-11'));
-$slot = strtotime(date('Y-m-d', strtotime('+693 days', $start)) . ' 08:00');
-$new = Fiches::scheduleMoment($mo);
-$eq('moment n° 100 « publié » avant sa semaine : planifié', [$new['status'], $new['publish_at']], $slot > time() ? ['planifie', date('c', $slot)] : ['publie', null]);
-$mo['moment']['number'] = 1;
-$mo['status'] = 'brouillon';
-$eq('moment en brouillon : inchangé', Fiches::scheduleMoment($mo)['status'], 'brouillon');
+// 100 moments : date de l'événement (date anniversaire proposée) ; le numéro ne se saisit plus
+// (il suit l'ordre des dates de parution : tests/moments.php).
+$mo = Fiches::blank('moment');
+$eq('date de l’événement valide gardée, invalide vidée', [
+    $apply($mo, ['moment' => ['event_date' => '1988-06-11']])['moment']['event_date'],
+    $apply($mo, ['moment' => ['event_date' => '1988-02-30']])['moment']['event_date'],
+    $apply($mo, ['moment' => ['event_date' => '11/06/1988']])['moment']['event_date'],
+], ['1988-06-11', null, null]);
+$eq('numéro saisi ignoré', $apply($mo, ['moment' => ['number' => 7]])['moment']['number'], null);
 
 echo $fail ? "\n$fail échec(s)\n" : "\nTout est bon.\n";
 exit($fail ? 1 : 0);

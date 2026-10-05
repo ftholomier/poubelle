@@ -783,6 +783,57 @@ visite : `/interactif/planche-contact/`, `/interactif/le-lion-illustre/` (journa
 - **Vignettes d'avance** : tâche planifiée `murs-photos` (`PhotoWall::prepare(40)`), à chaque
   passage tant qu'il en manque.
 
+## 7 octies ter. 100 moments du centenaire (`App\Services\Moments`, `App\Services\MomentIdeas`)
+
+- **Dates et numéros** (`Moments`) : chaque moment (fiche `moment`) a la date de parution
+  choisie par les historiens : statut `planifie` et `publish_at`, ou `publie` (en ligne tout
+  de suite). C'est la validation, une seule suffit : `moment.validated` (qui, quand),
+  retirée si le moment repasse en brouillon ou à relire (`Moments::stamp()`). Contrôles à
+  l'enregistrement (`check()`) : date à venir (une date déjà enregistrée reste acceptée),
+  pas après le centenaire (`home.centenary_date`), 100 moments datés au plus. Numéros
+  (`numbering()`, `renumber()`) : un moment en ligne garde le sien ; les moments datés pas
+  encore en ligne prennent les suivants dans l'ordre de leur date (leur adresse, qui
+  contient le numéro, suit tant qu'ils ne sont pas publics) ; brouillons, moments à relire
+  et corbeille n'en ont pas, ni les moments datés au-delà de 100. Renumérotation après
+  chaque enregistrement d'un moment, mise à la corbeille, sortie, action groupée (où
+  « Publier » laisse les moments de côté : ils se datent un par un) et publication
+  programmée. Date de l'événement (`moment.event_date`, sinon date du premier match lié) :
+  date anniversaire proposée (`anniversary()`, prochain anniversaire d'ici le centenaire,
+  de préférence un jour libre ; 29 février → 28). L'ancien calendrier hebdomadaire
+  (`centenary.moments_start`, `scheduleMoment`, glisser-déposer) est retiré.
+- **Site** : `Interactive::moments100()` : 100 cases, ouvertes pour les moments en ligne
+  (par numéro), « À venir » sans date sinon. Page d'un moment : « Moment n° X · 100 ans,
+  100 moments », fil d'Ariane Centenaire › 100 moments. Rien n'indique l'IA.
+- **Calendrier** (Éditorial › 100 moments, `Editorial::moments()`) : moments datés dans
+  l'ordre (date modifiable tant qu'ils ne sont pas en ligne : `POST /admin/moments/date`),
+  moments à dater avec la date anniversaire, alertes (`alerts()` : même jour, trou de plus
+  de 4 semaines jusqu'au centenaire, numéro en ligne retiré, au-delà de 100, sans image) et
+  rythme (`pace()`). Dans la fiche : numéro (provisoire ou gelé), bouton « Planifier à la
+  date anniversaire » (`data-plan-at` : statut et date préparés, Enregistrer valide).
+- **Boîte à idées** (`MomentIdeas`, `App\Admin\MomentIdeas`, `/admin/moments/idees`,
+  `public/assets/admin/moments.js`) : idées dans `data/collections/moments-idees.json`
+  (`ideas` : titre, année, date, pourquoi, thème, sources, photo, état `proposee` /
+  `retenue` / `redigee` / `ecartee` et raison, origine `ia` ou `equipe`, fiche ; `runs` :
+  50 dernières demandes). Catalogue par époque (`catalog()`, une ligne par fiche publiée,
+  numéro en tête) : 40 matchs les plus marquants (`weight()` : finale, demie, Europe,
+  barrages, à la une, temps forts, affluence ; pas les premiers tours de coupe contre des
+  amateurs), 45 personnes actives à l'époque, articles et objets qui en parlent ; époque
+  [0, 0] : sujets transversaux. Sommaire (`propose()`) : une demande par époque (`ERAS`,
+  ≈ 150 idées), en parallèle (`Gemini::generateMany`), réponse JSON imposée ; piste
+  (`ask()`) : catalogue entier ; « Autre idée » (`replace()`). Chaque demande rappelle les
+  idées déjà là et les idées écartées avec leur raison (`memory()`). Réponses lues par
+  `parseIdeas()` : sources limitées au catalogue envoyé (sans source : écartée), date
+  valide (l'année suit), doublons écartés (même titre, ou mêmes sources la même année).
+  Premier jet (`draft()`) : dossier des fiches sources (`WebCheck::describe()`, 6 au plus),
+  réponse JSON (titre, accroche, paragraphes, légende, points à vérifier, sources
+  utilisées : `parseDraft()`), fiche « À relire » (`draftDoc()`) avec `moment.ai` (modèle,
+  sources, points à vérifier, légende proposée ; plus un point si la photo a un crédit DR,
+  à risque ou absent) montré dans le back-office seulement. L'IA ne date ni ne publie
+  rien, et ne réécrit pas une idée déjà rédigée. « Écrire moi-même » : fiche préremplie
+  (`/admin/fiche/nouvelle/moment?idee=…`), idée marquée rédigée à l'enregistrement.
+  Coûts : usage `moments`. Session libérée pendant les demandes (une minute environ).
+  Essais : `MomentIdeas::$ai` (faux Gemini), `MomentIdeas::$file`.
+
 ## 7 nonies. Les chiffres du FCSM (`App\Services\Chiffres`, `/chiffres/`)
 
 - **Sources** (badge de chaque chiffre) : *Carrières* (onglet Statistiques des fiches
@@ -972,10 +1023,10 @@ même site fermé ; sinon 404 du site.
   d'origine (`null`, `""` ou liste vide) sans ajouter de champ vide. « Déjà publiée »
   (`published_once`) n'est retenu qu'au changement de statut. Vérification :
   `tests/fiche-form.php`.
-- 100 moments du centenaire : un moment « publié » ou « planifié » dont la semaine n'est
-  pas arrivée reste planifié pour le jour de sa case à 8 h (`Fiches::scheduleMoment`), à
-  l'enregistrement, au réordonnancement du calendrier et à chaque passage de la tâche
-  « publication » (changement de la date de départ).
+- 100 moments du centenaire : la date de parution est choisie par les historiens
+  (« Planifié » et sa date, ou « Publié ») et contrôlée à l'enregistrement
+  (`Moments::check()` : date à venir, avant le centenaire, 100 moments datés au plus) ;
+  le numéro suit l'ordre des dates (`Moments::renumber()`, voir § 7 octies ter).
 - Réglages (`config/settings.php` pour la liste, `storage/settings.json` pour les
   valeurs) ; les secrets (clés API, mots de passe) sont chiffrés avec sodium
   (`storage/secret.key`) et ne sont jamais renvoyés au navigateur.
@@ -1116,6 +1167,10 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   réactions ; agenda .ics).
 - `php tests/filjaune.php` : Fil jaune (réseau symétrique, joueurs retrouvés, chaîne la plus
   courte, liens, familles et records, défi du jour).
+- `php tests/moments.php` : 100 moments (numéros dans l'ordre des dates et gelés en ligne,
+  contrôle de la date, note de validation, date anniversaire, alertes, catalogue et idées
+  de l'IA limitées au catalogue, doublons, idées écartées rappelées, premier jet « À
+  relire », grille publique sans date).
 - `php tests/photos.php` : murs de photos (crédits DR, exclus, sans auteur ; crédit et
   photographe extraits ; photos montrables seulement ; tirage, filtres et nombres ; motifs de
   la mosaïque ; pages et fragment `?partiel=1` ; case « Jamais sur les murs »).

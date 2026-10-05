@@ -98,17 +98,8 @@ final class Cron
         switch ($task) {
             case 'publication':
                 $n = 0;
-                Fiches::batch(function () use (&$n) {
-                    // Moments du centenaire : date de mise en ligne recalée sur leur semaine
-                    // (calendrier réorganisé ou date de départ changée dans les réglages).
-                    foreach (Index::all() as $id => $s) {
-                        if ($s['type'] === 'moment' && in_array($s['status'], ['publie', 'planifie'], true) && ($doc = Fiches::fresh((int) $id))) {
-                            $new = Fiches::scheduleMoment($doc);
-                            if ($new['status'] !== $doc['status'] || ($new['publish_at'] ?? null) !== ($doc['publish_at'] ?? null)) {
-                                Fiches::save($new, ['name' => 'Calendrier des 100 moments'], 'Mise en ligne recalée sur la semaine du moment');
-                            }
-                        }
-                    }
+                $moments = 0;
+                Fiches::batch(function () use (&$n, &$moments) {
                     foreach (Index::all() as $id => $s) {
                         if ($s['status'] === 'planifie' && $s['publish_at'] && strtotime((string) $s['publish_at']) <= time()) {
                             $doc = Fiches::fresh((int) $id);
@@ -118,10 +109,15 @@ final class Cron
                                 $doc['date'] = $doc['date'] ?: date('c');
                                 Fiches::save($doc, ['name' => 'Publication programmée'], 'Publication programmée');
                                 $n++;
+                                $moments += $doc['type'] === 'moment' ? 1 : 0;
                             }
                         }
                     }
                 });
+                // Moments du centenaire : numéros toujours dans l'ordre des dates de parution.
+                if ($moments) {
+                    Moments::renumber();
+                }
                 return $n ? "$n fiche(s) publiée(s)" : null;
 
             case 'statistiques':

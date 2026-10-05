@@ -224,7 +224,6 @@ return [
     'centenary' => [
         'label' => 'Centenaire',
         'fields' => [
-            'moments_start' => ['label' => 'Date de publication du moment n° 1', 'type' => 'date', 'default' => '2026-06-11', 'help' => 'Un nouveau moment est révélé chaque semaine.'],
             'onze_reveal' => ['label' => 'Date de dévoilement du Onze du public', 'type' => 'date', 'default' => '2028-05-20'],
         ],
     ],

@@ -1,7 +1,6 @@
 <?php
 /** Centenaire (maquette « Centenaire »). Variables : $target, $moments, $onze, $results, $reveal, $votes */
 $pub = count(array_filter($moments, fn ($m) => $m['open']));
-$due = count(array_filter($moments, fn ($m) => $m['due']));
 $slots = [['G', 50, 88], ['D', 15, 68], ['D', 38, 72], ['D', 62, 72], ['D', 85, 68], ['M', 25, 47], ['M', 50, 51], ['M', 75, 47], ['A', 20, 22], ['A', 50, 16], ['A', 80, 22]];
 $posName = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A' => t('Attaquant')];
 ?>
@@ -10,7 +9,7 @@ $posName = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A'
     <div class="stack" style="gap:20px">
       <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('20 mai 1928 → 20 mai 2028')) ?></span>
       <h1 class="chero__title"><?= e(t('Cent')) ?><br><span class="yellow"><?= e(t('ans.')) ?></span></h1>
-      <p class="lead" style="max-width:40ch"><?= e(t("Jusqu'au centenaire, le musée publie chaque semaine un moment de l'histoire du club, et vous invite à composer le Onze de légende.")) ?></p>
+      <p class="lead" style="max-width:40ch"><?= e(t("Jusqu'au centenaire, le musée dévoile un à un 100 moments de l'histoire du club, et vous invite à composer le Onze de légende.")) ?></p>
       <div class="row" style="gap:12px;flex-wrap:wrap">
         <a class="btn btn--yellow" href="#moments"><?= e(t('100 moments')) ?></a>
         <a class="btn btn--ghost-light" href="#onze"><?= e(t('Voter le Onze')) ?></a>
@@ -23,7 +22,7 @@ $posName = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A'
 
 <section id="moments" class="wrap cmoments">
   <div class="between" style="align-items:flex-end;gap:20px;flex-wrap:wrap">
-    <div class="stack" style="gap:10px;flex:1 1 420px;min-width:0"><span class="eyebrow"><?= e(t('Un moment par semaine')) ?></span><h2 class="h-section"><?= e(t('100 ans, 100 moments')) ?></h2></div>
+    <div class="stack" style="gap:10px;flex:1 1 420px;min-width:0"><span class="eyebrow"><?= e(t('Jusqu’au 20 mai 2028')) ?></span><h2 class="h-section"><?= e(t('100 ans, 100 moments')) ?></h2></div>
     <div class="stack" style="gap:6px;min-width:260px"><b class="cmoments__count"><?= $pub ?> / 100 <?= e(t('publiés')) ?></b><div class="abox__bar abox__bar--light"><span style="width:<?= $pub ?>%"></span></div></div>
   </div>
   <?= \App\Core\View::partial('interactif/moments-grid', ['moments' => $moments]) ?>

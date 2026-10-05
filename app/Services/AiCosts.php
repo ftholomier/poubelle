@@ -29,6 +29,7 @@ final class AiCosts
         'index' => 'Index de l’assistant',
         'audio' => 'Fiches audio',
         'recherche' => 'Recherche sur le web (fiches)',
+        'moments' => '100 moments (idées et premiers jets)',
         'autre' => 'Autre',
     ];
 

@@ -16,6 +16,7 @@ use App\Data\Redirects;
 use App\Front\Interactive;
 use App\Front\Pages;
 use App\Front\Site;
+use App\Services\Moments;
 use App\Services\Search;
 
 /**
@@ -169,88 +170,68 @@ final class Editorial extends Base
 
     // ------------------------------------------------------------------ 100 moments
 
+    /**
+     * Calendrier des 100 moments : moments datés dans l'ordre de parution (numéro, date
+     * modifiable tant qu'ils ne sont pas en ligne), moments à dater (à relire, brouillons) avec
+     * la date anniversaire proposée, alertes et rythme à tenir jusqu'au centenaire.
+     */
     public static function moments(Request $req): Response
     {
-        $start = strtotime((string) Settings::get('centenary.moments_start', '2026-06-11')) ?: time();
-        $byNumber = [];
-        foreach (Index::all() as $s) {
-            if ($s['type'] === 'moment' && $s['status'] !== 'corbeille' && !empty($s['mo']['number'])) {
-                $byNumber[(int) $s['mo']['number']][] = $s;
-            }
+        $rows = Moments::all();
+        $taken = array_values(array_filter(array_map(fn ($r) => $r['date'] ? substr($r['date'], 0, 10) : null, $rows)));
+        foreach ($rows as &$r) {
+            $r['suggest'] = $r['date'] === null ? Moments::anniversary($r['event'], $taken) : null;
         }
-        $slots = [];
-        $stats = ['prets' => 0, 'publies' => 0, 'manquants' => 0, 'doublons' => 0];
-        for ($i = 1; $i <= 100; $i++) {
-            $date = strtotime('+' . (($i - 1) * 7) . ' days', $start);
-            $list = $byNumber[$i] ?? [];
-            $s = $list[0] ?? null;
-            $state = !$s ? 'manquant' : (Index::visible($s) ? ($date <= time() ? 'en-ligne' : 'pret') : ($s['status'] === 'publie' || $s['status'] === 'planifie' ? 'pret' : 'brouillon'));
-            if (count($list) > 1) {
-                $stats['doublons']++;
-            }
-            match ($state) {
-                'manquant' => $stats['manquants']++,
-                'en-ligne' => $stats['publies']++,
-                'pret' => $stats['prets']++,
-                default => null,
-            };
-            $slots[] = ['n' => $i, 'date' => date('Y-m-d', $date), 'past' => $date <= time(), 'fiche' => $s, 'dups' => array_slice($list, 1), 'state' => $state];
-        }
-        return self::html('admin/editorial/moments', ['slots' => $slots, 'stats' => $stats, 'start' => date('Y-m-d', $start), 'next' => current(array_filter($slots, fn ($x) => !$x['past'])) ?: null],
-            ['title' => '100 moments du centenaire', 'crumb' => 'Éditorial', 'nav' => 'moments']);
+        unset($r);
+        $dated = array_values(array_filter($rows, fn ($r) => $r['date'] !== null));
+        $stats = [
+            'online' => count(array_filter($dated, fn ($r) => $r['visible'])),
+            'planned' => count(array_filter($dated, fn ($r) => !$r['visible'])),
+            'review' => count(array_filter($rows, fn ($r) => $r['status'] === 'relire')),
+            'drafts' => count(array_filter($rows, fn ($r) => $r['status'] === 'brouillon')),
+            'ideas' => count(array_filter(\App\Services\MomentIdeas::all(), fn ($i) => $i['state'] === 'retenue')),
+        ];
+        return self::html('admin/editorial/moments', [
+            'dated' => $dated,
+            'undated' => array_values(array_filter($rows, fn ($r) => $r['date'] === null)),
+            'stats' => $stats,
+            'alerts' => Moments::alerts($rows),
+            'pace' => Moments::pace($rows),
+            'end' => Moments::end(),
+        ], ['title' => '100 moments du centenaire', 'crumb' => 'Éditorial', 'nav' => 'moments']);
     }
 
-    /**
-     * Réorganisation du calendrier des 100 moments (glisser-déposer) : seules les semaines
-     * pas encore révélées bougent. Reçoit, pour chaque numéro à venir, la fiche qui l'occupe.
-     */
-    public static function momentsOrder(Request $req): Response
+    /** POST /admin/moments/date : nouvelle date de parution d'un moment validé, pas encore en ligne. */
+    public static function momentsDate(Request $req): Response
     {
-        $in = $req->json();
-        $start = strtotime((string) Settings::get('centenary.moments_start', '2026-06-11')) ?: time();
-        $isPast = fn (int $n) => strtotime('+' . (($n - 1) * 7) . ' days', $start) <= time();
-        $current = [];
-        foreach (Index::all() as $s) {
-            if ($s['type'] === 'moment' && $s['status'] !== 'corbeille' && !empty($s['mo']['number'])) {
-                $current[(int) $s['id']] = (int) $s['mo']['number'];
-            }
+        $id = (int) $req->str('id');
+        $doc = $id ? Fiches::get($id) : null;
+        if (!$doc || $doc['type'] !== 'moment' || $doc['status'] !== 'planifie') {
+            return self::back('/admin/moments', null, 'Seul un moment planifié change de date ici ; pour les autres, ouvrez la fiche.');
         }
-        if (count($current) !== count(array_unique($current))) {
-            return self::json(['error' => 'Des numéros sont en double : corrigez-les d’abord dans les fiches concernées.'], 422);
+        if (Fiches::isVisible($doc)) {
+            return self::back('/admin/moments', null, 'Ce moment est déjà en ligne : sa date ne change plus.');
         }
-        $moves = [];
-        $seen = [];
-        foreach ((array) ($in['slots'] ?? []) as $row) {
-            $n = (int) ($row['n'] ?? 0);
-            $id = (int) ($row['id'] ?? 0);
-            if ($n < 1 || $n > 100 || $isPast($n)) {
-                return self::json(['error' => 'Le moment n° ' . $n . ' est déjà révélé : il ne peut plus changer de place.'], 422);
-            }
-            if (!$id) {
-                continue;
-            }
-            if (!isset($current[$id]) || $isPast($current[$id]) || isset($seen[$id])) {
-                return self::json(['error' => 'Calendrier incohérent : rechargez la page et recommencez.'], 422);
-            }
-            $seen[$id] = true;
-            if ($current[$id] !== $n) {
-                $moves[$id] = $n;
-            }
+        if ($m = self::lockMessage("fiche:$id")) {
+            return self::back('/admin/moments', null, $m);
         }
-        $actor = self::actor();
-        Fiches::batch(function () use ($moves, $current, $actor) {
-            foreach ($moves as $id => $n) {
-                $doc = Fiches::get($id);
-                if (!$doc) {
-                    continue;
-                }
-                $doc['moment']['number'] = $n;
-                $doc = Fiches::scheduleMoment($doc); // nouvelle semaine = nouvelle date de mise en ligne
-                Fiches::save($doc, $actor, 'Calendrier des 100 moments : n° ' . $current[$id] . ' → n° ' . $n);
-            }
-        });
-        $k = count($moves);
-        return self::json(['ok' => true, 'message' => $k ? 'Calendrier enregistré : ' . $k . ' moment' . ($k > 1 ? 's' : '') . ' déplacé' . ($k > 1 ? 's' : '') . '.' : 'Aucun changement.', 'reload' => true]);
+        $day = $req->str('date');
+        $time = preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $req->str('heure')) ? $req->str('heure') : Moments::HOUR;
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $day) || !strtotime("$day $time")) {
+            return self::back('/admin/moments', null, 'Date invalide.');
+        }
+        $before = $doc;
+        $doc['publish_at'] = date('c', (int) strtotime("$day $time"));
+        if ($err = Moments::check($doc, $before)) {
+            return self::back('/admin/moments', null, $err);
+        }
+        if ($doc['publish_at'] === $before['publish_at']) {
+            return self::back('/admin/moments', 'Aucun changement.');
+        }
+        Fiches::save($doc, self::actor(), 'Date de parution : ' . date_fr($day) . ' à ' . $time);
+        Moments::renumber();
+        $n = (int) (Fiches::get($id)['moment']['number'] ?? 0);
+        return self::back('/admin/moments#m-' . $id, '« ' . $doc['title'] . ' » paraîtra le ' . date_fr($day) . ' à ' . $time . ($n ? ' (n° ' . $n . ').' : '.'));
     }
 
     // ------------------------------------------------------------------ rubriques et menus

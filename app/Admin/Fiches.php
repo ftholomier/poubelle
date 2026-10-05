@@ -13,6 +13,7 @@ use App\Data\Index;
 use App\Data\Paths;
 use App\Data\Redirects;
 use App\Services\EditLock;
+use App\Services\Moments;
 use App\Services\Proofreader;
 use App\Services\Search;
 use App\Services\Translator;
@@ -150,7 +151,8 @@ final class Fiches extends Base
         // Les fiches qu'un autre membre a ouvertes en ce moment ne sont pas touchées.
         $locks = EditLock::fiches();
         $busy = [];
-        Store::batch(function () use ($ids, $action, $user, $locks, &$n, &$busy) {
+        $moments = [];
+        Store::batch(function () use ($ids, $action, $user, $locks, &$n, &$busy, &$moments) {
             foreach ($ids as $id) {
                 $doc = Store::get($id);
                 if (!$doc) {
@@ -164,6 +166,11 @@ final class Fiches extends Base
                     case 'publie':
                     case 'brouillon':
                     case 'relire':
+                        // Un moment du centenaire se valide un par un, avec sa date de parution.
+                        if ($action === 'publie' && $doc['type'] === 'moment') {
+                            $moments[] = $doc['title'];
+                            break;
+                        }
                         if ($doc['status'] !== $action && $doc['status'] !== 'corbeille') {
                             $doc['status'] = $action;
                             Store::save($doc, $user, \App\Data\Fiches::STATUSES[$action] . ' (action groupée)');
@@ -194,6 +201,12 @@ final class Fiches extends Base
             }
         });
         $skipped = $busy ? ' ' . count($busy) . ' fiche' . (count($busy) > 1 ? 's' : '') . ' laissée' . (count($busy) > 1 ? 's' : '') . ' de côté : en cours de modification par ' . implode(', ', array_unique($busy)) . '.' : '';
+        if ($moments) {
+            $skipped .= ' ' . count($moments) . ' moment' . (count($moments) > 1 ? 's' : '') . ' du centenaire laissé' . (count($moments) > 1 ? 's' : '') . ' de côté : chacun se valide dans sa fiche, avec sa date de parution.';
+        }
+        if (in_array($action, ['publie', 'brouillon', 'relire', 'corbeille', 'sortir', 'supprimer'], true)) {
+            Moments::renumber();
+        }
         return self::back($back, $n . ' fiche' . ($n > 1 ? 's' : '') . ' traitée' . ($n > 1 ? 's' : '') . '.' . $skipped . self::aiCost());
     }
 
@@ -208,9 +221,14 @@ final class Fiches extends Base
         if ($type === 'match' && ($c = $req->str('adversaire')) !== '') {
             $doc['match']['away']['name'] = $c;
         }
-        if ($type === 'moment' && ctype_digit($req->str('numero')) && (int) $req->str('numero') <= 100) {
-            $doc['moment']['number'] = (int) $req->str('numero');
-            $doc['publish_at'] = $req->str('date') !== '' && strtotime($req->str('date')) ? date('c', strtotime($req->str('date') . ' 08:00')) : null;
+        // Moment écrit par l'équipe à partir d'une idée de la boîte à idées : fiche préremplie.
+        if ($type === 'moment' && ($idea = \App\Services\MomentIdeas::get($req->str('idee')))) {
+            $doc['title'] = $idea['title'];
+            $doc['moment']['year'] = $idea['year'];
+            $doc['moment']['event_date'] = $idea['date'];
+            $doc['moment']['linked'] = $idea['sources'];
+            $doc['featured_image'] = $idea['image'];
+            $doc['_idee'] = $idea['id'];
         }
         if ($type === 'personne') {
             $role = $req->str('role');
@@ -367,9 +385,11 @@ final class Fiches extends Base
             $doc['path'] = Paths::unique(Paths::suggest($doc), (int) ($doc['id'] ?: -1));
         }
         $doc['slug'] = basename(rtrim($doc['path'], '/'));
-        // Moment du centenaire : planifié pour sa semaine tant qu'elle n'est pas arrivée.
-        $asked = $doc['status'];
-        $doc = Store::scheduleMoment($doc);
+        // Moment du centenaire : la date de parution choisie vaut validation (une seule suffit).
+        if ($err = Moments::check($doc, $isNew ? null : $before)) {
+            return self::json(['ok' => false, 'error' => $err, 'field' => 'publish_at'], 422);
+        }
+        $doc = Moments::stamp($doc, $isNew ? null : $before, self::actor());
         // « Déjà publiée » : retenu au passage de statut (l'adresse ne bouge plus ensuite).
         $prevStatus = $before['status'] ?? '';
         if ($doc['status'] !== $prevStatus && ($doc['status'] === 'publie' || $prevStatus === 'publie')) {
@@ -386,10 +406,18 @@ final class Fiches extends Base
         if (!$isNew && ($before['path'] ?? '') !== '' && $before['path'] !== $saved['path'] && $wasPublished) {
             Redirects::add($before['path'], $saved['path']);
         }
+        // Moment écrit à partir d'une idée de la boîte à idées : l'idée est marquée « rédigée ».
+        if ($isNew && $saved['type'] === 'moment' && is_string($in['_idee'] ?? null) && $in['_idee'] !== '') {
+            \App\Services\MomentIdeas::linkFiche($in['_idee'], (int) $saved['id'], self::actor());
+        }
+        // Numéros des 100 moments : dans l'ordre des dates de parution.
+        if ($saved['type'] === 'moment' && Moments::renumber()) {
+            $saved = Store::get((int) $saved['id']) ?? $saved;
+        }
         $v = Store::versions((int) $saved['id'])[0] ?? null;
         $changed = $isNew || ($saved['modified'] ?? null) !== ($before['modified'] ?? null);
-        $planned = $asked === 'publie' && $saved['status'] === 'planifie' && $saved['type'] === 'moment'
-            ? ' Ce moment sera mis en ligne le ' . date_fr((string) $saved['publish_at']) . ', au début de sa semaine.' : '';
+        $planned = $saved['type'] === 'moment' && $saved['status'] === 'planifie' && ($before['status'] ?? '') !== 'planifie' && !empty($saved['moment']['number'])
+            ? ' Moment validé : n° ' . (int) $saved['moment']['number'] . ', en ligne le ' . date_fr((string) $saved['publish_at']) . ' à ' . date('G\hi', (int) strtotime((string) $saved['publish_at'])) . '.' : '';
         return self::json([
             'ok' => true,
             'id' => $saved['id'],
@@ -397,7 +425,7 @@ final class Fiches extends Base
             'message' => ($isNew ? 'Fiche créée' : ($changed && $v ? 'Version v' . $v['n'] . ' enregistrée' : 'Aucune modification')) . $planned,
             'savedLabel' => 'Enregistré · v' . ($v['n'] ?? 1) . ' · ' . (self::actor()['name'] ?? ''),
             'redirect' => $isNew ? '/admin/fiche/' . $saved['id'] : null,
-            'reload' => !$isNew && (($before['status'] ?? '') !== $saved['status'] || ($before['path'] ?? '') !== $saved['path']),
+            'reload' => !$isNew && (($before['status'] ?? '') !== $saved['status'] || ($before['path'] ?? '') !== $saved['path'] || ($before['moment']['number'] ?? null) !== ($saved['moment']['number'] ?? null)),
         ]);
     }
 
@@ -407,6 +435,7 @@ final class Fiches extends Base
             return self::back('/admin/fiche/' . $id, null, $m);
         }
         Store::trash($id, self::actor());
+        Moments::renumber();
         return self::back('/admin/fiche/' . $id, 'Fiche mise à la corbeille. Elle n’est plus visible sur le site.');
     }
 
@@ -416,6 +445,7 @@ final class Fiches extends Base
             return self::back('/admin/fiche/' . $id, null, $m);
         }
         Store::untrash($id, self::actor());
+        Moments::renumber();
         return self::back('/admin/fiche/' . $id, 'Fiche sortie de la corbeille.');
     }
 

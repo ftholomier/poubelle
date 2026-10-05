@@ -257,25 +257,6 @@ final class Fiches
         }
     }
 
-    /**
-     * Moment du centenaire : tant que sa semaine (case n° X du calendrier) n'est pas arrivée,
-     * il reste « planifié » pour ce jour-là à 8 h, même marqué « publié » ou déplacé.
-     */
-    public static function scheduleMoment(array $doc): array
-    {
-        $n = (int) ($doc['moment']['number'] ?? 0);
-        if (($doc['type'] ?? '') !== 'moment' || $n < 1 || $n > 100 || !in_array($doc['status'] ?? '', ['publie', 'planifie'], true)) {
-            return $doc;
-        }
-        $start = strtotime((string) \App\Core\Settings::get('centenary.moments_start', '2026-06-11')) ?: strtotime('2026-06-11');
-        $slot = strtotime(date('Y-m-d', strtotime('+' . (($n - 1) * 7) . ' days', $start)) . ' 08:00');
-        if ($slot > time()) {
-            $doc['status'] = 'planifie';
-            $doc['publish_at'] = date('c', $slot);
-        }
-        return $doc;
-    }
-
     public static function isVisible(array $doc): bool
     {
         $s = $doc['status'] ?? 'publie';
@@ -356,7 +337,7 @@ final class Fiches
                 'on_map' => true, 'highlight_matches' => [],
             ],
             'objet' => ['collection' => 'photos', 'year' => null, 'date_text' => '', 'credit' => '', 'origin' => '', 'linked' => [], 'contribution' => null],
-            'moment' => ['number' => null, 'year' => null, 'linked' => [], 'card' => null],
+            'moment' => ['number' => null, 'year' => null, 'event_date' => null, 'linked' => [], 'card' => null],
             default => ['kind' => 'article', 'heading' => '', 'subtitle' => '', 'season' => null],
         };
         return $doc;

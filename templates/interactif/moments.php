@@ -5,7 +5,7 @@ $open = array_values(array_filter($moments, fn ($m) => $m['open']));
 <section class="mhead">
   <div class="wrap mhead__inner" style="padding-bottom:clamp(32px,4vw,56px)">
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/centenaire/')) ?>"><?= e(t('Centenaire')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('100 moments')) ?></span></nav>
-    <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Un moment par semaine')) ?></span>
+    <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Jusqu’au 20 mai 2028')) ?></span>
     <h1 class="mhead__title"><?= e(t('100 ans,')) ?><br><?= e(t('100 moments')) ?></h1>
   </div>
 </section>
@@ -21,6 +21,6 @@ $open = array_values(array_filter($moments, fn ($m) => $m['open']));
     <?php endforeach; ?>
   </div>
   <?php else: ?>
-    <div class="mempty"><span class="mempty__t"><?= e(t('Les premiers moments arrivent')) ?></span><span><?= e(t('Les historiens du musée préparent les récits : revenez chaque semaine !')) ?></span></div>
+    <div class="mempty"><span class="mempty__t"><?= e(t('Les premiers moments arrivent')) ?></span><span><?= e(t('Les historiens du musée préparent les récits : revenez bientôt !')) ?></span></div>
   <?php endif; ?>
 </div>

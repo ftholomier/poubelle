@@ -563,31 +563,19 @@
     list.dispatchEvent(new Event('input', { bubbles: true }));
     sortLive.textContent = 'Liste réordonnée';
   });
-  // Calendrier des 100 moments : après un déplacement, chaque ligne prend le numéro et la date de sa nouvelle semaine.
-  $$('[data-moments]').forEach(tb => {
-    const slots = JSON.parse(tb.dataset.moments || '[]'), bar = $('[data-moments-bar]');
-    tb.addEventListener('sorted', () => {
-      sortItems(tb).forEach((tr, i) => {
-        const s = slots[i];
-        if (!s) return;
-        $('[data-slot-n]', tr).textContent = String(s.n).padStart(3, '0');
-        $('[data-slot-date]', tr).textContent = s.label;
-        const w = $('[data-write]', tr);
-        if (w) w.href = '/admin/fiche/nouvelle/moment?numero=' + s.n + '&date=' + s.date;
-        tr.classList.toggle('is-changed', !!tr.dataset.id && +tr.dataset.n0 !== s.n);
-        tr.classList.toggle('is-next', i === 0);
-      });
-      if (bar) bar.hidden = !$$('.is-changed', tb).length;
-    });
-    $('[data-moments-cancel]')?.addEventListener('click', () => location.reload());
-    $('[data-moments-save]')?.addEventListener('click', async e => {
-      e.target.disabled = true;
-      const r = await BO.post('/admin/moments/ordre', { slots: sortItems(tb).map((tr, i) => ({ n: slots[i].n, id: tr.dataset.id ? +tr.dataset.id : null })) });
-      e.target.disabled = false;
-      if (!r.ok) { BO.toast(r.error || 'Enregistrement impossible', true); return; }
-      try { sessionStorage.setItem('bo-toast', r.message || 'Enregistré'); } catch (err) { /* */ }
-      location.reload();
-    });
+  // Préparer la publication (moment du centenaire) : statut « Planifié » et date proposée.
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-plan-at]');
+    const f = b && b.closest('form');
+    const r = f && $('input[name="status"][value="planifie"]', f);
+    const d = f && $('input[name="publish_at"]', f);
+    if (!r || !d) return;
+    e.preventDefault();
+    r.checked = true;
+    r.dispatchEvent(new Event('change', { bubbles: true }));
+    if (b.dataset.planAt) { d.value = b.dataset.planAt; d.dispatchEvent(new Event('input', { bubbles: true })); }
+    d.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    d.focus({ preventScroll: true });
   });
   // Poignées : atteignables au clavier et annoncées
   BO.initHandles = root => {

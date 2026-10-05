@@ -263,3 +263,19 @@ réellement développé.
   la planche : auto-hébergée comme les autres polices, chargée sur ces pages seulement.
 - Vignettes préparées d'avance par une tâche planifiée ; en attendant, le tirage privilégie
   les photos dont la vignette est prête (pas d'attente pour le visiteur).
+
+## 100 moments, 05/10
+- **Dates choisies par les historiens**, moment par moment, et non plus « un par semaine » :
+  la date de parution vaut validation (une seule suffit, demande du client). Le **numéro suit
+  l'ordre des dates** (demande du client) et se gèle quand le moment paraît (adresse stable).
+- **Pas de date affichée** pour les moments à venir (demande du client) : la surprise est
+  gardée, les cases restent « À venir ».
+- **L'IA propose, les historiens décident** : idées et premiers jets uniquement à partir des
+  fiches publiées du musée (catalogue envoyé, sources vérifiées à la réception : une idée sans
+  source est écartée), premier jet toujours « À relire », jamais daté ni publié par l'IA, qui
+  ne réécrit pas un moment rédigé. **Rien n'indique l'IA sur le site** (demande du client) ;
+  la provenance reste visible dans le back-office (bandeau, historique des versions).
+- Catalogue découpé par époque (≈ 140 000 caractères en tout, dix demandes en parallèle)
+  plutôt qu'un seul envoi de tout le musée (≈ 300 000 caractères) : moins cher, idées mieux
+  réparties entre les époques. Coût estimé : de l'ordre d'un euro pour le sommaire et une
+  centaine de premiers jets (Gemini Flash).

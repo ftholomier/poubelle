@@ -36,6 +36,7 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
     <div class="lockbar"<?= $h ? '' : ' hidden' ?> data-lockbar role="status"><?php if ($h): ?><span class="lockbar__t">🔒 <b><?= e($h['name']) ?></b> modifie cette fiche depuis <?= e($h['since']) ?><?= $h['idle'] >= 5 ? ' (sans activité depuis ' . (int) $h['idle'] . ' min)' : '' ?>. Vous êtes en lecture seule.</span><button type="button" class="btn btn--sm btn--navy" data-lock-take>Prendre la main</button><?php endif; ?></div>
   <?php endif; ?>
   <?php if ($isNew): ?><input type="hidden" name="_type" value="<?= e($type) ?>"><?php endif; ?>
+  <?php if ($isNew && !empty($doc['_idee'])): ?><input type="hidden" name="_idee" value="<?= e((string) $doc['_idee']) ?>"><?php endif; ?>
   <div class="stack">
     <?php if ($doc['status'] === 'corbeille'): ?><p class="alert alert--error">Cette fiche est à la corbeille : elle n’est pas visible sur le site.</p><?php endif; ?>
     <?php if ($type === 'match' && !$isNew && ($why = \App\Services\MatchText::otherMatch($doc))): ?><p class="alert alert--error" role="alert">⚠ <?= e($why) ?></p><?php endif; ?>

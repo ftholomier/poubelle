@@ -543,6 +543,11 @@ final class FicheForm
         if (array_key_exists('year', $o)) {
             $cur['year'] = self::int($o['year']);
         }
+        if (array_key_exists('event_date', $o)) {
+            // Date de l'événement raconté : date anniversaire proposée pour la parution.
+            $d = trim((string) $o['event_date']);
+            $cur['event_date'] = preg_match('/^\d{4}-\d{2}-\d{2}$/', $d) && checkdate((int) substr($d, 5, 2), (int) substr($d, 8, 2), (int) substr($d, 0, 4)) ? $d : null;
+        }
         if (array_key_exists('linked', $o)) {
             $cur['linked'] = array_values(array_unique(array_filter(array_map(fn ($x) => self::int(is_array($x) ? ($x['id'] ?? null) : $x), (array) $o['linked']))));
         }
@@ -556,12 +561,13 @@ final class FicheForm
             return $doc;
         }
         $cur = $doc['moment'];
-        if (array_key_exists('number', $o)) {
-            $n = self::int($o['number']);
-            $cur['number'] = $n !== null && $n >= 1 && $n <= 100 ? $n : null;
-        }
         if (array_key_exists('year', $o)) {
             $cur['year'] = self::int($o['year']);
+        }
+        if (array_key_exists('event_date', $o)) {
+            // Date de l'événement raconté : date anniversaire proposée pour la parution.
+            $d = trim((string) $o['event_date']);
+            $cur['event_date'] = preg_match('/^\d{4}-\d{2}-\d{2}$/', $d) && checkdate((int) substr($d, 5, 2), (int) substr($d, 8, 2), (int) substr($d, 0, 4)) ? $d : null;
         }
         if (array_key_exists('linked', $o)) {
             $cur['linked'] = array_values(array_unique(array_filter(array_map(fn ($x) => self::int(is_array($x) ? ($x['id'] ?? null) : $x), (array) $o['linked']))));
