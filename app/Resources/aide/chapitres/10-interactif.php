@@ -53,7 +53,7 @@ HTML],
         ['id' => 'murs-photos', 'title' => 'Les murs de photos', 'html' => <<<'HTML'
 <p>Quatre pages de la rubrique Interactif montrent les photos de la médiathèque, <b>tirées au hasard à chaque visite</b> (bouton « Nouveau tirage » sans recharger la page), avec un filtre par décennie et par photographe ou source :</p>
 <ul>
-<li><b>Planche-contact</b> : des bandes de film, le numéro et le crédit imprimés dans la marge, une loupe au survol, quelques vues entourées au crayon gras ;</li>
+<li><b>Planche-contact</b> : des bandes de film, le numéro et le crédit imprimés dans la marge, une loupe au survol, quelques vues entourées d’un coup de crayon gras rouge, avec un mot griffonné à côté (« la bonne ! », « à tirer ! »), comme le photographe qui choisit au labo ;</li>
 <li><b>Le Lion illustré</b> : un journal (Une, articles, « En images », brèves) dont les titres sont ceux des fiches et les textes les légendes de la médiathèque : rien n’est inventé ;</li>
 <li><b>Le mur du vestiaire</b> : des tirages punaisés ou scotchés au carrelage, crédit écrit à la main, à déplacer à la souris ;</li>
 <li><b>La grande mosaïque</b> : des centaines de photos qui dessinent « 100 », « FCSM », « 1928 » ou « 2028 » ; un bouton montre les photos en couleurs.</li>

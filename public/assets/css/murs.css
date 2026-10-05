@@ -46,13 +46,18 @@
 .pc__pic { position: relative; }
 /* Le trait entoure l'image (il mord sur ses bords et sur le film), jamais sur le crédit dessous. */
 .pc__mark { position: absolute; inset: -9% -6%; width: 112%; height: 118%; overflow: visible; pointer-events: none; }
-.pc__mark path { fill: none; stroke: var(--yellow); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .7)); stroke-dasharray: 420; stroke-dashoffset: 420; animation: pcDraw 1.1s var(--ease) .5s forwards; }
-@keyframes pcDraw { to { stroke-dashoffset: 0; } }
+/* Crayon gras rouge : trait d'épaisseur constante à l'écran, grain de cire (filtre #pc-wax), tracé qui se dessine. */
+.pc__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.pc__ink { fill: none; stroke: #e2402c; stroke-width: 5.6px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; opacity: .96; filter: url(#pc-wax); stroke-dasharray: 1; stroke-dashoffset: 1; animation: pcDraw 1s cubic-bezier(.5, .05, .4, 1) .5s forwards; }
+.pc__ink--2 { stroke-width: 2.4px; opacity: .55; transform: translate(.7px, -.6px); animation-delay: .56s; }
+.pc__note { position: absolute; z-index: 2; top: -27px; right: -6px; transform: rotate(var(--r, -6deg)); font-family: var(--hand); font-weight: 700; font-size: 25px; line-height: 1; color: #ff5639; white-space: nowrap; pointer-events: none; text-shadow: 0 1px 0 rgba(0, 0, 0, .55); opacity: 0; animation: pcNote .35s ease 1.45s forwards; }
+@keyframes pcNote { from { opacity: 0; transform: rotate(var(--r, -6deg)) translateY(3px); } to { opacity: 1; transform: rotate(var(--r, -6deg)); } }@keyframes pcDraw { to { stroke-dashoffset: 0; } }
 .pc__loupe { position: fixed; z-index: 70; width: 240px; height: 240px; border-radius: 50%; border: 3px solid #f4efe2; background: #111 no-repeat; box-shadow: 0 14px 40px rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(0, 0, 0, .4); pointer-events: none; transform: translate(-50%, -50%); display: none; }
 .pc__loupe.is-on { display: block; }
 @media (max-width: 1000px) {
   .pc__frames { grid-template-columns: repeat(6, minmax(150px, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; scrollbar-width: thin; }
   .pc__frame { scroll-snap-align: start; }
+  .pc__note { top: 3px; right: 5px; font-size: 19px; } /* bande qui défile : le mot reste sur l'image */
 }
 @media (max-width: 600px) { .pc__sheet, .pc__strip { transform: none; } .pc__sheet { padding: 10px 8px; } }
 
@@ -162,7 +167,8 @@
 @media (hover: none) { .mo__t:not(.mo__t--empty):hover { transform: none; box-shadow: none; } .mo__t:hover img { filter: grayscale(1) brightness(.6) contrast(1.15); } .mo__t.is-on:hover img { filter: grayscale(1) brightness(1.75) contrast(.8); } .mo__t:hover::after { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .pc__mark path { animation: none; stroke-dashoffset: 0; }
+  .pc__ink { animation: none; stroke-dashoffset: 0; }
+  .pc__note { animation: none; opacity: 1; }
   .vm__print, .mo__t { animation: none; }
   .wtools__again span { transition: none; }
 }

@@ -766,7 +766,9 @@ visite : `/interactif/planche-contact/`, `/interactif/le-lion-illustre/` (journa
   sans recharger (`no-store`, `noindex`). Page filtrée : `noindex`. Agrandissement par
   `SR.lightbox(items, i)` (`site.js`) avec crédit et lien vers la fiche.
   Planche-contact : 36 vues paysage en bandes de 6, loupe ×2,6 (pointeur fin), un trait de
-  crayon au plus par bande (`Walls::marks()`, tracé SVG à main levée). Journal : Une (photo
+  crayon au plus par bande (`Walls::marks()` et `Walls::loop()` : boucle à main levée lissée en
+  courbes de Bézier, un peu plus d'un tour, rouge « crayon gras » avec grain de cire (filtre SVG
+  `#pc-wax`), mot griffonné à côté). Journal : Une (photo
   d'au moins 1 000 px de large si possible), deux articles, « En images », brèves ; titres =
   fiches, textes = légendes. Vestiaire : 24 tirages (rotation, punaise ou scotch), déplacés au
   pointeur (capture après 6 px : le clic reste un clic). Mosaïque : motif « 100 », « FCSM »,
