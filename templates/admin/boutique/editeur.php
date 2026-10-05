@@ -5,7 +5,8 @@
  * par le serveur (mêmes tracés que le PDF de l'imprimeur). Script : admin/boutique.js.
  * Variables : $model, $support, $fonts, $palette, $lists (banque de textes)
  */
-$data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'fonts' => array_map(fn ($f) => $f[1], $fonts), 'palette' => $palette];
+$tmEx = \App\Shop\TonMatch::values('1988-06-11');
+$data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch' => array_map(fn ($k, $l) => ['field' => $k, 'label' => $l, 'text' => (string) ($tmEx[$k] ?? $l)], array_keys(\App\Shop\TonMatch::FIELDS), \App\Shop\TonMatch::FIELDS), 'fonts' => array_map(fn ($f) => $f[1], $fonts), 'palette' => $palette];
 ?>
 <link rel="stylesheet" href="<?= asset('admin/boutique.css') ?>">
 <script type="application/json" id="shop-data"><?= json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?></script>
@@ -51,6 +52,12 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'fonts' =>
           <a class="btn btn--sm btn--ghost" href="/admin/boutique/textes" target="_blank">Gérer les listes</a>
           </div>
         </div>
+        <details class="f" style="margin:10px 0 0"><summary class="f__k" style="cursor:pointer">« Ton match » : champs remplis d’après la date du client</summary>
+          <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:6px">
+          <?php foreach (\App\Shop\TonMatch::FIELDS as $k => $l): ?><button type="button" class="btn btn--sm btn--ghost" data-add="match" data-field="<?= e($k) ?>" title="<?= e($l) ?>">+ <?= e(preg_replace('/ \(.*$/', '', $l)) ?></button><?php endforeach; ?>
+          </div>
+          <p class="xs muted" style="margin:4px 0 0">Avec un de ces champs, la page de l’article demande la date au client (jour, mois, année ; ou l’année seule) et le musée retrouve le match. Exemple affiché : finale de la Coupe de France 1988.</p>
+        </details>
         <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:10px">
           <button type="button" class="btn btn--sm btn--ghost" data-add="rect">Rectangle</button>
           <button type="button" class="btn btn--sm btn--ghost" data-add="ellipse">Rond</button>

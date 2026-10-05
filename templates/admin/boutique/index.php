@@ -1,25 +1,76 @@
 <?php
 /**
- * Boutique › Tableau de bord (lot A : modèles et supports ; commandes, paiements et imprimeur à venir).
- * Variables : $models, $supports
+ * Boutique › Tableau de bord : ventes (jour, mois, année), courbe des 12 derniers mois, marge,
+ * meilleures ventes, commandes à suivre, alertes, rapprochement avec Stripe.
+ * Variables : $d (Accounts::dashboard()), $models, $supports, $rec (dernier rapprochement), $payable
  */
-$active = count(array_filter($models, fn ($m) => $m['active']));
+use App\Shop\Orders;
+
+$m = fn (int $c) => Orders::money($c);
+$max = max(1, max($d['months']));
+$monthsFr = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
 ?>
-<p class="small" style="margin:0;max-width:95ch">La boutique ne vend que des objets <b>sans photo</b> : le logo de l’association et des textes (slogans, données du musée, prénom du client). Tout est vectoriel : le fichier envoyé à l’imprimeur est net à toutes les tailles.</p>
+<link rel="stylesheet" href="<?= asset('admin/boutique.css') ?>">
+<?php if ($d['alerts']): ?>
+<section class="card card--pad shopalerts">
+  <h2 class="card__t card__t--sm">À suivre (<?= count($d['alerts']) ?>)</h2>
+  <ul>
+    <?php foreach ($d['alerts'] as $a): ?>
+    <li class="is-<?= e($a['level']) ?>"><?php if ($a['order'] !== ''): ?><a href="/admin/boutique/commandes/<?= e($a['order']) ?>"><b><?= e($a['order']) ?></b></a> · <?php endif; ?><?= e($a['text']) ?></li>
+    <?php endforeach; ?>
+  </ul>
+  <p class="xs muted" style="margin:6px 0 0">Les nouvelles alertes partent aussi chaque jour par e-mail à l’adresse d’alerte (Boutique › Réglages).</p>
+</section>
+<?php endif; ?>
 <div class="kpis">
-  <a class="kpi kpi--yellow" href="/admin/boutique/modeles"><b><?= count($models) ?></b><span>modèles</span><small><?= $active ?> prêt<?= $active > 1 ? 's' : '' ?> à la vente</small></a>
-  <a class="kpi" href="/admin/boutique/supports"><b><?= count(array_filter($supports, fn ($s) => $s['active'])) ?></b><span>supports actifs</span><small>t-shirt, mug, casquette, écharpe, poster…</small></a>
+  <div class="kpi kpi--yellow"><b><?= e($m($d['day']['sales'])) ?></b><span>aujourd’hui</span><small><?= $d['day']['orders'] ?> commande<?= $d['day']['orders'] > 1 ? 's' : '' ?></small></div>
+  <div class="kpi"><b><?= e($m($d['month']['sales'])) ?></b><span>ce mois-ci</span><small><?= $d['month']['orders'] ?> commandes · panier moyen <?= e($m($d['month']['basket'])) ?></small></div>
+  <div class="kpi"><b><?= e($m($d['year']['sales'])) ?></b><span>cette année</span><small><?= $d['year']['items'] ?> articles vendus</small></div>
+  <div class="kpi"><b><?= e($m($d['year']['margin'])) ?></b><span>marge de l’année</span><small>après remboursements, frais Stripe (<?= e($m($d['year']['fees'])) ?>) et fabrication</small></div>
+  <a class="kpi" href="/admin/boutique/commandes?statut=paid"><b><?= $d['todo']['paid'] ?></b><span>à fabriquer</span><small><?= $d['todo']['production'] ?> en fabrication · <?= $d['todo']['shipped'] ?> expédiées</small></a>
 </div>
 <div class="cols" style="align-items:start">
   <section class="card card--pad">
-    <h2 class="card__t">Créer et vérifier</h2>
-    <ul class="small" style="margin:8px 0 0;padding-left:18px">
-      <li><a href="/admin/boutique/modeles">Modèles</a> : l’éditeur (logo, textes, formes, champs à remplir par le client), l’aperçu sur le produit et le PDF pour l’imprimeur.</li>
-      <li><a href="/admin/boutique/supports">Supports</a> : les produits vierges de l’imprimeur (faces imprimables, fonds perdus, couleurs, tailles).</li>
-    </ul>
+    <h2 class="card__t">Ventes des 12 derniers mois</h2>
+    <svg class="shopchart" viewBox="0 0 600 220" role="img" aria-label="Ventes par mois">
+      <?php $i = 0; foreach ($d['months'] as $ym => $v): $h = round(170 * $v / $max); $x = 10 + $i * 49; ?>
+        <rect x="<?= $x ?>" y="<?= 185 - $h ?>" width="36" height="<?= max(1, $h) ?>" fill="<?= $ym === date('Y-m') ? '#F6C400' : '#0E1F4D' ?>"><title><?= e($ym . ' : ' . $m($v)) ?></title></rect>
+        <?php if ($v > 0): ?><text x="<?= $x + 18 ?>" y="<?= 180 - $h ?>" text-anchor="middle" font-size="10" fill="#0E1F4D"><?= e(number_format($v / 100, 0, ',', ' ')) ?></text><?php endif; ?>
+        <text x="<?= $x + 18 ?>" y="203" text-anchor="middle" font-size="11" fill="#3A4A75"><?= e($monthsFr[(int) substr($ym, 5, 2) - 1]) ?></text>
+      <?php $i++; endforeach; ?>
+    </svg>
+    <p class="xs muted" style="margin:4px 0 0">En euros, ventes encaissées (livraison comprise). Depuis l’ouverture : <?= e($m($d['all']['sales'])) ?>, <?= $d['all']['orders'] ?> commandes, marge <?= e($m($d['all']['margin'])) ?>.</p>
   </section>
   <section class="card card--pad">
-    <h2 class="card__t">À venir</h2>
-    <p class="small muted" style="margin:8px 0 0">Produits et tarifs, boutique en ligne, paiement Stripe, espace de l’imprimeur et suivi des commandes (lot B) ; tableau de bord des ventes, remboursements, relevés de l’imprimeur, « Ton match » (lot C).</p>
+    <h2 class="card__t">Meilleures ventes</h2>
+    <?php if (!$d['top']): ?><p class="small muted">Pas encore de vente.</p><?php else: ?>
+    <table class="shoporders"><thead><tr><th>Article</th><th>Vendus</th><th>Ventes</th></tr></thead><tbody>
+      <?php foreach ($d['top'] as $t): ?><tr><td><?= e($t['name']) ?> <span class="xs muted">(<?= e($t['support']) ?>)</span></td><td><?= (int) $t['qty'] ?></td><td><?= e($m($t['sales'])) ?></td></tr><?php endforeach; ?>
+    </tbody></table>
+    <?php endif; ?>
+  </section>
+</div>
+<div class="cols" style="align-items:start">
+  <section class="card card--pad">
+    <h2 class="card__t">Stripe : rapprochement des paiements</h2>
+    <p class="small" style="margin:0 0 8px">Compare les paiements reçus chez Stripe (30 derniers jours) aux commandes : une commande payée mais restée « en attente » (webhook perdu) est rattrapée ; les écarts de montant sont signalés. Les frais Stripe de chaque paiement sont relevés au passage.</p>
+    <form method="post" action="/admin/boutique/rapprochement" data-busy="Rapprochement en cours…">
+      <?= csrf_field() ?><button class="btn btn--navy btn--sm"<?= $payable ? '' : ' disabled title="Clés Stripe absentes"' ?>>Rapprocher avec Stripe</button>
+    </form>
+    <?php if ($rec): ?>
+    <p class="xs muted" style="margin:10px 0 4px">Dernier rapprochement : <?= e(date('d/m/Y H:i', strtotime($rec['at']))) ?><?= $rec['fixed'] ? ' · ' . (int) $rec['fixed'] . ' commande(s) rattrapée(s)' : '' ?></p>
+    <ul class="shopalerts__list">
+      <?php foreach ($rec['rows'] as $r): if ($r['level'] === 'ok') { continue; } ?><li class="is-<?= e($r['level']) ?>"><a href="/admin/boutique/commandes/<?= e($r['order']) ?>"><?= e($r['order']) ?></a> · <?= e($r['text']) ?></li><?php endforeach; ?>
+      <li class="is-ok"><?= count(array_filter($rec['rows'], fn ($r) => $r['level'] === 'ok')) ?> paiement(s) concordant(s).</li>
+    </ul>
+    <?php endif; ?>
+  </section>
+  <section class="card card--pad">
+    <h2 class="card__t">Raccourcis</h2>
+    <ul class="small" style="margin:8px 0 0;padding-left:18px">
+      <li><a href="/admin/boutique/commandes">Commandes</a> · <a href="/admin/boutique/releves">Relevés de l’imprimeur</a> (PDF, tableur, marge)</li>
+      <li><a href="/admin/boutique/modeles">Modèles</a> (<?= count(array_filter($models, fn ($x) => \App\Shop\Catalog::sellable($x))) ?> en vente) · <a href="/admin/boutique/textes">Banque de textes</a> · <a href="/admin/boutique/supports">Supports</a> (coûts de fabrication)</li>
+      <li><a href="/admin/boutique/reglages">Réglages</a> · <a href="<?= e(url('/boutique/')) ?>" target="_blank">Voir la boutique ↗</a> · <a href="/imprimeur/" target="_blank">Espace imprimeur ↗</a></li>
+    </ul>
   </section>
 </div>

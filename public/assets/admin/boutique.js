@@ -125,6 +125,7 @@
 
   /* ------------------------------------------------------------ calques */
   const label = l => l.type === 'logo' ? 'Logo de l’association' + (l.style === 'mono' ? ' (une couleur)' : '')
+    : l.type === 'text' && l.mode === 'client' && String(l.field || '').startsWith('match_') ? '⚽ Ton match · ' + (((D.tonmatch || []).find(x => x.field === l.field) || {}).label || l.field)
     : l.type === 'text' && l.mode === 'client' && l.list ? '☰ Phrase au choix (' + (((D.lists || {})[l.list] || {}).name || 'liste') + ')'
     : l.type === 'text' ? (l.mode === 'client' ? '✎ ' : '') + '« ' + (String(l.text || '').slice(0, 28) || '…') + ' »'
     : l.type === 'rect' ? 'Rectangle' : 'Rond';
@@ -154,6 +155,10 @@
     else {
       const size = Math.max(8, Math.round(Math.min(w, h * 2) / 8));
       l = { type: 'text', x: r1(w * 0.05), y: r1(h * 0.6), w: r1(w * 0.9), text: k === 'client' ? 'Votre prénom' : 'Jaune et bleu depuis 1928', font: 'display', size, color: dark() ? '#F6C400' : '#0E1F4D', align: 'center', upper: true, spacing: 0, lh: 1.1, fit: k !== 'text', mode: k === 'text' ? 'fixed' : 'client', field: k === 'client' ? 'prenom' : '', label: k === 'client' ? 'Votre prénom' : '', max: 20, h: 0, min: 10 };
+    }
+    if (k === 'match') {
+      const tm = (D.tonmatch || []).find(x => x.field === b.dataset.field) || {};
+      Object.assign(l, { field: tm.field, label: tm.label, text: tm.text, fit: true, mode: 'client', upper: tm.field !== 'match_phrase', h: 0, min: 8 });
     }
     if (k === 'phrase') {
       // Phrase au choix : le client choisit dans une liste de la banque de textes (réduite pour tenir dans un cadre).

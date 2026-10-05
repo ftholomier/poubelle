@@ -414,6 +414,11 @@ final class Donations
                     self::update($don['id'], fn ($x) => ['status' => 'canceled', 'ended' => date('c')] + $x);
                 }
                 break;
+            case 'charge.dispute.created':
+            case 'charge.dispute.updated':
+            case 'charge.dispute.closed':
+                \App\Shop\Accounts::dispute($o);
+                break;
             case 'charge.refunded':
                 $ref = (string) ($o['invoice'] ?? '') ?: (string) ($o['payment_intent'] ?? '');
                 if ($ref !== '' && ($o['refunded'] ?? false)) {

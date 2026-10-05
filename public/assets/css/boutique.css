@@ -84,3 +84,10 @@
 .vform { box-shadow: 6px 6px 0 var(--navy); }.vpage-head { background: var(--navy); color: var(--cream); }
 .vpage-head .vpage-head__t { color: var(--cream); }
 .vpage-head .vcrumbs, .vpage-head .vcrumbs a { color: rgba(243, 237, 223, .75); }
+
+.shopdate__in { display: flex; gap: 10px; flex-wrap: wrap; }
+.shopdate__in label { display: grid; gap: 4px; font-weight: 600; font-size: 14px; }
+.shopdate__in select, .shopdate__in input { padding: 10px; border: 2px solid var(--navy); background: #fff; font: inherit; min-width: 90px; }
+.shopnote { width: 100%; margin: 8px 0 0; font-weight: 700; color: var(--navy); background: var(--yellow); padding: 0 8px; }
+.shopnote:empty { display: none; }
+.shopsw.is-off { opacity: .3; cursor: not-allowed; }

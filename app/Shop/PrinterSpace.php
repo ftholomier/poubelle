@@ -53,6 +53,9 @@ final class PrinterSpace
         if ($path === '/imprimeur') {
             return self::list($req);
         }
+        if (preg_match('#^/imprimeur/releves(?:/(pdf|csv))?$#', $path, $m)) {
+            return self::statement($req, $m[1] ?? '');
+        }
         if (preg_match('#^/imprimeur/commande/([A-Z0-9-]{6,20})/pdf/(\d{1,2})$#', $path, $m)) {
             $o = self::visible($m[1]);
             $pdf = $o ? Orders::pdf($o, (int) $m[2] - 1) : null;
@@ -151,7 +154,7 @@ final class PrinterSpace
             $n = count(array_filter($all, fn ($o) => in_array($o['status'], $st, true)));
             $h .= '<a class="btn btn--sm ' . ($k === $tab ? 'btn--navy' : 'btn--ghost') . '" href="/imprimeur/?vue=' . $k . '">' . e($label) . ' (' . $n . ')</a>';
         }
-        $h .= '</div>';
+        $h .= '<a class="btn btn--sm btn--yellow" href="/imprimeur/releves" style="margin-left:auto">Relevé mensuel</a></div>';
         $rows = array_filter($all, fn ($o) => in_array($o['status'], $tabs[$tab][1], true));
         if (!$rows) {
             return self::page('Commandes', $h . '<p class="card card--pad muted">Aucune commande ici.</p>');
@@ -162,6 +165,35 @@ final class PrinterSpace
             $h .= '<tr><td><a href="/imprimeur/commande/' . e($o['id']) . '"><b>' . e($o['id']) . '</b></a>' . ($o['messages'] && end($o['messages'])['from'] === 'client' ? ' <span class="shopst shopst--paid">question du client</span>' : '') . '</td><td>' . e(date('d/m/Y H:i', strtotime($o['paid_at']))) . '</td><td>' . e($o['customer']['name']) . '<br><span class="xs muted">' . e($o['customer']['zip'] . ' ' . $o['customer']['city']) . '</span></td><td class="small">' . $items . '</td><td><span class="shopst shopst--' . e($o['status']) . '">' . e(Orders::STATUSES[$o['status']]) . '</span></td></tr>';
         }
         return self::page('Commandes', $h . '</tbody></table>');
+    }
+
+    /** Relevé mensuel (sans les ventes ni la marge de l'association) : écran, PDF, tableur. */
+    private static function statement(Request $req, string $kind): Response
+    {
+        $s = Accounts::statement((string) ($req->query['mois'] ?? ''));
+        if ($kind === 'pdf') {
+            return new Response(Accounts::statementPdf($s, false), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="releve-' . $s['ym'] . '.pdf"']);
+        }
+        if ($kind === 'csv') {
+            return new Response(Accounts::statementCsv($s, false), 200, ['Content-Type' => 'text/csv; charset=UTF-8', 'Content-Disposition' => 'attachment; filename="releve-' . $s['ym'] . '.csv"']);
+        }
+        $opts = '';
+        foreach (\App\Admin\Shop::statementMonths() as $ym) {
+            $opts .= '<option value="' . $ym . '"' . ($ym === $s['ym'] ? ' selected' : '') . '>' . $ym . '</option>';
+        }
+        $m = $s['sums'];
+        $h = '<p style="margin:0 0 10px"><a href="/imprimeur/">← Commandes</a></p>'
+            . '<form method="get" action="/imprimeur/releves" class="row" style="gap:10px;align-items:end;flex-wrap:wrap;margin:0 0 14px"><label class="f" style="margin:0"><span class="f__k">Mois</span><select class="in" name="mois">' . $opts . '</select></label><button class="btn btn--ghost btn--sm">Afficher</button>'
+            . '<a class="btn btn--yellow btn--sm" href="/imprimeur/releves/pdf?mois=' . $s['ym'] . '">PDF</a><a class="btn btn--ghost btn--sm" href="/imprimeur/releves/csv?mois=' . $s['ym'] . '">Tableur</a></form>'
+            . '<p class="card card--pad"><b>Total à facturer à l’association : ' . e(Orders::money($m['cost'] + $m['ship_cost'])) . '</b> (' . $m['items'] . ' articles, ' . $m['orders'] . ' expéditions)</p>';
+        if ($s['rows']) {
+            $h .= '<table class="shoporders card"><thead><tr><th>Date</th><th>Commande</th><th>Article</th><th>Qté</th><th>Unitaire</th><th>Coût</th></tr></thead><tbody>';
+            foreach ($s['rows'] as $r) {
+                $h .= '<tr><td>' . e(date('d/m', strtotime($r['date']))) . '</td><td>' . e($r['order']) . '</td><td>' . e($r['name']) . ($r['support'] !== '' ? ' <span class="xs muted">(' . e($r['support']) . ($r['size'] !== '' ? ', ' . e($r['size']) : '') . ')</span>' : '') . '</td><td>' . (int) $r['qty'] . '</td><td>' . e(Orders::money($r['unit_cost'])) . '</td><td>' . e(Orders::money($r['cost'])) . '</td></tr>';
+            }
+            $h .= '</tbody></table>';
+        }
+        return self::page('Relevé mensuel', $h);
     }
 
     private static function order(array $o): Response

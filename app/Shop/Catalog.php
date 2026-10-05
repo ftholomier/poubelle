@@ -23,20 +23,21 @@ final class Catalog
     /**
      * Supports de départ. mockup : forme de l'aperçu (tee, hoodie, mug, tote, cap, scarf, paper,
      * sticker) ; faces : clé => [libellé, largeur, hauteur, fonds perdus] (mm) ; colors : couleurs
-     * du produit vierge (vide : imprimé en entier, le fond fait partie du dessin).
+     * du produit vierge (vide : imprimé en entier, le fond fait partie du dessin) ; cost : coût de
+     * fabrication indicatif chez l'imprimeur (centimes TTC), à ajuster dans Boutique › Supports.
      */
     public const DEFAULTS = [
-        'tshirt' => ['name' => 'T-shirt', 'mockup' => 'tee', 'faces' => ['avant' => ['Avant', 280, 350, 0], 'dos' => ['Dos', 280, 350, 0]], 'colors' => self::TEXTILE, 'sizes' => self::SIZES, 'note' => 'Impression directe sur textile (DTG) ou transfert ; pas de fonds perdus.'],
-        'sweat' => ['name' => 'Sweat à capuche', 'mockup' => 'hoodie', 'faces' => ['avant' => ['Avant', 250, 280, 0], 'dos' => ['Dos', 280, 350, 0]], 'colors' => ['Bleu nuit' => '#0E1F4D', 'Noir' => '#1A1A1A', 'Gris chiné' => '#B9BCC2', 'Jaune' => '#F6C400'], 'sizes' => self::SIZES, 'note' => ''],
-        'mug' => ['name' => 'Mug céramique', 'mockup' => 'mug', 'faces' => ['tour' => ['Tour complet', 200, 90, 2]], 'colors' => ['Blanc' => '#FFFFFF'], 'sizes' => [], 'note' => 'Sublimation enroulée : la face visible est le centre du dessin, l’anse est aux deux bords.'],
-        'mug-emaille' => ['name' => 'Mug émaillé', 'mockup' => 'mug', 'faces' => ['tour' => ['Tour complet', 200, 75, 2]], 'colors' => ['Blanc' => '#FFFFFF'], 'sizes' => [], 'note' => 'Liseré du bord en bleu ou en noir selon le modèle de l’imprimeur.'],
-        'tote' => ['name' => 'Tote bag', 'mockup' => 'tote', 'faces' => ['face' => ['Face', 280, 300, 0]], 'colors' => ['Naturel' => '#EFE6D2', 'Noir' => '#1A1A1A', 'Bleu nuit' => '#0E1F4D'], 'sizes' => [], 'note' => ''],
-        'casquette' => ['name' => 'Casquette', 'mockup' => 'cap', 'faces' => ['avant' => ['Face avant', 100, 55, 0]], 'colors' => ['Bleu nuit' => '#0E1F4D', 'Noir' => '#1A1A1A', 'Blanc' => '#FFFFFF', 'Jaune' => '#F6C400'], 'sizes' => ['Taille unique'], 'note' => 'Broderie : 6 couleurs au plus, pas de texte de moins de 5 mm de haut, pas de trait fin.'],
-        'echarpe' => ['name' => 'Écharpe', 'mockup' => 'scarf', 'faces' => ['recto' => ['Recto', 1400, 180, 5]], 'colors' => [], 'sizes' => [], 'note' => 'Écharpe imprimée en entier (sublimation) : le fond fait partie du dessin, prévoir les franges aux deux bouts.'],
-        'poster-a3' => ['name' => 'Poster A3', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 297, 420, 3]], 'colors' => [], 'sizes' => [], 'note' => ''],
-        'poster-a2' => ['name' => 'Poster A2', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 420, 594, 3]], 'colors' => [], 'sizes' => [], 'note' => ''],
-        'carte' => ['name' => 'Carte postale', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 148, 105, 3], 'verso' => ['Verso', 148, 105, 3]], 'colors' => [], 'sizes' => [], 'note' => ''],
-        'sticker' => ['name' => 'Sticker', 'mockup' => 'sticker', 'faces' => ['recto' => ['Recto', 100, 100, 2]], 'colors' => [], 'sizes' => [], 'note' => 'Découpe à la forme : le contour suit le bord du dessin.'],
+        'tshirt' => ['name' => 'T-shirt', 'mockup' => 'tee', 'faces' => ['avant' => ['Avant', 280, 350, 0], 'dos' => ['Dos', 280, 350, 0]], 'colors' => self::TEXTILE, 'sizes' => self::SIZES, 'note' => 'Impression directe sur textile (DTG) ou transfert ; pas de fonds perdus.', 'cost' => 900],
+        'sweat' => ['name' => 'Sweat à capuche', 'mockup' => 'hoodie', 'faces' => ['avant' => ['Avant', 250, 280, 0], 'dos' => ['Dos', 280, 350, 0]], 'colors' => ['Bleu nuit' => '#0E1F4D', 'Noir' => '#1A1A1A', 'Gris chiné' => '#B9BCC2', 'Jaune' => '#F6C400'], 'sizes' => self::SIZES, 'note' => '', 'cost' => 1800],
+        'mug' => ['name' => 'Mug céramique', 'mockup' => 'mug', 'faces' => ['tour' => ['Tour complet', 200, 90, 2]], 'colors' => ['Blanc' => '#FFFFFF'], 'sizes' => [], 'note' => 'Sublimation enroulée : la face visible est le centre du dessin, l’anse est aux deux bords.', 'cost' => 700],
+        'mug-emaille' => ['name' => 'Mug émaillé', 'mockup' => 'mug', 'faces' => ['tour' => ['Tour complet', 200, 75, 2]], 'colors' => ['Blanc' => '#FFFFFF'], 'sizes' => [], 'note' => 'Liseré du bord en bleu ou en noir selon le modèle de l’imprimeur.', 'cost' => 900],
+        'tote' => ['name' => 'Tote bag', 'mockup' => 'tote', 'faces' => ['face' => ['Face', 280, 300, 0]], 'colors' => ['Naturel' => '#EFE6D2', 'Noir' => '#1A1A1A', 'Bleu nuit' => '#0E1F4D'], 'sizes' => [], 'note' => '', 'cost' => 600],
+        'casquette' => ['name' => 'Casquette', 'mockup' => 'cap', 'faces' => ['avant' => ['Face avant', 100, 55, 0]], 'colors' => ['Bleu nuit' => '#0E1F4D', 'Noir' => '#1A1A1A', 'Blanc' => '#FFFFFF', 'Jaune' => '#F6C400'], 'sizes' => ['Taille unique'], 'note' => 'Broderie : 6 couleurs au plus, pas de texte de moins de 5 mm de haut, pas de trait fin.', 'cost' => 900],
+        'echarpe' => ['name' => 'Écharpe', 'mockup' => 'scarf', 'faces' => ['recto' => ['Recto', 1400, 180, 5]], 'colors' => [], 'sizes' => [], 'note' => 'Écharpe imprimée en entier (sublimation) : le fond fait partie du dessin, prévoir les franges aux deux bouts.', 'cost' => 1400],
+        'poster-a3' => ['name' => 'Poster A3', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 297, 420, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 400],
+        'poster-a2' => ['name' => 'Poster A2', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 420, 594, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 700],
+        'carte' => ['name' => 'Carte postale', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 148, 105, 3], 'verso' => ['Verso', 148, 105, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 80],
+        'sticker' => ['name' => 'Sticker', 'mockup' => 'sticker', 'faces' => ['recto' => ['Recto', 100, 100, 2]], 'colors' => [], 'sizes' => [], 'note' => 'Découpe à la forme : le contour suit le bord du dessin.', 'cost' => 60],
     ];
     public const MOCKUPS = ['tee' => 'T-shirt', 'hoodie' => 'Sweat', 'mug' => 'Mug', 'tote' => 'Tote bag', 'cap' => 'Casquette', 'scarf' => 'Écharpe', 'paper' => 'Papier (poster, carte)', 'sticker' => 'Sticker'];
 
@@ -76,6 +77,8 @@ final class Catalog
             'colors' => array_map(fn ($c) => Vector::hex($c, '#FFFFFF'), (array) ($s['colors'] ?? [])),
             'sizes' => array_values(array_filter(array_map('strval', (array) ($s['sizes'] ?? [])))),
             'ref' => (string) ($s['ref'] ?? ''), 'note' => (string) ($s['note'] ?? ''),
+            // Coût de fabrication chez l'imprimeur (centimes TTC par article) : relevés et marge.
+            'cost' => max(0, min(100000, (int) ($s['cost'] ?? 0))),
             'active' => (bool) ($s['active'] ?? true), 'custom' => !isset(self::DEFAULTS[$key]),
         ];
     }
@@ -174,13 +177,24 @@ final class Catalog
     public static function applyOptions(array $m, array $o): array
     {
         $s = $m['sale'];
-        $opt = ['color' => $m['color'], 'tcolor' => '', 'tsize' => 'm', 'pos' => ''];
+        $opt = ['color' => $m['color'], 'tcolor' => '', 'tsize' => 'm', 'pos' => '', 'date' => ''];
+        // « Ton match » : année, puis mois et jour facultatifs (ou une date déjà composée).
+        $y = preg_replace('/\D/', '', (string) ($o['y'] ?? ''));
+        $date = (string) ($o['date'] ?? '');
+        if (strlen($y) === 4) {
+            $mo = (int) ($o['mo'] ?? 0);
+            $d = (int) ($o['d'] ?? 0);
+            $date = $y . ($mo >= 1 && $mo <= 12 ? sprintf('-%02d', $mo) . ($d >= 1 && $d <= 31 ? sprintf('-%02d', $d) : '') : '');
+        }
+        if (TonMatch::parse($date)) {
+            $opt['date'] = $date;
+        }
         $c = strtoupper((string) ($o['color'] ?? ''));
         if ($c !== '' && in_array($c, $s['colors'], true)) {
             $opt['color'] = $m['color'] = $c;
         }
         $tc = strtoupper((string) ($o['tcolor'] ?? ''));
-        if ($tc !== '' && in_array($tc, $s['text_colors'], true)) {
+        if ($tc !== '' && in_array($tc, $s['text_colors'], true) && $tc !== $m['color']) {
             $opt['tcolor'] = $tc;
         }
         if ($s['text_sizes'] && isset(self::TEXT_SIZES[$o['tsize'] ?? ''])) {
@@ -305,7 +319,7 @@ final class Catalog
                     $layers[$l['field']][] = $l;
                     $list = (string) ($l['list'] ?? '');
                     $out[$l['field']] ??= ['label' => (string) ($l['label'] ?? $l['field']), 'max' => max(1, (int) ($l['max'] ?? 30)), 'default' => (string) ($l['text'] ?? ''),
-                        'list' => $list, 'choices' => [], 'rejected' => []];
+                        'list' => $list, 'choices' => [], 'rejected' => [], 'auto' => str_starts_with((string) $l['field'], 'match_')];
                 }
             }
         }
@@ -333,6 +347,10 @@ final class Catalog
         $errors = [];
         foreach (self::fields($model) as $k => $f) {
             $v = trim((string) ($values[$k] ?? ''));
+            if ($f['auto']) {
+                // Rempli par « Ton match » à partir de la date (jamais saisi par le client).
+                continue;
+            }
             if ($v === '') {
                 continue;
             }

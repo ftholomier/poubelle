@@ -53,6 +53,7 @@ final class Help extends Base
         'boutique-textes' => 'boutique#textes',
         'boutique-commandes' => 'boutique#commandes',
         'boutique-reglages' => 'boutique#reglages',
+        'boutique-releves' => 'boutique#releves',
         'contributions' => 'communaute#contributions',
         'messages' => 'communaute#messages',
         'newsletter' => 'communaute#newsletter',

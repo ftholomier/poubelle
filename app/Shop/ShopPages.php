@@ -113,10 +113,16 @@ final class ShopPages
             $values[$k] = $v !== '' ? $v : $f['default'];
         }
         $opts = array_map(fn ($v) => mb_substr((string) $v, 0, 20), (array) ($in['opts'] ?? []));
-        [$mm] = Catalog::applyOptions($m, $opts);
+        [$mm, $opt] = Catalog::applyOptions($m, $opts);
+        $note = '';
+        if (TonMatch::isFor($m) && $opt['date'] !== '') {
+            $tm = TonMatch::values($opt['date']);
+            $note = TonMatch::note($tm, $opt['date']);
+            $values = array_replace($values, array_intersect_key($tm, $values));
+        }
         $chk = Catalog::check($mm, array_filter(array_map('strval', (array) ($in['values'] ?? []))));
         $size = (string) ($in['size'] ?? '');
-        return Response::json(['ok' => true, 'svg' => self::preview($m, $opts, $values, (string) ($in['face'] ?? '')), 'errors' => $chk['errors'],
+        return Response::json(['ok' => true, 'svg' => self::preview($m, $opts, $values, (string) ($in['face'] ?? '')), 'errors' => $chk['errors'], 'note' => $note,
             'price' => Orders::money(Catalog::price($m, $size) * max(1, min(20, (int) ($in['qty'] ?? 1))))]);
     }
 

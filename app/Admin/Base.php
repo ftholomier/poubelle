@@ -56,6 +56,7 @@ class Base
         'Boutique' => [
             ['boutique', 'Tableau de bord', '/admin/boutique', true],
             ['boutique-commandes', 'Commandes', '/admin/boutique/commandes', true],
+            ['boutique-releves', 'Relevés imprimeur', '/admin/boutique/releves', true],
             ['boutique-modeles', 'Modèles', '/admin/boutique/modeles', true],
             ['boutique-textes', 'Banque de textes', '/admin/boutique/textes', true],
             ['boutique-reglages', 'Réglages', '/admin/boutique/reglages', true],

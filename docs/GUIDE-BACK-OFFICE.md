@@ -441,6 +441,8 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 
 ## 11 bis. Boutique (administrateurs)
 
+- **Boutique › Tableau de bord** : ventes, marge, alertes, rapprochement avec Stripe.
+- **Boutique › Relevés imprimeur** : relevé mensuel (PDF, tableur) de ce que l'imprimeur facture, et marge.
 - **Boutique › Commandes** : commandes par étape ; dans une commande : PDF, messages, étape, remboursement, paiement hors ligne.
 - **Boutique › Réglages** : ouverture, port, délai, imprimeur (e-mail qui ouvre son espace /imprimeur/), alertes, conditions de vente.
 - **Boutique › Supports** : dimensions de la zone imprimable, fonds perdus, couleurs proposées et consignes de l'imprimeur pour chaque produit.

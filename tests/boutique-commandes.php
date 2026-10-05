@@ -11,7 +11,9 @@ require __DIR__ . '/../app/bootstrap.php';
 
 use App\Data\Collections;
 use App\Shop\Catalog;
+use App\Shop\Accounts;
 use App\Shop\Orders;
+use App\Shop\TonMatch;
 
 $fail = 0;
 $eq = function (string $label, $got, $exp) use (&$fail) {
@@ -36,6 +38,12 @@ Orders::$stripe = function ($method, $path, $params) use (&$calls) {
     $calls[] = [$method, $path, $params];
     if ($path === 'checkout/sessions') {
         return ['id' => 'cs_test_1', 'url' => 'https://checkout.stripe.com/c/pay/cs_test_1'];
+    }
+    if (str_starts_with($path, 'payment_intents/')) {
+        return ['id' => basename($path), 'latest_charge' => ['id' => 'ch_1', 'balance_transaction' => ['fee' => 120, 'net' => 5770]]];
+    }
+    if ($path === 'payment_intents') {
+        return ['data' => $GLOBALS['pis'] ?? []];
     }
     if (str_starts_with($path, 'checkout/sessions/')) {
         return ['id' => 'cs_test_1', 'payment_status' => 'paid', 'payment_intent' => 'pi_test_1', 'amount_total' => 5890, 'metadata' => ['commande' => $GLOBALS['oid']]];
@@ -77,6 +85,14 @@ $eq('e-mails : client, imprimeur, association', [in_array('jeanne.essai@example.
 Orders::stripeSession(['id' => 'cs_test_1', 'payment_status' => 'paid', 'payment_intent' => 'pi_test_1', 'metadata' => ['commande' => $o['id']]]);
 $eq('webhook reçu après le retour : pas de second traitement', count(array_filter(Orders::get($o['id'])['history'], fn ($h) => $h['status'] === 'paid')), 1);
 
+$eq('frais Stripe relevés au paiement (1,20 €), coût de fabrication et d’expédition notés', [Orders::get($o['id'])['fee'] ?? null, $o['items'][0]['cost'], Orders::get($o['id'])['ship_cost']], [120, 900, 590]);
+$st = Accounts::statement(date('Y-m'));
+$eq('relevé du mois : 2 t-shirts + 1 expédition = 23,90 € à l’imprimeur ; marge = 58,90 − 1,20 − 23,90', [$st['sums']['cost'] + $st['sums']['ship_cost'], $st['sums']['margin'], str_starts_with(Accounts::statementPdf($st), '%PDF-'), str_contains(Accounts::statementCsv($st, false), 'Marge')], [2390, 3380, true, false]);
+$d = Accounts::dashboard();
+$eq('tableau de bord : ventes du jour et du mois, meilleure vente', [$d['day']['sales'], $d['month']['orders'], array_values($d['top'])[0]['qty']], [5890, 1, 2]);
+$al = array_column(Accounts::alerts(time() + 4 * 86400), 'key');
+$eq('alerte : payée depuis 4 jours sans fabrication', in_array('late-prod:' . $o['id'], $al, true), true);
+
 // 3. Imprimeur : fabrication, expédition, messages.
 $mails = [];
 Orders::setStatus($o['id'], 'production', 'imprimeur');
@@ -89,6 +105,16 @@ Orders::message($o['id'], 'imprimeur', 'Demain matin !');
 $eq('messages : question du client à l’imprimeur, réponse au client', [$mails[0][0], $mails[1][0], count(Orders::get($o['id'])['messages'])], ['imprimeur@example.org', 'jeanne.essai@example.org', 2]);
 $eq('suivi client : retrouvée par son lien secret, pas par un faux', [Orders::byToken($o['token'])['id'] ?? '', Orders::byToken(str_repeat('a', 32))], [$o['id'], null]);
 
+$mails = [];
+Accounts::dispute(['id' => 'dp_1', 'payment_intent' => 'pi_test_1', 'status' => 'needs_response', 'reason' => 'fraudulent', 'amount' => 5890]);
+$eq('litige Stripe : noté sur la commande, alerte par e-mail, au tableau de bord', [Orders::get($o['id'])['dispute']['status'], $mails[0][0] ?? '', in_array('dispute:' . $o['id'], array_column(Accounts::alerts(), 'key'), true)], ['needs_response', 'asso@example.org', true]);
+
+// Rapprochement : un paiement reçu chez Stripe pour une commande restée « en attente » est rattrapé.
+$r2 = Orders::create([['model' => $m['id'], 'size' => 'M', 'qty' => 1, 'values' => ['phrase' => 'Né pour rugir.']]], ['name' => 'Paul Essai', 'email' => 'paul.essai@example.org', 'line1' => '2 rue du Stade', 'zip' => '25600', 'city' => 'Sochaux', 'country' => 'FR'])['order'];
+$GLOBALS['pis'] = [['id' => 'pi_test_2', 'status' => 'succeeded', 'amount_received' => $r2['total'], 'metadata' => ['commande' => $r2['id']]], ['id' => 'pi_test_1', 'status' => 'succeeded', 'amount_received' => 5890, 'metadata' => ['commande' => $o['id']]]];
+$rec = Accounts::reconcile();
+$eq('rapprochement : commande rattrapée (payée), l’autre concordante', [$rec['fixed'], Orders::get($r2['id'])['status'], count(array_filter($rec['rows'], fn ($x) => $x['level'] === 'ok'))], [1, 'paid', 1]);
+
 // 4. Remboursement.
 $calls = [];
 $rf = Orders::refund($o['id'], 1000, 'admin');
@@ -96,6 +122,20 @@ $o = Orders::get($o['id']);
 $eq('remboursement partiel de 10 € par Stripe', [$rf['cents'] ?? 0, $calls[0][1], $calls[0][2]['amount'], $o['refunded'], $o['status']], [1000, 'refunds', 1000, 1000, 'shipped']);
 Orders::refund($o['id'], 0, 'admin');
 $eq('remboursement du reste : commande remboursée', [Orders::get($o['id'])['refunded'], Orders::get($o['id'])['status']], [5890, 'refunded']);
+
+// 5. Ton match.
+$v = TonMatch::values('1988-06-11');
+$eq('Ton match : finale de 1988 retrouvée (affiche, compétition, phrase)', [$v['match_affiche'], $v['match_compet'], $v['_exact']], ['Metz 1-1 Sochaux · a.p., 5-4 t.a.b.', 'Coupe de France · Finale', '1']);
+$eq('Ton match : année seule, mois et année, date sans match (le plus proche)', [TonMatch::parse('1988')[0], TonMatch::parse('1988-06')[0], TonMatch::parse('1988-13'), TonMatch::values('1988-06-12')['_exact']], ['year', 'month', null, '0']);
+$tm = Catalog::saveModel(['name' => 'Poster essai Ton match', 'support' => 'poster-a3', 'active' => true, 'sale' => ['price' => 1900], 'faces' => ['recto' => ['bg' => '#0E1F4D', 'layers' => [
+    ['id' => 'a', 'type' => 'text', 'x' => 10, 'y' => 100, 'w' => 277, 'text' => 'match_affiche', 'size' => 60, 'fit' => true, 'mode' => 'client', 'field' => 'match_affiche'],
+    ['id' => 'b', 'type' => 'text', 'x' => 10, 'y' => 200, 'w' => 277, 'text' => 'match_phrase', 'size' => 24, 'fit' => true, 'mode' => 'client', 'field' => 'match_phrase']]]]]);
+$noDate = Orders::line(['model' => $tm['id'], 'qty' => 1]);
+$ln = Orders::line(['model' => $tm['id'], 'qty' => 1, 'opts' => ['y' => '1988', 'mo' => '6', 'd' => '11'], 'values' => ['match_affiche' => 'Texte falsifié']]);
+$eq('commande Ton match : date obligatoire ; valeurs fournies par le musée (pas par le client)', [isset($noDate['error']), $ln['item']['values']['match_affiche'] ?? '', $ln['item']['opts']['date'] ?? ''], [true, 'Metz 1-1 Sochaux · a.p., 5-4 t.a.b.', '1988-06-11']);
+Catalog::deleteModel($tm['id']);
+[, $same] = Catalog::applyOptions($m, ['color' => '#1A1A1A', 'tcolor' => '#1A1A1A']);
+$eq('texte jamais de la couleur du produit', $same['tcolor'], '');
 
 // Remise en place.
 Orders::$stripe = Orders::$mail = null;

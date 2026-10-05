@@ -22,10 +22,53 @@ final class Shop extends Base
 {
     public static function index(Request $req): Response
     {
-        $models = Catalog::models();
         return self::html('admin/boutique/index', [
-            'models' => $models, 'supports' => Catalog::supports(),
+            'd' => \App\Shop\Accounts::dashboard(), 'models' => Catalog::models(), 'supports' => Catalog::supports(),
+            'rec' => \App\Shop\Accounts::lastReconcile(), 'payable' => Orders::payable(),
         ], ['title' => 'Boutique', 'crumb' => 'Boutique', 'nav' => 'boutique']);
+    }
+
+    /** POST /admin/boutique/rapprochement */
+    public static function reconcile(Request $req): Response
+    {
+        $r = \App\Shop\Accounts::reconcile();
+        if (isset($r['error'])) {
+            return self::back('/admin/boutique', null, 'Rapprochement impossible : ' . $r['error']);
+        }
+        $bad = count(array_filter($r['rows'], fn ($x) => $x['level'] !== 'ok'));
+        return self::back('/admin/boutique', 'Rapprochement fait : ' . count($r['rows']) . ' paiement(s) vérifié(s)' . ($r['fixed'] ? ', ' . $r['fixed'] . ' commande(s) rattrapée(s)' : '') . ($bad ? ', ' . $bad . ' point(s) à regarder.' : ', tout concorde.'));
+    }
+
+    /** Mois proposés pour les relevés : depuis la première commande payée (12 au moins). @return list<string> */
+    public static function statementMonths(): array
+    {
+        $first = date('Y-m');
+        foreach (\App\Shop\Accounts::sold() as $o) {
+            $first = min($first, substr((string) $o['paid_at'], 0, 7));
+        }
+        $out = [];
+        for ($t = strtotime(date('Y-m-01')); count($out) < 12 || date('Y-m', $t) >= $first; $t = strtotime('-1 month', $t)) {
+            $out[] = date('Y-m', $t);
+            if (count($out) > 120) {
+                break;
+            }
+        }
+        return $out;
+    }
+
+    public static function statements(Request $req): Response
+    {
+        return self::html('admin/boutique/releves', ['s' => \App\Shop\Accounts::statement($req->str('mois')), 'months' => self::statementMonths()],
+            ['title' => 'Relevés de l’imprimeur', 'crumb' => 'Boutique', 'nav' => 'boutique-releves']);
+    }
+
+    public static function statementFile(Request $req, string $kind): Response
+    {
+        $s = \App\Shop\Accounts::statement($req->str('mois'));
+        $name = 'releve-imprimeur-' . $s['ym'];
+        return $kind === 'csv'
+            ? new Response(\App\Shop\Accounts::statementCsv($s), 200, ['Content-Type' => 'text/csv; charset=UTF-8', 'Content-Disposition' => 'attachment; filename="' . $name . '.csv"', 'Cache-Control' => 'private, no-store'])
+            : new Response(\App\Shop\Accounts::statementPdf($s), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="' . $name . '.pdf"', 'Cache-Control' => 'private, no-store']);
     }
 
     // ------------------------------------------------------------------ supports
@@ -62,6 +105,7 @@ final class Shop extends Base
             'name' => $name, 'mockup' => $req->str('mockup'), 'faces' => $faces, 'colors' => $colors,
             'sizes' => array_values(array_filter(array_map('trim', explode(',', $req->str('sizes'))))),
             'ref' => trim($req->str('ref')), 'note' => trim($req->str('note')), 'active' => $req->str('active') === '1',
+            'cost' => (int) round((float) str_replace(',', '.', $req->str('cost')) * 100),
         ];
         $key = Catalog::saveSupport($key, $data, Auth::user());
         Activity::log(self::actor(), 'a modifié le support « ' . $name . ' » de la boutique', ['path' => '/admin/boutique/supports']);
@@ -86,7 +130,7 @@ final class Shop extends Base
         $before = Orders::config();
         $c = Orders::saveConfig([
             'open' => $req->str('open') === '1', 'printer_name' => $req->str('printer_name'), 'printer_email' => $email,
-            'shipping' => $eur('shipping'), 'free_from' => $eur('free_from'), 'delay' => $req->str('delay'),
+            'shipping' => $eur('shipping'), 'free_from' => $eur('free_from'), 'delay' => $req->str('delay'), 'ship_cost' => $eur('ship_cost'),
             'alert_email' => $req->str('alert_email'), 'cgv' => $req->str('cgv'),
         ]);
         Activity::log(self::actor(), 'a modifié les réglages de la boutique' . ($before['printer_email'] !== $c['printer_email'] ? ' (adresse de l’imprimeur changée)' : ''), ['path' => '/admin/boutique/reglages']);

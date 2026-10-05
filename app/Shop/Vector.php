@@ -109,7 +109,10 @@ final class Vector
         if (($l['mode'] ?? 'fixed') === 'client') {
             $f = (string) ($l['field'] ?? '');
             $v = trim((string) ($values[$f] ?? ''));
-            if (($l['list'] ?? '') !== '') {
+            if (str_starts_with($f, 'match_') && array_key_exists($f, $values)) {
+                // « Ton match » : rempli par le musée (jamais coupé ; vide si l'information manque).
+                $t = mb_substr(trim((string) $values[$f]), 0, 400);
+            } elseif (($l['list'] ?? '') !== '') {
                 // Choix dans une liste de la banque de textes : seules les phrases validées passent.
                 $t = $v !== '' && in_array($v, Texts::choices((string) $l['list']), true) ? $v : $t;
             } else {

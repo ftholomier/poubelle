@@ -66,3 +66,10 @@ table.shoptexts { width: 100%; table-layout: fixed; border-collapse: collapse; }
 .shopmsg--imprimeur, .shopmsg--association { background: #e5ecfb; margin-left: 30px; }
 .shophist { margin: 0; padding-left: 18px; } .shophist li { margin: 0 0 6px; }
 table.shoporders { width: 100%; border-collapse: collapse; } .shoporders th, .shoporders td { padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(14,31,77,.1); vertical-align: top; }
+.shopalerts ul, .shopalerts__list { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.shopalerts li, .shopalerts__list li { padding: 6px 10px; border-left: 4px solid #8a8f9c; background: #f6f3ea; font-size: 14px; }
+.shopalerts li.is-error, .shopalerts__list li.is-error { border-color: #b3261e; background: #fbe9e7; }
+.shopalerts li.is-warn, .shopalerts__list li.is-warn { border-color: #f6c400; background: #fff7d6; }
+.shopalerts li.is-ok, .shopalerts__list li.is-ok { border-color: #2e7d32; background: #eaf5ea; }
+.shopalerts { margin-bottom: 16px; }
+.shopchart { width: 100%; height: auto; display: block; }

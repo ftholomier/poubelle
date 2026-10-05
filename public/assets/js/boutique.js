@@ -27,12 +27,23 @@
       if (n !== seq || !d.ok) return;
       svgBox.innerHTML = d.svg;
       priceBox.textContent = d.price;
+      const note = root.querySelector('[data-shop-note]');
+      if (note) note.textContent = d.note || '';
       root.querySelectorAll('[data-shop-err]').forEach(el => { const e = (d.errors || {})[el.dataset.shopErr]; el.hidden = !e; el.textContent = e || ''; });
     } catch (e) { /* aperçu indisponible : le formulaire reste utilisable */ } finally { if (n === seq) svgBox.classList.remove('is-busy'); }
   };
   const soon = (ms = 250) => { clearTimeout(timer); timer = setTimeout(render, ms); };
   form.addEventListener('input', e => { if (e.target.closest('[data-shop-in]')) soon(e.target.type === 'text' ? 350 : 60); });
-  form.addEventListener('change', e => { if (e.target.closest('[data-shop-in]')) soon(30); });
+  // Texte jamais de la même couleur que le produit (il serait illisible).
+  const guard = () => {
+    const pc = (form.querySelector('[name="opts[color]"]:checked') || {}).value || root.dataset.color || '';
+    const tcs = [...form.querySelectorAll('[name="opts[tcolor]"]')];
+    tcs.forEach(r => { const same = r.value.toUpperCase() === pc.toUpperCase(); r.disabled = same; r.closest('label').classList.toggle('is-off', same); });
+    const cur = tcs.find(r => r.checked);
+    if (cur && cur.disabled) { const ok = tcs.find(r => !r.disabled); if (ok) ok.checked = true; }
+  };
+  guard();
+  form.addEventListener('change', e => { if (e.target.closest('[data-shop-in]')) { guard(); soon(30); } });
   root.querySelectorAll('[data-face]').forEach(b => b.addEventListener('click', () => {
     face = b.dataset.face;
     root.querySelectorAll('[data-face]').forEach(x => x.classList.toggle('is-on', x === b));

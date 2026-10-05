@@ -525,7 +525,14 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - Espace imprimeur séparé (/imprimeur/, lien de connexion par e-mail) : PDF par article, étapes, numéro de suivi, réponses aux clients.
 - BO : Boutique › Commandes (étapes, remboursement Stripe, paiement hors ligne), Boutique › Réglages (imprimeur, port, délai, alertes, conditions de vente).
 - Pied de page du musée refait : appel réglable, plan (Explorer, Interactif, Participer), boutons Boutique et Don, icônes des réseaux, lien vers l'association.
-- À venir : lot C (tableau de bord et chiffre d'affaires, relevés de l'imprimeur, « Ton match »).
+## Boutique, lot C : la gestion et « Ton match » (05/10, demande du client) — terminé
+
+- Tableau de bord : ventes jour, mois, année, panier moyen, marge, courbe sur 12 mois, meilleures ventes, commandes à fabriquer.
+- Stripe : frais et net de chaque paiement, rapprochement (rattrape les paiements dont le message s'est perdu), litiges signalés.
+- Alertes au tableau de bord et par e-mail quotidien (litige, retard de fabrication ou d'expédition, client sans réponse, modèle sans prix).
+- Relevés mensuels de l'imprimeur (PDF, tableur) avec coût de fabrication par support et marge ; l'imprimeur voit son relevé sans la marge.
+- « Ton match » : le client donne une date, le musée retrouve le match et l'imprime (poster A3, t-shirt au dos) ; boutons « Ton match » dans l'éditeur.
+- Le texte du client n'est jamais de la couleur du produit.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

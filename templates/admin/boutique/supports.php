@@ -12,6 +12,7 @@ $form = function (array $s, bool $new = false) use ($mockups): string {
       <label class="f"><span class="f__k">Nom</span><input class="in" name="name" value="<?= e($s['name']) ?>" required></label>
       <label class="f"><span class="f__k">Aperçu</span><select class="in" name="mockup"><?php foreach ($mockups as $k => $l): ?><option value="<?= e($k) ?>"<?= $s['mockup'] === $k ? ' selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select></label>
       <label class="f"><span class="f__k">Référence chez l’imprimeur</span><input class="in" name="ref" value="<?= e($s['ref']) ?>" placeholder="ex. TS-BIO-150"></label>
+      <label class="f"><span class="f__k">Coût de fabrication chez l’imprimeur (€ TTC / article)</span><input class="in" type="number" step="0.01" min="0" name="cost" value="<?= e(number_format(($s['cost'] ?? 0) / 100, 2, '.', '')) ?>"></label>
       <label class="f"><span class="f__k">Tailles (séparées par des virgules)</span><input class="in" name="sizes" value="<?= e(implode(', ', $s['sizes'])) ?>" placeholder="S, M, L, XL"></label>
     </div>
     <div class="f"><span class="f__k">Faces imprimables (mm)</span>
@@ -35,5 +36,5 @@ $form = function (array $s, bool $new = false) use ($mockups): string {
 <p class="small" style="margin:0 0 12px;max-width:95ch">Les produits vierges de l’imprimeur : dimensions de chaque face imprimable (en millimètres, format fini), fonds perdus (marge de sécurité coupée après impression : 2 à 3 mm pour le papier), couleurs disponibles et tailles. Les modèles se dessinent dessus.</p>
 <div class="cols" style="align-items:start;grid-template-columns:repeat(auto-fill,minmax(420px,1fr))">
   <?php foreach ($supports as $s): ?><?= $form($s) ?><?php endforeach; ?>
-  <?= $form(['key' => '', 'name' => '', 'mockup' => 'paper', 'faces' => [], 'colors' => [], 'sizes' => [], 'ref' => '', 'note' => '', 'active' => true, 'custom' => true], true) ?>
+  <?= $form(['key' => '', 'name' => '', 'mockup' => 'paper', 'faces' => [], 'colors' => [], 'sizes' => [], 'ref' => '', 'note' => '', 'cost' => 0, 'active' => true, 'custom' => true], true) ?>
 </div>

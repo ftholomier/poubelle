@@ -42,7 +42,7 @@ final class Orders
 
     public const CONFIG_DEFAULTS = [
         'open' => false, 'printer_name' => '', 'printer_email' => '', 'shipping' => 590, 'free_from' => 0,
-        'delay' => 'Fabriqué à la demande, expédié sous 5 jours ouvrés.', 'alert_email' => '', 'cgv' => '',
+        'delay' => 'Fabriqué à la demande, expédié sous 5 jours ouvrés.', 'alert_email' => '', 'cgv' => '', 'ship_cost' => 590,
     ];
 
     public static function config(): array
@@ -60,6 +60,7 @@ final class Orders
         }
         $c['shipping'] = max(0, min(10000, (int) $c['shipping']));
         $c['free_from'] = max(0, min(1000000, (int) $c['free_from']));
+        $c['ship_cost'] = max(0, min(10000, (int) $c['ship_cost']));
         foreach (['printer_name' => 80, 'delay' => 200, 'cgv' => 4000] as $k => $max) {
             $c[$k] = mb_substr(trim((string) $c[$k]), 0, $max);
         }
@@ -106,12 +107,21 @@ final class Orders
             $opt['pos'] = '';
             [$mm, $opt] = Catalog::applyOptions($m, ['pos' => ''] + $opt);
         }
-        $chk = Catalog::check($mm, (array) ($in['values'] ?? []));
+        $input = (array) ($in['values'] ?? []);
+        $auto = [];
+        if (TonMatch::isFor($m)) {
+            if ($opt['date'] === '') {
+                return ['error' => 'Indiquez la date de votre match (au moins l’année).'];
+            }
+            $auto = array_filter(TonMatch::values($opt['date']), fn ($k) => !str_starts_with($k, '_'), ARRAY_FILTER_USE_KEY);
+        }
+        $chk = Catalog::check($mm, $input);
         if ($chk['errors']) {
             return ['error' => implode(' ', $chk['errors'])];
         }
+        $chk['values'] += array_intersect_key($auto, Catalog::fields($mm));
         foreach (Catalog::fields($mm) as $k => $f) {
-            if (!isset($chk['values'][$k])) {
+            if (!$f['auto'] && !isset($chk['values'][$k])) {
                 return ['error' => 'Complétez « ' . $f['label'] . ' ».'];
             }
         }
@@ -120,7 +130,7 @@ final class Orders
         return ['item' => [
             'model' => $m['id'], 'name' => $m['name'], 'support' => $sup['name'], 'size' => $sup['sizes'] ? $size : '',
             'color' => $opt['color'], 'color_name' => (string) (array_search($opt['color'], $sup['colors'], true) ?: ''),
-            'opts' => $opt, 'values' => $chk['values'], 'qty' => $qty, 'unit' => $unit, 'total' => $unit * $qty,
+            'opts' => $opt, 'values' => $chk['values'], 'qty' => $qty, 'unit' => $unit, 'total' => $unit * $qty, 'cost' => (int) $sup['cost'],
         ]];
     }
 
@@ -140,8 +150,13 @@ final class Orders
         if (($it['opts']['pos'] ?? '') !== '') {
             $p[] = 'texte ' . mb_strtolower(Catalog::POSITIONS[$it['opts']['pos']]);
         }
-        foreach ($it['values'] as $v) {
-            $p[] = '« ' . $v . ' »';
+        if (($it['opts']['date'] ?? '') !== '' && isset($it['values']['match_affiche'])) {
+            $p[] = 'Ton match : ' . $it['values']['match_affiche'] . ', ' . ($it['values']['match_date'] ?? '');
+        }
+        foreach ($it['values'] as $k => $v) {
+            if (!str_starts_with((string) $k, 'match_')) {
+                $p[] = '« ' . $v . ' »';
+            }
         }
         return implode(' · ', $p);
     }
@@ -321,12 +336,14 @@ final class Orders
             if ($ref !== '') {
                 $x['ext']['stripe_pi'] = $ref;
             }
+            $x['ship_cost'] = self::config()['ship_cost'];
             $x['history'][] = ['at' => date('c'), 'status' => 'paid', 'by' => $by, 'note' => self::money($cents) . ' reçus'];
             return $x;
         });
         if (!$o || !$first) {
             return false;
         }
+        Accounts::fetchFee($id);
         self::buildPdfs($o);
         $c = self::config();
         $link = self::trackingUrl($o);
@@ -516,6 +533,12 @@ final class Orders
         }
         $h .= '<tr><td>Livraison</td><td align="right">' . e($o['shipping'] ? self::money($o['shipping']) : 'offerte') . '</td></tr>';
         return $h . '<tr><td><b>Total</b></td><td align="right"><b>' . e(self::money($o['total'])) . '</b></td></tr></table>';
+    }
+
+    /** E-mail de la boutique (alertes de la gestion). */
+    public static function notify(string $to, string $subject, string $html): void
+    {
+        self::mail($to, $subject, $html);
     }
 
     private static function mail(string $to, string $subject, string $html, ?string $replyTo = null): void

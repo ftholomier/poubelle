@@ -199,6 +199,7 @@ final class Cron
                 $abandoned = \App\Vitrine\Membership::expire();
                 $videos = \App\Vitrine\Videos::refresh();
                 $orders = \App\Shop\Orders::expire();
+                \App\Shop\Accounts::mailAlerts();
                 return trim(($videos ?? '') . ($abandoned ? " · $abandoned adhésion(s) abandonnée(s)" : '') . ($orders ? " · $orders commande(s) non payée(s) annulée(s)" : ''), ' ·') ?: null;
 
             case 'mises-a-jour':

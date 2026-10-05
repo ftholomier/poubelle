@@ -78,6 +78,32 @@ HTML],
 </ul>
 [[img:boutique-imprimeur.webp|L’espace imprimeur : une commande expédiée, avec le numéro de suivi et les messages du client]]
 HTML],
+        ['id' => 'tableau', 'title' => 'Le tableau de bord et l’argent', 'admin' => true, 'html' => <<<'HTML'
+<p><b>Boutique › Tableau de bord</b> : ventes du jour, du mois et de l’année, panier moyen, articles vendus, <b>marge</b> (ventes − remboursements − frais Stripe − fabrication et expédition), courbe des 12 derniers mois, meilleures ventes, commandes à fabriquer.</p>
+<ul>
+<li><b>À suivre</b> : les alertes (litige ouvert par un client, commande payée depuis plus de 3 jours sans fabrication, en fabrication depuis plus de 7 jours, question d’un client sans réponse depuis 2 jours, modèle prêt à la vente sans prix). Les nouvelles alertes partent aussi une fois par jour par e-mail à l’adresse d’alerte.</li>
+<li><b>Frais Stripe</b> : relevés à chaque paiement et affichés dans la commande (frais et net encaissé).</li>
+<li><b>Rapprocher avec Stripe</b> : compare les paiements des 30 derniers jours aux commandes. Une commande payée chez Stripe mais restée « en attente » (message perdu) est rattrapée : elle part chez l’imprimeur. Les écarts sont signalés.</li>
+<li><b>Litiges</b> : quand un client conteste un paiement, la commande l’indique et l’association est prévenue ; on répond dans le tableau de bord de Stripe, avec le numéro de suivi du colis.</li>
+</ul>
+[[img:boutique-tableau.webp|Le tableau de bord de la boutique : ventes, marge, courbe, meilleures ventes, rapprochement Stripe]]
+HTML],
+        ['id' => 'releves', 'title' => 'Les relevés de l’imprimeur', 'admin' => true, 'html' => <<<'HTML'
+<p><b>Boutique › Relevés imprimeur</b> : pour chaque mois, la liste des articles fabriqués (commandes payées dans le mois, sauf celles remboursées) avec leur coût de fabrication, plus une expédition par commande : c’est ce que l’imprimeur facture à l’association. Téléchargeable en <b>PDF</b> et en <b>tableur</b> (CSV). Le relevé donne aussi les ventes, les frais Stripe et la marge.</p>
+<ul>
+<li>Le coût de fabrication de chaque produit se règle dans <b>Boutique › Supports</b> (valeurs de départ indicatives, à remplacer par les tarifs de l’imprimeur) ; le coût d’une expédition dans <b>Boutique › Réglages</b>. Une commande garde les coûts du jour où elle a été payée.</li>
+<li>L’imprimeur voit le même relevé dans son espace (bouton « Relevé mensuel »), <b>sans</b> les ventes ni la marge de l’association.</li>
+</ul>
+HTML],
+        ['id' => 'tonmatch', 'title' => '« Ton match » : le match d’une date', 'admin' => true, 'html' => <<<'HTML'
+<p>Le client donne une date (naissance, mariage, premier match à Bonal…) : jour, mois et année, ou seulement le mois et l’année, ou l’année. Le musée retrouve le match de Sochaux de ce jour-là (sinon le plus proche ; pour un mois ou une année, le plus marquant) et l’imprime : année, date, affiche et score, compétition, stade, buteurs, spectateurs, et une phrase « Ce jour-là, Sochaux battait… ».</p>
+<ul>
+<li>Deux modèles sont prêts : <b>Poster « Ton match »</b> (A3) et <b>T-shirt « Ton match »</b> (logo devant, le match au dos).</li>
+<li>Pour en créer d’autres : dans l’éditeur, « Ton match » propose un bouton par information (+ Année, + Affiche et score…). Dès qu’un modèle en contient une, sa page demande la date au client, et lui affiche le match trouvé.</li>
+<li>Les informations viennent des fiches du musée : une fiche corrigée corrige aussi les prochains posters.</li>
+</ul>
+[[img:boutique-tonmatch.webp|« Ton match » : le client choisit sa date, le poster se met à jour avec le match trouvé]]
+HTML],
         ['id' => 'reglages', 'title' => 'Les réglages de la boutique', 'admin' => true, 'html' => <<<'HTML'
 <p><b>Boutique › Réglages</b> : ouverture de la boutique, frais de port et seuil de livraison offerte, délai annoncé, nom et e-mail de l’imprimeur, e-mail d’alerte de l’association à chaque commande payée, conditions de vente. La boutique est sur le site du musée (bouton « Boutique » dans l’en-tête et le pied de page des deux sites ; l’adresse /boutique/ du site de l’association y renvoie). Avant l’ouverture, seule l’équipe connectée la voit.</p>
 HTML],
