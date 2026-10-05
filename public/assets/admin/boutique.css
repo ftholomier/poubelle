@@ -73,3 +73,4 @@ table.shoporders { width: 100%; border-collapse: collapse; } .shoporders th, .sh
 .shopalerts li.is-ok, .shopalerts__list li.is-ok { border-color: #2e7d32; background: #eaf5ea; }
 .shopalerts { margin-bottom: 16px; }
 .shopchart { width: 100%; height: auto; display: block; }
+.shoporders th.num, .shoporders td.num { text-align: right; white-space: nowrap; } .shopsplit td .muted { font-size: 12px; } .shopsplit tbody tr:last-child td { border-bottom: 0; }

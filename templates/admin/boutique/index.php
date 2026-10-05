@@ -28,17 +28,18 @@ $monthsFr = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août',
   <div class="kpi"><b><?= e($m($d['year']['sales'])) ?></b><span>cette année</span><small><?= $d['year']['items'] ?> articles vendus</small></div>
   <a class="kpi" href="/admin/boutique/commandes?statut=paid"><b><?= $d['todo']['paid'] ?></b><span>à fabriquer</span><small><?= $d['todo']['production'] ?> en fabrication · <?= $d['todo']['shipped'] ?> expédiées</small></a>
 </div>
-<section class="card">
-  <div class="card__head"><h2 class="card__t">Partage des ventes</h2><span class="card__note">commission de l’imprimeur réglée par support ou par modèle (taux en %)</span></div>
-  <table class="xs" style="width:100%">
-    <thead><tr><th style="text-align:left"></th><th>CA complet</th><th>Commission imprimeur</th><th>Remboursements et frais Stripe</th><th>Marge de l’association</th></tr></thead>
+<section class="card card--pad">
+  <h2 class="card__t">Partage des ventes</h2>
+  <p class="xs muted" style="margin:0 0 10px">Commission de l’imprimeur réglée par support ou par modèle (taux en %).</p>
+  <table class="shoporders shopsplit">
+    <thead><tr><th></th><th class="num">CA complet</th><th class="num">Commission imprimeur</th><th class="num">Remboursements et frais Stripe</th><th class="num">Marge de l’association</th></tr></thead>
     <tbody>
     <?php foreach (['month' => 'Ce mois-ci', 'year' => 'Cette année', 'all' => 'Depuis l’ouverture'] as $pk => $pl): $p = $d[$pk]; ?>
-      <tr><td><b><?= e($pl) ?></b></td><td style="text-align:right"><?= e($m($p['sales'])) ?></td><td style="text-align:right"><?= e($m($p['cost'] + $p['ship_cost'])) ?><br><span class="muted">fabrication <?= e($m($p['cost'])) ?> · envois <?= e($m($p['ship_cost'])) ?></span></td><td style="text-align:right">−<?= e($m($p['refunds'] + $p['fees'])) ?></td><td style="text-align:right"><b><?= e($m($p['margin'])) ?></b></td></tr>
+      <tr><td><b><?= e($pl) ?></b></td><td class="num"><?= e($m($p['sales'])) ?></td><td class="num"><?= e($m($p['cost'] + $p['ship_cost'])) ?><br><span class="muted">fabrication <?= e($m($p['cost'])) ?> · envois <?= e($m($p['ship_cost'])) ?></span></td><td class="num">−<?= e($m($p['refunds'] + $p['fees'])) ?></td><td class="num"><b><?= e($m($p['margin'])) ?></b></td></tr>
     <?php endforeach; ?>
     </tbody>
   </table>
-  <p class="xs muted" style="margin:6px 0 0">L’association encaisse les ventes (Stripe) et reverse chaque mois la commission à l’imprimeur (Boutique › Relevés) ; la marge lui reste acquise.</p>
+  <p class="xs muted" style="margin:10px 0 0">L’association encaisse les ventes (Stripe) et reverse chaque mois la commission à l’imprimeur (Boutique › Relevés) ; la marge lui reste acquise.</p>
 </section>
 <div class="cols" style="align-items:start">
   <section class="card card--pad">
