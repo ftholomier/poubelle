@@ -530,3 +530,7 @@ a.vpartner:hover img { filter: none; }
   .vthanks { padding: 0; }
 }
 .vh__item.is-closed .vh__sub { display: none !important; }
+/* Pied de page : trait jaune fin qui se dessine de gauche à droite au survol des liens texte */
+.vf__col a, .vf__bar a { background: linear-gradient(var(--yellow), var(--yellow)) left 100% / 0 1.5px no-repeat; padding-bottom: 2px; transition: background-size .35s cubic-bezier(.4, 0, .2, 1), color .2s; }
+.vf__col a:hover, .vf__col a:focus-visible, .vf__bar a:hover, .vf__bar a:focus-visible { background-size: 100% 1.5px; text-decoration: none; }
+@media (prefers-reduced-motion: reduce) { .vf__col a, .vf__bar a { transition: none; } }

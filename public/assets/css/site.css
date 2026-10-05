@@ -796,3 +796,7 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .audiotext { flex: 1 0 100%; margin: 2px 0 0; background: var(--cream); color: var(--navy); border: 2px solid var(--navy); padding: 10px 14px; font-size: 16px; line-height: 1.5; }
 .audiotext [data-audio-say] { display: block; max-width: 78ch; white-space: pre-line; }
 .audiotext__k { display: block; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); margin-bottom: 2px; }
+/* Pied de page : trait jaune fin qui se dessine de gauche à droite au survol des liens texte */
+.mf-col a, .site-footer__bar a { background: linear-gradient(var(--yellow), var(--yellow)) left 100% / 0 1.5px no-repeat; padding-bottom: 2px; transition: background-size .35s cubic-bezier(.4, 0, .2, 1), color .2s; }
+.mf-col a:hover, .mf-col a:focus-visible, .site-footer__bar a:hover, .site-footer__bar a:focus-visible { background-size: 100% 1.5px; text-decoration: none; }
+@media (prefers-reduced-motion: reduce) { .mf-col a, .site-footer__bar a { transition: none; } }
