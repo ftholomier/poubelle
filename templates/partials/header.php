@@ -113,13 +113,19 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
         </div>
       </div>
     <?php elseif ($mg['kind'] === 'interactif'): ?>
-      <div class="mega__inner" style="grid-template-columns:1fr;gap:16px;padding-top:28px;padding-bottom:32px">
-        <div class="mega__head"><span class="mega__title"><?= e(t("Interactif · jouez avec l'histoire")) ?></span><a class="mega__all" href="<?= e(url('/centenaire/')) ?>"><?= e(t('Le centenaire')) ?> →</a></div>
-        <div class="mega__tiles">
-          <?php foreach ($mg['groups'] as $g): foreach ($g['tools'] as $x): ?>
-            <a class="mega__tile" href="<?= e($x['href']) ?>"><span class="mega__icon"><?= e($x['icon']) ?></span><b><?= e($x['label']) ?></b><span><?= e($x['d']) ?></span></a>
-          <?php endforeach; endforeach; ?>
-        </div>
+      <?php // Une colonne par groupe (un groupe de plus de 5 sur deux colonnes), une ligne compacte par outil : le menu reste bas. ?>
+      <div class="mega__inner mega__inner--tools" style="grid-template-columns:<?= e(implode(' ', array_map(fn ($g) => count($g['tools']) > 5 ? 'minmax(0,2fr)' : 'minmax(0,1fr)', $mg['groups']))) ?>">
+        <?php foreach ($mg['groups'] as $g): ?>
+          <div class="mega__col mega__group">
+            <span class="mega__title"><?= e($g['title']) ?></span>
+            <div class="mega__list<?= count($g['tools']) > 5 ? ' mega__list--2' : '' ?>">
+              <?php foreach ($g['tools'] as $x): ?>
+                <a class="mega__item" href="<?= e($x['href']) ?>" title="<?= e($x['d']) ?>"><span class="mega__icon"><?= e($x['icon']) ?></span><span><b><?= e($x['label']) ?></b><small><?= e($x['d']) ?></small></span></a>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        <?php endforeach; ?>
+        <div class="mega__foot"><a class="mega__all" href="<?= e(url('/interactif/')) ?>"><?= e(t('Toute la rubrique Interactif')) ?> →</a><a class="mega__all" href="<?= e(url('/centenaire/')) ?>"><?= e(t('Le centenaire')) ?> →</a></div>
       </div>
     <?php endif; ?>
   </div>

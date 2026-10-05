@@ -282,15 +282,21 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .mega__sub { font-family: var(--serif); font-size: 17px; color: var(--cream); display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; transition: padding .2s, color .15s; }
 .mega__sub:hover { padding-left: 6px; color: var(--yellow); }
 .mega__sub small { color: var(--mist); font-style: italic; }
-.mega__tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
-.mega__tile {
-  border: 2px solid rgba(243,237,223,.35); padding: 16px 14px; display: flex; flex-direction: column; gap: 8px; color: var(--cream);
-  transition: transform .2s var(--bounce), background .2s, border-color .2s;
-}
-.mega__tile:hover { background: var(--blue); border-color: var(--yellow); transform: translateY(-4px); color: var(--cream); }
 .mega__icon { width: 42px; height: 42px; border: 2px solid var(--yellow); color: var(--yellow); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 22px; }
-.mega__tile b { font-family: var(--display); font-weight: 900; font-size: 22px; text-transform: uppercase; line-height: 1; }
-.mega__tile span:last-child { font-size: 14px; line-height: 1.35; color: var(--mist); }
+/* Interactif : colonnes par groupe, lignes compactes (pictogramme, nom, description sur une ligne). */
+.mega__inner--tools { gap: 18px 32px; padding-top: 24px; padding-bottom: 18px; }
+.mega__group { gap: 10px; min-width: 0; }
+.mega__group .mega__title { font-size: 17px; letter-spacing: .1em; }
+.mega__list { display: grid; gap: 2px; }
+.mega__list--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
+.mega__item { display: flex; align-items: flex-start; gap: 11px; min-width: 0; padding: 5px 8px; margin: 0 -8px; color: var(--cream); border: 2px solid transparent; transition: background .15s, border-color .15s; }
+.mega__item:hover, .mega__item:focus-visible { background: var(--blue); border-color: var(--yellow); color: var(--cream); }
+.mega__item .mega__icon { width: 32px; height: 32px; flex-shrink: 0; font-size: 15px; margin-top: 1px; }
+.mega__item > span:last-child { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.mega__item b { font-family: var(--display); font-weight: 800; font-size: 17px; letter-spacing: .02em; text-transform: uppercase; line-height: 1.05; }
+.mega__item small { font-size: 13px; line-height: 1.25; color: var(--mist); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.mega__foot { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 26px; padding-top: 10px; border-top: 1px solid rgba(243,237,223,.2); }
+.mega__foot .mega__all { font-size: 15px; }
 
 .mobilemenu {
   position: absolute; top: 100%; left: 0; right: 0; z-index: 4; background: var(--navy); color: var(--cream);
