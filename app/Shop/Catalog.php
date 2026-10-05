@@ -109,6 +109,16 @@ final class Catalog
         return $out;
     }
 
+    /** Range les modèles dans l'ordre donné (les absents gardent leur place relative, à la suite). */
+    public static function reorder(array $ids, ?array $user = null): void
+    {
+        $all = array_values(array_filter((array) Collections::get(self::MODELS_FILE, []), 'is_array'));
+        $rank = array_flip(array_values($ids));
+        $pos = array_keys($all);
+        usort($pos, fn ($a, $b) => [$rank[$all[$a]['id'] ?? ''] ?? PHP_INT_MAX, $a] <=> [$rank[$all[$b]['id'] ?? ''] ?? PHP_INT_MAX, $b]);
+        Collections::save(self::MODELS_FILE, array_map(fn ($i) => $all[$i], $pos), $user, 'Ordre des modèles de la boutique');
+    }
+
     public static function find(string $id): ?array
     {
         return self::models()[$id] ?? null;

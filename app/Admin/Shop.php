@@ -315,6 +315,13 @@ final class Shop extends Base
         return self::html('admin/boutique/modeles', ['models' => Catalog::models(), 'supports' => Catalog::supports(), 'previews' => $previews], ['title' => 'Modèles', 'crumb' => 'Boutique', 'nav' => 'boutique-modeles']);
     }
 
+    /** POST /admin/boutique/modeles/ordre (JSON {ids}) : ordre des modèles, repris tel quel dans la boutique. */
+    public static function modelOrder(Request $req): Response
+    {
+        Catalog::reorder(array_map('strval', (array) ($req->json()['ids'] ?? [])), Auth::user());
+        return self::json(['ok' => true]);
+    }
+
     /** POST /admin/boutique/modeles : nouveau (nom, support), dupliquer, supprimer, activer. */
     public static function modelAction(Request $req): Response
     {

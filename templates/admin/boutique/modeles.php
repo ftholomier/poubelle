@@ -12,9 +12,10 @@
   <button class="btn btn--yellow">Créer et dessiner</button>
 </form>
 <?php if (!$models): ?><p class="empty">Aucun modèle pour l’instant : créez le premier ci-dessus.</p><?php endif; ?>
-<div class="shopgrid">
+<?php if (count($models) > 1): ?><p class="xs muted" style="margin:0 0 8px">Glissez une carte par sa poignée ✥ pour la déplacer : la boutique présente les produits dans cet ordre (enregistré aussitôt).</p><?php endif; ?>
+<div class="shopgrid" data-sortable data-model-order>
   <?php foreach ($models as $m): $s = $supports[$m['support']] ?? null; ?>
-    <article class="card shopcard">
+    <article class="card shopcard" data-sort-item data-id="<?= e($m['id']) ?>"><button type="button" class="shopcard__grip" data-handle title="Glisser pour déplacer" aria-label="Déplacer « <?= e($m['name']) ?> »">✥</button>
       <a class="shopcard__img" href="/admin/boutique/modeles/<?= e($m['id']) ?>"><?= $previews[$m['id']] ?? '' ?></a>
       <div class="card--pad">
         <a href="/admin/boutique/modeles/<?= e($m['id']) ?>"><b><?= e($m['name']) ?></b></a>
@@ -31,4 +32,11 @@
     </article>
   <?php endforeach; ?>
 </div>
-<style>.shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}.shopcard{overflow:hidden}.shopcard__img{display:block;background:#f3eddf;padding:10px}.shopcard__img > svg{display:block;width:100%;height:220px}</style>
+<style>.shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}.shopcard{overflow:hidden;position:relative}.shopcard__grip{position:absolute;top:8px;left:8px;z-index:2;width:34px;height:34px;border:2px solid #0e1f4d;background:#f6c400;color:#0e1f4d;font-size:18px;cursor:grab;touch-action:none}.shopcard__grip:active{cursor:grabbing}.shopcard__img{display:block;background:#f3eddf;padding:10px}.shopcard__img > svg{display:block;width:100%;height:220px}</style>
+<script nonce="<?= e(csp_nonce()) ?>">
+document.querySelector('[data-model-order]')?.addEventListener('sorted', async e => {
+  const ids = [...e.currentTarget.querySelectorAll(':scope > [data-sort-item]')].map(c => c.dataset.id);
+  const r = await BO.post('/admin/boutique/modeles/ordre', { ids });
+  BO.toast(r.ok ? 'Ordre enregistré : la boutique suit cet ordre.' : (r.error || 'Ordre non enregistré.'), !r.ok);
+});
+</script>

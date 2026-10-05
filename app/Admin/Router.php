@@ -160,6 +160,7 @@ final class Router
         $r->post('/admin/boutique/textes', fn ($q) => Shop::textsAction($q));
         $r->get('/admin/boutique/modeles', fn ($q) => Shop::models($q));
         $r->post('/admin/boutique/modeles', fn ($q) => Shop::modelAction($q));
+        $r->post('/admin/boutique/modeles/ordre', fn ($q) => Shop::modelOrder($q));
         $r->post('/admin/boutique/apercu', fn ($q) => Shop::preview($q));
         $r->get('/admin/boutique/modeles/{id}/pdf', fn ($q, $id) => Shop::pdf($q, $id));
         $r->get('/admin/boutique/modeles/{id}', fn ($q, $id) => Shop::editor($q, $id));
