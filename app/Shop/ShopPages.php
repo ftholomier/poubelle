@@ -39,6 +39,7 @@ final class ShopPages
 
     private static function page(string $tpl, array $vars, array $page): Response
     {
+        self::syncBadge();
         return Pages::render('boutique/' . $tpl, $vars, $page + ['active' => 'boutique', 'styles' => ['css/boutique.css'], 'scripts' => ['js/boutique.js']]);
     }
 
@@ -154,6 +155,9 @@ final class ShopPages
             return;
         }
         $n = self::count();
+        if ((string) ($_COOKIE['sr_cart'] ?? '0') === (string) $n) {
+            return;
+        }
         setcookie('sr_cart', (string) $n, ['expires' => $n ? time() + 30 * 86400 : time() - 3600, 'path' => '/', 'samesite' => 'Lax', 'secure' => (($_SERVER['HTTPS'] ?? '') === 'on')]);
     }
 

@@ -1,8 +1,12 @@
 /* Boutique du site de l'association : catalogue, article, panier, suivi. */
 .shopbar { background: var(--navy); color: #fff; font-size: 14px; }
-.shopbar__in { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px var(--gutter, 16px); flex-wrap: wrap; }
-.shopbar__cart { color: var(--yellow); font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; text-decoration: none; }
-.shopbar__cart b { display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 11px; background: var(--yellow); color: var(--navy); margin-left: 4px; font-size: 13px; }
+.shopbar__in { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px var(--gutter, 16px); flex-wrap: wrap; }
+.shopbar__cart { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 2px solid var(--yellow); color: var(--yellow); font-family: var(--display); font-weight: 900; font-size: 17px; text-transform: uppercase; letter-spacing: .08em; text-decoration: none; transition: transform .2s, box-shadow .2s; }
+.shopbar__cart:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--yellow); color: var(--yellow); }
+.shopbar__cart.is-full { background: var(--yellow); color: var(--navy); box-shadow: 4px 4px 0 #fff; }
+.shopbar__cart.is-full:hover { color: var(--navy); box-shadow: 6px 6px 0 #fff; }
+.shopbar__cart b { display: inline-grid; place-items: center; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 13px; background: #d6282b; color: #fff; font-size: 14px; }
+.shopbar__bag { width: 18px; height: 18px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7V6a5 5 0 0 1 10 0v1h3l1 15H3L4 7h3zm2 0h6V6a3 3 0 0 0-6 0v1z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7V6a5 5 0 0 1 10 0v1h3l1 15H3L4 7h3zm2 0h6V6a3 3 0 0 0-6 0v1z'/%3E%3C/svg%3E") center / contain no-repeat; }
 .shopgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; }
 .shopcard { display: flex; flex-direction: column; background: #fff; border: 2px solid var(--navy); text-decoration: none; color: var(--navy); transition: transform .2s var(--ease, ease), box-shadow .2s; }
 .shopcard:hover { transform: translateY(-3px); box-shadow: 6px 6px 0 var(--yellow); }
