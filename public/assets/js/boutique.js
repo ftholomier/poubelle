@@ -15,34 +15,15 @@
   const credit3d = root.querySelector('[data-3d-credit]'), hint = root.querySelector('[data-3d-hint]'), faceBar = root.querySelector('[data-faces]');
   const webgl = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } })();
   if (btn3d && !webgl) btn3d.hidden = true;
-  // Anecdote : tirée par le serveur (fait vérifié + IA), signée ; « Une autre » en retire une.
-  root.querySelectorAll('[data-anec]').forEach(box => {
-    const txt = box.querySelector('[data-anec-text]'), val = box.querySelector('[data-anec-val]'), sig = box.querySelector('[data-anec-sig]'), btn = box.querySelector('[data-anec-btn]');
-    const seen = btn.dataset.seen ? [btn.dataset.seen] : []; // celle affichée à l'ouverture
-    btn.addEventListener('click', async () => {
-      btn.disabled = true; txt.classList.add('is-busy');
-      try {
-        const r = await fetch(root.dataset.anecdote, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF': (form.querySelector('[name=_csrf]') || {}).value || '' }, credentials: 'same-origin', body: JSON.stringify({ model: root.dataset.model, opts: state().opts, avoid: seen }) });
-        const d = await r.json();
-        if (d.ok) {
-          seen.push(d.text); val.value = d.text; sig.value = d.sig; txt.textContent = d.text; txt.classList.add('is-on');
-          btn.querySelector('b').textContent = 'Une autre';
-          soon(0);
-        } else { txt.textContent = d.error || 'Pas d’anecdote cette fois : réessayez.'; }
-      } catch (e) { txt.textContent = 'Pas d’anecdote cette fois : réessayez.'; }
-      btn.disabled = false; txt.classList.remove('is-busy');
-    });
-  });
-  // Poster souvenir : « Votre match » se choisit dans les propositions du musée, puis le musée
-  // prépare le contenu (anecdote, citations, récit) ; l'aperçu se met à jour.
-  root.querySelectorAll('[data-pmatch]').forEach(box => {
-    const q = box.querySelector('[data-pmatch-q]'), val = box.querySelector('[data-pmatch-val]'), list = box.querySelector('[data-pmatch-list]'), st = box.querySelector('[data-pmatch-state]');
+  // Saisie avec propositions du musée (match du poster, sujet de l'anecdote) : liste au clavier ou à la souris.
+  const suggest = (box, onPick) => {
+    const q = box.querySelector('[data-pmatch-q]'), val = box.querySelector('[data-pmatch-val]'), list = box.querySelector('[data-pmatch-list]');
     let t = null, items = [], active = -1, qn = 0;
     const close = () => { list.hidden = true; q.setAttribute('aria-expanded', 'false'); active = -1; };
     const paint = () => {
       list.innerHTML = '';
       items.forEach((it, i) => { const li = document.createElement('li'); li.id = list.id + '-' + i; li.role = 'option'; li.textContent = it.label; li.className = i === active ? 'is-on' : ''; li.setAttribute('aria-selected', i === active ? 'true' : 'false'); li.addEventListener('mousedown', e => { e.preventDefault(); pick(i); }); list.appendChild(li); });
-      if (!items.length) { const li = document.createElement('li'); li.className = 'is-empty'; li.textContent = q.value.trim().length < 2 ? 'Tapez au moins deux lettres.' : 'Aucun match trouvé : essayez une autre équipe ou une année.'; list.appendChild(li); }
+      if (!items.length) { const li = document.createElement('li'); li.className = 'is-empty'; li.textContent = q.value.trim().length < 2 ? 'Tapez au moins deux lettres.' : 'Rien trouvé : essayez un autre nom, une équipe ou une année.'; list.appendChild(li); }
       list.hidden = false; q.setAttribute('aria-expanded', 'true');
       q.setAttribute('aria-activedescendant', active >= 0 ? list.id + '-' + active : '');
     };
@@ -53,13 +34,49 @@
         const r = await fetch(box.dataset.url + '?q=' + encodeURIComponent(term), { headers: { Accept: 'application/json' }, credentials: 'same-origin' });
         const d = await r.json();
         if (n !== qn) return;
-        items = d.items || []; active = items.length ? 0 : -1; paint();
+        items = (d.items || []).map(it => ({ id: it.id || it.key, label: it.label })); active = items.length ? 0 : -1; paint();
       } catch (e) { /* pas de propositions : on réessaiera à la prochaine frappe */ }
     };
-    const pick = async i => {
-      const it = items[i];
+    const pick = i => { const it = items[i]; if (!it) return; q.value = it.label; val.value = it.id; close(); onPick(it); };
+    q.addEventListener('input', () => { const had = val.value !== ''; val.value = ''; if (had) onPick(null); clearTimeout(t); t = setTimeout(search, 220); });
+    q.addEventListener('focus', () => { if (q.value.trim().length >= 2 && !val.value) search(); });
+    q.addEventListener('blur', () => setTimeout(close, 120));
+    q.addEventListener('keydown', e => {
+      if (list.hidden || !items.length) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); active = (active + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; paint(); }
+      else if (e.key === 'Enter') { e.preventDefault(); pick(active < 0 ? 0 : active); }
+      else if (e.key === 'Escape') close();
+    });
+  };
+  // Anecdote : tirée par le serveur (fait vérifié + IA), signée ; « Une autre » en retire une.
+  root.querySelectorAll('[data-anec]').forEach(box => {
+    const txt = box.querySelector('[data-anec-text]'), val = box.querySelector('[data-anec-val]'), sig = box.querySelector('[data-anec-sig]'), btn = box.querySelector('[data-anec-btn]');
+    const seen = btn.dataset.seen ? [btn.dataset.seen] : []; // celle affichée à l'ouverture
+    // Sujet facultatif (un match, un joueur) : l'anecdote est tirée sur ce sujet dès qu'il est choisi.
+    const tbox = box.querySelector('[data-anec-topic]'), topic = box.querySelector('[data-anec-topic-val]');
+    if (tbox) suggest(tbox, it => { btn.querySelector('b').textContent = it ? 'Une anecdote sur ce sujet' : 'Une anecdote'; if (it) btn.click(); });
+    btn.addEventListener('click', async () => {
+      btn.disabled = true; txt.classList.add('is-busy');
+      try {
+        const r = await fetch(root.dataset.anecdote, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF': (form.querySelector('[name=_csrf]') || {}).value || '' }, credentials: 'same-origin', body: JSON.stringify({ model: root.dataset.model, opts: state().opts, avoid: seen, topic: topic ? topic.value : '' }) });
+        const d = await r.json();
+        if (d.ok) {
+          seen.push(d.text); val.value = d.text; sig.value = d.sig; txt.textContent = d.text; txt.classList.add('is-on');
+          btn.querySelector('b').textContent = topic && topic.value ? 'Une autre sur ce sujet' : 'Une autre';
+          const nt = box.querySelector('[data-anec-note]'); if (nt) nt.textContent = d.note || '';
+          soon(0);
+        } else { txt.textContent = d.error || 'Pas d’anecdote cette fois : réessayez.'; }
+      } catch (e) { txt.textContent = 'Pas d’anecdote cette fois : réessayez.'; }
+      btn.disabled = false; txt.classList.remove('is-busy');
+    });
+  });
+  // Poster souvenir : « Votre match » choisi dans les propositions, puis le musée prépare le contenu
+  // (anecdote, citations, récit) ; l'aperçu se met à jour.
+  root.querySelectorAll('[data-pmatch]').forEach(box => {
+    const val = box.querySelector('[data-pmatch-val]'), st = box.querySelector('[data-pmatch-state]');
+    suggest(box, async it => {
+      st.textContent = '';
       if (!it) return;
-      q.value = it.label; val.value = it.id; close();
       st.textContent = 'Le musée prépare votre poster : anecdote, citations et récit du match…'; st.classList.add('is-busy');
       soon(0);
       try {
@@ -70,15 +87,6 @@
         if (d.ok) soon(0);
       } catch (e) { st.textContent = ''; }
       st.classList.remove('is-busy');
-    };
-    q.addEventListener('input', () => { val.value = ''; st.textContent = ''; clearTimeout(t); t = setTimeout(search, 220); });
-    q.addEventListener('focus', () => { if (q.value.trim().length >= 2 && !val.value) search(); });
-    q.addEventListener('blur', () => setTimeout(close, 120));
-    q.addEventListener('keydown', e => {
-      if (list.hidden || !items.length) return;
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); active = (active + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; paint(); }
-      else if (e.key === 'Enter') { e.preventDefault(); pick(active < 0 ? 0 : active); }
-      else if (e.key === 'Escape') close();
     });
   });
   // Zoom : l'aperçu (vectoriel, donc net à toutes les tailles) en grand dans une fenêtre.

@@ -61,19 +61,20 @@ final class Anecdotes
     }
 
     /** Une anecdote de la réserve qui tient dans le cadre, ni vendue ni déjà vue par ce client. */
-    public static function fromPool(array $layers, array $avoid = []): array
+    public static function fromPool(array $layers, array $avoid = [], string $topic = ''): array
     {
-        $ok = self::poolChoices($layers, $avoid, 1);
+        $ok = self::poolChoices($layers, $avoid, 1, $topic);
         return $ok ? ['text' => $ok[0], 'sig' => self::sign($ok[0]), 'pool' => true]
             : ['error' => 'Pas d’autre anecdote disponible pour le moment : revenez un peu plus tard.'];
     }
 
     /** Anecdotes du stock (version en cours) ni vendues ni déjà vues, qui tiennent dans le cadre ; au plus $limit. */
-    public static function poolChoices(array $layers, array $avoid = [], int $limit = PHP_INT_MAX): array
+    public static function poolChoices(array $layers, array $avoid = [], int $limit = PHP_INT_MAX, string $topic = ''): array
     {
         $sold = array_flip((array) JsonStore::read(self::soldFile(), []));
         $avoid = array_flip(array_map([self::class, 'key'], $avoid));
-        $pool = array_filter((array) JsonStore::read(self::poolFile(), []), fn ($e) => is_array($e) && (int) ($e['v'] ?? 0) === self::VERSION);
+        // Avec un sujet : seulement les anecdotes rédigées sur ce sujet.
+        $pool = array_filter((array) JsonStore::read(self::poolFile(), []), fn ($e) => is_array($e) && (int) ($e['v'] ?? 0) === self::VERSION && ($topic === '' || ($e['k'] ?? '') === $topic));
         shuffle($pool);
         $out = [];
         foreach ($pool as $e) {
@@ -99,19 +100,26 @@ final class Anecdotes
      * Le tirage du client : toujours dans le stock déjà rédigé d'abord (aucun coût) ; quand ce client
      * a déjà vu tout ce qui convient dans le stock, une nouvelle anecdote par l'IA (si le budget le permet).
      */
-    public static function pick(array $layers, array $avoid, bool $aiAllowed): array
+    public static function pick(array $layers, array $avoid, bool $aiAllowed, string $topic = ''): array
     {
-        $r = self::fromPool($layers, $avoid);
-        return isset($r['error']) && $aiAllowed ? self::draw($layers, $avoid) : $r;
+        $r = self::fromPool($layers, $avoid, $topic);
+        if (isset($r['error']) && $aiAllowed) {
+            $r = self::draw($layers, $avoid, $topic);
+        }
+        if (isset($r['error']) && $topic !== '') {
+            // Pas d'IA aujourd'hui pour ce sujet : une anecdote au hasard, en le disant au client.
+            return self::fromPool($layers, $avoid) + ['note' => 'Plus d’anecdote sur ce sujet pour aujourd’hui : en voici une au hasard.'];
+        }
+        return $r;
     }
 
-    private static function keep(string $t): void
+    private static function keep(string $t, string $topic = ''): void
     {
-        JsonStore::update(self::poolFile(), function ($all) use ($t) {
+        JsonStore::update(self::poolFile(), function ($all) use ($t, $topic) {
             $all = is_array($all) ? $all : [];
             $all = array_values(array_filter($all, 'is_array')); // les anciennes entrées (texte seul, consigne périmée) s'effacent
             if (!in_array($t, array_column($all, 't'), true)) {
-                $all[] = ['t' => $t, 'v' => self::VERSION];
+                $all[] = ['t' => $t, 'v' => self::VERSION] + ($topic !== '' ? ['k' => $topic] : []);
             }
             return array_slice($all, -self::POOL_MAX);
         }, []);
@@ -122,9 +130,16 @@ final class Anecdotes
         return STORAGE_PATH . '/shop/anecdotes-vendues.json';
     }
 
-    /** Un fait vérifié, au hasard : [texte du fait, référence]. */
-    public static function fact(): array
+    /**
+     * Un fait vérifié : [texte du fait, référence]. Sans sujet, au hasard (un chiffre du FCSM ou un
+     * match) ; avec un sujet choisi par le client (« m:ID » un match, « p:ID » un joueur ou un
+     * entraîneur), un fait sur ce sujet.
+     */
+    public static function fact(string $topic = ''): array
     {
+        if ($topic !== '') {
+            return self::topicFact($topic) ?? ['', ''];
+        }
         if (random_int(0, 1) === 0) {
             $stats = array_values(array_filter(Chiffres::flat(), fn ($s) => ($s['value'] ?? '') !== '' && ($s['label'] ?? '') !== ''));
             if ($stats) {
@@ -135,15 +150,30 @@ final class Anecdotes
                 return [trim(strip_tags($t)), 'chiffre:' . $s['key']];
             }
         }
-        $matches = array_values(array_filter(Derived::part('matches'), fn ($m) => !empty($m['v']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($m['date'] ?? ''))));
+        $matches = self::matches();
         if (!$matches) {
             return ['', ''];
         }
         // Les matchs marquants d'abord (deux fois sur trois), sinon n'importe lequel.
         $hl = array_values(array_filter($matches, fn ($m) => (int) ($m['hl'] ?? 0) > 0));
         $pool = $hl && random_int(0, 2) > 0 ? $hl : $matches;
-        $m = $pool[random_int(0, count($pool) - 1)];
+        return self::matchFact($pool[random_int(0, count($pool) - 1)]);
+    }
+
+    /** @return list<array> matchs publiés et datés */
+    private static function matches(): array
+    {
+        return array_values(array_filter(Derived::part('matches'), fn ($m) => !empty($m['v']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($m['date'] ?? ''))));
+    }
+
+    /** Le fait d'un match : date, affiche, compétition, stade, affluence, buteurs, temps forts. */
+    private static function matchFact(array $m, bool $rich = false): array
+    {
         $v = TonMatch::values((string) $m['date']);
+        if ((string) ($v['_match'] ?? '') !== (string) $m['id']) {
+            // Deux matchs le même jour : on décrit bien celui-ci.
+            $v['match_affiche'] = $m['home'] . ' ' . ($m['sh'] ? $m['us'] . '-' . $m['them'] : $m['them'] . '-' . $m['us']) . ' ' . $m['away'];
+        }
         $t = 'Le ' . $v['match_date'] . ' : ' . $v['match_affiche'] . ($v['match_compet'] !== '' ? ' (' . $v['match_compet'] . ')' : '')
             . ($v['match_lieu'] !== '' ? ', à ' . $v['match_lieu'] : '') . ($v['match_public'] !== '' ? ', devant ' . $v['match_public'] : '')
             . '.';
@@ -152,7 +182,132 @@ final class Anecdotes
         if ($names) {
             $t .= ' Buteurs sochaliens : ' . implode(', ', $names) . '.';
         }
+        if ($rich) {
+            // Sujet choisi par le client : quelques temps forts de la fiche pour varier les anecdotes.
+            $hs = array_values(array_filter((array) (\App\Data\Fiches::get((int) $m['id'])['match']['highlights'] ?? []), fn ($h) => trim((string) ($h['text'] ?? '')) !== ''));
+            shuffle($hs);
+            foreach (array_slice($hs, 0, 3) as $h) {
+                $t .= ' ' . preg_replace('/\D/', '', (string) ($h['minute'] ?? '')) . 'e minute : ' . Poster::tidy((string) $h['text']);
+            }
+        }
         return [trim((string) preg_replace('/\s+/', ' ', $t)), 'match:' . $m['id']];
+    }
+
+    /** Le fait d'un sujet choisi par le client, ou null si le sujet est inconnu. */
+    public static function topicFact(string $topic): ?array
+    {
+        if (!preg_match('/^([mp]):(\d{1,9})$/', $topic, $x)) {
+            return null;
+        }
+        if ($x[1] === 'm') {
+            foreach (self::matches() as $m) {
+                if ((string) $m['id'] === $x[2]) {
+                    return self::matchFact($m, true);
+                }
+            }
+            return null;
+        }
+        $s = \App\Data\Index::get((int) $x[2]);
+        if (!$s || ($s['type'] ?? '') !== 'personne' || !\App\Data\Index::visible($s)) {
+            return null;
+        }
+        $p = (array) ($s['p'] ?? []);
+        $name = (string) ($p['name'] ?? $s['title']);
+        // Une fois sur deux, un match où il a marqué (s'il y en a) ; sinon son parcours au club.
+        $goals = [];
+        foreach (Derived::part('scorers') as $mid => $list) {
+            foreach ((array) $list as $g) {
+                if ((int) ($g[0] ?? 0) === (int) $x[2]) {
+                    $goals[] = $mid;
+                }
+            }
+        }
+        if ($goals && random_int(0, 1) === 0) {
+            $mid = $goals[random_int(0, count($goals) - 1)];
+            foreach (self::matches() as $m) {
+                if ((string) $m['id'] === (string) $mid) {
+                    [$t] = self::matchFact($m);
+                    return [$t . ' Ce jour-là, ' . $name . ' marque pour Sochaux.', 'personne:' . $x[2]];
+                }
+            }
+        }
+        $tot = (array) (Derived::part('person_totals')[(int) $x[2]] ?? []);
+        $roles = str_replace('entraineur', 'entraîneur', implode(' et ', (array) ($p['roles'] ?? [])));
+        $t = $name . ($roles !== '' ? ', ' . $roles : '') . (($p['position'] ?? '') !== '' ? ' (' . $p['position'] . ')' : '') . ' du FC Sochaux-Montbéliard'
+            . (!empty($p['arrival']) ? ', au club de ' . $p['arrival'] . (!empty($p['departure']) && $p['departure'] != $p['arrival'] ? ' à ' . $p['departure'] : '') : '')
+            . (!empty($p['birth_year']) ? ', né en ' . $p['birth_year'] . (!empty($p['birth_place']) ? ' à ' . $p['birth_place'] : '') : '') . '.';
+        if (($tot['matches'] ?? 0) > 0) {
+            $t .= ' ' . $tot['matches'] . ' matchs officiels avec Sochaux' . (($tot['goals'] ?? 0) > 0 ? ', ' . $tot['goals'] . ' buts' : '') . (($tot['seasons'] ?? 0) > 1 ? ', ' . $tot['seasons'] . ' saisons' : '') . '.';
+        }
+        if (($tot['coached'] ?? 0) > 0) {
+            $t .= ' Entraîneur de Sochaux sur ' . $tot['coached'] . ' matchs (' . $tot['v'] . ' victoires, ' . $tot['n'] . ' nuls, ' . $tot['d'] . ' défaites).';
+        }
+        if (!empty($p['legend'])) {
+            $t .= ' Une légende du club.';
+        }
+        if (!empty($p['formed'])) {
+            $t .= ' Formé au club.';
+        }
+        if (!empty($p['intl'])) {
+            $t .= ' International.';
+        }
+        $doc = \App\Data\Fiches::get((int) $x[2]);
+        $intro = trim(html_entity_decode(strip_tags((string) ($doc['intro'] ?? '')), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+        if ($intro !== '') {
+            $t .= ' ' . mb_substr($intro, 0, 500);
+        }
+        return [trim((string) preg_replace('/\s+/', ' ', $t)), 'personne:' . $x[2]];
+    }
+
+    /**
+     * Sujets proposés au client (saisie automatique) : joueurs et entraîneurs (les plus capés
+     * d'abord), puis matchs (les plus marquants d'abord). @return list<array{key:string,label:string}>
+     */
+    public static function topics(string $q, int $limit = 10): array
+    {
+        $words = array_values(array_filter(preg_split('/[\s,\/·-]+/u', mb_strtolower(\App\Data\Names::ascii(trim($q)))) ?: [], fn ($w) => $w !== ''));
+        if (!$words || mb_strlen(trim($q)) < 2) {
+            return [];
+        }
+        $has = function (string $hay) use ($words): bool {
+            foreach ($words as $w) {
+                if (!str_contains($hay, $w) && !(preg_match('/^\d{2}$/', $w) && (str_contains($hay, ' 19' . $w) || str_contains($hay, ' 20' . $w)))) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        $tot = Derived::part('person_totals');
+        $people = [];
+        foreach (\App\Data\Index::all() as $s) {
+            if (($s['type'] ?? '') !== 'personne' || !\App\Data\Index::visible($s)) {
+                continue;
+            }
+            $p = (array) ($s['p'] ?? []);
+            $name = (string) ($p['name'] ?? $s['title']);
+            if ($has(' ' . mb_strtolower(\App\Data\Names::ascii($name . ' ' . ($p['nickname'] ?? ''))) . ' ')) {
+                $years = !empty($p['arrival']) ? ' · ' . $p['arrival'] . (!empty($p['departure']) && $p['departure'] != $p['arrival'] ? '-' . $p['departure'] : '') : '';
+                $people[] = ['key' => 'p:' . $s['id'], 'label' => $name . ' · ' . (str_replace('entraineur', 'entraîneur', implode(', ', (array) ($p['roles'] ?? []))) ?: 'Lionceau') . $years,
+                    'n' => (int) (($tot[$s['id']]['matches'] ?? 0) + ($tot[$s['id']]['coached'] ?? 0))];
+            }
+        }
+        usort($people, fn ($a, $b) => $b['n'] <=> $a['n']);
+        $games = [];
+        foreach (self::matches() as $m) {
+            $hay = ' ' . mb_strtolower(\App\Data\Names::ascii(implode(' ', [$m['home'], $m['away'], $m['comp'], $m['label'] ?? '', $m['round'] ?? '', $m['date'], $m['season'] ?? '', TonMatch::frDate((string) $m['date'])]))) . ' ';
+            if ($has($hay)) {
+                $games[] = $m;
+            }
+        }
+        usort($games, fn ($a, $b) => ((int) ($b['hl'] ?? 0) <=> (int) ($a['hl'] ?? 0)) ?: strcmp((string) $b['date'], (string) $a['date']));
+        $out = array_map(fn ($p) => ['key' => $p['key'], 'label' => $p['label']], array_slice($people, 0, (int) ceil($limit / 2)));
+        foreach ($games as $m) {
+            if (count($out) >= $limit) {
+                break;
+            }
+            $out[] = ['key' => 'm:' . $m['id'], 'label' => Poster::label($m)];
+        }
+        return $out;
     }
 
     /** Mots du club toujours permis, même absents du fait. */
@@ -205,7 +360,7 @@ final class Anecdotes
      * Tire une anecdote qui tient dans les calques du champ. @param list<array> $layers
      * @return array{text:string,sig:string}|array{error:string}
      */
-    public static function draw(array $layers, array $avoid = []): array
+    public static function draw(array $layers, array $avoid = [], string $topic = ''): array
     {
         $max = 160;
         foreach ($layers as $l) {
@@ -215,10 +370,10 @@ final class Anecdotes
         $sold = array_flip((array) JsonStore::read(self::soldFile(), []));
         $avoid = array_flip(array_map([self::class, 'key'], $avoid));
         if (self::$ai === null && !Gemini::ready()) {
-            return self::fromPool($layers, $asked);
+            return self::fromPool($layers, $asked, $topic);
         }
         for ($try = 0; $try < 4; $try++) {
-            [$fact] = self::fact();
+            [$fact] = self::fact($topic);
             if ($fact === '') {
                 break;
             }
@@ -251,11 +406,11 @@ final class Anecdotes
                 $fit = $fit && Vector::fits($l, [($l['field'] ?? self::FIELD) => $t]);
             }
             if ($fit) {
-                self::keep($t);
+                self::keep($t, $topic);
                 return ['text' => $t, 'sig' => self::sign($t)];
             }
         }
-        return self::fromPool($layers, $asked); // l'IA n'a rien donné de sûr : la réserve
+        return self::fromPool($layers, $asked, $topic); // l'IA n'a rien donné de sûr : la réserve
     }
 
     /** Anecdote vendue : elle ne sera plus proposée à personne. */

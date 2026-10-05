@@ -439,6 +439,7 @@ final class Kernel
         $r->post('/boutique/commander/', fn ($q) => Shop\ShopPages::checkout($q));
         $r->post('/boutique/apercu/', fn ($q) => Shop\ShopPages::livePreview($q));
         $r->post('/boutique/anecdote/', fn ($q) => Shop\ShopPages::anecdote($q));
+        $r->get('/boutique/anecdote/sujets/', fn ($q) => Shop\ShopPages::anecdoteTopics($q));
         $r->get('/boutique/poster/matchs/', fn ($q) => Shop\ShopPages::posterMatches($q));
         $r->post('/boutique/poster/preparer/', fn ($q) => Shop\ShopPages::posterPrepare($q));
         $r->get('/boutique/commande/{token}/', fn ($q, $token) => Shop\ShopPages::track($q, $token));

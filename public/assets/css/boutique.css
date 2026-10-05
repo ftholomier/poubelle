@@ -209,3 +209,5 @@
 .shopzoom__x { position: absolute; top: 8px; right: 10px; z-index: 2; width: 42px; height: 42px; border: 2px solid var(--navy); background: var(--yellow); color: var(--navy); font-size: 28px; line-height: 1; cursor: pointer; }
 .shopzoom__hint { margin: 0; height: 34px; line-height: 34px; text-align: center; font-size: 14px; font-style: italic; color: var(--navy); }
 @media (max-width: 700px) { .shopzoom__in > svg { width: 100%; height: auto; } }
+.shopanec__tl { font-weight: 600; font-size: 15px; }
+.shopanec__tl small { font-weight: 400; color: var(--mist, #6b7280); }

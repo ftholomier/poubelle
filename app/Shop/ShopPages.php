@@ -211,7 +211,19 @@ final class ShopPages
         return Response::json(['ok' => true, 'ready' => Poster::enrich($id)]);
     }
 
-    /** POST /boutique/anecdote/ (JSON {model, avoid}) : une anecdote tirée pour ce modèle, signée. */
+    /** GET /boutique/anecdote/sujets/?q= (JSON) : joueurs et matchs proposés comme sujet d'anecdote. */
+    public static function anecdoteTopics(Request $req): Response
+    {
+        if (!self::visible()) {
+            return Response::json(['error' => 'Boutique fermée.'], 404);
+        }
+        if (!RateLimiter::hit('boutique-sujets', $req->ip(), 120, 60)) {
+            return Response::json(['error' => 'Trop de demandes.'], 429);
+        }
+        return Response::json(['ok' => true, 'items' => Anecdotes::topics(mb_substr(trim($req->str('q')), 0, 60))]);
+    }
+
+    /** POST /boutique/anecdote/ (JSON {model, avoid, topic}) : une anecdote tirée pour ce modèle (sur le sujet choisi), signée. */
     public static function anecdote(Request $req): Response
     {
         // Garde-fous : jeton de la page (pas d'appel direct par un robot), cadence par visiteur,
@@ -237,7 +249,10 @@ final class ShopPages
         $budget = (int) $c['anec_daily'];
         // Le compteur du budget n'avance que si l'IA est vraiment sollicitée (stock épuisé pour ce client).
         $aiAllowed = $budget > 0 && RateLimiter::remaining('boutique-anecdote-ia', 'site', $budget, 86400) > 0;
-        $r = Anecdotes::pick($layers, $avoid, $aiAllowed);
+        // Sujet choisi par le client (un match, un joueur) : seulement un identifiant connu du musée.
+        $topic = (string) ($in['topic'] ?? '');
+        $topic = $topic !== '' && Anecdotes::topicFact($topic) !== null ? $topic : '';
+        $r = Anecdotes::pick($layers, $avoid, $aiAllowed, $topic);
         if (!isset($r['pool']) && !isset($r['error'])) {
             RateLimiter::hit('boutique-anecdote-ia', 'site', $budget, 86400);
         }

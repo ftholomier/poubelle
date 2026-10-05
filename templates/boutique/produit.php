@@ -72,12 +72,19 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
         </div>
         <?php elseif ($f['gen']): ?>
         <div class="shopanec" data-anec="<?= e($k) ?>">
+          <div class="shopmatch shopanec__topic" data-anec-topic data-url="<?= e(ShopPages::u('/boutique/anecdote/sujets/')) ?>">
+            <label class="shopanec__tl" for="t-<?= e($k) ?>">Sur un match, un joueur, un entraîneur ? <small>(facultatif)</small></label>
+            <input type="text" id="t-<?= e($k) ?>" class="shopmatch__q" autocomplete="off" spellcheck="false" placeholder="Ex. : Paille, Metz 1988, Bazdarevic, finale…" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="ta-<?= e($k) ?>" data-pmatch-q>
+            <input type="hidden" value="" data-pmatch-val data-anec-topic-val>
+            <ul class="shopmatch__list" id="ta-<?= e($k) ?>" role="listbox" hidden data-pmatch-list></ul>
+            <p class="shopmatch__state" data-anec-note aria-live="polite"></p>
+          </div>
           <?php $a0 = $anec ?? null; ?>
           <p class="shopanec__t<?= $a0 ? ' is-on' : '' ?>" id="f-<?= e($k) ?>" data-anec-text aria-live="polite"><?= $a0 ? e($a0['text']) : 'Cliquez sur « Une anecdote » : le musée en tire une rien que pour vous, d’après sa base de matchs et de chiffres.' ?></p>
           <input type="hidden" name="values[<?= e($k) ?>]" value="<?= e($a0['text'] ?? '') ?>" data-shop-in data-anec-val>
           <input type="hidden" name="values[_sig_<?= e($k) ?>]" value="<?= e($a0['sig'] ?? '') ?>" data-anec-sig>
           <button type="button" class="shopanec__b" data-anec-btn<?= $a0 ? ' data-seen="' . e($a0['text']) . '"' : '' ?>><span aria-hidden="true">↻</span> <b><?= $a0 ? 'Une autre' : 'Une anecdote' ?></b></button>
-          <small class="shophelp">Une autre, puis une autre… jusqu’à celle qui vous plaît. Une anecdote vendue n’est plus jamais proposée : la vôtre sera unique.</small>
+          <small class="shophelp">Choisissez un sujet si vous voulez (sinon, le musée tire au hasard), puis « Une anecdote ». Une autre, puis une autre… jusqu’à celle qui vous plaît. Une anecdote vendue n’est plus jamais proposée : la vôtre sera unique.</small>
         </div>
         <?php elseif ($f['list'] !== ''): ?>
         <select id="f-<?= e($k) ?>" name="values[<?= e($k) ?>]" required data-shop-in>
