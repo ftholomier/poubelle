@@ -12,14 +12,14 @@
   let face = '', timer = null, seq = 0, v3d = null;
   // Aperçu 3D : le module (Three.js) n'est chargé qu'au premier clic.
   const box3d = root.querySelector('[data-shop-3d]'), btn3d = root.querySelector('[data-3d-toggle]');
-  const hint = root.querySelector('[data-3d-hint]'), faceBar = root.querySelector('[data-faces]');
+  const credit3d = root.querySelector('[data-3d-credit]'), hint = root.querySelector('[data-3d-hint]'), faceBar = root.querySelector('[data-faces]');
   const webgl = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } })();
   if (btn3d && !webgl) btn3d.hidden = true;
   btn3d?.addEventListener('click', async () => {
     const on = btn3d.getAttribute('aria-pressed') !== 'true';
     btn3d.setAttribute('aria-pressed', on ? 'true' : 'false');
     btn3d.querySelector('b').textContent = on ? 'Retour à l’aperçu' : 'Voir en 3D';
-    svgBox.hidden = on; box3d.hidden = !on;
+    svgBox.hidden = on; box3d.hidden = !on; if (credit3d) credit3d.hidden = !on;
     if (faceBar) faceBar.hidden = on;
     if (!on) { v3d?.destroy(); v3d = null; return; }
     hint.hidden = false; hint.textContent = 'Chargement de la 3D…';

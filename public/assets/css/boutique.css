@@ -162,4 +162,6 @@
 .shop3dbtn { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; border: 2px solid var(--navy); background: var(--yellow, #f6c400); color: var(--navy); padding: 7px 14px; font-family: var(--display); text-transform: uppercase; letter-spacing: .05em; cursor: pointer; box-shadow: 3px 3px 0 var(--navy); }
 .shop3dbtn span { font-size: 18px; line-height: 1; }
 .shop3dbtn[aria-pressed="true"] { background: var(--navy); color: #fff; }
+.shopcredit { margin: 10px 0 0; font-size: 12px; line-height: 1.45; color: rgba(14,31,77,.75); }
+.shopcredit a { color: inherit; }
 .shopdisclaim { margin: 10px 0 0; font-size: 12px; line-height: 1.45; color: rgba(14,31,77,.62); font-style: italic; }

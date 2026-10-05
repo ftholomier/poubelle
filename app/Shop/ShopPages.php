@@ -64,8 +64,24 @@ final class ShopPages
         return Mockup::render($sup['mockup'], (string) $fk, $mm['faces'][$fk], $mm['color'], $values)['svg'];
     }
 
-    /** Formes sans aperçu 3D tant qu'il n'y a pas de vrai modèle 3D (vêtements, casquette) : aperçu à plat seulement. */
-    public const NO_3D = ['tee', 'hoodie', 'cap'];
+    /**
+     * Modèles 3D de l'aperçu (public/assets/3d/, allégés par bin/build-shop3d-models.sh) : tous tirés
+     * de Sketchfab sous licence Creative Commons Attribution 4.0, d'où le crédit affiché sous la vue 3D.
+     */
+    public const MODELS_3D = [
+        'mug' => ['file' => 'mug.glb', 'title' => 'CANECA SUBLIMAÇÃO 3D MOCK UP (Sublimation Mug)', 'author' => 'misscanning', 'authorUrl' => 'https://sketchfab.com/misscanning', 'url' => 'https://sketchfab.com/3d-models/caneca-sublimacao-3d-mock-up-sublimation-mug-d0d4a48e5f5e4f1a9044c001007f18e4'],
+        'mug-email' => ['file' => 'mug-emaille.glb', 'title' => 'Enamel metal mug', 'author' => 'tab1bit0', 'authorUrl' => 'https://sketchfab.com/tab1bit0', 'url' => 'https://sketchfab.com/3d-models/enamel-metal-mug-669f3a1e56a94be69ba155d6bc08c762'],
+        'tote' => ['file' => 'tote.glb', 'title' => 'Batik Beach Tote Bag', 'author' => 'eeelabvisual', 'authorUrl' => 'https://sketchfab.com/eeelabvisual', 'url' => 'https://sketchfab.com/3d-models/batik-beach-tote-bag-12b908ac5af54e79bb0aed793e7c66c7'],
+        'tee' => ['file' => 'tshirt.glb', 'title' => 'T Shirt', 'author' => 'funlab117', 'authorUrl' => 'https://sketchfab.com/funlab117', 'url' => 'https://sketchfab.com/3d-models/t-shirt-c1a3e5eb9b5445f4b7d4be82f1127eba'],
+        'hoodie' => ['file' => 'sweat.glb', 'title' => 'Hoodie', 'author' => 'Virtual Pandora', 'authorUrl' => 'https://sketchfab.com/virtualpandora', 'url' => 'https://sketchfab.com/3d-models/hoodie-97611a53e3b846f69e0655b210f72b2f'],
+        'cap' => ['file' => 'casquette.glb', 'title' => 'Baseball Cap', 'author' => 'jomalon', 'authorUrl' => 'https://sketchfab.com/estebancandiani', 'url' => 'https://sketchfab.com/3d-models/baseball-cap-75d11d363e1c4884a714a776049ea4a0'],
+    ];
+
+    /** Clé de forme 3D d'un support (le mug émaillé a son propre modèle). */
+    public static function kind3d(array $sup): string
+    {
+        return $sup['mockup'] === 'mug' && str_contains($sup['key'], 'email') ? 'mug-email' : $sup['mockup'];
+    }
 
     /**
      * Pour l'aperçu 3D : le dessin à plat de chaque face (SVG vectoriel du fichier d'impression,
@@ -80,8 +96,9 @@ final class ShopPages
             $drawn = $f['layers'] || $f['bg'];
             $faces[$fk] = ['w' => $f['w'], 'h' => $f['h'], 'bg' => $f['bg'] ? Vector::hex($f['bg']) : '', 'svg' => $drawn ? Vector::svg($f, $values) : ''];
         }
-        $kind = $sup['mockup'] === 'mug' && str_contains($sup['key'], 'email') ? 'mug-email' : $sup['mockup'];
-        return ['kind' => $kind, 'color' => $mm['color'], 'faces' => $faces];
+        $kind = self::kind3d($sup);
+        $model = isset(self::MODELS_3D[$kind]) ? asset('3d/' . self::MODELS_3D[$kind]['file']) : '';
+        return ['kind' => $kind, 'color' => $mm['color'], 'faces' => $faces, 'model' => $model];
     }
 
     // ------------------------------------------------------------------ catalogue, produit

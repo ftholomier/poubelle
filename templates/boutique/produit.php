@@ -25,8 +25,9 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
         <?php if (count($faces) > 1): ?>
         <div class="shopseg" role="group" aria-label="Face" data-faces><?php foreach ($faces as $i => $fk): ?><button type="button" class="shopseg__b<?= $i ? '' : ' is-on' ?>" data-face="<?= e($fk) ?>"><?= e($sup['faces'][$fk]['label']) ?></button><?php endforeach; ?></div>
         <?php endif; ?>
-        <?php if (!in_array($sup['mockup'], \App\Shop\ShopPages::NO_3D, true)): ?><button type="button" class="shop3dbtn" data-3d-toggle aria-pressed="false"><span aria-hidden="true">⟳</span> <b>Voir en 3D</b></button><?php endif; ?>
+        <button type="button" class="shop3dbtn" data-3d-toggle aria-pressed="false"><span aria-hidden="true">⟳</span> <b>Voir en 3D</b></button>
       </div>
+      <?php if ($cr = ShopPages::MODELS_3D[ShopPages::kind3d($sup)] ?? null): ?><p class="shopcredit" data-3d-credit hidden>Modèle 3D : <a href="<?= e($cr['url']) ?>" target="_blank" rel="noopener">« <?= e($cr['title']) ?> »</a> par <a href="<?= e($cr['authorUrl']) ?>" target="_blank" rel="noopener"><?= e($cr['author']) ?></a>, licence <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener">CC BY 4.0</a> (allégé et teinté).</p><?php endif; ?>
       <p class="shopdisclaim">Aperçus et rendu 3D indicatifs, non contractuels : couleurs, proportions et placement du marquage peuvent légèrement varier sur le produit fabriqué.</p>
     </div>
     <form class="shopprod__form vform" method="post" action="<?= e(ShopPages::u('/boutique/panier/')) ?>">

@@ -1,7 +1,7 @@
 /**
  * Boutique : aperçu 3D d'un article, à faire tourner à la souris ou au doigt (Three.js).
- * Les objets sont construits ici même par le code (aucun modèle 3D extérieur, donc aucun droit à
- * régler) : mug, papier (poster, carte), sticker, écharpe, tote bag, t-shirt, sweat, casquette.
+ * Papier (poster, carte), sticker et écharpe sont construits ici même par le code ; mug, mug émaillé,
+ * tote bag, t-shirt, sweat et casquette sont de vrais modèles 3D (Sketchfab, CC BY), teintés ici.
  * Le dessin vient du fichier d'impression (SVG vectoriel du serveur, mêmes tracés que le PDF) :
  * il est posé comme une décalcomanie sur la zone imprimable du produit. Unités : millimètres.
  *
@@ -10,10 +10,12 @@
  */
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Color, SRGBColorSpace, ACESFilmicToneMapping,
-  MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, CanvasTexture, DoubleSide, BackSide,
-  CylinderGeometry, TorusGeometry, CircleGeometry, BoxGeometry, PlaneGeometry, SphereGeometry, ExtrudeGeometry,
-  Shape, PMREMGenerator, DirectionalLight, Box3, Vector3, Sphere, BufferGeometry, Float32BufferAttribute, TubeGeometry, CatmullRomCurve3, LatheGeometry, Vector2,
+  MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, CanvasTexture, DoubleSide,
+  CylinderGeometry, BoxGeometry, PlaneGeometry, PMREMGenerator, DirectionalLight, Box3, Vector3, Sphere,
+  BufferGeometry, Float32BufferAttribute, Raycaster, Euler,
 } from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DecalGeometry } from 'three/examples/jsm/geometries/DecalGeometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
@@ -76,34 +78,6 @@ const cloth = color => new MeshStandardMaterial({ color: new Color(color), rough
 
 // ------------------------------------------------------------------ objets
 
-/** Mug : la face « tour complet » fait tout le tour ; le centre du dessin face à nous, l'anse aux bords. */
-async function mug(r, faces, color, enamel) {
-  const f = faces.tour || Object.values(faces)[0];
-  const R = f.w / (2 * Math.PI), H = f.h + (enamel ? 6 : 10);
-  const g = new Group();
-  const body = enamel
-    ? new MeshStandardMaterial({ color: new Color(color), roughness: 0.25, metalness: 0.15 })
-    : new MeshPhysicalMaterial({ color: new Color(color), roughness: 0.18, clearcoat: 1, clearcoatRoughness: 0.08 });
-  g.add(new Mesh(new CylinderGeometry(R, R, H, 128, 1, true), body));
-  const inner = new Mesh(new CylinderGeometry(R - 2.4, R - 2.4, H - 0.5, 96, 1, true), body.clone());
-  inner.material.side = BackSide; inner.material.color.multiplyScalar(0.94);
-  g.add(inner);
-  const rim = new Mesh(new TorusGeometry(R - 1.2, 1.2, 12, 128), enamel ? new MeshStandardMaterial({ color: '#0E1F4D', roughness: 0.3, metalness: 0.2 }) : body);
-  rim.rotation.x = Math.PI / 2; rim.position.y = H / 2; g.add(rim);
-  const bottom = new Mesh(new CircleGeometry(R, 96), body); bottom.rotation.x = Math.PI / 2; bottom.position.y = -H / 2; g.add(bottom);
-  const floor = new Mesh(new CircleGeometry(R - 2.4, 96), inner.material); floor.rotation.x = -Math.PI / 2; floor.position.y = -H / 2 + 6; g.add(floor);
-  // anse : un demi-anneau un peu aplati, derrière (là où se rejoignent les deux bords du dessin)
-  const handle = new Mesh(new TorusGeometry(H * 0.3, 5, 20, 48, Math.PI), body);
-  handle.rotation.z = -Math.PI / 2; handle.scale.set(1, 0.85, 1.25); handle.position.set(0, 0, -R - 1);
-  handle.rotation.y = Math.PI / 2; g.add(handle);
-  if (f.svg) {
-    const ring = new Mesh(new CylinderGeometry(R + 0.12, R + 0.12, f.h, 192, 1, true, -Math.PI, Math.PI * 2), decal(await faceTexture(r, f), { roughness: 0.2 }));
-    g.add(ring);
-  }
-  g.userData.view = [0.8, 0.18]; // trois quarts : l'anse apparaît sur le côté
-  return g;
-}
-
 /** Poster, carte : une feuille, recto et verso. */
 async function paper(r, faces) {
   const keys = Object.keys(faces), rec = faces[keys[0]], ver = faces[keys[1]] || null;
@@ -153,160 +127,146 @@ async function scarf(r, faces, color) {
   return g;
 }
 
-/** Tote bag : un sac de toile plat, deux anses, le dessin au centre. */
-async function tote(r, faces, color) {
+// ------------------------------------------------------------------ modèles 3D téléchargés
+
+/*
+ * Mug, mug émaillé, tote bag, t-shirt, sweat et casquette sont de vrais modèles 3D (Sketchfab,
+ * licence CC BY : crédit des auteurs affiché sous la vue 3D, voir ShopPages::MODELS_3D). Ils ont
+ * été allégés (bin/build-shop3d-models.sh : sans textures, maillage simplifié, mis à l'échelle en
+ * millimètres, devant vers +z) ; ici on les teinte de la couleur du produit et on y projette le dessin.
+ */
+const loader = new GLTFLoader();
+const models = new Map();
+const loadModel = async url => {
+  if (!models.has(url)) models.set(url, loader.loadAsync(url).then(g => g.scene));
+  const m = (await models.get(url)).clone(true);
+  m.traverse(o => { if (o.isMesh) o.geometry = o.geometry.clone(); });
+  return m;
+};
+const meshesOf = root => { const l = []; root.updateMatrixWorld(true); root.traverse(o => { if (o.isMesh) l.push(o); }); return l; };
+
+/** Teinte : chaque matière prend la couleur du produit, sauf les finitions gardées (cordons, liseré…). */
+function tint(root, color, keep = {}, extra = {}) {
+  for (const o of meshesOf(root)) {
+    const name = o.material.name, fixed = keep[name];
+    const c = fixed === true ? o.material.color.clone() : new Color(fixed || color);
+    o.material = extra.glossy && !fixed
+      ? new MeshPhysicalMaterial({ color: c, roughness: 0.18, clearcoat: 1, clearcoatRoughness: 0.08, side: DoubleSide })
+      : new MeshStandardMaterial({ color: c, roughness: extra.roughness ?? 0.92, metalness: extra.metalness ?? 0, side: DoubleSide });
+  }
+}
+
+/** Projection à plat (t-shirt, sweat, casquette, tote) : le dessin, centré en x, haut du dessin à yTop, de face ou de dos. */
+async function stamp(r, g, root, f, x, yTop, back = false, mat = {}) {
+  const meshes = meshesOf(root), dir = back ? -1 : 1;
+  const hit = new Raycaster(new Vector3(x, yTop - f.h / 2, dir * 5000), new Vector3(0, 0, -dir)).intersectObjects(meshes)[0];
+  if (!hit) return;
+  const map = await faceTexture(r, f);
+  for (const m of meshes) {
+    const geo = new DecalGeometry(m, hit.point, new Euler(0, back ? Math.PI : 0, 0), new Vector3(f.w, f.h, 120));
+    if (geo.attributes.position.count) g.add(new Mesh(geo, decal(map, { side: DoubleSide, ...mat })));
+  }
+}
+
+/**
+ * Projection cylindrique (mugs) : le dessin fait le tour, son centre face à nous, la jointure derrière
+ * (l'anse). On reprend la paroi extérieure du modèle, à peine décollée, et la position du dessin est
+ * calculée pixel par pixel (angle autour de l'axe, hauteur) : net même sur un maillage grossier.
+ */
+async function wrap(r, g, root, f, R, yc, mat) {
+  const pos = [], p = new Vector3(), tri = [0, 0, 0].map(() => new Vector3()), n = new Vector3();
+  const y0 = yc - f.h / 2, y1 = yc + f.h / 2;
+  for (const m of meshesOf(root)) {
+    const a = m.geometry.attributes.position, idx = m.geometry.index;
+    const count = idx ? idx.count : a.count;
+    for (let i = 0; i < count; i += 3) {
+      for (let k = 0; k < 3; k++) tri[k].fromBufferAttribute(a, idx ? idx.getX(i + k) : i + k).applyMatrix4(m.matrixWorld);
+      // paroi extérieure seulement (ni l'intérieur, ni le fond, ni l'anse), dans la hauteur du dessin
+      if (tri.some(t => Math.abs(Math.hypot(t.x, t.z) - R) > R * 0.1) || tri.every(t => t.y < y0) || tri.every(t => t.y > y1)) continue;
+      n.subVectors(tri[1], tri[0]).cross(p.subVectors(tri[2], tri[0])).normalize();
+      const cx = (tri[0].x + tri[1].x + tri[2].x) / 3, cz = (tri[0].z + tri[1].z + tri[2].z) / 3;
+      if (Math.abs(n.x * cx + n.z * cz) / Math.hypot(cx, cz) < 0.6) continue;
+      for (const t of tri) { const s = (Math.hypot(t.x, t.z) + 0.25) / Math.hypot(t.x, t.z); pos.push(t.x * s, t.y, t.z * s); }
+    }
+  }
+  const geo = new BufferGeometry();
+  geo.setAttribute('position', new Float32BufferAttribute(pos, 3));
+  geo.setAttribute('uv', new Float32BufferAttribute(new Float32Array(pos.length / 3 * 2), 2));
+  geo.computeVertexNormals();
+  const m = decal(await faceTexture(r, f), { side: DoubleSide, ...mat });
+  m.onBeforeCompile = sh => {
+    sh.uniforms.uWrap = { value: new Vector3(R / f.w, y0, 1 / f.h) };
+    sh.vertexShader = 'varying vec3 vWrap;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvWrap = transformed;');
+    sh.fragmentShader = 'uniform vec3 uWrap;\nvarying vec3 vWrap;\n' + sh.fragmentShader.replace('#include <map_fragment>', `
+      vec2 wuv = vec2(0.5 + atan(vWrap.x, vWrap.z) * uWrap.x, (vWrap.y - uWrap.y) * uWrap.z);
+      if (wuv.x < 0.0 || wuv.x > 1.0 || wuv.y < 0.0 || wuv.y > 1.0) discard;
+      diffuseColor *= texture2D(map, wuv);`);
+  };
+  g.add(new Mesh(geo, m));
+}
+
+/** Mug : mis à l'échelle pour que son tour corresponde à la largeur de la face « tour complet ». */
+async function mug(r, faces, color, url, enamel) {
+  const f = faces.tour || Object.values(faces)[0];
+  const g = new Group(), root = await loadModel(url);
+  // axe et rayon du corps, sous le bord et au-dessus du pied : l'anse, fine et derrière (vers -z),
+  // ne touche ni aux côtés (x) ni au devant (z max)
+  const box = new Box3().setFromObject(root), h = box.max.y - box.min.y;
+  let x0 = Infinity, x1 = -Infinity, z1 = -Infinity;
+  for (const m of meshesOf(root)) {
+    const a = m.geometry.attributes.position, v = new Vector3();
+    for (let i = 0; i < a.count; i++) {
+      v.fromBufferAttribute(a, i).applyMatrix4(m.matrixWorld);
+      if (v.y > box.min.y + h * 0.02 && v.y < box.max.y - h * 0.08) { x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); z1 = Math.max(z1, v.z); }
+    }
+  }
+  // le tour du mug = la largeur de la face, sa hauteur = celle du dessin plus les marges
+  const rx = (x1 - x0) / 2, R = f.w / (2 * Math.PI), s = R / rx, sy = (f.h + (enamel ? 8 : 12)) / h;
+  root.scale.set(s, sy, s); root.position.set(-(x0 + x1) / 2 * s, -box.min.y * sy, -(z1 - rx) * s);
+  tint(root, color, enamel ? { material: '#0E1F4D' } : {}, enamel ? { roughness: 0.25, metalness: 0.15 } : { glossy: true });
+  g.add(root);
+  if (f.svg) await wrap(r, g, root, f, R, h * sy / 2 - (enamel ? 1 : 0), { roughness: 0.2 });
+  g.userData.view = [0.8, 0.18]; // trois quarts : l'anse apparaît sur le côté
+  return g;
+}
+
+/** Tote bag : le dessin au centre du devant, sous les anses. */
+async function tote(r, faces, color, url) {
   const f = Object.values(faces)[0];
-  const W = 380, H = 420, D = 10;
-  const g = new Group();
-  const mat = cloth(color);
-  g.add(new Mesh(new BoxGeometry(W, H, D, 1, 1, 1), mat));
-  for (const z of [D / 2 - 1, -D / 2 + 1]) {
-    const h = new Mesh(new TorusGeometry(85, 7, 12, 48, Math.PI), mat);
-    h.position.set(0, H / 2, z); h.scale.set(1, 1.6, 0.4); g.add(h);
-  }
-  if (f.svg) {
-    const p = new Mesh(new PlaneGeometry(f.w, f.h), decal(await faceTexture(r, f)));
-    p.position.set(0, H / 2 - 45 - f.h / 2, D / 2 + 0.2); g.add(p);
-  }
+  const g = new Group(), root = await loadModel(url);
+  tint(root, color);
+  g.add(root);
+  if (f.svg) await stamp(r, g, root, f, 0, PLACE.tote.avant);
   g.userData.view = [0.3, 0.1];
   return g;
 }
 
-/**
- * Vêtement porté par un buste de couture sur pied (mannequin de couturière) : le vêtement épouse
- * le torse (coupe en ellipse), les manches tombent des épaules ; le dessin suit la poitrine et le dos.
- * Repères (mm) : bas du vêtement y = 0, poitrine ≈ 400, épaules ≈ 540, base du cou ≈ 580.
- */
-const BODY = [[-30, 150], [0, 158], [120, 148], [200, 140], [300, 158], [400, 172], [470, 176], [520, 168], [550, 150], [572, 112], [582, 70], [586, 58]];
-const DEPTH = 0.64; // épaisseur du torse / largeur
-const lerpR = (y, pts) => {
-  if (y <= pts[0][0]) return pts[0][1];
-  for (let i = 1; i < pts.length; i++) if (y <= pts[i][0]) { const [y0, r0] = pts[i - 1], [y1, r1] = pts[i]; return r0 + (r1 - r0) * (y - y0) / (y1 - y0); }
-  return pts[pts.length - 1][1];
-};
-const lathe = (y0, y1, off, n = 48, phi0 = 0, phiL = Math.PI * 2, seg = 96) => {
-  const pts = [];
-  for (let k = 0; k <= n; k++) { const y = y0 + (y1 - y0) * k / n; pts.push(new Vector2(lerpR(y, BODY) + off, y)); }
-  const m = new LatheGeometry(pts, seg, phi0, phiL);
-  return m;
-};
-
-async function garment(r, faces, color, hoodie) {
-  const g = new Group();
-  const form = new MeshStandardMaterial({ color: '#d8cfbd', roughness: 1 });
-  const wood = new MeshStandardMaterial({ color: '#6b4a2b', roughness: 0.55 });
-  const mat = new MeshStandardMaterial({ color: new Color(color), roughness: 0.93, side: DoubleSide });
-  const ease = hoodie ? 14 : 8; // aisance du vêtement autour du buste
-  const top = hoodie ? 560 : 566, hem = hoodie ? 10 : -10;
-  // buste (visible au cou et sous le vêtement), cou, pied
-  const torso = new Mesh(lathe(-60, 586, 0), form); torso.scale.z = DEPTH; g.add(torso);
-  const neck = new Mesh(new CylinderGeometry(50, 56, 90, 40), form); neck.position.y = 625; neck.scale.z = 0.85; g.add(neck);
-  const cap = new Mesh(new SphereGeometry(50, 32, 12, 0, Math.PI * 2, 0, Math.PI / 2), wood); cap.position.y = 670; cap.scale.set(1, 0.3, 0.85); g.add(cap);
-  const bottom = new Mesh(new CircleGeometry(150, 48), form); bottom.rotation.x = Math.PI / 2; bottom.position.y = -60; bottom.scale.y = DEPTH; g.add(bottom);
-  const pole = new Mesh(new CylinderGeometry(11, 11, 300, 16), wood); pole.position.y = -210; g.add(pole);
-  for (let k = 0; k < 3; k++) {
-    const leg = new Mesh(new CylinderGeometry(8, 9, 260, 12), wood);
-    const a = k * Math.PI * 2 / 3 + Math.PI / 6;
-    leg.position.set(Math.sin(a) * 100, -405, Math.cos(a) * 100); leg.rotation.set(Math.cos(a) * 1.05, 0, -Math.sin(a) * 1.05); g.add(leg);
-  }
-  // corps du vêtement
-  const body = new Mesh(lathe(hem, top, ease), mat); body.scale.z = DEPTH; g.add(body);
-  const shoulder = new Mesh(lathe(top - 2, 586, ease * 0.6, 12), mat); shoulder.scale.z = DEPTH; g.add(shoulder);
-  // encolure en côte
-  const rib = new Mesh(new TorusGeometry(hoodie ? 74 : 66, hoodie ? 9 : 6, 12, 64), mat);
-  rib.rotation.x = Math.PI / 2 - 0.12; rib.position.set(0, 586, 4); rib.scale.set(1, 0.86, 1); g.add(rib);
-  // manches : elles partent des épaules et tombent le long du buste (courtes ou longues)
-  const sl = hoodie ? 560 : 210;
-  for (const side of [-1, 1]) {
-    const sleeve = new Mesh(new CylinderGeometry(hoodie ? 50 : 62, 66, sl, 40, 1, true), mat);
-    sleeve.geometry.translate(0, -sl / 2, 0);
-    sleeve.position.set(side * 150, 540, 0); sleeve.rotation.z = side * (hoodie ? 0.14 : 0.3); sleeve.scale.z = 0.8; g.add(sleeve);
-    if (hoodie) { // poignet en côte
-      const cuff = new Mesh(new CylinderGeometry(46, 50, 50, 32, 1, true), mat);
-      cuff.position.set(side * (150 + Math.sin(0.14) * (sl + 20)), 540 - Math.cos(0.14) * (sl + 20), 0); cuff.rotation.z = side * 0.14; cuff.scale.z = 0.82; g.add(cuff);
-    }
-  }
-  if (hoodie) {
-    const waist = new Mesh(lathe(hem - 40, hem, ease - 6, 4), mat); waist.scale.z = DEPTH; g.add(waist);
-    const hood = new Mesh(new SphereGeometry(140, 40, 24, 0, Math.PI * 2, 0, Math.PI * 0.55), mat);
-    hood.position.set(0, 560, -95); hood.scale.set(0.9, 0.7, 0.62); hood.rotation.x = -1.15; g.add(hood);
-    const pocket = new Mesh(lathe(hem + 30, hem + 190, ease + 4, 8, -0.6, 1.2, 32), mat); pocket.scale.z = DEPTH; g.add(pocket);
-  }
-  // dessin : un morceau du vêtement, un peu au-dessus, découpé à la taille de la face
-  const place = { avant: [0, hoodie ? 488 : 500], dos: [Math.PI, hoodie ? 470 : 520] };
+/** Vêtements et casquette : la teinte, puis chaque face projetée à sa place (devant, dos). */
+async function wear(r, faces, color, url, kind) {
+  const g = new Group(), root = await loadModel(url);
+  tint(root, color, KEEP[kind]);
+  g.add(root);
   for (const [k, f] of Object.entries(faces)) {
-    if (!f.svg || !place[k]) continue;
-    const [phiC, yTop] = place[k];
-    const rr = lerpR(yTop - f.h / 2, BODY) + ease + 1.2;
-    const pw = f.w / rr;
-    const patch = new Mesh(lathe(yTop - f.h, yTop, ease + 1.2 + (hoodie && k === 'avant' ? 0 : 0), 40, phiC - pw / 2, pw, 64), decal(await faceTexture(r, f), { roughness: 0.9, side: DoubleSide }));
-    patch.scale.z = DEPTH; g.add(patch);
+    const y = PLACE[kind][k];
+    if (f.svg && y) await stamp(r, g, root, f, 0, y, k === 'dos', { roughness: 0.9 });
   }
-  g.userData.view = [0.35, 0.12];
-  g.userData.focus = [new Vector3(0, hoodie ? 330 : 320, 0), hoodie ? 470 : 400]; // cadrer le vêtement, pas le pied
+  g.userData.view = kind === 'cap' ? [0.6, 0.22] : [0.35, 0.12];
   return g;
 }
 
-/**
- * Casquette « baseball » : calotte haute à six panneaux (coutures, œillets, bouton), visière
- * incurvée qui plonge vers l'avant et sur les côtés ; le dessin épouse le panneau avant.
- */
-async function cap(r, faces, color) {
-  const R = 92, SY = 1.02, SZ = 1.08; // calotte : un peu plus haute et plus profonde que large
-  const g = new Group();
-  const mat = cloth(color);
-  const dark = new MeshStandardMaterial({ color: new Color(color).multiplyScalar(0.62), roughness: 0.95 });
-  const crown = new Mesh(new SphereGeometry(R, 96, 48, 0, Math.PI * 2, 0, Math.PI / 2), mat);
-  crown.scale.set(1, SY, SZ); g.add(crown);
-  const inside = new Mesh(new SphereGeometry(R - 1.5, 64, 24, 0, Math.PI * 2, 0, Math.PI / 2), new MeshStandardMaterial({ color: new Color(color).multiplyScalar(0.5), roughness: 1, side: BackSide }));
-  inside.scale.set(1, SY, SZ); g.add(inside);
-  // point de la calotte à l'azimut a (0 = devant) et à l'angle t depuis le sommet
-  const at = (a, t, k = 1) => new Vector3(Math.sin(a) * Math.sin(t) * R * k, Math.cos(t) * R * SY * k, Math.cos(a) * Math.sin(t) * R * SZ * k);
-  for (let i = 0; i < 6; i++) { // coutures entre les panneaux
-    const a = Math.PI / 6 + i * Math.PI / 3, pts = [];
-    for (let t = 0.03; t <= Math.PI / 2 + 0.001; t += Math.PI / 40) pts.push(at(a, t, 1.004));
-    g.add(new Mesh(new TubeGeometry(new CatmullRomCurve3(pts), 40, 0.9, 6), dark));
-    const eye = new Mesh(new TorusGeometry(2.6, 0.9, 8, 20), dark); // œillet d'aération
-    eye.position.copy(at(a + Math.PI / 6, 0.62, 1.006)); eye.lookAt(at(a + Math.PI / 6, 0.62, 2)); g.add(eye);
-  }
-  const btn = new Mesh(new SphereGeometry(7, 20, 10), mat); btn.scale.y = 0.45; btn.position.y = R * SY; g.add(btn);
-  // visière : collée au bas de l'avant de la calotte, elle avance de 75 mm et se courbe vers le bas
-  const NA = 64, NV = 10, A = 1.2, L = 76, pos = [], idx = [];
-  const brimPt = (a, v, off = 0) => {
-    const fwd = L * Math.pow(Math.cos(a), 1.3) * v;
-    const x = Math.sin(a) * R * (1 + 0.02 * v), z = Math.cos(a) * R * SZ + fwd;
-    const y = 1 - 16 * Math.pow(Math.sin(a), 4) * Math.pow(v, 1.1) + off; // droite devant, incurvée sur les côtés
-    return [x, y, z];
-  };
-  for (const off of [0, -2.6]) {
-    const base = pos.length / 3;
-    for (let i = 0; i <= NA; i++) for (let j = 0; j <= NV; j++) pos.push(...brimPt(-A + 2 * A * i / NA, j / NV, off));
-    for (let i = 0; i < NA; i++) for (let j = 0; j < NV; j++) {
-      const q = base + i * (NV + 1) + j;
-      off ? idx.push(q, q + 1, q + NV + 1, q + 1, q + NV + 2, q + NV + 1) : idx.push(q, q + NV + 1, q + 1, q + 1, q + NV + 1, q + NV + 2);
-    }
-  }
-  const bg = new BufferGeometry(); bg.setAttribute('position', new Float32BufferAttribute(pos, 3)); bg.setIndex(idx); bg.computeVertexNormals();
-  g.add(new Mesh(bg, [mat][0]));
-  const rimPts = []; for (let i = 0; i <= NA; i++) rimPts.push(new Vector3(...brimPt(-A + 2 * A * i / NA, 1, -1.3)));
-  g.add(new Mesh(new TubeGeometry(new CatmullRomCurve3(rimPts), 96, 1.5, 8), dark));
-  for (let k = 1; k <= 4; k++) { // surpiqûres de la visière
-    const sp = []; for (let i = 0; i <= NA; i++) sp.push(new Vector3(...brimPt(-A + 2 * A * i / NA, 1 - k * 0.07, 0.35)));
-    g.add(new Mesh(new TubeGeometry(new CatmullRomCurve3(sp), 96, 0.45, 5), dark));
-  }
-  const f = faces.avant || Object.values(faces)[0];
-  if (f && f.svg) { // le dessin, posé sur le panneau avant, juste au-dessus de la visière
-    const pl = f.w / R, tl = f.h / (R * SY), t0 = Math.PI / 2 - 0.1 - tl;
-    const patch = new Mesh(new SphereGeometry(R + 0.5, 64, 32, Math.PI / 2 - pl / 2, pl, t0, tl), decal(await faceTexture(r, f), { roughness: 0.7 }));
-    patch.scale.set(1, SY, SZ); g.add(patch);
-  }
-  g.userData.view = [0.6, 0.22];
-  return g;
-}
+/** Haut du dessin (mm depuis le bas du modèle) pour chaque face ; finitions qui gardent leur couleur. */
+const PLACE = {
+  tote: { avant: 430 },
+  tee: { avant: 590, dos: 620 },
+  hoodie: { avant: 500, dos: 520 },
+  cap: { avant: 105 },
+};
+const KEEP = { hoodie: { Straps_FRONT_1944954: true, Material125269: true } };
 
 const BUILD = {
-  mug: (r, f, c) => mug(r, f, c, false), 'mug-email': (r, f, c) => mug(r, f, c, true),
-  paper, sticker, scarf, tote, tee: (r, f, c) => garment(r, f, c, false), hoodie: (r, f, c) => garment(r, f, c, true), cap,
+  mug: (r, f, c, u) => mug(r, f, c, u, false), 'mug-email': (r, f, c, u) => mug(r, f, c, u, true),
+  paper, sticker, scarf, tote,
+  tee: (r, f, c, u) => wear(r, f, c, u, 'tee'), hoodie: (r, f, c, u) => wear(r, f, c, u, 'hoodie'), cap: (r, f, c, u) => wear(r, f, c, u, 'cap'),
 };
 
 /** Ombre douce au sol, sous l'objet. */
@@ -321,7 +281,7 @@ function contactShadow(size) {
 }
 
 /**
- * Visionneuse dans un élément. set({kind, color, faces}) reconstruit l'objet (après un changement
+ * Visionneuse dans un élément. set({kind, color, faces, model}) reconstruit l'objet (après un changement
  * de texte ou de couleur), en gardant l'angle de vue choisi par le client.
  */
 export function viewer(el) {
@@ -349,9 +309,9 @@ export function viewer(el) {
   const loop = () => { if (!alive) return; controls.update(); renderer.render(scene, camera); requestAnimationFrame(loop); };
   loop();
   return {
-    async set({ kind, color, faces }) {
+    async set({ kind, color, faces, model }) {
       const my = ++n;
-      const g = await (BUILD[kind] || paper)(renderer, faces, color);
+      const g = await (BUILD[kind] || paper)(renderer, faces, color, model);
       if (my !== n || !alive) return;
       if (obj) { scene.remove(obj); obj.traverse(o => { o.geometry?.dispose(); [].concat(o.material || []).forEach(m => { m.map?.dispose(); m.dispose(); }); }); }
       if (shadow) scene.remove(shadow);
