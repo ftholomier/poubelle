@@ -14,16 +14,8 @@ foreach ($team as $m) {
 <section class="section">
   <div class="wrap">
     <?php if ($team): ?>
-      <div class="vteam">
-        <?php foreach ($team as $m): ?>
-          <div class="vmember" data-reveal>
-            <div class="vmember__ph"><?php if (Content::hasImage($m['photo'] ?? null)): ?><img src="<?= e(img($m['photo'], 480)) ?>" alt="" loading="lazy"><?php else: ?><span aria-hidden="true"><?= e(\App\Admin\Base::initials((string) $m['name'])) ?></span><?php endif; ?></div>
-            <h3><?= e($m['name']) ?></h3>
-            <span class="vmember__role"><?= e($m['role']) ?></span>
-            <?php if (!empty($m['text'])): ?><p><?= e($m['text']) ?></p><?php endif; ?>
-          </div>
-        <?php endforeach; ?>
-      </div>
+      <p class="tteam-hint"><span class="h-hover">Survolez une carte</span><span class="h-touch">Touchez une carte</span> pour découvrir la mission et l’anecdote de chacun.</p>
+      <?= \App\Core\View::partial('partials/team-cards', ['team' => $team, 'theme' => 'asso']) ?>
     <?php else: ?>
       <div class="prose vnote"><?= Pages::rich($p['empty_text'] ?? '') ?></div>
     <?php endif; ?>

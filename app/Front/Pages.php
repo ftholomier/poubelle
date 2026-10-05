@@ -328,6 +328,9 @@ final class Pages
             }
             return Fiche::show($req, $doc);
         }
+        if ($req->path === self::TEAM_PATH) {
+            return self::team();
+        }
         $cat = Categories::byPath($req->path);
         if ($cat) {
             return Mosaic::show($req, $cat);
@@ -340,6 +343,24 @@ final class Pages
             return Mosaic::show($req, Categories::get(Site::C_MATCHS));
         }
         return null;
+    }
+
+    /** Rubrique héritée de WordPress, remplacée par les vignettes de l'équipe (saisies côté association). */
+    public const TEAM_PATH = '/supporters/l-equipe-de-sochaux-retro/';
+
+    /** L'équipe de Sochaux Rétro en cartes à collectionner. */
+    public static function team(): Response
+    {
+        return self::render('equipe', [
+            'team' => \App\Vitrine\Content::team(),
+            'joinUrl' => \App\Vitrine\Host::abs('/nous-soutenir/benevolat/'),
+        ], [
+            'title' => t('L’équipe de Sochaux Rétro'),
+            'description' => t('Les bénévoles qui font vivre le musée Sochaux Rétro, en vignettes à collectionner : mission et anecdote de chacun.'),
+            'active' => 'supporters',
+            'styles' => ['css/explore.css', 'css/chiffres.css', 'css/team.css'],
+            'scripts' => ['js/team.js'],
+        ]);
     }
 
     /** La fiche a-t-elle un contenu propre (texte, images, vidéos, tableaux) ? */

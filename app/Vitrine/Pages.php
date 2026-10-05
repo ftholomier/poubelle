@@ -52,6 +52,7 @@ final class Pages
         $p = Content::page('equipe');
         return Site::render('equipe', ['p' => $p, 'team' => Content::team(), 'poles' => Content::poles()], [
             'title' => $p['title'], 'description' => $p['lead'], 'active' => 'association',
+            'styles' => ['css/team.css'], 'scripts' => ['js/team.js'],
         ]);
     }
 

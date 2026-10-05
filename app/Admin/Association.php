@@ -102,7 +102,7 @@ final class Association extends Base
             ],
             'equipe' => [
                 'label' => 'Équipe', 'object' => true, 'front' => '/association/equipe/',
-                'help' => 'Un membre n’apparaît sur le site que si son nom est renseigné. Photo : avec l’accord de la personne.',
+                'help' => 'L’équipe de Sochaux Rétro, en cartes à collectionner : sur le site de l’association (page L’équipe) et sur le musée (Supporters › L’équipe de Sochaux Rétro). Un membre n’apparaît que si son nom est renseigné. Photo : avec l’accord de la personne.',
                 'fields' => [],
                 'lists' => [
                     'members' => ['Membres', 'Membre', [
@@ -110,6 +110,8 @@ final class Association extends Base
                         'role' => ['Rôle', 'text', ['max' => 80]],
                         'pole' => ['Pôle', 'select', ['options' => $poles]],
                         'photo' => ['Photo', 'image', []],
+                        'mission' => ['Sa mission', 'text', ['max' => 240, 'full' => true]],
+                        'anecdote' => ['Son anecdote (dos de la carte)', 'text', ['max' => 320, 'full' => true]],
                         'text' => ['Quelques mots', 'text', ['max' => 240, 'full' => true]],
                         'hidden' => ['Masquer', 'bool', []],
                     ]],
