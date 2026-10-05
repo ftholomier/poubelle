@@ -161,6 +161,10 @@
       const size = Math.max(8, Math.round(Math.min(w, h * 2) / 8));
       l = { type: 'text', x: r1(w * 0.05), y: r1(h * 0.6), w: r1(w * 0.9), text: k === 'client' ? 'Votre texte' : 'Jaune et bleu depuis 1928', font: 'display', size, color: dark() ? '#F6C400' : '#0E1F4D', align: 'center', upper: true, spacing: 0, lh: 1.1, fit: k !== 'text', mode: k === 'text' ? 'fixed' : 'client', field: k === 'client' ? 'texte' : '', label: k === 'client' ? 'Votre texte' : '', max: 20, h: 0, min: 10 };
     }
+    if (k === 'anecdote') {
+      // Anecdote tirée par le client sur la boutique (fait du musée mis en forme par l'IA, bouton « Une autre »).
+      Object.assign(l, { field: 'anecdote', label: 'Votre anecdote', text: 'Le saviez-vous ? En 1938, les Lionceaux sont champions de France pour la deuxième fois.', mode: 'client', fit: true, upper: false, font: 'serif-b', max: 140, h: r1(Math.min(h * 0.32, w * 0.4)), y: r1(h * 0.6), min: Math.max(7, Math.round(l.size * 0.3)) });
+    }
     if (k === 'match') {
       const tm = (D.tonmatch || []).find(x => x.field === b.dataset.field) || {};
       Object.assign(l, { field: tm.field, label: tm.label, text: tm.text, fit: true, mode: 'client', upper: tm.field !== 'match_phrase', h: 0, min: 8 });

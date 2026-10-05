@@ -15,6 +15,24 @@
   const credit3d = root.querySelector('[data-3d-credit]'), hint = root.querySelector('[data-3d-hint]'), faceBar = root.querySelector('[data-faces]');
   const webgl = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } })();
   if (btn3d && !webgl) btn3d.hidden = true;
+  // Anecdote : tirée par le serveur (fait vérifié + IA), signée ; « Une autre » en retire une.
+  root.querySelectorAll('[data-anec]').forEach(box => {
+    const txt = box.querySelector('[data-anec-text]'), val = box.querySelector('[data-anec-val]'), sig = box.querySelector('[data-anec-sig]'), btn = box.querySelector('[data-anec-btn]');
+    const seen = [];
+    btn.addEventListener('click', async () => {
+      btn.disabled = true; txt.classList.add('is-busy');
+      try {
+        const r = await fetch(root.dataset.anecdote, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF': (form.querySelector('[name=_csrf]') || {}).value || '' }, credentials: 'same-origin', body: JSON.stringify({ model: root.dataset.model, opts: state().opts, avoid: seen }) });
+        const d = await r.json();
+        if (d.ok) {
+          seen.push(d.text); val.value = d.text; sig.value = d.sig; txt.textContent = d.text; txt.classList.add('is-on');
+          btn.querySelector('b').textContent = 'Une autre';
+          soon(0);
+        } else { txt.textContent = d.error || 'Pas d’anecdote cette fois : réessayez.'; }
+      } catch (e) { txt.textContent = 'Pas d’anecdote cette fois : réessayez.'; }
+      btn.disabled = false; txt.classList.remove('is-busy');
+    });
+  });
   btn3d?.addEventListener('click', async () => {
     const on = btn3d.getAttribute('aria-pressed') !== 'true';
     btn3d.setAttribute('aria-pressed', on ? 'true' : 'false');

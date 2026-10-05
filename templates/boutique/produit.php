@@ -14,7 +14,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
 ?>
 <?= \App\Core\View::partial('boutique/_bar', ['config' => $config, 'count' => $count]) ?>
 <section class="section--tight">
-  <div class="wrap shopprod" data-shop-product data-model="<?= e($m['id']) ?>" data-color="<?= e($m['color']) ?>" data-preview="<?= e(ShopPages::u('/boutique/apercu/')) ?>" data-3d="<?= e(asset('js/shop3d.js')) ?>">
+  <div class="wrap shopprod" data-shop-product data-model="<?= e($m['id']) ?>" data-color="<?= e($m['color']) ?>" data-preview="<?= e(ShopPages::u('/boutique/apercu/')) ?>" data-3d="<?= e(asset('js/shop3d.js')) ?>" data-anecdote="<?= e(ShopPages::u('/boutique/anecdote/')) ?>">
     <div class="shopprod__view">
       <nav class="crumbs vcrumbs"><a href="<?= e(ShopPages::u('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span><?= e($m['name']) ?></span></nav>
       <div class="shopprod__stage">
@@ -53,7 +53,15 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <?php foreach ($fields as $k => $f): if ($f['auto']) { continue; } ?>
       <div class="field">
         <label for="f-<?= e($k) ?>"><?= e($f['label']) ?> *</label>
-        <?php if ($f['list'] !== ''): ?>
+        <?php if ($f['gen']): ?>
+        <div class="shopanec" data-anec="<?= e($k) ?>">
+          <p class="shopanec__t" id="f-<?= e($k) ?>" data-anec-text aria-live="polite">Cliquez sur « Une anecdote » : le musée en tire une rien que pour vous, d’après sa base de matchs et de chiffres.</p>
+          <input type="hidden" name="values[<?= e($k) ?>]" value="" data-shop-in data-anec-val>
+          <input type="hidden" name="values[_sig_<?= e($k) ?>]" value="" data-anec-sig>
+          <button type="button" class="shopanec__b" data-anec-btn><span aria-hidden="true">↻</span> <b>Une anecdote</b></button>
+          <small class="shophelp">Une autre, puis une autre… jusqu’à celle qui vous plaît. Une anecdote vendue n’est plus jamais proposée : la vôtre sera unique.</small>
+        </div>
+        <?php elseif ($f['list'] !== ''): ?>
         <select id="f-<?= e($k) ?>" name="values[<?= e($k) ?>]" required data-shop-in>
           <option value="">Choisissez…</option>
           <?php foreach ($f['choices'] as $c): ?><option><?= e($c) ?></option><?php endforeach; ?>

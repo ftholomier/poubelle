@@ -162,7 +162,7 @@ final class Shop extends Base
         $before = Orders::config();
         $c = Orders::saveConfig([
             'open' => $req->str('open') === '1', 'printer_name' => $req->str('printer_name'), 'printer_email' => $email,
-            'shipping' => $eur('shipping'), 'free_from' => $eur('free_from'), 'delay' => $req->str('delay'), 'ship_cost' => $eur('ship_cost'),
+            'shipping' => $eur('shipping'), 'free_from' => $eur('free_from'), 'delay' => $req->str('delay'), 'ship_cost' => $eur('ship_cost'), 'anec_daily' => (int) $req->str('anec_daily'),
             'alert_email' => $req->str('alert_email'), 'cgv' => $req->str('cgv'),
         ]);
         Activity::log(self::actor(), 'a modifié les réglages de la boutique' . ($before['printer_email'] !== $c['printer_email'] ? ' (adresse de l’imprimeur changée)' : ''), ['path' => '/admin/boutique/reglages']);

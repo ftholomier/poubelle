@@ -46,6 +46,7 @@ final class Orders
     public const CONFIG_DEFAULTS = [
         'open' => false, 'printer_name' => '', 'printer_email' => '', 'shipping' => 590, 'free_from' => 0,
         'delay' => 'Fabriqué à la demande, expédié sous 5 jours ouvrés.', 'alert_email' => '', 'cgv' => self::CGV, 'ship_cost' => 590,
+        'anec_daily' => 500,
     ];
 
     public static function config(): array
@@ -64,6 +65,7 @@ final class Orders
         $c['shipping'] = max(0, min(10000, (int) $c['shipping']));
         $c['free_from'] = max(0, min(1000000, (int) $c['free_from']));
         $c['ship_cost'] = max(0, min(10000, (int) $c['ship_cost']));
+        $c['anec_daily'] = max(0, min(20000, (int) $c['anec_daily']));
         foreach (['printer_name' => 80, 'delay' => 200, 'cgv' => 4000] as $k => $max) {
             $c[$k] = mb_substr(trim((string) $c[$k]), 0, $max);
         }
@@ -371,6 +373,11 @@ final class Orders
         Accounts::fetchFee($id);
         if (!empty($o['promo']['code'])) {
             Promos::used($o['promo']['code'], $o['id'], $o['customer']['email']);
+        }
+        foreach ($o['items'] as $it) { // anecdotes vendues : plus jamais proposées
+            if (($it['values'][Anecdotes::FIELD] ?? '') !== '') {
+                Anecdotes::sold((string) $it['values'][Anecdotes::FIELD]);
+            }
         }
         self::buildPdfs($o);
         $c = self::config();

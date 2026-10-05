@@ -165,6 +165,40 @@ final class ShopPages
             'price' => Orders::money(Catalog::price($m, $size) * max(1, min(20, (int) ($in['qty'] ?? 1))))]);
     }
 
+    /** POST /boutique/anecdote/ (JSON {model, avoid}) : une anecdote tirée pour ce modèle, signée. */
+    public static function anecdote(Request $req): Response
+    {
+        // Garde-fous : jeton de la page (pas d'appel direct par un robot), cadence par visiteur,
+        // budget IA du jour pour tout le site ; au-delà, la réserve d'anecdotes déjà rédigées (sans IA).
+        if (!Session::checkCsrf((string) ($_SERVER['HTTP_X_CSRF'] ?? ''))) {
+            return Response::json(['error' => 'Rechargez la page pour tirer une anecdote.'], 403);
+        }
+        if (!RateLimiter::hit('boutique-anecdote-min', $req->ip(), 6, 60) || !RateLimiter::hit('boutique-anecdote', $req->ip(), 40, 3600)) {
+            return Response::json(['error' => 'Doucement : vous avez tiré beaucoup d’anecdotes, réessayez dans un moment.'], 429);
+        }
+        $in = $req->json();
+        $m = Catalog::find((string) ($in['model'] ?? ''));
+        if (!$m || !self::visible() || (!Catalog::sellable($m) && Auth::user() === null)) {
+            return Response::json(['error' => 'Article indisponible.'], 404);
+        }
+        [$mm] = Catalog::applyOptions($m, array_map(fn ($v) => mb_substr((string) $v, 0, 20), (array) ($in['opts'] ?? [])));
+        $layers = [];
+        foreach ($mm['faces'] as $f) {
+            foreach ($f['layers'] as $l) {
+                if (($l['mode'] ?? '') === 'client' && ($l['field'] ?? '') === Anecdotes::FIELD) {
+                    $layers[] = $l;
+                }
+            }
+        }
+        if (!$layers) {
+            return Response::json(['error' => 'Ce modèle n’a pas d’anecdote.'], 404);
+        }
+        $avoid = array_slice(array_map('strval', (array) ($in['avoid'] ?? [])), 0, 30);
+        $budget = (int) Orders::config()['anec_daily'];
+        $r = $budget > 0 && RateLimiter::hit('boutique-anecdote-ia', 'site', $budget, 86400) ? Anecdotes::draw($layers, $avoid) : Anecdotes::fromPool($layers, $avoid);
+        return Response::json(isset($r['error']) ? ['ok' => false, 'error' => $r['error']] : ['ok' => true] + $r);
+    }
+
     /** Réponses d'exemple : le texte d'exemple de chaque champ. */
     private static function samples(array $m): array
     {

@@ -21,6 +21,7 @@ $sell = array_filter($models, fn ($m) => Catalog::sellable($m));
       <label class="f"><span class="f__k">Frais de port (€)</span><input class="in" type="number" step="0.01" min="0" name="shipping" value="<?= e(number_format($c['shipping'] / 100, 2, '.', '')) ?>"></label>
       <label class="f"><span class="f__k">Port offert dès (€, 0 : jamais)</span><input class="in" type="number" step="0.01" min="0" name="free_from" value="<?= e(number_format($c['free_from'] / 100, 2, '.', '')) ?>"></label>
     </div>
+    <label class="f"><span class="f__k">Anecdotes rédigées par l’IA par jour, pour tout le site (0 : jamais d’IA, seulement la réserve déjà rédigée)</span><input class="in" type="number" step="1" min="0" max="20000" name="anec_daily" value="<?= (int) $c['anec_daily'] ?>"></label>
     <label class="f"><span class="f__k">Coût d’une expédition facturé par l’imprimeur (€, pour les relevés et la marge)</span><input class="in" type="number" step="0.01" min="0" name="ship_cost" value="<?= e(number_format($c['ship_cost'] / 100, 2, '.', '')) ?>"></label>
     <label class="f"><span class="f__k">Délai annoncé au client</span><input class="in" name="delay" value="<?= e($c['delay']) ?>"></label>
     <p class="xs muted">Envoi seulement (pas de retrait) : <?= e(implode(', ', Orders::COUNTRIES)) ?>.</p>

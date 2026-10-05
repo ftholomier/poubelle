@@ -53,6 +53,7 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
             <a class="btn btn--sm btn--ghost" href="/admin/boutique/textes#l-<?= e($lk) ?>" target="_blank" title="Aucune phrase validée dans cette liste : validez-en au moins une dans la banque de textes pour pouvoir l’utiliser">+ <?= e($li['name']) ?> <span class="xs">(0 validée · à valider)</span></a>
             <?php endif; ?>
           <?php endforeach; ?>
+          <button type="button" class="btn btn--sm btn--yellow" data-add="anecdote" title="Le client tire lui-même une anecdote sur la boutique (bouton « Une autre ») : un vrai fait du musée, mis en forme par l’IA ; chaque anecdote vendue est unique">+ Anecdote tirée par le client</button>
           <a class="btn btn--sm btn--ghost" href="/admin/boutique/textes" target="_blank">Gérer les listes</a>
           </div>
         </div>

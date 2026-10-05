@@ -165,3 +165,12 @@
 .shopcredit { margin: 10px 0 0; font-size: 12px; line-height: 1.45; color: rgba(14,31,77,.75); }
 .shopcredit a { color: inherit; }
 .shopdisclaim { margin: 10px 0 0; font-size: 12px; line-height: 1.45; color: rgba(14,31,77,.62); font-style: italic; }
+
+/* Anecdote tirée par le musée (bouton « Une autre ») */
+.shopanec { display: grid; gap: 8px; }
+.shopanec__t { margin: 0; padding: 12px 14px; border: 2px dashed var(--navy); background: #fffdf7; font-style: italic; min-height: 3.2em; line-height: 1.45; }
+.shopanec__t.is-on { font-style: normal; font-weight: 600; border-style: solid; background: #fff7d1; }
+.shopanec__t.is-busy { opacity: .55; }
+.shopanec__b { justify-self: start; display: inline-flex; align-items: center; gap: 8px; border: 2px solid var(--navy); background: var(--yellow, #f6c400); color: var(--navy); padding: 7px 14px; font-family: var(--display); text-transform: uppercase; letter-spacing: .05em; cursor: pointer; box-shadow: 3px 3px 0 var(--navy); }
+.shopanec__b span { font-size: 18px; line-height: 1; }
+.shopanec__b:disabled { opacity: .6; cursor: wait; }

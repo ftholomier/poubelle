@@ -385,7 +385,8 @@ final class Catalog
                     $layers[$l['field']][] = $l;
                     $list = (string) ($l['list'] ?? '');
                     $out[$l['field']] ??= ['label' => (string) ($l['label'] ?? $l['field']), 'max' => max(1, (int) ($l['max'] ?? 30)), 'default' => (string) ($l['text'] ?? ''),
-                        'list' => $list, 'choices' => [], 'rejected' => [], 'auto' => str_starts_with((string) $l['field'], 'match_')];
+                        'list' => $list, 'choices' => [], 'rejected' => [], 'auto' => str_starts_with((string) $l['field'], 'match_'),
+                        'gen' => $l['field'] === Anecdotes::FIELD];
                 }
             }
         }
@@ -422,6 +423,15 @@ final class Catalog
             }
             if ($f['list'] !== '') {
                 in_array($v, $f['choices'], true) ? $ok[$k] = $v : $errors[$k] = 'Choisissez une phrase de la liste.';
+                continue;
+            }
+            if ($f['gen']) {
+                // Anecdote tirée par le site (signée) : jamais un texte saisi ou retouché.
+                if (!Anecdotes::valid($v, (string) ($values['_sig_' . $k] ?? ''))) {
+                    $errors[$k] = 'Tirez une anecdote avec le bouton « Une anecdote ».';
+                    continue;
+                }
+                $ok[$k] = $v;
                 continue;
             }
             if (mb_strlen($v) > $f['max']) {
