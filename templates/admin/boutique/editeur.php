@@ -23,8 +23,16 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'fonts' =>
   <div class="shoped__main">
     <div class="shoped__views">
       <figure class="card shoped__fig"><figcaption>Sur le produit</figcaption><div class="shoped__mock" data-mock></div></figure>
-      <figure class="card shoped__fig"><figcaption>Fichier d’impression <span class="xs muted" data-dims></span></figcaption><div class="shoped__print" data-print></div>
-        <p class="xs muted" style="margin:6px 0 0">Cliquez un élément pour le choisir, faites-le glisser pour le déplacer (flèches du clavier : 1 mm, Maj : 10 mm). Pointillés : bord du produit fini ; zone grisée : fonds perdus, coupés à la fabrication.</p></figure>
+      <figure class="card shoped__fig"><figcaption>Fichier d’impression <span class="xs muted" data-dims></span></figcaption><div class="shoped__tools" data-tools>
+          <label class="shoped__tool">Grille <select class="in in--sm" data-grid><option value="0">sans</option><option value="5">5 mm</option><option value="10">10 mm</option><option value="20">20 mm</option></select></label>
+          <label class="toggle"><input type="checkbox" data-snap checked><span class="toggle__box"></span><span>Aimant</span></label>
+          <span class="shoped__align" data-align-btns title="Aligner l’élément choisi sur la face">
+            <button type="button" class="btn btn--sm btn--ghost" data-al="left" title="Bord gauche">⇤</button><button type="button" class="btn btn--sm btn--ghost" data-al="hcenter" title="Centre (horizontal)">↔</button><button type="button" class="btn btn--sm btn--ghost" data-al="right" title="Bord droit">⇥</button>
+            <button type="button" class="btn btn--sm btn--ghost" data-al="top" title="Haut">⤒</button><button type="button" class="btn btn--sm btn--ghost" data-al="vcenter" title="Milieu (vertical)">↕</button><button type="button" class="btn btn--sm btn--ghost" data-al="bottom" title="Bas">⤓</button>
+          </span>
+        </div>
+        <div class="shoped__print" data-print></div>
+        <p class="xs muted" style="margin:6px 0 0">Cliquez un élément pour le choisir, faites-le glisser pour le déplacer : l’aimant le colle aux bords, au centre, aux autres éléments et à la grille (traits roses : où il va se poser ; Alt enfoncée : sans aimant). Flèches du clavier : 1 mm, Maj : 10 mm. Pointillés : bord du produit fini ; zone grisée : fonds perdus, coupés à la fabrication.</p></figure>
       <div class="alert alert--info" data-warn hidden></div>
     </div>
     <aside class="shoped__side">

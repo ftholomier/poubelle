@@ -65,6 +65,15 @@
       svg.appendChild(el('path', { d: p, fill: 'rgba(14,31,77,.18)', 'fill-rule': 'evenodd', 'pointer-events': 'none' }));
     }
     svg.appendChild(el('rect', { x: 0, y: 0, width: f.w, height: f.h, fill: 'none', stroke: '#1e3fa8', 'stroke-width': Math.max(f.w, f.h) / 400, 'stroke-dasharray': Math.max(f.w, f.h) / 80, 'pointer-events': 'none' }));
+    const g = +gridSel.value;
+    if (g > 0) {
+      let d = '';
+      for (let x = g; x < f.w; x += g) d += `M${x} 0V${f.h}`;
+      for (let y = g; y < f.h; y += g) d += `M0 ${y}H${f.w}`;
+      svg.appendChild(el('path', { d, stroke: 'rgba(30,63,168,.22)', 'stroke-width': Math.max(f.w, f.h) / 900, fill: 'none', 'pointer-events': 'none' }));
+      svg.appendChild(el('path', { d: `M${f.w / 2} 0V${f.h}M0 ${f.h / 2}H${f.w}`, stroke: 'rgba(30,63,168,.45)', 'stroke-width': Math.max(f.w, f.h) / 700, fill: 'none', 'pointer-events': 'none' }));
+    }
+    $('[data-align-btns]').classList.toggle('is-off', !cur());
     const cl = cur();
     if (cl && cl.type === 'text' && cl.fit && +cl.h > 0) svg.appendChild(el('rect', { x: cl.x, y: cl.y, width: cl.w, height: cl.h, fill: 'rgba(246,196,0,.12)', stroke: '#c99a00', 'stroke-width': Math.max(f.w, f.h) / 500, 'stroke-dasharray': Math.max(f.w, f.h) / 120, 'pointer-events': 'none' }));
     const box = last && sel && last.boxes[sel];
@@ -252,6 +261,49 @@
     soon(200);
   });
 
+  /* ------------------------------------------------------------ grille, aimant, alignement */
+  const gridSel = $('[data-grid]'), snapChk = $('[data-snap]');
+  try { gridSel.value = localStorage.getItem('shop.grid') || '0'; snapChk.checked = localStorage.getItem('shop.snap') !== '0'; } catch (e) { /* stockage indisponible */ }
+  gridSel.addEventListener('change', () => { try { localStorage.setItem('shop.grid', gridSel.value); } catch (e) { /* */ } decorate(); });
+  snapChk.addEventListener('change', () => { try { localStorage.setItem('shop.snap', snapChk.checked ? '1' : '0'); } catch (e) { /* */ } });
+  // Boîte d'un calque (mm) : tracés réels si connus, sinon son cadre.
+  const boxOf = l => (last && last.boxes[l.id]) || [l.x, l.y, l.x + (+l.w || 0), l.y + (+l.h || 10)];
+  $('[data-tools]').addEventListener('click', e => {
+    const b = e.target.closest('[data-al]'), l = cur();
+    if (!b || !l) return;
+    const f = F(), bx = boxOf(l), bw = bx[2] - bx[0], bh = bx[3] - bx[1], ox = bx[0] - l.x, oy = bx[1] - l.y;
+    const a = b.dataset.al;
+    if (a === 'left') l.x = r1(-ox); if (a === 'hcenter') l.x = r1((f.w - bw) / 2 - ox); if (a === 'right') l.x = r1(f.w - bw - ox);
+    if (a === 'top') l.y = r1(-oy); if (a === 'vcenter') l.y = r1((f.h - bh) / 2 - oy); if (a === 'bottom') l.y = r1(f.h - bh - oy);
+    props(); changed(0);
+  });
+  /**
+   * Aimant : la boîte déplacée (bords et centre) colle au repère le plus proche (bords et centre de
+   * la face, bords et centres des autres calques), sinon à la grille. Renvoie le décalage et les repères.
+   */
+  function snap(box, id, tol) {
+    const f = F(), g = +gridSel.value;
+    const xs = [0, f.w / 2, f.w], ys = [0, f.h / 2, f.h];
+    for (const o of L()) {
+      if (o.id === id) continue;
+      const b = boxOf(o);
+      xs.push(b[0], (b[0] + b[2]) / 2, b[2]); ys.push(b[1], (b[1] + b[3]) / 2, b[3]);
+    }
+    const axis = (lo, hi, cands) => {
+      let best = null;
+      for (const v of [lo, (lo + hi) / 2, hi]) for (const c of cands) { const d = c - v; if (Math.abs(d) <= tol && (!best || Math.abs(d) < Math.abs(best.d))) best = { d, at: c }; }
+      if (!best && g > 0) { const d = Math.round(lo / g) * g - lo; if (Math.abs(d) <= tol) best = { d, at: null }; }
+      return best;
+    };
+    return { x: axis(box[0], box[2], xs), y: axis(box[1], box[3], ys) };
+  }
+  function guides(svg, s) {
+    svg.querySelectorAll('[data-guide]').forEach(n => n.remove());
+    const f = F(), sw = Math.max(f.w, f.h) / 350, ext = Math.max(f.w, f.h) * 0.05;
+    if (s.x && s.x.at !== null) svg.appendChild(el('line', { x1: s.x.at, x2: s.x.at, y1: -ext, y2: f.h + ext, stroke: '#e0218a', 'stroke-width': sw, 'pointer-events': 'none', 'data-guide': '1' }));
+    if (s.y && s.y.at !== null) svg.appendChild(el('line', { y1: s.y.at, y2: s.y.at, x1: -ext, x2: f.w + ext, stroke: '#e0218a', 'stroke-width': sw, 'pointer-events': 'none', 'data-guide': '1' }));
+  }
+
   /* ------------------------------------------------------------ glisser dans le fichier d'impression */
   const print = $('[data-print]');
   let drag = null;
@@ -271,7 +323,7 @@
     list(); props(); decorate();
     const l = cur();
     if (!l) return;
-    drag = { id, sx: p.x, sy: p.y, x: l.x, y: l.y, svg, moved: false };
+    drag = { id, sx: p.x, sy: p.y, x: l.x, y: l.y, svg, moved: false, box: boxOf(l).slice() };
     print.setPointerCapture(e.pointerId);
     e.preventDefault();
   });
@@ -281,13 +333,26 @@
     if (!drag.moved && Math.hypot(dx, dy) < 0.5) return;
     drag.moved = true;
     const l = cur();
-    l.x = r1(drag.x + dx);
-    l.y = r1(drag.y + dy);
+    let mx = dx, my = dy;
+    if (snapChk.checked && !e.altKey) {
+      // Tolérance : 8 pixels à l'écran, convertis en mm.
+      const tol = 8 / (drag.svg.getScreenCTM().a || 1);
+      const s = snap([drag.box[0] + dx, drag.box[1] + dy, drag.box[2] + dx, drag.box[3] + dy], drag.id, tol);
+      if (s.x) mx += s.x.d; if (s.y) my += s.y.d;
+      guides(drag.svg, s);
+      // Silhouette de dépôt : où l'élément va se poser.
+      let ghost = drag.svg.querySelector('[data-ghost]');
+      if (!ghost) { ghost = el('rect', { fill: 'rgba(224,33,138,.06)', stroke: '#e0218a', 'stroke-dasharray': Math.max(F().w, F().h) / 150, 'stroke-width': Math.max(F().w, F().h) / 600, 'pointer-events': 'none', 'data-ghost': '1', 'data-guide': '1' }); }
+      ghost.setAttribute('x', drag.box[0] + mx); ghost.setAttribute('y', drag.box[1] + my); ghost.setAttribute('width', drag.box[2] - drag.box[0]); ghost.setAttribute('height', drag.box[3] - drag.box[1]);
+      drag.svg.appendChild(ghost);
+    } else guides(drag.svg, {});
+    l.x = r1(drag.x + mx);
+    l.y = r1(drag.y + my);
     $$(`[data-print] [data-layer="${CSS.escape(drag.id)}"]`).forEach(n => n.setAttribute('transform', `translate(${l.x - drag.x} ${l.y - drag.y})`));
     const sb = print.querySelector('[data-selbox]');
     if (sb) sb.setAttribute('transform', `translate(${l.x - drag.x} ${l.y - drag.y})`);
   });
-  const end = () => { if (drag && drag.moved) { props(); changed(0); } drag = null; };
+  const end = () => { if (drag) drag.svg.querySelectorAll('[data-guide]').forEach(n => n.remove()); if (drag && drag.moved) { props(); changed(0); } drag = null; };
   print.addEventListener('pointerup', end);
   print.addEventListener('pointercancel', end);
   document.addEventListener('keydown', e => {

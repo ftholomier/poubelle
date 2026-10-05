@@ -43,3 +43,10 @@ table.shoptexts { width: 100%; table-layout: fixed; border-collapse: collapse; }
 .shoptexts th:nth-child(1) { width: 58%; } .shoptexts th:nth-child(3), .shoptexts th:nth-child(4) { width: 80px; text-align: center; }
 .shoptexts .in { width: 100%; box-sizing: border-box; }
 .shoplist > form { align-self: stretch; width: 100%; }
+
+.shoped__tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 0 0 8px; font-size: 13px; }
+.shoped__tool { display: inline-flex; gap: 6px; align-items: center; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.shoped__tool .in { width: auto; }
+.shoped__align { display: inline-flex; gap: 2px; margin-left: auto; }
+.shoped__align .btn { min-width: 30px; padding-left: 6px; padding-right: 6px; }
+.shoped__align.is-off { opacity: .4; pointer-events: none; }
