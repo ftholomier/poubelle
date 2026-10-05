@@ -94,6 +94,14 @@ HTML],
 [[astuce|<p>Le coût IA d’un poster (moins d’un centime par match, une seule fois) apparaît dans <b>Coûts IA</b>, ligne « Boutique (posters souvenirs) ». Le dessin, l’aperçu et le PDF de l’imprimeur ne coûtent rien.</p>]]
 [[img:boutique-poster.webp|Le poster souvenir : le match choisi dans les propositions, la dédicace, le format et son prix, l’aperçu du poster]]
 HTML],
+        ['id' => 'poster-joueur', 'title' => 'Le poster souvenir d’un joueur', 'admin' => true, 'html' => <<<'HTML'
+<p>Le même principe que le poster d’un match, cette fois pour un <b>Lionceau</b> : le client choisit un joueur et le musée compose son affiche d’après sa fiche. On y trouve son nom en très grand avec son poste et ses années au club, ses <b>grands chiffres</b> (matchs, buts, saisons, minutes jouées) et sa <b>carrière saison par saison</b> en bâtons, buts en jaune. S’y ajoutent sa fiche d’identité, son palmarès au FCSM, ses grands matchs, <b>ses places dans les records du club</b>, une anecdote et une citation. En bas viennent son histoire et ses jalons : premier match, premier but, dernier match. Il porte la même dédicace « pour Prénom Nom », le même numéro de pièce et les mêmes formats A4, A3 et A2.</p>
+<ol>
+<li><b>Créer le modèle</b> : support « Poster (A4, A3, A2) », puis dans l’éditeur <b>« + Poster souvenir du joueur »</b>.</li>
+<li><b>Côté client</b> : il tape un nom (« Paille », « Bazdarevic »…) et le choisit dans les propositions. Seuls les joueurs qui ont joué <b>au moins 30 matchs</b> et dont la fiche est publiée sont proposés.</li>
+</ol>
+<p><b>Les chiffres</b> viennent du tableau de statistiques de la fiche, recalculés saison par saison (une ligne « Total » d’origine fausse est ignorée). Sans tableau, ils viennent des compositions, matchs amicaux exclus. L’IA ajoute une fois par joueur l’anecdote, la citation mot pour mot, un portrait en une phrase et une histoire condensée, avec les mêmes vérifications que pour les matchs.</p>
+HTML],
         ['id' => 'commandes', 'title' => 'Les commandes', 'admin' => true, 'html' => <<<'HTML'
 <p>Le client paie par carte (Stripe, les mêmes clés que les dons et les adhésions) : l’argent arrive sur le compte de l’association. La commande payée part aussitôt chez l’imprimeur, avec un <b>PDF d’impression par article</b>, et le client reçoit un e-mail avec son lien de suivi.</p>
 <ul>

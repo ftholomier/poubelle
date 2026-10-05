@@ -161,8 +161,9 @@ final class ShopPages
             $note = TonMatch::note($tm, $opt['date']);
             $values = array_replace($values, array_intersect_key($tm, $values));
         }
-        if (Poster::isFor($m) && ($pd = Poster::data((string) ($values[Poster::FIELD] ?? ''))) && (string) ($in['values'][Poster::FIELD] ?? '') !== '') {
-            $note = 'Votre match : ' . Poster::label($pd['dm']) . '.';
+        $pf = Poster::fieldOf($m);
+        if (Poster::isFor($m) && (string) ($in['values'][$pf] ?? '') !== '' && ($lab = Poster::subject(Poster::kind($m), (string) ($values[$pf] ?? ''))) !== null) {
+            $note = (Poster::kind($m) === 'joueur' ? 'Votre joueur : ' : 'Votre match : ') . $lab . '.';
         }
         $chk = Catalog::check($mm, array_filter(array_map('strval', (array) ($in['values'] ?? []))));
         $size = (string) ($in['size'] ?? '');
@@ -184,9 +185,22 @@ final class ShopPages
         return Response::json(['ok' => true, 'items' => mb_strlen($q) >= 2 ? Poster::search($q) : []]);
     }
 
+    /** GET /boutique/poster/joueurs/?q= (JSON) : joueurs proposés pour un poster souvenir. */
+    public static function posterPlayers(Request $req): Response
+    {
+        if (!self::visible()) {
+            return Response::json(['error' => 'Boutique fermée.'], 404);
+        }
+        if (!RateLimiter::hit('boutique-poster-q', $req->ip(), 120, 60)) {
+            return Response::json(['error' => 'Trop de demandes.'], 429);
+        }
+        $q = mb_substr(trim($req->str('q')), 0, 60);
+        return Response::json(['ok' => true, 'items' => mb_strlen($q) >= 2 ? PlayerPoster::search($q) : []]);
+    }
+
     /**
-     * POST /boutique/poster/preparer/ (JSON {model, match}) : le musée prépare le contenu du poster
-     * de ce match (anecdote, citations, récit condensé par l'IA, vérifiés), une fois par match.
+     * POST /boutique/poster/preparer/ (JSON {model, subject}) : le musée prépare le contenu du poster
+     * de ce match ou de ce joueur (anecdote, citations, récit condensé par l'IA, vérifiés), une fois par sujet.
      */
     public static function posterPrepare(Request $req): Response
     {
@@ -198,11 +212,12 @@ final class ShopPages
         }
         $in = $req->json();
         $m = Catalog::find((string) ($in['model'] ?? ''));
-        $id = (string) ($in['match'] ?? '');
-        if (!$m || !self::visible() || !Poster::isFor($m) || (!Catalog::sellable($m) && Auth::user() === null) || !Poster::eligible($id)) {
-            return Response::json(['error' => 'Match indisponible.'], 404);
+        $id = (string) ($in['subject'] ?? $in['match'] ?? '');
+        $kind = $m ? Poster::kind($m) : '';
+        if (!$m || !self::visible() || !Poster::isFor($m) || (!Catalog::sellable($m) && Auth::user() === null) || !Poster::eligibleFor($kind, $id)) {
+            return Response::json(['error' => $kind === 'joueur' ? 'Joueur indisponible.' : 'Match indisponible.'], 404);
         }
-        if (Poster::enriched($id)) {
+        if (Poster::prepared($kind, $id)) {
             return Response::json(['ok' => true, 'ready' => true]);
         }
         // Budget IA du jour (le même que pour les anecdotes) ; sans IA, le poster se passe de ces blocs.
@@ -211,7 +226,7 @@ final class ShopPages
             return Response::json(['ok' => true, 'ready' => false]);
         }
         RateLimiter::hit('boutique-poster-ia', 'site', $budget, 86400);
-        return Response::json(['ok' => true, 'ready' => Poster::enrich($id)]);
+        return Response::json(['ok' => true, 'ready' => Poster::prepare($kind, $id)]);
     }
 
     /** GET /boutique/anecdote/sujets/?q= (JSON) : joueurs et matchs proposés comme sujet d'anecdote. */

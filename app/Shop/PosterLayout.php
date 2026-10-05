@@ -9,38 +9,38 @@ namespace App\Shop;
  * moteur vectoriel (rectangles, ronds, textes, logo). Les blocs absents d'une fiche sont remplacés
  * (fiche technique) ou leur place revient au récit.
  */
-final class PosterLayout
+class PosterLayout
 {
-    private const W = 297.0;
-    private const H = 420.0;
-    private const PAD = 10.0;
-    private const GAP = 3.5;
-    private const ROWS = 43;
+    protected const W = 297.0;
+    protected const H = 420.0;
+    protected const PAD = 10.0;
+    protected const GAP = 3.5;
+    protected const ROWS = 43;
 
-    private const NAVY = '#0E1F4D';
-    private const BLUE = '#094687';
-    private const STRIPE = '#0D4C90';
-    private const BOX = '#13286A';
-    private const LINE = '#2F3F75';
-    private const RULE = '#6E6640';
-    private const PITCHLINE = '#8A9BBE';
-    private const YELLOW = '#F6C400';
-    private const CREAM = '#F3EDDF';
-    private const MIST = '#AEB6CE';
+    protected const NAVY = '#0E1F4D';
+    protected const BLUE = '#094687';
+    protected const STRIPE = '#0D4C90';
+    protected const BOX = '#13286A';
+    protected const LINE = '#2F3F75';
+    protected const RULE = '#6E6640';
+    protected const PITCHLINE = '#8A9BBE';
+    protected const YELLOW = '#F6C400';
+    protected const CREAM = '#F3EDDF';
+    protected const MIST = '#AEB6CE';
 
-    private array $L = [];
-    private float $top = 0;
-    private float $u = 0;
-    private float $cw = 0;
-    private int $n = 0;
-    private array $used = [];
+    protected array $L = [];
+    protected float $top = 0;
+    protected float $u = 0;
+    protected float $cw = 0;
+    protected int $n = 0;
+    protected array $used = [];
 
-    public function __construct(private array $d, private string $pour, private string $no)
+    public function __construct(protected array $d, protected string $pour, protected string $no)
     {
     }
 
     /** px de la maquette (1190 px de large) → points. */
-    private static function pt(float $px): float
+    protected static function pt(float $px): float
     {
         return $px * 0.7075;
     }
@@ -114,7 +114,7 @@ final class PosterLayout
     }
 
     /** Rangées qu'il faut au récit, sur quatre colonnes, au corps de lecture. */
-    private function recitRows(): int
+    protected function recitRows(): int
     {
         $iw = self::W - 2 * self::PAD - 9;
         $cw = ($iw - 3 * 5.5) / 4;
@@ -125,7 +125,7 @@ final class PosterLayout
     }
 
     /** Cadre d'un bloc : [x, y, w, h] en mm. */
-    private function box(int $col, int $span, int $row, int $rows): array
+    protected function box(int $col, int $span, int $row, int $rows): array
     {
         return [
             self::PAD + $col * ($this->cw + self::GAP),
@@ -137,23 +137,23 @@ final class PosterLayout
 
     // ------------------------------------------------------------------ primitives
 
-    private function id(): string
+    protected function id(): string
     {
         return 'p' . (++$this->n);
     }
 
-    private function rect(float $x, float $y, float $w, float $h, string $fill = '', string $stroke = '', float $sw = 0, float $r = 0): void
+    protected function rect(float $x, float $y, float $w, float $h, string $fill = '', string $stroke = '', float $sw = 0, float $r = 0): void
     {
         $this->L[] = ['id' => $this->id(), 'type' => 'rect', 'x' => $x, 'y' => $y, 'w' => $w, 'h' => $h, 'fill' => $fill, 'stroke' => $stroke, 'sw' => $sw, 'r' => $r];
     }
 
-    private function circle(float $cx, float $cy, float $r, string $fill = '', string $stroke = '', float $sw = 0): void
+    protected function circle(float $cx, float $cy, float $r, string $fill = '', string $stroke = '', float $sw = 0): void
     {
         $this->L[] = ['id' => $this->id(), 'type' => 'ellipse', 'x' => $cx - $r, 'y' => $cy - $r, 'w' => 2 * $r, 'h' => 2 * $r, 'fill' => $fill, 'stroke' => $stroke, 'sw' => $sw];
     }
 
     /** Calque de texte (o : align, upper, spacing, lh, h, fit, min, valign). */
-    private function text(float $x, float $y, float $w, string $t, string $font, float $size, string $color, array $o = []): array
+    protected function text(float $x, float $y, float $w, string $t, string $font, float $size, string $color, array $o = []): array
     {
         $l = ['id' => $this->id(), 'type' => 'text', 'x' => $x, 'y' => $y, 'w' => max(1.0, $w), 'text' => $t, 'font' => $font, 'size' => $size, 'color' => $color,
             'align' => $o['align'] ?? 'left', 'upper' => $o['upper'] ?? false, 'spacing' => $o['spacing'] ?? 0, 'lh' => $o['lh'] ?? 1.15,
@@ -165,32 +165,32 @@ final class PosterLayout
     }
 
     /** Largeur d'un texte (mm). */
-    private static function width(string $t, string $font, float $size, float $spacing = 0): float
+    protected static function width(string $t, string $font, float $size, float $spacing = 0): float
     {
         $f = Vector::font($font);
         return ($f->width($t) / 1000 + $spacing / 1000 * max(0, mb_strlen($t) - 1)) * $size * 25.4 / 72;
     }
 
     /** Hauteur d'un calque de texte (mm), après réduction éventuelle. */
-    private static function height(array $l): float
+    protected static function height(array $l): float
     {
         return Vector::textHeight($l);
     }
 
-    private function kicker(float $x, float $y, float $w, string $t, string $color = self::YELLOW): float
+    protected function kicker(float $x, float $y, float $w, string $t, string $color = self::YELLOW): float
     {
         $s = self::pt(15);
         $this->text($x, $y, $w, $t, 'display-b', $s, $color, ['upper' => true, 'spacing' => 200, 'fit' => true, 'min' => $s * 0.6]);
         return $y + $s * 25.4 / 72 * 1.15 + 2.2;
     }
 
-    private function panel(float $x, float $y, float $w, float $h, string $fill = self::BOX, string $stroke = self::LINE, float $sw = 0.5): void
+    protected function panel(float $x, float $y, float $w, float $h, string $fill = self::BOX, string $stroke = self::LINE, float $sw = 0.5): void
     {
         $this->rect($x, $y, $w, $h, $fill, $stroke, $sw);
     }
 
     /** Segments de texte en ligne : [[texte, police, couleur]], centrés ou alignés à gauche. */
-    private function row(array $segs, float $x, float $y, float $w, float $size, float $spacing, string $align = 'left'): void
+    protected function row(array $segs, float $x, float $y, float $w, float $size, float $spacing, string $align = 'left'): void
     {
         $sw = fn (array $s, float $sz) => $s[1] === 'dot' ? $sz * 0.55 : self::width(mb_strtoupper($s[0]), $s[1], $sz, $spacing);
         $total = 0;
@@ -213,7 +213,7 @@ final class PosterLayout
         }
     }
 
-    private static function initials(string $name): string
+    protected static function initials(string $name): string
     {
         $p = array_values(array_filter(preg_split('/[\s-]+/u', $name) ?: []));
         return mb_strtoupper(mb_substr($p[0] ?? '', 0, 1) . mb_substr(count($p) > 1 ? end($p) : '', 0, 1));
@@ -221,7 +221,7 @@ final class PosterLayout
 
     // ------------------------------------------------------------------ en-tête et pied
 
-    private function header(): void
+    protected function header(): void
     {
         $s = self::pt(16);
         $y = self::PAD;
@@ -243,7 +243,7 @@ final class PosterLayout
         $this->text(self::W - self::PAD - $dw - 1, $y, $dw + 1, $date, 'display-b', $s, self::MIST, ['spacing' => 220, 'align' => 'right']);
     }
 
-    private function footer(): void
+    protected function footer(): void
     {
         $s = self::pt(13);
         $y = self::H - self::PAD - 3.6;
@@ -253,7 +253,7 @@ final class PosterLayout
 
     // ------------------------------------------------------------------ blocs
 
-    private function hero(float $x, float $y, float $w, float $h): void
+    protected function hero(float $x, float $y, float $w, float $h): void
     {
         $d = $this->d;
         $this->rect($x, $y, $w, $h, self::NAVY, self::YELLOW, 0.8);
@@ -289,7 +289,7 @@ final class PosterLayout
         $this->row($sub, $ix, $y + $h - 7.2, $iw, self::pt(17), 140, 'center');
     }
 
-    private function crest(float $x, float $y, float $w, float $h): void
+    protected function crest(float $x, float $y, float $w, float $h): void
     {
         $this->rect($x, $y, $w, $h, self::BLUE, self::LINE, 0.5);
         $lw = min($w * 0.42, ($h - 22) / 1.133);
@@ -304,7 +304,7 @@ final class PosterLayout
         $this->text($sx, $sy + 1.6 + self::pt(14) * 25.4 / 72 * 1.2, $sw, $no, 'display', self::pt(26), self::YELLOW, ['upper' => true, 'spacing' => 80, 'align' => 'center', 'fit' => true]);
     }
 
-    private function pitch(float $x, float $y, float $w, float $h): void
+    protected function pitch(float $x, float $y, float $w, float $h): void
     {
         $d = $this->d;
         $this->panel($x, $y, $w, $h);
@@ -366,7 +366,7 @@ final class PosterLayout
         }
     }
 
-    private function film(float $x, float $y, float $w, float $h): void
+    protected function film(float $x, float $y, float $w, float $h): void
     {
         $this->panel($x, $y, $w, $h);
         $ix = $x + 4.5;
@@ -425,7 +425,7 @@ final class PosterLayout
         }
     }
 
-    private function crowd(float $x, float $y, float $w, float $h): void
+    protected function crowd(float $x, float $y, float $w, float $h): void
     {
         $this->rect($x, $y, $w, $h, self::YELLOW);
         $ix = $x + 4.5;
@@ -439,7 +439,7 @@ final class PosterLayout
     }
 
     /** Citation : grandes capitales, trait jaune, pastille aux initiales. */
-    private function quote(array $q, float $x, float $y, float $w, float $h, string $kick = 'Ils ont dit'): void
+    protected function quote(array $q, float $x, float $y, float $w, float $h, string $kick = 'Ils ont dit'): void
     {
         $this->panel($x, $y, $w, $h);
         $ix = $x + 4.5;
@@ -449,7 +449,7 @@ final class PosterLayout
         $this->quoteBody($q, $ix, $ty + 1, $iw, $y + $h - 4 - $ty - 1, self::pt($w > 120 ? 40 : 27));
     }
 
-    private function quoteBody(array $q, float $x, float $y, float $w, float $h, float $size, string $side = ''): void
+    protected function quoteBody(array $q, float $x, float $y, float $w, float $h, float $size, string $side = ''): void
     {
         $whoH = 11;
         if ($side !== '') {
@@ -473,7 +473,7 @@ final class PosterLayout
     }
 
     /** Une ou deux citations côte à côte (« face à face »). */
-    private function duel(array $qs, float $x, float $y, float $w, float $h): void
+    protected function duel(array $qs, float $x, float $y, float $w, float $h): void
     {
         if (count($qs) === 1) {
             $this->quote($qs[0], $x, $y, $w, $h);
@@ -495,7 +495,7 @@ final class PosterLayout
         }
     }
 
-    private function anecdote(array $a, float $x, float $y, float $w, float $h): void
+    protected function anecdote(array $a, float $x, float $y, float $w, float $h): void
     {
         $this->rect($x, $y, $w, $h, self::YELLOW);
         $ix = $x + 4.5;
@@ -508,7 +508,7 @@ final class PosterLayout
         $this->text($ix, $ty + $th + 2, $iw, $a['text'], 'serif', self::pt($w > 120 ? 26 : 21), self::NAVY, ['lh' => 1.28, 'h' => $avail - $th - 2, 'fit' => true, 'min' => self::pt(11), 'valign' => 'middle']);
     }
 
-    private function figure(float $x, float $y, float $w, float $h): void
+    protected function figure(float $x, float $y, float $w, float $h): void
     {
         $f = $this->d['figure'];
         $this->rect($x, $y, $w, $h, self::NAVY, self::CREAM, 0.75);
@@ -526,7 +526,7 @@ final class PosterLayout
         $this->text($tx, $ty, $ix + $iw - $tx, $f['text'], 'serif', self::pt(18), self::CREAM, ['lh' => 1.3, 'h' => $avail, 'fit' => true, 'min' => self::pt(11), 'valign' => 'middle']);
     }
 
-    private function enjeu(float $x, float $y, float $w, float $h): void
+    protected function enjeu(float $x, float $y, float $w, float $h): void
     {
         $this->rect($x, $y, $w, $h, self::CREAM);
         $ix = $x + 4.5;
@@ -536,7 +536,7 @@ final class PosterLayout
     }
 
     /** Fiche technique : stade, arbitre, spectateurs, entraîneur, système. */
-    private function facts(float $x, float $y, float $w, float $h): void
+    protected function facts(float $x, float $y, float $w, float $h): void
     {
         $this->used['facts'] = true;
         $d = $this->d;
@@ -562,13 +562,18 @@ final class PosterLayout
         }
     }
 
+    protected function recitKicker(): string
+    {
+        return 'Le récit du match · d’après la fiche du musée';
+    }
+
     /** Le récit, en colonnes justifiées à gauche, au plus grand corps qui tient. */
-    private function recit(float $x, float $y, float $w, float $h): void
+    protected function recit(float $x, float $y, float $w, float $h): void
     {
         $this->rect($x, $y, $w, $h, self::CREAM);
         $ix = $x + 4.5;
         $iw = $w - 9;
-        $ty = $this->kicker($ix, $y + 4, $iw, 'Le récit du match · d’après la fiche du musée', self::BLUE);
+        $ty = $this->kicker($ix, $y + 4, $iw, $this->recitKicker(), self::BLUE);
         $avail = $y + $h - 4 - $ty;
         $gap = 5.5;
         $text = $this->d['recit'];
@@ -605,7 +610,7 @@ final class PosterLayout
         }
     }
 
-    private function season(float $x, float $y, float $w, float $h): void
+    protected function season(float $x, float $y, float $w, float $h): void
     {
         $s = $this->d['season'];
         $this->rect($x, $y, $w, $h, self::YELLOW);

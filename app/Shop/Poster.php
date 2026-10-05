@@ -58,6 +58,53 @@ final class Poster
         return false;
     }
 
+    /** Genre du poster d'un modèle : « match » ou « joueur » ('' sans calque poster). */
+    public static function kind(array $model): string
+    {
+        foreach ($model['faces'] as $f) {
+            foreach ($f['layers'] as $l) {
+                if (($l['type'] ?? '') === 'poster') {
+                    return ($l['kind'] ?? '') === 'joueur' ? 'joueur' : 'match';
+                }
+            }
+        }
+        return '';
+    }
+
+    /** Champ du sujet du poster (match ou joueur) d'un modèle. */
+    public static function fieldOf(array $model): string
+    {
+        return self::kind($model) === 'joueur' ? PlayerPoster::FIELD : self::FIELD;
+    }
+
+    /** Sujet en vente comme poster de ce genre. */
+    public static function eligibleFor(string $kind, string $id): bool
+    {
+        return $kind === 'joueur' ? PlayerPoster::eligible($id) : self::eligible($id);
+    }
+
+    /** Libellé du sujet (match ou joueur), null s'il n'existe pas. */
+    public static function subject(string $kind, string $id): ?string
+    {
+        if ($kind === 'joueur') {
+            $d = PlayerPoster::data($id);
+            return $d ? PlayerPoster::label($d) : null;
+        }
+        $d = self::data($id);
+        return $d ? self::label($d['dm']) : null;
+    }
+
+    /** Prépare le contenu IA du sujet (une fois). */
+    public static function prepare(string $kind, string $id): bool
+    {
+        return $kind === 'joueur' ? PlayerPoster::enrich($id) : self::enrich($id);
+    }
+
+    public static function prepared(string $kind, string $id): bool
+    {
+        return (bool) ($kind === 'joueur' ? PlayerPoster::enriched($id) : self::enriched($id));
+    }
+
     /** Match en vente comme poster : fiche publiée avec un score et assez de matière. */
     public static function eligible(string $id): bool
     {
@@ -498,15 +545,19 @@ final class Poster
         if (!$d) {
             return [];
         }
+        $pour = trim(mb_substr(trim((string) ($values['poster_prenom'] ?? '')), 0, 30) . ' ' . mb_substr(trim((string) ($values['poster_nom'] ?? '')), 0, 30));
+        $no = preg_replace('/[^0-9A-Z-]/', '', strtoupper((string) ($values['_poster_no'] ?? '')));
+        return self::fit((new PosterLayout($d, $pour !== '' ? $pour : 'Prénom Nom', $no))->build(), $frame);
+    }
+
+    /** Calques dessinés pour l'A3 (297 × 420), mis à l'échelle et centrés dans le cadre du calque. */
+    public static function fit(array $L, array $frame): array
+    {
         $fw = max(50.0, (float) ($frame['w'] ?? 297));
         $fh = max(70.0, (float) ($frame['h'] ?? 420));
-        // Dessiné pour l'A3 (297 × 420), mis à l'échelle du cadre.
         $k = min($fw / 297, $fh / 420);
         $ox = (float) ($frame['x'] ?? 0) + ($fw - 297 * $k) / 2;
         $oy = (float) ($frame['y'] ?? 0) + ($fh - 420 * $k) / 2;
-        $pour = trim(mb_substr(trim((string) ($values['poster_prenom'] ?? '')), 0, 30) . ' ' . mb_substr(trim((string) ($values['poster_nom'] ?? '')), 0, 30));
-        $no = preg_replace('/[^0-9A-Z-]/', '', strtoupper((string) ($values['_poster_no'] ?? '')));
-        $L = (new PosterLayout($d, $pour !== '' ? $pour : 'Prénom Nom', $no))->build();
         foreach ($L as &$l) {
             $l['x'] = round($ox + $l['x'] * $k, 3);
             $l['y'] = round($oy + $l['y'] * $k, 3);

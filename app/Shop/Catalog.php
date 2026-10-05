@@ -453,10 +453,12 @@ final class Catalog
         foreach ($model['faces'] as $f) {
             foreach ($f['layers'] as $l) {
                 if (($l['type'] ?? '') === 'poster') {
-                    // Poster souvenir : le match (choisi dans les propositions), puis la dédicace.
-                    foreach (Poster::FIELDS as $pk => $plabel) {
-                        $out[$pk] ??= ['label' => $plabel, 'max' => $pk === Poster::FIELD ? 12 : 30, 'default' => $pk === Poster::FIELD ? Poster::SAMPLE : ['poster_prenom' => 'Prénom', 'poster_nom' => 'Nom'][$pk],
-                            'list' => '', 'choices' => [], 'rejected' => [], 'auto' => false, 'gen' => false, 'poster' => $pk === Poster::FIELD ? 'match' : 'name'];
+                    // Poster souvenir : le match ou le joueur (choisi dans les propositions), puis la dédicace.
+                    $pj = ($l['kind'] ?? '') === 'joueur';
+                    $subject = $pj ? PlayerPoster::FIELD : Poster::FIELD;
+                    foreach ($pj ? PlayerPoster::FIELDS : Poster::FIELDS as $pk => $plabel) {
+                        $out[$pk] ??= ['label' => $plabel, 'max' => $pk === $subject ? 12 : 30, 'default' => $pk === $subject ? ($pj ? PlayerPoster::SAMPLE : Poster::SAMPLE) : ['poster_prenom' => 'Prénom', 'poster_nom' => 'Nom'][$pk],
+                            'list' => '', 'choices' => [], 'rejected' => [], 'auto' => false, 'gen' => false, 'poster' => $pk === $subject ? ($pj ? 'joueur' : 'match') : 'name'];
                     }
                     continue;
                 }
@@ -506,6 +508,10 @@ final class Catalog
             }
             if (($f['poster'] ?? '') === 'match') {
                 Poster::eligible($v) ? $ok[$k] = $v : $errors[$k] = 'Choisissez votre match dans la liste proposée.';
+                continue;
+            }
+            if (($f['poster'] ?? '') === 'joueur') {
+                PlayerPoster::eligible($v) ? $ok[$k] = $v : $errors[$k] = 'Choisissez votre joueur dans la liste proposée.';
                 continue;
             }
             if (($f['poster'] ?? '') === 'name') {
@@ -578,7 +584,7 @@ final class Catalog
         $out = ['id' => preg_replace('/[^a-z0-9]/i', '', (string) ($l['id'] ?? '')) ?: bin2hex(random_bytes(3)), 'type' => $type,
             'x' => $num($l['x'] ?? 0, -2000, 3000, 0), 'y' => $num($l['y'] ?? 0, -2000, 3000, 0), 'w' => $num($l['w'] ?? 50, 1, 3000, 50)];
         if ($type === 'poster') {
-            $out += ['h' => $num($l['h'] ?? 420, 20, 3000, 420)];
+            $out += ['h' => $num($l['h'] ?? 420, 20, 3000, 420), 'kind' => ($l['kind'] ?? '') === 'joueur' ? 'joueur' : 'match'];
         } elseif ($type === 'logo') {
             $out += ['style' => ($l['style'] ?? '') === 'mono' ? 'mono' : 'couleurs', 'color' => Vector::hex($l['color'] ?? null, '#FDC729')];
         } elseif ($type === 'text') {

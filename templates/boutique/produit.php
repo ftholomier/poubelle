@@ -42,7 +42,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <span class="eyebrow"><?= e($sup['name']) ?></span>
       <h1 class="h-1 shopprod__t"><?= e($m['name']) ?></h1>
       <?php if (\App\Shop\Catalog::unique($m)): ?>
-      <div class="shopuniqbox"><span class="shopuniq">★ Pièce unique</span><?php if (\App\Shop\Poster::isFor($m)): ?><p>Le poster de votre match, composé par le musée d’après sa fiche, <b>dédicacé à votre nom et numéroté</b> : il n’existe qu’en un seul exemplaire.</p><?php else: ?><p>Votre anecdote est tirée par le musée dans l’histoire du FCSM, rien que pour vous. Dès qu’elle est commandée, elle sort du jeu : <b>personne d’autre ne portera la même</b>.</p><?php endif; ?></div>
+      <div class="shopuniqbox"><span class="shopuniq">★ Pièce unique</span><?php if (\App\Shop\Poster::kind($m) === 'joueur'): ?><p>Le poster de votre joueur, composé par le musée d’après sa fiche et ses statistiques, <b>dédicacé à votre nom et numéroté</b> : il n’existe qu’en un seul exemplaire.</p><?php elseif (\App\Shop\Poster::isFor($m)): ?><p>Le poster de votre match, composé par le musée d’après sa fiche, <b>dédicacé à votre nom et numéroté</b> : il n’existe qu’en un seul exemplaire.</p><?php else: ?><p>Votre anecdote est tirée par le musée dans l’histoire du FCSM, rien que pour vous. Dès qu’elle est commandée, elle sort du jeu : <b>personne d’autre ne portera la même</b>.</p><?php endif; ?></div>
       <?php endif; ?>
       <p class="shopprod__price" data-shop-price><?= e(Orders::money($s['price'])) ?></p>
       <?php if ($s['desc'] !== ''): ?><p><?= nl2br(e($s['desc'])) ?></p><?php endif; ?>
@@ -62,13 +62,13 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <?php foreach ($fields as $k => $f): if ($f['auto']) { continue; } ?>
       <div class="field">
         <label for="f-<?= e($k) ?>"><?= e($f['label']) ?> *</label>
-        <?php if (($f['poster'] ?? '') === 'match'): ?>
-        <div class="shopmatch" data-pmatch data-url="<?= e(ShopPages::u('/boutique/poster/matchs/')) ?>" data-prepare="<?= e(ShopPages::u('/boutique/poster/preparer/')) ?>">
-          <input type="text" id="f-<?= e($k) ?>" class="shopmatch__q" autocomplete="off" spellcheck="false" placeholder="Ex. : Metz 1988, finale, Monaco, PSG 1990…" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="pm-<?= e($k) ?>" data-pmatch-q>
+        <?php if (in_array($f['poster'] ?? '', ['match', 'joueur'], true)): $pj = $f['poster'] === 'joueur'; ?>
+        <div class="shopmatch" data-pmatch data-kind="<?= e($f['poster']) ?>" data-url="<?= e(ShopPages::u($pj ? '/boutique/poster/joueurs/' : '/boutique/poster/matchs/')) ?>" data-prepare="<?= e(ShopPages::u('/boutique/poster/preparer/')) ?>">
+          <input type="text" id="f-<?= e($k) ?>" class="shopmatch__q" autocomplete="off" spellcheck="false" placeholder="<?= $pj ? 'Ex. : Paille, Bazdarevic, Genghini, Pedretti…' : 'Ex. : Metz 1988, finale, Monaco, PSG 1990…' ?>" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="pm-<?= e($k) ?>" data-pmatch-q>
           <input type="hidden" name="values[<?= e($k) ?>]" value="" data-shop-in data-pmatch-val>
           <ul class="shopmatch__list" id="pm-<?= e($k) ?>" role="listbox" hidden data-pmatch-list></ul>
           <p class="shopmatch__state" data-pmatch-state aria-live="polite"></p>
-          <small class="shophelp">Tapez une équipe, une compétition, un tour ou une année, puis choisissez dans la liste. Seuls les matchs dont le musée a la fiche complète (composition, temps forts, récit) sont proposés.</small>
+          <small class="shophelp"><?= $pj ? 'Tapez le nom d’un Lionceau, puis choisissez dans la liste. Seuls les joueurs qui ont joué au moins 30 matchs et dont le musée a la fiche sont proposés.' : 'Tapez une équipe, une compétition, un tour ou une année, puis choisissez dans la liste. Seuls les matchs dont le musée a la fiche complète (composition, temps forts, récit) sont proposés.' ?></small>
         </div>
         <?php elseif ($f['gen']): ?>
         <div class="shopanec" data-anec="<?= e($k) ?>">

@@ -168,6 +168,10 @@ final class Orders
             $d = Poster::data((string) $it['values'][Poster::FIELD]);
             $p[] = 'Poster : ' . ($d ? Poster::label($d['dm']) : 'match n° ' . $it['values'][Poster::FIELD]);
             $p[] = 'pour ' . trim(($it['values']['poster_prenom'] ?? '') . ' ' . ($it['values']['poster_nom'] ?? ''));
+        } elseif (isset($it['values'][PlayerPoster::FIELD])) {
+            $d = PlayerPoster::data((string) $it['values'][PlayerPoster::FIELD]);
+            $p[] = 'Poster joueur : ' . ($d ? PlayerPoster::label($d) : 'fiche n° ' . $it['values'][PlayerPoster::FIELD]);
+            $p[] = 'pour ' . trim(($it['values']['poster_prenom'] ?? '') . ' ' . ($it['values']['poster_nom'] ?? ''));
         }
         foreach ($it['values'] as $k => $v) {
             if (!str_starts_with((string) $k, 'match_') && !str_starts_with((string) $k, 'poster_')) {

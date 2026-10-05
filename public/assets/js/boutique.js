@@ -77,10 +77,10 @@
     suggest(box, async it => {
       st.textContent = '';
       if (!it) return;
-      st.textContent = 'Le musée prépare votre poster : anecdote, citations et récit du match…'; st.classList.add('is-busy');
+      st.textContent = box.dataset.kind === 'joueur' ? 'Le musée prépare votre poster : anecdote, citation et histoire du joueur…' : 'Le musée prépare votre poster : anecdote, citations et récit du match…'; st.classList.add('is-busy');
       soon(0);
       try {
-        const r = await fetch(box.dataset.prepare, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF': (form.querySelector('[name=_csrf]') || {}).value || '' }, credentials: 'same-origin', body: JSON.stringify({ model: root.dataset.model, match: it.id }) });
+        const r = await fetch(box.dataset.prepare, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF': (form.querySelector('[name=_csrf]') || {}).value || '' }, credentials: 'same-origin', body: JSON.stringify({ model: root.dataset.model, subject: it.id }) });
         const d = await r.json();
         if (val.value !== it.id) return;
         st.textContent = d.ok ? 'Votre poster est prêt : vérifiez l’aperçu.' : (d.error || '');
