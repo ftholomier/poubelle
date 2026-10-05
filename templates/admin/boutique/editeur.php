@@ -33,7 +33,17 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'fonts' =>
         <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:6px">
           <button type="button" class="btn btn--sm btn--yellow" data-add="logo">Logo</button>
           <button type="button" class="btn btn--sm btn--yellow" data-add="text">Texte</button>
-          <button type="button" class="btn btn--sm btn--ghost" data-add="client">Champ du client</button>
+          <button type="button" class="btn btn--sm btn--ghost" data-add="client" title="Le client écrit ce qu’il veut (prénom, numéro…), dans la limite de caractères">Texte libre du client</button>
+        </div>
+        <div class="f" style="margin:10px 0 0"><span class="f__k">Phrase au choix du client (banque de textes)</span>
+          <div class="row" style="gap:6px;flex-wrap:wrap">
+          <?php foreach ($lists as $lk => $li): ?>
+            <button type="button" class="btn btn--sm btn--yellow" data-add="phrase" data-list="<?= e($lk) ?>" title="Le client choisira une phrase de cette liste (<?= count($li['choices']) ?> phrases validées)">+ <?= e($li['name']) ?></button>
+          <?php endforeach; ?>
+          <a class="btn btn--sm btn--ghost" href="/admin/boutique/textes" target="_blank">Gérer les listes</a>
+          </div>
+        </div>
+        <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:10px">
           <button type="button" class="btn btn--sm btn--ghost" data-add="rect">Rectangle</button>
           <button type="button" class="btn btn--sm btn--ghost" data-add="ellipse">Rond</button>
         </div>

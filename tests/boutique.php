@@ -92,6 +92,18 @@ $eq('listes de départ : 46 slogans validés, 14 anecdotes à faire valider', [$
 $pick = ['id' => 'p', 'type' => 'text', 'x' => 0, 'y' => 0, 'w' => 200, 'text' => 'Exemple', 'mode' => 'client', 'field' => 'phrase', 'list' => 'slogans', 'max' => 5];
 $eq('choix dans une liste : phrase validée acceptée (sans coupure), texte inventé refusé', [Vector::textOf($pick, ['phrase' => 'Né pour rugir.']), Vector::textOf($pick, ['phrase' => 'Texte inventé'])], ['Né pour rugir.', 'Exemple']);
 $eq('champ du client relié à la liste (phrases proposées)', [Catalog::cleanLayer($pick)['list'], count(Catalog::fields(['faces' => [['layers' => [Catalog::cleanLayer($pick)]]]])['phrase']['choices'])], ['slogans', 46]);
+// Phrase trop longue pour le cadre (casquette : 90 × 20 mm, 24 pt au moins) : réduite, sur 2 lignes, ou écartée.
+$cap = ['id' => 'k', 'type' => 'text', 'x' => 5, 'y' => 10, 'w' => 90, 'h' => 20, 'text' => 'Exemple', 'size' => 40, 'min' => 24, 'fit' => true, 'upper' => true, 'mode' => 'client', 'field' => 'phrase', 'list' => 'slogans', 'lh' => 1.1];
+$short = Vector::layout($cap, ['phrase' => 'Né pour rugir.']);
+$long = 'Plus vieux que le Tour de France ? Non. Plus fidèle ? Oui.';
+$lay = Vector::layout($cap, ['phrase' => 'Jaune et bleu depuis 1928.']);
+$eq('cadre : phrase courte en grand ; moyenne réduite sur 2 lignes ; trop longue refusée', [Vector::fits($cap, ['phrase' => 'Né pour rugir.']), $lay['size'] < 40 && $lay['size'] >= 24, count($lay['lines']), Vector::fits($cap, ['phrase' => $long])], [true, true, 2, false]);
+$capModel = ['faces' => ['avant' => ['layers' => [Catalog::cleanLayer($cap)]]]];
+$ff = Catalog::fields($capModel)['phrase'];
+$eq('phrases trop longues écartées de la liste proposée au client', [in_array($long, $ff['rejected'], true), in_array('Né pour rugir.', $ff['choices'], true), count($ff['choices']) + count($ff['rejected'])], [true, true, 46]);
+$prenom = ['faces' => ['avant' => ['layers' => [Catalog::cleanLayer(['type' => 'text', 'w' => 30, 'h' => 8, 'size' => 30, 'min' => 12, 'fit' => true, 'mode' => 'client', 'field' => 'prenom', 'max' => 40])]]]];
+$chk = Catalog::check($prenom, ['prenom' => 'Jean-Christophe-Emmanuel']);
+$eq('contrôle avant commande : texte libre trop long pour le cadre refusé, court accepté', [isset($chk['errors']['prenom']), Catalog::check($prenom, ['prenom' => 'Léo'])['values']], [true, ['prenom' => 'Léo']]);
 Texts::$ai = fn ($sys, $ask) => json_encode(['Né pour rugir.', 'Bonal, même sous la pluie.', 'Le lion ne s\'excuse pas.']);
 $n = Texts::suggest('slogans', 10);
 $sl = Texts::find('slogans');

@@ -129,22 +129,70 @@ final class Catalog
 
     /**
      * Champs que le client remplit (tous les calques « client »). list : identifiant d'une liste
-     * de la banque de textes (le client choisit une phrase validée de cette liste) ou ''.
-     * @return array<string,array{label:string,max:int,default:string,list:string,choices:list<string>}>
+     * de la banque de textes (le client choisit une phrase validée de cette liste) ou '' ;
+     * choices : phrases proposées (validées et qui tiennent dans le cadre) ; rejected : trop longues.
+     * @return array<string,array{label:string,max:int,default:string,list:string,choices:list<string>,rejected:list<string>}>
      */
     public static function fields(array $model): array
     {
         $out = [];
+        $layers = [];
         foreach ($model['faces'] as $f) {
             foreach ($f['layers'] as $l) {
                 if (($l['type'] ?? '') === 'text' && ($l['mode'] ?? '') === 'client' && ($l['field'] ?? '') !== '') {
+                    $layers[$l['field']][] = $l;
                     $list = (string) ($l['list'] ?? '');
                     $out[$l['field']] ??= ['label' => (string) ($l['label'] ?? $l['field']), 'max' => max(1, (int) ($l['max'] ?? 30)), 'default' => (string) ($l['text'] ?? ''),
-                        'list' => $list, 'choices' => $list !== '' ? Texts::choices($list) : []];
+                        'list' => $list, 'choices' => [], 'rejected' => []];
                 }
             }
         }
+        // Phrases proposées : validées dans la banque de textes ET qui tiennent sur tous les calques du champ.
+        foreach ($out as $k => $f) {
+            foreach ($f['list'] !== '' ? Texts::choices($f['list']) : [] as $c) {
+                $fit = true;
+                foreach ($layers[$k] as $l) {
+                    $fit = $fit && Vector::fits($l, [$k => $c]);
+                }
+                $fit ? $out[$k]['choices'][] = $c : $out[$k]['rejected'][] = $c;
+            }
+        }
         return $out;
+    }
+
+    /**
+     * Réponses du client contrôlées avant la commande : phrase d'une liste parmi celles proposées,
+     * texte libre dans la limite de caractères et qui tient dans le cadre au corps minimum.
+     * @return array{values:array<string,string>,errors:array<string,string>}
+     */
+    public static function check(array $model, array $values): array
+    {
+        $ok = [];
+        $errors = [];
+        foreach (self::fields($model) as $k => $f) {
+            $v = trim((string) ($values[$k] ?? ''));
+            if ($v === '') {
+                continue;
+            }
+            if ($f['list'] !== '') {
+                in_array($v, $f['choices'], true) ? $ok[$k] = $v : $errors[$k] = 'Choisissez une phrase de la liste.';
+                continue;
+            }
+            if (mb_strlen($v) > $f['max']) {
+                $errors[$k] = $f['max'] . ' caractères au plus.';
+                continue;
+            }
+            $fit = true;
+            foreach ($model['faces'] as $face) {
+                foreach ($face['layers'] as $l) {
+                    if (($l['field'] ?? '') === $k && ($l['mode'] ?? '') === 'client') {
+                        $fit = $fit && Vector::fits($l, [$k => $v]);
+                    }
+                }
+            }
+            $fit ? $ok[$k] = $v : $errors[$k] = 'Texte trop long pour cet emplacement : raccourcissez-le.';
+        }
+        return ['values' => $ok, 'errors' => $errors];
     }
 
     public static function saveModel(array $m, ?array $user = null): array
@@ -196,6 +244,7 @@ final class Catalog
                 'field' => substr((string) preg_replace('/[^a-z0-9_]/', '', strtolower((string) ($l['field'] ?? ''))), 0, 30),
                 'label' => mb_substr((string) ($l['label'] ?? ''), 0, 60), 'max' => (int) $num($l['max'] ?? 30, 1, 200, 30),
                 'list' => substr((string) preg_replace('/[^a-z0-9]/', '', (string) ($l['list'] ?? '')), 0, 30),
+                'h' => $num($l['h'] ?? 0, 0, 3000, 0), 'min' => $num($l['min'] ?? 10, 2, 400, 10),
             ];
         } else {
             $out += ['h' => $num($l['h'] ?? 20, 0.2, 3000, 20), 'fill' => ($l['fill'] ?? '') !== '' ? Vector::hex($l['fill']) : '', 'stroke' => ($l['stroke'] ?? '') !== '' ? Vector::hex($l['stroke']) : '', 'sw' => $num($l['sw'] ?? 0, 0, 50, 0), 'r' => $num($l['r'] ?? 0, 0, 500, 0)];

@@ -128,30 +128,64 @@ final class Vector
         $sp = (float) ($l['spacing'] ?? 0) / 1000;
         $text = self::textOf($l, $values);
         $measure = fn (string $s, float $pt): float => ($font->width($s) / 1000 + $sp * max(0, mb_strlen($s) - 1)) * $pt * 25.4 / 72;
-        if (!empty($l['fit'])) {
-            $longest = max(array_map(fn ($line) => $measure($line, 1), explode("\n", $text)) ?: [0]);
-            if ($longest > 0 && $longest * $size > $w) {
-                $size = max(2.0, $w / $longest);
+        $wrap = function (float $pt) use ($text, $w, $measure): array {
+            $lines = [];
+            foreach (explode("\n", $text) as $para) {
+                $cur = '';
+                foreach (preg_split('/ +/u', $para) ?: [] as $word) {
+                    $try = $cur === '' ? $word : $cur . ' ' . $word;
+                    if ($cur !== '' && $measure($try, $pt) > $w) {
+                        $lines[] = $cur;
+                        $cur = $word;
+                    } else {
+                        $cur = $try;
+                    }
+                }
+                $lines[] = $cur;
             }
-        }
-        $lines = [];
-        foreach (explode("\n", $text) as $para) {
-            $cur = '';
-            foreach (preg_split('/ +/u', $para) ?: [] as $word) {
-                $try = $cur === '' ? $word : $cur . ' ' . $word;
-                if ($cur !== '' && $measure($try, $size) > $w) {
-                    $lines[] = $cur;
-                    $cur = $word;
-                } else {
-                    $cur = $try;
+            return $lines;
+        };
+        $h = (float) ($l['h'] ?? 0);
+        $lh = (float) ($l['lh'] ?? 1.1);
+        // Tient dans le cadre : chaque ligne dans la largeur, toutes les lignes dans la hauteur (si fixée).
+        $ok = function (float $pt, array $lines) use ($w, $h, $lh, $measure): bool {
+            foreach ($lines as $line) {
+                if ($measure($line, $pt) > $w + 0.01) {
+                    return false;
                 }
             }
-            $lines[] = $cur;
+            return $h <= 0 || count($lines) * $pt * 25.4 / 72 * $lh <= $h + 0.01;
+        };
+        $min = min($size, max(2.0, (float) ($l['min'] ?? 0)));
+        if (!empty($l['fit'])) {
+            if ($h > 0) {
+                // Cadre en hauteur : le plus grand corps (≤ réglé, ≥ minimum) où le texte, sur plusieurs lignes, tient.
+                if (!$ok($size, $wrap($size))) {
+                    [$lo, $hi] = [$min, $size];
+                    for ($i = 0; $i < 18; $i++) {
+                        $mid = ($lo + $hi) / 2;
+                        $ok($mid, $wrap($mid)) ? $lo = $mid : $hi = $mid;
+                    }
+                    $size = $lo;
+                }
+            } else {
+                $longest = max(array_map(fn ($line) => $measure($line, 1), explode("\n", $text)) ?: [0]);
+                if ($longest > 0 && $longest * $size > $w) {
+                    $size = max($min, $w / $longest);
+                }
+            }
         }
-        return ['lines' => $lines, 'size' => $size, 'width' => fn (string $s): float => $measure($s, $size)];
+        $lines = $wrap($size);
+        return ['lines' => $lines, 'size' => $size, 'overflow' => !$ok($size, $lines), 'width' => fn (string $s): float => $measure($s, $size)];
     }
 
     /** Hauteur occupée par un calque de texte (mm). */
+    /** Le texte du calque (avec ces réponses du client) tient-il dans son cadre, sans descendre sous le corps minimum ? */
+    public static function fits(array $l, array $values = []): bool
+    {
+        return ($l['type'] ?? '') !== 'text' || !self::layout($l, $values)['overflow'];
+    }
+
     public static function textHeight(array $l, array $values = []): float
     {
         $lay = self::layout($l, $values);

@@ -1056,7 +1056,7 @@ même site fermé ; sinon 404 du site.
 - `app/Shop/Catalog.php` : supports (t-shirt, sweat, mugs, tote bag, casquette, écharpe, posters A3/A2, carte, sticker ; dimensions surchargées dans `data/collections/boutique-supports.json`) et modèles (`boutique-modeles.json`), champs à remplir par le client (`mode: client`).
 - `app/Shop/Mockup.php` : aperçus vectoriels sur le produit (silhouettes, mug courbé, casquette découpée, écharpe à franges).
 - `app/Admin/Shop.php` + `templates/admin/boutique/` + `public/assets/admin/boutique.{js,css}` : écrans « Boutique » (administrateurs seuls), éditeur de modèles, aperçu JSON, PDF imprimeur (`/admin/boutique/modeles/{id}/pdf`, `?rvb=1` pour un PDF RVB).
-- `app/Shop/Texts.php` : banque de textes (`data/collections/boutique-textes.json`, départ : `app/Resources/shop/textes-depart.json`) ; un champ du client peut être un « choix dans une liste » (`list`) : seules les phrases validées sont acceptées. Propositions de l'IA (Gemini, usage `boutique` des coûts IA) ajoutées « à valider ».
+- `app/Shop/Texts.php` : banque de textes (`data/collections/boutique-textes.json`, départ : `app/Resources/shop/textes-depart.json`) ; un champ du client peut être un « choix dans une liste » (`list`) : seules les phrases validées sont acceptées. Cadre de texte (`h`, hauteur en mm) et corps minimum (`min`, pt) : `Vector::layout` réduit puis coupe en lignes ; `Vector::fits` dit si le texte tient ; `Catalog::fields` écarte les phrases trop longues (`rejected`) ; `Catalog::check` contrôle les réponses avant commande. Propositions de l'IA (Gemini, usage `boutique` des coûts IA) ajoutées « à valider ».
 - Test : `tests/boutique.php`.
 
 ## 9. Tâches planifiées

@@ -229,12 +229,16 @@ final class Shop extends Base
             if ($b && ($b[0] < -0.5 || $b[1] < -0.5 || $b[2] > $face['w'] + 0.5 || $b[3] > $face['h'] + 0.5) && empty($face['bg'])) {
                 $warn[] = 'Un calque (' . ($l['type'] === 'text' ? '« ' . mb_strimwidth((string) $l['text'], 0, 24, '…') . ' »' : $l['type']) . ') dépasse de la zone imprimable.';
             }
+            if ($l['type'] === 'text' && !Vector::fits($l, $values)) {
+                $warn[] = 'Le texte « ' . mb_strimwidth(Vector::textOf($l, $values), 0, 30, '…') . ' » ne tient pas dans son cadre, même au corps minimum : agrandissez le cadre, baissez le minimum ou raccourcissez le texte.';
+            }
             if ($l['type'] === 'text' && $sup['mockup'] === 'cap' && (float) $l['size'] * 25.4 / 72 * 0.7 < 5) {
                 $warn[] = 'Casquette brodée : texte trop petit (moins de 5 mm de haut).';
             }
         }
         return self::json(['ok' => true, 'mockup' => $mock['svg'], 'area' => $mock['area'], 'vb' => $mock['vb'],
-            'print' => Vector::svg($face, $values, true), 'boxes' => $boxes, 'warn' => array_values(array_unique($warn))]);
+            'print' => Vector::svg($face, $values, true), 'boxes' => $boxes, 'warn' => array_values(array_unique($warn)),
+            'fields' => array_map(fn ($f) => ['choices' => $f['choices'], 'rejected' => $f['rejected']], Catalog::fields(['faces' => [$fk => $face]]))]);
     }
 
     /** GET /admin/boutique/modeles/{id}/pdf : fichier d'impression (toutes les faces dessinées). */

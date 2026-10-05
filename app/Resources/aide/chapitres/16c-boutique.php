@@ -42,7 +42,9 @@ HTML],
 <li><b>Validée</b> : seules les phrases cochées sont proposées au client. Les anecdotes arrivent non cochées : un historien vérifie chaque fait (la source est dans la colonne « Note ») avant de les cocher.</li>
 <li><b>Ajouter</b> : une phrase par ligne dans « Ajouter des phrases », puis « Enregistrer la liste ».</li>
 <li><b>Proposer des phrases avec l’IA</b> : donnez une consigne (« humour sur la météo de Bonal ») et un nombre ; les propositions arrivent non validées, jamais proposées avant votre accord. Le coût apparaît dans Coûts IA.</li>
-<li><b>Dans l’éditeur</b> : ajoutez un « Champ du client », puis réglez « Réponse du client » sur « Choix dans la liste… ». Cochez « Réduire pour tenir » : les phrases n’ont pas toutes la même longueur. L’essai des champs du client propose la liste pour vérifier le rendu de chaque phrase.</li>
+<li><b>Dans l’éditeur</b> : sous « Phrase au choix du client », cliquez le bouton de la liste (« + Slogans »…). Un cadre jaune apparaît dans le fichier d’impression : c’est la place réservée à la phrase.</li>
+<li><b>Phrases trop longues</b> : chaque phrase est d’abord réduite, puis passée sur plusieurs lignes pour tenir dans le cadre, sans descendre sous le « Corps minimum » (20 pt sur la casquette brodée). Une phrase qui ne tient pas, même au minimum, n’est <b>jamais proposée</b> au client pour ce modèle : l’essai des champs indique combien de phrases sont écartées, et lesquelles. Agrandissez le cadre pour en récupérer.</li>
+<li><b>Texte libre du client</b> (prénom…) : même règle ; s’il est trop long, le client est invité à le raccourcir avant de commander.</li>
 </ul>
 <p>Avant de vendre un slogan, vérifiez qu’il n’est pas déposé comme marque (base de l’INPI).</p>
 [[img:boutique-textes.webp|La banque de textes : chaque phrase, sa note ou sa source, et la case « Validée »]]

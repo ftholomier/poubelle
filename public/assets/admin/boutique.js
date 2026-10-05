@@ -45,6 +45,7 @@
     const w = $('[data-warn]');
     w.hidden = !r.warn.length;
     w.innerHTML = r.warn.map(esc).join('<br>');
+    if (!document.activeElement || !document.activeElement.closest('[data-fields]')) fields();
   };
   let t = null;
   const soon = (ms = 120) => { clearTimeout(t); t = setTimeout(render, ms); };
@@ -64,6 +65,8 @@
       svg.appendChild(el('path', { d: p, fill: 'rgba(14,31,77,.18)', 'fill-rule': 'evenodd', 'pointer-events': 'none' }));
     }
     svg.appendChild(el('rect', { x: 0, y: 0, width: f.w, height: f.h, fill: 'none', stroke: '#1e3fa8', 'stroke-width': Math.max(f.w, f.h) / 400, 'stroke-dasharray': Math.max(f.w, f.h) / 80, 'pointer-events': 'none' }));
+    const cl = cur();
+    if (cl && cl.type === 'text' && cl.fit && +cl.h > 0) svg.appendChild(el('rect', { x: cl.x, y: cl.y, width: cl.w, height: cl.h, fill: 'rgba(246,196,0,.12)', stroke: '#c99a00', 'stroke-width': Math.max(f.w, f.h) / 500, 'stroke-dasharray': Math.max(f.w, f.h) / 120, 'pointer-events': 'none' }));
     const box = last && sel && last.boxes[sel];
     if (box) {
       const pad = Math.max(f.w, f.h) / 200;
@@ -113,6 +116,7 @@
 
   /* ------------------------------------------------------------ calques */
   const label = l => l.type === 'logo' ? 'Logo de l’association' + (l.style === 'mono' ? ' (une couleur)' : '')
+    : l.type === 'text' && l.mode === 'client' && l.list ? '☰ Phrase au choix (' + (((D.lists || {})[l.list] || {}).name || 'liste') + ')'
     : l.type === 'text' ? (l.mode === 'client' ? '✎ ' : '') + '« ' + (String(l.text || '').slice(0, 28) || '…') + ' »'
     : l.type === 'rect' ? 'Rectangle' : 'Rond';
   function list() {
@@ -140,7 +144,14 @@
     else if (k === 'rect' || k === 'ellipse') l = { type: k, x: r1(w * 0.3), y: r1(h * 0.3), w: r1(w * 0.4), h: r1(Math.min(h * 0.2, w * 0.4)), fill: k === 'ellipse' ? '#F6C400' : '', stroke: k === 'rect' ? '#F6C400' : '', sw: k === 'rect' ? r1(Math.max(0.5, w / 200)) : 0, r: 0 };
     else {
       const size = Math.max(8, Math.round(Math.min(w, h * 2) / 8));
-      l = { type: 'text', x: r1(w * 0.05), y: r1(h * 0.6), w: r1(w * 0.9), text: k === 'client' ? 'Votre prénom' : 'Jaune et bleu depuis 1928', font: 'display', size, color: dark() ? '#F6C400' : '#0E1F4D', align: 'center', upper: true, spacing: 0, lh: 1.1, fit: k === 'client', mode: k === 'client' ? 'client' : 'fixed', field: k === 'client' ? 'prenom' : '', label: k === 'client' ? 'Votre prénom' : '', max: 20 };
+      l = { type: 'text', x: r1(w * 0.05), y: r1(h * 0.6), w: r1(w * 0.9), text: k === 'client' ? 'Votre prénom' : 'Jaune et bleu depuis 1928', font: 'display', size, color: dark() ? '#F6C400' : '#0E1F4D', align: 'center', upper: true, spacing: 0, lh: 1.1, fit: k !== 'text', mode: k === 'text' ? 'fixed' : 'client', field: k === 'client' ? 'prenom' : '', label: k === 'client' ? 'Votre prénom' : '', max: 20, h: 0, min: 10 };
+    }
+    if (k === 'phrase') {
+      // Phrase au choix : le client choisit dans une liste de la banque de textes (réduite pour tenir dans un cadre).
+      const lk = b.dataset.list || Object.keys(D.lists || {})[0] || '';
+      const c = ((D.lists || {})[lk] || {}).choices || [];
+      Object.assign(l, { list: lk, field: 'phrase_' + lk, label: 'Votre phrase', text: c[0] || 'Votre phrase', fit: true, h: r1(Math.min(h * 0.3, w * 0.35)), y: r1(h * 0.62), min: sup.mockup === 'cap' ? 20 : Math.max(10, Math.round(l.size * 0.4)) });
+      if (sup.mockup === 'cap') l.size = Math.max(l.size, 28);
     }
     l.id = uid();
     L().push(l);
@@ -165,11 +176,12 @@
       h += `<label class="f"><span class="f__k">${l.mode === 'client' ? 'Texte d’exemple (remplacé par celui du client)' : 'Texte'}</span><textarea class="in" rows="2" data-k="text">${esc(l.text)}</textarea></label>`;
       h += `<div class="pgrid"><label class="f f--inline"><span class="f__k">Police</span><select class="in in--sm" data-k="font">${Object.entries(D.fonts).map(([k, n]) => `<option value="${k}"${l.font === k ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label>${num('size', 'Corps (pt)', 1, 2)}${num('spacing', 'Espacement', 10)}${num('lh', 'Interligne', 0.05, 0.6)}</div>`;
       h += `<div class="seg" style="margin:6px 0">${['left', 'center', 'right'].map(a => `<button type="button" class="seg__b${l.align === a ? ' is-on' : ''}" data-align="${a}">${{ left: 'À gauche', center: 'Centré', right: 'À droite' }[a]}</button>`).join('')}</div>`;
-      h += `<div class="row" style="gap:12px;flex-wrap:wrap">${chk('upper', 'Capitales')}${chk('fit', 'Réduire pour tenir sur la largeur')}</div>`;
+      h += `<div class="row" style="gap:12px;flex-wrap:wrap">${chk('upper', 'Capitales')}${chk('fit', 'Réduire pour tenir dans le cadre')}</div>`;
+      if (l.fit) h += `<div class="pgrid">${num('h', 'Hauteur du cadre (mm, 0 : une ligne)', 1, 0)}${num('min', 'Corps minimum (pt)', 1, 2)}</div><p class="xs muted" style="margin:2px 0 6px">Le texte est réduit, puis passe sur plusieurs lignes si le cadre a une hauteur, sans descendre sous le corps minimum (lisibilité, broderie). Un texte qui ne tient pas, même au minimum, n’est pas proposé au client.</p>`;
       h += `<div class="f"><span class="f__k">Couleur</span>${colorPick('color', l.color, false)}</div>`;
       h += `<label class="toggle"><input type="checkbox" data-client${l.mode === 'client' ? ' checked' : ''}><span class="toggle__box"></span><span>Rempli par le client</span></label>`;
       if (l.mode === 'client') h += `<label class="f"><span class="f__k">Réponse du client</span><select class="in in--sm" data-k="list"><option value="">Texte libre (il l’écrit)</option>${Object.entries(D.lists || {}).map(([k, v]) => `<option value="${esc(k)}"${l.list === k ? ' selected' : ''}>Choix dans la liste « ${esc(v.name)} » (${v.choices.length} phrases)</option>`).join('')}</select></label>`
-        + (l.list ? `<p class="xs muted" style="margin:4px 0 0">Le client choisit une phrase validée de la liste. Gérez les phrases dans <a href="/admin/boutique/textes" target="_blank">Boutique › Banque de textes</a>. Pensez à « Réduire pour tenir » : les phrases n’ont pas toutes la même longueur.</p>` : '')
+        + (l.list ? `<p class="xs muted" style="margin:4px 0 0">Le client choisit une phrase validée de la liste. Gérez les phrases dans <a href="/admin/boutique/textes" target="_blank">Boutique › Banque de textes</a>. Les phrases trop longues pour le cadre sont écartées automatiquement (liste ci-dessous, dans l’essai des champs).</p>` : '')
         + `<div class="pgrid"><label class="f f--inline"><span class="f__k">Question posée</span><input class="in in--sm" data-k="label" value="${esc(l.label)}" placeholder="${l.list ? 'Votre phrase' : 'Votre prénom'}"></label><label class="f f--inline"><span class="f__k">Nom du champ</span><input class="in in--sm" data-k="field" value="${esc(l.field)}" placeholder="prenom"></label>${l.list ? '' : num('max', 'Caractères max', 1, 1)}</div><p class="xs muted" style="margin:4px 0 0">Deux calques avec le même nom de champ reçoivent le même texte (par exemple le prénom devant et au dos).</p>`;
     } else {
       h += `<div class="f"><span class="f__k">Remplissage</span>${colorPick('fill', l.fill || '', true)}</div><div class="f"><span class="f__k">Contour</span>${colorPick('stroke', l.stroke || '', true)}</div><div class="pgrid">${num('sw', 'Épaisseur du contour (mm)', 0.1, 0)}${l.type === 'rect' ? num('r', 'Arrondi (mm)', 0.5, 0) : ''}</div>`;
@@ -220,7 +232,12 @@
     $('[data-fields-card]').hidden = !keys.length;
     $('[data-fields]').innerHTML = keys.map(k => {
       const lst = fs[k].list && (D.lists || {})[fs[k].list];
-      if (lst) return `<label class="f"><span class="f__k">${esc(fs[k].label || k)} <span class="xs muted">(liste « ${esc(lst.name)} »)</span></span><select class="in" data-field="${esc(k)}"><option value="">${esc(fs[k].text)} (exemple)</option>${lst.choices.map(c => `<option${values[k] === c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></label>`;
+      if (lst) {
+        const srv = last && last.fields && last.fields[k];
+        const ok = srv ? srv.choices : lst.choices, out = srv ? srv.rejected : [];
+        return `<label class="f"><span class="f__k">${esc(fs[k].label || k)} <span class="xs muted">(liste « ${esc(lst.name)} » : ${ok.length} phrase${ok.length > 1 ? 's' : ''} proposée${ok.length > 1 ? 's' : ''})</span></span><select class="in" data-field="${esc(k)}"><option value="">${esc(fs[k].text)} (exemple)</option>${ok.map(c => `<option${values[k] === c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></label>`
+          + (out.length ? `<details class="xs" style="margin:-4px 0 8px"><summary class="muted">${out.length} phrase${out.length > 1 ? 's' : ''} écartée${out.length > 1 ? 's' : ''} : trop longue${out.length > 1 ? 's' : ''} pour ce cadre</summary><ul style="margin:4px 0 0 16px">${out.map(c => `<li>${esc(c)}</li>`).join('')}</ul></details>` : '');
+      }
       return `<label class="f"><span class="f__k">${esc(fs[k].label || k)} <span class="xs muted">(${fs[k].max || 30} caractères au plus)</span></span><input class="in" data-field="${esc(k)}" maxlength="${fs[k].max || 30}" value="${esc(values[k] || '')}" placeholder="${esc(fs[k].text)}"></label>`;
     }).join('');
     const pdf = $('[data-pdf]');
