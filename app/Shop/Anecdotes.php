@@ -162,7 +162,10 @@ final class Anecdotes
         // Les matchs marquants d'abord (deux fois sur trois), sinon n'importe lequel.
         $hl = array_values(array_filter($matches, fn ($m) => (int) ($m['hl'] ?? 0) > 0));
         $pool = $hl && random_int(0, 2) > 0 ? $hl : $matches;
-        return self::matchFact($pool[random_int(0, count($pool) - 1)]);
+        $m = $pool[random_int(0, count($pool) - 1)];
+        // Un des faits les plus parlants de sa fiche (chiffre clé, coulisses, déclarations), pas le simple score.
+        $best = array_slice(self::topicFacts('m:' . $m['id']), 0, 3);
+        return $best ? $best[random_int(0, count($best) - 1)] : self::matchFact($m);
     }
 
     /** @return list<array> matchs publiés et datés */
