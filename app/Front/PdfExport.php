@@ -25,7 +25,7 @@ use App\Services\Images;
 final class PdfExport
 {
     /** À augmenter quand la mise en page change (les PDF en cache sont alors refaits). */
-    public const VERSION = '2';
+    public const VERSION = '3';
     private const DIR = STORAGE_PATH . '/cache/pdf';
 
     // ================================================================== adresses
@@ -360,7 +360,8 @@ final class PdfExport
         };
     }
 
-    private static function buildMatch(array $doc): string
+    /** Fiche match complète, en PDF ; avec $into, ajoutée à la suite d'un autre document (kit souvenirs). */
+    public static function buildMatch(array $doc, ?Layout $into = null, bool $recit = true): string
     {
         $v = Fiche::matchData($doc)['vars'];
         $m = $v['m'];
@@ -373,7 +374,7 @@ final class PdfExport
         $compLabel = $m['competition_label'] ?: ($m['competition'] ?? '');
         $date = I18n::isEn() && $m['date'] ? date_fr($m['date'], true) : ($m['date_text'] ?: ($m['date'] ? date_fr($m['date'], true) : ''));
         $running = trim($v['title'] . ($hasScore ? ' ' . $m['score']['home'] . '-' . $m['score']['away'] : '') . ($m['date'] ? ' · ' . date_num($m['date']) : ''));
-        $l = self::layout($doc['path'], $running, $running, t('Fiche match') . ' · ' . $compLabel);
+        $l = $into ?? self::layout($doc['path'], $running, $running, t('Fiche match') . ' · ' . $compLabel);
         $l->newPage();
         $l->masthead(t('Fiche match'));
         $round = trim((string) ($m['round_text'] ?? ''));
@@ -427,6 +428,16 @@ final class PdfExport
         }
         if (!empty($m['event']) && $hasTeams) {
             $l->para([Layout::run((string) $m['event'], 'serif-i', 12, 'navy')], ['after' => 10]);
+        }
+        // Le récit de la version audio de la fiche, à lire d'une traite.
+        $story = $recit ? trim((string) (\App\Services\FicheAudio::current(\App\Data\Fiches::get((int) $doc['id']) ?? $doc, I18n::lang())['text'] ?? '')) : '';
+        if ($story !== '') {
+            $l->h2(t('On vous raconte le match'));
+            foreach (preg_split('/\n\s*\n|\n/u', $story) ?: [] as $p) {
+                if (trim($p) !== '') {
+                    $l->para([Layout::run(trim($p), 'serif', 11)], ['after' => 6]);
+                }
+            }
         }
         if (!empty($doc['intro'])) {
             self::flow($l, 11.5)->render((string) $doc['intro']);
@@ -507,7 +518,7 @@ final class PdfExport
             $l->para([Layout::run(t('Tout le face-à-face') . ' : ', 'serif-b', 10, 'navy'), Layout::run(base_url() . $h['href'], 'serif', 10, 'blue', base_url() . $h['href'])], ['after' => 8]);
         }
         self::extras($l, $doc, t('Galerie du match'));
-        return $l->finish();
+        return $into ? '' : $l->finish();
     }
 
     /** Tableau d'affichage : équipes, score, résultat. */

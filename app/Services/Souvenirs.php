@@ -144,6 +144,8 @@ final class Souvenirs
         return [
             'ym' => $ym, 'month' => self::monthLabel($ym), 'match' => $c, 'doc' => $doc, 'm' => $m, 'year' => $year,
             'intro' => $intro, 'story' => array_values($keep), 'breve' => self::firstBreve($m),
+            // Le récit de la version audio de la fiche (texte relu ou écrit par l'IA, sinon le texte de base).
+            'recit' => trim(FicheAudio::current(Fiches::get($c['id']) ?? [], I18n::lang())['text'] ?? ''),
             'faces' => self::faces($rows, $year, $ym),
             'quiz' => self::quiz($ym, $doc, $rows),
             'prompts' => self::prompts(),

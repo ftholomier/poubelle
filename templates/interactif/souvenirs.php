@@ -29,17 +29,25 @@ $m = $kit['m'] ?? [];
       <p class="skmain__match"><b><?= e(Site::matchLabel($c['dm'])) ?></b><br><?= e(trim(date_fr($c['dm']['date'] ?? null, true) . ' · ' . ($m['competition_label'] ?? ''), ' ·')) ?></p>
       <ol class="skpages">
         <li><b><?= e(t('Le grand match')) ?></b> <?= e(t('le récit, le score, les buteurs, une anecdote')) ?></li>
+        <?php if ($kit['recit'] !== ''): ?><li><b><?= e(t('On vous raconte le match')) ?></b> <?= e(t('le récit complet, à lire à voix haute')) ?></li><?php endif; ?>
         <li><b><?= e(t('Vous les reconnaissez ?')) ?></b> <?= e(t('{n} visages de l’époque à retrouver', ['n' => count($kit['faces'])])) ?></li>
         <li><b><?= e(t('Le quiz des anciens')) ?></b> <?= e(t('{n} questions, solutions à l’envers', ['n' => count($kit['quiz'])])) ?></li>
         <li><b><?= e(t('Racontez-nous')) ?></b> <?= e(t('des questions pour faire naître les souvenirs, et comment les envoyer au musée')) ?></li>
       </ol>
       <div class="row" style="gap:12px;flex-wrap:wrap">
-        <a class="btn btn--yellow skbtn" href="<?= e(Kit::pdfUrl($ym)) ?>" download><?= e(t('Télécharger le kit (PDF, 4 pages)')) ?></a>
+        <a class="btn btn--yellow skbtn" href="<?= e(Kit::pdfUrl($ym)) ?>" download><?= e(t('Télécharger le kit (PDF à imprimer)')) ?></a>
         <a class="btn btn--ghost" href="<?= e(url($s['path'])) ?>"><?= e(t('La fiche du match')) ?></a>
       </div>
       <p class="sknote"><?= e(t('À imprimer en A4, en noir et blanc ou en couleurs. Gratuit, sans inscription.')) ?></p>
     </div>
   </section>
+  <?php if ($kit['recit'] !== ''): ?>
+  <section class="sksec skrecit" aria-labelledby="sk-recit">
+    <h2 class="h-section" id="sk-recit"><?= e(t('On vous raconte le match')) ?></h2>
+    <p class="sknote"><?= e(t('Le récit du match, à lire à voix haute : c’est aussi celui de la version audio de la fiche sur le site.')) ?></p>
+    <?php foreach (preg_split('/\n\s*\n|\n/u', $kit['recit']) ?: [] as $p): if (trim($p) === '') continue; ?><p><?= e(trim($p)) ?></p><?php endforeach; ?>
+  </section>
+  <?php endif; ?>
   <?php endif; ?>
 
   <section class="sksec" aria-labelledby="sk-how">

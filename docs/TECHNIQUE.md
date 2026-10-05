@@ -712,7 +712,7 @@ souvenirs) pour refaire les PDF en cache.
   par mois), quiz (premier buteur de Sochaux et affluence, avec des réponses plausibles, puis
   le quiz du site ; 3 réponses au plus, tirage déterministe par mois), questions pour
   raconter, adresse du musée (`legal.address`, sinon `dons.org_address`) et e-mail.
-- **PDF** (`Kit::build()`, moteur `App\Pdf\Layout`) : 4 pages A4 en gros caractères ;
+- **PDF** (`Kit::build()`, moteur `App\Pdf\Layout`) : pages A4 en gros caractères, dont « On vous raconte le match » (`Souvenirs::kit()['recit']` = `FicheAudio::current()`, le texte de la version audio), puis la fiche complète en annexe (`PdfExport::buildMatch($doc, $l, false)`) ; le PDF des fiches de match a aussi « On vous raconte le match » ;
   solutions à l'envers (`Layout::textUpsideDown()`) ; QR code vers `/souvenir/{id}/` (redirige
   vers `/contribuer/?type=temoignage&fiche=…`). Cache `storage/cache/pdf/souvenirs-{mois}-{empreinte}.pdf`
   (empreinte : données calculées, choix du mois, adresse du site, langue). Pages :
@@ -1206,7 +1206,7 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   photographe extraits ; photos montrables seulement ; tirage, filtres et nombres ; motifs de
   la mosaïque ; pages et fragment `?partiel=1` ; case « Jamais sur les murs »).
 - `php tests/souvenirs.php` : kit souvenirs (match du mois et choix des historiens, visages,
-  quiz, PDF de 4 pages), « Ils y étaient » (témoignages publiés seulement), QR code.
+  quiz, récit du match, fiche complète en annexe), « Ils y étaient » (témoignages publiés seulement), QR code.
 - `php tests/vitrine.php` : site de l'association (adresses et alias, page d'attente propre au
   site — contenu, lettre et teaser servis site fermé, compte à rebours, reprise des anciens
   réglages, aperçu —, celle du musée intacte, aperçu

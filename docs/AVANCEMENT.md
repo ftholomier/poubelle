@@ -193,7 +193,7 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       `tests/filjaune.php` ; essai complet (recherche, chaîne de 6 passes, constellation,
       défi joué jusqu'au bout, version anglaise, accessibilité).
 - [x] **Kit souvenirs « Raconte-moi Bonal »** (Interactif › Participer) : chaque mois, un PDF
-      de 4 pages A4 en gros caractères pour les anciens supporters (le grand match d'il y a N
+      A4 en gros caractères pour les anciens supporters (le grand match d'il y a N
       ans, six visages à reconnaître, le quiz des anciens, « Racontez-nous » avec QR code vers
       le formulaire de témoignage) ; match choisi automatiquement ou par les historiens (mot
       d'introduction) ; QR code en PHP pur (vérifié par décodage). **« Ils y étaient »** sur
@@ -507,6 +507,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] **Murs vides juste après une mise à jour** (il fallait cliquer sur « Nouveau mur ») :
       le cache « médias utilisés par les fiches » est désormais gardé pendant la mise à jour,
       et recalculé par les murs s'il manque.
+- [x] **Raconte-moi Bonal** (nouveau nom du kit souvenirs) : page « On vous raconte le match »
+      dans le PDF et sur la page du kit, avec le récit de la version audio de la fiche ; la fiche complète du match en annexe du
+      kit ; le même récit dans le PDF de chaque fiche de match.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :

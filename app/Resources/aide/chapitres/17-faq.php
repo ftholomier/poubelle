@@ -101,7 +101,7 @@ HTML],
 <p>Communauté › <b>Contributions</b> › le témoignage › choisissez la fiche du match, relisez le texte publié et la signature, « Publier ce souvenir » coché › <b>✓ Valider</b>. Il apparaît dans le bloc « Ils y étaient » de la fiche. Voir [[aide:communaute#contributions|Les contributions]].</p>
 HTML],
         ['id' => 'kit', 'title' => '… imprimer le kit souvenirs du mois pour des anciens supporters', 'html' => <<<'HTML'
-<p>Sur le site : Interactif › Participer › <b>Kit souvenirs</b> › « Télécharger le kit » (PDF de 4 pages A4). Pour changer le match ou ajouter un mot d’introduction : Interactif › <b>Kit souvenirs</b> du back-office. Voir [[aide:interactif#souvenirs|Le kit souvenirs]].</p>
+<p>Sur le site : Interactif › Participer › <b>Kit souvenirs</b> › « Télécharger le kit » (PDF A4 : le kit en gros caractères, puis la fiche complète du match). Pour changer le match ou ajouter un mot d’introduction : Interactif › <b>Kit souvenirs</b> du back-office. Voir [[aide:interactif#souvenirs|Le kit souvenirs]].</p>
 HTML],
         ['id' => 'chiffres', 'title' => '… comprendre (ou corriger) un chiffre de la page « Les chiffres du FCSM »', 'html' => <<<'HTML'
 <p>Chaque chiffre porte un badge qui dit d’où il vient (Carrières, Matchs racontés, Récits des matchs, Fiches des Lions) et mène à la fiche concernée : corrigez cette fiche (tableau de statistiques, composition, temps forts, date de naissance) et la page se recalcule toute seule. Un joueur absent des records de carrière a souvent un tableau de statistiques recopié d’un autre joueur (alerte dans Pilotage › Qualité). Voir [[aide:site-public#chiffres|Les chiffres du FCSM]].</p>

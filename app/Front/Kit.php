@@ -15,14 +15,14 @@ use App\Services\Qr;
 use App\Services\Souvenirs;
 
 /**
- * Raconte-moi Bonal (INTERACTIF › Participer) : page du kit souvenirs du mois, PDF de 4 pages
+ * Raconte-moi Bonal (INTERACTIF › Participer) : page du kit souvenirs du mois, PDF : kit en gros caractères, puis la fiche complète du match en annexe
  * en gros caractères, adresse courte « /souvenir/{match}/ » du QR code (vers le formulaire
  * de témoignage).
  */
 final class Kit
 {
     /** À augmenter quand la mise en page change (les PDF en cache sont alors refaits). */
-    public const VERSION = '3';
+    public const VERSION = '4';
     private const DIR = STORAGE_PATH . '/cache/pdf';
 
     public static function base(): string
@@ -129,7 +129,7 @@ final class Kit
 
     // ================================================================== le PDF
 
-    /** Kit de 4 pages A4 en gros caractères. */
+    /** Kit A4 en gros caractères (le récit du match peut prendre deux pages). */
     public static function build(array $k): string
     {
         $l = new Layout();
@@ -219,6 +219,22 @@ final class Kit
                 $para($runs, $cw - 28, 1.3, 'left', $x0 + 16);
             }
         }
+
+        // ---------------------------------------------------------- 1 bis. le récit du match, à lire à voix haute
+        if ($k['recit'] !== '') {
+            $l->newPage();
+            $title(t('Raconte-moi Bonal'), t('On vous raconte le match'), t('Le récit du match, à lire à voix haute : c’est aussi celui de la version audio de la fiche sur le site.'));
+            foreach (preg_split('/\n\s*\n|\n/u', $k['recit']) ?: [] as $p) {
+                if (trim($p) !== '') {
+                    $l->para([$R(trim($p), 'serif', 15, 'ink')], ['lh' => 1.45, 'after' => 10]);
+                }
+            }
+        }
+
+        // ---------------------------------------------------------- la fiche complète du match (en fin de kit)
+        $annex = function () use ($l, $k): void {
+            PdfExport::buildMatch($k['doc'], $l, false);
+        };
 
         // ---------------------------------------------------------- 2. vous les reconnaissez ?
         $faces = $k['faces'];
@@ -322,6 +338,8 @@ final class Kit
         }
         $l->y += 4;
         $para([$R(t('Avec votre accord, votre témoignage pourra être publié, signé de votre prénom.'), 'serif-i', 11, 'mist')], $tw, 1.3, 'left', $tx);
+        // En annexe : la fiche complète du match (composition, résumé, réactions, face-à-face…).
+        $annex();
         return $l->finish();
     }
 

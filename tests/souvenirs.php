@@ -1,7 +1,7 @@
 <?php
 /**
  * Kit souvenirs (App\Services\Souvenirs, App\Front\Kit) et QR code (App\Services\Qr) : match du
- * mois, visages, quiz, témoignages « Ils y étaient », PDF de 4 pages, structure du QR code.
+ * mois, visages, quiz, témoignages « Ils y étaient », PDF (4 pages + le récit du match), structure du QR code.
  * Usage : php tests/souvenirs.php (code de sortie 1 en cas d'échec). N'écrit que dans un
  * dossier temporaire.
  */
@@ -59,7 +59,8 @@ $eq('« Racontez-nous » : 4 questions, adresse courte', [count($k['prompts']), 
 
 // PDF.
 $pdf = Kit::build($k);
-$eq('PDF de 4 pages', [substr($pdf, 0, 5), preg_match_all('#/Type\s*/Page[^s]#', $pdf)], ['%PDF-', 4]);
+$pages = preg_match_all('#/Type\s*/Page[^s]#', $pdf);
+$eq('PDF : 4 pages, « On vous raconte le match » (récit de la version audio), puis la fiche complète du match', [substr($pdf, 0, 5), $k['recit'] !== '', $pages > 6 && str_contains($pdf, '/Title')], ['%PDF-', true, true]);
 
 // « Ils y étaient » : seuls les témoignages validés, publiés et rattachés à une fiche.
 $write = function (string $ticket, array $c) use ($tmp) {
