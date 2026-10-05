@@ -158,11 +158,57 @@ final class ShopPages
             $note = TonMatch::note($tm, $opt['date']);
             $values = array_replace($values, array_intersect_key($tm, $values));
         }
+        if (Poster::isFor($m) && ($pd = Poster::data((string) ($values[Poster::FIELD] ?? ''))) && (string) ($in['values'][Poster::FIELD] ?? '') !== '') {
+            $note = 'Votre match : ' . Poster::label($pd['dm']) . '.';
+        }
         $chk = Catalog::check($mm, array_filter(array_map('strval', (array) ($in['values'] ?? []))));
         $size = (string) ($in['size'] ?? '');
         $flat = !empty($in['flat']) ? self::flat($m, $opts, $values) : null;
         return Response::json(['ok' => true, 'svg' => self::preview($m, $opts, $values, (string) ($in['face'] ?? '')), 'flat' => $flat, 'errors' => $chk['errors'], 'note' => $note,
             'price' => Orders::money(Catalog::price($m, $size) * max(1, min(20, (int) ($in['qty'] ?? 1))))]);
+    }
+
+    /** GET /boutique/poster/matchs/?q= (JSON) : matchs proposés pour un poster souvenir. */
+    public static function posterMatches(Request $req): Response
+    {
+        if (!self::visible()) {
+            return Response::json(['error' => 'Boutique fermée.'], 404);
+        }
+        if (!RateLimiter::hit('boutique-poster-q', $req->ip(), 120, 60)) {
+            return Response::json(['error' => 'Trop de demandes.'], 429);
+        }
+        $q = mb_substr(trim($req->str('q')), 0, 60);
+        return Response::json(['ok' => true, 'items' => mb_strlen($q) >= 2 ? Poster::search($q) : []]);
+    }
+
+    /**
+     * POST /boutique/poster/preparer/ (JSON {model, match}) : le musée prépare le contenu du poster
+     * de ce match (anecdote, citations, récit condensé par l'IA, vérifiés), une fois par match.
+     */
+    public static function posterPrepare(Request $req): Response
+    {
+        if (!Session::checkCsrf((string) ($_SERVER['HTTP_X_CSRF'] ?? ''))) {
+            return Response::json(['error' => 'Rechargez la page.'], 403);
+        }
+        if (!RateLimiter::hit('boutique-poster-min', $req->ip(), 6, 60) || !RateLimiter::hit('boutique-poster', $req->ip(), 30, 3600)) {
+            return Response::json(['error' => 'Doucement : réessayez dans un moment.'], 429);
+        }
+        $in = $req->json();
+        $m = Catalog::find((string) ($in['model'] ?? ''));
+        $id = (string) ($in['match'] ?? '');
+        if (!$m || !self::visible() || !Poster::isFor($m) || (!Catalog::sellable($m) && Auth::user() === null) || !Poster::eligible($id)) {
+            return Response::json(['error' => 'Match indisponible.'], 404);
+        }
+        if (Poster::enriched($id)) {
+            return Response::json(['ok' => true, 'ready' => true]);
+        }
+        // Budget IA du jour (le même que pour les anecdotes) ; sans IA, le poster se passe de ces blocs.
+        $budget = (int) Orders::config()['anec_daily'];
+        if ($budget <= 0 || RateLimiter::remaining('boutique-poster-ia', 'site', $budget, 86400) <= 0) {
+            return Response::json(['ok' => true, 'ready' => false]);
+        }
+        RateLimiter::hit('boutique-poster-ia', 'site', $budget, 86400);
+        return Response::json(['ok' => true, 'ready' => Poster::enrich($id)]);
     }
 
     /** POST /boutique/anecdote/ (JSON {model, avoid}) : une anecdote tirée pour ce modèle, signée. */

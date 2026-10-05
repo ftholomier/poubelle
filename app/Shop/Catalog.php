@@ -407,6 +407,14 @@ final class Catalog
         $layers = [];
         foreach ($model['faces'] as $f) {
             foreach ($f['layers'] as $l) {
+                if (($l['type'] ?? '') === 'poster') {
+                    // Poster souvenir : le match (choisi dans les propositions), puis la dédicace.
+                    foreach (Poster::FIELDS as $pk => $plabel) {
+                        $out[$pk] ??= ['label' => $plabel, 'max' => $pk === Poster::FIELD ? 12 : 30, 'default' => $pk === Poster::FIELD ? Poster::SAMPLE : ['poster_prenom' => 'Prénom', 'poster_nom' => 'Nom'][$pk],
+                            'list' => '', 'choices' => [], 'rejected' => [], 'auto' => false, 'gen' => false, 'poster' => $pk === Poster::FIELD ? 'match' : 'name'];
+                    }
+                    continue;
+                }
                 if (($l['type'] ?? '') === 'text' && ($l['mode'] ?? '') === 'client' && ($l['field'] ?? '') !== '') {
                     $layers[$l['field']][] = $l;
                     $list = (string) ($l['list'] ?? '');
@@ -449,6 +457,15 @@ final class Catalog
             }
             if ($f['list'] !== '') {
                 in_array($v, $f['choices'], true) ? $ok[$k] = $v : $errors[$k] = 'Choisissez une phrase de la liste.';
+                continue;
+            }
+            if (($f['poster'] ?? '') === 'match') {
+                Poster::eligible($v) ? $ok[$k] = $v : $errors[$k] = 'Choisissez votre match dans la liste proposée.';
+                continue;
+            }
+            if (($f['poster'] ?? '') === 'name') {
+                $v = (string) preg_replace('/\s+/u', ' ', $v);
+                preg_match('/^[\p{L}][\p{L}\p{M} .\'’-]*$/u', $v) && mb_strlen($v) <= $f['max'] ? $ok[$k] = $v : $errors[$k] = 'Lettres, espaces, apostrophes et tirets ; ' . $f['max'] . ' caractères au plus.';
                 continue;
             }
             if ($f['gen']) {
@@ -511,11 +528,13 @@ final class Catalog
     /** Calque nettoyé : seulement les réglages connus, valeurs bornées. */
     public static function cleanLayer(array $l): array
     {
-        $type = in_array($l['type'] ?? '', ['logo', 'text', 'rect', 'ellipse'], true) ? $l['type'] : 'text';
+        $type = in_array($l['type'] ?? '', ['logo', 'text', 'rect', 'ellipse', 'poster'], true) ? $l['type'] : 'text';
         $num = fn ($v, float $min, float $max, float $def) => is_numeric($v) ? max($min, min($max, round((float) $v, 2))) : $def;
         $out = ['id' => preg_replace('/[^a-z0-9]/i', '', (string) ($l['id'] ?? '')) ?: bin2hex(random_bytes(3)), 'type' => $type,
             'x' => $num($l['x'] ?? 0, -2000, 3000, 0), 'y' => $num($l['y'] ?? 0, -2000, 3000, 0), 'w' => $num($l['w'] ?? 50, 1, 3000, 50)];
-        if ($type === 'logo') {
+        if ($type === 'poster') {
+            $out += ['h' => $num($l['h'] ?? 420, 20, 3000, 420)];
+        } elseif ($type === 'logo') {
             $out += ['style' => ($l['style'] ?? '') === 'mono' ? 'mono' : 'couleurs', 'color' => Vector::hex($l['color'] ?? null, '#FDC729')];
         } elseif ($type === 'text') {
             $out += [

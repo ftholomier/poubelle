@@ -59,7 +59,15 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <?php foreach ($fields as $k => $f): if ($f['auto']) { continue; } ?>
       <div class="field">
         <label for="f-<?= e($k) ?>"><?= e($f['label']) ?> *</label>
-        <?php if ($f['gen']): ?>
+        <?php if (($f['poster'] ?? '') === 'match'): ?>
+        <div class="shopmatch" data-pmatch data-url="<?= e(ShopPages::u('/boutique/poster/matchs/')) ?>" data-prepare="<?= e(ShopPages::u('/boutique/poster/preparer/')) ?>">
+          <input type="text" id="f-<?= e($k) ?>" class="shopmatch__q" autocomplete="off" spellcheck="false" placeholder="Ex. : Metz 1988, finale, Monaco, PSG 1990…" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="pm-<?= e($k) ?>" data-pmatch-q>
+          <input type="hidden" name="values[<?= e($k) ?>]" value="" data-shop-in data-pmatch-val>
+          <ul class="shopmatch__list" id="pm-<?= e($k) ?>" role="listbox" hidden data-pmatch-list></ul>
+          <p class="shopmatch__state" data-pmatch-state aria-live="polite"></p>
+          <small class="shophelp">Tapez une équipe, une compétition, un tour ou une année, puis choisissez dans la liste. Seuls les matchs dont le musée a la fiche complète (composition, temps forts, récit) sont proposés.</small>
+        </div>
+        <?php elseif ($f['gen']): ?>
         <div class="shopanec" data-anec="<?= e($k) ?>">
           <?php $a0 = $anec ?? null; ?>
           <p class="shopanec__t<?= $a0 ? ' is-on' : '' ?>" id="f-<?= e($k) ?>" data-anec-text aria-live="polite"><?= $a0 ? e($a0['text']) : 'Cliquez sur « Une anecdote » : le musée en tire une rien que pour vous, d’après sa base de matchs et de chiffres.' ?></p>

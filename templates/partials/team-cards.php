@@ -10,7 +10,8 @@ $theme = ($theme ?? 'musee') === 'asso' ? 'asso' : 'musee';
   <?php foreach ($team as $i => $m):
       $name = trim((string) $m['name']);
       $role = trim((string) ($m['role'] ?? ''));
-      $mission = trim((string) ($m['mission'] ?? '')) ?: trim((string) ($m['text'] ?? ''));
+      $mission = trim((string) ($m['mission'] ?? ''));
+      $words = trim((string) ($m['text'] ?? ''));
       $anec = trim((string) ($m['anecdote'] ?? ''));
       $photo = \App\Vitrine\Content::hasImage($m['photo'] ?? null) ? $m['photo'] : null;
       $no = str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
@@ -25,6 +26,7 @@ $theme = ($theme ?? 'musee') === 'asso' ? 'asso' : 'musee';
       <span class="tcard__face tcard__back">
         <b class="tcard__bn"><?= e($name) ?></b>
         <?php if ($mission !== ''): ?><span class="tcard__blk"><em>Sa mission</em><?= e($mission) ?></span><?php endif; ?>
+        <?php if ($words !== ''): ?><span class="tcard__blk"><em>En quelques mots</em><?= e($words) ?></span><?php endif; ?>
         <?php if ($anec !== ''): ?><span class="tcard__blk tcard__anec"><em>L’anecdote</em><?= e($anec) ?></span><?php endif; ?>
         <span class="tcard__foot">Collection L’équipe de Sochaux Rétro · N° <?= $no ?></span>
       </span>

@@ -18,9 +18,9 @@
 .tcard__name { flex: none; padding: 8px 10px; display: flex; flex-direction: column; gap: 3px; }
 .tcard__name b { font-family: var(--display); font-weight: 900; font-size: 25px; text-transform: uppercase; line-height: .95; overflow-wrap: anywhere; }
 .tcard__name span { font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
-.tcard__back { transform: rotateY(180deg); padding: 20px 18px; gap: 12px; }
+.tcard__back { transform: rotateY(180deg); padding: 18px 16px; gap: 10px; overflow-y: auto; }
 .tcard__bn { display: block; font-family: var(--display); font-weight: 900; font-size: 24px; text-transform: uppercase; line-height: 1; }
-.tcard__blk { display: block; font-size: 15px; line-height: 1.38; }
+.tcard__blk { display: block; font-size: 14px; line-height: 1.36; }
 .tcard__blk em { display: block; font-style: normal; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 3px; }
 .tcard__anec { font-style: italic; }
 .tcard__foot { display: block; margin-top: auto; font-family: var(--display); font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .7; }

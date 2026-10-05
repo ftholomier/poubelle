@@ -33,6 +33,54 @@
       btn.disabled = false; txt.classList.remove('is-busy');
     });
   });
+  // Poster souvenir : « Votre match » se choisit dans les propositions du musée, puis le musée
+  // prépare le contenu (anecdote, citations, récit) ; l'aperçu se met à jour.
+  root.querySelectorAll('[data-pmatch]').forEach(box => {
+    const q = box.querySelector('[data-pmatch-q]'), val = box.querySelector('[data-pmatch-val]'), list = box.querySelector('[data-pmatch-list]'), st = box.querySelector('[data-pmatch-state]');
+    let t = null, items = [], active = -1, qn = 0;
+    const close = () => { list.hidden = true; q.setAttribute('aria-expanded', 'false'); active = -1; };
+    const paint = () => {
+      list.innerHTML = '';
+      items.forEach((it, i) => { const li = document.createElement('li'); li.id = list.id + '-' + i; li.role = 'option'; li.textContent = it.label; li.className = i === active ? 'is-on' : ''; li.setAttribute('aria-selected', i === active ? 'true' : 'false'); li.addEventListener('mousedown', e => { e.preventDefault(); pick(i); }); list.appendChild(li); });
+      if (!items.length) { const li = document.createElement('li'); li.className = 'is-empty'; li.textContent = q.value.trim().length < 2 ? 'Tapez au moins deux lettres.' : 'Aucun match trouvé : essayez une autre équipe ou une année.'; list.appendChild(li); }
+      list.hidden = false; q.setAttribute('aria-expanded', 'true');
+      q.setAttribute('aria-activedescendant', active >= 0 ? list.id + '-' + active : '');
+    };
+    const search = async () => {
+      const n = ++qn, term = q.value.trim();
+      if (term.length < 2) { items = []; paint(); return; }
+      try {
+        const r = await fetch(box.dataset.url + '?q=' + encodeURIComponent(term), { headers: { Accept: 'application/json' }, credentials: 'same-origin' });
+        const d = await r.json();
+        if (n !== qn) return;
+        items = d.items || []; active = items.length ? 0 : -1; paint();
+      } catch (e) { /* pas de propositions : on réessaiera à la prochaine frappe */ }
+    };
+    const pick = async i => {
+      const it = items[i];
+      if (!it) return;
+      q.value = it.label; val.value = it.id; close();
+      st.textContent = 'Le musée prépare votre poster : anecdote, citations et récit du match…'; st.classList.add('is-busy');
+      soon(0);
+      try {
+        const r = await fetch(box.dataset.prepare, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF': (form.querySelector('[name=_csrf]') || {}).value || '' }, credentials: 'same-origin', body: JSON.stringify({ model: root.dataset.model, match: it.id }) });
+        const d = await r.json();
+        if (val.value !== it.id) return;
+        st.textContent = d.ok ? 'Votre poster est prêt : vérifiez l’aperçu.' : (d.error || '');
+        if (d.ok) soon(0);
+      } catch (e) { st.textContent = ''; }
+      st.classList.remove('is-busy');
+    };
+    q.addEventListener('input', () => { val.value = ''; st.textContent = ''; clearTimeout(t); t = setTimeout(search, 220); });
+    q.addEventListener('focus', () => { if (q.value.trim().length >= 2 && !val.value) search(); });
+    q.addEventListener('blur', () => setTimeout(close, 120));
+    q.addEventListener('keydown', e => {
+      if (list.hidden || !items.length) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); active = (active + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; paint(); }
+      else if (e.key === 'Enter') { e.preventDefault(); pick(active < 0 ? 0 : active); }
+      else if (e.key === 'Escape') close();
+    });
+  });
   btn3d?.addEventListener('click', async () => {
     const on = btn3d.getAttribute('aria-pressed') !== 'true';
     btn3d.setAttribute('aria-pressed', on ? 'true' : 'false');

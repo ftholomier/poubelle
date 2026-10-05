@@ -164,8 +164,13 @@ final class Orders
         if (($it['opts']['date'] ?? '') !== '' && isset($it['values']['match_affiche'])) {
             $p[] = 'Ton match : ' . $it['values']['match_affiche'] . ', ' . ($it['values']['match_date'] ?? '');
         }
+        if (isset($it['values'][Poster::FIELD])) {
+            $d = Poster::data((string) $it['values'][Poster::FIELD]);
+            $p[] = 'Poster : ' . ($d ? Poster::label($d['dm']) : 'match n° ' . $it['values'][Poster::FIELD]);
+            $p[] = 'pour ' . trim(($it['values']['poster_prenom'] ?? '') . ' ' . ($it['values']['poster_nom'] ?? ''));
+        }
         foreach ($it['values'] as $k => $v) {
-            if (!str_starts_with((string) $k, 'match_')) {
+            if (!str_starts_with((string) $k, 'match_') && !str_starts_with((string) $k, 'poster_')) {
                 $p[] = '« ' . $v . ' »';
             }
         }
@@ -408,7 +413,13 @@ final class Orders
             }
             [$mm] = Catalog::applyOptions($m, $it['opts']);
             $extra = array_filter([$it['size'] !== '' ? 'taille ' . $it['size'] : '', 'quantité ' . $it['qty'], 'commande ' . $o['id'] . ' article ' . ($n + 1)]);
-            $pdf = Catalog::printPdf($mm, $it['values'], $it['name'], $extra);
+            $values = $it['values'];
+            if (Poster::isFor($m)) {
+                // Poster souvenir : numéro de pièce attribué une fois pour toutes à cet article.
+                $values['_poster_no'] = Poster::number($o['id'] . '-' . ($n + 1));
+                $extra[] = 'poster n° ' . $values['_poster_no'];
+            }
+            $pdf = Catalog::printPdf($mm, $values, $it['name'], $extra);
             if ($pdf !== '') {
                 file_put_contents(self::pdfPath($o['id'], $n), $pdf);
             }

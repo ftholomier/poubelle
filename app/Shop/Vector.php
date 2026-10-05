@@ -76,6 +76,13 @@ final class Vector
             $w = max(1.0, (float) ($l['w'] ?? 10));
             $h = max(0.2, (float) ($l['h'] ?? 10));
             $id = (string) ($l['id'] ?? $i);
+            if ($type === 'poster') {
+                // Poster souvenir d'un match : une composition entière, générée d'après la fiche choisie.
+                foreach (self::shapes(Poster::layers($l, $values), $values) as $sh) {
+                    $out[] = ['layer' => $id] + $sh;
+                }
+                continue;
+            }
             if ($type === 'logo') {
                 $s = $w / 1242;
                 $paths = self::logo();
@@ -217,6 +224,8 @@ final class Vector
         }
         $align = (string) ($l['align'] ?? 'left');
         $cmds = [];
+        $runs = [];
+        $fk = isset(self::FONTS[$l['font'] ?? '']) ? (string) $l['font'] : 'display';
         foreach ($lay['lines'] as $n => $line) {
             $lw = ($lay['width'])($line);
             $pen = $x0 + ($align === 'center' ? ($w - $lw) / 2 : ($align === 'right' ? $w - $lw : 0));
@@ -226,6 +235,7 @@ final class Vector
                 if ($g < 0) {
                     continue;
                 }
+                $runs[] = [$g, $pen, $by];
                 foreach ($font->outline($g) as $c) {
                     $t = $c[0];
                     $pts = [];
@@ -238,7 +248,7 @@ final class Vector
                 $pen += $font->glyphWidth($g) * $mm / 1000 + $sp;
             }
         }
-        return $cmds ? [['d' => $cmds, 'fill' => self::hex($l['color'] ?? null), 'stroke' => null, 'sw' => 0, 'rule' => 'nonzero']] : [];
+        return $cmds ? [['d' => $cmds, 'fill' => self::hex($l['color'] ?? null), 'stroke' => null, 'sw' => 0, 'rule' => 'nonzero', 'glyphs' => ['font' => $fk, 'k' => $k, 'runs' => $runs]]] : [];
     }
 
     /** Logo vectorisé : [[couleur, commandes en unités du dessin]] (fond bleu, puis parties jaunes). */
@@ -345,13 +355,35 @@ final class Vector
     public static function svgShapes(array $shapes, ?string $bg = null, array $box = [0, 0, 0, 0]): string
     {
         $s = $bg ? '<rect x="' . $box[0] . '" y="' . $box[1] . '" width="' . $box[2] . '" height="' . $box[3] . '" fill="' . self::hex($bg) . '"/>' : '';
+        // Textes : chaque lettre dessinée une fois (unités de la police), puis réutilisée à sa place.
+        $defs = [];
+        $n = fn (float $v, int $p = 2): string => rtrim(rtrim(number_format($v, $p, '.', ''), '0'), '.');
         foreach ($shapes as $sh) {
+            if (isset($sh['glyphs'])) {
+                $G = $sh['glyphs'];
+                $font = self::font($G['font']);
+                $k = $n((float) $G['k'], 6);
+                $s .= '<g fill="' . $sh['fill'] . '" data-layer="' . htmlspecialchars((string) $sh['layer'], ENT_QUOTES) . '">';
+                foreach ($G['runs'] as [$g, $x, $y]) {
+                    $id = 'sg-' . $G['font'] . '-' . $g;
+                    if (!isset($defs[$id])) {
+                        $cmds = [];
+                        foreach ($font->outline($g) as $c) {
+                            $cmds[] = $c;
+                        }
+                        $defs[$id] = '<path id="' . $id . '" d="' . self::pathData($cmds) . '"/>';
+                    }
+                    $s .= '<use href="#' . $id . '" transform="matrix(' . $k . ' 0 0 -' . $k . ' ' . $n((float) $x) . ' ' . $n((float) $y) . ')"/>';
+                }
+                $s .= '</g>';
+                continue;
+            }
             $s .= '<path d="' . self::pathData($sh['d']) . '" fill="' . ($sh['fill'] ?: 'none') . '"'
                 . ($sh['rule'] === 'evenodd' ? ' fill-rule="evenodd"' : '')
                 . ($sh['stroke'] ? ' stroke="' . $sh['stroke'] . '" stroke-width="' . round($sh['sw'], 2) . '"' : '')
                 . ' data-layer="' . htmlspecialchars((string) $sh['layer'], ENT_QUOTES) . '"/>';
         }
-        return $s;
+        return ($defs ? '<defs>' . implode('', $defs) . '</defs>' : '') . $s;
     }
 
     /** SVG autonome d'une face (format fini, fonds perdus visibles si demandés). */

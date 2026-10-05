@@ -159,7 +159,7 @@ final class Anecdotes
     private const OK_NAMES = ['sochaux', 'lionceaux', 'lionceau', 'fcsm', 'fc', 'montbeliard', 'bonal', 'auguste', 'auguste-bonal', 'peugeot', 'france', 'coupe', 'ligue', 'championnat'];
 
     /** Les noms propres de la phrase absents du fait. */
-    private static function foreignNames(string $t, string $fact): array
+    public static function foreignNames(string $t, string $fact): array
     {
         $f = mb_strtolower(\App\Data\Names::ascii($fact));
         preg_match_all('/(?<![\p{L}\'’])\p{Lu}[\p{L}\'’-]+/u', $t, $m, PREG_OFFSET_CAPTURE);
@@ -179,7 +179,7 @@ final class Anecdotes
     }
 
     /** Les nombres d'un texte (1 234 et 1234 comptent pareil). */
-    private static function numbers(string $t): array
+    public static function numbers(string $t): array
     {
         preg_match_all('/\d[\d\x{202F}\x{00A0} .,]*\d|\d/u', $t, $m);
         return array_values(array_unique(array_map(fn ($n) => (string) preg_replace('/\D/', '', $n), $m[0])));

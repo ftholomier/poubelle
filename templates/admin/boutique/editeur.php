@@ -64,6 +64,7 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
           <p class="xs muted" style="margin:4px 0 0">Avec un de ces champs, la page de l’article demande la date au client (jour, mois, année ; ou l’année seule) et le musée retrouve le match. Exemple affiché : finale de la Coupe de France 1988.</p>
         </details>
         <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:10px">
+          <button type="button" class="btn btn--sm btn--yellow" data-add="poster" title="Poster souvenir : toute la composition est générée d’après le match choisi par le client (et dédicacée à son nom)">+ Poster souvenir du match</button>
           <button type="button" class="btn btn--sm btn--ghost" data-add="rect">Rectangle</button>
           <button type="button" class="btn btn--sm btn--ghost" data-add="ellipse">Rond</button>
         </div>
