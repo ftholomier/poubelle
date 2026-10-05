@@ -153,6 +153,9 @@ final class ShopPages
         $opts = array_map(fn ($v) => mb_substr((string) $v, 0, 20), (array) ($in['opts'] ?? []));
         [$mm, $opt] = Catalog::applyOptions($m, $opts);
         $note = '';
+        if (TonMatch::isFor($m) && $opt['date'] === '') {
+            $values = self::matchSample($m, $values);
+        }
         if (TonMatch::isFor($m) && $opt['date'] !== '') {
             $tm = TonMatch::values($opt['date']);
             $note = TonMatch::note($tm, $opt['date']);
@@ -267,7 +270,16 @@ final class ShopPages
         if (isset($v[Anecdotes::FIELD])) {
             $v[Anecdotes::FIELD] = $anec['text'] ?? Anecdotes::clean($v[Anecdotes::FIELD]);
         }
-        return $v;
+        return self::matchSample($m, $v);
+    }
+
+    /** « Ton match » sans date choisie : l'exemple de la finale 1988, jamais les noms des champs. */
+    private static function matchSample(array $m, array $v): array
+    {
+        if (!TonMatch::isFor($m)) {
+            return $v;
+        }
+        return array_replace($v, array_intersect_key(TonMatch::values('1988-06-11'), $v));
     }
 
     /** Une anecdote du stock pour ouvrir la fiche (signée : commandable telle quelle), ou null. */
