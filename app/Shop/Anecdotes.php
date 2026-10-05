@@ -9,7 +9,7 @@ use App\Services\Chiffres;
 use App\Services\Gemini;
 
 /**
- * Anecdote « Le saviez-vous ? » tirée par le client sur la page d'un article (bouton « Une autre »).
+ * Anecdote (une affirmation, jamais une question) tirée par le client sur la page d'un article (bouton « Une autre »).
  * Pour ne jamais imprimer un fait inventé, l'IA ne fait que rédiger : le fait vient de la base du
  * musée (un des 100 chiffres du FCSM, ou un vrai match : date, score, buteurs, affluence), et la
  * phrase est refusée si elle contient un nombre absent du fait ou si elle ne tient pas dans le
@@ -24,10 +24,10 @@ final class Anecdotes
     /** Faux Gemini des tests : fn (string $system, string $user) => string. */
     public static $ai = null;
 
-    private const SYSTEM = 'Tu rédiges une anecdote « Le saviez-vous ? » pour un produit dérivé (t-shirt, mug, poster) de Sochaux Rétro, '
+    private const SYSTEM = 'Tu rédiges une anecdote pour un produit dérivé (t-shirt, mug, poster) de Sochaux Rétro, '
         . 'le musée des supporters du FC Sochaux-Montbéliard (les Lionceaux, jaune et bleu, stade Auguste-Bonal). '
         . 'Règles strictes : utilise UNIQUEMENT le fait fourni, n’ajoute aucune information, aucun chiffre, aucune date qui n’y figure pas ; '
-        . 'ne cite aucun nom de personne (dis « un Lionceau », « notre meilleur buteur »…) ; une seule phrase, en français, au présent ou au passé, '
+        . 'ne cite aucun nom de personne (dis « un Lionceau », « notre meilleur buteur »…) ; une seule phrase AFFIRMATIVE, en français, au présent ou au passé : jamais de question, jamais « Le saviez-vous », « Saviez-vous » ni point d’interrogation ; '
         . 'ton fier et chaleureux, jamais moqueur envers l’adversaire ; pas de guillemets, pas d’émoji ; respecte la longueur maximale demandée.';
 
     /** Réserve : les anecdotes déjà rédigées par l'IA, resservies sans IA quand le budget du jour est atteint. */
@@ -156,6 +156,10 @@ final class Anecdotes
             }
             $t = trim(str_replace(["'", '"', '«', '»'], ['’', '', '', ''], (string) preg_replace('/\s+/', ' ', $out)));
             $t = trim($t, " \t\n-–—");
+            // Une affirmation, pas une question.
+            if (str_contains($t, '?') || preg_match('/^(le\s+)?saviez[- ]vous/iu', $t)) {
+                continue;
+            }
             if ($t === '' || mb_strlen($t) > $max || isset($sold[self::key($t)]) || isset($avoid[self::key($t)])) {
                 continue;
             }

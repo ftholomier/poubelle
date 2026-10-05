@@ -18,6 +18,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
     <div class="shopprod__view">
       <nav class="crumbs vcrumbs"><a href="<?= e(ShopPages::u('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span><?= e($m['name']) ?></span></nav>
       <div class="shopprod__stage">
+        <?php if (\App\Shop\Catalog::unique($m)): ?><span class="shopuniq shopuniq--lg shopuniq--stamp" aria-hidden="true">★ Pièce unique</span><?php endif; ?>
         <div class="shopprod__img" data-shop-svg aria-live="polite"><?= $svg ?></div>
         <div class="shopprod__3d" data-shop-3d hidden><p class="shopprod__3dhint" data-3d-hint>Chargement de la 3D…</p></div>
       </div>
@@ -35,6 +36,9 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <input type="hidden" name="do" value="add"><input type="hidden" name="model" value="<?= e($m['id']) ?>">
       <span class="eyebrow"><?= e($sup['name']) ?></span>
       <h1 class="h-1 shopprod__t"><?= e($m['name']) ?></h1>
+      <?php if (\App\Shop\Catalog::unique($m)): ?>
+      <div class="shopuniqbox"><span class="shopuniq">★ Pièce unique</span><p>Votre anecdote est tirée par le musée dans l’histoire du FCSM, rien que pour vous. Dès qu’elle est commandée, elle sort du jeu : <b>personne d’autre ne portera la même</b>.</p></div>
+      <?php endif; ?>
       <p class="shopprod__price" data-shop-price><?= e(Orders::money($s['price'])) ?></p>
       <?php if ($s['desc'] !== ''): ?><p><?= nl2br(e($s['desc'])) ?></p><?php endif; ?>
       <?= \App\Core\View::partial('vitrine/partials/flash', ['flash' => $flash]) ?>

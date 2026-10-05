@@ -8,10 +8,13 @@ use App\Shop\ShopPages;
 <section class="section--tight">
   <div class="wrap">
     <?php if (!$cards): ?><p>Les premiers articles arrivent très bientôt.</p><?php endif; ?>
+    <?php if (array_filter($cards, fn ($c) => \App\Shop\Catalog::unique($c['m']))): ?>
+    <aside class="shopuniqbar"><span class="shopuniq shopuniq--lg" aria-hidden="true">★ Pièce unique</span><p><b>Nouveau : les pièces uniques.</b> Sur les articles marqués d’une étoile, le musée tire pour vous une anecdote de l’histoire du FCSM. Une fois vendue, elle n’est plus jamais proposée : votre objet n’existera qu’en un seul exemplaire.</p></aside>
+    <?php endif; ?>
     <div class="shopgrid">
       <?php foreach ($cards as $c): ?>
       <a class="shopcard" href="<?= e(ShopPages::u('/boutique/' . $c['m']['id'] . '/')) ?>" data-reveal>
-        <div class="shopcard__img"><?= $c['svg'] ?></div>
+        <div class="shopcard__img"><?= $c['svg'] ?><?php if (\App\Shop\Catalog::unique($c['m'])): ?><span class="shopuniq" title="Anecdote tirée rien que pour vous, jamais vendue deux fois">★ Pièce unique</span><?php endif; ?></div>
         <div class="shopcard__txt">
           <span class="eyebrow"><?= e($c['sup']['name']) ?></span>
           <h2 class="shopcard__t"><?= e($c['m']['name']) ?></h2>

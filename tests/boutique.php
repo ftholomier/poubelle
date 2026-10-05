@@ -122,18 +122,21 @@ $eq('commission imprimeur : taux du modèle, du support, ou coût fixe', [
 $anFile = STORAGE_PATH . '/shop/anecdotes-reserve.json'; $anSold = STORAGE_PATH . '/shop/anecdotes-vendues.json';
 $anBk = [is_file($anFile) ? file_get_contents($anFile) : null, is_file($anSold) ? file_get_contents($anSold) : null];
 @unlink($anFile); @unlink($anSold);
-$anLayer = ['id' => 'a', 'type' => 'text', 'x' => 0, 'y' => 0, 'w' => 250, 'h' => 60, 'text' => 'Le saviez-vous ?', 'mode' => 'client', 'field' => 'anecdote', 'max' => 140, 'fit' => true, 'size' => 20, 'min' => 6, 'font' => 'serif-b'];
+$anLayer = ['id' => 'a', 'type' => 'text', 'x' => 0, 'y' => 0, 'w' => 250, 'h' => 60, 'text' => 'Anecdote', 'mode' => 'client', 'field' => 'anecdote', 'max' => 140, 'fit' => true, 'size' => 20, 'min' => 6, 'font' => 'serif-b'];
 \App\Shop\Anecdotes::$ai = fn ($sys, $ask) => 'Un jour de 1777, les Lionceaux ont gagné 99 matchs.'; // chiffres absents du fait : refusée
 $bad = \App\Shop\Anecdotes::draw([$anLayer]);
-\App\Shop\Anecdotes::$ai = fn ($sys, $ask) => 'Le saviez-vous ? Les Lionceaux ont un sacré palmarès, et un public fidèle.';
+\App\Shop\Anecdotes::$ai = fn ($sys, $ask) => 'Le saviez-vous ? Les Lionceaux ont un public fidèle.'; // question : refusée
+$question = \App\Shop\Anecdotes::draw([$anLayer]);
+\App\Shop\Anecdotes::$ai = fn ($sys, $ask) => 'Les Lionceaux ont un sacré palmarès, et un public fidèle.';
 $good = \App\Shop\Anecdotes::draw([$anLayer]);
 $pool = \App\Shop\Anecdotes::fromPool([$anLayer]);
 $anModel = Catalog::model(['id' => 'x', 'name' => 'x', 'support' => 'tshirt', 'faces' => ['avant' => ['layers' => [$anLayer]]]]);
+$eq('anecdote : question refusée', isset($question['error']), true);
 $eq('anecdote : chiffre inventé refusé, phrase sûre signée, réserve, commande seulement signée', [
     isset($bad['error']), $good['text'] ?? '', \App\Shop\Anecdotes::valid($good['text'] ?? '', $good['sig'] ?? ''), $pool['text'] ?? '',
     isset(Catalog::check($anModel, ['anecdote' => 'Texte retouché par le client'])['errors']['anecdote']),
     Catalog::check($anModel, ['anecdote' => $good['text'] ?? '', '_sig_anecdote' => $good['sig'] ?? ''])['values']['anecdote'] ?? '',
-], [true, 'Le saviez-vous ? Les Lionceaux ont un sacré palmarès, et un public fidèle.', true, 'Le saviez-vous ? Les Lionceaux ont un sacré palmarès, et un public fidèle.', true, 'Le saviez-vous ? Les Lionceaux ont un sacré palmarès, et un public fidèle.']);
+], [true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.', true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.', true, 'Les Lionceaux ont un sacré palmarès, et un public fidèle.']);
 \App\Shop\Anecdotes::sold($good['text']);
 $eq('anecdote vendue : plus jamais proposée', isset(\App\Shop\Anecdotes::fromPool([$anLayer])['error']), true);
 \App\Shop\Anecdotes::$ai = null;

@@ -25,7 +25,7 @@ $o = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
           <div class="shopitemc__img"><?= $l['svg'] ?></div>
           <div class="shopitemc__body">
             <span class="eyebrow"><?= e($l['support']) ?></span>
-            <h2 class="shopitemc__t"><?= e($l['name']) ?></h2>
+            <h2 class="shopitemc__t"><?= e($l['name']) ?><?php if (($l['values']['anecdote'] ?? '') !== ''): ?> <span class="shopuniq">★ Pièce unique</span><?php endif; ?></h2>
             <ul class="shopchips"><?php foreach (array_filter(explode(' · ', Orders::describe($l))) as $c): ?><li><?= e($c) ?></li><?php endforeach; ?></ul>
             <div class="shopitemc__foot">
               <form method="post" action="<?= e(ShopPages::u('/boutique/panier/')) ?>" class="shopstep" aria-label="Quantité">

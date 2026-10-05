@@ -214,6 +214,12 @@ final class Catalog
         return $r > 0 ? (int) round($unit * $r / 100) : (int) $sup['cost'];
     }
 
+    /** Pièce unique : le modèle porte une anecdote tirée par le client (jamais vendue deux fois). */
+    public static function unique(array $m): bool
+    {
+        return isset(self::fields($m)[Anecdotes::FIELD]);
+    }
+
     /** En vente : prêt, avec un prix, sur un support actif. */
     public static function sellable(array $m): bool
     {
