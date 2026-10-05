@@ -96,6 +96,11 @@ $line2 = Orders::line(['model' => 'testposter', 'size' => 'A2', 'values' => $lin
 $eq('format choisi par le client et résumé « Format A2 »', [$line2['item']['size'] ?? '', str_starts_with(Orders::describe($line2['item']), 'Format A2')], ['A2', true]);
 $eq('un t-shirt n’est jamais redimensionné', Catalog::scaleFace(['w' => 280, 'h' => 350, 'layers' => []], 'A4')['w'], 280);
 
+$eq('un seul exemplaire par article', Orders::line(['model' => 'testposter', 'size' => 'A3', 'values' => $line['item']['values'], 'qty' => 5])['item']['qty'], 1);
+$eq('pièce unique (pastille)', Catalog::unique($m2), true);
+[$mo, $opt] = Catalog::applyOptions($m2, ['color' => '#F6C400', 'tcolor' => '#FFFFFF']);
+$eq('aucun choix de couleur pris en compte', [$mo['faces']['recto']['bg'], $opt['tcolor']], ['#0E1F4D', '']);
+
 // 7. Numéro de pièce : attribué une seule fois par article.
 @unlink($numbers);
 $a = Poster::number('SR1-1');

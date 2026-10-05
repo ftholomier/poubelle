@@ -10,6 +10,7 @@ use App\Shop\ShopPages;
 
 $s = $m['sale'];
 $full = !$sup['colors']; // imprimé en entier : le client choisit le fond
+$fixed = \App\Shop\Poster::isFor($m); // poster souvenir : charte fixe, aucun choix de couleur
 $names = array_flip($full ? \App\Shop\Vector::PALETTE : $sup['colors']);
 $base = Catalog::applyOptions($m, [])[0]['color'];
 $tnames = array_flip(\App\Shop\Vector::PALETTE);
@@ -39,7 +40,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <span class="eyebrow"><?= e($sup['name']) ?></span>
       <h1 class="h-1 shopprod__t"><?= e($m['name']) ?></h1>
       <?php if (\App\Shop\Catalog::unique($m)): ?>
-      <div class="shopuniqbox"><span class="shopuniq">★ Pièce unique</span><p>Votre anecdote est tirée par le musée dans l’histoire du FCSM, rien que pour vous. Dès qu’elle est commandée, elle sort du jeu : <b>personne d’autre ne portera la même</b>.</p></div>
+      <div class="shopuniqbox"><span class="shopuniq">★ Pièce unique</span><?php if (\App\Shop\Poster::isFor($m)): ?><p>Le poster de votre match, composé par le musée d’après sa fiche, <b>dédicacé à votre nom et numéroté</b> : il n’existe qu’en un seul exemplaire.</p><?php else: ?><p>Votre anecdote est tirée par le musée dans l’histoire du FCSM, rien que pour vous. Dès qu’elle est commandée, elle sort du jeu : <b>personne d’autre ne portera la même</b>.</p><?php endif; ?></div>
       <?php endif; ?>
       <p class="shopprod__price" data-shop-price><?= e(Orders::money($s['price'])) ?></p>
       <?php if ($s['desc'] !== ''): ?><p><?= nl2br(e($s['desc'])) ?></p><?php endif; ?>
@@ -89,14 +90,14 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       </div>
       <?php endforeach; ?>
 
-      <?php if (count($s['colors']) > 1): ?>
+      <?php if (!$fixed && count($s['colors']) > 1): ?>
       <fieldset class="shopopt"><legend><?= $full ? 'Couleur du fond' : 'Couleur' ?></legend>
         <?php foreach ($s['colors'] as $i => $hex): ?>
         <label class="shopsw" title="<?= e($names[$hex] ?? $hex) ?>"><input type="radio" name="opts[color]" value="<?= e($hex) ?>"<?= $hex === ($s['colors'] && !in_array($base, $s['colors'], true) ? $s['colors'][0] : $base) ? ' checked' : '' ?> data-shop-in><span style="background:<?= e($hex) ?>"></span><em><?= e($names[$hex] ?? '') ?></em></label>
         <?php endforeach; ?>
       </fieldset>
       <?php endif; ?>
-      <?php if ($fields): $tchoices = Catalog::textChoices($m); $tdef = ''; foreach ($tchoices as $hex) { if (Catalog::readable($hex, $base)) { $tdef = $hex; break; } } ?>
+      <?php if ($fields && !$fixed): $tchoices = Catalog::textChoices($m); $tdef = ''; foreach ($tchoices as $hex) { if (Catalog::readable($hex, $base)) { $tdef = $hex; break; } } ?>
       <fieldset class="shopopt"><legend>Couleur du texte</legend>
         <?php foreach ($tchoices as $hex): ?>
         <label class="shopsw" title="<?= e($tnames[$hex] ?? $hex) ?>"><input type="radio" name="opts[tcolor]" value="<?= e($hex) ?>"<?= $hex === $tdef ? ' checked' : '' ?> data-shop-in><span style="background:<?= e($hex) ?>"></span><em><?= e($tnames[$hex] ?? '') ?></em></label>
@@ -121,7 +122,7 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
           <?php foreach ($sup['sizes'] as $i => $sz): ?><option value="<?= e($sz) ?>"<?= $sz === 'M' || $sz === 'A3' || (count($sup['sizes']) === 1) ? ' selected' : '' ?>><?= e($sz) ?><?= isset($s['extra'][$sz]) ? ' (+' . e(Orders::money($s['extra'][$sz])) . ')' : '' ?></option><?php endforeach; ?>
         </select></div>
         <?php endif; ?>
-        <div class="field"><label for="f-qty">Quantité</label><input type="number" id="f-qty" name="qty" value="1" min="1" max="20" data-shop-in></div>
+        <?php if ($fixed): ?><input type="hidden" name="qty" value="1"><?php else: ?><div class="field"><label for="f-qty">Quantité</label><input type="number" id="f-qty" name="qty" value="1" min="1" max="20" data-shop-in></div><?php endif; ?>
       </div>
       <button type="submit" class="btn btn--navy btn--block">Ajouter au panier</button>
       <p class="shophelp">Fabriqué à la demande pour vous : article personnalisé, ni repris ni échangé, sauf défaut (il est alors refait ou remboursé).</p>

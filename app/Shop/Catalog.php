@@ -220,10 +220,13 @@ final class Catalog
         return $r > 0 ? (int) round($unit * $r / 100) : (int) $sup['cost'];
     }
 
-    /** Pièce unique : le modèle porte une anecdote tirée par le client (jamais vendue deux fois). */
+    /**
+     * Pièce unique : le modèle porte une anecdote tirée par le client (jamais vendue deux fois),
+     * ou c'est un poster souvenir (dédicacé et numéroté).
+     */
     public static function unique(array $m): bool
     {
-        return isset(self::fields($m)[Anecdotes::FIELD]);
+        return isset(self::fields($m)[Anecdotes::FIELD]) || Poster::isFor($m);
     }
 
     /** En vente : prêt, avec un prix, sur un support actif. */
@@ -271,7 +274,9 @@ final class Catalog
                 }
             }
         }
-        $c = strtoupper((string) ($o['color'] ?? ''));
+        // Poster souvenir : sa charte est fixe (aucun choix de couleur).
+        $fixed = Poster::isFor($m);
+        $c = $fixed ? '' : strtoupper((string) ($o['color'] ?? ''));
         if ($c !== '' && in_array($c, $s['colors'], true)) {
             $opt['color'] = $m['color'] = $c;
             if ($full) {
@@ -280,7 +285,7 @@ final class Catalog
                 }
             }
         }
-        $tc = strtoupper((string) ($o['tcolor'] ?? ''));
+        $tc = $fixed ? '' : strtoupper((string) ($o['tcolor'] ?? ''));
         if ($tc !== '' && in_array($tc, self::textChoices($m), true) && self::readable($tc, $m['color'])) {
             $opt['tcolor'] = $tc;
         }

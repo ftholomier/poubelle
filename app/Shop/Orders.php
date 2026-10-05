@@ -135,7 +135,7 @@ final class Orders
                 return ['error' => 'Complétez « ' . $f['label'] . ' ».'];
             }
         }
-        $qty = max(1, min(20, (int) ($in['qty'] ?? 1)));
+        $qty = Poster::isFor($m) ? 1 : max(1, min(20, (int) ($in['qty'] ?? 1))); // poster dédicacé et numéroté : un exemplaire
         $unit = Catalog::price($m, $size);
         return ['item' => [
             'model' => $m['id'], 'name' => $m['name'], 'support' => $sup['name'], 'size' => $sup['sizes'] ? $size : '',

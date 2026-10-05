@@ -258,7 +258,7 @@ final class ShopPages
     /** Une anecdote du stock pour ouvrir la fiche (signée : commandable telle quelle), ou null. */
     private static function anecStart(array $m): ?array
     {
-        if (!Catalog::unique($m)) {
+        if (!isset(Catalog::fields($m)[Anecdotes::FIELD])) {
             return null;
         }
         $r = Anecdotes::fromPool(Anecdotes::layers($m));
