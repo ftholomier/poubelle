@@ -34,6 +34,7 @@ final class Catalog
         'tote' => ['name' => 'Tote bag', 'mockup' => 'tote', 'faces' => ['face' => ['Face', 280, 300, 0]], 'colors' => ['Naturel' => '#EFE6D2', 'Noir' => '#1A1A1A', 'Bleu nuit' => '#0E1F4D'], 'sizes' => [], 'note' => '', 'cost' => 600],
         'casquette' => ['name' => 'Casquette', 'mockup' => 'cap', 'faces' => ['avant' => ['Face avant', 100, 55, 0]], 'colors' => ['Bleu nuit' => '#0E1F4D', 'Noir' => '#1A1A1A', 'Blanc' => '#FFFFFF', 'Jaune' => '#F6C400'], 'sizes' => ['Taille unique'], 'note' => 'Broderie : 6 couleurs au plus, pas de texte de moins de 5 mm de haut, pas de trait fin.', 'cost' => 900],
         'echarpe' => ['name' => 'Écharpe', 'mockup' => 'scarf', 'faces' => ['recto' => ['Recto', 1400, 180, 5]], 'colors' => [], 'sizes' => [], 'note' => 'Écharpe imprimée en entier (sublimation) : le fond fait partie du dessin, prévoir les franges aux deux bouts.', 'cost' => 1400],
+        'poster' => ['name' => 'Poster (A4, A3, A2)', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 297, 420, 3]], 'colors' => [], 'sizes' => ['A4', 'A3', 'A2'], 'note' => 'Dessiné en A3 ; en A4 ou en A2, le fichier vectoriel est réduit ou agrandi à l’identique, au format exact (mêmes proportions).', 'cost' => 400],
         'poster-a3' => ['name' => 'Poster A3', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 297, 420, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 400],
         'poster-a2' => ['name' => 'Poster A2', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 420, 594, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 700],
         'carte' => ['name' => 'Carte postale', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 148, 105, 3], 'verso' => ['Verso', 148, 105, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 80],
@@ -381,10 +382,40 @@ final class Catalog
         return count($out) > 1 ? $out : [];
     }
 
+    /** Formats de papier (mm) : un poster dessiné en A3 s'imprime aussi en A4 ou en A2. */
+    public const PAPER = ['A4' => [210, 297], 'A3' => [297, 420], 'A2' => [420, 594], 'A1' => [594, 841]];
+
+    /**
+     * Face mise au format de papier choisi : tout le dessin (positions, tailles, corps, traits)
+     * agrandi ou réduit d'un même facteur. Seulement si la face a les proportions de ce format.
+     */
+    public static function scaleFace(array $f, string $size): array
+    {
+        [$pw, $ph] = self::PAPER[$size] ?? [0, 0];
+        if (!$pw || abs($f['w'] / $f['h'] - $pw / $ph) > 0.01 || abs($f['w'] - $pw) < 0.5) {
+            return $f;
+        }
+        $k = $pw / $f['w'];
+        foreach ($f['layers'] as $i => $l) {
+            foreach (['x', 'y', 'w', 'h', 'size', 'min', 'sw', 'r'] as $key) {
+                if (isset($l[$key]) && is_numeric($l[$key])) {
+                    $l[$key] = round((float) $l[$key] * $k, 3);
+                }
+            }
+            $f['layers'][$i] = $l;
+        }
+        $f['w'] = $pw;
+        $f['h'] = $ph;
+        return $f;
+    }
+
     /** Fichier d'impression PDF (toutes les faces dessinées) d'un modèle, avec les réponses du client. */
-    public static function printPdf(array $m, array $values, string $title, array $extra = []): string
+    public static function printPdf(array $m, array $values, string $title, array $extra = [], string $size = ''): string
     {
         $sup = self::support($m['support']);
+        foreach ($m['faces'] as $fk => $f) {
+            $m['faces'][$fk] = self::scaleFace($f, $size);
+        }
         $faces = [];
         $colorName = (string) (array_search($m['color'], $sup['colors'], true) ?: '');
         foreach ($m['faces'] as $f) {

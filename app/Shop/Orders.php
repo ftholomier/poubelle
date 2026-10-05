@@ -150,7 +150,7 @@ final class Orders
     {
         $p = [];
         if ($it['size'] !== '') {
-            $p[] = 'Taille ' . $it['size'];
+            $p[] = (isset(Catalog::PAPER[$it['size']]) ? 'Format ' : 'Taille ') . $it['size'];
         }
         if ($it['color_name'] !== '') {
             $p[] = $it['color_name'];
@@ -412,14 +412,14 @@ final class Orders
                 continue;
             }
             [$mm] = Catalog::applyOptions($m, $it['opts']);
-            $extra = array_filter([$it['size'] !== '' ? 'taille ' . $it['size'] : '', 'quantité ' . $it['qty'], 'commande ' . $o['id'] . ' article ' . ($n + 1)]);
+            $extra = array_filter([$it['size'] !== '' ? (isset(Catalog::PAPER[$it['size']]) ? 'format ' : 'taille ') . $it['size'] : '', 'quantité ' . $it['qty'], 'commande ' . $o['id'] . ' article ' . ($n + 1)]);
             $values = $it['values'];
             if (Poster::isFor($m)) {
                 // Poster souvenir : numéro de pièce attribué une fois pour toutes à cet article.
                 $values['_poster_no'] = Poster::number($o['id'] . '-' . ($n + 1));
                 $extra[] = 'poster n° ' . $values['_poster_no'];
             }
-            $pdf = Catalog::printPdf($mm, $values, $it['name'], $extra);
+            $pdf = Catalog::printPdf($mm, $values, $it['name'], $extra, (string) $it['size']);
             if ($pdf !== '') {
                 file_put_contents(self::pdfPath($o['id'], $n), $pdf);
             }

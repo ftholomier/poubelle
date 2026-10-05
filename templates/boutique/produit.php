@@ -117,8 +117,8 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
 
       <div class="vgrid2">
         <?php if ($sup['sizes']): ?>
-        <div class="field"><label for="f-size">Taille *</label><select id="f-size" name="size" required data-shop-in>
-          <?php foreach ($sup['sizes'] as $i => $sz): ?><option value="<?= e($sz) ?>"<?= $sz === 'M' || (count($sup['sizes']) === 1) ? ' selected' : '' ?>><?= e($sz) ?><?= isset($s['extra'][$sz]) ? ' (+' . e(Orders::money($s['extra'][$sz])) . ')' : '' ?></option><?php endforeach; ?>
+        <div class="field"><label for="f-size"><?= array_intersect($sup['sizes'], array_keys(Catalog::PAPER)) ? 'Format' : 'Taille' ?> *</label><select id="f-size" name="size" required data-shop-in>
+          <?php foreach ($sup['sizes'] as $i => $sz): ?><option value="<?= e($sz) ?>"<?= $sz === 'M' || $sz === 'A3' || (count($sup['sizes']) === 1) ? ' selected' : '' ?>><?= e($sz) ?><?= isset($s['extra'][$sz]) ? ' (+' . e(Orders::money($s['extra'][$sz])) . ')' : '' ?></option><?php endforeach; ?>
         </select></div>
         <?php endif; ?>
         <div class="field"><label for="f-qty">Quantité</label><input type="number" id="f-qty" name="qty" value="1" min="1" max="20" data-shop-in></div>

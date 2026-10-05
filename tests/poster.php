@@ -81,7 +81,22 @@ $eq('dédicace « pour Jean Dupont » et numéro en attente', [str_contains($tex
 $pdf = Catalog::printPdf($m, $line['item']['values'] + ['_poster_no' => '0007'], 'Poster essai');
 $eq('PDF de l’imprimeur : une page A3 + fonds perdus et marges', [str_starts_with($pdf, '%PDF'), (bool) preg_match('#/MediaBox \[0 0 9(1[0-9]|0[0-9])\.\d+ 12[0-9]{2}\.\d+\]#', $pdf)], [true, true]);
 
-// 6. Numéro de pièce : attribué une seule fois par article.
+// 6. Formats A4, A3, A2 : le même dessin réduit ou agrandi à l'identique.
+Catalog::saveModel(['id' => 'testposter', 'support' => 'poster'] + $m);
+$m2 = Catalog::find('testposter');
+$dims = [];
+foreach (['A4', 'A3', 'A2'] as $sz) {
+    $f2 = Catalog::scaleFace($m2['faces']['recto'], $sz);
+    $dims[] = [(int) $f2['w'], (int) $f2['h'], (int) $f2['layers'][0]['w']];
+    preg_match('#/TrimBox \[([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+)\]#', Catalog::printPdf($m2, $line['item']['values'], 'Poster', [], $sz), $tb);
+    $dims[] = (int) round(((float) $tb[3] - (float) $tb[1]) / 72 * 25.4);
+}
+$eq('A4, A3, A2 : format, cadre du poster, format fini du PDF', $dims, [[210, 297, 210], 210, [297, 420, 297], 297, [420, 594, 420], 420]);
+$line2 = Orders::line(['model' => 'testposter', 'size' => 'A2', 'values' => $line['item']['values'], 'qty' => 1]);
+$eq('format choisi par le client et résumé « Format A2 »', [$line2['item']['size'] ?? '', str_starts_with(Orders::describe($line2['item']), 'Format A2')], ['A2', true]);
+$eq('un t-shirt n’est jamais redimensionné', Catalog::scaleFace(['w' => 280, 'h' => 350, 'layers' => []], 'A4')['w'], 280);
+
+// 7. Numéro de pièce : attribué une seule fois par article.
 @unlink($numbers);
 $a = Poster::number('SR1-1');
 $b = Poster::number('SR2-1');
