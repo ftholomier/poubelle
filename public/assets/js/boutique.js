@@ -18,7 +18,7 @@
   // Anecdote : tirée par le serveur (fait vérifié + IA), signée ; « Une autre » en retire une.
   root.querySelectorAll('[data-anec]').forEach(box => {
     const txt = box.querySelector('[data-anec-text]'), val = box.querySelector('[data-anec-val]'), sig = box.querySelector('[data-anec-sig]'), btn = box.querySelector('[data-anec-btn]');
-    const seen = [];
+    const seen = btn.dataset.seen ? [btn.dataset.seen] : []; // celle affichée à l'ouverture
     btn.addEventListener('click', async () => {
       btn.disabled = true; txt.classList.add('is-busy');
       try {

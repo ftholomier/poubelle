@@ -59,10 +59,11 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
         <label for="f-<?= e($k) ?>"><?= e($f['label']) ?> *</label>
         <?php if ($f['gen']): ?>
         <div class="shopanec" data-anec="<?= e($k) ?>">
-          <p class="shopanec__t" id="f-<?= e($k) ?>" data-anec-text aria-live="polite">Cliquez sur « Une anecdote » : le musée en tire une rien que pour vous, d’après sa base de matchs et de chiffres.</p>
-          <input type="hidden" name="values[<?= e($k) ?>]" value="" data-shop-in data-anec-val>
-          <input type="hidden" name="values[_sig_<?= e($k) ?>]" value="" data-anec-sig>
-          <button type="button" class="shopanec__b" data-anec-btn><span aria-hidden="true">↻</span> <b>Une anecdote</b></button>
+          <?php $a0 = $anec ?? null; ?>
+          <p class="shopanec__t<?= $a0 ? ' is-on' : '' ?>" id="f-<?= e($k) ?>" data-anec-text aria-live="polite"><?= $a0 ? e($a0['text']) : 'Cliquez sur « Une anecdote » : le musée en tire une rien que pour vous, d’après sa base de matchs et de chiffres.' ?></p>
+          <input type="hidden" name="values[<?= e($k) ?>]" value="<?= e($a0['text'] ?? '') ?>" data-shop-in data-anec-val>
+          <input type="hidden" name="values[_sig_<?= e($k) ?>]" value="<?= e($a0['sig'] ?? '') ?>" data-anec-sig>
+          <button type="button" class="shopanec__b" data-anec-btn<?= $a0 ? ' data-seen="' . e($a0['text']) . '"' : '' ?>><span aria-hidden="true">↻</span> <b><?= $a0 ? 'Une autre' : 'Une anecdote' ?></b></button>
           <small class="shophelp">Une autre, puis une autre… jusqu’à celle qui vous plaît. Une anecdote vendue n’est plus jamais proposée : la vôtre sera unique.</small>
         </div>
         <?php elseif ($f['list'] !== ''): ?>

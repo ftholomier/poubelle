@@ -40,6 +40,26 @@ final class Anecdotes
         return STORAGE_PATH . '/shop/anecdotes-reserve.json';
     }
 
+    /** Les calques d'un modèle qui reçoivent l'anecdote. */
+    public static function layers(array $m): array
+    {
+        $out = [];
+        foreach ($m['faces'] as $f) {
+            foreach ($f['layers'] as $l) {
+                if (($l['mode'] ?? '') === 'client' && ($l['field'] ?? '') === self::FIELD) {
+                    $out[] = $l;
+                }
+            }
+        }
+        return $out;
+    }
+
+    /** Texte d'exemple sans « Le saviez-vous ? » (anciens modèles). */
+    public static function clean(string $t): string
+    {
+        return trim((string) preg_replace('/^\s*(le\s+)?saviez[- ]vous\s*\?\s*/iu', '', $t));
+    }
+
     /** Une anecdote de la réserve qui tient dans le cadre, ni vendue ni déjà vue par ce client. */
     public static function fromPool(array $layers, array $avoid = []): array
     {

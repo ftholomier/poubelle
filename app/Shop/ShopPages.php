@@ -112,7 +112,7 @@ final class ShopPages
         foreach (self::products() as $m) {
             $sup = Catalog::support($m['support']);
             $from = $m['sale']['price'] + ($m['sale']['extra'] ? 0 : 0);
-            $cards[] = ['m' => $m, 'sup' => $sup, 'svg' => self::preview($m, [], self::samples($m)), 'from' => $from];
+            $cards[] = ['m' => $m, 'sup' => $sup, 'svg' => self::preview($m, [], self::samples($m, self::anecStart($m))), 'from' => $from];
         }
         return self::page('index', ['cards' => $cards, 'config' => Orders::config(), 'count' => self::count()], ['title' => 'Boutique', 'description' => 'Les objets de Sochaux Rétro, personnalisés et fabriqués à la demande près de chez nous. Chaque achat soutient l’association.']);
     }
@@ -129,7 +129,7 @@ final class ShopPages
         $sup = Catalog::support($m['support']);
         return self::page('produit', [
             'm' => $m, 'sup' => $sup, 'fields' => Catalog::fields($m), 'positions' => Catalog::positions($m),
-            'svg' => self::preview($m, [], self::samples($m)), 'config' => Orders::config(), 'count' => self::count(),
+            'svg' => self::preview($m, [], self::samples($m, $anec = self::anecStart($m))), 'anec' => $anec, 'config' => Orders::config(), 'count' => self::count(),
             'faces' => array_keys(array_filter($m['faces'], fn ($f) => $f['layers'] || $f['bg'])), 'flash' => Session::pull('shop_flash'),
         ], ['title' => $m['name'], 'description' => $m['sale']['desc'] ?: $m['name'] . ' · boutique Sochaux Rétro']);
     }
@@ -148,7 +148,7 @@ final class ShopPages
         $values = [];
         foreach (Catalog::fields($m) as $k => $f) {
             $v = trim(mb_substr((string) ($in['values'][$k] ?? ''), 0, 200));
-            $values[$k] = $v !== '' ? $v : $f['default'];
+            $values[$k] = $v !== '' ? $v : ($k === Anecdotes::FIELD ? Anecdotes::clean($f['default']) : $f['default']);
         }
         $opts = array_map(fn ($v) => mb_substr((string) $v, 0, 20), (array) ($in['opts'] ?? []));
         [$mm, $opt] = Catalog::applyOptions($m, $opts);
@@ -182,14 +182,7 @@ final class ShopPages
             return Response::json(['error' => 'Article indisponible.'], 404);
         }
         [$mm] = Catalog::applyOptions($m, array_map(fn ($v) => mb_substr((string) $v, 0, 20), (array) ($in['opts'] ?? [])));
-        $layers = [];
-        foreach ($mm['faces'] as $f) {
-            foreach ($f['layers'] as $l) {
-                if (($l['mode'] ?? '') === 'client' && ($l['field'] ?? '') === Anecdotes::FIELD) {
-                    $layers[] = $l;
-                }
-            }
-        }
+        $layers = Anecdotes::layers($mm);
         if (!$layers) {
             return Response::json(['error' => 'Ce modèle n’a pas d’anecdote.'], 404);
         }
@@ -207,9 +200,23 @@ final class ShopPages
     }
 
     /** Réponses d'exemple : le texte d'exemple de chaque champ. */
-    private static function samples(array $m): array
+    private static function samples(array $m, ?array $anec = null): array
     {
-        return array_map(fn ($f) => $f['default'], Catalog::fields($m));
+        $v = array_map(fn ($f) => $f['default'], Catalog::fields($m));
+        if (isset($v[Anecdotes::FIELD])) {
+            $v[Anecdotes::FIELD] = $anec['text'] ?? Anecdotes::clean($v[Anecdotes::FIELD]);
+        }
+        return $v;
+    }
+
+    /** Une anecdote du stock pour ouvrir la fiche (signée : commandable telle quelle), ou null. */
+    private static function anecStart(array $m): ?array
+    {
+        if (!Catalog::unique($m)) {
+            return null;
+        }
+        $r = Anecdotes::fromPool(Anecdotes::layers($m));
+        return isset($r['error']) ? null : $r;
     }
 
     // ------------------------------------------------------------------ panier
