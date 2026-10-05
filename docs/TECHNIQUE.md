@@ -988,6 +988,64 @@ même site fermé ; sinon 404 du site.
   `pageFields()`), adhésions, bénévoles, réglages (groupe `vitrine`, caché de l'écran
   Réglages général par `'hidden' => true`).
 
+## 7 duodecies. Application du musée (PWA) et notifications (`public/sw.js`, `App\Front\Appli`, `App\Services\WebPush`, `App\Services\Notifications`)
+
+Seulement le musée (`templates/layout.php`) ; le site de l'association n'a ni manifeste ni
+service worker. Réglage `app.enabled` (Réglages › Application du musée) : décoché, la page
+porte `data-app="0"`, `site.js` désinscrit le service worker et efface ses copies, et le
+service worker lui-même se retire dès qu'il voit une page ainsi marquée.
+
+- **Manifeste** `public/manifest.webmanifest` (nom, couleurs, icônes `assets/img/app/` tirées du
+  logo vectoriel, raccourcis : Rétro-Direct, 100 moments, quiz, recherche) ; servi en
+  `application/manifest+json` et revérifié à chaque fois (`.htaccess`, comme `sw.js` et
+  `hors-ligne.html`).
+- **Service worker** `public/sw.js` (portée `/`) : pages en réseau d'abord (préchargement des
+  pages activé ; la copie gardée sert si le réseau manque, ou au bout de 6 s si elle existe et
+  que l'adresse n'a pas de paramètres), cache `sr-pages` (80 pages, sans paramètres, jamais une
+  réponse `private`/`no-store`) ; `/assets/` et `/media/{largeur}/` en cache d'abord (`sr-static`
+  120, `sr-images` 300) ; page `hors-ligne.html` (bilingue, liste des pages gardées) gardée dès
+  l'installation (`sr-shell-v1`). **Jamais gardés** : `/admin`, `/imprimeur`, `/api`, `/video`,
+  `/apercu-association` (BYPASS) et `/boutique`, `/faire-un-don`, `/contribuer`, `/contact`,
+  `/newsletter`, `/souvenir` (NOSTORE). Leurs pages passent par la réponse préchargée
+  (`preloadResponse`) : sans cela, le navigateur les demanderait deux fois au serveur (message
+  « Enregistré » perdu après une redirection).
+- **Page `/appli/`** (`Front\Appli::page`, `templates/appli.php`, `js/appli.js`) : bouton
+  d'installation (`beforeinstallprompt`, gardé par `site.js` dans `SR.app`), marche à suivre
+  iPhone, avantages, notifications. Lien en pied de page.
+
+**Notifications Web Push**, sans bibliothèque (OpenSSL et cURL de PHP) :
+
+- `WebPush` : clés VAPID P-256 créées au premier besoin (`storage/push/vapid.json`, 0600) ;
+  jeton ES256 (RFC 8292) par service de notifications ; chiffrement « aes128gcm » du message
+  pour chaque navigateur (RFC 8291 : ECDH avec sa clé, HKDF, AES-128-GCM, un enregistrement) ;
+  envoi en parallèle (`curl_multi`, 20 à la fois) **seulement** vers les services reconnus
+  (`HOSTS` : Google, Mozilla, Apple, Microsoft ; HTTPS, port 443) — jamais vers une adresse
+  quelconque donnée par un navigateur. `available()` : courbe, ECDH, AES-GCM, cURL (signalé
+  dans la vérification du serveur).
+- `Notifications` : abonnés (`storage/push/abonnes.json` : adresse, clés, sujets, langue, dates,
+  échecs ; ni nom, ni e-mail, ni IP) ; sujets `retro`, `moments`, `nouvelles`, `kit`, `jour` ;
+  file d'envoi (`file.json`, lots de 400, verrou `envoi.lock`, message dans la langue de
+  l'abonné) ; 404/410 → abonnement effacé ; 10 échecs sans succès depuis 60 jours → effacé ;
+  historique (`envois.json`, 150 derniers, reçues, disparus, échecs, ouvertures) ; clés déjà
+  envoyées (`faits.json`, 400 jours) et date de mise en route (rien d'antérieur n'est envoyé).
+- Envois automatiques (`due()`, tâche planifiée `notifications`) : Rétro-Direct 30 min avant le
+  coup d'envoi (jusqu'à 10 min après, urgent, durée de vie jusqu'à 30 min après le début),
+  moments du centenaire à leur parution (3 jours au plus), kit souvenirs (1er au 7 du mois, à
+  partir de 10 h), « Ce jour-là » (heure réglée, 2 h de fenêtre). Rien entre 21 h 30 et 8 h
+  sauf Rétro-Direct.
+- API publique `/api/push/…` (JSON, `Front\Appli::api`) : `cle`, `etat`, `abonner`, `sujets`,
+  `desabonner`, `renouveler` (service worker, `pushsubscriptionchange`), `essai` (3 par heure
+  et par abonné), `ouverture` (clic compté). L'adresse d'abonnement, impossible à deviner, sert
+  de preuve. Fermée tant que le site est en page d'attente (comme toute l'API publique).
+- Service worker : `push` → `showNotification` (icône, badge monochrome, image, `tag` par
+  sujet) ; `notificationclick` → page du musée seulement (focus d'une fenêtre ouverte, sinon
+  nouvelle fenêtre) et ouverture comptée ; `pushsubscriptionchange` → réabonnement.
+- Back-office : Communauté › Notifications (`Admin\Push`, administrateurs) : chiffres, envoi de
+  l'équipe (aperçu, version anglaise facultative), envois automatiques prêts, historique.
+- Développement : `PUSH_ALLOW_LOCAL=1` (serveur `php -S` seulement) accepte un faux service
+  de notifications sur 127.0.0.1 ; `tests/notifications.php` déchiffre chaque message envoyé
+  avec une implémentation indépendante et vérifie le jeton VAPID.
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -1073,7 +1131,7 @@ fréquence, l'état est dans `storage/cron.json`, un verrou empêche deux passag
 (lancée depuis le back-office pendant un passage, une tâche le signale au lieu de dire
 « rien à faire » ; une sauvegarde ratée est notée en échec) :
 publication des fiches programmées, statistiques (et les 100 chiffres du FCSM), audience, traductions, correcteur
-d'orthographe, newsletter,
+d'orthographe, notifications de l'appli (envois automatiques et file d'envoi), newsletter,
 géolocalisation (toutes les 10 min), médiathèque, vignettes des murs de photos (tant
 qu'il en manque), vignettes des vidéos (toutes les heures),
 assistant IA (toutes les heures), dons (toutes les heures), plan du site (chaque jour),
@@ -1096,6 +1154,7 @@ après 2 ans).
 | `ia/` | dépense d'IA : détail des appels, cumuls, remboursements, barème (§ 7 quater) | oui |
 | `audio/` | fiches audio : texte lu et voix IA de chaque fiche, traitements groupés (§ 7 quinquies) ; `audio/pages/` : récits des pages de synthèse rédigés par l'IA ; `audio/jobs/` : fichiers d'échange temporaires | oui (sauf `jobs/`) ; les voix IA (`public/media/audio/`) avec les photos, le dimanche |
 | `retro/` | Rétro-Direct : spectateurs connectés, pic et réactions de chaque direct, « J'y étais ! » par match (§ 7 sexies) | oui |
+| `push/` | notifications de l'appli : clés VAPID (`vapid.json`), abonnés, file d'envoi, historique, envois déjà faits (§ 7 duodecies) | oui |
 | `vitrine/` | site de l'association : adhésions, propositions de bénévolat, audience, vidéos YouTube récentes (§ 7 undecies) | oui |
 | `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
 | `controle.json` | dernier contrôle complet (bouton « Contrôler maintenant ») : clés des alertes, nouvelles, historique | non (le contrôle suivant le refait ; sans lui, comparaison avec la référence livrée) |

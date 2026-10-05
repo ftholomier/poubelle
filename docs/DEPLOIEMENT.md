@@ -51,6 +51,11 @@ reprises directement depuis le WordPress actuel, sur le même hébergement (§ 4
    `/home/<compte>` dans la colonne d'informations de cPanel).
 3. HTTPS : certificat AutoSSL de cPanel, puis, dans `public/.htaccess`, retirer le `#`
    devant les deux lignes sous « HTTPS et domaine principal ».
+   L'application du musée (installation sur l'écran d'accueil, lecture hors connexion,
+   notifications) ne fonctionne qu'en HTTPS : les navigateurs refusent le service worker sur
+   une adresse en http://. Les notifications partent par la tâche planifiée (ci-dessous) ;
+   PHP doit avoir les extensions « openssl » et « curl » (Système › Réglages › vérification du
+   serveur le signale sinon).
 4. Ouvrir le site une première fois : il est **fermé au public dès l'installation** (page
    d'attente, rien n'est indexé par les moteurs de recherche) ; aller directement à
    `/admin/premier-acces` (§ 6). La première page du site met quelques secondes à s'afficher
@@ -117,7 +122,7 @@ cPanel › Tâches Cron, une ligne toutes les 5 minutes :
 ```
 
 Elle publie les fiches programmées, recalcule les statistiques, traduit, envoie la
-newsletter « Ce jour-là », géolocalise les stades et les lieux de naissance, complète la
+newsletter « Ce jour-là » et les notifications de l’appli du musée, géolocalise les stades et les lieux de naissance, complète la
 médiathèque, copie les vignettes des vidéos, indexe l'assistant, synchronise les dons,
 régénère le plan du site, sauvegarde et purge les données personnelles anciennes.
 

@@ -8,7 +8,7 @@ use App\Core\Settings;
 /**
  * Sauvegardes ZIP (storage/backups, hors du dossier public) : toutes les données
  * éditoriales (data/), les réglages chiffrés et leur clé, les versions, les boîtes
- * de réception, les dons, la newsletter, les frais d'IA, les textes des fiches audio et les compteurs du Rétro-Direct. Les photos
+ * de réception, les dons, la newsletter, les frais d'IA, les textes des fiches audio, les compteurs du Rétro-Direct et les abonnés aux notifications de l'appli (avec ses clés). Les photos
  * et les voix IA (volumineuses) sont ajoutées le dimanche si l'option est cochée. Les plus anciennes sont supprimées.
  */
 final class Backup
@@ -32,6 +32,7 @@ final class Backup
         'storage/ia',
         'storage/audio',
         'storage/retro',
+        'storage/push',
     ];
 
     /** @return array{file:string,size:int,files:int,ms:int}|array{error:string} */

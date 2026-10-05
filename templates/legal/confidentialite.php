@@ -25,6 +25,9 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
         <tr><td>Answering your messages (contact form)</td><td>Name, email, organisation and phone (optional), message, page concerned</td><td>Legitimate interest / your request</td><td>3 years after the last exchange</td></tr>
         <tr><td>Contributions to the museum (photos, documents, testimonies)</td><td>Name, email, credit shown, description, files, rights confirmation</td><td>Consent</td><td>As long as the document is published; 3 years for unpublished submissions</td></tr>
         <tr><td>“On This Day” newsletter</td><td>Email, language, sign-up and confirmation dates</td><td>Consent (double opt-in)</td><td>Until you unsubscribe: your address is then erased</td></tr>
+        <?php if ($push): ?>
+        <tr><td>Notifications of the museum app</td><td>The technical subscription address and keys provided by your browser, topics chosen, language, dates — no name, no email, no IP address</td><td>Consent (you switch them on)</td><td>Until you switch them off, or as soon as your browser's notification service reports the subscription has ended</td></tr>
+        <?php endif; ?>
         <?php if ($donations): ?>
         <tr><td>Online donations<?= $receipts ? ' and tax receipts' : '' ?></td><td>First and last name, email<?= $receipts ? ', postal address (receipt)' : '' ?>, amount, frequency, name shown on the donors' wall (optional), payment references</td><td>Performance of the donation; legal obligation (accounting<?= $receipts ? ', tax receipts' : '' ?>)</td><td>Statutory retention period for accounting records (up to 10 years); details of payments never completed are erased after 30 days</td></tr>
         <?php endif; ?>
@@ -47,6 +50,7 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
       <?php if ($aiOn): ?><li><b>Google (Gemini API)</b>: receives your question and extracts from the museum's records in order to write the answer. Google may process this data outside the European Union, under its contractual guarantees (standard contractual clauses / EU-US Data Privacy Framework). Please do not include personal information in your questions.</li><?php endif; ?>
       <?php if ($donations): ?><li><b>Stripe</b> and <b>PayPal</b>: process payments on their own secure pages. Your card details never pass through our servers.</li><?php endif; ?>
       <li><b>Our email provider</b>: sends confirmations, replies and the newsletter.</li>
+      <?php if ($push): ?><li><b>The notification service of your browser</b> (Google, Apple, Mozilla or Microsoft, depending on your device), if you switch on notifications: it delivers the messages, which are encrypted so that only your browser can read them.</li><?php endif; ?>
       <li><b>OpenStreetMap</b>: on the map page, map tiles are loaded from OpenStreetMap servers, which receive your IP address in order to display them.</li>
       <li><b>YouTube, Dailymotion, X, Instagram</b>: only if you accept them, when you play a video or display a post (see the <a href="<?= e(url('/cookies/')) ?>">cookies page</a>).</li>
     </ul>
@@ -67,6 +71,9 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
         <tr><td>Répondre à vos messages (formulaire de contact)</td><td>Nom, e-mail, entreprise et téléphone (facultatifs), message, page concernée</td><td>Intérêt légitime / votre demande</td><td>3 ans après le dernier échange</td></tr>
         <tr><td>Contributions au musée (photos, documents, témoignages)</td><td>Nom, e-mail, crédit affiché, description, fichiers, attestation des droits</td><td>Consentement</td><td>Tant que le document est publié ; 3 ans pour les envois non publiés</td></tr>
         <tr><td>Newsletter « Ce jour-là »</td><td>E-mail, langue, dates d’inscription et de confirmation</td><td>Consentement (double validation)</td><td>Jusqu’à la désinscription : l’adresse est alors effacée</td></tr>
+        <?php if ($push): ?>
+        <tr><td>Notifications de l’appli du musée</td><td>L’adresse technique d’abonnement et les clés fournies par votre navigateur, sujets choisis, langue, dates — ni nom, ni e-mail, ni adresse IP</td><td>Consentement (vous les activez)</td><td>Jusqu’à leur désactivation, ou dès que le service de notifications de votre navigateur signale la fin de l’abonnement</td></tr>
+        <?php endif; ?>
         <?php if ($donations): ?>
         <tr><td>Dons en ligne<?= $receipts ? ' et reçus fiscaux' : '' ?></td><td>Nom, prénom, e-mail<?= $receipts ? ', adresse postale (reçu)' : '' ?>, montant, fréquence, nom affiché sur le mur des donateurs (facultatif), références de paiement</td><td>Exécution du don ; obligation légale (comptabilité<?= $receipts ? ', reçus fiscaux' : '' ?>)</td><td>Durée légale de conservation des pièces comptables (jusqu’à 10 ans) ; les coordonnées des paiements jamais finalisés sont effacées après 30 jours</td></tr>
         <?php endif; ?>
@@ -89,6 +96,7 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
       <?php if ($aiOn): ?><li><b>Google (API Gemini)</b> : reçoit votre question et des extraits des fiches du musée pour rédiger la réponse. Google peut traiter ces données hors de l’Union européenne, avec ses garanties contractuelles (clauses contractuelles types / cadre de protection des données UE–États-Unis). Merci de ne pas inclure d’informations personnelles dans vos questions.</li><?php endif; ?>
       <?php if ($donations): ?><li><b>Stripe</b> et <b>PayPal</b> : traitent les paiements sur leurs propres pages sécurisées. Vos données bancaires ne transitent jamais par nos serveurs.</li><?php endif; ?>
       <li><b>Notre prestataire d’envoi d’e-mails</b> : confirmations, réponses et newsletter.</li>
+      <?php if ($push): ?><li><b>Le service de notifications de votre navigateur</b> (Google, Apple, Mozilla ou Microsoft selon l’appareil), si vous activez les notifications : il achemine les messages, chiffrés pour que seul votre navigateur puisse les lire.</li><?php endif; ?>
       <li><b>OpenStreetMap</b> : sur la page Carte, les fonds de carte sont chargés depuis les serveurs d’OpenStreetMap, qui reçoivent votre adresse IP pour les afficher.</li>
       <li><b>YouTube, Dailymotion, X, Instagram</b> : uniquement si vous les acceptez, lorsque vous lancez une vidéo ou affichez une publication (voir la <a href="<?= e(url('/cookies/')) ?>">page cookies</a>).</li>
     </ul>

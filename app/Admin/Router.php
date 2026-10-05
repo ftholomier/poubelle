@@ -17,7 +17,7 @@ use App\Data\Activity;
 final class Router
 {
     /** Adresses réservées aux administrateurs (en plus des comptes et des réglages, contrôlés écran par écran). */
-    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|association|boutique)(/|$)#';
+    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|association|boutique|notifications)(/|$)#';
 
     public static function handle(Request $req): Response
     {
@@ -176,6 +176,8 @@ final class Router
         $r->get('/admin/messages', fn ($q) => Community::messages($q));
         $r->get('/admin/messages/{id}', fn ($q, $id) => Community::message($q, $id));
         $r->post('/admin/messages/{id}', fn ($q, $id) => Community::messageAction($q, $id));
+        $r->get('/admin/notifications', fn ($q) => Push::index($q));
+        $r->post('/admin/notifications', fn ($q) => Push::action($q));
         $r->get('/admin/newsletter', fn ($q) => Community::newsletter($q));
         $r->post('/admin/newsletter', fn ($q) => Community::newsletterAction($q));
         $r->get('/admin/newsletter/apercu', fn ($q) => Community::newsletterPreview($q));

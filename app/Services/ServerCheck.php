@@ -51,6 +51,9 @@ final class ServerCheck
         if (PHP_SAPI !== 'cli' && !self::finishesEarly()) {
             $out[] = 'PHP ne sait pas terminer une page avant la fin du travail qui la suit (mode ' . PHP_SAPI . ') : après un enregistrement, le recalcul des statistiques fait attendre la personne. Un PHP en mode PHP-FPM ou LiteSpeed (cPanel, ou l’hébergeur) l’évite.';
         }
+        if (\App\Core\Settings::get('app.push', true) && !WebPush::available()) {
+            $out[] = 'Notifications de l’appli du musée impossibles : il faut les extensions « openssl » (courbe P-256, ECDH, AES-GCM) et « curl » (cPanel › Sélectionner une version de PHP › Extensions).';
+        }
         if (function_exists('gd_info') && empty(gd_info()['WebP Support'])) {
             $out[] = 'GD sans le format WebP : les vignettes des photos ne peuvent pas être créées.';
         }

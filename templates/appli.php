@@ -1,5 +1,5 @@
 <?php
-/** « L'appli du musée » : installation (selon l'appareil, réglé par js/appli.js), avantages, notifications. */
+/** « L'appli du musée » : installation (selon l'appareil, réglé par js/appli.js), avantages, notifications. Variables : $push, $topics */
 $perks = [
     ['⤓', t('Sur l’écran d’accueil'), t('L’icône au blason, à côté de vos applis : le musée s’ouvre en plein écran, sans barre d’adresse.')],
     ['⚡', t('Plus rapide'), t('Styles, polices et photos déjà vus restent sur le téléphone : les pages s’affichent presque aussitôt.')],
@@ -48,5 +48,40 @@ $perks = [
       <li><span class="appli__perk-ico" aria-hidden="true"><?= e($ico) ?></span><h2 class="appli__perk-t"><?= e($title) ?></h2><p><?= e($text) ?></p></li>
     <?php endforeach; ?>
   </ul>
-  <p class="appli__note"><?= e(t('L’appli ne demande aucun compte et ne collecte aucune donnée personnelle. Pour la retirer, supprimez l’icône comme n’importe quelle appli.')) ?></p>
+  <?php if ($push): ?>
+  <?php $msgs = [
+      'unsupported' => t('Ce navigateur ne sait pas recevoir de notifications. Sur Android, utilisez Chrome ; sur ordinateur, Chrome, Edge ou Firefox.'),
+      'ios' => t('Sur iPhone et iPad, installez d’abord l’appli (ci-dessus), puis ouvrez-la depuis l’écran d’accueil : les notifications s’activent de là.'),
+      'denied' => t('Les notifications du musée sont bloquées dans les réglages du navigateur. Autorisez-les pour ce site, puis rechargez la page.'),
+      'off' => t('Choisissez vos sujets, puis activez les notifications.'),
+      'on' => t('Notifications activées sur cet appareil. Vos choix sont enregistrés à chaque clic.'),
+      'busy' => t('Un instant…'),
+      'saved' => t('Choix enregistrés.'),
+      'error' => t('Ça n’a pas marché. Réessayez dans un moment.'),
+      'test' => t('Essai envoyé : la notification arrive dans quelques secondes.'),
+      'bye' => t('Notifications désactivées sur cet appareil.'),
+  ]; ?>
+  <section class="appli__push" id="notifications" data-push data-msgs="<?= e(json_encode($msgs, JSON_UNESCAPED_UNICODE)) ?>">
+    <div class="stack" style="gap:16px">
+      <span class="eyebrow eyebrow--lg"><?= e(t('Les notifications')) ?></span>
+      <h2 class="h-2"><?= e(t('Être prévenu, au bon moment')) ?></h2>
+      <p class="lead"><?= e(t('Le coup d’envoi d’un Rétro-Direct, un nouveau moment du centenaire, le kit du mois : choisissez ce qui vous intéresse. Jamais la nuit, et désactivable d’un clic.')) ?></p>
+    </div>
+    <div class="appli__pushbox">
+      <fieldset class="appli__topics">
+        <legend><?= e(t('Je veux être prévenu pour…')) ?></legend>
+        <?php foreach ($topics as $k => [$label, $desc, $on]): ?>
+          <label class="appli__topic"><input type="checkbox" value="<?= e($k) ?>" data-topic<?= $on ? ' checked' : '' ?>><span><b><?= e(t($label)) ?></b><small><?= e(t($desc)) ?></small></span></label>
+        <?php endforeach; ?>
+      </fieldset>
+      <p class="appli__state" data-push-state role="status" aria-live="polite"><?= e($msgs['off']) ?></p>
+      <div class="appli__btns">
+        <button type="button" class="btn btn--navy" data-push-on><?= e(t('Activer les notifications')) ?></button>
+        <button type="button" class="btn btn--ghost" data-push-test hidden><?= e(t('M’envoyer un essai')) ?></button>
+        <button type="button" class="btn btn--ghost" data-push-off hidden><?= e(t('Désactiver')) ?></button>
+      </div>
+    </div>
+  </section>
+  <?php endif; ?>
+  <p class="appli__note"><?= e(t('L’appli ne demande aucun compte et ne collecte aucune donnée personnelle. Pour la retirer, supprimez l’icône comme n’importe quelle appli.')) ?><?php if ($push): ?> <?= e(t('Pour les notifications, le musée garde seulement l’adresse technique que fournit votre navigateur et les sujets choisis.')) ?> <a href="<?= e(url('/confidentialite/')) ?>"><?= e(t('En savoir plus')) ?></a><?php endif; ?></p>
 </section>

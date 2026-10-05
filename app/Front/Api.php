@@ -11,7 +11,8 @@ use App\Services\Search;
 
 /**
  * API JSON du site public (/api/…) : recherche, consentement, assistant,
- * « Ce jour-là », carte, votes, Rétro-Direct, Fil jaune, dons (webhooks Stripe / PayPal), newsletter.
+ * « Ce jour-là », carte, votes, Rétro-Direct, Fil jaune, dons (webhooks Stripe / PayPal), newsletter,
+ * notifications de l'appli (/api/push/…).
  * Jamais bloquée par la page d'attente (les webhooks doivent toujours passer).
  */
 final class Api
@@ -44,6 +45,7 @@ final class Api
                 $p === '/api/dons/paypal/webhook' && $post => Donations::paypalWebhook($req),
                 $p === '/api/dons/jauge' => Donations::gaugeJson(),
                 $p === '/api/newsletter' && $post => Community::newsletterApi($req),
+                str_starts_with($p, '/api/push/') => Appli::api($req, substr($p, 10)),
                 default => Response::json(['error' => t('Ressource introuvable')], 404),
             };
         } catch (\Throwable $e) {

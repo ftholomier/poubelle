@@ -49,9 +49,10 @@ final class Legal
             'aiDays' => (int) Settings::get('ai.log_retention_days', 365),
             'aiOn' => (bool) Settings::get('ai.enabled', false),
             'donations' => (bool) Settings::get('donations.enabled', false),
+            'push' => \App\Services\Notifications::enabled(),
             'receipts' => (bool) Settings::get('donations.tax_receipts', false),
             'analytics' => (string) Settings::get('privacy.analytics_id', '') !== '',
-            'updated' => $key === 'mentions' ? '2026-10-04' : '2026-10-03',
+            'updated' => match ($key) { 'mentions' => '2026-10-04', 'confidentialite' => '2026-10-06', default => '2026-10-03' },
         ];
         $title = \App\Services\I18n::isEn() ? $en : $fr;
         return Pages::render('legal/' . $key, $vars + ['title' => $title], [

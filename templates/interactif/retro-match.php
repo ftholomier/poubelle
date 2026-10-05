@@ -86,6 +86,7 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
       <span class="rdcount__v" data-rd-countdown-v aria-live="off"></span>
       <div class="row" style="gap:12px;flex-wrap:wrap">
         <a class="btn btn--navy" href="<?= e(url('/interactif/retro-direct/agenda.ics') . '?' . http_build_query(['match' => $s['id'], 'date' => $entry['date']])) ?>"><?= e(t('Ajouter à mon agenda')) ?></a>
+        <?php if (\App\Services\Notifications::enabled()): ?><a class="btn btn--ghost" href="<?= e(url('/appli/') . '#notifications') ?>"><?= e(t('Être prévenu du coup d’envoi')) ?></a><?php endif; ?>
         <button type="button" class="btn btn--ghost" data-share data-share-title="<?= e(t('Rétro-Direct') . ' : ' . $title) ?>" data-share-text="<?= e($shareText) ?>"><?= e(t('Prévenir mes proches')) ?></button>
       </div>
       <p class="rdcount__note"><?= e(t('Gardez cette page ouverte : le match commencera tout seul à l’heure du coup d’envoi.')) ?></p>

@@ -31,6 +31,7 @@ final class Cron
         'traductions' => [0, 'Traduction anglaise des fiches (Gemini)'],
         'correcteur' => [0, 'Correcteur d’orthographe : vérification des fiches nouvelles ou modifiées'],
         'audio' => [0, 'Fiches audio : traitements groupés (voix et résumés IA), mise à jour de nuit'],
+        'notifications' => [0, 'Notifications de l’appli du musée : envois automatiques (Rétro-Direct, 100 moments, kit, « Ce jour-là ») et file d’envoi'],
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
@@ -156,6 +157,9 @@ final class Cron
 
             case 'correcteur':
                 return Proofreader::run(40);
+
+            case 'notifications':
+                return Notifications::tick();
 
             case 'newsletter':
                 return Newsletter::tick();

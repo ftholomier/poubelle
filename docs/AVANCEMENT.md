@@ -567,4 +567,10 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Posters en A4, A3, A2 au choix du client, un prix par format ; zoom de l'aperçu ; pastille « Pièce unique »
 - [x] Anecdote sur un sujet choisi par le client (match, joueur), faits classés du plus parlant au plus banal, alerte si sujet sans matière
 - [x] Aide (boutique, association, site public), guide et mémo PDF, infographie (2 pages), fichiers MD
+- [x] Poster souvenir d'un joueur (générateur, propositions, éditeur, aide, guide PDF)
 
+## Octobre 2026 — application du musée
+- [x] Musée installable (PWA) : manifeste, icônes au blason, raccourcis, service worker, lecture hors connexion, page « Hors connexion » avec les pages lisibles, page « L'appli du musée » ; interrupteur dans les réglages ; site de l'association non concerné
+- [x] Notifications Web Push sans bibliothèque : clés VAPID, chiffrement RFC 8291, abonnements par sujet (Rétro-Direct, 100 moments, nouvelles, kit, Ce jour-là), envois automatiques, envoi de l'équipe (Communauté › Notifications), historique et ouvertures, confidentialité mise à jour
+- [x] Correction : les pages jamais gardées (back-office, boutique…) ne sont demandées qu'une fois au serveur malgré le préchargement des pages
+- [ ] À faire après la mise en ligne en HTTPS : installer l'appli sur un Android et un iPhone, s'abonner, envoyer un essai (le vrai service de Google ou d'Apple ne peut pas être joint depuis l'environnement de développement)

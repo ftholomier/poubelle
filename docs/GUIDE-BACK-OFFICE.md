@@ -310,6 +310,14 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   signature relus, case « Publier ce souvenir »).
 - **Messages** (formulaire de contact) : lire, répondre, attribuer, marquer comme traité.
 - **Newsletter « Ce jour-là »** : abonnés, aperçu, envoi de test, envoi.
+- **Notifications** (administrateurs) : appareils abonnés à l'appli du musée (total et par
+  sujet), envoi d'une notification de l'équipe (titre, texte, page ouverte au clic, sujet,
+  version anglaise facultative, aperçu), envois automatiques prêts à partir (coup d'envoi des
+  Rétro-Direct, parution des 100 moments, kit du mois, « Ce jour-là »), historique avec les
+  ouvertures. Réglages › Application du musée : appli installable, notifications, envois
+  automatiques, heure de « Ce jour-là ».
+- **L'appli du musée** (page publique /appli/) : installation sur l'écran d'accueil, lecture
+  hors connexion des pages déjà vues, abonnement aux notifications.
 - **Dons** : jauge, liste filtrable, export CSV, ajout d'un don reçu hors ligne (chèque,
   virement, espèces ; administrateurs). Les reçus fiscaux existent mais sont désactivés ;
   activés, ils sont émis et consultés par les administrateurs.

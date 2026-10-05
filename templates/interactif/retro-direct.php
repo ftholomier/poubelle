@@ -39,6 +39,7 @@ $card = function (array $s, string $kicker, string $when, string $cta, ?string $
     <p class="mhead__intro"><?= e(t('Le jour anniversaire d’un grand match, à l’heure du coup d’envoi, le musée le rejoue minute par minute : le score change à la minute des buts, les remplaçants entrent, l’arbitre siffle la mi-temps. Comme devant le poste de radio, il y a 30, 40 ou 50 ans.')) ?></p>
     <div class="row" style="gap:12px;flex-wrap:wrap">
       <a class="btn btn--yellow" href="<?= e(url('/interactif/retro-direct/agenda.ics')) ?>" data-rd-subscribe><?= e(t('Ajouter le programme à mon agenda')) ?></a>
+      <?php if (\App\Services\Notifications::enabled()): ?><a class="btn btn--ghost-light" href="<?= e(url('/appli/') . '#notifications') ?>"><?= e(t('Être prévenu du coup d’envoi')) ?></a><?php endif; ?>
       <a class="btn btn--ghost-light" href="#comment"><?= e(t('Comment ça marche ?')) ?></a>
     </div>
   </div>

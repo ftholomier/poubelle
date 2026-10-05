@@ -220,6 +220,15 @@ return [
         'fields' => [
             'enabled' => ['label' => 'Application installable (écran d’accueil des téléphones) et lecture hors connexion', 'type' => 'bool', 'default' => true,
                 'help' => 'Décoché : l’application se retire d’elle-même des téléphones à leur prochaine visite (copies gardées effacées). Le site de l’association n’est pas concerné.'],
+            'push' => ['label' => 'Notifications : abonnement proposé sur la page « L’appli du musée »', 'type' => 'bool', 'default' => true,
+                'help' => 'Envois de l’équipe : Communauté › Notifications. Décoché : plus aucun envoi ni abonnement (les abonnés restent enregistrés).'],
+            'push_retro' => ['label' => 'Envoi automatique : coup d’envoi des Rétro-Direct (30 minutes avant)', 'type' => 'bool', 'default' => true],
+            'push_moments' => ['label' => 'Envoi automatique : parution de chaque moment du centenaire', 'type' => 'bool', 'default' => true],
+            'push_kit' => ['label' => 'Envoi automatique : kit souvenirs du mois (première semaine, à 10 h)', 'type' => 'bool', 'default' => true],
+            'push_jour' => ['label' => 'Envoi automatique : « Ce jour-là » chaque matin (pour les abonnés qui l’ont choisi)', 'type' => 'bool', 'default' => true],
+            'push_hour' => ['label' => 'Heure de « Ce jour-là » (8 à 20)', 'type' => 'number', 'default' => 9],
+            'push_contact' => ['label' => 'Contact donné aux services de notifications (facultatif)', 'type' => 'email', 'default' => '',
+                'help' => 'Google, Mozilla, Apple et Microsoft peuvent écrire à cette adresse en cas de problème d’envoi. Vide : l’e-mail de contact des mentions légales, sinon l’adresse du site.'],
         ],
     ],
     'map' => [

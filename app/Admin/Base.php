@@ -51,6 +51,7 @@ class Base
             ['contributions', 'Contributions', '/admin/contributions', false],
             ['messages', 'Messages', '/admin/messages', false],
             ['newsletter', 'Newsletter', '/admin/newsletter', false],
+            ['notifications', 'Notifications', '/admin/notifications', true],
             ['dons', 'Dons', '/admin/dons', false],
         ],
         'Boutique' => [
