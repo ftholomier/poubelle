@@ -49,11 +49,11 @@ final class Updater
     private const CHECK_TTL = 3600;
     /**
      * Caches de données gardés après une mise à jour (index des fiches, données calculées, index
-     * de recherche, médiathèque) : ils servent encore le temps que la requête suivante les refasse
+     * de recherche, médiathèque et usage de ses médias : sans lui, les murs de photos restaient vides) : ils servent encore le temps que la requête suivante les refasse
      * en arrière-plan avec le nouveau code. Les effacer faisait attendre le premier visiteur
      * pendant leur calcul (plusieurs secondes). Chemins relatifs au dossier des caches.
      */
-    private const KEEP_CACHES = '#^(?:derived\.php|derived/.+|index-\d+\.php|search\.php|media\.php|media-versions\.php|media/.+|[^/]+\.lock)$#';
+    private const KEEP_CACHES = '#^(?:derived\.php|derived/.+|index-\d+\.php|search\.php|media\.php|media-versions\.php|media-usage\.json|media/.+|[^/]+\.lock)$#';
     /** Marque « caches à refaire » posée par la mise à jour, prise par la requête suivante (public/index.php). */
     private const REFRESH = 'apres-mise-a-jour';
 

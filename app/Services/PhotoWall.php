@@ -131,6 +131,11 @@ final class PhotoWall
     private static function build(): array
     {
         $usage = Media::usage();
+        if (!$usage && Media::all()) {
+            // Usage des médias absent (cache effacé, installation neuve) : sans lui aucune photo
+            // n'illustrerait de fiche publiée et les murs seraient vides. Recalculé ici (2 s environ).
+            $usage = Media::rebuildUsage();
+        }
         $photos = [];
         $stats = [];
         foreach (Media::all() as $rel => $m) {
