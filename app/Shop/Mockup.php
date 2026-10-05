@@ -54,29 +54,102 @@ final class Mockup
                 break;
 
             case 'mug':
-                $vbw = 1000;
-                $vbh = 820;
-                $s = '<g filter="url(#mk-shadow)"><path d="M770 260 C960 250 960 580 770 590" fill="none" stroke="' . $color . '" stroke-width="64" stroke-linecap="round"/><path d="M770 260 C960 250 960 580 770 590" fill="none" stroke="' . $stroke . '" stroke-width="2"/>'
-                    . '<path d="M230 150 L770 150 L770 720 Q500 770 230 720 Z" fill="' . $color . '" stroke="' . $stroke . '" stroke-width="3"/></g>'
-                    . '<ellipse cx="500" cy="150" rx="270" ry="34" fill="#e9e6df" stroke="' . $stroke . '" stroke-width="3"/>';
-                // Face visible : le centre du tour (environ la moitié), déformée par le cylindre (bandes).
-                $vis = $w * 0.52;
-                $k = 540 / $vis;
+                // Cylindre : le tour d'impression (w mm) couvre ~78 % de la circonférence (l'anse est
+                // dans l'espace restant). Même échelle en largeur et en hauteur : le dessin n'est
+                // jamais étiré ; il se resserre vers les bords et les lignes suivent la courbure.
+                $R = 260.0;                         // rayon du mug à l'écran
+                $r = $w / (2 * M_PI * 0.78);        // rayon du mug en mm
+                $k = $R / $r;                       // px par mm (au centre de la face)
                 $ah = $h * $k;
-                $ay = 435 - $ah / 2;
-                $bands = 18;
-                for ($i = 0; $i < $bands; $i++) {
-                    $a0 = -M_PI / 2 + M_PI * $i / $bands;
-                    $a1 = -M_PI / 2 + M_PI * ($i + 1) / $bands;
-                    $sx0 = 500 + 270 * sin($a0);
-                    $sx1 = 500 + 270 * sin($a1);
-                    $mx0 = $w / 2 + $vis / 2 * ($a0 / (M_PI / 2));
-                    $mx1 = $w / 2 + $vis / 2 * ($a1 / (M_PI / 2));
-                    $s .= $nest($sx0, $ay, $sx1 - $sx0 + 0.6, $ah, round($mx0, 3) . ' 0 ' . round($mx1 - $mx0, 3) . ' ' . $h);
+                $top = 150.0;
+                $bodyH = $ah + 70;
+                $bot = $top + $bodyH;
+                $ell = 32.0;                        // aplatissement de l'ellipse (vue légèrement plongeante)
+                $l = 500 - $R;
+                $rr = 500 + $R;
+                $vbw = 1000;
+                $vbh = (int) ceil($bot + $ell + 60);
+                $hy = $top + $bodyH * 0.2;
+                $hb = $top + $bodyH * 0.78;
+                $s = '<g filter="url(#mk-shadow)"><path d="M' . ($rr - 10) . ' ' . $hy . ' C' . ($rr + 190) . ' ' . ($hy - 10) . ' ' . ($rr + 190) . ' ' . $hb . ' ' . ($rr - 10) . ' ' . ($hb + 10) . '" fill="none" stroke="' . $color . '" stroke-width="60" stroke-linecap="round"/><path d="M' . ($rr - 10) . ' ' . $hy . ' C' . ($rr + 190) . ' ' . ($hy - 10) . ' ' . ($rr + 190) . ' ' . $hb . ' ' . ($rr - 10) . ' ' . ($hb + 10) . '" fill="none" stroke="' . $stroke . '" stroke-width="2"/>'
+                    . '<path d="M' . $l . ' ' . $top . ' L' . $rr . ' ' . $top . ' L' . $rr . ' ' . $bot . ' A' . $R . ' ' . $ell . ' 0 0 1 ' . $l . ' ' . $bot . ' Z" fill="' . $color . '" stroke="' . $stroke . '" stroke-width="3"/></g>';
+                // Projection exacte sur le cylindre : chaque point des tracés (mm) est placé à son angle
+                // sur le mug ; les lignes longues sont découpées pour suivre la courbure. Rien n'est
+                // étiré, les bords se resserrent, les horizontales suivent l'ellipse.
+                $ay = $top + 35;
+                $lim = M_PI / 2 * 0.985;
+                $proj = function (float $x, float $y) use ($w, $r, $R, $k, $ay, $ell, $lim): array {
+                    $t = max(-$lim, min($lim, ($x - $w / 2) / $r));
+                    return [500 + $R * sin($t), $ay + $y * $k + $ell * cos($t)];
+                };
+                $f = fn (float $v): string => rtrim(rtrim(number_format($v, 2, '.', ''), '0'), '.');
+                $warp = function (array $cmds) use ($proj, $f): string {
+                    $d = '';
+                    $cx = $cy = 0.0;
+                    $sx = $sy = 0.0;
+                    foreach ($cmds as $c) {
+                        switch ($c[0]) {
+                            case 'M':
+                                [$cx, $cy] = [$sx, $sy] = [(float) $c[1], (float) $c[2]];
+                                [$X, $Y] = $proj($cx, $cy);
+                                $d .= 'M' . $f($X) . ' ' . $f($Y);
+                                break;
+                            case 'L':
+                            case 'Z':
+                                [$tx, $ty] = $c[0] === 'Z' ? [$sx, $sy] : [(float) $c[1], (float) $c[2]];
+                                $n = max(1, (int) ceil(abs($tx - $cx) / 2));
+                                for ($i = 1; $i <= $n; $i++) {
+                                    [$X, $Y] = $proj($cx + ($tx - $cx) * $i / $n, $cy + ($ty - $cy) * $i / $n);
+                                    $d .= 'L' . $f($X) . ' ' . $f($Y);
+                                }
+                                [$cx, $cy] = [$tx, $ty];
+                                if ($c[0] === 'Z') {
+                                    $d .= 'Z';
+                                }
+                                break;
+                            case 'C':
+                            case 'Q':
+                                $pts = $c[0] === 'C' ? [[$c[1], $c[2]], [$c[3], $c[4]], [$c[5], $c[6]]] : [[$c[1], $c[2]], [$c[3], $c[4]]];
+                                $last = end($pts);
+                                // Courbe longue : découpée en segments projetés (une courbe courte garde ses points de contrôle).
+                                if (abs((float) $last[0] - $cx) > 4) {
+                                    $n = (int) ceil(abs((float) $last[0] - $cx) / 2);
+                                    for ($i = 1; $i <= $n; $i++) {
+                                        $u = $i / $n;
+                                        $v = 1 - $u;
+                                        [$bx, $by] = $c[0] === 'C'
+                                            ? [$v ** 3 * $cx + 3 * $v * $v * $u * $pts[0][0] + 3 * $v * $u * $u * $pts[1][0] + $u ** 3 * $pts[2][0], $v ** 3 * $cy + 3 * $v * $v * $u * $pts[0][1] + 3 * $v * $u * $u * $pts[1][1] + $u ** 3 * $pts[2][1]]
+                                            : [$v * $v * $cx + 2 * $v * $u * $pts[0][0] + $u * $u * $pts[1][0], $v * $v * $cy + 2 * $v * $u * $pts[0][1] + $u * $u * $pts[1][1]];
+                                        [$X, $Y] = $proj((float) $bx, (float) $by);
+                                        $d .= 'L' . $f($X) . ' ' . $f($Y);
+                                    }
+                                } else {
+                                    $d .= $c[0];
+                                    foreach ($pts as $j => $pt) {
+                                        [$X, $Y] = $proj((float) $pt[0], (float) $pt[1]);
+                                        $d .= ($j ? ' ' : '') . $f($X) . ' ' . $f($Y);
+                                    }
+                                }
+                                [$cx, $cy] = [(float) $last[0], (float) $last[1]];
+                                break;
+                        }
+                    }
+                    return $d;
+                };
+                $g = '';
+                if (!empty($face['bg'])) {
+                    $g .= '<path d="' . $warp([['M', 0, 0], ['L', $w, 0], ['L', $w, $h], ['L', 0, $h], ['Z']]) . '" fill="' . Vector::hex($face['bg']) . '"/>';
                 }
-                $s .= '<rect x="230" y="150" width="540" height="590" fill="url(#mk-light)" style="mix-blend-mode:multiply"/>';
-                $ax = 230;
-                $aw = 540;
+                foreach (Vector::shapes($face['layers'] ?? [], $values) as $sh) {
+                    $g .= '<path d="' . $warp($sh['d']) . '" fill="' . ($sh['fill'] ?: 'none') . '"' . ($sh['rule'] === 'evenodd' ? ' fill-rule="evenodd"' : '')
+                        . ($sh['stroke'] ? ' stroke="' . $sh['stroke'] . '" stroke-width="' . round($sh['sw'] * $k, 2) . '"' : '') . '/>';
+                }
+                $s .= '<clipPath id="mk-mug"><path d="M' . $l . ' ' . ($top - $ell) . ' L' . $rr . ' ' . ($top - $ell) . ' L' . $rr . ' ' . $bot . ' A' . $R . ' ' . $ell . ' 0 0 1 ' . $l . ' ' . $bot . ' Z"/></clipPath><g clip-path="url(#mk-mug)">' . $g . '</g>';
+                $s .= '<path d="M' . $l . ' ' . $top . ' L' . $rr . ' ' . $top . ' L' . $rr . ' ' . $bot . ' A' . $R . ' ' . $ell . ' 0 0 1 ' . $l . ' ' . $bot . ' Z" fill="url(#mk-light)" style="mix-blend-mode:multiply"/>'
+                    . '<ellipse cx="500" cy="' . $top . '" rx="' . $R . '" ry="' . $ell . '" fill="#e9e6df" stroke="' . $stroke . '" stroke-width="3"/>'
+                    . '<ellipse cx="500" cy="' . ($top + 4) . '" rx="' . ($R - 14) . '" ry="' . ($ell - 6) . '" fill="#d9d4c8"/>';
+                $ax = $l;
+                $aw = 2 * $R;
                 break;
 
             case 'tote':
