@@ -95,9 +95,11 @@ final class Notifications
 
     /**
      * Abonnement (ou mise à jour) d'un navigateur. $sub : {endpoint, keys:{p256dh, auth}}.
+     * $waiting : abonné depuis la page d'attente (« Prévenez-moi de l'ouverture »), gardé pour
+     * l'écran Communauté › Notifications (annonce de l'ouverture).
      * @return array{ok:bool,id?:string,error?:string}
      */
-    public static function subscribe(array $sub, array $topics, string $lang): array
+    public static function subscribe(array $sub, array $topics, string $lang, bool $waiting = false): array
     {
         $endpoint = trim((string) ($sub['endpoint'] ?? ''));
         $p256dh = WebPush::unb64((string) ($sub['keys']['p256dh'] ?? ''));
@@ -111,7 +113,7 @@ final class Notifications
         $id = self::idOf($endpoint);
         $topics = self::cleanTopics($topics);
         $full = false;
-        JsonStore::update(self::f('abonnes'), function ($all) use ($id, $endpoint, $p256dh, $auth, $topics, $lang, &$full) {
+        JsonStore::update(self::f('abonnes'), function ($all) use ($id, $endpoint, $p256dh, $auth, $topics, $lang, $waiting, &$full) {
             $all = is_array($all) ? $all : [];
             if (!isset($all[$id]) && count($all) >= self::MAX_SUBS) {
                 $full = true;
@@ -120,6 +122,9 @@ final class Notifications
             $cur = $all[$id] ?? ['at' => date('c', self::now())];
             $all[$id] = ['e' => $endpoint, 'k' => WebPush::b64($p256dh), 'a' => WebPush::b64($auth), 't' => $topics, 'l' => $lang === 'en' ? 'en' : 'fr',
                 'at' => $cur['at'], 'up' => date('c', self::now()), 'ok' => $cur['ok'] ?? null, 'f' => 0];
+            if ($waiting || !empty($cur['w'])) {
+                $all[$id]['w'] = 1;
+            }
             return $all;
         }, []);
         return $full ? ['ok' => false, 'error' => 'complet'] : ['ok' => true, 'id' => $id];
@@ -186,7 +191,7 @@ final class Notifications
     {
         JsonStore::forget(self::f('abonnes'));
         $all = JsonStore::read(self::f('abonnes'), []) ?: [];
-        $out = ['total' => count($all), 'topics' => array_fill_keys(array_keys(self::TOPICS), 0), 'langs' => ['fr' => 0, 'en' => 0], 'new30' => 0];
+        $out = ['total' => count($all), 'topics' => array_fill_keys(array_keys(self::TOPICS), 0), 'langs' => ['fr' => 0, 'en' => 0], 'new30' => 0, 'waiting' => 0];
         $since = self::now() - 30 * 86400;
         foreach ($all as $s) {
             foreach ((array) ($s['t'] ?? []) as $t) {
@@ -196,8 +201,17 @@ final class Notifications
             }
             $out['langs'][$s['l'] ?? 'fr'] = ($out['langs'][$s['l'] ?? 'fr'] ?? 0) + 1;
             $out['new30'] += strtotime((string) ($s['at'] ?? '')) >= $since ? 1 : 0;
+            $out['waiting'] += empty($s['w']) ? 0 : 1;
         }
         return $out;
+    }
+
+    /** Vrai si la notification de cette clé est déjà partie (ex. « ouverture » : annonce de l'ouverture). */
+    public static function sent(string $key): bool
+    {
+        JsonStore::forget(self::f('faits'));
+        $f = JsonStore::read(self::f('faits'), []) ?: [];
+        return isset($f['done'][$key]);
     }
 
     // ------------------------------------------------------------------ file d'envoi

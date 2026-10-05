@@ -28,6 +28,10 @@ final class Push extends Base
             'queue' => Notifications::queue(),
             'history' => Notifications::history(),
             'due' => $ready ? Notifications::due() : [],
+            // Annonce de l'ouverture : proposée tant que le musée est fermé, puis jusqu'à son envoi
+            // si des visiteurs l'attendent (inscrits depuis la page d'attente).
+            'waiting' => !Notifications::sent('ouverture') && (((bool) Settings::get('waiting.enabled', false) && (bool) Settings::get('app.push_waiting', true)) || Notifications::stats()['waiting'] > 0),
+            'closed' => (bool) Settings::get('waiting.enabled', false),
             'old' => $req->query,
         ], ['title' => 'Notifications de l’appli', 'crumb' => 'Communauté', 'nav' => 'notifications', 'scripts' => ['admin/notifications.js']]);
     }
@@ -44,7 +48,9 @@ final class Push extends Base
             $body = trim((string) ($p['body'] ?? ''));
             $link = trim((string) ($p['url'] ?? '')) ?: '/';
             $topic = (string) ($p['topic'] ?? 'nouvelles');
-            $back = '/admin/notifications?' . http_build_query(array_intersect_key($p, array_flip(['title', 'body', 'url', 'topic', 'title_en', 'body_en'])));
+            $back = '/admin/notifications?' . http_build_query(array_intersect_key($p, array_flip(['title', 'body', 'url', 'topic', 'title_en', 'body_en', 'annonce'])));
+            // Annonce de l'ouverture : une seule fois (clé « ouverture »).
+            $key = ($p['annonce'] ?? '') === 'ouverture' ? 'ouverture' : 'manuel:' . bin2hex(random_bytes(6));
             if ($title === '' || mb_strlen($title) > 60 || mb_strlen($body) > 180) {
                 return self::back($back, null, 'Un titre (60 caractères au plus) et un texte de 180 caractères au plus.');
             }
@@ -65,7 +71,7 @@ final class Push extends Base
                 $en = ['en' => ['title' => mb_substr($titleEn, 0, 60), 'body' => mb_substr(trim((string) ($p['body_en'] ?? '')), 0, 180), 'url' => str_starts_with($link, '/en/') ? $link : ($link === '/' ? '/en/' : '/en' . $link)]];
             }
             $u = Auth::user();
-            $r = Notifications::enqueue('manuel:' . bin2hex(random_bytes(6)), $topic, ['fr' => ['title' => $title, 'body' => $body, 'url' => $link]] + $en, ['by' => (string) ($u['name'] ?? '')]);
+            $r = Notifications::enqueue($key, $topic, ['fr' => ['title' => $title, 'body' => $body, 'url' => $link]] + $en, ['by' => (string) ($u['name'] ?? '')]);
             if (!$r['ok']) {
                 return self::back($back, null, $r['error'] ?? 'Envoi impossible.');
             }

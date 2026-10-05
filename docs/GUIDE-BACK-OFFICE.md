@@ -317,7 +317,11 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   ouvertures. Réglages › Application du musée : appli installable, notifications, envois
   automatiques, heure de « Ce jour-là ».
 - **L'appli du musée** (page publique /appli/) : installation sur l'écran d'accueil, lecture
-  hors connexion des pages déjà vues, abonnement aux notifications.
+  hors connexion des pages déjà vues, abonnement aux notifications. Sur téléphone, un bandeau
+  discret invite à l'installer à partir de la 2e page vue (« Plus tard » : 30 jours).
+- **Annonce de l'ouverture** : la page d'attente propose « Prévenez-moi de l'ouverture » ;
+  Communauté › Notifications compte les inscrits et prépare l'annonce (français et anglais).
+  Le jour J : ouvrir le musée d'abord, puis envoyer ; elle ne part qu'une fois.
 - **Dons** : jauge, liste filtrable, export CSV, ajout d'un don reçu hors ligne (chèque,
   virement, espèces ; administrateurs). Les reçus fiscaux existent mais sont désactivés ;
   activés, ils sont émis et consultés par les administrateurs.

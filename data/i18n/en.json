@@ -1813,5 +1813,18 @@
     "Les annonces de l’équipe : nouveautés, événements, appels.": "Announcements from the team: new features, events, appeals.",
     "Le kit souvenirs": "The souvenir kit",
     "Le kit du mois, à imprimer pour les anciens.": "The kit of the month, to print for the old-timers.",
-    "Chaque matin, un match de l’histoire du club à cette date.": "Every morning, a match from the club’s history on this date."
+    "Chaque matin, un match de l’histoire du club à cette date.": "Every morning, a match from the club’s history on this date.",
+    "Sur votre écran d’accueil : plein écran, plus rapide, lisible sans réseau.": "On your home screen: full screen, faster, readable offline.",
+    "Touchez {icon} puis « Sur l’écran d’accueil ».": "Tap {icon} then “Add to Home Screen”.",
+    "Installer": "Install",
+    "Plus tard": "Later",
+    "C’est noté : vous serez prévenu de l’ouverture sur cet appareil.": "Done: you will be notified on this device when the museum opens.",
+    "Votre navigateur attend votre accord : touchez à nouveau le bouton et choisissez « Autoriser ».": "Your browser is waiting for your permission: tap the button again and choose “Allow”.",
+    "Les notifications sont bloquées pour ce site dans votre navigateur : autorisez-les dans ses réglages pour être prévenu.": "Notifications are blocked for this site in your browser: allow them in its settings to be notified.",
+    "L’inscription n’a pas abouti. Réessayez dans un instant.": "The sign-up did not go through. Please try again in a moment.",
+    "C’est fait : vous ne serez pas prévenu.": "Done: you will not be notified.",
+    "Soyez prévenu le jour de l’ouverture : une notification sur votre téléphone ou votre ordinateur, sans donner ni nom ni e-mail.": "Be told on opening day: a notification on your phone or computer, without giving a name or an e-mail address.",
+    "Prévenez-moi de l’ouverture": "Notify me when it opens",
+    "Sur iPhone : touchez {icon} puis « Sur l’écran d’accueil », ouvrez Sochaux Rétro depuis l’écran d’accueil et touchez « Prévenez-moi de l’ouverture ».": "On iPhone: tap {icon} then “Add to Home Screen”, open Sochaux Rétro from your home screen and tap “Notify me when it opens”.",
+    "Ne plus être prévenu": "Stop notifications"
 }

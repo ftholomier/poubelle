@@ -376,6 +376,49 @@
   });
   if (SR.app.standalone) document.documentElement.classList.add('is-app');
 
+  // Bandeau « Installer l'appli » : sur téléphone, à partir de la 2e page vue, quand le navigateur
+  // sait installer (Android) ou sur iPhone (les deux gestes). « Plus tard » : pas avant 30 jours.
+  // Jamais dans l'appli installée, ni par-dessus le bandeau des cookies.
+  const bar = $('[data-appbar]');
+  if (bar && !SR.app.standalone) {
+    const keep = (store, k, v) => { try { if (v === undefined) return window[store].getItem(k); window[store].setItem(k, v); } catch (e) { /* stockage refusé */ } return null; };
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const phone = matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 820;
+    const views = Math.min(99, (parseInt(keep('sessionStorage', 'sr-vues') || '0', 10) || 0) + 1);
+    keep('sessionStorage', 'sr-vues', String(views));
+    const later = parseInt(keep('localStorage', 'sr-appli-plus-tard') || '0', 10) || 0;
+    const allowed = phone && views >= 2 && Date.now() - later > 30 * 864e5;
+    let ready = false;
+    const show = () => {
+      const mode = SR.app.installable ? 'prompt' : (ios ? 'ios' : '');
+      if (!allowed || !ready || !mode || SR.app.standalone || bar.dataset.done) { bar.hidden = true; return; }
+      if (ck && ck.classList.contains('is-open')) return;
+      $$('[data-appbar-for]', bar).forEach(el => { el.hidden = el.dataset.appbarFor !== mode; });
+      bar.hidden = false;
+    };
+    const close = (remember) => {
+      if (remember) keep('localStorage', 'sr-appli-plus-tard', String(Date.now()));
+      bar.dataset.done = '1';
+      bar.hidden = true;
+    };
+    $('[data-appbar-later]', bar).addEventListener('click', () => close(true));
+    $('[data-appbar-install]', bar).addEventListener('click', async () => {
+      const p = SR.app.prompt;
+      if (!p) return;
+      p.prompt();
+      let outcome = '';
+      try { outcome = (await p.userChoice).outcome; } catch (e) { /* fenêtre fermée */ }
+      SR.app.prompt = null;
+      SR.app.installable = false;
+      close(outcome !== 'accepted');
+      document.dispatchEvent(new CustomEvent('sr:app'));
+    });
+    document.addEventListener('sr:app', show);
+    if (ck) new MutationObserver(show).observe(ck, { attributes: true, attributeFilter: ['class'] });
+    // Pas dès l'arrivée sur la page : le visiteur la découvre d'abord.
+    if (allowed) setTimeout(() => { ready = true; show(); }, 2500);
+  }
+
   // Boutique : pastille du nombre d'articles du panier (cookie « sr_cart » posé par la boutique).
   const cartN = parseInt((document.cookie.match(/(?:^|;\s*)sr_cart=(\d+)/) || [])[1] || '0', 10);
   if (cartN > 0) {

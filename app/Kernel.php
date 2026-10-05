@@ -161,10 +161,11 @@ final class Kernel
             $req = new Request($req->method, $path, $req->query, $req->post, $req->files, $req->server, $req->body);
         }
 
-        // Webhooks des paiements (Stripe, PayPal) et consentement aux cookies : jamais bloqués
-        // par la page d'attente ni par le mot de passe d'accès.
+        // Webhooks des paiements (Stripe, PayPal), consentement aux cookies et notifications de
+        // l'appli (« Prévenez-moi de l'ouverture » de la page d'attente) : jamais bloqués par la
+        // page d'attente ni par le mot de passe d'accès.
         $api = str_starts_with($path, '/api/');
-        if ($api && (preg_match('#^/api/dons/(stripe|paypal)/webhook$#', $path) || $path === '/api/consentement')) {
+        if ($api && (preg_match('#^/api/dons/(stripe|paypal)/webhook$#', $path) || $path === '/api/consentement' || str_starts_with($path, '/api/push/'))) {
             return Front\Api::handle($req);
         }
 

@@ -50,6 +50,7 @@ HTML],
 <li><b>Connecté au back-office, vous voyez le vrai site</b>, avec un bandeau jaune « Site fermé au public » en haut de chaque page ; déconnecté, la page d’attente. Pour vous connecter : <code>/admin</code>.</li>
 <li><b>Aperçu de la page</b> montre ce que voient les visiteurs ; les pages légales restent accessibles.</li>
 <li><b>Afficher le teaser vidéo</b> : décoché par défaut, la vidéo reste secrète (introuvable par le public). <b>Aperçu avec le teaser</b> la montre à l’équipe sans l’activer.</li>
+<li><b>« Prévenez-moi de l’ouverture »</b> : les visiteurs reçoivent une notification le jour J (Android et ordinateur directement ; sur iPhone, après avoir ajouté la page à l’écran d’accueil). L’annonce se prépare dans Communauté › Notifications. Réglages › Application du musée pour retirer le bouton.</li>
 </ul>
 <p>Cette page ne concerne que le musée. Le site de l’association (www.fcsochauxretro.com) a sa propre page d’attente, différente, réglée par les administrateurs.</p>
 HTML],

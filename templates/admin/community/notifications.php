@@ -1,5 +1,5 @@
 <?php
-/** Notifications de l'appli. Variables : $ready, $enabled, $stats, $queue, $history, $due, $old */
+/** Notifications de l'appli. Variables : $ready, $enabled, $stats, $queue, $history, $due, $waiting, $closed, $old */
 use App\Admin\Base;
 use App\Services\Notifications;
 
@@ -23,6 +23,23 @@ $topicName = fn (string $k) => Notifications::TOPICS[$k][0] ?? ($k === 'essai' ?
 
 <div class="cols cols--wide">
   <div class="stack">
+    <?php if ($waiting && $enabled):
+        $announce = '/admin/notifications?' . http_build_query([
+            'title' => 'Le musée est ouvert !',
+            'body' => 'Sochaux Rétro ouvre ses portes : 100 ans de FCSM, matchs, joueurs, Rétro-Direct et les 100 moments du centenaire. Bonne visite !',
+            'url' => '/', 'topic' => 'nouvelles', 'annonce' => 'ouverture',
+            'title_en' => 'The museum is open!',
+            'body_en' => 'Sochaux Rétro opens its doors: 100 years of FCSM, matches, players, Rétro-Direct and the 100 moments of the centenary. Enjoy your visit!',
+        ]); ?>
+      <div class="card" style="border-color:var(--yellow)">
+        <div class="card__head"><h2 class="card__t">Annonce de l’ouverture</h2></div>
+        <div class="card__body small stack">
+          <p style="margin:0"><?= $closed ? 'Le musée est encore fermé au public : sa page d’attente propose « Prévenez-moi de l’ouverture ».' : 'Le musée est ouvert : il reste à prévenir les visiteurs inscrits depuis la page d’attente.' ?> <b><?= $fmt($stats['waiting']) ?> appareil(s)</b> attendent l’annonce (<?= $fmt($stats['topics']['nouvelles'] ?? 0) ?> abonné(s) aux nouvelles du musée la recevront).</p>
+          <p style="margin:0"><?= $closed ? 'Le jour J : ouvrez d’abord le musée (Réglages › Page d’attente, décocher), puis préparez l’annonce, relisez-la et envoyez-la. Envoyée avant l’ouverture, elle mènerait à la page d’attente.' : 'Préparez l’annonce, relisez-la et envoyez-la : elle ne part qu’une fois.' ?></p>
+        </div>
+        <div class="card__foot"><a class="btn btn--sm" href="<?= e($announce) ?>">Préparer l’annonce de l’ouverture</a></div>
+      </div>
+    <?php endif; ?>
     <form class="card" method="post" action="/admin/notifications" data-notif-form
           data-confirm="Envoyer la notification ?|Elle part tout de suite sur les téléphones des abonnés au sujet choisi. Impossible de la rattraper.|Envoyer">
       <?= csrf_field() ?>
@@ -38,6 +55,7 @@ $topicName = fn (string $k) => Notifications::TOPICS[$k][0] ?? ($k === 'essai' ?
             <?php endforeach; ?>
           </select>
         </label>
+        <?php if ($o('annonce') === 'ouverture'): ?><input type="hidden" name="annonce" value="ouverture"><?php endif; ?>
         <details<?= $o('title_en') !== '' ? ' open' : '' ?>>
           <summary class="small">Version anglaise (facultative : sinon, les abonnés anglophones reçoivent le français)</summary>
           <div class="stack" style="margin-top:10px">

@@ -2,7 +2,8 @@
 /**
  * Page d'attente (réglages > Page d'attente) : logo, texte WYSIWYG, compte à rebours optionnel.
  * Page autonome. Variables : $logo, $title, $text, $countdown, $countdownDate, $countdownLabel, $social,
- * $teaser (vidéo affichée). Aucun lien vers le back-office : l'équipe s'y rend par /admin.
+ * $teaser (vidéo affichée), $app (appli installable), $push (bouton « Prévenez-moi de l'ouverture »).
+ * Aucun lien vers le back-office : l'équipe s'y rend par /admin.
  */
 
 use App\Core\Settings;
@@ -15,7 +16,7 @@ $links = array_filter([
 ]);
 $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
 ?><!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-app="<?= !empty($app) ? '1' : '0' ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,6 +27,13 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
 <meta property="og:image" content="<?= e(base_url()) ?>/assets/img/partage-defaut.png">
 <meta name="theme-color" content="#0E1F4D">
 <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<?php if (!empty($app)): ?>
+<link rel="apple-touch-icon" href="/assets/img/app/180.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sochaux Rétro">
+<?php endif; ?>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
 </head>
@@ -50,6 +58,24 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
         <?= countdown_html($countdownDate) ?>
       </div>
     <?php endif; ?>
+    <?php if (!empty($push)):
+        $share = '<svg class="appbar__share" viewBox="0 0 24 24" width="18" height="18" aria-label="' . e(t('Partager')) . '" role="img"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10H6a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+        $msgs = [
+            'busy' => t('Un instant…'),
+            'on' => t('C’est noté : vous serez prévenu de l’ouverture sur cet appareil.'),
+            'later' => t('Votre navigateur attend votre accord : touchez à nouveau le bouton et choisissez « Autoriser ».'),
+            'denied' => t('Les notifications sont bloquées pour ce site dans votre navigateur : autorisez-les dans ses réglages pour être prévenu.'),
+            'error' => t('L’inscription n’a pas abouti. Réessayez dans un instant.'),
+            'bye' => t('C’est fait : vous ne serez pas prévenu.'),
+        ]; ?>
+      <div class="waiting__push" data-wait-push data-msgs="<?= e(json_encode($msgs, JSON_UNESCAPED_UNICODE)) ?>" hidden>
+        <p><?= e(t('Soyez prévenu le jour de l’ouverture : une notification sur votre téléphone ou votre ordinateur, sans donner ni nom ni e-mail.')) ?></p>
+        <button type="button" class="btn btn--yellow" data-wait-on><?= e(t('Prévenez-moi de l’ouverture')) ?></button>
+        <p data-wait-ios hidden><?= str_replace('{icon}', $share, e(t('Sur iPhone : touchez {icon} puis « Sur l’écran d’accueil », ouvrez Sochaux Rétro depuis l’écran d’accueil et touchez « Prévenez-moi de l’ouverture ».'))) ?></p>
+        <p data-wait-state role="status" hidden></p>
+        <button type="button" class="waiting__off" data-wait-off hidden><?= e(t('Ne plus être prévenu')) ?></button>
+      </div>
+    <?php endif; ?>
     <?php if ($social && $links): ?>
       <div class="social social--waiting">
         <?php foreach ($links as $label => $href): ?><a href="<?= e($href) ?>" rel="noopener" target="_blank"><?= e($label) ?></a><?php endforeach; ?>
@@ -58,5 +84,6 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
   </div>
 </main>
 <script src="<?= asset('js/site.js') ?>" defer></script>
+<?php if (!empty($push)): ?><script src="<?= asset('js/attente.js') ?>" defer></script><?php endif; ?>
 </body>
 </html>

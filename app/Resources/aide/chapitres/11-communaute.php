@@ -32,6 +32,7 @@ HTML],
 <li><b>Plus rapide</b> : styles, polices et photos déjà vus restent sur le téléphone.</li>
 <li><b>Hors connexion</b> : les pages déjà consultées restent lisibles sans réseau ; une page jamais vue affiche « Pas de réseau pour le moment » avec la liste des pages lisibles.</li>
 <li>Jamais gardés sur le téléphone : le back-office, la boutique, les dons, les formulaires.</li>
+<li><b>Le bandeau « Installer l’appli »</b> : sur téléphone, à partir de la deuxième page vue, un bandeau discret en bas de l’écran invite à installer (bouton « Installer » sur Android ; sur iPhone, les deux gestes à faire). « Plus tard » le fait disparaître pendant 30 jours. Jamais dans l’appli déjà installée, ni sur ordinateur, ni dans la boutique, les dons et les formulaires. Réglages › Application du musée pour le retirer.</li>
 </ul>
 [[img:appli.webp|La page « L’appli du musée » : la marche à suivre selon l’appareil]]
 [[astuce|<p>En cas de souci, Réglages › <b>Application du musée</b> : décocher « Application installable » retire l’appli des téléphones à leur prochaine visite (copies effacées). Le site de l’association n’est pas une application.</p>]]
@@ -54,6 +55,7 @@ HTML, 'admin' => true],
 <li>Choisissez le sujet : « Les nouvelles du musée » pour une annonce ; seuls les abonnés à ce sujet la reçoivent.</li>
 <li>« Envoyer » : elle part tout de suite (par lots de 400, la suite au passage suivant de la tâche planifiée pour les très grandes listes).</li>
 </ol>
+<p><b>L’annonce de l’ouverture</b> : tant que le musée est fermé, sa page d’attente propose <b>« Prévenez-moi de l’ouverture »</b> (abonnement aux nouvelles du musée, sans nom ni e-mail). Communauté › Notifications compte les appareils qui attendent et propose <b>« Préparer l’annonce de l’ouverture »</b> : le message est prêt, en français et en anglais. Le jour J, ouvrez d’abord le musée (décochez la page d’attente), puis relisez et envoyez : l’annonce ne part qu’une fois.</p>
 [[attention|<p>Une notification envoyée ne peut pas être rattrapée. Avant une annonce importante, abonnez votre propre téléphone et faites un essai. Restez rare : au-delà d’une ou deux par semaine, les abonnés se désabonnent.</p>]]
 [[auto|<p>Les messages sont chiffrés pour le seul navigateur abonné (norme Web Push) : Google, Apple, Mozilla ou Microsoft les acheminent sans pouvoir les lire. Le musée ne garde ni nom, ni e-mail, ni adresse IP : seulement l’adresse technique fournie par le navigateur, les sujets et la langue. Un abonnement disparu (appli supprimée) est effacé au premier envoi.</p>]]
 HTML],

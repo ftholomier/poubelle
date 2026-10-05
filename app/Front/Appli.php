@@ -63,7 +63,7 @@ final class Appli
                 if (!RateLimiter::hit('push-abonner', $req->ip(), 20, 3600)) {
                     return Response::json(['error' => t('Trop de demandes, réessayez plus tard.')], 429);
                 }
-                $r = Notifications::subscribe((array) ($in['sub'] ?? []), (array) ($in['topics'] ?? Notifications::defaults()), $lang);
+                $r = Notifications::subscribe((array) ($in['sub'] ?? []), (array) ($in['topics'] ?? Notifications::defaults()), $lang, ($in['src'] ?? '') === 'attente');
                 return $r['ok'] ? Response::json(['ok' => true]) : Response::json(['error' => t('Cet abonnement n’a pas pu être enregistré.')], 422);
             case 'sujets':
                 return Notifications::setTopics($endpoint, (array) ($in['topics'] ?? [])) ? Response::json(['ok' => true]) : Response::json(['error' => t('Abonnement introuvable.')], 404);

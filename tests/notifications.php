@@ -160,6 +160,23 @@ Notifications::renew($sub('ok', $b1, 'a')['endpoint'], $sub('ok', $b5, 'e'), 'fr
 $eq('renouvellement : sujets gardés, ancienne adresse effacée', [Notifications::find($sub('ok', $b5, 'e')['endpoint'])['t'] ?? null, Notifications::find($sub('ok', $b1, 'a')['endpoint'])], [['retro', 'nouvelles', 'jour'], null]);
 $eq('désabonnement', [Notifications::unsubscribe($sub('ok', $b2, 'b')['endpoint']), Notifications::find($sub('ok', $b2, 'b')['endpoint'])], [true, null]);
 
+// 7 bis. Page d'attente : « Prévenez-moi de l'ouverture », annonce de l'ouverture une seule fois.
+$b6 = $browser();
+Notifications::subscribe($sub('ok', $b6, 'f'), ['nouvelles'], 'fr', true);
+Notifications::subscribe($sub('ok', $b6, 'f'), ['nouvelles'], 'fr');
+$eq('inscrit depuis la page d’attente : compté, et le reste après une mise à jour', Notifications::stats()['waiting'], 1);
+$eq('annonce de l’ouverture : pas encore partie', Notifications::sent('ouverture'), false);
+$r = Notifications::enqueue('ouverture', 'nouvelles', ['fr' => ['title' => 'Le musée est ouvert !', 'url' => '/']]);
+$eq('annonce de l’ouverture : partie, puis refusée une seconde fois', [$r['ok'], Notifications::sent('ouverture'), Notifications::enqueue('ouverture', 'nouvelles', ['fr' => ['title' => 'Le musée est ouvert !']])['error'] ?? null], [true, true, 'Déjà envoyée.']);
+Notifications::process(10);
+$received();
+if (\App\Core\Settings::get('waiting.enabled', false)) {
+    $api = fn (string $p) => \App\Kernel::handle(new \App\Core\Request('GET', $p, [], [], [], ['REMOTE_ADDR' => '127.0.0.1', 'HTTP_HOST' => 'musee.fcsochauxretro.com'], ''));
+    $eq('musée fermé : la clé des notifications reste servie, le reste de l’API non', [$api('/api/push/cle')->status, $api('/api/recherche')->status], [200, 503]);
+} else {
+    echo "--   musée ouvert dans ces réglages : passage de la page d’attente non vérifié\n";
+}
+
 // 8. Envois automatiques.
 $match = null;
 foreach (\App\Data\Index::published('match') as $s) {

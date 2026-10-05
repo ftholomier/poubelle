@@ -428,6 +428,8 @@ final class Pages
             'countdownLabel' => (string) Settings::get('waiting.countdown_label', ''),
             'social' => (bool) Settings::get('waiting.show_social', true),
             'teaser' => ($teaser || Settings::get('waiting.teaser', false)) && is_file(self::TEASER . '.mp4'),
+            'app' => (bool) Settings::get('app.enabled', true),
+            'push' => Settings::get('app.push_waiting', true) && \App\Services\Notifications::enabled(),
         ]);
         return new Response($html, 503, ['Content-Type' => 'text/html; charset=UTF-8', 'Retry-After' => '3600', 'Cache-Control' => 'no-store', 'X-Robots-Tag' => 'noindex, nofollow']);
     }

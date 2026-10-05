@@ -573,4 +573,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Musée installable (PWA) : manifeste, icônes au blason, raccourcis, service worker, lecture hors connexion, page « Hors connexion » avec les pages lisibles, page « L'appli du musée » ; interrupteur dans les réglages ; site de l'association non concerné
 - [x] Notifications Web Push sans bibliothèque : clés VAPID, chiffrement RFC 8291, abonnements par sujet (Rétro-Direct, 100 moments, nouvelles, kit, Ce jour-là), envois automatiques, envoi de l'équipe (Communauté › Notifications), historique et ouvertures, confidentialité mise à jour
 - [x] Correction : les pages jamais gardées (back-office, boutique…) ne sont demandées qu'une fois au serveur malgré le préchargement des pages
+- [x] Bandeau « Installer l'appli » sur téléphone (2e page vue, Android : bouton ; iPhone : les deux gestes ; « Plus tard » = 30 jours ; jamais dans l'appli ni par-dessus les cookies)
+- [x] Page d'attente : « Prévenez-moi de l'ouverture » (abonnement aux nouvelles, appli installable aussi sur iPhone) ; annonce de l'ouverture prête dans Communauté › Notifications, envoyée une seule fois
+- [x] Mesure : le service worker ne ralentit pas le back-office (pages chargées en 97 ms sans, 90 ms avec, en local)
 - [ ] À faire après la mise en ligne en HTTPS : installer l'appli sur un Android et un iPhone, s'abonner, envoyer un essai (le vrai service de Google ou d'Apple ne peut pas être joint depuis l'environnement de développement)

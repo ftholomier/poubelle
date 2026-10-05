@@ -1012,6 +1012,19 @@ service worker lui-même se retire dès qu'il voit une page ainsi marquée.
 - **Page `/appli/`** (`Front\Appli::page`, `templates/appli.php`, `js/appli.js`) : bouton
   d'installation (`beforeinstallprompt`, gardé par `site.js` dans `SR.app`), marche à suivre
   iPhone, avantages, notifications. Lien en pied de page.
+- **Bandeau « Installer l'appli »** (`partials/app-banner.php`, `site.js`, réglage `app.banner`) :
+  téléphone seulement (pointeur tactile, petit écran), à partir de la 2e page vue de la session
+  (`sessionStorage`), 2,5 s après l'arrivée, jamais par-dessus le bandeau des cookies ni dans
+  l'appli installée ; bouton « Installer » (`beforeinstallprompt`) ou, sur iPhone, les gestes
+  Partager › Sur l'écran d'accueil ; « Plus tard » ou installation refusée → 30 jours
+  (`localStorage` `sr-appli-plus-tard`). Absent de `/appli/`, de la boutique, des dons et des
+  formulaires.
+- **Page d'attente** (`templates/waiting.php`, `js/attente.js`) : manifeste et service worker
+  (installable : nécessaire aux notifications sur iPhone ; la page, en 503 `no-store`, n'est
+  jamais gardée) et bouton « Prévenez-moi de l'ouverture » (réglage `app.push_waiting`) :
+  abonnement au sujet `nouvelles`, marqué `w` (« page d'attente »). Communauté › Notifications
+  propose alors l'annonce de l'ouverture, prête en deux langues, envoyée sous la clé `ouverture`
+  (une seule fois) ; la carte reste tant qu'elle n'est pas partie et que des inscrits l'attendent.
 
 **Notifications Web Push**, sans bibliothèque (OpenSSL et cURL de PHP) :
 
@@ -1036,7 +1049,8 @@ service worker lui-même se retire dès qu'il voit une page ainsi marquée.
 - API publique `/api/push/…` (JSON, `Front\Appli::api`) : `cle`, `etat`, `abonner`, `sujets`,
   `desabonner`, `renouveler` (service worker, `pushsubscriptionchange`), `essai` (3 par heure
   et par abonné), `ouverture` (clic compté). L'adresse d'abonnement, impossible à deviner, sert
-  de preuve. Fermée tant que le site est en page d'attente (comme toute l'API publique).
+  de preuve. Ouverte même quand le site est en page d'attente ou derrière le mot de passe
+  d'accès (`Kernel`, comme les webhooks des dons) : la page d'attente s'en sert.
 - Service worker : `push` → `showNotification` (icône, badge monochrome, image, `tag` par
   sujet) ; `notificationclick` → page du musée seulement (focus d'une fenêtre ouverte, sinon
   nouvelle fenêtre) et ouverture comptée ; `pushsubscriptionchange` → réabonnement.
