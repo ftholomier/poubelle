@@ -109,7 +109,12 @@ final class Vector
         if (($l['mode'] ?? 'fixed') === 'client') {
             $f = (string) ($l['field'] ?? '');
             $v = trim((string) ($values[$f] ?? ''));
-            $t = $v !== '' ? mb_substr($v, 0, max(1, (int) ($l['max'] ?? 40))) : $t;
+            if (($l['list'] ?? '') !== '') {
+                // Choix dans une liste de la banque de textes : seules les phrases validées passent.
+                $t = $v !== '' && in_array($v, Texts::choices((string) $l['list']), true) ? $v : $t;
+            } else {
+                $t = $v !== '' ? mb_substr($v, 0, max(1, (int) ($l['max'] ?? 40))) : $t;
+            }
         }
         return !empty($l['upper']) ? mb_strtoupper($t) : $t;
     }

@@ -1,0 +1,376 @@
+[
+    {
+        "id": "slogans",
+        "name": "Slogans",
+        "note": "Phrases courtes pour le devant des t-shirts, les mugs, les tote bags. À vérifier sur la base des marques de l’INPI avant impression.",
+        "items": [
+            {
+                "id": "cc77ebfd",
+                "text": "Jaune et bleu depuis 1928.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "f72165c7",
+                "text": "Né pour rugir.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "d496bc3a",
+                "text": "Ici, on parle lion couramment.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "768f8760",
+                "text": "Le jaune n’est pas une couleur, c’est une humeur.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "16bdfdd8",
+                "text": "Un jour Lionceau, toujours Lionceau.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "11808a84",
+                "text": "Mon cœur bat à Bonal.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "7ed0b86f",
+                "text": "Pas besoin de crinière pour être un lion.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "3fbe8d13",
+                "text": "Petite ville, grande histoire.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "e0111fb1",
+                "text": "Jaune dehors, bleu dedans.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "9fd2ff93",
+                "text": "Fabriqué dans le Pays de Montbéliard.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "6710f292",
+                "text": "Bonal, ma deuxième maison.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "3e35254e",
+                "text": "Il fait toujours beau à Bonal.",
+                "note": "Sous-titre manuscrit : « (même quand il pleut) »",
+                "ok": true
+            },
+            {
+                "id": "2eb4fee4",
+                "text": "20 000 places, une seule voix.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "e6c6396e",
+                "text": "De la Forge à Bonal.",
+                "note": "Le stade de la Forge est devenu le stade Auguste-Bonal.",
+                "ok": true
+            },
+            {
+                "id": "0bf817f3",
+                "text": "On a appris à jouer avant les autres.",
+                "note": "Clin d’œil à la formation sochalienne.",
+                "ok": true
+            },
+            {
+                "id": "a00e1830",
+                "text": "Usine à talents depuis toujours.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "0f1aa1f5",
+                "text": "Je ne suis pas têtu, je supporte Sochaux.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "96dd97af",
+                "text": "Mon médecin m’a dit d’éviter le stress. J’ai pris un abonnement.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "b30365e7",
+                "text": "Attention : peut parler de Sochaux pendant des heures.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "8b3bee98",
+                "text": "Café, croissant, Lionceaux.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "034c0097",
+                "text": "Le samedi soir, je rugis.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "ceec98a9",
+                "text": "Supporter à plein temps, philosophe à la mi-temps.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "3afa159c",
+                "text": "Mes souvenirs sont en jaune et bleu.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "fddf4ca9",
+                "text": "Dans mes veines ? Du jaune et du bleu.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "62f3237a",
+                "text": "1928-2028 : cent ans de rugissements.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "1ba335a6",
+                "text": "Cent ans, et toujours les crocs.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "bdf0db5c",
+                "text": "J’y étais pour le centenaire.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "5341bd9c",
+                "text": "Le siècle du Lion.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "4cb0c5a6",
+                "text": "Cent ans de Lionceaux.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "1eac6ff0",
+                "text": "Encore cent ans ? Allez !",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "058b6d40",
+                "text": "La mémoire a du mordant.",
+                "note": "Signature possible du musée.",
+                "ok": true
+            },
+            {
+                "id": "abdc00bc",
+                "text": "Archiviste du dimanche.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "97314251",
+                "text": "Je collectionne les souvenirs, pas les défaites.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "4c1c97ae",
+                "text": "Rétro un jour, rétro toujours.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "b82db1ec",
+                "text": "Ce maillot a une histoire. Demande-moi.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "d9cf0762",
+                "text": "Les légendes ne vieillissent pas, elles jaunissent.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "6e346e18",
+                "text": "Il y a toujours un match qui raconte ta vie.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "e33205e4",
+                "text": "Le passé a du talent.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "8b09eecf",
+                "text": "Plus vieux que le Tour de France ? Non. Plus fidèle ? Oui.",
+                "note": "À retirer si l’humour ne passe pas.",
+                "ok": true
+            },
+            {
+                "id": "a93c12b0",
+                "text": "Rugir d’abord, réfléchir ensuite.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "8fa42f0f",
+                "text": "Les tribunes, c’est ma famille d’été comme d’hiver.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "5bdedadb",
+                "text": "Le lion dort, la tribune veille.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "65926aac",
+                "text": "Fidèle au poste depuis le premier coup d’envoi.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "928e9bb4",
+                "text": "Ma passion a un code couleur.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "aa1bebb7",
+                "text": "Ici, même les souvenirs portent le maillot.",
+                "note": "",
+                "ok": true
+            },
+            {
+                "id": "c9e1caa3",
+                "text": "Une tribune, des générations.",
+                "note": "",
+                "ok": true
+            }
+        ]
+    },
+    {
+        "id": "anecdotes",
+        "name": "Anecdotes « Le saviez-vous ? »",
+        "note": "Faits historiques en une phrase, pour le dos des t-shirts, les cartes et les posters. Un historien valide chaque phrase (source indiquée).",
+        "items": [
+            {
+                "id": "2882db56",
+                "text": "Le club naît à Sochaux, à l’initiative de Jean-Pierre Peugeot.",
+                "note": "1928 · Histoire du club ; fiche « Jean-Pierre Peugeot » du musée.",
+                "ok": false
+            },
+            {
+                "id": "a5f52ee7",
+                "text": "Deux titres de champion de France avant la guerre.",
+                "note": "1935 · 1938 · Palmarès du club.",
+                "ok": false
+            },
+            {
+                "id": "6b4fec5b",
+                "text": "Première Coupe de France, soixante-dix ans avant la deuxième.",
+                "note": "1937 · Palmarès du club.",
+                "ok": false
+            },
+            {
+                "id": "f249ced4",
+                "text": "Le stade de la Forge, futur stade Auguste-Bonal, accueille le club jusqu’en 2000.",
+                "note": "1931 · Article du musée « Le stade de la Forge devenu stade Auguste Bonal – 1931 – 2000 ».",
+                "ok": false
+            },
+            {
+                "id": "d127ca44",
+                "text": "Le stade porte le nom d’Auguste Bonal, résistant, mort en héros pendant la Seconde Guerre mondiale.",
+                "note": "Bonal · Série de fiches du musée « Qui était Auguste Bonal ? ».",
+                "ok": false
+            },
+            {
+                "id": "bb38f81c",
+                "text": "Sochaux atteint les demi-finales de la Coupe UEFA.",
+                "note": "1981 · Palmarès européen du club.",
+                "ok": false
+            },
+            {
+                "id": "45a50631",
+                "text": "Encore en D2, Sochaux joue la finale de la Coupe de France au Parc des Princes devant 44 531 spectateurs et ne la perd qu’aux tirs au but contre Metz.",
+                "note": "1988 · Fiche match du musée, 11/06/1988 : 1-1 après prolongation, 4-5 aux tirs au but.",
+                "ok": false
+            },
+            {
+                "id": "5cb32393",
+                "text": "À Portsmouth, Sochaux remporte le tournoi du centenaire du club anglais en battant le Genoa 2-1.",
+                "note": "1998 · Fiche match du musée, 03/08/1998.",
+                "ok": false
+            },
+            {
+                "id": "62eba74d",
+                "text": "Le nouveau Bonal est inauguré le 22 juillet par un Trophée des champions Monaco – Nantes.",
+                "note": "2000 · Fiche match du musée, 22/07/2000.",
+                "ok": false
+            },
+            {
+                "id": "b64c321e",
+                "text": "La Coupe de la Ligue rejoint la vitrine sochalienne.",
+                "note": "2004 · Palmarès du club.",
+                "ok": false
+            },
+            {
+                "id": "11b552fa",
+                "text": "Deuxième Coupe de France, gagnée aux tirs au but contre Marseille.",
+                "note": "2007 · Palmarès du club.",
+                "ok": false
+            },
+            {
+                "id": "9a18e631",
+                "text": "Le Sochalion, la mascotte, met l’ambiance à Bonal.",
+                "note": "Sochalion · Article du musée « Le Sochalion égaye Bonal ! ».",
+                "ok": false
+            },
+            {
+                "id": "1651d1eb",
+                "text": "7 800 maillots Sociochaux commandés en une semaine : le pays de Montbéliard ne fait rien à moitié.",
+                "note": "2023 · macommune.info, octobre 2023.",
+                "ok": false
+            },
+            {
+                "id": "b7816a53",
+                "text": "Cent ans de football jaune et bleu.",
+                "note": "2028 · À décliner tout au long de la saison du centenaire.",
+                "ok": false
+            }
+        ]
+    }
+]

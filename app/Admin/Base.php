@@ -56,6 +56,7 @@ class Base
         'Boutique' => [
             ['boutique', 'Tableau de bord', '/admin/boutique', true],
             ['boutique-modeles', 'Modèles', '/admin/boutique/modeles', true],
+            ['boutique-textes', 'Banque de textes', '/admin/boutique/textes', true],
             ['boutique-supports', 'Supports', '/admin/boutique/supports', true],
         ],
         'Site de l’association' => [

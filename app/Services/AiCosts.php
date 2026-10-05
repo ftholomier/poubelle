@@ -30,6 +30,7 @@ final class AiCosts
         'audio' => 'Fiches audio',
         'recherche' => 'Recherche sur le web (fiches)',
         'moments' => '100 moments (idées et premiers jets)',
+        'boutique' => 'Boutique (banque de textes)',
         'autre' => 'Autre',
     ];
 

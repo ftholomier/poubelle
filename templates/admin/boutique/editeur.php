@@ -3,9 +3,9 @@
  * Boutique › Modèle : éditeur. À gauche, l'aperçu sur le produit et le fichier d'impression (on y
  * déplace les calques à la souris) ; à droite, les calques et leurs réglages. Le dessin est rendu
  * par le serveur (mêmes tracés que le PDF de l'imprimeur). Script : admin/boutique.js.
- * Variables : $model, $support, $fonts, $palette
+ * Variables : $model, $support, $fonts, $palette, $lists (banque de textes)
  */
-$data = ['model' => $model, 'support' => $support, 'fonts' => array_map(fn ($f) => $f[1], $fonts), 'palette' => $palette];
+$data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'fonts' => array_map(fn ($f) => $f[1], $fonts), 'palette' => $palette];
 ?>
 <link rel="stylesheet" href="<?= asset('admin/boutique.css') ?>">
 <script type="application/json" id="shop-data"><?= json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?></script>

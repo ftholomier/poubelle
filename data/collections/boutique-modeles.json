@@ -583,5 +583,55 @@
                 ]
             }
         }
+    },
+    {
+        "id": "696a79386d",
+        "name": "T-shirt « Slogan au choix »",
+        "support": "tshirt",
+        "color": "#0E1F4D",
+        "active": false,
+        "updated": "2026-10-05T12:17:18+02:00",
+        "by": "",
+        "faces": {
+            "avant": {
+                "bg": "",
+                "layers": [
+                    {
+                        "id": "logo",
+                        "type": "logo",
+                        "x": 100,
+                        "y": 30,
+                        "w": 80,
+                        "style": "mono",
+                        "color": "#F6C400"
+                    },
+                    {
+                        "id": "slogan",
+                        "type": "text",
+                        "x": 20,
+                        "y": 140,
+                        "w": 240,
+                        "text": "Jaune et bleu depuis 1928.",
+                        "font": "display",
+                        "size": 60,
+                        "color": "#F6C400",
+                        "align": "center",
+                        "upper": true,
+                        "spacing": 0,
+                        "lh": 1.1,
+                        "fit": true,
+                        "mode": "client",
+                        "field": "phrase",
+                        "label": "Votre slogan",
+                        "max": 30,
+                        "list": "slogans"
+                    }
+                ]
+            },
+            "dos": {
+                "bg": "",
+                "layers": []
+            }
+        }
     }
 ]

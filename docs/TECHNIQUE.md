@@ -1056,6 +1056,7 @@ même site fermé ; sinon 404 du site.
 - `app/Shop/Catalog.php` : supports (t-shirt, sweat, mugs, tote bag, casquette, écharpe, posters A3/A2, carte, sticker ; dimensions surchargées dans `data/collections/boutique-supports.json`) et modèles (`boutique-modeles.json`), champs à remplir par le client (`mode: client`).
 - `app/Shop/Mockup.php` : aperçus vectoriels sur le produit (silhouettes, mug courbé, casquette découpée, écharpe à franges).
 - `app/Admin/Shop.php` + `templates/admin/boutique/` + `public/assets/admin/boutique.{js,css}` : écrans « Boutique » (administrateurs seuls), éditeur de modèles, aperçu JSON, PDF imprimeur (`/admin/boutique/modeles/{id}/pdf`, `?rvb=1` pour un PDF RVB).
+- `app/Shop/Texts.php` : banque de textes (`data/collections/boutique-textes.json`, départ : `app/Resources/shop/textes-depart.json`) ; un champ du client peut être un « choix dans une liste » (`list`) : seules les phrases validées sont acceptées. Propositions de l'IA (Gemini, usage `boutique` des coûts IA) ajoutées « à valider ».
 - Test : `tests/boutique.php`.
 
 ## 9. Tâches planifiées

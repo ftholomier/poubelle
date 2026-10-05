@@ -127,14 +127,20 @@ final class Catalog
         ];
     }
 
-    /** Champs que le client remplit (tous les calques « client »). @return array<string,array{label:string,max:int,default:string}> */
+    /**
+     * Champs que le client remplit (tous les calques « client »). list : identifiant d'une liste
+     * de la banque de textes (le client choisit une phrase validée de cette liste) ou ''.
+     * @return array<string,array{label:string,max:int,default:string,list:string,choices:list<string>}>
+     */
     public static function fields(array $model): array
     {
         $out = [];
         foreach ($model['faces'] as $f) {
             foreach ($f['layers'] as $l) {
                 if (($l['type'] ?? '') === 'text' && ($l['mode'] ?? '') === 'client' && ($l['field'] ?? '') !== '') {
-                    $out[$l['field']] ??= ['label' => (string) ($l['label'] ?? $l['field']), 'max' => max(1, (int) ($l['max'] ?? 30)), 'default' => (string) ($l['text'] ?? '')];
+                    $list = (string) ($l['list'] ?? '');
+                    $out[$l['field']] ??= ['label' => (string) ($l['label'] ?? $l['field']), 'max' => max(1, (int) ($l['max'] ?? 30)), 'default' => (string) ($l['text'] ?? ''),
+                        'list' => $list, 'choices' => $list !== '' ? Texts::choices($list) : []];
                 }
             }
         }
@@ -189,6 +195,7 @@ final class Catalog
                 'mode' => ($l['mode'] ?? '') === 'client' ? 'client' : 'fixed',
                 'field' => substr((string) preg_replace('/[^a-z0-9_]/', '', strtolower((string) ($l['field'] ?? ''))), 0, 30),
                 'label' => mb_substr((string) ($l['label'] ?? ''), 0, 60), 'max' => (int) $num($l['max'] ?? 30, 1, 200, 30),
+                'list' => substr((string) preg_replace('/[^a-z0-9]/', '', (string) ($l['list'] ?? '')), 0, 30),
             ];
         } else {
             $out += ['h' => $num($l['h'] ?? 20, 0.2, 3000, 20), 'fill' => ($l['fill'] ?? '') !== '' ? Vector::hex($l['fill']) : '', 'stroke' => ($l['stroke'] ?? '') !== '' ? Vector::hex($l['stroke']) : '', 'sw' => $num($l['sw'] ?? 0, 0, 50, 0), 'r' => $num($l['r'] ?? 0, 0, 500, 0)];

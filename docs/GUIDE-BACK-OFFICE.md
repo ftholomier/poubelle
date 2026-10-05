@@ -442,6 +442,7 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
 ## 11 bis. Boutique (administrateurs)
 
 - **Boutique › Supports** : dimensions de la zone imprimable, fonds perdus, couleurs proposées et consignes de l'imprimeur pour chaque produit.
+- **Boutique › Banque de textes** : listes de phrases (slogans, anecdotes…). Seules les phrases « Validée » sont proposées au client ; « Proposer des phrases avec l’IA » en ajoute, à valider.
 - **Boutique › Modèles** : créer, dupliquer, activer ou supprimer un modèle. Dans l'éditeur, ajoutez le logo, des textes, des formes et des « champs du client » (prénom, numéro…) ; l'aperçu sur le produit et le fichier d'impression se mettent à jour. « PDF imprimeur » télécharge le fichier vectoriel prêt à imprimer.
 
 ## 12. Site de l'association (administrateurs)

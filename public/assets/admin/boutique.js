@@ -168,7 +168,9 @@
       h += `<div class="row" style="gap:12px;flex-wrap:wrap">${chk('upper', 'Capitales')}${chk('fit', 'Réduire pour tenir sur la largeur')}</div>`;
       h += `<div class="f"><span class="f__k">Couleur</span>${colorPick('color', l.color, false)}</div>`;
       h += `<label class="toggle"><input type="checkbox" data-client${l.mode === 'client' ? ' checked' : ''}><span class="toggle__box"></span><span>Rempli par le client</span></label>`;
-      if (l.mode === 'client') h += `<div class="pgrid"><label class="f f--inline"><span class="f__k">Question posée</span><input class="in in--sm" data-k="label" value="${esc(l.label)}" placeholder="Votre prénom"></label><label class="f f--inline"><span class="f__k">Nom du champ</span><input class="in in--sm" data-k="field" value="${esc(l.field)}" placeholder="prenom"></label>${num('max', 'Caractères max', 1, 1)}</div><p class="xs muted" style="margin:4px 0 0">Deux calques avec le même nom de champ reçoivent le même texte (par exemple le prénom devant et au dos).</p>`;
+      if (l.mode === 'client') h += `<label class="f"><span class="f__k">Réponse du client</span><select class="in in--sm" data-k="list"><option value="">Texte libre (il l’écrit)</option>${Object.entries(D.lists || {}).map(([k, v]) => `<option value="${esc(k)}"${l.list === k ? ' selected' : ''}>Choix dans la liste « ${esc(v.name)} » (${v.choices.length} phrases)</option>`).join('')}</select></label>`
+        + (l.list ? `<p class="xs muted" style="margin:4px 0 0">Le client choisit une phrase validée de la liste. Gérez les phrases dans <a href="/admin/boutique/textes" target="_blank">Boutique › Banque de textes</a>. Pensez à « Réduire pour tenir » : les phrases n’ont pas toutes la même longueur.</p>` : '')
+        + `<div class="pgrid"><label class="f f--inline"><span class="f__k">Question posée</span><input class="in in--sm" data-k="label" value="${esc(l.label)}" placeholder="${l.list ? 'Votre phrase' : 'Votre prénom'}"></label><label class="f f--inline"><span class="f__k">Nom du champ</span><input class="in in--sm" data-k="field" value="${esc(l.field)}" placeholder="prenom"></label>${l.list ? '' : num('max', 'Caractères max', 1, 1)}</div><p class="xs muted" style="margin:4px 0 0">Deux calques avec le même nom de champ reçoivent le même texte (par exemple le prénom devant et au dos).</p>`;
     } else {
       h += `<div class="f"><span class="f__k">Remplissage</span>${colorPick('fill', l.fill || '', true)}</div><div class="f"><span class="f__k">Contour</span>${colorPick('stroke', l.stroke || '', true)}</div><div class="pgrid">${num('sw', 'Épaisseur du contour (mm)', 0.1, 0)}${l.type === 'rect' ? num('r', 'Arrondi (mm)', 0.5, 0) : ''}</div>`;
     }
@@ -191,6 +193,7 @@
     if (!k) return;
     if (e.target.type === 'checkbox') l[k] = e.target.checked;
     else if (e.target.tagName === 'SELECT') l[k] = e.target.value;
+    if (k === 'list' && l.list) { l.fit = true; if (l.field === 'prenom') { l.field = 'phrase'; l.label = 'Votre phrase'; } const c = (D.lists[l.list] || {}).choices || []; if (c.length) l.text = c[0]; }
     if (k === 'style' || e.target.tagName === 'SELECT') props();
     list();
     changed(0);
@@ -215,7 +218,11 @@
     Object.values(model.faces).forEach(f => (f.layers || []).forEach(l => { if (l.type === 'text' && l.mode === 'client' && l.field) fs[l.field] = fs[l.field] || l; }));
     const keys = Object.keys(fs);
     $('[data-fields-card]').hidden = !keys.length;
-    $('[data-fields]').innerHTML = keys.map(k => `<label class="f"><span class="f__k">${esc(fs[k].label || k)} <span class="xs muted">(${fs[k].max || 30} caractères au plus)</span></span><input class="in" data-field="${esc(k)}" maxlength="${fs[k].max || 30}" value="${esc(values[k] || '')}" placeholder="${esc(fs[k].text)}"></label>`).join('');
+    $('[data-fields]').innerHTML = keys.map(k => {
+      const lst = fs[k].list && (D.lists || {})[fs[k].list];
+      if (lst) return `<label class="f"><span class="f__k">${esc(fs[k].label || k)} <span class="xs muted">(liste « ${esc(lst.name)} »)</span></span><select class="in" data-field="${esc(k)}"><option value="">${esc(fs[k].text)} (exemple)</option>${lst.choices.map(c => `<option${values[k] === c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></label>`;
+      return `<label class="f"><span class="f__k">${esc(fs[k].label || k)} <span class="xs muted">(${fs[k].max || 30} caractères au plus)</span></span><input class="in" data-field="${esc(k)}" maxlength="${fs[k].max || 30}" value="${esc(values[k] || '')}" placeholder="${esc(fs[k].text)}"></label>`;
+    }).join('');
     const pdf = $('[data-pdf]');
     const q = keys.filter(k => values[k]).map(k => 'v_' + encodeURIComponent(k) + '=' + encodeURIComponent(values[k])).join('&');
     pdf.href = pdf.href.split('?')[0] + (q ? '?' + q : '');

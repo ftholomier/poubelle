@@ -15,6 +15,7 @@ use App\Admin\Router;
 use App\Data\Collections;
 use App\Shop\Catalog;
 use App\Shop\Mockup;
+use App\Shop\Texts;
 use App\Shop\Vector;
 
 $fail = 0;
@@ -27,6 +28,9 @@ $eq = function (string $label, $got, $exp) use (&$fail) {
 };
 $file = Collections::DIR . '/' . Catalog::MODELS_FILE . '.json';
 $backup = is_file($file) ? (string) file_get_contents($file) : null;
+$tfile = Collections::DIR . '/' . Texts::FILE . '.json';
+$tbackup = is_file($tfile) ? (string) file_get_contents($tfile) : null;
+@unlink($tfile);
 
 // 1. Polices : contours des lettres, lettres accentuées (glyphes composés).
 $f = Vector::font('display');
@@ -82,9 +86,27 @@ $eq('modèle enregistré et relu : support, couleur, champs du client', [$back['
 Catalog::deleteModel($m['id']);
 $eq('modèle supprimé', Catalog::find($m['id']), null);
 
-// 6. Accès.
-$eq('écrans de la boutique réservés aux administrateurs', [Router::adminOnly('/admin/boutique'), Router::adminOnly('/admin/boutique/modeles/abc/pdf')], [true, true]);
+// 6. Banque de textes : listes de départ, choix du client limité aux phrases validées, IA.
+$lists = Texts::lists();
+$eq('listes de départ : 46 slogans validés, 14 anecdotes à faire valider', [$lists[0]['id'], count(Texts::choices('slogans')), $lists[1]['id'], count($lists[1]['items']), count(Texts::choices('anecdotes'))], ['slogans', 46, 'anecdotes', 14, 0]);
+$pick = ['id' => 'p', 'type' => 'text', 'x' => 0, 'y' => 0, 'w' => 200, 'text' => 'Exemple', 'mode' => 'client', 'field' => 'phrase', 'list' => 'slogans', 'max' => 5];
+$eq('choix dans une liste : phrase validée acceptée (sans coupure), texte inventé refusé', [Vector::textOf($pick, ['phrase' => 'Né pour rugir.']), Vector::textOf($pick, ['phrase' => 'Texte inventé'])], ['Né pour rugir.', 'Exemple']);
+$eq('champ du client relié à la liste (phrases proposées)', [Catalog::cleanLayer($pick)['list'], count(Catalog::fields(['faces' => [['layers' => [Catalog::cleanLayer($pick)]]]])['phrase']['choices'])], ['slogans', 46]);
+Texts::$ai = fn ($sys, $ask) => json_encode(['Né pour rugir.', 'Bonal, même sous la pluie.', 'Le lion ne s\'excuse pas.']);
+$n = Texts::suggest('slogans', 10);
+$sl = Texts::find('slogans');
+$last = end($sl['items']);
+$eq('IA : doublons écartés, nouvelles phrases « à valider », pas encore proposées au client', [$n, $last['text'], $last['ok'], count(Texts::choices('slogans'))], [2, 'Le lion ne s’excuse pas.', false, 46]);
+Texts::$ai = null;
 
+// 7. Accès.
+$eq('écrans de la boutique réservés aux administrateurs', [Router::adminOnly('/admin/boutique'), Router::adminOnly('/admin/boutique/modeles/abc/pdf'), Router::adminOnly('/admin/boutique/textes')], [true, true, true]);
+
+if ($tbackup === null) {
+    @unlink($tfile);
+} else {
+    file_put_contents($tfile, $tbackup);
+}
 if ($backup === null) {
     @unlink($file);
 } else {

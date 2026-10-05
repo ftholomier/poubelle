@@ -517,6 +517,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - Moteur de dessin vectoriel et PDF imprimeur HD (CMJN, fonds perdus 3 mm, traits de coupe, format exact).
 - Supports : t-shirt, sweat, mug, mug émaillé, tote bag, **casquette**, **écharpe**, posters A3/A2, carte, sticker.
 - Éditeur de modèles à remplir (logo, textes, formes, champs du client), aperçus sur le produit.
+- Banque de textes : 46 slogans et 14 anecdotes du rapport (anecdotes à valider par un historien), propositions de l'IA ; un champ du client peut proposer une liste de phrases au choix.
 - À venir : lot B (produits et prix, boutique en ligne, Stripe, espace imprimeur, suivi client, e-mails), lot C (tableau de bord, remboursements, relevés imprimeur, « Ton match »).
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)

@@ -144,6 +144,8 @@ final class Router
         $r->get('/admin/boutique', fn ($q) => Shop::index($q));
         $r->get('/admin/boutique/supports', fn ($q) => Shop::supports($q));
         $r->post('/admin/boutique/supports', fn ($q) => Shop::saveSupport($q));
+        $r->get('/admin/boutique/textes', fn ($q) => Shop::texts($q));
+        $r->post('/admin/boutique/textes', fn ($q) => Shop::textsAction($q));
         $r->get('/admin/boutique/modeles', fn ($q) => Shop::models($q));
         $r->post('/admin/boutique/modeles', fn ($q) => Shop::modelAction($q));
         $r->post('/admin/boutique/apercu', fn ($q) => Shop::preview($q));

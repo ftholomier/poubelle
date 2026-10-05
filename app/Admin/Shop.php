@@ -9,6 +9,7 @@ use App\Core\Response;
 use App\Data\Activity;
 use App\Shop\Catalog;
 use App\Shop\Mockup;
+use App\Shop\Texts;
 use App\Shop\Vector;
 
 /**
@@ -64,6 +65,57 @@ final class Shop extends Base
         $key = Catalog::saveSupport($key, $data, Auth::user());
         Activity::log(self::actor(), 'a modifié le support « ' . $name . ' » de la boutique', ['path' => '/admin/boutique/supports']);
         return self::back('/admin/boutique/supports#s-' . $key, 'Support « ' . $name . ' » enregistré.');
+    }
+
+    // ------------------------------------------------------------------ banque de textes
+
+    public static function texts(Request $req): Response
+    {
+        return self::html('admin/boutique/textes', ['lists' => Texts::lists(), 'ai' => \App\Services\Gemini::ready()], ['title' => 'Banque de textes', 'crumb' => 'Boutique', 'nav' => 'boutique-textes']);
+    }
+
+    /** POST /admin/boutique/textes : enregistrer une liste, en créer une, la supprimer, ou demander des phrases à l'IA. */
+    public static function textsAction(Request $req): Response
+    {
+        $action = $req->str('action');
+        $id = $req->str('id');
+        $back = '/admin/boutique/textes';
+        if ($action === 'new') {
+            $l = Texts::save(['name' => trim($req->str('name')) ?: 'Nouvelle liste', 'note' => $req->str('note'), 'items' => []], Auth::user());
+            return self::back($back . '#l-' . $l['id'], 'Liste « ' . $l['name'] . ' » créée : ajoutez des phrases ou demandez-en à l’IA.');
+        }
+        $l = Texts::find($id);
+        if (!$l) {
+            return self::back($back, null, 'Liste introuvable.');
+        }
+        if ($action === 'delete') {
+            Texts::delete($id, Auth::user());
+            Activity::log(self::actor(), 'a supprimé la liste « ' . $l['name'] . ' » de la banque de textes', ['path' => $back]);
+            return self::back($back, 'Liste « ' . $l['name'] . ' » supprimée.');
+        }
+        if ($action === 'ai') {
+            try {
+                $n = Texts::suggest($id, max(1, min(30, (int) $req->str('count', '10') ?: 10)), $req->str('hint'), Auth::user());
+            } catch (\Throwable $e) {
+                return self::back($back . '#l-' . $id, null, 'L’IA n’a pas répondu : ' . $e->getMessage());
+            }
+            return self::back($back . '#l-' . $id, $n ? $n . ' phrase(s) proposée(s) par l’IA, à relire et valider.' : 'L’IA n’a rien proposé de nouveau.');
+        }
+        $items = [];
+        foreach ((array) ($req->post['items'] ?? []) as $i) {
+            if (!is_array($i) || !empty($i['del'])) {
+                continue;
+            }
+            $items[] = ['id' => (string) ($i['id'] ?? ''), 'text' => (string) ($i['text'] ?? ''), 'note' => (string) ($i['note'] ?? ''), 'ok' => !empty($i['ok'])];
+        }
+        foreach (preg_split('/\R/', $req->str('add')) ?: [] as $line) {
+            if (trim($line) !== '') {
+                $items[] = ['text' => str_replace("'", '’', trim($line)), 'note' => '', 'ok' => true];
+            }
+        }
+        $l = Texts::save(['id' => $id, 'name' => $req->str('name'), 'note' => $req->str('note'), 'items' => $items], Auth::user());
+        Activity::log(self::actor(), 'a modifié la liste « ' . $l['name'] . ' » de la banque de textes', ['path' => $back]);
+        return self::back($back . '#l-' . $id, 'Liste « ' . $l['name'] . ' » enregistrée.');
     }
 
     // ------------------------------------------------------------------ modèles
@@ -128,7 +180,7 @@ final class Shop extends Base
             return self::back('/admin/boutique/modeles', null, 'Modèle introuvable.');
         }
         return self::html('admin/boutique/editeur', [
-            'model' => $m, 'support' => Catalog::support($m['support']), 'fonts' => Vector::FONTS, 'palette' => Vector::PALETTE,
+            'model' => $m, 'support' => Catalog::support($m['support']), 'fonts' => Vector::FONTS, 'palette' => Vector::PALETTE, 'lists' => Texts::forEditor(),
         ], ['title' => $m['name'], 'crumb' => 'Boutique › Modèles', 'nav' => 'boutique-modeles', 'scripts' => ['admin/boutique.js']]);
     }
 

@@ -32,3 +32,14 @@
 @media (max-width: 760px) { .shoped__views { grid-template-columns: 1fr; } }
 .shoped [data-props] .f { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
 .shoped [data-props] .f > .in, .shoped [data-props] .f > select { width: 100%; min-width: 0; }
+.shoptexts { width: 100%; margin-top: 10px; }
+.shoptexts th { text-align: left; }
+.shoptexts td:first-child { width: 55%; }
+.shoptexts .c { text-align: center; width: 70px; }
+.shoptexts tr.is-todo td:first-child .in { border-color: var(--yellow); background: #fff8dc; }
+.shoptexts__ai { gap: 10px; align-items: end; flex-wrap: wrap; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line, #c9c2b0); }
+.shoptexts td, .shoptexts th { padding: 4px 6px; vertical-align: middle; }
+table.shoptexts { width: 100%; table-layout: fixed; border-collapse: collapse; }
+.shoptexts th:nth-child(1) { width: 58%; } .shoptexts th:nth-child(3), .shoptexts th:nth-child(4) { width: 80px; text-align: center; }
+.shoptexts .in { width: 100%; box-sizing: border-box; }
+.shoplist > form { align-self: stretch; width: 100%; }

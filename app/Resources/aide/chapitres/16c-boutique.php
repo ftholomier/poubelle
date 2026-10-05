@@ -2,7 +2,7 @@
 return [
     'slug' => 'boutique',
     'title' => 'La boutique',
-    'summary' => 'Les objets de l’association (t-shirt, mug, casquette, écharpe, poster…) : supports de l’imprimeur, modèles dessinés dans l’éditeur, aperçu sur le produit et fichier d’impression. Réservé aux administrateurs.',
+    'summary' => 'Les objets de l’association (t-shirt, mug, casquette, écharpe, poster…) : supports de l’imprimeur, modèles dessinés dans l’éditeur, banque de phrases au choix du client, aperçu sur le produit et fichier d’impression. Réservé aux administrateurs.',
     'admin' => true,
     'sections' => [
         ['id' => 'principe', 'title' => 'Le principe : du texte et le logo, jamais de photo', 'admin' => true, 'html' => <<<'HTML'
@@ -35,6 +35,17 @@ HTML],
 <li><b>Enregistrer</b>, puis cochez <b>Prêt à la vente</b> quand le modèle est validé.</li>
 </ol>
 [[astuce|<p>Les pointillés bleus marquent le bord du produit fini ; la zone grisée, les fonds perdus. Un message signale ce qui dépasse de la zone imprimable, ou un texte trop petit pour la broderie d’une casquette.</p>]]
+HTML],
+        ['id' => 'textes', 'title' => 'La banque de textes : des phrases au choix du client', 'admin' => true, 'html' => <<<'HTML'
+<p><b>Boutique › Banque de textes</b> rassemble des listes de phrases : les slogans et les anecdotes « Le saviez-vous ? » du rapport boutique y sont déjà. Le client ne tape pas sa phrase : il la <b>choisit</b> dans une liste, ce qui garde chaque objet dans l’esprit de l’association.</p>
+<ul>
+<li><b>Validée</b> : seules les phrases cochées sont proposées au client. Les anecdotes arrivent non cochées : un historien vérifie chaque fait (la source est dans la colonne « Note ») avant de les cocher.</li>
+<li><b>Ajouter</b> : une phrase par ligne dans « Ajouter des phrases », puis « Enregistrer la liste ».</li>
+<li><b>Proposer des phrases avec l’IA</b> : donnez une consigne (« humour sur la météo de Bonal ») et un nombre ; les propositions arrivent non validées, jamais proposées avant votre accord. Le coût apparaît dans Coûts IA.</li>
+<li><b>Dans l’éditeur</b> : ajoutez un « Champ du client », puis réglez « Réponse du client » sur « Choix dans la liste… ». Cochez « Réduire pour tenir » : les phrases n’ont pas toutes la même longueur. L’essai des champs du client propose la liste pour vérifier le rendu de chaque phrase.</li>
+</ul>
+<p>Avant de vendre un slogan, vérifiez qu’il n’est pas déposé comme marque (base de l’INPI).</p>
+[[img:boutique-textes.webp|La banque de textes : chaque phrase, sa note ou sa source, et la case « Validée »]]
 HTML],
         ['id' => 'pdf', 'title' => 'Le fichier pour l’imprimeur', 'admin' => true, 'html' => <<<'HTML'
 <p><b>PDF imprimeur</b> (dans l’éditeur ou la liste des modèles) : un PDF <b>vectoriel</b>, une page par face dessinée, au <b>format exact</b>, avec les <b>fonds perdus</b>, les <b>traits de coupe</b> et un repère dans la marge (modèle, face, dimensions, couleur du support). Couleurs en <b>CMJN</b> (les couleurs de la charte ont leur équivalent d’imprimerie).</p>
