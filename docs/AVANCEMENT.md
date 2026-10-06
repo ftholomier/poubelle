@@ -607,4 +607,6 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Présentation `docs/sochaux-retro-presentation.pdf` : 53 pages (carnet du supporter, poster « Ma vie en jaune et bleu », « Prêt pour le lancement » avec les mesures de vitesse, page récapitulative à jour)
 - [x] Infographie A4 `docs/sochaux-retro-fonctionnalites.pdf` : carnet du supporter, poster du carnet, cache des pages (toujours 2 pages)
 - [x] Guide (130 pages) et mémo (2 pages) de l'aide régénérés : sections et captures du carnet, du poster, bouton « Rafraîchir toutes les pages »
+- [x] Présentation passée à 58 pages : défi du jour, quiz du club-house sur grand écran, championnat du club-house, Rétro-Direct commenté façon radio, page « Quiz et radio côté équipe » ; programme et page « Toute la solution » à jour
+- [x] Infographie A4 : quiz du club-house et championnat, défi du jour, commentaire radio, soirées quiz dans le back-office, guide de 136 pages (toujours 2 pages)
 
