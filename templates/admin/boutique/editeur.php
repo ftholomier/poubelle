@@ -101,6 +101,11 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
           <?php endforeach; ?>
         </div>
         <label class="f"><span class="f__k">Description pour la boutique</span><textarea class="in" rows="2" data-sale-desc><?= e($model['sale']['desc']) ?></textarea></label>
+        <?php if (\App\Shop\Catalog::uniqueAuto($model)): ?>
+        <p class="xs" style="margin:0"><b style="display:inline-block;padding:3px 7px;border:2px solid var(--navy);background:var(--yellow);font:700 11px/1 var(--display);letter-spacing:.06em;text-transform:uppercase">★ Pièce unique</b> d’office : anecdote tirée pour un seul client, poster dédicacé et numéroté ou carte du carnet.</p>
+        <?php else: ?>
+        <label class="toggle"><input type="checkbox" data-sale-unique<?= $model['sale']['unique'] ? ' checked' : '' ?>><span class="toggle__box"></span><span>★ Pièce unique : pastille dans la boutique et au back-office (pour un produit personnalisé par le client : prénom, texte, son match…)</span></label>
+        <?php endif; ?>
         <?php $isPoster = \App\Shop\Poster::isFor($model); ?><div<?= $isPoster ? ' hidden' : '' ?>>
         <?php if (!$support['colors']): ?>
         <div class="f"><span class="f__k">Couleurs du fond proposées au client (support imprimé en entier ; aucune cochée : bleu nuit, jaune, blanc, bleu roi et noir)</span><div class="row" style="gap:8px;flex-wrap:wrap">

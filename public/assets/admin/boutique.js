@@ -431,7 +431,7 @@
     const sale = {
       price: eur($('[data-sale-price]').value), extra, desc: $('[data-sale-desc]').value,
       colors: $$('[data-sale-color]:checked').map(i => i.value), text_colors: $$('[data-sale-tcolor]:checked').map(i => i.value),
-      text_sizes: $('[data-sale-tsizes]').checked, positions: $('[data-sale-pos]').checked,
+      text_sizes: $('[data-sale-tsizes]').checked, positions: $('[data-sale-pos]').checked, unique: !!$('[data-sale-unique]')?.checked,
       ...(() => { const v = $('[data-sale-comm]').value.trim().replace(',', '.'); if (v === '') return { rate: null, fee: null }; return $('[data-sale-comm-unit]').value === 'eur' ? { rate: null, fee: eur(v) } : { rate: parseFloat(v), fee: null }; })(),
     };
     const r = await BO.post(location.pathname, { name: $('[data-name]').value, color: model.color, active: $('[data-active]').checked, faces, sale });

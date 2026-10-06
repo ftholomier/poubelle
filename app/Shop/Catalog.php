@@ -176,6 +176,8 @@ final class Catalog
             // Imprimé en entier : sans couleur cochée, les fonds de la charte (comme les couleurs d'une casquette).
             'colors' => $colors ?: ($sup['colors'] ? array_values($sup['colors']) : self::FULL_BG), 'text_colors' => array_slice($tcolors, 0, 8),
             'text_sizes' => !empty($s['text_sizes']), 'positions' => !empty($s['positions']),
+            // Pièce unique cochée dans le masque du produit (en plus des pièces uniques d'office : anecdote, poster, carte).
+            'unique' => !empty($s['unique']),
             // Taux de commission propre au modèle (null : celui du support).
             'rate' => isset($s['rate']) && $s['rate'] !== '' && $s['rate'] !== null ? round(max(0.0, min(100.0, (float) $s['rate'])), 2) : null,
             // Ou une commission fixe en centimes par article (prioritaire sur le taux).
@@ -232,9 +234,16 @@ final class Catalog
 
     /**
      * Pièce unique : le modèle porte une anecdote tirée par le client (jamais vendue deux fois),
-     * un poster souvenir (dédicacé et numéroté) ou la carte du carnet (pseudo et chiffres du supporter).
+     * un poster souvenir (dédicacé et numéroté) ou la carte du carnet (pseudo et chiffres du supporter) ;
+     * ou la case « Pièce unique » est cochée dans le masque du produit (t-shirt personnalisé…).
      */
     public static function unique(array $m): bool
+    {
+        return self::uniqueAuto($m) || !empty($m['sale']['unique']);
+    }
+
+    /** Pièce unique d'office, quel que soit le réglage du modèle. */
+    public static function uniqueAuto(array $m): bool
     {
         return isset(self::fields($m)[Anecdotes::FIELD]) || Poster::isFor($m) || CarnetCard::isFor($m);
     }

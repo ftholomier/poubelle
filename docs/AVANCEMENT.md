@@ -619,7 +619,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Carnet : bouton « Voir ma page publique » (nouvel onglet), « Jour pour jour : vos matchs d'il y a 10, 20, 30 ans », date d'anniversaire du supporter (jour et mois) et message le jour J
 - [x] Page publique du carnet à une adresse courte : /pseudo/ (pseudo unique, jamais l'adresse d'une page du musée ; anciennes adresses /carnet/p/…/ redirigées)
 - [x] Boutique : support « Poster paysage (A4, A3, A2) » et modèles prêts à l'emploi « Poster « Ma carte de supporter » » (charte du musée, billet de match), en un clic dans Boutique › Modèles
-- [x] Boutique : la carte du carnet compte comme pièce unique (pastille « ★ Pièce unique » au back-office et dans la boutique)
+- [x] Boutique : la carte du carnet compte comme pièce unique ; case « ★ Pièce unique » dans le masque du produit pour tout produit personnalisé (t-shirt au prénom…)
 - [x] Formulaires du back-office mieux structurés : champs alignés d'une ligne à l'autre (libellé long ou non), hauteurs identiques, colonnes fixes ; fiches match et personne découpées en blocs (La rencontre, Les équipes, Lieu et officiels, Buteurs…) ; libellés affichés une seule fois en tête des listes en lignes (temps forts, palmarès, fiche d'identité)
 
 ## Documents de présentation (octobre 2026, mise à jour)
