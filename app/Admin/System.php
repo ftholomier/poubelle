@@ -90,7 +90,7 @@ final class System extends Base
         $list = $state !== '' ? array_values(array_filter($data['list'], fn ($r) => $r['st'] === $state)) : $data['list'];
         usort($list, fn ($a, $b) => strcmp((string) $b['modified'], (string) $a['modified']));
         $fails = JsonStore::read(STORAGE_PATH . '/i18n-fails.json', []) ?: [];
-        return ['counts' => $data['counts'], 'list' => array_slice($list, 0, 150), 'state' => $state, 'fails' => count($fails)];
+        return ['counts' => $data['counts'], 'list' => array_slice($list, 0, 150), 'state' => $state, 'fails' => count($fails), 'lastError' => Translator::lastError()];
     }
 
     public static function translationsSave(Request $req): Response
@@ -162,9 +162,13 @@ final class System extends Base
                 return self::back('/admin/traductions?onglet=fiches', null, 'Clé Gemini non réglée.');
             }
             @set_time_limit(280);
-            $r = Translator::run(max(1, min(30, (int) ($in['n'] ?? 10))));
+            $r = Translator::run(max(1, min(30, (int) ($in['n'] ?? 10))), true);
             @unlink(STORAGE_PATH . '/cache/i18n-progress.json');
-            return self::back('/admin/traductions?onglet=fiches', ($r['done'] ?? 0) . ' fiche(s) traduite(s), ' . max(0, ($r['todo'] ?? 0) - ($r['done'] ?? 0)) . ' restante(s).' . self::aiCost());
+            $err = ($r['done'] ?? 0) === 0 ? Translator::lastError() : null;
+            if ($err) {
+                return self::back('/admin/traductions?onglet=fiches', null, 'Aucune fiche traduite : ' . $err['msg']);
+            }
+            return self::back('/admin/traductions?onglet=fiches', ($r['done'] ?? 0) . ' fiche(s) traduite(s), ' . max(0, (int) ($r['todo'] ?? 0)) . ' restante(s).' . self::aiCost());
         }
         return self::back('/admin/traductions', null, 'Action inconnue.');
     }

@@ -125,7 +125,13 @@ final class Translator
         try {
             $out = self::translateMap($src);
         } catch (\Throwable $e) {
-            self::fail($id, $e->getMessage());
+            // Quota, clé ou Gemini injoignable : pas la faute de la fiche, elle n'est pas mise de côté
+            // (sinon toutes les fiches attendaient un à sept jours avant un nouvel essai).
+            if ($e->getCode() === 429 || $e->getCode() === 403 || preg_match('/quota|clé API|injoignable/i', $e->getMessage())) {
+                self::noteError($e->getMessage());
+            } else {
+                self::fail($id, $e->getMessage());
+            }
             return 'erreur : ' . $e->getMessage();
         } finally {
             AiCosts::$ref = '';
@@ -144,6 +150,13 @@ final class Translator
         }
         $fresh['i18n']['en'] = $en;
         Fiches::save($fresh, $user ?? ['name' => 'Traduction automatique'], 'Traduction anglaise (Gemini)');
+        if (isset((JsonStore::read(self::FAILS, []) ?: [])[$id])) {
+            JsonStore::update(self::FAILS, function ($f) use ($id) {
+                unset($f[$id]);
+                return $f ?: [];
+            }, []);
+        }
+        @unlink(self::LAST_ERROR);
         return 'ok';
     }
 
@@ -306,6 +319,21 @@ final class Translator
         return trim(strip_tags($tr));
     }
 
+    /** Dernière erreur générale (quota, clé…) : affichée sur l'écran Traductions. */
+    private const LAST_ERROR = STORAGE_PATH . '/i18n-erreur.json';
+
+    private static function noteError(string $msg): void
+    {
+        @file_put_contents(self::LAST_ERROR, json_encode(['at' => time(), 'msg' => mb_substr($msg, 0, 300)], JSON_UNESCAPED_UNICODE));
+    }
+
+    /** @return array{at:int,msg:string}|null erreur générale de moins de 24 h */
+    public static function lastError(): ?array
+    {
+        $e = json_decode((string) @file_get_contents(self::LAST_ERROR), true);
+        return is_array($e) && ($e['at'] ?? 0) > time() - 86400 ? $e : null;
+    }
+
     private static function fail(int $id, string $msg): void
     {
         JsonStore::update(self::FAILS, function ($f) use ($id, $msg) {
@@ -320,9 +348,10 @@ final class Translator
      * français a changé et dont la traduction est automatique).
      * Priorité : à la une, légendes, puis fiches les plus récemment modifiées.
      */
-    public static function run(int $max = 10): array
+    public static function run(int $max = 10, bool $now = false): array
     {
-        if (!self::enabled() || !Settings::get('translation.auto_translate', true)) {
+        // $now : bouton « Traduire maintenant », même désactivée et sans attendre les fiches en échec.
+        if (!self::enabled() || (!$now && !Settings::get('translation.auto_translate', true))) {
             return ['done' => 0, 'todo' => 0];
         }
         $fails = JsonStore::read(self::FAILS, []) ?: [];
@@ -332,7 +361,7 @@ final class Translator
                 continue;
             }
             $f = $fails[$id] ?? null;
-            if ($f && $f['at'] > time() - 86400 * min(7, $f['n'])) {
+            if (!$now && $f && $f['at'] > time() - 86400 * min(7, $f['n'])) {
                 continue; // nouvel essai plus tard
             }
             $prio = ($s['a_la_une'] ? 3 : 0) + (!empty($s['p']['legend']) ? 2 : 0) + (!$s['has_en'] ? 1 : 0);
