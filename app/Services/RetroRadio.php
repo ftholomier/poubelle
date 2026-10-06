@@ -31,8 +31,11 @@ final class RetroRadio
     public static ?\Closure $speaker = null;
 
     public const MAX_SEGMENTS = 75;
-    /** Version de la fabrication des voix (2 : même reporter, fin de phrase gardée, voix trop courte refaite). */
-    public const VOICE_V = 2;
+    /**
+     * Version de la fabrication des voix : 2 = fin de phrase gardée, voix trop courte redemandée ;
+     * 3 = consigne de lecture retirée (la version 2 la faisait entendre au début de chaque réplique).
+     */
+    public const VOICE_V = 3;
     public const LANGS = ['fr', 'en'];
     /** Voix de Gemini qui conviennent à un reporter (nom => caractère). */
     public const VOICES = ['Fenrir' => 'enflammée', 'Puck' => 'enjouée', 'Orus' => 'ferme', 'Algenib' => 'rocailleuse', 'Charon' => 'posée'];
@@ -407,7 +410,7 @@ final class RetroRadio
     {
         $speak = fn () => self::$speaker
             ? (self::$speaker)($s['text'])
-            : Gemini::speech(self::speakable($s['text']), $voice, self::style($lang), 'radio:' . $id, 'radio');
+            : Gemini::speech(self::speakable($s['text']), $voice, '', 'radio:' . $id, 'radio'); // aucune consigne dans le texte : la synthèse la lisait à voix haute
         // Fin de phrase gardée large : un reporter exalté finit souvent plus bas qu'il n'a commencé.
         $trim = fn (array $a) => FicheAudio::trimTail((string) $a['pcm'], (int) $a['rate'], $cut, 0.6, 48.0);
         $cut = null;
@@ -431,17 +434,6 @@ final class RetroRadio
         $base = sprintf('%d-%s-%02d-%s', $id, $lang, $i, substr(sha1($s['text'] . $voice), 0, 8));
         $file = self::encode($dir . '/' . $base, $pcm, (int) $a['rate']);
         return ['file' => 'radio/' . basename($file), 'dur' => round(strlen($pcm) / (2 * (int) $a['rate']), 1), 'v' => self::VOICE_V];
-    }
-
-    /**
-     * Même reporter d'une réplique à l'autre : chaque réplique est lue séparément, la consigne de
-     * lecture (identique pour toutes) fixe le personnage, en plus du nom de voix gardé pour tout le commentaire.
-     */
-    public static function style(string $lang): string
-    {
-        return $lang === 'en'
-            ? 'Read as the same veteran radio football commentator throughout: a mature man, warm and deep voice, lively and steady pace, enthusiastic without shouting, finishing every sentence clearly'
-            : 'Lis comme le même reporter de radio française du début à la fin : un homme mûr, voix grave et chaleureuse, débit vif et régulier, enthousiaste sans crier, en prononçant chaque phrase jusqu’au bout';
     }
 
     /** Texte lu : toujours terminé par une ponctuation (sans elle, la synthèse avale parfois le dernier mot). */

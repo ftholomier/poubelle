@@ -43,7 +43,7 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
               <?php $rs = \App\Services\RetroRadio::status((int) $e['id'], 'fr'); $mmss = fn ($d) => intdiv((int) $d, 60) . ' min ' . str_pad((string) ((int) $d % 60), 2, '0', STR_PAD_LEFT); ?>
               <?php if ($rs['state'] === 'ready'): ?>
                 <span class="pill pill--ok">Prêt</span><br><span class="xs muted"><?= e($mmss($rs['dur'])) ?> · <?= (int) $rs['total'] ?> répliques · <?= e(\App\Services\AiCosts::fmt($rs['cost'])) ?></span>
-                <?php if (!empty($rs['old'])): ?><br><span class="pill pill--warn">Ancienne voix</span> <span class="xs muted">fabriquée avant les corrections (fins de phrase coupées, voix qui change) : « Refaire » conseillé</span><?php endif; ?>
+                <?php if (!empty($rs['old'])): ?><br><span class="pill pill--warn">Ancienne voix</span> <span class="xs muted">fabriquée avant les corrections (fins de phrase coupées, consigne lue à voix haute) : « Refaire » conseillé</span><?php endif; ?>
               <?php elseif ($rs['state'] === 'stale'): ?>
                 <span class="pill pill--warn">À refaire</span><br><span class="xs muted">les buts ou les minutes de la fiche ont changé</span>
               <?php elseif (in_array($rs['state'], ['waiting', 'script'], true)): ?>

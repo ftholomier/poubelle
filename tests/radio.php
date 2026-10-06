@@ -61,7 +61,6 @@ $eq('ordre chronologique', array_column($p, 't') === array_values((function ($a)
 $eq('réponse illisible : rien', R::parse('pas du json', $tl), []);
 
 // La lecture : même consigne pour toutes les répliques, phrase toujours ponctuée.
-$eq('consigne de lecture identique (même reporter)', [R::style('fr') === R::style('fr'), str_contains(R::style('fr'), 'même reporter'), str_contains(R::style('en'), 'same')], [true, true, true]);
 $eq('ponctuation finale ajoutée si absente', [R::speakable('Et c’est le but de Bauda'), R::speakable('Quel match !'), R::speakable('« Allez Sochaux »')], ['Et c’est le but de Bauda.', 'Quel match !', '« Allez Sochaux »']);
 
 // Une fin de phrase qui retombe n'est pas coupée (marge large du commentaire radio).
