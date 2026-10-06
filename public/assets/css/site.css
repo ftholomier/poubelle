@@ -514,6 +514,18 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .lightbox button { width: 52px; height: 52px; border: 2px solid var(--cream); background: none; color: var(--cream); cursor: pointer; font-family: var(--display); font-weight: 800; font-size: 24px; flex-shrink: 0; }
 .lightbox button:hover { background: var(--yellow); color: var(--navy); border-color: var(--yellow); }
 .lightbox__close { position: absolute; top: 16px; right: 16px; }
+/* Flèches fixes, centrées à gauche et à droite de l'écran : elles ne bougent pas d'une photo à l'autre. */
+.lightbox { padding: 24px 92px; }
+.lightbox [data-lb-prev], .lightbox [data-lb-next] { position: fixed; top: 50%; transform: translateY(-50%); z-index: 1; background: rgba(14,31,77,.75); }
+.lightbox [data-lb-prev] { left: 20px; }
+.lightbox [data-lb-next] { right: 20px; }
+.lightbox [data-lb-prev]:hover, .lightbox [data-lb-next]:hover { background: var(--yellow); }
+.lightbox__bar { justify-content: center; }
+@media (max-width: 640px) {
+  .lightbox { padding: 64px 12px 24px; }
+  .lightbox [data-lb-prev] { left: 8px; }
+  .lightbox [data-lb-next] { right: 8px; }
+}
 
 /* Bouton « remonter » discret */
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--navy); color: var(--yellow); padding: 12px 20px; font-family: var(--display); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; z-index: 200; box-shadow: 4px 4px 0 var(--yellow); }
