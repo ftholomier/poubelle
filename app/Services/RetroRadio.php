@@ -31,6 +31,8 @@ final class RetroRadio
     public static ?\Closure $speaker = null;
 
     public const MAX_SEGMENTS = 75;
+    /** Version de la fabrication des voix (2 : même reporter, fin de phrase gardée, voix trop courte refaite). */
+    public const VOICE_V = 2;
     public const LANGS = ['fr', 'en'];
     /** Voix de Gemini qui conviennent à un reporter (nom => caractère). */
     public const VOICES = ['Fenrir' => 'enflammée', 'Puck' => 'enjouée', 'Orus' => 'ferme', 'Algenib' => 'rocailleuse', 'Charon' => 'posée'];
@@ -99,7 +101,9 @@ final class RetroRadio
         if ($state === 'ready' && ($r['sig'] ?? '') !== self::sig(self::timeline($id, $lang))) {
             $state = 'stale';
         }
-        return ['state' => $state, 'done' => $done, 'total' => $total, 'voice' => $r['voice'] ?? '', 'error' => $r['error'] ?? null,
+        // Voix fabriquées avant les dernières corrections (fins de phrase coupées) : à refaire.
+        $old = $state === 'ready' && (bool) array_filter($r['script'] ?? [], fn ($s) => (int) ($s['v'] ?? 1) < self::VOICE_V);
+        return ['state' => $state, 'old' => $old, 'done' => $done, 'total' => $total, 'voice' => $r['voice'] ?? '', 'error' => $r['error'] ?? null,
             'dur' => (int) round(array_sum(array_map(fn ($s) => (float) ($s['dur'] ?? 0), $r['script'] ?? []))), 'cost' => self::cost($id), 'at' => $r['at'] ?? null];
     }
 
@@ -401,14 +405,24 @@ final class RetroRadio
     /** Fait lire une réplique, la passe dans le poste radio, l'enregistre en MP3. */
     private static function voiceSegment(int $id, string $lang, int $i, array $s, string $voice): array
     {
-        if (self::$speaker) {
-            $a = (self::$speaker)($s['text']);
-        } else {
-            $a = Gemini::speech(self::speakable($s['text']), $voice, self::style($lang), 'radio:' . $id, 'radio');
-        }
+        $speak = fn () => self::$speaker
+            ? (self::$speaker)($s['text'])
+            : Gemini::speech(self::speakable($s['text']), $voice, self::style($lang), 'radio:' . $id, 'radio');
         // Fin de phrase gardée large : un reporter exalté finit souvent plus bas qu'il n'a commencé.
+        $trim = fn (array $a) => FicheAudio::trimTail((string) $a['pcm'], (int) $a['rate'], $cut, 0.6, 48.0);
         $cut = null;
-        $pcm = FicheAudio::trimTail((string) $a['pcm'], (int) $a['rate'], $cut, 0.6, 48.0);
+        $a = $speak();
+        $pcm = $trim($a);
+        // La synthèse s'arrête parfois avant le dernier mot : une voix trop courte pour son texte
+        // (plus de 4,2 mots par seconde) est redemandée une fois, la plus longue est gardée.
+        $words = count(preg_split('/\s+/u', trim($s['text']), -1, PREG_SPLIT_NO_EMPTY));
+        if ($words >= 5 && strlen($pcm) / (2 * (int) $a['rate']) < $words / 4.2) {
+            $b = $speak();
+            $pcm2 = $trim($b);
+            if (strlen($pcm2) / (2 * (int) $b['rate']) > strlen($pcm) / (2 * (int) $a['rate'])) {
+                [$a, $pcm] = [$b, $pcm2];
+            }
+        }
         $pcm = self::radioize($pcm, (int) $a['rate'], $s['kind'] === 'goal', crc32($id . $lang . $i));
         $dir = self::$media . '/radio';
         if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
@@ -416,7 +430,7 @@ final class RetroRadio
         }
         $base = sprintf('%d-%s-%02d-%s', $id, $lang, $i, substr(sha1($s['text'] . $voice), 0, 8));
         $file = self::encode($dir . '/' . $base, $pcm, (int) $a['rate']);
-        return ['file' => 'radio/' . basename($file), 'dur' => round(strlen($pcm) / (2 * (int) $a['rate']), 1)];
+        return ['file' => 'radio/' . basename($file), 'dur' => round(strlen($pcm) / (2 * (int) $a['rate']), 1), 'v' => self::VOICE_V];
     }
 
     /**

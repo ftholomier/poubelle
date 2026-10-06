@@ -95,9 +95,21 @@ R::$writer = function (string $system, string $user) use (&$calls, $raw) {
     $calls['write']++;
     return $raw;
 };
-R::$speaker = function (string $text) use (&$calls, $pcm, $rate) {
+// Fausse voix : 3 mots par seconde (débit réaliste), un son continu.
+$voiceFor = function (string $text) use ($rate): string {
+    $n = (int) ceil(count(preg_split('/\s+/u', trim($text), -1, PREG_SPLIT_NO_EMPTY)) / 3 * $rate);
+    $out = '';
+    for ($i = 0; $i < $n; $i++) {
+        $out .= pack('s', (int) (12000 * sin(2 * M_PI * 220 * $i / $rate)));
+    }
+    return $out;
+};
+$durs = [];
+R::$speaker = function (string $text) use (&$calls, &$durs, $voiceFor, $rate) {
     $calls['speak']++;
-    return ['pcm' => $pcm, 'rate' => $rate];
+    $v = $voiceFor($text);
+    $durs[] = strlen($v) / (2 * $rate) + 1.1; // + 0,4 s avant et 0,7 s après (poste radio)
+    return ['pcm' => $v, 'rate' => $rate];
 };
 $eq('rien au départ', [R::status($id, 'fr')['state'], R::playlist($id, 'fr')], ['none', null]);
 R::request($id, 'fr', 'Puck');
@@ -110,7 +122,8 @@ $eq('pas jouée tant qu’elle n’est pas finie', R::playlist($id, 'fr'), null)
 $n = R::work(30.0);
 $st = R::status($id, 'fr');
 $eq('tâche planifiée : le reste, puis prêt', [$n >= 3, $st['state'], $st['done'], $calls['speak'], R::pending()], [true, 'ready', 4, 4, []]);
-$eq('durée totale (4 × 2,1 s)', $st['dur'], 8);
+$eq('durée totale (voix + 1,1 s par réplique)', $st['dur'], (int) round(array_sum($durs)));
+$eq('voix récentes : pas « ancienne voix »', R::status($id, 'fr')['old'], false);
 $pl = R::playlist($id, 'fr');
 $eq('liste de lecture : 4 répliques, décalées d’une seconde, fichiers présents', [count($pl), $pl[0]['t'], is_file(R::$media . '/' . substr($pl[1]['url'], 7))], [4, R::LAG, true]);
 $eq('MP3 (encodeur du site)', str_ends_with($pl[0]['url'], '.mp3'), true);
@@ -141,6 +154,32 @@ flock($lock, LOCK_EX);
 $eq('déjà en cours ailleurs : on n’y touche pas', [R::step($id, 'en')['busy'] ?? false, R::status($id, 'en')['state']], [true, 'waiting']);
 flock($lock, LOCK_UN);
 fclose($lock);
+
+// Voix coupée par la synthèse (trop courte pour son texte) : redemandée une fois, la plus longue gardée.
+R::delete($id, 'fr');
+R::delete($id, 'en');
+$seen = [];
+$calls['speak'] = 0;
+R::$speaker = function (string $text) use (&$calls, &$seen, $voiceFor, $rate) {
+    $calls['speak']++;
+    $full = $voiceFor($text);
+    $first = !isset($seen[$text]);
+    $seen[$text] = true;
+    return ['pcm' => $first ? substr($full, 0, intdiv(strlen($full), 4) & ~1) : $full, 'rate' => $rate]; // 1re fois : le quart seulement
+};
+R::request($id, 'fr', 'Puck');
+R::work(30.0);
+$st = R::status($id, 'fr');
+$eq('voix coupée : redemandée (2 lectures par réplique), version complète gardée', [$st['state'], $calls['speak'], $st['dur'] >= (int) floor(array_sum(array_slice($durs, 0, 4)))], ['ready', 8, true]);
+// Une fabrication d'avant les corrections (sans version) : signalée « ancienne voix ».
+$f = R::$dir . "/$id-fr.json";
+$d = json_decode((string) file_get_contents($f), true);
+foreach ($d['script'] as &$sg) {
+    unset($sg['v']);
+}
+unset($sg);
+file_put_contents($f, json_encode($d));
+$eq('ancienne fabrication : « ancienne voix », toujours jouable', [R::status($id, 'fr')['old'], R::playlist($id, 'fr') !== null], [true, true]);
 
 // Suppression.
 R::delete($id, 'fr');
