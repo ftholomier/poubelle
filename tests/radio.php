@@ -179,6 +179,19 @@ foreach ($d['script'] as &$sg) {
 unset($sg);
 file_put_contents($f, json_encode($d));
 $eq('ancienne fabrication : « ancienne voix », toujours jouable', [R::status($id, 'fr')['old'], R::playlist($id, 'fr') !== null], [true, true]);
+// Voix de la version 2 (consigne lue à voix haute) : jamais jouées, refaites d'office (même texte).
+$d = json_decode((string) file_get_contents($f), true);
+$texts = array_column($d['script'], 'text');
+foreach ($d['script'] as &$sg) {
+    $sg['v'] = 2;
+}
+unset($sg);
+file_put_contents($f, json_encode($d));
+$calls['speak'] = 0;
+$eq('voix v2 : pas jouées, en préparation, à refaire par la tâche planifiée', [R::playlist($id, 'fr'), R::status($id, 'fr')['state'], R::pending()], [null, 'script', [[$id, 'fr']]]);
+R::work(30.0);
+$d = json_decode((string) file_get_contents($f), true);
+$eq('voix v2 refaites : même texte, version à jour, de nouveau jouable', [array_column($d['script'], 'text') === $texts, array_unique(array_column($d['script'], 'v')), R::status($id, 'fr')['state'], R::playlist($id, 'fr') !== null, $calls['speak'] >= 4], [true, [R::VOICE_V], 'ready', true, true]);
 
 // Suppression.
 R::delete($id, 'fr');

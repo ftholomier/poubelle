@@ -94,7 +94,7 @@ final class RetroRadio
             return ['state' => 'none'];
         }
         $total = count($r['script'] ?? []);
-        $done = count(array_filter($r['script'] ?? [], fn ($s) => !empty($s['file'])));
+        $done = count(array_filter($r['script'] ?? [], fn ($s) => !empty($s['file']) && !self::spoiled($s)));
         $state = match (true) {
             !empty($r['error']) && empty($r['requested']) => 'error',
             $total === 0 => 'waiting',
@@ -166,7 +166,7 @@ final class RetroRadio
         foreach (glob(self::$dir . '/*-*.json') ?: [] as $f) {
             if (preg_match('/^(\d+)-(fr|en)\.json$/', basename($f), $m)) {
                 $r = self::get((int) $m[1], $m[2]);
-                if ($r && !empty($r['requested'])) {
+                if ($r && (!empty($r['requested']) || array_filter($r['script'] ?? [], [self::class, 'spoiled']))) {
                     $out[] = [(int) $m[1], $m[2]];
                 }
             }
@@ -181,7 +181,7 @@ final class RetroRadio
     public static function step(int $id, string $lang): array
     {
         $r = self::get($id, $lang);
-        if (!$r || empty($r['requested'])) {
+        if (!$r || (empty($r['requested']) && !array_filter($r['script'] ?? [], [self::class, 'spoiled']))) {
             return self::status($id, $lang);
         }
         @mkdir(self::$dir, 0775, true);
@@ -207,12 +207,12 @@ final class RetroRadio
                 }, null);
             } else {
                 foreach ($r['script'] as $i => $s) {
-                    if (empty($s['file'])) {
+                    if (empty($s['file']) || self::spoiled($s)) {
                         $entry = self::voiceSegment($id, $lang, $i, $s, (string) $r['voice']);
                         JsonStore::update(self::file($id, $lang), function ($x) use ($i, $entry) {
                             if (is_array($x) && isset($x['script'][$i])) {
-                                $x['script'][$i] += $entry;
-                                $done = count(array_filter($x['script'], fn ($s) => !empty($s['file'])));
+                                $x['script'][$i] = $entry + $x['script'][$i]; // nouvelle voix (fichier, durée, version)
+                                $done = count(array_filter($x['script'], fn ($s) => !empty($s['file']) && !self::spoiled($s)));
                                 if ($done === count($x['script'])) {
                                     unset($x['requested']);
                                     $x['at'] = date('c');
@@ -269,7 +269,7 @@ final class RetroRadio
         }
         $out = [];
         foreach ($r['script'] as $s) {
-            if (empty($s['file']) || !is_file(self::$media . '/' . $s['file'])) {
+            if (empty($s['file']) || self::spoiled($s) || !is_file(self::$media . '/' . $s['file'])) {
                 return null;
             }
             $out[] = ['t' => (int) $s['t'] + self::LAG, 'url' => '/media/' . $s['file'], 'dur' => (float) $s['dur'], 'kind' => $s['kind']];
@@ -434,6 +434,15 @@ final class RetroRadio
         $base = sprintf('%d-%s-%02d-%s', $id, $lang, $i, substr(sha1($s['text'] . $voice), 0, 8));
         $file = self::encode($dir . '/' . $base, $pcm, (int) $a['rate']);
         return ['file' => 'radio/' . basename($file), 'dur' => round(strlen($pcm) / (2 * (int) $a['rate']), 1), 'v' => self::VOICE_V];
+    }
+
+    /**
+     * Réplique abîmée : voix de la version 2, où la consigne de lecture était entendue au début.
+     * Jamais jouée ; la tâche planifiée refait sa voix d'office (même texte, même voix).
+     */
+    public static function spoiled(array $s): bool
+    {
+        return !empty($s['file']) && (int) ($s['v'] ?? 1) === 2;
     }
 
     /** Texte lu : toujours terminé par une ponctuation (sans elle, la synthèse avale parfois le dernier mot). */
