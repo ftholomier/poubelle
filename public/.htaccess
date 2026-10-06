@@ -15,6 +15,9 @@ AddDefaultCharset UTF-8
     RewriteRule ^ - [L]
 
     # Fichier statique ou icône absent : 404 servie par Apache, sans PHP (robots, anciens liens).
+    # Sauf les fichiers fabriqués par PageSpeed (module d'o2switch, adresses « .pagespeed. ») :
+    # ils n'existent pas sur le disque et c'est le module qui les sert.
+    RewriteCond %{REQUEST_URI} !\.pagespeed\.
     RewriteRule ^(assets/|favicon\.ico$|apple-touch-icon) - [R=404,L]
 
     # Tout le reste passe par le routeur PHP.

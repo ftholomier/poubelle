@@ -48,6 +48,10 @@ final class Kernel
         // Politique de sécurité du contenu sur toutes les pages HTML (site et back-office).
         if ($res->file === null && str_starts_with((string) ($res->headers['Content-Type'] ?? ''), 'text/html')) {
             $res->headers['Content-Security-Policy'] ??= self::csp($req);
+            // PageSpeed (module d'o2switch) : pas de réécriture des pages. Il fusionne les styles sous
+            // des adresses à lui et ajoute des scripts en ligne que la politique ci-dessus bloque ;
+            // le site versionne déjà ses fichiers et o2switch les compresse.
+            $res->headers['PageSpeed'] = 'off';
         }
         return $res;
     }
