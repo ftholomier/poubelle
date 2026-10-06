@@ -223,13 +223,47 @@ final class Carnet
     }
 
     /** Pseudo et page publique. @return string|null erreur */
+    /** Mots que le musée garde pour lui (dossiers et adresses techniques à la racine du site). */
+    private const RESERVED = ['admin', 'api', 'en', 'media', 'assets', 'carnet', 'boutique', 'imprimeur', 'interactif', 'wp-admin', 'wp-content', 'wp-login', 'sw', 'manifest', 'hors-ligne', 'robots', 'sitemap', 'favicon', 'apercu-association', 'video'];
+
+    /** Adresse de la page publique d'après le pseudo : « Marival 25 » → « marival-25 ». */
+    public static function slugFor(string $pseudo): string
+    {
+        return trim(substr(slugify($pseudo), 0, 30), '-');
+    }
+
+    /** Adresse courte de la page publique : /pseudo/ (à la racine du musée). */
+    public static function publicUrl(array $c): string
+    {
+        return url('/' . $c['slug'] . '/');
+    }
+
+    /**
+     * Le pseudo peut-il servir d'adresse à ce carnet ? Unique entre les carnets, et jamais l'adresse
+     * d'une page du musée (route, fiche, rubrique, redirection) : la page passe toujours avant.
+     */
+    public static function slugFree(string $slug, string $id): bool
+    {
+        if (strlen($slug) < 2 || in_array($slug, self::RESERVED, true)) {
+            return false;
+        }
+        $owner = (JsonStore::read(self::indexFile(), []) ?: [])['slugs'][$slug] ?? null;
+        if ($owner !== null) {
+            return $owner === $id;
+        }
+        return \App\Kernel::probe('/' . $slug . '/')[0] === 404;
+    }
+
     public static function setPublic(string $id, string $pseudo, bool $on): ?string
     {
         $pseudo = trim((string) preg_replace('/\s+/u', ' ', strip_tags($pseudo)));
         if ($on && (mb_strlen($pseudo) < 2 || mb_strlen($pseudo) > 30)) {
             return t('Choisissez un pseudo de 2 à 30 caractères.');
         }
-        $slug = $on ? trim(substr(slugify($pseudo), 0, 30), '-') . '-' . substr($id, 0, 4) : '';
+        $slug = $on ? self::slugFor($pseudo) : '';
+        if ($on && !self::slugFree($slug, $id)) {
+            return t('Ce pseudo est déjà pris (ou réservé par le musée) : choisissez-en un autre.');
+        }
         JsonStore::update(self::file($id), function ($c) use ($pseudo, $on, $slug) {
             if (is_array($c)) {
                 $c['pseudo'] = $pseudo;
@@ -240,13 +274,38 @@ final class Carnet
         }, null);
         JsonStore::update(self::indexFile(), function ($idx) use ($id, $slug) {
             $idx = is_array($idx) ? $idx : [];
-            $idx['slugs'] = array_filter((array) ($idx['slugs'] ?? []), fn ($v) => $v !== $id);
+            // Les anciennes adresses du carnet restent à lui (redirigées vers la nouvelle).
             if ($slug !== '') {
                 $idx['slugs'][$slug] = $id;
             }
             return $idx;
         }, []);
         return null;
+    }
+
+    /**
+     * Page publique ouverte avant les adresses courtes (« marival25-b402 ») : elle passe à
+     * « marival25 » si l'adresse est libre ; l'ancienne reste redirigée.
+     */
+    public static function upgradeSlug(array $c): array
+    {
+        if (empty($c['public']) || !preg_match('/-[0-9a-f]{4}$/', (string) $c['slug'])) {
+            return $c;
+        }
+        $new = self::slugFor((string) $c['pseudo']);
+        if ($c['slug'] !== $new . '-' . substr((string) $c['id'], 0, 4) || !self::slugFree($new, (string) $c['id'])) {
+            return $c;
+        }
+        self::setPublic((string) $c['id'], (string) $c['pseudo'], true);
+        return self::get((string) $c['id']) ?? $c;
+    }
+
+    /** Carnet public dont c'est l'adresse actuelle ou une ancienne (redirection), ou null. */
+    public static function bySlugOrAlias(string $slug): ?array
+    {
+        $id = (JsonStore::read(self::indexFile(), []) ?: [])['slugs'][$slug] ?? null;
+        $c = $id ? self::get($id) : null;
+        return $c && $c['public'] && $c['slug'] !== '' ? $c : null;
     }
 
     public static function bySlug(string $slug): ?array

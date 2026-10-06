@@ -46,6 +46,9 @@ final class CarnetPages
     public static function home(Request $req): Response
     {
         $c = Carnet::current();
+        if ($c) {
+            $c = Carnet::upgradeSlug($c);
+        }
         $meta = ['title' => t('Mon carnet du supporter'), 'description' => t('Cochez les matchs du FCSM que vous avez vus au stade : votre bilan, vos badges, votre porte-bonheur et une carte à partager.'), 'noindex' => true];
         if (!$c) {
             return self::page('accueil', ['seasons' => array_slice(Carnet::seasons(), 0, 6, true)], $meta);
@@ -97,17 +100,28 @@ final class CarnetPages
         return Response::redirect(url('/carnet/') . '?bienvenue=1');
     }
 
-    public static function publicPage(Request $req, string $slug): Response
+    /**
+     * Page publique d'un carnet : /pseudo/ (adresse courte). L'ancienne adresse /carnet/p/…/ et
+     * les anciens pseudos redirigent vers elle ($legacy).
+     */
+    public static function publicPage(Request $req, string $slug, bool $legacy = false): Response
     {
-        $c = Carnet::bySlug($slug);
+        $c = $legacy ? Carnet::bySlugOrAlias($slug) : Carnet::bySlug($slug);
         if (!$c) {
             return Pages::notFound();
+        }
+        if ($legacy) {
+            $c = Carnet::upgradeSlug($c);
+            // Adresse courte libre (aucune page du musée ne l'a prise depuis) : on y renvoie.
+            if (\App\Kernel::probe('/' . $c['slug'] . '/')[2] === 'carnet') {
+                return Response::redirect(Carnet::publicUrl($c), 301);
+            }
         }
         $s = Carnet::stats(array_keys($c['matches']));
         return self::page('public', ['c' => $c, 's' => $s], [
             'title' => t('Le carnet de supporter de {p}', ['p' => $c['pseudo']]),
             'description' => t('{n} matchs du FCSM vus au stade, {v} victoires.', ['n' => $s['n'], 'v' => $s['v']]),
-            'image' => url('/carnet/p/' . $slug . '/carte.png'), 'noindex' => true,
+            'image' => url('/carnet/p/' . $c['slug'] . '/carte.png'), 'noindex' => true,
         ]);
     }
 
@@ -240,7 +254,7 @@ final class CarnetPages
                     return Response::json(['error' => $err], 422);
                 }
                 $c = Carnet::get($c['id']);
-                return Response::json(['ok' => true, 'url' => $c['public'] ? url('/carnet/p/' . $c['slug'] . '/') : null]);
+                return Response::json(['ok' => true, 'url' => $c['public'] ? Carnet::publicUrl($c) : null]);
 
             case 'rappels':
                 if (!$c) {

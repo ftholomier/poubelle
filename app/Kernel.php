@@ -230,6 +230,11 @@ final class Kernel
             return $res;
         }
 
+        // Page publique d'un carnet du supporter : /pseudo/ (jamais à la place d'une page du musée).
+        if ($req->method === 'GET' && preg_match('#^/([a-z0-9][a-z0-9-]{1,29})/$#', $req->path, $m) && Services\Carnet::bySlug($m[1])) {
+            return Front\CarnetPages::publicPage($req, $m[1]);
+        }
+
         // Ancienne adresse → 301
         if ($to = Redirects::find($req->path, $req->query)) {
             return Response::redirect(url($to), 301);
@@ -301,6 +306,9 @@ final class Kernel
             }
         } elseif (Data\Categories::byPath($path) || in_array($path, ['/nos-lions/', '/matchs/'], true)) {
             return [200, null, 'page'];
+        }
+        if (preg_match('#^/([a-z0-9][a-z0-9-]{1,29})/$#', $path, $m) && Services\Carnet::bySlug($m[1])) {
+            return [200, null, 'carnet'];
         }
         if ($to = Redirects::find($path, $query)) {
             return [301, preg_match('#^([a-z][a-z0-9+.-]*:|//)#i', $to) ? $to : $pre . $to, 'redirection'];
@@ -433,7 +441,7 @@ final class Kernel
         $r->get('/carnet/carte-{style}.svg', fn ($q, $style) => Front\CarnetPages::cardFile($q, $style, 'svg'));
         $r->get('/carnet/acces/{cred}/', fn ($q, $cred) => Front\CarnetPages::access($q, $cred));
         $r->get('/carnet/rappels/arret/{id}/{sig}/', fn ($q, $id, $sig) => Front\CarnetPages::stop($q, $id, $sig));
-        $r->get('/carnet/p/{slug}/', fn ($q, $slug) => Front\CarnetPages::publicPage($q, $slug));
+        $r->get('/carnet/p/{slug}/', fn ($q, $slug) => Front\CarnetPages::publicPage($q, $slug, true));
         $r->get('/carnet/p/{slug}/carte.png', fn ($q, $slug) => Front\CarnetPages::card($q, $slug));
         $r->get('/interactif/souvenirs/{ym}.pdf', fn ($q, $ym) => Front\Kit::pdf($q, $ym));
         $r->get('/souvenir/', fn ($q) => Front\Kit::souvenir($q));

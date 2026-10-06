@@ -617,6 +617,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Boutique : calque « Carte du carnet » à poser sur les goodies (design A ou B), carnet du client repris, matchs et pseudo figés à la commande ; pastille « Pièce unique » dans la liste des modèles du back-office
 - [x] Poster « Ma vie en jaune et bleu » : aperçu et commande dès le premier match
 - [x] Carnet : bouton « Voir ma page publique » (nouvel onglet), « Jour pour jour : vos matchs d'il y a 10, 20, 30 ans », date d'anniversaire du supporter (jour et mois) et message le jour J
+- [x] Page publique du carnet à une adresse courte : /pseudo/ (pseudo unique, jamais l'adresse d'une page du musée ; anciennes adresses /carnet/p/…/ redirigées)
 
 ## Documents de présentation (octobre 2026, mise à jour)
 - [x] Présentation `docs/sochaux-retro-presentation.pdf` : 53 pages (carnet du supporter, poster « Ma vie en jaune et bleu », « Prêt pour le lancement » avec les mesures de vitesse, page récapitulative à jour)

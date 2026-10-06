@@ -71,7 +71,27 @@ $eq('carnet vide : bilan à zéro, aucun badge', [C::stats([])['n'], count(array
 $eq('pseudo trop court refusé', C::setPublic($id, 'x', true) !== null, true);
 $eq('page publique ouverte', C::setPublic($id, 'Lionceau <b>88</b>', true), null);
 $c = C::get($id);
-$eq('pseudo nettoyé, adresse avec pseudo', [$c['pseudo'], $c['slug']], ['Lionceau 88', 'lionceau-88-' . substr($id, 0, 4)]);
+$eq('pseudo nettoyé, adresse courte : /lionceau-88/', [$c['pseudo'], $c['slug'], C::publicUrl($c)], ['Lionceau 88', 'lionceau-88', url('/lionceau-88/')]);
+$other = C::create('autre-supporter@example.org')['carnet']['id'];
+$eq('même pseudo pour un autre carnet : refusé (adresse unique)', is_string(C::setPublic($other, 'lionceau 88', true)), true);
+$eq('pseudo qui tomberait sur une page du musée : refusé', [is_string(C::setPublic($other, 'Matchs', true)), is_string(C::setPublic($other, 'Boutique', true)), is_string(C::setPublic($other, 'Admin', true))], [true, true, true]);
+$eq('pseudo libre : accepté', C::setPublic($other, 'Marival25', true), null);
+$eq('le même carnet garde son adresse en réenregistrant', C::setPublic($id, 'Lionceau 88', true), null);
+// Page ouverte avant les adresses courtes : « pseudo-xxxx » passe à « pseudo », l'ancienne reste à lui.
+$old = 'marival25-' . substr($other, 0, 4);
+$cf = C::$dir . "/$other.json";
+$cd = json_decode((string) file_get_contents($cf), true);
+$cd['slug'] = $old;
+file_put_contents($cf, json_encode($cd));
+\App\Core\JsonStore::forget($cf);
+C::setPublic($other, 'Marival25', false);
+$cd['public'] = true;
+file_put_contents($cf, json_encode($cd));
+\App\Core\JsonStore::forget($cf);
+$up = C::upgradeSlug(C::get($other));
+$eq('ancienne adresse « pseudo-xxxx » : passe à « pseudo »', $up['slug'], 'marival25');
+$eq('ancienne adresse : retrouvée pour la redirection', C::bySlugOrAlias('marival25')['id'] ?? null, $other);
+C::delete($other);
 $eq('page publique trouvée', C::bySlug($c['slug'])['id'] ?? null, $id);
 C::setPublic($id, 'Lionceau 88', false);
 $eq('page publique fermée', C::bySlug($c['slug']), null);

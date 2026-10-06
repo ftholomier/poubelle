@@ -741,7 +741,12 @@ souvenirs) pour refaire les PDF en cache.
 - **Accès sans mot de passe** : `storage/carnets/{id}.json` (e-mail, empreintes des jetons, matchs,
   pseudo) et `index.json` (empreinte HMAC de l'e-mail → id, pseudo → id). Cookie `sr_carnet`
   = `id.jeton` (httponly, 400 jours) ; le lien `/carnet/acces/{id.jeton}/` envoyé à l'e-mail
-  l'ouvre ailleurs (5 liens valables au plus). « Se déconnecter des autres appareils » (API
+  l'ouvre ailleurs (5 liens valables au plus).
+  Page publique : adresse courte `/{slug}/` (slug = pseudo, unique ; `Carnet::slugFree()` refuse un
+  mot réservé ou toute adresse que `Kernel::probe()` sert déjà : route, fiche, rubrique,
+  redirection). Servie par `Kernel::dispatch()` après les pages et avant les redirections, donc
+  jamais à la place d'une page. `/carnet/p/{slug}/` et les anciens slugs « pseudo-xxxx »
+  redirigent (301) ; `upgradeSlug()` passe les anciens au slug court s'il est libre. « Se déconnecter des autres appareils » (API
   `deconnecter`, `Carnet::logoutOthers()`) : un seul jeton neuf pour cet appareil, tous les autres
   appareils et liens envoyés coupés. E-mail obligatoire, un carnet par e-mail : le
   redemander envoie un lien à cette adresse seulement, même réponse que l'adresse ait un carnet
