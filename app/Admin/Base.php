@@ -52,6 +52,7 @@ class Base
             ['messages', 'Messages', '/admin/messages', false],
             ['newsletter', 'Newsletter', '/admin/newsletter', false],
             ['notifications', 'Notifications', '/admin/notifications', true],
+            ['carnets', 'Carnets du supporter', '/admin/carnets', false],
             ['dons', 'Dons', '/admin/dons', false],
         ],
         'Boutique' => [

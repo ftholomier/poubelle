@@ -731,6 +731,30 @@ souvenirs) pour refaire les PDF en cache.
 - **Back-office** : Interactif › Kit souvenirs (`App\Admin\Kit`) : trois mois, choix du
   match, mot d'introduction, PDF ; souvenirs publiés.
 
+## 7 octies ter bis. Carnet du supporter (`App\Services\Carnet`, `App\Front\CarnetPages`)
+
+- **Principe** : chaque supporter coche les matchs vus au stade (domicile et déplacements) et
+  obtient son bilan : V/N/D, buts vus, premier et dernier match, plus belle victoire,
+  adversaires, buteurs et joueurs vus (d'après les compositions, entraîneurs exclus), décennies,
+  « porte-bonheur » (son taux de victoires contre celui du club sur les mêmes saisons, à partir
+  de 5 matchs), 14 badges, carte 1200 × 630 (`Share::carnet()`), page publique sous pseudo.
+- **Accès sans mot de passe** : `storage/carnets/{id}.json` (e-mail, empreintes des jetons, matchs,
+  pseudo) et `index.json` (empreinte HMAC de l'e-mail → id, pseudo → id). Cookie `sr_carnet`
+  = `id.jeton` (httponly, 400 jours) ; le lien `/carnet/acces/{id.jeton}/` envoyé à l'e-mail
+  l'ouvre ailleurs (5 liens valables au plus). E-mail obligatoire, un carnet par e-mail : le
+  redemander envoie un lien à cette adresse seulement, même réponse que l'adresse ait un carnet
+  ou non. Carnet vide jamais confirmé : effacé après 90 jours (tâche « ménage »).
+- **Fiches de match** : « J'y étais ! » (`etais.js`) ajoute le match au carnet (création avec
+  l'e-mail au premier clic, ou « juste compter » comme avant) et compte une fois dans « Ils y
+  étaient ». Les fiches restent dans le cache des pages : l'état du carnet est lu dans le
+  navigateur (`localStorage` « sr-carnet », tenu à jour par chaque réponse de `/api/carnet`).
+- **Pages** (`/carnet/` hors cache des pages, `private, no-store`) : `/carnet/` (bilan ou
+  présentation), `/carnet/saisons/?saison=` (saisie rapide, « domicile seulement »),
+  `/carnet/carte.png` (`?telecharger=1`), `/carnet/p/{pseudo-xxxx}/` et sa carte (noindex).
+  API `POST /api/carnet` : etat, ajouter, retirer, lot, creer, renvoyer, public, supprimer.
+- **Back-office** : Communauté › Carnets du supporter (nombre, matchs cochés, matchs les plus
+  vécus ; aucun e-mail affiché). Tests : `tests/carnet.php`.
+
 ## 7 octies bis. Murs de photos (`App\Services\PhotoWall`, `App\Front\Walls`)
 
 Quatre pages de la rubrique Interactif tirent des photos de la médiathèque au hasard à chaque

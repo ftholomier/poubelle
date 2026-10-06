@@ -418,6 +418,12 @@ final class Kernel
             $r->any($pdfPath, fn ($q) => Front\WallPdf::handle($q, $kind));
         }
         $r->get('/interactif/souvenirs/', fn ($q) => Front\Kit::landing($q));
+        $r->get('/carnet/', fn ($q) => Front\CarnetPages::home($q));
+        $r->get('/carnet/saisons/', fn ($q) => Front\CarnetPages::seasons($q));
+        $r->get('/carnet/carte.png', fn ($q) => Front\CarnetPages::card($q));
+        $r->get('/carnet/acces/{cred}/', fn ($q, $cred) => Front\CarnetPages::access($q, $cred));
+        $r->get('/carnet/p/{slug}/', fn ($q, $slug) => Front\CarnetPages::publicPage($q, $slug));
+        $r->get('/carnet/p/{slug}/carte.png', fn ($q, $slug) => Front\CarnetPages::card($q, $slug));
         $r->get('/interactif/souvenirs/{ym}.pdf', fn ($q, $ym) => Front\Kit::pdf($q, $ym));
         $r->get('/souvenir/', fn ($q) => Front\Kit::souvenir($q));
         $r->get('/souvenir/{id}/', fn ($q, $id) => Front\Kit::souvenir($q, $id));

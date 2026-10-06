@@ -233,8 +233,19 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
       <h2 class="h-section" id="iye-t"><?= e(t('Ils y étaient')) ?></h2>
       <div class="iye__row">
         <p class="iye__n" data-iye-n><?= $etais ? e(t($etais > 1 ? '{n} supporters y étaient' : '{n} supporter y était', ['n' => $etais])) : e(t('Vous étiez au stade ce jour-là ?')) ?></p>
-        <button type="button" class="btn btn--yellow" data-iye-btn><?= e(t('J’y étais !')) ?></button>
+        <button type="button" class="btn btn--yellow" data-iye-btn data-in="<?= e(t('✓ Dans mon carnet')) ?>"><?= e(t('J’y étais !')) ?></button>
+        <a class="iye__carnet" href="<?= e(url('/carnet/')) ?>"><?= e(t('Mon carnet du supporter')) ?> →</a>
       </div>
+      <form class="iye__mail" data-iye-mail hidden novalidate>
+        <p><b><?= e(t('Ajoutez ce match à votre carnet du supporter')) ?></b> <?= e(t(': votre bilan, vos badges et votre porte-bonheur, match après match. Il suffit d’un e-mail pour recevoir le lien personnel de votre carnet.')) ?></p>
+        <div class="iye__mailrow">
+          <input type="email" name="email" required autocomplete="email" placeholder="<?= e(t('vous@exemple.fr')) ?>" aria-label="<?= e(t('Votre e-mail')) ?>">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+          <button class="btn btn--yellow" type="submit"><?= e(t('Créer mon carnet')) ?></button>
+          <button class="linkbtn" type="button" data-iye-count><?= e(t('Non merci, juste compter')) ?></button>
+        </div>
+        <p class="iye__msg" data-iye-msg role="status" data-sent="<?= e(t('Si cette adresse a déjà un carnet, un lien vient d’y être envoyé : ouvrez-le sur cet appareil, puis touchez de nouveau « J’y étais ! ».')) ?>"></p>
+      </form>
       <?php if ($tm): ?>
       <div class="iye__list">
         <?php foreach ($tm as $q): ?>

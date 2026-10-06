@@ -139,6 +139,7 @@ final class Site
                 ['icon' => '⟿', 'label' => t('Fil jaune'), 'd' => t('Reliez deux Lionceaux par leurs matchs.'), 'href' => url('/interactif/fil-jaune/')],
             ]],
             ['title' => t('Participer'), 'tools' => [
+                ['icon' => '✓', 'label' => t('Mon carnet du supporter'), 'd' => t('Vos matchs vus au stade, votre bilan.'), 'href' => url('/carnet/')],
                 ['icon' => 'XI', 'label' => t('Onze de légende'), 'd' => t('Votez pour le centenaire.'), 'href' => url('/centenaire/') . '#onze'],
                 ['icon' => '100', 'label' => t('100 moments'), 'd' => t('Dévoilés un à un jusqu’au centenaire.'), 'href' => url('/centenaire/100-moments/')],
                 ['icon' => '✎', 'label' => t('Contribuer'), 'd' => t('Vos archives enrichissent le musée.'), 'href' => url('/contribuer/')],

@@ -38,6 +38,7 @@ final class Api
                 $p === '/api/onze' && $post => Interactive::onzeVote($req),
                 $p === '/api/quiz' && $post => Interactive::quizResult($req),
                 $p === '/api/retro-direct' && $post => Retro::api($req),
+                $p === '/api/carnet' && $post => CarnetPages::api($req),
                 $p === '/api/fil-jaune' => Fil::api($req),
                 $p === '/api/dons/session' && $post => Donations::checkout($req),
                 $p === '/api/dons/paypal/capture' && $post => Donations::paypalCapture($req),

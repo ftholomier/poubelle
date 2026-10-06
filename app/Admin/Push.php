@@ -18,6 +18,12 @@ use App\Services\WebPush;
  */
 final class Push extends Base
 {
+    /** Communauté › Carnets du supporter : combien, et les matchs les plus « vécus » (aucune donnée personnelle). */
+    public static function carnets(Request $req): Response
+    {
+        return self::html('admin/community/carnets', ['o' => \App\Services\Carnet::overview()], ['title' => 'Carnets du supporter', 'crumb' => 'Communauté', 'nav' => 'carnets']);
+    }
+
     public static function index(Request $req): Response
     {
         $ready = WebPush::available();

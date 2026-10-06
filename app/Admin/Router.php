@@ -177,6 +177,7 @@ final class Router
         $r->get('/admin/messages/{id}', fn ($q, $id) => Community::message($q, $id));
         $r->post('/admin/messages/{id}', fn ($q, $id) => Community::messageAction($q, $id));
         $r->get('/admin/notifications', fn ($q) => Push::index($q));
+        $r->get('/admin/carnets', fn ($q) => Push::carnets($q));
         $r->post('/admin/notifications', fn ($q) => Push::action($q));
         $r->get('/admin/newsletter', fn ($q) => Community::newsletter($q));
         $r->post('/admin/newsletter', fn ($q) => Community::newsletterAction($q));

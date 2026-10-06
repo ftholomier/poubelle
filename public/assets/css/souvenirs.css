@@ -40,3 +40,9 @@
 .iye__list .quote { color: var(--navy); }
 .iye__more { margin: 0; font-size: 17px; }
 .iye__more a { color: var(--yellow); border-bottom: 2px solid currentColor; }
+/* « J'y étais ! » → carnet du supporter */
+.iye__carnet { color: var(--yellow); font-weight: 700; border-bottom: 2px solid currentColor; }
+.iye__mail p { margin: 0 0 10px; }
+.iye__mailrow input[type=email] { flex: 1 1 240px; min-width: 0; padding: 12px 14px; border: 2px solid var(--yellow); font: inherit; }
+.iye .linkbtn { background: none; border: 0; padding: 0; font: inherit; color: var(--cream); text-decoration: underline; cursor: pointer; }
+.iye__msg { min-height: 1.2em; margin: 10px 0 0; font-weight: 700; color: var(--yellow); }

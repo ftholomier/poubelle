@@ -57,6 +57,52 @@ final class Share
         return self::cached($key, fn () => self::drawH2H($club, $c));
     }
 
+    /** Carte du carnet du supporter : matchs vus, bilan, porte-bonheur, années ; $pseudo pour une page publique. */
+    public static function carnet(array $st, string $pseudo = ''): Response
+    {
+        $sig = [$st['n'], $st['v'], $st['nul'], $st['d'], $st['gf'], $st['luck']['diff'] ?? null, $st['first']['date'] ?? '', $st['last']['date'] ?? '', $pseudo, self::VERSION];
+        $key = 'carnet-' . substr(md5(json_encode($sig)), 0, 16);
+        return self::cached($key, function () use ($st, $pseudo) {
+            $im = self::canvas([14, 31, 77]);
+            $cream = [243, 237, 223];
+            $yellow = [246, 196, 0];
+            $head = $pseudo !== '' ? t('LE CARNET DE SUPPORTER DE {p}', ['p' => mb_strtoupper($pseudo)]) : t('MON CARNET DE SUPPORTER');
+            self::text($im, self::printable($head), 'BigShouldersDisplay-700', min(30, self::fit(self::printable($head), 'BigShouldersDisplay-700', 1000, 30)), 60, 72, $yellow, 5);
+            $big = (string) $st['n'];
+            $bigPt = min(self::ptForCap('BigShouldersDisplay-900', 230), self::fit($big, 'BigShouldersDisplay-900', 420, 400));
+            self::text($im, $big, 'BigShouldersDisplay-900', $bigPt, 54, 350, $cream);
+            $w = self::width($big, 'BigShouldersDisplay-900', $bigPt);
+            self::text($im, mb_strtoupper(t($st['n'] > 1 ? 'matchs vus au stade' : 'match vu au stade')), 'BigShouldersDisplay-900', 54, 90 + $w, 270, $yellow);
+            $years = $st['first'] ? substr((string) $st['first']['date'], 0, 4) . ' - ' . substr((string) $st['last']['date'], 0, 4) : '';
+            if ($years !== '') {
+                self::text($im, $years, 'BigShouldersDisplay-700', 48, 90 + $w, 340, $cream);
+            }
+            // Barre V / N / D
+            $total = max(1, $st['v'] + $st['nul'] + $st['d']);
+            $x = 60;
+            $bw = 1080;
+            imagefilledrectangle($im, $x - 5, 385, $x + $bw + 5, 435, self::color($im, $cream));
+            $cur = $x;
+            foreach ([[$st['v'], $yellow], [$st['nul'], $cream], [$st['d'], [31, 63, 168]]] as [$n, $col]) {
+                $seg = (int) round($bw * $n / $total);
+                if ($seg > 0) {
+                    imagefilledrectangle($im, $cur, 390, min($x + $bw, $cur + $seg), 430, self::color($im, $col));
+                }
+                $cur += $seg;
+            }
+            $line = $st['v'] . ' V · ' . $st['nul'] . ' N · ' . $st['d'] . ' D · ' . t('{n} buts vus', ['n' => $st['gf']]);
+            self::text($im, self::printable($line), 'BigShouldersDisplay-900', 50, 60, 510, $cream);
+            if (!empty($st['luck'])) {
+                $l = $st['luck']['diff'];
+                $txt = t('PORTE-BONHEUR {d} PTS', ['d' => ($l >= 0 ? '+' : '−') . abs($l)]);
+                self::text($im, $txt, 'BigShouldersDisplay-900', 40, 60, 572, $l >= 0 ? $yellow : $cream);
+            }
+            self::text($im, mb_strtoupper(self::printable((string) (parse_url(base_url(), PHP_URL_HOST) ?: 'musee.fcsochauxretro.com'))), 'BigShouldersDisplay-700', 22, 640, 572, [170, 180, 210], 3);
+            self::logo($im, 1140 - 84, 470, 84);
+            return $im;
+        });
+    }
+
     private static function cached(string $key, callable $draw): Response
     {
         $file = self::CACHE . '/' . $key . '.png';
