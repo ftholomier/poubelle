@@ -158,6 +158,7 @@
     const f = F(), w = f.w, h = f.h, k = b.dataset.add;
     let l;
     if (k === 'poster' || k === 'posterj' || k === 'posterc') { l = { type: 'poster', kind: { posterj: 'joueur', posterc: 'carnet' }[k] || 'match', x: 0, y: 0, w: r1(w), h: r1(h) }; if (!f.bg) f.bg = '#0E1F4D'; } // fond marine jusque dans les fonds perdus
+    else if (k === 'carte' && Math.abs(w / h - 148 / 105) < 0.03) { l = { type: 'carte', style: 'a', x: 0, y: 0, w: r1(w), h: r1(h) }; if (!f.bg) f.bg = '#0E1F4D'; } // face aux proportions de la carte (poster paysage, carte postale) : pleine page
     else if (k === 'carte') { const cw = Math.min(w * 0.9, h * 0.9 * 148 / 105); l = { type: 'carte', style: 'a', x: r1((w - cw) / 2), y: r1((h - cw * 105 / 148) / 2), w: r1(cw), h: r1(cw * 105 / 148) }; } // carte postale 148 × 105, centrée
     else if (k === 'logo') { const lw = Math.min(w * 0.35, h * 0.5 / 1.133); l = { type: 'logo', x: r1((w - lw) / 2), y: r1(h * 0.1), w: r1(lw), style: 'couleurs', color: '#FDC729' }; }
     else if (k === 'rect' || k === 'ellipse') l = { type: k, x: r1(w * 0.3), y: r1(h * 0.3), w: r1(w * 0.4), h: r1(Math.min(h * 0.2, w * 0.4)), fill: k === 'ellipse' ? '#F6C400' : '', stroke: k === 'rect' ? '#F6C400' : '', sw: k === 'rect' ? r1(Math.max(0.5, w / 200)) : 0, r: 0 };

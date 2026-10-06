@@ -335,6 +335,20 @@ final class Shop extends Base
             $m = Catalog::saveModel(['name' => trim($req->str('name')) ?: 'Nouveau modèle', 'support' => $sup['key'], 'faces' => self::starter($sup)], Auth::user());
             return self::back('/admin/boutique/modeles/' . $m['id'], 'Modèle créé : placez le logo et les textes, puis enregistrez.');
         }
+        if ($action === 'ready') {
+            // Modèles prêts à l'emploi : la carte du carnet en poster (design musée ou billet).
+            $style = \App\Shop\CarnetCard::style($req->str('style'));
+            $sup = Catalog::support('poster-paysage');
+            if (!$sup) {
+                return self::back('/admin/boutique/modeles', null, 'Support « Poster paysage » introuvable.');
+            }
+            $f = $sup['faces']['recto'];
+            $name = 'Poster « Ma carte de supporter » · ' . ($style === 'b' ? 'Billet de match' : 'Charte du musée');
+            $m = Catalog::saveModel(['name' => $name, 'support' => $sup['key'], 'faces' => ['recto' => ['bg' => $style === 'b' ? '#F4EBD3' : '#0E1F4D',
+                'layers' => [['id' => 'carte', 'type' => 'carte', 'style' => $style, 'x' => 0, 'y' => 0, 'w' => $f['w'], 'h' => $f['h']]]]]], Auth::user());
+            Activity::log(self::actor(), 'a créé le modèle « ' . $name . ' » de la boutique', ['path' => '/admin/boutique/modeles/' . $m['id']]);
+            return self::back('/admin/boutique/modeles/' . $m['id'], 'Modèle créé : donnez-lui un prix, puis activez-le.');
+        }
         $m = Catalog::find($id);
         if (!$m) {
             return self::back('/admin/boutique/modeles', null, 'Modèle introuvable.');

@@ -11,6 +11,12 @@
   <label class="f" style="margin:0"><span class="f__k">Support</span><select class="in" name="support"><?php foreach ($supports as $s): if (!$s['active']) continue; ?><option value="<?= e($s['key']) ?>"><?= e($s['name']) ?></option><?php endforeach; ?></select></label>
   <button class="btn btn--yellow">Créer et dessiner</button>
 </form>
+<form method="post" action="/admin/boutique/modeles" class="row" style="gap:8px;flex-wrap:wrap;align-items:center;margin:-6px 0 16px">
+  <?= csrf_field() ?><input type="hidden" name="action" value="ready">
+  <span class="small"><b>Modèles prêts à l’emploi</b> (la carte du carnet du supporter, en poster A4, A3 ou A2) :</span>
+  <button class="btn btn--sm btn--ghost" name="style" value="a">+ Poster « Ma carte de supporter » · Charte du musée</button>
+  <button class="btn btn--sm btn--ghost" name="style" value="b">+ Poster « Ma carte de supporter » · Billet de match</button>
+</form>
 <?php if (!$models): ?><p class="empty">Aucun modèle pour l’instant : créez le premier ci-dessus.</p><?php endif; ?>
 <?php if (count($models) > 1): ?><p class="xs muted" style="margin:0 0 8px">Glissez une carte par sa poignée jaune ✥ pour la déplacer : la boutique présente les produits dans cet ordre (enregistré aussitôt).</p><?php endif; ?>
 <div class="shopgrid" data-sortable data-model-order>

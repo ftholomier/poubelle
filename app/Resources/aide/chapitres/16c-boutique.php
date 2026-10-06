@@ -117,6 +117,7 @@ HTML],
 <li>Dans l’éditeur du modèle : bouton <b>« + Carte du carnet »</b>, puis choisissez le <b>design</b> : « Charte du musée » (bleu nuit et jaune) ou « Billet de match d’époque » (papier crème, talon détachable). Placez et redimensionnez la carte : elle garde ses proportions et se centre dans son cadre.</li>
 <li><b>Côté client</b> : la carte se remplit d’après son carnet ouvert sur l’appareil (un match suffit). Sans carnet, l’aperçu montre l’exemple d’un abonné de Bonal et l’invite à créer le sien.</li>
 </ol>
+<p><b>En poster</b> : Boutique › Modèles, « Modèles prêts à l’emploi », boutons <b>« + Poster « Ma carte de supporter » · Charte du musée »</b> et <b>« … · Billet de match »</b>. Le modèle est créé sur le support « Poster paysage (A4, A3, A2) », la carte en pleine page : donnez-lui un prix, puis activez-le. Le client choisit son format ; le fichier de l’imprimeur est agrandi ou réduit à l’identique.</p>
 <p>À la mise au panier, ses matchs et son pseudo sont <b>figés</b> dans la commande : le fichier de l’imprimeur ne bouge plus. Contrairement au poster, ce n’est pas une pièce numérotée : le client peut en commander plusieurs, et choisir la couleur du produit. Le supporter peut aussi télécharger gratuitement sa carte en PDF depuis son carnet.</p>
 HTML],
         ['id' => 'commandes', 'title' => 'Les commandes', 'admin' => true, 'html' => <<<'HTML'

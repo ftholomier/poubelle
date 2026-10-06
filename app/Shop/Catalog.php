@@ -35,6 +35,7 @@ final class Catalog
         'casquette' => ['name' => 'Casquette', 'mockup' => 'cap', 'faces' => ['avant' => ['Face avant', 100, 55, 0]], 'colors' => ['Bleu nuit' => '#0E1F4D', 'Noir' => '#1A1A1A', 'Blanc' => '#FFFFFF', 'Jaune' => '#F6C400'], 'sizes' => ['Taille unique'], 'note' => 'Broderie : 6 couleurs au plus, pas de texte de moins de 5 mm de haut, pas de trait fin.', 'cost' => 900],
         'echarpe' => ['name' => 'Écharpe', 'mockup' => 'scarf', 'faces' => ['recto' => ['Recto', 1400, 180, 5]], 'colors' => [], 'sizes' => [], 'note' => 'Écharpe imprimée en entier (sublimation) : le fond fait partie du dessin, prévoir les franges aux deux bouts.', 'cost' => 1400],
         'poster' => ['name' => 'Poster (A4, A3, A2)', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 297, 420, 3]], 'colors' => [], 'sizes' => ['A4', 'A3', 'A2'], 'note' => 'Dessiné en A3 ; en A4 ou en A2, le fichier vectoriel est réduit ou agrandi à l’identique, au format exact (mêmes proportions).', 'cost' => 400],
+        'poster-paysage' => ['name' => 'Poster paysage (A4, A3, A2)', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 420, 297, 3]], 'colors' => [], 'sizes' => ['A4', 'A3', 'A2'], 'note' => 'Dessiné en A3 à l’horizontale ; en A4 ou en A2, le fichier vectoriel est réduit ou agrandi à l’identique, au format exact.', 'cost' => 400],
         'poster-a3' => ['name' => 'Poster A3', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 297, 420, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 400],
         'poster-a2' => ['name' => 'Poster A2', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 420, 594, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 700],
         'carte' => ['name' => 'Carte postale', 'mockup' => 'paper', 'faces' => ['recto' => ['Recto', 148, 105, 3], 'verso' => ['Verso', 148, 105, 3]], 'colors' => [], 'sizes' => [], 'note' => '', 'cost' => 80],
@@ -406,6 +407,9 @@ final class Catalog
     public static function scaleFace(array $f, string $size): array
     {
         [$pw, $ph] = self::PAPER[$size] ?? [0, 0];
+        if ($f['w'] > $f['h']) {
+            [$pw, $ph] = [$ph, $pw]; // poster à l'horizontale
+        }
         if (!$pw || abs($f['w'] / $f['h'] - $pw / $ph) > 0.01 || abs($f['w'] - $pw) < 0.5) {
             return $f;
         }

@@ -305,6 +305,9 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   carnet », design « Charte du musée » ou « Billet de match » ; la carte se remplit d'après le
   carnet du client (un match suffit), matchs et pseudo figés à la commande. Le poster « Ma vie en
   jaune et bleu » se commande lui aussi dès le premier match.
+  Modèles prêts à l'emploi (Boutique › Modèles) : « Poster « Ma carte de supporter » » en charte
+  du musée ou en billet de match, sur le support « Poster paysage (A4, A3, A2) » ; donner un prix,
+  puis activer.
 - **Carnets du supporter** (Communauté) : les supporters cochent les matchs vus au stade
   (« J'y étais ! » sur la fiche, ou saison par saison sur /carnet/), avec un lien envoyé à leur
   e-mail ; bilan, badges, porte-bonheur, carte à partager, page publique sous pseudo. L'écran
