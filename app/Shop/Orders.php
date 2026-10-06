@@ -132,6 +132,10 @@ final class Orders
         $chk['values'] += array_intersect_key($auto, Catalog::fields($mm));
         foreach (Catalog::fields($mm) as $k => $f) {
             if (!$f['auto'] && !isset($chk['values'][$k])) {
+                if (($f['poster'] ?? '') === 'carnet') {
+                    // Pas de carnet ouvert sur cet appareil : le poster (ou la carte) se compose d'après lui.
+                    return ['error' => (isset($f['cmin']) ? 'Votre carte' : 'Votre poster') . ' se compose d’après votre carnet du supporter : créez-le (un match suffit) ou ouvrez-le sur cet appareil avec le lien reçu par e-mail, puis revenez sur cette page.'];
+                }
                 return ['error' => 'Complétez « ' . $f['label'] . ' ».'];
             }
         }
