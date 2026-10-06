@@ -274,7 +274,11 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   (au moins 4 temps forts avec leur minute), date (le prochain anniversaire est proposé),
   heure du coup d'envoi, présentation facultative (français, anglais). « Au programme » :
   voir, modifier, retirer ; public des directs passés (pic de spectateurs, réactions). Aucun
-  coût : tout vient de la fiche du match.
+  coût : tout vient de la fiche du match. **Option commentaire radio** (colonne « Commentaire
+  radio ») : « 📻 Préparer » fait écrire par l'IA le commentaire d'un reporter d'époque calé
+  sur les temps forts, lu par la voix IA avec la rumeur de la foule (environ 10 centimes par
+  match, une fois) ; les visiteurs l'écoutent avec « Écouter le commentaire radio ». « À
+  refaire » si les buts ou les minutes de la fiche changent.
 - **Quiz du club-house** : une soirée quiz en direct. « Nouvelle partie » (6 à 30 questions,
   15, 20 ou 30 secondes, questions du quiz du site et/ou des fiches de match, français ou
   anglais) donne un code à 5 chiffres ; « Ouvrir le grand écran » sur l'ordinateur relié à la

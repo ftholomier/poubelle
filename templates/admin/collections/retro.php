@@ -1,6 +1,7 @@
 <?php
 /**
- * Interactif › Rétro-Direct. Variables : $upcoming, $past, $edit, $suggestions, $days, $now, $peak, $etais
+ * Interactif › Rétro-Direct. Variables : $upcoming, $past, $edit, $suggestions, $days, $now, $peak, $etais,
+ * $radio (commentaire radio possible), $radioEstimate (coût estimé d'un commentaire, €)
  */
 use App\Admin\Base;
 use App\Admin\Retro;
@@ -26,11 +27,11 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
   <div class="kpi"><b><?= $fmt($etais) ?></b><span>« J’y étais ! »</span><small>supporters présents au stade à l’époque</small></div>
 </div>
 
-<section class="card" id="programme">
+<section class="card" id="programme" data-radio-estimate="<?= e(\App\Services\AiCosts::fmt($radioEstimate)) ?>" data-jours="<?= (int) $days ?>">
     <div class="card__head"><h2 class="card__t">Au programme</h2><span class="card__note"><a href="<?= e(url('/interactif/retro-direct/')) ?>" target="_blank" rel="noopener">voir la page publique ↗</a></span></div>
     <div class="table" style="border:0">
       <table>
-        <thead><tr><th>Coup d’envoi</th><th>Match</th><th>État</th><th>Public</th><th></th></tr></thead>
+        <thead><tr><th>Coup d’envoi</th><th>Match</th><th>État</th><th>Public</th><th>Commentaire radio</th><th></th></tr></thead>
         <tbody>
         <?php foreach (array_merge($upcoming, $past) as $e): [$st, $tone] = $states[$e['state']]; $s = $e['s']; $stt = $e['stats']; ?>
           <tr>
@@ -38,6 +39,30 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
             <td><a class="rowlink" href="/admin/fiche/<?= (int) $e['id'] ?>"><?= e($label($s)) ?></a> <span class="small muted"><?= e($score($s)) ?></span><br><span class="xs muted"><?= e(trim(($s['m']['label'] ?? '') . ' · ' . date_fr($s['m']['date'] ?? null), ' ·')) ?></span><?= $e['intro'] !== '' ? '<br><span class="xs">' . e(mb_strimwidth($e['intro'], 0, 110, '…')) . '</span>' : '' ?></td>
             <td><span class="pill pill--<?= e($tone) ?>"><?= e($st) ?></span></td>
             <td class="small nowrap"><?php if ($stt): ?><?= $e['state'] === 'direct' ? $fmt($stt['viewers']) . ' en ligne<br>' : '' ?>pic <?= $fmt($stt['peak']) ?><br><span class="xs muted"><?php foreach (RetroDirect::REACTIONS as $k => $em): ?><?= $em ?> <?= $fmt($stt['reactions'][$k]) ?> <?php endforeach; ?></span><?php else: ?><span class="xs muted">—</span><?php endif; ?></td>
+            <td class="small" data-radio-cell data-id="<?= (int) $e['id'] ?>" data-label="<?= e($label($s)) ?>">
+              <?php $rs = \App\Services\RetroRadio::status((int) $e['id'], 'fr'); $mmss = fn ($d) => intdiv((int) $d, 60) . ' min ' . str_pad((string) ((int) $d % 60), 2, '0', STR_PAD_LEFT); ?>
+              <?php if ($rs['state'] === 'ready'): ?>
+                <span class="pill pill--ok">Prêt</span><br><span class="xs muted"><?= e($mmss($rs['dur'])) ?> · <?= (int) $rs['total'] ?> répliques · <?= e(\App\Services\AiCosts::fmt($rs['cost'])) ?></span>
+              <?php elseif ($rs['state'] === 'stale'): ?>
+                <span class="pill pill--warn">À refaire</span><br><span class="xs muted">les buts ou les minutes de la fiche ont changé</span>
+              <?php elseif (in_array($rs['state'], ['waiting', 'script'], true)): ?>
+                <span class="pill pill--info" data-radio-state>En préparation <?= (int) $rs['done'] ?>/<?= (int) $rs['total'] ?: '…' ?></span><?php if (!empty($rs['error'])): ?><br><span class="xs ko"><?= e($rs['error']) ?></span><?php endif; ?>
+              <?php elseif ($rs['state'] === 'error'): ?>
+                <span class="pill pill--ko">Échec</span><br><span class="xs ko"><?= e((string) $rs['error']) ?></span>
+              <?php else: ?>
+                <span class="xs muted">—</span>
+              <?php endif; ?>
+              <?php if ($radio && $e['state'] !== 'termine'): ?>
+                <br><button type="button" class="linkbtn xs" data-radio-run="<?= in_array($rs['state'], ['waiting', 'script'], true) ? 'go' : 'start' ?>"><?= match ($rs['state']) { 'none' => '📻 Préparer', 'waiting', 'script' => 'Avancer ici', 'error' => 'Réessayer', default => 'Refaire' } ?></button>
+                <span class="xs muted" data-radio-msg></span>
+              <?php endif; ?>
+              <?php if ($rs['state'] !== 'none'): ?>
+                <form method="post" action="/admin/retro-direct" style="display:inline" data-confirm="Supprimer le commentaire radio ?|<?= e($label($s)) ?> : le direct se jouera sans commentaire. Le refaire coûte à nouveau.|Supprimer|danger">
+                  <?= csrf_field() ?><input type="hidden" name="action" value="radio-supprimer"><input type="hidden" name="id" value="<?= (int) $e['id'] ?>"><input type="hidden" name="jours" value="<?= (int) $days ?>">
+                  <button type="submit" class="linkbtn xs ko">Supprimer</button>
+                </form>
+              <?php endif; ?>
+            </td>
             <td class="nowrap">
               <a class="linkbtn xs" href="<?= e(RetroDirect::url($s)) ?>" target="_blank" rel="noopener">Voir</a>
               <a class="linkbtn xs" href="/admin/retro-direct?modifier=<?= (int) $e['id'] ?>|<?= e($e['date']) ?><?= e($q) ?>#programmer">Modifier</a>
@@ -48,7 +73,7 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
             </td>
           </tr>
         <?php endforeach; ?>
-        <?php if (!$upcoming && !$past): ?><tr><td colspan="5" class="muted" style="padding:20px;text-align:center">Aucun direct programmé : choisissez un anniversaire ci-dessous, ou un match dans « Programmer un match ».</td></tr><?php endif; ?>
+        <?php if (!$upcoming && !$past): ?><tr><td colspan="6" class="muted" style="padding:20px;text-align:center">Aucun direct programmé : choisissez un anniversaire ci-dessous, ou un match dans « Programmer un match ».</td></tr><?php endif; ?>
         </tbody>
       </table>
     </div>
@@ -87,7 +112,8 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
       <p style="margin:0"><b>Le jour J :</b> à l’heure du coup d’envoi, la page du match déroule la rencontre minute par minute : temps forts, buts (le score change à la bonne minute), remplacements, cartons, 15 minutes de mi-temps, prolongation et tirs au but s’il y en a eu. Tout vient de la fiche du match : aucune IA, aucun coût.</p>
       <p style="margin:0"><b>Avant :</b> compte à rebours sans le score, présentation, brèves d’avant-match, compositions, bouton « Ajouter à mon agenda ». Le direct s’annonce dans le bandeau du site 7 jours avant.</p>
       <p style="margin:0"><b>Pendant :</b> compteur de spectateurs connectés et réactions ⚽ 👏 😱. <b>Après :</b> réactions d’après-match, et le match reste à revivre en accéléré (comme tous les matchs qui ont leurs temps forts).</p>
-      <p style="margin:0"><b>Pour un beau direct :</b> vérifiez dans la fiche les minutes des temps forts et des buts, les entrées en jeu et une belle photo à la une.</p>
+      <p ><b>Pour un beau direct :</b> vérifiez dans la fiche les minutes des temps forts et des buts, les entrées en jeu et une belle photo à la une.</p>
+      <p style="margin:0"><b>Commentaire radio (option) :</b> « 📻 Préparer » fait écrire par l’IA le commentaire d’un reporter radio d’époque, calé sur les temps forts, puis le fait lire par la voix IA, avec la rumeur de la foule. Environ <?= e(\App\Services\AiCosts::fmt($radioEstimate)) ?> par match, une seule fois. Les visiteurs l’écoutent avec le bouton « Écouter le commentaire radio ». Préparez-le une fois la fiche relue : si les buts ou les minutes changent, il est à refaire.</p>
     </div>
   </section>
 </div>

@@ -84,7 +84,13 @@ final class Retro
             'etais1' => t('{n} supporter y était'), 'etaisN' => t('{n} supporters y étaient'),
             'play' => t('Lancer le match'), 'pauseBtn' => t('Pause'), 'resume' => t('Reprendre'), 'restart' => t('Revoir depuis le début'),
             'goalFor' => t('But de {who} pour {team}'), 'goalTeam' => t('But pour {team}'),
+            'radioOn' => t('Couper le commentaire radio'), 'radioOff' => t('Écouter le commentaire radio'),
+            'radioSpeed' => t('Le commentaire radio se joue à vitesse normale (×1).'), 'radioSoon' => t('Le commentaire radio démarrera au coup d’envoi.'),
+            'radioBlocked' => t('Touchez à nouveau le bouton pour lancer le son.'),
         ];
+        // Commentaire radio d'époque, s'il a été préparé pour ce match (dans la langue de la page, sinon en français).
+        $lang = I18n::isEn() ? 'en' : 'fr';
+        $radio = \App\Services\RetroRadio::playlist((int) $s['id'], $lang) ?? ($lang === 'en' ? \App\Services\RetroRadio::playlist((int) $s['id'], 'fr') : null);
         $data = [
             'mode' => $mode,
             'id' => (int) $s['id'],
@@ -100,6 +106,8 @@ final class Retro
             'aet' => $tl['aet'],
             'labels' => $labels,
             'lang' => I18n::isEn() ? 'en' : 'fr',
+            'radio' => $radio,
+            'ambiance' => $radio ? \App\Services\RetroRadio::ambianceUrl() : null,
         ];
         $when = $entry ? self::when((int) $entry['start']) : '';
         $title = trim("$home – $away", ' –');

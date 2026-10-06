@@ -106,6 +106,73 @@
     return [li, speak];
   }
 
+  /* ---------------------------------------------------------- commentaire radio (s'il a été préparé) */
+  // Les répliques se jouent à l'instant de leur événement, à vitesse normale seulement ; une
+  // réplique déjà commencée (arrivée en cours de direct) reprend là où elle en est.
+  const radio = (() => {
+    const box = $('[data-rd-radio]');
+    if (!box || !D.radio || !D.radio.length) return { tick() {}, hold() {} };
+    const btn = $('[data-rd-radio-btn]', box), label = $('[data-rd-radio-label]', box), note = $('[data-rd-radio-note]', box);
+    const segs = D.radio, voice = new Audio(), amb = D.ambiance ? new Audio(D.ambiance) : null;
+    voice.preload = 'auto';
+    if (amb) { amb.loop = true; amb.volume = 0.22; }
+    let on = false, played = new Set(), queue = [], playing = false, normal = true, lastE = -1, held = false;
+    const set = v => {
+      on = v;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      box.classList.toggle('is-on', on);
+      label.textContent = on ? L.radioOn : L.radioOff;
+      if (!on) { voice.pause(); queue = []; playing = false; if (amb) amb.pause(); }
+    };
+    const next = () => {
+      if (!on || playing || !queue.length) return;
+      const [i, offset] = queue.shift();
+      playing = true;
+      voice.src = segs[i].url;
+      const go = () => { try { if (offset > 0.5) voice.currentTime = offset; } catch (e) {} };
+      voice.addEventListener('loadedmetadata', go, { once: true });
+      voice.play().catch(() => { playing = false; note.textContent = L.radioBlocked; set(false); });
+    };
+    voice.addEventListener('ended', () => { playing = false; next(); });
+    voice.addEventListener('error', () => { playing = false; next(); });
+    btn.addEventListener('click', () => {
+      if (on) { set(false); return; }
+      set(true);
+      // Le geste de l'utilisateur débloque le son (téléphones) : la boucle d'ambiance démarre ici.
+      if (amb && lastE >= 0 && lastE < M.end) amb.play().catch(() => {});
+      if (D.mode === 'upcoming') note.textContent = L.radioSoon;
+      const x1 = $('[data-rd-speed="1"]');
+      if (x1 && x1.getAttribute('aria-checked') !== 'true') { x1.click(); note.textContent = L.radioSpeed; }
+      tick(lastE, normal);
+    });
+    function tick(e, isNormal) {
+      if (e < lastE - 2) { played = new Set(); queue = []; voice.pause(); playing = false; } // retour en arrière
+      lastE = e;
+      normal = isNormal;
+      if (!on) return;
+      if (held) { held = false; if (playing && voice.src && !voice.ended) voice.play().catch(() => {}); }
+      if (!normal) { set(false); note.textContent = L.radioSpeed; return; }
+      if (amb) {
+        const live = e >= 0 && e < M.end;
+        if (live && amb.paused) amb.play().catch(() => {});
+        if (!live && !amb.paused) amb.pause();
+        const pause = (e >= M.halftime && e < M.kickoff2) || (M.extratime !== null && e >= M.fulltime90 && e < M.extratime);
+        amb.volume = pause ? 0.08 : 0.22;
+      }
+      segs.forEach((s, i) => {
+        if (played.has(i) || e < s.t || e >= s.t + s.dur) return;
+        played.add(i);
+        queue.push([i, playing || queue.length ? 0 : e - s.t]);
+      });
+      // Une réplique trop en retard (file d'attente) est sautée plutôt que décalée de plus de 20 s.
+      queue = queue.filter(([i]) => e - segs[i].t < 20);
+      next();
+    }
+    // Pause de la rediffusion : la voix et la foule s'arrêtent, et reprennent avec le match.
+    const hold = () => { if (!on) return; held = true; voice.pause(); if (amb) amb.pause(); };
+    return { tick, hold };
+  })();
+
   let shown = 0, score = [0, 0], started = false, finished = false, lastPhase = null;
   function setScore(s, animate) {
     s.forEach((v, i) => {
@@ -169,6 +236,7 @@
         return;
       }
       render(e, !first);
+      radio.tick(e, true);
     };
     tick(true);
     setInterval(() => tick(false), 1000);
@@ -180,6 +248,7 @@
     const pauses = [[M.halftime, M.kickoff2], [M.fulltime90, M.extratime], [M.et_end, M.pens]].filter(([a, b]) => a !== null && b !== null && b > a);
     const setPlay = on => {
       playing = on;
+      if (!on) radio.hold();
       play.textContent = on ? L.pauseBtn : (pos < 0 ? L.play : pos >= M.end ? L.restart : L.resume);
       play.setAttribute('aria-pressed', on ? 'true' : 'false');
       nextBtn.disabled = pos >= M.end;
@@ -196,8 +265,9 @@
       } else {
         pos += dt * speed;
       }
-      if (pos >= M.end) { pos = M.end; render(pos, true); setPlay(false); return; }
+      if (pos >= M.end) { pos = M.end; render(pos, true); radio.tick(pos, true); setPlay(false); return; }
       render(pos, true);
+      radio.tick(pos, speed === 1);
       requestAnimationFrame(loop);
     };
     const start = () => {

@@ -17,3 +17,29 @@
     if (hint) hint.textContent = 'Match du ' + d.split('-').reverse().join('/') + ' : prochain anniversaire le ' + ann.split('-').reverse().join('/') + ' (' + (y - +d.slice(0, 4)) + ' ans). ' + base;
   });
 })();
+
+/* Commentaire radio : « Préparer » demande le commentaire puis le fait avancer ici, une étape à la
+   fois (le texte, puis une réplique), avec la progression ; la page fermée, la tâche planifiée continue. */
+(() => {
+  'use strict';
+  const BO = window.BO;
+  const box = document.querySelector('#programme[data-radio-estimate]');
+  if (!BO || !box) return;
+  const est = box.dataset.radioEstimate, jours = box.dataset.jours;
+  box.addEventListener('click', async e => {
+    const b = e.target.closest('[data-radio-run]');
+    if (!b) return;
+    const cell = b.closest('[data-radio-cell]'), msg = cell.querySelector('[data-radio-msg]');
+    const id = cell.dataset.id;
+    if (b.dataset.radioRun === 'start' && !confirm('Préparer le commentaire radio de ' + cell.dataset.label + ' ?\n\nL’IA écrit le commentaire d’un reporter d’époque, calé sur les temps forts, puis la voix IA le lit, réplique par réplique (quelques minutes).\nCoût estimé : environ ' + est + ', une seule fois.')) return;
+    b.disabled = true;
+    let r = await BO.post('/admin/retro-direct', { action: b.dataset.radioRun === 'start' ? 'radio' : 'radio-etape', id, ajax: '1', jours });
+    for (let i = 0; i < 80 && r && r.ok && ['waiting', 'script'].includes(r.state); i++) {
+      msg.textContent = r.total ? ' ' + r.done + '/' + r.total + ' répliques…' : ' le texte s’écrit…';
+      if (r.error) msg.textContent += ' (' + r.error + ')';
+      r = await BO.post('/admin/retro-direct', { action: 'radio-etape', id, ajax: '1', jours });
+    }
+    if (!r || !r.ok) { msg.textContent = ' ' + ((r && r.error) || 'Erreur inconnue.'); b.disabled = false; return; }
+    location.reload();
+  });
+})();

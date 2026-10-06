@@ -9,6 +9,7 @@ use App\Data\Activity;
 use App\Data\Fiches as Store;
 use App\Data\Index;
 use App\Services\RetroDirect;
+use App\Services\RetroRadio;
 
 /**
  * Interactif › Rétro-Direct : programme des matchs rejoués en direct (date, heure du coup
@@ -43,6 +44,7 @@ final class Retro extends Base
             'suggestions' => RetroDirect::suggestions($days, $now, 40), 'days' => $days, 'now' => $now,
             'peak' => $past ? max(array_map(fn ($e) => $e['stats']['peak'], $past)) : 0,
             'etais' => array_sum(array_map(fn ($e) => RetroDirect::etais($e['id']), $prog)),
+            'radio' => RetroRadio::enabled(), 'radioEstimate' => RetroRadio::estimate(),
         ], ['title' => 'Rétro-Direct', 'crumb' => 'Interactif', 'nav' => 'retro', 'scripts' => ['admin/retro.js']]);
     }
 
@@ -58,6 +60,30 @@ final class Retro extends Base
             return self::back($back, null, 'Choisissez un match dans la liste proposée.');
         }
         $label = trim(($s['m']['home'] ?? '') . ' – ' . ($s['m']['away'] ?? '') . ' (' . substr((string) ($s['m']['date'] ?? ''), 0, 4) . ')');
+        // Commentaire radio : demander (ou refaire), avancer d'une étape (la page affiche la progression), supprimer.
+        if (in_array($action, ['radio', 'radio-etape', 'radio-supprimer'], true)) {
+            $lang = $req->str('langue') === 'en' ? 'en' : 'fr';
+            $ajax = $req->str('ajax') === '1';
+            if ($action === 'radio-supprimer') {
+                RetroRadio::delete($id, $lang);
+                Activity::log(self::actor(), 'a supprimé le commentaire radio', ['title' => $label, 'path' => $s['path']]);
+                return self::back($back . '#programme', 'Commentaire radio supprimé : ' . $label . '.');
+            }
+            if (!RetroRadio::enabled()) {
+                return $ajax ? self::json(['ok' => false, 'error' => 'Clé Gemini non réglée ou commentaire radio désactivé (Réglages).']) : self::back($back, null, 'Clé Gemini non réglée ou commentaire radio désactivé (Réglages).');
+            }
+            if ($action === 'radio') {
+                RetroRadio::request($id, $lang, $req->str('voix') ?: null);
+                Activity::log(self::actor(), 'a demandé le commentaire radio', ['title' => $label, 'path' => $s['path']]);
+                if (!$ajax) {
+                    return self::back($back . '#programme', 'Commentaire radio en préparation : ' . $label . '. Il se fabrique tout seul, réplique par réplique ; suivez la progression ici.');
+                }
+            }
+            \App\Core\Session::release(); // les autres pages du back-office restent utilisables
+            @set_time_limit(180);
+            $st = RetroRadio::step($id, $lang);
+            return self::json(['ok' => true] + $st);
+        }
         if ($action === 'retirer') {
             if (!RetroDirect::remove($id, $date, self::actor())) {
                 return self::back($back, null, 'Ce direct n’est plus au programme.');

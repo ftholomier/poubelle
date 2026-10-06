@@ -34,6 +34,7 @@ final class Cron
         'notifications' => [0, 'Notifications de l’appli du musée : envois automatiques (Rétro-Direct, 100 moments, kit, « Ce jour-là ») et file d’envoi'],
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'carnets' => [600, 'Carnet du supporter : anniversaire des matchs vus (e-mail et notification, à partir de 9 h)'],
+        'radio' => [0, 'Rétro-Direct commenté : fabrication des commentaires radio demandés (texte puis voix, réplique par réplique)'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
         'medias' => [0, 'Médiathèque : dimensions, poids et empreintes des fichiers (doublons)'],
         'murs-photos' => [0, 'Murs de photos : vignettes préparées d’avance'],
@@ -162,6 +163,10 @@ final class Cron
 
             case 'notifications':
                 return Notifications::tick();
+
+            case 'radio':
+                $n = RetroRadio::pending() ? RetroRadio::work(40.0) : 0;
+                return $n ? $n . ' étape(s) de commentaire radio' : null;
 
             case 'carnets':
                 $r = Carnet::anniversaries();

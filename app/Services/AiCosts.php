@@ -32,6 +32,7 @@ final class AiCosts
         'moments' => '100 moments (idées et premiers jets)',
         'boutique' => 'Boutique (banque de textes)',
         'boutique-poster' => 'Boutique (posters souvenirs)',
+        'radio' => 'Rétro-Direct commenté (radio)',
         'autre' => 'Autre',
     ];
 

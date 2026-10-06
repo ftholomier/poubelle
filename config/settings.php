@@ -143,6 +143,11 @@ return [
             ]],
             'auto_update' => ['label' => 'Refaire chaque nuit la voix IA des fiches modifiées (traitement groupé)', 'type' => 'bool', 'default' => true],
             'pages_ai' => ['label' => 'Faire raconter par l’IA les pages de synthèse (face-à-face, saisons, bilans, records, chiffres)', 'type' => 'bool', 'default' => true, 'help' => 'Après le premier lancement pour tout le musée (Système › Fiches audio, où l’on peut d’abord essayer sur une page), chaque nuit, les récits manquants ou dont les chiffres ont changé sont rédigés en traitement groupé, en français et en anglais (moins d’un euro pour tout le musée avec Flash-Lite). En attendant, le récit automatique, gratuit, est lu.'],
+            'radio' => ['label' => 'Rétro-Direct commenté façon radio (à préparer match par match dans Interactif › Rétro-Direct)', 'type' => 'bool', 'default' => true,
+                'help' => 'L’IA écrit le commentaire d’un reporter radio d’époque, calé sur les temps forts, puis la voix IA le lit : environ 10 centimes par match et par langue, une seule fois (affiché dans Coûts IA, usage « Rétro-Direct commenté »).'],
+            'radio_voice' => ['label' => 'Voix du reporter radio', 'type' => 'select', 'default' => 'Fenrir', 'options' => [
+                'Fenrir' => 'Fenrir (enflammée)', 'Puck' => 'Puck (enjouée)', 'Orus' => 'Orus (ferme)', 'Algenib' => 'Algenib (rocailleuse)', 'Charon' => 'Charon (posée)',
+            ]],
             'pages_voice' => ['label' => 'Voix IA pour les récits des pages de synthèse (enregistrée après chaque nouveau récit)', 'type' => 'bool', 'default' => true, 'help' => 'La voix naturelle de Gemini réglée ci-dessus, en français et en anglais : environ 15 à 20 € pour tout le musée en traitement groupé (le tarif des voix double au 1er janvier 2027), puis quelques centimes quand un récit est refait. Sinon : voix du navigateur, gratuite.'],
         ],
     ],

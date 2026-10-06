@@ -141,3 +141,14 @@
   .rdlive-dot { animation: none; }
   .rdbar__fill { transition: none; }
 }
+
+/* Commentaire radio d'époque */
+.rdradio { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+.rdradio__b { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 2px solid var(--yellow); color: var(--yellow); font-family: var(--display); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 16px; }
+.rdradio__b:hover, .rdradio.is-on .rdradio__b { background: var(--yellow); color: var(--navy); }
+.rdradio__b:focus-visible { outline: 3px solid var(--cream); outline-offset: 2px; }
+.rdradio__ico { font-size: 20px; }
+.rdradio.is-on .rdradio__ico { animation: rdradio-on 1.2s ease-in-out infinite; }
+@keyframes rdradio-on { 50% { transform: rotate(-8deg) scale(1.1); } }
+.rdradio__note { font-size: 15px; opacity: .85; max-width: 46ch; }
+@media (prefers-reduced-motion: reduce) { .rdradio.is-on .rdradio__ico { animation: none; } }

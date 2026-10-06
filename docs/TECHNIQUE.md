@@ -769,6 +769,28 @@ souvenirs) pour refaire les PDF en cache.
 - **Back-office** : Communauté › Carnets du supporter (nombre, matchs cochés, matchs les plus
   vécus ; aucun e-mail affiché). Tests : `tests/carnet.php`.
 
+## 7 octies ter sexies. Rétro-Direct commenté façon radio (`App\Services\RetroRadio`)
+
+Option par match (Interactif › Rétro-Direct, colonne « Commentaire radio »). Fabrication par
+étapes, une à la fois (`step()`, verrou `storage/radio/{id}-{lang}.json.work`) : 1. le texte,
+une demande Gemini (`FicheAudio::textModel()`, JSON) avec les événements numérotés du déroulé
+(`RetroDirect::timelineFor()`, textes nettoyés des restes de tweets) ; réponse
+`{segments: [{e: n° d'événement | m: minute d'ambiance, text}]}` lue par `parse()` (au plus 40
+répliques, doublons et didascalies écartés, calées sur l'instant de l'événement) ; 2. chaque
+réplique : `Gemini::speech()` (voix réglée, Fenrir par défaut), `FicheAudio::trimTail()`, poste
+radio `radioize()` (biquads 350 Hz – 3,4 kHz, saturation douce, souffle, craquements, rumeur de
+foule en bruit filtré qui gronde aux buts, 0,4 s avant et 0,7 s après), MP3 par
+`Mp3Encoder` dans `public/media/radio/{id}-{lang}-{n}-{hash}.mp3`. Boucle d'ambiance
+`media/radio/ambiance.mp3` (20 s, fabriquée une fois). Étapes lancées par la page (POST
+`/admin/retro-direct`, `radio`/`radio-etape`, `ajax=1`) ou par la tâche planifiée « radio »
+(40 s par passage). Trois échecs de suite : arrêt (l'équipe relance). Coûts : usage « radio »,
+référence `radio:{id}` (`AiCosts`), estimation `estimate()`. `sig` = empreinte des instants,
+types et scores du déroulé : si elle change, `playlist()` renvoie null (« À refaire »). Page du
+direct : `data.radio` = [{t (instant + 1 s), url, dur, kind}] et `data.ambiance` ; `retro.js`
+joue les répliques à leur instant (en direct, et en rediffusion à ×1 seulement), reprend une
+réplique commencée, saute celles en retard de plus de 20 s, coupe avec la pause. Réglages :
+`audio.radio`, `audio.radio_voice`. Tests : `tests/radio.php` (fausse IA, fausse voix).
+
 ## 7 octies ter quater. Quiz du club-house (`App\Services\QuizLive`, `App\Front\QuizLivePages`)
 
 Partie en direct façon jeu télévisé : un grand écran affiche les questions, les joueurs répondent

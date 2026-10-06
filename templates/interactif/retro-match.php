@@ -58,6 +58,12 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
       <p class="mhero__extra" data-rd-extra hidden></p>
       <p class="sr-only" aria-live="polite" data-rd-say></p>
       <div class="rdbar" data-rd-bar hidden><span class="rdbar__fill" data-rd-bar-fill></span></div>
+      <?php if (!empty($data['radio'])): ?>
+      <div class="rdradio" data-rd-radio>
+        <button type="button" class="rdradio__b" data-rd-radio-btn aria-pressed="false"><span class="rdradio__ico" aria-hidden="true">📻</span> <span data-rd-radio-label><?= e(t('Écouter le commentaire radio')) ?></span></button>
+        <span class="rdradio__note" data-rd-radio-note><?= e(t('Comme à la radio à l’époque : un reporter au micro, la rumeur de la foule. Montez le son !')) ?></span>
+      </div>
+      <?php endif; ?>
       <?php if ($facts): ?>
       <dl class="mhero__facts">
         <?php foreach ($facts as $f): ?><div><dt><?= e($f['k']) ?></dt><dd><?= e($f['v']) ?></dd></div><?php endforeach; ?>

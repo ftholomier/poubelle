@@ -375,11 +375,11 @@ final class Gemini
     }
 
     /** Lit un texte à voix haute (une demande, tarif normal) ; coût compté (usage « audio »). */
-    public static function speech(string $text, string $voice, string $style = '', ?string $ref = null): array
+    public static function speech(string $text, string $voice, string $style = '', ?string $ref = null, string $for = 'audio'): array
     {
         $model = self::ttsModel();
         $r = self::request('POST', 'models/' . rawurlencode($model) . ':generateContent', self::speechRequest($text, $voice, $style), 300);
-        AiCosts::record('audio', $model, AiCosts::usage($r), $ref);
+        AiCosts::record($for, $model, AiCosts::usage($r), $ref);
         $a = self::speechAudio($r);
         if (!$a) {
             throw new \RuntimeException('Gemini : aucune voix dans la réponse.');
