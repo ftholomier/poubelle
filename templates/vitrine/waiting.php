@@ -100,8 +100,8 @@ $desc = mb_substr(trim((string) preg_replace('/\s+/u', ' ', strip_tags($text))),
         <h2 id="vwait-museum" class="vwait__h"><?= $museumOpen ? 'Il est ouvert, et il vous attend' : 'Il ouvre bientôt, lui aussi' ?></h2>
         <p>Près d’un siècle de matchs, de joueurs, de photos et d’archives du FC Sochaux-Montbéliard, gratuitement, pour tous les passionnés.</p>
         <?php if ($teaser): ?>
-          <video class="vwait__teaser" controls playsinline preload="none" poster="<?= e(Host::url('/video/teaser.jpg')) ?>" width="1920" height="1080" aria-label="Teaser vidéo du musée">
-            <source src="<?= e(Host::url('/video/teaser.mp4')) ?>" type="video/mp4">
+          <video class="vwait__teaser" controls playsinline preload="none" poster="<?= e(Host::url(teaser_src('jpg', !\App\Vitrine\Site::$preview))) ?>" width="1920" height="1080" aria-label="Teaser vidéo du musée">
+            <source src="<?= e(Host::url(teaser_src('mp4', !\App\Vitrine\Site::$preview))) ?>" type="video/mp4">
           </video>
         <?php endif; ?>
         <?php if ($museumOpen): ?><a class="btn btn--navy" href="<?= e(Host::museum('/')) ?>">Visiter le musée ↗</a><?php endif; ?>

@@ -143,7 +143,7 @@ $eq('site fermé : vidéo servie à l’équipe, jamais en cache', [$r->status, 
 $settings($open);
 $login(false);
 $r = $get('/');
-$eq('site ouvert : teaser sur l’accueil pour le public', str_contains($r->body, '<section id="teaser"') && str_contains($r->body, 'poster="/video/teaser.jpg"'), true);
+$eq('site ouvert : teaser sur l’accueil pour le public, servi par Apache (adresse versionnée)', str_contains($r->body, '<section id="teaser"') && (bool) preg_match('#poster="/assets/video/teaser-[0-9a-f]{10}\.jpg"#', $r->body) && (bool) preg_match('#<source src="/assets/video/teaser-[0-9a-f]{10}\.mp4"#', $r->body), true);
 $r = $get('/video/teaser.mp4');
 $eq('site ouvert : vidéo servie au public, gardée en cache', [$r->status, $r->headers['Cache-Control'] ?? null], [200, 'public, max-age=86400']);
 $settings($open + ['home.teaser' => false]);
@@ -162,7 +162,7 @@ $r = $get('/', ['apercu-attente' => '1', 'teaser' => '1']);
 $eq('« aperçu avec le teaser » sans être connecté : rien de plus', str_contains($r->body, 'teaser'), false);
 $settings($closed + ['waiting.teaser' => true]);
 $r = $get('/');
-$eq('teaser activé : sur la page d’attente, avec son affiche', str_contains($r->body, 'poster="/video/teaser.jpg"') && str_contains($r->body, '<source src="/video/teaser.mp4"'), true);
+$eq('teaser activé : sur la page d’attente, avec son affiche, servi par Apache', (bool) preg_match('#poster="/assets/video/teaser-[0-9a-f]{10}\.jpg"#', $r->body) && (bool) preg_match('#<source src="/assets/video/teaser-[0-9a-f]{10}\.mp4"#', $r->body), true);
 $r = $get('/video/teaser.mp4');
 $eq('teaser activé : vidéo servie au public, non indexée', [$r->status, $r->headers['Content-Type'] ?? null, $r->headers['Accept-Ranges'] ?? null, $r->headers['Content-Length'] ?? null, $r->headers['X-Robots-Tag'] ?? null], [200, 'video/mp4', 'bytes', (string) $size, 'noindex, nofollow']);
 $r = $get('/video/teaser.jpg');

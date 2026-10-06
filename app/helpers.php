@@ -380,3 +380,30 @@ function ordinal(int $n): string
     $s = in_array($n % 100, [11, 12, 13], true) ? 'th' : (['th', 'st', 'nd', 'rd'][$n % 10] ?? 'th');
     return $n . $s;
 }
+
+/**
+ * Adresse du teaser (vidéo .mp4 ou image .jpg). Montré au public : copie à adresse versionnée
+ * dans public/assets/video/, servie directement par Apache (plages d'octets, cache d'un an) ;
+ * jamais par PHP, qui garderait un processus occupé pendant tout le téléchargement (huit
+ * visiteurs lents suffisaient à bloquer le site). Aperçu de l'équipe sur un site fermé :
+ * l'adresse /video/teaser.* passe par PHP, qui vérifie l'accès.
+ */
+function teaser_src(string $ext, bool $public = true): string
+{
+    $ext = $ext === 'jpg' ? 'jpg' : 'mp4';
+    $src = APP_DIR . '/Resources/video/teaser.' . $ext;
+    if (!$public || !is_file($src)) {
+        return '/video/teaser.' . $ext;
+    }
+    $name = 'teaser-' . substr(md5(filesize($src) . '-' . filemtime($src)), 0, 10) . '.' . $ext;
+    $dest = PUBLIC_PATH . '/assets/video/' . $name;
+    if (!is_file($dest)) {
+        @mkdir(dirname($dest), 0775, true);
+        $tmp = $dest . '.' . getmypid() . '.tmp';
+        if (!@copy($src, $tmp) || !@rename($tmp, $dest)) {
+            @unlink($tmp);
+            return '/video/teaser.' . $ext;
+        }
+    }
+    return '/assets/video/' . $name;
+}

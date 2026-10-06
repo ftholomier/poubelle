@@ -28,7 +28,7 @@ AddDefaultCharset UTF-8
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(self)"
     # Fichiers à adresse versionnée (?v=…) : gardés un an par le navigateur, sans revalidation.
-    <FilesMatch "\.(woff2|webp|avif|jpg|jpeg|png|gif|svg|css|js|ico|mp3|wav)$">
+    <FilesMatch "\.(woff2|webp|avif|jpg|jpeg|png|gif|svg|css|js|ico|mp3|wav|mp4)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
     # Application du musée : service worker, manifeste et page hors connexion toujours revérifiés
@@ -52,10 +52,11 @@ AddDefaultCharset UTF-8
 </IfModule>
 
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml text/xml application/xml
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json application/manifest+json image/svg+xml text/xml application/xml text/plain text/calendar
 </IfModule>
 
 AddType font/woff2 .woff2
+AddType video/mp4 .mp4
 AddType image/webp .webp
 AddType image/avif .avif
 AddType application/json .topojson

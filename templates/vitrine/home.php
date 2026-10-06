@@ -24,8 +24,8 @@ $museum = Host::museum('/');
     </div>
     <?php if ($teaser): ?>
     <figure class="vhero__video">
-      <video controls preload="none" playsinline poster="<?= e(Host::url('/video/teaser.jpg')) ?>" aria-label="Teaser du musée en ligne (1 min 55)">
-        <source src="<?= e(Host::url('/video/teaser.mp4')) ?>" type="video/mp4">
+      <video controls preload="none" playsinline poster="<?= e(Host::url(teaser_src('jpg', !\App\Vitrine\Site::$preview))) ?>" aria-label="Teaser du musée en ligne (1 min 55)">
+        <source src="<?= e(Host::url(teaser_src('mp4', !\App\Vitrine\Site::$preview))) ?>" type="video/mp4">
       </video>
       <figcaption>Le musée en ligne en 1 min 55</figcaption>
     </figure>

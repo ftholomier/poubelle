@@ -85,8 +85,11 @@ final class Api
     /** Preuve du consentement aux cookies (RGPD) : choix, date, empreinte anonymisée. */
     private static function consent(Request $req): Response
     {
-        if (!RateLimiter::hit('consent', $req->ip(), 30, 3600)) {
-            return Response::json(['ok' => false], 429);
+        // Pas de limitation par adresse (un seul choix par nouveau visiteur ; au lancement, des
+        // milliers à la fois) : le journal du mois est simplement plafonné en taille.
+        $log = STORAGE_PATH . '/consent/' . date('Y-m') . '.jsonl';
+        if (@filesize($log) > 200 * 1048576) {
+            return Response::json(['ok' => true]);
         }
         $c = $req->json() ?: [];
         $choices = [];
@@ -101,7 +104,7 @@ final class Api
             'ip' => substr(hash('sha256', $req->ip() . date('Y-m-d') . self::salt()), 0, 16),
             'ua' => mb_substr((string) ($req->header('User-Agent') ?? ''), 0, 120),
         ];
-        \App\Core\JsonStore::append(STORAGE_PATH . '/consent/' . date('Y-m') . '.jsonl', $line);
+        \App\Core\JsonStore::append($log, $line);
         return Response::json(['ok' => true]);
     }
 

@@ -8,3 +8,6 @@
 
 # Verrous d'écriture des fichiers JSON
 *.lock
+
+# Copies du teaser servies par Apache (créées à la demande depuis app/Resources/video)
+/public/assets/video/

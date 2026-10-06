@@ -578,3 +578,9 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Mesure : le service worker ne ralentit pas le back-office (pages chargées en 97 ms sans, 90 ms avec, en local)
 - [x] Écrans de connexion du back-office : un petit match en fond pour le plaisir (passes, tir, « BUT ! », confettis, filet qui tremble, tableau d'affichage avec score et minute) ; terrain debout sur téléphone ; image fixe si l'appareil demande moins d'animations
 - [ ] À faire après la mise en ligne en HTTPS : installer l'appli sur un Android et un iPhone, s'abonner, envoyer un essai (le vrai service de Google ou d'Apple ne peut pas être joint depuis l'environnement de développement)
+
+## Vitesse au lancement (octobre 2026)
+- [x] Banc de test proche de la production (Apache + PHP-FPM + OPcache), mesures de référence, audit en six axes contre-vérifié : `docs/PLAN-VITESSE-LANCEMENT.md`
+- [x] Teaser servi par Apache (plus par PHP), limiteur de débit en fichiers répartis, choix des cookies sans limitation, JavaScript compressé
+- [ ] Reste du plan avant l'ouverture (vers le 25/12/2026) : calculs en cache faits une seule fois, vignettes (verrou + préparation complète), diaporama, recherche, cache des pages, boutique
+

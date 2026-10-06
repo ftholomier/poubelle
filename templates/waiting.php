@@ -48,8 +48,8 @@ $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
     <?php if ($title !== ''): ?><h1 class="h-xl" style="color:var(--cream)"><?= e($title) ?></h1><?php endif; ?>
     <?php if (trim(strip_tags($text)) !== ''): ?><div class="prose"><?= safe_html($text) ?></div><?php endif; ?>
     <?php if (!empty($teaser)): ?>
-      <video class="waiting__teaser" controls playsinline preload="none" poster="/video/teaser.jpg" width="1920" height="1080" aria-label="<?= e(t('Teaser vidéo du musée')) ?>">
-        <source src="/video/teaser.mp4" type="video/mp4">
+      <video class="waiting__teaser" controls playsinline preload="none" poster="<?= e(teaser_src('jpg', (bool) \App\Core\Settings::get('waiting.teaser', false))) ?>" width="1920" height="1080" aria-label="<?= e(t('Teaser vidéo du musée')) ?>">
+        <source src="<?= e(teaser_src('mp4', (bool) \App\Core\Settings::get('waiting.teaser', false))) ?>" type="video/mp4">
       </video>
     <?php endif; ?>
     <?php if ($countdown && $countdownDate !== '' && strtotime($countdownDate) > time()): ?>

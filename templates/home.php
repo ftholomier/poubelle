@@ -79,8 +79,8 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
       <h2 class="h-section" id="teaser-titre"><?= e(t('Un siècle de Lions, réuni dans un seul musée')) ?></h2>
       <p class="hteaser__text"><?= e(t('Deux minutes pour découvrir le musée : près d’un siècle de matchs, de joueurs et de souvenirs du FC Sochaux-Montbéliard.')) ?></p>
     </div>
-    <video class="hteaser__video" controls playsinline preload="none" poster="/video/teaser.jpg" width="1920" height="1080" aria-label="<?= e(t('Teaser vidéo du musée')) ?>" data-reveal>
-      <source src="/video/teaser.mp4" type="video/mp4">
+    <video class="hteaser__video" controls playsinline preload="none" poster="<?= e(teaser_src('jpg', !\App\Front\Seo::closed())) ?>" width="1920" height="1080" aria-label="<?= e(t('Teaser vidéo du musée')) ?>" data-reveal>
+      <source src="<?= e(teaser_src('mp4', !\App\Front\Seo::closed())) ?>" type="video/mp4">
     </video>
   </div>
 </section>
