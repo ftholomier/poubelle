@@ -323,3 +323,11 @@ un bulletin à imprimer ; un lien HelloAsso peut être ajouté dans les réglage
 **Données** : textes modifiés dans le pavé dans `data/vitrine/` ; adhésions et propositions de
 bénévolat dans `storage/vitrine/` (comprises dans les sauvegardes, jamais dans le dépôt,
 effacées automatiquement selon les durées annoncées sur la page Confidentialité).
+
+## Avant l'ouverture : préparer toutes les vignettes
+Les vignettes manquantes sont fabriquées à la première visite (deux à la fois au plus) ; au
+lancement, mieux vaut qu'elles existent déjà. En SSH, depuis le dossier du site :
+`php bin/console.php images all` (toutes les largeurs ; relançable, les fichiers prêts sont
+sautés ; compter environ une heure et 3 à 4 Go). Une largeur seule : `images 800`, ou une liste :
+`images 480,800,1200`. Détails et autres étapes : `docs/PLAN-VITESSE-LANCEMENT.md`.
+

@@ -31,16 +31,42 @@ final class Memo
         // Nom lisible, plus une empreinte : deux noms différents n'ont jamais le même fichier.
         $file = self::DIR . '/' . substr((string) preg_replace('/[^a-z0-9-]/i', '-', $name), 0, 80) . '-' . substr(md5($name), 0, 8) . '.php';
         $c = is_file($file) ? @include $file : null;
-        if (is_array($c) && ($c['name'] ?? null) === $name && ($c['stamp'] ?? null) === $stamp && ($c['at'] ?? 0) > time() - self::TTL) {
+        $mine = is_array($c) && ($c['name'] ?? null) === $name;
+        if ($mine && ($c['stamp'] ?? null) === $stamp && ($c['at'] ?? 0) > time() - self::TTL) {
             return self::$seen["$name|$stamp"] = $c['value'];
         }
-        $value = $compute();
-        try {
-            PhpCache::write($file, ['name' => $name, 'stamp' => $stamp, 'at' => time(), 'value' => $value]);
-        } catch (\Throwable $e) {
-            // cache facultatif : la valeur calculée sert quand même
+        // Un seul processus recalcule ; pendant ce temps, les autres visiteurs reçoivent la valeur
+        // précédente au lieu de refaire tous le même calcul (toutes les 5 minutes et après chaque
+        // enregistrement, des dizaines de requêtes à la fois). Sans valeur précédente, on attend.
+        if (!is_dir(self::DIR)) {
+            @mkdir(self::DIR, 0775, true);
         }
-        return self::$seen["$name|$stamp"] = $value;
+        $lock = @fopen($file . '.lock', 'c');
+        if ($lock && !flock($lock, $mine ? LOCK_EX | LOCK_NB : LOCK_EX)) {
+            fclose($lock);
+            return $c['value'];
+        }
+        try {
+            if (!$mine) {
+                // Calculé par un autre processus pendant l'attente du verrou ?
+                $c = PhpCache::read($file);
+                if (is_array($c) && ($c['name'] ?? null) === $name && ($c['stamp'] ?? null) === $stamp) {
+                    return self::$seen["$name|$stamp"] = $c['value'];
+                }
+            }
+            $value = $compute();
+            try {
+                PhpCache::write($file, ['name' => $name, 'stamp' => $stamp, 'at' => time(), 'value' => $value]);
+            } catch (\Throwable $e) {
+                // cache facultatif : la valeur calculée sert quand même
+            }
+            return self::$seen["$name|$stamp"] = $value;
+        } finally {
+            if ($lock) {
+                flock($lock, LOCK_UN);
+                fclose($lock);
+            }
+        }
     }
 
     /** Empreinte de fichiers : date de modification et taille (fichier absent : « - »). */

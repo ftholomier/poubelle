@@ -25,11 +25,18 @@ production (Apache 2.4 + PHP-FPM 8.3, 8 processus PHP, OPcache, 4 processeurs) a
   journal du mois plafonné à 200 Mo.
 - **Compression du JavaScript** (`text/javascript` ajouté au `.htaccess`) : site.js 22,9 → 7,6 Ko.
 - Le service worker ne garde jamais la vidéo.
+- **Calculs en cache faits une seule fois** (`Memo`, `Chiffres`) : quand un cache est périmé
+  (toutes les 5 minutes, après un enregistrement), un seul processus recalcule ; les autres
+  visiteurs reçoivent aussitôt la version précédente (8 visiteurs simultanés : 1 calcul au lieu
+  de 8, 7 réponses immédiates). Sans version précédente, ils attendent puis relisent.
+- **Vignettes protégées** (`Images::make`) : verrou par image (10 demandes simultanées, une seule
+  fabrication), au plus 2 fabrications à la fois sur tout le site ; au-delà, redirection non
+  gardée vers la taille déjà prête la plus proche. Préparation complète avant l'ouverture :
+  `php bin/console.php images all` (fichiers déjà prêts sautés, relançable).
 
 ## Reste à faire avant le lancement
-Les points P0, P1 et OPS du plan ci-dessous, sauf ceux corrigés plus haut : en priorité les
-calculs refaits par tous les visiteurs à la fois (P0-3), le verrou et le plafond des vignettes
-(P0-4) avec leur préparation complète avant l'ouverture (OPS-2), le diaporama de l'accueil
+Les points P0, P1 et OPS du plan ci-dessous, sauf ceux corrigés plus haut : la préparation
+complète des vignettes sur le serveur avant l'ouverture (OPS-2), le diaporama de l'accueil
 (P1-4), la recherche bornée (P1-6), puis le cache des pages pour les visiteurs anonymes (P1-1,
 le plus gros gain de capacité) et, la boutique ouvrant au lancement, les points boutique de la
 section 5 qui deviennent P1.

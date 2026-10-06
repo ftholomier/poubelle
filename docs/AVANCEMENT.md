@@ -582,5 +582,6 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 ## Vitesse au lancement (octobre 2026)
 - [x] Banc de test proche de la production (Apache + PHP-FPM + OPcache), mesures de référence, audit en six axes contre-vérifié : `docs/PLAN-VITESSE-LANCEMENT.md`
 - [x] Teaser servi par Apache (plus par PHP), limiteur de débit en fichiers répartis, choix des cookies sans limitation, JavaScript compressé
-- [ ] Reste du plan avant l'ouverture (vers le 25/12/2026) : calculs en cache faits une seule fois, vignettes (verrou + préparation complète), diaporama, recherche, cache des pages, boutique
+- [x] Calculs en cache faits une seule fois (les autres visiteurs reçoivent la version précédente) ; vignettes : verrou par image, 2 fabrications au plus à la fois, `images all` pour tout préparer
+- [ ] Reste du plan avant l'ouverture (vers le 25/12/2026) : préparation des vignettes sur le serveur, diaporama, recherche, cache des pages, boutique
 

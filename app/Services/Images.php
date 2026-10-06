@@ -47,7 +47,12 @@ final class Images
         }
         $dest = PUBLIC_PATH . "/media/$width/$srcRel.webp";
         if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
-            if (!self::generate($src, $dest, $width, Media::get($srcRel)['edit'] ?? null)) {
+            $made = self::make($src, $dest, $width, Media::get($srcRel)['edit'] ?? null, true);
+            if ($made === null) {
+                // Déjà deux images en préparation : la taille existante la plus proche, pour cette fois.
+                return self::nearest($srcRel, $src, $width);
+            }
+            if (!$made) {
                 // AVIF que GD ne sait pas lire : l'original, que les navigateurs affichent.
                 return self::isAvif($src)
                     ? new Response((string) file_get_contents($src), 200, ['Content-Type' => 'image/avif', 'Cache-Control' => 'public, max-age=86400', 'X-Content-Type-Options' => 'nosniff'])
@@ -74,11 +79,76 @@ final class Images
         }
         $dest = PUBLIC_PATH . "/media/$width/$rel.webp";
         if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
-            if (!self::generate($src, $dest, $width, Media::get($rel)['edit'] ?? null)) {
+            if (!self::make($src, $dest, $width, Media::get($rel)['edit'] ?? null, false)) {
                 return null;
             }
         }
         return $dest;
+    }
+
+    /** Préparations simultanées au plus, pour tout le site (chacune décode un original en mémoire). */
+    private const SLOTS = 2;
+
+    /**
+     * Prépare une déclinaison une seule fois même si plusieurs visiteurs la demandent ensemble
+     * (verrou par image : les suivants attendent puis trouvent le fichier), et au plus SLOTS à
+     * la fois pour une page web (sans place libre : null, l'appelant sert une autre taille).
+     * Au lancement, des milliers de vignettes manquantes ne peuvent ainsi saturer le serveur.
+     */
+    private static function make(string $src, string $dest, int $width, ?array $edit, bool $web): ?bool
+    {
+        $dir = STORAGE_PATH . '/cache/img-locks';
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        $lock = @fopen($dir . '/' . (crc32($dest) % 64) . '.lock', 'c');
+        if ($lock) {
+            flock($lock, LOCK_EX);
+        }
+        $slot = null;
+        try {
+            clearstatcache(true, $dest);
+            if (is_file($dest) && filemtime($dest) >= filemtime($src)) {
+                return true; // préparée entre-temps par un autre visiteur
+            }
+            if ($web) {
+                for ($i = 0; $i < self::SLOTS && !$slot; $i++) {
+                    $f = @fopen($dir . "/slot-$i.lock", 'c');
+                    if ($f && flock($f, LOCK_EX | LOCK_NB)) {
+                        $slot = $f;
+                    } elseif ($f) {
+                        fclose($f);
+                    }
+                }
+                if (!$slot) {
+                    return null;
+                }
+            }
+            return self::generate($src, $dest, $width, $edit);
+        } finally {
+            if ($slot) {
+                flock($slot, LOCK_UN);
+                fclose($slot);
+            }
+            if ($lock) {
+                flock($lock, LOCK_UN);
+                fclose($lock);
+            }
+        }
+    }
+
+    /** Redirection (jamais gardée) vers la taille déjà prête la plus proche, sinon l'image d'attente. */
+    private static function nearest(string $srcRel, string $src, int $width): Response
+    {
+        $widths = self::WIDTHS;
+        usort($widths, fn ($a, $b) => abs($a - $width) <=> abs($b - $width) ?: $b <=> $a);
+        foreach ($widths as $w) {
+            $f = PUBLIC_PATH . "/media/$w/$srcRel.webp";
+            if ($w !== $width && is_file($f) && filemtime($f) >= filemtime($src)) {
+                return new Response('', 302, ['Location' => "/media/$w/" . str_replace('%2F', '/', rawurlencode($srcRel)) . '.webp', 'Cache-Control' => 'no-store']);
+            }
+        }
+        return self::placeholder();
     }
 
     /**
@@ -216,7 +286,7 @@ final class Images
             }
             $src = Media::file($rel);
             $dest = PUBLIC_PATH . "/media/$width/$rel.webp";
-            if ($src && !is_file($dest) && self::generate($src, $dest, $width, $m['edit'] ?? null)) {
+            if ($src && !is_file($dest) && self::make($src, $dest, $width, $m['edit'] ?? null, false)) {
                 $n++;
                 if ($log && $n % 200 === 0) {
                     $log("{$n}…");

@@ -105,14 +105,20 @@ switch ($cmd) {
         break;
 
     case 'images':
-        // Largeurs demandées par les pages (480, 800 et 1200 pour la plupart des images).
-        $w = (int) ($argv[2] ?? 800);
-        if (!in_array($w, \App\Services\Images::WIDTHS, true)) {
-            fwrite(STDERR, 'Largeur possible : ' . implode(', ', \App\Services\Images::WIDTHS) . "\n");
-            exit(1);
+        // Largeurs demandées par les pages (480, 800 et 1200 pour la plupart des images) ;
+        // « all » : toutes, à lancer avant l'ouverture (les fichiers déjà prêts sont sautés).
+        $arg = (string) ($argv[2] ?? '800');
+        $ws = $arg === 'all' ? \App\Services\Images::WIDTHS : array_map('intval', explode(',', $arg));
+        foreach ($ws as $w) {
+            if (!in_array($w, \App\Services\Images::WIDTHS, true)) {
+                fwrite(STDERR, 'Largeur possible : ' . implode(', ', \App\Services\Images::WIDTHS) . " ou all\n");
+                exit(1);
+            }
         }
-        $n = \App\Services\Images::warmup($w, fn ($m) => print("$m\n"));
-        echo "$n vignettes générées\n";
+        foreach ($ws as $w) {
+            $n = \App\Services\Images::warmup($w, fn ($m) => print("$w px : $m\n"));
+            echo "$w px : $n vignette(s) générée(s)\n";
+        }
         break;
 
     case 'medias':

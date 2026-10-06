@@ -100,12 +100,32 @@ final class Chiffres
         $file = sprintf(self::CACHE, I18n::lang());
         $sig = self::signature();
         $c = JsonStore::read($file);
-        if (is_array($c) && ($c['sig'] ?? '') === $sig && ($c['v'] ?? 0) === self::V) {
+        $usable = is_array($c) && ($c['v'] ?? 0) === self::V && !empty($c['chapters']);
+        if ($usable && ($c['sig'] ?? '') === $sig) {
             return $c;
         }
-        $c = self::build() + ['sig' => $sig, 'v' => self::V];
-        JsonStore::write($file, $c);
-        return $c;
+        // Un seul calcul à la fois (1 s environ) : pendant ce temps, les autres reçoivent la
+        // version précédente ; sans version précédente, ils attendent puis relisent.
+        $lock = @fopen($file . '.lock', 'c');
+        if ($lock && !flock($lock, $usable ? LOCK_EX | LOCK_NB : LOCK_EX)) {
+            fclose($lock);
+            return $c;
+        }
+        try {
+            JsonStore::forget($file);
+            $again = JsonStore::read($file);
+            if (is_array($again) && ($again['sig'] ?? '') === $sig && ($again['v'] ?? 0) === self::V) {
+                return $again;
+            }
+            $c = self::build() + ['sig' => $sig, 'v' => self::V];
+            JsonStore::write($file, $c);
+            return $c;
+        } finally {
+            if ($lock) {
+                flock($lock, LOCK_UN);
+                fclose($lock);
+            }
+        }
     }
 
     /**
