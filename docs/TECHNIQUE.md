@@ -816,8 +816,11 @@ chaque seconde (o2switch, PHP-FPM ; une lecture de fichier JSON par appel).
 - **Pages** (hors cache des pages, `private, no-store`) : `/interactif/quiz-live/?code=` (joueur,
   sans bandeau cookies : `no_cookie`), `/interactif/quiz-live/ecran/{code}/{clé}/` (page autonome,
   QR code `Qr::svg`, 404 sans la bonne clé). Jeton du joueur gardé dans `localStorage`
-  (`ql:{code}`) : un rechargement reprend la partie. API : `rejoindre` (limite 400/h par adresse,
-  60 codes faux/h), `etat`, `repondre` (jeton du joueur), `ecran`, `suivant`, `retirer` (clé).
+  (`ql:{code}`) : un rechargement reprend la partie. API : `rejoindre` (limite 2 000/h par
+  adresse IP, une salle entière partageant la même ; 300 codes faux/h), `etat`, `repondre` (jeton
+  du joueur), `ecran`, `suivant`, `retirer` (clé). Téléphones : toutes les secondes pendant une
+  question, toutes les 2 à 2,5 s sinon. Test de charge : `tests/charge-quiz.js` (200 joueurs :
+  4 ms par appel, 0,3 cœur ; voir docs/PLAN-VITESSE-LANCEMENT.md § 8).
 - **Championnat** (`App\Services\QuizChampionship`, `storage/quiz-championnat.json` : `players`
   {id du carnet: pseudo unique, since, last, banned} et `seasons` {« 2026-2027 » : games, scores
   {pts, games, wins, podiums, best}}). Identité = le compte du carnet du supporter (cookie

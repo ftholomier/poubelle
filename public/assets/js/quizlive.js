@@ -60,15 +60,27 @@
     show('play');
     root.scrollIntoView({ block: 'start' });
     render(state);
-    clearInterval(poll);
-    poll = setInterval(tick, 1000);
+    schedule();
   }
 
+  // Interrogation : chaque seconde pendant une question, toutes les 2 à 2,5 s sinon (salle
+  // d'attente, réponse, classement) ; plus rien à la fin. Un peu de hasard évite que 200
+  // téléphones frappent à la même milliseconde. Mesuré : 200 joueurs, 4 à 8 ms par appel.
+  function delay() {
+    var ph = last ? last.phase : 'lobby';
+    var base = ph === 'question' ? 1000 : (ph === 'lobby' ? 2500 : 2000);
+    return base + Math.random() * 600 - 150;
+  }
+  function schedule() {
+    clearTimeout(poll);
+    if (!me || (last && (last.phase === 'end' || last.phase === 'gone'))) return;
+    poll = setTimeout(tick, delay());
+  }
   function tick() {
-    if (busy) return;
+    if (busy) { schedule(); return; }
     busy = true;
-    api({ action: 'etat' }).then(function (j) { busy = false; render(j); })
-      .catch(function () { busy = false; $('[data-ql-msg]').textContent = T.error; });
+    api({ action: 'etat' }).then(function (j) { busy = false; render(j); schedule(); })
+      .catch(function () { busy = false; $('[data-ql-msg]').textContent = T.error; schedule(); });
   }
 
   function clock() {
@@ -85,7 +97,7 @@
 
   function render(s) {
     if (!s || s.phase === 'gone') {
-      clearInterval(poll);
+      clearTimeout(poll);
       store('ql:' + code, null);
       me = null;
       show('join');
@@ -176,7 +188,7 @@
       q.textContent = T.board;
       msg.textContent = rank;
     } else if (s.phase === 'end') {
-      clearInterval(poll);
+      clearTimeout(poll);
       q.textContent = T.end;
       msg.innerHTML = '';
       var r = document.createElement('b');

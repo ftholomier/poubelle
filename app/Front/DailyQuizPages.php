@@ -81,7 +81,7 @@ final class DailyQuizPages
                 return Response::json(['ok' => true, 'member' => $cid !== null] + DailyQuiz::state($date, $key));
             case 'commencer':
                 // Un réseau partagé (bar, club-house) : limite large par adresse.
-                if (!RateLimiter::hit('defi', $req->ip(), 300, 3600)) {
+                if (!RateLimiter::hit('defi', $req->ip(), 1000, 3600)) {
                     return Response::json(['error' => t('Trop de demandes, réessayez plus tard.')], 429);
                 }
                 return Response::json(['ok' => true, 'member' => $cid !== null] + DailyQuiz::start($date, $key, I18n::lang()));

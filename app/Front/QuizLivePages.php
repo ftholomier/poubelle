@@ -105,12 +105,13 @@ final class QuizLivePages
             return Response::json(['ok' => true] + QuizLive::screenState($g));
         }
         if ($action === 'rejoindre') {
-            // Un club-house partage souvent une seule connexion : limite large par adresse.
-            if (!RateLimiter::hit('quizlive-join', $req->ip(), 400, 3600)) {
+            // Un club-house partage une seule connexion (une adresse pour toute la salle) : limite large.
+            // Mesuré : deux parties de 200 joueurs le même soir, avec les rechargements, dépassaient 400.
+            if (!RateLimiter::hit('quizlive-join', $req->ip(), 2000, 3600)) {
                 return Response::json(['error' => t('Trop de demandes, réessayez plus tard.')], 429);
             }
             if (!$g) {
-                if (!RateLimiter::hit('quizlive-code', $req->ip(), 60, 3600)) {
+                if (!RateLimiter::hit('quizlive-code', $req->ip(), 300, 3600)) {
                     return Response::json(['error' => t('Trop de demandes, réessayez plus tard.')], 429);
                 }
                 return Response::json(['error' => t('Aucune partie avec ce code. Vérifiez le code affiché sur l’écran.')], 404);
@@ -196,7 +197,7 @@ final class QuizLivePages
             return ['error' => t('Adresse e-mail invalide.'), 'status' => 422];
         }
         // Une salle entière s'inscrit souvent depuis la même connexion : limite large par adresse IP.
-        if (!RateLimiter::hit('quizlive-email', $req->ip(), 60, 3600) || !RateLimiter::hit('carnet-email-adr', Carnet::emailKey($email), 3, 3600)) {
+        if (!RateLimiter::hit('quizlive-email', $req->ip(), 400, 3600) || !RateLimiter::hit('carnet-email-adr', Carnet::emailKey($email), 3, 3600)) {
             return ['error' => t('Trop de demandes, réessayez plus tard.'), 'status' => 429];
         }
         $pseudo = QuizLive::cleanName($name);

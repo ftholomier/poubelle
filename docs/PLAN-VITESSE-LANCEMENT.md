@@ -797,3 +797,36 @@ Scratch evidence and the harness are in `(banc de test) perf2026/`:
 - `stampede.sh`
 - `api-live/tools/RateLimiter.sharded.php`
 - `skeptic-*`
+## 8. Clubhouse quiz: load test (October 2026)
+
+Bench as above (Apache 2.4 + PHP-FPM 8.3, 8 static workers, OPcache). Harness:
+`node tests/charge-quiz.js [players] [questions] [poll ms, 0 = like the phones]`. It creates a game,
+joins the players, polls `/api/quiz-live` like the phones and the big screen, sends a burst of
+answers at each question, and has one museum visitor load the home page, a match page and the
+search API in parallel. 5 questions, about 70 s.
+
+| Scenario | Player polls | p50 | p95 | p99 | max | Answers recorded | Errors | PHP CPU |
+|---|---|---|---|---|---|---|---|---|
+| 100 players, 1 s | 6,930 | 4 ms | 7 ms | 12 ms | 66 ms | 500/500 | 0 | — |
+| 200 players, 1 s | 13,878 | 4 ms | 8 ms | 15 ms | 39 ms | 1,000/1,000 | 0 | 28 s per 70 s (0.40 core) |
+| 200 players, adaptive | 10,090 | 4 ms | 8 ms | 16 ms | 58 ms | 1,000/1,000 | 0 | 22.5 s per 72 s (0.31 core) |
+| 2 games × 200, adaptive | 2 × 10,100 | 4 ms | 12 ms | 23 ms | 91 ms | 2 × 1,000 | 0 | 43 s per 72 s (0.60 core) |
+
+The museum visitor during the 2 × 200 run: home page p95 19 ms (max 84 ms), match page p95
+19–23 ms. Answers (`repondre`, locked write) p95 18 ms.
+
+Changes made after the test:
+- **Phone polling is adaptive** (`public/assets/js/quizlive.js`): every 1 s during a question,
+  every 2 s on the answer and the standings, every 2.5 s in the lobby, nothing at the end, with
+  −150 to +450 ms of jitter. This saves 25% of the calls with no visible delay.
+- **Per-IP limits raised for shared networks.** A whole clubhouse uses one public IP. Joins go
+  from 400 to 2,000 per hour, wrong codes from 60 to 300, quiz sign-ups by email from 60 to 400
+  (the per-address limit stays at 3 per hour), and daily-challenge starts from 300 to 1,000.
+  Before this change, two 200-player games on the same evening hit the join limit.
+- Reading the results: the first adaptive runs showed a 300 ms tail. That came from the harness
+  starting all 200 phones in the same millisecond; real players join one by one, and the harness
+  now spreads them out.
+
+On o2switch, expect the CPU per call to be 2 to 3 times the bench figure. One 200-player
+evening then needs about one core for a few minutes of bursts, which stays within the
+hosting limits.
