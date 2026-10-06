@@ -25,6 +25,7 @@
   }
   function api(body) {
     body.lang = lang;
+    body.date = root.getAttribute('data-date') || '';
     if (tok) body.tok = tok;
     return fetch(P + '/api/defi', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), credentials: 'same-origin' })
       .then(function (r) { return r.json(); });
@@ -96,7 +97,8 @@
     var g = $('[data-df-grid]');
     g.innerHTML = '';
     s.grid.forEach(function (x) { var sp = document.createElement('span'); if (x) sp.className = 'is-good'; g.appendChild(sp); });
-    $('[data-df-rank]').textContent = root.getAttribute('data-member') === '1' ? [s.rankLabel, s.streakLabel].filter(Boolean).join(' · ') : T.guest;
+    var lbl = [s.rankLabel, s.streakLabel].filter(Boolean).join(' · ');
+    if (lbl || root.getAttribute('data-member') !== '1') $('[data-df-rank]').textContent = root.getAttribute('data-member') === '1' ? lbl : T.guest;
     var sh = $('[data-df-share]');
     sh.setAttribute('data-grid', s.grid.join(''));
     sh.setAttribute('data-pts', s.score);
@@ -107,7 +109,10 @@
     busy = true;
     clearInterval(tm);
     if (navigator.vibrate) navigator.vibrate(25);
-    api({ action: 'repondre', choice: i }).then(function (s) { busy = false; render(s); }).catch(function () { busy = false; });
+    api({ action: 'repondre', choice: i }).then(function (s) { busy = false; render(s); }).catch(function () {
+      // Réseau coupé : on relit la partie (le serveur garde le temps), la question reprend où elle en est.
+      setTimeout(function () { api({ action: 'etat' }).then(function (s) { busy = false; if (s.ok) render(s); }).catch(function () { busy = false; }); }, 1000);
+    });
   }
 
   function start() {
@@ -155,6 +160,9 @@
   });
 
   // Reprise : une partie commencée (compte, ou invité de cet appareil) continue où elle en était.
+  // Le jeton d'invité part aussi pour un compte : une partie jouée en invité aujourd'hui sur cet
+  // appareil est reprise, hors classement.
+  if (root.getAttribute('data-member') === '1') { try { tok = localStorage.getItem('df:tok'); } catch (e) {} if (tok && !/^[a-f0-9]{32}$/.test(tok)) tok = null; }
   if (root.getAttribute('data-member') === '1' && root.getAttribute('data-done') !== '1') {
     api({ action: 'etat' }).then(function (s) { if (s.ok && s.phase !== 'intro') render(s); }).catch(function () {});
   } else if (root.getAttribute('data-member') !== '1') {

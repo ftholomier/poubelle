@@ -120,6 +120,7 @@
         clock();
         tm = setInterval(clock, 200);
         nextBtn.textContent = T.close;
+        nextBtn.disabled = s.wait > 0; // 3 s de lecture : un double appui ne ferme pas la question
       } else {
         var c = $('[data-qls-clock]');
         c.textContent = '';

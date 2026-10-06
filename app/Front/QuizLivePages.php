@@ -56,7 +56,7 @@ final class QuizLivePages
         $res = Pages::render('interactif/quiz-championnat', [
             'season' => $season, 'seasons' => $seasons, 'rows' => array_slice(QuizChampionship::ranking($season), 0, 200),
             'stats' => QuizChampionship::stats($season), 'account' => (bool) $c, 'welcome' => isset($req->query['bienvenue']),
-            'me' => $me ? ['id' => $c['id'], 'pseudo' => $me['pseudo'], 'rank' => QuizChampionship::rankOf($c['id'], $season)] : null,
+            'me' => $me ? ['id' => $c['id'], 'pseudo' => $me['pseudo'], 'rank' => QuizChampionship::rankOf($c['id'], $season), 'ok' => QuizChampionship::confirmed($c['id'])] : null,
         ], [
             'title' => t('Championnat du club-house {s}', ['s' => $season]),
             'description' => t('Le classement des soirées quiz du club-house : chaque partie rapporte des points selon votre rang.'),

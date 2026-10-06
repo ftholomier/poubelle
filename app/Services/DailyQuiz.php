@@ -120,6 +120,30 @@ final class DailyQuiz
         return self::state($date, $key);
     }
 
+    /**
+     * Compte ouvert sur un appareil où l'on a déjà joué aujourd'hui en invité : il reprend cette
+     * partie, hors classement (les bonnes réponses ont déjà été vues). Sans cela, il suffirait de
+     * jouer en invité puis de créer un compte pour rejouer en connaissant les réponses.
+     */
+    public static function adopt(string $date, string $guestKey, string $cid): void
+    {
+        if ($guestKey === $cid || self::play($date, $cid) || self::result($date, $cid)) {
+            return;
+        }
+        $g = self::play($date, $guestKey);
+        if (!$g) {
+            return;
+        }
+        JsonStore::update(self::playFile($date, $cid), fn ($p) => is_array($p) ? $p : ['key' => $cid, 'unranked' => true] + $g, null);
+    }
+
+    /** Partie de la veille encore en cours (commencée avant minuit) : on la laisse finir. */
+    public static function unfinished(string $date, string $key): bool
+    {
+        $p = self::play($date, $key);
+        return $p !== null && !$p['done'];
+    }
+
     /** État vu par le joueur : question en cours (sans la bonne réponse), ou verdict, ou fin. */
     public static function state(string $date, string $key): array
     {
@@ -129,7 +153,7 @@ final class DailyQuiz
         }
         $qs = self::questions($date, $p['lang']);
         $i = (int) $p['i'];
-        $out = ['n' => count($qs), 'i' => $i, 'score' => (int) $p['score'], 'duration' => self::DURATION,
+        $out = ['n' => count($qs), 'i' => $i, 'score' => (int) $p['score'], 'duration' => self::DURATION, 'unranked' => !empty($p['unranked']),
             'grid' => array_map(fn ($a) => $a[2] > 0 ? 1 : 0, $p['answers'])];
         if ($p['done']) {
             return $out + ['phase' => 'end', 'good' => array_sum($out['grid'])];
@@ -191,7 +215,7 @@ final class DailyQuiz
             }
             return $p;
         }, null);
-        if ($finished && $cid !== null && $key === $cid) {
+        if ($finished && $cid !== null && $key === $cid && empty($p['unranked'])) {
             self::record($date, $cid, $p);
         }
         return self::state($date, $key);
@@ -258,7 +282,7 @@ final class DailyQuiz
         if ($period === 'jour') {
             JsonStore::forget(self::dayFile($value));
             foreach ((JsonStore::read(self::dayFile($value), []) ?: [])['results'] ?? [] as $id => $r) {
-                if (isset($players[$id]) && empty($players[$id]['banned'])) {
+                if (QuizChampionship::listed($players[$id] ?? null, (string) $id)) {
                     $rows[] = ['id' => (string) $id, 'pseudo' => (string) $players[$id]['pseudo']] + $r;
                 }
             }
@@ -268,7 +292,7 @@ final class DailyQuiz
             JsonStore::forget(self::totalsFile());
             $t = JsonStore::read(self::totalsFile(), []) ?: [];
             foreach ($t[$period === 'mois' ? 'months' : 'seasons'][$value] ?? [] as $id => $r) {
-                if (isset($players[$id]) && empty($players[$id]['banned'])) {
+                if (QuizChampionship::listed($players[$id] ?? null, (string) $id)) {
                     $rows[] = ['id' => (string) $id, 'pseudo' => (string) $players[$id]['pseudo']] + $r;
                 }
             }

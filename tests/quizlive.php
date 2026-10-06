@@ -124,6 +124,8 @@ $eq('temps écoulé : réponse affichée', Q::phase($g), 'reveal');
 $eq('réponse trop tardive refusée', Q::answer($code, $b['pid'], $b['tok'], $g['questions'][1]['c'])['ok'], false);
 Q::next($code);
 Q::next($code);
+$eq('« Suivant » pendant les 3 s de lecture : ignoré (double appui)', [Q::next($code)['phase'] ?? null, Q::phase($reload($code))], ['question', 'question']);
+$shift($code, 3001);
 $eq('« Suivant » pendant une question : la ferme', [Q::next($code)['phase'] ?? null, Q::phase($reload($code))], ['reveal', 'reveal']);
 Q::next($code);
 $g = $reload($code);
@@ -154,6 +156,11 @@ $eq('pseudo déjà pris (casse, espaces) refusé', is_string(CH::setPseudo($u2, 
 $eq('pseudo libre / pris', [CH::free('Mamie'), CH::free('LE BKOP/B'), CH::free('Le bKop/b', $u1)], [true, false, true]);
 CH::setPseudo($u2, 'Mamie Bonal');
 CH::setPseudo($u3, 'Zizou');
+$eq('compte pas encore confirmé (lien de l’e-mail jamais ouvert)', [CH::confirmed($u1), CH::player($u1)['ok']], [false, false]);
+foreach ([$u1, $u2, $u3] as $u) {
+    Carnet::confirm($u); // lien de l'e-mail ouvert
+}
+$eq('lien ouvert : compte confirmé au championnat', [CH::confirmed($u1), CH::confirmed($u3)], [true, true]);
 $eq('points d’un rang', [CH::points(1), CH::points(2), CH::points(3), CH::points(7), CH::points(8), CH::points(40)], [11, 9, 7, 3, 1, 1]);
 
 // Une partie jouée jusqu'au bout : scores imposés, puis « Suivant » jusqu'au podium.
@@ -214,6 +221,24 @@ CH::resetPseudo($u3);
 $eq('pseudo déplacé remplacé', (bool) preg_match('/^Joueur \d{1,4}$/', CH::player($u3)['pseudo']), true);
 Carnet::delete($u1);
 $eq('compte supprimé : effacé du championnat', [CH::has($u1), in_array($u1, array_column(CH::ranking(), 'id'), true)], [false, false]);
+// Compte jamais confirmé (adresse inventée ?) : points gardés, absent des classements jusqu'au lien.
+$u4 = $acc('joueur4@example.org');
+CH::setPseudo($u4, 'Fantôme');
+[, $g6, $p6] = $play([['Fantôme', $u4, 9000], ['Zizou', $u3, 100], ['Invité', null, 50]]);
+$eq('compte non confirmé : partie comptée, hors classement public', [$g6['counted'], in_array('Fantôme', array_column(CH::ranking(), 'pseudo'), true), in_array('Fantôme', array_column(CH::ranking(null, null, true), 'pseudo'), true)], [true, false, true]);
+$ps6 = Q::playerState($g6, $p6[0]);
+$eq('téléphone : « ouvrez le lien de l’e-mail »', [$ps6['confirm'] ?? false, $ps6['champ'] ?? null], [true, null]);
+Carnet::confirm($u4);
+$eq('lien ouvert plus tard : points retrouvés au classement', CH::rankOf($u4)['pts'] ?? null, 11);
+// Joueur inscrit avant la règle (pas de champ ok) : son carnet fait foi.
+$cj = json_decode((string) file_get_contents(CH::$file), true);
+unset($cj['players'][$u4]['ok'], $cj['players'][$u3]['ok']);
+file_put_contents(CH::$file, json_encode($cj));
+$eq('ancien joueur au carnet confirmé : toujours classé', [CH::confirmed($u4), in_array($u4, array_column(CH::ranking(), 'id'), true)], [true, true]);
+CH::resetPseudo($u4);
+CH::resetPseudo($u3);
+$eq('pseudo déplacé : jamais le même que celui d’un autre joueur', CH::player($u4)['pseudo'] !== CH::player($u3)['pseudo'], true);
+
 $old = Carnet::create('ancien@example.org')['carnet']['id'];
 $cf = Carnet::$dir . "/$old.json";
 $cd = json_decode((string) file_get_contents($cf), true);

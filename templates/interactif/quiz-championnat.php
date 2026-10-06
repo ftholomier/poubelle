@@ -41,6 +41,7 @@ $current = $season === QuizChampionship::season();
         <h2 class="cncard__t"><?= e(t('Mon championnat')) ?></h2>
         <?php if ($me): ?>
           <p class="qc__mine"><b><?= e($me['pseudo']) ?></b><br><?= $me['rank'] ? e(t('{r} · {n} pts en {g} parties', ['r' => ordinal($me['rank']['rank']), 'n' => $me['rank']['pts'], 'g' => $me['rank']['games']])) : e(t('Pas encore de partie comptée cette saison.')) ?></p>
+          <?php if (!$me['ok']): ?><p class="ql__hint"><?= e(t('Pour apparaître au classement, ouvrez une fois le lien reçu par e-mail (pensez aux indésirables). Vos points sont gardés d’ici là.')) ?></p><?php endif; ?>
           <form class="qc__form" data-qc-form>
             <label for="qc-name"><?= e(t('Changer de pseudo')) ?></label>
             <div class="cnmail__row"><input id="qc-name" name="name" maxlength="20" minlength="2" required value="<?= e($me['pseudo']) ?>"><button class="btn btn--yellow" type="submit"><?= e(t('Enregistrer')) ?></button></div>

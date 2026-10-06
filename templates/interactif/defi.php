@@ -24,10 +24,11 @@ $i18n = [
   <script type="application/json" id="df-i18n"><?= json_encode($i18n + ['date' => date_fr($date), 'url' => $share], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
   <?php if ($welcome && $me): ?><p class="cnwelcome"><?= e(t('C’est validé : ce téléphone vous reconnaîtra chaque jour, sous le nom {p}.', ['p' => $me['pseudo']])) ?></p><?php endif; ?>
   <div class="qc__grid">
-    <section class="df" data-df data-lang="<?= e(\App\Services\I18n::lang()) ?>" data-member="<?= $me ? '1' : '0' ?>" data-done="<?= $me && $me['result'] ? '1' : '0' ?>">
+    <section class="df" data-df data-date="<?= e($date) ?>" data-lang="<?= e(\App\Services\I18n::lang()) ?>" data-member="<?= $me ? '1' : '0' ?>" data-done="<?= $me && $me['result'] ? '1' : '0' ?>">
       <div class="df__intro" data-df-step="intro"<?= $me && $me['result'] ? ' hidden' : '' ?>>
         <?php if ($me): ?>
           <p class="ql__me"><?= e(t('Vous jouez sous le nom')) ?> <b><?= e($me['pseudo']) ?></b><?php if ($me['streak']['cur'] > 0): ?> · <?= e(tn($me['streak']['cur'], '{n} jour d’affilée', '{n} jours d’affilée')) ?><?php endif; ?></p>
+          <?php if (!$me['ok']): ?><p class="ql__hint"><?= e(t('Pour apparaître au classement, ouvrez une fois le lien reçu par e-mail (pensez aux indésirables).')) ?></p><?php endif; ?>
           <button type="button" class="qbtn" data-df-start><?= e(t('Lancer le défi')) ?></button>
         <?php else: ?>
           <form class="ql__form" data-df-form>
@@ -65,7 +66,7 @@ $i18n = [
         <b class="ql__final" data-df-score><?= $me && $me['result'] ? e(t('{n} points', ['n' => $fmt($me['result']['pts'])])) : '' ?></b>
         <p class="df__good" data-df-good><?= $me && $me['result'] ? e(t('{g}/{n} bonnes réponses', ['g' => $me['result']['good'], 'n' => DailyQuiz::COUNT])) : '' ?></p>
         <p class="df__grid" data-df-grid aria-hidden="true"><?php if ($me && $me['result']): ?><?php foreach (str_split($me['result']['grid']) as $g): ?><span class="<?= $g === '1' ? 'is-good' : '' ?>"></span><?php endforeach; ?><?php endif; ?></p>
-        <p class="df__rank" data-df-rank><?= $me && $me['rank'] ? e(t('{r} sur {n} aujourd’hui', ['r' => ordinal($me['rank']['rank']), 'n' => $players])) : '' ?><?= $me && $me['streak']['cur'] > 1 ? ' · ' . e(t('{n} jours d’affilée', ['n' => $me['streak']['cur']])) : '' ?></p>
+        <p class="df__rank" data-df-rank><?= $me && $me['result'] && !$me['ok'] ? e(t('Dernière étape : ouvrez le lien reçu par e-mail (pensez aux indésirables). Votre résultat apparaîtra alors au classement.')) : '' ?><?= $me && $me['rank'] ? e(t('{r} sur {n} aujourd’hui', ['r' => ordinal($me['rank']['rank']), 'n' => $players])) : '' ?><?= $me && $me['streak']['cur'] > 1 ? ' · ' . e(t('{n} jours d’affilée', ['n' => $me['streak']['cur']])) : '' ?></p>
         <button type="button" class="qbtn qbtn--sm" data-df-share data-grid="<?= e($me['result']['grid'] ?? '') ?>" data-pts="<?= (int) ($me['result']['pts'] ?? 0) ?>"><?= e(t('Partager mon résultat')) ?></button>
         <p class="ql__hint" data-df-share-msg role="status"></p>
         <p class="df__tomorrow"><?= e(t('Nouveau défi demain, à minuit.')) ?></p>

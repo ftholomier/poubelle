@@ -163,6 +163,7 @@ final class Carnet
             }
             return $c;
         }, null);
+        QuizChampionship::confirm($id);
     }
 
     /** Ajoute (true) ou retire (false) des matchs. @return list<int>|null matchs du carnet */

@@ -603,6 +603,15 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Défi du jour en solo : 10 questions identiques pour tous (français et anglais), un essai par jour et par compte, temps mesuré par le serveur, classements du jour, du mois et de la saison, série de jours, résultat à partager, rappel par notification, invités sans classement (`tests/defi.php`)
 - [x] Championnat du club-house par saison : compte par e-mail et lien sécurisé (le compte du carnet du supporter), points selon le rang de chaque partie, invités sans points, classement sur le grand écran (salle d'attente, après le podium), page publique, partie amicale, modération (pseudo déplacé, retrait du classement)
 
+## Contrôle des nouveautés (quiz, championnat, défi, radio) — octobre 2026
+- [x] Classements réservés aux comptes confirmés (lien de l'e-mail ouvert une fois) : plus de classement rempli avec des adresses inventées ; points gardés en attendant, « en attente du lien » dans le back-office
+- [x] Défi du jour : invité devenu membre le même jour sur le même appareil → partie reprise hors classement ; partie commencée avant minuit terminée normalement ; réponse renvoyée si le réseau coupe
+- [x] Grand écran : double appui pendant les 3 s de lecture ignoré (la question ne se ferme plus à vide)
+- [x] Téléphone : code gardé dans l'adresse (rechargement = même place), état aussitôt au retour de veille, réponse renvoyée une fois si le réseau coupe, plus de bandeau « Installer l'appli » sur les pages de jeu
+- [x] Back-office : modération des joueurs du défi qui n'ont pas joué en salle ; « Pseudo déplacé » jamais identique à un autre pseudo
+- [x] Parcours vérifié sur le banc : anglais, mobile, rechargement, double appui, défi, championnat, back-office ; suites carnet, quiz, défi, radio, Rétro-Direct, notifications, mises à jour au vert
+- [x] Correctif en ligne : PageSpeed d'o2switch neutralisé (front sans styles après la mise à jour du 06/10)
+
 ## Documents de présentation (octobre 2026, mise à jour)
 - [x] Présentation `docs/sochaux-retro-presentation.pdf` : 53 pages (carnet du supporter, poster « Ma vie en jaune et bleu », « Prêt pour le lancement » avec les mesures de vitesse, page récapitulative à jour)
 - [x] Infographie A4 `docs/sochaux-retro-fonctionnalites.pdf` : carnet du supporter, poster du carnet, cache des pages (toujours 2 pages)

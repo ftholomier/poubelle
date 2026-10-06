@@ -292,7 +292,10 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   au 31 juillet ; les invités jouent sans points. Partie comptée à partir de 3 joueurs ; case
   « Partie amicale » pour un essai. Classement dans la salle d'attente, après le podium et sur
   la page publique `/interactif/quiz-live/championnat/`. Tableau du championnat : « Pseudo
-  déplacé » (remplacé par « Joueur 1234 »), « Retirer du classement » / réintégrer.
+  déplacé » (remplacé par « Joueur 1234 »), « Retirer du classement » / réintégrer. Un compte
+  n'apparaît aux classements publics qu'une fois le lien de l'e-mail ouvert (points gardés,
+  « en attente du lien » dans le tableau). Les joueurs du défi du jour qui n'ont pas joué en
+  salle ont leur tableau sous celui du championnat, avec les mêmes boutons.
 - **Défi du jour** (`/interactif/defi/`, rien à régler) : 10 questions en solo sur le
   téléphone, les mêmes pour tout le monde dans la journée, un essai par jour et par compte
   (même compte et même pseudo que le championnat), invités sans classement. Classements du

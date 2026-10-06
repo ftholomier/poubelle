@@ -14,8 +14,13 @@ use App\Core\JsonStore;
  * dans la partie : 10, 8, 6, 5, 4, 3, 2, puis 1 point de participation pour tous. Ainsi une
  * partie de 6 questions pèse autant qu'une partie de 30.
  *
+ * Les classements (championnat et défi du jour) ne montrent que les comptes confirmés : le lien
+ * de l'e-mail a été ouvert au moins une fois (Carnet::confirm). Les points d'un compte pas encore
+ * confirmé sont gardés et apparaissent dès qu'il l'est : pas de classement truqué par des adresses
+ * inventées.
+ *
  * Un seul fichier : storage/quiz-championnat.json
- *   players : {id du carnet: {pseudo, since, last, banned}}
+ *   players : {id du carnet: {pseudo, since, last, banned, ok (compte confirmé)}}
  *   seasons : {"2026-2027": {games: {clé de partie: {date, players, counted}}, scores: {id: {pts, games, wins, podiums, best}}}}
  */
 final class QuizChampionship
@@ -81,7 +86,8 @@ final class QuizChampionship
                 }
             }
             $d['players'][$id] = ['pseudo' => $pseudo, 'since' => $d['players'][$id]['since'] ?? date('Y-m-d'),
-                'last' => $d['players'][$id]['last'] ?? date('Y-m-d'), 'banned' => $d['players'][$id]['banned'] ?? false];
+                'last' => $d['players'][$id]['last'] ?? date('Y-m-d'), 'banned' => $d['players'][$id]['banned'] ?? false,
+                'ok' => $d['players'][$id]['ok'] ?? (bool) (Carnet::get($id)['confirmed'] ?? false)];
             return $d;
         }, []);
         return $err;
@@ -96,6 +102,46 @@ final class QuizChampionship
             }
         }
         return true;
+    }
+
+    /** Compte confirmé (lien de l'e-mail ouvert) : il apparaît aux classements. */
+    public static function confirmed(string $id): bool
+    {
+        $p = self::data()['players'][$id] ?? null;
+        return $p !== null && self::ok($p, $id);
+    }
+
+    /**
+     * Joueur inscrit avant la règle du lien confirmé (pas de champ ok) : l'état de son carnet fait
+     * foi, lu une fois par requête.
+     */
+    private static function ok(array $p, string $id): bool
+    {
+        static $legacy = [];
+        if (isset($p['ok'])) {
+            return (bool) $p['ok'];
+        }
+        return $legacy[$id] ??= (bool) (Carnet::get($id)['confirmed'] ?? false);
+    }
+
+    /** Le lien de l'e-mail vient d'être ouvert (Carnet::confirm) : le joueur entre aux classements. */
+    public static function confirm(string $id): void
+    {
+        if (!self::has($id) || !empty(self::data()['players'][$id]['ok'])) {
+            return;
+        }
+        JsonStore::update(self::$file, function ($d) use ($id) {
+            if (isset($d['players'][$id])) {
+                $d['players'][$id]['ok'] = true;
+            }
+            return $d;
+        }, []);
+    }
+
+    /** Joueur visible aux classements : confirmé et pas retiré. */
+    public static function listed(?array $p, string $id = ''): bool
+    {
+        return $p !== null && empty($p['banned']) && self::ok($p, $id);
     }
 
     /** Le joueur vient de jouer (défi du jour) : le ménage des comptes le garde. */
@@ -128,7 +174,12 @@ final class QuizChampionship
     {
         JsonStore::update(self::$file, function ($d) use ($id) {
             if (isset($d['players'][$id])) {
-                $d['players'][$id]['pseudo'] = 'Joueur ' . substr((string) hexdec(substr($id, 0, 6)), -4);
+                $taken = array_map(fn ($p) => self::norm((string) $p['pseudo']), $d['players']);
+                $n = (int) substr((string) hexdec(substr($id, 0, 6)), -4);
+                while (in_array(self::norm('Joueur ' . $n), $taken, true)) {
+                    $n = random_int(1000, 9999);
+                }
+                $d['players'][$id]['pseudo'] = 'Joueur ' . $n;
             }
             return $d;
         }, []);
@@ -153,18 +204,19 @@ final class QuizChampionship
     }
 
     /**
-     * Classement d'une saison : [{id, pseudo, pts, games, wins, podiums, best, rank}], exclus retirés.
+     * Classement d'une saison : [{id, pseudo, pts, games, wins, podiums, best, rank}], sans les comptes
+     * retirés ni ceux pas encore confirmés ($all : tous, pour le back-office).
      * Départage : points, victoires, podiums, puis moins de parties jouées.
      */
-    public static function ranking(?string $season = null, ?array $d = null): array
+    public static function ranking(?string $season = null, ?array $d = null, bool $all = false): array
     {
         $d ??= self::data();
         $season ??= self::season();
         $rows = [];
         foreach ($d['seasons'][$season]['scores'] ?? [] as $id => $s) {
             $p = $d['players'][$id] ?? null;
-            if ($p && empty($p['banned'])) {
-                $rows[] = ['id' => (string) $id, 'pseudo' => (string) $p['pseudo']] + $s;
+            if ($p && ($all ? empty($p['banned']) : self::listed($p, (string) $id))) {
+                $rows[] = ['id' => (string) $id, 'pseudo' => (string) $p['pseudo'], 'ok' => self::ok($p, (string) $id)] + $s;
             }
         }
         usort($rows, fn ($a, $b) => [$b['pts'], $b['wins'], $b['podiums'], $a['games'], $a['pseudo']] <=> [$a['pts'], $a['wins'], $a['podiums'], $b['games'], $b['pseudo']]);
@@ -219,7 +271,8 @@ final class QuizChampionship
         $season = self::season((int) $g['created']);
         $moves = [];
         $done = false;
-        JsonStore::update(self::$file, function ($d) use ($key, $season, $mine, $g, &$moves, &$done) {
+        $counted = 0;
+        JsonStore::update(self::$file, function ($d) use ($key, $season, $mine, $g, &$moves, &$done, &$counted) {
             $d = (is_array($d) ? $d : []) + ['players' => [], 'seasons' => []];
             if (isset($d['seasons'][$season]['games'][$key])) {
                 $done = true;
@@ -230,7 +283,6 @@ final class QuizChampionship
                 $before[$r['id']] = $r['rank'];
             }
             $d['seasons'][$season] ??= ['games' => [], 'scores' => []];
-            $counted = 0;
             foreach ($mine as $cid => $rank) {
                 if (!isset($d['players'][$cid]) || !empty($d['players'][$cid]['banned'])) {
                     continue;
@@ -253,7 +305,8 @@ final class QuizChampionship
             }
             return $d;
         }, []);
-        return ['counted' => !$done && $moves !== [], 'moves' => $moves];
+        // Comptée dès qu'un compte a marqué, même pas encore confirmé (ses points attendent le lien).
+        return ['counted' => !$done && $counted > 0, 'moves' => $moves];
     }
 
     /** Chiffres d'une saison (back-office, page publique). */

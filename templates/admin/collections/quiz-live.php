@@ -81,14 +81,14 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
 
 <section class="card" id="championnat">
   <div class="card__head"><h2 class="card__t">Championnat <?= e($season) ?></h2><span class="card__note"><?= (int) $stats['games'] ?> partie<?= $stats['games'] > 1 ? 's' : '' ?> comptée<?= $stats['games'] > 1 ? 's' : '' ?> · <?= (int) $stats['players'] ?> joueur<?= $stats['players'] > 1 ? 's' : '' ?> classé<?= $stats['players'] > 1 ? 's' : '' ?> · <a href="<?= e(url('/interactif/quiz-live/championnat/')) ?>" target="_blank" rel="noopener">page publique ↗</a></span></div>
-  <p class="card__body small" style="margin:0">Seuls les joueurs qui ont laissé leur e-mail (compte du carnet du supporter, lien sécurisé) comptent ; les invités jouent sans points. Points par partie selon le rang : <?= e(implode(', ', array_map(fn ($p) => (string) ($p + 1), \App\Services\QuizChampionship::SCALE))) ?>, puis 1 point de participation ; une partie compte à partir de <?= \App\Services\QuizChampionship::MIN_PLAYERS ?> joueurs. Nouveau classement chaque 1er août. Aucun e-mail n’est affiché ici.</p>
+  <p class="card__body small" style="margin:0">Seuls les joueurs qui ont laissé leur e-mail (compte du carnet du supporter, lien sécurisé) comptent ; les invités jouent sans points. Un compte n’apparaît au classement public (championnat et défi du jour) qu’une fois le lien de l’e-mail ouvert : d’ici là, ses points sont gardés et il est marqué « en attente du lien » ci-dessous. Points par partie selon le rang : <?= e(implode(', ', array_map(fn ($p) => (string) ($p + 1), \App\Services\QuizChampionship::SCALE))) ?>, puis 1 point de participation ; une partie compte à partir de <?= \App\Services\QuizChampionship::MIN_PLAYERS ?> joueurs. Nouveau classement chaque 1er août. Aucun e-mail n’est affiché ici.</p>
   <div class="table" style="border:0">
     <table>
       <thead><tr><th>#</th><th>Pseudo</th><th class="t-num">Points</th><th class="t-num">Parties</th><th class="t-num">Victoires</th><th class="t-num">Podiums</th><th></th></tr></thead>
       <tbody>
       <?php foreach (array_slice($ranking, 0, 100) as $r): ?>
         <tr>
-          <td><b><?= (int) $r['rank'] ?></b></td><td><?= e($r['pseudo']) ?></td><td class="t-num"><b><?= (int) $r['pts'] ?></b></td><td class="t-num"><?= (int) $r['games'] ?></td><td class="t-num"><?= (int) $r['wins'] ?></td><td class="t-num"><?= (int) $r['podiums'] ?></td>
+          <td><b><?= (int) $r['rank'] ?></b></td><td><?= e($r['pseudo']) ?><?php if (empty($r['ok'])): ?> <span class="muted small" title="Le joueur n’a pas encore ouvert le lien de l’e-mail : ses points sont gardés, il n’apparaît pas au classement public.">· en attente du lien</span><?php endif; ?></td><td class="t-num"><b><?= (int) $r['pts'] ?></b></td><td class="t-num"><?= (int) $r['games'] ?></td><td class="t-num"><?= (int) $r['wins'] ?></td><td class="t-num"><?= (int) $r['podiums'] ?></td>
           <td class="nowrap">
             <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Remplacer le pseudo « <?= e($r['pseudo']) ?> » ?|Il devient « Joueur 1234 » ; le joueur pourra en choisir un autre.|Remplacer">
               <?= csrf_field() ?><input type="hidden" name="action" value="renommer"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs">Pseudo déplacé</button>
@@ -103,6 +103,29 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
       </tbody>
     </table>
   </div>
+  <?php if ($defi): ?>
+  <div class="card__body small" style="padding-bottom:0"><b>Défi du jour, ce mois-ci</b> : joueurs classés qui n’ont pas encore joué en salle (même pseudo, même modération).</div>
+  <div class="table" style="border:0">
+    <table>
+      <thead><tr><th>#</th><th>Pseudo</th><th class="t-num">Points</th><th class="t-num">Jours</th><th></th></tr></thead>
+      <tbody>
+      <?php foreach (array_slice($defi, 0, 100) as $r): ?>
+        <tr>
+          <td><b><?= (int) $r['rank'] ?></b></td><td><?= e($r['pseudo']) ?></td><td class="t-num"><b><?= (int) $r['pts'] ?></b></td><td class="t-num"><?= (int) $r['days'] ?></td>
+          <td class="nowrap">
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Remplacer le pseudo « <?= e($r['pseudo']) ?> » ?|Il devient « Joueur 1234 » ; le joueur pourra en choisir un autre.|Remplacer">
+              <?= csrf_field() ?><input type="hidden" name="action" value="renommer"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs">Pseudo déplacé</button>
+            </form>
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » des classements ?|Il pourra encore jouer, mais n’apparaîtra plus aux classements (championnat et défi).|Retirer|danger">
+              <?= csrf_field() ?><input type="hidden" name="action" value="exclure"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs ko">Retirer du classement</button>
+            </form>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  <?php endif; ?>
   <?php if ($banned): ?>
   <div class="card__body small">Retirés du classement :
     <?php foreach ($banned as $b): ?>

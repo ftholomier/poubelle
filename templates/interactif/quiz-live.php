@@ -14,6 +14,7 @@ $i18n = [
     'pending' => t('En attente du lien de l’e-mail : ouvrez-le sur ce téléphone et cette partie comptera au championnat.'),
     'member' => t('Championnat'), 'guestEnd' => t('Vous avez joué en invité. Pour compter au championnat la prochaine fois, laissez votre e-mail en rejoignant la partie.'),
     'champLink' => t('Voir le championnat'),
+    'confirm' => t('Dernière étape : ouvrez le lien reçu par e-mail (pensez aux indésirables). Vos points apparaîtront alors au classement du championnat.'),
 ];
 $champ = url('/interactif/quiz-live/championnat/');
 ?>

@@ -19,7 +19,7 @@
     form.name.required = true;
     form.name.focus();
   });
-  var me = null, code = '', last = null, timer = null, poll = null, clockAt = 0, leftAt = 0, busy = false;
+  var me = null, code = '', last = null, timer = null, poll = null, clockAt = 0, leftAt = 0, busy = false, picked = null;
   var SHAPES = ['▲', '◆', '●', '■'];
 
   function fmt(s, v) { return String(s).replace(/\{(\w+)\}/g, function (_, k) { return v[k] !== undefined ? v[k] : ''; }); }
@@ -49,6 +49,8 @@
       if (!j.ok) { err.textContent = j.error || T.error; err.hidden = false; return; }
       me = { pid: j.pid, tok: j.tok };
       store('ql:' + code, me);
+      // Le code reste dans l'adresse : un rechargement de la page reprend la partie au lieu d'en rejoindre une autre place.
+      try { history.replaceState(null, '', location.pathname + '?code=' + code); } catch (e2) {}
       if (form.name.value) store('ql:name', form.name.value);
       start(j);
       if (j.mailed && !j.member) info(T.pending);
@@ -138,6 +140,8 @@
         });
       }
       var waiting = s.wait > 0;
+      // Réponse en route vers le serveur : un état plus ancien ne doit pas rouvrir les boutons.
+      if ((s.answered === null || s.answered === undefined) && picked && picked.idx === s.idx) s.answered = picked.i;
       var done = s.answered !== null && s.answered !== undefined;
       box.querySelectorAll('button').forEach(function (b, i) {
         b.disabled = waiting || done;
@@ -202,6 +206,8 @@
         c.textContent = '★ ' + s.champ.label;
         msg.appendChild(c);
         info('');
+      } else if (s.confirm) {
+        info(T.confirm);
       } else if (!s.member) {
         info(T.guestEnd);
       }
@@ -213,12 +219,27 @@
   function answer(i) {
     box().querySelectorAll('button').forEach(function (b, k) { b.disabled = true; b.classList.toggle('is-picked', k === i); b.classList.toggle('is-off', k !== i); });
     if (navigator.vibrate) navigator.vibrate(30);
-    api({ action: 'repondre', choice: i }).then(function (j) {
-      if (j.error) $('[data-ql-msg]').textContent = j.error;
-      render(j);
-    }).catch(function () {});
+    var idx = last ? last.idx : -1;
+    picked = { idx: idx, i: i };
+    var send = function (retry) {
+      api({ action: 'repondre', choice: i }).then(function (j) {
+        picked = null;
+        if (j.error) $('[data-ql-msg]').textContent = j.error;
+        render(j);
+      }).catch(function () {
+        // Réseau coupé une fraction de seconde (wifi du club-house) : un second essai, puis on rend la main.
+        if (retry) setTimeout(function () { send(false); }, 500);
+        else { picked = null; $('[data-ql-msg]').textContent = T.error; }
+      });
+    };
+    send(true);
   }
   function box() { return $('[data-ql-answers]'); }
+
+  // Téléphone sorti de veille ou onglet revenu au premier plan : l'état tout de suite.
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && me && !(last && (last.phase === 'end' || last.phase === 'gone'))) { clearTimeout(poll); tick(); }
+  });
 
   // Reprise après rechargement (même code dans l'adresse, jeton gardé sur l'appareil).
   var name = load('ql:name');

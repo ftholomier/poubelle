@@ -153,6 +153,9 @@ final class QuizLive
             $now = self::now();
             $phase = self::phase($g, $now);
             $last = (int) $g['idx'] >= count($g['questions']) - 1;
+            if ($phase === 'question' && $now < $g['t0']) {
+                return $g; // double appui pendant les 3 s de lecture : la question n'est pas encore ouverte
+            }
             if ($phase === 'question') {
                 // Fermer la question maintenant (« tout le monde a répondu » de l'animateur).
                 $g['phase'] = 'reveal';
@@ -424,6 +427,9 @@ final class QuizLive
         $me = $g['players'][$pid];
         $out['member'] = isset($me['cid']);
         $out['pending'] = isset($me['claim']);
+        if ($phase === 'end' && isset($me['cid']) && !QuizChampionship::confirmed((string) $me['cid'])) {
+            $out['confirm'] = true; // points gardés : ils apparaîtront quand le lien de l'e-mail sera ouvert
+        }
         if ($phase === 'end' && isset($me['cid'], $g['moves'][$me['cid']])) {
             $r = QuizChampionship::rankOf((string) $me['cid'], QuizChampionship::season((int) $g['created']));
             $out['champ'] = $r ? ['rank' => $r['rank'], 'pts' => $r['pts'], 'label' => t('{r} du championnat · {n} pts', ['r' => ordinal($r['rank']), 'n' => $r['pts']])] : null;

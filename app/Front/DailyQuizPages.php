@@ -36,7 +36,7 @@ final class DailyQuizPages
             'date' => $date, 'period' => $period, 'value' => $value, 'rows' => array_slice(DailyQuiz::ranking($period, $value), 0, 100),
             'account' => (bool) $c, 'welcome' => isset($req->query['bienvenue']),
             'me' => $me ? ['id' => $c['id'], 'pseudo' => $me['pseudo'], 'result' => DailyQuiz::result($date, $c['id']),
-                'rank' => DailyQuiz::rankOf('jour', $date, $c['id']), 'streak' => DailyQuiz::streak($c['id'])] : null,
+                'rank' => DailyQuiz::rankOf('jour', $date, $c['id']), 'streak' => DailyQuiz::streak($c['id']), 'ok' => QuizChampionship::confirmed($c['id'])] : null,
             'players' => DailyQuiz::players($date),
         ], [
             'title' => t('Le défi du jour'),
@@ -59,6 +59,16 @@ final class DailyQuizPages
         $c = Carnet::current();
         $cid = $c && QuizChampionship::player($c['id']) ? $c['id'] : null;
         $key = DailyQuiz::key($cid, (string) ($in['tok'] ?? ''));
+        // Partie commencée avant minuit : elle se termine sur la date où elle a commencé.
+        $asked = (string) ($in['date'] ?? '');
+        if ($key !== null && $asked === date('Y-m-d', strtotime($date . ' -1 day')) && DailyQuiz::unfinished($asked, $key)) {
+            $date = $asked;
+        }
+        // Invité devenu membre sur cet appareil dans la journée : il garde sa partie, hors classement.
+        $guest = DailyQuiz::key(null, (string) ($in['tok'] ?? ''));
+        if ($cid !== null && $guest !== null && in_array($action, ['etat', 'commencer'], true)) {
+            DailyQuiz::adopt($date, $guest, $cid);
+        }
 
         if ($action === 'inscrire') {
             // Pseudo (compte ouvert sans pseudo) ou entrée au classement avec e-mail + pseudo.
@@ -78,7 +88,8 @@ final class DailyQuizPages
         }
         switch ($action) {
             case 'etat':
-                return Response::json(['ok' => true, 'member' => $cid !== null] + DailyQuiz::state($date, $key));
+                $s = DailyQuiz::state($date, $key);
+                return Response::json(['ok' => true, 'member' => $cid !== null] + $s + ($s['phase'] === 'end' && $cid !== null ? self::labels($date, $cid, $s) : []));
             case 'commencer':
                 // Un réseau partagé (bar, club-house) : limite large par adresse.
                 if (!RateLimiter::hit('defi', $req->ip(), 1000, 3600)) {
@@ -90,13 +101,25 @@ final class DailyQuizPages
             case 'suivante':
                 $s = DailyQuiz::next($date, $key, $cid);
                 if ($s['phase'] === 'end' && $cid !== null) {
-                    $r = DailyQuiz::rankOf('jour', $date, $cid);
-                    $st = DailyQuiz::streak($cid);
-                    $s += ['rankLabel' => $r ? t('{r} sur {n} aujourd’hui', ['r' => ordinal($r['rank']), 'n' => DailyQuiz::players($date)]) : '',
-                        'streakLabel' => $st['cur'] > 1 ? t('{n} jours d’affilée', ['n' => $st['cur']]) : ''];
+                    $s += self::labels($date, $cid, $s);
                 }
                 return Response::json(['ok' => true] + $s);
         }
         return Response::json(['error' => t('Ressource introuvable')], 404);
+    }
+
+    /** Fin de partie d'un compte : rang du jour et série, ou pourquoi il n'est pas (encore) classé. */
+    private static function labels(string $date, string $cid, array $s): array
+    {
+        if (!empty($s['unranked'])) {
+            return ['rankLabel' => t('Partie commencée en invité sur cet appareil : elle ne compte pas au classement. Rendez-vous demain !'), 'streakLabel' => ''];
+        }
+        if (!QuizChampionship::confirmed($cid)) {
+            return ['rankLabel' => t('Dernière étape : ouvrez le lien reçu par e-mail (pensez aux indésirables). Votre résultat apparaîtra alors au classement.'), 'streakLabel' => ''];
+        }
+        $r = DailyQuiz::rankOf('jour', $date, $cid);
+        $st = DailyQuiz::streak($cid);
+        return ['rankLabel' => $r ? t('{r} sur {n} aujourd’hui', ['r' => ordinal($r['rank']), 'n' => DailyQuiz::players($date)]) : '',
+            'streakLabel' => $st['cur'] > 1 ? t('{n} jours d’affilée', ['n' => $st['cur']]) : ''];
     }
 }

@@ -806,6 +806,7 @@ chaque seconde (o2switch, PHP-FPM ; une lecture de fichier JSON par appel).
   lecture), ferme une question en cours, passe de la réponse au classement puis à la question
   suivante ou au podium. Une question se ferme d'elle-même à la lecture (`phase()`) : temps écoulé
   ou tout le monde a répondu. Réponse acceptée une fois, entre `t0` et la fin + 600 ms.
+  « Suivant » pendant les 3 s de lecture est ignoré (double appui de l'animateur).
   Points : 500 + 500 × (1 − temps de réponse / durée), 0 si faux ; ex aequo au même rang.
 - **Questions** (`questions($n, mix|site|fiches)`) : quiz du site (`Collections` « quiz »,
   traduit) et `fromMatches()` sur les grands matchs (`hl` ≥ 6, hors amicaux) : score (scores
@@ -816,13 +817,15 @@ chaque seconde (o2switch, PHP-FPM ; une lecture de fichier JSON par appel).
 - **Pages** (hors cache des pages, `private, no-store`) : `/interactif/quiz-live/?code=` (joueur,
   sans bandeau cookies : `no_cookie`), `/interactif/quiz-live/ecran/{code}/{clé}/` (page autonome,
   QR code `Qr::svg`, 404 sans la bonne clé). Jeton du joueur gardé dans `localStorage`
-  (`ql:{code}`) : un rechargement reprend la partie. API : `rejoindre` (limite 2 000/h par
+  (`ql:{code}`), code remis dans l'adresse après l'inscription : un rechargement reprend la
+  partie. Retour de veille : état demandé aussitôt ; réponse renvoyée une fois si le réseau
+  coupe. Pas de bandeau « Installer l'appli » sur les pages de jeu (quiz, défi). API : `rejoindre` (limite 2 000/h par
   adresse IP, une salle entière partageant la même ; 300 codes faux/h), `etat`, `repondre` (jeton
   du joueur), `ecran`, `suivant`, `retirer` (clé). Téléphones : toutes les secondes pendant une
   question, toutes les 2 à 2,5 s sinon. Test de charge : `tests/charge-quiz.js` (200 joueurs :
   4 ms par appel, 0,3 cœur ; voir docs/PLAN-VITESSE-LANCEMENT.md § 8).
 - **Championnat** (`App\Services\QuizChampionship`, `storage/quiz-championnat.json` : `players`
-  {id du carnet: pseudo unique, since, last, banned} et `seasons` {« 2026-2027 » : games, scores
+  {id du carnet: pseudo unique, since, last, banned, ok} et `seasons` {« 2026-2027 » : games, scores
   {pts, games, wins, podiums, best}}). Identité = le compte du carnet du supporter (cookie
   `sr_carnet`, lien sécurisé envoyé à l'e-mail, `Carnet::sendLink(…, $quiz)` : texte du quiz et
   `/carnet/acces/{id.jeton}/?quiz={code|championnat}` qui ramène à la partie). Rejoindre :
@@ -851,7 +854,13 @@ français et en anglais : les questions des fiches utilisent `mt_rand`/`shuffle`
 club-house (20 s, 500 à 1 000). Une partie par compte et par jour ; à la fin, résultat du jour,
 totaux du mois et de la saison et séries dans `storage/defi/totals.json` (invités : jamais).
 Classement du jour : points puis temps total ; mois et saison : points puis jours joués ; joueurs
-exclus du championnat exclus aussi. Carnet supprimé → `DailyQuiz::forget()` ; ménage (tâche
+exclus du championnat exclus aussi. Classements publics (championnat et défi) : comptes `ok`
+seulement, c'est-à-dire lien de l'e-mail ouvert au moins une fois (`Carnet::confirm()` →
+`QuizChampionship::confirm()`) ; les points d'un compte pas encore confirmé sont enregistrés et
+apparaissent ensuite (`ranking(…, all: true)` pour le back-office). Invité devenu membre sur le
+même appareil le même jour (jeton d'invité envoyé aussi par un compte) : `DailyQuiz::adopt()`
+recopie sa partie, `unranked`, jamais classée. Partie commencée avant minuit : l'API reçoit la
+date de la page et termine la partie de la veille si elle est en cours (`unfinished()`). Carnet supprimé → `DailyQuiz::forget()` ; ménage (tâche
 « ménage ») : parties en cours de plus de 2 jours. Notification du matin : sujet `defi`
 (`app.push_defi`, à l'heure de « Ce jour-là »). Tests : `tests/defi.php`.
 

@@ -49,6 +49,7 @@ $eq('autre jour, autre tirage', D::questions('2026-10-07', 'fr') !== $fr, true);
 $acc = function (string $mail, string $pseudo) {
     $id = Carnet::create($mail)['carnet']['id'];
     CH::setPseudo($id, $pseudo);
+    Carnet::confirm($id); // lien de l'e-mail ouvert : le compte entre aux classements
     return $id;
 };
 [$a, $b, $c] = [$acc('defi1@example.org', 'Lionceau25'), $acc('defi2@example.org', 'Mamie Bonal'), $acc('defi3@example.org', 'Zizou')];
@@ -112,6 +113,45 @@ $eq('série : deux jours d’affilée', D::streak($a, '2026-10-07'), ['cur' => 2
 CH::ban($c, true);
 $eq('joueur retiré du championnat : retiré aussi du défi', array_column(D::ranking('jour', $day), 'pseudo'), ['Mamie Bonal', 'Lionceau25']);
 CH::ban($c, false);
+
+// Compte jamais confirmé (adresse inventée ?) : résultat gardé, hors classement jusqu'au lien.
+$x = Carnet::create('defi4@example.org')['carnet']['id'];
+CH::setPseudo($x, 'Fantôme');
+$playAll($day, $x, $x, range(0, 9), 0);
+$eq('compte non confirmé : résultat gardé, absent du classement', [(bool) D::result($day, $x), D::rankOf('jour', $day, $x)], [true, null]);
+Carnet::confirm($x);
+$eq('lien ouvert : il apparaît au classement', D::rankOf('jour', $day, $x)['rank'] ?? null, 1);
+
+// Invité qui crée son compte sur le même appareil dans la journée : il reprend sa partie, hors classement.
+$y = Carnet::create('defi5@example.org')['carnet']['id'];
+CH::setPseudo($y, 'Malin');
+Carnet::confirm($y);
+$gt = D::key(null, str_repeat('ef', 16));
+$playAll($day, $gt, null, range(0, 9), 0);
+D::adopt($day, $gt, $y);
+$sy = D::start($day, $y, 'fr');
+$eq('invité devenu membre : même partie, terminée, hors classement', [$sy['phase'], $sy['unranked'], D::result($day, $y), D::rankOf('jour', $day, $y)], ['end', true, null, null]);
+$z = Carnet::create('defi6@example.org')['carnet']['id'];
+CH::setPseudo($z, 'Curieux');
+Carnet::confirm($z);
+$gz = D::key(null, str_repeat('0a', 16));
+D::start($day, $gz, 'fr');
+D::adopt($day, $gz, $z);
+D::answer($day, $z, $fr[0]['c']);
+$shift($day, $z, 25000);
+for ($i = 0; $i < 10; $i++) {
+    $shift($day, $z, 25000);
+    D::next($day, $z, $z);
+}
+$eq('partie d’invité en cours reprise par le compte : finie hors classement', [D::state($day, $z)['phase'], D::result($day, $z)], ['end', null]);
+D::adopt($day, $gt, $a);
+$eq('compte qui a déjà joué : rien ne change', D::result($day, $a)['grid'], '1000111111');
+
+// Partie commencée avant minuit : on peut la finir le lendemain.
+$late = '2026-10-10';
+$w = D::key(null, str_repeat('9b', 16));
+D::start($late, $w, 'fr');
+$eq('partie de la veille pas finie : reconnue', [D::unfinished($late, $w), D::unfinished($late, $a)], [true, false]);
 
 // Suppression du compte, ménage.
 Carnet::delete($b);

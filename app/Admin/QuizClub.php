@@ -6,6 +6,7 @@ namespace App\Admin;
 use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
+use App\Services\DailyQuiz;
 use App\Services\QuizChampionship;
 use App\Services\QuizLive;
 
@@ -24,8 +25,13 @@ final class QuizClub extends Base
                 $banned[] = ['id' => (string) $id, 'pseudo' => $p['pseudo']];
             }
         }
+        // Classement complet pour l'équipe (comptes pas encore confirmés compris, signalés), et les
+        // joueurs du défi du jour de ce mois qui n'ont pas joué en salle : modérables aussi.
+        $ranking = QuizChampionship::ranking(null, null, true);
+        $inChamp = array_flip(array_column($ranking, 'id'));
+        $defi = array_values(array_filter(DailyQuiz::ranking('mois', date('Y-m')), fn ($r) => !isset($inChamp[$r['id']])));
         return self::html('admin/collections/quiz-live', ['games' => QuizLive::all(), 'new' => $req->str('nouvelle'),
-            'season' => QuizChampionship::season(), 'ranking' => QuizChampionship::ranking(), 'stats' => QuizChampionship::stats(), 'banned' => $banned],
+            'season' => QuizChampionship::season(), 'ranking' => $ranking, 'defi' => $defi, 'stats' => QuizChampionship::stats(), 'banned' => $banned],
             ['title' => 'Quiz du club-house', 'crumb' => 'Interactif', 'nav' => 'quizlive']);
     }
 
