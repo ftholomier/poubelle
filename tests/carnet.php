@@ -35,6 +35,14 @@ $eq('lien faux ou abîmé refusé', [C::open($id . '.' . str_repeat('0', 32)), C
 $cred2 = C::newCredential($id);
 $eq('nouveau lien (autre appareil) : les deux marchent', [C::open($cred2)['id'] ?? null, C::open($r['credential'])['id'] ?? null], [$id, $id]);
 $eq('carnet retrouvé par e-mail', C::byEmail('SUPPORTER@example.org')['id'] ?? null, $id);
+$cred3 = C::newCredential($id); // lien envoyé, pas encore ouvert
+$eq('autres accès comptés (appareils et liens envoyés)', C::otherAccess(C::get($id)), 2);
+$mine = C::logoutOthers($id);
+$eq('déconnecter les autres : ancien cookie, autre appareil et lien envoyé coupés, cet appareil gardé',
+    [C::open($r['credential']), C::open($cred2), C::open($cred3), C::open((string) $mine)['id'] ?? null, C::otherAccess(C::get($id))], [null, null, null, $id, 0]);
+$eq('carnet disparu : rien à déconnecter', C::logoutOthers('0000000000000000'), null);
+$r['credential'] = (string) $mine;
+$cred2 = C::newCredential($id);
 
 // Matchs.
 $season = C::seasonMatches('1987-1988');

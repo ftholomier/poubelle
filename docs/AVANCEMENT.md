@@ -611,6 +611,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Back-office : modération des joueurs du défi qui n'ont pas joué en salle ; « Pseudo déplacé » jamais identique à un autre pseudo
 - [x] Parcours vérifié sur le banc : anglais, mobile, rechargement, double appui, défi, championnat, back-office ; suites carnet, quiz, défi, radio, Rétro-Direct, notifications, mises à jour au vert
 - [x] Correctif en ligne : PageSpeed d'o2switch neutralisé (front sans styles après la mise à jour du 06/10)
+- [x] Carnet : « Se déconnecter des autres appareils » (téléphone perdu, carnet ouvert par quelqu'un d'autre avec la même adresse) ; nombre d'autres accès affiché
 
 ## Documents de présentation (octobre 2026, mise à jour)
 - [x] Présentation `docs/sochaux-retro-presentation.pdf` : 53 pages (carnet du supporter, poster « Ma vie en jaune et bleu », « Prêt pour le lancement » avec les mesures de vitesse, page récapitulative à jour)

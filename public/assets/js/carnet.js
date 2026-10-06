@@ -78,6 +78,19 @@
     });
   }
 
+  // Se déconnecter des autres appareils (et des liens envoyés pas encore ouverts).
+  document.querySelector('[data-cn-logout]')?.addEventListener('click', async e => {
+    if (!confirm(L.logout || '?')) return;
+    const b = e.currentTarget;
+    b.disabled = true;
+    const r = await api({ action: 'deconnecter' });
+    sync(r);
+    const p = document.querySelector('[data-cn-others]');
+    if (r.ok && r.has) { b.remove(); if (p) p.textContent = L.loggedOut || ''; }
+    else if (r.ok) location.href = P + '/carnet/';
+    else { b.disabled = false; if (p) p.textContent = r.error || ''; }
+  });
+
   // Suppression.
   document.querySelector('[data-cn-delete]')?.addEventListener('click', async () => {
     if (!confirm(L.delete || '?')) return;

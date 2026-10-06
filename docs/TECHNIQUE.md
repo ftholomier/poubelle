@@ -741,7 +741,9 @@ souvenirs) pour refaire les PDF en cache.
 - **Accès sans mot de passe** : `storage/carnets/{id}.json` (e-mail, empreintes des jetons, matchs,
   pseudo) et `index.json` (empreinte HMAC de l'e-mail → id, pseudo → id). Cookie `sr_carnet`
   = `id.jeton` (httponly, 400 jours) ; le lien `/carnet/acces/{id.jeton}/` envoyé à l'e-mail
-  l'ouvre ailleurs (5 liens valables au plus). E-mail obligatoire, un carnet par e-mail : le
+  l'ouvre ailleurs (5 liens valables au plus). « Se déconnecter des autres appareils » (API
+  `deconnecter`, `Carnet::logoutOthers()`) : un seul jeton neuf pour cet appareil, tous les autres
+  appareils et liens envoyés coupés. E-mail obligatoire, un carnet par e-mail : le
   redemander envoie un lien à cette adresse seulement, même réponse que l'adresse ait un carnet
   ou non. Carnet vide jamais confirmé : effacé après 90 jours (tâche « ménage »).
 - **Fiches de match** : « J'y étais ! » (`etais.js`) ajoute le match au carnet (création avec

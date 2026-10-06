@@ -49,6 +49,11 @@ $public = $c['public'] ? url('/carnet/p/' . $c['slug'] . '/') : '';
   <details class="cnzone">
     <summary><?= e(t('Mon carnet et mes données')) ?></summary>
     <p class="cnnote"><?= e(t('Carnet relié à {e}. Pour l’ouvrir sur un autre appareil : page « Mon carnet » de cet appareil, « J’ai déjà un carnet », et un lien arrive à cette adresse.', ['e' => $c['email']])) ?></p>
+    <?php $others = \App\Services\Carnet::otherAccess($c); ?>
+    <p class="cnnote" data-cn-others><?= $others
+        ? e(tn($others, 'Ce carnet est aussi accessible depuis {n} autre appareil ou lien envoyé par e-mail. Un doute (téléphone perdu, carnet ouvert par quelqu’un d’autre avec votre adresse) ? Déconnectez-les : seul cet appareil gardera l’accès.', 'Ce carnet est aussi accessible depuis {n} autres appareils ou liens envoyés par e-mail. Un doute (téléphone perdu, carnet ouvert par quelqu’un d’autre avec votre adresse) ? Déconnectez-les : seul cet appareil gardera l’accès.'))
+        : e(t('Ce carnet n’est ouvert que sur cet appareil.')) ?></p>
+    <?php if ($others): ?><button type="button" class="btn btn--ghost btn--sm" data-cn-logout><?= e(t('Se déconnecter des autres appareils')) ?></button><?php endif; ?>
     <button type="button" class="btn btn--ghost btn--sm" data-cn-delete><?= e(t('Supprimer mon carnet')) ?></button>
   </details>
 </div>

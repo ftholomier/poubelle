@@ -238,6 +238,22 @@ final class CarnetPages
                 $c = Carnet::setReminders($c['id'], isset($in['email']) ? (bool) $in['email'] : null, $sub, !empty($in['pushOff']));
                 return Response::json(['ok' => true, 'email' => !empty($c['remind_email']), 'push' => count((array) ($c['remind_push'] ?? []))]);
 
+            case 'deconnecter':
+                // Tous les autres appareils et liens : coupés. Celui-ci garde l'accès, avec un nouveau jeton.
+                if (!$c) {
+                    return Response::json(['ok' => false, 'needEmail' => true]);
+                }
+                if (!RateLimiter::hit('carnet-logout', $c['id'], 20, 3600)) {
+                    return Response::json(['error' => t('Trop de demandes, réessayez plus tard.')], 429);
+                }
+                $cred = Carnet::logoutOthers($c['id']);
+                if ($cred === null) {
+                    self::clearCookie();
+                    return Response::json(['ok' => true, 'has' => false, 'ids' => []]);
+                }
+                self::setCookie($cred);
+                return Response::json(['ok' => true, 'has' => true, 'ids' => $ids($c)]);
+
             case 'supprimer':
                 if ($c && !empty($in['confirm'])) {
                     Carnet::delete($c['id']);

@@ -14,6 +14,8 @@
     'first' => t('Créez d’abord votre carnet.'),
     'saved' => t('Enregistré.'), 'see' => t('Voir mon carnet'), 'closed' => t('Page publique fermée.'),
     'delete' => t('Supprimer définitivement votre carnet et tous ses matchs ?'),
+    'logout' => t('Déconnecter tous les autres appareils ? Les liens déjà envoyés par e-mail ne marcheront plus non plus ; pour rouvrir le carnet ailleurs, il faudra demander un nouveau lien.'),
+    'loggedOut' => t('C’est fait : seul cet appareil a encore accès à votre carnet.'),
     'remindOn' => t('C’est noté.'), 'devices' => t('Notifications : {n} appareil(s)'),
     'noPush' => t('Activez d’abord les notifications du musée sur cet appareil :'), 'appli' => t('page L’appli'),
 ], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>

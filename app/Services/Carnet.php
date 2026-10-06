@@ -126,6 +126,37 @@ final class Carnet
         return $ok ? $id . '.' . $token : null;
     }
 
+    /**
+     * « Se déconnecter des autres appareils » : tous les accès (appareils ouverts, liens envoyés
+     * pas encore ouverts) cessent de marcher, sauf cet appareil, qui reçoit un nouveau jeton (une
+     * copie volée de son ancien cookie ne sert plus à rien non plus). Utile si quelqu'un d'autre a
+     * ouvert le carnet avec cette adresse, ou après la perte d'un téléphone.
+     * @return string|null nouvel accès de cet appareil (id.jeton), ou null si le carnet n'existe plus
+     */
+    public static function logoutOthers(string $id): ?string
+    {
+        if (!self::get($id)) {
+            return null; // carnet supprimé entre-temps : ne pas recréer de fichier
+        }
+        $token = bin2hex(random_bytes(16));
+        $ok = false;
+        JsonStore::update(self::file($id), function ($c) use ($token, &$ok) {
+            if (!is_array($c)) {
+                return $c;
+            }
+            $ok = true;
+            $c['tokens'] = [hash('sha256', $token)];
+            return $c;
+        }, null);
+        return $ok ? $id . '.' . $token : null;
+    }
+
+    /** Nombre d'autres accès que celui-ci (appareils ouverts et liens envoyés pas encore utilisés). */
+    public static function otherAccess(array $c): int
+    {
+        return max(0, count((array) $c['tokens']) - 1);
+    }
+
     /** Carnet d'un e-mail, ou null. */
     public static function byEmail(string $email): ?array
     {
