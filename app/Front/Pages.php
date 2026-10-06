@@ -387,6 +387,10 @@ final class Pages
     public static function search(Request $req): Response
     {
         $q = trim(mb_substr($req->str('q'), 0, 120));
+        // Une seule adresse ne peut pas occuper tous les processus avec des recherches en rafale.
+        if ($q !== '' && !\App\Core\RateLimiter::hit('recherche', $req->ip(), 30, 60)) {
+            return new Response(t('Trop de recherches d’affilée : patientez une minute.'), 429, ['Content-Type' => 'text/plain; charset=UTF-8', 'Retry-After' => '60']);
+        }
         $type = in_array($req->str('type'), ['match', 'personne', 'article', 'page', 'objet', 'moment'], true) ? $req->str('type') : null;
         $page = max(1, (int) $req->str('page', '1'));
         $per = 20;

@@ -124,13 +124,19 @@
     results.innerHTML = list.map(r => `<a class="sresult" href="${esc(r.href)}"><span class="sresult__type">${esc(r.type)}</span><span class="sresult__label">${esc(r.label)}</span><span class="sresult__meta">${esc(r.meta || '')}</span></a>`).join('');
     count.textContent = q ? (list.length ? list.length + ' ' + T('résultat', 'result') + (list.length > 1 ? 's' : '') + (list.length >= 12 ? ' — ' + T('Entrée pour tout voir', 'Enter to see all') : '') : T('Aucun résultat. Essayez « Bonal », « 2007 » ou un nom de joueur.', 'No result. Try “Bonal”, “2007” or a player’s name.')) : T('Suggestions', 'Suggestions');
   }
+  // Suggestions : pas de requête sous 2 lettres, 250 ms après la dernière frappe, et chaque
+  // réponse gardée pendant la visite (retaper ou effacer ne redemande rien au serveur).
+  const seen = new Map();
   function runSearch(q) {
     clearTimeout(searchTimer);
+    q = q.trim();
+    if (q.length === 1) return;
+    if (seen.has(q)) { ctrl?.abort(); render(seen.get(q), q); return; }
     searchTimer = setTimeout(() => {
       ctrl?.abort(); ctrl = new AbortController();
-      fetch('/api/recherche?suggest=1&lang=' + lang + '&q=' + encodeURIComponent(q.trim()), { signal: ctrl.signal })
-        .then(r => r.json()).then(d => render(d.results || [], q.trim())).catch(() => {});
-    }, q ? 120 : 0);
+      fetch('/api/recherche?suggest=1&lang=' + lang + '&q=' + encodeURIComponent(q), { signal: ctrl.signal })
+        .then(r => r.json()).then(d => { seen.set(q, d.results || []); render(d.results || [], q); }).catch(() => {});
+    }, q ? 250 : 0);
   }
   input?.addEventListener('input', () => runSearch(input.value));
   input?.addEventListener('keydown', e => {

@@ -34,10 +34,18 @@ production (Apache 2.4 + PHP-FPM 8.3, 8 processus PHP, OPcache, 4 processeurs) a
   gardée vers la taille déjà prête la plus proche. Préparation complète avant l'ouverture :
   `php bin/console.php images all` (fichiers déjà prêts sautés, relançable).
 
+- **Diaporama de l'accueil** : seule la première photo est chargée à l'arrivée ; la suivante
+  est préparée pendant que le visiteur regarde, et chaque photo juste avant d'être montrée
+  (environ 543 → 81 Ko au premier affichage).
+- **Recherche bornée** : au plus 6 mots, lettres isolées ignorées quand il y a d'autres mots,
+  pas de seconde passe au-delà de 3 mots (recherche piégée de 40 mots : 143 → 28 ms ; résultats
+  identiques sur 25 recherches types) ; page /recherche/ limitée à 30 recherches par minute et
+  par adresse ; suggestions gardées 5 minutes par le navigateur ; côté navigateur, rien sous
+  2 lettres, 250 ms après la dernière frappe, réponses déjà reçues réutilisées.
+
 ## Reste à faire avant le lancement
 Les points P0, P1 et OPS du plan ci-dessous, sauf ceux corrigés plus haut : la préparation
-complète des vignettes sur le serveur avant l'ouverture (OPS-2), le diaporama de l'accueil
-(P1-4), la recherche bornée (P1-6), puis le cache des pages pour les visiteurs anonymes (P1-1,
+complète des vignettes sur le serveur avant l'ouverture (OPS-2), puis le cache des pages pour les visiteurs anonymes (P1-1,
 le plus gros gain de capacité) et, la boutique ouvrant au lancement, les points boutique de la
 section 5 qui deviennent P1.
 

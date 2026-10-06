@@ -253,6 +253,12 @@ final class Search
             $tokens[] = $t;
         }
         $tokens = array_values(array_unique($tokens));
+        // Coût borné (une recherche de 40 mots occupait un processus bien plus longtemps) : les
+        // lettres isolées ne comptent que seules, et au plus 6 mots.
+        if (count($tokens) > 1) {
+            $tokens = array_values(array_filter($tokens, fn ($t) => mb_strlen($t) > 1)) ?: $tokens;
+        }
+        $tokens = array_slice($tokens, 0, 6);
         // « Sochaux » est partout : il n'est obligatoire que s'il est seul.
         $required = count($tokens) > 1 ? array_values(array_diff($tokens, ['sochaux'])) : $tokens;
         $years = array_values(array_unique($out['years']));
@@ -260,7 +266,7 @@ final class Search
         $totals = Derived::part('person_totals');
 
         $scored = self::score($tokens, $required, $years, $phrase, $out['season'], $totals, true);
-        if (!$scored && count($required) > 1) {
+        if (!$scored && count($required) > 1 && count($required) <= 3) {
             $scored = self::score($tokens, $required, $years, $phrase, $out['season'], $totals, false);
         }
         arsort($scored);

@@ -64,7 +64,10 @@ final class Api
         }
         $q = $req->str('q');
         if ($req->str('suggest') === '1') {
-            return Response::json(['results' => Search::suggest($q)]);
+            // Rien de personnel : le navigateur peut garder la réponse 5 minutes.
+            $res = Response::json(['results' => Search::suggest($q)]);
+            $res->headers['Cache-Control'] = 'public, max-age=300';
+            return $res;
         }
         $type = $req->str('type') ?: null;
         $limit = min(50, max(1, (int) $req->str('limit', '20')));

@@ -9,9 +9,22 @@
     const num = root.querySelector('[data-hero-num]');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let cur = 0, timer = null;
+    // Photos 2 à 5 : chargées à la demande (la suivante d'avance), pas toutes à l'arrivée.
+    const load = (k) => {
+      const img = slides[(k + slides.length) % slides.length]?.querySelector('img[data-src]');
+      if (!img) return;
+      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+      img.removeAttribute('data-srcset');
+    };
+    const preloadNext = () => load(cur + 1);
+    addEventListener('load', () => ('requestIdleCallback' in window ? requestIdleCallback(preloadNext) : setTimeout(preloadNext, 1500)));
     const go = (i, user) => {
       const n = slides.length;
       cur = (i + n) % n;
+      load(cur);
+      setTimeout(preloadNext, 1000);
       slides.forEach((s, k) => { s.classList.toggle('is-on', k === cur); s.setAttribute('aria-hidden', k === cur ? 'false' : 'true'); });
       copies.forEach((c, k) => {
         c.classList.toggle('is-on', k === cur);

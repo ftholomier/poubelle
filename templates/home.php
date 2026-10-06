@@ -11,7 +11,11 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
 <section class="hero" data-slider aria-roledescription="carrousel" aria-label="<?= e(t('À la une')) ?>">
   <?php foreach ($slides as $i => $s): ?>
     <div class="hero__slide<?= $i === 0 ? ' is-on' : '' ?>" data-slide="<?= $i ?>" aria-hidden="<?= $i === 0 ? 'false' : 'true' ?>">
-      <img src="<?= e(img($s['image'], 1600)) ?>" srcset="<?= e(srcset($s['image'], [800, 1200, 1600])) ?>" sizes="100vw" alt="" <?= $i === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?> style="object-position:<?= e($s['focus']) ?>">
+      <?php if ($i === 0): ?>
+      <img src="<?= e(img($s['image'], 1600)) ?>" srcset="<?= e(srcset($s['image'], [800, 1200, 1600])) ?>" sizes="100vw" alt="" fetchpriority="high" style="object-position:<?= e($s['focus']) ?>">
+      <?php else: /* Chargée par home.js juste avant d'être montrée : l'accueil ne télécharge qu'une photo. */ ?>
+      <img data-src="<?= e(img($s['image'], 1600)) ?>" data-srcset="<?= e(srcset($s['image'], [800, 1200, 1600])) ?>" sizes="100vw" alt="" style="object-position:<?= e($s['focus']) ?>">
+      <?php endif; ?>
     </div>
   <?php endforeach; ?>
   <div class="hero__shade" aria-hidden="true"></div>
