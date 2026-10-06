@@ -400,6 +400,7 @@ final class Kernel
         $r->get('/interactif/', fn ($q) => Front\Interactive::landing($q));
         $r->get('/interactif/quiz/', fn ($q) => Front\Interactive::quiz($q));
         $r->get('/interactif/quiz-live/', fn ($q) => Front\QuizLivePages::join($q));
+        $r->get('/interactif/defi/', fn ($q) => Front\DailyQuizPages::page($q));
         $r->get('/interactif/quiz-live/championnat/', fn ($q) => Front\QuizLivePages::championship($q));
         $r->get('/interactif/quiz-live/ecran/{code}/{key}/', fn ($q, $code, $key) => Front\QuizLivePages::screen($q, $code, $key));
         $r->get('/interactif/album/', fn ($q) => Front\Interactive::album($q));

@@ -88,6 +88,9 @@ final class CarnetPages
         if (preg_match('/^\d{5}$/', $quiz)) {
             return Response::redirect(url('/interactif/quiz-live/') . '?code=' . $quiz);
         }
+        if ($quiz === 'defi') {
+            return Response::redirect(url('/interactif/defi/') . '?bienvenue=1');
+        }
         if ($quiz === 'championnat') {
             return Response::redirect(url('/interactif/quiz-live/championnat/') . '?bienvenue=1');
         }

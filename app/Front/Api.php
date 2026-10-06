@@ -40,6 +40,7 @@ final class Api
                 $p === '/api/retro-direct' && $post => Retro::api($req),
                 $p === '/api/carnet' && $post => CarnetPages::api($req),
                 $p === '/api/quiz-live' && $post => QuizLivePages::api($req),
+                $p === '/api/defi' && $post => DailyQuizPages::api($req),
                 $p === '/api/fil-jaune' => Fil::api($req),
                 $p === '/api/dons/session' && $post => Donations::checkout($req),
                 $p === '/api/dons/paypal/capture' && $post => Donations::paypalCapture($req),

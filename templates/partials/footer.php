@@ -39,7 +39,7 @@ $social = array_filter([
 $shop = \App\Shop\ShopPages::visible();
 $asso = \App\Vitrine\Host::base();
 $explore = [[t('Matchs'), '/matchs/'], [t('Saisons'), '/saisons/'], [t('Nos Lions'), '/nos-lions/'], [t('Face-à-face'), '/face-a-face/'], [t('Records'), '/records/'], [t('Les chiffres'), '/chiffres/'], [t('Le centenaire'), '/centenaire/']];
-$play = [[t('Rétro-Direct'), '/interactif/retro-direct/'], [t('Quiz'), '/interactif/quiz/'], [t('Album'), '/interactif/album/'], [t('Fil jaune'), '/interactif/fil-jaune/'], [t('Frise'), '/interactif/frise/'], [t('Tout Interactif'), '/interactif/']];
+$play = [[t('Rétro-Direct'), '/interactif/retro-direct/'], [t('Le défi du jour'), '/interactif/defi/'], [t('Quiz'), '/interactif/quiz/'], [t('Album'), '/interactif/album/'], [t('Fil jaune'), '/interactif/fil-jaune/'], [t('Frise'), '/interactif/frise/'], [t('Tout Interactif'), '/interactif/']];
 $join = array_merge([[t('Contribuer'), '/contribuer/'], [t('La newsletter'), '/newsletter/']], Settings::get('app.enabled', true) ? [[t('L’appli du musée'), '/appli/']] : [], [[t('Nous contacter'), '/contact/']]);
 ?>
 <footer class="site-footer">

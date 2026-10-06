@@ -813,6 +813,23 @@ chaque seconde (o2switch, PHP-FPM ; une lecture de fichier JSON par appel).
 - **Back-office** : Interactif › Quiz du club-house (`App\Admin\QuizClub`), avec le tableau du
   championnat (pseudo déplacé, retrait / réintégration). Tests : `tests/quizlive.php`.
 
+## 7 octies ter quinquies. Défi du jour (`App\Services\DailyQuiz`, `App\Front\DailyQuizPages`)
+
+Quiz en solo sur `/interactif/defi/` (hors cache des pages), API `POST /api/defi` (etat,
+commencer, repondre, suivante, inscrire). 10 questions de `QuizLive::questions(10, 'mix')`,
+tirées au premier appel du jour avec `mt_srand(crc32('defi-' . date . site_key))` (même tirage en
+français et en anglais : les questions des fiches utilisent `mt_rand`/`shuffle`), gardées dans
+`storage/defi/{date}.json` (`q.fr`, `q.en`, `results`). Partie d'un joueur :
+`storage/defi/{date}/{clé}.json` (clé = id du carnet avec pseudo du championnat, sinon invité
+`g` + empreinte d'un jeton gardé dans le navigateur) ; question en cours, `t0` serveur, réponses
+`[choix, ms, points]`. La bonne réponse n'est envoyée qu'après la réponse ; points comme au
+club-house (20 s, 500 à 1 000). Une partie par compte et par jour ; à la fin, résultat du jour,
+totaux du mois et de la saison et séries dans `storage/defi/totals.json` (invités : jamais).
+Classement du jour : points puis temps total ; mois et saison : points puis jours joués ; joueurs
+exclus du championnat exclus aussi. Carnet supprimé → `DailyQuiz::forget()` ; ménage (tâche
+« ménage ») : parties en cours de plus de 2 jours. Notification du matin : sujet `defi`
+(`app.push_defi`, à l'heure de « Ce jour-là »). Tests : `tests/defi.php`.
+
 ## 7 octies bis. Murs de photos (`App\Services\PhotoWall`, `App\Front\Walls`)
 
 Quatre pages de la rubrique Interactif tirent des photos de la médiathèque au hasard à chaque

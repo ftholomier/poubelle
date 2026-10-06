@@ -572,15 +572,15 @@ final class QuizLive
         $set = [$good => true];
         $tries = 0;
         while (count($set) < 4 && $tries++ < 60) {
-            $dh = max(0, $h + random_int(-2, 2));
-            $da = max(0, $a + random_int(-2, 2));
+            $dh = max(0, $h + mt_rand(-2, 2));
+            $da = max(0, $a + mt_rand(-2, 2));
             $set["{$dh}–{$da}"] = true;
         }
         if (count($set) < 4) {
             return null;
         }
         $a4 = array_keys($set);
-        return ['q' => t('Quel était le score de {f} ({c}, {d}) ?', ['f' => self::fixture($m), 'c' => self::compLabel($m), 'd' => self::when($m)]),
+        return ['q' => t('Quel était le score du match {f} ({c}, {d}) ?', ['f' => self::fixture($m), 'c' => self::compLabel($m), 'd' => self::when($m)]),
             'a' => array_map('strval', $a4), 'c' => 0, 'fact' => self::fact($m)];
     }
 
@@ -591,7 +591,7 @@ final class QuizLive
         $set = [(string) $y => true];
         $tries = 0;
         while (count($set) < 4 && $tries++ < 60) {
-            $d = $y + random_int(-9, 9);
+            $d = $y + mt_rand(-9, 9);
             if ($d !== $y && $d >= 1928 && $d <= (int) date('Y') && !in_array((string) $d, $taken, true)) {
                 $set[(string) $d] = true;
             }

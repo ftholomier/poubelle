@@ -1,7 +1,7 @@
 /* Quiz du club-house : page du joueur (.ql) et grand écran de l'animateur (.qls). */
 
 /* Couleurs des 4 réponses (formes en plus des couleurs : lisible par tous). */
-.ql, .qls { --a0: #D9342B; --a1: #1F6FD1; --a2: #E3A400; --a3: #2E9A4B; }
+.ql, .qls, .df { --a0: #D9342B; --a1: #1F6FD1; --a2: #E3A400; --a3: #2E9A4B; }
 
 /* ------------------------------------------------------------------ joueur */
 .page-quizlive main { background: var(--navy); color: var(--cream); }
@@ -183,3 +183,27 @@ body.qls { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 
 .cncard--navy .qc__form input { border-color: var(--cream); }
 .qc__scale { margin: 0 0 10px; padding: 0; list-style: none; columns: 2; font-size: 16px; line-height: 1.7; }
 @media (max-width: 900px) { .qc__grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ------------------------------------------------------------------ défi du jour */
+.df { background: var(--navy); color: var(--cream); padding: clamp(20px, 4vw, 36px); display: flex; flex-direction: column; min-height: 420px; box-shadow: 8px 8px 0 var(--yellow); }
+.df__intro, .df__play, .df__end { display: flex; flex-direction: column; gap: 16px; }
+.df__intro[hidden], .df__play[hidden], .df__end[hidden] { display: none; }
+.df .qbtn { align-self: flex-start; box-shadow: 5px 5px 0 var(--blue); }
+.df__guest { margin-top: 2px; }
+.df__rules { margin: 8px 0 0; padding-left: 18px; font-size: 15px; line-height: 1.55; opacity: .85; }
+.df__verdict { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.df__verdict[hidden] { display: none; }
+.df__verdict .ql__msg { text-align: left; margin: 0; }
+.df__fact { margin: 0; padding: 10px 12px; background: rgba(243, 237, 223, .1); border-left: 4px solid var(--yellow); font-size: 16px; line-height: 1.45; }
+.df__fact:empty { display: none; }
+.df__end { align-items: center; text-align: center; }
+.df__end .qbtn { align-self: center; }
+.df__good { margin: 0; font-family: var(--display); font-size: 22px; letter-spacing: .06em; text-transform: uppercase; }
+.df__grid { display: flex; gap: 6px; margin: 4px 0; }
+.df__grid span { width: 24px; height: 24px; background: rgba(243, 237, 223, .25); }
+.df__grid span.is-good { background: var(--yellow); }
+.df__rank { margin: 0; font-size: 18px; }
+.df__tomorrow { margin: 6px 0 0; font-size: 14px; opacity: .7; }
+.df-wrap .qc__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); }
+@media (max-width: 900px) { .df-wrap .qc__grid { grid-template-columns: minmax(0, 1fr); } }
+.df .ql__final { font-size: clamp(44px, 11vw, 72px); margin: 4px 0 0; }

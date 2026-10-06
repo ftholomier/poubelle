@@ -2,7 +2,7 @@
 return [
     'slug' => 'interactif',
     'title' => 'Les outils interactifs',
-    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, quiz du club-house, kit souvenirs, murs de photos.',
+    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, quiz du club-house, défi du jour, kit souvenirs, murs de photos.',
     'sections' => [
         ['id' => 'principe', 'title' => 'Le principe', 'html' => <<<'HTML'
 <p>Interactif › <b>Quiz, frise, carte…</b> : chaque outil est une liste d’éléments (une question, une date, une époque, un lieu…) qu’on ajoute, modifie, réordonne par glisser-déposer et traduit. La carte de chaque outil indique les éléments <b>à valider</b> et ceux <b>sans anglais</b>.</p>
@@ -68,6 +68,17 @@ HTML],
 [[img:quiz-championnat-ecran.webp|Le championnat dans la salle d’attente, puis après le podium]]
 [[img:quiz-championnat.webp|La page publique du championnat]]
 [[astuce|<p>« Partie amicale » (case de la nouvelle partie) : un essai ou une démonstration qui ne compte pas. Dans Interactif › Quiz du club-house, le tableau du championnat permet de remplacer un <b>pseudo déplacé</b> (il devient « Joueur 1234 », le joueur en choisit un autre) ou de <b>retirer un joueur du classement</b> (réintégrable). Aucun e-mail n’y est affiché. Un supporter qui supprime son carnet disparaît aussi du championnat.</p>]]
+<h3 id="defi">Le défi du jour : jouer seul</h3>
+<p>Sur <code>/interactif/defi/</code> (menu Interactif › Jouer), chacun joue <b>seul sur son téléphone</b>, sans animateur : <b>10 questions</b>, 20 secondes chacune, la réponse et le rappel du match après chaque question. Les questions sont <b>les mêmes pour tout le monde</b> dans la journée (en français comme en anglais) et changent à minuit. <b>Un seul essai par jour</b> et par compte : pas de retour en arrière, le temps tourne même si l’on quitte la page.</p>
+<ul>
+<li>Même compte que le championnat et le carnet (e-mail, lien sécurisé, même pseudo). Sans compte, on peut jouer <b>en invité</b>, sans classement.</li>
+<li><b>Classements</b> du jour (points, puis temps de réponse), du mois et de la saison (points cumulés), séparés du championnat du club-house : en solo, rien n’empêche de chercher les réponses, alors qu’au club-house tout le monde joue au même moment.</li>
+<li>« Partager mon résultat » : une grille de cases jaunes et noires, sans dévoiler les réponses. La série de jours d’affilée encourage à revenir.</li>
+<li>Rappel chaque matin par une notification de l’appli, pour les abonnés qui choisissent « Le défi du jour » (Réglages › Application du musée).</li>
+</ul>
+[[img:defi.webp|Sur le téléphone : le compte reconnu, une question, la bonne réponse, une erreur, le résultat]]
+[[img:defi-page.webp|La page du défi : inscription par e-mail, classements du jour, du mois et de la saison]]
+[[auto|<p>Rien à faire : les questions du jour sont tirées au premier joueur (quiz du site et fiches des grands matchs, sans IA) et gardées pour la journée. Un joueur retiré du classement du championnat l’est aussi du défi. Les parties en cours sont effacées après deux jours ; les résultats restent pour les classements.</p>]]
 HTML],
         ['id' => 'souvenirs', 'title' => 'Le kit souvenirs : Raconte-moi Bonal', 'html' => <<<'HTML'
 <p>Chaque mois, le site fabrique un <b>kit en gros caractères</b> à imprimer pour les anciens supporters (en famille, au club des aînés, à la médiathèque, en maison de retraite) : le grand match d’il y a 30, 40 ou 50 ans (photo, score, buteurs, récit, anecdote), « On vous raconte le match » (le récit complet de la version audio de la fiche, à lire à voix haute, sur une ou deux pages), puis, en annexe, la fiche complète du match (composition, résumé, réactions, face-à-face…), « Vous les reconnaissez ? » (six joueurs de l’époque à nommer, réponses à l’envers), le quiz des anciens (deux questions sur le match, quatre du quiz du site) et « Racontez-nous » (questions pour faire naître les souvenirs, QR code vers le formulaire de témoignage, adresse du musée). Il se télécharge sur la page Interactif › Participer › Kit souvenirs.</p>

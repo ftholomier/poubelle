@@ -28,7 +28,7 @@ final class PageCache
     private const MAX = 600;
 
     /** Pages jamais gardées (après « /en » éventuel). */
-    private const SKIP = '#^/(admin|api|imprimeur|apercu-association|boutique|faire-un-don|contribuer|contact|newsletter|souvenir|carnet|recherche|interactif/retro-direct|interactif/quiz-live|video|media|pdf|partage|wp-)#';
+    private const SKIP = '#^/(admin|api|imprimeur|apercu-association|boutique|faire-un-don|contribuer|contact|newsletter|souvenir|carnet|recherche|interactif/retro-direct|interactif/quiz-live|interactif/defi|video|media|pdf|partage|wp-)#';
     /** Paramètres que les pages publiques lisent (listes, filtres, pagination). */
     private const PARAMS = ['page', 'tri', 'vue', 'f', 'type', 'decennie', 'cat', 'comp', 'saison', 'poste', 'objet', 'motif', 'photographe', 'pp'];
     /** Paramètres de suivi publicitaire ignorés (même page que sans eux). */

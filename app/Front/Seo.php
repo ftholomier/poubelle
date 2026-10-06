@@ -73,7 +73,7 @@ final class Seo
         // Pages fixes
         $add('/', date('c'), 'daily', '1.0', true);
         foreach (['/matchs/', '/nos-lions/', '/saisons/', '/face-a-face/', '/records/', '/chiffres/', '/bilans/coupe-de-france/', '/bilans/stade-auguste-bonal/',
-            '/interactif/', '/interactif/quiz/', '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/interactif/retro-direct/', '/interactif/fil-jaune/', '/interactif/souvenirs/',
+            '/interactif/', '/interactif/quiz/', '/interactif/defi/', '/interactif/quiz-live/championnat/', '/interactif/album/', '/interactif/maillots/', '/interactif/frise/', '/interactif/carto/', '/interactif/retro-direct/', '/interactif/fil-jaune/', '/interactif/souvenirs/',
             '/centenaire/', '/centenaire/100-moments/', '/reserves/', '/faire-un-don/', '/contribuer/', '/contact/', '/partage-et-newsletter/', '/mentions-legales/', '/confidentialite/', '/cookies/'] as $p) {
             $add($p, null, 'weekly', '0.7', true);
         }

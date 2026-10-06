@@ -33,6 +33,7 @@ final class Notifications
         'nouvelles' => ['Les nouvelles du musée', 'Les annonces de l’équipe : nouveautés, événements, appels.', true],
         'kit' => ['Le kit souvenirs', 'Le kit du mois, à imprimer pour les anciens.', true],
         'jour' => ['Ce jour-là', 'Chaque matin, un match de l’histoire du club à cette date.', false],
+        'defi' => ['Le défi du jour', 'Chaque matin, le rappel du défi : dix questions, un classement.', false],
     ];
     /** Abonnés au plus (protection du stockage). */
     public const MAX_SUBS = 100000;
@@ -615,6 +616,15 @@ final class Notifications
                 'body' => Site::matchLabel($m) . ' · ' . t((string) ($m['label'] ?: $m['comp'])),
                 'url' => url((string) $m['path']),
                 'image' => !empty($m['image']) ? img((string) $m['image'], 800) : null,
+            ]), ['ttl' => 12 * 3600, 'urgency' => 'low']];
+        }
+
+        // Défi du jour : le rappel, à la même heure que « Ce jour-là ».
+        if (Settings::get('app.push_defi', true) && (int) date('G', $now) >= $hour && (int) date('G', $now) < $hour + 2 && !isset($done['defi:' . $day])) {
+            $out[] = ['defi:' . $day, 'defi', self::bilingual(fn ($l) => [
+                'title' => $l === 'en' ? 'Today’s challenge is on' : 'Le défi du jour est en ligne',
+                'body' => $l === 'en' ? 'Ten questions on FCSM history, the same for everyone. One try: how far up the table will you go?' : 'Dix questions sur l’histoire du FCSM, les mêmes pour tout le monde. Un seul essai : jusqu’où monterez-vous au classement ?',
+                'url' => url('/interactif/defi/'),
             ]), ['ttl' => 12 * 3600, 'urgency' => 'low']];
         }
         return $out;

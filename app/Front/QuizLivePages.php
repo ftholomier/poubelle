@@ -190,7 +190,7 @@ final class QuizLivePages
      * seulement ; la partie est rattachée au compte quand le lien est ouvert sur ce téléphone.
      * @return array{cid:?string,claim:?string,pseudo:string,mailed:bool}|array{error:string,status:int}
      */
-    private static function account(Request $req, string $email, string $name, string $quiz): array
+    public static function account(Request $req, string $email, string $name, string $quiz): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 120) {
             return ['error' => t('Adresse e-mail invalide.'), 'status' => 422];

@@ -98,6 +98,20 @@ final class QuizChampionship
         return true;
     }
 
+    /** Le joueur vient de jouer (défi du jour) : le ménage des comptes le garde. */
+    public static function touch(string $id): void
+    {
+        if (!self::has($id)) {
+            return;
+        }
+        JsonStore::update(self::$file, function ($d) use ($id) {
+            if (isset($d['players'][$id])) {
+                $d['players'][$id]['last'] = date('Y-m-d');
+            }
+            return $d;
+        }, []);
+    }
+
     /** Back-office : exclure du classement (ou réintégrer). */
     public static function ban(string $id, bool $on): void
     {

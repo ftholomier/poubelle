@@ -289,6 +289,11 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   « Partie amicale » pour un essai. Classement dans la salle d'attente, après le podium et sur
   la page publique `/interactif/quiz-live/championnat/`. Tableau du championnat : « Pseudo
   déplacé » (remplacé par « Joueur 1234 »), « Retirer du classement » / réintégrer.
+- **Défi du jour** (`/interactif/defi/`, rien à régler) : 10 questions en solo sur le
+  téléphone, les mêmes pour tout le monde dans la journée, un essai par jour et par compte
+  (même compte et même pseudo que le championnat), invités sans classement. Classements du
+  jour, du mois et de la saison, séparés du championnat ; résultat à partager ; rappel du matin
+  par notification (sujet « Le défi du jour », Réglages › Application du musée).
 - **Carnets du supporter** (Communauté) : les supporters cochent les matchs vus au stade
   (« J'y étais ! » sur la fiche, ou saison par saison sur /carnet/), avec un lien envoyé à leur
   e-mail ; bilan, badges, porte-bonheur, carte à partager, page publique sous pseudo. L'écran

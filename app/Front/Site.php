@@ -135,6 +135,8 @@ final class Site
             ['title' => t('Les murs de photos'), 'tools' => Walls::tools()],
             ['title' => t('Jouer'), 'tools' => [
                 ['icon' => '?', 'label' => t('Quiz'), 'd' => t('Êtes-vous un vrai Lionceau ?'), 'href' => url('/interactif/quiz/')],
+                ['icon' => '★', 'label' => t('Le défi du jour'), 'd' => t('Dix questions, un essai par jour, un classement.'), 'href' => url('/interactif/defi/')],
+                ['icon' => '♛', 'label' => t('Championnat du club-house'), 'd' => t('Les soirées quiz en salle, saison après saison.'), 'href' => url('/interactif/quiz-live/championnat/')],
                 ['icon' => '▦', 'label' => t('Album'), 'd' => t('Collectionnez les cartes des Lions.'), 'href' => url('/interactif/album/')],
                 ['icon' => '⟿', 'label' => t('Fil jaune'), 'd' => t('Reliez deux Lionceaux par leurs matchs.'), 'href' => url('/interactif/fil-jaune/')],
             ]],

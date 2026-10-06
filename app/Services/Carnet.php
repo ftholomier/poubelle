@@ -143,10 +143,10 @@ final class Carnet
         if ($quiz !== null) {
             $link .= '?quiz=' . rawurlencode($quiz);
             $html = '<p>' . e(t('Bonjour,')) . '</p>'
-                . '<p>' . e(t('Voici votre lien personnel Sochaux Rétro. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place au championnat du club-house, sous votre pseudo, partie après partie. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
+                . '<p>' . e(t('Voici votre lien personnel Sochaux Rétro. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements du quiz (championnat du club-house, défi du jour), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
                 . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Valider sur ce téléphone')) . '</a></p>'
                 . '<p style="font-size:13px;color:#555">' . e(t('Nouveau téléphone, ou lien perdu ? Redemandez un lien depuis la page du championnat, avec la même adresse.')) . ' ' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
-            return Mailer::send($c['email'], t('Votre place au championnat du club-house'), Mailer::layout(t('Championnat du club-house'), $html));
+            return Mailer::send($c['email'], t('Votre place aux classements du quiz Sochaux Rétro'), Mailer::layout(t('Quiz Sochaux Rétro'), $html));
         }
         $html = '<p>' . e(t('Bonjour,')) . '</p>'
             . '<p>' . e(t('Voici le lien personnel de votre carnet du supporter Sochaux Rétro : il l’ouvre sur n’importe quel téléphone ou ordinateur. Gardez-le pour vous.')) . '</p>'
@@ -371,6 +371,7 @@ final class Carnet
     public static function delete(string $id): void
     {
         QuizChampionship::forget($id);
+        DailyQuiz::forget($id);
         @unlink(self::file($id));
         @unlink(self::file($id) . '.lock');
         JsonStore::update(self::indexFile(), function ($idx) use ($id) {
