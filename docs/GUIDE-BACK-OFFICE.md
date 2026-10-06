@@ -275,6 +275,13 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   heure du coup d'envoi, présentation facultative (français, anglais). « Au programme » :
   voir, modifier, retirer ; public des directs passés (pic de spectateurs, réactions). Aucun
   coût : tout vient de la fiche du match.
+- **Quiz du club-house** : une soirée quiz en direct. « Nouvelle partie » (6 à 30 questions,
+  15, 20 ou 30 secondes, questions du quiz du site et/ou des fiches de match, français ou
+  anglais) donne un code à 5 chiffres ; « Ouvrir le grand écran » sur l'ordinateur relié à la
+  télé (lien secret qui pilote la partie). Les joueurs scannent le QR code, tapent le code et un
+  pseudo, répondent sur leur téléphone ; barre d'espace : lancer, réponse, classement, question
+  suivante, podium. Un clic sur un pseudo dans la salle d'attente le retire. Parties effacées
+  24 h après leur dernière activité. Aucune IA, aucun coût.
 - **Carnets du supporter** (Communauté) : les supporters cochent les matchs vus au stade
   (« J'y étais ! » sur la fiche, ou saison par saison sur /carnet/), avec un lien envoyé à leur
   e-mail ; bilan, badges, porte-bonheur, carte à partager, page publique sous pseudo. L'écran

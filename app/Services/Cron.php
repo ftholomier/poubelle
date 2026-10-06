@@ -300,6 +300,7 @@ final class Cron
         $out['consentements'] = $purgeMonthly(STORAGE_PATH . '/consent', 13);
         $out['emails'] = $purgeMonthly(STORAGE_PATH . '/mail', 12);
         $out['carnets'] = \App\Services\Carnet::purge();
+        $out['quiz'] = \App\Services\QuizLive::purge();
         $old = function (string $pattern, int $seconds): int {
             $n = 0;
             foreach (glob($pattern) ?: [] as $f) {

@@ -77,7 +77,7 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <?= \App\Core\View::partial('partials/footer') ?>
 <?php endif; ?>
 <?= \App\Core\View::partial('partials/lightbox') ?>
-<?= \App\Core\View::partial('partials/cookie') ?>
+<?php if (empty($page['no_cookie'])): ?><?= \App\Core\View::partial('partials/cookie') ?><?php endif; ?>
 <?php if (Settings::get('app.enabled', true) && Settings::get('app.banner', true) && !preg_match('#^/(?:en/)?(?:appli|boutique|faire-un-don|contribuer|contact|newsletter|souvenir)(?:/|$)#', $path)): ?>
 <?= \App\Core\View::partial('partials/app-banner') ?>
 <?php endif; ?>

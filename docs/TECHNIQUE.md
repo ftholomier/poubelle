@@ -769,6 +769,36 @@ souvenirs) pour refaire les PDF en cache.
 - **Back-office** : Communauté › Carnets du supporter (nombre, matchs cochés, matchs les plus
   vécus ; aucun e-mail affiché). Tests : `tests/carnet.php`.
 
+## 7 octies ter quater. Quiz du club-house (`App\Services\QuizLive`, `App\Front\QuizLivePages`)
+
+Partie en direct façon jeu télévisé : un grand écran affiche les questions, les joueurs répondent
+sur leur téléphone. Pas de websocket : écran et téléphones interrogent `POST /api/quiz-live`
+chaque seconde (o2switch, PHP-FPM ; une lecture de fichier JSON par appel).
+
+- **Partie** : `storage/quizlive/{code}.json` (code à 5 chiffres ; `key` = clé de l'animateur,
+  24 caractères hexa ; `questions`, `duration` 15/20/30 s, `lang`, `phase` lobby → question →
+  reveal → board → … → end, `idx`, `t0` en ms, `players{pid: name, score, tok (sha256)}`,
+  `answers{idx: {pid: [choix, ms, points]}}`, `v` incrémenté à chaque écriture). Écritures sous
+  verrou (`JsonStore::update`). Ménage : parties sans activité depuis 24 h (tâche « ménage »).
+- **Déroulé** : « Suivant » de l'animateur (`next()`) ouvre une question 3 s plus tard (temps de
+  lecture), ferme une question en cours, passe de la réponse au classement puis à la question
+  suivante ou au podium. Une question se ferme d'elle-même à la lecture (`phase()`) : temps écoulé
+  ou tout le monde a répondu. Réponse acceptée une fois, entre `t0` et la fin + 600 ms.
+  Points : 500 + 500 × (1 − temps de réponse / durée), 0 si faux ; ex aequo au même rang.
+- **Questions** (`questions($n, mix|site|fiches)`) : quiz du site (`Collections` « quiz »,
+  traduit) et `fromMatches()` sur les grands matchs (`hl` ≥ 6, hors amicaux) : score (scores
+  voisins), année (années voisines sans autre match identique), adversaire (adversaires de la
+  même décennie), buteur (`Derived::part('scorers')` contre des titulaires de la composition qui
+  n'ont pas marqué, personnes publiées seulement). Réponses mélangées ; rappel du match en
+  anecdote. Aucune IA.
+- **Pages** (hors cache des pages, `private, no-store`) : `/interactif/quiz-live/?code=` (joueur,
+  sans bandeau cookies : `no_cookie`), `/interactif/quiz-live/ecran/{code}/{clé}/` (page autonome,
+  QR code `Qr::svg`, 404 sans la bonne clé). Jeton du joueur gardé dans `localStorage`
+  (`ql:{code}`) : un rechargement reprend la partie. API : `rejoindre` (limite 400/h par adresse,
+  60 codes faux/h), `etat`, `repondre` (jeton du joueur), `ecran`, `suivant`, `retirer` (clé).
+- **Back-office** : Interactif › Quiz du club-house (`App\Admin\QuizClub`). Tests :
+  `tests/quizlive.php`.
+
 ## 7 octies bis. Murs de photos (`App\Services\PhotoWall`, `App\Front\Walls`)
 
 Quatre pages de la rubrique Interactif tirent des photos de la médiathèque au hasard à chaque

@@ -74,7 +74,7 @@
         <tr><td>Corriger l’orthographe et la syntaxe</td><td>panneau Orthographe › Vérifier l’orthographe ; Qualité › Orthographe</td></tr>
         <tr><td>Vérifier ou compléter une fiche, sources à l’appui</td><td>panneau Recherche sur le web › Chercher sur le web</td></tr>
         <tr><td>Rediriger une adresse, fermer le site un moment</td><td>Éditorial › Redirections, Page d’attente</td></tr>
-        <tr><td>Quiz, frise, carte, Rétro-Direct, kit souvenirs</td><td>Interactif ; témoignages « Ils y étaient » : Contributions</td></tr>
+        <tr><td>Quiz, frise, carte, Rétro-Direct, quiz du club-house, kit souvenirs</td><td>Interactif ; témoignages « Ils y étaient » : Contributions</td></tr>
         <tr><td>Contributions, messages, carnets du supporter</td><td>Communauté</td></tr>
         <tr><td>Ce qui reste à vérifier, les nouvelles anomalies</td><td>Pilotage › Qualité › Contrôler maintenant</td></tr>
         <tr><td>Version anglaise</td><td>Système › Traductions EN, ou onglet Version EN</td></tr>

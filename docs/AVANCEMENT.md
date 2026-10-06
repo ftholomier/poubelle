@@ -595,6 +595,11 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Poster « Ma vie en jaune et bleu » en boutique (modèle livré inactif : prix à fixer), liste des matchs figée à la commande
 - [ ] Suite possible : lien avec le kit souvenirs (« vous étiez à ce match du mois »)
 
+## Quiz du club-house (octobre 2026)
+- [x] Partie en direct : grand écran (salle d'attente avec QR code, question et compte à rebours, réponse avec répartition et rappel du match, classement, podium), téléphones des joueurs (code + pseudo, 4 réponses en couleurs et formes, verdict, points, rang), points selon la rapidité
+- [x] Questions sans IA : moitié quiz du site, moitié fabriquées à partir des grands matchs (score, année, adversaire, buteur), tirées au hasard à chaque partie
+- [x] Back-office Interactif › Quiz du club-house (créer, ouvrir le grand écran, effacer), anglais, aide et captures, confidentialité, tests (`tests/quizlive.php`)
+
 ## Documents de présentation (octobre 2026, mise à jour)
 - [x] Présentation `docs/sochaux-retro-presentation.pdf` : 53 pages (carnet du supporter, poster « Ma vie en jaune et bleu », « Prêt pour le lancement » avec les mesures de vitesse, page récapitulative à jour)
 - [x] Infographie A4 `docs/sochaux-retro-fonctionnalites.pdf` : carnet du supporter, poster du carnet, cache des pages (toujours 2 pages)

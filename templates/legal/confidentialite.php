@@ -36,6 +36,7 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
         <tr><td>AI assistant (questions and answers)</td><td>Questions asked, answers, page, language, technical measurements — no name, no IP address in clear</td><td>Legitimate interest (improving the museum)</td><td><?= (int) $aiDays ?> days</td></tr>
         <?php endif; ?>
         <tr><td>Votes (Legendary XI) and quiz</td><td>Anonymous choices; temporary fingerprint of the connection to prevent multiple votes</td><td>Legitimate interest</td><td>Fingerprint erased within 48 hours</td></tr>
+        <tr><td>Clubhouse quiz (live game)</td><td>Nickname you choose, answers and points; a game key kept on your device</td><td>Legitimate interest (running the game)</td><td>Erased 24 hours after the game’s last activity</td></tr>
         <tr><td>Proof of your cookie choices</td><td>Choices, date, anonymised fingerprint</td><td>Legal obligation</td><td>13 months</td></tr>
         <tr><td>Audience measurement (internal)</td><td>Page viewed, hour, language — no cookie, no IP address, no identifier</td><td>Legitimate interest (exempt from consent)</td><td>Daily totals kept 13 months; raw logs deleted within 48 hours</td></tr>
         <tr><td>Security and abuse prevention</td><td>Encrypted fingerprints of IP addresses (request limits); server logs kept by the host</td><td>Legitimate interest; legal obligation of the host</td><td>48 hours for fingerprints; up to 1 year for the host's logs</td></tr>
@@ -83,6 +84,7 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
         <tr><td>Assistant IA (questions et réponses)</td><td>Questions posées, réponses, page, langue, mesures techniques — ni nom, ni adresse IP en clair</td><td>Intérêt légitime (amélioration du musée)</td><td><?= (int) $aiDays ?> jours</td></tr>
         <?php endif; ?>
         <tr><td>Votes (Onze de légende) et quiz</td><td>Choix anonymes ; empreinte temporaire de la connexion pour éviter les votes multiples</td><td>Intérêt légitime</td><td>Empreinte effacée sous 48 heures</td></tr>
+        <tr><td>Quiz du club-house (partie en direct)</td><td>Pseudo choisi, réponses et points ; une clé de partie gardée sur votre appareil</td><td>Intérêt légitime (faire tourner la partie)</td><td>Effacés 24 heures après la dernière activité de la partie</td></tr>
         <tr><td>Preuve de vos choix en matière de cookies</td><td>Choix, date, empreinte anonymisée</td><td>Obligation légale</td><td>13 mois</td></tr>
         <tr><td>Mesure d’audience (interne)</td><td>Page vue, heure, langue — sans cookie, sans adresse IP, sans identifiant</td><td>Intérêt légitime (exemptée de consentement)</td><td>Totaux quotidiens conservés 13 mois ; journaux bruts effacés sous 48 heures</td></tr>
         <tr><td>Sécurité et prévention des abus</td><td>Empreintes chiffrées des adresses IP (limites de requêtes) ; journaux du serveur tenus par l’hébergeur</td><td>Intérêt légitime ; obligation légale de l’hébergeur</td><td>48 heures pour les empreintes ; jusqu’à 1 an pour les journaux de l’hébergeur</td></tr>

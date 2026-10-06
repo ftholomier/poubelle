@@ -44,6 +44,7 @@ class Base
             ['interactif', 'Quiz, frise, carte…', '/admin/interactif', false],
             ['onze', 'Onze & album', '/admin/onze', false],
             ['retro', 'Rétro-Direct', '/admin/retro-direct', false],
+            ['quizlive', 'Quiz du club-house', '/admin/quiz-club-house', false],
             ['souvenirs', 'Kit souvenirs', '/admin/souvenirs', false],
             ['murs', 'Murs de photos', '/admin/murs-photos', false],
         ],

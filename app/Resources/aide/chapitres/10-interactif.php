@@ -2,7 +2,7 @@
 return [
     'slug' => 'interactif',
     'title' => 'Les outils interactifs',
-    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, kit souvenirs, murs de photos.',
+    'summary' => 'Quiz, frise, maillots, carte, partenaires, page « Faire un don », Onze de légende et album, Rétro-Direct, quiz du club-house, kit souvenirs, murs de photos.',
     'sections' => [
         ['id' => 'principe', 'title' => 'Le principe', 'html' => <<<'HTML'
 <p>Interactif › <b>Quiz, frise, carte…</b> : chaque outil est une liste d’éléments (une question, une date, une époque, un lieu…) qu’on ajoute, modifie, réordonne par glisser-déposer et traduit. La carte de chaque outil indique les éléments <b>à valider</b> et ceux <b>sans anglais</b>.</p>
@@ -42,6 +42,21 @@ HTML],
 [[img:retro.webp|Le programme et les anniversaires proposés]]
 [[auto|<p>Tout vient de la fiche du match : temps forts et leur minute, buteurs, composition (entrées en jeu, cartons), brèves d’avant-match, réactions d’après-match, photos de la galerie à la mi-temps. Aucune IA, aucun coût. Le direct s’annonce dans le bandeau du site 7 jours avant, figure dans l’agenda à télécharger (.ics) et dans le plan du site.</p>]]
 [[astuce|<p>Avant un direct, relisez la fiche : minutes des temps forts et des buts, entrées en jeu, une belle photo à la une. Il faut au moins 4 temps forts datés. Tous les matchs qui en ont assez se revivent aussi <b>en accéléré</b> (×10, ×60), toute l’année : bouton « Revivre en direct » sur la fiche du match.</p>]]
+HTML],
+        ['id' => 'quiz-club-house', 'title' => 'Le quiz du club-house : une soirée quiz en direct', 'html' => <<<'HTML'
+<p>Pour une soirée au club-house, au local de l’association ou dans un bar de supporters : la télé (ou le vidéoprojecteur) affiche les questions, chacun répond depuis <b>son téléphone</b>, sans inscription ni application. Plus on répond vite, plus on marque : de 1 000 points (réponse immédiate) à 500 (dernière seconde), 0 pour une mauvaise réponse. Classement après chaque question, podium à la fin.</p>
+[[img:quiz-club-house-ecran.webp|Le grand écran : la salle d’attente avec le QR code, puis une question et sa réponse]]
+<p>Interactif › <b>Quiz du club-house</b> :</p>
+<ol>
+<li><b>Nouvelle partie</b> : le nombre de questions (12 questions ≈ 15 minutes), le temps pour répondre (15, 20 ou 30 secondes), l’origine des questions et la langue. « Créer la partie » donne un <b>code à 5 chiffres</b>.</li>
+<li>Sur l’ordinateur relié à la télé, <b>Ouvrir le grand écran</b>, puis ⤢ pour le plein écran. La salle d’attente affiche le QR code, l’adresse et le code ; les pseudos apparaissent au fur et à mesure.</li>
+<li>Les joueurs scannent le QR code (ou vont sur <code>/interactif/quiz-live/</code>), tapent le code et un pseudo.</li>
+<li><b>Barre d’espace</b> (ou le bouton jaune) : lancer le quiz, afficher la réponse sans attendre la fin du compte à rebours, le classement, la question suivante… jusqu’au podium. La réponse s’affiche d’elle-même quand tout le monde a répondu ou que le temps est écoulé.</li>
+</ol>
+[[img:quiz-club-house.webp|Interactif › Quiz du club-house : créer une partie, ouvrir son grand écran]]
+[[img:quiz-club-house-telephone.webp|Sur le téléphone : la question, les quatre réponses, puis le verdict et le rang]]
+[[auto|<p>Les questions sont tirées au hasard à chaque partie : la moitié dans le quiz du site (voir [[aide:interactif#quiz|Le quiz]]), l’autre fabriquée à partir des <b>fiches des grands matchs</b> (au moins 6 temps forts, hors amicaux) : le score, l’année, l’adversaire ou le buteur d’un match, avec trois réponses plausibles et le rappel du match (score, compétition, date, affluence) à l’affichage de la réponse. Aucune IA, aucun coût. « Fiches de match seulement » donne une partie toujours nouvelle.</p>]]
+[[astuce|<p>Le lien du grand écran est <b>secret</b> : il permet de piloter la partie (ne le partagez pas, ne l’affichez pas). Un pseudo déplacé ? Cliquez dessus dans la salle d’attente pour le retirer. Un joueur qui recharge sa page retrouve sa partie et ses points. Les parties (pseudos et scores) s’effacent 24 h après leur dernière activité ; « Effacer » le fait tout de suite.</p>]]
 HTML],
         ['id' => 'souvenirs', 'title' => 'Le kit souvenirs : Raconte-moi Bonal', 'html' => <<<'HTML'
 <p>Chaque mois, le site fabrique un <b>kit en gros caractères</b> à imprimer pour les anciens supporters (en famille, au club des aînés, à la médiathèque, en maison de retraite) : le grand match d’il y a 30, 40 ou 50 ans (photo, score, buteurs, récit, anecdote), « On vous raconte le match » (le récit complet de la version audio de la fiche, à lire à voix haute, sur une ou deux pages), puis, en annexe, la fiche complète du match (composition, résumé, réactions, face-à-face…), « Vous les reconnaissez ? » (six joueurs de l’époque à nommer, réponses à l’envers), le quiz des anciens (deux questions sur le match, quatre du quiz du site) et « Racontez-nous » (questions pour faire naître les souvenirs, QR code vers le formulaire de témoignage, adresse du musée). Il se télécharge sur la page Interactif › Participer › Kit souvenirs.</p>
