@@ -12,7 +12,7 @@
 <script type="application/json" id="cn-i18n"><?= json_encode([
     'sent' => t('Si cette adresse a un carnet, un lien vient d’y être envoyé : ouvrez-le sur cet appareil. Pensez à regarder dans les indésirables.'),
     'first' => t('Créez d’abord votre carnet.'),
-    'saved' => t('Enregistré.'), 'see' => t('Voir mon carnet'), 'closed' => t('Page publique fermée.'),
+    'saved' => t('Enregistré.'), 'see' => t('Voir mon carnet'), 'closed' => t('Page publique fermée.'), 'seePublic' => t('Voir ma page publique'),
     'delete' => t('Supprimer définitivement votre carnet et tous ses matchs ?'),
     'logout' => t('Déconnecter tous les autres appareils ? Les liens déjà envoyés par e-mail ne marcheront plus non plus ; pour rouvrir le carnet ailleurs, il faudra demander un nouveau lien.'),
     'loggedOut' => t('C’est fait : seul cet appareil a encore accès à votre carnet.'),

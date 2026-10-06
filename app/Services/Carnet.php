@@ -284,6 +284,66 @@ final class Carnet
         return $out;
     }
 
+    /**
+     * Anniversaire du supporter (jour et mois seulement, jamais l'année) : « MM-JJ », ou null pour
+     * l'effacer. @return bool faux si la date n'existe pas
+     */
+    public static function setBirthday(string $id, ?int $day, ?int $month): bool
+    {
+        $md = null;
+        if ($day || $month) {
+            if (!$day || !$month || !checkdate($month, $day, 2000)) {
+                return false;
+            }
+            $md = sprintf('%02d-%02d', $month, $day);
+        }
+        JsonStore::update(self::file($id), function ($c) use ($md) {
+            if (is_array($c)) {
+                if ($md === null) {
+                    unset($c['birthday']);
+                } else {
+                    $c['birthday'] = $md;
+                }
+            }
+            return $c;
+        }, null);
+        return true;
+    }
+
+    /** Est-ce l'anniversaire du supporter ? (29 février : le 28 les années non bissextiles.) */
+    public static function isBirthday(array $c, string $today): bool
+    {
+        $b = (string) ($c['birthday'] ?? '');
+        if ($b === '') {
+            return false;
+        }
+        $md = substr($today, 5, 5);
+        return $b === $md || ($b === '02-29' && $md === '02-28' && !checkdate(2, 29, (int) substr($today, 0, 4)));
+    }
+
+    /**
+     * Message du jour J : joyeux anniversaire, et pour fêter ça son plus beau match au stade (ou
+     * le match dont c'est l'anniversaire ce jour-là). @return array{title:string,body:string,url:string}
+     */
+    public static function birthdayMessage(array $c, ?array $a): array
+    {
+        $p = trim((string) ($c['pseudo'] ?? '')) ?: (string) (QuizChampionship::player((string) $c['id'])['pseudo'] ?? '');
+        $title = $p !== '' ? t('Joyeux anniversaire, {p} !', ['p' => $p]) : t('Joyeux anniversaire !');
+        $score = fn (array $m): string => $m['home'] . ' ' . ($m['sh'] ? $m['us'] . '–' . $m['them'] : $m['them'] . '–' . $m['us']) . ' ' . $m['away'];
+        if ($a) {
+            $m = $a['m'];
+            $body = t('Et il y a {n} ans jour pour jour, vous étiez au stade : {m}.', ['n' => $a['years'], 'm' => $score($m)]);
+            return ['title' => $title, 'body' => $body, 'url' => url((string) $m['path'])];
+        }
+        $s = $c['matches'] ? self::stats(array_keys($c['matches'])) : null;
+        $m = $s ? ($s['best'] ?? $s['first']) : null;
+        if (!$m) {
+            return ['title' => $title, 'body' => t('Tout le musée Sochaux Rétro vous souhaite une belle journée.'), 'url' => url('/carnet/')];
+        }
+        $body = t('Pour fêter ça, votre plus beau souvenir au stade : {m}, le {d}.', ['m' => $score($m), 'd' => date_fr((string) $m['date'])]);
+        return ['title' => $title, 'body' => $body, 'url' => url((string) $m['path'])];
+    }
+
     /** Signature du lien « ne plus recevoir » de l'e-mail d'anniversaire. */
     public static function stopSig(string $id): string
     {
@@ -350,7 +410,8 @@ final class Carnet
                 continue;
             }
             $a = self::anniversaryOf(array_keys($c['matches']), $today);
-            if (!$a) {
+            $bday = self::isBirthday($c, $today);
+            if (!$a && !$bday) {
                 continue;
             }
             JsonStore::update(self::file($id), function ($x) use ($today) {
@@ -363,10 +424,10 @@ final class Carnet
             I18n::set($c['lang'] ?? 'fr');
             try {
                 if ($email) {
-                    $msg = self::anniversaryMessage($a);
+                    $msg = $bday ? self::birthdayMessage($c, $a) : self::anniversaryMessage($a);
                     $stop = base_url() . url('/carnet/rappels/arret/' . $id . '/' . self::stopSig($id) . '/');
                     $html = '<p style="font-size:20px"><b>' . e($msg['title']) . '</b></p><p style="font-size:18px">' . e($msg['body']) . '</p>'
-                        . '<p style="margin:24px 0"><a href="' . e(base_url() . $msg['url']) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Revivre le match')) . '</a></p>'
+                        . '<p style="margin:24px 0"><a href="' . e(base_url() . $msg['url']) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(str_contains($msg['url'], '/carnet/') ? t('Mon carnet du supporter') : t('Revivre le match')) . '</a></p>'
                         . '<p><a href="' . e(base_url() . url('/carnet/')) . '">' . e(t('Mon carnet du supporter')) . '</a></p>'
                         . '<p style="font-size:13px;color:#555"><a href="' . e($stop) . '" style="color:#555">' . e(t('Ne plus recevoir ces rappels')) . '</a></p>';
                     if (Mailer::send($c['email'], $msg['title'], Mailer::layout($msg['title'], $html))) {
@@ -376,7 +437,18 @@ final class Carnet
             } finally {
                 I18n::set($prev);
             }
-            if ($push) {
+            if ($push && $bday && Notifications::enabled()) {
+                // Anniversaire du supporter : un message à lui seul, sur ses appareils.
+                $msg = [];
+                $prev = I18n::lang();
+                foreach (['fr', 'en'] as $l) {
+                    I18n::set($l);
+                    $msg[$l] = self::birthdayMessage($c, $a);
+                }
+                I18n::set($prev);
+                $r = Notifications::enqueue('carnet-anniv:' . $id . ':' . $today, 'carnet', $msg, ['only' => array_values($push), 'hidden' => true, 'ttl' => 12 * 3600]);
+                $done['push'] += $r['ok'] ? (int) $r['n'] : 0;
+            } elseif ($push) {
                 $byMatch[$a['m']['id']]['a'] = $a;
                 $byMatch[$a['m']['id']]['ids'] = array_merge($byMatch[$a['m']['id']]['ids'] ?? [], $push);
             }

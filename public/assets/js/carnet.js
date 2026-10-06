@@ -60,7 +60,7 @@
     const msg = pub.querySelector('[data-cn-msg]');
     const r = await api({ action: 'public', pseudo: pub.pseudo.value, on: pub.on.checked });
     if (r.error) { msg.textContent = r.error; return; }
-    msg.innerHTML = r.url ? '✓ <a href="' + esc(r.url) + '">' + esc(r.url) + '</a>' : '✓ ' + esc(L.closed || '');
+    msg.innerHTML = r.url ? '✓ <a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(L.seePublic || r.url) + ' ↗</a>' : '✓ ' + esc(L.closed || '');
   });
 
   // Anniversaires : e-mail, notifications sur cet appareil.
@@ -77,6 +77,15 @@
       shown(await api({ action: 'rappels', endpoint: sub.endpoint }));
     });
   }
+
+  // Anniversaire du supporter (jour et mois).
+  const bday = document.querySelector('[data-cn-bday]');
+  bday?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = document.querySelector('[data-cn-remind] [data-cn-msg]');
+    const r = await api({ action: 'anniversaire', day: +bday.day.value, month: +bday.month.value });
+    if (msg) msg.textContent = r.ok ? '✓ ' + (L.saved || '') : (r.error || '');
+  });
 
   // Se déconnecter des autres appareils (et des liens envoyés pas encore ouverts).
   document.querySelector('[data-cn-logout]')?.addEventListener('click', async e => {

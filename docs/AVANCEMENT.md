@@ -612,6 +612,11 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Parcours vérifié sur le banc : anglais, mobile, rechargement, double appui, défi, championnat, back-office ; suites carnet, quiz, défi, radio, Rétro-Direct, notifications, mises à jour au vert
 - [x] Correctif en ligne : PageSpeed d'o2switch neutralisé (front sans styles après la mise à jour du 06/10)
 - [x] Carnet : « Se déconnecter des autres appareils » (téléphone perdu, carnet ouvert par quelqu'un d'autre avec la même adresse) ; nombre d'autres accès affiché
+- [x] Carte du carnet en PDF vectoriel (carte postale 148 × 105) : deux designs au choix (charte du musée, billet de match), pseudo du supporter, victoires / nuls / défaites en toutes lettres, logo en grand ; aperçus cliquables dans le carnet
+- [x] Image de partage (1200 × 630) redessinée sur le design « musée », pseudo compris
+- [x] Boutique : calque « Carte du carnet » à poser sur les goodies (design A ou B), carnet du client repris, matchs et pseudo figés à la commande ; pastille « Pièce unique » dans la liste des modèles du back-office
+- [x] Poster « Ma vie en jaune et bleu » : aperçu et commande dès le premier match
+- [x] Carnet : bouton « Voir ma page publique » (nouvel onglet), « Jour pour jour : vos matchs d'il y a 10, 20, 30 ans », date d'anniversaire du supporter (jour et mois) et message le jour J
 
 ## Documents de présentation (octobre 2026, mise à jour)
 - [x] Présentation `docs/sochaux-retro-presentation.pdf` : 53 pages (carnet du supporter, poster « Ma vie en jaune et bleu », « Prêt pour le lancement » avec les mesures de vitesse, page récapitulative à jour)

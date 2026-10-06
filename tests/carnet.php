@@ -77,7 +77,7 @@ C::setPublic($id, 'Lionceau 88', false);
 $eq('page publique fermée', C::bySlug($c['slug']), null);
 
 // Carte à partager.
-$res = \App\Front\Share::carnet($s, 'Lionceau 88');
+$res = \App\Front\Share::carnet(\App\Shop\CarnetCard::data(array_map('intval', array_keys(C::get($id)['matches'] ?? [])) ?: [(int) C::seasonMatches('1987-1988')[0]['id']], 'Lionceau 88'));
 $eq('carte : image PNG 1200 × 630', [$res->headers['Content-Type'], getimagesizefromstring($res->body)[0] ?? 0, getimagesizefromstring($res->body)[1] ?? 0], ['image/png', 1200, 630]);
 
 // Vue d'ensemble, ménage, suppression.
@@ -116,6 +116,21 @@ $eq('rappel noté : jamais deux fois le même jour', [C::get($fid)['reminded'], 
 $eq('lien « ne plus recevoir » signé', [C::stopSig($fid) === C::stopSig($fid), C::stopSig($fid) !== C::stopSig(str_repeat('a', 16))], [true, true]);
 C::setReminders($fid, false, null, true);
 $eq('rappels arrêtés', [C::get($fid)['remind_email'], C::get($fid)['remind_push']], [false, []]);
+
+// Anniversaire du supporter (jour et mois seulement).
+$eq('anniversaire : date impossible refusée, jour et mois gardés', [C::setBirthday($fid, 31, 2), C::setBirthday($fid, 10, $bm = (int) substr($day, 5, 2) % 12 + 1), C::get($fid)['birthday'] ?? null], [false, true, sprintf('%02d-10', $bm)]);
+$eq('29 février : fêté le 28 les années non bissextiles', [C::isBirthday(['birthday' => '02-29'], '2027-02-28'), C::isBirthday(['birthday' => '02-29'], '2028-02-28'), C::isBirthday(['birthday' => '02-29'], '2028-02-29')], [true, false, true]);
+C::setReminders($fid, null, 'abonne-test');
+$bd = (date('Y') + 1) . sprintf('-%02d-10', $bm); // un autre jour que l'anniversaire de match ci-dessus
+@unlink("$tmp/push/file.json");
+C::anniversaries($bd, 10);
+$job = (json_decode((string) @file_get_contents("$tmp/push/file.json"), true) ?: [])[0] ?? [];
+$eq('jour J : un message pour lui seul, sur son appareil', [$job['ids'] ?? null, str_starts_with((string) ($job['title'] ?? ''), 'Joyeux anniversaire')], [['abonne-test'], true]);
+$bm = C::birthdayMessage(C::get($fid), null);
+$eq('message du jour J : son plus beau souvenir, lien vers la fiche', [str_contains($bm['body'], 'plus beau souvenir'), str_starts_with($bm['url'], '/')], [true, true]);
+C::setBirthday($fid, null, null);
+C::setReminders($fid, false, null, true);
+$eq('anniversaire effacé', isset(C::get($fid)['birthday']), false);
 
 // Poster « Ma vie en jaune et bleu ».
 use App\Shop\CarnetPoster as CP;

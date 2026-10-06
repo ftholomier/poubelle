@@ -50,7 +50,7 @@ final class CarnetPages
         if (!$c) {
             return self::page('accueil', ['seasons' => array_slice(Carnet::seasons(), 0, 6, true)], $meta);
         }
-        // Poster « Ma vie en jaune et bleu » en vente (boutique ouverte) : proposé à partir de 5 matchs.
+        // Poster « Ma vie en jaune et bleu » en vente (boutique ouverte) : proposé dès le premier match.
         $poster = null;
         if (\App\Shop\Orders::open()) {
             foreach (\App\Shop\Catalog::models() as $m) {
@@ -128,8 +128,8 @@ final class CarnetPages
         if (!$c) {
             return Pages::notFound();
         }
-        $s = Carnet::stats(array_keys($c['matches']));
-        $res = Share::carnet($s, $slug !== null ? (string) $c['pseudo'] : '');
+        $pseudo = $slug !== null ? (string) $c['pseudo'] : \App\Shop\CarnetCard::pseudo($c);
+        $res = Share::carnet(\App\Shop\CarnetCard::data(array_map('intval', array_keys($c['matches'])), $pseudo));
         if ($slug === null) {
             $res->headers['Cache-Control'] = 'private, max-age=60';
             if (isset($req->query['telecharger'])) {
@@ -137,6 +137,25 @@ final class CarnetPages
             }
         }
         return $res;
+    }
+
+    /**
+     * Carte du carnet ouvert sur cet appareil, design « a » (charte du musée) ou « b » (billet) :
+     * le PDF à télécharger (carte postale A6, vectorielle) ou son aperçu SVG.
+     */
+    public static function cardFile(Request $req, string $style, string $ext): Response
+    {
+        $c = Carnet::current();
+        $d = $c && isset(\App\Shop\CarnetCard::STYLES[$style]) ? \App\Shop\CarnetCard::data(array_map('intval', array_keys($c['matches'])), \App\Shop\CarnetCard::pseudo($c)) : null;
+        if (!$d) {
+            return Pages::notFound();
+        }
+        if ($ext === 'svg') {
+            return new Response(\App\Shop\CarnetCard::svg($d, $style), 200, ['Content-Type' => 'image/svg+xml', 'Cache-Control' => 'private, max-age=60', 'X-Robots-Tag' => 'noindex']);
+        }
+        $name = $style === 'b' ? 'mon-billet-sochaux-retro.pdf' : 'ma-carte-sochaux-retro.pdf';
+        return new Response(\App\Shop\CarnetCard::pdf($d, $style), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="' . $name . '"',
+            'Cache-Control' => 'private, no-store', 'X-Robots-Tag' => 'noindex']);
     }
 
     // ------------------------------------------------------------------ API
@@ -237,6 +256,16 @@ final class CarnetPages
                 }
                 $c = Carnet::setReminders($c['id'], isset($in['email']) ? (bool) $in['email'] : null, $sub, !empty($in['pushOff']));
                 return Response::json(['ok' => true, 'email' => !empty($c['remind_email']), 'push' => count((array) ($c['remind_push'] ?? []))]);
+
+            case 'anniversaire':
+                // Anniversaire du supporter (jour et mois) : un message le jour J ; 0 et 0 l'effacent.
+                if (!$c) {
+                    return Response::json(['ok' => false, 'needEmail' => true]);
+                }
+                if (!Carnet::setBirthday($c['id'], (int) ($in['day'] ?? 0) ?: null, (int) ($in['month'] ?? 0) ?: null)) {
+                    return Response::json(['error' => t('Cette date n’existe pas.')], 422);
+                }
+                return Response::json(['ok' => true, 'birthday' => Carnet::get($c['id'])['birthday'] ?? null]);
 
             case 'deconnecter':
                 // Tous les autres appareils et liens : coupés. Celui-ci garde l'accès, avec un nouveau jeton.

@@ -301,6 +301,10 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   (même compte et même pseudo que le championnat), invités sans classement. Classements du
   jour, du mois et de la saison, séparés du championnat ; résultat à partager ; rappel du matin
   par notification (sujet « Le défi du jour », Réglages › Application du musée).
+- **Carte du carnet sur les goodies** (Boutique › Modèles, éditeur) : bouton « + Carte du
+  carnet », design « Charte du musée » ou « Billet de match » ; la carte se remplit d'après le
+  carnet du client (un match suffit), matchs et pseudo figés à la commande. Le poster « Ma vie en
+  jaune et bleu » se commande lui aussi dès le premier match.
 - **Carnets du supporter** (Communauté) : les supporters cochent les matchs vus au stade
   (« J'y étais ! » sur la fiche, ou saison par saison sur /carnet/), avec un lien envoyé à leur
   e-mail ; bilan, badges, porte-bonheur, carte à partager, page publique sous pseudo. L'écran

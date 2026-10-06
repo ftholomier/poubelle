@@ -843,6 +843,19 @@ chaque seconde (o2switch, PHP-FPM ; une lecture de fichier JSON par appel).
 - **Back-office** : Interactif › Quiz du club-house (`App\Admin\QuizClub`), avec le tableau du
   championnat (pseudo déplacé, retrait / réintégration). Tests : `tests/quizlive.php`.
 
+## 7 octies ter sexies. Carte du carnet (`App\Shop\CarnetCard`)
+
+Carte postale 148 × 105 mm dessinée en calques du moteur vectoriel de la boutique, designs `a`
+(charte du musée) et `b` (billet de match). `data($ids, $pseudo)` rédige le contenu dans la langue
+de la page (`Carnet::stats`), `build()` les calques, `pdf()` le PDF RVB sans traits de coupe
+(`/carnet/carte-{a|b}.pdf`, carnet du cookie), `svg()` l'aperçu (`/carnet/carte-{a|b}.svg`).
+Pseudo : celui de la page publique, sinon celui du quiz et du défi. Boutique : calque `type: carte`
+(`style` a|b) → `CarnetCard::layers()` (champ client `poster_carnet` avec `cmin` 1 ; `_carnet_ids`
+et `_carnet_pseudo` figés par `Orders`). L'image de partage 1200 × 630 (`Share::carnet`, GD)
+reprend le design `a` avec `logo-sochaux-retro-400.png`. Anniversaire du supporter :
+`Carnet::setBirthday()` (« MM-JJ »), `isBirthday()` (29 février fêté le 28), `birthdayMessage()`,
+envoyé par la tâche « carnets » avec les rappels jour pour jour (un message par carnet et par jour).
+
 ## 7 octies ter quinquies. Défi du jour (`App\Services\DailyQuiz`, `App\Front\DailyQuizPages`)
 
 Quiz en solo sur `/interactif/defi/` (hors cache des pages), API `POST /api/defi` (etat,

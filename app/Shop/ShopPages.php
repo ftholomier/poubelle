@@ -332,6 +332,8 @@ final class ShopPages
     {
         if (Poster::kind($m) === 'carnet' && ($c = \App\Services\Carnet::current()) && CarnetPoster::eligible($c['id'])) {
             $v[CarnetPoster::FIELD] = $c['id'];
+        } elseif (CarnetCard::isFor($m) && ($c = \App\Services\Carnet::current()) && CarnetPoster::eligible($c['id'], CarnetCard::MIN)) {
+            $v[CarnetPoster::FIELD] = $c['id']; // carte du carnet : celle du client dans l'aperçu
         }
         return $v;
     }

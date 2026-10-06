@@ -87,6 +87,13 @@ final class Vector
                 }
                 continue;
             }
+            if ($type === 'carte') {
+                // Carte du carnet du supporter (design A ou B), remplie d'après le carnet du client.
+                foreach (self::shapes(CarnetCard::layers($l, $values), $values) as $sh) {
+                    $out[] = ['layer' => $id] + $sh;
+                }
+                continue;
+            }
             if ($type === 'logo') {
                 $s = $w / 1242;
                 $paths = self::logo();

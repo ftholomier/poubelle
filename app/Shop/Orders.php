@@ -139,6 +139,10 @@ final class Orders
         // ne change plus, même si le carnet est modifié ou supprimé ensuite).
         if (isset($chk['values'][CarnetPoster::FIELD])) {
             $chk['values']['_carnet_ids'] = implode(',', CarnetPoster::idsFor((string) $chk['values'][CarnetPoster::FIELD]) ?? []);
+            // Carte du carnet : le pseudo est figé lui aussi.
+            if (CarnetCard::isFor($mm) && ($cc = \App\Services\Carnet::get((string) $chk['values'][CarnetPoster::FIELD]))) {
+                $chk['values']['_carnet_pseudo'] = CarnetCard::pseudo($cc);
+            }
         }
         $qty = Poster::isFor($m) ? 1 : max(1, min(20, (int) ($in['qty'] ?? 1))); // poster dédicacé et numéroté : un exemplaire
         $unit = Catalog::price($m, $size);
@@ -173,6 +177,9 @@ final class Orders
             $d = Poster::data((string) $it['values'][Poster::FIELD]);
             $p[] = 'Poster : ' . ($d ? Poster::label($d['dm']) : 'match n° ' . $it['values'][Poster::FIELD]);
             $p[] = 'pour ' . trim(($it['values']['poster_prenom'] ?? '') . ' ' . ($it['values']['poster_nom'] ?? ''));
+        } elseif (isset($it['values'][CarnetPoster::FIELD]) && !isset($it['values']['poster_prenom'])) {
+            $n = count(array_filter(explode(',', (string) ($it['values']['_carnet_ids'] ?? ''))));
+            $p[] = 'Carte du carnet : ' . $n . ' match' . ($n > 1 ? 's' : '') . (($it['values']['_carnet_pseudo'] ?? '') !== '' ? ', ' . $it['values']['_carnet_pseudo'] : '');
         } elseif (isset($it['values'][CarnetPoster::FIELD])) {
             $n = count(array_filter(explode(',', (string) ($it['values']['_carnet_ids'] ?? ''))));
             $p[] = 'Poster « Ma vie en jaune et bleu » : ' . $n . ' match' . ($n > 1 ? 's' : '');

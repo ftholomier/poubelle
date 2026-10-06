@@ -429,6 +429,8 @@ final class Kernel
         $r->get('/carnet/', fn ($q) => Front\CarnetPages::home($q));
         $r->get('/carnet/saisons/', fn ($q) => Front\CarnetPages::seasons($q));
         $r->get('/carnet/carte.png', fn ($q) => Front\CarnetPages::card($q));
+        $r->get('/carnet/carte-{style}.pdf', fn ($q, $style) => Front\CarnetPages::cardFile($q, $style, 'pdf'));
+        $r->get('/carnet/carte-{style}.svg', fn ($q, $style) => Front\CarnetPages::cardFile($q, $style, 'svg'));
         $r->get('/carnet/acces/{cred}/', fn ($q, $cred) => Front\CarnetPages::access($q, $cred));
         $r->get('/carnet/rappels/arret/{id}/{sig}/', fn ($q, $id, $sig) => Front\CarnetPages::stop($q, $id, $sig));
         $r->get('/carnet/p/{slug}/', fn ($q, $slug) => Front\CarnetPages::publicPage($q, $slug));

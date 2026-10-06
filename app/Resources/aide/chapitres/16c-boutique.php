@@ -106,10 +106,18 @@ HTML],
 <p>Le poster du <b>carnet du supporter</b> : les matchs que le client a cochés comme vus au stade deviennent son affiche. On y trouve le nombre de matchs en très grand, son bilan (victoires, nuls, défaites, buts vus), ses <b>saisons au stade</b> en bâtons, son porte-bonheur, ses badges, ses grands matchs (premier, plus belle victoire, plus grosse affluence, dernier), les buteurs et les Lionceaux qu’il a le plus vus et ses adversaires. Il porte la même dédicace « pour Prénom Nom », le même numéro de pièce et les mêmes formats A4, A3 et A2. Aucun coût d’IA.</p>
 <ol>
 <li><b>Le modèle est prêt</b> : Boutique › Modèles, « Poster « Ma vie en jaune et bleu » » (support « Poster (A4, A3, A2) »). Donnez-lui un prix et activez-le. Pour en créer un autre : bouton <b>« + Poster du carnet du supporter »</b> de l’éditeur.</li>
-<li><b>Côté client</b> : le poster se compose d’après son carnet, ouvert sur l’appareil (au moins 5 matchs). Un bouton <b>« Mon poster »</b> apparaît dans son carnet dès que le modèle est en vente. Sans carnet, la fiche produit montre un exemple et l’invite à créer le sien.</li>
+<li><b>Côté client</b> : le poster se compose d’après son carnet, ouvert sur l’appareil : un seul match suffit, en aperçu comme à la commande. Un bouton <b>« Mon poster »</b> apparaît dans son carnet dès que le modèle est en vente. Sans carnet, la fiche produit montre un exemple et l’invite à créer le sien.</li>
 </ol>
 <p>À la mise au panier, <b>la liste des matchs est figée</b> dans la commande : le fichier de l’imprimeur ne change plus, même si le client modifie ou supprime son carnet ensuite.</p>
 [[img:boutique-poster-carnet.webp|La fiche produit du poster « Ma vie en jaune et bleu » : le carnet du client repris, l’aperçu de son poster]]
+HTML],
+        ['id' => 'carte-carnet', 'title' => 'La carte du carnet sur les goodies', 'admin' => true, 'html' => <<<'HTML'
+<p>La <b>carte du carnet du supporter</b> (format carte postale) peut se poser sur n’importe quel produit : mug, tote bag, t-shirt, casquette… Elle reprend le nombre de matchs vus au stade, les victoires, nuls et défaites en toutes lettres, les buts vus, le plus beau match, le buteur, le porte-bonheur, le pseudo du supporter et le blason.</p>
+<ol>
+<li>Dans l’éditeur du modèle : bouton <b>« + Carte du carnet »</b>, puis choisissez le <b>design</b> : « Charte du musée » (bleu nuit et jaune) ou « Billet de match d’époque » (papier crème, talon détachable). Placez et redimensionnez la carte : elle garde ses proportions et se centre dans son cadre.</li>
+<li><b>Côté client</b> : la carte se remplit d’après son carnet ouvert sur l’appareil (un match suffit). Sans carnet, l’aperçu montre l’exemple d’un abonné de Bonal et l’invite à créer le sien.</li>
+</ol>
+<p>À la mise au panier, ses matchs et son pseudo sont <b>figés</b> dans la commande : le fichier de l’imprimeur ne bouge plus. Contrairement au poster, ce n’est pas une pièce numérotée : le client peut en commander plusieurs, et choisir la couleur du produit. Le supporter peut aussi télécharger gratuitement sa carte en PDF depuis son carnet.</p>
 HTML],
         ['id' => 'commandes', 'title' => 'Les commandes', 'admin' => true, 'html' => <<<'HTML'
 <p>Le client paie par carte (Stripe, les mêmes clés que les dons et les adhésions) : l’argent arrive sur le compte de l’association. La commande payée part aussitôt chez l’imprimeur, avec un <b>PDF d’impression par article</b>, et le client reçoit un e-mail avec son lien de suivi.</p>

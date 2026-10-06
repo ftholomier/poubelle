@@ -62,15 +62,15 @@ $tnames = array_flip(\App\Shop\Vector::PALETTE);
       <?php foreach ($fields as $k => $f): if ($f['auto']) { continue; } ?>
       <div class="field">
         <label for="f-<?= e($k) ?>"><?= e($f['label']) ?> *</label>
-        <?php if (($f['poster'] ?? '') === 'carnet'): $cn = \App\Services\Carnet::current(); $cnN = $cn ? count($cn['matches']) : 0; ?>
+        <?php if (($f['poster'] ?? '') === 'carnet'): $cn = \App\Services\Carnet::current(); $cnN = $cn ? count($cn['matches']) : 0; $cmin = (int) ($f['cmin'] ?? \App\Shop\CarnetPoster::MIN); $what = isset($f['cmin']) ? 'votre carte de supporter' : 'votre poster'; ?>
         <div class="shopcarnet">
-          <?php if ($cn && $cnN >= \App\Shop\CarnetPoster::MIN): ?>
+          <?php if ($cn && $cnN >= $cmin): ?>
             <input type="hidden" name="values[<?= e($k) ?>]" value="<?= e($cn['id']) ?>" data-shop-in>
-            <p class="shopcarnet__ok">✓ Votre carnet : <b><?= (int) $cnN ?> matchs</b> vus au stade. L’aperçu montre votre poster ; la liste des matchs est figée à la commande.</p>
+            <p class="shopcarnet__ok">✓ Votre carnet : <b><?= (int) $cnN ?> match<?= $cnN > 1 ? 's' : '' ?></b> vu<?= $cnN > 1 ? 's' : '' ?> au stade. L’aperçu montre <?= e($what) ?> ; la liste des matchs est figée à la commande.</p>
             <small class="shophelp"><a href="<?= e(url('/carnet/')) ?>">Compléter mon carnet</a> avant de commander.</small>
           <?php else: ?>
             <input type="hidden" name="values[<?= e($k) ?>]" value="" data-shop-in>
-            <p class="shopcarnet__no"><?= $cn ? 'Votre carnet compte ' . (int) $cnN . ' match(s) : il en faut au moins ' . \App\Shop\CarnetPoster::MIN . '.' : 'Ce poster se compose d’après votre carnet du supporter, ouvert sur cet appareil.' ?> <a href="<?= e(url('/carnet/')) ?>"><?= $cn ? 'Ajouter des matchs' : 'Créer ou ouvrir mon carnet' ?> →</a></p>
+            <p class="shopcarnet__no"><?= $cn ? 'Votre carnet compte ' . (int) $cnN . ' match(s) : il en faut au moins ' . $cmin . '.' : ucfirst($what) . ' se compose d’après votre carnet du supporter, ouvert sur cet appareil.' ?> <a href="<?= e(url('/carnet/')) ?>"><?= $cn ? 'Ajouter des matchs' : 'Créer ou ouvrir mon carnet' ?> →</a></p>
             <small class="shophelp">L’aperçu montre un exemple : un abonné de Bonal à la fin des années 1980.</small>
           <?php endif; ?>
         </div>

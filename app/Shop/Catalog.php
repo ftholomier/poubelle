@@ -465,6 +465,12 @@ final class Catalog
         $layers = [];
         foreach ($model['faces'] as $f) {
             foreach ($f['layers'] as $l) {
+                if (($l['type'] ?? '') === 'carte') {
+                    // Carte du carnet : d'après le carnet du supporter ouvert sur l'appareil (1 match suffit).
+                    $out[CarnetPoster::FIELD] ??= ['label' => 'Votre carnet', 'max' => 16, 'default' => CarnetPoster::SAMPLE, 'list' => '', 'choices' => [], 'rejected' => [],
+                        'auto' => false, 'gen' => false, 'poster' => 'carnet', 'cmin' => CarnetCard::MIN];
+                    continue;
+                }
                 if (($l['type'] ?? '') === 'poster') {
                     // Poster souvenir : le match ou le joueur (choisi dans les propositions), puis la dédicace.
                     $kind = in_array($l['kind'] ?? '', ['joueur', 'carnet'], true) ? $l['kind'] : 'match';
@@ -532,7 +538,9 @@ final class Catalog
                 continue;
             }
             if (($f['poster'] ?? '') === 'carnet') {
-                CarnetPoster::eligible($v) ? $ok[$k] = $v : $errors[$k] = 'Ouvrez votre carnet du supporter sur cet appareil (au moins ' . CarnetPoster::MIN . ' matchs) pour commander ce poster.';
+                $min = (int) ($f['cmin'] ?? CarnetPoster::MIN);
+                CarnetPoster::eligible($v, $min) ? $ok[$k] = $v : $errors[$k] = 'Ouvrez votre carnet du supporter sur cet appareil (au moins un match) pour commander '
+                    . (isset($f['cmin']) ? 'votre carte.' : 'ce poster.');
                 continue;
             }
             if (($f['poster'] ?? '') === 'name') {
@@ -600,11 +608,13 @@ final class Catalog
     /** Calque nettoyé : seulement les réglages connus, valeurs bornées. */
     public static function cleanLayer(array $l): array
     {
-        $type = in_array($l['type'] ?? '', ['logo', 'text', 'rect', 'ellipse', 'poster'], true) ? $l['type'] : 'text';
+        $type = in_array($l['type'] ?? '', ['logo', 'text', 'rect', 'ellipse', 'poster', 'carte'], true) ? $l['type'] : 'text';
         $num = fn ($v, float $min, float $max, float $def) => is_numeric($v) ? max($min, min($max, round((float) $v, 2))) : $def;
         $out = ['id' => preg_replace('/[^a-z0-9]/i', '', (string) ($l['id'] ?? '')) ?: bin2hex(random_bytes(3)), 'type' => $type,
             'x' => $num($l['x'] ?? 0, -2000, 3000, 0), 'y' => $num($l['y'] ?? 0, -2000, 3000, 0), 'w' => $num($l['w'] ?? 50, 1, 3000, 50)];
-        if ($type === 'poster') {
+        if ($type === 'carte') {
+            $out += ['h' => $num($l['h'] ?? 105, 7, 3000, 105), 'style' => CarnetCard::style((string) ($l['style'] ?? 'a'))];
+        } elseif ($type === 'poster') {
             $out += ['h' => $num($l['h'] ?? 420, 20, 3000, 420), 'kind' => in_array($l['kind'] ?? '', ['joueur', 'carnet'], true) ? $l['kind'] : 'match'];
         } elseif ($type === 'logo') {
             $out += ['style' => ($l['style'] ?? '') === 'mono' ? 'mono' : 'couleurs', 'color' => Vector::hex($l['color'] ?? null, '#FDC729')];

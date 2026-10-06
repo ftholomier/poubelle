@@ -20,8 +20,8 @@ final class CarnetPoster
     public const FIELDS = ['poster_carnet' => 'Votre carnet', 'poster_prenom' => 'Prénom', 'poster_nom' => 'Nom'];
     /** Exemple de l'éditeur et de la vitrine : un abonné de Bonal à la fin des années 1980. */
     public const SAMPLE = 'exemple';
-    /** Matchs vus au minimum pour commander son poster. */
-    public const MIN = 5;
+    /** Matchs vus au minimum pour commander son poster : un seul suffit (aperçu et commande). */
+    public const MIN = 1;
 
     /** Matchs de l'exemple : les matchs à domicile de 1985-1986 à 1991-1992 (un sur deux). */
     private static function sampleIds(): array
@@ -51,10 +51,11 @@ final class CarnetPoster
         return $mine || !empty($c['public']) ? array_map('intval', array_keys($c['matches'])) : null;
     }
 
-    public static function eligible(string $id): bool
+    /** Carnet commandable (le sien ou une page publique) avec assez de matchs : 5 pour le poster, 1 pour la carte. */
+    public static function eligible(string $id, int $min = self::MIN): bool
     {
         $ids = $id !== self::SAMPLE ? self::idsFor($id) : null;
-        return $ids !== null && count($ids) >= self::MIN;
+        return $ids !== null && count($ids) >= $min;
     }
 
     public static function label(string $id): ?string

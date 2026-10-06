@@ -19,6 +19,7 @@
     <article class="shopcard" data-sort-item data-id="<?= e($m['id']) ?>">
       <span class="shopcard__grip" data-handle role="button" tabindex="0" title="Glisser pour déplacer" aria-label="Déplacer « <?= e($m['name']) ?> »">✥</span>
       <span class="shopcard__st shopcard__st--<?= $st[0] ?>"><?= e($st[1]) ?></span>
+      <?php if (\App\Shop\Catalog::unique($m)): ?><span class="shopcard__uniq" title="Anecdote tirée pour un seul client, ou poster dédicacé et numéroté : chaque exemplaire est unique">★ Pièce unique</span><?php endif; ?>
       <a class="shopcard__img" href="<?= $u ?>" draggable="false"><?= $previews[$m['id']] ?? '' ?></a>
       <div class="shopcard__body">
         <a class="shopcard__t" href="<?= $u ?>"><?= e($m['name']) ?></a>
@@ -46,6 +47,7 @@
 .shopcard__grip{position:absolute;top:10px;left:10px;z-index:2;display:grid;place-items:center;width:32px;height:32px;border:2px solid #0e1f4d;background:#f6c400;color:#0e1f4d;font-size:17px;cursor:grab;touch-action:none;user-select:none}
 .shopcard__grip:active{cursor:grabbing}
 .shopcard__st{position:absolute;top:10px;right:10px;z-index:2;padding:4px 8px;font:700 11px/1 var(--display, sans-serif);letter-spacing:.06em;text-transform:uppercase;border:2px solid #0e1f4d;background:#fff}
+.shopcard__uniq{position:absolute;top:44px;right:10px;z-index:2;padding:4px 8px;font:700 11px/1 var(--display, sans-serif);letter-spacing:.06em;text-transform:uppercase;border:2px solid #0e1f4d;background:#f6c400;color:#0e1f4d;box-shadow:2px 2px 0 #0e1f4d;transform:rotate(-3deg)}
 .shopcard__st--on{background:#9ed7a9}.shopcard__st--warn{background:#f3c9c4}.shopcard__st--off{background:#e6e1d4;color:#5a6070}
 .shopcard__img{display:block;background:#f3eddf;padding:44px 12px 10px;border-bottom:2px solid #0e1f4d}
 .shopcard__img > svg{display:block;width:100%;height:200px}

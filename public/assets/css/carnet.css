@@ -72,3 +72,14 @@
   .cnpick__m { grid-column: 2; }
 }
 .cnremind__push { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+/* Carte du carnet : deux designs au choix, chacun télécharge son PDF. */
+.cncards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 14px 0 22px; }
+.cncards__one { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-decoration: none; }
+.cncards__one img { width: 100%; height: auto; display: block; box-shadow: 0 0 0 2px var(--navy), 6px 6px 0 rgba(14,31,77,.18); transition: transform .15s; }
+.cncards__one:hover img, .cncards__one:focus-visible img { transform: translateY(-2px); }
+.cncard__t--sub { font-size: 1.15rem; margin-top: 6px; }
+@media (max-width: 640px) { .cncards { grid-template-columns: minmax(0, 1fr); } }
+.cnbday { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 12px 0 14px; }
+.cnbday__l { font-weight: 700; }
+.cnbday select { padding: 6px 8px; border: 2px solid var(--navy); background: #fff; font: inherit; }
+.cnbday .cnnote { flex-basis: 100%; margin: 0; }

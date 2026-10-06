@@ -67,6 +67,7 @@ $data = ['model' => $model, 'support' => $support, 'lists' => $lists, 'tonmatch'
           <button type="button" class="btn btn--sm btn--yellow" data-add="poster" title="Poster souvenir : toute la composition est générée d’après le match choisi par le client (et dédicacée à son nom)">+ Poster souvenir du match</button>
           <button type="button" class="btn btn--sm btn--yellow" data-add="posterj" title="Poster souvenir d’un joueur : toute la composition est générée d’après la fiche du joueur choisi par le client (et dédicacée à son nom)">+ Poster souvenir du joueur</button>
           <button type="button" class="btn btn--sm btn--yellow" data-add="posterc" title="Poster « Ma vie en jaune et bleu » : toute la composition est générée d’après le carnet du supporter du client (et dédicacée à son nom)">+ Poster du carnet du supporter</button>
+          <button type="button" class="btn btn--sm btn--yellow" data-add="carte" title="Carte du carnet du supporter : le bilan des matchs vus au stade par le client (design musée ou billet de match), à poser sur un mug, un tote bag, un t-shirt…">+ Carte du carnet</button>
           <button type="button" class="btn btn--sm btn--ghost" data-add="rect">Rectangle</button>
           <button type="button" class="btn btn--sm btn--ghost" data-add="ellipse">Rond</button>
         </div>
