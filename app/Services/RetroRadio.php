@@ -543,7 +543,8 @@ final class RetroRadio
     public static function ambianceUrl(): ?string
     {
         if (is_file(PUBLIC_PATH . self::STADE)) {
-            return self::STADE;
+            // Adresse versionnée : les MP3 sont gardés un an par le navigateur.
+            return asset(substr(self::STADE, strlen('/assets/')));
         }
         foreach (['mp3', 'wav'] as $ext) {
             if (is_file(self::$media . '/radio/ambiance.' . $ext)) {

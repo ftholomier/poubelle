@@ -134,7 +134,7 @@ self.addEventListener('fetch', (event) => {
     return;
   } else if (req.mode === 'navigate') {
     event.respondWith(page(event, url));
-  } else if (url.pathname.startsWith('/assets/') && !url.pathname.startsWith('/assets/video/') && !url.pathname.startsWith('/assets/boutique/')) {
+  } else if (url.pathname.startsWith('/assets/') && !url.pathname.startsWith('/assets/video/') && !url.pathname.startsWith('/assets/audio/') && !url.pathname.startsWith('/assets/boutique/')) {
     event.respondWith(cacheFirst(event, STATIC));
   } else if (/^\/media\/\d+\//.test(url.pathname)) {
     event.respondWith(cacheFirst(event, IMAGES));

@@ -112,11 +112,11 @@
   // réplique déjà commencée (arrivée en cours de direct) reprend là où elle en est.
   const radio = (() => {
     const box = $('[data-rd-radio]');
-    if (!box || !D.radio || !D.radio.length) return { tick() {}, hold() {} };
+    if (!box || !D.radio || !D.radio.length) return { tick() {}, hold() {}, busy: () => false };
     const btn = $('[data-rd-radio-btn]', box), label = $('[data-rd-radio-label]', box), note = $('[data-rd-radio-note]', box), state = $('[data-rd-radio-state]', box);
     const segs = D.radio, voice = new Audio(), amb = D.ambiance ? new Audio(D.ambiance) : null;
     voice.preload = 'auto';
-    if (amb) { amb.loop = true; amb.volume = 0.3; }
+    if (amb) { amb.loop = true; amb.volume = 0.55; }
     let on = false, played = new Set(), queue = [], playing = false, normal = true, lastE = -1, held = false;
     const set = v => {
       on = v;
@@ -134,6 +134,7 @@
       state.classList.toggle('is-error', !playing && failed > 0);
       if (playing) { state.textContent = L.radioTalking; return; }
       if (failed) { state.textContent = L.radioError; return; }
+      if (!normal) { state.textContent = L.radioFast; return; }
       const n = segs.find(s => s.t > e);
       if (!n) { state.textContent = L.radioDone; return; }
       const min = Math.ceil((n.t - e) / 60);
@@ -157,8 +158,6 @@
       // Le geste de l'utilisateur débloque le son (téléphones) : la boucle d'ambiance démarre ici.
       if (amb && lastE >= 0 && lastE < M.end) amb.play().catch(() => {});
       if (D.mode === 'upcoming') note.textContent = L.radioSoon;
-      const x1 = $('[data-rd-speed="1"]');
-      if (x1 && x1.getAttribute('aria-checked') !== 'true') { x1.click(); note.textContent = L.radioSpeed; }
       // Allumé entre deux répliques : la dernière (moins d'une minute et demie) est rejouée tout de suite.
       if (lastE >= 0 && !segs.some(s => lastE >= s.t && lastE < s.t + s.dur)) {
         const i = segs.map((s, k) => [s, k]).filter(([s]) => s.t <= lastE && lastE - s.t < 90).map(([, k]) => k).pop();
@@ -168,6 +167,7 @@
     });
     function tick(e, isNormal) {
       if (e < lastE - 2) { played = new Set(); queue = []; voice.pause(); playing = false; } // retour en arrière
+      const prev = lastE;
       lastE = e;
       normal = isNormal;
       if (!on) return;
@@ -177,12 +177,20 @@
         if (live && amb.paused) amb.play().catch(() => {});
         if (!live && !amb.paused) amb.pause();
         const pause = (e >= M.halftime && e < M.kickoff2) || (M.extratime !== null && e >= M.fulltime90 && e < M.extratime);
-        amb.volume = pause ? 0.12 : 0.3;
+        // Plus forte quand le reporter se tait, baissée sous sa voix, plus calme à la mi-temps.
+        amb.volume = pause ? 0.2 : playing ? 0.32 : 0.6;
       }
-      // En accéléré : la foule continue, le reporter se tait ; il reprend tout seul à ×1.
+      // En accéléré : le reporter commente chaque temps fort (pas les moments d'ambiance), en
+      // entier ; le match attend qu'il ait fini (busy()) avant de repartir.
       if (!normal) {
-        if (playing || queue.length) { voice.pause(); queue = []; playing = false; }
-        if (state) { state.classList.remove('is-talking', 'is-error'); state.textContent = L.radioPaused; }
+        queue = queue.filter(([i]) => segs[i].kind !== 'ambiance');
+        segs.forEach((s, i) => {
+          if (played.has(i) || s.kind === 'ambiance' || s.t > e || s.t <= prev - 1) return;
+          played.add(i);
+          queue.push([i, 0]);
+        });
+        next();
+        showState(e);
         return;
       }
       segs.forEach((s, i) => {
@@ -197,7 +205,9 @@
     }
     // Pause de la rediffusion : la voix et la foule s'arrêtent, et reprennent avec le match.
     const hold = () => { if (!on) return; held = true; voice.pause(); if (amb) amb.pause(); };
-    return { tick, hold };
+    // En accéléré, le reporter parle : le match l'attend.
+    const busy = () => on && !normal && !held && (playing || queue.length > 0);
+    return { tick, hold, busy };
   })();
 
   let shown = 0, score = [0, 0], started = false, finished = false, lastPhase = null;
@@ -251,7 +261,8 @@
     // temps fort suivant ; le public, lui, suit toujours l'heure réelle.
     const tb = $('[data-rd-team]');
     let off = 0, spd = 1, lastNow = serverNow();
-    const elapsed = () => { const n = serverNow(); off += (n - lastNow) * (spd - 1); lastNow = n; return n - D.start + off; };
+    // En accéléré, le temps s'arrête pendant que le reporter commente un temps fort.
+    const elapsed = () => { const n = serverNow(); off += (n - lastNow) * (spd > 1 && radio.busy() ? -1 : spd - 1); lastNow = n; return n - D.start + off; };
     const cd = $('[data-rd-countdown-v]'), cdBox = $('[data-rd-countdown]');
     let reloadAt = 0;
     const tick = first => {
@@ -313,7 +324,7 @@
       if (p) {
         if (!pauseUntil) pauseUntil = now + 4000;
         if (now >= pauseUntil) { pos = p[1]; pauseUntil = 0; }
-      } else {
+      } else if (!radio.busy()) {
         pos += dt * speed;
       }
       if (pos >= M.end) { pos = M.end; render(pos, true); radio.tick(pos, true); setPlay(false); return; }

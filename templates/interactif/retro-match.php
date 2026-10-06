@@ -63,7 +63,7 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
         <button type="button" class="rdradio__b" data-rd-radio-btn aria-pressed="false"><span class="rdradio__ico" aria-hidden="true">📻</span> <span data-rd-radio-label><?= e(t('Écouter le commentaire radio')) ?></span></button>
         <span class="rdradio__note" data-rd-radio-note><?= e(t('Comme à la radio à l’époque : un reporter au micro, la rumeur de la foule. Montez le son !')) ?></span>
         <span class="rdradio__state" data-rd-radio-state aria-live="polite" hidden></span>
-        <?php if (($data['ambiance'] ?? '') === \App\Services\RetroRadio::STADE): ?><span class="rdradio__credit"><?= e(t('Ambiance du stade :')) ?> <a href="https://commons.wikimedia.org/wiki/File:WWS_FootballAustriavs.Sweden.ogg" target="_blank" rel="noopener">Work With Sounds / Torsten Nilsson</a>, CC BY 4.0</span><?php endif; ?>
+        <?php if (str_starts_with((string) ($data['ambiance'] ?? ''), \App\Services\RetroRadio::STADE)): ?><span class="rdradio__credit"><?= e(t('Ambiance du stade :')) ?> <a href="https://commons.wikimedia.org/wiki/File:WWS_FootballAustriavs.Sweden.ogg" target="_blank" rel="noopener">Work With Sounds / Torsten Nilsson</a>, CC BY 4.0</span><?php endif; ?>
       </div>
       <?php endif; ?>
       <?php if ($facts): ?>

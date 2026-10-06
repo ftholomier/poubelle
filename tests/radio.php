@@ -97,7 +97,7 @@ $eq('durée totale (4 × 2,1 s)', $st['dur'], 8);
 $pl = R::playlist($id, 'fr');
 $eq('liste de lecture : 4 répliques, décalées d’une seconde, fichiers présents', [count($pl), $pl[0]['t'], is_file(R::$media . '/' . substr($pl[1]['url'], 7))], [4, R::LAG, true]);
 $eq('MP3 (encodeur du site)', str_ends_with($pl[0]['url'], '.mp3'), true);
-$eq('boucle d’ambiance du stade fabriquée (secours) et ambiance du site servie', [is_file(R::$media . '/radio/ambiance.mp3'), R::ambianceUrl(), is_file(PUBLIC_PATH . R::STADE)], [true, R::STADE, true]);
+$eq('boucle d’ambiance du stade fabriquée (secours) et ambiance du site servie', [is_file(R::$media . '/radio/ambiance.mp3'), str_starts_with((string) R::ambianceUrl(), R::STADE . '?v='), is_file(PUBLIC_PATH . R::STADE)], [true, true, true]);
 $eq('étape de plus : rien ne bouge', [R::step($id, 'fr')['state'], $calls['speak']], ['ready', 4]);
 
 // La fiche change ses buts ou ses minutes : à refaire.

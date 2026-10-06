@@ -87,7 +87,7 @@ final class Retro
             'radioOn' => t('Couper le commentaire radio'), 'radioOff' => t('Écouter le commentaire radio'),
             'radioSpeed' => t('Le commentaire radio se joue à vitesse normale (×1).'), 'radioSoon' => t('Le commentaire radio démarrera au coup d’envoi.'),
             'radioBlocked' => t('Touchez à nouveau le bouton pour lancer le son.'),
-            'radioTalking' => t('Le reporter a la parole'), 'radioPaused' => t('Reporter en pause en accéléré : repassez à ×1 pour l’écouter'), 'radioNext' => t('Prochaine intervention du reporter dans {n} min'),
+            'radioTalking' => t('Le reporter a la parole'), 'radioFast' => t('En accéléré, le reporter commente chaque temps fort : le match l’attend'), 'radioNext' => t('Prochaine intervention du reporter dans {n} min'),
             'radioNextSoon' => t('Le reporter reprend la parole dans un instant'), 'radioDone' => t('Fin du commentaire radio'),
             'radioError' => t('Une réplique n’a pas pu être lue (connexion ?) : la suivante sera tentée.'),
         ];
