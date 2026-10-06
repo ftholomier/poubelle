@@ -14,6 +14,9 @@ AddDefaultCharset UTF-8
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
+    # Fichier statique ou icône absent : 404 servie par Apache, sans PHP (robots, anciens liens).
+    RewriteRule ^(assets/|favicon\.ico$|apple-touch-icon) - [R=404,L]
+
     # Tout le reste passe par le routeur PHP.
     RewriteRule ^ index.php [L,QSA]
 </IfModule>

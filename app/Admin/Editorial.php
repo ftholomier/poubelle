@@ -334,6 +334,7 @@ final class Editorial extends Base
 
     public static function redirects(Request $req): Response
     {
+        Redirects::merge404();
         $tab = $req->str('onglet') === 'introuvables' ? 'introuvables' : 'redirections';
         $q = mb_strtolower($req->str('q'));
         $vars = ['tab' => $tab, 'q' => $req->str('q')];

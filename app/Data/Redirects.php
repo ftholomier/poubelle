@@ -10,7 +10,13 @@ final class Redirects
 {
     public const FILE = DATA_PATH . '/redirects.json';
 
+    /** Toutes les redirections (494 Ko de JSON) : gardées en cache PHP, relues seulement quand le fichier change. */
     public static function all(): array
+    {
+        return \App\Core\Memo::get('redirections', [self::FILE], '', fn () => self::read());
+    }
+
+    private static function read(): array
     {
         try {
             $all = JsonStore::read(self::FILE, []);
@@ -63,21 +69,59 @@ final class Redirects
             return;
         }
         $ref = (string) parse_url($referer, PHP_URL_HOST) === (string) parse_url(base_url(), PHP_URL_HOST) ? (string) parse_url($referer, PHP_URL_PATH) : (string) parse_url($referer, PHP_URL_HOST);
-        JsonStore::update(self::LOG404, function ($all) use ($path, $ref) {
-            $all = $all ?: [];
-            $e = $all[$path] ?? ['n' => 0, 'first' => date('c')];
-            $e['n']++;
-            $e['last'] = date('c');
-            if ($ref !== '') {
-                $e['ref'] = mb_substr($ref, 0, 200);
+        // Une ligne ajoutée au journal du jour (rapide, sans réécrire 404.json sous verrou) ; regroupée
+        // dans 404.json par la tâche planifiée et à l'ouverture de l'écran Redirections.
+        $dir = self::DIR404;
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        $file = $dir . '/' . date('Y-m-d') . '.log';
+        if ((int) @filesize($file) < 20000000) {
+            @file_put_contents($file, json_encode([$path, mb_substr($ref, 0, 200), date('c')], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
+        }
+    }
+
+    public const DIR404 = STORAGE_PATH . '/404';
+
+    /** Regroupe les journaux en attente dans 404.json. @return int adresses lues */
+    public static function merge404(): int
+    {
+        $lines = [];
+        foreach (glob(self::DIR404 . '/*.log') ?: [] as $f) {
+            // Renommé d'abord : les visites suivantes écrivent dans un nouveau fichier, rien n'est perdu.
+            $work = $f . '.' . getmypid() . '.work';
+            if (!@rename($f, $work)) {
+                continue;
             }
-            $all[$path] = $e;
+            foreach (file($work, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $l) {
+                $e = json_decode($l, true);
+                if (is_array($e) && isset($e[0], $e[2])) {
+                    $lines[] = $e;
+                }
+            }
+            @unlink($work);
+        }
+        if (!$lines) {
+            return 0;
+        }
+        JsonStore::update(self::LOG404, function ($all) use ($lines) {
+            $all = $all ?: [];
+            foreach ($lines as [$path, $ref, $at]) {
+                $e = $all[$path] ?? ['n' => 0, 'first' => $at];
+                $e['n']++;
+                $e['last'] = $at;
+                if ($ref !== '') {
+                    $e['ref'] = $ref;
+                }
+                $all[$path] = $e;
+            }
             if (count($all) > 3000) {
                 uasort($all, fn ($a, $b) => strcmp((string) $b['last'], (string) $a['last']));
                 $all = array_slice($all, 0, 2500, true);
             }
             return $all;
         }, []);
+        return count($lines);
     }
 
     public static function remove(string $from): void

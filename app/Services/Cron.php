@@ -140,6 +140,7 @@ final class Cron
 
             case 'audience':
                 $n = Stats::aggregate();
+                \App\Data\Redirects::merge404();
                 return $n ? "$n pages vues agrégées" : null;
 
             case 'traductions':

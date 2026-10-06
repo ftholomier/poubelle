@@ -49,6 +49,11 @@ final class Appli
         if ($req->method !== 'POST') {
             return Response::json(['error' => t('Ressource introuvable')], 404);
         }
+        if ($action === 'ouverture') {
+            // Clic sur une notification : rien d'autre qu'un octet ajouté à un fichier (pas de limiteur).
+            Notifications::opened((string) (($req->json() ?: [])['id'] ?? ''));
+            return Response::json(['ok' => true]);
+        }
         if (!RateLimiter::hit('push', $req->ip(), 60, 3600)) {
             return Response::json(['error' => t('Trop de demandes, réessayez plus tard.')], 429);
         }
@@ -81,15 +86,8 @@ final class Appli
                 if (!RateLimiter::hit('push-essai', Notifications::idOf($endpoint), 3, 3600)) {
                     return Response::json(['error' => t('Trois essais par heure au plus.')], 429);
                 }
-                $msg = self::testMessage();
-                $r = Notifications::enqueue('essai:' . Notifications::idOf($endpoint) . ':' . microtime(true), 'essai', $msg, ['only' => [Notifications::idOf($endpoint)], 'hidden' => true, 'ttl' => 600]);
-                $p = $r['ok'] ? Notifications::process(15) : null;
-                return Response::json(['ok' => $r['ok'], 'delivered' => (bool) ($p['ok'] ?? 0)]);
-            case 'ouverture':
-                if (RateLimiter::hit('push-ouverture', $req->ip(), 30, 3600)) {
-                    Notifications::opened((string) ($in['id'] ?? ''));
-                }
-                return Response::json(['ok' => true]);
+                $ok = Notifications::sendTest($endpoint, self::testMessage());
+                return Response::json(['ok' => true, 'delivered' => $ok]);
         }
         return Response::json(['error' => t('Ressource introuvable')], 404);
     }

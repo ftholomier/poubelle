@@ -63,6 +63,17 @@ production (Apache 2.4 + PHP-FPM 8.3, 8 processus PHP, OPcache, 4 processeurs) a
   - tirage d'anecdote par l'IA : au plus 3 à la fois sur tout le site, 12 s par appel, 25 s au
     total, sinon la réserve ; la session est libérée pendant le tirage et la préparation du poster.
 
+- **Notification d'ouverture** : un clic ajoute un octet à un petit fichier par envoi (compté à
+  l'affichage de l'historique), sans limiteur ni réécriture sous verrou : 4 400 clics par seconde
+  sur le banc. L'essai de la page L'appli part directement vers ce seul abonné, sans la file.
+- **Pages introuvables** : redirections (494 Ko) gardées en cache PHP, journal des 404 en simple
+  ajout d'une ligne (`storage/404/`), regroupé dans `404.json` par la tâche planifiée et à
+  l'ouverture de l'écran Redirections ; 404 en 8–10 ms. Icônes (`favicon.ico`,
+  `apple-touch-icon*.png`) et fichiers manquants sous `/assets/` : réponse d'Apache, sans PHP.
+- **Mise à jour du site** : calculs Memo, 100 chiffres et table des caractères gardés ; OPcache
+  ne relit que les fichiers PHP remplacés (plus de remise à zéro complète) ; les 100 chiffres
+  sont recalculés juste après.
+
 ## Reste à faire avant le lancement
 Les points P0, P1 et OPS du plan ci-dessous, sauf ceux corrigés plus haut : la préparation
 complète des vignettes sur le serveur avant l'ouverture (OPS-2). Boutique : remplir la réserve

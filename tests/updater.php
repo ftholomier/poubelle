@@ -92,7 +92,7 @@ $eq('libellés anglais : nouveau ajouté, traduction du serveur gardée', [$r['m
 $eq('données, réglages, médias jamais touchés', [$read('data/fiches/1.json'), $read('storage/settings.json'), $read('public/media/800/photo.jpg.webp'), is_file("$root/docs/LISEZMOI.md")],
     ['{"fiche":"modifiée par un historien"}', '{"reglage":"serveur"}', 'vignette', false]);
 $eq('version installée connue', U::installed()['sha'] ?? null, $v1);
-$eq('caches vidés, relectures du correcteur gardées', [is_file("$root/storage/cache/sitemap.xml"), is_file("$root/storage/cache/memo/menus-1a2b3c4d.php"), is_file("$root/storage/cache/correcteur/ab/abc.json")], [false, false, true]);
+$eq('caches vidés, calculs Memo et relectures du correcteur gardés', [is_file("$root/storage/cache/sitemap.xml"), is_file("$root/storage/cache/memo/menus-1a2b3c4d.php"), is_file("$root/storage/cache/correcteur/ab/abc.json")], [false, true, true]);
 $eq('gros caches de données gardés (refaits en arrière-plan)', [is_file("$root/storage/cache/derived.php"), is_file("$root/storage/cache/derived/matches-0123456789ab.php"), is_file("$root/storage/cache/index-2.php"), is_file("$root/storage/cache/media/3.php")], [true, true, true, true]);
 $eq('caches à refaire signalés à la requête suivante', is_file("$root/storage/cache/apres-mise-a-jour"), true);
 $eq('pause du site levée après la copie', is_file(U::$dir . '/maintenance'), false);

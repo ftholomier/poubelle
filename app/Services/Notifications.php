@@ -410,7 +410,35 @@ final class Notifications
     public static function history(): array
     {
         JsonStore::forget(self::f('envois'));
-        return JsonStore::read(self::f('envois'), []) ?: [];
+        $h = JsonStore::read(self::f('envois'), []) ?: [];
+        foreach ($h as $i => $j) {
+            // Ouvertures notées à part (un octet par clic) : ajoutées ici.
+            $h[$i]['opened'] = (int) ($j['opened'] ?? 0) + (int) @filesize(self::opensFile((string) ($j['id'] ?? '')));
+        }
+        return $h;
+    }
+
+    private static function opensFile(string $jobId): string
+    {
+        return WebPush::$dir . '/ouvertures/' . $jobId . '.log';
+    }
+
+    /**
+     * Notification d'essai (page L'appli) : chiffrée et envoyée à ce seul abonné, tout de suite,
+     * sans passer par la file (qui peut contenir un envoi à des milliers d'abonnés).
+     */
+    public static function sendTest(string $endpoint, array $msg): bool
+    {
+        $s = self::find($endpoint);
+        if (!$s) {
+            return false;
+        }
+        $m = $msg[$s['l'] ?? 'fr'] ?? $msg['fr'];
+        $payload = json_encode(array_filter(['title' => (string) $m['title'], 'body' => (string) ($m['body'] ?? ''), 'url' => self::localUrl((string) ($m['url'] ?? '/')),
+            'tag' => 'essai', 'lang' => $s['l'] ?? 'fr']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $res = WebPush::send(['t' => [$s['e'], WebPush::unb64($s['k']), WebPush::unb64($s['a']), $payload]], self::subject(), ['ttl' => 600, 'timeout' => 10]);
+        $st = (int) ($res['t']['status'] ?? 0);
+        return $st >= 200 && $st < 300;
     }
 
     public static function queue(): array
@@ -419,21 +447,32 @@ final class Notifications
         return array_values(array_filter(JsonStore::read(self::f('file'), []) ?: [], fn ($j) => empty($j['hidden'])));
     }
 
-    /** Une notification ouverte (clic) : comptée sur son envoi, sans savoir par qui. */
+    /**
+     * Une notification ouverte (clic) : comptée sur son envoi, sans savoir par qui. Un octet ajouté
+     * à un petit fichier par envoi : le jour de l'ouverture, des milliers de clics dans la même
+     * minute ne réécrivent plus l'historique sous verrou.
+     */
     public static function opened(string $jobId): void
     {
         if (!preg_match('/^\d{12}[a-f0-9]{6}$/', $jobId)) {
             return;
         }
-        JsonStore::update(self::f('envois'), function ($h) use ($jobId) {
-            $h = is_array($h) ? $h : [];
-            foreach ($h as $i => $j) {
-                if (($j['id'] ?? '') === $jobId) {
-                    $h[$i]['opened'] = (int) ($j['opened'] ?? 0) + 1;
-                }
+        $file = self::opensFile($jobId);
+        $size = @filesize($file);
+        if ($size === false) {
+            // Seulement pour un envoi qui existe (pas un fichier par identifiant inventé).
+            $known = false;
+            foreach (JsonStore::read(self::f('envois'), []) ?: [] as $j) {
+                $known = $known || ($j['id'] ?? '') === $jobId;
             }
-            return $h;
-        }, []);
+            if (!$known) {
+                return;
+            }
+            @mkdir(dirname($file), 0775, true);
+        } elseif ($size >= 10000000) {
+            return;
+        }
+        @file_put_contents($file, '.', FILE_APPEND | LOCK_EX);
     }
 
     // ------------------------------------------------------------------ envois automatiques

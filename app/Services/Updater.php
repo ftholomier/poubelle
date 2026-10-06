@@ -53,7 +53,11 @@ final class Updater
      * en arrière-plan avec le nouveau code. Les effacer faisait attendre le premier visiteur
      * pendant leur calcul (plusieurs secondes). Chemins relatifs au dossier des caches.
      */
-    private const KEEP_CACHES = '#^(?:derived\.php|derived/.+|index-\d+\.php|search\.php|media\.php|media-versions\.php|media-usage\.json|media/.+|[^/]+\.lock)$#';
+    private const KEEP_CACHES = '#^(?:derived\.php|derived/.+|index-\d+\.php|search\.php|media\.php|media-versions\.php|media-usage\.json|media/.+|[^/]+\.lock'
+        // Aussi : calculs gardés par Memo (leur empreinte comprend le fichier du calcul et l'index des
+        // fiches, refait juste après), les 100 chiffres (refaits avec les données calculées) et la
+        // table des caractères (liée à la version d'ICU) : ils restent justes et évitent un démarrage à froid.
+        . '|memo/.+|chiffres-[a-z]+\.json|ascii-fold\.php)$#';
     /** Marque « caches à refaire » posée par la mise à jour, prise par la requête suivante (public/index.php). */
     private const REFRESH = 'apres-mise-a-jour';
 
@@ -850,8 +854,20 @@ final class Updater
             }
         }
         @file_put_contents($dir . '/' . self::REFRESH, (string) time());
-        if (function_exists('opcache_reset')) {
-            @opcache_reset();
+        // Code relu : seulement les fichiers PHP remplacés (date plus récente que la copie en mémoire),
+        // pas tout le cache d'OPcache (sinon chaque visiteur recompile tout le site pendant un moment).
+        if (function_exists('opcache_invalidate')) {
+            foreach (['app', 'templates', 'config', 'bin', 'public'] as $top) {
+                $base = self::$root . '/' . $top;
+                if (!is_dir($base)) {
+                    continue;
+                }
+                foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($base, \FilesystemIterator::SKIP_DOTS)) as $f) {
+                    if ($f->isFile() && $f->getExtension() === 'php') {
+                        @opcache_invalidate($f->getPathname(), false);
+                    }
+                }
+            }
         }
     }
 
@@ -894,6 +910,7 @@ final class Updater
             \App\Data\Index::rebuild();
             \App\Data\Derived::rebuild();
             \App\Services\Search::rebuild();
+            \App\Services\Chiffres::warm(); // les 100 chiffres prêts avant le prochain visiteur
         } catch (\Throwable $e) {
             error_log('[après mise à jour] ' . $e->getMessage());
         } finally {

@@ -586,5 +586,6 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Diaporama de l'accueil : une seule photo chargée à l'arrivée ; recherche bornée (pire cas 143 → 28 ms, mêmes résultats), limitée par adresse, suggestions mises en cache
 - [x] Cache des pages pour les visiteurs anonymes (accueil : environ 230 → 1 830 pages par seconde sur le banc), réglable dans Réglages › Général
 - [x] Boutique : catalogue 130 → 8 ms (aperçus en fichiers statiques), pas de session pour un simple visiteur, travail après paiement hors de la page, tirages IA bornés
+- [x] Clics sur la notification d'ouverture (4 400/s), pages introuvables sans écriture verrouillée, mise à jour du site sans démarrage à froid
 - [ ] Reste avant l'ouverture (vers le 25/12/2026) : préparer les vignettes sur le serveur, remplir la réserve d'anecdotes
 
