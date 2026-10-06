@@ -109,7 +109,10 @@
 .rdev--kickoff .rdev__head, .rdev--kickoff2 .rdev__head, .rdev--extratime .rdev__head { color: var(--blue); }
 .rdphotos { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 8px; }
 .rdphotos figure { margin: 0; display: flex; flex-direction: column; gap: 4px; }
-.rdphotos img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border: 2px solid var(--cream); }
+.rdphotos img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border: 2px solid var(--cream); display: block; }
+.rdphotos__zoom { all: unset; cursor: zoom-in; display: block; }
+.rdphotos__zoom:hover img { border-color: var(--yellow); }
+.rdphotos__zoom:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
 .rdphotos figcaption { font-size: 14px; color: var(--mist); }
 .rdpre { display: flex; flex-direction: column; gap: 14px; padding: 22px; background: var(--paper); border: 2px solid var(--navy); }
 .rdpre:not(:has(*)) { display: none; }

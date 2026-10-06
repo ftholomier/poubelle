@@ -389,6 +389,15 @@
     }));
   }
 
+  /* ---------------------------------------------------------- photos du fil : agrandissement */
+  // Les photos de la mi-temps s'ouvrent dans la visionneuse du site (flèches, clavier, glisser).
+  feed.addEventListener('click', e => {
+    const b = e.target.closest('[data-rd-zoom]');
+    if (!b || !window.SR || !window.SR.lightbox) return;
+    const all = $$('[data-rd-zoom]', b.closest('.rdphotos'));
+    window.SR.lightbox(all.map(x => ({ src: x.dataset.rdZoom, alt: $('img', x).alt, caption: $('img', x).alt, credit: x.dataset.credit || '' })), all.indexOf(b));
+  });
+
   /* ---------------------------------------------------------- « J'y étais ! » */
   const etais = $('[data-rd-etais]');
   if (etais) {

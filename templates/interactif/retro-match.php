@@ -208,7 +208,7 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
 <template data-rd-photos>
   <div class="rdphotos">
     <?php foreach ($gallery as $g): ?>
-      <figure><img src="<?= e(img($g['image'], 480)) ?>" alt="<?= e((string) ($g['caption'] ?? '')) ?>" loading="lazy" decoding="async"><?php if (!empty($g['caption'])): ?><figcaption><?= e((string) $g['caption']) ?></figcaption><?php endif; ?></figure>
+      <figure><button type="button" class="rdphotos__zoom" data-rd-zoom="<?= e(img($g['image'], 1600)) ?>" data-credit="<?= e((string) ($g['credit'] ?? '')) ?>" aria-label="<?= e(t('Agrandir la photo')) ?>"><img src="<?= e(img($g['image'], 480)) ?>" alt="<?= e((string) ($g['caption'] ?? '')) ?>" loading="lazy" decoding="async"></button><?php if (!empty($g['caption'])): ?><figcaption><?= e((string) $g['caption']) ?></figcaption><?php endif; ?></figure>
     <?php endforeach; ?>
   </div>
 </template>
