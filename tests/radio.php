@@ -60,6 +60,23 @@ $eq('ambiance de la 30e : 29 min 30 s', $p[array_search(1770, array_column($p, '
 $eq('ordre chronologique', array_column($p, 't') === array_values((function ($a) { sort($a); return $a; })(array_column($p, 't'))), true);
 $eq('réponse illisible : rien', R::parse('pas du json', $tl), []);
 
+// La lecture : même consigne pour toutes les répliques, phrase toujours ponctuée.
+$eq('consigne de lecture identique (même reporter)', [R::style('fr') === R::style('fr'), str_contains(R::style('fr'), 'même reporter'), str_contains(R::style('en'), 'same')], [true, true, true]);
+$eq('ponctuation finale ajoutée si absente', [R::speakable('Et c’est le but de Bauda'), R::speakable('Quel match !'), R::speakable('« Allez Sochaux »')], ['Et c’est le but de Bauda.', 'Quel match !', '« Allez Sochaux »']);
+
+// Une fin de phrase qui retombe n'est pas coupée (marge large du commentaire radio).
+$rate = 24000;
+$voicePcm = '';
+for ($i = 0; $i < $rate * 3; $i++) {
+    $amp = $i < $rate * 2.5 ? 12000 : 12000 * pow(0.01, ($i - $rate * 2.5) / ($rate * 0.5)); // dernière demi-seconde : -40 dB
+    $voicePcm .= pack('s', (int) ($amp * sin(2 * M_PI * 180 * $i / $rate)));
+}
+$voicePcm .= str_repeat("\0\0", $rate); // 1 s de silence ajoutée par la synthèse
+$short = App\Services\FicheAudio::trimTail($voicePcm, $rate);
+$long = App\Services\FicheAudio::trimTail($voicePcm, $rate, $cut, 0.6, 48.0);
+$eq('radio : fin de phrase gardée plus longtemps que pour les fiches', strlen($long) > strlen($short), true);
+$eq('radio : le silence ajouté est quand même retiré', strlen($long) < strlen($voicePcm), true);
+
 // Le poste radio.
 $rate = 24000;
 $pcm = '';

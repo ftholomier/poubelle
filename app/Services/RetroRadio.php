@@ -404,9 +404,11 @@ final class RetroRadio
         if (self::$speaker) {
             $a = (self::$speaker)($s['text']);
         } else {
-            $a = Gemini::speech($s['text'], $voice, '', 'radio:' . $id, 'radio');
+            $a = Gemini::speech(self::speakable($s['text']), $voice, self::style($lang), 'radio:' . $id, 'radio');
         }
-        $pcm = FicheAudio::trimTail((string) $a['pcm'], (int) $a['rate']);
+        // Fin de phrase gardée large : un reporter exalté finit souvent plus bas qu'il n'a commencé.
+        $cut = null;
+        $pcm = FicheAudio::trimTail((string) $a['pcm'], (int) $a['rate'], $cut, 0.6, 48.0);
         $pcm = self::radioize($pcm, (int) $a['rate'], $s['kind'] === 'goal', crc32($id . $lang . $i));
         $dir = self::$media . '/radio';
         if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
@@ -415,6 +417,24 @@ final class RetroRadio
         $base = sprintf('%d-%s-%02d-%s', $id, $lang, $i, substr(sha1($s['text'] . $voice), 0, 8));
         $file = self::encode($dir . '/' . $base, $pcm, (int) $a['rate']);
         return ['file' => 'radio/' . basename($file), 'dur' => round(strlen($pcm) / (2 * (int) $a['rate']), 1)];
+    }
+
+    /**
+     * Même reporter d'une réplique à l'autre : chaque réplique est lue séparément, la consigne de
+     * lecture (identique pour toutes) fixe le personnage, en plus du nom de voix gardé pour tout le commentaire.
+     */
+    public static function style(string $lang): string
+    {
+        return $lang === 'en'
+            ? 'Read as the same veteran radio football commentator throughout: a mature man, warm and deep voice, lively and steady pace, enthusiastic without shouting, finishing every sentence clearly'
+            : 'Lis comme le même reporter de radio française du début à la fin : un homme mûr, voix grave et chaleureuse, débit vif et régulier, enthousiaste sans crier, en prononçant chaque phrase jusqu’au bout';
+    }
+
+    /** Texte lu : toujours terminé par une ponctuation (sans elle, la synthèse avale parfois le dernier mot). */
+    public static function speakable(string $text): string
+    {
+        $text = rtrim($text);
+        return preg_match('/[.!?…»"]$/u', $text) ? $text : $text . '.';
     }
 
     /** MP3 (encodeur du site), sinon WAV. @return string chemin écrit */

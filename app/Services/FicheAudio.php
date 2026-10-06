@@ -686,9 +686,11 @@ final class FicheAudio
      * Fin de la voix nettoyée : la synthèse vocale ajoute parfois, après la dernière phrase, du
      * bruit (grésillement) ou un long silence. Coupe 0,26 s après le dernier son voisé (voyelle,
      * consonne sonore : son périodique, au moins 60 ms de suite), plus tôt si le silence revient,
-     * avec un fondu de 50 ms. $cut reçoit les secondes retirées.
+     * avec un fondu de 50 ms. $cut reçoit les secondes retirées. $margin (secondes gardées après
+     * le dernier son voisé) et $floor (dB sous la voix où le silence est considéré revenu) : plus
+     * larges pour une voix très expressive (commentaire radio), dont les fins de phrase retombent.
      */
-    public static function trimTail(string $pcm, int $rate, ?float &$cut = null): string
+    public static function trimTail(string $pcm, int $rate, ?float &$cut = null, float $margin = 0.26, float $floor = 35.0): string
     {
         $cut = 0.0;
         $fs = intdiv($rate, 50); // trames de 20 ms
@@ -727,9 +729,9 @@ final class FicheAudio
         if ($last < 0) {
             return $pcm;
         }
-        $end = min($nf, $last + 14); // 0,26 s pour la consonne finale (« s », « ch »…)
+        $end = min($nf, $last + 1 + (int) round($margin * 50)); // pour la consonne finale (« s », « ch »…)
         for ($f = $last + 1; $f < $end; $f++) {
-            if ($db[$f] < $ref - 35) {
+            if ($db[$f] < $ref - $floor) {
                 $end = $f;
                 break;
             }
