@@ -152,6 +152,8 @@
 .rdradio__state.is-talking { color: var(--yellow); }
 .rdradio__state.is-talking::before { content: '🎙 '; }
 .rdradio__state.is-error { color: #ffb4a8; }
+.rdradio__credit { flex-basis: 100%; font-size: 12px; opacity: .65; }
+.rdradio__credit a { color: inherit; }
 /* Mode test de l'équipe (direct) */
 .rdteam { margin: 0 0 22px; padding: 14px 18px; border: 2px dashed var(--navy); background: #fff7d1; }
 .rdteam__t, .rdteam__state { margin: 0; font-size: 15px; }

@@ -533,7 +533,10 @@ final class RetroRadio
         return '/media/' . substr($file, strlen(self::$media) + 1);
     }
 
-    /** Ambiance de stade livrée avec le site (murmure, chants, applaudissements, « ooh », tambour). */
+    /**
+     * Ambiance de stade livrée avec le site : vraie prise de son dans le public (stade Ernst-Happel,
+     * Vienne, 2014), « Work With Sounds / Torsten Nilsson », CC BY 4.0 (crédit affiché sur la page).
+     */
     public const STADE = '/assets/audio/stade-ambiance.mp3';
 
     /** URL de la boucle d'ambiance : celle du site, sinon celle fabriquée sur le serveur. */

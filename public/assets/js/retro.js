@@ -172,7 +172,6 @@
       normal = isNormal;
       if (!on) return;
       if (held) { held = false; if (playing && voice.src && !voice.ended) voice.play().catch(() => {}); }
-      if (!normal) { set(false); note.textContent = L.radioSpeed; return; }
       if (amb) {
         const live = e >= 0 && e < M.end;
         if (live && amb.paused) amb.play().catch(() => {});
@@ -180,12 +179,18 @@
         const pause = (e >= M.halftime && e < M.kickoff2) || (M.extratime !== null && e >= M.fulltime90 && e < M.extratime);
         amb.volume = pause ? 0.12 : 0.3;
       }
+      // En accéléré : la foule continue, le reporter se tait ; il reprend tout seul à ×1.
+      if (!normal) {
+        if (playing || queue.length) { voice.pause(); queue = []; playing = false; }
+        if (state) { state.classList.remove('is-talking', 'is-error'); state.textContent = L.radioPaused; }
+        return;
+      }
       segs.forEach((s, i) => {
         if (played.has(i) || e < s.t || e >= s.t + s.dur) return;
         played.add(i);
         queue.push([i, playing || queue.length ? 0 : e - s.t]);
       });
-      // Une réplique trop en retard (file d'attente) est sautée plutôt que décalée de plus de 20 s.
+      // Une réplique trop en retard (file d'attente) est sautée plutôt que décalée de plus de 90 s.
       queue = queue.filter(([i]) => e - segs[i].t < 90);
       next();
       showState(e);
@@ -223,7 +228,7 @@
     if (isStarted !== started) { started = isStarted; if (wait) wait.hidden = started; }
     setScore(started ? score : ['–', '–'], live && fresh.some(([x]) => x.type === 'goal'));
     const [c, p] = clockAt(e);
-    clock.textContent = c;
+    clock.textContent = e < 0 && D.mode === 'replay' ? '00:00' : c;
     if (p !== lastPhase) { lastPhase = p; phase.textContent = phaseLabel(p); }
     if (bar) { bar.hidden = !started; fill.style.width = Math.min(100, Math.max(0, e / M.end * 100)) + '%'; }
     const end = ev[ev.length - 1];
