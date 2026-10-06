@@ -26,7 +26,7 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
         <tr><td>Contributions to the museum (photos, documents, testimonies)</td><td>Name, email, credit shown, description, files, rights confirmation</td><td>Consent</td><td>As long as the document is published; 3 years for unpublished submissions</td></tr>
         <tr><td>“On This Day” newsletter</td><td>Email, language, sign-up and confirmation dates</td><td>Consent (double opt-in)</td><td>Until you unsubscribe: your address is then erased</td></tr>
         <?php if ($push): ?>
-        <tr><td>Supporter’s logbook</td><td>Email, matches ticked, nickname and public page if you choose them, dates</td><td>Consent (you create the logbook)</td><td>Until you delete the logbook (“Delete my logbook” button); an empty logbook never opened from the emailed link is erased after 90 days</td></tr>
+        <tr><td>Supporter’s logbook</td><td>Email, matches ticked, nickname and public page if you choose them, anniversary reminders chosen (email, devices to notify), dates</td><td>Consent (you create the logbook)</td><td>Until you delete the logbook (“Delete my logbook” button); an empty logbook never opened from the emailed link is erased after 90 days</td></tr>
         <tr><td>Notifications of the museum app</td><td>The technical subscription address and keys provided by your browser, topics chosen, language, dates — no name, no email, no IP address</td><td>Consent (you switch them on)</td><td>Until you switch them off, or as soon as your browser's notification service reports the subscription has ended</td></tr>
         <?php endif; ?>
         <?php if ($donations): ?>
@@ -73,7 +73,7 @@ $mail = $privacy !== '' ? '<a href="mailto:' . e($privacy) . '">' . e($privacy) 
         <tr><td>Contributions au musée (photos, documents, témoignages)</td><td>Nom, e-mail, crédit affiché, description, fichiers, attestation des droits</td><td>Consentement</td><td>Tant que le document est publié ; 3 ans pour les envois non publiés</td></tr>
         <tr><td>Newsletter « Ce jour-là »</td><td>E-mail, langue, dates d’inscription et de confirmation</td><td>Consentement (double validation)</td><td>Jusqu’à la désinscription : l’adresse est alors effacée</td></tr>
         <?php if ($push): ?>
-        <tr><td>Carnet du supporter</td><td>E-mail, matchs cochés, pseudo et page publique si vous les choisissez, dates</td><td>Consentement (vous créez le carnet)</td><td>Jusqu’à la suppression du carnet (bouton « Supprimer mon carnet ») ; un carnet vide jamais ouvert par le lien reçu est effacé après 90 jours</td></tr>
+        <tr><td>Carnet du supporter</td><td>E-mail, matchs cochés, pseudo et page publique si vous les choisissez, rappels d’anniversaire choisis (e-mail, appareils à notifier), dates</td><td>Consentement (vous créez le carnet)</td><td>Jusqu’à la suppression du carnet (bouton « Supprimer mon carnet ») ; un carnet vide jamais ouvert par le lien reçu est effacé après 90 jours</td></tr>
         <tr><td>Notifications de l’appli du musée</td><td>L’adresse technique d’abonnement et les clés fournies par votre navigateur, sujets choisis, langue, dates — ni nom, ni e-mail, ni adresse IP</td><td>Consentement (vous les activez)</td><td>Jusqu’à leur désactivation, ou dès que le service de notifications de votre navigateur signale la fin de l’abonnement</td></tr>
         <?php endif; ?>
         <?php if ($donations): ?>

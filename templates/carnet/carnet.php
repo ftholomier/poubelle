@@ -30,6 +30,20 @@ $public = $c['public'] ? url('/carnet/p/' . $c['slug'] . '/') : '';
     </section>
   <?php endif; ?>
 
+  <section class="cncard cnremind" data-cn-remind>
+    <h2 class="cncard__t"><?= e(t('L’anniversaire de vos matchs')) ?></h2>
+    <p><?= e(t('Le jour anniversaire d’un match de votre carnet, le musée vous le rappelle : « Il y a 30 ans jour pour jour, vous étiez au stade ».')) ?></p>
+    <label class="cncheck"><input type="checkbox" data-cn-remind-email <?= !empty($c['remind_email']) ? 'checked' : '' ?>> <?= e(t('Par e-mail, à {e}', ['e' => $c['email']])) ?></label>
+    <?php if (!$c['confirmed']): ?><p class="cnnote"><?= e(t('Les e-mails partiront dès que vous aurez ouvert une fois le lien reçu à cette adresse.')) ?></p><?php endif; ?>
+    <div class="cnremind__push">
+      <button type="button" class="btn btn--ghost btn--sm" data-cn-remind-push><?= e(t('Aussi en notification sur cet appareil')) ?></button>
+      <?php $np = count((array) ($c['remind_push'] ?? [])); ?>
+      <span class="cnnote" data-cn-remind-n><?= $np ? e(t('Notifications : {n} appareil(s)', ['n' => $np])) : '' ?></span>
+      <?php if ($np): ?><button type="button" class="linkbtn cnnote" data-cn-remind-off><?= e(t('Arrêter les notifications')) ?></button><?php endif; ?>
+    </div>
+    <p class="cnmail__msg" data-cn-msg role="status"></p>
+  </section>
+
   <details class="cnzone">
     <summary><?= e(t('Mon carnet et mes données')) ?></summary>
     <p class="cnnote"><?= e(t('Carnet relié à {e}. Pour l’ouvrir sur un autre appareil : page « Mon carnet » de cet appareil, « J’ai déjà un carnet », et un lien arrive à cette adresse.', ['e' => $c['email']])) ?></p>

@@ -213,6 +213,149 @@ final class Carnet
         return $c && $c['public'] && $c['slug'] === $slug ? $c : null;
     }
 
+    // ------------------------------------------------------------------ anniversaires
+
+    /**
+     * Anniversaires des matchs vus : e-mail (case cochée) et/ou notification sur les appareils
+     * choisis. $email : null = inchangé ; $subId : abonnement aux notifications à ajouter ;
+     * $pushOff : retire toutes les notifications.
+     */
+    public static function setReminders(string $id, ?bool $email, ?string $subId = null, bool $pushOff = false): ?array
+    {
+        $out = null;
+        JsonStore::update(self::file($id), function ($c) use ($email, $subId, $pushOff, &$out) {
+            if (!is_array($c)) {
+                return $c;
+            }
+            if ($email !== null) {
+                $c['remind_email'] = $email;
+            }
+            $push = $pushOff ? [] : (array) ($c['remind_push'] ?? []);
+            if ($subId !== null && !in_array($subId, $push, true)) {
+                $push = array_slice(array_merge($push, [$subId]), -5);
+            }
+            $c['remind_push'] = array_values($push);
+            $out = $c;
+            return $c;
+        }, null);
+        return $out;
+    }
+
+    /** Signature du lien « ne plus recevoir » de l'e-mail d'anniversaire. */
+    public static function stopSig(string $id): string
+    {
+        return substr(hash_hmac('sha256', $id, site_key('carnet-arret')), 0, 24);
+    }
+
+    /**
+     * Le match à fêter aujourd'hui pour ces matchs : même jour et même mois, une année passée.
+     * Le plus ancien d'abord (« il y a 40 ans ») ; @return array{m:array,years:int,others:int}|null
+     */
+    public static function anniversaryOf(array $mids, string $today): ?array
+    {
+        $M = Derived::part('matches');
+        $md = substr($today, 5, 5);
+        $year = (int) substr($today, 0, 4);
+        $hits = [];
+        foreach ($mids as $mid) {
+            $x = $M[(int) $mid] ?? null;
+            if ($x && $x['v'] && substr((string) $x['date'], 5, 5) === $md && (int) substr((string) $x['date'], 0, 4) < $year) {
+                $hits[] = $x;
+            }
+        }
+        if (!$hits) {
+            return null;
+        }
+        usort($hits, fn ($a, $b) => strcmp((string) $a['date'], (string) $b['date']));
+        return ['m' => $hits[0], 'years' => $year - (int) substr((string) $hits[0]['date'], 0, 4), 'others' => count($hits) - 1];
+    }
+
+    /** Texte du rappel dans la langue courante. @return array{title:string,body:string,url:string} */
+    public static function anniversaryMessage(array $a): array
+    {
+        $m = $a['m'];
+        $title = $a['years'] > 1 ? t('Il y a {n} ans jour pour jour, vous étiez au stade', ['n' => $a['years']]) : t('Il y a un an jour pour jour, vous étiez au stade');
+        $body = $m['home'] . ' ' . ($m['sh'] ? $m['us'] . '–' . $m['them'] : $m['them'] . '–' . $m['us']) . ' ' . $m['away'] . ' · ' . trim($m['label'] . ' ' . $m['round']);
+        if ($a['others'] > 0) {
+            $body .= ' · ' . t($a['others'] > 1 ? 'et {n} autres matchs de votre carnet ce jour-là' : 'et un autre match de votre carnet ce jour-là', ['n' => $a['others']]);
+        }
+        return ['title' => $title, 'body' => $body, 'url' => url((string) $m['path'])];
+    }
+
+    /**
+     * Tâche planifiée, une fois par jour à partir de 9 h : pour chaque carnet qui le demande, le
+     * match du jour (anniversaire) par e-mail et/ou notification. Un seul rappel par carnet et par
+     * jour (noté avant l'envoi : jamais deux fois). @return array{emails:int,push:int}
+     */
+    public static function anniversaries(?string $today = null, ?int $hour = null): array
+    {
+        $today ??= date('Y-m-d');
+        $hour ??= (int) date('G');
+        $done = ['emails' => 0, 'push' => 0];
+        if ($hour < 9) {
+            return $done;
+        }
+        $byMatch = [];
+        foreach (glob(self::$dir . '/*.json') ?: [] as $f) {
+            $id = basename($f, '.json');
+            if (!preg_match('/^[a-f0-9]{16}$/', $id) || !($c = self::get($id))) {
+                continue;
+            }
+            $email = !empty($c['remind_email']) && !empty($c['confirmed']);
+            $push = (array) ($c['remind_push'] ?? []);
+            if ((!$email && !$push) || ($c['reminded'] ?? '') === $today) {
+                continue;
+            }
+            $a = self::anniversaryOf(array_keys($c['matches']), $today);
+            if (!$a) {
+                continue;
+            }
+            JsonStore::update(self::file($id), function ($x) use ($today) {
+                if (is_array($x)) {
+                    $x['reminded'] = $today;
+                }
+                return $x;
+            }, null);
+            $prev = I18n::lang();
+            I18n::set($c['lang'] ?? 'fr');
+            try {
+                if ($email) {
+                    $msg = self::anniversaryMessage($a);
+                    $stop = base_url() . '/carnet/rappels/arret/' . $id . '/' . self::stopSig($id) . '/';
+                    $html = '<p style="font-size:20px"><b>' . e($msg['title']) . '</b></p><p style="font-size:18px">' . e($msg['body']) . '</p>'
+                        . '<p style="margin:24px 0"><a href="' . e(base_url() . $msg['url']) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Revivre le match')) . '</a></p>'
+                        . '<p><a href="' . e(base_url() . url('/carnet/')) . '">' . e(t('Mon carnet du supporter')) . '</a></p>'
+                        . '<p style="font-size:13px;color:#555"><a href="' . e($stop) . '" style="color:#555">' . e(t('Ne plus recevoir ces rappels')) . '</a></p>';
+                    if (Mailer::send($c['email'], $msg['title'], Mailer::layout($msg['title'], $html))) {
+                        $done['emails']++;
+                    }
+                }
+            } finally {
+                I18n::set($prev);
+            }
+            if ($push) {
+                $byMatch[$a['m']['id']]['a'] = $a;
+                $byMatch[$a['m']['id']]['ids'] = array_merge($byMatch[$a['m']['id']]['ids'] ?? [], $push);
+            }
+        }
+        // Notifications : un envoi par match fêté, vers les seuls appareils concernés.
+        if ($byMatch && Notifications::enabled()) {
+            foreach ($byMatch as $mid => $g) {
+                $msg = [];
+                $prev = I18n::lang();
+                foreach (['fr', 'en'] as $l) {
+                    I18n::set($l);
+                    $msg[$l] = self::anniversaryMessage($g['a']);
+                }
+                I18n::set($prev);
+                $ids = array_values(array_unique($g['ids']));
+                $r = Notifications::enqueue('carnet:' . $mid . ':' . $today . ':' . substr(md5(implode(',', $ids)), 0, 8), 'carnet', $msg, ['only' => $ids, 'hidden' => true, 'ttl' => 12 * 3600]);
+                $done['push'] += $r['ok'] ? (int) $r['n'] : 0;
+            }
+        }
+        return $done;
+    }
+
     /** Supprime le carnet et tout ce qui le désigne (RGPD). */
     public static function delete(string $id): void
     {

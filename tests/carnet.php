@@ -82,6 +82,35 @@ C::delete($id);
 $eq('suppression : carnet, lien et e-mail oubliés', [C::get($id), C::open($cred2), C::byEmail('supporter@example.org')], [null, null, null]);
 $eq('après suppression, le même e-mail peut recréer un carnet', C::create('supporter@example.org')['existing'], false);
 
+// Anniversaires.
+\App\Services\WebPush::$dir = "$tmp/push";
+$r = C::create('fidele@example.org');
+$fid = $r['carnet']['id'];
+$m1 = C::seasonMatches('1987-1988')[3];
+$m2 = C::seasonMatches('2013-2014')[5];
+C::setMatches($fid, [$m1['id'], $m2['id']], true);
+$day = (string) (date('Y') + 1) . substr((string) $m1['date'], 4);
+$a = C::anniversaryOf([$m1['id'], $m2['id']], $day);
+$eq('anniversaire : le match de ce jour, années comptées', [$a['m']['id'] ?? null, $a['years'] ?? null], [$m1['id'], (int) date('Y') + 1 - (int) substr((string) $m1['date'], 0, 4)]);
+$eq('pas d’anniversaire l’année même du match ni un autre jour', [C::anniversaryOf([$m1['id']], (string) $m1['date']), C::anniversaryOf([$m1['id']], substr($day, 0, 5) . (substr($day, 5, 2) === '01' ? '02' : '01') . substr($day, 7))], [null, null]);
+$msg = C::anniversaryMessage($a);
+$eq('message : titre, score, lien vers la fiche', [str_contains($msg['title'], 'jour pour jour'), str_contains($msg['body'], (string) $m1['away']), $msg['url']], [true, true, $m1['path']]);
+$eq('sans rappel demandé : rien', C::anniversaries($day, 10), ['emails' => 0, 'push' => 0]);
+@mkdir("$tmp/push", 0775, true);
+file_put_contents("$tmp/push/abonnes.json", json_encode(['abonne-test' => ['e' => 'https://push.example.org/x', 'k' => 'k', 'a' => 'a', 'l' => 'fr', 't' => []]]));
+C::setReminders($fid, true, 'abonne-test');
+C::confirm($fid);
+$eq('avant 9 h : rien', C::anniversaries($day, 8), ['emails' => 0, 'push' => 0]);
+C::anniversaries($day, 10);
+$job = (json_decode((string) @file_get_contents("$tmp/push/file.json"), true) ?: [])[0] ?? [];
+$eq('notification : vers le seul appareil choisi, cachée de l’historique', [$job['ids'] ?? null, $job['hidden'] ?? null, $job['title'] ?? null], [['abonne-test'], true, $msg['title']]);
+$eq('rappel noté : jamais deux fois le même jour', [C::get($fid)['reminded'], C::anniversaries($day, 11)], [$day, ['emails' => 0, 'push' => 0]]);
+$eq('lien « ne plus recevoir » signé', [C::stopSig($fid) === C::stopSig($fid), C::stopSig($fid) !== C::stopSig(str_repeat('a', 16))], [true, true]);
+C::setReminders($fid, false, null, true);
+$eq('rappels arrêtés', [C::get($fid)['remind_email'], C::get($fid)['remind_push']], [false, []]);
+
+array_map('unlink', glob("$tmp/push/*") ?: []);
+@rmdir("$tmp/push");
 array_map('unlink', glob("$tmp/*") ?: []);
 @rmdir($tmp);
 echo $fail ? "\n$fail échec(s).\n" : "\nTout est bon.\n";

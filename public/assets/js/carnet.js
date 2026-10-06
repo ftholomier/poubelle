@@ -62,6 +62,21 @@
     msg.innerHTML = r.url ? '✓ <a href="' + esc(r.url) + '">' + esc(r.url) + '</a>' : '✓ ' + esc(L.closed || '');
   });
 
+  // Anniversaires : e-mail, notifications sur cet appareil.
+  const rem = document.querySelector('[data-cn-remind]');
+  if (rem) {
+    const msg = rem.querySelector('[data-cn-msg]');
+    const shown = r => { if (r.error) { msg.textContent = r.error; return; } msg.textContent = L.remindOn || '✓'; rem.querySelector('[data-cn-remind-n]').textContent = r.push ? (L.devices || '').replace('{n}', r.push) : ''; };
+    rem.querySelector('[data-cn-remind-email]').addEventListener('change', async e => shown(await api({ action: 'rappels', email: e.target.checked })));
+    rem.querySelector('[data-cn-remind-off]')?.addEventListener('click', async e => { shown(await api({ action: 'rappels', pushOff: true })); e.target.remove(); });
+    rem.querySelector('[data-cn-remind-push]').addEventListener('click', async () => {
+      let sub = null;
+      try { const reg = await navigator.serviceWorker?.getRegistration(); sub = reg ? await reg.pushManager.getSubscription() : null; } catch (e) {}
+      if (!sub) { msg.innerHTML = esc(L.noPush || '') + ' <a href="/appli/">' + esc(L.appli || '/appli/') + ' →</a>'; return; }
+      shown(await api({ action: 'rappels', endpoint: sub.endpoint }));
+    });
+  }
+
   // Suppression.
   document.querySelector('[data-cn-delete]')?.addEventListener('click', async () => {
     if (!confirm(L.delete || '?')) return;

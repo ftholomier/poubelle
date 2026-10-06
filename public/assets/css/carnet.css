@@ -71,3 +71,4 @@
   .cnpick__d, .cnpick__c { grid-column: 2; }
   .cnpick__m { grid-column: 2; }
 }
+.cnremind__push { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }

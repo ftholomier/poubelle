@@ -752,6 +752,12 @@ souvenirs) pour refaire les PDF en cache.
   présentation), `/carnet/saisons/?saison=` (saisie rapide, « domicile seulement »),
   `/carnet/carte.png` (`?telecharger=1`), `/carnet/p/{pseudo-xxxx}/` et sa carte (noindex).
   API `POST /api/carnet` : etat, ajouter, retirer, lot, creer, renvoyer, public, supprimer.
+- **Anniversaires** (`Carnet::anniversaries()`, tâche « carnets » toutes les 10 min, à partir de
+  9 h) : le jour anniversaire d'un match du carnet (le plus ancien si plusieurs), « Il y a N ans
+  jour pour jour, vous étiez au stade » par e-mail (case cochée, carnet confirmé ; lien signé
+  `/carnet/rappels/arret/{id}/{signature}/` pour arrêter) et/ou notification vers les appareils
+  choisis (`remind_push`, identifiants d'abonnement de l'appli, 5 au plus ; un envoi caché par
+  match fêté, `only` = ces appareils). Un rappel par carnet et par jour (`reminded`).
 - **Back-office** : Communauté › Carnets du supporter (nombre, matchs cochés, matchs les plus
   vécus ; aucun e-mail affiché). Tests : `tests/carnet.php`.
 

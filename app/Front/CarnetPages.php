@@ -90,6 +90,16 @@ final class CarnetPages
         ]);
     }
 
+    /** Lien « Ne plus recevoir ces rappels » de l'e-mail d'anniversaire (sans avoir à ouvrir le carnet). */
+    public static function stop(Request $req, string $id, string $sig): Response
+    {
+        $ok = preg_match('/^[a-f0-9]{16}$/', $id) && hash_equals(Carnet::stopSig($id), $sig) && Carnet::get($id);
+        if ($ok) {
+            Carnet::setReminders($id, false);
+        }
+        return self::page('arret', ['ok' => (bool) $ok], ['title' => t('Rappels d’anniversaire'), 'noindex' => true]);
+    }
+
     /** Carte à partager (1200 × 630) : la sienne (cookie) ou celle d'une page publique. */
     public static function card(Request $req, ?string $slug = null): Response
     {
@@ -188,6 +198,21 @@ final class CarnetPages
                 }
                 $c = Carnet::get($c['id']);
                 return Response::json(['ok' => true, 'url' => $c['public'] ? url('/carnet/p/' . $c['slug'] . '/') : null]);
+
+            case 'rappels':
+                if (!$c) {
+                    return Response::json(['ok' => false, 'needEmail' => true]);
+                }
+                $sub = null;
+                $endpoint = trim((string) ($in['endpoint'] ?? ''));
+                if ($endpoint !== '') {
+                    if (!\App\Services\Notifications::find($endpoint)) {
+                        return Response::json(['error' => t('Activez d’abord les notifications du musée sur cet appareil.'), 'appli' => url('/appli/')], 422);
+                    }
+                    $sub = \App\Services\Notifications::idOf($endpoint);
+                }
+                $c = Carnet::setReminders($c['id'], isset($in['email']) ? (bool) $in['email'] : null, $sub, !empty($in['pushOff']));
+                return Response::json(['ok' => true, 'email' => !empty($c['remind_email']), 'push' => count((array) ($c['remind_push'] ?? []))]);
 
             case 'supprimer':
                 if ($c && !empty($in['confirm'])) {
