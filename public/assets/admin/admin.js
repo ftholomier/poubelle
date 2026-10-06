@@ -1224,8 +1224,20 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && hintPop && !hintPop.hidden) hideHint(); });
   window.addEventListener('scroll', () => { if (hintPop && !hintPop.hidden) hideHint(); }, { passive: true });
 
+  // Champs écrits à la main dans une grille (<label class="f"><span class="f__k">…</span><input>…) :
+  // le champ et son aide passent dans un bloc .f__c, comme ceux de Form, pour s'aligner sur la ligne.
+  const wrapFields = (root) => {
+    root.querySelectorAll('.fgrid > .f, .fpair > .f').forEach(f => {
+      if (f.querySelector(':scope > .f__c') || !f.querySelector(':scope > .f__k')) return;
+      const c = document.createElement('div');
+      c.className = 'f__c';
+      [...f.childNodes].filter(n => !(n.nodeType === 1 && n.classList.contains('f__k'))).forEach(n => c.appendChild(n));
+      f.appendChild(c);
+    });
+  };
   const prevInit = BO.init;
-  BO.init = function (root = document) { prevInit(root); initTableEditors(root); addHints(root); BO.initHandles(root); };
+  BO.init = function (root = document) { prevInit(root); wrapFields(root); initTableEditors(root); addHints(root); BO.initHandles(root); };
+  wrapFields(document);
   addHints(document);
   initTableEditors(document);
   BO.initHandles(document);

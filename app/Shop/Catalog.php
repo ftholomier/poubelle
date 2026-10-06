@@ -232,11 +232,11 @@ final class Catalog
 
     /**
      * Pièce unique : le modèle porte une anecdote tirée par le client (jamais vendue deux fois),
-     * ou c'est un poster souvenir (dédicacé et numéroté).
+     * un poster souvenir (dédicacé et numéroté) ou la carte du carnet (pseudo et chiffres du supporter).
      */
     public static function unique(array $m): bool
     {
-        return isset(self::fields($m)[Anecdotes::FIELD]) || Poster::isFor($m);
+        return isset(self::fields($m)[Anecdotes::FIELD]) || Poster::isFor($m) || CarnetCard::isFor($m);
     }
 
     /** En vente : prêt, avec un prix, sur un support actif. */

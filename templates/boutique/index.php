@@ -9,12 +9,12 @@ use App\Shop\ShopPages;
   <div class="wrap">
     <?php if (!$cards): ?><p>Les premiers articles arrivent très bientôt.</p><?php endif; ?>
     <?php if (array_filter($cards, fn ($c) => \App\Shop\Catalog::unique($c['m']))): ?>
-    <aside class="shopuniqbar"><span class="shopuniq shopuniq--lg" aria-hidden="true">★ Pièce unique</span><p><b>Nouveau : les pièces uniques.</b> Sur les articles marqués d’une étoile, le musée tire pour vous une anecdote de l’histoire du FCSM (une fois vendue, elle n’est plus jamais proposée), ou compose le poster de votre match, dédicacé à votre nom et numéroté : votre objet n’existera qu’en un seul exemplaire.</p></aside>
+    <aside class="shopuniqbar"><span class="shopuniq shopuniq--lg" aria-hidden="true">★ Pièce unique</span><p><b>Nouveau : les pièces uniques.</b> Sur les articles marqués d’une étoile, le musée tire pour vous une anecdote de l’histoire du FCSM (une fois vendue, elle n’est plus jamais proposée), compose le poster de votre match, dédicacé à votre nom et numéroté, ou imprime votre carte de supporter d’après votre carnet : votre objet n’existera qu’en un seul exemplaire.</p></aside>
     <?php endif; ?>
     <div class="shopgrid">
       <?php foreach ($cards as $c): ?>
       <a class="shopcard" href="<?= e(ShopPages::u('/boutique/' . $c['m']['id'] . '/')) ?>" data-reveal>
-        <div class="shopcard__img"><img src="<?= e($c['img']) ?>" alt="" loading="lazy" decoding="async"><?php if (\App\Shop\Catalog::unique($c['m'])): ?><span class="shopuniq" title="Un seul exemplaire : anecdote tirée pour vous, ou poster dédicacé et numéroté">★ Pièce unique</span><?php endif; ?></div>
+        <div class="shopcard__img"><img src="<?= e($c['img']) ?>" alt="" loading="lazy" decoding="async"><?php if (\App\Shop\Catalog::unique($c['m'])): ?><span class="shopuniq" title="Un seul exemplaire : anecdote tirée pour vous, poster dédicacé et numéroté ou carte de votre carnet">★ Pièce unique</span><?php endif; ?></div>
         <div class="shopcard__txt">
           <span class="eyebrow"><?= e($c['sup']['name']) ?></span>
           <h2 class="shopcard__t"><?= e($c['m']['name']) ?></h2>

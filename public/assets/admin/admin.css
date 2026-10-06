@@ -223,22 +223,60 @@ a.kpi:hover { transform: translateY(-3px); color: var(--navy); }
 .toolbar select { border: 2px solid var(--navy); background: var(--paper); padding: 6px 8px; font-size: 15px; }
 
 /* ---------------------------------------------------------------- formulaires */
-.fgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+.fgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px 18px; align-items: start; }
+/* Alignement : chaque champ occupe deux rangées partagées par toute la ligne (libellé, puis champ + aide).
+   Un libellé qui passe sur deux lignes décale toute la rangée : les champs restent alignés. */
+@supports (grid-template-rows: subgrid) {
+  .fgrid { row-gap: 0; margin-bottom: -16px; }
+  .fgrid > .f:has(> .f__c), .fgrid > .fpair, .fpair > .f:has(> .f__c) { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; gap: 0; }
+  .fgrid > .f:has(> .f__c) > .f__k, .fpair > .f:has(> .f__c) > .f__k { align-self: end; margin-bottom: 6px; }
+  /* Champ écrit à la main sans bloc .f__c (admin.js l'ajoute au chargement) : présentation simple en attendant. */
+  .fgrid > .f:not(:has(> .f__c)) { grid-row: span 2; margin-bottom: 16px; }
+  .fgrid > .f > .f__c, .fpair > .f > .f__c { grid-row: 2; padding-bottom: 16px; }
+  .fgrid > .f[hidden], .fgrid > .fpair[hidden], .fpair > .f[hidden] { display: none; }
+}
 .fgrid--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
-.f { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+/* Colonnes fixes : les champs s'alignent d'une ligne à l'autre (4 → 2 → 1 selon la largeur). */
+.fgrid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.fgrid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .fgrid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .fgrid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .fgrid--2c, .fgrid--3, .fgrid--4 { grid-template-columns: minmax(0, 1fr); } .fgrid--3 .f--2, .fgrid--4 .f--2 { grid-column: auto; } }
+.fgrid + .fgrid, .fgrid + .f, .f + .fgrid { margin-top: 16px; }
+.f__c { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+/* Sous-partie d'une carte de saisie : titre discret et filet. */
+.fsec { margin: 22px 0 10px; padding-top: 16px; line-height: 1.2; border-top: 1px solid rgba(14, 31, 77, .15); font-family: var(--display); font-weight: 800; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); }
+.fgrid--2c { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Case à cocher dans une grille : centrée sur la hauteur des champs voisins, pas en haut de la cellule. */
+/* Case à cocher dans une grille : à la hauteur des champs voisins (centrée sur leurs 44 px). */
+.fgrid > .f--check > .f__c > .toggle:first-child, .hrow > .f--check > .f__c > .toggle:first-child { min-height: 44px; }
+.hrow > .f--check { align-self: end; }
+/* Listes en lignes (temps forts, palmarès, fiche d'identité…) : les libellés ne s'affichent qu'au-dessus de la première ligne. */
+.rep--rows > .rep__item ~ .rep__item .f__k { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.rep--rows > .rep__item ~ .rep__item .fgrid, .rep--rows > .rep__item ~ .rep__item .hrow { row-gap: 0; }
+.fpair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; min-width: 0; }
+.fpair[hidden] { display: none; }
+.fsec:first-child, .card__t + .fsec { margin-top: 0; padding-top: 0; border-top: 0; }
+.card__t + .fsec { margin-top: 4px; }
+.f { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .f--full { grid-column: 1 / -1; }
 .f--2 { grid-column: span 2; }
-.f__k { font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; }
+.f__k { font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; gap: 2px 6px; align-items: center; flex-wrap: wrap; min-height: 20px; min-width: 0; }
+.f__k:empty { display: none; }
 .f__k i { color: var(--blue); text-transform: none; letter-spacing: 0; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 13px; }
 .f__k b { color: var(--red); }
 .f__help { font-size: 13px; color: var(--muted); font-style: italic; }
 .f input[type=text], .f input[type=email], .f input[type=url], .f input[type=number], .f input[type=date], .f input[type=datetime-local], .f input[type=password], .f input[type=search], .f input:not([type]), .f select, .f textarea,
-.in { border: 2px solid var(--navy); background: var(--cream); padding: 9px; font-family: var(--serif); font-size: 16px; color: var(--navy); outline: none; min-width: 0; width: 100%; border-radius: 0; }
+.in { border: 2px solid var(--navy); background: var(--cream); padding: 9px; font-family: var(--serif); font-size: 16px; color: var(--navy); outline: none; min-width: 0; width: 100%; border-radius: 0; box-sizing: border-box; }
+/* Même hauteur pour tous les champs d'une ligne (texte, nombre, date, liste). */
+.f input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=file]):not([type=color]), .f select { height: 44px; }
+.f .in--sm, .f input.in--sm, .f select.in--sm { height: 36px; }
 .f textarea { resize: vertical; min-height: 90px; line-height: 1.45; }
 .f input:focus, .f select:focus, .f textarea:focus, .in:focus { box-shadow: 3px 3px 0 var(--yellow); }
 .f.is-dirty input, .f.is-dirty select, .f.is-dirty textarea { border-color: var(--blue); background: var(--butter); }
 .f.is-error input, .f.is-error select, .f.is-error textarea { border-color: var(--red); }
-.f.is-missing input { border-color: var(--red); }
+.f.is-missing input { border-color: var(--red); border-style: dashed; }
+.editor.is-new .f.is-missing input { border-color: var(--navy); border-style: solid; }
 .in--sm { padding: 5px 7px; font-size: 15px; }
 .toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 15px; user-select: none; }
 .toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -256,6 +294,7 @@ input:checked + .switch::after { left: 18px; }
 .seg span { display: block; text-align: center; border: 2px solid var(--navy); padding: 5px; font-family: var(--display); font-weight: 800; font-size: 13px; text-transform: uppercase; }
 .seg input:checked + span { background: var(--navy); color: var(--yellow); }
 .seg input:focus-visible + span { outline: 3px solid var(--yellow); }
+.f__c > .seg span { height: 44px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
 .checklist { display: flex; flex-wrap: wrap; gap: 8px; }
 .checklist label { display: inline-flex; align-items: center; gap: 8px; border: 2px solid var(--navy); padding: 5px 10px; font-family: var(--display); font-weight: 800; font-size: 14px; background: var(--paper); cursor: pointer; text-transform: uppercase; letter-spacing: .03em; }
 .checklist input { accent-color: var(--navy); }
@@ -511,7 +550,7 @@ details.card[open] > summary { border-bottom: 2px solid var(--navy); }
 code { font-size: .9em; background: var(--cream); padding: 1px 4px; }
 
 /* Composition (fiche match) */
-.lhead, .lrow { display: grid; grid-template-columns: 92px 42px minmax(150px, 1fr) 26px 78px 100px 76px 28px; gap: 6px; align-items: center; }
+.lhead, .lrow { display: grid; grid-template-columns: 118px 42px minmax(150px, 1fr) 26px 78px 100px 76px 28px; gap: 6px; align-items: center; }
 .lhead { padding: 0 86px 4px 10px; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .lhead > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lhead > span:last-child { overflow: visible; }
@@ -523,7 +562,7 @@ a.lstate:hover { background: var(--yellow); }
 /* La ligne passe sur deux lignes, puis quatre, quand la colonne est étroite. */
 .lineup-ed { container: lineup / inline-size; }
 @container lineup (max-width: 745px) {
-  .lhead, .lrow { grid-template-columns: 92px 42px minmax(0, 1fr) minmax(0, 1fr) 26px 28px; grid-template-areas: "pos num name name cap fiche" "goals goals sub cards cards cards"; }
+  .lhead, .lrow { grid-template-columns: 118px 42px minmax(0, 1fr) minmax(0, 1fr) 26px 28px; grid-template-areas: "pos num name name cap fiche" "goals goals sub cards cards cards"; }
   .lhead { row-gap: 0; }
   .lhead > :nth-child(1) { grid-area: pos; }
   .lhead > :nth-child(2) { grid-area: num; }

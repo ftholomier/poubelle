@@ -25,7 +25,7 @@
     <article class="shopcard" data-sort-item data-id="<?= e($m['id']) ?>">
       <span class="shopcard__grip" data-handle role="button" tabindex="0" title="Glisser pour déplacer" aria-label="Déplacer « <?= e($m['name']) ?> »">✥</span>
       <span class="shopcard__st shopcard__st--<?= $st[0] ?>"><?= e($st[1]) ?></span>
-      <?php if (\App\Shop\Catalog::unique($m)): ?><span class="shopcard__uniq" title="Anecdote tirée pour un seul client, ou poster dédicacé et numéroté : chaque exemplaire est unique">★ Pièce unique</span><?php endif; ?>
+      <?php if (\App\Shop\Catalog::unique($m)): ?><span class="shopcard__uniq" title="Anecdote tirée pour un seul client, poster dédicacé et numéroté ou carte du carnet du supporter : chaque exemplaire est unique">★ Pièce unique</span><?php endif; ?>
       <a class="shopcard__img" href="<?= $u ?>" draggable="false"><?= $previews[$m['id']] ?? '' ?></a>
       <div class="shopcard__body">
         <a class="shopcard__t" href="<?= $u ?>"><?= e($m['name']) ?></a>

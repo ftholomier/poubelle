@@ -9,7 +9,7 @@ return [
 <ul>
 <li><b>Date</b> (jj/mm/aaaa) : elle range le match dans sa saison et dans « Ce jour-là ».</li>
 <li><b>Compétition</b> (famille : championnat, Coupe de France…) et son <b>libellé</b> exact (« Ligue 2 », « 32e de finale »…), <b>Journée / tour</b>.</li>
-<li><b>Domicile / extérieur</b> et <b>Adversaire</b> : choisissez l’adversaire dans la liste proposée pour que son logo et le face-à-face suivent.</li>
+<li><b>Sochaux joue à</b> (domicile ou extérieur) et <b>Adversaire</b> : choisissez l’adversaire dans la liste proposée pour que son logo et le face-à-face suivent.</li>
 <li><b>Stade</b>, <b>Spectateurs</b> (en chiffres), <b>Arbitre</b>.</li>
 </ul>
 [[img:match-infos.webp|L’onglet Infos d’une fiche match]]
@@ -20,7 +20,7 @@ return [
 HTML],
         ['id' => 'score', 'title' => '2. Le score et les buteurs', 'html' => <<<'HTML'
 <ul>
-<li><b>Buts équipe à domicile / à l’extérieur</b> : l’indication grise rappelle laquelle est Sochaux.</li>
+<li><b>Buts à domicile / à l’extérieur</b> : l’indication grise rappelle laquelle est Sochaux.</li>
 <li><b>Prolongation</b> : « Après prolongation » ou « Tirs au but » (deux champs apparaissent alors pour la séance).</li>
 <li><b>Buts par équipe</b> : une ligne par équipe, avec les buteurs et les minutes (« Prat 33’, Thomas 78’ »). Indiquez « (csc) » pour un but contre son camp.</li>
 </ul>

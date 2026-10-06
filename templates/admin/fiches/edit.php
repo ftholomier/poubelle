@@ -31,7 +31,7 @@ $visible = Fiches::isVisible($doc);
 $last = $versions[0] ?? null;
 $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' => 'Relue ✓', 'stale' => 'À revoir'][$enStatus] ?? '';
 ?>
-<form class="editor" data-json-form data-tabs-scope data-url="/admin/fiche/<?= $id ?: 0 ?>/enregistrer" data-modified="<?= e((string) ($doc['modified'] ?? '')) ?>" data-draft="fiche-<?= $id ?: 'nouvelle-' . e($type) ?>"<?php if (!empty($lock)): ?> data-lock="<?= e($lock['key']) ?>" data-lock-tab="<?= e($lock['tab']) ?>" data-lock-state="<?= $lock['holder'] ? 'other' : 'mine' ?>"<?php endif; ?> novalidate>
+<form class="editor<?= $isNew ? ' is-new' : '' ?>" data-json-form data-tabs-scope data-url="/admin/fiche/<?= $id ?: 0 ?>/enregistrer" data-modified="<?= e((string) ($doc['modified'] ?? '')) ?>" data-draft="fiche-<?= $id ?: 'nouvelle-' . e($type) ?>"<?php if (!empty($lock)): ?> data-lock="<?= e($lock['key']) ?>" data-lock-tab="<?= e($lock['tab']) ?>" data-lock-state="<?= $lock['holder'] ? 'other' : 'mine' ?>"<?php endif; ?> novalidate>
   <?php if (!empty($lock)): $h = $lock['holder']; ?>
     <div class="lockbar"<?= $h ? '' : ' hidden' ?> data-lockbar role="status"><?php if ($h): ?><span class="lockbar__t">🔒 <b><?= e($h['name']) ?></b> modifie cette fiche depuis <?= e($h['since']) ?><?= $h['idle'] >= 5 ? ' (sans activité depuis ' . (int) $h['idle'] . ' min)' : '' ?>. Vous êtes en lecture seule.</span><button type="button" class="btn btn--sm btn--navy" data-lock-take>Prendre la main</button><?php endif; ?></div>
   <?php endif; ?>

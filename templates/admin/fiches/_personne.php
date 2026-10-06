@@ -18,7 +18,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
 <div class="fpanel" data-panel="identite">
   <div class="card card--pad">
     <h2 class="card__t">Identité</h2>
-    <div class="fgrid">
+    <div class="fgrid fgrid--4">
       <?= Form::text('personne.first_name', 'Prénom', $p['first_name'] ?? '') ?>
       <?= Form::text('personne.last_name', 'Nom', $p['last_name'] ?? '', ['required' => true]) ?>
       <?= Form::text('personne.display_name', 'Nom affiché', $p['display_name'] ?? '', ['hint' => 'auto si vide']) ?>
@@ -26,7 +26,8 @@ $matches = $pid ? Derived::personMatches($pid) : [];
     </div>
     <?= Form::lines('personne.aliases', 'Autres graphies dans les compositions', (array) ($p['aliases'] ?? []), ['placeholder' => 'ex. CAMARA Razza', 'add' => 'Ajouter une graphie', 'help' => 'Les compositions qui écrivent le nom ainsi seront reliées à cette fiche (« Joueurs sans fiche » dans Qualité).']) ?>
     <?= Form::checks('personne.roles', 'Rubriques', $p['roles'] ?? ['joueur'], FicheForm::ROLES, ['help' => 'La première rubrique cochée détermine l’adresse de la fiche (/joueurs/…, /entraineurs/…).']) ?>
-    <div class="fgrid">
+    <h3 class="fsec">Profil</h3>
+    <div class="fgrid fgrid--4">
       <?= Form::text('personne.position', 'Poste (texte)', $p['position'] ?? '', ['placeholder' => 'défenseur latéral droit', 'class' => 'f--2', 'proof' => true]) ?>
       <?= Form::select('personne.line', 'Ligne (filtres, terrain)', $p['line'] ?? '', FicheForm::LINES) ?>
       <?= Form::text('personne.nationality', 'Nationalité', $p['nationality'] ?? '') ?>
@@ -40,7 +41,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
   <div class="cols">
     <div class="card card--pad">
       <h2 class="card__t">Naissance</h2>
-      <div class="fgrid">
+      <div class="fgrid fgrid--2c">
         <?= Form::text('personne.birth_date', 'Date', $dt($birth['date'] ?? null), ['placeholder' => '8 décembre 1964 ou 12/1964', 'missing' => empty($birth['date'])]) ?>
         <?= Form::text('personne.birth_city', 'Ville', $place['city'] ?? '', ['missing' => empty($place['city'])]) ?>
         <?= Form::text('personne.birth_department', 'Département', $place['department'] ?? '', ['placeholder' => '25']) ?>
@@ -52,7 +53,7 @@ $matches = $pid ? Derived::personMatches($pid) : [];
     </div>
     <div class="card card--pad">
       <h2 class="card__t">Décès</h2>
-      <div class="fgrid">
+      <div class="fgrid fgrid--2c">
         <?= Form::text('personne.death_date', 'Date', $dt($death['date'] ?? null)) ?>
         <?= Form::text('personne.death_place', 'Lieu', $death['place']['text'] ?? '') ?>
       </div>
@@ -71,27 +72,29 @@ $matches = $pid ? Derived::personMatches($pid) : [];
   </div>
   <div class="card card--pad">
     <h2 class="card__t">Carte de l’album du centenaire</h2>
-    <div class="fgrid">
+    <div class="fgrid fgrid--4">
       <?= Form::toggle('personne.album.in', 'Dans l’album', !empty($p['album']['in'])) ?>
-      <?= Form::seg('personne.album.rarity', 'Rareté', $p['album']['rarity'] ?? '', ['' => 'Auto'] + FicheForm::RARITIES, ['help' => 'Auto : légende, actuel ou classique selon la carrière.']) ?>
+      <?= Form::seg('personne.album.rarity', 'Rareté', $p['album']['rarity'] ?? '', ['' => 'Auto'] + FicheForm::RARITIES, ['class' => 'f--2']) ?>
       <?= Form::number('personne.album.number', 'Numéro de la carte', $p['album']['number'] ?? null, ['hint' => '1 à 120']) ?>
     </div>
-    <span class="f__help">La carte se débloque en visitant la fiche (ou via le quiz pour les cartes rares).</span>
+    <span class="f__help">Rareté « Auto » : légende, actuel ou classique selon la carrière. La carte se débloque en visitant la fiche (ou via le quiz pour les cartes rares).</span>
   </div>
 </div>
 
 <div class="fpanel" data-panel="carriere">
   <div class="card card--pad">
     <h2 class="card__t">Au club</h2>
-    <div class="fgrid">
+    <h3 class="fsec">Dates</h3>
+    <div class="fgrid fgrid--3">
       <?= Form::text('personne.arrival', 'Arrivée (joueur)', $dt($p['arrival'] ?? null), ['placeholder' => 'juillet 1980']) ?>
       <?= Form::text('personne.departure', 'Départ (joueur)', $dt($p['departure'] ?? null), ['placeholder' => 'juin 1992']) ?>
+      <?= Form::text('personne.trial', 'Période d’essai', $dt($p['trial'] ?? null)) ?>
       <?= Form::text('personne.arrival_coach', 'Arrivée (entraîneur)', $dt($p['arrival_coach'] ?? null)) ?>
       <?= Form::text('personne.departure_coach', 'Départ (entraîneur)', $dt($p['departure_coach'] ?? null)) ?>
-      <?= Form::text('personne.trial', 'Période d’essai', $dt($p['trial'] ?? null)) ?>
     </div>
     <span class="f__help">Dates partielles acceptées : « 1980 », « 07/1980 », « juillet 1980 », « 12 juillet 1980 ». Elles alimentent les filtres par décennie, la carto et les records.</span>
-    <div class="fgrid fgrid--2">
+    <h3 class="fsec">Matchs repères</h3>
+    <div class="fgrid fgrid--3">
       <?= Form::text('personne.first_match', 'Premier match', $p['first_match'] ?? '') ?>
       <?= Form::text('personne.last_match', 'Dernier match', $p['last_match'] ?? '') ?>
       <?= Form::text('personne.first_goal', 'Premier but', $p['first_goal'] ?? '') ?>
@@ -102,17 +105,17 @@ $matches = $pid ? Derived::personMatches($pid) : [];
   <div class="cols">
     <div class="card card--pad">
       <h2 class="card__t">Palmarès</h2>
-      <?= Form::repeater('personne.honours', '', $p['honours'] ?? [], fn ($h) => Form::text('@_', 'Titre', is_string($h) ? $h : '', ['placeholder' => 'Vainqueur de la Coupe Gambardella en 1983', 'proof' => true]), ['compact' => true, 'scalar' => true, 'add' => 'Ajouter un titre']) ?>
+      <?= Form::repeater('personne.honours', '', $p['honours'] ?? [], fn ($h) => Form::text('@_', 'Titre', is_string($h) ? $h : '', ['placeholder' => 'Vainqueur de la Coupe Gambardella en 1983', 'proof' => true]), ['compact' => true, 'rows' => true, 'scalar' => true, 'add' => 'Ajouter un titre']) ?>
     </div>
     <div class="card card--pad">
       <h2 class="card__t">Après Sochaux</h2>
-      <?= Form::repeater('personne.then', '', $p['then'] ?? [], fn ($h) => Form::text('@_', 'Étape', is_string($h) ? $h : '', ['proof' => true]), ['compact' => true, 'scalar' => true, 'add' => 'Ajouter une étape']) ?>
+      <?= Form::repeater('personne.then', '', $p['then'] ?? [], fn ($h) => Form::text('@_', 'Étape', is_string($h) ? $h : '', ['proof' => true]), ['compact' => true, 'rows' => true, 'scalar' => true, 'add' => 'Ajouter une étape']) ?>
     </div>
   </div>
   <div class="card card--pad">
     <h2 class="card__t">Fiche d’identité (tableau d’origine)</h2>
     <p class="small muted" style="margin:0">Lignes affichées telles quelles dans l’encadré « Fiche d’identité ». Laissez le libellé vide pour une ligne de texte libre.</p>
-    <?= Form::repeater('personne.fiche', '', $p['fiche'] ?? [], fn ($r) => '<div class="fgrid">' . Form::text('@label', 'Libellé', $r['label'] ?? '', ['placeholder' => 'Né le', 'proof' => true]) . Form::text('@value', 'Valeur', $r['value'] ?? '', ['class' => 'f--2', 'proof' => true]) . '</div>', ['compact' => true, 'add' => 'Ajouter une ligne']) ?>
+    <?= Form::repeater('personne.fiche', '', $p['fiche'] ?? [], fn ($r) => '<div class="fgrid fgrid--3">' . Form::text('@label', 'Libellé', $r['label'] ?? '', ['placeholder' => 'Né le', 'proof' => true]) . Form::text('@value', 'Valeur', $r['value'] ?? '', ['class' => 'f--2', 'proof' => true]) . '</div>', ['compact' => true, 'rows' => true, 'add' => 'Ajouter une ligne']) ?>
   </div>
   <div class="card card--pad">
     <h2 class="card__t">Matchs marquants</h2>

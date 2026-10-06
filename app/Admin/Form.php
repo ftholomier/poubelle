@@ -30,7 +30,8 @@ final class Form
             . (!empty($o['hint']) ? ' <i>' . e($o['hint']) . '</i>' : '') . '</span>';
         $help = !empty($o['help']) ? '<span class="f__help">' . $o['help'] . '</span>' : '';
         $attrs = !empty($o['show_if']) ? ' data-show-if="' . e($o['show_if']) . '"' . (isset($o['show_value']) ? ' data-show-value="' . e($o['show_value']) . '"' : '') : '';
-        return '<div class="' . $cls . '"' . $attrs . '>' . $k . $control . $help . '</div>';
+        // Libellé puis bloc champ + aide : dans une grille, les champs d'une même ligne s'alignent (voir .fgrid).
+        return '<div class="' . $cls . '"' . $attrs . '>' . $k . '<div class="f__c">' . $control . $help . '</div></div>';
     }
 
     private static function attrs(array $o): string
@@ -148,7 +149,7 @@ final class Form
     public static function toggle(string $name, string $label, bool $checked, array $o = []): string
     {
         $help = !empty($o['help']) ? '<span class="f__help">' . $o['help'] . '</span>' : '';
-        return '<div class="f' . (!empty($o['class']) ? ' ' . $o['class'] : '') . '"><label class="toggle"><input type="checkbox"' . self::nameAttr($name) . ($checked ? ' checked' : '') . '><span class="toggle__box"></span><span>' . e($label) . '</span></label>' . $help . '</div>';
+        return '<div class="f f--check' . (!empty($o['class']) ? ' ' . $o['class'] : '') . '"><div class="f__c"><label class="toggle"><input type="checkbox"' . self::nameAttr($name) . ($checked ? ' checked' : '') . '><span class="toggle__box"></span><span>' . e($label) . '</span></label>' . $help . '</div></div>';
     }
 
     /** Choix exclusif en boutons (segmenté). */

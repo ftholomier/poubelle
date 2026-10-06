@@ -19,15 +19,22 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
         <ul style="margin:6px 0"><?php foreach ($issues as $i): ?><li><?= e($i['msg']) ?></li><?php endforeach; ?></ul>
         La page du match affiche la date et la journée saisies ci-dessous : corrigez-les si l’ancien texte avait raison. À l’enregistrement, l’ancien texte est remplacé (il reste dans l’Historique).</div>
     <?php endif; ?>
-    <div class="fgrid">
+    <h3 class="fsec">La rencontre</h3>
+    <div class="fgrid fgrid--4">
       <?= Form::text('match.date', 'Date', $m['date'] ?? '', ['type' => 'date', 'hint' => 'saison calculée']) ?>
       <?= Form::select('match.competition', 'Compétition', $m['competition'] ?? 'Championnat', $comps) ?>
-      <?= Form::text('match.competition_label', 'Libellé', $m['competition_label'] ?? '', ['hint' => 'ex. Division 1, Ligue 2', 'list' => 'dl-comp-labels']) ?>
+      <?= Form::text('match.competition_label', 'Libellé', $m['competition_label'] ?? '', ['placeholder' => 'Division 1, Ligue 2…', 'list' => 'dl-comp-labels']) ?>
       <?= Form::text('match.round', 'Journée / tour', $m['round'] ?? '', ['placeholder' => 'J15, 8e de finale…']) ?>
-      <?= Form::seg('match.venue', 'Domicile / extérieur', $home ? 'domicile' : 'exterieur', ['domicile' => 'Domicile', 'exterieur' => 'Extérieur']) ?>
+    </div>
+    <h3 class="fsec">Les équipes</h3>
+    <div class="fgrid fgrid--4">
+      <?= Form::seg('match.venue', 'Sochaux joue à', $home ? 'domicile' : 'exterieur', ['domicile' => 'Domicile', 'exterieur' => 'Extérieur']) ?>
       <?= Form::text('match.opponent', 'Adversaire', $opp['name'] ?? '', ['ac' => 'clubs', 'hint' => '→ face-à-face', 'required' => true]) ?>
-      <?= Form::text('match.opponent_level', 'Niveau adversaire', $opp['level'] ?? '', ['placeholder' => 'D1, L2 Sui…']) ?>
       <?= Form::text('match.sochaux_level', 'Niveau Sochaux', $us['level'] ?? '', ['placeholder' => 'D1, L2…']) ?>
+      <?= Form::text('match.opponent_level', 'Niveau adversaire', $opp['level'] ?? '', ['placeholder' => 'D1, L2 Sui…']) ?>
+    </div>
+    <h3 class="fsec">Lieu et officiels</h3>
+    <div class="fgrid fgrid--4">
       <?= Form::text('match.stadium', 'Stade', $m['stadium'] ?? '', ['ac' => 'stades', 'hint' => '→ carto', 'class' => 'f--2']) ?>
       <?= Form::number('match.spectators', 'Spectateurs', $m['spectators'] ?? null) ?>
       <?= Form::text('match.referee', 'Arbitre', $m['referee'] ?? '', ['missing' => empty($m['referee'])]) ?>
@@ -35,16 +42,20 @@ $comps = array_combine(FicheForm::COMPETITIONS, FicheForm::COMPETITIONS);
   </div>
   <div class="card card--pad">
     <h2 class="card__t">Score</h2>
-    <div class="fgrid">
-      <?= Form::number('match.score_home', 'Buts équipe à domicile', $s['home'] ?? null, ['hint' => $home ? 'Sochaux' : 'adversaire']) ?>
-      <?= Form::number('match.score_away', 'Buts équipe à l’extérieur', $s['away'] ?? null, ['hint' => $home ? 'adversaire' : 'Sochaux']) ?>
+    <div class="fgrid fgrid--4">
+      <?= Form::number('match.score_home', 'Buts à domicile', $s['home'] ?? null, ['hint' => $home ? 'Sochaux' : 'adversaire']) ?>
+      <?= Form::number('match.score_away', 'Buts à l’extérieur', $s['away'] ?? null, ['hint' => $home ? 'adversaire' : 'Sochaux']) ?>
       <?= Form::select('match.extra', 'Prolongation', FicheForm::extraKind($s), ['' => 'Non', 'ap' => 'Après prolongation', 'tab' => 'Tirs au but'], ['strict' => true]) ?>
-      <?= Form::number('match.pens_home', 'TAB domicile', $s['pens']['home'] ?? null, ['show_if' => 'match.extra', 'show_value' => 'tab']) ?>
-      <?= Form::number('match.pens_away', 'TAB extérieur', $s['pens']['away'] ?? null, ['show_if' => 'match.extra', 'show_value' => 'tab']) ?>
+      <div class="fpair" data-show-if="match.extra" data-show-value="tab">
+        <?= Form::number('match.pens_home', 'TAB dom.', $s['pens']['home'] ?? null) ?>
+        <?= Form::number('match.pens_away', 'TAB ext.', $s['pens']['away'] ?? null) ?>
+      </div>
     </div>
+    <h3 class="fsec">Buteurs</h3>
     <?= Form::text('match.goals_text', 'Buteurs (texte de l’en-tête)', $m['goals_text'] ?? '', ['class' => 'f--full', 'placeholder' => "Prat 33' pour Sochaux ; Robert 57' pour Nantes"]) ?>
     <?= Form::repeater('match.goals', 'Buts par équipe', $m['goals'] ?? [], fn ($g) => '<div class="fgrid">' . Form::text('@team', 'Équipe', $g['team'] ?? '') . Form::text('@scorers', 'Buteurs', $g['scorers'] ?? '', ['class' => 'f--2', 'placeholder' => "Prat 33', Thomas 78'"]) . '</div>', ['compact' => true, 'add' => 'Ajouter une équipe']) ?>
     <?= Form::lines('match.header_extra', 'Lignes complémentaires de l’en-tête', $m['header_extra'] ?? [], ['help' => 'Une information par ligne (ex. « Ruiz 38’, Alphonse 83’ pour Sochaux. »).']) ?>
+    <h3 class="fsec">Particularité</h3>
     <?= Form::text('match.event', 'Événement (match particulier)', $m['event'] ?? '', ['class' => 'f--full', 'placeholder' => 'ex. Inauguration du nouveau stade Bonal', 'proof' => true]) ?>
   </div>
 </div>
