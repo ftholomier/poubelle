@@ -88,21 +88,6 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
 
 <div class="wrap rdgridm">
   <div class="rdmain">
-    <?php if ($mode !== 'replay' && \App\Core\Auth::user()): ?>
-    <div class="rdteam" data-rd-team>
-      <p class="rdteam__t"><b>Mode test</b> · équipe connectée, dans ce navigateur seulement : le public suit toujours l’heure réelle.</p>
-      <div class="rdteam__row">
-        <button type="button" class="qbtn qbtn--sm" data-rd-team-replay>↺ Rejouer depuis le coup d’envoi</button>
-        <div class="rdctrl__speeds" role="radiogroup" aria-label="Vitesse">
-          <?php foreach ([1, 10, 60] as $x): ?><button type="button" role="radio" class="rdctrl__speed" data-rd-team-speed="<?= $x ?>" aria-checked="<?= $x === 1 ? 'true' : 'false' ?>">×<?= $x ?></button><?php endforeach; ?>
-        </div>
-        <button type="button" class="linkbtn" data-rd-team-plus>+5 min</button>
-        <button type="button" class="linkbtn" data-rd-team-next>Temps fort suivant ⏭</button>
-        <button type="button" class="linkbtn" data-rd-team-live>Revenir au direct</button>
-      </div>
-      <p class="rdteam__state" data-rd-team-state></p>
-    </div>
-    <?php endif; ?>
     <?php if ($mode === 'upcoming'): ?>
     <div class="rdcount" data-rd-countdown>
       <span class="rdcount__k"><?= e(t('Coup d’envoi')) ?> <?= e($when) ?></span>
@@ -165,6 +150,18 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
   </div>
 
   <aside class="rdside">
+    <?php if ($mode !== 'replay' && \App\Core\Auth::user()): ?>
+    <div class="rdteam" data-rd-team>
+      <p class="rdteam__t"><b>Mode test</b> · équipe connectée, dans ce navigateur seulement : le public suit toujours l’heure réelle.</p>
+      <p class="rdteam__live"><b data-rd-mini-clock>00:00</b> <span><?= e($home) ?> <b data-rd-mini-score>–</b> <?= e($away) ?></span></p>
+      <div class="rdteam__row">
+        <button type="button" class="qbtn qbtn--sm" data-rd-team-next>Temps fort suivant ⏭</button>
+        <button type="button" class="btn btn--ghost" data-rd-team-replay>↺ Rejouer depuis le coup d’envoi</button>
+        <button type="button" class="linkbtn" data-rd-team-live>Revenir au direct</button>
+      </div>
+      <p class="rdteam__state" data-rd-team-state></p>
+    </div>
+    <?php endif; ?>
     <div class="rdetais" data-rd-etais-box>
       <h2 class="h-3"><?= e(t('Vous étiez au stade ?')) ?></h2>
       <p class="rdetais__n" data-rd-etais-n><?= $etais ? e($etais > 1 ? t('{n} supporters y étaient', ['n' => $etais]) : t('{n} supporter y était', ['n' => $etais])) : e(t('Soyez le premier à le dire !')) ?></p>

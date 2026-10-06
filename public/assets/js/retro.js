@@ -31,6 +31,7 @@
   const sc = [$('[data-rd-s="0"]', root), $('[data-rd-s="1"]', root)];
   const extra = $('[data-rd-extra]'), bar = $('[data-rd-bar]'), fill = $('[data-rd-bar-fill]');
   const wait = $('[data-rd-wait]'), after = $('[data-rd-after]'), photos = $('[data-rd-photos]');
+  const miniClock = $('[data-rd-mini-clock]'), miniScore = $('[data-rd-mini-score]');
   const t0 = performance.now(), serverAt = D.now;
   const serverNow = () => serverAt + (performance.now() - t0) / 1000;
 
@@ -239,6 +240,8 @@
     setScore(started ? score : ['–', '–'], live && fresh.some(([x]) => x.type === 'goal'));
     const [c, p] = clockAt(e);
     clock.textContent = e < 0 && D.mode === 'replay' ? '00:00' : c;
+    // Rappel du chrono et du score dans le pavé du mode test (à côté du fil).
+    if (miniClock) { miniClock.textContent = c || '00:00'; miniScore.textContent = started ? score[0] + ' - ' + score[1] : '–'; }
     if (p !== lastPhase) { lastPhase = p; phase.textContent = phaseLabel(p); }
     if (bar) { bar.hidden = !started; fill.style.width = Math.min(100, Math.max(0, e / M.end * 100)) + '%'; }
     const end = ev[ev.length - 1];
@@ -287,12 +290,9 @@
       setInterval(() => { if (spd > 1) tick(false); }, 200);
       const state = $('[data-rd-team-state]', tb);
       const show = () => {
-        $$('[data-rd-team-speed]', tb).forEach(b => b.setAttribute('aria-checked', +b.dataset.rdTeamSpeed === spd ? 'true' : 'false'));
         const m = Math.round(Math.abs(off) / 60);
         state.textContent = Math.abs(off) < 30 ? 'Vous suivez le direct à l’heure réelle.' : off > 0 ? 'Vous êtes en avance de ' + m + ' min sur le direct.' : 'Vous êtes en retard de ' + m + ' min sur le direct.';
       };
-      $$('[data-rd-team-speed]', tb).forEach(b => b.addEventListener('click', () => { spd = +b.dataset.rdTeamSpeed; show(); }));
-      $('[data-rd-team-plus]', tb).addEventListener('click', () => { off += 300; show(); tick(false); });
       $('[data-rd-team-next]', tb).addEventListener('click', () => {
         const e = elapsed(), n = ev.find(x => x.t > e + 0.5 && x.type !== 'kickoff');
         off += (n ? n.t : M.end) - e;

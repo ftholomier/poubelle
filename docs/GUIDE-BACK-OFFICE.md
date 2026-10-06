@@ -280,8 +280,9 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   ambiance de stade (environ 15 centimes par match, une fois) ; les visiteurs l'écoutent avec
   « Écouter le commentaire radio » (une ligne dit si le reporter parle ou quand il reprend).
   « À refaire » si les buts ou les minutes de la fiche changent. **Tester un direct** :
-  connecté, la page du direct affiche une barre « Mode test » (pour vous seul) : Rejouer
-  depuis le coup d'envoi, ×10, ×60, +5 min, temps fort suivant, revenir au direct.
+  connecté, la page du direct affiche à droite du fil un pavé « Mode test » (pour vous seul,
+  toujours visible) : chrono et score, temps fort suivant, rejouer depuis le coup d'envoi,
+  revenir au direct.
 - **Quiz du club-house** : une soirée quiz en direct. « Nouvelle partie » (6 à 30 questions,
   15, 20 ou 30 secondes, questions du quiz du site et/ou des fiches de match, français ou
   anglais) donne un code à 5 chiffres ; « Ouvrir le grand écran » sur l'ordinateur relié à la
