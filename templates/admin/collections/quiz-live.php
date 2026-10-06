@@ -1,5 +1,8 @@
 <?php
-/** Interactif › Quiz du club-house. Variables : $games (QuizLive::all), $new (code de la partie qui vient d'être créée) */
+/**
+ * Interactif › Quiz du club-house. Variables : $games (QuizLive::all), $new (code de la partie qui vient
+ * d'être créée), $season, $ranking (QuizChampionship::ranking), $stats, $banned (joueurs exclus)
+ */
 use App\Admin\QuizClub;
 
 $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en cours', 'ok'], 'reveal' => ['Réponse affichée', 'ok'], 'board' => ['Classement', 'ok'], 'end' => ['Terminée', 'brouillon']];
@@ -29,6 +32,7 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
         <div class="f"><span class="f__k"><label for="ql-l">Langue</label></span>
           <select id="ql-l" class="in" name="langue"><option value="fr" selected>Français</option><option value="en">Anglais</option></select></div>
       </div>
+      <label class="small"><input type="checkbox" name="amicale" value="1"> Partie amicale : elle ne compte pas au championnat (essai, démonstration)</label>
       <div><button type="submit" class="btn btn--navy">Créer la partie</button></div>
     </form>
   </section>
@@ -50,7 +54,7 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
   <div class="card__head"><h2 class="card__t">Parties</h2></div>
   <div class="table" style="border:0">
     <table>
-      <thead><tr><th>Code</th><th>Créée</th><th>Questions</th><th>Joueurs</th><th>État</th><th></th></tr></thead>
+      <thead><tr><th>Code</th><th>Créée</th><th>Questions</th><th>Joueurs</th><th>État</th><th>Championnat</th><th></th></tr></thead>
       <tbody>
       <?php foreach ($games as $g): [$st, $tone] = $phases[$g['phase']] ?? ['—', 'info']; ?>
         <tr<?= $g['code'] === $new ? ' style="background:var(--butter,#FFF3C2)"' : '' ?>>
@@ -59,6 +63,7 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
           <td class="small"><?= (int) $g['n'] ?> × <?= (int) $g['duration'] ?> s<?= $g['idx'] >= 0 && $g['phase'] !== 'end' ? '<br><span class="xs muted">question ' . ((int) $g['idx'] + 1) . '</span>' : '' ?></td>
           <td class="small"><?= (int) $g['players'] ?></td>
           <td><span class="pill pill--<?= e($tone) ?>"><?= e($st) ?></span></td>
+          <td class="small"><?= $g['friendly'] ? 'amicale' : ($g['counted'] === true ? 'comptée' : ($g['counted'] === false ? 'non comptée' : 'comptera')) ?></td>
           <td class="nowrap">
             <a class="btn btn--navy btn--sm" href="<?= e(QuizClub::screenUrl($g)) ?>" target="_blank" rel="noopener">Ouvrir le grand écran ↗</a>
             <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Effacer la partie <?= e($g['code']) ?> ?|Les joueurs ne pourront plus répondre.|Effacer|danger">
@@ -68,8 +73,41 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
           </td>
         </tr>
       <?php endforeach; ?>
-      <?php if (!$games): ?><tr><td colspan="6" class="muted" style="padding:20px;text-align:center">Aucune partie en cours.</td></tr><?php endif; ?>
+      <?php if (!$games): ?><tr><td colspan="7" class="muted" style="padding:20px;text-align:center">Aucune partie en cours.</td></tr><?php endif; ?>
       </tbody>
     </table>
   </div>
+</section>
+
+<section class="card" id="championnat">
+  <div class="card__head"><h2 class="card__t">Championnat <?= e($season) ?></h2><span class="card__note"><?= (int) $stats['games'] ?> partie<?= $stats['games'] > 1 ? 's' : '' ?> comptée<?= $stats['games'] > 1 ? 's' : '' ?> · <?= (int) $stats['players'] ?> joueur<?= $stats['players'] > 1 ? 's' : '' ?> classé<?= $stats['players'] > 1 ? 's' : '' ?> · <a href="<?= e(url('/interactif/quiz-live/championnat/')) ?>" target="_blank" rel="noopener">page publique ↗</a></span></div>
+  <p class="card__body small" style="margin:0">Seuls les joueurs qui ont laissé leur e-mail (compte du carnet du supporter, lien sécurisé) comptent ; les invités jouent sans points. Points par partie selon le rang : <?= e(implode(', ', array_map(fn ($p) => (string) ($p + 1), \App\Services\QuizChampionship::SCALE))) ?>, puis 1 point de participation ; une partie compte à partir de <?= \App\Services\QuizChampionship::MIN_PLAYERS ?> joueurs. Nouveau classement chaque 1er août. Aucun e-mail n’est affiché ici.</p>
+  <div class="table" style="border:0">
+    <table>
+      <thead><tr><th>#</th><th>Pseudo</th><th class="t-num">Points</th><th class="t-num">Parties</th><th class="t-num">Victoires</th><th class="t-num">Podiums</th><th></th></tr></thead>
+      <tbody>
+      <?php foreach (array_slice($ranking, 0, 100) as $r): ?>
+        <tr>
+          <td><b><?= (int) $r['rank'] ?></b></td><td><?= e($r['pseudo']) ?></td><td class="t-num"><b><?= (int) $r['pts'] ?></b></td><td class="t-num"><?= (int) $r['games'] ?></td><td class="t-num"><?= (int) $r['wins'] ?></td><td class="t-num"><?= (int) $r['podiums'] ?></td>
+          <td class="nowrap">
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Remplacer le pseudo « <?= e($r['pseudo']) ?> » ?|Il devient « Joueur 1234 » ; le joueur pourra en choisir un autre.|Remplacer">
+              <?= csrf_field() ?><input type="hidden" name="action" value="renommer"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs">Pseudo déplacé</button>
+            </form>
+            <form method="post" action="/admin/quiz-club-house" style="display:inline" data-confirm="Retirer « <?= e($r['pseudo']) ?> » du classement ?|Il pourra encore jouer, mais ses parties ne compteront plus.|Retirer|danger">
+              <?= csrf_field() ?><input type="hidden" name="action" value="exclure"><input type="hidden" name="joueur" value="<?= e($r['id']) ?>"><button type="submit" class="linkbtn xs ko">Retirer du classement</button>
+            </form>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      <?php if (!$ranking): ?><tr><td colspan="7" class="muted" style="padding:20px;text-align:center">Pas encore de partie comptée cette saison.</td></tr><?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+  <?php if ($banned): ?>
+  <div class="card__body small">Retirés du classement :
+    <?php foreach ($banned as $b): ?>
+      <form method="post" action="/admin/quiz-club-house" style="display:inline"><?= csrf_field() ?><input type="hidden" name="action" value="reintegrer"><input type="hidden" name="joueur" value="<?= e($b['id']) ?>"><b><?= e($b['pseudo']) ?></b> <button type="submit" class="linkbtn xs">réintégrer</button></form>
+    <?php endforeach; ?>
+  </div>
+  <?php endif; ?>
 </section>

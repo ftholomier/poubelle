@@ -11,6 +11,7 @@ $public = $c['public'] ? url('/carnet/p/' . $c['slug'] . '/') : '';
     <a class="btn btn--yellow" href="<?= e(url('/carnet/saisons/')) ?>"><?= e(t('Ajouter des matchs')) ?></a>
     <?php if ($s['n']): ?><a class="btn btn--ghost" href="<?= e(url('/carnet/carte.png')) ?>?telecharger=1"><?= e(t('Télécharger ma carte')) ?></a><?php endif; ?>
     <?php if (!empty($poster) && $s['n'] >= \App\Shop\CarnetPoster::MIN): ?><a class="btn btn--navy" href="<?= e($poster) ?>"><?= e(t('Mon poster « Ma vie en jaune et bleu »')) ?></a><?php endif; ?>
+    <?php if ($qr = \App\Services\QuizChampionship::rankOf($c['id'])): ?><a class="btn btn--ghost" href="<?= e(url('/interactif/quiz-live/championnat/')) ?>">★ <?= e(t('Championnat du club-house : {r}', ['r' => ordinal($qr['rank'])])) ?></a><?php endif; ?>
   </div>
 
   <?php if (!$s['n']): ?>

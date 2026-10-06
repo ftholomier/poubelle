@@ -140,7 +140,92 @@ $eq('liste du back-office', [count(Q::all()), Q::all()[0]['code'], Q::all()[0]['
 touch($file($code), time() - 90000);
 $eq('ménage : partie de plus de 24 h effacée', [Q::purge(), is_file($file($code))], [1, false]);
 
+// ------------------------------------------------------------------ championnat
+use App\Services\QuizChampionship as CH;
+use App\Services\Carnet;
+
+CH::$file = "$tmp/championnat.json";
+Carnet::$dir = "$tmp/carnets";
+$eq('saison : 1er août – 31 juillet', [CH::season(strtotime('2026-08-01')), CH::season(strtotime('2027-07-31')), CH::season(strtotime('2026-07-31'))], ['2026-2027', '2026-2027', '2025-2026']);
+$acc = fn (string $mail) => Carnet::create($mail)['carnet']['id'];
+[$u1, $u2, $u3] = [$acc('joueur1@example.org'), $acc('joueur2@example.org'), $acc('joueur3@example.org')];
+$eq('pseudo du championnat enregistré', [CH::setPseudo($u1, '  Le <b>Kop</b> '), CH::player($u1)['pseudo']], [null, 'Le bKop/b']);
+$eq('pseudo déjà pris (casse, espaces) refusé', is_string(CH::setPseudo($u2, 'le   bkop/b')), true);
+$eq('pseudo libre / pris', [CH::free('Mamie'), CH::free('LE BKOP/B'), CH::free('Le bKop/b', $u1)], [true, false, true]);
+CH::setPseudo($u2, 'Mamie Bonal');
+CH::setPseudo($u3, 'Zizou');
+$eq('points d’un rang', [CH::points(1), CH::points(2), CH::points(3), CH::points(7), CH::points(8), CH::points(40)], [11, 9, 7, 3, 1, 1]);
+
+// Une partie jouée jusqu'au bout : scores imposés, puis « Suivant » jusqu'au podium.
+$play = function (array $who, bool $friendly = false) use ($file, $reload) {
+    $r = Q::create(3, 15, 'fr', 'site', '', $friendly);
+    $code = $r['code'];
+    $pids = [];
+    foreach ($who as [$name, $cid, $score]) {
+        $j = Q::join($code, $name, $cid);
+        $pids[] = $j['pid'];
+    }
+    $g = json_decode((string) file_get_contents($file($code)), true);
+    foreach ($who as $k => [$name, $cid, $score]) {
+        $g['players'][$pids[$k]]['score'] = $score;
+    }
+    $g['phase'] = 'reveal';
+    $g['idx'] = 2;
+    file_put_contents($file($code), json_encode($g));
+    $reload($code);
+    $g = Q::next($code);
+    return [$code, $g, $pids];
+};
+[$c1, $g1, $p1] = $play([['Le bKop/b', $u1, 2500], ['Invité', null, 3000], ['Mamie Bonal', $u2, 900], ['Autre', null, 100]]);
+$eq('fin de partie : comptée au championnat', [$g1['phase'], $g1['counted']], ['end', true]);
+$rk = CH::ranking();
+$eq('points selon le rang (invités compris dans le rang)', array_map(fn ($r) => [$r['pseudo'], $r['pts'], $r['rank']], $rk), [['Le bKop/b', 9, 1], ['Mamie Bonal', 7, 2]]);
+$eq('mouvements : entrée au championnat', $g1['moves'], [$u1 => [null, 1], $u2 => [null, 2]]);
+$eq('une partie n’est comptée qu’une fois', [CH::record($g1)['counted'], CH::ranking()[0]['pts']], [false, 9]);
+$se = Q::screenState($g1);
+$eq('écran du podium : le championnat après la partie', [count($se['champ']), $se['champ'][0]['new'], $se['champ'][0]['here']], [2, true, true]);
+$ps = Q::playerState($g1, $p1[0]);
+$eq('téléphone : rang au championnat', [$ps['member'], $ps['champ']['rank'], $ps['champ']['pts']], [true, 1, 9]);
+$eq('téléphone d’un invité : pas de championnat', [Q::playerState($g1, $p1[1])['member'], Q::playerState($g1, $p1[1])['champ'] ?? null], [false, null]);
+[$c2, $g2] = $play([['Mamie Bonal', $u2, 5000], ['Zizou', $u3, 4000], ['Le bKop/b', $u1, 10]]);
+$eq('2e partie : Mamie passe devant, Zizou entre', array_map(fn ($r) => [$r['pseudo'], $r['pts'], $r['games'], $r['wins']], CH::ranking()), [['Mamie Bonal', 18, 2, 1], ['Le bKop/b', 16, 2, 0], ['Zizou', 9, 1, 0]]);
+$eq('mouvements de la 2e partie', $g2['moves'], [$u2 => [2, 1], $u1 => [1, 2], $u3 => [null, 3]]);
+[, $g3] = $play([['Zizou', $u3, 900], ['Mamie Bonal', $u2, 10], ['Xavier', null, 0]], true);
+$eq('partie amicale : pas comptée', [$g3['counted'], CH::stats()['games']], [false, 2]);
+[, $g4] = $play([['Zizou', $u3, 900], ['Mamie Bonal', $u2, 10]]);
+$eq('moins de 3 joueurs : pas comptée', [$g4['counted'], CH::stats()['games']], [false, 2]);
+$eq('écran : le championnat dans la salle d’attente', array_column(Q::screenState(Q::get(Q::create(3, 15, 'fr', 'site')['code']))['champ'], 'name'), ['Mamie Bonal', 'Le bKop/b', 'Zizou']);
+
+// Même compte qui revient, lien de l'e-mail ouvert pendant la partie.
+$r5 = Q::create(3, 15, 'fr', 'site');
+$a5 = Q::join($r5['code'], 'Zizou', $u3);
+$b5 = Q::join($r5['code'], 'Zizou', $u3);
+$eq('même compte sur un autre appareil : même place, nouveau jeton', [$a5['pid'] === $b5['pid'], count(Q::get($r5['code'])['players']), (bool) Q::player(Q::get($r5['code']), $b5['pid'], $b5['tok']), Q::player(Q::get($r5['code']), $a5['pid'], $a5['tok'])], [true, 1, true, null]);
+$c5 = Q::join($r5['code'], 'Nouveau', null, $u1);
+$eq('lien envoyé : joueur en attente', [Q::playerState(Q::get($r5['code']), $c5['pid'])['pending'], Q::playerState(Q::get($r5['code']), $c5['pid'])['member']], [true, false]);
+$eq('rattachement refusé pour un autre compte', Q::claim($r5['code'], $c5['pid'], $u2, 'Mamie Bonal'), false);
+$eq('lien ouvert : la partie compte pour ce compte', [Q::claim($r5['code'], $c5['pid'], $u1, 'Le bKop/b'), Q::get($r5['code'])['players'][$c5['pid']]['name'], Q::playerState(Q::get($r5['code']), $c5['pid'])['member']], [true, 'Le bKop/b', true]);
+
+// Back-office, suppression du compte.
+CH::ban($u2, true);
+$eq('joueur exclu : hors classement', array_column(CH::ranking(), 'pseudo'), ['Le bKop/b', 'Zizou']);
+CH::ban($u2, false);
+CH::resetPseudo($u3);
+$eq('pseudo déplacé remplacé', (bool) preg_match('/^Joueur \d{1,4}$/', CH::player($u3)['pseudo']), true);
+Carnet::delete($u1);
+$eq('compte supprimé : effacé du championnat', [CH::has($u1), in_array($u1, array_column(CH::ranking(), 'id'), true)], [false, false]);
+$old = Carnet::create('ancien@example.org')['carnet']['id'];
+$cf = Carnet::$dir . "/$old.json";
+$cd = json_decode((string) file_get_contents($cf), true);
+$cd['created'] = date('c', time() - 200 * 86400);
+file_put_contents($cf, json_encode($cd));
+\App\Core\JsonStore::forget($cf);
+CH::setPseudo($old, 'Ancien');
+$eq('ménage des carnets : un joueur actif du championnat est gardé', [Carnet::purge(), (bool) Carnet::get($old)], [0, true]);
+
 array_map('unlink', glob("$tmp/*") ?: []);
+array_map('unlink', glob("$tmp/carnets/*") ?: []);
+@rmdir("$tmp/carnets");
 @rmdir($tmp);
 echo $fail ? "\n$fail échec(s)\n" : "\nTout est bon.\n";
 exit($fail ? 1 : 0);

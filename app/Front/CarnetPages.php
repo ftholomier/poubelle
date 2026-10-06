@@ -26,7 +26,7 @@ final class CarnetPages
         return $res;
     }
 
-    private static function setCookie(string $credential): void
+    public static function setCookie(string $credential): void
     {
         setcookie(Carnet::COOKIE, $credential, [
             'expires' => time() + 400 * 86400, 'path' => '/', 'httponly' => true, 'samesite' => 'Lax',
@@ -83,6 +83,14 @@ final class CarnetPages
         }
         self::setCookie($credential);
         Carnet::confirm($c['id']);
+        // Lien demandé depuis le quiz du club-house : retour à la partie (ou au championnat).
+        $quiz = $req->str('quiz');
+        if (preg_match('/^\d{5}$/', $quiz)) {
+            return Response::redirect(url('/interactif/quiz-live/') . '?code=' . $quiz);
+        }
+        if ($quiz === 'championnat') {
+            return Response::redirect(url('/interactif/quiz-live/championnat/') . '?bienvenue=1');
+        }
         return Response::redirect(url('/carnet/') . '?bienvenue=1');
     }
 

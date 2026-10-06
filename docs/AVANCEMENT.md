@@ -599,6 +599,7 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Partie en direct : grand écran (salle d'attente avec QR code, question et compte à rebours, réponse avec répartition et rappel du match, classement, podium), téléphones des joueurs (code + pseudo, 4 réponses en couleurs et formes, verdict, points, rang), points selon la rapidité
 - [x] Questions sans IA : moitié quiz du site, moitié fabriquées à partir des grands matchs (score, année, adversaire, buteur), tirées au hasard à chaque partie
 - [x] Back-office Interactif › Quiz du club-house (créer, ouvrir le grand écran, effacer), anglais, aide et captures, confidentialité, tests (`tests/quizlive.php`)
+- [x] Championnat du club-house par saison : compte par e-mail et lien sécurisé (le compte du carnet du supporter), points selon le rang de chaque partie, invités sans points, classement sur le grand écran (salle d'attente, après le podium), page publique, partie amicale, modération (pseudo déplacé, retrait du classement)
 
 ## Documents de présentation (octobre 2026, mise à jour)
 - [x] Présentation `docs/sochaux-retro-presentation.pdf` : 53 pages (carnet du supporter, poster « Ma vie en jaune et bleu », « Prêt pour le lancement » avec les mesures de vitesse, page récapitulative à jour)

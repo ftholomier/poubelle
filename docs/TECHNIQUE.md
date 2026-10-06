@@ -796,8 +796,22 @@ chaque seconde (o2switch, PHP-FPM ; une lecture de fichier JSON par appel).
   QR code `Qr::svg`, 404 sans la bonne clé). Jeton du joueur gardé dans `localStorage`
   (`ql:{code}`) : un rechargement reprend la partie. API : `rejoindre` (limite 400/h par adresse,
   60 codes faux/h), `etat`, `repondre` (jeton du joueur), `ecran`, `suivant`, `retirer` (clé).
-- **Back-office** : Interactif › Quiz du club-house (`App\Admin\QuizClub`). Tests :
-  `tests/quizlive.php`.
+- **Championnat** (`App\Services\QuizChampionship`, `storage/quiz-championnat.json` : `players`
+  {id du carnet: pseudo unique, since, last, banned} et `seasons` {« 2026-2027 » : games, scores
+  {pts, games, wins, podiums, best}}). Identité = le compte du carnet du supporter (cookie
+  `sr_carnet`, lien sécurisé envoyé à l'e-mail, `Carnet::sendLink(…, $quiz)` : texte du quiz et
+  `/carnet/acces/{id.jeton}/?quiz={code|championnat}` qui ramène à la partie). Rejoindre :
+  compte ouvert → joue sous son pseudo (`players[pid].cid`, même compte = même place) ; nouvel
+  e-mail → compte créé et ouvert sur le téléphone ; e-mail connu → lien envoyé, joueur invité
+  avec `claim`, rattaché (`QuizLive::claim()`) dès que `etat` arrive avec le cookie de ce compte.
+  Fin de partie (`next()` → end) : `QuizChampionship::record()` une seule fois par partie
+  (clé code-created), si ≥ 3 joueurs et pas `friendly` ; points = `SCALE[rang-1]` + 1, rang de la
+  partie invités compris ; `moves` (rang avant/après) gardé dans la partie pour l'écran.
+  Saison du 1er août au 31 juillet. Page `/interactif/quiz-live/championnat/` (hors cache),
+  API `championnat` (inscription ou pseudo). Carnet supprimé → `forget()` ; ménage des carnets :
+  un joueur qui a joué dans l'année est gardé.
+- **Back-office** : Interactif › Quiz du club-house (`App\Admin\QuizClub`), avec le tableau du
+  championnat (pseudo déplacé, retrait / réintégration). Tests : `tests/quizlive.php`.
 
 ## 7 octies bis. Murs de photos (`App\Services\PhotoWall`, `App\Front\Walls`)
 

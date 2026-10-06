@@ -133,10 +133,21 @@ final class Carnet
         return $id ? self::get($id) : null;
     }
 
-    /** Envoie le lien du carnet à son adresse. */
-    public static function sendLink(array $c, string $credential): bool
+    /**
+     * Envoie le lien du carnet à son adresse. $quiz : lien demandé depuis le quiz du club-house
+     * (code de la partie à 5 chiffres, ou « championnat ») ; le lien ramène alors au quiz.
+     */
+    public static function sendLink(array $c, string $credential, ?string $quiz = null): bool
     {
         $link = base_url() . url('/carnet/acces/' . $credential . '/'); // /en/ pour un carnet anglais
+        if ($quiz !== null) {
+            $link .= '?quiz=' . rawurlencode($quiz);
+            $html = '<p>' . e(t('Bonjour,')) . '</p>'
+                . '<p>' . e(t('Voici votre lien personnel Sochaux Rétro. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place au championnat du club-house, sous votre pseudo, partie après partie. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
+                . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Valider sur ce téléphone')) . '</a></p>'
+                . '<p style="font-size:13px;color:#555">' . e(t('Nouveau téléphone, ou lien perdu ? Redemandez un lien depuis la page du championnat, avec la même adresse.')) . ' ' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
+            return Mailer::send($c['email'], t('Votre place au championnat du club-house'), Mailer::layout(t('Championnat du club-house'), $html));
+        }
         $html = '<p>' . e(t('Bonjour,')) . '</p>'
             . '<p>' . e(t('Voici le lien personnel de votre carnet du supporter Sochaux Rétro : il l’ouvre sur n’importe quel téléphone ou ordinateur. Gardez-le pour vous.')) . '</p>'
             . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Ouvrir mon carnet')) . '</a></p>'
@@ -359,6 +370,7 @@ final class Carnet
     /** Supprime le carnet et tout ce qui le désigne (RGPD). */
     public static function delete(string $id): void
     {
+        QuizChampionship::forget($id);
         @unlink(self::file($id));
         @unlink(self::file($id) . '.lock');
         JsonStore::update(self::indexFile(), function ($idx) use ($id) {
@@ -377,6 +389,11 @@ final class Carnet
         foreach (glob(self::$dir . '/*.json') ?: [] as $f) {
             $id = basename($f, '.json');
             if (!preg_match('/^[a-f0-9]{16}$/', $id) || !($c = self::get($id))) {
+                continue;
+            }
+            // Un joueur du championnat reste tant qu'il a joué dans l'année.
+            $quiz = QuizChampionship::player($id);
+            if ($quiz && strtotime((string) $quiz['last']) > time() - 365 * 86400) {
                 continue;
             }
             if (!$c['confirmed'] && !$c['matches'] && strtotime((string) $c['created']) < time() - 90 * 86400) {

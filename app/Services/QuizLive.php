@@ -48,7 +48,7 @@ final class QuizLive
     // ------------------------------------------------------------------ parties
 
     /** @return array{code:string,key:string} */
-    public static function create(int $count, int $duration, string $lang, string $mix, string $by = ''): array
+    public static function create(int $count, int $duration, string $lang, string $mix, string $by = '', bool $friendly = false): array
     {
         $count = max(3, min(30, $count));
         $duration = in_array($duration, self::DURATIONS, true) ? $duration : 20;
@@ -65,7 +65,7 @@ final class QuizLive
         } while (is_file(self::file($code)));
         $key = bin2hex(random_bytes(12));
         JsonStore::write(self::file($code), [
-            'code' => $code, 'key' => $key, 'created' => time(), 'by' => $by, 'lang' => $lang, 'duration' => $duration,
+            'code' => $code, 'key' => $key, 'created' => time(), 'by' => $by, 'lang' => $lang, 'duration' => $duration, 'friendly' => $friendly,
             'questions' => $questions, 'phase' => 'lobby', 'idx' => -1, 't0' => 0, 'players' => [], 'answers' => [], 'v' => 1,
         ]);
         return ['code' => $code, 'key' => $key];
@@ -116,6 +116,7 @@ final class QuizLive
             if (is_array($g) && isset($g['code'])) {
                 $out[] = ['code' => $g['code'], 'key' => $g['key'], 'created' => (int) $g['created'], 'by' => (string) ($g['by'] ?? ''),
                     'lang' => $g['lang'], 'n' => count($g['questions']), 'duration' => $g['duration'], 'players' => count($g['players']),
+                    'friendly' => !empty($g['friendly']), 'counted' => $g['counted'] ?? null,
                     'phase' => self::phase($g), 'idx' => (int) $g['idx']];
             }
         }
@@ -145,7 +146,7 @@ final class QuizLive
      */
     public static function next(string $code): ?array
     {
-        return JsonStore::update(self::file($code), function ($g) {
+        $g = JsonStore::update(self::file($code), function ($g) {
             if (!is_array($g)) {
                 return $g;
             }
@@ -167,6 +168,19 @@ final class QuizLive
             $g['v']++;
             return $g;
         });
+        // Partie terminée : elle compte au championnat (une seule fois).
+        if (is_array($g) && $g['phase'] === 'end' && !array_key_exists('counted', $g)) {
+            $r = QuizChampionship::record($g);
+            $g = JsonStore::update(self::file($code), function ($g) use ($r) {
+                if (is_array($g)) {
+                    $g['counted'] = $r['counted'];
+                    $g['moves'] = $r['moves'];
+                    $g['v']++;
+                }
+                return $g;
+            });
+        }
+        return $g;
     }
 
     public static function kick(string $code, string $pid): void
@@ -183,6 +197,35 @@ final class QuizLive
         });
     }
 
+    /**
+     * Le joueur a ouvert, sur cet appareil, le lien reçu par e-mail : sa partie compte pour son
+     * compte, sous son pseudo du championnat. @return bool vrai si le joueur a été rattaché
+     */
+    public static function claim(string $code, string $pid, string $cid, string $pseudo): bool
+    {
+        $ok = false;
+        JsonStore::update(self::file($code), function ($g) use ($pid, $cid, $pseudo, &$ok) {
+            $p = is_array($g) ? ($g['players'][$pid] ?? null) : null;
+            if (!$p || ($p['claim'] ?? null) !== $cid || $g['phase'] === 'end') {
+                return $g;
+            }
+            foreach ($g['players'] as $k => $o) {
+                if ((string) $k !== $pid && ($o['cid'] ?? null) === $cid) {
+                    return $g; // ce compte joue déjà sur un autre appareil
+                }
+            }
+            unset($g['players'][$pid]['claim']);
+            $g['players'][$pid]['cid'] = $cid;
+            if ($pseudo !== '') {
+                $g['players'][$pid]['name'] = $pseudo;
+            }
+            $g['v']++;
+            $ok = true;
+            return $g;
+        });
+        return $ok;
+    }
+
     public static function cleanName(string $name): string
     {
         $name = (string) preg_replace('/[\p{C}<>"\\\\]+/u', '', $name);
@@ -190,8 +233,14 @@ final class QuizLive
         return mb_substr($name, 0, 20);
     }
 
-    /** @return array{pid:string,tok:string,name:string}|string jeton du joueur, ou message d'erreur */
-    public static function join(string $code, string $name): array|string
+    /**
+     * Rejoindre une partie. $cid : compte supporter (carnet) ouvert sur l'appareil, qui joue pour le
+     * championnat sous son pseudo ; un même compte qui revient (autre appareil, page rechargée sans
+     * jeton) reprend sa place. $claim : compte dont le lien vient d'être envoyé par e-mail ; la
+     * partie lui sera rattachée quand il l'ouvrira sur cet appareil (voir claim()).
+     * @return array{pid:string,tok:string,name:string}|string jeton du joueur, ou message d'erreur
+     */
+    public static function join(string $code, string $name, ?string $cid = null, ?string $claim = null): array|string
     {
         $name = self::cleanName($name);
         if (mb_strlen($name) < 2) {
@@ -201,7 +250,7 @@ final class QuizLive
         $tok = bin2hex(random_bytes(12));
         $err = null;
         $final = $name;
-        JsonStore::update(self::file($code), function ($g) use ($pid, $tok, $name, &$err, &$final) {
+        JsonStore::update(self::file($code), function ($g) use (&$pid, $tok, $name, $cid, $claim, &$err, &$final) {
             if (!is_array($g)) {
                 $err = t('Cette partie n’existe pas ou est terminée.');
                 return $g;
@@ -209,6 +258,17 @@ final class QuizLive
             if ($g['phase'] === 'end') {
                 $err = t('Cette partie est terminée.');
                 return $g;
+            }
+            if ($cid !== null) {
+                foreach ($g['players'] as $k => $p) {
+                    if (($p['cid'] ?? null) === $cid) {
+                        $pid = (string) $k; // même compte : il reprend sa place (le jeton change)
+                        $final = $p['name'];
+                        $g['players'][$k]['tok'] = hash('sha256', $tok);
+                        $g['v']++;
+                        return $g;
+                    }
+                }
             }
             if (count($g['players']) >= self::MAX_PLAYERS) {
                 $err = t('La partie est complète.');
@@ -219,7 +279,8 @@ final class QuizLive
             while (in_array(mb_strtolower($final), $taken, true)) {
                 $final = mb_substr($name, 0, 17) . ' ' . $n++;
             }
-            $g['players'][$pid] = ['name' => $final, 'score' => 0, 'tok' => hash('sha256', $tok), 'joined' => time()];
+            $g['players'][$pid] = ['name' => $final, 'score' => 0, 'tok' => hash('sha256', $tok), 'joined' => time()]
+                + ($cid !== null ? ['cid' => $cid] : []) + ($claim !== null ? ['claim' => $claim] : []);
             $g['v']++;
             return $g;
         });
@@ -303,7 +364,10 @@ final class QuizLive
         $out = ['v' => $g['v'], 'phase' => $phase, 'idx' => $i, 'n' => count($g['questions']), 'duration' => $g['duration'],
             'players' => count($g['players'])];
         if ($phase === 'lobby') {
-            $out['names'] = array_values(array_map(fn ($pid, $p) => ['id' => (string) $pid, 'name' => $p['name']], array_keys($g['players']), $g['players']));
+            $out['names'] = array_values(array_map(fn ($pid, $p) => ['id' => (string) $pid, 'name' => $p['name'], 'm' => isset($p['cid'])], array_keys($g['players']), $g['players']));
+            if (empty($g['friendly'])) {
+                $out['champ'] = array_map(fn ($r) => ['name' => $r['pseudo'], 'pts' => $r['pts'], 'rank' => $r['rank']], array_slice(QuizChampionship::ranking(), 0, 8));
+            }
         }
         if ($q && in_array($phase, ['question', 'reveal'], true)) {
             $out['q'] = ['q' => $q['q'], 'a' => $q['a'], 'kind' => $q['kind'] ?? 'quiz'];
@@ -326,6 +390,21 @@ final class QuizLive
             $out['top'] = array_map(fn ($r) => ['name' => $r[1], 'score' => $r[2], 'rank' => $r[3], 'gain' => $r[2] - ($prevScores[$r[0]] ?? 0)],
                 array_slice(self::ranking($g), 0, $phase === 'end' ? 10 : 5));
         }
+        if ($phase === 'end' && !empty($g['counted'])) {
+            // Le championnat après cette partie : les dix premiers, et ceux de la soirée qui ont bougé.
+            $moves = (array) ($g['moves'] ?? []);
+            $out['champ'] = [];
+            foreach (QuizChampionship::ranking(QuizChampionship::season((int) $g['created'])) as $r) {
+                $m = $moves[$r['id']] ?? null;
+                if ($r['rank'] <= 10 || $m) {
+                    $out['champ'][] = ['name' => $r['pseudo'], 'pts' => $r['pts'], 'rank' => $r['rank'], 'here' => (bool) $m,
+                        'up' => $m && $m[0] !== null ? $m[0] - $m[1] : null, 'new' => $m && $m[0] === null];
+                }
+                if (count($out['champ']) >= 12) {
+                    break;
+                }
+            }
+        }
         return $out;
     }
 
@@ -341,6 +420,13 @@ final class QuizLive
             'score' => (int) ($g['players'][$pid]['score'] ?? 0)];
         if (!isset($g['players'][$pid])) {
             return ['phase' => 'gone', 'v' => $g['v']];
+        }
+        $me = $g['players'][$pid];
+        $out['member'] = isset($me['cid']);
+        $out['pending'] = isset($me['claim']);
+        if ($phase === 'end' && isset($me['cid'], $g['moves'][$me['cid']])) {
+            $r = QuizChampionship::rankOf((string) $me['cid'], QuizChampionship::season((int) $g['created']));
+            $out['champ'] = $r ? ['rank' => $r['rank'], 'pts' => $r['pts'], 'label' => t('{r} du championnat · {n} pts', ['r' => ordinal($r['rank']), 'n' => $r['pts']])] : null;
         }
         if ($q && in_array($phase, ['question', 'reveal'], true)) {
             $out['q'] = ['q' => $q['q'], 'a' => $q['a']];

@@ -30,7 +30,14 @@
     api({ action: 'ecran' }).then(function (s) { busy = false; if (s.ok) render(s); }).catch(function () { busy = false; });
   }
 
+  var endViews = null, endAt = 0;
   function next() {
+    if (endViews) {
+      endAt = (endAt + 1) % endViews.length;
+      view(endViews[endAt]);
+      nextBtn.textContent = endAt ? T.podiumBtn : T.champBtn;
+      return;
+    }
     nextBtn.disabled = true;
     api({ action: 'suivant' }).then(function (s) { nextBtn.disabled = false; if (s.ok) render(s); }).catch(function () { nextBtn.disabled = false; });
   }
@@ -61,7 +68,7 @@
       if (have !== (s.names || []).map(function (n) { return n.id; }).join(',')) {
         ul.innerHTML = '';
         (s.names || []).forEach(function (n) {
-          var li = el('li', null, n.name);
+          var li = el('li', n.m ? 'is-m' : null, (n.m ? '★ ' : '') + n.name);
           li.setAttribute('data-id', n.id);
           li.title = fmt(T.kick, { p: n.name });
           li.addEventListener('click', function (e) {
@@ -71,6 +78,17 @@
           ul.appendChild(li);
         });
       }
+      var champ = s.champ || [];
+      $('[data-qls-champ]').hidden = !champ.length;
+      var cl = $('[data-qls-champ-list]');
+      cl.innerHTML = '';
+      champ.forEach(function (r) {
+        var li = el('li');
+        li.appendChild(el('span', 'qls__r', String(r.rank)));
+        li.appendChild(el('b', null, r.name));
+        li.appendChild(el('span', 'qls__s', fmt(T.pts, { n: r.pts })));
+        cl.appendChild(li);
+      });
       nextBtn.textContent = T.start;
       nextBtn.disabled = !s.players;
       return;
@@ -142,9 +160,24 @@
         pod.appendChild(b);
       });
       ranking($('[data-qls-rest]'), top.slice(3));
-      nextBtn.hidden = true;
-      $('.qls__hint').hidden = true;
       clearInterval(poller);
+      // Championnat après la partie : le bouton passe du podium au classement de la saison.
+      var season = s.champ || [];
+      var sol = $('[data-qls-season]');
+      sol.innerHTML = '';
+      season.forEach(function (r) {
+        var li = el('li', r.here ? 'is-here' : null);
+        li.appendChild(el('span', 'qls__r', String(r.rank)));
+        li.appendChild(el('b', null, r.name));
+        if (r.new) li.appendChild(el('span', 'qls__gain', '★ ' + T.champNew));
+        else if (r.up > 0) li.appendChild(el('span', 'qls__gain', '▲ ' + r.up));
+        li.appendChild(el('span', 'qls__s', fmt(T.pts, { n: r.pts })));
+        sol.appendChild(li);
+      });
+      endViews = season.length ? ['end', 'champ'] : null;
+      nextBtn.hidden = !endViews;
+      $('.qls__hint').hidden = !endViews;
+      nextBtn.textContent = T.champBtn;
     }
   }
 

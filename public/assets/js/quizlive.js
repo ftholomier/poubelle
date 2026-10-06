@@ -9,6 +9,16 @@
   var P = lang === 'en' ? '/en' : '';
   var $ = function (s) { return root.querySelector(s); };
   var form = $('[data-ql-form]'), err = $('[data-ql-err]');
+  if (!form) return;
+  var guest = false;
+  var gbtn = $('[data-ql-guest]');
+  if (gbtn) gbtn.addEventListener('click', function () {
+    guest = true;
+    $('[data-ql-me]').hidden = true;
+    $('[data-ql-namebox]').hidden = false;
+    form.name.required = true;
+    form.name.focus();
+  });
   var me = null, code = '', last = null, timer = null, poll = null, clockAt = 0, leftAt = 0, busy = false;
   var SHAPES = ['▲', '◆', '●', '■'];
 
@@ -34,13 +44,15 @@
     code = form.code.value.replace(/\D/g, '');
     var btn = form.querySelector('button');
     btn.disabled = true;
-    api({ action: 'rejoindre', name: form.name.value }).then(function (j) {
+    api({ action: 'rejoindre', name: form.name.value, email: form.email ? form.email.value : '', guest: guest }).then(function (j) {
       btn.disabled = false;
       if (!j.ok) { err.textContent = j.error || T.error; err.hidden = false; return; }
       me = { pid: j.pid, tok: j.tok };
       store('ql:' + code, me);
-      store('ql:name', form.name.value);
+      if (form.name.value) store('ql:name', form.name.value);
       start(j);
+      if (j.mailed && !j.member) info(T.pending);
+      else if (j.mailed) info(T.mailed);
     }).catch(function () { btn.disabled = false; err.textContent = T.error; err.hidden = false; });
   });
 
@@ -65,6 +77,12 @@
     t.firstElementChild.style.width = (100 * left / (1000 * (last.duration || 20))) + '%';
   }
 
+  function info(text) {
+    var p = $('[data-ql-info]');
+    p.textContent = text || '';
+    p.hidden = !text;
+  }
+
   function render(s) {
     if (!s || s.phase === 'gone') {
       clearInterval(poll);
@@ -76,7 +94,9 @@
       return;
     }
     last = s;
-    $('[data-ql-name]').textContent = s.name || '';
+    $('[data-ql-name]').textContent = (s.member ? '★ ' : '') + (s.name || '');
+    if (s.member && $('[data-ql-info]').textContent === T.pending) info(''); // lien ouvert : la partie compte
+    if (s.pending && !$('[data-ql-info]').textContent) info(T.pending);
     $('[data-ql-score]').textContent = fmt(T.score, { n: s.score || 0 });
     var num = $('[data-ql-num]'), q = $('[data-ql-q]'), box = $('[data-ql-answers]'), msg = $('[data-ql-msg]'), tm = $('[data-ql-timer]');
     num.textContent = s.idx >= 0 && s.phase !== 'lobby' && s.phase !== 'end' ? fmt(T.qn, { i: s.idx + 1, n: s.n }) : '';
@@ -164,6 +184,16 @@
       r.textContent = rank;
       msg.appendChild(r);
       msg.appendChild(document.createTextNode(fmt(T.score, { n: s.score || 0 })));
+      if (s.champ) {
+        var c = document.createElement('b');
+        c.className = 'ql__final ql__final--champ';
+        c.textContent = '★ ' + s.champ.label;
+        msg.appendChild(c);
+        info('');
+      } else if (!s.member) {
+        info(T.guestEnd);
+      }
+      $('[data-ql-champ]').hidden = false;
       store('ql:' + code, null);
     }
   }

@@ -282,6 +282,13 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   pseudo, répondent sur leur téléphone ; barre d'espace : lancer, réponse, classement, question
   suivante, podium. Un clic sur un pseudo dans la salle d'attente le retire. Parties effacées
   24 h après leur dernière activité. Aucune IA, aucun coût.
+  **Championnat du club-house** (même écran) : les joueurs qui laissent leur e-mail (compte du
+  carnet du supporter, lien sécurisé, pas de mot de passe) jouent sous leur pseudo et marquent
+  des points à chaque partie selon leur rang (11, 9, 7, 6, 5, 4, 3, puis 1), saison du 1er août
+  au 31 juillet ; les invités jouent sans points. Partie comptée à partir de 3 joueurs ; case
+  « Partie amicale » pour un essai. Classement dans la salle d'attente, après le podium et sur
+  la page publique `/interactif/quiz-live/championnat/`. Tableau du championnat : « Pseudo
+  déplacé » (remplacé par « Joueur 1234 »), « Retirer du classement » / réintégrer.
 - **Carnets du supporter** (Communauté) : les supporters cochent les matchs vus au stade
   (« J'y étais ! » sur la fiche, ou saison par saison sur /carnet/), avec un lien envoyé à leur
   e-mail ; bilan, badges, porte-bonheur, carte à partager, page publique sous pseudo. L'écran
