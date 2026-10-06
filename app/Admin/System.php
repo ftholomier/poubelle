@@ -62,7 +62,7 @@ final class System extends Base
         } else {
             $vars += self::ficheProgress($req->str('etat'));
         }
-        return self::html('admin/system/translations', $vars, ['title' => 'Traductions anglaises', 'crumb' => 'Système', 'nav' => 'traductions',
+        return self::html('admin/system/translations', $vars, ['title' => 'Traductions anglaises', 'crumb' => 'Système', 'nav' => 'traductions', 'scripts' => ['admin/traductions.js'],
             'tabs' => [['Interface du site', '/admin/traductions', $tab === 'interface'], ['Fiches', '/admin/traductions?onglet=fiches', $tab === 'fiches']]]);
     }
 
@@ -157,11 +157,27 @@ final class System extends Base
             Activity::log($user, 'a traduit ' . count($tr) . ' libellé(s) avec Gemini', null);
             return self::back('/admin/traductions', count($tr) . ' libellé(s) traduit(s) avec Gemini : relisez-les (filtre « tous »).' . self::aiCost());
         }
+        if ($action === 'gemini-une') {
+            // Bouton « Traduire 10 fiches maintenant » : une fiche par appel, la page affiche où il en est.
+            if (!Translator::enabled()) {
+                return self::json(['ok' => false, 'error' => 'Clé Gemini non réglée.']);
+            }
+            \App\Core\Session::release(); // les autres pages du back-office restent utilisables
+            @set_time_limit(120);
+            $r = Translator::run(1, true);
+            @unlink(STORAGE_PATH . '/cache/i18n-progress.json');
+            $t = $r['tried'] ?? [];
+            $last = end($t) ?: null;
+            $err = !$r['done'] ? Translator::lastError() : null;
+            return self::json(['ok' => true, 'done' => (int) $r['done'], 'todo' => (int) $r['todo'], 'title' => $last['title'] ?? '', 'result' => $last['result'] ?? '',
+                'stop' => $last === null || ($err !== null && $err['at'] > time() - 300), 'error' => $err['msg'] ?? '']);
+        }
         if ($action === 'gemini-fiches') {
             if (!Translator::enabled()) {
                 return self::back('/admin/traductions?onglet=fiches', null, 'Clé Gemini non réglée.');
             }
             @set_time_limit(280);
+            \App\Core\Session::release(); // sinon tout le back-office de la personne attend la fin
             $r = Translator::run(max(1, min(30, (int) ($in['n'] ?? 10))), true);
             @unlink(STORAGE_PATH . '/cache/i18n-progress.json');
             $err = ($r['done'] ?? 0) === 0 ? Translator::lastError() : null;

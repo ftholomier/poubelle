@@ -370,6 +370,7 @@ final class Translator
         uasort($cands, fn ($a, $b) => [$b[0], $b[1]] <=> [$a[0], $a[1]]);
         $done = 0;
         $todo = 0;
+        $tried = [];
         foreach (array_keys($cands) as $id) {
             $doc = Fiches::get((int) $id);
             if (!$doc) {
@@ -384,12 +385,13 @@ final class Translator
                 continue;
             }
             $r = self::translateFiche((int) $id);
+            $tried[] = ['id' => (int) $id, 'title' => (string) ($doc['title'] ?? ''), 'result' => $r];
             if ($r === 'ok') {
                 $done++;
             } elseif (str_contains($r, 'quota')) {
                 break;
             }
         }
-        return ['done' => $done, 'todo' => $todo - $done];
+        return ['done' => $done, 'todo' => $todo - $done, 'tried' => $tried];
     }
 }

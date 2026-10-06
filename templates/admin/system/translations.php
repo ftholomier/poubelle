@@ -52,8 +52,9 @@ $stLabel = ['none' => ['Non traduite', 'ko'], 'auto' => ['Traduite (Gemini)', 'i
   <div class="bar bar--navy" style="height:14px"><i style="width:<?= round(100 * ($counts['auto'] + $counts['manual']) / $sum) ?>%"></i></div>
   <div class="toolbar">
     <p class="small muted grow" style="margin:0">Le français fait foi. <?= $auto ? 'La tâche planifiée traduit automatiquement les nouvelles fiches publiées (priorité : « À la une », légendes, fiches récentes).' : 'La traduction automatique est désactivée (Réglages › Traduction).' ?> Une fiche relue garde sa traduction même si le français change (elle passe « À revoir »). Les fiches non traduites restent visibles en anglais, en français, sans être proposées à Google.<?= $fails ? ' ' . (int) $fails . ' fiche(s) en échec seront réessayées plus tard (le bouton les réessaie tout de suite).' : '' ?><?php if (!empty($lastError)): ?><br><b>Dernière erreur de Gemini (<?= e(date('d/m H:i', (int) $lastError['at'])) ?>) :</b> <?= e($lastError['msg']) ?><?php endif; ?></p>
-    <?php if ($gemini): ?><form method="post" action="/admin/traductions"><?= csrf_field() ?><input type="hidden" name="n" value="10"><button type="submit" name="action" value="gemini-fiches" class="btn btn--yellow">Traduire 10 fiches maintenant</button></form><?php endif; ?>
+    <?php if ($gemini): ?><form method="post" action="/admin/traductions" data-tr-run><?= csrf_field() ?><input type="hidden" name="n" value="10"><button type="submit" name="action" value="gemini-fiches" class="btn btn--yellow">Traduire 10 fiches maintenant</button></form><?php endif; ?>
   </div>
+  <div class="card" data-tr-log hidden style="margin:0 0 16px;padding:12px 16px"><p class="t-strong" data-tr-status style="margin:0 0 6px"></p><ol class="small" data-tr-list style="margin:0;padding-left:20px"></ol></div>
   <div class="table">
     <table>
       <thead><tr><th>Fiche</th><th>Type</th><th>Traduction</th><th>Modifiée</th></tr></thead>
