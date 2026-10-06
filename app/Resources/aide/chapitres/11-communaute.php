@@ -60,6 +60,10 @@ HTML, 'admin' => true],
 <h3>Carnets du supporter</h3>
 <p>Sur le site, chaque supporter peut tenir son <b>carnet</b> : il touche « J’y étais ! » sur la fiche d’un match, ou coche ses matchs saison par saison sur la page <b>Mon carnet du supporter</b> (menu Interactif › Participer). Il obtient son bilan (victoires, buts, joueurs vus), des badges, son « porte-bonheur » et une carte à partager, et peut ouvrir une page publique sous pseudo. Pas de mot de passe : son e-mail (obligatoire) reçoit le lien qui ouvre le carnet sur n’importe quel appareil. S’il le demande, le musée lui rappelle l’<b>anniversaire de ses matchs</b> (« Il y a 30 ans jour pour jour, vous étiez au stade »), par e-mail et/ou par notification, chaque matin à partir de 9 h (tâche planifiée « carnets »).</p>
 <p>Communauté › <b>Carnets du supporter</b> : nombre de carnets, matchs cochés, pages publiques et les <b>matchs les plus vécus</b> (idées pour le kit souvenirs ou le Rétro-Direct). Les e-mails ne sont jamais affichés ; chacun supprime son carnet lui-même.</p>
+[[img:carnet.webp|Le carnet d’un supporter : ses matchs vus, son bilan, son porte-bonheur, ses adversaires et ses buteurs]]
+[[img:carnet-saisons.webp|La saisie par saison : cocher d’un coup les matchs vus au stade]]
+[[img:carnet-badges.webp|Les joueurs les plus vus, les décennies et les badges du carnet]]
+[[img:carnets.webp|Communauté › Carnets du supporter : nombre de carnets et matchs les plus vécus]]
 [[attention|<p>Une notification envoyée ne peut pas être rattrapée. Avant une annonce importante, abonnez votre propre téléphone et faites un essai. Restez rare : au-delà d’une ou deux par semaine, les abonnés se désabonnent.</p>]]
 [[auto|<p>Les messages sont chiffrés pour le seul navigateur abonné (norme Web Push) : Google, Apple, Mozilla ou Microsoft les acheminent sans pouvoir les lire. Le musée ne garde ni nom, ni e-mail, ni adresse IP : seulement l’adresse technique fournie par le navigateur, les sujets et la langue. Un abonnement disparu (appli supprimée) est effacé au premier envoi.</p>]]
 HTML],

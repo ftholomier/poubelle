@@ -16,7 +16,7 @@
   const counted = () => read(key) === '1';
   const inCarnet = () => { try { return (JSON.parse(read('sr-carnet') || '[]') || []).includes(id); } catch (e) { return false; } };
   const show = () => { if (inCarnet()) { btn.textContent = btn.dataset.in; btn.disabled = true; } };
-  const api = body => fetch('/api/carnet', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(r => r.json()).catch(() => ({}));
+  const api = body => fetch('/api/carnet', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lang: document.documentElement.lang, ...body }) }).then(r => r.json()).catch(() => ({}));
   const done = r => {
     if (Array.isArray(r.ids)) store('sr-carnet', JSON.stringify(r.ids));
     if (r.etais) out.textContent = label(r.etais);

@@ -133,6 +133,9 @@ final class CarnetPages
     public static function api(Request $req): Response
     {
         $in = $req->json() ?: [];
+        if (($in['lang'] ?? '') === 'en') {
+            \App\Services\I18n::set('en'); // messages et e-mail du lien dans la langue de la page
+        }
         $action = (string) ($in['action'] ?? '');
         $c = Carnet::current();
         $ids = fn (?array $c) => $c ? array_map('intval', array_keys($c['matches'])) : [];

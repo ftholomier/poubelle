@@ -88,7 +88,7 @@ final class CarnetPoster
         foreach ([['Mon premier match', $s['first']], ['Ma plus belle victoire', $s['best']], ['La plus grosse affluence', $crowd], ['Mon dernier match', $s['n'] > 1 ? $s['last'] : null]] as [$lab, $x]) {
             if ($x && !in_array($x['id'], array_column($big, 'id'), true)) {
                 $big[] = ['label' => $lab, 'id' => $x['id'], 'date' => (string) $x['date'], 'teams' => $x['home'] . ' ' . ($x['sh'] ? $x['us'] . '–' . $x['them'] : $x['them'] . '–' . $x['us']) . ' ' . $x['away'],
-                    'comp' => trim($x['label'] . ' ' . $x['round']) . ((int) ($x['spectators'] ?? 0) > 0 ? ' · ' . number_format((int) $x['spectators'], 0, ',', ' ') . ' spectateurs' : '')];
+                    'comp' => implode(' ', array_unique(array_filter([(string) $x['label'], (string) $x['round']]))) . ((int) ($x['spectators'] ?? 0) > 0 ? ' · ' . number_format((int) $x['spectators'], 0, ',', ' ') . ' spectateurs' : '')];
             }
         }
         return $s + ['seasons_list' => array_values($seasons), 'big' => $big,

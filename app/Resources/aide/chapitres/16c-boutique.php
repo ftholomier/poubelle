@@ -109,6 +109,7 @@ HTML],
 <li><b>Côté client</b> : le poster se compose d’après son carnet, ouvert sur l’appareil (au moins 5 matchs). Un bouton <b>« Mon poster »</b> apparaît dans son carnet dès que le modèle est en vente. Sans carnet, la fiche produit montre un exemple et l’invite à créer le sien.</li>
 </ol>
 <p>À la mise au panier, <b>la liste des matchs est figée</b> dans la commande : le fichier de l’imprimeur ne change plus, même si le client modifie ou supprime son carnet ensuite.</p>
+[[img:boutique-poster-carnet.webp|La fiche produit du poster « Ma vie en jaune et bleu » : le carnet du client repris, l’aperçu de son poster]]
 HTML],
         ['id' => 'commandes', 'title' => 'Les commandes', 'admin' => true, 'html' => <<<'HTML'
 <p>Le client paie par carte (Stripe, les mêmes clés que les dons et les adhésions) : l’argent arrive sur le compte de l’association. La commande payée part aussitôt chez l’imprimeur, avec un <b>PDF d’impression par article</b>, et le client reçoit un e-mail avec son lien de suivi.</p>

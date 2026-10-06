@@ -136,7 +136,7 @@ final class Carnet
     /** Envoie le lien du carnet à son adresse. */
     public static function sendLink(array $c, string $credential): bool
     {
-        $link = base_url() . '/carnet/acces/' . $credential . '/';
+        $link = base_url() . url('/carnet/acces/' . $credential . '/'); // /en/ pour un carnet anglais
         $html = '<p>' . e(t('Bonjour,')) . '</p>'
             . '<p>' . e(t('Voici le lien personnel de votre carnet du supporter Sochaux Rétro : il l’ouvre sur n’importe quel téléphone ou ordinateur. Gardez-le pour vous.')) . '</p>'
             . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Ouvrir mon carnet')) . '</a></p>'
@@ -275,7 +275,7 @@ final class Carnet
     {
         $m = $a['m'];
         $title = $a['years'] > 1 ? t('Il y a {n} ans jour pour jour, vous étiez au stade', ['n' => $a['years']]) : t('Il y a un an jour pour jour, vous étiez au stade');
-        $body = $m['home'] . ' ' . ($m['sh'] ? $m['us'] . '–' . $m['them'] : $m['them'] . '–' . $m['us']) . ' ' . $m['away'] . ' · ' . trim($m['label'] . ' ' . $m['round']);
+        $body = $m['home'] . ' ' . ($m['sh'] ? $m['us'] . '–' . $m['them'] : $m['them'] . '–' . $m['us']) . ' ' . $m['away'] . ' · ' . implode(' ', array_unique(array_filter([(string) $m['label'], (string) $m['round']])));
         if ($a['others'] > 0) {
             $body .= ' · ' . t($a['others'] > 1 ? 'et {n} autres matchs de votre carnet ce jour-là' : 'et un autre match de votre carnet ce jour-là', ['n' => $a['others']]);
         }
@@ -321,7 +321,7 @@ final class Carnet
             try {
                 if ($email) {
                     $msg = self::anniversaryMessage($a);
-                    $stop = base_url() . '/carnet/rappels/arret/' . $id . '/' . self::stopSig($id) . '/';
+                    $stop = base_url() . url('/carnet/rappels/arret/' . $id . '/' . self::stopSig($id) . '/');
                     $html = '<p style="font-size:20px"><b>' . e($msg['title']) . '</b></p><p style="font-size:18px">' . e($msg['body']) . '</p>'
                         . '<p style="margin:24px 0"><a href="' . e(base_url() . $msg['url']) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Revivre le match')) . '</a></p>'
                         . '<p><a href="' . e(base_url() . url('/carnet/')) . '">' . e(t('Mon carnet du supporter')) . '</a></p>'

@@ -21,7 +21,7 @@ $mineSet = array_flip($mine);
         <li data-home="<?= $x['sh'] ? 1 : 0 ?>"><label><input type="checkbox" value="<?= (int) $x['id'] ?>" <?= isset($mineSet[$x['id']]) ? 'checked' : '' ?> <?= $c ? '' : 'disabled' ?>>
           <span class="cnpick__d"><?= e(date_num((string) $x['date'])) ?></span>
           <span class="cnpick__m"><?= e($x['home'] . ' ' . $x['us'] . '–' . $x['them'] . ' ' . $x['away']) ?></span>
-          <span class="cnpick__c"><?= e(trim($x['label'] . ' ' . $x['round'])) ?></span>
+          <span class="cnpick__c"><?= e(implode(' ', array_unique(array_filter([(string) $x['label'], (string) $x['round']])))) ?></span>
           <span class="cnres cnres--<?= e(strtolower((string) $x['result'])) ?>"><?= e($x['result']) ?></span></label></li>
       <?php endforeach; ?>
     </ul>

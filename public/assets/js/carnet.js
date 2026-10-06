@@ -1,7 +1,8 @@
 /* Carnet du supporter : création, lien perdu, saisie par saison, retrait, page publique, suppression. */
 (() => {
   'use strict';
-  const api = body => fetch('/api/carnet', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
+  const P = document.documentElement.lang === 'en' ? '/en' : ''; // adresses du site anglais
+  const api = body => fetch('/api/carnet', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ lang: document.documentElement.lang, ...body }) })
     .then(r => r.json().catch(() => ({ error: 'Erreur ' + r.status })));
   const sync = r => { try { if (r && Array.isArray(r.ids)) localStorage.setItem('sr-carnet', JSON.stringify(r.ids)); if (r && r.has === false) localStorage.removeItem('sr-carnet'); } catch (e) {} };
   let L = {};
@@ -18,7 +19,7 @@
     btn.disabled = false;
     sync(r);
     if (r.error) { msg.textContent = r.error; return; }
-    if (r.created) { msg.textContent = '✓'; location.href = '/carnet/?bienvenue=1'; return; }
+    if (r.created) { msg.textContent = '✓'; location.href = P + '/carnet/?bienvenue=1'; return; }
     msg.textContent = L.sent || '';
   }));
 
@@ -41,7 +42,7 @@
       sync(r);
       if (r.error || r.needEmail) { msg.textContent = r.error || L.first || ''; return; }
       start.clear(); boxes.filter(b => b.checked).forEach(b => start.add(+b.value));
-      msg.innerHTML = '✓ ' + esc(L.saved || '') + ' <a href="/carnet/">' + esc(L.see || '') + ' →</a>';
+      msg.innerHTML = '✓ ' + esc(L.saved || '') + ' <a href="' + P + '/carnet/">' + esc(L.see || '') + ' →</a>';
     });
   }
 
@@ -72,7 +73,7 @@
     rem.querySelector('[data-cn-remind-push]').addEventListener('click', async () => {
       let sub = null;
       try { const reg = await navigator.serviceWorker?.getRegistration(); sub = reg ? await reg.pushManager.getSubscription() : null; } catch (e) {}
-      if (!sub) { msg.innerHTML = esc(L.noPush || '') + ' <a href="/appli/">' + esc(L.appli || '/appli/') + ' →</a>'; return; }
+      if (!sub) { msg.innerHTML = esc(L.noPush || '') + ' <a href="' + P + '/appli/">' + esc(L.appli || '/appli/') + ' →</a>'; return; }
       shown(await api({ action: 'rappels', endpoint: sub.endpoint }));
     });
   }
@@ -82,7 +83,7 @@
     if (!confirm(L.delete || '?')) return;
     const r = await api({ action: 'supprimer', confirm: true });
     sync(r);
-    location.href = '/carnet/';
+    location.href = P + '/carnet/';
   });
 
   // Ouvert : on garde la liste à jour pour les boutons « J'y étais ! » des fiches (pages en cache).
