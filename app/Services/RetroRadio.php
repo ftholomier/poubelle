@@ -30,7 +30,7 @@ final class RetroRadio
     public static ?\Closure $writer = null;
     public static ?\Closure $speaker = null;
 
-    public const MAX_SEGMENTS = 40;
+    public const MAX_SEGMENTS = 75;
     public const LANGS = ['fr', 'en'];
     /** Voix de Gemini qui conviennent à un reporter (nom => caractère). */
     public const VOICES = ['Fenrir' => 'enflammée', 'Puck' => 'enjouée', 'Orus' => 'ferme', 'Algenib' => 'rocailleuse', 'Charon' => 'posée'];
@@ -121,13 +121,14 @@ final class RetroRadio
     }
 
     /**
-     * Coût estimé d'un commentaire (€) : le texte (environ 3 000 jetons lus, 3 000 écrits) et la
-     * voix (environ 5 minutes, 25 jetons audio par seconde), aux tarifs de Coûts IA.
+     * Coût estimé d'un commentaire (€) : le texte (environ 3 000 jetons lus, 6 000 écrits) et la
+     * voix (environ 10 minutes : le reporter parle au moins toutes les 3 minutes, 25 jetons audio
+     * par seconde), aux tarifs de Coûts IA.
      */
     public static function estimate(): float
     {
-        $text = AiCosts::cost(['in' => 3000, 'out' => 3000], AiCosts::price(FicheAudio::textModel()));
-        $voice = AiCosts::cost(['in' => 35 * 60, 'out' => 300 * 25], AiCosts::price(Gemini::ttsModel()));
+        $text = AiCosts::cost(['in' => 3000, 'out' => 6000], AiCosts::price(FicheAudio::textModel()));
+        $voice = AiCosts::cost(['in' => 70 * 60, 'out' => 600 * 25], AiCosts::price(Gemini::ttsModel()));
         return round(AiCosts::eur($text + $voice), 2);
     }
 
@@ -328,8 +329,8 @@ final class RetroRadio
         $decade = $year ? (int) (floor($year / 10) * 10) : 1980;
         $max = self::MAX_SEGMENTS;
         $system = $en
-            ? "You are a radio football commentator in the {$decade}s, reporting live from the ground for FC Sochaux-Montbéliard supporters. Write what you say into the microphone, line by line, timed on the numbered events given. Rules: invent no fact (no name, score, minute, weather, figure) beyond those given; you may add emotion, the general atmosphere of the crowd and classic radio phrases. Scores must be exactly those given. Short sentences, easy to say aloud, no abbreviations, no emoji, no stage directions, no brackets. Answer in JSON: {\"segments\":[{\"e\":event number,\"text\":\"...\"},{\"m\":minute,\"text\":\"...\"}]}. One segment for: the kick-off (teams and what is at stake, 40 to 70 words), each goal (20 to 45 words, euphoric when Sochaux scores), each highlight (15 to 35 words), half-time (summary, 30 to 60 words), the second half (10 to 25 words), the final whistle (summary, 40 to 80 words); red cards and notable substitutions only if relevant. You may add at most 2 atmosphere segments per half (\"m\" = a minute without event, 15 to 30 words). At most {$max} segments, in chronological order. English only."
-            : "Tu es reporter radio de football dans les années {$decade}, en direct du stade pour les supporters du FC Sochaux-Montbéliard. Tu écris ce que tu dis au micro, réplique par réplique, calé sur les événements numérotés fournis. Règles : n'invente aucun fait (ni nom, ni score, ni minute, ni météo, ni chiffre) au-delà de ceux fournis ; tu peux ajouter de l'émotion, l'ambiance générale de la foule et des formules radio d'époque. Les scores doivent être exactement ceux indiqués. Phrases courtes, faciles à dire à voix haute, sans abréviations, sans emoji, sans didascalies, sans crochets. Réponds en JSON : {\"segments\":[{\"e\":numéro d'événement,\"text\":\"...\"},{\"m\":minute,\"text\":\"...\"}]}. Un segment pour : le coup d'envoi (présentation des équipes et de l'enjeu, 40 à 70 mots), chaque but (20 à 45 mots, exalté quand Sochaux marque), chaque temps fort (15 à 35 mots), la mi-temps (bilan, 30 à 60 mots), la reprise (10 à 25 mots), le coup de sifflet final (bilan, 40 à 80 mots) ; cartons rouges et remplacements marquants seulement s'ils comptent. Tu peux ajouter au plus 2 segments d'ambiance par mi-temps (« m » = une minute sans événement, 15 à 30 mots). Au plus {$max} segments, dans l'ordre du match. En français.";
+            ? "You are a radio football commentator in the {$decade}s, reporting live from the ground for FC Sochaux-Montbéliard supporters. Write what you say into the microphone, line by line, timed on the numbered events given. Rules: invent no fact (no name, score, minute, weather, figure) beyond those given; you may add emotion, the general atmosphere of the crowd and classic radio phrases. Scores must be exactly those given. Short sentences, easy to say aloud, no abbreviations, no emoji, no stage directions, no brackets. Answer in JSON: {\"segments\":[{\"e\":event number,\"text\":\"...\"},{\"m\":minute,\"text\":\"...\"}]}. One segment for: the kick-off (teams and what is at stake, 40 to 70 words), each goal (20 to 45 words, euphoric when Sochaux scores), each highlight (15 to 35 words), half-time (summary, 30 to 60 words), the second half (10 to 25 words), the final whistle (summary, 40 to 80 words); red cards and notable substitutions only if relevant. Like a real radio commentator, never stay silent for more than 3 minutes of play: between events, add atmosphere segments (\"m\" = a minute without event, 15 to 35 words): the crowd, the tension, the pressure of one side, the score recalled, without inventing any fact. At most {$max} segments, in chronological order. English only."
+            : "Tu es reporter radio de football dans les années {$decade}, en direct du stade pour les supporters du FC Sochaux-Montbéliard. Tu écris ce que tu dis au micro, réplique par réplique, calé sur les événements numérotés fournis. Règles : n'invente aucun fait (ni nom, ni score, ni minute, ni météo, ni chiffre) au-delà de ceux fournis ; tu peux ajouter de l'émotion, l'ambiance générale de la foule et des formules radio d'époque. Les scores doivent être exactement ceux indiqués. Phrases courtes, faciles à dire à voix haute, sans abréviations, sans emoji, sans didascalies, sans crochets. Réponds en JSON : {\"segments\":[{\"e\":numéro d'événement,\"text\":\"...\"},{\"m\":minute,\"text\":\"...\"}]}. Un segment pour : le coup d'envoi (présentation des équipes et de l'enjeu, 40 à 70 mots), chaque but (20 à 45 mots, exalté quand Sochaux marque), chaque temps fort (15 à 35 mots), la mi-temps (bilan, 30 à 60 mots), la reprise (10 à 25 mots), le coup de sifflet final (bilan, 40 à 80 mots) ; cartons rouges et remplacements marquants seulement s'ils comptent. Comme un vrai reporter, ne reste jamais plus de 3 minutes de jeu sans parler : entre les événements, ajoute des segments d'ambiance (« m » = une minute sans événement, 15 à 35 mots) : la foule, la tension, la pression d'une équipe, le rappel du score, sans inventer de fait. Au plus {$max} segments, dans l'ordre du match. En français.";
         $user = implode("\n", $ctx) . "\n\n" . ($en ? 'Events:' : 'Événements :') . "\n" . implode("\n", $lines);
         return [$system, $user];
     }
@@ -341,7 +342,7 @@ final class RetroRadio
         if (self::$writer) {
             $raw = (self::$writer)($system, $user);
         } else {
-            $g = Gemini::generate([['role' => 'user', 'text' => $user]], $system, ['model' => FicheAudio::textModel(), 'temperature' => 0.8, 'max_tokens' => 6000,
+            $g = Gemini::generate([['role' => 'user', 'text' => $user]], $system, ['model' => FicheAudio::textModel(), 'temperature' => 0.8, 'max_tokens' => 12000,
                 'json' => true, 'timeout' => 120, 'for' => 'radio', 'ref' => 'radio:' . $id]);
             $raw = $g['text'];
         }
@@ -468,15 +469,15 @@ final class RetroRadio
             $noise = (mt_rand() / mt_getrandmax()) * 2 - 1;
             $c = self::run($crowdHp, self::run($crowdLp, $noise, $c1), $c2);
             $sec = $i / $rate;
-            $level = 0.10 + 0.03 * sin($sec * 1.7) + 0.02 * sin($sec * 0.6 + 1);
+            $level = 0.05 + 0.015 * sin($sec * 1.7) + 0.01 * sin($sec * 0.6 + 1);
             if ($goal) {
                 $level += 0.55 * exp(-$sec / 2.2) * min(1, $sec / 0.25);
             }
             $y = 0.82 * $x + $level * $c;
             // Souffle et craquements du poste.
-            $y += 0.006 * ((mt_rand() / mt_getrandmax()) * 2 - 1);
-            if (mt_rand(0, 4000) === 0) {
-                $pop = (mt_rand(0, 1) ? 1 : -1) * (0.08 + 0.12 * mt_rand() / mt_getrandmax());
+            $y += 0.0025 * ((mt_rand() / mt_getrandmax()) * 2 - 1);
+            if (mt_rand(0, 90000) === 0) {
+                $pop = (mt_rand(0, 1) ? 1 : -1) * (0.03 + 0.05 * mt_rand() / mt_getrandmax());
             }
             $y += $pop;
             $pop *= 0.82;
@@ -532,9 +533,15 @@ final class RetroRadio
         return '/media/' . substr($file, strlen(self::$media) + 1);
     }
 
-    /** URL de la boucle d'ambiance si elle existe. */
+    /** Ambiance de stade livrée avec le site (murmure, chants, applaudissements, « ooh », tambour). */
+    public const STADE = '/assets/audio/stade-ambiance.mp3';
+
+    /** URL de la boucle d'ambiance : celle du site, sinon celle fabriquée sur le serveur. */
     public static function ambianceUrl(): ?string
     {
+        if (is_file(PUBLIC_PATH . self::STADE)) {
+            return self::STADE;
+        }
         foreach (['mp3', 'wav'] as $ext) {
             if (is_file(self::$media . '/radio/ambiance.' . $ext)) {
                 return '/media/radio/ambiance.' . $ext;

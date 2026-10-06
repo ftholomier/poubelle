@@ -36,15 +36,16 @@
 
   /* ---------------------------------------------------------- horloge du match */
   // Minute affichée et phase à $e secondes du coup d'envoi.
+  // Chrono du match (minutes:secondes, comme à la télé : 45:00 puis 46:12 dans le temps additionnel).
   function clockAt(e) {
-    const min = (base, from, cap) => { const n = base + Math.floor((e - from) / 60) + 1; return n > cap ? cap + '+' + (n - cap) : String(n); };
+    const chrono = (base, from) => { const s = Math.max(0, Math.floor(e - from)); return String(base + Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
     if (e < 0) return ['', ''];
     if (e >= M.end) return [L.end, ''];
-    if (e < M.halftime) return [min(0, 0, 45) + "'", '1re'];
+    if (e < M.halftime) return [chrono(0, 0), '1re'];
     if (e < M.kickoff2) return [L.ht, L.halftime];
-    if (e < M.fulltime90) return [min(45, M.kickoff2, 90) + "'", '2e'];
+    if (e < M.fulltime90) return [chrono(45, M.kickoff2), '2e'];
     if (M.extratime !== null && e < M.extratime) return [L.pause, L.fulltime90];
-    if (M.extratime !== null && e < M.et_end) return [min(90, M.extratime, 120) + "'", L.aet];
+    if (M.extratime !== null && e < M.et_end) return [chrono(90, M.extratime), L.aet];
     if (M.pens !== null && e < M.pens) return [L.pause, L.pens];
     return [L.tabShort, L.pens];
   }
@@ -112,10 +113,10 @@
   const radio = (() => {
     const box = $('[data-rd-radio]');
     if (!box || !D.radio || !D.radio.length) return { tick() {}, hold() {} };
-    const btn = $('[data-rd-radio-btn]', box), label = $('[data-rd-radio-label]', box), note = $('[data-rd-radio-note]', box);
+    const btn = $('[data-rd-radio-btn]', box), label = $('[data-rd-radio-label]', box), note = $('[data-rd-radio-note]', box), state = $('[data-rd-radio-state]', box);
     const segs = D.radio, voice = new Audio(), amb = D.ambiance ? new Audio(D.ambiance) : null;
     voice.preload = 'auto';
-    if (amb) { amb.loop = true; amb.volume = 0.22; }
+    if (amb) { amb.loop = true; amb.volume = 0.3; }
     let on = false, played = new Set(), queue = [], playing = false, normal = true, lastE = -1, held = false;
     const set = v => {
       on = v;
@@ -123,6 +124,20 @@
       box.classList.toggle('is-on', on);
       label.textContent = on ? L.radioOn : L.radioOff;
       if (!on) { voice.pause(); queue = []; playing = false; if (amb) amb.pause(); }
+      if (state) state.hidden = !on;
+    };
+    // Ce que fait le reporter : il parle, ou quand il reprendra la parole (on sait que la voix marche).
+    let failed = 0;
+    const showState = e => {
+      if (!state || !on) return;
+      state.classList.toggle('is-talking', playing);
+      state.classList.toggle('is-error', !playing && failed > 0);
+      if (playing) { state.textContent = L.radioTalking; return; }
+      if (failed) { state.textContent = L.radioError; return; }
+      const n = segs.find(s => s.t > e);
+      if (!n) { state.textContent = L.radioDone; return; }
+      const min = Math.ceil((n.t - e) / 60);
+      state.textContent = min <= 1 ? L.radioNextSoon : fmt(L.radioNext, { n: min });
     };
     const next = () => {
       if (!on || playing || !queue.length) return;
@@ -133,8 +148,9 @@
       voice.addEventListener('loadedmetadata', go, { once: true });
       voice.play().catch(() => { playing = false; note.textContent = L.radioBlocked; set(false); });
     };
-    voice.addEventListener('ended', () => { playing = false; next(); });
-    voice.addEventListener('error', () => { playing = false; next(); });
+    voice.addEventListener('playing', () => { failed = 0; showState(lastE); });
+    voice.addEventListener('ended', () => { playing = false; next(); showState(lastE); });
+    voice.addEventListener('error', () => { playing = false; failed++; next(); showState(lastE); });
     btn.addEventListener('click', () => {
       if (on) { set(false); return; }
       set(true);
@@ -143,6 +159,11 @@
       if (D.mode === 'upcoming') note.textContent = L.radioSoon;
       const x1 = $('[data-rd-speed="1"]');
       if (x1 && x1.getAttribute('aria-checked') !== 'true') { x1.click(); note.textContent = L.radioSpeed; }
+      // Allumé entre deux répliques : la dernière (moins d'une minute et demie) est rejouée tout de suite.
+      if (lastE >= 0 && !segs.some(s => lastE >= s.t && lastE < s.t + s.dur)) {
+        const i = segs.map((s, k) => [s, k]).filter(([s]) => s.t <= lastE && lastE - s.t < 90).map(([, k]) => k).pop();
+        if (i !== undefined && !played.has(i)) { played.add(i); queue.push([i, 0]); }
+      }
       tick(lastE, normal);
     });
     function tick(e, isNormal) {
@@ -157,7 +178,7 @@
         if (live && amb.paused) amb.play().catch(() => {});
         if (!live && !amb.paused) amb.pause();
         const pause = (e >= M.halftime && e < M.kickoff2) || (M.extratime !== null && e >= M.fulltime90 && e < M.extratime);
-        amb.volume = pause ? 0.08 : 0.22;
+        amb.volume = pause ? 0.12 : 0.3;
       }
       segs.forEach((s, i) => {
         if (played.has(i) || e < s.t || e >= s.t + s.dur) return;
@@ -165,8 +186,9 @@
         queue.push([i, playing || queue.length ? 0 : e - s.t]);
       });
       // Une réplique trop en retard (file d'attente) est sautée plutôt que décalée de plus de 20 s.
-      queue = queue.filter(([i]) => e - segs[i].t < 20);
+      queue = queue.filter(([i]) => e - segs[i].t < 90);
       next();
+      showState(e);
     }
     // Pause de la rediffusion : la voix et la foule s'arrêtent, et reprennent avec le match.
     const hold = () => { if (!on) return; held = true; voice.pause(); if (amb) amb.pause(); };
@@ -220,12 +242,16 @@
 
   /* ---------------------------------------------------------- les trois modes */
   if (D.mode === 'live' || D.mode === 'upcoming') {
-    const elapsed = () => serverNow() - D.start;
-    const cd = $('[data-rd-countdown-v]');
+    // Mode test (équipe connectée, dans ce navigateur seulement) : avance, accélère ou saute au
+    // temps fort suivant ; le public, lui, suit toujours l'heure réelle.
+    const tb = $('[data-rd-team]');
+    let off = 0, spd = 1, lastNow = serverNow();
+    const elapsed = () => { const n = serverNow(); off += (n - lastNow) * (spd - 1); lastNow = n; return n - D.start + off; };
+    const cd = $('[data-rd-countdown-v]'), cdBox = $('[data-rd-countdown]');
     let reloadAt = 0;
     const tick = first => {
       const e = elapsed();
-      if (D.mode === 'upcoming') {
+      if (D.mode === 'upcoming' && (e < 0 || !off)) {
         const s = Math.max(0, Math.ceil(-e));
         const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
         const pad = n => String(n).padStart(2, '0');
@@ -235,11 +261,31 @@
         if (reloadAt && Date.now() >= reloadAt) { location.reload(); reloadAt = Infinity; }
         return;
       }
+      if (cdBox) cdBox.hidden = true;
       render(e, !first);
-      radio.tick(e, true);
+      radio.tick(e, spd === 1);
     };
     tick(true);
     setInterval(() => tick(false), 1000);
+    if (tb) {
+      setInterval(() => { if (spd > 1) tick(false); }, 200);
+      const state = $('[data-rd-team-state]', tb);
+      const show = () => {
+        $$('[data-rd-team-speed]', tb).forEach(b => b.setAttribute('aria-checked', +b.dataset.rdTeamSpeed === spd ? 'true' : 'false'));
+        const m = Math.round(Math.abs(off) / 60);
+        state.textContent = Math.abs(off) < 30 ? 'Vous suivez le direct à l’heure réelle.' : off > 0 ? 'Vous êtes en avance de ' + m + ' min sur le direct.' : 'Vous êtes en retard de ' + m + ' min sur le direct.';
+      };
+      $$('[data-rd-team-speed]', tb).forEach(b => b.addEventListener('click', () => { spd = +b.dataset.rdTeamSpeed; show(); }));
+      $('[data-rd-team-plus]', tb).addEventListener('click', () => { off += 300; show(); tick(false); });
+      $('[data-rd-team-next]', tb).addEventListener('click', () => {
+        const e = elapsed(), n = ev.find(x => x.t > e + 0.5 && x.type !== 'kickoff');
+        off += (n ? n.t : M.end) - e;
+        show(); tick(false);
+      });
+      $('[data-rd-team-live]', tb).addEventListener('click', () => { off = 0; spd = 1; show(); tick(false); });
+      $('[data-rd-team-replay]', tb).addEventListener('click', () => { off -= elapsed(); spd = 1; show(); tick(false); });
+      show();
+    }
     document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(false); });
   } else {
     // En accéléré : position du match (secondes), vitesse ×1, ×10, ×60 ; les pauses passent en 4 secondes.
