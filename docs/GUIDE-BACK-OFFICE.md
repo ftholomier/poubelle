@@ -278,7 +278,9 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
 - **Carnets du supporter** (Communauté) : les supporters cochent les matchs vus au stade
   (« J'y étais ! » sur la fiche, ou saison par saison sur /carnet/), avec un lien envoyé à leur
   e-mail ; bilan, badges, porte-bonheur, carte à partager, page publique sous pseudo. L'écran
-  montre le nombre de carnets et les matchs les plus vécus, jamais les e-mails.
+  montre le nombre de carnets et les matchs les plus vécus, jamais les e-mails. Le poster
+  « Ma vie en jaune et bleu » (Boutique › Modèles, livré inactif) se compose d'après le carnet :
+  donnez-lui un prix et activez-le.
 - **Kit souvenirs** (Raconte-moi Bonal) : chaque mois, un PDF en gros
   caractères à imprimer pour les anciens supporters (le grand match d'il y a N ans,
   « Vous les reconnaissez ? », le quiz des anciens, « Racontez-nous » avec QR code). Pour le

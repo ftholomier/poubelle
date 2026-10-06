@@ -1,5 +1,5 @@
 <?php
-/** Carnet du supporter : bilan personnel. Variables : $c (carnet), $s (Carnet::stats), $welcome */
+/** Carnet du supporter : bilan personnel. Variables : $c (carnet), $s (Carnet::stats), $welcome, $poster (adresse du poster en boutique ou null) */
 use App\Core\View;
 $public = $c['public'] ? url('/carnet/p/' . $c['slug'] . '/') : '';
 ?>
@@ -10,6 +10,7 @@ $public = $c['public'] ? url('/carnet/p/' . $c['slug'] . '/') : '';
   <div class="cnactions">
     <a class="btn btn--yellow" href="<?= e(url('/carnet/saisons/')) ?>"><?= e(t('Ajouter des matchs')) ?></a>
     <?php if ($s['n']): ?><a class="btn btn--ghost" href="<?= e(url('/carnet/carte.png')) ?>?telecharger=1"><?= e(t('Télécharger ma carte')) ?></a><?php endif; ?>
+    <?php if (!empty($poster) && $s['n'] >= \App\Shop\CarnetPoster::MIN): ?><a class="btn btn--navy" href="<?= e($poster) ?>"><?= e(t('Mon poster « Ma vie en jaune et bleu »')) ?></a><?php endif; ?>
   </div>
 
   <?php if (!$s['n']): ?>

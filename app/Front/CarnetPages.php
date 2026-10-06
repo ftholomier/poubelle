@@ -50,7 +50,17 @@ final class CarnetPages
         if (!$c) {
             return self::page('accueil', ['seasons' => array_slice(Carnet::seasons(), 0, 6, true)], $meta);
         }
-        return self::page('carnet', ['c' => $c, 's' => Carnet::stats(array_keys($c['matches'])), 'welcome' => isset($req->query['bienvenue'])], $meta);
+        // Poster « Ma vie en jaune et bleu » en vente (boutique ouverte) : proposé à partir de 5 matchs.
+        $poster = null;
+        if (\App\Shop\Orders::open()) {
+            foreach (\App\Shop\Catalog::models() as $m) {
+                if (\App\Shop\Poster::kind($m) === 'carnet' && \App\Shop\Catalog::sellable($m)) {
+                    $poster = \App\Shop\ShopPages::u('/boutique/' . $m['id'] . '/');
+                    break;
+                }
+            }
+        }
+        return self::page('carnet', ['c' => $c, 's' => Carnet::stats(array_keys($c['matches'])), 'welcome' => isset($req->query['bienvenue']), 'poster' => $poster], $meta);
     }
 
     public static function seasons(Request $req): Response

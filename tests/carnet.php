@@ -109,6 +109,33 @@ $eq('lien « ne plus recevoir » signé', [C::stopSig($fid) === C::stopSig($fid)
 C::setReminders($fid, false, null, true);
 $eq('rappels arrêtés', [C::get($fid)['remind_email'], C::get($fid)['remind_push']], [false, []]);
 
+// Poster « Ma vie en jaune et bleu ».
+use App\Shop\CarnetPoster as CP;
+$m = \App\Shop\Catalog::find('c4a7e1b3d9');
+$eq('modèle du poster : genre carnet, champs carnet + dédicace', [\App\Shop\Poster::kind($m), array_keys(\App\Shop\Catalog::fields($m))], ['carnet', ['poster_carnet', 'poster_prenom', 'poster_nom']]);
+$eq('exemple : dessiné, jamais commandable', [count(CP::layers(['x' => 0, 'y' => 0, 'w' => 297, 'h' => 420], ['poster_carnet' => 'exemple'])) > 50, CP::eligible('exemple')], [true, false]);
+$p = C::create('poster@example.org');
+$pid = $p['carnet']['id'];
+C::setMatches($pid, array_slice($ids, 0, 12), true);
+unset($_COOKIE[C::COOKIE]);
+$eq('carnet d’un autre (privé) : refusé', CP::eligible($pid), false);
+$_COOKIE[C::COOKIE] = $p['credential'];
+$eq('son propre carnet (cookie) : commandable', CP::eligible($pid), true);
+$chk = \App\Shop\Catalog::check($m, ['poster_carnet' => $pid, 'poster_prenom' => 'Jean', 'poster_nom' => 'Lionceau']);
+$eq('contrôle de la commande : accepté', $chk['errors'], []);
+$frozen = implode(',', CP::idsFor($pid));
+$d = CP::data(CP::idsFor($pid));
+$eq('données du poster : 12 matchs, saisons, grands matchs', [$d['n'], array_sum(array_column($d['seasons_list'], 'm')), count($d['big']) >= 2], [12, 12, true]);
+$face = ['w' => 297, 'h' => 420, 'bg' => '#0E1F4D', 'layers' => [['id' => 'pc', 'type' => 'poster', 'kind' => 'carnet', 'x' => 0, 'y' => 0, 'w' => 297, 'h' => 420]]];
+$svgMine = \App\Shop\Vector::svg($face, ['poster_carnet' => $pid, 'poster_prenom' => 'Jean', 'poster_nom' => 'Lionceau']);
+C::delete($pid);
+unset($_COOKIE[C::COOKIE]);
+$svgFrozen = \App\Shop\Vector::svg($face, ['poster_carnet' => $pid, '_carnet_ids' => $frozen, 'poster_prenom' => 'Jean', 'poster_nom' => 'Lionceau']);
+$eq('fichier d’impression figé : identique même après suppression du carnet', $svgFrozen === $svgMine, true);
+[$mm] = \App\Shop\Catalog::applyOptions($m, []);
+$pdf = \App\Shop\Catalog::printPdf($mm, ['poster_carnet' => $pid, '_carnet_ids' => $frozen, 'poster_prenom' => 'Jean', 'poster_nom' => 'Lionceau', '_poster_no' => '2026-0001'], 'Poster', [], 'A3');
+$eq('PDF d’impression produit', str_starts_with($pdf, '%PDF') && strlen($pdf) > 20000, true);
+
 array_map('unlink', glob("$tmp/push/*") ?: []);
 @rmdir("$tmp/push");
 array_map('unlink', glob("$tmp/*") ?: []);

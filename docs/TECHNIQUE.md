@@ -758,6 +758,14 @@ souvenirs) pour refaire les PDF en cache.
   `/carnet/rappels/arret/{id}/{signature}/` pour arrêter) et/ou notification vers les appareils
   choisis (`remind_push`, identifiants d'abonnement de l'appli, 5 au plus ; un envoi caché par
   match fêté, `only` = ces appareils). Un rappel par carnet et par jour (`reminded`).
+- **Poster « Ma vie en jaune et bleu »** (`App\Shop\CarnetPoster`, `CarnetPosterLayout`) : calque
+  « poster » de genre « carnet » (champs `poster_carnet`, `poster_prenom`, `poster_nom`), même grille
+  A3 que les posters du match et du joueur. Commandable pour son propre carnet (cookie) ou une page
+  publique, à partir de 5 matchs ; `Orders::line()` fige la liste des matchs dans l'article
+  (`_carnet_ids`), utilisée ensuite pour l'aperçu et le PDF. Exemple (`exemple`) : matchs à domicile
+  de 1985-1986 à 1991-1992, un sur deux. Le catalogue n'affiche jamais un carnet réel (ses aperçus
+  sont des fichiers publics) ; la fiche produit montre le carnet de l'appareil. Modèle livré
+  inactif (`c4a7e1b3d9`), sans prix.
 - **Back-office** : Communauté › Carnets du supporter (nombre, matchs cochés, matchs les plus
   vécus ; aucun e-mail affiché). Tests : `tests/carnet.php`.
 

@@ -211,3 +211,5 @@
 @media (max-width: 700px) { .shopzoom__in > svg { width: 100%; height: auto; } }
 .shopanec__tl { font-weight: 600; font-size: 15px; }
 .shopanec__tl small { font-weight: 400; color: var(--mist, #6b7280); }
+.shopcarnet__ok { margin: 0 0 4px; padding: 10px 12px; background: var(--butter, #FFF3C2); border: 2px solid var(--navy, #0E1F4D); }
+.shopcarnet__no { margin: 0 0 4px; }

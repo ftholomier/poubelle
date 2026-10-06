@@ -592,5 +592,6 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 ## Carnet du supporter (octobre 2026)
 - [x] Version 1 : « J'y étais ! » des fiches et saisie par saison, carnet ouvert par lien envoyé à l'e-mail (obligatoire), bilan, porte-bonheur, 14 badges, carte à partager, page publique sous pseudo, suppression, back-office, confidentialité, tests
 - [x] Anniversaire des matchs vus : « Il y a N ans jour pour jour, vous étiez au stade », par e-mail et/ou notification, au choix dans le carnet
-- [ ] Suite : poster « Ma vie en jaune et bleu » en boutique, lien avec le kit souvenirs
+- [x] Poster « Ma vie en jaune et bleu » en boutique (modèle livré inactif : prix à fixer), liste des matchs figée à la commande
+- [ ] Suite possible : lien avec le kit souvenirs (« vous étiez à ce match du mois »)
 

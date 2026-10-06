@@ -133,7 +133,7 @@
     : l.type === 'text' && l.mode === 'client' && String(l.field || '').startsWith('match_') ? '⚽ Ton match · ' + (((D.tonmatch || []).find(x => x.field === l.field) || {}).label || l.field)
     : l.type === 'text' && l.mode === 'client' && l.list ? '☰ Phrase au choix (' + (((D.lists || {})[l.list] || {}).name || 'liste') + ')'
     : l.type === 'text' ? (l.mode === 'client' ? '✎ ' : '') + '« ' + (String(l.text || '').slice(0, 28) || '…') + ' »'
-    : l.type === 'poster' ? (l.kind === 'joueur' ? '🖼 Poster souvenir du joueur (généré)' : '🖼 Poster souvenir du match (généré)')
+    : l.type === 'poster' ? (l.kind === 'joueur' ? '🖼 Poster souvenir du joueur (généré)' : l.kind === 'carnet' ? '🖼 Poster « Ma vie en jaune et bleu » (carnet du supporter)' : '🖼 Poster souvenir du match (généré)')
     : l.type === 'rect' ? 'Rectangle' : 'Rond';
   function list() {
     const ls = L();
@@ -156,7 +156,7 @@
     if (!b) return;
     const f = F(), w = f.w, h = f.h, k = b.dataset.add;
     let l;
-    if (k === 'poster' || k === 'posterj') { l = { type: 'poster', kind: k === 'posterj' ? 'joueur' : 'match', x: 0, y: 0, w: r1(w), h: r1(h) }; if (!f.bg) f.bg = '#0E1F4D'; } // fond marine jusque dans les fonds perdus
+    if (k === 'poster' || k === 'posterj' || k === 'posterc') { l = { type: 'poster', kind: { posterj: 'joueur', posterc: 'carnet' }[k] || 'match', x: 0, y: 0, w: r1(w), h: r1(h) }; if (!f.bg) f.bg = '#0E1F4D'; } // fond marine jusque dans les fonds perdus
     else if (k === 'logo') { const lw = Math.min(w * 0.35, h * 0.5 / 1.133); l = { type: 'logo', x: r1((w - lw) / 2), y: r1(h * 0.1), w: r1(lw), style: 'couleurs', color: '#FDC729' }; }
     else if (k === 'rect' || k === 'ellipse') l = { type: k, x: r1(w * 0.3), y: r1(h * 0.3), w: r1(w * 0.4), h: r1(Math.min(h * 0.2, w * 0.4)), fill: k === 'ellipse' ? '#F6C400' : '', stroke: k === 'rect' ? '#F6C400' : '', sw: k === 'rect' ? r1(Math.max(0.5, w / 200)) : 0, r: 0 };
     else {
@@ -194,7 +194,9 @@
     if (!l) { fields(); return; }
     let h = `<div class="card__head"><h2 class="card__t card__t--sm">${esc(label(l))}</h2><button type="button" class="btn btn--sm btn--ghost" data-center title="Centrer sur la largeur">Centrer</button></div>`;
     h += `<div class="pgrid">${num('x', 'X (mm)')}${num('y', 'Y (mm)')}${num('w', 'Largeur', 0.5, 1)}${l.type === 'rect' || l.type === 'ellipse' || l.type === 'poster' ? num('h', 'Hauteur', 0.5, 0.2) : ''}</div>`;
-    if (l.type === 'poster' && l.kind === 'joueur') {
+    if (l.type === 'poster' && l.kind === 'carnet') {
+      h += `<p class="xs muted" style="margin:6px 0 0">Composition générée d’après le carnet du supporter du client (les matchs qu’il a vus au stade) : le nombre de matchs en grand, son bilan, ses saisons au stade, son porte-bonheur, ses badges, ses grands matchs, les buteurs et les joueurs vus, ses adversaires, avec « pour Prénom Nom » en haut et un numéro de pièce attribué à la commande. Le client doit avoir ouvert son carnet sur l’appareil (au moins 5 matchs) ; la liste de ses matchs est figée à la commande. Exemple affiché : un abonné de Bonal à la fin des années 1980. Prévu pour l’A3 ; sur un autre format, il est mis à l’échelle.</p>`;
+    } else if (l.type === 'poster' && l.kind === 'joueur') {
       h += `<p class="xs muted" style="margin:6px 0 0">Composition générée d’après la fiche du joueur choisi par le client : son nom en grand, ses grands chiffres (matchs, buts, saisons, minutes), sa carrière saison par saison, sa fiche d’identité, son palmarès, ses grands matchs, ses records au club, une anecdote, une citation, son histoire et ses jalons (premier match, premier but, dernier match), avec « pour Prénom Nom » en haut et un numéro de pièce attribué à la commande. Seuls les joueurs d’au moins 30 matchs sont proposés. Exemple affiché : Mecha Bazdarevic. Prévu pour l’A3 ; sur un autre format, il est mis à l’échelle.</p>`;
     } else if (l.type === 'poster') {
       h += `<p class="xs muted" style="margin:6px 0 0">Composition générée d’après la fiche du match choisi par le client : affiche et score, onze de départ, film du match, tribunes, citations, anecdote, chiffre, récit et saison, avec « pour Prénom Nom » en haut et un numéro de pièce attribué à la commande. Le client choisit son match dans les propositions (seuls les matchs à la fiche complète) et donne son prénom et son nom. Exemple affiché : finale de la Coupe de France 1988. Prévu pour l’A3 ; sur un autre format, il est mis à l’échelle.</p>`;

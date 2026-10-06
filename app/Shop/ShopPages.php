@@ -163,7 +163,7 @@ final class ShopPages
         $sup = Catalog::support($m['support']);
         return self::page('produit', [
             'm' => $m, 'sup' => $sup, 'fields' => Catalog::fields($m), 'positions' => Catalog::positions($m),
-            'svg' => self::preview($m, [], self::samples($m, $anec = self::anecStart($m))), 'anec' => $anec, 'config' => Orders::config(), 'count' => self::count(),
+            'svg' => self::preview($m, [], self::carnetValues($m, self::samples($m, $anec = self::anecStart($m)))), 'anec' => $anec, 'config' => Orders::config(), 'count' => self::count(),
             'faces' => array_keys(array_filter($m['faces'], fn ($f) => $f['layers'] || $f['bg'])), 'flash' => Session::pull('shop_flash'),
         ], ['title' => $m['name'], 'description' => $m['sale']['desc'] ?: $m['name'] . ' · boutique Sochaux Rétro']);
     }
@@ -197,7 +197,7 @@ final class ShopPages
         }
         $pf = Poster::fieldOf($m);
         if (Poster::isFor($m) && (string) ($in['values'][$pf] ?? '') !== '' && ($lab = Poster::subject(Poster::kind($m), (string) ($values[$pf] ?? ''))) !== null) {
-            $note = (Poster::kind($m) === 'joueur' ? 'Votre joueur : ' : 'Votre match : ') . $lab . '.';
+            $note = ['joueur' => 'Votre joueur : ', 'carnet' => 'Votre ', 'match' => 'Votre match : '][Poster::kind($m)] . $lab . '.';
         }
         $chk = Catalog::check($mm, array_filter(array_map('strval', (array) ($in['values'] ?? []))));
         $size = (string) ($in['size'] ?? '');
@@ -322,6 +322,18 @@ final class ShopPages
             $v[Anecdotes::FIELD] = $anec['text'] ?? Anecdotes::clean($v[Anecdotes::FIELD]);
         }
         return self::matchSample($m, $v);
+    }
+
+    /**
+     * Poster du carnet : l'aperçu de la fiche produit montre le carnet ouvert sur l'appareil (jamais
+     * dans le catalogue, dont les aperçus sont des fichiers publics).
+     */
+    private static function carnetValues(array $m, array $v): array
+    {
+        if (Poster::kind($m) === 'carnet' && ($c = \App\Services\Carnet::current()) && CarnetPoster::eligible($c['id'])) {
+            $v[CarnetPoster::FIELD] = $c['id'];
+        }
+        return $v;
     }
 
     /** « Ton match » sans date choisie : l'exemple de la finale 1988, jamais les noms des champs. */

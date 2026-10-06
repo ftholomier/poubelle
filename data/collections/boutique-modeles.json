@@ -1109,5 +1109,30 @@
                 ]
             }
         }
+    },
+    {
+        "id": "c4a7e1b3d9",
+        "name": "Poster « Ma vie en jaune et bleu »",
+        "support": "poster",
+        "color": "",
+        "active": false,
+        "updated": "2026-10-06T18:51:55+00:00",
+        "by": "",
+        "faces": {
+            "recto": {
+                "bg": "#0E1F4D",
+                "layers": [
+                    {
+                        "id": "pc",
+                        "type": "poster",
+                        "kind": "carnet",
+                        "x": 0,
+                        "y": 0,
+                        "w": 297,
+                        "h": 420
+                    }
+                ]
+            }
+        }
     }
 ]

@@ -78,7 +78,11 @@ final class Vector
             $id = (string) ($l['id'] ?? $i);
             if ($type === 'poster') {
                 // Poster souvenir d'un match ou d'un joueur : une composition entière, générée d'après la fiche choisie.
-                foreach (self::shapes(($l['kind'] ?? '') === 'joueur' ? PlayerPoster::layers($l, $values) : Poster::layers($l, $values), $values) as $sh) {
+                foreach (self::shapes(match ($l['kind'] ?? '') {
+                    'joueur' => PlayerPoster::layers($l, $values),
+                    'carnet' => CarnetPoster::layers($l, $values),
+                    default => Poster::layers($l, $values),
+                }, $values) as $sh) {
                     $out[] = ['layer' => $id] + $sh;
                 }
                 continue;

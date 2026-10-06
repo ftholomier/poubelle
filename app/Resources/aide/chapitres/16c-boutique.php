@@ -102,6 +102,14 @@ HTML],
 </ol>
 <p><b>Les chiffres</b> viennent du tableau de statistiques de la fiche, recalculés saison par saison (une ligne « Total » d’origine fausse est ignorée). Sans tableau, ils viennent des compositions, matchs amicaux exclus. L’IA ajoute une fois par joueur l’anecdote, la citation mot pour mot, un portrait en une phrase et une histoire condensée, avec les mêmes vérifications que pour les matchs.</p>
 HTML],
+        ['id' => 'poster-carnet', 'title' => 'Le poster « Ma vie en jaune et bleu »', 'admin' => true, 'html' => <<<'HTML'
+<p>Le poster du <b>carnet du supporter</b> : les matchs que le client a cochés comme vus au stade deviennent son affiche. On y trouve le nombre de matchs en très grand, son bilan (victoires, nuls, défaites, buts vus), ses <b>saisons au stade</b> en bâtons, son porte-bonheur, ses badges, ses grands matchs (premier, plus belle victoire, plus grosse affluence, dernier), les buteurs et les Lionceaux qu’il a le plus vus et ses adversaires. Il porte la même dédicace « pour Prénom Nom », le même numéro de pièce et les mêmes formats A4, A3 et A2. Aucun coût d’IA.</p>
+<ol>
+<li><b>Le modèle est prêt</b> : Boutique › Modèles, « Poster « Ma vie en jaune et bleu » » (support « Poster (A4, A3, A2) »). Donnez-lui un prix et activez-le. Pour en créer un autre : bouton <b>« + Poster du carnet du supporter »</b> de l’éditeur.</li>
+<li><b>Côté client</b> : le poster se compose d’après son carnet, ouvert sur l’appareil (au moins 5 matchs). Un bouton <b>« Mon poster »</b> apparaît dans son carnet dès que le modèle est en vente. Sans carnet, la fiche produit montre un exemple et l’invite à créer le sien.</li>
+</ol>
+<p>À la mise au panier, <b>la liste des matchs est figée</b> dans la commande : le fichier de l’imprimeur ne change plus, même si le client modifie ou supprime son carnet ensuite.</p>
+HTML],
         ['id' => 'commandes', 'title' => 'Les commandes', 'admin' => true, 'html' => <<<'HTML'
 <p>Le client paie par carte (Stripe, les mêmes clés que les dons et les adhésions) : l’argent arrive sur le compte de l’association. La commande payée part aussitôt chez l’imprimeur, avec un <b>PDF d’impression par article</b>, et le client reçoit un e-mail avec son lien de suivi.</p>
 <ul>

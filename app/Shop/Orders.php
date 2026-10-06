@@ -135,6 +135,11 @@ final class Orders
                 return ['error' => 'Complétez « ' . $f['label'] . ' ».'];
             }
         }
+        // Poster du carnet : la liste des matchs est figée dans la commande (le fichier d'impression
+        // ne change plus, même si le carnet est modifié ou supprimé ensuite).
+        if (isset($chk['values'][CarnetPoster::FIELD])) {
+            $chk['values']['_carnet_ids'] = implode(',', CarnetPoster::idsFor((string) $chk['values'][CarnetPoster::FIELD]) ?? []);
+        }
         $qty = Poster::isFor($m) ? 1 : max(1, min(20, (int) ($in['qty'] ?? 1))); // poster dédicacé et numéroté : un exemplaire
         $unit = Catalog::price($m, $size);
         return ['item' => [
@@ -167,6 +172,10 @@ final class Orders
         if (isset($it['values'][Poster::FIELD])) {
             $d = Poster::data((string) $it['values'][Poster::FIELD]);
             $p[] = 'Poster : ' . ($d ? Poster::label($d['dm']) : 'match n° ' . $it['values'][Poster::FIELD]);
+            $p[] = 'pour ' . trim(($it['values']['poster_prenom'] ?? '') . ' ' . ($it['values']['poster_nom'] ?? ''));
+        } elseif (isset($it['values'][CarnetPoster::FIELD])) {
+            $n = count(array_filter(explode(',', (string) ($it['values']['_carnet_ids'] ?? ''))));
+            $p[] = 'Poster « Ma vie en jaune et bleu » : ' . $n . ' match' . ($n > 1 ? 's' : '');
             $p[] = 'pour ' . trim(($it['values']['poster_prenom'] ?? '') . ' ' . ($it['values']['poster_nom'] ?? ''));
         } elseif (isset($it['values'][PlayerPoster::FIELD])) {
             $d = PlayerPoster::data((string) $it['values'][PlayerPoster::FIELD]);

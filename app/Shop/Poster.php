@@ -58,13 +58,13 @@ final class Poster
         return false;
     }
 
-    /** Genre du poster d'un modèle : « match » ou « joueur » ('' sans calque poster). */
+    /** Genre du poster d'un modèle : « match », « joueur » ou « carnet » ('' sans calque poster). */
     public static function kind(array $model): string
     {
         foreach ($model['faces'] as $f) {
             foreach ($f['layers'] as $l) {
                 if (($l['type'] ?? '') === 'poster') {
-                    return ($l['kind'] ?? '') === 'joueur' ? 'joueur' : 'match';
+                    return in_array($l['kind'] ?? '', ['joueur', 'carnet'], true) ? $l['kind'] : 'match';
                 }
             }
         }
@@ -74,18 +74,29 @@ final class Poster
     /** Champ du sujet du poster (match ou joueur) d'un modèle. */
     public static function fieldOf(array $model): string
     {
-        return self::kind($model) === 'joueur' ? PlayerPoster::FIELD : self::FIELD;
+        return match (self::kind($model)) {
+            'joueur' => PlayerPoster::FIELD,
+            'carnet' => CarnetPoster::FIELD,
+            default => self::FIELD,
+        };
     }
 
     /** Sujet en vente comme poster de ce genre. */
     public static function eligibleFor(string $kind, string $id): bool
     {
-        return $kind === 'joueur' ? PlayerPoster::eligible($id) : self::eligible($id);
+        return match ($kind) {
+            'joueur' => PlayerPoster::eligible($id),
+            'carnet' => CarnetPoster::eligible($id),
+            default => self::eligible($id),
+        };
     }
 
     /** Libellé du sujet (match ou joueur), null s'il n'existe pas. */
     public static function subject(string $kind, string $id): ?string
     {
+        if ($kind === 'carnet') {
+            return CarnetPoster::label($id);
+        }
         if ($kind === 'joueur') {
             $d = PlayerPoster::data($id);
             return $d ? PlayerPoster::label($d) : null;
@@ -97,12 +108,16 @@ final class Poster
     /** Prépare le contenu IA du sujet (une fois). */
     public static function prepare(string $kind, string $id): bool
     {
-        return $kind === 'joueur' ? PlayerPoster::enrich($id) : self::enrich($id);
+        return match ($kind) {
+            'joueur' => PlayerPoster::enrich($id),
+            'carnet' => true, // rien à préparer : tout vient du carnet
+            default => self::enrich($id),
+        };
     }
 
     public static function prepared(string $kind, string $id): bool
     {
-        return (bool) ($kind === 'joueur' ? PlayerPoster::enriched($id) : self::enriched($id));
+        return $kind === 'carnet' || (bool) ($kind === 'joueur' ? PlayerPoster::enriched($id) : self::enriched($id));
     }
 
     /** Match en vente comme poster : fiche publiée avec un score et assez de matière. */
