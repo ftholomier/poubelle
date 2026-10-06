@@ -333,5 +333,5 @@ sautés ; compter environ une heure et 3 à 4 Go). Une largeur seule : `images 8
 
 Le **cache des pages** (Réglages › Général, activé par défaut) resert aux visiteurs anonymes les
 pages déjà calculées ; il se met à jour seul après chaque enregistrement et chaque mise à jour.
-En cas de doute sur une page restée ancienne : `php bin/console.php pages-vider`.
+En cas de doute sur une page restée ancienne : bouton « Rafraîchir toutes les pages maintenant » (Réglages › Général), ou `php bin/console.php pages-vider`.
 

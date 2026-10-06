@@ -231,6 +231,7 @@ final class Router
         $r->get('/admin/reglages', fn ($q) => System::settings($q));
         $r->get('/admin/page-attente', fn ($q) => System::waiting($q));
         $r->post('/admin/reglages', fn ($q) => System::settingsSave($q));
+        $r->post('/admin/reglages/vider-pages', fn ($q) => System::purgePages($q));
         $r->get('/admin/sauvegardes', fn ($q) => System::backups($q));
         $r->post('/admin/sauvegardes', fn ($q) => System::backupsAction($q));
         $r->get('/admin/sauvegardes/{file}', fn ($q, $file) => System::backupDownload($q, $file));

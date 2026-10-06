@@ -22,6 +22,12 @@ $isWaiting = $group === 'waiting';
     </div>
   </div>
 <?php endif; ?>
+<?php if ($group === 'general' && \App\Core\Auth::can('settings')): ?>
+  <div class="alert alert--info row" style="margin:0;justify-content:space-between;gap:12px">
+    <span>Une page publique peut rester ancienne jusqu’à une minute après une modification (cache des pages). Pour tout rafraîchir tout de suite :</span>
+    <form method="post" action="/admin/reglages/vider-pages"><?= csrf_field() ?><button type="submit" class="btn">Rafraîchir toutes les pages maintenant</button></form>
+  </div>
+<?php endif; ?>
 <?php if ($group === 'ai'): ?>
   <p class="alert <?= $status['ready'] ? 'alert--ok' : '' ?>" style="margin:0"><?= $status['ready'] ? 'Clé Gemini enregistrée.' . (!empty($options['_error']) ? ' <b class="ko">La liste des modèles n’a pas pu être chargée : ' . e($options['_error']) . '</b>' : ' ' . count($options['gemini_generate_models']) . ' modèle(s) disponible(s) pour cette clé.') : 'Saisissez la clé API Gemini (Google AI Studio) puis enregistrez : la liste des modèles disponibles se charge automatiquement.' ?></p>
 <?php elseif ($group === 'audio'): ?>

@@ -444,6 +444,17 @@ final class System extends Base
         };
     }
 
+    /** Bouton « Rafraîchir toutes les pages maintenant » (Réglages › Général) : vide le cache des pages. */
+    public static function purgePages(Request $req): Response
+    {
+        if (!Auth::can('settings')) {
+            return self::back('/admin/reglages?groupe=general', null, 'Réservé aux administrateurs.');
+        }
+        $n = \App\Core\PageCache::purge();
+        Activity::log(self::actor(), 'a vidé le cache des pages', null);
+        return self::back('/admin/reglages?groupe=general', 'Cache des pages vidé (' . $n . ' fichier(s)) : chaque page est refaite à la prochaine visite.');
+    }
+
     public static function settingsSave(Request $req): Response
     {
         $in = $req->json() ?: $req->post;
