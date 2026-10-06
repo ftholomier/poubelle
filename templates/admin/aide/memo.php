@@ -75,11 +75,11 @@
         <tr><td>Vérifier ou compléter une fiche, sources à l’appui</td><td>panneau Recherche sur le web › Chercher sur le web</td></tr>
         <tr><td>Rediriger une adresse, fermer le site un moment</td><td>Éditorial › Redirections, Page d’attente</td></tr>
         <tr><td>Quiz, frise, carte, Rétro-Direct, kit souvenirs</td><td>Interactif ; témoignages « Ils y étaient » : Contributions</td></tr>
-        <tr><td>Contributions et messages des visiteurs</td><td>Communauté</td></tr>
+        <tr><td>Contributions, messages, carnets du supporter</td><td>Communauté</td></tr>
         <tr><td>Ce qui reste à vérifier, les nouvelles anomalies</td><td>Pilotage › Qualité › Contrôler maintenant</td></tr>
         <tr><td>Version anglaise</td><td>Système › Traductions EN, ou onglet Version EN</td></tr>
         <tr><td>Voix « Écouter » des fiches et des pages de synthèse</td><td>carte Écouter de l’éditeur ; Système › Fiches audio</td></tr>
-        <tr><td>Installer la dernière version du site (admin.)</td><td>Système › Mises à jour</td></tr>
+        <tr><td>Installer la dernière version, rafraîchir les pages (admin.)</td><td>Système › Mises à jour ; Réglages › Général</td></tr>
         <tr><td>Une ancienne version, une fiche supprimée</td><td>onglet Historique ; « Voir la corbeille »</td></tr>
       </table>
     </div>

@@ -595,3 +595,8 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Poster « Ma vie en jaune et bleu » en boutique (modèle livré inactif : prix à fixer), liste des matchs figée à la commande
 - [ ] Suite possible : lien avec le kit souvenirs (« vous étiez à ce match du mois »)
 
+## Documents de présentation (octobre 2026, mise à jour)
+- [x] Présentation `docs/sochaux-retro-presentation.pdf` : 53 pages (carnet du supporter, poster « Ma vie en jaune et bleu », « Prêt pour le lancement » avec les mesures de vitesse, page récapitulative à jour)
+- [x] Infographie A4 `docs/sochaux-retro-fonctionnalites.pdf` : carnet du supporter, poster du carnet, cache des pages (toujours 2 pages)
+- [x] Guide (130 pages) et mémo (2 pages) de l'aide régénérés : sections et captures du carnet, du poster, bouton « Rafraîchir toutes les pages »
+
