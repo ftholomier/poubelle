@@ -121,6 +121,10 @@ switch ($cmd) {
         }
         break;
 
+    case 'pages-vider':
+        echo \App\Core\PageCache::purge() . " page(s) retirée(s) du cache\n";
+        break;
+
     case 'medias':
         $total = 0;
         $rounds = intdiv(count(\App\Data\Media::all()), 500) + 2;

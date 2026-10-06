@@ -331,3 +331,7 @@ lancement, mieux vaut qu'elles existent déjà. En SSH, depuis le dossier du sit
 sautés ; compter environ une heure et 3 à 4 Go). Une largeur seule : `images 800`, ou une liste :
 `images 480,800,1200`. Détails et autres étapes : `docs/PLAN-VITESSE-LANCEMENT.md`.
 
+Le **cache des pages** (Réglages › Général, activé par défaut) resert aux visiteurs anonymes les
+pages déjà calculées ; il se met à jour seul après chaque enregistrement et chaque mise à jour.
+En cas de doute sur une page restée ancienne : `php bin/console.php pages-vider`.
+

@@ -42,12 +42,19 @@ production (Apache 2.4 + PHP-FPM 8.3, 8 processus PHP, OPcache, 4 processeurs) a
   identiques sur 25 recherches types) ; page /recherche/ limitée à 30 recherches par minute et
   par adresse ; suggestions gardées 5 minutes par le navigateur ; côté navigateur, rien sous
   2 lettres, 250 ms après la dernière frappe, réponses déjà reçues réutilisées.
+- **Cache des pages pour les visiteurs anonymes** (`PageCache`, Réglages › Général) : une page
+  déjà calculée est resservie telle quelle (accueil : environ 230 → 1 830 pages par seconde sur
+  le banc ; page Chiffres : 1 110). Jamais pour l'équipe ni pour un visiteur qui a une session,
+  le site fermé, le site de l'association, la boutique, les dons, les formulaires, la recherche,
+  le Rétro-Direct ni les adresses aux paramètres inconnus. Refaite dès qu'un contenu ou un
+  réglage change, au plus tard après une minute, jamais servie d'un jour sur l'autre ; un seul
+  visiteur la refait, les autres reçoivent la précédente. Accueil et murs de photos : quatre
+  tirages au hasard gardés. Vider à la main : `php bin/console.php pages-vider`.
 
 ## Reste à faire avant le lancement
 Les points P0, P1 et OPS du plan ci-dessous, sauf ceux corrigés plus haut : la préparation
-complète des vignettes sur le serveur avant l'ouverture (OPS-2), puis le cache des pages pour les visiteurs anonymes (P1-1,
-le plus gros gain de capacité) et, la boutique ouvrant au lancement, les points boutique de la
-section 5 qui deviennent P1.
+complète des vignettes sur le serveur avant l'ouverture (OPS-2) et, la boutique ouvrant au
+lancement, les points boutique de la section 5 qui deviennent P1.
 
 ---
 

@@ -584,5 +584,6 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Teaser servi par Apache (plus par PHP), limiteur de débit en fichiers répartis, choix des cookies sans limitation, JavaScript compressé
 - [x] Calculs en cache faits une seule fois (les autres visiteurs reçoivent la version précédente) ; vignettes : verrou par image, 2 fabrications au plus à la fois, `images all` pour tout préparer
 - [x] Diaporama de l'accueil : une seule photo chargée à l'arrivée ; recherche bornée (pire cas 143 → 28 ms, mêmes résultats), limitée par adresse, suggestions mises en cache
-- [ ] Reste du plan avant l'ouverture (vers le 25/12/2026) : préparation des vignettes sur le serveur, cache des pages, boutique
+- [x] Cache des pages pour les visiteurs anonymes (accueil : environ 230 → 1 830 pages par seconde sur le banc), réglable dans Réglages › Général
+- [ ] Reste du plan avant l'ouverture (vers le 25/12/2026) : préparation des vignettes sur le serveur, boutique
 

@@ -14,6 +14,8 @@ return [
         'fields' => [
             'site_name' => ['label' => 'Nom du site', 'type' => 'text', 'default' => 'Sochaux Rétro'],
             'site_tagline' => ['label' => 'Signature', 'type' => 'text', 'default' => 'Le musée en ligne du FCSM'],
+            'page_cache' => ['label' => 'Cache des pages pour les visiteurs (recommandé)', 'type' => 'bool', 'default' => true,
+                'help' => 'Une page déjà calculée est resservie en 1 ms environ : le site encaisse beaucoup plus de visiteurs. Jamais pour l’équipe connectée, les formulaires, la boutique ni la recherche ; refaite dès qu’on enregistre quelque chose, et au plus tard au bout d’une minute. À décocher seulement en cas de souci.'],
             'base_url' => ['label' => 'Adresse du site', 'type' => 'url', 'default' => 'https://musee.fcsochauxretro.com', 'help' => 'Sans barre oblique finale.'],
             'contact_email' => ['label' => 'E-mail de réception des messages', 'type' => 'email', 'default' => ''],
             'domain_label' => ['label' => 'Adresse affichée sur les images de partage', 'type' => 'text', 'default' => 'musee.fcsochauxretro.com'],
