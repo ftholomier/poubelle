@@ -1,7 +1,7 @@
 <?php
 /** Carnet du supporter : bilan personnel. Variables : $c (carnet), $s (Carnet::stats), $welcome, $poster (adresse du poster en boutique ou null) */
 use App\Core\View;
-$public = $c['public'] ? url('/carnet/p/' . $c['slug'] . '/') : '';
+$public = $c['public'] ? \App\Services\Carnet::publicUrl($c) : '';
 ?>
 <?= View::partial('carnet/_head', ['title' => t('Mon carnet du supporter'), 'intro' => '', 'crumb' => t('Mon carnet')]) ?>
 <div class="wrap cnwrap" data-cn-page>
