@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shop;
 
+use App\Core\Memo;
 use App\Core\RateLimiter;
 use App\Core\Request;
 use App\Core\Response;
@@ -65,6 +66,39 @@ final class ShopPages
     }
 
     /**
+     * Aperçu du catalogue en fichier statique (public/assets/boutique/), servi par Apache et gardé
+     * par le navigateur : la page ne pèse plus 500 Ko et n'est plus dessinée à chaque visite
+     * (130 ms). Nom tiré du modèle, du support, des textes et du code du dessin : tout changement
+     * donne un nouveau fichier. Fichiers inutilisés depuis 30 jours effacés de temps en temps.
+     */
+    public static function previewUrl(array $m, array $values = []): string
+    {
+        $code = Memo::stamp([__DIR__ . '/Mockup.php', __DIR__ . '/Vector.php', __DIR__ . '/Catalog.php']);
+        $key = substr(md5(json_encode([$m, Catalog::support($m['support']), $values, $code])), 0, 16);
+        $dir = PUBLIC_PATH . '/assets/boutique';
+        $file = $dir . '/' . $key . '.svg';
+        $mtime = @filemtime($file);
+        if ($mtime === false) {
+            @mkdir($dir, 0775, true);
+            $tmp = $file . '.' . getmypid() . '.tmp';
+            if (@file_put_contents($tmp, self::preview($m, [], $values)) === false || !@rename($tmp, $file)) {
+                @unlink($tmp);
+                return 'data:image/svg+xml;base64,' . base64_encode(self::preview($m, [], $values));
+            }
+            if (random_int(1, 50) === 1) {
+                foreach (glob($dir . '/*.svg') ?: [] as $f) {
+                    if (@filemtime($f) < time() - 30 * 86400) {
+                        @unlink($f);
+                    }
+                }
+            }
+        } elseif ($mtime < time() - 86400) {
+            @touch($file); // encore utilisé : pas effacé par le ménage
+        }
+        return '/assets/boutique/' . $key . '.svg';
+    }
+
+    /**
      * Modèles 3D de l'aperçu (public/assets/3d/, allégés par bin/build-shop3d-models.sh) : tous tirés
      * de Sketchfab sous licence Creative Commons Attribution 4.0, d'où le crédit affiché sous la vue 3D.
      */
@@ -112,7 +146,7 @@ final class ShopPages
         foreach (self::products() as $m) {
             $sup = Catalog::support($m['support']);
             $from = $m['sale']['price'] + ($m['sale']['extra'] ? 0 : 0);
-            $cards[] = ['m' => $m, 'sup' => $sup, 'svg' => self::preview($m, [], self::samples($m, self::anecStart($m))), 'from' => $from];
+            $cards[] = ['m' => $m, 'sup' => $sup, 'img' => self::previewUrl($m, self::samples($m, self::anecStart($m))), 'from' => $from];
         }
         return self::page('index', ['cards' => $cards, 'config' => Orders::config(), 'count' => self::count()], ['title' => 'Boutique', 'description' => 'Les objets de Sochaux Rétro, personnalisés et fabriqués à la demande près de chez nous. Chaque achat soutient l’association.']);
     }
@@ -226,6 +260,7 @@ final class ShopPages
             return Response::json(['ok' => true, 'ready' => false]);
         }
         RateLimiter::hit('boutique-poster-ia', 'site', $budget, 86400);
+        Session::release(); // le client peut continuer à composer pendant la préparation
         return Response::json(['ok' => true, 'ready' => Poster::prepare($kind, $id)]);
     }
 
@@ -270,6 +305,7 @@ final class ShopPages
         // Sujet choisi par le client (un match, un joueur) : seulement un identifiant connu du musée.
         $topic = (string) ($in['topic'] ?? '');
         $topic = $topic !== '' && Anecdotes::topicFact($topic) !== null ? $topic : '';
+        Session::release(); // le client peut continuer à composer pendant que l'IA rédige
         $r = Anecdotes::pick($layers, $avoid, $aiAllowed, $topic);
         if (!isset($r['pool']) && !isset($r['error'])) {
             RateLimiter::hit('boutique-anecdote-ia', 'site', $budget, 86400);
@@ -294,7 +330,9 @@ final class ShopPages
         if (!TonMatch::isFor($m)) {
             return $v;
         }
-        return array_replace($v, array_intersect_key(TonMatch::values('1988-06-11'), $v));
+        // Gardé : sinon 50 à 100 ms à chaque affichage du catalogue (buteurs de tout le musée lus).
+        $sample = Memo::get('boutique-ton-match-exemple', [\App\Data\Index::CACHE, __DIR__ . '/TonMatch.php'], \App\Data\Derived::built(), fn () => TonMatch::values('1988-06-11'));
+        return array_replace($v, array_intersect_key($sample, $v));
     }
 
     /** Une anecdote du stock pour ouvrir la fiche (signée : commandable telle quelle), ou null. */

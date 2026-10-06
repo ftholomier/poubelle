@@ -11,3 +11,4 @@
 
 # Copies du teaser servies par Apache (créées à la demande depuis app/Resources/video)
 /public/assets/video/
+/public/assets/boutique/

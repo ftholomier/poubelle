@@ -448,6 +448,19 @@ final class Catalog
      */
     public static function fields(array $model): array
     {
+        // Gardé par modèle : vérifier que chaque phrase proposée tient dans le cadre coûte environ
+        // 10 ms, et l'aperçu en direct le demande à chaque frappe du client.
+        $sig = md5(json_encode($model));
+        return self::$fields[$sig] ??= \App\Core\Memo::get('boutique-champs-' . ($model['id'] ?? 'x'),
+            [Collections::DIR . '/' . Texts::FILE . '.json', __FILE__, __DIR__ . '/Vector.php', __DIR__ . '/Texts.php', __DIR__ . '/Poster.php', __DIR__ . '/PlayerPoster.php'],
+            $sig, fn () => self::computeFields($model));
+    }
+
+    /** @var array<string,array> champs déjà calculés pendant la requête */
+    private static array $fields = [];
+
+    private static function computeFields(array $model): array
+    {
         $out = [];
         $layers = [];
         foreach ($model['faces'] as $f) {

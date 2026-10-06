@@ -41,8 +41,20 @@ final class Session
         }
     }
 
+    /**
+     * Une session existe (déjà ouverte, ou cookie envoyé). Sans elle, lire ou effacer une valeur
+     * ne crée ni fichier ni cookie : un simple visiteur (catalogue de la boutique…) n'en a pas.
+     */
+    private static function exists(): bool
+    {
+        return session_status() === PHP_SESSION_ACTIVE || isset($_COOKIE['sr_session']);
+    }
+
     public static function get(string $key, mixed $default = null): mixed
     {
+        if (!self::exists()) {
+            return $default;
+        }
         self::start();
         return $_SESSION[$key] ?? $default;
     }
@@ -56,6 +68,9 @@ final class Session
     /** Lit une valeur et l'efface (message ou saisie à réafficher une seule fois). */
     public static function pull(string $key, mixed $default = null): mixed
     {
+        if (!self::exists()) {
+            return $default;
+        }
         self::start();
         $v = $_SESSION[$key] ?? $default;
         unset($_SESSION[$key]);
@@ -64,6 +79,9 @@ final class Session
 
     public static function forget(string $key): void
     {
+        if (!self::exists()) {
+            return;
+        }
         self::start();
         unset($_SESSION[$key]);
     }
@@ -77,6 +95,9 @@ final class Session
     /** @return list<array{type:string,message:string}> */
     public static function takeFlash(): array
     {
+        if (!self::exists()) {
+            return [];
+        }
         self::start();
         $f = $_SESSION['_flash'] ?? [];
         unset($_SESSION['_flash']);
@@ -94,6 +115,9 @@ final class Session
 
     public static function checkCsrf(?string $token): bool
     {
+        if (!self::exists()) {
+            return false;
+        }
         self::start();
         return is_string($token) && !empty($_SESSION['_csrf']) && hash_equals($_SESSION['_csrf'], $token);
     }

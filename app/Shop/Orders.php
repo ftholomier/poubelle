@@ -384,7 +384,6 @@ final class Orders
         if (!$o || !$first) {
             return false;
         }
-        Accounts::fetchFee($id);
         if (!empty($o['promo']['code'])) {
             Promos::used($o['promo']['code'], $o['id'], $o['customer']['email']);
         }
@@ -393,6 +392,22 @@ final class Orders
                 Anecdotes::sold((string) $it['values'][Anecdotes::FIELD]);
             }
         }
+        // Fichiers d'impression, frais Stripe et e-mails (plusieurs secondes) : après l'envoi de la
+        // page au client ou de la réponse à Stripe. Un fichier manquant se refait à la demande.
+        if (PHP_SAPI === 'cli') {
+            self::afterPaid($o);
+        } else {
+            register_shutdown_function(function () use ($o) {
+                \App\Core\Response::detach();
+                @set_time_limit(300);
+                self::afterPaid($o);
+            });
+        }
+        return true;
+    }
+
+    private static function afterPaid(array $o): void
+    {
         self::buildPdfs($o);
         $c = self::config();
         $link = self::trackingUrl($o);
@@ -403,7 +418,7 @@ final class Orders
         if ($c['alert_email'] !== '') {
             self::mail($c['alert_email'], 'Boutique : commande ' . $o['id'] . ' payée (' . self::money($o['total']) . ')', '<p>Commande <b>' . e($o['id']) . '</b> de ' . e($o['customer']['name']) . ' payée : ' . e(self::money($o['total'])) . '.</p>' . self::itemsHtml($o) . '<p><a href="' . e(base_url() . '/admin/boutique/commandes/' . $o['id']) . '">Voir dans le back-office</a></p>');
         }
-        return true;
+        Accounts::fetchFee($o['id']);
     }
 
     /** Fichier d'impression de chaque article (storage/shop/pdf/{commande}-{n}.pdf). */

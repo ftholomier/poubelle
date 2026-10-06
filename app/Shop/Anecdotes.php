@@ -530,7 +530,14 @@ final class Anecdotes
         if (self::$ai === null && !Gemini::ready()) {
             return self::fromPool($layers, $asked, $topic);
         }
-        for ($try = 0; $try < 4; $try++) {
+        // Au plus 3 tirages par l'IA à la fois sur tout le site (chacun occupe un processus PHP
+        // plusieurs secondes) et 25 s au total : au-delà, la réserve d'anecdotes déjà rédigées.
+        $slot = self::$ai === null ? self::slot() : true;
+        if ($slot === null) {
+            return self::fromPool($layers, $asked, $topic);
+        }
+        $until = microtime(true) + 25;
+        for ($try = 0; $try < 4 && microtime(true) < $until; $try++) {
             [$fact] = self::fact($topic, count($asked) + $try);
             if ($fact === '') {
                 break;
@@ -538,7 +545,7 @@ final class Anecdotes
             $ask = "Fait : $fact\nLongueur maximale : " . ($try > 1 ? (int) ($max * 0.8) : $max) . " caractères, espaces compris.\nRéponds par la phrase seule.";
             try {
                 $out = self::$ai !== null ? (string) (self::$ai)(self::SYSTEM, $ask)
-                    : (string) Gemini::generate([['role' => 'user', 'text' => $ask]], self::SYSTEM, ['for' => 'boutique', 'ref' => 'boutique:anecdote', 'temperature' => 0.9, 'max_tokens' => 400])['text'];
+                    : (string) Gemini::generate([['role' => 'user', 'text' => $ask]], self::SYSTEM, ['for' => 'boutique', 'ref' => 'boutique:anecdote', 'temperature' => 0.9, 'max_tokens' => 400, 'timeout' => 12])['text'];
             } catch (\Throwable $e) {
                 return self::fromPool($layers, $asked);
             }
@@ -569,6 +576,22 @@ final class Anecdotes
             }
         }
         return self::fromPool($layers, $asked, $topic); // l'IA n'a rien donné de sûr : la réserve
+    }
+
+    /** Une des 3 places de tirage par l'IA (verrou gardé jusqu'à la fin de la requête), ou null. */
+    private static function slot(): mixed
+    {
+        @mkdir(STORAGE_PATH . '/shop', 0775, true);
+        for ($i = 0; $i < 3; $i++) {
+            $fp = @fopen(STORAGE_PATH . '/shop/ia-place-' . $i . '.lock', 'c');
+            if ($fp && flock($fp, LOCK_EX | LOCK_NB)) {
+                return $fp;
+            }
+            if ($fp) {
+                fclose($fp);
+            }
+        }
+        return null;
     }
 
     /** Anecdote vendue : elle ne sera plus proposée à personne. */

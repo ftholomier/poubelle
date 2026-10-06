@@ -50,11 +50,24 @@ production (Apache 2.4 + PHP-FPM 8.3, 8 processus PHP, OPcache, 4 processeurs) a
   réglage change, au plus tard après une minute, jamais servie d'un jour sur l'autre ; un seul
   visiteur la refait, les autres reçoivent la précédente. Accueil et murs de photos : quatre
   tirages au hasard gardés. Vider à la main : `php bin/console.php pages-vider`.
+- **Boutique** (mesuré avec les 10 modèles en vente) :
+  - catalogue 130 ms et 500 Ko → 8 ms et 44 Ko (556 pages par seconde en charge) : les aperçus
+    sont des fichiers SVG statiques (`public/assets/boutique/`, nom tiré du modèle et du code du
+    dessin) servis par Apache, l'exemple « Ton match » et les phrases proposées de chaque modèle
+    (`Catalog::fields`, 10 ms par appel) sont gardés en cache ;
+  - aperçu en direct pendant la saisie : 11 ms ;
+  - plus aucune session ouverte pour un simple visiteur (lire le panier sans cookie n'en crée
+    pas) : seuls la fiche produit (jeton du formulaire) et le panier en ont une ;
+  - après le paiement, fichiers d'impression, frais Stripe et e-mails partent une fois la page
+    envoyée (un fichier manquant se refait à la demande) ;
+  - tirage d'anecdote par l'IA : au plus 3 à la fois sur tout le site, 12 s par appel, 25 s au
+    total, sinon la réserve ; la session est libérée pendant le tirage et la préparation du poster.
 
 ## Reste à faire avant le lancement
 Les points P0, P1 et OPS du plan ci-dessous, sauf ceux corrigés plus haut : la préparation
-complète des vignettes sur le serveur avant l'ouverture (OPS-2) et, la boutique ouvrant au
-lancement, les points boutique de la section 5 qui deviennent P1.
+complète des vignettes sur le serveur avant l'ouverture (OPS-2). Boutique : remplir la réserve
+d'anecdotes avant l'ouverture (back-office) ; une commande par fichier reste à faire si le
+volume le demande.
 
 ---
 

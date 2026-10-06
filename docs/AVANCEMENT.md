@@ -585,5 +585,6 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Calculs en cache faits une seule fois (les autres visiteurs reçoivent la version précédente) ; vignettes : verrou par image, 2 fabrications au plus à la fois, `images all` pour tout préparer
 - [x] Diaporama de l'accueil : une seule photo chargée à l'arrivée ; recherche bornée (pire cas 143 → 28 ms, mêmes résultats), limitée par adresse, suggestions mises en cache
 - [x] Cache des pages pour les visiteurs anonymes (accueil : environ 230 → 1 830 pages par seconde sur le banc), réglable dans Réglages › Général
-- [ ] Reste du plan avant l'ouverture (vers le 25/12/2026) : préparation des vignettes sur le serveur, boutique
+- [x] Boutique : catalogue 130 → 8 ms (aperçus en fichiers statiques), pas de session pour un simple visiteur, travail après paiement hors de la page, tirages IA bornés
+- [ ] Reste avant l'ouverture (vers le 25/12/2026) : préparer les vignettes sur le serveur, remplir la réserve d'anecdotes
 

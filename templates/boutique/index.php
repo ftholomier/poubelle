@@ -1,5 +1,5 @@
 <?php
-/** Boutique : catalogue. Variables : $cards [m, sup, svg, from], $config, $count */
+/** Boutique : catalogue. Variables : $cards [m, sup, img, from], $config, $count */
 use App\Shop\Orders;
 use App\Shop\ShopPages;
 ?>
@@ -14,7 +14,7 @@ use App\Shop\ShopPages;
     <div class="shopgrid">
       <?php foreach ($cards as $c): ?>
       <a class="shopcard" href="<?= e(ShopPages::u('/boutique/' . $c['m']['id'] . '/')) ?>" data-reveal>
-        <div class="shopcard__img"><?= $c['svg'] ?><?php if (\App\Shop\Catalog::unique($c['m'])): ?><span class="shopuniq" title="Un seul exemplaire : anecdote tirée pour vous, ou poster dédicacé et numéroté">★ Pièce unique</span><?php endif; ?></div>
+        <div class="shopcard__img"><img src="<?= e($c['img']) ?>" alt="" loading="lazy" decoding="async"><?php if (\App\Shop\Catalog::unique($c['m'])): ?><span class="shopuniq" title="Un seul exemplaire : anecdote tirée pour vous, ou poster dédicacé et numéroté">★ Pièce unique</span><?php endif; ?></div>
         <div class="shopcard__txt">
           <span class="eyebrow"><?= e($c['sup']['name']) ?></span>
           <h2 class="shopcard__t"><?= e($c['m']['name']) ?></h2>
