@@ -50,7 +50,7 @@ final class Sheets extends Base
         }
         ksort($seasons);
         return self::html('admin/system/feuilles', [
-            'state' => $state, 'summary' => FeuillesImport::summary($state), 'recent' => $recent, 'seasons' => $seasons, 'total' => count($sheets),
+            'state' => $state, 'summary' => FeuillesImport::summary($state), 'recent' => $recent, 'seasons' => $seasons, 'total' => count($sheets), 'bilans' => \App\Services\Bilans::unlinked(40),
         ], ['title' => 'Feuilles de match', 'crumb' => 'Système', 'nav' => 'feuilles', 'scripts' => ['admin/feuilles.js']]);
     }
 

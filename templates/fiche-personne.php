@@ -221,9 +221,33 @@ $rowsHtml = function (array $list, bool $coach) {
 
 <?php endif; ?>
 
-<?php if ($statsLong || $highlights): ?>
+<?php $bilan ??= null; if ($statsLong || $highlights || $bilan): ?>
 <section class="wrap pstats">
-  <?php if ($statsLong && $statsLong['rows']): ?>
+  <?php if ($bilan): ?>
+  <div class="pstats__col">
+    <h2 class="h-section"><?= e(t('Saison par saison')) ?></h2>
+    <div class="dtable-wrap">
+      <table class="dtable stable">
+        <thead><tr><th scope="col"><?= e(t('Saison')) ?></th><th scope="col"><?= e(t('Compétition')) ?></th><th scope="col" class="n"><abbr title="<?= e(t('matchs joués')) ?>"><?= e(t('MJ')) ?></abbr></th><th scope="col" class="n"><abbr title="<?= e(t('titularisations')) ?>"><?= e(t('Tit.')) ?></abbr></th><th scope="col" class="n"><?= e(t('Min.')) ?></th><th scope="col" class="n"><?= e(t('Buts')) ?></th><th scope="col" class="n"><abbr title="<?= e(t('cartons jaunes / rouges')) ?>"><?= e(t('Cartons')) ?></abbr></th></tr></thead>
+        <tbody>
+          <?php $lastSeason = null; foreach ($bilan['rows'] as $r): $newSeason = $r['season'] !== $lastSeason; $lastSeason = $r['season']; ?>
+          <tr class="<?= $newSeason ? 'is-first' : '' ?>">
+            <td class="season"><?= $newSeason ? e($r['season']) : '' ?></td>
+            <td><?= e(t($r['comp'])) ?></td>
+            <td class="n"><?= (int) $r['matches'] ?></td>
+            <td class="n"><?= $r['starts'] === null ? '–' : (int) $r['starts'] ?></td>
+            <td class="n"><?= e(number_format($r['minutes'], 0, ',', "\u{202F}")) ?></td>
+            <td class="n"><?= (int) $r['goals'] ?></td>
+            <td class="n"><?= $r['yellow'] || $r['red'] ? (int) $r['yellow'] . ($r['red'] ? ' / ' . (int) $r['red'] : '') : '' ?></td>
+          </tr>
+          <?php endforeach; $T = $bilan['total']; ?>
+          <tr class="total is-first"><td class="season"><?= e(t('Total')) ?></td><td><?= (int) $T['seasons'] ?> <?= e(t('saisons')) ?></td><td class="n"><?= (int) $T['matches'] ?></td><td class="n"><?= (int) $T['starts'] ?></td><td class="n"><?= e(number_format($T['minutes'], 0, ',', "\u{202F}")) ?></td><td class="n"><?= (int) $T['goals'] ?></td><td class="n"><?= (int) $T['yellow'] ?><?= $T['red'] ? ' / ' . (int) $T['red'] : '' ?></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <span class="pstats__note"><?= e(t('D’après les bilans des archives de l’association (matchs officiels).')) ?></span>
+  </div>
+  <?php elseif ($statsLong && $statsLong['rows']): ?>
   <div class="pstats__col" data-statsbox>
     <h2 class="h-section"><?= e($statsLong['raw']['title'] && !preg_match('/^statistiques?$/iu', (string) $statsLong['raw']['title']) ? $statsLong['raw']['title'] : t('Saison par saison')) ?></h2>
     <div class="dtable-wrap" data-stats-long>

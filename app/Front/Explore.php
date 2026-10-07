@@ -179,8 +179,17 @@ final class Explore
         $current = self::currentSeason() === $season;
 
         $division = $S['division'] ?? null;
+        // Classement final du championnat, d'après les bilans des archives du club.
+        $place = null;
+        foreach (\App\Services\Bilans::season($season) as $comp => $b) {
+            if (preg_match('/^(\d+)\s*(?:er|ère|ème|e)\b/u', (string) $b['rank'], $pm) && !preg_match('/coupe|tournoi|challenge/iu', (string) $comp)) {
+                $place = ['v' => $pm[1] === '1' ? '1er' : $pm[1] . 'e', 'k' => t('classement final'), 'yellow' => true, 'title' => mb_convert_case(mb_strtolower((string) $comp), MB_CASE_TITLE) . ' : ' . $b['rank']];
+                break;
+            }
+        }
         $sums = array_values(array_filter([
             $division ? ['v' => self::shortDivision($division), 'k' => t('Division'), 'yellow' => true, 'title' => $division] : null,
+            $place,
             ['v' => count($matches), 'k' => count($matches) > 1 ? t('matchs fichés') : t('match fiché')],
             ['v' => $res['V'], 'k' => $res['V'] > 1 ? t('victoires') : t('victoire'), 'yellow' => true],
             ['v' => $res['N'], 'k' => $res['N'] > 1 ? t('nuls') : t('nul')],
@@ -529,6 +538,7 @@ final class Explore
     public const RECORDS = [
         'buteurs' => ['Buteurs', 'Meilleurs buteurs', 'buts'],
         'matchs' => ['Matchs joués', 'Joueurs les plus utilisés', 'matchs'],
+        'minutes' => ['Temps de jeu', 'Joueurs aux plus de minutes', 'minutes'],
         'affluences' => ['Affluences', 'Plus grosses affluences', 'spectateurs'],
         'victoires' => ['Larges victoires', 'Plus larges victoires', 'écart'],
         'series' => ['Séries', "Plus longues séries d'invincibilité", 'matchs'],
@@ -583,6 +593,13 @@ final class Explore
                     if (count($rows) >= $limit) {
                         break;
                     }
+                }
+                break;
+            case 'minutes':
+                // Bilans des archives du club (minutes de chaque joueur depuis 1932).
+                foreach (\App\Services\Bilans::top('minutes', $limit, $decade, $comp) as $b) {
+                    $rows[] = ['name' => $b['name'], 'meta' => trim(($b['position'] ? ucfirst((string) $b['position']) . ' · ' : '') . $b['years']), 'v' => number_format($b['value'], 0, ',', ' '),
+                        'href' => $b['path'] ? url($b['path']) : url('/recherche/') . '?q=' . rawurlencode($b['name']), 'image' => $b['image']];
                 }
                 break;
             case 'affluences':

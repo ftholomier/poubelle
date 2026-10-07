@@ -402,6 +402,13 @@ final class Fiche
 
         // Grands chiffres : calculés depuis les compositions, sinon tirés du tableau de statistiques.
         $statTotals = self::statsTotals($p['stats'] ?? null);
+        // Bilans des archives du club (minutes, titularisations) : chiffres complets depuis 1932.
+        $bilan = \App\Services\Bilans::forPerson($id);
+        if ($bilan) {
+            $statTotals['matches'] = max((int) ($statTotals['matches'] ?? 0), $bilan['total']['matches']);
+            $statTotals['goals'] = max((int) ($statTotals['goals'] ?? 0), $bilan['total']['goals']);
+            $statTotals['seasons'] = max((int) ($statTotals['seasons'] ?? 0), $bilan['total']['seasons']);
+        }
         if ($isCoachOnly && $coachMatches) {
             $big = [
                 ['v' => (string) count($coachMatches), 'k' => t('matchs dirigés')],
@@ -415,6 +422,9 @@ final class Fiche
                 ['v' => (string) max($tot['goals'] ?? 0, $statTotals['goals'] ?? 0), 'k' => t('buts')],
                 ['v' => (string) max($tot['seasons'] ?? 0, $statTotals['seasons'] ?? 0) ?: '–', 'k' => t('saisons')],
             ];
+            if ($bilan && $bilan['total']['minutes'] > 0) {
+                $big[] = ['v' => number_format($bilan['total']['minutes'], 0, ',', "\u{202F}"), 'k' => t('minutes jouées')];
+            }
         }
 
         $highlights = self::personHighlights($doc, $matches);
@@ -456,6 +466,7 @@ final class Fiche
             'tot' => $tot,
             'big' => $big,
             'statsLong' => $statsLong,
+            'bilan' => $bilan,
             'matches' => $matches,
             'playerMatches' => $playerMatches,
             'coachMatches' => $coachMatches,

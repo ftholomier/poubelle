@@ -1534,6 +1534,17 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   (`legacy.fcsmstory`, section « Sources »), rubrique de saison créée si absente, texte de saison dans la description
   de la rubrique seulement si elle est vide. Coûts IA comptés sous `import`. Écran : `App\Admin\Heritage`.
 
+## Bilans des joueurs (`App\Services\Bilans`)
+
+Grilles de minutes des bilans de l'association (`BIL_aaaabb.xls(x)`, feuilles `D1-J`, `CF-J`… : minutes par
+match, puis sections Buts et Cartons ; « 35M (35T) = 3039 » donne les titularisations) lues une fois dans
+`app/Resources/import/bilans-joueurs.json.gz` (`rows` : saison, feuille, nom, matchs, titularisations, minutes,
+buts, jaunes, rouges, minutes par date ; `bilans` : lignes de la feuille BILAN, classement final).
+`links()` relie un nom (« REVELLI P. », « M. MARTIN ») à une fiche personne visible : même nom de famille
+(lettres seules), même initiale si donnée, époque compatible (arrivée/départ, sinon naissance) ; sinon aucun lien.
+Utilisé par `Fiche::personData` (`bilan`, grands chiffres), `Explore::recordRows('minutes')`, `Explore::season`
+(classement final) et `Admin\Sheets` (noms sans fiche). Test : `tests/bilans.php`.
+
 ## Import des feuilles de match (`App\Services\FeuillesImport`, `App\Admin\Sheets`)
 
 Système › Feuilles de match (`/admin/import-feuilles`, administrateurs). Les feuilles Word de l'association

@@ -1,6 +1,6 @@
 <?php
 /**
- * Système › Feuilles de match. Variables : $state, $summary, $recent, $seasons, $total
+ * Système › Feuilles de match. Variables : $state, $summary, $recent, $seasons, $total, $bilans
  */
 use App\Services\FeuillesImport as F;
 
@@ -72,3 +72,11 @@ $labels = ['fait' => ['Créée', 'ok'], 'compare' => ['Comparée', 'info'], 'err
   </ul>
 </section>
 <?php endif; ?>
+
+<section class="card card--pad stack">
+  <h2 class="card__t" style="margin:0">Bilans des joueurs (minutes jouées)</h2>
+  <p class="small" style="margin:0">Les bilans de l’association (1932-2024 : matchs, titularisations, minutes, buts et cartons par saison et compétition) s’affichent d’eux-mêmes sur les fiches joueurs, dans le livre des records (« Temps de jeu ») et le classement final sur les pages de saison. <b><?= (int) $bilans['linked'] ?></b> noms sur <?= (int) $bilans['names'] ?> sont reliés à leur fiche (même nom, même initiale, même époque). Pour les autres, créez la fiche du joueur (ou complétez son prénom et ses années au club) : le lien se fait tout seul.</p>
+  <?php if ($bilans['list']): ?>
+  <p class="xs muted" style="margin:0">Sans fiche, par minutes jouées : <?= e(implode(' · ', array_map(fn ($x) => \App\Services\Bilans::pretty($x['name']) . ' (' . number_format($x['minutes'], 0, ',', ' ') . ' min, ' . implode('/', array_map(fn ($y) => substr($y, 0, 4), array_slice(array_keys($x['seasons']), 0, 1))) . ')', $bilans['list']))) ?></p>
+  <?php endif; ?>
+</section>
