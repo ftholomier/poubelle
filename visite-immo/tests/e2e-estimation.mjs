@@ -50,6 +50,14 @@ try {
   verifier(r.estimation && r.estimation.comparables.every((c) => c.type === "Appartement"), "appartement : uniquement des ventes d'appartements");
   verifier(duree < 400, `réponse en ${duree} ms (ventes en cache)`);
 
+  // Petite commune : trop peu de ventes, on ajoute les communes voisines
+  const village = await api(page, "estimation", { query: { lat: 47.0442, lon: 6.3561, citycode: "25350", adresse: "Bretigney", type_bien: "Maison", surface_habitable: 115, nb_pieces: 5 } });
+  verifier(village.nb_ventes_commune < 12, `village : seulement ${village.nb_ventes_commune} ventes en 5 ans`);
+  verifier(village.communes_voisines.length >= 1 && village.estimation, `élargi aux communes voisines (${village.communes_voisines.join(", ")}) : ${village.estimation?.prix.toLocaleString("fr-FR")} €, confiance ${village.estimation?.confiance.niveau}`);
+  verifier(village.estimation.comparables.some((c) => c.commune) && village.estimation.communes_voisines.length, "les ventes des communes voisines sont repérées dans la liste");
+  const lougres = await api(page, "estimation", { query: { lat: 47.0942, lon: 6.3561, citycode: "25349", type_bien: "Maison", surface_habitable: 115, nb_pieces: 5 } });
+  verifier(lougres.communes_voisines.length === 0, "commune bien fournie : pas d'élargissement");
+
   await page.click("#visite");
   await page.waitForSelector("#titre");
   verifier((await page.inputValue("#titre")).includes("Chênois"), "« Démarrer la visite ici » préremplit l'adresse");

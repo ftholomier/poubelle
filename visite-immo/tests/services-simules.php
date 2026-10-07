@@ -70,21 +70,32 @@ if (str_starts_with($path, '/dpe/lines')) {
     ]]]);
 }
 
+// --- Découpage administratif (geo.api.gouv.fr) : commune où tombe un point ---
+// Trois communes simulées : Lougres (25349, beaucoup de ventes), le village de Bretigney (25350, au sud, très
+// peu de ventes) et Saint-Julien (25351, plus au sud).
+if ($path === '/geo/communes') {
+    $la = (float) ($q['lat'] ?? 0);
+    $c = $la > LAT - 0.025 ? ['code' => '25349', 'nom' => 'Lougres'] : ($la > LAT - 0.085 ? ['code' => '25350', 'nom' => 'Bretigney'] : ['code' => '25351', 'nom' => 'Saint-Julien']);
+    json([$c]);
+}
+
 // --- DVF (CSV Etalab par commune et par année) ---
 if (preg_match('#^/dvf/(\d{4})/communes/(\w+)/(\w+)\.csv$#', $path, $m)) {
     header('Content-Type: text/csv');
+    $decalage = ['25350' => -0.05, '25351' => -0.11][$m[3]] ?? 0.0; // position de la commune par rapport à Lougres
     $cols = 'id_mutation,date_mutation,numero_disposition,nature_mutation,valeur_fonciere,adresse_numero,adresse_suffixe,adresse_nom_voie,adresse_code_voie,code_postal,code_commune,nom_commune,code_departement,ancien_code_commune,ancien_nom_commune,id_parcelle,ancien_id_parcelle,numero_volume,lot1_numero,lot1_surface_carrez,lot2_numero,lot2_surface_carrez,lot3_numero,lot3_surface_carrez,lot4_numero,lot4_surface_carrez,lot5_numero,lot5_surface_carrez,nombre_lots,code_type_local,type_local,surface_reelle_bati,nombre_pieces_principales,code_nature_culture,nature_culture,code_nature_culture_speciale,nature_culture_speciale,surface_terrain,longitude,latitude';
     echo $cols . "\n";
     $an = (int) $m[1];
     $ventes = [[118, 5, 900, 352000, 0.004], [132, 6, 1200, 395000, -0.006], [96, 4, 650, 289000, 0.009], [140, 6, 1500, 431000, 0.012], [110, 5, 700, 338000, -0.011], [75, 3, 0, 185000, 0.002]];
     foreach ($ventes as $i => [$surf, $p, $terrain, $prix, $d]) {
         if (($i + $an) % 3 === 0 && $an < 2024) continue; // des années plus ou moins fournies
+        if ($m[3] === '25350' && $i > 0) continue;          // le village : une vente par an au plus
         $type = $terrain ? 'Maison' : 'Appartement';
         $code = $terrain ? 1 : 2;
         printf("%d-%d,%d-%02d-15,1,Vente,%d,%d,,RUE DES TILLEULS,B001,25260,25349,Lougres,25,,,25349000AB%04d,,,,,,,,,,,,,0,%d,%s,%d,%d,S,sols,,,%d,%.6f,%.6f\n",
-            $an, $i, $an, ($i % 12) + 1, $prix + ($an - 2022) * 4000, 2 + $i, 100 + $i, $code, $type, $surf, $p, $terrain, LON + $d, LAT - $d / 2);
+            $an, $i, $an, ($i % 12) + 1, $prix + ($an - 2022) * 4000, 2 + $i, 100 + $i, $code, $type, $surf, $p, $terrain, LON + $d, LAT + $decalage - $d / 2);
         if ($terrain) printf("%d-%d,%d-%02d-15,2,Vente,%d,%d,,RUE DES TILLEULS,B001,25260,25349,Lougres,25,,,25349000AB%04d,,,,,,,,,,,,,0,3,Dépendance,,,S,sols,,,0,%.6f,%.6f\n",
-            $an, $i, $an, ($i % 12) + 1, $prix + ($an - 2022) * 4000, 2 + $i, 100 + $i, LON + $d, LAT - $d / 2);
+            $an, $i, $an, ($i % 12) + 1, $prix + ($an - 2022) * 4000, 2 + $i, 100 + $i, LON + $d, LAT + $decalage - $d / 2);
     }
     exit;
 }

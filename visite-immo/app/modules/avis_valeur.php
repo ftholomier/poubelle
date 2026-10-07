@@ -56,6 +56,7 @@ function calculer_avis_valeur(array $v): ?array
         'confiance' => $e['confiance'],
         'tendance' => $e['tendance'],
         'comparables' => $e['comparables'],
+        'communes_voisines' => $e['communes_voisines'] ?? [],
         'simulation' => $e['simulation'],
         'argumentaire' => '',
     ];
@@ -67,7 +68,7 @@ function argumentaire_avis(array $v, array $a, array $agent): string
     $f = fn ($n) => number_format($n, 0, ',', ' ') . ' €';
     $ecart = $a['ecart_vendeur'];
     $type = mb_strtolower(champ($v, 'type_bien') ?: 'bien');
-    $base = "Nous avons étudié " . count($a['comparables']) . " ventes réelles de biens comparables ({$type}s les plus ressemblants : surface, pièces, terrain, proximité) enregistrées par l'administration fiscale. "
+    $base = "Nous avons étudié " . count($a['comparables']) . " ventes réelles de biens comparables ({$type}s les plus ressemblants : surface, pièces, terrain, proximité) enregistrées par l'administration fiscale" . (!empty($a['communes_voisines']) ? ', dans la commune et, faute de ventes suffisantes, dans les communes voisines (' . implode(', ', $a['communes_voisines']) . ')' : '') . '. '
         . "Une fois actualisés selon l'évolution du marché local, ces prix donnent une valeur de référence de {$f($a['prix_m2_median'])} par m², la plupart des ventes se situant entre {$f($a['prix_m2_bas'])} et {$f($a['prix_m2_haut'])} par m².";
     if (empty($CONFIG['gemini_api_key'])) {
         $txt = $base . "\n\n";

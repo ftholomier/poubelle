@@ -26,7 +26,7 @@ PHP natif, sans framework, sans Composer, **sans base de données** : tout est s
   prévu), le pourcentage « opérationnel », mis à jour en direct ; pendant l'enregistrement, la **captation en direct**
   indique les sujets déjà abordés et ceux à demander.
 - Menu : tableau de bord (palier de rémunération, temps gagné), **estimer un bien** (prix en temps réel d'après les
-  ventes similaires DVF), prospection (logements F/G, courriers),
+  ventes similaires DVF, communes voisines ajoutées dans les petites communes), prospection (logements F/G, courriers),
   réseau (coaching 90 jours, formation ALUR, juriste, collègues), paramètres.
 - Pour les clients, **sans mot de passe** : espace vendeur (documents, signature, dépôt des pièces en photo, visites,
   offres), espace notaire, page publique du bien avec assistant.
@@ -58,7 +58,8 @@ Le détail de chaque module et du modèle de données est dans `PASSATION.md`.
 4. Ouvrir le site : au premier lancement, on crée le **compte administrateur**.
 5. **Paramètres** (administrateur) : clé Gemini et modèles, identité et mentions légales de l'agence, logo, envoi des
    e-mails (SMTP), adresse publique du site, signature électronique (intégrée, firma.dev, BoldSign ou votre API), paliers de
-   rémunération, lien d'avis Google, e-mail du juriste, conservation de l'audio, **jeu de démonstration**.
+   rémunération, lien d'avis Google, e-mail du juriste, conservation de l'audio, **journal des accès** (RGPD : qui a
+   consulté quel dossier ou quelle pièce d'identité, export CSV), **jeu de démonstration**.
    Sans clé Gemini, l'appli tourne en **mode démo** (tout est simulé, rien n'est bloqué).
 6. Chaque agent renseigne son e-mail et son téléphone dans **Mon compte** et active les notifications sur son téléphone
    (écran Aujourd'hui).

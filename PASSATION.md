@@ -100,6 +100,7 @@ Modules socles (chargés en premier) : `dossier` (étapes, prochaine action, doc
 | `offres`, `compromis`, `lcbft`, `facturation` | offre → acceptation, échéancier et relances, anti-blanchiment, facture, commission, avis Google |
 | `aujourdhui`, `quotidien`, `push` | écran Aujourd'hui, tâches, bilan d'appel, commande vocale, briefing, tableau de bord, notifications Web Push |
 | `prospection`, `reseau`, `rgpd`, `demo_jeu` | prospection, réseau, données personnelles, jeu de démonstration |
+| `journal_acces` | journal des accès (RGPD) : qui a consulté quel dossier, document ou pièce d'identité ; écran admin, CSV, purge |
 
 ### 3.2 Fichiers
 
@@ -142,6 +143,8 @@ visite-immo/
 | `registre.json`, `factures.json` | registre des mandats, registre des factures (numéros chronologiques) |
 | `conversations/` | échanges de l'assistant de la page du bien |
 | `couts/AAAA-MM.json`, `cron.json`, `cache/` | coûts IA, dernier passage du cron, caches (DVF : CSV 30 jours + ventes lues 1 jour, registre des gels) |
+| `acces/AAAA-MM.jsonl` | journal des accès (une ligne JSON par accès, ajout seul, effacé après N mois) |
+| `cache/voisines/<insee>.json` | communes voisines d'une commune (estimation élargie) |
 | `signatures_externes.json`, `logs/signature.log` | demande firma.dev / BoldSign → dossier ; échanges avec le service (sans secret) |
 
 Le dossier (`visite.json`) s'enrichit au fil de la vie du bien :
@@ -201,6 +204,7 @@ les tests et un changement d'URL sans toucher au code (`api_base()` dans `bootst
 | DVF | `files.data.gouv.fr/geo-dvf/latest/csv/<année>/communes/<dép>/<insee>.csv` | ventes (cache 30 jours) | simulées |
 | Gel des avoirs | `gels-avoirs.dgtresor.gouv.fr/…/derniere-publication-flux-json` | LCB-FT (cache 1 jour) | « vérification à refaire » |
 | Leaflet + OpenStreetMap | `cdnjs.cloudflare.com`, tuiles OSM | cartes de prospection et d'estimation | liste seule |
+| Découpage administratif | `geo.api.gouv.fr/communes?lat=&lon=` | communes voisines (estimation dans les petites communes) | estimation sur la commune seule |
 | firma.dev | `api.firma.dev/functions/v1/signing-request-api` | signature électronique (mode recommandé) | message d'erreur, rien n'est envoyé |
 | BoldSign | `api-eu.boldsign.com` | signature électronique (comme le projet Qualiopi) | idem |
 
@@ -309,6 +313,15 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
 - **Estimation** : ventes DVF de la commune notées selon leur ressemblance (surface ±25 %, pièces, terrain, distance,
   ancienneté), prix actualisés avec la tendance locale (médiane par année, ±10 %/an au plus), médiane et
   quantiles 20/80 pondérés, ajustements état / DPE / extérieur / stationnement / exposition, indice de confiance.
+  **Petites communes** : sous 12 ventes du même type en 5 ans, on ajoute les communes voisines (trouvées en
+  demandant à geo.api.gouv.fr la commune de 16 points placés à 4 et 9 km), jusqu'à 30 ventes et 6 communes au plus ;
+  la distance est alors jugée à l'échelle du canton (5 km au lieu de 1,5 km). Les communes ajoutées sont citées à
+  l'écran et dans l'argumentaire de l'avis de valeur.
+- **Journal des accès** : consultations de dossier par les agents (une ligne par quart d'heure et par dossier), PDF
+  (mandat, dossier complet, fiche notaire, fiche de vigilance marqués sensibles), pièces, audio, exports, dépôt de
+  pièce d'identité ; côté clients, ouverture de l'espace, documents et pièces. Date, personne, rôle, bien, objet,
+  adresse IP. Consultation et export CSV réservés aux administrateurs (l'export est lui-même tracé) ; inclus dans
+  l'export des données d'une personne ; effacé après 12 mois par défaut (réglage).
 - **Avis de valeur** : mention « ne constitue pas une expertise ».
 - **Home staging** : mention « aménagement virtuel · image retouchée » incrustée sur toute image modifiée.
 - **Bon de visite** : engagement de passer par l'agence (durée du mandat + 12 mois).
@@ -339,6 +352,7 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
 | `avis_google` | J+2 après l'acte, relance à J+9 si le lien n'a pas été ouvert |
 | `briefing` | notification à 7 h 30 les jours ouvrés |
 | `rgpd_audio` | effacement de l'audio après N jours (réglage) |
+| `rgpd_journal_acces` | effacement des mois du journal des accès plus anciens que la durée choisie |
 | `synchro_signatures` | firma.dev / BoldSign : état des demandes en attente, au plus toutes les 30 min chacune |
 
 Chaque tâche mémorise ce qu'elle a déjà fait (pas de doublon). `--maintenant=AAAA-MM-JJTHH:MM` simule une date
@@ -354,13 +368,13 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 ```
 
 - Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
-- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 14 scénarios Playwright sur des
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 15 scénarios Playwright sur des
   données neuves, avec services publics, SMTP, push, firma.dev et BoldSign simulés. Couvre : parcours de base, sortie
   de visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
   vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la
   signature VAPID), prospection, **signature firma.dev / BoldSign** (positions des champs, webhooks HMAC, rejeu,
   exemplaire signé), **estimation en temps réel**, **rendu Leboncoin**, **suivi du projet** (captation, cases en
-  direct, export CRM), démo et réseau.
+  direct, export CRM), **journal des accès**, démo et réseau.
 
 **Non testé en conditions réelles** (à faire en premier) :
 - vrais appels Gemini (transcription, génération, Live, multimodal, images) ;

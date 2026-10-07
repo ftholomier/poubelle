@@ -8,14 +8,14 @@ Chaque lot porte un code (ex. **2.3**).
 
 ## État au 7 octobre 2026 : tout est construit dans le prototype
 
-Toutes les phases ont été développées, testées de bout en bout (14 scénarios automatisés, `visite-immo/tests/`)
+Toutes les phases ont été développées, testées de bout en bout (15 scénarios automatisés, `visite-immo/tests/`)
 et poussées. Détail de ce qui est réel, simulé ou reporté :
 
 | Lot | État |
 |---|---|
 | 0.1 Validation en réel | ⏳ **à faire avec vous** : vraie clé Gemini, vrai téléphone, vrai SMTP, vrais services publics |
 | 0.2 → 0.7 Fondations | ✅ modules, tâches automatiques (cron), notifications push, liens clients, navigation du bas |
-| 1.1 → 1.8 Visite et mandat | ✅ dossier technique, avis de valeur, lecture des papiers, pièces et relances, espace vendeur, signature (intégrée, **firma.dev**, BoldSign, API générique), photos, home staging, **estimation en temps réel (DVF)** |
+| 1.1 → 1.8 Visite et mandat | ✅ dossier technique, avis de valeur, lecture des papiers, pièces et relances, espace vendeur, signature (intégrée, **firma.dev**, BoldSign, API générique), photos, home staging, **estimation en temps réel (DVF, élargie aux communes voisines dans les petites communes)** |
 | 1.9 Plan 2D | ✅ croquis d'après les pièces citées · ⛔ scan LiDAR : impossible en PWA (appli native) |
 | 2.1, 2.3 → 2.5 Commercialisation | ✅ page du bien, visuels, vidéo, rapprochement et alertes |
 | 2.2 Multidiffusion | ✅ flux XML + **rendu Leboncoin fidèle** (téléphone / ordinateur, contrôle de conformité) · ⏳ diffusion réelle : compte pro ou multidiffuseur, logiciel métier |
@@ -25,7 +25,7 @@ et poussées. Détail de ce qui est réel, simulé ou reporté :
 | 5.1 → 5.3 Prospection | ✅ logements F/G, rues actives, courriers et boîtage, suivi · ⏳ envoi postal en ligne : non branché |
 | 6.1 → 6.5 Au quotidien | ✅ Aujourd'hui, briefing, bilan d'appel, commande vocale, tableau de bord |
 | 7.1 → 7.4 Réseau | ✅ tête de réseau, coaching 90 jours, contacts partagés, formation ALUR, juriste |
-| 8.1 RGPD | ✅ conservation de l'audio, export des données d'une personne, registre simplifié · ⏳ journal des accès |
+| 8.1 RGPD | ✅ conservation de l'audio, export des données d'une personne, registre simplifié, **journal des accès** (écran admin, CSV, purge automatique) |
 | 8.2 Démo | ✅ jeu de démonstration (Paramètres) |
 | 8.3 Passation | ✅ `PASSATION.md` à jour |
 | Ajout · Suivi du projet | ✅ tableau de cases en temps réel (visite, rédigé, mandat, diffusion et CRM, vente), pourcentage « opérationnel », coach de captation pendant l'enregistrement, export CRM (JSON) · ⏳ envoi au CRM : vrai logiciel |

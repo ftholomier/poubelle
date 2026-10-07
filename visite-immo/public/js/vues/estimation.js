@@ -49,8 +49,10 @@ export function blocEstimation(e, { simulation = false } = {}) {
     <div class="estim-infos">
       <span class="confiance confiance-${conf.niveau === "élevée" ? "haute" : conf.niveau === "moyenne" ? "moyenne" : "basse"}">${conf.niveau === "élevée" ? "●●●" : conf.niveau === "moyenne" ? "●●○" : "●○○"} Confiance ${esc(conf.niveau)}</span>
       <span>${e.comparables.length} ventes similaires sur ${e.nb_ventes_secteur}</span>
+      ${e.communes_voisines?.length ? `<span class="badge">+ communes voisines</span>` : ""}
       ${simulation ? '<span class="badge orange">ventes simulées (service indisponible)</span>' : ""}
     </div>
+    ${e.communes_voisines?.length ? `<p class="small muted">Peu de ventes dans la commune : ventes de ${e.communes_voisines.map(esc).join(", ")} ajoutées (les plus proches pèsent le plus).</p>` : ""}
     ${e.ajustements.length ? `<p class="small muted">Ajustements : ${e.ajustements.map((x) => `${esc(x[0])} ${x[1] > 0 ? "+" : ""}${Math.round(x[1] * 100)} %`).join(" · ")}</p>` : ""}
     ${e.ecart_vendeur != null ? `<p class="small ${Math.abs(e.ecart_vendeur) >= 5 ? "orange-txt" : ""}">Prix souhaité par le vendeur : ${e.ecart_vendeur > 0 ? "+" : ""}${String(e.ecart_vendeur).replace(".", ",")} % par rapport à l'estimation.</p>` : ""}`;
 }
@@ -61,7 +63,7 @@ export function listeComparables(comp) {
       (c) => `<div class="comparable">
         <div class="comp-sim" style="--sim:${c.similarite}%"><span>${c.similarite} %</span></div>
         <div class="comp-txt"><div><strong>${fmtEuros(c.prix)}</strong> · ${Math.round(c.surface)} m²${c.pieces ? ` · ${c.pieces} p.` : ""}${c.terrain ? ` · terrain ${Math.round(c.terrain)} m²` : ""}</div>
-          <span class="muted small">${esc(c.adresse)} · ${new Date(c.date).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })}${c.distance != null ? ` · ${c.distance < 1000 ? c.distance + " m" : (c.distance / 1000).toFixed(1).replace(".", ",") + " km"}` : ""}</span></div>
+          <span class="muted small">${esc(c.adresse)}${c.commune ? `, ${esc(c.commune)}` : ""} · ${new Date(c.date).toLocaleDateString("fr-FR", { month: "short", year: "numeric" })}${c.distance != null ? ` · ${c.distance < 1000 ? c.distance + " m" : (c.distance / 1000).toFixed(1).replace(".", ",") + " km"}` : ""}</span></div>
         <div class="comp-m2"><span>${fmtEuros(c.prix_m2)}<small>/m²</small></span>${c.prix_m2_actualise !== c.prix_m2 ? `<span class="muted small">auj. ${fmtEuros(c.prix_m2_actualise)}</span>` : ""}</div>
       </div>`,
     )
@@ -139,7 +141,7 @@ vues.estimation = async () => {
     $("res").innerHTML = `<div class="small muted">${esc(r.adresse)}</div>${blocEstimation(e, { simulation: r.simulation })}
       ${e ? `<div class="btn-row"><button class="btn" id="copier">Copier</button><button class="btn primary" id="visite">🎙️ Démarrer la visite ici</button></div>` : ""}`;
     $("tend").hidden = !e?.tendance || Object.keys(e.tendance.par_annee).length < 2;
-    if (e) $("tend").innerHTML = `<h2>Le marché à ${esc(r.adresse.split(" ").slice(-1)[0])}</h2>${graphiqueTendance(e.tendance)}<p class="small muted">${r.nb_ventes_commune} ventes de maisons et d'appartements sur 5 ans dans la commune.</p>`;
+    if (e) $("tend").innerHTML = `<h2>Le marché ${r.communes_voisines?.length ? "du secteur" : `à ${esc(r.adresse.split(" ").slice(-1)[0])}`}</h2>${graphiqueTendance(e.tendance)}<p class="small muted">${r.nb_ventes_commune} ventes de maisons et d'appartements sur 5 ans dans la commune${r.communes_voisines?.length ? `, ${r.nb_ventes} avec ${r.communes_voisines.length} commune(s) voisine(s)` : ""}.</p>`;
     $("comp").hidden = !e;
     if (e) {
       $("comp").innerHTML = `<h2>Les ${e.comparables.length} ventes les plus ressemblantes</h2><div id="carte" class="carte-estim"></div>${listeComparables(e.comparables)}

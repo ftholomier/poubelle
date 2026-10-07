@@ -29,7 +29,7 @@ function bien_depuis_dossier(array $v): array
 }
 
 /** Ressemblance d'une vente avec le bien, entre 0 et 1. */
-function similarite_vente(array $vente, array $bien): float
+function similarite_vente(array $vente, array $bien, float $echelle = 1500): float
 {
     $surface = nombre_fr($bien['surface_habitable'] ?? 0);
     $s = exp(-((abs($vente['surface'] - $surface) / $surface) / 0.25) ** 2); // 25 % d'écart → 0,37
@@ -37,7 +37,7 @@ function similarite_vente(array $vente, array $bien): float
     if ($pieces && $vente['pieces']) $s *= [1, 0.8, 0.55, 0.35][min(3, abs($vente['pieces'] - $pieces))];
     $terrain = nombre_fr($bien['surface_terrain'] ?? 0);
     if ($terrain > 0 && $vente['terrain'] > 0) $s *= 0.5 + 0.5 * exp(-(log($vente['terrain'] / $terrain)) ** 2);
-    $s *= $vente['distance'] === null ? 0.6 : 1 / (1 + ($vente['distance'] / 1500) ** 2);
+    $s *= $vente['distance'] === null ? 0.6 : 1 / (1 + ($vente['distance'] / $echelle) ** 2);
     $mois = max(0, (maintenant() - strtotime($vente['date'])) / (30.4 * 86400));
     $s *= exp(-$mois / 48);
     return $s;
@@ -91,7 +91,7 @@ function ajustements_bien(array $bien): array
  * Estimation d'un bien à partir des ventes alentour. $bien : type_bien, surface_habitable, nb_pieces, surface_terrain,
  * etat_general, dpe, exterieur, stationnement, exposition, prix_souhaite. Renvoie null si trop peu de ventes.
  */
-function estimer(array $bien, array $ventes): ?array
+function estimer(array $bien, array $ventes, float $echelle = 1500): ?array
 {
     $surface = nombre_fr($bien['surface_habitable'] ?? 0);
     if ($surface < 9 || !$ventes) return null;
@@ -101,7 +101,7 @@ function estimer(array $bien, array $ventes): ?array
 
     $notes = [];
     foreach ($memeType as $v) {
-        $sim = similarite_vente($v, $bien);
+        $sim = similarite_vente($v, $bien, $echelle);
         if ($sim < 0.02) continue;
         $ans = max(0, (maintenant() - strtotime($v['date'])) / (365.25 * 86400));
         $v['prix_m2_actualise'] = (int) round($v['prix_m2'] * (1 + $tendance['annuelle']) ** $ans);
@@ -144,17 +144,95 @@ function estimer(array $bien, array $ventes): ?array
         'prix_vendeur' => $prixVendeur ?: null,
         'ecart_vendeur' => $prixVendeur ? round(($prixVendeur / $prix - 1) * 100, 1) : null,
         'nb_ventes_secteur' => count($memeType),
-        'comparables' => array_map(fn ($c) => array_intersect_key($c, array_flip(['date', 'prix', 'type', 'surface', 'pieces', 'terrain', 'adresse', 'lat', 'lon', 'prix_m2', 'prix_m2_actualise', 'distance']))
+        'comparables' => array_map(fn ($c) => array_intersect_key($c, array_flip(['date', 'prix', 'type', 'surface', 'pieces', 'terrain', 'adresse', 'lat', 'lon', 'prix_m2', 'prix_m2_actualise', 'distance', 'commune']))
             + ['similarite' => (int) round(100 * min(1, $c['similarite'] / 0.9))], array_slice($comp, 0, 12)),
     ];
 }
 
-/** Estimation du dossier (fiche + ventes déjà récupérées), sans rien enregistrer. */
+// ---------- Petites communes : on élargit aux communes voisines ----------
+
+const URL_GEO_COMMUNES = 'https://geo.api.gouv.fr';
+const SEUIL_VENTES_COMMUNE = 12;  // en dessous (même type de bien sur 5 ans), on ajoute les communes voisines
+const SEUIL_VENTES_SECTEUR = 30;  // on s'arrête dès qu'on en a assez
+const MAX_COMMUNES_VOISINES = 6;
+
+/**
+ * Communes voisines, de la plus proche à la plus éloignée : on demande à l'API Découpage administratif
+ * (geo.api.gouv.fr) dans quelle commune tombent des points placés en cercle autour du bien (4 puis 9 km).
+ * Résultat gardé en cache sans limite de durée (les limites communales bougent rarement).
+ */
+function communes_voisines(string $citycode, float $lat, float $lon): array
+{
+    $cache = DATA_DIR . "/cache/voisines/$citycode.json";
+    if (is_file($cache)) return json_decode((string) file_get_contents($cache), true) ?: [];
+    $base = api_base('geo', URL_GEO_COMMUNES);
+    $trouvees = [];
+    $repondu = false;
+    foreach ([4, 9] as $km) {
+        foreach (range(0, 315, 45) as $angle) {
+            $plat = $lat + $km / 111.0 * cos(deg2rad($angle));
+            $plon = $lon + $km / (111.0 * max(0.2, cos(deg2rad($lat)))) * sin(deg2rad($angle));
+            $r = http_get("$base/communes?" . http_build_query(['lat' => round($plat, 5), 'lon' => round($plon, 5), 'fields' => 'code,nom', 'format' => 'json']), 6);
+            if ($r === null) continue;
+            $repondu = true;
+            foreach ((array) $r as $c) {
+                if (empty($c['code']) || $c['code'] === $citycode || isset($trouvees[$c['code']])) continue;
+                $trouvees[$c['code']] = ['code' => (string) $c['code'], 'nom' => (string) ($c['nom'] ?? $c['code']), 'km' => $km];
+            }
+        }
+    }
+    $liste = array_values($trouvees);
+    if ($repondu) {
+        if (!is_dir(dirname($cache))) mkdir(dirname($cache), 0770, true);
+        file_put_contents($cache, json_encode($liste, JSON_UNESCAPED_UNICODE));
+    }
+    return $liste;
+}
+
+/**
+ * Ventes autour du bien : celles de la commune, plus celles des communes voisines si la commune en compte trop
+ * peu pour ce type de bien. Renvoie [ventes, noms des communes ajoutées] ou null si DVF est injoignable.
+ */
+function ventes_secteur(string $citycode, float $lon, float $lat, ?string $type, ?array $ventes = null): ?array
+{
+    $ventes ??= ventes_dvf($citycode, $lon, $lat);
+    if ($ventes === null) return null;
+    $type = in_array($type, ['Maison', 'Appartement'], true) ? $type : null;
+    $compte = fn (array $l) => count(array_filter($l, fn ($v) => !$type || $v['type'] === $type));
+    $ajoutees = [];
+    if ($compte($ventes) >= SEUIL_VENTES_COMMUNE) return [$ventes, $ajoutees];
+    foreach (array_slice(communes_voisines($citycode, $lat, $lon), 0, MAX_COMMUNES_VOISINES) as $c) {
+        $autres = ventes_dvf($c['code'], $lon, $lat);
+        if (!$autres) continue;
+        foreach ($autres as &$x) $x['commune'] = $c['nom'];
+        unset($x);
+        $ventes = array_merge($ventes, $autres);
+        $ajoutees[] = $c['nom'];
+        if ($compte($ventes) >= SEUIL_VENTES_SECTEUR) break;
+    }
+    return [$ventes, $ajoutees];
+}
+
+/** Estimation avec élargissement : distances jugées à l'échelle du canton quand on sort de la commune. */
+function estimer_secteur(array $bien, array $ventes, array $ajoutees): ?array
+{
+    $e = estimer($bien, $ventes, $ajoutees ? 5000 : 1500);
+    if ($e) $e['communes_voisines'] = $ajoutees;
+    return $e;
+}
+
+/** Estimation du dossier (fiche + ventes déjà récupérées, élargies si besoin), sans rien enregistrer. */
 function estimation_dossier(array $v): ?array
 {
     $ventes = $v['public']['ventes'] ?? [];
     if (!$ventes) return null;
-    $e = estimer(bien_depuis_dossier($v), $ventes);
+    $ajoutees = [];
+    $geo = $v['public']['geo'] ?? [];
+    if (empty($v['public']['simulation']) && !empty($geo['citycode'])) {
+        $secteur = ventes_secteur($geo['citycode'], (float) $geo['lon'], (float) $geo['lat'], champ($v, 'type_bien'), $ventes);
+        if ($secteur) [$ventes, $ajoutees] = $secteur;
+    }
+    $e = estimer_secteur(bien_depuis_dossier($v), $ventes, $ajoutees);
     if ($e) $e['simulation'] = !empty($v['public']['simulation']);
     return $e;
 }
@@ -214,16 +292,18 @@ route('GET estimation', function () {
         if (!$geo) fail(404, 'Adresse introuvable : précisez la commune.');
         [$lat, $lon, $citycode, $label] = [$geo['lat'], $geo['lon'], $geo['citycode'], $geo['label']];
     }
-    $ventes = ventes_dvf($citycode, $lon, $lat);
+    $secteur = ventes_secteur($citycode, $lon, $lat, (string) ($g['type_bien'] ?? ''));
+    [$ventes, $ajoutees] = $secteur ?? [null, []];
     $simulation = false;
     if ($ventes === null) {
         $ventes = donnees_simulees($label, ['fiche' => ['champs' => ['surface_habitable' => ['valeur' => (string) ($g['surface_habitable'] ?? '100')], 'type_bien' => ['valeur' => (string) ($g['type_bien'] ?? 'Maison')]]]])['ventes'];
         $simulation = true;
     }
     $bien = array_intersect_key($g, array_flip(ESTIMATION_CHAMPS));
-    $e = estimer($bien, $ventes);
+    $e = estimer_secteur($bien, $ventes, $ajoutees);
     send_json(['adresse' => $label, 'lat' => $lat, 'lon' => $lon, 'citycode' => $citycode, 'simulation' => $simulation,
-        'nb_ventes_commune' => count($ventes), 'estimation' => $e]);
+        'nb_ventes_commune' => count(array_filter($ventes, fn ($x) => empty($x['commune']))), 'nb_ventes' => count($ventes),
+        'communes_voisines' => $ajoutees, 'estimation' => $e]);
 });
 
 /** Estimation du dossier, recalculée à la volée (sans enregistrer). */
