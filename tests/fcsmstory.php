@@ -197,7 +197,29 @@ try {
     $eq('médiathèque : crédit, droits, source', [$m['credit'] ?? null, $m['rights'] ?? null, $m['source'] ?? null],
         [\App\Services\FcsmPhotos::CREDIT, 'Domaine public (L’Auto, 1931)', 'https://fcsmstory.com/wp-content/uploads/2024/03/1931-10-18-LAuto-velo-Chalon-Sochaux.jpg']);
     $pr2 = \App\Services\FcsmPhotos::run(50);
-    $eq('relancé : aucune photo en double', [$pr2['done'], count(Fiches::fresh((int) $st['match:1931-10-17|chalon']['fiche'])['gallery'])], [0, 1]);
+    // Gallica : notices SRU simulées ; seules les photos du domaine public, 1928-1955, liées à Sochaux.
+    $rec = fn ($title, $date, $rights, $type = 'image fixe', $ark = 'btv1b1') => '<srw:record><srw:recordData><oai_dc:dc xmlns:oai_dc="x" xmlns:dc="y"><dc:title>' . htmlspecialchars($title) . '</dc:title><dc:creator>Agence Rol. Agence photographique</dc:creator><dc:date>' . $date . '</dc:date><dc:type>' . $type . '</dc:type><dc:rights>' . $rights . '</dc:rights><dc:identifier>https://gallica.bnf.fr/ark:/12148/' . $ark . '</dc:identifier></oai_dc:dc></srw:recordData></srw:record>';
+    $sru = '<srw:searchRetrieveResponse><srw:numberOfRecords>5</srw:numberOfRecords><srw:records>'
+        . $rec('17-10-31, match Chalon contre Sochaux [photographie de presse] / Agence Rol', '1931', 'domaine public', 'image fixe', 'btv1bok')
+        . $rec('17-10-31, Sochaux à Chalon, le gardien', '1931', 'Consultable en ligne, droits réservés', 'image fixe', 'btv1bdr')
+        . $rec('Sochaux contre Lyon', '1962', 'domaine public', 'image fixe', 'btv1bold')
+        . $rec('Match de rugby à Colombes', '1931', 'domaine public', 'image fixe', 'btv1bnot')
+        . $rec('Le Petit Comtois : Sochaux', '1931', 'domaine public', 'texte', 'btv1btxt')
+        . '</srw:records></srw:searchRetrieveResponse>';
+    $urls = [];
+    \App\Services\FcsmGallica::$get = function (string $u) use ($sru, $jpeg, &$urls) { $urls[] = $u; return str_contains($u, '/SRU?') ? $sru : $jpeg . 'gallica'; };
+    $gs = \App\Services\FcsmGallica::search(1);
+    $eq('Gallica : une seule photo retenue (domaine public, 1928-1955, Sochaux, image)', array_keys($gs['found']), ['ark:/12148/btv1bok']);
+    $eq('date du jour lue dans le titre, titre nettoyé, agence', [$gs['found']['ark:/12148/btv1bok']['date'], $gs['found']['ark:/12148/btv1bok']['title'], $gs['found']['ark:/12148/btv1bok']['creator']],
+        ['1931-10-17', 'Match Chalon contre Sochaux', 'Agence Rol']);
+    $gi = \App\Services\FcsmGallica::import(10);
+    $gal = Fiches::fresh((int) $st['match:1931-10-17|chalon']['fiche'])['gallery'];
+    $last = end($gal);
+    $created[] = 'media:' . $last['image'];
+    $eq('photo Gallica dans le match du jour, légende et crédit BnF, image IIIF', [$gi['done'], $last['caption'], $last['credit'], (bool) array_filter($urls, fn ($u) => str_contains($u, '/iiif/ark:/12148/btv1bok/f1/full/'))],
+        [1, 'Match Chalon contre Sochaux, 17 octobre 1931', 'Agence Rol · ' . \App\Services\FcsmGallica::CREDIT, true]);
+    $eq('Gallica relancé : rien en double', [\App\Services\FcsmGallica::import(10)['done'], count(Fiches::fresh((int) $st['match:1931-10-17|chalon']['fiche'])['gallery'])], [0, count($gal)]);
+    $eq('relancé : aucune photo en double', [$pr2['done'], count(Fiches::fresh((int) $st['match:1931-10-17|chalon']['fiche'])['gallery'])], [0, 2]);
     $eq('coûts IA comptés sous « Reprise des années 1928-1969 »', isset(AiCosts::USES['import']), true);
 } finally {
     foreach ($created as $id) {
@@ -211,6 +233,8 @@ try {
     file_put_contents(DATA_PATH . '/categories.json', $catsBefore);
     file_put_contents(DATA_PATH . '/media.json', $mediaBefore);
     \App\Data\Media::forget();
+    @rmdir(\App\Data\Media::ORIGINALS . '/fcsmstory/gallica/1931');
+    @rmdir(\App\Data\Media::ORIGINALS . '/fcsmstory/gallica');
     @rmdir(\App\Data\Media::ORIGINALS . '/fcsmstory/1931');
     @rmdir(\App\Data\Media::ORIGINALS . '/fcsmstory');
     Categories::forget();

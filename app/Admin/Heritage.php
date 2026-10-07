@@ -33,6 +33,7 @@ final class Heritage extends Base
         return self::html('admin/system/heritage', [
             'state' => $state, 'summary' => FcsmImport::summary($state), 'items' => array_slice($items, 0, 600), 'filter' => $filter,
             'photos' => $state['items'] ? \App\Services\FcsmPhotos::summary() : null,
+            'gallica' => \App\Services\FcsmGallica::state(), 'gallicaUnplaced' => $state['items'] ? \App\Services\FcsmGallica::unplaced() : [],
             'gemini' => \App\Services\Gemini::ready(), 'fetched' => \App\Core\JsonStore::read(FcsmStory::$dir . '/raw.json', [])['at'] ?? null,
         ], ['title' => 'Reprise 1928-1969', 'crumb' => 'Système', 'nav' => 'reprise']);
     }
@@ -88,6 +89,13 @@ final class Heritage extends Base
                     $r = \App\Services\FcsmPhotos::run(120);
                     Activity::log(self::actor(), 'a importé ' . $r['done'] . ' photo(s) de presse (reprise 1928-1969)', null);
                     return self::back($back, $r['done'] . ' photo(s) ajoutée(s) aux fiches, ' . $r['featured'] . ' devenue(s) image principale (mosaïques)' . ($r['left'] ? ', ' . $r['left'] . ' en attente de leur fiche' : '') . '.'
+                        . ($r['messages'] ? ' Erreurs : ' . implode(' · ', array_slice($r['messages'], 0, 3)) : ''));
+                case 'gallica':
+                    $st = \App\Services\FcsmGallica::search();
+                    $r = \App\Services\FcsmGallica::import(80);
+                    Activity::log(self::actor(), 'a importé ' . $r['done'] . ' photo(s) de Gallica (reprise 1928-1969)', null);
+                    return self::back($back, 'Gallica : ' . (int) ($st['raw'] ?? 0) . ' notice(s) lues, ' . count($st['found']) . ' photo(s) du domaine public liées à Sochaux (1928-' . \App\Services\FcsmGallica::LAST_YEAR . '), '
+                        . $r['done'] . ' ajoutée(s) aux fiches' . ($r['left'] ? ', ' . $r['left'] . ' au prochain clic' : '') . ($r['unplaced'] ? ', ' . $r['unplaced'] . ' sans fiche de destination (liste ci-dessous)' : '') . '.'
                         . ($r['messages'] ? ' Erreurs : ' . implode(' · ', array_slice($r['messages'], 0, 3)) : ''));
                 case 'relancer':
                     FcsmImport::retry();

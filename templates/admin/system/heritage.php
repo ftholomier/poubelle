@@ -51,6 +51,24 @@ $todo = $count('a-faire');
 </section>
 <?php endif; ?>
 
+<?php if (!empty($photos)): $g = $gallica; ?>
+<section class="card card--pad stack">
+  <div class="row" style="justify-content:space-between;gap:12px">
+    <h2 class="card__t" style="margin:0">Photos de Gallica (BnF)</h2>
+    <form method="post" action="/admin/reprise-1928-1969"><?= csrf_field() ?><input type="hidden" name="action" value="gallica"><button class="btn btn--primary" type="submit">5. Chercher sur Gallica</button></form>
+  </div>
+  <p class="small" style="margin:0">Photographies de presse (agences Rol, Meurisse, Mondial Photo-Presse…) qui citent Sochaux, de 1928 à <?= \App\Services\FcsmGallica::LAST_YEAR ?>, marquées « domaine public » par la BnF. Chacune va au match du jour indiqué dans son titre, sinon au match de l’année contre l’adversaire cité, sinon au joueur cité ; crédit « agence · <?= e(\App\Services\FcsmGallica::CREDIT) ?> » et lien vers la notice. Elle devient l’image principale d’une fiche qui n’en a pas. Le bouton peut être relancé : rien n’est jamais en double.</p>
+  <?php if (!empty($g['at'])): ?>
+    <p class="small" style="margin:0">Dernière recherche le <?= e(date_fr($g['at'])) ?> à <?= e(date('H:i', strtotime($g['at']))) ?> : <?= (int) ($g['raw'] ?? 0) ?> notice(s) lue(s), <b><?= count($g['found']) ?></b> photo(s) retenue(s), <b><?= count($g['done']) ?></b> ajoutée(s) aux fiches.</p>
+  <?php endif; ?>
+  <?php if ($gallicaUnplaced): ?>
+    <details><summary class="small"><?= count($gallicaUnplaced) ?> photo(s) sans fiche de destination</summary>
+      <ul class="small"><?php foreach (array_slice($gallicaUnplaced, 0, 200) as $n): ?><li><a href="<?= e($n['url']) ?>" target="_blank" rel="noopener"><?= e($n['title']) ?></a> <span class="muted">(<?= e($n['date'] ? date_fr($n['date']) : (string) $n['year']) ?><?= $n['creator'] !== '' ? ', ' . e($n['creator']) : '' ?>)</span></li><?php endforeach; ?></ul>
+    </details>
+  <?php endif; ?>
+</section>
+<?php endif; ?>
+
 <?php if ($summary): ?>
 <section class="card">
   <div class="card__head"><h2 class="card__t">Au plan</h2></div>
