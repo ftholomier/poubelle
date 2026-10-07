@@ -655,3 +655,16 @@ fieldset.pj input { margin: 0 0 10px; }
 .etapes-tdb .vide-etape { opacity: .45; }
 .paliers-barre i:first-of-type { transform: none; justify-items: start; }
 .paliers-barre i:first-of-type::after { margin-left: 0; }
+/* ---------- Prospection ---------- */
+.entonnoir { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 14px; }
+.entonnoir div { display: grid; justify-items: center; padding: 10px 2px; border: 1.5px solid var(--bord); border-radius: 10px; background: var(--surface); }
+.entonnoir div:last-child { background: var(--citron); color: var(--encre); border-color: var(--encre); }
+.entonnoir strong { font-size: 1.3rem; font-weight: 800; }
+.entonnoir span { font: 600 .52rem var(--mono); text-transform: uppercase; color: inherit; opacity: .75; text-align: center; }
+.cible { align-items: flex-start; }
+.cible .check-ligne { flex: 1; min-width: 0; }
+.cible-droite { display: grid; gap: 6px; justify-items: end; }
+.cible-droite select { width: 128px; padding: 6px 8px; font-size: .78rem; margin: 0; }
+.dpe-pastille { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 5px; color: #fff; font-size: .72rem; }
+.choix-commune { width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; font: inherit; color: var(--text); cursor: pointer; }
+.carte { height: 300px; border: 1.5px solid var(--bord); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }

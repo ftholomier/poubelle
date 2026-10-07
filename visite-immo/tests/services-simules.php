@@ -20,7 +20,7 @@ const LON = 6.3561;
 const LAT = 47.0942;
 
 // --- Adresse ---
-if (str_starts_with($path, '/adresse/search')) {
+if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') !== 'municipality') {
     json(['type' => 'FeatureCollection', 'features' => [[
         'type' => 'Feature',
         'geometry' => ['type' => 'Point', 'coordinates' => [LON, LAT]],
@@ -49,6 +49,19 @@ if (str_starts_with($path, '/georisques/zonage_sismique')) json(['data' => [['co
 if (str_starts_with($path, '/georisques/radon')) json(['data' => [['classe_potentiel' => '1']]]);
 
 // --- DPE (ADEME) ---
+if (str_starts_with($path, '/dpe/lines') && str_contains((string) ($q['qs'] ?? ''), 'etiquette_dpe')) {
+    // Prospection : logements classés F ou G d'une commune
+    $rues = ['Rue des Tilleuls', 'Rue du Moulin', 'Grande Rue', 'Chemin des Vignes', 'Rue de la Gare', 'Impasse des Lilas', 'Rue Pasteur', 'Route de Besançon'];
+    $res = [];
+    foreach ($rues as $i => $r) {
+        $res[] = ['adresse_ban' => (3 + $i * 4) . " $r 25260 Lougres", 'etiquette_dpe' => $i % 3 ? 'F' : 'G', 'etiquette_ges' => 'E', 'date_etablissement_dpe' => (2022 + $i % 3) . '-0' . (1 + $i % 9) . '-10',
+            'type_batiment' => $i % 4 ? 'maison' : 'appartement', 'surface_habitable_logement' => 70 + $i * 9, 'annee_construction' => 1950 + $i * 3, '_geopoint' => (LAT + ($i - 4) * 0.002) . ',' . (LON + ($i % 3 - 1) * 0.003)];
+    }
+    json(['total' => count($res), 'results' => $res]);
+}
+if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality') {
+    json(['features' => [['geometry' => ['coordinates' => [LON, LAT]], 'properties' => ['label' => 'Lougres', 'city' => 'Lougres', 'citycode' => '25349', 'postcode' => '25260', 'score' => 0.97, 'type' => 'municipality', 'context' => '25, Doubs']]]]);
+}
 if (str_starts_with($path, '/dpe/lines')) {
     json(['total' => 1, 'results' => [[
         'numero_dpe' => '2325E0123456X', 'date_etablissement_dpe' => '2024-03-12', 'etiquette_dpe' => 'C', 'etiquette_ges' => 'A',
