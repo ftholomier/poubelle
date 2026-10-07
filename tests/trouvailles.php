@@ -182,6 +182,13 @@ try {
 
     // File d'attente et tâche planifiée.
     $eq('file : un match, tâche planifiée', [T::start([$id], ['gallica']), str_starts_with((string) T::tick(), '1 match(s) fouillé(s)'), T::state()['running'], T::tick()], [1, true, false, null]);
+    T::start([$id], ['gallica']);
+    $lk = fopen("$tmp/work.lock", 'c');
+    flock($lk, LOCK_EX);
+    $eq('fouille déjà en cours (tâche planifiée / page ouverte) : on attend', [T::work(10, 1)['busy'] ?? false, count(T::state()['queue'])], [true, 1]);
+    flock($lk, LOCK_UN);
+    fclose($lk);
+    $eq('verrou libéré : la page fait avancer la file, journal à jour', [T::work(60, 1)['done'], count(T::state()['queue']), str_contains(T::state()['log'][0], 'FC Chalon – Sochaux 0-8 (1931)')], [1, 0, true]);
     $eq('coûts IA comptés sous « Trouvailles »', isset(AiCosts::USES['trouvailles']), true);
 } finally {
     if ($id) {

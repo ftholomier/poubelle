@@ -7,6 +7,7 @@ use App\Core\JsonStore;
 use App\Data\Fiches;
 use App\Data\Index;
 use App\Data\Names;
+use App\Front\Pages;
 
 /**
  * Trouvailles (Contenus › Trouvailles) : pour chaque match, recherche dans les archives en ligne
@@ -216,6 +217,22 @@ final class Trouvailles
     /** Fouille les premiers matchs de la file. */
     public static function work(int $seconds, int $max): array
     {
+        // Un seul travail à la fois (tâche planifiée et page ouverte ne fouillent pas le même match).
+        @mkdir(self::$dir, 0775, true);
+        $lock = fopen(self::$dir . '/work.lock', 'c');
+        if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
+            return ['done' => 0, 'found' => 0, 'errors' => 0, 'left' => count(self::state()['queue']), 'busy' => true];
+        }
+        try {
+            return self::workLocked($seconds, $max);
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
+    private static function workLocked(int $seconds, int $max): array
+    {
         $end = microtime(true) + $seconds;
         $done = $found = $errors = 0;
         while ($done + $errors < $max && microtime(true) < $end) {
@@ -230,8 +247,11 @@ final class Trouvailles
                 return $st;
             });
             try {
-                $found += self::search((int) $id, $s['sources'])['new'];
+                $r = self::search((int) $id, $s['sources']);
+                $found += $r['new'];
                 $done++;
+                $ix = Index::get((int) $id);
+                self::log(($ix ? Pages::shortTitle($ix) . ' (' . substr((string) ($ix['m']['date'] ?? ''), 0, 4) . ')' : 'Match ' . $id) . ' : ' . ($r['new'] ? $r['new'] . ' proposition(s)' : 'rien de nouveau') . ($r['excerpts'] ? ', ' . $r['excerpts'] . ' journal(aux) lu(s)' : ''));
             } catch (\Throwable $e) {
                 $errors++;
                 self::log('Match ' . $id . ' : ' . $e->getMessage());

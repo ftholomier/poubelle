@@ -178,8 +178,9 @@ ses sources (lien vers la page exacte du journal). Vérifier la source, corriger
 puis **Envoyer dans la fiche** (version enregistrée ; le récit va dans « Dans la presse de
 l'époque », les informations dans « Compléments », la source dans « Sources ») ou **Écarter**
 (jamais reproposée). Les administrateurs lancent les recherches (période, sources, fiches
-incomplètes seulement ; essai sur 3 matchs, puis toute la période, fouillée par la tâche planifiée ;
-ou un match précis tout de suite). Coût dans Coûts IA (« Trouvailles »).
+incomplètes seulement ; essai sur 3 matchs, puis toute la période ; un match précis tout de suite).
+Page ouverte, l'écran fait avancer la recherche lui-même, un match à la fois ; page fermée, la
+tâche planifiée prend le relais (l'écran signale si elle ne passe pas). Coût dans Coûts IA (« Trouvailles »).
 
 ### Fiche personne
 

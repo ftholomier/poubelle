@@ -94,7 +94,7 @@ HTML],
 <li><b>Envoyer dans la fiche</b> : la valeur est écrite dans la fiche (une version est enregistrée, on peut revenir en arrière), le récit va dans une partie « Dans la presse de l’époque », les informations dans « Compléments », et la source s’ajoute à la partie « Sources ». Sinon <b>Écarter</b> : elle ne sera plus jamais proposée (onglet « Écartées » pour la remettre en attente).</li>
 </ol>
 [[attention|<p>Rien n’entre dans une fiche sans validation. Une composition envoyée remplace celle de la fiche (les joueurs déjà reliés à leur fiche le restent quand le nom correspond) : vérifiez-la bien.</p>]]
-[[auto|<p>Les administrateurs lancent les recherches : période (par exemple 1928-1955), sources, seulement les fiches incomplètes ; <b>Essai sur 3 matchs</b> d’abord, puis <b>Lancer pour toute la période</b> : la tâche planifiée fouille quelques matchs à chaque passage (environ une minute par match pour la presse). Un match précis se fouille tout de suite (« Fouiller un match précis »). Coût dans Coûts IA (« Trouvailles »).</p>]]
+[[auto|<p>Les administrateurs lancent les recherches : période (par exemple 1928-1955), sources, seulement les fiches incomplètes ; <b>Essai sur 3 matchs</b> d’abord, puis <b>Lancer pour toute la période</b>. Tant que la page Trouvailles reste ouverte, elle fait avancer la recherche elle-même, un match à la fois (une à deux minutes chacun), et le journal montre chaque match fouillé ; page fermée, la tâche planifiée prend le relais (l’écran signale si elle ne passe pas). Un match précis se fouille tout de suite (« Fouiller un match précis »). Coût dans Coûts IA (« Trouvailles »).</p>]]
 HTML],
         ['id' => 'checklist', 'title' => 'Avant de publier un match', 'html' => <<<'HTML'
 <ul>

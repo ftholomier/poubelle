@@ -45,11 +45,19 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste'];
       </div>
       <p class="xs muted" style="margin:0">Gallica : environ une minute par match (8 journaux lus au plus), presse jusqu’en <?= T::GALLICA_LAST_YEAR ?>. Web : toutes époques, une recherche Google par match. La tâche planifiée fouille quelques matchs à chaque passage ; les propositions arrivent au fil de l’eau.</p>
     </form>
-    <?php if ($summary['queue']): ?>
-      <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
-        <span class="small"><b><?= (int) $summary['queue'] ?></b> match(s) dans la file · <?= e(implode(', ', array_map(fn ($k) => T::SOURCES[$k] ?? $k, $summary['sources']))) ?></span>
-        <form method="post" action="/admin/trouvailles"><?= csrf_field() ?><button class="btn btn--sm" type="submit" name="action" value="<?= $summary['running'] ? 'pause' : 'reprendre' ?>"><?= $summary['running'] ? 'Mettre en pause' : 'Reprendre' ?></button></form>
-        <form method="post" action="/admin/trouvailles"><?= csrf_field() ?><button class="btn btn--ghost btn--sm" type="submit" name="action" value="vider">Vider la file</button></form>
+    <?php if ($summary['queue']): $cronAt = (int) ($cron['_last'] ?? 0); $cronOk = $cronAt && $cronAt > time() - 1200; ?>
+      <div class="stack" style="gap:8px;padding:14px 16px;border:2px solid var(--navy);background:var(--paper)" data-trv-run data-running="<?= $summary['running'] ? '1' : '0' ?>" data-csrf="<?= e(\App\Core\Session::csrfToken()) ?>">
+        <div class="row" style="gap:10px;flex-wrap:wrap;align-items:center">
+          <b data-trv-state><?= $summary['running'] ? 'Recherche en cours' : 'Recherche en pause' ?></b>
+          <span class="small"><b data-trv-left><?= (int) $summary['queue'] ?></b> match(s) restant(s) · <b data-trv-searched><?= (int) $summary['searched'] ?></b> fouillé(s) · <?= e(implode(', ', array_map(fn ($k) => T::SOURCES[$k] ?? $k, $summary['sources']))) ?></span>
+          <form method="post" action="/admin/trouvailles"><?= csrf_field() ?><button class="btn btn--sm" type="submit" name="action" value="<?= $summary['running'] ? 'pause' : 'reprendre' ?>"><?= $summary['running'] ? 'Mettre en pause' : 'Reprendre' ?></button></form>
+          <form method="post" action="/admin/trouvailles"><?= csrf_field() ?><button class="btn btn--ghost btn--sm" type="submit" name="action" value="vider">Vider la file</button></form>
+        </div>
+        <?php if ($summary['running']): ?>
+          <p class="small" style="margin:0" data-trv-live>Tant que cette page reste ouverte, elle fait avancer la recherche elle-même, un match à la fois (environ une à deux minutes chacun) : <span data-trv-last>démarrage…</span></p>
+          <p class="small" style="margin:0" data-trv-new hidden><b data-trv-found>0</b> nouvelle(s) proposition(s) : <a href="/admin/trouvailles">afficher</a>.</p>
+        <?php endif; ?>
+        <p class="xs muted" style="margin:0"><?= $cronOk ? 'La tâche planifiée du serveur passe aussi régulièrement (dernier passage ' . e(\App\Admin\Base::ago(date('c', $cronAt))) . ') : la recherche continue page fermée.' : '<b class="ko">La tâche planifiée du serveur ne passe pas</b> (' . ($cronAt ? 'dernier passage ' . e(\App\Admin\Base::ago(date('c', $cronAt))) : 'jamais') . ') : page fermée, la recherche s’arrête. Gardez cette page ouverte, ou vérifiez le cron dans <a href="/admin/taches">Système › Tâches planifiées</a>.' ?></p>
       </div>
     <?php endif; ?>
     <form method="post" action="/admin/trouvailles" class="row" style="gap:8px;flex-wrap:wrap;align-items:flex-end">
@@ -60,7 +68,7 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste'];
       <button class="btn" type="submit" name="action" value="match"<?= $gemini ? '' : ' disabled' ?>>Fouiller maintenant</button>
     </form>
     <?php if ($summary['log']): ?>
-      <details><summary class="small">Journal des recherches</summary><ul class="xs muted" style="margin:6px 0 0"><?php foreach ($summary['log'] as $l): ?><li><?= e($l) ?></li><?php endforeach; ?></ul></details>
+      <details<?= $summary['queue'] ? ' open' : '' ?>><summary class="small">Journal des recherches</summary><ul class="xs muted" style="margin:6px 0 0"><?php foreach ($summary['log'] as $l): ?><li><?= e($l) ?></li><?php endforeach; ?></ul></details>
     <?php endif; ?>
   </div>
 </section>

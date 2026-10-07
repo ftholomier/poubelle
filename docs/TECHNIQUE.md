@@ -1556,7 +1556,9 @@ Propositions trouvées dans les archives en ligne pour les fiches de match, vali
 - Propositions : `storage/trouvailles/props/{id}.json` (champ, valeur, ce que dit la fiche, type
   complément/divergence/récit/info/piste, sources, statut attente/envoye/ecarte) ; jamais deux
   fois la même valeur (sources fusionnées, écartée jamais reproposée). File et matchs fouillés :
-  `storage/trouvailles/state.json` ; tâche planifiée `trouvailles` (100 s, 4 matchs au plus).
+  `storage/trouvailles/state.json` ; tâche planifiée `trouvailles` (100 s, 4 matchs au plus) et, page
+  ouverte, `POST /admin/trouvailles action=avancer` (un match par requête, `admin/trouvailles.js`) ;
+  verrou `storage/trouvailles/work.lock` : jamais deux fouilles en même temps.
 - Envoi dans la fiche (`Fiches::save`, version) : champs du match, composition (format « NOM
   Prénom », liens aux fiches gardés), sections « Dans la presse de l'époque » / « Ce qu'en disent
   les sources », « Compléments », liens ajoutés à « Sources » (`legacy.trouvailles`).

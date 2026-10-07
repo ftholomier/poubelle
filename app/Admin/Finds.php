@@ -29,8 +29,8 @@ final class Finds extends Base
         return self::html('admin/fiches/trouvailles', [
             'summary' => Trouvailles::summary(), 'list' => array_slice($list, ($page - 1) * $per, $per), 'total' => count($list),
             'page' => $page, 'pages' => max(1, (int) ceil(count($list) / $per)), 'status' => $status, 'origin' => $origin,
-            'admin' => \App\Core\Auth::isAdmin(), 'gemini' => Gemini::ready(),
-        ], ['title' => 'Trouvailles (archives)', 'crumb' => 'Contenus', 'nav' => 'trouvailles']);
+            'admin' => \App\Core\Auth::isAdmin(), 'gemini' => Gemini::ready(), 'cron' => \App\Services\Cron::state(),
+        ], ['title' => 'Trouvailles (archives)', 'crumb' => 'Contenus', 'nav' => 'trouvailles', 'scripts' => ['admin/trouvailles.js']]);
     }
 
     public static function action(Request $req): Response
@@ -59,6 +59,13 @@ final class Finds extends Base
             }
             $sources = array_values(array_intersect((array) ($req->post['sources'] ?? []), array_keys(Trouvailles::SOURCES))) ?: ['gallica'];
             switch ($action) {
+                case 'avancer':
+                    // Page ouverte : un match de la file à la fois (la tâche planifiée fait de même).
+                    \App\Core\Session::release();
+                    @set_time_limit(300);
+                    $r = Trouvailles::work(150, 1);
+                    $sum = Trouvailles::summary();
+                    return \App\Core\Response::json($r + ['attente' => $sum['attente'], 'searched' => $sum['searched'], 'running' => $sum['running'], 'log' => $sum['log'][0] ?? '']);
                 case 'match':
                     $mid = self::matchId($req->str('fiche'));
                     if (!$mid) {
@@ -81,8 +88,7 @@ final class Finds extends Base
                     }
                     if ($action === 'essai') {
                         Trouvailles::start(array_slice($ids, 0, 3), $sources);
-                        $r = Trouvailles::work(240, 3);
-                        return self::back(self::BACK, 'Essai : ' . $r['done'] . ' match(s) fouillé(s), ' . $r['found'] . ' proposition(s)' . ($r['errors'] ? ', ' . $r['errors'] . ' erreur(s) (voir le journal ci-dessous)' : '') . '.');
+                        return self::back(self::BACK, 'Essai lancé sur 3 matchs : gardez cette page ouverte, elle les fouille l’un après l’autre (une à deux minutes chacun) ; les propositions s’affichent ensuite ci-dessous.');
                     }
                     $n = Trouvailles::start($ids, $sources);
                     Activity::log(self::actor(), 'a lancé la recherche dans les archives pour ' . count($ids) . ' match(s) (' . $from . '-' . $to . ')', null);
