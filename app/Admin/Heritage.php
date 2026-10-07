@@ -32,6 +32,7 @@ final class Heritage extends Base
         usort($items, fn ($a, $b) => [self::rank($a['kind']), $a['key']] <=> [self::rank($b['kind']), $b['key']]);
         return self::html('admin/system/heritage', [
             'state' => $state, 'summary' => FcsmImport::summary($state), 'items' => array_slice($items, 0, 600), 'filter' => $filter,
+            'photos' => $state['items'] ? \App\Services\FcsmPhotos::summary() : null,
             'gemini' => \App\Services\Gemini::ready(), 'fetched' => \App\Core\JsonStore::read(FcsmStory::$dir . '/raw.json', [])['at'] ?? null,
         ], ['title' => 'Reprise 1928-1969', 'crumb' => 'Système', 'nav' => 'reprise']);
     }
@@ -83,6 +84,11 @@ final class Heritage extends Base
                 case 'traiter':
                     $r = FcsmImport::run(12);
                     return self::back($back . '?etat=tentes', $r['done'] . ' fiche(s) créée(s), ' . $r['left'] . ' restante(s).' . ($r['messages'] ? ' Erreurs : ' . implode(' · ', array_slice($r['messages'], 0, 3)) : ''));
+                case 'photos':
+                    $r = \App\Services\FcsmPhotos::run(120);
+                    Activity::log(self::actor(), 'a importé ' . $r['done'] . ' photo(s) de presse (reprise 1928-1969)', null);
+                    return self::back($back, $r['done'] . ' photo(s) ajoutée(s) aux fiches' . ($r['left'] ? ', ' . $r['left'] . ' en attente de leur fiche' : '') . '.'
+                        . ($r['messages'] ? ' Erreurs : ' . implode(' · ', array_slice($r['messages'], 0, 3)) : ''));
                 case 'relancer':
                     FcsmImport::retry();
                     return self::back($back, 'Les éléments en erreur sont remis à faire.');

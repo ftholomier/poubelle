@@ -23,6 +23,7 @@ mkdir($tmp, 0775, true);
 FcsmStory::$dir = $tmp;
 AiCosts::$dir = "$tmp/ia";
 $catsBefore = file_get_contents(DATA_PATH . '/categories.json');
+$mediaBefore = file_get_contents(DATA_PATH . '/media.json');
 $fail = 0;
 $eq = function (string $label, $got, $exp) use (&$fail) {
     $ok = $got === $exp;
@@ -41,6 +42,9 @@ $season = '<p>La Saison 1931 / 1932</p><p>L’équipe prépare son entrée dans 
     . '<p>Le 17 Octobre 1931 à Chalon sur Saône, victoire 8 à 0 FC Chalon</p>'
     . '<p>FC Sochaux Montbéliard: Lozes; Wartel, Mattler; J Laurent, Galland, Boguet; De James, Cottin, Kenner, L Laurent, Rougeot</p>'
     . '<p>Buts FC Sochaux Montbéliard: Kenner (4), J Laurent, De James, L Laurent (2)</p><p>résumé</p>' . $report
+    . '<figure><img src="https://fcsmstory.com/wp-content/uploads/2024/03/1931-10-18-LAuto-velo-Chalon-Sochaux-1024x700.jpg" alt="x"><figcaption>Le compte rendu du lendemain</figcaption></figure>'
+    . '<figure><img src="https://fcsmstory.com/wp-content/uploads/2024/03/1931-10-18-photo-equipe-Chalon-ia1.jpg" alt=""></figure>'
+    . '<figure><img src="https://fcsmstory.com/wp-content/uploads/2024/03/1931-10-18-Football-croque-Kenner.png" alt=""></figure>'
     . '<p>Le 25 Octobre 1931 à Amiens, victoire 1 à 0 Amiens (amical)</p><p>Match amical</p>'
     . '<p>FC Sochaux Montbéliard: Lozes; Wartel, Mattler; J Laurent, Kenner, Galland; Cottin, Hillier, Maschinot, L Laurent, Leslie Miller</p>'
     . '<p>Buts FC Sochaux Montbéliard: Cottin 59′</p>'
@@ -173,13 +177,41 @@ try {
     FcsmImport::plan($a);
     $r3 = FcsmImport::run(100);
     $eq('relancé : rien n\'est refait ni dupliqué', [$r3['done'], $calls - $before], [0, 0]);
+
+    // Photos : originaux du domaine public seulement, dans la fiche du bon match, légende et crédit.
+    $eq('photos retenues ou écartées', array_map(fn ($f) => \App\Services\FcsmPhotos::eligible($f)[1] ?? null, [
+        '1935-02-04-LAuto-velo-photo-match-RC-Paris.jpg', '1929-09-08-Buffalo_8_9_29_equipe_du_Football__.Agence_Rol.jpg', '1932-01-05-Le_Miroir_des_sports-Gibson.png',
+        '1930-06-01-photo-equipe-2-ia1.jpg', '1935-12-12-Football-croque-Mattler.png', '1962-05-01-LEquipe-titre.jpg', 'Lassalette-82cb81ed.jpg', 'ecuson-FCS1.png', '1933-09-10-Excelsior-collector-ai-nb.jpg']),
+        ['L’Auto', 'Agence Rol', 'Le Miroir des sports', null, null, null, null, null, null]);
+    $jpeg = (function () { $im = imagecreatetruecolor(40, 30); ob_start(); imagejpeg($im); imagedestroy($im); return ob_get_clean(); })();
+    $got = [];
+    \App\Services\FcsmPhotos::$get = function (string $url) use ($jpeg, &$got) { $got[] = $url; return $jpeg; };
+    $pr = \App\Services\FcsmPhotos::run(50);
+    $eq('une seule photo reprise, téléchargée en pleine taille', [$pr['done'], $got], [1, ['https://fcsmstory.com/wp-content/uploads/2024/03/1931-10-18-LAuto-velo-Chalon-Sochaux.jpg']]);
+    $g = Fiches::fresh((int) $st['match:1931-10-17|chalon']['fiche'])['gallery'];
+    $eq('photo dans la galerie du match de la veille, légende et crédit', [count($g), $g[0]['caption'] ?? null, $g[0]['credit'] ?? null],
+        [1, 'Le compte rendu du lendemain (L’Auto, 18 octobre 1931)', \App\Services\FcsmPhotos::CREDIT]);
+    $m = \App\Data\Media::get($g[0]['image']);
+    $created[] = 'media:' . $g[0]['image'];
+    $eq('médiathèque : crédit, droits, source', [$m['credit'] ?? null, $m['rights'] ?? null, $m['source'] ?? null],
+        [\App\Services\FcsmPhotos::CREDIT, 'Domaine public (L’Auto, 1931)', 'https://fcsmstory.com/wp-content/uploads/2024/03/1931-10-18-LAuto-velo-Chalon-Sochaux.jpg']);
+    $pr2 = \App\Services\FcsmPhotos::run(50);
+    $eq('relancé : aucune photo en double', [$pr2['done'], count(Fiches::fresh((int) $st['match:1931-10-17|chalon']['fiche'])['gallery'])], [0, 1]);
     $eq('coûts IA comptés sous « Reprise des années 1928-1969 »', isset(AiCosts::USES['import']), true);
 } finally {
     foreach ($created as $id) {
+        if (is_string($id)) {
+            @unlink(\App\Data\Media::ORIGINALS . '/' . substr($id, 6));
+            continue;
+        }
         Fiches::destroy($id, ['name' => 'Essai']);
         exec('rm -rf ' . escapeshellarg(STORAGE_PATH . "/versions/$id"));
     }
     file_put_contents(DATA_PATH . '/categories.json', $catsBefore);
+    file_put_contents(DATA_PATH . '/media.json', $mediaBefore);
+    \App\Data\Media::forget();
+    @rmdir(\App\Data\Media::ORIGINALS . '/fcsmstory/1931');
+    @rmdir(\App\Data\Media::ORIGINALS . '/fcsmstory');
     Categories::forget();
     exec('rm -rf ' . escapeshellarg($tmp));
 }
