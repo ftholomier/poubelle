@@ -663,7 +663,13 @@ souvenirs) pour refaire les PDF en cache.
 - **Site** : `/interactif/retro-direct/` (direct en cours, prochains directs, grands matchs,
   directs passés), `/interactif/retro-direct/{dernier segment de l'adresse du match}/`
   (modes `live`, `upcoming` : compte à rebours sans score puis rechargement au coup d'envoi,
-  `replay` : ×1, ×10, ×60, « Temps fort suivant », pauses ramenées à 4 s),
+  `replay` : rediffusion à ×1, « Lancer / Pause », « Temps fort suivant » qui relance le match,
+  « Revoir depuis le début », pauses ramenées à 4 s ; commandes dans un pavé collant à droite
+  du fil avec rappel du chrono et du score). Chrono minutes:secondes (`clockAt()`, 46:12 dans le
+  temps additionnel, 00:00 avant le coup d'envoi d'une rediffusion). Équipe connectée, en direct
+  ou avant : pavé « Mode test » (même place) qui décale l'horloge de ce seul navigateur
+  (`off`) : Temps fort suivant, Rejouer depuis le coup d'envoi, Revenir au direct. Photos de la
+  mi-temps du fil : visionneuse du site (`SR.lightbox`),
   `/interactif/retro-direct/agenda.ics` (tous les directs à venir, ou un seul avec
   `?match=&date=` ; heures UTC, lignes pliées à 75 octets). Bouton « Revivre en direct » sur
   les fiches de match rejouables, message dans le bandeau (en cours, ou dans les 7 jours ;
@@ -782,20 +788,33 @@ Option par match (Interactif › Rétro-Direct, colonne « Commentaire radio »)
 étapes, une à la fois (`step()`, verrou `storage/radio/{id}-{lang}.json.work`) : 1. le texte,
 une demande Gemini (`FicheAudio::textModel()`, JSON) avec les événements numérotés du déroulé
 (`RetroDirect::timelineFor()`, textes nettoyés des restes de tweets) ; réponse
-`{segments: [{e: n° d'événement | m: minute d'ambiance, text}]}` lue par `parse()` (au plus 40
-répliques, doublons et didascalies écartés, calées sur l'instant de l'événement) ; 2. chaque
-réplique : `Gemini::speech()` (voix réglée, Fenrir par défaut), `FicheAudio::trimTail()`, poste
-radio `radioize()` (biquads 350 Hz – 3,4 kHz, saturation douce, souffle, craquements, rumeur de
-foule en bruit filtré qui gronde aux buts, 0,4 s avant et 0,7 s après), MP3 par
-`Mp3Encoder` dans `public/media/radio/{id}-{lang}-{n}-{hash}.mp3`. Boucle d'ambiance
-`media/radio/ambiance.mp3` (20 s, fabriquée une fois). Étapes lancées par la page (POST
+`{segments: [{e: n° d'événement | m: minute d'ambiance, text}]}` lue par `parse()` (au plus 75
+répliques, doublons et didascalies écartés, calées sur l'instant de l'événement ; la consigne
+demande des moments d'ambiance pour ne jamais rester plus de 3 minutes de jeu sans parler ;
+12 000 jetons de sortie au plus) ; 2. chaque réplique : `Gemini::speech()` sur le seul texte de
+la réplique, toujours ponctué (`speakable()`, aucune consigne de lecture : la synthèse la lisait
+à voix haute), voix gardée pour tout le commentaire (Fenrir par défaut) ;
+`FicheAudio::trimTail(…, 0.6, 48.0)` (fin de phrase gardée 0,6 s après la dernière voyelle) ;
+voix trop courte pour son texte (plus de 4,2 mots par seconde) redemandée une fois, la plus
+longue gardée ; poste radio `radioize()` (biquads 350 Hz – 3,4 kHz, saturation douce, souffle
+et craquements discrets, rumeur sous la voix qui gronde aux buts, 0,4 s avant et 0,7 s après),
+MP3 par `Mp3Encoder` dans `public/media/radio/{id}-{lang}-{n}-{hash}.mp3`, version de
+fabrication `v` (`VOICE_V` = 3) par réplique : `old` dans `status()` (« Ancienne voix ») si
+inférieure ; les répliques `v` = 2 (consigne entendue) ne sont jamais jouées et la tâche les
+refait d'office (`spoiled()`, même texte, même voix). Ambiance : prise de son dans le public,
+`public/assets/audio/stade-ambiance.mp3` (Work With Sounds / Torsten Nilsson, CC BY 4.0, boucle
+de 3 min 29, crédit affiché sous le bouton radio), adresse versionnée par `asset()` ; secours
+`media/radio/ambiance.mp3` fabriquée. Étapes lancées par la page (POST
 `/admin/retro-direct`, `radio`/`radio-etape`, `ajax=1`) ou par la tâche planifiée « radio »
 (40 s par passage). Trois échecs de suite : arrêt (l'équipe relance). Coûts : usage « radio »,
 référence `radio:{id}` (`AiCosts`), estimation `estimate()`. `sig` = empreinte des instants,
 types et scores du déroulé : si elle change, `playlist()` renvoie null (« À refaire »). Page du
 direct : `data.radio` = [{t (instant + 1 s), url, dur, kind}] et `data.ambiance` ; `retro.js`
-joue les répliques à leur instant (en direct, et en rediffusion à ×1 seulement), reprend une
-réplique commencée, saute celles en retard de plus de 20 s, coupe avec la pause. Réglages :
+joue les répliques à leur instant (direct, mode test, rediffusion), reprend une réplique
+commencée, rejoue à l'allumage la dernière réplique de moins de 90 s, saute celles en retard de
+plus de 90 s, coupe avec la pause ; une ligne d'état dit si le reporter parle, quand il reprend
+ou qu'une réplique n'a pu être lue ; la foule (60 %) baisse sous la voix (32 %) et à la mi-temps.
+Les sons de `/assets/audio/` ne passent pas par le cache de l'appli (`sw.js`, lecture par morceaux). Réglages :
 `audio.radio`, `audio.radio_voice`. Tests : `tests/radio.php` (fausse IA, fausse voix).
 
 ## 7 octies ter quater. Quiz du club-house (`App\Services\QuizLive`, `App\Front\QuizLivePages`)
@@ -860,6 +879,11 @@ et `_carnet_pseudo` figés par `Orders`). L'image de partage 1200 × 630 (`Share
 reprend le design `a` avec `logo-sochaux-retro-400.png`. Anniversaire du supporter :
 `Carnet::setBirthday()` (« MM-JJ »), `isBirthday()` (29 février fêté le 28), `birthdayMessage()`,
 envoyé par la tâche « carnets » avec les rappels jour pour jour (un message par carnet et par jour).
+Posters prêts à l'emploi (Boutique › Modèles, action `ready` de `App\Admin\Shop`, style a|b) : support
+`poster-paysage` (A4, A3, A2 ; `Catalog::scaleFace()` intervertit largeur et hauteur des formats
+papier pour une face plus large que haute), calque `carte` pleine page, modèle inactif sans prix.
+Pièce unique (`Catalog::unique()`) : d'office (`uniqueAuto()` : anecdote, poster, carte du carnet)
+ou cochée dans le masque du produit (`sale.unique`, pour un produit personnalisé par le client).
 
 ## 7 octies ter quinquies. Défi du jour (`App\Services\DailyQuiz`, `App\Front\DailyQuizPages`)
 
@@ -1228,6 +1252,14 @@ service worker lui-même se retire dès qu'il voit une page ainsi marquée.
   (`Base::aiCost()`, `aiCostData()`). Dans `App\Admin\Donations`, l'enregistrement d'un don
   hors ligne (`manuel`), l'émission d'un reçu (`recu`) et le remboursement noté d'un don hors
   ligne (`rembourse`) sont refusés aux autres comptes, et cachés dans les écrans.
+- **Formulaires** (`App\Admin\Form`) : chaque champ = libellé `.f__k` puis bloc `.f__c` (champ,
+  aide, compteur) ; dans une grille `.fgrid` (colonnes fixes `.fgrid--2c`, `--3`, `--4`, qui
+  passent à 2 puis 1 colonne), chaque champ occupe deux rangées partagées (`grid-template-rows:
+  subgrid`) : un libellé sur deux lignes décale toute la rangée et les champs restent alignés.
+  Champs écrits à la main dans les gabarits : `admin.js` (`wrapFields`) leur ajoute le bloc
+  `.f__c` au chargement. Hauteur commune 44 px ; sous-parties `.fsec` ; listes en lignes
+  (`rep--rows`) : libellés au-dessus de la première ligne seulement. Fiche neuve
+  (`.editor.is-new`) : pas de bordure « à compléter ».
 - **Favoris** (`App\Admin\Favorites`) : ligne ★ de la bande du haut (`templates/admin/layout.php`),
   liens directs propres à chaque compte (clé `favoris` de `storage/users.json`, 12 au plus,
   nom de 40 caractères). « + Ajouter un favori » ouvre une fenêtre (`admin.js`, données

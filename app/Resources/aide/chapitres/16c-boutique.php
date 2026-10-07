@@ -68,6 +68,7 @@ HTML],
 HTML],
         ['id' => 'anecdotes', 'title' => 'Les pièces uniques : l’anecdote tirée par le client', 'admin' => true, 'html' => <<<'HTML'
 <p>Un modèle avec un champ <b>« Anecdote tirée par le client »</b> (bouton « + Anecdote tirée par le client » de l’éditeur) devient une <b>pièce unique</b> : pastille « ★ Pièce unique » dans la boutique, sur l’aperçu et dans le panier.</p>
+<p>Les posters souvenirs et la carte du carnet sont aussi des pièces uniques d’office. Pour un autre produit personnalisé par le client (un t-shirt à son prénom, son texte…), cochez <b>★ Pièce unique</b> dans le cadre « Vente » de l’éditeur : la pastille s’affiche au back-office et dans la boutique, et la fiche produit précise « Personnalisé avec votre texte, rien que pour vous ». Réservez-la aux produits vraiment personnels.</p>
 <ol>
 <li><b>Sujet, facultatif</b> : le client peut taper un match, un joueur, un entraîneur (« Paille », « Metz 1988 », « Bazdarevic »…) et le choisir dans les propositions du musée. Sans sujet, l’anecdote est tirée dans toute l’histoire du club.</li>
 <li><b>« Une anecdote »</b> : le musée en tire une ; <b>« Une autre »</b> en tire une nouvelle, jusqu’à celle qui plaît.</li>

@@ -282,7 +282,11 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   « À refaire » si les buts ou les minutes de la fiche changent. **Tester un direct** :
   connecté, la page du direct affiche à droite du fil un pavé « Mode test » (pour vous seul,
   toujours visible) : chrono et score, temps fort suivant, rejouer depuis le coup d'envoi,
-  revenir au direct.
+  revenir au direct. Après le direct, la page passe en **rediffusion** pour tous : même pavé
+  (Lancer le match, Temps fort suivant, Revoir depuis le début), commentaire radio compris.
+  Pastille **Ancienne voix** : commentaire fabriqué avant les dernières améliorations de la
+  voix, encore jouable, « Refaire » conseillé ; une voix qui avait lu sa consigne à voix haute
+  est refaite toute seule par la tâche planifiée.
 - **Quiz du club-house** : une soirée quiz en direct. « Nouvelle partie » (6 à 30 questions,
   15, 20 ou 30 secondes, questions du quiz du site et/ou des fiches de match, français ou
   anglais) donne un code à 5 chiffres ; « Ouvrir le grand écran » sur l'ordinateur relié à la
@@ -312,6 +316,9 @@ ne contient que le photographe, le journal ou la collection : une date ou une l�
   Modèles prêts à l'emploi (Boutique › Modèles) : « Poster « Ma carte de supporter » » en charte
   du musée ou en billet de match, sur le support « Poster paysage (A4, A3, A2) » ; donner un prix,
   puis activer.
+- **Pièce unique** : pastille « ★ Pièce unique » d'office pour les anecdotes, les posters
+  souvenirs et la carte du carnet ; pour un autre produit personnalisé (t-shirt au prénom…),
+  case « ★ Pièce unique » dans le cadre « Vente » de l'éditeur.
 - **Carnets du supporter** (Communauté) : les supporters cochent les matchs vus au stade
   (« J'y étais ! » sur la fiche, ou saison par saison sur /carnet/), avec un lien envoyé à leur
   e-mail ; bilan, badges, porte-bonheur, carte à partager, page publique sous pseudo. L'écran

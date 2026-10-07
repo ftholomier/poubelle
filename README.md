@@ -22,7 +22,8 @@ redirigées.
   de l'histoire, recordman des matchs, plus longue invincibilité, but le plus rapide,
   remontadas, affluences, âges records…), calculées automatiquement depuis les fiches.
 - INTERACTIF : **Rétro-Direct** (un grand match rejoué en direct, minute par minute, le
-  jour de son anniversaire, et tous les matchs à revivre en accéléré), **Fil jaune** (deux
+  jour de son anniversaire, avec chrono, commentaire d'un reporter radio d'époque sur une vraie
+  ambiance de stade, et tous les matchs à revivre de temps fort en temps fort), **Fil jaune** (deux
   joueurs reliés par les matchs joués ensemble, constellation des coéquipiers, défi du
   jour), **kit souvenirs** (« Les Après-midi Bonal » : chaque mois, 4 pages en gros
   caractères à imprimer pour les anciens supporters, avec QR code pour raconter ses
@@ -30,6 +31,11 @@ redirigées.
   (100 moments, Onze de légende), réserves du musée.
 - **« Ils y étaient »** sur chaque fiche de match : « J'y étais ! » et souvenirs des
   supporters publiés par l'équipe.
+- **Carnet du supporter** : chacun coche les matchs vus au stade et obtient son bilan, ses
+  badges, son porte-bonheur, une page publique à son pseudo (`/pseudo/`), une carte de
+  supporter à télécharger en PDF (deux designs), « Jour pour jour » et son anniversaire ; la
+  boutique en tire des pièces uniques (poster « Ma vie en jaune & bleu », poster et goodies
+  « Ma carte de supporter »).
 - Recherche, assistant IA (Gemini) en bas à droite, dons (Stripe, PayPal), contact,
   contributions, newsletter « Ce jour-là ».
 - **Télécharger en PDF** sur chaque fiche et chaque page de synthèse (saison,
@@ -60,7 +66,8 @@ fiche est expliquée à voix haute (3 minutes au plus, réglable) : voix du navi
 fiche par fiche ou pour tout le musée en traitement groupé ; les pages de synthèse, face-à-face,
 saisons, bilans, records et chiffres, sont racontées par l'IA et lues par sa voix enregistrée,
 refaites chaque nuit quand leurs chiffres changent), **Rétro-Direct** (programme
-des directs, anniversaires ronds proposés, public de chaque direct), **kit souvenirs** (match
+des directs, anniversaires ronds proposés, public de chaque direct, commentaire radio par l'IA,
+mode test sur la page du direct), **kit souvenirs** (match
 de chaque mois, mot d'introduction ; témoignages publiés sur les fiches), sauvegardes, aide en
 ligne (guide,
 mémo PDF, bulles « ? »). Deux niveaux d'accès : administrateur
