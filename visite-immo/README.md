@@ -22,7 +22,11 @@ PHP natif, sans framework, sans Composer, **sans base de données** : tout est s
 - **● Visite** : le bouton rouge. Enregistrement découpé et transcrit au fil de l'eau, même hors réseau.
 - **Acquéreurs** : fiche dictée en 30 secondes, biens compatibles, alertes automatiques.
 - **Agenda** : rendez-vous, créneaux proposés par l'assistant, abonnement depuis Google / Apple / Outlook.
-- Menu : tableau de bord (palier de rémunération, temps gagné), prospection (logements F/G, courriers),
+- Dans chaque dossier, l'onglet **Suivi** : toutes les cases de la visite à la diffusion (fait, à faire, en attente,
+  prévu), le pourcentage « opérationnel », mis à jour en direct ; pendant l'enregistrement, la **captation en direct**
+  indique les sujets déjà abordés et ceux à demander.
+- Menu : tableau de bord (palier de rémunération, temps gagné), **estimer un bien** (prix en temps réel d'après les
+  ventes similaires DVF), prospection (logements F/G, courriers),
   réseau (coaching 90 jours, formation ALUR, juriste, collègues), paramètres.
 - Pour les clients, **sans mot de passe** : espace vendeur (documents, signature, dépôt des pièces en photo, visites,
   offres), espace notaire, page publique du bien avec assistant.
@@ -53,7 +57,7 @@ Le détail de chaque module et du modèle de données est dans `PASSATION.md`.
    La ligne exacte est affichée dans Paramètres, avec la date du dernier passage.
 4. Ouvrir le site : au premier lancement, on crée le **compte administrateur**.
 5. **Paramètres** (administrateur) : clé Gemini et modèles, identité et mentions légales de l'agence, logo, envoi des
-   e-mails (SMTP), adresse publique du site, signature électronique (intégrée ou votre API), paliers de
+   e-mails (SMTP), adresse publique du site, signature électronique (intégrée, firma.dev, BoldSign ou votre API), paliers de
    rémunération, lien d'avis Google, e-mail du juriste, conservation de l'audio, **jeu de démonstration**.
    Sans clé Gemini, l'appli tourne en **mode démo** (tout est simulé, rien n'est bloqué).
 6. Chaque agent renseigne son e-mail et son téléphone dans **Mon compte** et active les notifications sur son téléphone
@@ -107,18 +111,20 @@ réponses dictées) et les mentions légales de l'agence (Paramètres).
   rétractation détachable** en dernière page (art. L221-5 et R221-1 du code de la consommation).
 - Téléchargement PDF, envoi au vendeur, **signature électronique** : au doigt sur le téléphone de l'agent, ou par
   lien personnel avec code envoyé par e-mail ; numéro de registre attribué avant la signature, certificat de preuve
-  en dernière page, exemplaire signé envoyé à chacun. Mode « API » pour brancher votre propre service de signature.
+  en dernière page, exemplaire signé envoyé à chacun. Ou par un service : **firma.dev** (recommandé) ou BoldSign
+  (comme le projet Qualiopi), champs de signature placés dans les cadres du mandat, retour par webhook signé.
 
 Le texte reprend le gabarit de mandat de la plateforme Synapse.immo : point de départ conforme, à faire relire, puis à
 remplacer par le modèle du réseau (`app/mandat.php`).
 
-## Aperçu de l'annonce sur un portail (simulation)
+## Rendu de l'annonce sur Leboncoin (simulation)
 
-Onglet Annonce → **👁 Aperçu portail** : l'annonce telle qu'elle apparaîtrait sur un site d'annonces (mise en page
-inspirée de leboncoin), assemblée automatiquement à partir de la fiche, des réponses dictées et du texte de l'IA, avec
-les mentions légales obligatoires (prix honoraires inclus et à la charge de qui, prix hors honoraires, DPE/GES,
-copropriété, Géorisques, carte professionnelle). C'est une **simulation interne** : rien n'est publié. La diffusion
-réelle passera par le logiciel métier de l'agence, qui alimente les portails.
+Onglet Annonce → **👁 Rendu Leboncoin** : l'annonce telle qu'elle apparaîtrait sur Leboncoin, sur un téléphone ou sur
+un ordinateur (bouton de bascule), avec les vraies photos du dossier et les mentions légales (prix honoraires inclus
+et à la charge de qui, prix hors honoraires, DPE/GES, dépenses d'énergie, « logement à consommation énergétique
+excessive » pour F/G, copropriété, Géorisques). En dessous : **« Prête à diffuser ? »**, le contrôle de conformité
+case par case, et les boutons pour copier le titre et le texte avec ses mentions. C'est une **simulation interne** :
+rien n'est publié. La diffusion réelle passe par un compte pro Leboncoin ou un multidiffuseur (vrai logiciel).
 
 ## Documents PDF et e-mails
 

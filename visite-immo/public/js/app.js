@@ -15,6 +15,7 @@ import "./vues/transaction.js";
 import "./vues/quotidien.js";
 import "./vues/prospection.js";
 import "./vues/estimation.js";
+import { coachCaptation } from "./vues/suivi.js";
 import "./vues/reseau.js";
 
 import {
@@ -129,7 +130,8 @@ async function viewBiens() {
         ${v.photo ? `<img class="visite-photo" src="api/?r=photo&id=${v.id}&f=${encodeURIComponent(v.photo)}&mini=1" alt="" loading="lazy">` : ""}
         <div class="visite-top"><strong>${esc(v.titre)}</strong><span class="badge ${couleur}">${label}</span></div>
         ${details ? `<div class="muted">${esc(details)}</div>` : ""}
-        <div class="visite-meta">${fmtDate(v.cree_le)} · 🎙️ ${fmtDuree(v.duree)}${v.audio ? "" : " (audio supprimé)"} · dossier ${v.completude} %${enAttente.has(v.id) ? ' · <span class="orange-txt">⏳ envoi en attente</span>' : ""}</div>
+        <div class="visite-meta">${fmtDate(v.cree_le)} · 🎙️ ${fmtDuree(v.duree)}${v.audio ? "" : " (audio supprimé)"}${enAttente.has(v.id) ? ' · <span class="orange-txt">⏳ envoi en attente</span>' : ""}</div>
+        ${v.suivi ? `<div class="suivi-mini"><div class="jauge"><span style="width:${v.suivi.pourcentage}%"></span></div><span>Opérationnel ${v.suivi.pourcentage} %${v.suivi.a_faire ? ` · ${v.suivi.a_faire} à faire` : ""}${v.suivi.en_attente ? ` · ${v.suivi.en_attente} en attente` : ""}</span></div>` : ""}
       </a>`;
     })
     .join("");
@@ -177,6 +179,7 @@ async function viewRecord(existingId) {
       </div>
     </div>
     <div class="upload-info muted center" id="upload"></div>
+    <div id="captation"></div>
   </main>`);
 
   const $ = (id) => document.getElementById(id);
@@ -187,6 +190,7 @@ async function viewRecord(existingId) {
     $("upload").textContent = n ? `⏳ ${n} morceau(x) à envoyer${uploader.lastError ? ` (${uploader.lastError})` : ""}` : "☁️ Audio sauvegardé au fur et à mesure";
   };
   const unsubscribe = uploader.onChange(updateUpload);
+  let arreterCoach = visit ? coachCaptation($("captation"), visit.id) : null;
 
   const setUi = (mode) => {
     $("rec").className = `rec-btn ${mode}`;
@@ -228,6 +232,7 @@ async function viewRecord(existingId) {
         return toast(e.message, "erreur");
       }
       $("prep")?.remove();
+      arreterCoach = coachCaptation($("captation"), visit.id);
     }
     navigator.vibrate?.(60);
     setUi("recording");
@@ -262,12 +267,14 @@ async function viewRecord(existingId) {
     $("gen").onclick = () => generate(visit.id);
     $("more").onclick = () => {
       unsubscribe();
+      arreterCoach?.();
       viewRecord(visit.id);
     };
   };
 
   nav.cleanup = async () => {
     unsubscribe();
+    arreterCoach?.();
     if (rec && rec.state !== "stopped") {
       if (!confirm("Arrêter l'enregistrement en cours ?")) {
         history.pushState(null, "", visit ? `#/continuer/${visit.id}` : "#/nouvelle");
@@ -320,6 +327,7 @@ async function generate(id) {
 
 const ONGLETS = [
   ["resume", "Résumé"],
+  ["suivi", "Suivi"],
   ["fiche", "Fiche"],
   ["documents", "Documents"],
   ["photos", "Photos"],
@@ -353,7 +361,7 @@ async function viewVisit(id, onglet) {
 
   // Visite pas encore générée : on propose de créer la fiche (la fiche reste consultable si des informations ont été dictées)
   const aDesChamps = Object.keys(champsOf(visit)).length > 0;
-  if (!genere && !["audio", "photos"].includes(onglet) && !(["fiche", "mandat"].includes(onglet) && aDesChamps)) {
+  if (!genere && !["audio", "photos", "suivi"].includes(onglet) && !(["fiche", "mandat"].includes(onglet) && aDesChamps)) {
     const enCours = visit.statut === "generation";
     $c.innerHTML = `<div class="vide">
       ${visit.erreur ? `<p class="erreur">${esc(visit.erreur)}</p>` : ""}
@@ -409,6 +417,7 @@ function renderResume($c, visit) {
         </section>`
       : `<section class="card prochaine ok"><span class="tag tag-citron">À jour</span><h2 class="prochaine-titre">Rien à faire pour l'instant.</h2><p class="muted">Les relances et comptes rendus partent automatiquement.</p></section>`}
     ${autres.map((a) => `<button class="card action-ligne" data-action="${a[2]}"><strong>${esc(a[0])}</strong><span class="muted small">${esc(a[1])}</span><span class="fleche">→</span></button>`).join("")}
+    ${visit.suivi ? outils.suiviCompact(visit) : ""}
     <section class="card">
       <div class="dossier-top"><h2>Le bien</h2><a class="small" href="#/visite/${visit.id}/fiche"><u>Fiche</u></a></div>
       <div class="chiffres">
@@ -1405,7 +1414,7 @@ async function viewSettings() {
   const $ = (id) => document.getElementById(id);
   const form = $("f");
   const AIDE_SIG = {
-    firma: "firma.dev envoie les e-mails, recueille les signatures (champs placés dans nos cadres) et nous renvoie le PDF signé. Clé : tableau de bord firma.dev → API. Adresse de l'API : laisser vide.",
+    firma: "firma.dev envoie les e-mails, recueille les signatures (champs placés dans nos cadres) et nous renvoie le PDF signé. Clé : tableau de bord firma.dev → API. Adresse de l'API : laisser vide. Adresse de retour : bouton ci-dessous, ou firma.dev → Settings → Webhooks (collez alors son secret ici).",
     boldsign: "Même intégration que le projet Qualiopi. Clé : BoldSign → API → clé. Adresse : laisser vide (centre EU) ou https://api.boldsign.com pour une clé US. Déclarez l'adresse de retour dans BoldSign → Webhooks (événement Completed) et collez son secret ici.",
     api: "Contrat d'échange décrit dans PASSATION.md (§ 4.1).",
   };

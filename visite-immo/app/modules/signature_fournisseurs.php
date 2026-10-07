@@ -1,6 +1,6 @@
 <?php
 // Services de signature électronique externes. Choix dans Paramètres → Signature électronique :
-//   - firma.dev  : API REST (create-and-send, document PDF en base64, champs de signature placés en % de la page),
+//   - firma.dev  : API REST, en-tête « Authorization: <clé> » sans « Bearer » (create-and-send, document PDF en base64, champs de signature placés en % de la page),
 //                  webhook signé « X-Firma-Signature: t=…,v1=… » (HMAC-SHA256 hexadécimal de « t.corps »).
 //   - BoldSign   : même intégration que le projet Qualiopi (X-API-KEY, /v1/document/send en multipart, champs en
 //                  pixels à 96 dpi, webhook « X-BoldSign-Signature », téléchargement /v1/document/download).
@@ -98,7 +98,7 @@ function fournisseur_envoyer(string $mode, string $pdf, array $signataires, arra
         $corps = ['name' => mb_substr($titre, 0, 120), 'document' => base64_encode($pdf), 'language' => 'fr', 'expiration_hours' => 24 * 30,
             'recipients' => $dest, 'fields' => $champs,
             'settings' => ['attach_pdf_on_finish' => true, 'allow_download' => true, 'require_otp_verification' => !empty($CONFIG['signature_otp'])]];
-        [$code, $r, $brut] = requete_signature('POST', base_signature('firma') . '/signing-requests/create-and-send', ['Authorization: Bearer ' . $cle, 'Content-Type: application/json', 'Accept: application/json'], json_encode($corps, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        [$code, $r, $brut] = requete_signature('POST', base_signature('firma') . '/signing-requests/create-and-send', ['Authorization: ' . $cle, 'Content-Type: application/json', 'Accept: application/json'], json_encode($corps, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         if ($code < 200 || $code >= 300 || empty($r['id'])) fail(502, 'firma.dev a refusé la demande' . ($code ? " ($code)" : ' (service injoignable)') . ' : ' . mb_substr((string) ($r['error'] ?? $r['message'] ?? $brut), 0, 200));
         $ids = [];
         foreach (array_values($signataires) as $i => $s) $ids[$s['id']] = $r['recipients'][$i]['id'] ?? null;
@@ -119,6 +119,14 @@ function fournisseur_envoyer(string $mode, string $pdf, array $signataires, arra
                 "Signers[$i].formFields[0].bounds.x" => $px($z['x']), "Signers[$i].formFields[0].bounds.y" => $px($z['y']), "Signers[$i].formFields[0].bounds.width" => $px($z['w']), "Signers[$i].formFields[0].bounds.height" => $px($z['h'])];
         }
         [$code, $r, $brut] = requete_signature('POST', base_signature('boldsign') . '/v1/document/send', ['X-API-KEY: ' . $cle, 'Accept: application/json'], null, $champs);
+        if ($code === 400 && stripos($brut, 'locale') !== false) {
+            // Comme dans le projet Qualiopi : un signataire déjà client BoldSign dans une autre langue fait refuser
+            // la locale FR ; on renvoie sans locale plutôt que de bloquer l'envoi.
+            $champs = array_filter($champs, fn ($k) => !str_ends_with($k, '].Locale') && !str_starts_with($k, 'DocumentInfo['), ARRAY_FILTER_USE_KEY);
+            $champs['Files'] = new CURLFile($tmp, 'application/pdf', slug($titre) . '.pdf');
+            journal_signature('boldsign : locale refusée, nouvel essai sans locale.');
+            [$code, $r, $brut] = requete_signature('POST', base_signature('boldsign') . '/v1/document/send', ['X-API-KEY: ' . $cle, 'Accept: application/json'], null, $champs);
+        }
         @unlink($tmp);
         $id = $r['documentId'] ?? ($r['DocumentId'] ?? null);
         if ($code < 200 || $code >= 300 || !$id) fail(502, 'BoldSign a refusé la demande' . ($code ? " ($code)" : '') . ($code === 401 ? ' : clé refusée (vérifiez le centre de données EU/US).' : '.'));
@@ -158,7 +166,7 @@ function telecharger_signe(string $mode, string $apiId): ?string
 {
     $cle = cle_api_signature();
     if ($mode === 'firma') {
-        [$code, $r] = requete_signature('GET', base_signature('firma') . '/signing-requests/' . rawurlencode($apiId), ['Authorization: Bearer ' . $cle, 'Accept: application/json']);
+        [$code, $r] = requete_signature('GET', base_signature('firma') . '/signing-requests/' . rawurlencode($apiId), ['Authorization: ' . $cle, 'Accept: application/json']);
         $url = $r['final_document_download_url'] ?? null;
         if (!$url) return null;
         $pdf = http_get($url, 60, false, ['Accept: application/pdf']);
@@ -176,7 +184,7 @@ function etat_externe(string $mode, string $apiId): ?string
 {
     $cle = cle_api_signature();
     if ($mode === 'firma') {
-        [$code, $r] = requete_signature('GET', base_signature('firma') . '/signing-requests/' . rawurlencode($apiId), ['Authorization: Bearer ' . $cle, 'Accept: application/json']);
+        [$code, $r] = requete_signature('GET', base_signature('firma') . '/signing-requests/' . rawurlencode($apiId), ['Authorization: ' . $cle, 'Accept: application/json']);
         if ($code !== 200 || !is_array($r)) return null;
         $s = $r['status'] ?? [];
         return !empty($s['finished']) ? 'signe' : (!empty($s['cancelled']) || !empty($s['declined']) || !empty($s['expired']) ? 'annule' : 'en_cours');
@@ -271,7 +279,7 @@ tache_cron('synchro_signatures', function (array $agent, array $dossiers): int {
 route('POST signature_webhook', function () {
     require_admin();
     $url = url_publique('api/signature.php');
-    [$code, $r, $brut] = requete_signature('POST', base_signature('firma') . '/webhooks', ['Authorization: Bearer ' . cle_api_signature(), 'Content-Type: application/json'],
+    [$code, $r, $brut] = requete_signature('POST', base_signature('firma') . '/webhooks', ['Authorization: ' . cle_api_signature(), 'Content-Type: application/json'],
         json_encode(['url' => $url, 'events' => ['signing_request.completed', 'signing_request.recipient.signed', 'signing_request.cancelled', 'signing_request.expired'], 'description' => 'Visite Immo · Synapse']));
     if ($code < 200 || $code >= 300) fail(502, "firma.dev n'a pas accepté le webhook ($code) : " . mb_substr((string) ($r['error'] ?? $brut), 0, 200));
     $secret = $r['signing_secret'] ?? $r['secret'] ?? ($r['webhook']['signing_secret'] ?? null);

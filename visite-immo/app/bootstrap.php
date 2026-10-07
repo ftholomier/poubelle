@@ -227,6 +227,7 @@ function visit_summary(array $v): array
         'completude' => completude($champs),
         'etape'      => function_exists('etape_dossier') ? etape_dossier($v) : null,
         'photo'      => $v['photos'][0]['fichier'] ?? null,
+        'suivi'      => function_exists('suivi_resume') ? suivi_resume($v) : null,
     ];
 }
 

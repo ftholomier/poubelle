@@ -97,6 +97,15 @@ function espace_page(string $token): void
         return;
     }
     [$agent, $v] = $trouve;
+    // Suivi du dossier : dernière consultation de l'espace par le vendeur, l'acquéreur, le notaire
+    $role = (string) $lien['role'];
+    if (strtotime($v['espace_vu'][$role] ?? '2000-01-01') < time() - 600) {
+        $v = update_visit($agent, $v['id'], function (array $x) use ($role) {
+            if (empty($x['espace_vu'][$role])) journal_ajout($x, 'espace', ['vendeur' => 'Le vendeur', 'acquereur' => "L'acquéreur", 'notaire' => 'Le notaire'][$role] . ' a ouvert son espace pour la première fois.');
+            $x['espace_vu'][$role] = date('c');
+            return $x;
+        });
+    }
     $ctx = ['token' => $token, 'lien' => $lien, 'role' => $lien['role'], 'agent' => $agent, 'v' => $v];
     $sections = $ESPACE_SECTIONS[$lien['role']] ?? [];
     ksort($sections);

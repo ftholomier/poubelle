@@ -672,3 +672,50 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .estim-direct .estim-fleche { font-size: 1.4rem; color: var(--citron); }
 .estim-direct.flash { background: var(--vert); }
 @media (prefers-color-scheme: dark) { .estim-direct { background: #26262c; } }
+
+/* ---------- Suivi du projet ---------- */
+.anneau { --p: 0; width: 96px; height: 96px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
+  background: conic-gradient(var(--vert) calc(var(--p) * 1%), var(--line) 0); }
+.anneau span { width: 76px; height: 76px; border-radius: 50%; background: var(--surface); display: grid; place-content: center; text-align: center; }
+.anneau strong { font-size: 1.25rem; font-weight: 800; line-height: 1; }
+.anneau small { font: 600 .5rem var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.suivi-tete { display: flex; gap: 16px; align-items: center; }
+.suivi-tete h2 { margin-bottom: 6px; }
+.suivi-tete.flash, .suivi-compact.flash { animation: flash-suivi 1s; }
+@keyframes flash-suivi { from { background: var(--ia-bg); } }
+.suivi-compteurs { display: flex; flex-wrap: wrap; gap: 6px; }
+.sc { display: inline-flex; align-items: center; gap: 4px; font-size: .74rem; font-weight: 600; padding: 3px 8px 3px 4px; border-radius: 99px; border: 1.5px solid var(--line); }
+.sc i { font-style: normal; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: .62rem; }
+.st, .sc i { border: 1.5px solid var(--encre); }
+.st-fait { background: var(--citron); color: var(--encre); }
+.st-a_faire { background: var(--orange); color: #fff; }
+.st-en_attente { background: #ffe0b8; color: var(--encre); }
+.st-pas_commence { background: var(--surface); color: var(--muted); border-color: var(--muted) !important; }
+.st-prevu { background: transparent; color: var(--muted); border-style: dashed !important; border-color: var(--muted) !important; }
+.sc-fait i { background: var(--citron); } .sc-a_faire i { background: var(--orange); color: #fff; } .sc-en_attente i { background: #ffe0b8; }
+.sc-pas_commence i { border-color: var(--muted); color: var(--muted); } .sc-prevu i { border-style: dashed; border-color: var(--muted); color: var(--muted); }
+.suivi-groupe-tete { display: flex; justify-content: space-between; align-items: baseline; }
+.jauge.fine { height: 6px; border-width: 0; background: var(--line); margin: 2px 0 6px; }
+.jauge.fine span { background: var(--vert); }
+.suivi-case { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); color: inherit; text-decoration: none; }
+.suivi-case .st { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: .8rem; }
+.suivi-txt { display: grid; gap: 1px; min-width: 0; }
+.suivi-txt strong { font-size: .93rem; }
+.suivi-txt small { color: var(--muted); font-size: .78rem; overflow-wrap: anywhere; }
+.suivi-etat { font: 600 .58rem var(--mono); text-transform: uppercase; letter-spacing: .05em; text-align: right; max-width: 82px; }
+.st-txt-fait { color: var(--vert); } .st-txt-a_faire { color: var(--orange); } .st-txt-en_attente { color: #b86b00; } .st-txt-pas_commence, .st-txt-prevu { color: var(--muted); }
+.suivi-compact { display: grid; gap: 8px; color: inherit; text-decoration: none; }
+.suivi-compact-corps { display: flex; gap: 14px; align-items: center; }
+.suivi-pastilles { display: grid; gap: 6px; flex: 1; }
+.suivi-pastilles div { display: grid; gap: 2px; }
+.suivi-pastilles small { font: 600 .55rem var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.suivi-pastilles span { display: flex; gap: 4px; flex-wrap: wrap; }
+.pastille { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid var(--encre); }
+.suivi-mini { display: grid; grid-template-columns: 70px 1fr; gap: 8px; align-items: center; font-size: .75rem; color: var(--muted); margin-top: 6px; }
+.suivi-mini .jauge { height: 7px; margin: 0; border-width: 1px; }
+.captation { margin-top: 14px; text-align: left; }
+.cap-sujets { display: flex; flex-wrap: wrap; gap: 5px; margin: 4px 0 8px; }
+.cap-sujet { font-size: .76rem; padding: 4px 9px; border-radius: 99px; border: 1.5px dashed var(--muted); color: var(--muted); }
+.cap-sujet.ok { border: 1.5px solid var(--encre); background: var(--citron); color: var(--encre); font-weight: 600; }
+.cap-boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.cap-boutons .btn { text-align: center; font-size: .85rem; }

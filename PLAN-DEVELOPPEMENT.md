@@ -8,17 +8,17 @@ Chaque lot porte un code (ex. **2.3**).
 
 ## État au 7 octobre 2026 : tout est construit dans le prototype
 
-Toutes les phases ont été développées, testées de bout en bout (10 scénarios automatisés, `visite-immo/tests/`)
+Toutes les phases ont été développées, testées de bout en bout (14 scénarios automatisés, `visite-immo/tests/`)
 et poussées. Détail de ce qui est réel, simulé ou reporté :
 
 | Lot | État |
 |---|---|
 | 0.1 Validation en réel | ⏳ **à faire avec vous** : vraie clé Gemini, vrai téléphone, vrai SMTP, vrais services publics |
 | 0.2 → 0.7 Fondations | ✅ modules, tâches automatiques (cron), notifications push, liens clients, navigation du bas |
-| 1.1 → 1.8 Visite et mandat | ✅ dossier technique, avis de valeur, lecture des papiers, pièces et relances, espace vendeur, signature (intégrée + API générique), photos, home staging |
+| 1.1 → 1.8 Visite et mandat | ✅ dossier technique, avis de valeur, lecture des papiers, pièces et relances, espace vendeur, signature (intégrée, **firma.dev**, BoldSign, API générique), photos, home staging, **estimation en temps réel (DVF)** |
 | 1.9 Plan 2D | ✅ croquis d'après les pièces citées · ⛔ scan LiDAR : impossible en PWA (appli native) |
 | 2.1, 2.3 → 2.5 Commercialisation | ✅ page du bien, visuels, vidéo, rapprochement et alertes |
-| 2.2 Multidiffusion | ✅ flux XML + aperçu portail · ⏳ diffusion réelle : contrats portails, logiciel métier |
+| 2.2 Multidiffusion | ✅ flux XML + **rendu Leboncoin fidèle** (téléphone / ordinateur, contrôle de conformité) · ⏳ diffusion réelle : compte pro ou multidiffuseur, logiciel métier |
 | 3.1 → 3.6 Acquéreurs et visites | ✅ fiches dictées, agenda + ICS, assistant 24 h/24 sur la page du bien, bon de visite, retours, point du vendredi |
 | 3.3 (suite) | ⏳ lecture de la boîte e-mail de l'agence (IMAP) et SMS/WhatsApp : non construits (compte requis) |
 | 4.1 → 4.7 Compromis à l'acte | ✅ offres, LCB-FT, notaires, échéancier, relances, facture, commission, avis Google |
@@ -28,6 +28,7 @@ et poussées. Détail de ce qui est réel, simulé ou reporté :
 | 8.1 RGPD | ✅ conservation de l'audio, export des données d'une personne, registre simplifié · ⏳ journal des accès |
 | 8.2 Démo | ✅ jeu de démonstration (Paramètres) |
 | 8.3 Passation | ✅ `PASSATION.md` à jour |
+| Ajout · Suivi du projet | ✅ tableau de cases en temps réel (visite, rédigé, mandat, diffusion et CRM, vente), pourcentage « opérationnel », coach de captation pendant l'enregistrement, export CRM (JSON) · ⏳ envoi au CRM : vrai logiciel |
 
 
 ---
@@ -191,7 +192,7 @@ Compléter ce qui existe : en sortant de la visite, le dossier est complet, sign
 |---|---|---|
 | Gemini | Une vraie clé pour le lot 0.1 | Indispensable |
 | Documents Synapse | Vos ~10 documents (mandats, bon de visite, offre d'achat, compte rendu…) | Envoyez-les en zip avant la phase 1 : ils servent de modèles à 1.6, 3.4, 4.1, 4.3 |
-| Signature | Signature au doigt dans l'appli, ou compte Yousign (payant à l'acte) ? | Signature dans l'appli pour le prototype, Yousign en option |
+| Signature | Quel service ? | **Réponse : firma.dev** (branché) ; BoldSign en alternative (projet Qualiopi) ; signature intégrée pour tester sans compte |
 | SMS / WhatsApp | Compte Brevo ou Twilio, ou e-mail seulement ? | E-mail seulement au début, SMS en option |
 | Portails | Simulation seulement ? | Oui : la vraie diffusion passera par le logiciel métier |
 | Courrier postal | Envoi en ligne ou PDF à imprimer ? | PDF à imprimer d'abord |

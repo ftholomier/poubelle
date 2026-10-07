@@ -112,7 +112,7 @@ function pdf_signe_simule(): string
     return "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Kids[]/Count 0>>endobj\ntrailer<</Root 1 0 R>>\n%%EOF SIGNE-PAR-LE-SERVICE\n";
 }
 if (str_starts_with($path, '/firma/')) {
-    if (($_SERVER['HTTP_AUTHORIZATION'] ?? '') !== 'Bearer cle-firma-test' && $path !== '/firma/final.pdf') json(['error' => 'Unauthorized'], 401);
+    if (preg_replace('/^Bearer\s+/', '', $_SERVER['HTTP_AUTHORIZATION'] ?? '') !== 'cle-firma-test' && $path !== '/firma/final.pdf') json(['error' => 'Unauthorized'], 401);
     if ($path === '/firma/signing-requests/create-and-send') {
         $in = json_decode((string) file_get_contents('php://input'), true) ?: [];
         if (empty($in['document']) || empty($in['recipients'])) json(['error' => 'document and recipients required'], 400);

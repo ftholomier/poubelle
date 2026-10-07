@@ -110,6 +110,7 @@ function vue_dossier(array $visit): array
     if (!empty($visit['vente']['debut'])) $visit['echeancier'] = echeancier($visit);
     $pdfs = pdf_docs();
     $visit['documents'] = array_map(fn ($d) => ['cle' => $d[0], 'label' => $d[1], 'pret' => $d[2], 'interne' => $d[3], 'ecran' => $d[4], 'pdf' => isset($pdfs[$d[0]])], documents_dossier($visit));
+    if (function_exists('suivi_dossier')) $visit['suivi'] = suivi_dossier($visit);
     return $visit;
 }
 

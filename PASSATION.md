@@ -43,12 +43,12 @@ Parcours complet, de la prospection à l'acte (chaque étape est construite et t
 
 | Étape | Ce qui se fait tout seul | Ce que fait l'agent |
 |---|---|---|
-| **Prospection** | Logements classés F/G du secteur (ADEME), rues où les ventes bougent (DVF), courriers « Au propriétaire » personnalisés, flyers de boîtage | Choisir sa commune, imprimer les courriers, suivre les réponses |
-| **Visite** | Enregistrement par morceaux, transcription au fil de l'eau | Appuyer sur le bouton rouge |
-| **Sortie de visite** | Fiche (61 champs), annonce, rapport interne, compte rendu vendeur, publications réseaux, croquis de plan, **dossier technique** (cadastre IGN, Géorisques, DPE ADEME), **avis de valeur** (ventes DVF), **liste des pièces** à demander, mandat pré-rempli | « Compléter à la voix » (l'assistant ne pose que les questions manquantes), puis **« Tout envoyer au vendeur »** |
-| **Mandat** | Numéro au registre, envoi du lien de signature, code par e-mail, relances J+2 / J+5, exemplaire signé à chacun | Signer (au doigt), ou faire signer sur place |
+| **Prospection** | Logements classés F/G du secteur (ADEME), rues où les ventes bougent (DVF), courriers « Au propriétaire » personnalisés, flyers de boîtage ; **« Estimer un bien » en temps réel** (adresse + caractéristiques → prix qui bouge à chaque réglage) | Choisir sa commune, imprimer les courriers, suivre les réponses |
+| **Visite** | Enregistrement par morceaux, transcription au fil de l'eau, **captation en direct** (sujets déjà abordés, « pensez à demander… »), photos du bien et documents du vendeur pris sans arrêter l'audio | Appuyer sur le bouton rouge |
+| **Sortie de visite** | Fiche (61 champs), annonce, rapport interne, compte rendu vendeur, publications réseaux, croquis de plan, **dossier technique** (cadastre IGN, Géorisques, DPE ADEME), **avis de valeur** (ventes DVF similaires, recalculé en direct), **liste des pièces** à demander, mandat pré-rempli, **tableau de suivi** (chaque case : fait / à faire / en attente / pas commencé / prévu) | « Compléter à la voix » (l'assistant ne pose que les questions manquantes), puis **« Tout envoyer au vendeur »** |
+| **Mandat** | Numéro au registre, signature au choix : intégrée (lien, code par e-mail, relances J+2 / J+5) ou **firma.dev / BoldSign** (champs placés dans nos cadres, retour par webhook signé), exemplaire signé à chacun | Signer (au doigt), ou envoyer pour signature |
 | **Pièces du vendeur** | Le vendeur dépose en photo dans son espace, **l'IA lit chaque document** (titre, taxe foncière, PV d'AG, diagnostics…), remplit la fiche, signale les points de vigilance ; relances J+2, J+5, J+10… | Rien |
-| **Commercialisation** | Page publique du bien, **assistant acquéreurs 24 h/24** (répond, qualifie, réserve la visite dans l'agenda), flux portails, visuels carré et story, vidéo courte, alertes aux acquéreurs compatibles, statistiques | Publier (un bouton) |
+| **Commercialisation** | **Rendu Leboncoin fidèle** (téléphone / ordinateur, vraies photos, contrôle de conformité, texte prêt à coller), page publique du bien, **assistant acquéreurs 24 h/24** (répond, qualifie, réserve la visite dans l'agenda), flux portails, visuels carré et story, vidéo courte, alertes aux acquéreurs compatibles, statistiques | Publier (un bouton) |
 | **Visites acquéreurs** | Créneaux libres proposés, abonnement calendrier, bon de visite signé, **point de la semaine au vendeur chaque vendredi** | Dicter le retour en 30 secondes |
 | **Offre** | Offre dictée → PDF, signature de l'acquéreur, transmission au vendeur, acceptation signée / refus / contre-proposition depuis son espace | Dicter l'offre |
 | **Compromis → acte** | Échéancier (rétractation SRU de 10 jours avec jours fériés, prêt, acte), relances acquéreur / courtier / notaires, **contrôle anti-blanchiment** (pièce d'identité lue par l'IA, registre des gels), dossier et espace notaire | Saisir les dates, photographier les pièces d'identité |
@@ -61,7 +61,7 @@ Parcours complet, de la prospection à l'acte (chaque étape est construite et t
 ## 3. Architecture
 
 Choix volontairement simples pour tester vite : **PHP 8.2+ natif sans framework ni Composer, fichiers JSON, pas de
-base de données**, interface en HTML/CSS/JS sans framework (modules ES). Environ 14 000 lignes.
+base de données**, interface en HTML/CSS/JS sans framework (modules ES). Environ 16 000 lignes.
 
 ### 3.1 Un module = une fonction métier
 
@@ -78,17 +78,21 @@ sans toucher au reste.
 | `document_signable('offre', …, pdf:, signataires:, apres:)` | document signable (et ce qui se passe une fois signé) |
 | `type_dictee('appel', $schema, $consigne, $demo)` + `apres_dictee()` | dictée de 30 s transformée en données structurées |
 | `espace_section('vendeur', 20, fn ($ctx) => '<section>…')` | bloc de l'espace client (vendeur, acquéreur, notaire) |
+| `apres_champs(fn ($agent, $id, $cles) => …)` | réagir à un changement de la fiche (saisie, dialogue, pièce lue) : ex. estimation recalculée |
 
 Modules socles (chargés en premier) : `dossier` (étapes, prochaine action, documents), `signature`, `espace`, `dictee`.
 
 | Module | Contenu |
 |---|---|
 | `donnees_publiques` | BAN (géocodage), cadastre IGN, Géorisques, DPE ADEME, DVF ; simulation si un service ne répond pas |
-| `avis_valeur` | comparables DVF, ajustements (état, DPE, extérieurs), fourchette, argumentaire IA, PDF |
+| `estimation` | moteur d'estimation : ressemblance de chaque vente DVF, tendance du marché, ajustements, confiance ; outil « Estimer un bien » ; recalcul en direct du dossier |
+| `avis_valeur` | avis de valeur du dossier (chiffres du moteur `estimation`), argumentaire IA, PDF |
+| `suivi` | tableau de suivi du projet (cases et pourcentage « opérationnel »), coach de captation, export CRM (JSON) |
 | `plan` | croquis de plan (disposition « squarified » des pièces citées) en SVG et PDF |
 | `pieces` | pièces requises selon le bien, dépôt, lecture IA, alertes, relances |
 | `sortie_visite` | `preparer` (après génération) et « Tout envoyer au vendeur » |
-| `signature` | signature interne (au doigt + code e-mail) ou API externe, certificat de preuve |
+| `signature` | signature interne (au doigt + code e-mail), certificat de preuve ; choix du service |
+| `signature_fournisseurs` | firma.dev, BoldSign (repris du projet Qualiopi), API générique : envoi, webhooks, synchronisation |
 | `espace` | espace client par lien personnel (`public/espace/`) |
 | `photos`, `visuels` | retouche (niveaux, netteté), détection du flou, pièce reconnue, home staging, visuels réseaux sociaux |
 | `commercialisation`, `vitrine` | publication, page publique (`public/v/`), assistant 24 h/24, contacts, flux portails |
@@ -119,9 +123,10 @@ visite-immo/
 │   ├── v/                   page publique d'un bien + assistant
 │   ├── ics.php, flux.php, avis.php   abonnement calendrier, flux portails, lien d'avis suivi
 │   ├── js/                  app.js (routeur, écrans historiques), ui.js (outils partagés), dictee.js, pad.js,
-│   │                        video.js, recorder.js, uploader.js, dialogue.js, apercu.js, espace.js, vitrine.js
-│   ├── js/vues/             un fichier par grand écran (aujourdhui, dossier-auto, vente, acquereurs, agenda…)
-│   └── css/                 app.css, espace.css, vitrine.css
+│   │                        video.js, recorder.js, uploader.js, dialogue.js, apercu.js (rendu Leboncoin), espace.js, vitrine.js
+│   ├── js/vues/             un fichier par grand écran (aujourdhui, dossier-auto, vente, acquereurs, agenda,
+│   │                        estimation, suivi…)
+│   └── css/                 app.css, apercu.css (page simulée du portail), espace.css, vitrine.css
 └── tests/                   lancer.sh, tout.sh, services-simules.php, smtp-simule.py, e2e-*.mjs
 ```
 
@@ -136,7 +141,8 @@ visite-immo/
 | `vitrines.json` | slug de page publique → dossier |
 | `registre.json`, `factures.json` | registre des mandats, registre des factures (numéros chronologiques) |
 | `conversations/` | échanges de l'assistant de la page du bien |
-| `couts/AAAA-MM.json`, `cron.json`, `cache/` | coûts IA, dernier passage du cron, caches (DVF, registre des gels) |
+| `couts/AAAA-MM.json`, `cron.json`, `cache/` | coûts IA, dernier passage du cron, caches (DVF : CSV 30 jours + ventes lues 1 jour, registre des gels) |
+| `signatures_externes.json`, `logs/signature.log` | demande firma.dev / BoldSign → dossier ; échanges avec le service (sans secret) |
 
 Le dossier (`visite.json`) s'enrichit au fil de la vie du bien :
 
@@ -147,11 +153,12 @@ Le dossier (`visite.json`) s'enrichit au fil de la vie du bien :
   "titre_annonce": "…", "annonce": "…", "rapport_agent": "…", "rapport_vendeur": "…",
   "points_forts": [], "plan": { "pieces": [] }, "posts": { "instagram": "…" },
   "public": { "geo": {}, "cadastre": {}, "risques": {}, "dpe": {}, "ventes": [], "simulation": false },
-  "avis_valeur": { "bas": 0, "haut": 0, "retenu": 0, "comparables": [], "argumentaire": "…" },
+  "avis_valeur": { "bas": 0, "haut": 0, "retenu": 0, "confiance": { "niveau": "élevée" }, "tendance": {}, "comparables": [{ "similarite": 56 }], "argumentaire": "…", "argumentaire_perime": false },
   "pieces": [{ "cle": "titre", "statut": "recue", "fichiers": [{ "resume": "…", "alertes": [] }] }],
   "envoi_vendeur": { "date": "…" }, "relances_pieces": [],
   "mandat": { "numero": "2026-0001", "signe_le": "…" },
-  "signatures": { "mandat": { "statut": "signe", "hash": "sha256…", "signataires": [{ "nom": "…", "signe_le": "…", "methode": "…", "ip": "…" }] } },
+  "signatures": { "mandat": { "statut": "signe", "mode": "interne|firma|boldsign|api", "api_id": "…", "hash": "sha256…", "signataires": [{ "nom": "…", "signe_le": "…", "methode": "…", "ip": "…" }] } },
+  "espace_vu": { "vendeur": "…" },
   "photos": [{ "fichier": "…", "piece": "Séjour", "floue": false, "staging": { … } }],
   "vitrine": { "slug": "…", "publiee": true, "vues": { "2026-10-07": 12 } }, "contacts": [],
   "visites_acq": [{ "acquereur": "a…", "date": "…", "bon_signe": true, "retour": { "interet": 4, "resume_vendeur": "…" } }],
@@ -175,7 +182,7 @@ Le dossier (`visite.json`) s'enrichit au fil de la vie du bien :
 | `/ics.php?t=<jeton>` | agenda de l'agent | jeton personnel |
 | `/flux.php?t=<jeton>` | portails, multidiffuseur | jeton de l'agence |
 | `/avis.php?t=<jeton>` | client après l'acte | jeton, redirection vers la fiche Google |
-| `/api/signature.php` | service de signature externe | `Authorization: Bearer <clé>` |
+| `/api/signature.php` | firma.dev, BoldSign, service générique | firma : `X-Firma-Signature` (HMAC-SHA256 de « t.corps », 1 h max) ; BoldSign : `X-BoldSign-Signature` ; générique : `Authorization: Bearer <clé>` |
 
 ---
 
@@ -193,21 +200,40 @@ les tests et un changement d'URL sans toucher au code (`api_base()` dans `bootst
 | DPE ADEME | `data.ademe.fr/data-fair/api/v1/datasets/dpe03existant/lines` | DPE du logement, logements F/G d'une commune | « non trouvé » |
 | DVF | `files.data.gouv.fr/geo-dvf/latest/csv/<année>/communes/<dép>/<insee>.csv` | ventes (cache 30 jours) | simulées |
 | Gel des avoirs | `gels-avoirs.dgtresor.gouv.fr/…/derniere-publication-flux-json` | LCB-FT (cache 1 jour) | « vérification à refaire » |
-| Leaflet + OpenStreetMap | `cdnjs.cloudflare.com`, tuiles OSM | carte de prospection | liste seule |
+| Leaflet + OpenStreetMap | `cdnjs.cloudflare.com`, tuiles OSM | cartes de prospection et d'estimation | liste seule |
+| firma.dev | `api.firma.dev/functions/v1/signing-request-api` | signature électronique (mode recommandé) | message d'erreur, rien n'est envoyé |
+| BoldSign | `api-eu.boldsign.com` | signature électronique (comme le projet Qualiopi) | idem |
 
 **À vérifier en premier en production** : les formats exacts des réponses (écrits d'après la documentation, testés
 contre des services simulés : le réseau de l'environnement de développement bloquait ces adresses), en particulier
 le paramètre `geo_distance` et les noms de colonnes de l'API DPE de l'ADEME, et le format JSON du registre des gels.
 
-### 4.1 Contrat de l'API de signature externe (mode « api »)
+### 4.1 Signature électronique : quatre modes (Paramètres → Signature électronique)
 
-Le client a sa propre API de signature ; le prototype parle un contrat générique, à adapter :
+| Mode | Comment ça marche |
+|---|---|
+| **Intégrée** (par défaut) | signature électronique simple (eIDAS) au doigt, code à 6 chiffres par e-mail (15 min, 5 essais), IP, appareil, horodatage, empreinte SHA-256, images des signatures dans le document et **certificat de signature** en dernière page |
+| **firma.dev** (recommandé) | `POST /signing-requests/create-and-send` (`Authorization: <clé>`, sans « Bearer ») : PDF en base64, destinataires `temp_1…`, champs `signature` placés **en % de la page** exactement dans les cadres dessinés par nos PDF (`VisitePdf::zoneSignature`), langue `fr`, OTP en option. Retour : webhook `signing_request.recipient.signed` / `.completed` / `.cancelled` / `.expired`, vérifié par HMAC (`X-Firma-Signature: t=…,v1=…`, secret enregistré par le bouton « Déclarer cette adresse chez firma.dev », `POST /webhooks`). Le PDF signé est récupéré via `final_document_download_url` (`GET /signing-requests/{id}`) |
+| **BoldSign** | même intégration que le projet **Qualiopi** (`BoldSignService.php`) : `X-API-KEY`, `POST /v1/document/send` en multipart, champs en pixels à 96 dpi, locale FR (nouvel essai sans locale si refusée), webhook `X-BoldSign-Signature` (seul « Completed » est traité, le reste est acquitté), `GET /v1/document/download` |
+| **API générique** | contrat ci-dessous, pour un autre service |
+
+Dans tous les modes externes : le document part **quand l'agent clique « Envoyer pour signature »** (jamais
+automatiquement à la sortie de visite), l'exemplaire renvoyé par le service devient le PDF officiel du dossier, la
+tâche `synchro_signatures` interroge le service toutes les 30 min si un webhook se perd, et le bouton « Vérifier
+l'état » fait de même à la demande. Note : le projet Qualiopi utilise **BoldSign**, pas firma.dev.
+
+**À vérifier en production** : le nom exact du champ du secret renvoyé par `POST /webhooks` chez firma.dev
+(`signing_secret` attendu, sinon le coller à la main dans Paramètres), les événements à cocher, la tolérance
+d'horodatage (1 h ici) ; chez BoldSign, le nouvel essai sans locale du projet Qualiopi est repris.
+
+Contrat générique (mode « api ») :
 
 ```
 POST <signature_api_url>/demandes            Authorization: Bearer <signature_api_cle>
 { "reference": "<dossier>|<document>", "titre": "Mandat de vente · …",
   "document": { "nom": "mandat.pdf", "contenu_base64": "…" },
-  "signataires": [{ "id": "s1", "nom": "…", "email": "…", "telephone": "…", "role": "vendeur|agent|acquereur" }],
+  "signataires": [{ "id": "s1", "nom": "…", "email": "…", "telephone": "…", "role": "vendeur|agent|acquereur",
+                    "zone": { "page": 2, "x": 22, "y": 116, "w": 74, "h": 20, "page_w": 210, "page_h": 297 } }],
   "url_retour": "https://…/api/signature.php" }
 → { "id": "<id de la demande>" }
 
@@ -215,10 +241,6 @@ Retour (le service appelle) : POST /api/signature.php      Authorization: Bearer
 { "id": "…", "reference": "<dossier>|<document>", "statut": "en_cours|signe|refuse",
   "signataires": [{ "id": "s1", "signe_le": "…" }], "document_signe_base64": "…" }
 ```
-
-En mode **interne** (par défaut) : signature électronique simple (eIDAS) au doigt, code à 6 chiffres envoyé par e-mail
-(15 min, 5 essais), IP, appareil, horodatage, empreinte SHA-256 du document présenté, images des signatures dans le
-document et **certificat de signature** en dernière page.
 
 ### 4.2 Flux pour les portails (`/flux.php`)
 
@@ -276,8 +298,17 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
 - **Mandat** (gabarit Synapse.immo) : jetons, « [à compléter] », PROJET en filigrane, **numéro de registre
   chronologique attribué avant la signature** (il doit figurer sur l'exemplaire signé), clause de dénonciation encadrée
   (exclusif), rétractation 14 jours + formulaire détachable hors établissement.
-- **Annonce** : prix honoraires inclus, pourcentage TTC et qui paie, prix hors honoraires, DPE/GES, copropriété,
-  Géorisques (arrêté du 10 janvier 2017). **Publication impossible sans mandat signé.**
+- **Annonce** : prix honoraires inclus, pourcentage TTC et qui paie, prix hors honoraires, DPE/GES, **dépenses
+  d'énergie estimées** (fourchette du DPE), **« logement à consommation énergétique excessive »** pour F et G,
+  copropriété, Géorisques (arrêté du 10 janvier 2017 modifié). **Publication impossible sans mandat signé.**
+- **Rendu Leboncoin** : simulation interne (nom en texte, aucun logo), dans un cadre à la largeur réelle d'un téléphone
+  (390 px) ou d'un ordinateur (1 280 px). Contrôle avant diffusion : titre (70 caractères conseillés), description
+  (400 à 4 000), photos (3 minimum, 8 conseillées), prix, honoraires, DPE et cohérence avec le texte, dépenses
+  d'énergie, copropriété, coordonnées dans le texte. Les limites exactes sont à confirmer avec le multidiffuseur.
+  La publication réelle passe par un compte pro Leboncoin ou un multidiffuseur (vrai logiciel).
+- **Estimation** : ventes DVF de la commune notées selon leur ressemblance (surface ±25 %, pièces, terrain, distance,
+  ancienneté), prix actualisés avec la tendance locale (médiane par année, ±10 %/an au plus), médiane et
+  quantiles 20/80 pondérés, ajustements état / DPE / extérieur / stationnement / exposition, indice de confiance.
 - **Avis de valeur** : mention « ne constitue pas une expertise ».
 - **Home staging** : mention « aménagement virtuel · image retouchée » incrustée sur toute image modifiée.
 - **Bon de visite** : engagement de passer par l'agence (durée du mandat + 12 mois).
@@ -308,6 +339,7 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
 | `avis_google` | J+2 après l'acte, relance à J+9 si le lien n'a pas été ouvert |
 | `briefing` | notification à 7 h 30 les jours ouvrés |
 | `rgpd_audio` | effacement de l'audio après N jours (réglage) |
+| `synchro_signatures` | firma.dev / BoldSign : état des demandes en attente, au plus toutes les 30 min chacune |
 
 Chaque tâche mémorise ce qu'elle a déjà fait (pas de doublon). `--maintenant=AAAA-MM-JJTHH:MM` simule une date
 (tests), `--tache=<nom>` n'en lance qu'une.
@@ -322,11 +354,13 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 ```
 
 - Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
-- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 10 scénarios Playwright sur des
-  données neuves, avec services publics, SMTP, push et signature simulés. Couvre : parcours de base, sortie de
-  visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 14 scénarios Playwright sur des
+  données neuves, avec services publics, SMTP, push, firma.dev et BoldSign simulés. Couvre : parcours de base, sortie
+  de visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
   vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la
-  signature VAPID), prospection, démo et réseau.
+  signature VAPID), prospection, **signature firma.dev / BoldSign** (positions des champs, webhooks HMAC, rejeu,
+  exemplaire signé), **estimation en temps réel**, **rendu Leboncoin**, **suivi du projet** (captation, cases en
+  direct, export CRM), démo et réseau.
 
 **Non testé en conditions réelles** (à faire en premier) :
 - vrais appels Gemini (transcription, génération, Live, multimodal, images) ;
@@ -334,7 +368,7 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 - formats audio des téléphones (`webm` Android, `mp4` iPhone) côté Gemini ;
 - iPhone réel : micro écran verrouillé, voix de synthèse, notifications (PWA installée, iOS 16.4+) ;
 - envoi SMTP chez un vrai fournisseur ; délivrabilité des relances ;
-- l'API de signature du client (contrat §4.1 à aligner) ;
+- firma.dev et BoldSign avec de vraies clés (formats écrits d'après leur documentation, §4.1) ;
 - relecture juridique de tous les documents.
 
 ---
@@ -368,8 +402,11 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 - **Interface ultra simple** : presque tout découle de la visite et se fait automatiquement en sortant.
 - IA : **Gemini uniquement**, tout réglable dans l'appli ; conversation vocale en direct, voix du navigateur.
 - Vrais PDF côté serveur, vrais e-mails avec pièces jointes ; charte Synapse partout.
-- Signature : intégrée pour le prototype ; **le client branchera sa propre API** (contrat générique §4.1).
+- Signature : **firma.dev** (choix du client) ; BoldSign gardé en alternative car déjà utilisé dans le projet Qualiopi ;
+  signature intégrée conservée pour tester sans compte.
 - Documents Synapse officiels non fournis : on travaille avec le gabarit existant (outil de test).
-- Envoi vers le CRM : **plus tard**, dans le vrai développement.
+- Envoi vers le CRM : **plus tard**, dans le vrai développement (l'export JSON `crm_export` donne déjà le format).
+- **Suivi temps réel** : à la sortie de la visite, si l'audio, les photos, les documents et le dialogue avec l'IA sont
+  faits, le dossier doit être quasiment opérationnel ; le tableau de suivi le montre case par case.
 - Offre agents (à valider) : 80 % → 90 % (40 k€) → 95 % (80 k€) des honoraires HT sur 12 mois glissants, réglables ;
   abonnement 79 € HT/mois.
