@@ -23,7 +23,10 @@ final class Heritage extends Base
         $state = FcsmImport::state();
         $filter = $req->str('etat');
         $items = array_values($state['items']);
-        if ($filter !== '') {
+        if ($filter === 'tentes') {
+            // Éléments déjà tentés (créés, en erreur, ou à refaire avec un message), les plus récents en tête.
+            $items = array_values(array_filter($items, fn ($it) => (int) ($it['tries'] ?? 0) > 0));
+        } elseif ($filter !== '') {
             $items = array_values(array_filter($items, fn ($it) => ($it['status'] ?? '') === $filter));
         }
         usort($items, fn ($a, $b) => [self::rank($a['kind']), $a['key']] <=> [self::rank($b['kind']), $b['key']]);
@@ -67,7 +70,10 @@ final class Heritage extends Base
                         }
                     }
                     $r = FcsmImport::run(3, $pick);
-                    return self::back($back . '?etat=fait', 'Essai : ' . $r['done'] . ' fiche(s) créée(s), ' . $r['close'] . ' réécrite(s) car trop proches, ' . $r['errors'] . ' erreur(s). Ouvrez-les ci-dessous pour juger le style.');
+                    $msg = 'Essai : ' . $r['done'] . ' fiche(s) créée(s), ' . $r['close'] . ' réécrite(s) car trop proches, ' . $r['errors'] . ' erreur(s).';
+                    return $r['errors'] && !$r['done']
+                        ? self::back($back . '?etat=tentes', null, $msg . ' ' . implode(' · ', array_slice($r['messages'], 0, 3)))
+                        : self::back($back . '?etat=tentes', $msg . ' Ouvrez les fiches ci-dessous pour juger le style.');
                 case 'lancer':
                     FcsmImport::start(true, self::actor());
                     return self::back($back, 'Import lancé : la tâche planifiée traite un lot toutes les 5 minutes. Vous pouvez fermer cette page.');
@@ -76,7 +82,7 @@ final class Heritage extends Base
                     return self::back($back, 'Import mis en pause.');
                 case 'traiter':
                     $r = FcsmImport::run(12);
-                    return self::back($back, $r['done'] . ' fiche(s) créée(s), ' . $r['left'] . ' restante(s).');
+                    return self::back($back . '?etat=tentes', $r['done'] . ' fiche(s) créée(s), ' . $r['left'] . ' restante(s).' . ($r['messages'] ? ' Erreurs : ' . implode(' · ', array_slice($r['messages'], 0, 3)) : ''));
                 case 'relancer':
                     FcsmImport::retry();
                     return self::back($back, 'Les éléments en erreur sont remis à faire.');

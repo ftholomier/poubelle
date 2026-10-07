@@ -6,6 +6,7 @@ $kinds = ['season' => 'Saisons', 'match' => 'Matchs', 'match-page' => 'Matchs ra
 $states = ['a-faire' => ['À faire', 'info'], 'fait' => ['Créé', 'ok'], 'existe' => ['Déjà au musée', 'brouillon'], 'doublon' => ['Doublon écarté', 'brouillon'],
     'trop-proche' => ['Trop proche', 'ko'], 'erreur' => ['Erreur', 'ko']];
 $count = fn (string $st) => array_sum(array_map(fn ($k) => (int) ($k[$st] ?? 0), $summary));
+$retry = count(array_filter($state['items'], fn ($it) => ($it['status'] ?? '') === 'a-faire' && !empty($it['why'])));
 $total = count($state['items']);
 $done = $count('fait');
 $todo = $count('a-faire');
@@ -16,7 +17,7 @@ $todo = $count('a-faire');
   <div class="kpi kpi--yellow"><b><?= $done ?></b><span>fiches créées</span><small>sur <?= $total ?> éléments au plan</small></div>
   <div class="kpi"><b><?= $todo ?></b><span>à faire</span><small><?= !empty($state['running']) ? 'import en cours (un lot toutes les 5 min)' : 'import à l’arrêt' ?></small></div>
   <div class="kpi"><b><?= $count('existe') + $count('doublon') ?></b><span>écartés</span><small>déjà au musée</small></div>
-  <div class="kpi"><b><?= $count('erreur') + $count('trop-proche') ?></b><span>à revoir</span><small>erreurs ou textes trop proches</small></div>
+  <div class="kpi"><b><?= $count('erreur') + $count('trop-proche') + $retry ?></b><span>à revoir</span><small><?= $retry ? $retry . ' en nouvel essai · ' : '' ?><a href="/admin/reprise-1928-1969?etat=tentes">voir le détail</a></small></div>
 </div>
 
 <section class="card card--pad stack">
@@ -54,7 +55,7 @@ $todo = $count('a-faire');
 
 <section class="card">
   <div class="card__head"><h2 class="card__t">Détail</h2>
-    <span class="card__note"><a href="/admin/reprise-1928-1969"<?= $filter === '' ? ' aria-current="page"' : '' ?>>tout</a>
+    <span class="card__note"><a href="/admin/reprise-1928-1969"<?= $filter === '' ? ' aria-current="page"' : '' ?>>tout</a> · <a href="/admin/reprise-1928-1969?etat=tentes"<?= $filter === 'tentes' ? ' aria-current="page"' : '' ?>>déjà tentés</a>
       <?php foreach ($states as $st => [$l]): ?> · <a href="/admin/reprise-1928-1969?etat=<?= e($st) ?>"<?= $filter === $st ? ' aria-current="page"' : '' ?>><?= e($l) ?></a><?php endforeach; ?></span></div>
   <div class="table" style="border:0"><table>
     <thead><tr><th>Élément</th><th>Type</th><th>État</th><th>Ressemblance</th><th>Fiche</th></tr></thead>

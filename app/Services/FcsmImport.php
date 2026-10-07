@@ -165,7 +165,7 @@ final class FcsmImport
 
     /**
      * Traite au plus $max éléments à faire (ou ceux de $only). Renvoie le nombre créé et les erreurs.
-     * @return array{done:int,errors:int,close:int,left:int}
+     * @return array{done:int,errors:int,close:int,left:int,messages:list<string>}
      */
     public static function run(int $max = 30, ?array $only = null): array
     {
@@ -176,7 +176,7 @@ final class FcsmImport
         foreach (FcsmStory::raw() as $r) {
             $raw[$r['link']] = $r;
         }
-        $res = ['done' => 0, 'errors' => 0, 'close' => 0];
+        $res = ['done' => 0, 'errors' => 0, 'close' => 0, 'messages' => []];
         foreach (array_chunk($todo, self::PARALLEL) as $chunk) {
             $jobs = [];
             $plain = [];
@@ -222,7 +222,11 @@ final class FcsmImport
                 if (isset($answer['error'])) {
                     throw new \RuntimeException('IA : ' . $answer['error']);
                 }
-                $text = self::decode((string) ($answer['text'] ?? ''));
+                if (trim((string) ($answer['text'] ?? '')) === '') {
+                    $why = ['SAFETY' => 'réponse bloquée par le filtre de sécurité de Gemini', 'MAX_TOKENS' => 'réponse trop longue, coupée', 'RECITATION' => 'réponse bloquée (texte jugé trop proche d’une source)'][$answer['finish'] ?? ''] ?? 'réponse vide (' . ($answer['finish'] ?? '?') . ')';
+                    throw new \RuntimeException('IA : ' . $why);
+                }
+                $text = self::decode((string) $answer['text']);
                 $sim = self::similarity($src, self::flatten($text));
                 $update['similarity'] = round($sim, 3);
                 if ($sim > self::SIM_MAX) {
@@ -244,6 +248,7 @@ final class FcsmImport
             $final = $update['tries'] >= 3;
             self::setItem($it['key'], $update + ['status' => $final ? 'erreur' : 'a-faire', 'why' => mb_substr($e->getMessage(), 0, 240)]);
             $res['errors']++;
+            $res['messages'][] = $it['label'] . ' : ' . mb_substr($e->getMessage(), 0, 240);
         }
     }
 
@@ -324,7 +329,7 @@ TXT;
                 $ask = "Texte d'origine (" . ($it['kind'] === 'tournament' ? 'un tournoi ou une coupe disputé par le FC Sochaux' : 'un récit sur l\'histoire du FC Sochaux') . ") :\n$src\n\n"
                     . 'Rends : {"titre": "un titre neuf, court, sans deux-points si possible", "intro": "2 ou 3 phrases", "sections": [{"titre": "…", "texte": "…"}]}. 3 à 6 sections, 300 à 900 mots selon la richesse du texte.';
         }
-        return [[['role' => 'user', 'parts' => [['text' => $ask . $firm]]]], self::STYLE,
+        return [[['role' => 'user', 'text' => $ask . $firm]], self::STYLE,
             ['for' => 'import', 'ref' => $it['key'], 'max_tokens' => 4000, 'json' => true, 'temperature' => 0.95, 'timeout' => 120]];
     }
 
@@ -351,6 +356,9 @@ TXT;
     {
         $t = trim(preg_replace('/^```(?:json)?\s*|\s*```$/u', '', trim($t)) ?? '');
         $d = json_decode($t, true);
+        if (!is_array($d) && ($a = strpos($t, '{')) !== false && ($b = strrpos($t, '}')) > $a) {
+            $d = json_decode(substr($t, $a, $b - $a + 1), true); // texte autour du JSON
+        }
         if (!is_array($d) || (empty($d['intro']) && empty($d['sections']))) {
             throw new \RuntimeException('Réponse de l’IA illisible');
         }

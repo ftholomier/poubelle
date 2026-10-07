@@ -106,6 +106,8 @@ $eq('réécriture libre : ressemblance 0', FcsmImport::similarity($src, 'Sur une
 $eq('même personne : nom de famille et un prénom commun', [FcsmImport::samePerson('Miguel Angel Michel Lauri', [[7, ['michel', 'lauri']]]), FcsmImport::samePerson('Pierre Lauri', [[7, ['michel', 'lauri']]])], [7, null]);
 $eq('composition : capitaine, remplaçant, parenthèses avec virgules, « et »', array_map(fn ($r) => [$r['name'], $r['sub']], FcsmStory::lineup('Lozes; Wartel (cap.) Mattler; J Laurent puis Reiner, Regan (Sète, Millwall), Courtois absent et Rougeot.')),
     [['Lozes', ''], ['Wartel', ''], ['Mattler', ''], ['J Laurent', 'Reiner'], ['Regan', 'Sète, Millwall'], ['Courtois', ''], ['Rougeot', '']]);
+$req = \App\Services\Gemini::requestBody(...array_slice(FcsmImport::prompt(['key' => 'match:x', 'kind' => 'match', 'data' => $chalon + ['us' => 8]], 'récit', 0), 0, 3));
+$eq('la consigne arrive bien à Gemini (texte non vide, JSON demandé)', [mb_strlen($req['contents'][0]['parts'][0]['text']) > 200, $req['generationConfig']['responseMimeType'] ?? null], [true, 'application/json']);
 $eq('noms de compositions au format du musée', array_map([FcsmImport::class, 'lineupName'], ['J Laurent', 'Leslie Miller', 'De James', 'Wartel', 'Mykowski I']), ['LAURENT J', 'MILLER Leslie', 'DE JAMES', 'WARTEL', 'MYKOWSKI I']);
 
 // 5. Traitement : réponses simulées ; un texte recopié est refusé puis réécrit.
