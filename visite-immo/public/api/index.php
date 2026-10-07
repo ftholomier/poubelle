@@ -124,17 +124,53 @@ function route_setup(): never
     send_json(['user' => public_user($user)]);
 }
 
+/**
+ * Protection contre les essais de mots de passe en série : 5 échecs en 15 minutes bloquent l'identifiant,
+ * 20 échecs bloquent l'adresse IP, pendant 15 minutes. Les échecs sont aussi notés au journal des accès.
+ */
+const ESSAIS_MAX_LOGIN = 5;
+const ESSAIS_MAX_IP = 20;
+const ESSAIS_FENETRE = 900;
+
+function essais_connexion(callable $fn): array
+{
+    return update_json(DATA_DIR . '/connexions.json', function (array $e) use ($fn) {
+        $limite = time() - ESSAIS_FENETRE;
+        foreach ($e as $k => $liste) {
+            $e[$k] = array_values(array_filter($liste, fn ($t) => $t > $limite));
+            if (!$e[$k]) unset($e[$k]);
+        }
+        return $fn($e);
+    });
+}
+
 function route_login(): never
 {
     $in = json_input();
     $login = strtolower(trim((string) ($in['login'] ?? '')));
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $cles = ['login:' . hash('sha256', $login), 'ip:' . $ip];
+    $e = essais_connexion(fn ($e) => $e);
+    if (count($e[$cles[0]] ?? []) >= ESSAIS_MAX_LOGIN || count($e[$cles[1]] ?? []) >= ESSAIS_MAX_IP) {
+        $attente = (int) ceil((min(array_merge($e[$cles[0]] ?? [PHP_INT_MAX], $e[$cles[1]] ?? [PHP_INT_MAX])) + ESSAIS_FENETRE - time()) / 60);
+        fail(429, 'Trop d\'essais : réessayez dans ' . max(1, $attente) . ' minute' . ($attente > 1 ? 's' : '') . '.');
+    }
     foreach (users() as $u) {
         if ($u['login'] === $login && password_verify((string) ($in['password'] ?? ''), $u['hash'])) {
+            essais_connexion(function (array $e) use ($cles) {
+                unset($e[$cles[0]]);
+                return $e;
+            });
             session_regenerate_id(true);
             $_SESSION['uid'] = $u['id'];
             send_json(['user' => public_user($u)]);
         }
     }
+    essais_connexion(function (array $e) use ($cles) {
+        foreach ($cles as $k) $e[$k][] = time();
+        return $e;
+    });
+    if (function_exists('acces_noter')) acces_noter(['id' => '', 'nom' => $login !== '' ? $login : '(vide)', 'role' => 'tentative de connexion'], 'Connexion refusée (mot de passe incorrect)', null, '', true);
     sleep(1); // ralentit les essais en série
     fail(401, 'Identifiant ou mot de passe incorrect.');
 }

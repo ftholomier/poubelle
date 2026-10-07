@@ -756,7 +756,7 @@ async function viewDialogue(id) {
         <p class="dlg-agent" id="agent"></p>
       </div>
       <div class="notes" id="notes"></div>
-      <form class="dlg-ecrire" id="ecrire" hidden><input id="ecrire-txt" placeholder="Écrire une réponse (nom à épeler…)" autocomplete="off"><button class="btn primary">Envoyer</button></form>
+      <form class="dlg-ecrire" id="ecrire" hidden><input id="ecrire-txt" aria-label="Écrire une réponse" placeholder="Écrire une réponse (nom à épeler…)" autocomplete="off"><button class="btn primary">Envoyer</button></form>
       <div class="sticky-actions">
         <button class="btn" id="pause">⏸ Pause</button>
         <button class="btn" id="clavier">⌨️ Écrire</button>
@@ -1342,7 +1342,7 @@ async function viewSettings() {
           </details>
         </div>
         <div class="test-row" id="test-row">
-          <input id="test-to" type="email" placeholder="Votre adresse pour le test" value="${esc(state.user.email || "")}">
+          <input id="test-to" type="email" aria-label="Adresse e-mail pour le test" placeholder="Votre adresse pour le test" value="${esc(state.user.email || "")}">
           <button type="button" class="btn" id="test-btn">Envoyer un test</button>
         </div>
         <p class="muted small" id="test-hint">Enregistrez d'abord les paramètres, puis envoyez-vous un e-mail de test.</p>
@@ -1397,13 +1397,13 @@ async function viewSettings() {
       <section class="card">
         <h2>Données personnelles (RGPD)</h2>
         <label>Effacer l'audio des visites après (jours, 0 = jamais)<input name="conservation_audio_jours" inputmode="numeric" value="${cfg.conservation_audio_jours}"></label>
-        <div class="test-row"><input id="rgpd-q" placeholder="Nom ou e-mail d'une personne"><button type="button" class="btn" id="rgpd-btn">Exporter ses données</button></div>
+        <div class="test-row"><input id="rgpd-q" aria-label="Nom ou e-mail de la personne" placeholder="Nom ou e-mail d'une personne"><button type="button" class="btn" id="rgpd-btn">Exporter ses données</button></div>
         <p class="small muted">Droit d'accès : export de tout ce qui concerne la personne (dossiers, fiches, contacts, et qui a consulté ses dossiers). Effacement : supprimer la fiche ou le dossier concerné.</p>
         ${state.user.role === "admin" ? `
         <h3 class="sous-titre">Journal des accès</h3>
         <p class="small muted">Qui a consulté quel dossier, quel document, quelle pièce d'identité, et quand (agents et clients par leur lien). Effacé automatiquement après la durée ci-dessous.</p>
         <label>Conserver le journal (mois)<input name="conservation_journal_mois" inputmode="numeric" value="${cfg.conservation_journal_mois}"></label>
-        <div class="test-row"><input id="acces-q" placeholder="Filtrer : nom, bien, action…"><button type="button" class="btn" id="acces-btn">Afficher</button></div>
+        <div class="test-row"><input id="acces-q" aria-label="Filtrer le journal des accès" placeholder="Filtrer : nom, bien, action…"><button type="button" class="btn" id="acces-btn">Afficher</button></div>
         <label class="check"><input type="checkbox" id="acces-sensible"> Données sensibles seulement (identité, pièces, exports)</label>
         <div id="acces-liste"></div>` : ""}
       </section>
@@ -1622,12 +1622,30 @@ function viewAccount() {
       <label class="check"><input type="checkbox" name="cr_auto" ${u.cr_auto !== false ? "checked" : ""}> Envoyer automatiquement le point du vendredi aux vendeurs (sinon : à relire avant envoi)</label>
       <button class="btn primary">Enregistrer</button>
     </form>
+    <section class="card" id="confort">
+      <h2>Confort sur le terrain</h2>
+      <p class="muted small">Réglages de ce téléphone uniquement.</p>
+      <label class="check"><input type="checkbox" data-confort="soleil" ${confort().soleil ? "checked" : ""}> <span><strong>Plein soleil</strong> : contrastes renforcés, noir sur blanc, bordures épaisses</span></label>
+      <label class="check"><input type="checkbox" data-confort="gants" ${confort().gants ? "checked" : ""}> <span><strong>Grands boutons</strong> : cibles plus larges (gants, une main, en marchant)</span></label>
+      <label class="check"><input type="checkbox" data-confort="texte" ${confort().texte ? "checked" : ""}> <span><strong>Texte plus grand</strong></span></label>
+      <label class="check"><input type="checkbox" data-confort="calme" ${confort().calme ? "checked" : ""}> <span><strong>Sans animations</strong></span></label>
+    </section>
     <form class="card" id="f">
       <h2>Changer mon mot de passe</h2>
       <label>Mot de passe actuel<input name="ancien" type="password" required autocomplete="current-password"></label>
       <label>Nouveau mot de passe<input name="nouveau" type="password" required minlength="8" autocomplete="new-password"></label>
       <button class="btn">Changer le mot de passe</button>
     </form></main>`);
+  document.querySelectorAll("[data-confort]").forEach(
+    (c) =>
+      (c.onchange = () => {
+        const r = { ...confort(), [c.dataset.confort]: c.checked };
+        try {
+          localStorage.setItem("vi-confort", JSON.stringify(r));
+        } catch {}
+        appliquerConfort(r);
+      }),
+  );
   document.getElementById("profil").onsubmit = async (e) => {
     e.preventDefault();
     try {
@@ -1649,6 +1667,20 @@ function viewAccount() {
     }
   };
 }
+
+/** Réglages de confort de ce téléphone (plein soleil, grands boutons, texte plus grand, sans animations). */
+function confort() {
+  try {
+    return JSON.parse(localStorage.getItem("vi-confort") || "{}");
+  } catch {
+    return {};
+  }
+}
+function appliquerConfort(r = confort()) {
+  const html = document.documentElement;
+  for (const k of ["soleil", "gants", "texte", "calme"]) html.classList.toggle(`confort-${k}`, !!r[k]);
+}
+appliquerConfort();
 
 function appliquerTheme(t) {
   Object.assign(theme, t);
@@ -1685,7 +1717,8 @@ Object.assign(outils, { generate, openSendSheet, bindDocActions, makeSaver, view
     state.email = s.email;
     state.agence = s.agence;
   } catch (e) {
-    render(`<main class="page"><p class="erreur center">${esc(e.message)}</p><button class="btn" onclick="location.reload()">Réessayer</button></main>`);
+    render(`<main class="page"><p class="erreur center">${esc(e.message)}</p><button class="btn" id="recharger">Réessayer</button></main>`);
+    document.getElementById("recharger").onclick = () => location.reload();
     return;
   }
   if (state.user) uploader.run(); // renvoie les morceaux restés en attente

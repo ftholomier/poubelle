@@ -25,6 +25,31 @@ define('USERS_FILE', DATA_DIR . '/users.json');
 /** Mentions légales de l'agence, exigées sur le mandat (Paramètres → Identité de l'agence). */
 const AGENCE_LEGAL = ['raison_sociale', 'siege', 'siret', 'carte_numero', 'carte_delivree_par', 'garant', 'rcp'];
 
+/**
+ * En-têtes de sécurité envoyés par toutes les pages et l'API :
+ *  - nosniff : un fichier déposé n'est jamais interprété autrement que son type déclaré ;
+ *  - Referrer-Policy : les liens personnels (/espace/?t=…) ne fuient pas vers les sites externes (cartes, Google) ;
+ *  - pas d'affichage dans un cadre d'un autre site (signature au doigt, connexion : protection contre le clickjacking) ;
+ *  - micro et caméra réservés au site lui-même.
+ */
+function entetes_securite(): void
+{
+    if (PHP_SAPI === 'cli' || headers_sent()) return;
+    header('X-Content-Type-Options: nosniff');
+    header('Referrer-Policy: same-origin');
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Permissions-Policy: camera=(self), microphone=(self), geolocation=(), payment=()');
+    if (est_https()) header('Strict-Transport-Security: max-age=31536000');
+}
+
+/** HTTPS, y compris derrière un proxy ou un hébergeur qui termine le TLS. */
+function est_https(): bool
+{
+    return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https';
+}
+
+entetes_securite();
+
 /** Sources d'une valeur que l'IA ne doit jamais écraser : saisie, dictée, lue dans un document, donnée publique. */
 const SOURCES_VALIDEES = ['agent', 'dialogue', 'document', 'public'];
 
@@ -131,11 +156,12 @@ function start_session(): void
     session_set_cookie_params([
         'lifetime' => 60 * 60 * 24 * 30,
         'path'     => '/',
-        'secure'   => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'secure'   => est_https(),
         'httponly' => true,
         'samesite' => 'Strict',
     ]);
     ini_set('session.gc_maxlifetime', (string) (60 * 60 * 24 * 30));
+    ini_set('session.use_strict_mode', '1'); // refuse un identifiant de session inventé (fixation de session)
     session_start();
 }
 

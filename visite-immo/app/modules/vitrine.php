@@ -59,7 +59,7 @@ function page_vitrine(array $agent, array $v, string $slug): string
         . "<title>$titrePage</title><meta name=\"description\" content=\"$desc\"><meta property=\"og:title\" content=\"" . e($titre) . "\"><meta property=\"og:description\" content=\"$desc\">$og"
         . '<link rel="icon" href="../icon.svg"><link rel="stylesheet" href="../css/espace.css?v=' . $ver . '"><link rel="stylesheet" href="../css/vitrine.css?v=' . $ver . '"></head><body>'
         . '<header class="vt-entete"><img src="' . $logo . '" alt="' . e((string) $CONFIG['agence']) . '">' . ($tel ? '<a class="vt-appel" href="tel:' . e(preg_replace('/\s/', '', $tel)) . '">📞 Appeler</a>' : '') . '</header>'
-        . '<div class="vt-galerie">' . $photos . '</div>'
+        . '<div class="vt-galerie" tabindex="0" role="region" aria-label="Photos du bien (faire défiler)">' . $photos . '</div>'
         . '<main class="es-page vt-page">'
         . '<span class="es-tag">À vendre' . ($ville ? ' · ' . e($ville) : '') . '</span>'
         . '<h1 class="vt-titre">' . e($titre) . '</h1>'

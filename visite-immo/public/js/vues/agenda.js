@@ -30,7 +30,7 @@ vues.agenda = async () => {
     </section>
     <section class="card"><h2>Dans mon agenda habituel</h2>
       <p class="small muted">Abonnez votre agenda Google, Apple ou Outlook à ce lien : vos rendez-vous y apparaissent automatiquement.</p>
-      <div class="test-row"><input readonly value="${esc(d.ics)}" id="ics"><button class="btn" id="copier">📋</button></div>
+      <div class="test-row"><input readonly value="${esc(d.ics)}" id="ics" aria-label="Adresse d'abonnement au calendrier"><button class="btn" id="copier">📋</button></div>
       <a class="btn ghost" href="${esc(d.ics.replace(/^https?:/, "webcal:"))}">Ouvrir dans mon calendrier</a>
     </section>`;
 

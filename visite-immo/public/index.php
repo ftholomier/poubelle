@@ -21,6 +21,16 @@ $url = fn ($f) => "$f?v=$v";
 // Les imports entre modules JS (./api.js…) reçoivent aussi le numéro de version
 $importmap = ['imports' => []];
 foreach ($modules as $f) if ($f !== 'js/app.js') $importmap['imports']["./$f"] = './' . $url($f);
+
+// Politique de sécurité du contenu : seuls nos scripts (et Leaflet sur cdnjs) s'exécutent ; les deux petits scripts
+// en ligne sont autorisés par leur empreinte. Une donnée piégée dans un dossier ne peut donc pas lancer de code.
+$jsTheme = 'window.THEME = ' . json_encode($theme, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) . ';';
+$jsImportmap = json_encode($importmap, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG);
+$empreinte = fn (string $js) => "'sha256-" . base64_encode(hash('sha256', $js, true)) . "'";
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com " . $empreinte($jsTheme) . ' ' . $empreinte($jsImportmap)
+    . "; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org"
+    . "; media-src 'self' blob: data:; connect-src 'self' blob: https://cdnjs.cloudflare.com https://*.tile.openstreetmap.org wss://generativelanguage.googleapis.com; font-src 'self' data:"
+    . "; worker-src 'self'; manifest-src 'self'; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'");
 ?>
 <!doctype html>
 <html lang="fr">
@@ -38,8 +48,8 @@ foreach ($modules as $f) if ($f !== 'js/app.js') $importmap['imports']["./$f"] =
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-180.png">
   <link rel="stylesheet" href="<?= $url('css/app.css') ?>">
-  <script>window.THEME = <?= json_encode($theme, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>;</script>
-  <script type="importmap"><?= json_encode($importmap, JSON_UNESCAPED_SLASHES) ?></script>
+  <script><?= $jsTheme ?></script>
+  <script type="importmap"><?= $jsImportmap ?></script>
 </head>
 <body>
   <div id="app"><div class="splash"><img src="img/synapse-icone.svg" alt=""></div></div>

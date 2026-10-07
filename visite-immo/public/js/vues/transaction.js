@@ -61,7 +61,7 @@ blocsVente.push({
     if (!s?.debut) return;
     const l = visit.lcbft || {};
     const dt = (k) => (s[k] ? String(s[k]).slice(0, 10) : "");
-    const intervenant = (k, titre) => `<fieldset class="pj"><legend>${titre}</legend><div class="row-2b"><input data-i="${k}.nom" placeholder="Nom" value="${esc(s[k]?.nom || "")}"><input data-i="${k}.email" type="email" placeholder="E-mail" value="${esc(s[k]?.email || "")}"></div></fieldset>`;
+    const intervenant = (k, titre) => `<fieldset class="pj"><legend>${titre}</legend><div class="row-2b"><input data-i="${k}.nom" placeholder="Nom" aria-label="${titre} : nom" value="${esc(s[k]?.nom || "")}"><input data-i="${k}.email" type="email" placeholder="E-mail" aria-label="${titre} : e-mail" value="${esc(s[k]?.email || "")}"></div></fieldset>`;
     $el.innerHTML = `
       <section class="card"><div class="dossier-top"><h2>La vente</h2><strong>${fmtPrix(s.prix)}</strong></div>
         <p class="small muted">Acquéreur : ${esc(s.acquereur_nom || "")}</p>

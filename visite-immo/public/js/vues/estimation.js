@@ -83,7 +83,7 @@ vues.estimation = async () => {
       <span class="tag">En temps réel</span>
       <p class="small muted" style="margin-top:10px">Ventes réelles de biens similaires (DVF, données publiques de la DGFiP), actualisées selon l'évolution du marché local. Le prix bouge à chaque modification.</p>
       <label>Adresse du bien
-        <div class="suggest-wrap"><input id="adr" placeholder="ex. 11 rue du Chênois, Lougres" autocomplete="off"><div class="suggestions" id="sugg"></div></div>
+        <div class="suggest-wrap"><input id="adr" aria-label="Adresse du bien" placeholder="ex. 11 rue du Chênois, Lougres" autocomplete="off"><div class="suggestions" id="sugg"></div></div>
       </label>
       <div class="segment" id="type">${["Maison", "Appartement"].map((t) => `<button type="button" data-v="${t}" class="${t === bien.type_bien ? "on" : ""}">${t}</button>`).join("")}</div>
       <label>Surface habitable : <strong id="surf-v">${bien.surface_habitable} m²</strong><input type="range" id="surf" min="15" max="400" step="1" value="${bien.surface_habitable}"></label>

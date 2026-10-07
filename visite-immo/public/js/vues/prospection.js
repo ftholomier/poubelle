@@ -30,7 +30,7 @@ vues.prospection = async () => {
     <section class="card">
       <span class="tag">Trouver les vendeurs avant les autres</span>
       <p class="small muted" style="margin-top:12px">Données publiques : logements classés F ou G (ADEME), ventes réelles (DVF). Le courrier « Au propriétaire » remplace le démarchage téléphonique, désormais soumis au consentement préalable.</p>
-      <form class="test-row" id="f-commune"><input id="commune" placeholder="Ajouter une commune (ex. Lougres)" autocomplete="off"><button class="btn primary">Chercher</button></form>
+      <form class="test-row" id="f-commune"><input id="commune" aria-label="Commune à ajouter" placeholder="Ajouter une commune (ex. Lougres)" autocomplete="off"><button class="btn primary">Chercher</button></form>
       <div id="resultats"></div>
     </section>
     ${d.secteurs.length ? `<div class="entonnoir">${[["nouveau", "À contacter"], ["courrier", "Courriers"], ["contacte", "Réponses"], ["rdv", "Estimations"], ["mandat", "Mandats"]].map(([k, l]) => `<div><strong>${st[k] || 0}</strong><span>${l}</span></div>`).join("")}</div>` : ""}
@@ -48,7 +48,7 @@ vues.prospection = async () => {
       <label class="check"><input type="checkbox" id="tout"> Tout sélectionner (à contacter)</label>
       ${actives.map((c) => `<div class="ligne cible"><label class="check-ligne"><input type="checkbox" value="${c.id}" data-statut="${c.statut}"><div><strong>${esc(c.adresse)}</strong>
           <span class="muted small"><b class="dpe-pastille" style="background:${COUL_DPE[c.dpe] || "#999"}">${esc(c.dpe)}</b> ${esc(c.type || "")}${c.surface ? ` · ${Math.round(c.surface)} m²` : ""}${c.annee ? ` · ${c.annee}` : ""} · DPE du ${new Date(c.date_dpe).toLocaleDateString("fr-FR")}</span></div></label>
-        <div class="cible-droite"><span class="score">${c.score}</span><select data-cible="${c.id}">${Object.entries(d.statuts).map(([k, l]) => `<option value="${k}" ${k === c.statut ? "selected" : ""}>${l}</option>`).join("")}</select></div></div>`).join("")}
+        <div class="cible-droite"><span class="score">${c.score}</span><select data-cible="${c.id}" aria-label="Statut de ${esc(c.adresse || "cette adresse")}">${Object.entries(d.statuts).map(([k, l]) => `<option value="${k}" ${k === c.statut ? "selected" : ""}>${l}</option>`).join("")}</select></div></div>`).join("")}
       <div class="sticky-actions"><button class="btn primary" id="courriers">📄 Courriers de la sélection</button></div>
     </section>` : d.secteurs.length ? '<div class="vide"><p>Aucune adresse à cibler.</p></div>' : ""}`;
 

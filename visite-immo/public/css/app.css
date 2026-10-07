@@ -18,6 +18,10 @@
   --vert: #2e7d3a;
   --vert-clair: #a8d88f;
   --rouge: #e8552b;
+  /* Couleurs de texte lisibles (contraste ≥ 4,5:1, WCAG AA) : l'orange et le vert de la charte restent pour les aplats */
+  --orange-txt: #b8410f;
+  --vert-txt: #2a7234;
+  --attente-txt: #8a5200;
 
   --bg: var(--creme);
   --surface: var(--papier);
@@ -44,6 +48,9 @@
     --bord: #4a4a52;
     --ia-bg: #2a3310;
     --ia: #d4f22e;
+    --orange-txt: #ff9a6e;
+    --vert-txt: #8fd29b;
+    --attente-txt: #f2b86a;
     color-scheme: dark;
   }
 }
@@ -68,9 +75,9 @@ code { font: .82em var(--mono); }
 .small { font-size: .85rem; }
 .center { text-align: center; }
 .erreur { color: var(--rouge); }
-.orange-txt { color: var(--orange); }
+.orange-txt { color: var(--orange-txt); }
 .rouge-txt { color: var(--rouge); }
-.vert-txt { color: var(--vert); font-weight: 600; }
+.vert-txt { color: var(--vert-txt); font-weight: 600; }
 
 /* Étiquette « machine à écrire » de la charte */
 .mono, .badge, .tabs a, .card h2, label, .label-like, legend, .visite-meta, .rec-status, .gen-step, .save-state, .sheet-version {
@@ -369,7 +376,7 @@ fieldset.pj label.check { margin-bottom: 10px; }
 .test-row input { margin: 0; }
 .test-row .btn { white-space: nowrap; }
 details.aide { margin-bottom: 14px; }
-details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; color: var(--vert); }
+details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; color: var(--vert-txt); }
 
 /* ---------- Dossier & conversation vocale ---------- */
 
@@ -379,7 +386,7 @@ details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; colo
 .jauge { height: 12px; border: 1.5px solid var(--bord); border-radius: 99px; overflow: hidden; background: var(--bg); margin-bottom: 10px; }
 .jauge span { display: block; height: 100%; background: var(--citron); transition: width .4s; }
 .dossier-card .btn { margin-top: 6px; }
-.manque { color: var(--orange); margin-right: 4px; font-size: .9em; }
+.manque { color: var(--orange-txt); margin-right: 4px; font-size: .9em; }
 .chip-voix { background: var(--orange); cursor: default; }
 
 .dlg-intro { display: grid; gap: 14px; justify-items: start; padding: 8px 0 24px; }
@@ -439,7 +446,7 @@ details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; colo
 .m-ligne:last-of-type { border-bottom: 0; }
 .m-ligne span { color: var(--muted); }
 .m-ligne strong { text-align: right; }
-.manque-txt { color: var(--orange); font-style: normal; font-weight: 600; }
+.manque-txt { color: var(--orange-txt); font-style: normal; font-weight: 600; }
 .m-retract { background: var(--ia-bg); border-radius: 8px; padding: 8px 10px; margin: 10px 0 4px; }
 
 /* ---------- Navigation du bas ---------- */
@@ -501,7 +508,7 @@ details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; colo
 .filtre.on { background: var(--encre); color: var(--creme); border-color: var(--encre); }
 .visite-photo { width: calc(100% + 32px); margin: -18px -16px 12px; height: 150px; object-fit: cover; border-radius: 10px 10px 0 0; display: block; }
 .chip-doc { background: #dfe9ff; color: #1b3d8f; }
-.chip-pub { background: #e3f1dc; color: var(--vert); }
+.chip-pub { background: #e3f1dc; color: #1f5a28; }
 .tag-citron { background: var(--citron); }
 .liste-vide { padding: 18px 4px; color: var(--muted); text-align: center; }
 .ligne { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); }
@@ -523,8 +530,8 @@ details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; colo
 canvas.pad { display: block; width: 100%; height: 200px; background: #fff; border: 1.5px dashed var(--encre); border-radius: 12px; margin-bottom: 12px; touch-action: none; }
 .alerte { border-color: var(--orange); background: #fff1e8; }
 @media (prefers-color-scheme: dark) { .alerte { background: #3a2216; } }
-.piece-fichier { display: block; color: var(--vert); margin-top: 3px; word-break: break-word; }
-.ligne.piece.ok strong { color: var(--vert); }
+.piece-fichier { display: block; color: var(--vert-txt); margin-top: 3px; word-break: break-word; }
+.ligne.piece.ok strong { color: var(--vert-txt); }
 .texte { line-height: 1.65; font-size: .97rem; }
 .table-scroll { overflow-x: auto; margin: 0 -4px; }
 .tableau { width: 100%; border-collapse: collapse; font-size: .84rem; }
@@ -555,7 +562,7 @@ canvas.pad { display: block; width: 100%; height: 200px; background: #fff; borde
 .rdv:last-child { border-bottom: 0; }
 .rdv-heure { font: 700 .9rem var(--mono); }
 .rdv > div { display: grid; min-width: 0; }
-.rdv-visite .rdv-heure { color: var(--vert); }
+.rdv-visite .rdv-heure { color: var(--vert-txt); }
 .creneaux { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
 .creneau { font: 600 .72rem var(--mono); border: 1.5px solid var(--bord); border-radius: 999px; padding: 5px 10px; }
 .row-2b { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -589,7 +596,7 @@ fieldset.pj input { margin: 0 0 10px; }
 .ajd-bouton span { font-size: 1.5rem; }
 .ajd-bouton.citron { background: var(--citron); color: var(--encre); border-color: var(--encre); box-shadow: 3px 3px 0 var(--encre); }
 .ajd-check { cursor: pointer; background: var(--surface); color: transparent; }
-.ajd-check:hover { color: var(--vert); }
+.ajd-check:hover { color: var(--vert-txt); }
 .ajd-item.fait { opacity: .45; text-decoration: line-through; }
 .ajd-item.fait .ajd-check { background: var(--vert); color: #fff; }
 .paliers-barre { position: relative; height: 14px; border-radius: 7px; background: var(--line); margin: 34px 0 30px; }
@@ -601,7 +608,8 @@ fieldset.pj input { margin: 0 0 10px; }
 .etapes-tdb div { display: grid; justify-items: center; padding: 10px 4px; border: 1.5px solid var(--bord); border-radius: 10px; }
 .etapes-tdb strong { font-size: 1.5rem; font-weight: 800; }
 .etapes-tdb span { font: 600 .58rem var(--mono); text-transform: uppercase; color: var(--muted); text-align: center; }
-.etapes-tdb .vide-etape { opacity: .45; }
+.etapes-tdb .vide-etape { opacity: 1; border-style: dashed; }
+.etapes-tdb .vide-etape span { color: var(--muted) !important; }
 .paliers-barre i:first-of-type { transform: none; justify-items: start; }
 .paliers-barre i:first-of-type::after { margin-left: 0; }
 /* ---------- Prospection ---------- */
@@ -703,7 +711,7 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .suivi-txt strong { font-size: .93rem; }
 .suivi-txt small { color: var(--muted); font-size: .78rem; overflow-wrap: anywhere; }
 .suivi-etat { font: 600 .58rem var(--mono); text-transform: uppercase; letter-spacing: .05em; text-align: right; max-width: 82px; }
-.st-txt-fait { color: var(--vert); } .st-txt-a_faire { color: var(--orange); } .st-txt-en_attente { color: #b86b00; } .st-txt-pas_commence, .st-txt-prevu { color: var(--muted); }
+.st-txt-fait { color: var(--vert-txt); } .st-txt-a_faire { color: var(--orange-txt); } .st-txt-en_attente { color: var(--attente-txt); } .st-txt-pas_commence, .st-txt-prevu { color: var(--muted); }
 .suivi-compact { display: grid; gap: 8px; color: inherit; text-decoration: none; }
 .suivi-compact-corps { display: flex; gap: 14px; align-items: center; }
 .suivi-pastilles { display: grid; gap: 6px; flex: 1; }
@@ -726,3 +734,49 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .acces-ligne { display: grid; grid-template-columns: 92px 1fr; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); font-size: .86rem; }
 .acces-ligne.sensible { background: linear-gradient(90deg, #fff1e8, transparent 60%); }
 @media (prefers-color-scheme: dark) { .acces-ligne.sensible { background: linear-gradient(90deg, #3a2216, transparent 60%); } }
+
+/* ---------- Accessibilité et confort sur le terrain ---------- */
+/* Focus clavier toujours visible (lecteurs d'écran, clavier Bluetooth, contacteurs) */
+:focus-visible { outline: 3px solid var(--orange-txt); outline-offset: 2px; border-radius: 6px; }
+.btn:focus-visible, .icon-btn:focus-visible { outline-offset: 3px; }
+/* Cibles tactiles d'au moins 44 px (recommandation WCAG 2.5.5 / Apple / Android) */
+.small-btn { min-height: 44px; }
+.icon-btn { width: 44px; height: 44px; }
+.tabs a { min-height: 44px; }
+.chips-choix button, .filtre { min-height: 40px; }
+.btn.danger-ghost { color: var(--rouge-txt, #b3341a); border-color: var(--rouge-txt, #b3341a); }
+@media (prefers-color-scheme: dark) { :root { --rouge-txt: #ff8a6e; } }
+/* Mouvement réduit : réglage du système ou « Sans animations » */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+.confort-calme *, .confort-calme *::before, .confort-calme *::after { animation: none !important; transition: none !important; }
+
+/* Plein soleil : noir sur blanc, gris assombris, bordures épaisses */
+.confort-soleil {
+  --bg: #ffffff; --surface: #ffffff; --text: #000000; --encre-2: #111111; --muted: #3d3b37; --line: #8a877f; --bord: #000000;
+  --orange-txt: #9a3208; --vert-txt: #1d5525; --attente-txt: #6b3f00; color-scheme: light;
+}
+.confort-soleil body { background: #fff; color: #000; }
+.confort-soleil .card, .confort-soleil .btn, .confort-soleil input, .confort-soleil select, .confort-soleil textarea, .confort-soleil .icon-btn { border-width: 2.5px; }
+.confort-soleil input, .confort-soleil select, .confort-soleil textarea { background: #fff; color: #000; border-color: #000; }
+.confort-soleil .card h2 { color: #1d5525; }
+.confort-soleil .muted, .confort-soleil .small { color: #2b2a27; }
+.confort-soleil .tabs a { color: #2b2a27; }
+
+/* Grands boutons : pour les gants, une main, en marchant */
+.confort-gants .btn { min-height: 56px; font-size: 1.02rem; }
+.confort-gants .btn.big { min-height: 66px; }
+.confort-gants .small-btn { min-height: 52px; padding: 10px 16px; }
+.confort-gants .icon-btn { width: 52px; height: 52px; }
+.confort-gants .tabs a { min-height: 54px; font-size: .78rem; }
+.confort-gants .tabbar a { min-height: 60px; }
+.confort-gants input, .confort-gants select { min-height: 52px; }
+.confort-gants .check input[type=checkbox] { width: 28px; height: 28px; }
+.confort-gants .rec-btn { transform: scale(1.12); }
+.confort-gants .chips-choix button { min-height: 48px; padding: 10px 16px; }
+
+/* Texte plus grand */
+.confort-texte body { font-size: 18px; }
+.confort-texte .small { font-size: .95rem; }
+.confort-texte .tabs a { font-size: .8rem; }
