@@ -1,0 +1,51 @@
+/* Page publique d'un bien (vitrine), en complément de espace.css. */
+.vt-entete { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--creme); position: sticky; top: 0; z-index: 5; border-bottom: 1.5px solid var(--encre); }
+.vt-entete img { height: 34px; }
+.vt-appel { font-weight: 700; text-decoration: none; border: 1.5px solid var(--encre); border-radius: 10px; padding: 8px 12px; background: var(--citron); }
+.vt-galerie { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 4px; background: var(--encre); }
+.vt-galerie figure { margin: 0; flex: 0 0 100%; max-width: 900px; scroll-snap-align: start; position: relative; }
+.vt-galerie img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+.vt-galerie figcaption { position: absolute; left: 10px; bottom: 10px; background: rgb(17 17 20 / 70%); color: var(--creme); font: 600 .7rem var(--mono); text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
+.vt-sans-photo { display: grid; place-items: center; aspect-ratio: 16 / 9; background: var(--citron); font: 800 2rem "Archivo", sans-serif; }
+@media (min-width: 700px) { .vt-galerie figure { flex-basis: 70%; } }
+.vt-page { padding-top: 22px; }
+.vt-titre { font-size: 2rem; line-height: 1.05; letter-spacing: -.035em; font-weight: 800; margin: 14px 0 8px; }
+.vt-prix { font-size: 2.2rem; font-weight: 800; letter-spacing: -.03em; margin: 0; }
+.vt-mention { color: var(--gris); font-size: .85rem; margin: 2px 0 16px; }
+.vt-chiffres { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-bottom: 14px; }
+.vt-chiffres div { background: var(--papier); border: 1.5px solid var(--encre); border-radius: 10px; padding: 10px; display: grid; }
+.vt-chiffres strong { font-size: 1.25rem; font-weight: 800; }
+.vt-chiffres span { font: 600 .65rem var(--mono); text-transform: uppercase; color: var(--gris); }
+.vt-atouts { margin: 0; padding: 0; list-style: none; }
+.vt-atouts li { padding: 6px 0 6px 22px; position: relative; font-weight: 600; }
+.vt-atouts li::before { content: ""; position: absolute; left: 0; top: 11px; width: 11px; height: 11px; background: var(--citron); border: 1.5px solid var(--encre); border-radius: 3px; }
+.vt-texte { line-height: 1.7; }
+.vt-info { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--ligne); font-size: .95rem; }
+.vt-info:last-child { border-bottom: 0; }
+.vt-info span { color: var(--gris); }
+.vt-info strong { text-align: right; }
+.vt-echelle { margin-bottom: 12px; }
+.vt-mono { display: block; font: 700 .68rem var(--mono); text-transform: uppercase; color: var(--gris); margin-bottom: 4px; }
+.vt-barre { font: 800 .8rem "Archivo", sans-serif; padding: 2px 8px; margin: 2px 0; border-radius: 0 6px 6px 0; opacity: .45; }
+.vt-barre.on { opacity: 1; outline: 2px solid var(--encre); font-size: 1rem; }
+.vt-creneaux { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+.vt-creneau { font: 600 .85rem "Archivo", sans-serif; border: 1.5px solid var(--encre); background: var(--papier); border-radius: 999px; padding: 7px 12px; cursor: pointer; }
+.vt-creneau.on { background: var(--encre); color: var(--citron); }
+#vt-form label { display: block; font: 600 .7rem var(--mono); text-transform: uppercase; color: var(--gris); margin-bottom: 10px; }
+#vt-form input, #vt-form textarea { display: block; width: 100%; margin-top: 5px; padding: 11px; font: 16px "Archivo", sans-serif; border: 1.5px solid var(--encre); border-radius: 10px; background: #fff; }
+.vt-legal { font-size: .78rem; color: var(--gris); padding: 4px 4px 80px; }
+.vt-legal p { margin: 4px 0; }
+.plan-svg { width: 100%; height: auto; }
+.vt-chat-bouton { position: fixed; right: 16px; bottom: 16px; z-index: 20; font: 700 1rem "Archivo", sans-serif; background: var(--encre); color: var(--citron); border: 2px solid var(--encre); border-radius: 999px; padding: 14px 18px; box-shadow: 4px 4px 0 var(--citron); cursor: pointer; }
+.vt-chat { position: fixed; right: 12px; bottom: 12px; left: 12px; max-width: 420px; margin-left: auto; height: min(560px, 80vh); z-index: 30; background: var(--papier); border: 2px solid var(--encre); border-radius: 16px; display: flex; flex-direction: column; box-shadow: 6px 6px 0 var(--encre); overflow: hidden; }
+.vt-chat-tete { display: flex; align-items: center; gap: 8px; padding: 12px 14px; background: var(--encre); color: var(--creme); }
+.vt-chat-tete span { font: 600 .65rem var(--mono); text-transform: uppercase; color: var(--citron); flex: 1; }
+.vt-chat-tete button { background: none; border: 0; color: var(--creme); font-size: 1.1rem; cursor: pointer; }
+.vt-fil { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.vt-bulle { max-width: 85%; padding: 9px 12px; border-radius: 14px; line-height: 1.45; font-size: .95rem; white-space: pre-wrap; }
+.vt-bulle.ia { background: var(--creme); border: 1.5px solid var(--encre); align-self: flex-start; border-bottom-left-radius: 4px; }
+.vt-bulle.moi { background: var(--citron); align-self: flex-end; border-bottom-right-radius: 4px; }
+.vt-bulle .vt-creneau { margin: 6px 4px 0 0; }
+.vt-saisie { display: flex; gap: 6px; padding: 10px; border-top: 1.5px solid var(--ligne); }
+.vt-saisie input { flex: 1; padding: 11px; font: 16px "Archivo", sans-serif; border: 1.5px solid var(--encre); border-radius: 10px; }
+.vt-saisie button { width: 46px; border: 1.5px solid var(--encre); background: var(--citron); border-radius: 10px; font-size: 1.1rem; cursor: pointer; }

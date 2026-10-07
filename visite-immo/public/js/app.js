@@ -10,6 +10,7 @@ import "./vues/dossier-auto.js";
 import "./vues/acquereurs.js";
 import "./vues/agenda.js";
 import "./vues/vente.js";
+import "./vues/commercialisation.js";
 
 import {
   APP_VERSION, state, nav, esc, fmtDuree, fmtDate, fmtPrix, champsOf, toast, copier, go, render, theme,
