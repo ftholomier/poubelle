@@ -67,7 +67,7 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
             <td class="nowrap">
               <a class="linkbtn xs" href="<?= e(RetroDirect::url($s)) ?>" target="_blank" rel="noopener">Voir</a>
               <a class="linkbtn xs" href="/admin/retro-direct?modifier=<?= (int) $e['id'] ?>|<?= e($e['date']) ?><?= e($q) ?>#programmer">Modifier</a>
-              <form method="post" action="/admin/retro-direct" style="display:inline" data-confirm="Retirer ce direct du programme ?|<?= e($label($s)) ?>, <?= e($when($e)) ?>. Le match reste à revivre en accéléré.|Retirer|danger">
+              <form method="post" action="/admin/retro-direct" style="display:inline" data-confirm="Retirer ce direct du programme ?|<?= e($label($s)) ?>, <?= e($when($e)) ?>. Le match reste à revivre, de temps fort en temps fort.|Retirer|danger">
                 <?= csrf_field() ?><input type="hidden" name="action" value="retirer"><input type="hidden" name="id" value="<?= (int) $e['id'] ?>"><input type="hidden" name="date" value="<?= e($e['date']) ?>"><input type="hidden" name="jours" value="<?= (int) $days ?>">
                 <button type="submit" class="linkbtn xs ko">Retirer</button>
               </form>
@@ -112,7 +112,7 @@ $f = $edit ?? ['id' => 0, 'date' => '', 'time' => '20:00', 'intro' => '', 'intro
     <div class="card__body small">
       <p style="margin:0"><b>Le jour J :</b> à l’heure du coup d’envoi, la page du match déroule la rencontre minute par minute : temps forts, buts (le score change à la bonne minute), remplacements, cartons, 15 minutes de mi-temps, prolongation et tirs au but s’il y en a eu. Tout vient de la fiche du match : aucune IA, aucun coût.</p>
       <p style="margin:0"><b>Avant :</b> compte à rebours sans le score, présentation, brèves d’avant-match, compositions, bouton « Ajouter à mon agenda ». Le direct s’annonce dans le bandeau du site 7 jours avant.</p>
-      <p style="margin:0"><b>Pendant :</b> compteur de spectateurs connectés et réactions ⚽ 👏 😱. <b>Après :</b> réactions d’après-match, et le match reste à revivre en accéléré (comme tous les matchs qui ont leurs temps forts).</p>
+      <p style="margin:0"><b>Pendant :</b> compteur de spectateurs connectés et réactions ⚽ 👏 😱. <b>Après :</b> réactions d’après-match, et le match reste à revivre, de temps fort en temps fort (comme tous les matchs qui ont leurs temps forts).</p>
       <p ><b>Pour un beau direct :</b> vérifiez dans la fiche les minutes des temps forts et des buts, les entrées en jeu et une belle photo à la une.</p>
       <p style="margin:0"><b>Commentaire radio (option) :</b> « 📻 Préparer » fait écrire par l’IA le commentaire d’un reporter radio d’époque, calé sur les temps forts, puis le fait lire par la voix IA, avec la rumeur de la foule. Environ <?= e(\App\Services\AiCosts::fmt($radioEstimate)) ?> par match, une seule fois. Les visiteurs l’écoutent avec le bouton « Écouter le commentaire radio ». Préparez-le une fois la fiche relue : si les buts ou les minutes changent, il est à refaire.</p>
     </div>

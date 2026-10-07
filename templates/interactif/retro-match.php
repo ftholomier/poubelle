@@ -22,7 +22,7 @@ $facts = array_values(array_filter([
 $starters = array_values(array_filter($rows, fn ($r) => in_array($r['position'], ['G', 'D', 'M', 'A'], true)));
 $bench = array_values(array_filter($rows, fn ($r) => $r['position'] === 'R'));
 $coach = array_values(array_filter($rows, fn ($r) => $r['position'] === 'E'));
-$badge = ['live' => t('En direct'), 'upcoming' => t('Bientôt en direct'), 'replay' => t('En accéléré')][$mode];
+$badge = ['live' => t('En direct'), 'upcoming' => t('Bientôt en direct'), 'replay' => t('Rediffusion')][$mode];
 $fiche = url($s['path']);
 $shareText = $mode === 'upcoming'
     ? t('{match} rejoué en direct {when} sur le site du musée Sochaux Rétro', ['match' => $title, 'when' => $when])
@@ -99,18 +99,6 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
       </div>
       <p class="rdcount__note"><?= e(t('Gardez cette page ouverte : le match commencera tout seul à l’heure du coup d’envoi.')) ?></p>
     </div>
-    <?php elseif ($mode === 'replay'): ?>
-    <div class="rdctrl" data-rd-controls>
-      <button type="button" class="qbtn qbtn--sm rdctrl__play" data-rd-play><?= e(t('Lancer le match')) ?></button>
-      <div class="rdctrl__speeds" role="radiogroup" aria-label="<?= e(t('Vitesse')) ?>">
-        <?php foreach ([1, 10, 60] as $x): ?>
-          <button type="button" role="radio" class="rdctrl__speed" data-rd-speed="<?= $x ?>" aria-checked="<?= $x === 10 ? 'true' : 'false' ?>">×<?= $x ?></button>
-        <?php endforeach; ?>
-      </div>
-      <button type="button" class="linkbtn" data-rd-next disabled><?= e(t('Temps fort suivant')) ?> ⏭</button>
-      <button type="button" class="linkbtn" data-rd-restart hidden><?= e(t('Revoir depuis le début')) ?></button>
-      <p class="rdctrl__note"><?= e(t('×10 : le match en 10 minutes ; ×60 : en moins de 2 minutes. Le score s’affiche au fil des buts.')) ?></p>
-    </div>
     <?php endif; ?>
 
     <section class="rdfeedsec" aria-labelledby="rd-feed-t">
@@ -150,6 +138,17 @@ $clean = fn (string $x): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
   </div>
 
   <aside class="rdside">
+    <?php if ($mode === 'replay'): ?>
+    <div class="rdteam rdteam--replay" data-rd-controls>
+      <p class="rdteam__live"><b data-rd-mini-clock>00:00</b> <span><?= e($home) ?> <b data-rd-mini-score>–</b> <?= e($away) ?></span></p>
+      <div class="rdteam__row">
+        <button type="button" class="qbtn qbtn--sm rdctrl__play" data-rd-play><?= e(t('Lancer le match')) ?></button>
+        <button type="button" class="btn btn--ghost" data-rd-next disabled><?= e(t('Temps fort suivant')) ?> ⏭</button>
+        <button type="button" class="linkbtn" data-rd-restart hidden><?= e(t('Revoir depuis le début')) ?></button>
+      </div>
+      <p class="rdteam__state"><?= e(t('Lancez le match, puis passez de temps fort en temps fort : le score et le commentaire radio suivent.')) ?></p>
+    </div>
+    <?php endif; ?>
     <?php if ($mode !== 'replay' && \App\Core\Auth::user()): ?>
     <div class="rdteam" data-rd-team>
       <p class="rdteam__t"><b>Mode test</b> · équipe connectée, dans ce navigateur seulement : le public suit toujours l’heure réelle.</p>

@@ -305,7 +305,7 @@
     document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(false); });
   } else {
     // En accéléré : position du match (secondes), vitesse ×1, ×10, ×60 ; les pauses passent en 4 secondes.
-    let pos = -1, speed = 10, playing = false, last = 0, pauseUntil = 0;
+    let pos = -1, speed = 1, playing = false, last = 0, pauseUntil = 0;
     const play = $('[data-rd-play]'), nextBtn = $('[data-rd-next]'), restart = $('[data-rd-restart]');
     const pauses = [[M.halftime, M.kickoff2], [M.fulltime90, M.extratime], [M.et_end, M.pens]].filter(([a, b]) => a !== null && b !== null && b > a);
     const setPlay = on => {
@@ -349,8 +349,10 @@
       pos = n ? n.t : M.end;
       pauseUntil = 0;
       render(pos, true);
-      setPlay(playing && pos < M.end);
-      if (playing) { last = performance.now(); }
+      // Le match reprend à ce temps fort (et le commentaire radio avec lui).
+      if (pos >= M.end) setPlay(false);
+      else if (!playing) start();
+      else last = performance.now();
     });
     restart.addEventListener('click', () => { pos = 0; render(-1, false); start(); });
     render(-1, false);

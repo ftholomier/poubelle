@@ -35,7 +35,7 @@ final class Retro
             'now' => $now,
         ], [
             'title' => t('Rétro-Direct : les grands matchs rejoués en direct'),
-            'description' => t('Le jour anniversaire d’un grand match, à l’heure du coup d’envoi, le musée le rejoue minute par minute : score, buts, remplacements, réactions. Et tous les matchs à revivre en accéléré.'),
+            'description' => t('Le jour anniversaire d’un grand match, à l’heure du coup d’envoi, le musée le rejoue minute par minute : score, buts, remplacements, réactions. Et tous les matchs à revivre de temps fort en temps fort.'),
             'active' => 'interactif',
             'body_class' => 'page-retro',
             'styles' => ['css/mosaic.css', 'css/interactif.css', 'css/retro.css'],

@@ -66,14 +66,14 @@ $card = function (array $s, string $kicker, string $when, string $cta, ?string $
       <?php $first = $soon[0]; ?>
       <p class="rdland__next" data-rd-countdown-at="<?= (int) $first['start'] ?>" data-rd-now="<?= (int) $now ?>"><?= e(t('Prochain coup d’envoi')) ?> : <b><?= e(Retro::when((int) $first['start'])) ?></b> <span data-rd-countdown-text></span></p>
     <?php else: ?>
-      <p class="rdland__empty"><?= e(t('Aucun direct n’est programmé pour l’instant. En attendant, revivez un grand match en accéléré ci-dessous.')) ?></p>
+      <p class="rdland__empty"><?= e(t('Aucun direct n’est programmé pour l’instant. En attendant, revivez un grand match ci-dessous, de temps fort en temps fort.')) ?></p>
     <?php endif; ?>
   </section>
 
   <section class="rdland__sec" aria-labelledby="rd-classics">
     <div class="between" style="align-items:flex-end;gap:16px;flex-wrap:wrap">
       <h2 class="h-section" id="rd-classics"><?= e(t('Grands matchs à revivre')) ?></h2>
-      <p class="rdland__note"><?= e(t('En accéléré, sans connaître le score : il s’affiche au fil des buts.')) ?></p>
+      <p class="rdland__note"><?= e(t('De temps fort en temps fort, sans connaître le score : il s’affiche au fil des buts.')) ?></p>
     </div>
     <div class="rdgrid">
       <?php foreach ($classics as $c): ?>
@@ -88,7 +88,7 @@ $card = function (array $s, string $kicker, string $when, string $cta, ?string $
     <h2 class="h-section" id="rd-past"><?= e(t('Déjà joués en direct')) ?></h2>
     <div class="rdgrid">
       <?php foreach ($past as $e): $st = $e['stats']; $r = array_sum($st['reactions']); ?>
-        <?= $card($e['s'], t('Direct du {d}', ['d' => date_fr($e['date'])]), '', t('Revoir en accéléré'),
+        <?= $card($e['s'], t('Direct du {d}', ['d' => date_fr($e['date'])]), '', t('Revoir le match'),
             trim(($st['peak'] ? tn($st['peak'], '{n} spectateur au plus fort', '{n} spectateurs au plus fort') : '') . ($r ? ' · ' . tn($r, '{n} réaction', '{n} réactions') : ''), ' ·') ?: null, true) ?>
       <?php endforeach; ?>
     </div>
@@ -101,7 +101,7 @@ $card = function (array $s, string $kicker, string $when, string $cta, ?string $
       <li><b><?= e(t('Le programme')) ?></b><span><?= e(t('Les historiens du musée choisissent les anniversaires : finales, derbys, soirées de légende, 10, 20, 30 ou 40 ans après, jour pour jour.')) ?></span></li>
       <li><b><?= e(t('Le direct')) ?></b><span><?= e(t('À l’heure du coup d’envoi, le match se déroule minute par minute, à partir des temps forts, des buteurs et des compositions de la fiche. Mi-temps de 15 minutes comprise.')) ?></span></li>
       <li><b><?= e(t('Tous ensemble')) ?></b><span><?= e(t('Le compteur montre combien de supporters suivent le direct ; réagissez d’un clic, et dites-le si vous étiez au stade ce jour-là.')) ?></span></li>
-      <li><b><?= e(t('Et après')) ?></b><span><?= e(t('Le match se revit en accéléré quand vous voulez. Vos souvenirs du match enrichissent la fiche : racontez-les au musée.')) ?></span></li>
+      <li><b><?= e(t('Et après')) ?></b><span><?= e(t('Le match se revit quand vous voulez, de temps fort en temps fort. Vos souvenirs du match enrichissent la fiche : racontez-les au musée.')) ?></span></li>
     </ol>
   </section>
 </div>
