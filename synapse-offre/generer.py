@@ -7,7 +7,7 @@ out, P = sys.argv[1], sys.argv[2]
 logo = open(P + '/public/img/synapse-logo.svg').read()
 logo = logo[logo.index('<svg'):]
 F = P + '/public/fonts/'
-PILL = ' <span class="pill">en test</span>'
+PILL = ''
 
 taches = [("Fiche du bien & caractéristiques", 45, 2), ("Rédaction de l'annonce", 30, 2), ("Mandat & pièces du vendeur", 40, 5),
           ("Compte rendu au vendeur", 20, 1), ("Diffusion sur les portails", 15, 0)]
@@ -24,37 +24,37 @@ col2 = "".join(row(*t) for t in taches[3:])
 
 etapes = [
     ("01", "Prospection", "Trouver les vendeurs avant les autres", None, [
-        ("Ciblage des futurs vendeurs : logements F/G (ADEME) et biens détenus depuis longtemps (DVF)", False),
-        ("Courrier personnalisé généré et prêt à envoyer, plutôt que le démarchage téléphonique", False),
-        ("Rapprochement automatique acquéreurs ↔ nouveaux mandats", False),
-        ("Avis de valeur en 10 min avec les ventes du quartier (DVF)", False)]),
+        ("Ciblage des futurs vendeurs : logements F/G (ADEME) et biens détenus depuis longtemps (DVF)", True),
+        ("Courrier personnalisé généré et prêt à envoyer, plutôt que le démarchage téléphonique", True),
+        ("Rapprochement automatique acquéreurs ↔ nouveaux mandats", True),
+        ("Estimation en temps réel avec les ventes similaires du quartier (DVF)", True)]),
     ("02", "Visite & mandat", "Le dossier se remplit pendant que vous parlez", "≈ 1 h 30 / mandat", [
         ("Visite enregistrée : l'IA remplit la fiche du bien", True),
         ("Dossier complété à la voix en sortant de la visite", True),
         ("Mandat conforme, registre, rétractation et bordereau générés", True),
-        ("Dossier technique depuis l'adresse : cadastre, état des risques (Géorisques), DPE ADEME", False),
-        ("L'IA lit les papiers du vendeur (acte, taxe foncière, PV d'AG) et relance les pièces manquantes", False),
-        ("Signature électronique sur place · plan 2D mesuré au téléphone", False)]),
+        ("Dossier technique depuis l'adresse : cadastre, état des risques (Géorisques), DPE ADEME", True),
+        ("L'IA lit les papiers du vendeur (acte, taxe foncière, PV d'AG) et relance les pièces manquantes", True),
+        ("Signature électronique sur place · plan 2D mesuré au téléphone", True)]),
     ("03", "Commercialisation", "L'annonce part sans vous", "≈ 45 min / mandat", [
-        ("Annonce rédigée avec mentions légales et aperçu portail", True),
-        ("Diffusion automatique sur les grands portails", False),
-        ("Photos triées, retouchées, home staging virtuel", False),
-        ("Publications réseaux sociaux et courte vidéo générées pour chaque mandat", False)]),
+        ("Annonce rédigée avec mentions légales, aperçu réel Leboncoin", True),
+        ("Diffusion automatique sur les grands portails (multidiffuseur)", False),
+        ("Photos triées, retouchées, home staging virtuel", True),
+        ("Publications réseaux sociaux et courte vidéo générées pour chaque mandat", True)]),
     ("04", "Acquéreurs & visites", "Vous ne visitez qu'avec des acquéreurs qualifiés", "≈ 4 à 7 h / semaine", [
-        ("Assistant acquéreurs 24 h/24 : répond, qualifie (budget, financement, délai) et cale les visites dans votre agenda", False),
-        ("Bon de visite signé sur le téléphone, retour dicté en 30 secondes", False),
-        ("Compte rendu de commercialisation envoyé au vendeur chaque vendredi, automatiquement", False),
+        ("Assistant acquéreurs 24 h/24 : répond, qualifie (budget, financement, délai) et cale les visites dans votre agenda", True),
+        ("Bon de visite signé sur le téléphone, retour dicté en 30 secondes", True),
+        ("Compte rendu de commercialisation envoyé au vendeur chaque vendredi, automatiquement", True),
         ("Compte rendu de visite vendeur et PDF en 1 clic", True)]),
     ("05", "Du compromis à l'acte", "Le dossier avance seul", "≈ 2 à 3 h / vente", [
-        ("Dossier pour le notaire assemblé automatiquement", False),
-        ("Échéances suivies : rétractation SRU, prêt, conditions suspensives", False),
-        ("Relances automatiques de l'acquéreur, du courtier et du notaire", False),
-        ("Contrôle anti-blanchiment (LCB-FT) : pièce d'identité, listes de gel, fiche de vigilance", False)]),
+        ("Dossier pour le notaire assemblé automatiquement", True),
+        ("Échéances suivies : rétractation SRU, prêt, conditions suspensives", True),
+        ("Relances automatiques de l'acquéreur, du courtier et du notaire", True),
+        ("Contrôle anti-blanchiment (LCB-FT) : pièce d'identité, listes de gel, fiche de vigilance", True)]),
     ("06", "Au quotidien", "Votre assistant, partout", None, [
-        ("Briefing du matin à écouter : rendez-vous, relances, nouveaux contacts, échéances", False),
-        ("Bilan d'appel dicté : la tâche et la relance se créent seules", False),
-        ("Facture d'honoraires et note de commission générées à l'acte", False),
-        ("Demande d'avis Google envoyée au client satisfait", False)]),
+        ("Briefing du matin à écouter : rendez-vous, relances, nouveaux contacts, échéances", True),
+        ("Bilan d'appel dicté : la tâche et la relance se créent seules", True),
+        ("Facture d'honoraires et note de commission générées à l'acte", True),
+        ("Demande d'avis Google envoyée au client satisfait", True)]),
 ]
 
 
@@ -74,13 +74,29 @@ html = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Syn
 <div>
   <span class="tag">L'offre irrésistible</span>
   <h1>Vous allez sur le terrain. <mark>On fait tout le reste.</mark></h1>
-  <p class="chapo">Visiter, rentrer des mandats, conseiller, vendre : c'est votre métier. Fiches, annonces, mandats, relances, papiers du notaire : le logiciel Synapse s'en charge, de la prospection jusqu'à l'acte. <b>Un mandat rentré, c'est 10 minutes de saisie au lieu de 2 h 30</b>, et jusqu'à 95 % des honoraires restent dans votre poche.</p>
+  <p class="chapo">Visiter, rentrer des mandats, vendre : c'est votre métier. Fiches, annonces, mandats, relances, notaire : le logiciel Synapse s'en charge. <b>Un mandat rentré, c'est 10 minutes de saisie au lieu de 2 h 30</b>, et jusqu'à 95 % des honoraires pour vous.</p>
 </div>
 
 <div class="cards">
   <div class="card noir"><div class="lbl">Votre part des honoraires</div><div class="big">80 → 95 %</div><p>80 % dès le premier euro, jusqu'à 95 % quand vous performez. Sans plafond, sans frais cachés.</p></div>
   <div class="card"><div class="lbl orange-t">Abonnement tout compris</div><div class="big">79 €<small> HT/mois</small></div><p>3 mois offerts, 0 € de droit d'entrée, sans engagement.</p></div>
   <div class="card citron"><div class="lbl">Temps rendu</div><div class="big">≈ 1 jour<small> / semaine</small></div><p>Saisie, annonces, relances et suivi automatisés : du temps rendu au terrain.</p></div>
+</div>
+
+<div class="secteur">
+  <div class="s-g">
+    <div class="lbl">Votre secteur</div>
+    <div class="s-titre">Développez-le comme une franchise.<br><mark>Sans les contraintes de la franchise.</mark></div>
+    <p>Le réseau vous attribue un secteur. Vous le développez comme votre agence, avec la marque, la prospection ciblée sur vos rues et le back-office Synapse. Vous gardez votre liberté, et vos honoraires.</p>
+  </div>
+  <table class="s-t">
+    <tr><th></th><th>Franchise classique</th><th class="syn">Synapse</th></tr>
+    <tr><td>Droit d'entrée</td><td>Souvent des milliers d'euros</td><td class="syn">0 €</td></tr>
+    <tr><td>Redevance</td><td>Un % de votre chiffre d'affaires</td><td class="syn">Aucune : 79 € HT / mois fixe</td></tr>
+    <tr><td>Local, travaux, salariés</td><td>À votre charge</td><td class="syn">Aucun : travaillez d'où vous voulez</td></tr>
+    <tr><td>Engagement</td><td>Contrat de plusieurs années</td><td class="syn">Sans engagement</td></tr>
+    <tr><td>Votre secteur</td><td>Contre investissement</td><td class="syn">Attribué, à développer</td></tr>
+  </table>
 </div>
 
 <div class="grille">
@@ -131,7 +147,7 @@ html = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Syn
 </section>
 
 <div>
-  <div class="ticker">80 à 95 % <b>★</b> 79 € HT / mois <b>★</b> 3 mois offerts <b>★</b> 0 € d'entrée <b>★</b> sans engagement <b>★</b> on ne raconte pas de salades</div>
+  <div class="ticker">80 à 95 % <b>★</b> votre secteur <b>★</b> 79 € HT / mois <b>★</b> 3 mois offerts <b>★</b> 0 € d'entrée <b>★</b> 0 redevance <b>★</b> sans engagement</div>
   <div class="fin"><span>Proposition de travail, à valider : paliers, tarifs, contenus et gains de temps sont indicatifs, à mesurer en conditions réelles.</span><span>Statut agent commercial indépendant (RSAC)</span></div>
 </div>
 </body></html>'''
