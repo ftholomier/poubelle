@@ -292,8 +292,10 @@ final class CarnetCard
         foreach ($d['facts'] as $k => [$kick, $main, $sub]) {
             $fx = $cols[$k];
             $this->text($fx, $fy + 3.2, $widths[$k], $kick, 'display-b', 2.6, self::BLUE, ['upper' => true, 'spacing' => 115]);
-            $this->text($fx, $fy + 6.6, $widths[$k], $main, 'display', 4.2, self::NAVY, ['upper' => true, 'min' => 2.8]);
-            $this->text($fx, $fy + 11.6, $widths[$k], $sub, 'serif', 2.9, self::NAVY, ['lh' => 1.2, 'h' => 7.6, 'min' => 2.3]);
+            // Titre long (« Sochaux 7–0 Jeunesse d'Esch ») : réduit, puis sur deux lignes ; la ligne du dessous descend d'autant.
+            $mh = Vector::textHeight($this->text($fx, $fy + 6.6, $widths[$k], $main, 'display', 4.2, self::NAVY, ['upper' => true, 'min' => 3.0]));
+            $sy = $fy + 6.6 + max(4.6, $mh + 0.4);
+            $this->text($fx, $sy, $widths[$k], $sub, 'serif', 2.9, self::NAVY, ['lh' => 1.2, 'h' => $fy + 19.2 - $sy, 'min' => 2.3]);
         }
         $this->text(self::W - 7 - 60, self::H - 3.9, 60, $d['host'], 'display-b', 2.3, self::BLUE, ['align' => 'right', 'spacing' => 150]);
     }
@@ -347,8 +349,9 @@ final class CarnetCard
         $fx = $x;
         foreach ($d['facts'] as $k => [$kick, $main, $sub]) {
             $this->text($fx, $fy, $fw[$k] - 2.5, $kick, 'display-b', 2.5, self::BLUE, ['upper' => true, 'spacing' => 120]);
-            $this->text($fx, $fy + 3.0, $fw[$k] - 2.5, $main, 'display-b', 3.4, self::NAVY, ['upper' => true, 'min' => 2.4]);
-            $this->text($fx, $fy + 7.0, $fw[$k] - 2.5, $sub, 'serif', 2.8, self::NAVY, ['lh' => 1.15, 'h' => 7, 'min' => 2.2]);
+            $mh = Vector::textHeight($this->text($fx, $fy + 3.0, $fw[$k] - 2.5, $main, 'display-b', 3.4, self::NAVY, ['upper' => true, 'min' => 2.6]));
+            $sy = $fy + 3.0 + max(4.0, $mh + 0.3);
+            $this->text($fx, $sy, $fw[$k] - 2.5, $sub, 'serif', 2.8, self::NAVY, ['lh' => 1.15, 'h' => $fy + 14.0 - $sy, 'min' => 2.2]);
             $fx += $fw[$k];
         }
         [$g1, $g2, $g3] = $d['goals'];
