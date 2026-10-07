@@ -322,12 +322,13 @@ class MandatPdf extends VisitePdf
         $this->SetY($y + $hauteur + 5);
     }
 
-    public function signatures(): void
+    /** Cadres de signature ; $images : signatures recueillies (role vendeur → mandant, agent → mandataire). */
+    public function signatures(array $images = []): void
     {
         $this->ensureSpace(48);
         $this->Ln(4);
         $y = $this->GetY();
-        foreach ([[18, 'LE MANDANT', '« Lu et approuvé, bon pour mandat »'], [108, 'LE MANDATAIRE', 'Signature et cachet']] as [$x, $titre, $aide]) {
+        foreach ([[18, 'LE MANDANT', '« Lu et approuvé, bon pour mandat »', 'vendeur'], [108, 'LE MANDATAIRE', 'Signature et cachet', 'agent']] as [$x, $titre, $aide, $role]) {
             $this->SetDrawColor(...C_ENCRE);
             $this->SetLineWidth(0.35);
             $this->SetFillColor(...C_PAPIER);
@@ -337,6 +338,16 @@ class MandatPdf extends VisitePdf
             $this->Cell(74, 4, $titre, 0, 2);
             $this->font('I', 8.5, C_GRIS);
             $this->Cell(74, 4.5, $aide, 0, 2);
+            $siens = array_values(array_filter($images, fn ($i) => $i['role'] === $role));
+            foreach ($siens as $k => $i) {
+                $max = count($siens) > 1 ? 36 : 70;
+                [$iw, $ih] = @getimagesize($i['chemin']) ?: [3, 1];
+                $w = min($max, 16 * $iw / max(1, $ih)); // 16 mm de haut au plus, sans déborder du cadre
+                $this->Image($i['chemin'], $x + 5 + $k * 39, $y + 14, $w, 0, 'PNG');
+                $this->SetXY($x + 5 + $k * 39, $y + 33);
+                $this->font('mono', 5.6, C_GRIS);
+                $this->Cell($w, 3, mb_strtoupper(mb_strimwidth($i['nom'], 0, 22)) . ' · ' . date('d/m/Y H:i', strtotime($i['signe_le'])));
+            }
         }
         $this->SetY($y + 44);
     }
@@ -376,7 +387,7 @@ function build_mandat(array $visit, array $agent): array
             $pdf->paragraphe($bloc);
         }
     }
-    $pdf->signatures();
+    $pdf->signatures(function_exists('images_signatures') ? images_signatures($visit, $agent, 'mandat') : []);
 
     // Bordereau de rétractation détachable, obligatoire hors établissement (art. L221-5 et R221-1 du code de la consommation)
     if ($j['contrat.hors_etablissement']) {
@@ -399,6 +410,8 @@ function build_mandat(array $visit, array $agent): array
             $pdf->paragraphe($ligne);
         }
     }
+
+    if (function_exists('certificat_signature')) certificat_signature($pdf, $visit, 'mandat');
 
     $slug = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', titre_bien($visit)) ?: 'visite')), '-');
     return [$pdf->Output('S'), ($pdf->projet ? 'Projet-mandat-' : 'Mandat-' . $visit['mandat']['numero'] . '-') . substr($slug ?: 'visite', 0, 50) . '.pdf'];

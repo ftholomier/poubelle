@@ -25,6 +25,9 @@ define('USERS_FILE', DATA_DIR . '/users.json');
 /** Mentions légales de l'agence, exigées sur le mandat (Paramètres → Identité de l'agence). */
 const AGENCE_LEGAL = ['raison_sociale', 'siege', 'siret', 'carte_numero', 'carte_delivree_par', 'garant', 'rcp'];
 
+/** Sources d'une valeur que l'IA ne doit jamais écraser : saisie, dictée, lue dans un document, donnée publique. */
+const SOURCES_VALIDEES = ['agent', 'dialogue', 'document', 'public'];
+
 // Formats audio acceptés (type MIME => extension)
 const AUDIO_TYPES = ['audio/webm' => 'webm', 'audio/mp4' => 'm4a', 'audio/ogg' => 'ogg', 'audio/mpeg' => 'mp3', 'audio/wav' => 'wav'];
 
@@ -44,7 +47,14 @@ require __DIR__ . '/pdf.php';
 require __DIR__ . '/mandat.php';
 require __DIR__ . '/mailer.php';
 require __DIR__ . '/store.php';
-foreach (glob(__DIR__ . '/modules/*.php') ?: [] as $module) require $module;
+// Modules : ceux qui fournissent des fonctions d'enregistrement d'abord, puis les autres par ordre alphabétique
+$modules = glob(__DIR__ . '/modules/*.php') ?: [];
+foreach (['dossier', 'signature', 'espace'] as $m) {
+    require __DIR__ . "/modules/$m.php";
+    $modules = array_diff($modules, [__DIR__ . "/modules/$m.php"]);
+}
+foreach ($modules as $module) require $module;
+unset($modules, $module, $m);
 
 // ---------- Réponses ----------
 

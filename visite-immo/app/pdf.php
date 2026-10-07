@@ -543,11 +543,39 @@ function rendre_vendeur(VisitePdf $pdf, array $visit, array $agent): void
     $pdf->richText($visit['rapport_vendeur'], 10.5);
 }
 
-/** Construit le PDF demandé et renvoie [contenu binaire, nom de fichier]. */
-function build_pdf(string $doc, array $visit, array $agent): array
+// Documents ajoutés par les modules (avis de valeur, plan, bon de visite, offre…)
+$PDF_MODULES = [];
+
+/**
+ * Déclare un document PDF : $rendu(VisitePdf $pdf, array $visit, array $agent) dessine les pages ;
+ * ou $construire(array $visit, array $agent, array $options) renvoie directement [binaire, nom de fichier].
+ */
+function pdf_module(string $doc, string $label, ?callable $rendu, ?callable $construire = null, bool $dansDossier = true): void
 {
-    if (!isset(PDF_DOCS[$doc])) fail(400, 'Document inconnu.');
+    global $PDF_MODULES;
+    $PDF_MODULES[$doc] = ['label' => $label, 'rendu' => $rendu, 'construire' => $construire, 'dossier' => $dansDossier];
+}
+
+function pdf_docs(): array
+{
+    global $PDF_MODULES;
+    return PDF_DOCS + array_map(fn ($m) => $m['label'], $PDF_MODULES);
+}
+
+/** Construit le PDF demandé et renvoie [contenu binaire, nom de fichier]. */
+function build_pdf(string $doc, array $visit, array $agent, array $options = []): array
+{
+    global $PDF_MODULES;
+    if (!isset(pdf_docs()[$doc])) fail(400, 'Document inconnu.');
     if ($doc === 'mandat') return build_mandat($visit, $agent);
+    if (isset($PDF_MODULES[$doc])) {
+        $m = $PDF_MODULES[$doc];
+        if ($m['construire']) return ($m['construire'])($visit, $agent, $options);
+        $pdf = pdf_nouveau($m['label']);
+        $pdf->SetTitle($m['label'] . ' · ' . titre_bien($visit), true);
+        ($m['rendu'])($pdf, $visit, $agent, $options);
+        return [$pdf->Output('S'), str_replace(' ', '-', ucfirst(slug($m['label']))) . '-' . slug(titre_bien($visit), 50) . '.pdf'];
+    }
     $pdf = pdf_nouveau(PDF_DOCS[$doc]);
     $pdf->SetTitle(PDF_DOCS[$doc] . ' · ' . titre_bien($visit), true);
     match ($doc) {
@@ -560,6 +588,15 @@ function build_pdf(string $doc, array $visit, array $agent): array
             if (trim($visit['annonce']) !== '') rendre_annonce($pdf, $visit, $agent);
             if (trim($visit['rapport_agent']) !== '') rendre_rapport($pdf, $visit, $agent);
             if (trim($visit['rapport_vendeur']) !== '') rendre_vendeur($pdf, $visit, $agent);
+            global $PDF_MODULES;
+            foreach ($PDF_MODULES as $m) {
+                if (!$m['dossier'] || !$m['rendu']) continue;
+                try {
+                    ($m['rendu'])($pdf, $visit, $agent, []);
+                } catch (Throwable) {
+                    // document pas encore disponible pour ce dossier
+                }
+            }
         })(),
     };
     $slug = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', titre_bien($visit)) ?: 'visite')), '-');

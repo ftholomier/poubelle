@@ -93,7 +93,8 @@ function vue_dossier(array $visit): array
     $visit['etape'] = etape_dossier($visit);
     $visit['etapes'] = array_map(fn ($e) => ['label' => $e[0], 'detail' => $e[1]], ETAPES);
     $visit['actions'] = prochaines_actions($visit);
-    $visit['documents'] = array_map(fn ($d) => ['cle' => $d[0], 'label' => $d[1], 'pret' => $d[2], 'interne' => $d[3], 'ecran' => $d[4]], documents_dossier($visit));
+    $pdfs = pdf_docs();
+    $visit['documents'] = array_map(fn ($d) => ['cle' => $d[0], 'label' => $d[1], 'pret' => $d[2], 'interne' => $d[3], 'ecran' => $d[4], 'pdf' => isset($pdfs[$d[0]])], documents_dossier($visit));
     return $visit;
 }
 

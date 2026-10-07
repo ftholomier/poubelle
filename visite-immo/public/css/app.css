@@ -569,3 +569,27 @@ details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; colo
 .ajd-txt strong { line-height: 1.25; }
 .ajd-heure { font: 700 .8rem var(--mono); }
 .fleche { color: var(--muted); }
+
+/* ---------- Signature, pièces, avis, plan, photos ---------- */
+canvas.pad { display: block; width: 100%; height: 200px; background: #fff; border: 1.5px dashed var(--encre); border-radius: 12px; margin-bottom: 12px; touch-action: none; }
+.alerte { border-color: var(--orange); background: #fff1e8; }
+@media (prefers-color-scheme: dark) { .alerte { background: #3a2216; } }
+.piece-fichier { display: block; color: var(--vert); margin-top: 3px; word-break: break-word; }
+.ligne.piece.ok strong { color: var(--vert); }
+.texte { line-height: 1.65; font-size: .97rem; }
+.table-scroll { overflow-x: auto; margin: 0 -4px; }
+.tableau { width: 100%; border-collapse: collapse; font-size: .84rem; }
+.tableau th { font: 600 .6rem var(--mono); text-transform: uppercase; color: var(--muted); text-align: left; padding: 6px 4px; border-bottom: 1.5px solid var(--bord); white-space: nowrap; }
+.tableau td { padding: 7px 4px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.plan-svg { width: 100%; height: auto; display: block; margin-bottom: 8px; }
+@media (prefers-color-scheme: dark) { .plan-svg { background: var(--creme); border-radius: 10px; padding: 6px; } }
+.plan-ligne { display: grid; grid-template-columns: 1fr 70px 90px 40px; gap: 6px; margin-bottom: 6px; }
+.plan-ligne input { margin: 0; padding: 9px 10px; }
+.photos-grille { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.photo-carte { background: var(--surface); border: 1.5px solid var(--bord); border-radius: 12px; overflow: hidden; }
+.photo-carte img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; cursor: zoom-in; }
+.photo-carte.floue img { opacity: .55; }
+.photo-info { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; padding: 8px 10px 0; font-size: .85rem; }
+.photo-actions { display: flex; gap: 4px; padding: 6px 8px 8px; }
+.photo-actions .icon-btn { width: 36px; height: 36px; font-size: .9rem; }
+.photo-zoom { width: 100%; border-radius: 10px; }

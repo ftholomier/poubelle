@@ -416,7 +416,7 @@ function route_pdf(string $id): never
 {
     $me = require_user();
     $visit = load_visit($me, $id);
-    [$bin, $nom] = build_pdf((string) ($_GET['doc'] ?? ''), $visit, $me);
+    [$bin, $nom] = build_pdf((string) ($_GET['doc'] ?? ''), $visit, $me, $_GET);
     header('Content-Type: application/pdf');
     header('Content-Length: ' . strlen($bin));
     header(($_GET['dl'] ?? '') ? 'Content-Disposition: attachment; filename="' . $nom . '"' : 'Content-Disposition: inline; filename="' . $nom . '"');
@@ -451,7 +451,7 @@ function route_send(string $id): never
     $in = json_input();
     $to = trim((string) ($in['to'] ?? ''));
     if (!valid_email($to)) fail(400, 'Adresse e-mail du destinataire invalide.');
-    $docs = array_values(array_intersect(array_keys(PDF_DOCS), (array) ($in['docs'] ?? [])));
+    $docs = array_values(array_intersect(array_keys(pdf_docs()), (array) ($in['docs'] ?? [])));
     if (!$docs) fail(400, 'Choisissez au moins un document à joindre.');
     $sujet = trim((string) ($in['sujet'] ?? '')) ?: 'Votre visite · ' . titre_bien($visit);
     $texte = trim((string) ($in['message'] ?? ''));
@@ -788,7 +788,7 @@ function route_generate(string $id): never
 {
     $me = require_user();
     $visit = load_visit($me, $id);
-    $champsValides = array_filter((array) $visit['fiche']['champs'], fn ($c) => in_array($c['source'] ?? '', ['agent', 'dialogue'], true));
+    $champsValides = array_filter((array) $visit['fiche']['champs'], fn ($c) => in_array($c['source'] ?? '', SOURCES_VALIDEES, true));
     if (!$visit['morceaux'] && !$champsValides) fail(400, "Aucun enregistrement reçu pour cette visite.");
 
     // Retente la transcription des morceaux en échec
@@ -832,7 +832,7 @@ function route_generate(string $id): never
 
     $visit = update_visit($me, $id, function (array $v) use ($result) {
         // Les champs corrigés à la main ou dictés par l'agent ne sont jamais écrasés par l'IA
-        $champs = array_filter((array) $v['fiche']['champs'], fn ($c) => in_array($c['source'] ?? '', ['agent', 'dialogue'], true));
+        $champs = array_filter((array) $v['fiche']['champs'], fn ($c) => in_array($c['source'] ?? '', SOURCES_VALIDEES, true));
         foreach ($result['champs'] ?? [] as $c) {
             if (!isset($champs[$c['cle']]) && trim($c['valeur']) !== '') {
                 $champs[$c['cle']] = ['valeur' => trim($c['valeur']), 'citation' => $c['citation'], 'source' => 'ia'];
@@ -840,6 +840,12 @@ function route_generate(string $id): never
         }
         $v['fiche']['champs'] = $champs ?: new stdClass();
         foreach (['titre_annonce', 'annonce', 'rapport_agent', 'rapport_vendeur'] as $k) $v[$k] = $result[$k] ?? '';
+        $v['points_forts'] = array_values(array_filter(array_map('trim', (array) ($result['points_forts'] ?? []))));
+        if (empty($v['plan']['modifie_par_agent'])) {
+            $v['plan'] = ['pieces' => array_values(array_filter((array) ($result['pieces_plan'] ?? []), fn ($p) => trim((string) ($p['nom'] ?? '')) !== ''))];
+        }
+        $v['posts'] = (array) ($result['posts'] ?? []);
+        journal_ajout($v, 'auto', 'Fiche, annonce, rapports, publications et croquis de plan rédigés par l\'IA.');
         if ($v['titre'] === '' && isset($champs['adresse'])) $v['titre'] = $champs['adresse']['valeur'];
         $v['statut'] = 'pret';
         $v['genere_le'] = date('c');

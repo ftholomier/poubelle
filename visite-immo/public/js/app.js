@@ -6,6 +6,7 @@ import { uploader } from "./uploader.js";
 import { Conversation } from "./dialogue.js";
 import { rendreApercu } from "./apercu.js";
 import "./vues/aujourdhui.js";
+import "./vues/dossier-auto.js";
 
 import {
   APP_VERSION, state, nav, esc, fmtDuree, fmtDate, fmtPrix, champsOf, toast, copier, go, render, theme,
@@ -272,11 +273,11 @@ async function viewRecord(existingId) {
 // ---------- Génération ----------
 
 async function generate(id) {
-  const etapes = ["Envoi des derniers morceaux…", "Transcription de la visite…", "Remplissage de la fiche…", "Rédaction de l'annonce…", "Rédaction des rapports…"];
+  const etapes = ["Envoi des derniers morceaux…", "Transcription de la visite…", "Remplissage de la fiche…", "Rédaction de l'annonce…", "Rédaction des rapports et du compte rendu…", "Publications et croquis de plan…"];
   render(`${header("Création de la fiche")}<main class="page generating">
     <div class="spinner"></div>
     <div class="gen-step" id="step">${etapes[0]}</div>
-    <p class="muted center">Vous pouvez ranger le téléphone, cela prend moins d'une minute.</p>
+    <p class="muted center">Fiche, annonce, rapports, avis de valeur, mandat, dossier technique : tout se prépare. Vous pouvez ranger le téléphone.</p>
   </main>`);
   const $step = document.getElementById("step");
   try {
@@ -289,6 +290,11 @@ async function generate(id) {
     } finally {
       clearInterval(timer);
     }
+    // Puis tout le reste, automatiquement : données publiques, avis de valeur, pièces à demander
+    $step.textContent = "Cadastre, risques, DPE, ventes du quartier…";
+    const t2 = setTimeout(() => ($step.textContent = "Avis de valeur et pièces à demander…"), 3500);
+    await api("preparer", { method: "POST", query: { id } }).catch(() => {});
+    clearTimeout(t2);
     navigator.vibrate?.([80, 60, 80]);
     toast("Fiche créée ✨", "ok");
     go(`/visite/${id}/resume`);
@@ -429,10 +435,10 @@ function renderDocuments($c, visit, saver) {
         .map(
           (d) => `<div class="doc-ligne ${d.pret ? "" : "pas-pret"}">
             <a class="doc-nom" href="#/visite/${visit.id}/${d.ecran}"><strong>${esc(d.label)}</strong>${d.interne ? ' <span class="badge gris">interne</span>' : ""}${d.pret ? "" : ' <span class="muted small">à compléter</span>'}</a>
-            <div class="doc-actions">
+            ${d.pdf ? `<div class="doc-actions">
               <button class="icon-btn" data-pdf="${d.cle}" aria-label="PDF">📄</button>
               <button class="icon-btn" data-send="${d.cle}" aria-label="Envoyer">✉️</button>
-            </div>
+            </div>` : '<span class="fleche">→</span>'}
           </div>`,
         )
         .join("")}
@@ -512,9 +518,13 @@ function renderFiche($c, visit, sections, saver) {
                 ? `<button type="button" class="chip" data-cite="${esc(c.citation)}">IA</button>`
                 : c?.source === "dialogue"
                   ? '<span class="chip chip-voix">DICTÉ</span>'
-                  : "";
+                  : c?.source === "document"
+                    ? `<button type="button" class="chip chip-doc" data-cite="${esc(c.citation || "Lu dans un document du vendeur")}">DOC</button>`
+                    : c?.source === "public"
+                      ? `<button type="button" class="chip chip-pub" data-cite="${esc(c.citation || "Donnée publique")}">PUBLIC</button>`
+                      : "";
             const manque = manquants.has(f.cle) ? '<span class="manque" title="Obligatoire pour le mandat">●</span>' : "";
-            return `<div class="field ${c ? "filled" : ""} ${c?.source === "ia" || c?.source === "dialogue" ? "ia" : ""}">
+            return `<div class="field ${c ? "filled" : ""} ${["ia", "dialogue", "document", "public"].includes(c?.source) ? "ia" : ""}">
               <label for="c-${f.cle}">${manque}${esc(f.label)}${f.unite ? ` <span class="muted">(${f.unite})</span>` : ""} ${chip}</label>
               ${input(f)}
             </div>`;
@@ -545,7 +555,7 @@ function renderFiche($c, visit, sections, saver) {
     const chip = e.target.closest(".chip[data-cite]");
     if (chip) {
       e.preventDefault();
-      toast(`🎙️ « ${chip.dataset.cite} »`);
+      toast(chip.textContent === "IA" ? `🎙️ « ${chip.dataset.cite} »` : `📎 ${chip.dataset.cite}`);
     }
   });
   document.getElementById("copy-fiche").onclick = () => {
@@ -899,6 +909,12 @@ function bindDocActions($c, visit, saver) {
   });
 }
 
+/** Documents PDF du dossier (liste fournie par le serveur, modules compris). */
+function docsEnvoyables(visit) {
+  const liste = (visit.documents || []).filter((d) => d.pdf);
+  return liste.length ? liste.map((d) => [d.cle, d]) : Object.entries(DOCS);
+}
+
 function historiqueEnvois(visit) {
   const envois = visit.envois || [];
   if (!envois.length) return "";
@@ -907,7 +923,7 @@ function historiqueEnvois(visit) {
     ${envois
       .slice()
       .reverse()
-      .map((e) => `<div class="envoi"><strong>${esc(e.a)}</strong><span class="muted small">${fmtDate(e.date)} · ${e.docs.map((d) => DOCS[d]?.label || d).join(", ")}${e.copie ? " · copie à moi" : ""}</span></div>`)
+      .map((e) => `<div class="envoi"><strong>${esc(e.a)}</strong><span class="muted small">${fmtDate(e.date)} · ${e.docs.map((d) => (visit.documents || []).find((x) => x.cle === d)?.label || DOCS[d]?.label || d).join(", ")}${e.copie ? " · copie à moi" : ""}</span></div>`)
       .join("")}
   </section>`;
 }
@@ -925,7 +941,7 @@ function messageParDefaut(visit, doc) {
     rapport: `Ci-joint le rapport de visite du bien situé ${bien}.`,
     dossier: `Ci-joint le dossier complet de la visite du bien situé ${bien}.`,
     mandat: `Comme convenu, vous trouverez ci-joint le mandat de vente concernant votre bien situé ${bien}. Je vous remercie de bien vouloir le relire avant notre rendez-vous de signature.`,
-  }[doc];
+  }[doc] || `Vous trouverez ci-joint le document « ${Object.fromEntries(docsEnvoyables(visit))[doc]?.label || doc} » concernant le bien situé ${bien}.`;
   return `Bonjour${["vendeur", "mandat"].includes(doc) && vendeur ? " " + vendeur : ""},\n\n${corps}\n\nJe reste à votre disposition pour toute question.\n\nBien cordialement,\n${signature}`;
 }
 
@@ -942,14 +958,14 @@ function openSendSheet(visit, doc) {
       <button class="btn ghost" data-close>Fermer</button></div>`;
   } else {
     const destinataire = ["vendeur", "fiche", "mandat"].includes(doc) ? champs.email_vendeur?.valeur || "" : "";
-    const sujet = {
+    const sujet = ({
       vendeur: `Compte rendu de visite · ${visit.titre || ""}`,
       fiche: `Fiche du bien · ${visit.titre || ""}`,
       annonce: visit.titre_annonce || `Présentation du bien · ${visit.titre || ""}`,
       rapport: `Rapport de visite (interne) · ${visit.titre || ""}`,
       dossier: `Dossier de visite (interne) · ${visit.titre || ""}`,
       mandat: `Votre mandat de vente · ${visit.titre || ""}`,
-    }[doc].replace(/ · $/, "");
+    }[doc] || `${Object.fromEntries(docsEnvoyables(visit))[doc]?.label || "Document"} · ${visit.titre || ""}`).replace(/ · $/, "");
     sheet.innerHTML = `<form class="sheet sheet-form" id="send-form">
       <h2>✉️ Envoyer par e-mail</h2>
       <label>Destinataire<input name="to" type="email" required inputmode="email" autocomplete="email" value="${esc(destinataire)}" placeholder="adresse@client.fr"></label>
@@ -957,8 +973,8 @@ function openSendSheet(visit, doc) {
       <label>Message<textarea name="message" rows="8" required>${esc(messageParDefaut(visit, doc))}</textarea></label>
       <fieldset class="pj">
         <legend>Pièces jointes (PDF)</legend>
-        ${Object.entries(DOCS)
-          .map(([k, d]) => `<label class="check"><input type="checkbox" name="docs" value="${k}" ${k === doc ? "checked" : ""}> ${d.label}${d.interne ? ' <span class="badge rouge">interne</span>' : ""}</label>`)
+        ${docsEnvoyables(visit)
+          .map(([k, d]) => `<label class="check"><input type="checkbox" name="docs" value="${k}" ${k === doc ? "checked" : ""}> ${esc(d.label)}${d.interne ? ' <span class="badge rouge">interne</span>' : ""}</label>`)
           .join("")}
       </fieldset>
       <label class="check"><input type="checkbox" name="copie" ${state.user.email ? "checked" : "disabled"}> M'envoyer une copie ${state.user.email ? `<span class="muted small">(${esc(state.user.email)})</span>` : '<span class="muted small">(ajoutez votre e-mail dans Mon compte)</span>'}</label>
@@ -976,8 +992,9 @@ function openSendSheet(visit, doc) {
     const fd = new FormData(form);
     const docs = fd.getAll("docs");
     if (!docs.length) return toast("Cochez au moins un document à joindre", "erreur");
-    const internes = docs.filter((d) => DOCS[d].interne);
-    if (internes.length && fd.get("to") !== state.user.email && !confirm(`Attention : ${internes.map((d) => DOCS[d].label).join(" et ")} ${internes.length > 1 ? "sont des documents internes" : "est un document interne"}. L'envoyer quand même à ${fd.get("to")} ?`)) return;
+    const tous = Object.fromEntries(docsEnvoyables(visit));
+    const internes = docs.filter((d) => tous[d]?.interne);
+    if (internes.length && fd.get("to") !== state.user.email && !confirm(`Attention : ${internes.map((d) => tous[d].label).join(" et ")} ${internes.length > 1 ? "sont des documents internes" : "est un document interne"}. L'envoyer quand même à ${fd.get("to")} ?`)) return;
     const btn = sheet.querySelector("#send-btn");
     btn.disabled = true;
     btn.textContent = "Envoi en cours…";

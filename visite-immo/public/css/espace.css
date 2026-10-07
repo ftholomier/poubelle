@@ -1,0 +1,50 @@
+/* Espace client : charte Synapse, lisible sur téléphone. */
+@font-face { font-family: "Archivo"; src: url("../fonts/Archivo-Regular.ttf"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("../fonts/Archivo-SemiBold.ttf"); font-weight: 500 700; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("../fonts/Archivo-ExtraBold.ttf"); font-weight: 800 900; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("../fonts/JetBrainsMono-Medium.ttf"); font-display: swap; }
+:root { --creme: #f4f1ea; --papier: #fffdf8; --encre: #111114; --gris: #6d6b64; --ligne: #e2ddd1; --citron: #d4f22e; --orange: #ff6b35; --vert: #2e7d3a; --rouge: #e8552b; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--creme); color: var(--encre); font: 16px/1.5 "Archivo", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+.es-page { max-width: 640px; margin: 0 auto; padding: 20px 16px 40px; }
+.es-logo { height: 42px; display: block; margin-bottom: 22px; }
+.es-tete h1 { font-size: 2rem; line-height: 1.05; letter-spacing: -.035em; font-weight: 800; margin: 14px 0 6px; }
+.es-sous { color: var(--gris); margin: 0 0 18px; }
+.es-tag { display: inline-block; background: var(--orange); font: 700 .68rem var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 6px 11px; border-radius: 6px; transform: rotate(-2deg); box-shadow: 0 4px 10px rgb(255 107 53 / 30%); }
+.es-card { background: var(--papier); border: 1.5px solid var(--encre); border-radius: 12px; padding: 18px 16px; margin-bottom: 14px; }
+.es-card h2 { font: 700 .74rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--vert); margin: 0 0 12px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.es-signer h2 { font: 800 1.45rem "Archivo", sans-serif; letter-spacing: -.02em; color: var(--encre); text-transform: none; margin: 14px 0 4px; }
+.es-signer { border-width: 2px; }
+.es-noir { background: var(--encre); color: var(--creme); }
+.es-noir strong { display: block; font-size: 1.15rem; margin: 4px 0; }
+.es-noir p { margin: 0; color: #d8d4ca; }
+.es-mono { font: 700 .68rem var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--citron); }
+.es-btn { display: flex; justify-content: center; align-items: center; gap: 6px; min-height: 50px; width: 100%; margin: 10px 0 0; padding: 12px 16px; font: 700 1rem "Archivo", sans-serif; color: var(--encre); background: var(--papier); border: 1.5px solid var(--encre); border-radius: 10px; text-decoration: none; cursor: pointer; }
+.es-primaire { background: var(--citron); box-shadow: 4px 4px 0 var(--encre); }
+.es-primaire:disabled { opacity: .5; }
+.es-petit { width: auto; min-height: 38px; padding: 6px 12px; margin: 0; font-size: .85rem; white-space: nowrap; }
+.es-lien { background: none; border: 0; padding: 6px 0; font: 600 .9rem "Archivo", sans-serif; text-decoration: underline; color: var(--gris); cursor: pointer; }
+.es-check { display: flex; gap: 10px; align-items: flex-start; margin: 14px 0 4px; font-size: .95rem; }
+.es-check input { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--encre); }
+.es-code label { display: block; font: 600 .7rem var(--mono); text-transform: uppercase; color: var(--gris); margin-top: 12px; }
+.es-code input { display: block; width: 100%; margin-top: 6px; font: 700 1.6rem var(--mono); letter-spacing: .4em; text-align: center; padding: 10px; border: 1.5px solid var(--encre); border-radius: 10px; background: #fff; }
+.es-pad { display: block; width: 100%; height: 190px; background: #fff; border: 1.5px dashed var(--encre); border-radius: 10px; margin-top: 6px; }
+.es-aide { display: block; color: var(--gris); font-size: .85rem; margin: 2px 0; }
+.es-msg { min-height: 1.2em; margin: 10px 0 0; font-weight: 600; }
+.es-msg.erreur { color: var(--rouge); }
+.es-msg.ok { color: var(--vert); }
+.es-doc { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--ligne); text-decoration: none; font-weight: 600; }
+.es-doc:last-child { border-bottom: 0; }
+.es-fl { margin-left: auto; color: var(--gris); }
+.es-piece { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--ligne); }
+.es-piece:last-of-type { border-bottom: 0; }
+.es-piece.ok strong { color: var(--vert); }
+.es-badge { font: 700 .62rem var(--mono); background: var(--orange); color: var(--encre); padding: 3px 8px; border-radius: 5px; letter-spacing: .04em; }
+.es-badge.ok { background: var(--citron); }
+.es-pied { text-align: center; color: var(--gris); font-size: .8rem; margin-top: 24px; }
+.es-ligne { padding: 10px 0; border-bottom: 1px solid var(--ligne); }
+.es-ligne:last-child { border-bottom: 0; }
+.es-choix { display: flex; gap: 8px; }
+.es-choix .es-btn { flex: 1; }

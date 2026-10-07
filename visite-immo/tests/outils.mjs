@@ -55,3 +55,27 @@ export function verifier(cond, message) {
   if (!cond) throw new Error("ÉCHEC : " + message);
   console.log("✓ " + message);
 }
+
+export const DONNEES = (process.env.TMPDIR || "/tmp") + "/visite-immo-test";
+
+/** Configure l'envoi d'e-mails vers le serveur SMTP simulé et les coordonnées de l'agent. */
+export async function configurerEmail(page) {
+  await api(page, "settings", { method: "POST", body: { email_methode: "smtp", email_expediteur: "agence@test.fr", email_expediteur_nom: "Synapse Test", smtp_host: "127.0.0.1", smtp_port: 2525, smtp_securite: "aucune", smtp_user: "agence@test.fr", smtp_pass: "secret" } });
+  await api(page, "profile", { method: "POST", body: { nom: "Frédéric Dupont", email: "fred@agence.fr", telephone: "06 11 22 33 44" } });
+}
+
+/** Contenu des e-mails reçus par le SMTP simulé (texte décodé). */
+export async function mails() {
+  const { readdirSync, readFileSync } = await import("node:fs");
+  const dir = DONNEES + "/mails";
+  return readdirSync(dir)
+    .filter((f) => f.endsWith(".eml"))
+    .sort()
+    .map((f) => {
+      const brut = readFileSync(`${dir}/${f}`, "utf8");
+      const parties = [...brut.matchAll(/Content-Transfer-Encoding: base64\r?\n(?:[^\r\n]+\r?\n)*\r?\n([A-Za-z0-9+/=\r\n]+)/g)].map((m) => Buffer.from(m[1].replace(/\s/g, ""), "base64").toString("utf8"));
+      const sujet = (brut.match(/^Subject: (.*)$/m) || [])[1] || "";
+      const dec = sujet.replace(/=\?UTF-8\?B\?([^?]+)\?=/g, (_, b) => Buffer.from(b, "base64").toString("utf8"));
+      return { fichier: f, brut, sujet: dec, a: (brut.match(/^To: (.*)$/m) || [])[1], texte: parties.join("\n") };
+    });
+}

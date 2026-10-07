@@ -237,9 +237,23 @@ function generation_schema(): array
             'annonce'         => $texte,
             'rapport_agent'   => $texte,
             'rapport_vendeur' => $texte,
+            'points_forts'    => ['type' => 'ARRAY', 'items' => $texte],
+            'pieces_plan'     => [
+                'type'  => 'ARRAY',
+                'items' => [
+                    'type' => 'OBJECT',
+                    'properties' => ['nom' => $texte, 'surface' => ['type' => 'NUMBER'], 'niveau' => $texte],
+                    'required' => ['nom', 'niveau'],
+                ],
+            ],
+            'posts' => [
+                'type' => 'OBJECT',
+                'properties' => ['instagram' => $texte, 'facebook' => $texte, 'linkedin' => $texte],
+                'required' => ['instagram', 'facebook', 'linkedin'],
+            ],
         ],
-        'required' => ['champs', 'titre_annonce', 'annonce', 'rapport_agent', 'rapport_vendeur'],
-        'propertyOrdering' => ['champs', 'titre_annonce', 'annonce', 'rapport_agent', 'rapport_vendeur'],
+        'required' => ['champs', 'titre_annonce', 'annonce', 'rapport_agent', 'rapport_vendeur', 'points_forts', 'pieces_plan', 'posts'],
+        'propertyOrdering' => ['champs', 'titre_annonce', 'annonce', 'rapport_agent', 'rapport_vendeur', 'points_forts', 'pieces_plan', 'posts'],
     ];
 }
 
@@ -251,7 +265,7 @@ function generation_prompt(array $agent): string
     return <<<PROMPT
 Tu assistes un agent immobilier ({$agent['nom']}, agence « {$agence} »). On te donne la transcription brute d'une visite de bien chez un vendeur : agent et vendeur mélangés, sans distinction des voix, avec d'éventuelles erreurs de reconnaissance vocale.
 
-Produis les cinq éléments suivants.
+Produis les éléments suivants.
 
 1. « champs » : la fiche du bien.
 - Ne remplis un champ que si l'information est dite ou se déduit sans ambiguïté. Dans le doute, n'inclus pas le champ.
@@ -270,6 +284,12 @@ Champs disponibles :
 SYNTHÈSE / POINTS FORTS / POINTS FAIBLES & RISQUES / TRAVAUX / VENDEUR (motivation, délai, souplesse sur le prix perçue) / PRIX (avis sur le prix demandé au vu de ce qui a été dit) / À VÉRIFIER (documents à demander, informations manquantes ou contradictoires) / PROCHAINES ÉTAPES.
 
 5. « rapport_vendeur » : compte rendu de visite à envoyer au vendeur, sous forme de courrier. Commence par "Bonjour" + nom du vendeur s'il est connu. Ton chaleureux, professionnel et valorisant : remercie pour l'accueil, résume les caractéristiques et atouts du bien relevés, mentionne avec tact les points à préparer ou documents à fournir, propose la suite. Aucune remarque interne (pas d'avis sur la motivation du vendeur, pas de critique du prix). Signe "{$agent['nom']}, {$agence}".
+
+6. « points_forts » : 3 à 5 atouts du bien, 6 mots maximum chacun (ex. "Jardin plein sud de 800 m²").
+
+7. « pieces_plan » : la liste des pièces citées pendant la visite, pour dessiner un croquis de plan : nom (ex. "Séjour", "Chambre 1", "Cuisine"), surface en m² si elle a été dite (sinon 0), niveau ("RDC", "Étage 1", "Sous-sol"…). N'invente pas de pièce ; si rien n'est dit, liste vide.
+
+8. « posts » : publications pour les réseaux sociaux de l'agence, avec émojis sobres et hashtags locaux : « instagram » (accroche + 4 lignes + 5 hashtags), « facebook » (5 à 6 lignes, invitation à contacter l'agence), « linkedin » (ton professionnel, 4 lignes). Sans prix si non connu, sans adresse exacte.
 
 Texte brut uniquement (pas de markdown, pas d'astérisques). Rédige en français.
 PROMPT;
