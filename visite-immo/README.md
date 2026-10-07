@@ -1,5 +1,9 @@
 # Visite Immo · Synapse
 
+> **Statut : prototype d'exploration.** Ce projet sert à tester les idées et les usages (enregistrement de visite,
+> IA, conversation vocale, documents, diffusion) avant un vrai développement, plus tard, dans le logiciel métier.
+> Les choix techniques (PHP natif, fichiers JSON, pas de base de données) visent la rapidité de test, pas la production.
+
 Interface, PDF et e-mails à la charte **Synapse** : fond crème, encre noire, surlignage citron, étiquettes
 orange, polices Archivo et JetBrains Mono. Logo vectoriel dans `public/img/` (`synapse-logo.svg`,
 `synapse-logo-clair.svg` pour fond sombre, `synapse-icone.svg`).
@@ -100,6 +104,14 @@ Technique et coûts :
 
 Les champs du mandat suivent les mentions obligatoires définies par la plateforme Synapse.immo (loi Hoguet,
 décret 72-678, Code de la consommation). La génération du mandat lui-même viendra avec les modèles Synapse.
+
+## Aperçu de l'annonce sur un portail (simulation)
+
+Onglet Annonce → **👁 Aperçu portail** : l'annonce telle qu'elle apparaîtrait sur un site d'annonces (mise en page
+inspirée de leboncoin), assemblée automatiquement à partir de la fiche, des réponses dictées et du texte de l'IA, avec
+les mentions légales obligatoires (prix honoraires inclus et à la charge de qui, prix hors honoraires, DPE/GES,
+copropriété, Géorisques, carte professionnelle). C'est une **simulation interne** : rien n'est publié. La diffusion
+réelle passera par le logiciel métier de l'agence, qui alimente les portails.
 
 ## Documents PDF et e-mails
 

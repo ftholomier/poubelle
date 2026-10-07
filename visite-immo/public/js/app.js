@@ -4,9 +4,10 @@ import { api, audioUrl } from "./api.js";
 import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 import { Conversation } from "./dialogue.js";
+import { rendreApercu } from "./apercu.js";
 
 const $app = document.getElementById("app");
-const APP_VERSION = "9"; // affichée dans le menu pour vérifier qu'on a la dernière version
+const APP_VERSION = "10"; // affichée dans le menu pour vérifier qu'on a la dernière version
 const state = { user: null, demo: null, sections: null };
 
 // ---------- Utilitaires ----------
@@ -103,6 +104,7 @@ async function route() {
     if (page === "nouvelle") return viewRecord(null);
     if (page === "continuer") return viewRecord(id);
     if (page === "visite" && hash.split("/")[3] === "dialogue") return viewDialogue(id);
+    if (page === "visite" && hash.split("/")[3] === "apercu") return viewApercu(id);
     if (page === "visite") return viewVisit(id, hash.split("/")[3] || "fiche");
     if (page === "equipe") return viewUsers();
     if (page === "reglages") return viewSettings();
@@ -573,7 +575,8 @@ function renderAnnonce($c, visit, saver) {
       ${textArea("annonce", visit.annonce, 20)}
     </section>
     <div class="sticky-actions">
-      <button class="btn primary" data-pdf="annonce">📄 PDF</button>
+      <a class="btn primary" href="#/visite/${visit.id}/apercu">👁 Aperçu</a>
+      <button class="btn" data-pdf="annonce">📄 PDF</button>
       <button class="btn" data-send="annonce">✉️ Envoyer</button>
       <button class="btn" id="copy">📋 Copier</button>
     </div>`;
@@ -781,6 +784,13 @@ async function viewDialogue(id) {
   cleanup = () => {
     if (conv && !conv.ferme) conv.fermer("arret");
   };
+}
+
+// ---------- Aperçu de l'annonce sur un portail (simulation) ----------
+
+async function viewApercu(id) {
+  const visit = await api("visit", { query: { id } });
+  render(`${header("Aperçu portail", { back: `#/visite/${id}/annonce` })}<div class="apercu-page">${rendreApercu(visit, state.user, state.agence || theme.agence)}</div>`);
 }
 
 // ---------- PDF et envoi par e-mail ----------
