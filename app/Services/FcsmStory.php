@@ -17,7 +17,8 @@ use App\Core\JsonStore;
 final class FcsmStory
 {
     public const BASE = 'https://fcsmstory.com';
-    public const DIR = STORAGE_PATH . '/import/fcsmstory';
+    /** Dossier de travail (remplaçable par les essais automatiques). */
+    public static string $dir = STORAGE_PATH . '/import/fcsmstory';
     public const FIRST = 1928;
     public const LAST = 1969;
     /** Lieux des matchs à domicile du club (Sochaux, puis Montbéliard ; Valentigney sous l'Occupation). */
@@ -65,14 +66,14 @@ final class FcsmStory
         if (!$out) {
             throw new \RuntimeException('Aucune page lue sur fcsmstory.com.');
         }
-        JsonStore::write(self::DIR . '/raw.json', ['at' => date('c'), 'items' => $out]);
+        JsonStore::write(self::$dir . '/raw.json', ['at' => date('c'), 'items' => $out]);
         return $out;
     }
 
     /** @return list<array> pages lues lors du dernier téléchargement */
     public static function raw(): array
     {
-        return (array) (JsonStore::read(self::DIR . '/raw.json', [])['items'] ?? []);
+        return (array) (JsonStore::read(self::$dir . '/raw.json', [])['items'] ?? []);
     }
 
     // ------------------------------------------------------------------ classement

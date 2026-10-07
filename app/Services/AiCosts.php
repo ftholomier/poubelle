@@ -33,6 +33,7 @@ final class AiCosts
         'boutique' => 'Boutique (banque de textes)',
         'boutique-poster' => 'Boutique (posters souvenirs)',
         'radio' => 'Rétro-Direct commenté (radio)',
+        'import' => 'Reprise des années 1928-1969 (FCSM Story)',
         'autre' => 'Autre',
     ];
 
