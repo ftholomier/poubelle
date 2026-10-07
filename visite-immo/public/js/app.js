@@ -7,6 +7,9 @@ import { Conversation } from "./dialogue.js";
 import { rendreApercu } from "./apercu.js";
 import "./vues/aujourdhui.js";
 import "./vues/dossier-auto.js";
+import "./vues/acquereurs.js";
+import "./vues/agenda.js";
+import "./vues/vente.js";
 
 import {
   APP_VERSION, state, nav, esc, fmtDuree, fmtDate, fmtPrix, champsOf, toast, copier, go, render, theme,
@@ -333,7 +336,8 @@ async function viewVisit(id, onglet) {
   const ecranDoc = ECRANS_DOCS[onglet] || ecransDossier[onglet];
   const ongletActif = ecranDoc ? "documents" : onglet;
 
-  render(`${header(visit.titre || "Visite", { back: ecranDoc ? `#/visite/${id}/documents` : "#/biens", actions: `<span class="save-state" id="save"></span>` })}
+  const retour = onglet === "signature" && /bon|offre/.test(location.hash) ? "vente" : "documents";
+  render(`${header(visit.titre || "Visite", { back: ecranDoc ? `#/visite/${id}/${retour}` : "#/biens", actions: `<span class="save-state" id="save"></span>` })}
   <nav class="tabs">${ONGLETS.map(([k, l]) => `<a href="#/visite/${id}/${k}" class="${k === ongletActif ? "on" : ""}">${l}</a>`).join("")}</nav>
   <main class="page" id="content"></main>`);
 

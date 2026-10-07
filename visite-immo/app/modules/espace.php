@@ -186,7 +186,7 @@ function espace_pdf(string $token, string $doc): never
         exit('Document non disponible.');
     }
     try {
-        [$bin, $nom] = isset($v['signatures'][$doc]) ? pdf_signe($v, $agent, $doc) : build_pdf($prefixe, $v, $agent, ['cle' => $doc]);
+        [$bin, $nom] = isset($v['signatures'][$doc]) ? pdf_signe($v, $agent, $doc) : build_pdf($prefixe, $v, $agent, ['cle' => $doc] + $_GET);
     } catch (Throwable $e) {
         http_response_code(404);
         exit('Document non disponible.');

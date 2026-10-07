@@ -49,7 +49,7 @@ require __DIR__ . '/mailer.php';
 require __DIR__ . '/store.php';
 // Modules : ceux qui fournissent des fonctions d'enregistrement d'abord, puis les autres par ordre alphabétique
 $modules = glob(__DIR__ . '/modules/*.php') ?: [];
-foreach (['dossier', 'signature', 'espace'] as $m) {
+foreach (['dossier', 'signature', 'espace', 'dictee'] as $m) {
     require __DIR__ . "/modules/$m.php";
     $modules = array_diff($modules, [__DIR__ . "/modules/$m.php"]);
 }

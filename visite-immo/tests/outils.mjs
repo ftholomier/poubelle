@@ -79,3 +79,32 @@ export async function mails() {
       return { fichier: f, brut, sujet: dec, a: (brut.match(/^To: (.*)$/m) || [])[1], texte: parties.join("\n") };
     });
 }
+
+/** Signature dessinée (PNG) pour les tests d'API. */
+export async function signaturePng() {
+  const { execSync } = await import("node:child_process");
+  execSync(`php -r '$i=imagecreatetruecolor(400,120);imagesavealpha($i,true);imagefill($i,0,0,imagecolorallocatealpha($i,0,0,0,127));$n=imagecolorallocate($i,17,17,20);imagesetthickness($i,3);for($x=10;$x<390;$x+=4){imageline($i,$x,60+(int)(40*sin($x/20)),$x+4,60+(int)(40*sin(($x+4)/20)),$n);}imagepng($i,"/tmp/sig-test.png");'`);
+  const { readFileSync } = await import("node:fs");
+  return "data:image/png;base64," + readFileSync("/tmp/sig-test.png").toString("base64");
+}
+
+export const CHAMPS_MANDAT = { civilite_vendeur: "Madame", prenom_vendeur: "Claire", nom_vendeur: "Martin", naissance_date_vendeur: "12/04/1961", naissance_lieu_vendeur: "Besançon",
+  telephone_vendeur: "06 12 34 56 78", email_vendeur: "claire.martin@exemple.fr", situation_vendeur: "Veuf / veuve", adresse: "11 rue du Chênois", ville: "25260 Lougres", nb_pieces: "6",
+  origine_propriete: "Acquisition en 2005", copropriete: "non", occupation: "Occupé par le propriétaire", mandat_type: "Exclusif", mandat_lieu: "En agence",
+  mandat_prix: "412000", mandat_honoraires: "12 000 €", mandat_honoraires_charge: "L'acquéreur", mandat_duree: "3", mandat_date: "07/10/2026" };
+
+/** Crée par l'API un dossier complet (visite démo, documents, mandat signé) : le bien est « en vente ». */
+export async function dossierEnVente(page, titre = "11 rue du Chênois, Lougres") {
+  const v = await api(page, "visits", { method: "POST", body: { titre, consentement: true } });
+  const id = v.id;
+  await api(page, "visit", { method: "POST", query: { id }, body: { champs: { type_bien: "Maison", surface_habitable: "125" }, source: "agent" } });
+  await api(page, "generate", { method: "POST", query: { id } });
+  await api(page, "preparer", { method: "POST", query: { id } });
+  await api(page, "visit", { method: "POST", query: { id }, body: { champs: CHAMPS_MANDAT, source: "dialogue" } });
+  await api(page, "settings", { method: "POST", body: { raison_sociale: "Synapse SAS", siege: "1 rue de la Paix, 25000 Besançon", siret: "123 456 789 00012", carte_numero: "CPI 2501 2026 000 001", carte_delivree_par: "CCI du Doubs", garant: "Galian", rcp: "MMA IARD" } });
+  let d = await api(page, "signature_demande", { method: "POST", query: { id }, body: { doc: "mandat" } });
+  const png = await signaturePng();
+  for (const s of d.signatures.mandat.signataires) d = await api(page, "signer", { method: "POST", query: { id }, body: { doc: "mandat", signataire: s.id, image: png } });
+  if (d.etape !== "en_vente") throw new Error("dossier pas en vente : " + JSON.stringify(d).slice(0, 300));
+  return id;
+}

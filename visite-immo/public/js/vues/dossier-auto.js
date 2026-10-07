@@ -71,6 +71,11 @@ ecransDossier.signature = async ($c, visit) => {
       <a class="btn magic big" href="#/visite/${visit.id}/dialogue">🎙️ Compléter à la voix</a></section>`;
     return;
   }
+  if ((!d || d.statut === "annule") && cle !== "mandat") {
+    // Bon de visite, offre… : la demande se crée directement, on peut signer tout de suite
+    await api("signature_demande", { method: "POST", query: { id: visit.id }, body: { doc: cle } });
+    return recharger(visit, `signature/${encodeURIComponent(cle)}`);
+  }
   if (!d || d.statut === "annule") {
     $c.innerHTML = `<section class="card"><span class="tag">Signature</span><h2 class="prochaine-titre">${cle === "mandat" ? "Mandat de vente" : esc(cle)}</h2>
       <p class="muted">${cle === "mandat" ? "Le mandat reçoit son numéro définitif au registre, puis chacun signe : au doigt sur ce téléphone, ou via un lien envoyé par e-mail (avec code de vérification)." : ""}</p>

@@ -593,3 +593,31 @@ canvas.pad { display: block; width: 100%; height: 200px; background: #fff; borde
 .photo-actions { display: flex; gap: 4px; padding: 6px 8px 8px; }
 .photo-actions .icon-btn { width: 36px; height: 36px; font-size: .9rem; }
 .photo-zoom { width: 100%; border-radius: 10px; }
+
+/* ---------- Acquéreurs, agenda, vente, dictée ---------- */
+.score { display: grid; place-items: center; min-width: 42px; height: 30px; border-radius: 8px; background: var(--citron); color: var(--encre); font: 700 .8rem var(--mono); border: 1.5px solid var(--encre); }
+.check-ligne { display: flex; align-items: center; gap: 12px; margin: 0; text-transform: none; letter-spacing: 0; font: inherit; color: var(--text); }
+.check-ligne > input { width: 22px; height: 22px; margin: 0; accent-color: var(--encre); flex-shrink: 0; }
+.check-ligne > div { flex: 1; }
+.visite-acq { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.visite-acq:last-of-type { border-bottom: 0; }
+.visite-acq .btn-row { margin-top: 8px; }
+.rdv { display: grid; grid-template-columns: 56px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+.rdv:last-child { border-bottom: 0; }
+.rdv-heure { font: 700 .9rem var(--mono); }
+.rdv > div { display: grid; min-width: 0; }
+.rdv-visite .rdv-heure { color: var(--vert); }
+.creneaux { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.creneau { font: 600 .72rem var(--mono); border: 1.5px solid var(--bord); border-radius: 999px; padding: 5px 10px; }
+.row-2b { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.jours { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 12px; }
+.jours label.check { margin: 0; }
+.m-ligne { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .95rem; }
+.m-ligne:last-child { border-bottom: 0; }
+.m-ligne span { color: var(--muted); }
+.m-ligne strong { text-align: right; }
+.dictee h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; }
+.dictee-exemple { font-style: italic; color: var(--muted); border-left: 3px solid var(--citron); padding-left: 10px; font-size: .9rem; }
+.dictee-zone { display: grid; justify-items: center; gap: 14px; padding: 18px 0 10px; }
+.timer.petit { font-size: .8rem; font-family: var(--mono); text-transform: uppercase; color: var(--muted); font-weight: 600; letter-spacing: .04em; }
+.ligne.check-ligne { padding: 11px 0; }
