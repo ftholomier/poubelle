@@ -7,7 +7,7 @@ import { Conversation } from "./dialogue.js";
 import { rendreApercu } from "./apercu.js";
 
 const $app = document.getElementById("app");
-const APP_VERSION = "10"; // affichée dans le menu pour vérifier qu'on a la dernière version
+const APP_VERSION = "11"; // affichée dans le menu pour vérifier qu'on a la dernière version
 const state = { user: null, demo: null, sections: null };
 
 // ---------- Utilitaires ----------
@@ -384,6 +384,7 @@ const ONGLETS = [
   ["annonce", "Annonce"],
   ["rapport", "Rapport"],
   ["vendeur", "Vendeur"],
+  ["mandat", "Mandat"],
   ["audio", "Audio"],
 ];
 
@@ -403,7 +404,7 @@ async function viewVisit(id, onglet) {
 
   // Visite pas encore générée : on propose de créer la fiche (la fiche reste consultable si des informations ont été dictées)
   const aDesChamps = Object.keys(champsOf(visit)).length > 0;
-  if (!genere && onglet !== "audio" && !(onglet === "fiche" && aDesChamps)) {
+  if (!genere && onglet !== "audio" && !(["fiche", "mandat"].includes(onglet) && aDesChamps)) {
     const enCours = visit.statut === "generation";
     $c.innerHTML = `<div class="vide">
       ${visit.erreur ? `<p class="erreur">${esc(visit.erreur)}</p>` : ""}
@@ -421,6 +422,7 @@ async function viewVisit(id, onglet) {
   else if (onglet === "annonce") renderAnnonce($c, visit, saver);
   else if (onglet === "rapport") renderTexte($c, visit, saver, "rapport_agent", "Rapport interne", "Pour vous uniquement : avis, risques, points à vérifier.", "rapport");
   else if (onglet === "vendeur") renderVendeur($c, visit, saver);
+  else if (onglet === "mandat") renderMandat($c, visit, saver);
   else renderAudio($c, visit, pending);
 }
 
@@ -793,6 +795,69 @@ async function viewApercu(id) {
   render(`${header("Aperçu portail", { back: `#/visite/${id}/annonce` })}<div class="apercu-page">${rendreApercu(visit, state.user, state.agence || theme.agence)}</div>`);
 }
 
+// ---------- Mandat ----------
+
+function renderMandat($c, visit, saver) {
+  const champs = champsOf(visit);
+  const v = (k) => champs[k]?.valeur || "";
+  const manques = visit.mandat_manques || [];
+  const parametres = manques.filter((m) => m.includes("(Paramètres)"));
+  const dossier = manques.filter((m) => !m.includes("(Paramètres)"));
+  const inscrit = visit.mandat?.numero;
+  const horsAgence = ["Au domicile du vendeur", "À distance"].includes(v("mandat_lieu"));
+  const ligne = (label, val) => `<div class="m-ligne"><span>${label}</span><strong>${val ? esc(val) : '<em class="manque-txt">à compléter</em>'}</strong></div>`;
+  const vendeurs = [v("prenom_vendeur") && `${v("civilite_vendeur")} ${v("prenom_vendeur")} ${v("nom_vendeur")}`, v("nom_vendeur2") && `${v("civilite_vendeur2")} ${v("prenom_vendeur2")} ${v("nom_vendeur2")}`].filter(Boolean).join(" et ");
+  const prix = v("mandat_prix") ? `${Number(v("mandat_prix")).toLocaleString("fr-FR")} € honoraires inclus` : "";
+
+  $c.innerHTML = `
+    <section class="card mandat-statut ${inscrit ? "ok" : ""}">
+      ${inscrit
+        ? `<span class="tag tag-citron">Inscrit au registre</span><h2 class="m-titre">Mandat n° ${esc(inscrit)}</h2><p class="small muted">Inscrit le ${fmtDate(visit.mandat.inscrit_le)}. Le numéro est définitif.</p>`
+        : `<span class="tag">Projet</span><h2 class="m-titre">Mandat de vente ${esc(v("mandat_type").toLowerCase())}</h2><p class="small muted">Tant qu'il n'est pas inscrit au registre, le PDF porte la mention « PROJET ».</p>`}
+    </section>
+
+    <section class="card">
+      <h2>Mentions obligatoires</h2>
+      ${manques.length
+        ? `<p class="small">${manques.length} information${manques.length > 1 ? "s" : ""} manquante${manques.length > 1 ? "s" : ""} (surlignée${manques.length > 1 ? "s" : ""} dans le PDF) :</p>
+           <ul class="m-manques">${manques.map((m) => `<li><span class="manque">●</span>${esc(m)}</li>`).join("")}</ul>
+           ${dossier.length ? `<a class="btn magic big" href="#/visite/${visit.id}/dialogue">🎙️ Compléter à la voix</a>` : ""}
+           ${parametres.length ? (state.user.role === "admin" ? `<a class="btn" href="#/reglages">⚙️ Renseigner les mentions de l'agence</a>` : '<p class="small muted">Les mentions de l\'agence se renseignent dans les Paramètres (administrateur).</p>') : ""}`
+        : '<p class="vert-txt">✓ Toutes les mentions obligatoires sont renseignées.</p>'}
+    </section>
+
+    <section class="card">
+      <h2>Le mandat en bref</h2>
+      ${ligne("Type", v("mandat_type"))}
+      ${ligne("Mandant(s)", vendeurs)}
+      ${ligne("Prix", prix)}
+      ${ligne("Honoraires", v("mandat_honoraires") && `${v("mandat_honoraires")} TTC, à la charge ${v("mandat_honoraires_charge") === "Le vendeur" ? "du vendeur" : "de l'acquéreur"}`)}
+      ${ligne("Durée", v("mandat_duree") && `${v("mandat_duree")} mois`)}
+      ${ligne("Signature", [v("mandat_date"), v("mandat_lieu").toLowerCase()].filter(Boolean).join(", "))}
+      ${horsAgence ? '<p class="small m-retract">Signé hors de l\'agence : 14 jours de rétractation. Le formulaire détachable est joint automatiquement en dernière page.</p>' : ""}
+      ${["Exclusif", "Semi-exclusif"].includes(v("mandat_type")) ? '<p class="small muted">La clause de dénonciation après trois mois figure en caractères très apparents, comme l\'exige le décret 72-678.</p>' : ""}
+    </section>
+
+    <div class="card actions-card">
+      <button class="btn primary big" data-pdf="mandat">📄 Télécharger le mandat (PDF)</button>
+      <button class="btn" data-send="mandat">✉️ Envoyer au vendeur</button>
+      ${inscrit ? "" : `<button class="btn" id="registre" ${manques.length ? "disabled" : ""}>🗂 Inscrire au registre des mandats</button>`}
+      <p class="small muted">Texte : gabarit de mandat de la plateforme Synapse.immo (mentions de la loi Hoguet et du décret 72-678). Point de départ conforme, à faire relire, puis à remplacer par le modèle du réseau.</p>
+    </div>`;
+
+  bindDocActions($c, visit, saver);
+  document.getElementById("registre")?.addEventListener("click", async () => {
+    if (!confirm("Inscrire ce mandat au registre ? Un numéro chronologique définitif lui sera attribué : il ne pourra plus être modifié ni réutilisé.")) return;
+    try {
+      const res = await api("registre", { method: "POST", query: { id: visit.id } });
+      toast(`Mandat n° ${res.mandat.numero} inscrit au registre ✓`, "ok");
+      viewVisit(visit.id, "mandat");
+    } catch (e) {
+      toast(e.message, "erreur");
+    }
+  });
+}
+
 // ---------- PDF et envoi par e-mail ----------
 
 const DOCS = {
@@ -801,6 +866,7 @@ const DOCS = {
   annonce: { label: "Annonce", interne: false },
   rapport: { label: "Rapport de visite", interne: true },
   dossier: { label: "Dossier complet", interne: true },
+  mandat: { label: "Mandat de vente", interne: false },
 };
 
 const pdfUrl = (id, doc, dl = false) => `api/?${new URLSearchParams({ r: "pdf", id, doc, ...(dl ? { dl: 1 } : {}) })}`;
@@ -845,8 +911,9 @@ function messageParDefaut(visit, doc) {
     annonce: `Vous trouverez ci-joint la présentation du bien situé ${bien}.`,
     rapport: `Ci-joint le rapport de visite du bien situé ${bien}.`,
     dossier: `Ci-joint le dossier complet de la visite du bien situé ${bien}.`,
+    mandat: `Comme convenu, vous trouverez ci-joint le mandat de vente concernant votre bien situé ${bien}. Je vous remercie de bien vouloir le relire avant notre rendez-vous de signature.`,
   }[doc];
-  return `Bonjour${doc === "vendeur" && vendeur ? " " + vendeur : ""},\n\n${corps}\n\nJe reste à votre disposition pour toute question.\n\nBien cordialement,\n${signature}`;
+  return `Bonjour${["vendeur", "mandat"].includes(doc) && vendeur ? " " + vendeur : ""},\n\n${corps}\n\nJe reste à votre disposition pour toute question.\n\nBien cordialement,\n${signature}`;
 }
 
 function openSendSheet(visit, doc) {
@@ -861,13 +928,14 @@ function openSendSheet(visit, doc) {
       ${state.user.role === "admin" ? `<a class="btn primary" href="#/reglages">⚙️ Configurer l'envoi</a>` : `<p class="muted">Demandez à un administrateur de le configurer dans les Paramètres.</p>`}
       <button class="btn ghost" data-close>Fermer</button></div>`;
   } else {
-    const destinataire = ["vendeur", "fiche"].includes(doc) ? champs.email_vendeur?.valeur || "" : "";
+    const destinataire = ["vendeur", "fiche", "mandat"].includes(doc) ? champs.email_vendeur?.valeur || "" : "";
     const sujet = {
       vendeur: `Compte rendu de visite · ${visit.titre || ""}`,
       fiche: `Fiche du bien · ${visit.titre || ""}`,
       annonce: visit.titre_annonce || `Présentation du bien · ${visit.titre || ""}`,
       rapport: `Rapport de visite (interne) · ${visit.titre || ""}`,
       dossier: `Dossier de visite (interne) · ${visit.titre || ""}`,
+      mandat: `Votre mandat de vente · ${visit.titre || ""}`,
     }[doc].replace(/ · $/, "");
     sheet.innerHTML = `<form class="sheet sheet-form" id="send-form">
       <h2>✉️ Envoyer par e-mail</h2>

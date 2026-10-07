@@ -105,6 +105,25 @@ Technique et coûts :
 Les champs du mandat suivent les mentions obligatoires définies par la plateforme Synapse.immo (loi Hoguet,
 décret 72-678, Code de la consommation). La génération du mandat lui-même viendra avec les modèles Synapse.
 
+## Mandat de vente en PDF
+
+Onglet **Mandat** d'une visite : le mandat est rempli automatiquement avec le dossier (enregistrement de la visite et
+réponses dictées) et les mentions légales de l'agence (Paramètres).
+
+- **Projet** tant qu'il n'est pas inscrit au registre : filigrane « PROJET », informations manquantes surlignées en rouge
+  et listées à l'écran, avec un bouton pour les compléter à la voix.
+- **Inscription au registre** (bouton, une fois les mentions complètes) : numéro chronologique définitif `AAAA-0001`,
+  jamais réattribué (registre tenu dans `data/registre.json`, décret 72-678 art. 72).
+- Contenu : identité complète des mandants (dates en toutes lettres, régime matrimonial, accords), désignation du bien
+  (cadastre, copropriété, occupation), origine de propriété, prix et honoraires en chiffres et en lettres avec le prix
+  net vendeur, durée avec date de fin, clause de dénonciation encadrée pour l'exclusif et le semi-exclusif.
+- Signé au domicile ou à distance : clause de rétractation de 14 jours avec sa date de fin, et **formulaire de
+  rétractation détachable** en dernière page (art. L221-5 et R221-1 du code de la consommation).
+- Téléchargement PDF et envoi au vendeur par e-mail.
+
+Le texte reprend le gabarit de mandat de la plateforme Synapse.immo : point de départ conforme, à faire relire, puis à
+remplacer par le modèle du réseau (`app/mandat.php`).
+
 ## Aperçu de l'annonce sur un portail (simulation)
 
 Onglet Annonce → **👁 Aperçu portail** : l'annonce telle qu'elle apparaîtrait sur un site d'annonces (mise en page

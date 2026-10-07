@@ -477,3 +477,18 @@ details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; colo
 .lbc-btn { font: 700 .95rem inherit; font-family: inherit; padding: 12px; border-radius: 12px; border: 1px solid var(--lbc-encre); background: #fff; color: var(--lbc-encre); }
 .lbc-btn-plein { background: var(--lbc-orange); border-color: var(--lbc-orange); color: #fff; }
 .lbc-ref { color: var(--lbc-gris); font-size: .78rem; margin: 0; }
+
+/* ---------- Mandat ---------- */
+
+.mandat-statut { display: grid; gap: 10px; justify-items: start; }
+.mandat-statut.ok { background: var(--encre); color: var(--creme); }
+.mandat-statut.ok .muted { color: #c9c5bb; }
+.m-titre { font: 800 1.5rem/1.1 "Archivo", sans-serif !important; letter-spacing: -.02em !important; text-transform: none !important; color: inherit !important; margin: 0 !important; }
+.tag-citron { background: var(--citron); }
+.m-manques { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 4px; font-size: .92rem; }
+.m-ligne { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .92rem; }
+.m-ligne:last-of-type { border-bottom: 0; }
+.m-ligne span { color: var(--muted); }
+.m-ligne strong { text-align: right; }
+.manque-txt { color: var(--orange); font-style: normal; font-weight: 600; }
+.m-retract { background: var(--ia-bg); border-radius: 8px; padding: 8px 10px; margin: 10px 0 4px; }

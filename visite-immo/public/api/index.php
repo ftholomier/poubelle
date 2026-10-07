@@ -38,6 +38,7 @@ try {
         'GET pdf'         => route_pdf($id),
         'POST send'       => route_send($id),
         'POST live'       => route_live($id),
+        'POST registre'   => send_json(avec_completude(inscrire_registre(require_user(), $id))),
         'POST usage'      => route_usage($id),
         'GET fields'      => send_json(SECTIONS),
         'GET visits'      => route_visits_list(),
@@ -679,6 +680,7 @@ function avec_completude(array $visit): array
     $champs = (array) $visit['fiche']['champs'];
     $visit['completude'] = completude($champs);
     $visit['manquants'] = array_map(fn ($c) => ['cle' => $c['cle'], 'label' => $c['label']], champs_manquants($champs));
+    $visit['mandat_manques'] = mandat_a_completer($visit, current_user() ?? []);
     return $visit;
 }
 

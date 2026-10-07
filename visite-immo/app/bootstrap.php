@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 // Point d'entrée commun : configuration, réponses JSON, session, stockage fichiers.
 
-define('APP_VERSION', '10'); // à garder identique à APP_VERSION dans public/js/app.js
+define('APP_VERSION', '11'); // à garder identique à APP_VERSION dans public/js/app.js
 define('APP_ROOT', dirname(__DIR__));
 define('SETTINGS_FILE', __DIR__ . '/settings.json'); // réglages faits dans l'appli
 
@@ -31,6 +31,7 @@ const AUDIO_TYPES = ['audio/webm' => 'webm', 'audio/mp4' => 'm4a', 'audio/ogg' =
 require __DIR__ . '/fields.php';
 require __DIR__ . '/ai.php';
 require __DIR__ . '/pdf.php';
+require __DIR__ . '/mandat.php';
 require __DIR__ . '/mailer.php';
 
 // ---------- Réponses ----------

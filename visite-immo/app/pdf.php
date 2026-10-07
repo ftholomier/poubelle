@@ -12,6 +12,7 @@ const PDF_DOCS = [
     'rapport' => 'Rapport de visite (interne)',
     'vendeur' => 'Compte rendu de visite',
     'dossier' => 'Dossier complet (interne)',
+    'mandat'  => 'Mandat de vente',
 ];
 
 // Couleurs officielles des étiquettes DPE / GES
@@ -546,6 +547,7 @@ function rendre_vendeur(VisitePdf $pdf, array $visit, array $agent): void
 function build_pdf(string $doc, array $visit, array $agent): array
 {
     if (!isset(PDF_DOCS[$doc])) fail(400, 'Document inconnu.');
+    if ($doc === 'mandat') return build_mandat($visit, $agent);
     $pdf = pdf_nouveau(PDF_DOCS[$doc]);
     $pdf->SetTitle(PDF_DOCS[$doc] . ' · ' . titre_bien($visit), true);
     match ($doc) {
