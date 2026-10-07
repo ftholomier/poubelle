@@ -78,6 +78,11 @@
     saveBtn.hidden = true;
     $('[data-audio-act="automatique"]', card).hidden = s.src === 'auto';
     $('[data-audio-act="supprimer-voix"]', card).hidden = !s.hasVoice;
+    const dl = $('[data-audio-download]', card);
+    if (dl) {
+      dl.hidden = !s.url;
+      if (s.url) { dl.href = s.url; dl.download = s.name || ''; } else { dl.removeAttribute('href'); }
+    }
     $('[data-audio-act="voix"]', card).textContent = s.url ? 'Refaire la voix IA' : 'Voix IA';
     // Textes d'un autre match : l'IA ne raconte pas la fiche avant correction (alerte de Qualité).
     let warn = $('[data-audio-blocked]', card);

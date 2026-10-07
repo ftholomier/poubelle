@@ -138,6 +138,7 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
         </div>
         <div class="row" style="gap:12px">
           <button type="button" class="linkbtn xs" data-audio-act="automatique" hidden>Revenir au résumé automatique</button>
+          <a class="linkbtn xs" data-audio-download hidden>Télécharger le MP3</a>
           <button type="button" class="linkbtn xs" data-audio-act="supprimer-voix" hidden>Supprimer la voix IA</button>
         </div>
       </div>

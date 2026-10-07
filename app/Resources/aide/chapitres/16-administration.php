@@ -26,6 +26,7 @@ HTML],
 <ul>
 <li>modifiez-le puis <b>Garder ce texte</b> (il ne sera plus jamais remplacé automatiquement), ou <b>Rédiger avec l’IA</b> (environ 0,05 centime) ;</li>
 <li><b>Voix IA</b> enregistre une voix naturelle (environ 3 centimes pour 3 minutes) : les visiteurs l’entendent aussitôt ; <b>▶ Écouter</b> pour vérifier ;</li>
+<li><b>Télécharger le MP3</b> : la voix IA de la fiche, au nom de la fiche (« titre-fr.mp3 ») ;</li>
 <li><b>Revenir au résumé automatique</b>, <b>Supprimer la voix IA</b> : retour au gratuit.</li>
 </ul>
 [[img:fiche-audio.webp|La carte « Écouter » de l’éditeur : (1) le texte lu, (2) rédiger avec l’IA, (3) voix IA, (4) écouter]]
@@ -33,6 +34,7 @@ HTML],
 [[img:audio.webp|Système › Fiches audio : voix enregistrées, estimation, traitements groupés]]
 <p><b>Pages de synthèse</b> (face-à-face, saisons, bilans, records, chiffres) : l’IA les raconte aussi, en français et en anglais, à partir de leurs chiffres et des fiches de leurs grands matchs, puis la <b>voix IA</b> enregistre chaque récit. Chaque nuit, les récits manquants ou dont les chiffres ont changé sont rédigés puis enregistrés en traitement groupé (moins d’un euro pour les récits avec Flash-Lite, environ 15 à 20 € pour toutes les voix ; le tarif des voix double au 1er janvier 2027). En attendant, le récit automatique, gratuit et toujours exact, est lu par la voix de l’appareil. Carte <b>Pages de synthèse racontées par l’IA</b> : <b>essayez d’abord sur une page</b> (collez son adresse, par exemple <code>/face-a-face/nancy/</code> : le récit et sa voix sont faits tout de suite, pour quelques centimes ; écoutez-les sur la page), puis <b>Lancer pour toutes les pages</b>. Rien n’est dépensé avant ce lancement ; ensuite, la rédaction de nuit prend le relais, et <b>Rédiger et enregistrer maintenant</b> (ou <b>Tout refaire</b>) n’attend pas la nuit. Réglages › Fiches audio : la voix IA des pages se coupe à part.</p>
 [[img:audio-pages.webp|Carte « Pages de synthèse racontées par l’IA » : essayer sur une page, puis lancer pour toutes les pages]]
+<p><b>Télécharger les voix</b> (administrateurs) : Système › Fiches audio, carte <b>Télécharger les voix IA</b> : toutes les voix des fiches ou des pages de synthèse dans un ZIP, en français, en anglais ou les deux. Chaque MP3 porte le titre de la fiche ou de la page et sa langue ; « sommaire.csv » (s’ouvre dans un tableur) donne le titre, la durée et l’adresse sur le site. Seules les voix à jour sont fournies. Une voix seule : bouton ⤓ dans la liste « Dernières voix IA ».</p>
 [[astuce|<p>Réglages › <b>Fiches audio</b> : durée maximale, choix de la voix (Charon, Gacrux, Sulafat…), rédaction des explications par l’IA lors du traitement groupé, et mise à jour de nuit des voix des fiches modifiées. Chaque dépense apparaît dans Coûts IA (usage « Fiches audio »).</p>]]
 HTML],
         ['id' => 'reprise', 'title' => 'Reprise des années 1928-1969', 'admin' => true, 'html' => <<<'HTML'

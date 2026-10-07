@@ -371,6 +371,34 @@ $before = P::activated();
 P::activate(['name' => 'Essai']);
 $eq('rédaction de nuit : seulement après le premier lancement complet', [$before, P::activated()], [false, true]);
 
+// Téléchargement des voix (Système › Fiches audio, éditeur) : noms lisibles, ZIP avec sommaire.
+P::storeVoice('club-metz', 'fr', $pcm, 24000, 'Un nouveau récit.', 'essai', 'Charon');
+$eq('nom du fichier téléchargé', [\App\Admin\Audio::downloadName('Sochaux – Metz : 3-0 !', 'fr', 'audio/12-fr-abc.mp3'), \App\Admin\Audio::downloadName('club-metz', 'en', 'audio/pages/x.wav')], ['sochaux-metz-3-0-fr.mp3', 'club-metz-en.wav']);
+$pv = \App\Admin\Audio::voices('pages');
+$ext = pathinfo($pv[0]['file'] ?? '', PATHINFO_EXTENSION); // WAV ici (encodeur MP3 coupé pour aller vite), MP3 en ligne
+$eq('voix des pages proposées (à jour seulement)', array_map(fn ($v) => [$v['name'], $v['url']], $pv), [["club-metz-fr.$ext", '/face-a-face/metz/']]);
+$eq('filtre par langue', \App\Admin\Audio::voices('pages', 'en'), []);
+$fv = \App\Admin\Audio::voices('fiches');
+$eq('fiche sans voix IA : rien à télécharger', array_filter($fv, fn ($v) => str_starts_with($v['file'], "audio/$id-")), []);
+$fdoc = \App\Data\Fiches::get($id);
+A::storeVoice($id, 'fr', $pcm, 24000, A::current($fdoc, 'fr')['text'], 'essai', 'Charon');
+$fv = array_values(array_filter(\App\Admin\Audio::voices('fiches'), fn ($v) => str_starts_with($v['file'], "audio/$id-")));
+$eq('voix de la fiche proposée, au nom de la fiche', [count($fv), $fv[0]['name'] ?? null, $fv[0]['url'] ?? null], [1, \App\Data\Paths::slug((string) $fdoc['title'], 80) . "-fr.$ext", $fdoc['path']]);
+$zf = \App\Admin\Audio::zip(array_merge($pv, $pv), "$tmp/zip");
+$za = new ZipArchive();
+$za->open($zf);
+$names = [];
+for ($i = 0; $i < $za->numFiles; $i++) {
+    $names[] = $za->getNameIndex($i);
+}
+$eq('ZIP : noms uniques et sommaire', $names, ["club-metz-fr.$ext", "club-metz-fr-2.$ext", 'sommaire.csv']);
+$eq('ZIP : voix rangée sans recompression, identique', [$za->statIndex(0)['comp_method'], $za->getFromIndex(0) === file_get_contents(A::$media . '/' . $pv[0]['file'])], [ZipArchive::CM_STORE, true]);
+$eq('ZIP : sommaire lisible', str_contains((string) $za->getFromName('sommaire.csv'), "club-metz-fr.$ext;/face-a-face/metz/;fr;"), true);
+$za->close();
+$state = \App\Admin\Audio::stateOf(\App\Data\Fiches::get($id));
+$eq('éditeur : nom du fichier à télécharger', [$state['fr']['name'] ?? null, $state['fr']['url'] ?? null], [$fv[0]['name'] ?? '', '/media/' . ($fv[0]['file'] ?? '')]);
+A::deleteVoice($id, 'fr');
+
 // Ménage.
 $rm = function (string $d) use (&$rm) {
     foreach (glob("$d/*") ?: [] as $f) {

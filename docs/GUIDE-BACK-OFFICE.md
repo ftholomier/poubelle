@@ -469,6 +469,9 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   20 fiches puis passer toutes les fiches en voix IA (carte « Toutes les fiches en voix IA ») en
   **traitement groupé** (moitié prix, environ 40 € pour toutes les fiches en 3 minutes au plus),
   suivi des envois. Les pages de synthèse n'y sont pas comprises : elles se lancent à part.
+  **Télécharger les voix** : carte « Télécharger les voix IA » (ZIP des fiches ou des pages, par
+  langue, MP3 nommés d'après le titre, avec un sommaire CSV) ; une voix seule depuis la liste
+  « Dernières voix IA » ou la carte « Écouter » de l'éditeur (« Télécharger le MP3 »).
   Les **pages de synthèse** ont aussi leur bouton « Écouter » : face-à-face, saisons, bilans
   (Coupe de France, championnat, Europe, stade Bonal…), livre des records et chiffres du FCSM.
   L'IA les raconte comme un historien, en français et en anglais, à partir de leurs chiffres et

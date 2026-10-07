@@ -203,11 +203,122 @@ final class Audio extends Base
             $out[$lang] = $cur + [
                 'words' => FicheAudio::words($cur['text']), 'url' => $a['url'] ?? null, 'dur' => $a['dur'] ?? null,
                 'voice' => $a['voice'] ?? null, 'at' => isset($a['at']) ? self::ago($a['at']) : null,
+                'name' => isset($a['file']) ? self::downloadName((string) $doc['title'], $lang, $a['file']) : null,
                 'hasVoice' => !empty(FicheAudio::state((int) $doc['id'])[$lang]['audio']), 'lang' => FicheAudio::LANGS[$lang],
                 'blocked' => FicheAudio::blocked($doc),
             ];
         }
         return $out;
+    }
+
+    /** Nom lisible d'un fichier audio téléchargé : « titre-de-la-fiche-fr.mp3 ». */
+    public static function downloadName(string $title, string $lang, string $file): string
+    {
+        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION)) ?: 'mp3';
+        return (\App\Data\Paths::slug($title, 80) ?: 'audio') . '-' . $lang . '.' . $ext;
+    }
+
+    /**
+     * Toutes les voix IA à jour : ['fiches'|'pages' => [[file, name, title, lang, dur, url], …]].
+     * Les voix d'un texte qui a changé depuis (à refaire) ne sont pas proposées.
+     */
+    public static function voices(string $kind, ?string $only = null): array
+    {
+        $out = [];
+        if ($kind === 'pages') {
+            foreach (glob(PageAudio::$dir . '/*.json') ?: [] as $f) {
+                $slug = basename($f, '.json');
+                $s = \App\Core\JsonStore::read($f, []);
+                foreach (PageAudio::LANGS as $lang) {
+                    if (($only && $lang !== $only) || !($a = PageAudio::voiceFile($s[$lang] ?? []))) {
+                        continue;
+                    }
+                    $out[] = ['file' => $a['file'], 'name' => self::downloadName($slug, $lang, $a['file']), 'title' => PageAudio::urlFor($slug, $lang), 'lang' => $lang, 'dur' => $a['dur'] ?? null, 'url' => PageAudio::urlFor($slug, $lang)];
+                }
+            }
+            return $out;
+        }
+        foreach (glob(FicheAudio::$dir . '/*.json') ?: [] as $f) {
+            if (!preg_match('#/(\d+)\.json$#', $f, $m) || !($doc = Store::get((int) $m[1]))) {
+                continue;
+            }
+            foreach (FicheAudio::langs($doc) as $lang) {
+                if (($only && $lang !== $only) || !($a = FicheAudio::audio($doc, $lang))) {
+                    continue;
+                }
+                $out[] = ['file' => $a['file'], 'name' => self::downloadName((string) $doc['title'], $lang, $a['file']), 'title' => (string) $doc['title'], 'lang' => $lang, 'dur' => $a['dur'] ?? null, 'url' => (string) ($doc['path'] ?? '')];
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * GET /admin/audio/telecharger?quoi=fiches|pages&langue=fr|en : toutes les voix IA à jour dans
+     * un ZIP (fichiers rangés tels quels, sans recompression), avec un sommaire CSV.
+     */
+    public static function download(Request $req): Response
+    {
+        if ($deny = self::denyUnlessAdmin()) {
+            return $deny;
+        }
+        $kind = $req->str('quoi') === 'pages' ? 'pages' : 'fiches';
+        $lang = in_array($req->str('langue'), ['fr', 'en'], true) ? $req->str('langue') : null;
+        Session::release();
+        @set_time_limit(300);
+        $list = self::voices($kind, $lang);
+        if (!$list) {
+            return self::back('/admin/audio', null, 'Aucune voix IA à télécharger pour l’instant.');
+        }
+        try {
+            $zipFile = self::zip($list);
+        } catch (\Throwable $e) {
+            return self::back('/admin/audio', null, 'Impossible de préparer le ZIP : ' . $e->getMessage());
+        }
+        register_shutdown_function(fn () => @unlink($zipFile));
+        $res = new Response('', 200, ['Content-Type' => 'application/zip', 'Content-Length' => (string) filesize($zipFile), 'Cache-Control' => 'no-store',
+            'Content-Disposition' => 'attachment; filename="voix-ia-' . $kind . ($lang ? '-' . $lang : '') . '-' . date('Ymd') . '.zip"']);
+        $res->file = $zipFile;
+        return $res;
+    }
+
+    /** Range les voix dans un ZIP temporaire (MP3 tels quels, noms uniques, sommaire.csv) : son chemin. */
+    public static function zip(array $list, ?string $dir = null): string
+    {
+        $dir ??= STORAGE_PATH . '/tmp';
+        if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
+            throw new \RuntimeException('dossier temporaire impossible à créer');
+        }
+        // ZIP d'un téléchargement interrompu : supprimé au suivant.
+        foreach (glob($dir . '/voix-*.zip') ?: [] as $old) {
+            if (filemtime($old) < time() - 3600) {
+                @unlink($old);
+            }
+        }
+        $zipFile = $dir . '/voix-' . bin2hex(random_bytes(6)) . '.zip';
+        $z = new \ZipArchive();
+        if ($z->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+            throw new \RuntimeException('archive impossible à créer');
+        }
+        $csv = fopen('php://temp', 'w+');
+        fputcsv($csv, ['fichier', 'titre', 'langue', 'durée (s)', 'adresse'], ';', '"', '');
+        $used = [];
+        foreach ($list as $v) {
+            $name = $v['name'];
+            for ($i = 2; isset($used[$name]); $i++) {
+                $name = (string) preg_replace('/(\.\w+)$/', "-$i\$1", $v['name']);
+            }
+            $used[$name] = true;
+            $z->addFile(FicheAudio::$media . '/' . $v['file'], $name);
+            $z->setCompressionName($name, \ZipArchive::CM_STORE);
+            fputcsv($csv, [$name, $v['title'], $v['lang'], $v['dur'] !== null ? (string) round((float) $v['dur']) : '', $v['url']], ';', '"', '');
+        }
+        rewind($csv);
+        $z->addFromString('sommaire.csv', "\u{FEFF}" . stream_get_contents($csv));
+        if (!$z->close()) {
+            @unlink($zipFile);
+            throw new \RuntimeException('archive impossible à écrire');
+        }
+        return $zipFile;
     }
 
     /** Dernières voix IA enregistrées (pour les écouter depuis l'écran). */
@@ -223,7 +334,7 @@ final class Audio extends Base
             foreach (FicheAudio::state((int) $m[1]) as $lang => $x) {
                 if (!empty($x['audio']['file']) && is_file(FicheAudio::$media . '/' . $x['audio']['file'])) {
                     $s = \App\Data\Index::get((int) $m[1]);
-                    $out[] = ['id' => (int) $m[1], 'title' => $s['title'] ?? ('Fiche ' . $m[1]), 'lang' => strtoupper((string) $lang), 'url' => '/media/' . $x['audio']['file'], 'dur' => $x['audio']['dur'] ?? null, 'at' => $x['audio']['at'] ?? null, 'voice' => $x['audio']['voice'] ?? ''];
+                    $out[] = ['id' => (int) $m[1], 'title' => $s['title'] ?? ('Fiche ' . $m[1]), 'lang' => strtoupper((string) $lang), 'name' => self::downloadName((string) ($s['title'] ?? 'fiche-' . $m[1]), (string) $lang, $x['audio']['file']), 'url' => '/media/' . $x['audio']['file'], 'dur' => $x['audio']['dur'] ?? null, 'at' => $x['audio']['at'] ?? null, 'voice' => $x['audio']['voice'] ?? ''];
                 }
             }
             if (count($out) >= $n) {

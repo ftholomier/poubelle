@@ -634,7 +634,11 @@ souvenirs) pour refaire les PDF en cache.
 - **Back-office** : carte « Écouter » de l'éditeur (`public/assets/admin/audio.js`,
   `POST /admin/api/audio` : enregistrer, automatique, ia-texte, voix, supprimer-voix) ;
   écran Système › Fiches audio (`App\Admin\Audio`) : chiffres, estimation, essai sur
-  20 fiches ou tout le musée, suivi et annulation des travaux.
+  20 fiches ou tout le musée, suivi et annulation des travaux ; téléchargement des voix
+  (`GET /admin/audio/telecharger?quoi=fiches|pages&langue=fr|en`, administrateurs) : ZIP fait par
+  `Audio::zip()` dans `storage/tmp/` (MP3 rangés sans recompression, noms « titre-langue.mp3 »,
+  `sommaire.csv`), supprimé après l'envoi ; une voix seule par lien direct `/media/audio/…`
+  avec l'attribut `download`.
 
 ## 7 sexies. Rétro-Direct (`App\Services\RetroDirect`, `App\Front\Retro`)
 

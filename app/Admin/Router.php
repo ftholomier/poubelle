@@ -225,6 +225,7 @@ final class Router
         $r->post('/admin/mises-a-jour', fn ($q) => Updates::action($q));
         $r->get('/admin/audio', fn ($q) => Audio::index($q));
         $r->post('/admin/audio', fn ($q) => Audio::action($q));
+        $r->get('/admin/audio/telecharger', fn ($q) => Audio::download($q));
         $r->get('/admin/couts-ia', fn ($q) => Costs::index($q));
         $r->post('/admin/couts-ia/tarifs', fn ($q) => Costs::savePrices($q));
         $r->post('/admin/couts-ia/tarifs/defaut', fn ($q) => Costs::resetPrices($q));

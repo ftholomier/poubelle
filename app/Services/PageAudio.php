@@ -153,6 +153,12 @@ final class PageAudio
     }
 
     /** Voix IA enregistrée qui lit bien le récit rangé ($st : état d'une langue), sinon null. */
+    /** Voix IA à jour d'un récit (état d'une langue), ou null. */
+    public static function voiceFile(array $st): ?array
+    {
+        return self::voiceOf($st);
+    }
+
     private static function voiceOf(array $st): ?array
     {
         $a = $st['audio'] ?? null;

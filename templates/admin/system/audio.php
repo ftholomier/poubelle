@@ -106,6 +106,23 @@ $kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
     </div>
   </section>
   <section class="card">
+    <div class="card__head"><h2 class="card__t">Télécharger les voix IA</h2><span class="card__note">fichiers MP3, avec un sommaire</span></div>
+    <div class="card__body stack" style="gap:10px">
+      <?php $dl = ['fiches' => ['Fiches', (int) $stats['fr_voice'], (int) $stats['en_voice']], 'pages' => ['Pages de synthèse', (int) $pages['stats']['voice_fr'], (int) $pages['stats']['voice_en']]]; ?>
+      <?php if (!array_sum(array_map(fn ($d) => $d[1] + $d[2], $dl))): ?>
+        <p class="small muted" style="margin:0">Aucune voix IA enregistrée pour l’instant.</p>
+      <?php else: foreach ($dl as $k => [$label, $fr, $en]): if ($fr + $en === 0) { continue; } ?>
+        <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
+          <b class="small" style="min-width:150px"><?= e($label) ?></b>
+          <a class="btn btn--ghost btn--sm" href="/admin/audio/telecharger?quoi=<?= $k ?>" data-dl-zip>Tout (<?= $fmt($fr + $en) ?>) · ZIP</a>
+          <?php if ($fr): ?><a class="btn btn--ghost btn--sm" href="/admin/audio/telecharger?quoi=<?= $k ?>&amp;langue=fr" data-dl-zip>Français (<?= $fmt($fr) ?>)</a><?php endif; ?>
+          <?php if ($en): ?><a class="btn btn--ghost btn--sm" href="/admin/audio/telecharger?quoi=<?= $k ?>&amp;langue=en" data-dl-zip>Anglais (<?= $fmt($en) ?>)</a><?php endif; ?>
+        </div>
+      <?php endforeach; endif; ?>
+      <p class="xs muted" style="margin:0">Chaque fichier porte le titre de la fiche ou de la page et sa langue (« titre-fr.mp3 ») ; « sommaire.csv » donne le titre, la durée et l’adresse sur le site. Seules les voix à jour sont fournies (celles à refaire, texte changé depuis, sont écartées). Le ZIP se prépare en quelques secondes. Une voix seule : bouton ⤓ ci-dessous ou dans la carte « Écouter » de la fiche.</p>
+    </div>
+  </section>
+  <section class="card">
     <div class="card__head"><h2 class="card__t">Comment ça marche</h2></div>
     <div class="card__body small">
       <p style="margin:0"><b>Gratuit, par défaut :</b> chaque fiche propose « Écouter ». Le texte est tiré de la fiche (date, score, buteurs, carrière, puis le texte de la fiche), dans la durée maximale réglée, et lu par la voix du navigateur du visiteur. Rédigé par l’IA, il explique toute la fiche : une fiche courte reste courte.</p>
@@ -146,6 +163,7 @@ $kind = ['texte' => 'Résumés rédigés par l’IA', 'voix' => 'Voix IA'];
         <?php foreach ($recent as $r): ?>
           <tr>
             <td style="width:44px"><button type="button" class="iconbtn" data-audio-url="<?= e($r['url']) ?>" title="Écouter" aria-label="Écouter « <?= e($r['title']) ?> »">▶</button></td>
+            <td style="width:44px"><a class="iconbtn" href="<?= e($r['url']) ?>" download="<?= e($r['name']) ?>" title="Télécharger le MP3" aria-label="Télécharger « <?= e($r['title']) ?> »">⤓</a></td>
             <td><a class="rowlink" href="/admin/fiche/<?= (int) $r['id'] ?>"><?= e($r['title']) ?></a></td>
             <td class="xs muted nowrap"><?= e($r['lang']) ?> · <?= e((string) $r['voice']) ?><?= $r['dur'] ? ' · ' . number_format((float) $r['dur'], 0) . ' s' : '' ?></td>
             <td class="xs muted nowrap"><?= e(Base::ago($r['at'])) ?></td>
