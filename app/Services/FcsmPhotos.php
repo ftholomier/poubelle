@@ -240,6 +240,16 @@ final class FcsmPhotos
             }
         }
         JsonStore::write($file, $done);
+        // Photos importées avant que l'image principale soit posée : elle l'est maintenant.
+        $res['featured'] = 0;
+        foreach ($done as $d) {
+            $doc = !empty($d['fiche']) ? Fiches::fresh((int) $d['fiche']) : null;
+            if ($doc && empty($doc['featured_image']) && in_array($d['rel'], array_column((array) $doc['gallery'], 'image'), true)) {
+                $doc['featured_image'] = $d['rel'];
+                Fiches::save($doc, ['name' => 'Reprise FCSM Story'], 'Image principale : photo de presse');
+                $res['featured']++;
+            }
+        }
         $res['skipped'] = count(array_filter($plan, fn ($p) => !$p['key']));
         return $res;
     }
@@ -318,6 +328,10 @@ final class FcsmPhotos
         }
         $cap = $p['caption'] !== '' && $p['caption'] !== self::title($p) ? $p['caption'] . ' (' . self::title($p) . ')' : self::title($p);
         $doc['gallery'][] = ['image' => $rel, 'caption' => $cap, 'credit' => self::CREDIT, 'caption_raw' => $cap];
+        // Fiche sans image principale : la photo la remplace dans les mosaïques (jamais une image existante remplacée).
+        if (empty($doc['featured_image'])) {
+            $doc['featured_image'] = $rel;
+        }
         Fiches::save($doc, ['name' => 'Reprise FCSM Story'], 'Photo de presse ajoutée (' . self::title($p) . ')');
     }
 }

@@ -44,7 +44,7 @@ $todo = $count('a-faire');
 <section class="card card--pad stack">
   <div class="row" style="justify-content:space-between;gap:12px">
     <h2 class="card__t" style="margin:0">Photos de presse</h2>
-    <form method="post" action="/admin/reprise-1928-1969"><?= csrf_field() ?><input type="hidden" name="action" value="photos"><button class="btn btn--primary" type="submit"<?= $photos['ready'] > $photos['done'] ? '' : ' disabled' ?>>4. Importer les photos</button></form>
+    <form method="post" action="/admin/reprise-1928-1969"><?= csrf_field() ?><input type="hidden" name="action" value="photos"><button class="btn btn--primary" type="submit"><?= $photos['done'] ? '4. Compléter les photos' : '4. Importer les photos' ?></button></form>
   </div>
   <p class="small" style="margin:0"><b><?= (int) $photos['done'] ?></b> / <?= (int) $photos['total'] ?> photos ajoutées aux fiches (<?= (int) $photos['ready'] ?> ont déjà leur fiche). Seules les reproductions fidèles d’originaux du domaine public sont reprises : coupure de presse ou photo d’agence dont le journal est identifié, publiée en <?= \App\Services\FcsmPhotos::LAST_YEAR ?> au plus tard. Jamais d’image retouchée ou colorisée, de dessin ou caricature signés, de photo sans date ni source. Chaque photo va à la fiche de son match (ou de l’article, du tournoi, du portrait), avec la légende « Journal, date » et le crédit « <?= e(\App\Services\FcsmPhotos::CREDIT) ?> » ; une photo déjà au musée n’est jamais doublée.</p>
   <?php if ($photos['homeless']): ?><p class="xs muted" style="margin:0">Sans fiche de destination (non importées) : <?= e(implode(', ', $photos['homeless'])) ?></p><?php endif; ?>

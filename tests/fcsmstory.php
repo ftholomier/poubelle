@@ -189,6 +189,7 @@ try {
     $pr = \App\Services\FcsmPhotos::run(50);
     $eq('une seule photo reprise, téléchargée en pleine taille', [$pr['done'], $got], [1, ['https://fcsmstory.com/wp-content/uploads/2024/03/1931-10-18-LAuto-velo-Chalon-Sochaux.jpg']]);
     $g = Fiches::fresh((int) $st['match:1931-10-17|chalon']['fiche'])['gallery'];
+    $eq('fiche sans image : la photo devient l\'image principale (mosaïques)', Fiches::fresh((int) $st['match:1931-10-17|chalon']['fiche'])['featured_image'], $g[0]['image'] ?? null);
     $eq('photo dans la galerie du match de la veille, légende et crédit', [count($g), $g[0]['caption'] ?? null, $g[0]['credit'] ?? null],
         [1, 'Le compte rendu du lendemain (L’Auto, 18 octobre 1931)', \App\Services\FcsmPhotos::CREDIT]);
     $m = \App\Data\Media::get($g[0]['image']);
