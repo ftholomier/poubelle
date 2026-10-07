@@ -120,7 +120,7 @@ $rowsHtml = function (array $list, bool $coach) {
         <span aria-current="page"><?= e($name) ?></span>
       </nav>
       <span class="phero__kicker"><?= e(t('Nos Lions')) ?> · <?= e($roleLabel) ?><?= $years ? ' · ' . e($years) : '' ?></span>
-      <h1 class="phero__name"><?php if ($first !== ''): ?><?= e($first) ?><br><?php endif; ?><span><?= e($last ?: $name) ?></span></h1>
+      <h1 class="phero__name<?= mb_strlen($first . $last . ($last ? '' : $name)) > 28 ? ' phero__name--long' : '' ?>"><?php if ($first !== ''): ?><?= e($first) ?><br><?php endif; ?><span><?= e($last ?: $name) ?></span></h1>
       <?php if (!empty($p['nickname'])): ?><p class="phero__nick">« <?= e($p['nickname']) ?> »</p><?php endif; ?>
       <?php $bigShown = array_values(array_filter($big, fn ($b) => $b['v'] !== '' && $b['v'] !== '–' && $b['v'] !== '0'));
       if (count($bigShown) >= 2): ?>

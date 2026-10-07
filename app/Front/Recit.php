@@ -76,6 +76,11 @@ final class Recit
         $chapters = [];
         $cur = ['title' => '', 'html' => ''];
         foreach ($parts as $p) {
+            // Intertitre très long (légende d'archive, « [1] Discours de… ») : sous-titre dans le chapitre, pas un chapitre.
+            if (preg_match('#^<h[2-6]\b#i', $p) && (mb_strlen(self::text($p)) > 95 || preg_match('/^\s*[\[(]/u', self::text($p)))) {
+                $cur['html'] .= '<p class="' . (preg_match('/^\s*[\[(]/u', self::text($p)) ? 'rref' : 'rsub') . '">' . e(self::text($p)) . '</p>';
+                continue;
+            }
             if (preg_match('#^<h[2-6]\b#i', $p)) {
                 if (trim(strip_tags($cur['html'], '<img><iframe>')) !== '' || $cur['title'] !== '') {
                     $chapters[] = $cur;
@@ -167,7 +172,7 @@ final class Recit
                 // Guillemets du texte retirés : la citation a les siens.
                 $inner = trim((string) preg_replace(['/^(\s|&nbsp;)*[«“"](\s|&nbsp;)*/u', '/(\s|&nbsp;)*[»”"](\s|&nbsp;)*$/u'], '', $inner));
                 $inner = trim((string) preg_replace(['/^(\s|&nbsp;)*[«“"](\s|&nbsp;)*/u', '/(\s|&nbsp;)*[»”"](\s|&nbsp;)*$/u'], '', $inner));
-                return '<blockquote class="rquote"><p>' . $inner . '</p></blockquote>';
+                return '<blockquote class="rquote' . ($len > 600 ? ' rquote--long' : '') . '"><p>' . $inner . '</p></blockquote>';
             }
             // Phrase tout en gras : encadré « À retenir ».
             if ($len >= 50 && self::emphasis($m[1], ['strong', 'b']) >= 0.9) {

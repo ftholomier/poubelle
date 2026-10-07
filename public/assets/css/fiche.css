@@ -157,6 +157,8 @@ a.pitch__p:hover { transform: translate(-50%, -50%) scale(1.12); color: var(--ye
 .phero__kicker { font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: .24em; text-transform: uppercase; color: var(--yellow); }
 .phero__name { font-family: var(--display); font-weight: 900; font-size: clamp(56px, 9vw, 136px); line-height: .9; text-transform: uppercase; overflow-wrap: anywhere; }
 .phero__name span { color: var(--yellow); }
+/* Titre long (« Qui était Auguste Bonal ? Partie 2 : … ») : taille raisonnable, coupure entre les mots. */
+.phero__name--long { font-size: clamp(36px, 4.6vw, 68px); line-height: .98; overflow-wrap: normal; text-wrap: balance; }
 .phero__nick { font-style: italic; font-size: 20px; color: var(--mist); margin-top: -10px; }
 .phero__big { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); border: 2px solid var(--cream); }
 .phero__big div { padding: 18px; border-right: 2px solid var(--cream); display: flex; flex-direction: column; gap: 4px; min-width: 0; }

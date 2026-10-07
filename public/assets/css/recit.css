@@ -42,14 +42,22 @@
 .rch__body strong, .rch__body b { color: var(--navy); }
 
 /* Citations de l'époque et encadrés */
-.rquote { position: relative; margin: 1.8em 0 !important; padding: 30px 32px 26px 74px; background: var(--paper); border: 2px solid var(--navy); box-shadow: 8px 8px 0 var(--yellow); }
-.rquote::before { content: "“"; position: absolute; left: 18px; top: -6px; font-family: var(--serif); font-size: 120px; line-height: 1; color: var(--yellow); }
-.rquote p { margin: 0; font-family: var(--serif); font-style: italic; font-size: clamp(20px, 1.9vw, 24px); line-height: 1.5; color: var(--navy); }
+.rch__body .rquote { position: relative; margin: 2.4em 0 1.8em !important; padding: 34px 32px 26px 32px; background: var(--paper); border: 2px solid var(--navy); box-shadow: 8px 8px 0 var(--yellow); }
+.rch__body .rquote::before { content: "“"; position: absolute; left: 22px; top: -34px; width: 52px; height: 52px; display: grid; place-items: center; padding-top: 18px; background: var(--yellow); border: 2px solid var(--navy); font-family: var(--serif); font-size: 64px; line-height: 1; color: var(--navy); }
+.rch__body .rquote p { margin: 0; font-family: var(--serif); font-style: italic; font-size: clamp(20px, 1.9vw, 24px); line-height: 1.5; color: var(--navy); }
+.rch__body .rquote--long { padding: 26px 28px 22px; box-shadow: none; border-width: 0 0 0 6px; border-color: var(--yellow); margin-top: 1.6em !important; }
+.rch__body .rquote--long::before { display: none; }
+.rch__body .rquote--long p { font-size: 19px; line-height: 1.6; }
 .rnote { margin: 1.8em 0 !important; padding: 22px 26px; background: var(--navy); color: var(--cream); display: flex; flex-direction: column; gap: 8px; }
 .rnote__k { font-family: var(--display); font-weight: 800; font-size: 14px; letter-spacing: .2em; text-transform: uppercase; color: var(--yellow); }
 .rnote__k::before { content: "★ "; }
 .rnote p { margin: 0; font-size: 20px; line-height: 1.55; }
 .rnote a, .rnote strong { color: var(--cream); }
+
+.rsub { margin-top: 1.6em !important; font-family: var(--display); font-weight: 800; font-size: 19px; line-height: 1.25; text-transform: uppercase; color: var(--blue); padding-left: 12px; border-left: 4px solid var(--yellow); }
+
+.rref { margin-top: .5em !important; font-size: 15px; font-style: italic; line-height: 1.45; color: var(--muted); }
+.rref + .rref { margin-top: .2em !important; }
 
 /* Photos */
 .rfig { margin: 30px 0 0; }
