@@ -1534,6 +1534,18 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   (`legacy.fcsmstory`, section « Sources »), rubrique de saison créée si absente, texte de saison dans la description
   de la rubrique seulement si elle est vide. Coûts IA comptés sous `import`. Écran : `App\Admin\Heritage`.
 
+## Catalogue des archives (`App\Services\Catalogue`, `App\Admin\Archives`)
+
+Contenus › Archives à ranger (`/admin/archives` ; dépôt : administrateurs ; rangement : toute l'équipe).
+`app/Resources/import/catalogue-images.json.gz` : une fiche par image, sous l'empreinte MD5 du fichier d'origine
+(type, rotation, titre, légende, date ou décennie, personnes, match, sujets, publication, droits, crédit, qualité,
+doublon, résumé des pages, faits lus, lot et nom d'origine). Le navigateur ouvre les zip (`public/assets/vendor/jszip.min.js`,
+`admin/archives.js`) et envoie chaque image (`action=deposer`) : `receive()` calcule le MD5, range l'original dans
+`storage/media/originals/archives/<année>/` et la médiathèque (rotation en retouche non destructive `edit.rotate`).
+`suggest()` propose le match (date ± 2 jours, adversaire) et les joueurs (nom de famille sans ambiguïté) ;
+`accept()` ajoute l'image à la galerie (image principale si la fiche n'en a pas et que la photo est nette).
+État : `storage/import/catalogue/state.json` (`recu`, `range`, `ecarte`). Test : `tests/catalogue.php`.
+
 ## Bilans des joueurs (`App\Services\Bilans`)
 
 Grilles de minutes des bilans de l'association (`BIL_aaaabb.xls(x)`, feuilles `D1-J`, `CF-J`… : minutes par

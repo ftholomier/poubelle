@@ -81,6 +81,15 @@ HTML],
 <p>Vérifiez les panneaux de droite, puis passez le statut à <b>Publié</b> (ou <b>Planifié</b>) et enregistrez.</p>
 [[img:match-auto.webp|Ce que l’enregistrement met à jour, et le contrôle qualité de la fiche]]
 HTML],
+        ['id' => 'archives', 'title' => 'Archives à ranger : les photos et documents confiés au musée', 'html' => <<<'HTML'
+<p>Contenus › <b>Archives à ranger</b> : environ 430 images confiées au musée (photos nommées, pages de la publication des 50 ans du club, documents du musée Peugeot : planches-contacts, journal interne, brochures, magazines) ont été lues une à une. Pour chacune : type, date, légende, personnes, match et origine des droits.</p>
+<ol>
+<li><b>Déposer</b> (administrateurs) : choisissez les zip reçus, ou des images. Le navigateur ouvre les zip et envoie les images une par une ; chaque image est reconnue <b>par son contenu</b>, peu importe son nom. Une image déjà reçue n’est jamais doublée ; une image hors catalogue est ignorée.</li>
+<li><b>Ranger</b> (toute l’équipe) : vérifiez la légende (corrigez-la si besoin), cochez les fiches proposées (le match du jour, les joueurs cités) ou indiquez le numéro d’une autre fiche, puis <b>Ranger</b> : l’image rejoint leur galerie, avec son crédit ; une photo nette devient l’image principale d’une fiche qui n’en a pas.</li>
+<li><b>Écarter</b> ce qui ne doit pas être publié (doublon, flou, page sans intérêt) : on peut toujours la remettre à ranger.</li>
+</ol>
+[[attention|<p>Pastille <b>Presse</b> : magazine ou journal extérieur (Onze, Miroir du Monde, journaux locaux…). Ne la publiez qu’avec l’autorisation du journal ; sinon gardez-la comme source et écartez-la. Les dates « à vérifier » ont été déduites (nom de fichier, contenu) : contrôlez-les avant de ranger.</p>]]
+HTML],
         ['id' => 'trouvailles', 'title' => 'Trouvailles : ce que les archives disent du match', 'html' => <<<'HTML'
 <p>Contenus › <b>Trouvailles (archives)</b> rassemble ce que le musée a trouvé, pour les fiches de match, dans les archives en ligne :</p>
 <ul>

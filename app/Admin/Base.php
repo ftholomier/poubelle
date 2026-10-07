@@ -33,6 +33,7 @@ class Base
             ['referentiels', 'Saisons, adversaires, lieux', '/admin/referentiels', false],
             ['medias', 'Médiathèque', '/admin/medias', false],
             ['trouvailles', 'Trouvailles (archives)', '/admin/trouvailles', false],
+            ['archives', 'Archives à ranger', '/admin/archives', false],
         ],
         'Éditorial' => [
             ['accueil', 'Accueil & bandeau', '/admin/accueil', false],
