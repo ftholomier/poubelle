@@ -633,3 +633,5 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Présentation passée à 58 pages : défi du jour, quiz du club-house sur grand écran, championnat du club-house, Rétro-Direct commenté façon radio, page « Quiz et radio côté équipe » ; programme et page « Toute la solution » à jour
 - [x] Infographie A4 : quiz du club-house et championnat, défi du jour, commentaire radio, soirées quiz dans le back-office, guide de 136 pages (toujours 2 pages)
 
+- [x] Mise à jour d'ensemble (07/10) : captures de l'aide refaites (formulaires de match et de personne restructurés, Rétro-Direct avec chrono), guide (138 pages) et mémo régénérés ; infographie A4 (Rétro-Direct avec chrono et vraie ambiance de stade, carte de supporter, ★ pièce unique) ; présentation (58 pages : carte de supporter en deux designs, Rétro-Direct en rediffusion avec le pavé à côté du fil, « Ma carte de supporter » en pièce unique)
+- [x] Carte de supporter : un titre de match long (« Sochaux 7–0 Jeunesse d'Esch ») ne chevauche plus la date (réduit, puis sur deux lignes, la ligne du dessous descend d'autant), designs A et B
