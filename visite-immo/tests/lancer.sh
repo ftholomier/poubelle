@@ -6,8 +6,9 @@
 set -e
 cd "$(dirname "$0")/.."
 T="${TMPDIR:-/tmp}/visite-immo-test"
-pkill -f "php -S 127.0.0.1:809[89]" 2>/dev/null || true
+pkill -f "S 127.0.0.1:809[89]" 2>/dev/null || true
 pkill -f "smtp-simul[e]" 2>/dev/null || true
+sleep 0.5
 [ "$1" = "stop" ] && exit 0
 rm -rf "$T" && mkdir -p "$T/data" "$T/mails"
 M=http://127.0.0.1:8098

@@ -43,8 +43,22 @@ function prochaines_actions(array $v): array
     if ($etape === 'signature') {
         $a[] = ['Mandat en attente de signature', 'Le vendeur a reçu son lien ; relances automatiques en cours.', 'signer_mandat', '✍️ Faire signer sur place'];
     }
+    if ($etape === 'en_vente' && !empty($v['vitrine']['publiee']) && empty($v['offres'])) {
+        $a[] = ['En vente', 'Les visites, retours et le point du vendredi sont gérés dans l\'onglet Vente.', 'suivre', '📈 Suivre la vente'];
+    }
     if ($etape === 'en_vente' && empty($v['vitrine']['publiee'])) {
         $a[] = ['Mettre le bien en vente', "Page du bien, diffusion et réseaux sociaux sont prêts.", 'publier', '🚀 Publier'];
+    }
+    foreach ($v['offres'] ?? [] as $o) {
+        if ($o['statut'] === 'redigee') $a[] = ["Faire signer l'offre de {$o['nom']}", 'Signature au doigt, puis transmission automatique au vendeur.', 'vente', '✍️ Offre à signer'];
+        if ($o['statut'] === 'transmise') $a[] = ["Offre de {$o['nom']} chez le vendeur", 'Il accepte en signant depuis son espace.', 'vente', '👁 Voir l\'offre'];
+    }
+    if (in_array($etape, ['offre', 'compromis'], true)) {
+        $s = $v['vente'] ?? [];
+        if (empty($s['notaires_envoye_le'])) $a[] = ['Transmettre le dossier aux notaires', 'Fiche de renseignements et accès à toutes les pièces, en un clic.', 'vente', '📨 Dossier notaire'];
+        if (empty($v['lcbft']['vendeur']) || empty($v['lcbft']['acquereur'])) $a[] = ['Contrôle anti-blanchiment', "Photo de la pièce d'identité : l'IA lit, vérifie le registre des gels et rédige la fiche.", 'vente', '🛡 Contrôle LCB-FT'];
+        if ($etape === 'offre') $a[] = ['Signature du compromis', 'Saisissez la date : délais SRU, prêt et acte calculés, relances automatiques.', 'vente', '📅 Dates de la vente'];
+        if ($etape === 'compromis') $a[] = ["Signature de l'acte", 'Le jour J : facture, commission et demande d\'avis partent automatiquement.', 'vente', '🔑 Acte signé'];
     }
     $pieces = array_filter($v['pieces'] ?? [], fn ($p) => ($p['statut'] ?? '') !== 'recue' && empty($p['facultative']));
     if ($pieces && in_array($etape, ['preparation', 'signature', 'en_vente', 'offre'], true)) {
@@ -93,6 +107,7 @@ function vue_dossier(array $visit): array
     $visit['etape'] = etape_dossier($visit);
     $visit['etapes'] = array_map(fn ($e) => ['label' => $e[0], 'detail' => $e[1]], ETAPES);
     $visit['actions'] = prochaines_actions($visit);
+    if (!empty($visit['vente']['debut'])) $visit['echeancier'] = echeancier($visit);
     $pdfs = pdf_docs();
     $visit['documents'] = array_map(fn ($d) => ['cle' => $d[0], 'label' => $d[1], 'pret' => $d[2], 'interne' => $d[3], 'ecran' => $d[4], 'pdf' => isset($pdfs[$d[0]])], documents_dossier($visit));
     return $visit;

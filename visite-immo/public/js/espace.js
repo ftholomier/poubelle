@@ -78,3 +78,24 @@ document.querySelectorAll("input[data-piece]").forEach((input) => {
     }
   };
 });
+
+// ---------- Réponse à une offre (refus, contre-proposition) ----------
+document.querySelectorAll("[data-offre-refus], [data-offre-contre]").forEach((b) => {
+  b.onclick = async () => {
+    const offre = b.dataset.offreRefus || b.dataset.offreContre;
+    const contre = Boolean(b.dataset.offreContre);
+    let prix = "";
+    if (contre) {
+      prix = prompt("Quel prix proposez-vous (en euros) ?");
+      if (!prix) return;
+    }
+    const message = prompt(contre ? "Un message pour l'acquéreur (facultatif) :" : "Voulez-vous préciser la raison du refus (facultatif) ?") || "";
+    if (!contre && !confirm("Confirmer le refus de cette offre ?")) return;
+    try {
+      await post("offre", { offre, choix: contre ? "contre" : "refus", prix, message });
+      location.reload();
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+});

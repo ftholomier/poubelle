@@ -240,7 +240,9 @@ function settings_view(): array
         'smtp_user'            => $CONFIG['smtp_user'] ?? '',
         'smtp_pass_configure'  => !empty($CONFIG['smtp_pass']),
         'email_configure'      => email_configure(),
-    ];
+        'cron'                 => read_json(DATA_DIR . '/cron.json', null),
+        'chemin_app'           => APP_ROOT,
+    ] + reglages_modules_vue();
 }
 
 function route_settings_get(): never
@@ -316,6 +318,8 @@ function route_settings_save(): never
         move_data_dir(trim((string) $in['data_dir']));
         $settings['data_dir'] = trim((string) $in['data_dir']);
     }
+
+    $settings = reglages_modules_valider($in, $settings);
 
     if (!is_writable(dirname(SETTINGS_FILE))) fail(500, 'Le dossier app/ doit être accessible en écriture pour enregistrer les réglages.');
     write_json(SETTINGS_FILE, $settings);

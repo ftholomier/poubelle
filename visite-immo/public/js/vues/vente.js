@@ -10,7 +10,8 @@ import { ecransDossier, esc, toast, go, action, feuille, fmtDate, pdfUrl, outils
 export const blocsVente = [];
 
 ecransDossier.onglet_vente = async ($c, visit) => {
-  const blocs = [...blocsVente].sort((a, b) => a.ordre - b.ordre);
+  const rang = (b) => (b.prioritaire?.(visit) ? 0 : 1);
+  const blocs = [...blocsVente].sort((a, b) => rang(a) - rang(b) || a.ordre - b.ordre);
   $c.innerHTML = blocs.map((b, i) => `<div id="bloc-${i}"></div>`).join("");
   for (const [i, b] of blocs.entries()) {
     try {

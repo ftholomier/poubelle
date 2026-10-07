@@ -38,6 +38,7 @@ blocsVente.push({
         <a class="btn" href="#/visite/${visit.id}/signature/mandat">✍️ Signature du mandat</a></section>`;
       return;
     }
+    if (!d.publiee && visit.etape !== "en_vente") return; // offre acceptée ou vendu : plus de mise en vente
     if (!d.publiee) {
       $el.innerHTML = `<section class="card prochaine"><span class="tag">Prêt à diffuser</span><h2 class="prochaine-titre">Mettre le bien en vente</h2>
         <p class="muted">Page du bien avec assistant 24 h/24, flux pour les portails, alertes aux acquéreurs compatibles.</p>

@@ -11,6 +11,7 @@ import "./vues/acquereurs.js";
 import "./vues/agenda.js";
 import "./vues/vente.js";
 import "./vues/commercialisation.js";
+import "./vues/transaction.js";
 
 import {
   APP_VERSION, state, nav, esc, fmtDuree, fmtDate, fmtPrix, champsOf, toast, copier, go, render, theme,

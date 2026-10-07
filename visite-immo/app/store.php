@@ -303,3 +303,48 @@ function a_faire(string $nom, callable $fn): void
     global $A_FAIRE;
     $A_FAIRE[$nom] = $fn;
 }
+
+// ---------- Réglages ajoutés par les modules (Paramètres) ----------
+
+/** Réglages simples enregistrés tels quels : clé => [type (texte, url, nombre, choix:a|b, secret), valeur par défaut]. */
+const REGLAGES_MODULES = [
+    'url_publique'             => ['url', ''],
+    'signature_mode'           => ['choix:interne|api', 'interne'],
+    'signature_api_url'        => ['url', ''],
+    'signature_api_cle'        => ['secret', ''],
+    'modele_image'             => ['texte', 'gemini-2.5-flash-image'],
+    'lien_avis_google'         => ['url', ''],
+    'taux_palier1'             => ['nombre', 80],
+    'seuil_palier2'            => ['nombre', 40000],
+    'taux_palier2'             => ['nombre', 90],
+    'seuil_palier3'            => ['nombre', 80000],
+    'taux_palier3'             => ['nombre', 95],
+    'juriste_email'            => ['email', ''],
+    'conservation_audio_jours' => ['nombre', 0],
+    'vapid_sujet'              => ['texte', ''],
+];
+
+function reglages_modules_vue(): array
+{
+    global $CONFIG;
+    $out = [];
+    foreach (REGLAGES_MODULES as $k => [$type, $defaut]) {
+        $out[$k] = $type === 'secret' ? (!empty($CONFIG[$k]) ? '••••••' : '') : ($CONFIG[$k] ?? $defaut);
+    }
+    return $out;
+}
+
+function reglages_modules_valider(array $in, array $settings): array
+{
+    foreach (REGLAGES_MODULES as $k => [$type]) {
+        if (!array_key_exists($k, $in)) continue;
+        $v = trim((string) $in[$k]);
+        if ($type === 'secret') { if ($v !== '' && $v !== '••••••') $settings[$k] = $v; continue; }
+        if ($type === 'url' && $v !== '' && !preg_match('#^https?://#', $v)) fail(400, "Adresse invalide pour $k (elle doit commencer par https://).");
+        if ($type === 'email' && $v !== '' && !valid_email($v)) fail(400, "E-mail invalide pour $k.");
+        if ($type === 'nombre') $v = (float) str_replace(',', '.', $v);
+        if (str_starts_with($type, 'choix:') && !in_array($v, explode('|', substr($type, 6)), true)) continue;
+        $settings[$k] = $type === 'url' ? rtrim($v, '/') : $v;
+    }
+    return $settings;
+}

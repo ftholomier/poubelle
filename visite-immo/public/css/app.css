@@ -624,3 +624,12 @@ canvas.pad { display: block; width: 100%; height: 200px; background: #fff; borde
 .visuels { display: grid; grid-template-columns: 1fr .56fr; gap: 10px; align-items: start; margin-bottom: 12px; }
 .visuels img { width: 100%; border: 1.5px solid var(--bord); border-radius: 10px; display: block; }
 .video-apercu { width: 100%; max-height: 70vh; border-radius: 12px; border: 1.5px solid var(--bord); margin: 10px 0; background: #000; }
+.echeancier { display: grid; gap: 2px; margin: 8px 0 10px; }
+.ech { display: grid; grid-template-columns: 28px 1fr; gap: 8px; align-items: start; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.ech:last-child { border-bottom: 0; }
+.ech > span { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--bord); font-size: .75rem; }
+.ech > div { display: grid; }
+.ech-fait > span { background: var(--vert); color: #fff; border-color: var(--vert); }
+.ech-depasse > span { background: var(--rouge); color: #fff; border-color: var(--rouge); }
+.ech-a_venir > span { background: var(--citron); color: var(--encre); }
+fieldset.pj input { margin: 0 0 10px; }

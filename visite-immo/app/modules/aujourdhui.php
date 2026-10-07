@@ -26,6 +26,7 @@ a_faire('dossiers', function (array $agent, array $dossiers): array {
         $actions = prochaines_actions($v);
         if (!$actions) continue;
         [$titre, $detail, $cle] = $actions[0];
+        if ($cle === 'suivre') continue; // bien en vente sans rien à faire : pas une tâche
         $items[] = [
             'type'     => 'dossier',
             'titre'    => $titre,
