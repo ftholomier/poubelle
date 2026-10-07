@@ -31,7 +31,7 @@ try {
   await capture("10-resume-complet");
 
   // 2. Écrans des nouveaux documents
-  for (const [ecran, sel] of [["avis", ".tableau"], ["plan", ".plan-svg"], ["technique", ".card"], ["social", ".texte"], ["pieces", ".piece"]]) {
+  for (const [ecran, sel] of [["avis", ".comparable"], ["plan", ".plan-svg"], ["technique", ".card"], ["social", ".texte"], ["pieces", ".piece"]]) {
     await page.goto(`http://127.0.0.1:8099/#/visite/${id}/${ecran}`);
     await page.waitForSelector(sel);
     await page.waitForTimeout(300);

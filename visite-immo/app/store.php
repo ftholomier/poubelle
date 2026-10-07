@@ -304,6 +304,28 @@ function a_faire(string $nom, callable $fn): void
     $A_FAIRE[$nom] = $fn;
 }
 
+/** Après modification de champs de la fiche (saisie, dialogue, lecture des pièces) : fn (array $agent, string $id, array $cles_modifiees) */
+$APRES_CHAMPS = [];
+
+function apres_champs(callable $fn): void
+{
+    global $APRES_CHAMPS;
+    $APRES_CHAMPS[] = $fn;
+}
+
+function champs_modifies(array $agent, string $id, array $cles): void
+{
+    global $APRES_CHAMPS;
+    if (!$cles) return;
+    foreach ($APRES_CHAMPS as $fn) {
+        try {
+            $fn($agent, $id, array_values(array_unique($cles)));
+        } catch (Throwable $e) {
+            error_log('apres_champs : ' . $e->getMessage());
+        }
+    }
+}
+
 // ---------- Réglages ajoutés par les modules (Paramètres) ----------
 
 /** Réglages simples enregistrés tels quels : clé => [type (texte, url, nombre, choix:a|b, secret), valeur par défaut]. */

@@ -135,7 +135,8 @@ function deposer_piece(array $agent, string $id, array $fichier, string $cle, st
     }
     if ($cle === '' || $cle === 'auto') $cle = $lecture['type_document'] !== 'autre' ? $lecture['type_document'] : 'autre';
 
-    return update_visit($agent, $id, function (array $v) use ($cle, $nom, $lecture, $par, $base) {
+    $modifies = [];
+    $v = update_visit($agent, $id, function (array $v) use ($cle, $nom, $lecture, $par, $base, &$modifies) {
         $v = actualiser_pieces($v);
         $trouve = false;
         foreach ($v['pieces'] as &$p) {
@@ -154,6 +155,7 @@ function deposer_piece(array $agent, string $id, array $fichier, string $cle, st
             if (!in_array($c['cle'], field_keys(), true) || trim((string) $c['valeur']) === '') continue;
             if (in_array($champs[$c['cle']]['source'] ?? '', ['agent', 'dialogue'], true)) continue;
             $champs[$c['cle']] = ['valeur' => trim((string) $c['valeur']), 'citation' => (string) $c['citation'], 'source' => 'document'];
+            $modifies[] = $c['cle'];
             $n++;
         }
         $v['fiche']['champs'] = $champs ?: new stdClass();

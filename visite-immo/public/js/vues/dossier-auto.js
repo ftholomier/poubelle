@@ -2,6 +2,7 @@
 // (sur place ou par lien), pièces du vendeur, avis de valeur, croquis de plan, dossier technique, photos,
 // publications pour les réseaux sociaux.
 
+import { graphiqueTendance, listeComparables } from "./estimation.js";
 import { api } from "../api.js";
 import { PadSignature } from "../pad.js";
 import {
@@ -227,14 +228,16 @@ ecransDossier.avis = ($c, visit) => {
         <div class="chiffre"><small>Médiane secteur</small><strong>${fmtEuros(a.prix_m2_median)}/m²</strong></div>
         ${a.prix_vendeur ? `<div class="chiffre ${Math.abs(ecart) >= 5 ? "citron" : ""}"><small>Prix du vendeur</small><strong>${fmtPrix(a.prix_vendeur)}</strong><span class="small">${ecart > 0 ? "+" : ""}${ecart} %</span></div>` : ""}
       </div>
+      ${a.confiance ? `<div class="estim-infos"><span class="confiance confiance-${a.confiance.niveau === "élevée" ? "haute" : a.confiance.niveau === "moyenne" ? "moyenne" : "basse"}">Confiance ${esc(a.confiance.niveau)}</span>${a.direct ? "<span>Mis à jour en direct à chaque modification de la fiche</span>" : ""}</div>` : ""}
+      ${a.tendance ? graphiqueTendance(a.tendance) : ""}
       <label>Prix conseillé retenu<input id="retenu" inputmode="numeric" value="${a.retenu}"></label>
       <div class="btn-row"><button class="btn primary" id="garder">Enregistrer ce prix</button><button class="btn" id="recalc">↻ Recalculer</button></div>
     </section>
-    <section class="card"><h2>Argumentaire</h2><div class="texte">${esc(a.argumentaire).replace(/\n/g, "<br>")}</div></section>
+    <section class="card"><h2>Argumentaire</h2>${a.argumentaire_perime ? `<p class="small orange-txt">Les chiffres ont changé depuis la rédaction : touchez « Recalculer » pour réécrire l'argumentaire.</p>` : ""}<div class="texte">${esc(a.argumentaire).replace(/\n/g, "<br>")}</div></section>
     <section class="card"><h2>${a.comparables.length} ventes comparables (DVF)</h2>
-      <div class="table-scroll"><table class="tableau"><tr><th>Date</th><th>Adresse</th><th>Surf.</th><th>Prix</th><th>€/m²</th><th>Dist.</th></tr>
+      ${a.comparables[0]?.similarite != null ? listeComparables(a.comparables) : `<div class="table-scroll"><table class="tableau"><tr><th>Date</th><th>Adresse</th><th>Surf.</th><th>Prix</th><th>€/m²</th><th>Dist.</th></tr>
       ${a.comparables.map((c) => `<tr><td>${new Date(c.date).toLocaleDateString("fr-FR", { month: "2-digit", year: "2-digit" })}</td><td>${esc(c.adresse)}</td><td>${Math.round(c.surface)} m²</td><td>${fmtPrix(c.prix)}</td><td>${Number(c.prix_m2).toLocaleString("fr-FR")}</td><td>${c.distance != null ? c.distance + " m" : "—"}</td></tr>`).join("")}
-      </table></div>
+      </table></div>`}
       ${a.ajustements.length ? `<p class="small muted">Ajustements : ${a.ajustements.map((x) => `${esc(x[0])} ${x[1] > 0 ? "+" : ""}${Math.round(x[1] * 100)} %`).join(" · ")}</p>` : ""}
     </section>
     <div class="sticky-actions"><button class="btn primary" data-pdf="avis">📄 PDF</button><button class="btn" data-send="avis">✉️ Envoyer</button></div>`;

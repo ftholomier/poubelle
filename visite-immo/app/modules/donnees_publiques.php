@@ -93,11 +93,22 @@ function distance_m(float $lat1, float $lon1, float $lat2, float $lon2): float
 
 /**
  * Ventes réelles (DVF) de la commune sur les dernières années, une ligne par mutation : prix, surface bâtie,
- * pièces, terrain, distance. Les fichiers par commune sont mis en cache 30 jours.
+ * pièces, terrain, distance. Les fichiers par commune sont mis en cache 30 jours, la lecture du CSV 1 jour.
  */
 function ventes_dvf(string $citycode, float $lon, float $lat, int $annees = 5): ?array
 {
-    if ($citycode === '') return null;
+    $ventes = ventes_dvf_commune($citycode, $annees);
+    if ($ventes === null) return null;
+    foreach ($ventes as &$m) $m['distance'] = $m['lat'] ? (int) round(distance_m($lat, $lon, $m['lat'], $m['lon'])) : null;
+    return $ventes;
+}
+
+/** Ventes de la commune (sans distance), lues une fois puis gardées en cache : l'estimation en direct reste instantanée. */
+function ventes_dvf_commune(string $citycode, int $annees = 5): ?array
+{
+    if ($citycode === '' || !preg_match('/^\w{5}$/', $citycode)) return null;
+    $lu = DATA_DIR . "/cache/dvf/ventes-$citycode-$annees.json";
+    if (is_file($lu) && filemtime($lu) > time() - 86400) return json_decode((string) file_get_contents($lu), true);
     $dep = departement($citycode);
     $base = api_base('dvf', URL_DVF);
     $ventes = [];
@@ -136,13 +147,14 @@ function ventes_dvf(string $citycode, float $lon, float $lat, int $annees = 5): 
         foreach ($mutations as $m) {
             if ($m['locaux'] !== 1 || $m['surface'] < 9 || $m['prix'] < 10000) continue; // ventes groupées ou atypiques écartées
             $m['prix_m2'] = round($m['prix'] / $m['surface']);
-            $m['distance'] = $m['lat'] ? (int) round(distance_m($lat, $lon, $m['lat'], $m['lon'])) : null;
             unset($m['locaux']);
             $ventes[] = $m;
         }
     }
     if (!$ok) return null;
     usort($ventes, fn ($a, $b) => strcmp($b['date'], $a['date']));
+    if (!is_dir(dirname($lu))) mkdir(dirname($lu), 0770, true);
+    file_put_contents($lu, json_encode($ventes));
     return $ventes;
 }
 

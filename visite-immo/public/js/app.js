@@ -14,6 +14,7 @@ import "./vues/commercialisation.js";
 import "./vues/transaction.js";
 import "./vues/quotidien.js";
 import "./vues/prospection.js";
+import "./vues/estimation.js";
 import "./vues/reseau.js";
 
 import {
@@ -163,7 +164,7 @@ async function viewRecord(existingId) {
   <main class="page record">
     ${visit ? `<p class="muted center">${esc(visit.titre || "Visite")} : l'audio sera ajouté à la suite.</p>` : `
     <div class="card prep" id="prep">
-      <label>Adresse ou nom du bien <span class="muted">(facultatif)</span><input id="titre" placeholder="ex. 12 rue des Lilas, Nantes"></label>
+      <label>Adresse ou nom du bien <span class="muted">(facultatif)</span><input id="titre" placeholder="ex. 12 rue des Lilas, Nantes" value="${esc(adresseEstimee())}"></label>
       <label class="check"><input type="checkbox" id="consent"> Le vendeur est informé et d'accord pour que l'échange soit enregistré.</label>
     </div>`}
     <div class="rec-zone">
@@ -457,6 +458,17 @@ function renderDocuments($c, visit, saver) {
 }
 
 /** Sauvegarde automatique, une seconde après la dernière frappe. */
+/** Adresse transmise par l'outil « Estimer un bien » (bouton « Démarrer la visite ici »). */
+function adresseEstimee() {
+  try {
+    const a = sessionStorage.getItem("vi-adresse") || "";
+    sessionStorage.removeItem("vi-adresse");
+    return a;
+  } catch {
+    return "";
+  }
+}
+
 function makeSaver(id) {
   let patch = {};
   let timer = null;
@@ -468,8 +480,9 @@ function makeSaver(id) {
     patch = {};
     if ($s()) $s().textContent = "Enregistrement…";
     try {
-      await api("visit", { method: "POST", query: { id }, body });
+      const v = await api("visit", { method: "POST", query: { id }, body });
       if ($s()) $s().textContent = "✓ Enregistré";
+      window.dispatchEvent(new CustomEvent("dossier-maj", { detail: v })); // estimation en direct, suivi…
     } catch (e) {
       patch = { ...body, ...patch, champs: { ...body.champs, ...patch.champs } };
       if ($s()) $s().textContent = "⚠ Non enregistré";
@@ -512,8 +525,15 @@ function renderFiche($c, visit, sections, saver) {
     return `<input ${attrs} value="${esc(val)}" ${f.type === "number" ? 'inputmode="decimal"' : ""}>`;
   };
 
+  const estimDirect = (v) => {
+    const a = v.avis_valeur;
+    if (!a?.retenu) return "";
+    return `<span><small>Estimation en direct</small><strong>${fmtPrix(a.retenu)}</strong></span><span class="muted small">${fmtPrix(a.bas)} – ${fmtPrix(a.haut)}${a.confiance ? ` · confiance ${esc(a.confiance.niveau)}` : ""}</span><span class="estim-fleche">›</span>`;
+  };
+
   $c.innerHTML = `
     ${carteDossier(visit)}
+    <a class="estim-direct" id="estim-direct" href="#/visite/${visit.id}/avis" ${visit.avis_valeur?.retenu ? "" : "hidden"}>${estimDirect(visit)}</a>
     ${nbIa ? `<div class="info-ia">✨ ${nbIa} champ(s) rempli(s) par l'IA. Touchez <span class="chip">IA</span> pour voir ce qui a été dit.</div>` : ""}
     ${sections
       .map(
@@ -560,6 +580,16 @@ function renderFiche($c, visit, sections, saver) {
     field.classList.toggle("filled", el.value !== "");
     field.querySelector(".chip")?.remove(); // corrigé par l'agent : ce n'est plus l'IA
   });
+  // L'estimation suit chaque modification de surface, d'état, de DPE… (recalculée côté serveur à l'enregistrement)
+  const majEstim = (ev) => {
+    const el = document.getElementById("estim-direct");
+    if (!el) return window.removeEventListener("dossier-maj", majEstim);
+    const avant = el.querySelector("strong")?.textContent;
+    el.innerHTML = estimDirect(ev.detail);
+    el.hidden = !ev.detail.avis_valeur?.retenu;
+    if (avant && avant !== el.querySelector("strong")?.textContent) el.classList.add("flash"), setTimeout(() => el.classList.remove("flash"), 900);
+  };
+  window.addEventListener("dossier-maj", majEstim);
   $c.addEventListener("click", (e) => {
     const chip = e.target.closest(".chip[data-cite]");
     if (chip) {

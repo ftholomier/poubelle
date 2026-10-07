@@ -664,7 +664,8 @@ function route_visit_save(string $id): never
     $in = json_input();
     $keys = field_keys();
     $source = ($in['source'] ?? '') === 'dialogue' ? 'dialogue' : 'agent'; // dicté à l'IA vocale ou saisi à la main
-    $visit = update_visit($me, $id, function (array $v) use ($in, $keys, $source) {
+    $modifies = [];
+    $visit = update_visit($me, $id, function (array $v) use ($in, $keys, $source, &$modifies) {
         foreach (['titre', 'titre_annonce', 'annonce', 'rapport_agent', 'rapport_vendeur'] as $k) {
             if (isset($in[$k]) && is_string($in[$k])) $v[$k] = $in[$k];
         }
@@ -675,6 +676,7 @@ function route_visit_save(string $id): never
                 $valeur = trim((string) $valeur);
                 $avant = $champs[$cle]['valeur'] ?? '';
                 if ($valeur === $avant) continue;
+                $modifies[] = $cle;
                 if ($valeur === '') unset($champs[$cle]);
                 else $champs[$cle] = ['valeur' => $valeur, 'citation' => '', 'source' => $source];
             }
@@ -682,6 +684,10 @@ function route_visit_save(string $id): never
         }
         return $v;
     });
+    if ($modifies) {
+        champs_modifies($me, $id, $modifies);
+        $visit = load_visit($me, $id);
+    }
     send_json(vue_dossier($visit));
 }
 

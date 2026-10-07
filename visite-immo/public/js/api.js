@@ -7,7 +7,7 @@ export class ApiError extends Error {
   }
 }
 
-export async function api(route, { method = "GET", query = {}, body, form } = {}) {
+export async function api(route, { method = "GET", query = {}, body, form, signal } = {}) {
   const params = new URLSearchParams({ r: route, ...query });
   const headers = { "X-Requested-With": "visite-immo" };
   let payload;
@@ -19,8 +19,9 @@ export async function api(route, { method = "GET", query = {}, body, form } = {}
 
   let res;
   try {
-    res = await fetch(`api/?${params}`, { method, headers, body: payload, credentials: "same-origin" });
-  } catch {
+    res = await fetch(`api/?${params}`, { method, headers, body: payload, credentials: "same-origin", signal });
+  } catch (e) {
+    if (e.name === "AbortError") throw e; // requête remplacée par une plus récente
     throw new ApiError("Pas de connexion réseau.", 0);
   }
   const data = await res.json().catch(() => ({}));

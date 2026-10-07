@@ -669,3 +669,57 @@ fieldset.pj input { margin: 0 0 10px; }
 .choix-commune { width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; font: inherit; color: var(--text); cursor: pointer; }
 .carte { height: 300px; border: 1.5px solid var(--bord); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
 .bloc-code { display: block; padding: 10px; background: var(--bg); border: 1.5px dashed var(--line); border-radius: 8px; word-break: break-all; margin-bottom: 14px; }
+
+/* ---------- Estimation en temps réel ---------- */
+.suggest-wrap { position: relative; }
+.suggestions { position: absolute; left: 0; right: 0; top: 100%; z-index: 20; background: var(--surface); border-radius: 0 0 10px 10px; box-shadow: 0 8px 20px rgb(0 0 0 / .15); display: grid; }
+.suggestions:empty { display: none; }
+.suggestions button { text-align: left; padding: 11px 12px; border: 0; border-top: 1px solid var(--line); background: none; color: var(--text); font: inherit; font-size: .9rem; text-transform: none; letter-spacing: 0; }
+.segment { display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--bord); border-radius: 10px; overflow: hidden; margin: 10px 0 12px; }
+.segment button { padding: 11px; border: 0; background: var(--surface); color: var(--text); font: 700 .95rem inherit; font-family: inherit; }
+.segment button.on { background: var(--encre); color: var(--creme); }
+input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 0; background: none; }
+.stepper { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; border: 1.5px solid var(--bord); border-radius: 10px; overflow: hidden; margin-top: 4px; }
+.stepper button { height: 44px; border: 0; background: var(--surface); color: var(--text); font-size: 1.3rem; font-weight: 700; }
+.stepper output { text-align: center; font-weight: 800; font-size: 1.1rem; text-transform: none; }
+.lbl-chips { font: 600 .62rem var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 10px 0 6px; }
+.chips-choix, .chips-dpe { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips-choix button { border: 1.5px solid var(--bord); background: var(--surface); color: var(--text); border-radius: 999px; padding: 7px 12px; font: 600 .82rem inherit; font-family: inherit; }
+.chips-choix button.on { background: var(--citron); color: var(--encre); }
+.chips-dpe button { width: 40px; height: 36px; border-radius: 8px; border: 2px solid transparent; background: var(--c); color: #111; font-weight: 800; opacity: .45; }
+.chips-dpe button.on { opacity: 1; border-color: var(--encre); transform: translateY(-2px); }
+.estim-resultat { transition: opacity .15s; }
+.estim-resultat.calcul { opacity: .55; }
+.estim-prix { display: grid; gap: 2px; margin: 4px 0 10px; }
+.estim-prix small { font: 600 .6rem var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.estim-prix strong { font-size: 2.1rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+.fourchette-barre { position: relative; height: 10px; border-radius: 6px; background: linear-gradient(90deg, var(--vert-clair), var(--vert)); }
+.fourchette-barre span { position: absolute; top: -4px; width: 4px; height: 18px; margin-left: -2px; border-radius: 2px; background: var(--text); box-shadow: 0 0 0 2px var(--surface); }
+.fourchette-bornes { display: flex; justify-content: space-between; font-size: .8rem; color: var(--muted); margin-top: 5px; }
+.estim-infos { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-size: .8rem; margin: 10px 0 4px; }
+.confiance { font: 700 .66rem var(--mono); text-transform: uppercase; letter-spacing: .05em; padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--encre); }
+.confiance-haute { background: var(--citron); color: var(--encre); }
+.confiance-moyenne { background: #ffe0b8; color: var(--encre); }
+.confiance-basse { background: #ffd2c4; color: var(--encre); }
+.tendance { margin: 8px 0 12px; }
+.tendance-tete { display: flex; justify-content: space-between; align-items: baseline; font-size: .8rem; margin-bottom: 6px; }
+.tendance-barres { display: flex; align-items: flex-end; gap: 6px; height: 120px; }
+.tendance-barres div { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 2px; }
+.tendance-barres span { width: 70%; max-width: 34px; background: var(--vert); border-radius: 4px 4px 0 0; }
+.tendance-barres b { font-size: .68rem; font-weight: 600; order: -1; color: var(--muted); }
+.tendance-barres small { font: 600 .62rem var(--mono); color: var(--muted); }
+.comparables { display: grid; gap: 2px; }
+.comparable { display: grid; grid-template-columns: 46px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); font-size: .88rem; }
+.comparable .comp-txt { display: grid; gap: 2px; }
+.comp-sim { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--vert) var(--sim), var(--line) 0); }
+.comp-sim span { width: 32px; height: 32px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font: 700 .62rem var(--mono); }
+.comp-m2 { text-align: right; font-weight: 700; display: grid; white-space: nowrap; }
+.comp-m2 small { font-weight: 500; }
+.carte-estim { height: 220px; border-radius: 10px; margin-bottom: 10px; border: 1.5px solid var(--bord); }
+.estim-direct { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; background: var(--encre); color: var(--creme); border-radius: var(--radius); padding: 10px 14px; margin: 0 0 12px; text-decoration: none; transition: background .3s; }
+.estim-direct small { display: block; font: 600 .58rem var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--citron); }
+.estim-direct strong { font-size: 1.25rem; font-weight: 800; }
+.estim-direct .muted { color: #c9c5bb; }
+.estim-direct .estim-fleche { font-size: 1.4rem; color: var(--citron); }
+.estim-direct.flash { background: var(--vert); }
+@media (prefers-color-scheme: dark) { .estim-direct { background: #26262c; } }

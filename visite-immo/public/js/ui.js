@@ -124,6 +124,7 @@ export function bindMenu() {
     sheet.innerHTML = `<div class="sheet">
       <div class="sheet-user">${esc(state.user.nom)}<span class="muted"> · ${esc(state.user.login)} · ${admin ? "Administrateur" : "Agent"}</span></div>
       <a href="#/tableau">📈 Mon tableau de bord</a>
+      <a href="#/estimation">📊 Estimer un bien</a>
       <a href="#/prospection">🧭 Prospection</a>
       <a href="#/reseau">🤝 Réseau Synapse</a>
       <a href="#/reglages">⚙️ Paramètres</a>

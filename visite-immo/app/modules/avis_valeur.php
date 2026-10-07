@@ -3,8 +3,7 @@
 // extérieurs, fourchette et prix conseillé, argumentaire rédigé. PDF remis au vendeur.
 // Mention obligatoire : un avis de valeur n'est pas une expertise.
 
-const AJUSTEMENTS_ETAT = ['À rénover' => -0.12, 'Travaux à prévoir' => -0.06, 'Bon état' => 0.0, 'Très bon état' => 0.04, 'Refait à neuf' => 0.08];
-const AJUSTEMENTS_DPE = ['A' => 0.04, 'B' => 0.03, 'C' => 0.01, 'D' => 0.0, 'E' => -0.03, 'F' => -0.07, 'G' => -0.10];
+// Le calcul lui-même (ressemblance des ventes, tendance, confiance) est dans estimation.php.
 
 function mediane(array $x): float
 {
@@ -41,47 +40,23 @@ function comparables(array $ventes, string $type, float $surface): array
 
 function calculer_avis_valeur(array $v): ?array
 {
-    $ventes = $v['public']['ventes'] ?? [];
-    $surface = (float) str_replace(',', '.', champ($v, 'surface_habitable'));
-    if (!$ventes || $surface <= 0) return null;
-    $comp = comparables($ventes, champ($v, 'type_bien'), $surface);
-    if (count($comp) < 3) return null;
-    $pm2 = array_column($comp, 'prix_m2');
-    $med = mediane($pm2);
-
-    $ajust = [];
-    $etat = champ($v, 'etat_general');
-    if (isset(AJUSTEMENTS_ETAT[$etat]) && AJUSTEMENTS_ETAT[$etat] != 0) $ajust[] = ["État : " . mb_strtolower($etat), AJUSTEMENTS_ETAT[$etat]];
-    $dpe = champ($v, 'dpe');
-    if (isset(AJUSTEMENTS_DPE[$dpe]) && AJUSTEMENTS_DPE[$dpe] != 0) $ajust[] = ["DPE $dpe", AJUSTEMENTS_DPE[$dpe]];
-    $ext = mb_strtolower(champ($v, 'exterieur') . ' ' . champ($v, 'stationnement'));
-    if (preg_match('/terrasse|balcon|jardin/u', $ext) && champ($v, 'type_bien') === 'Appartement') $ajust[] = ['Extérieur (appartement)', 0.04];
-    if (preg_match('/garage|parking|box/u', $ext)) $ajust[] = ['Stationnement', 0.02];
-    if (preg_match('/\b(sud|sud-ouest)\b/u', mb_strtolower(champ($v, 'exposition')))) $ajust[] = ['Exposition sud', 0.01];
-    $coef = 1 + array_sum(array_column($ajust, 1));
-
-    $central = $med * $surface * $coef;
-    $bas = quantile($pm2, 0.25) * $surface * $coef;
-    $haut = quantile($pm2, 0.75) * $surface * $coef;
-    // fourchette au moins ±4 % autour du prix conseillé
-    $bas = min($bas, $central * 0.96);
-    $haut = max($haut, $central * 1.04);
-    $arrondi = fn ($x) => (int) (round($x / 1000) * 1000);
-
-    $prixVendeur = (float) champ($v, 'prix_souhaite');
+    $e = estimation_dossier($v);
+    if (!$e) return null;
     return [
-        'calcule_le' => date('c'),
-        'surface' => $surface,
-        'prix_m2_median' => (int) round($med),
-        'prix_m2_bas' => (int) round(quantile($pm2, 0.25)),
-        'prix_m2_haut' => (int) round(quantile($pm2, 0.75)),
-        'ajustements' => $ajust,
-        'coefficient' => round($coef, 3),
-        'bas' => $arrondi($bas), 'haut' => $arrondi($haut), 'retenu' => $arrondi($central),
-        'prix_vendeur' => $prixVendeur ?: null,
-        'ecart_vendeur' => $prixVendeur ? round(($prixVendeur / $central - 1) * 100, 1) : null,
-        'comparables' => $comp,
-        'simulation' => !empty($v['public']['simulation']),
+        'calcule_le' => $e['calcule_le'],
+        'surface' => $e['surface'],
+        'prix_m2_median' => $e['prix_m2_marche'],
+        'prix_m2_bas' => $e['prix_m2_bas'],
+        'prix_m2_haut' => $e['prix_m2_haut'],
+        'ajustements' => $e['ajustements'],
+        'coefficient' => $e['coefficient'],
+        'bas' => $e['bas'], 'haut' => $e['haut'], 'retenu' => $e['prix'],
+        'prix_vendeur' => $e['prix_vendeur'],
+        'ecart_vendeur' => $e['ecart_vendeur'],
+        'confiance' => $e['confiance'],
+        'tendance' => $e['tendance'],
+        'comparables' => $e['comparables'],
+        'simulation' => $e['simulation'],
         'argumentaire' => '',
     ];
 }
@@ -92,8 +67,8 @@ function argumentaire_avis(array $v, array $a, array $agent): string
     $f = fn ($n) => number_format($n, 0, ',', ' ') . ' €';
     $ecart = $a['ecart_vendeur'];
     $type = mb_strtolower(champ($v, 'type_bien') ?: 'bien');
-    $base = "Nous avons étudié " . count($a['comparables']) . " ventes réelles de biens comparables ({$type}s de surface proche) enregistrées par l'administration fiscale à proximité. "
-        . "Le prix médian constaté est de {$f($a['prix_m2_median'])} par m², la moitié des ventes se situant entre {$f($a['prix_m2_bas'])} et {$f($a['prix_m2_haut'])} par m².";
+    $base = "Nous avons étudié " . count($a['comparables']) . " ventes réelles de biens comparables ({$type}s les plus ressemblants : surface, pièces, terrain, proximité) enregistrées par l'administration fiscale. "
+        . "Une fois actualisés selon l'évolution du marché local, ces prix donnent une valeur de référence de {$f($a['prix_m2_median'])} par m², la plupart des ventes se situant entre {$f($a['prix_m2_bas'])} et {$f($a['prix_m2_haut'])} par m².";
     if (empty($CONFIG['gemini_api_key'])) {
         $txt = $base . "\n\n";
         if ($a['ajustements']) $txt .= 'Les caractéristiques propres à votre bien ont été prises en compte : ' . implode(', ', array_map(fn ($x) => mb_strtolower($x[0]) . ' (' . ($x[1] > 0 ? '+' : '') . round($x[1] * 100) . ' %)', $a['ajustements'])) . ".\n\n";
@@ -126,6 +101,7 @@ function mettre_a_jour_avis(array $user, string $id): array
         $ancien = $v['avis_valeur'] ?? [];
         if (!empty($ancien['retenu_agent'])) $a['retenu'] = $ancien['retenu_agent']; // l'agent a fixé le prix conseillé
         $a['retenu_agent'] = $ancien['retenu_agent'] ?? null;
+        $a['argumentaire_perime'] = false;
         $v['avis_valeur'] = $a;
         journal_ajout($v, 'auto', 'Avis de valeur calculé sur ' . count($a['comparables']) . ' ventes comparables : ' . number_format($a['retenu'], 0, ',', ' ') . ' €.');
         return $v;
