@@ -37,10 +37,12 @@ try {
         'DELETE logo'     => route_logo_delete(),
         'GET pdf'         => route_pdf($id),
         'POST send'       => route_send($id),
+        'POST live'       => route_live($id),
+        'POST usage'      => route_usage($id),
         'GET fields'      => send_json(SECTIONS),
         'GET visits'      => route_visits_list(),
         'POST visits'     => route_visit_create(),
-        'GET visit'       => send_json(load_visit(require_user(), $id)),
+        'GET visit'       => send_json(avec_completude(load_visit(require_user(), $id))),
         'POST visit'      => route_visit_save($id),
         'DELETE visit'    => route_visit_delete($id),
         'POST chunk'      => route_chunk_upload($id),
@@ -214,6 +216,9 @@ function settings_view(): array
         'cle_apercu'           => $key !== '' ? '…' . substr($key, -4) : '',
         'modele_analyse'       => $CONFIG['modele_analyse'],
         'modele_transcription' => $CONFIG['modele_transcription'],
+        'modele_dialogue'      => $CONFIG['modele_dialogue'] ?? 'gemini-live-2.5-flash-preview',
+        'agence_legal'         => array_intersect_key($CONFIG, array_flip(AGENCE_LEGAL)) + array_fill_keys(AGENCE_LEGAL, ''),
+        'couts'                => couts_du_mois(),
         'data_dir'             => $CONFIG['data_dir'],
         'data_dir_absolu'      => DATA_DIR,
         'agence'               => $CONFIG['agence'],
@@ -263,7 +268,10 @@ function route_settings_save(): never
     if ($cle !== '') $settings['gemini_api_key'] = $cle; // vide = on garde la clé actuelle
     if (!empty($in['supprimer_cle'])) $settings['gemini_api_key'] = '';
 
-    foreach (['modele_analyse', 'modele_transcription'] as $k) {
+    foreach (AGENCE_LEGAL as $k) {
+        if (isset($in[$k])) $settings[$k] = mb_substr(trim((string) $in[$k]), 0, 200);
+    }
+    foreach (['modele_analyse', 'modele_transcription', 'modele_dialogue'] as $k) {
         if (!isset($in[$k])) continue;
         $model = trim((string) $in[$k]);
         if (!preg_match('/^[A-Za-z0-9._-]{2,80}$/', $model)) fail(400, 'Nom de modèle invalide.');
@@ -466,6 +474,135 @@ function route_send(string $id): never
     send_json($visit);
 }
 
+// ---------- Conversation vocale (Gemini Live) ----------
+
+function couts_du_mois(): array
+{
+    $c = read_json(DATA_DIR . '/couts/' . date('Y-m') . '.json', []);
+    $noms = array_column(array_map('public_user', users()), 'nom', 'id');
+    $parAgent = [];
+    foreach ($c['par_agent'] ?? [] as $uid => $e) $parAgent[$noms[$uid] ?? 'Compte supprimé'] = $e;
+    return ['mois' => date('m/Y'), 'total' => $c['total'] ?? 0, 'par_type' => $c['par_type'] ?? new stdClass(), 'par_agent' => $parAgent ?: new stdClass()];
+}
+
+/**
+ * Prépare une conversation : jeton temporaire + configuration de la session (consignes, état du dossier,
+ * fonctions que l'IA appelle pour remplir les champs). La clé Gemini ne quitte jamais le serveur.
+ */
+function route_live(string $id): never
+{
+    global $CONFIG;
+    $me = require_user();
+    $visit = load_visit($me, $id);
+    if (empty($CONFIG['gemini_api_key'])) fail(400, "La conversation vocale nécessite une clé Gemini (Paramètres).");
+
+    $champs = (array) $visit['fiche']['champs'];
+    $connus = [];
+    $options = [];
+    foreach (SECTIONS as $sec) {
+        foreach ($sec['champs'] as $c) {
+            $v = trim((string) ($champs[$c['cle']]['valeur'] ?? ''));
+            if ($v !== '') $connus[] = "- {$c['cle']} ({$c['label']}) : $v";
+            if ($c['type'] === 'select') $options[] = "- {$c['cle']} : " . implode(' | ', $c['options']);
+        }
+    }
+    $manquants = array_map(fn ($c) => "- {$c['cle']} ({$c['label']})", champs_manquants($champs));
+    $agence = $CONFIG['agence'];
+    $connusTxt = $connus ? implode("\n", $connus) : '(rien pour l\'instant)';
+    $manquantsTxt = $manquants ? implode("\n", $manquants) : '(aucun : proposer de vérifier les champs facultatifs utiles, puis terminer)';
+    $optionsTxt = implode("\n", $options);
+    $tousTxt = fields_prompt();
+
+    $consignes = <<<PROMPT
+Tu es l'assistant vocal de {$me['nom']}, agent immobilier chez {$agence}. Il sort d'une visite et tu l'aides à compléter le dossier du bien (fiche, vendeurs, situation juridique, mandat de vente) en lui posant des questions à l'oral.
+
+Façon de parler (tes réponses sont lues par une voix de synthèse) :
+- Vouvoie l'agent. Phrases très courtes. Une seule question à la fois (ou deux informations qui vont ensemble, comme nom et prénom).
+- Pas de listes, pas de markdown, pas d'émojis, pas de formules de politesse inutiles. Ne répète pas ce que l'agent vient de dire, sauf pour faire confirmer un chiffre ou l'orthographe d'un nom.
+- Écris les nombres en lettres ou en chiffres de façon naturelle à l'oral.
+
+Méthode :
+- Dès que l'agent donne une information, appelle la fonction noter avec le ou les champs concernés, puis pose la question suivante. L'agent peut donner plusieurs informations d'un coup : note-les toutes.
+- Ne demande jamais une information déjà connue. Commence par les champs manquants, dans cet ordre : mandat, vendeurs, situation juridique du bien, puis le reste de la fiche.
+- Demande s'il y a d'autres propriétaires (conjoint, indivision) : si oui, recueille l'identité du vendeur 2.
+- Pour un nom propre au moindre doute, fais-le épeler. Pour un montant important, fais-le confirmer.
+- Si l'agent ne sait pas ou dit de passer, n'insiste pas et passe à la suite.
+- Valeurs : dates au format JJ/MM/AAAA, nombres en chiffres sans unité ni espace, oui/non pour les questions fermées, et pour les listes exactement l'une des valeurs proposées.
+- Quand il ne manque plus rien d'obligatoire ou que l'agent veut arrêter, dis en une phrase ce qui reste éventuellement à vérifier, puis appelle terminer.
+
+Commence directement par la première question utile, sans te présenter longuement.
+
+Valeurs possibles des listes :
+{$optionsTxt}
+
+Tous les champs du dossier :
+{$tousTxt}
+
+Déjà connu :
+{$connusTxt}
+
+Obligatoire et encore manquant :
+{$manquantsTxt}
+PROMPT;
+
+    $outils = [[
+        'functionDeclarations' => [
+            [
+                'name' => 'noter',
+                'description' => "Enregistre dans le dossier une ou plusieurs informations données par l'agent.",
+                'parameters' => [
+                    'type' => 'OBJECT',
+                    'properties' => [
+                        'champs' => [
+                            'type' => 'ARRAY',
+                            'items' => [
+                                'type' => 'OBJECT',
+                                'properties' => [
+                                    'cle'    => ['type' => 'STRING', 'enum' => field_keys()],
+                                    'valeur' => ['type' => 'STRING'],
+                                ],
+                                'required' => ['cle', 'valeur'],
+                            ],
+                        ],
+                    ],
+                    'required' => ['champs'],
+                ],
+            ],
+            [
+                'name' => 'terminer',
+                'description' => "Termine la conversation quand le dossier est complet ou que l'agent veut arrêter.",
+                'parameters' => ['type' => 'OBJECT', 'properties' => ['resume' => ['type' => 'STRING']], 'required' => ['resume']],
+            ],
+        ],
+    ]];
+
+    try {
+        $token = gemini_live_token();
+    } catch (RuntimeException $e) {
+        fail(502, $e->getMessage());
+    }
+    send_json([
+        'url'     => 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=' . rawurlencode($token),
+        'model'   => 'models/' . ($CONFIG['modele_dialogue'] ?? 'gemini-live-2.5-flash-preview'),
+        'system'  => $consignes,
+        'tools'   => $outils,
+        'manquants' => array_column(champs_manquants($champs), 'cle'),
+        'audio_natif' => (bool) preg_match('/native-audio|native_audio/i', (string) ($CONFIG['modele_dialogue'] ?? '')),
+    ]);
+}
+
+/** Jetons consommés par une conversation (comptés par le téléphone), convertis en coût. */
+function route_usage(string $id): never
+{
+    global $CONFIG;
+    $me = require_user();
+    $u = json_input()['usage'] ?? [];
+    if (!is_array($u)) fail(400, 'Données invalides.');
+    $euros = cout_usage((string) ($CONFIG['modele_dialogue'] ?? ''), $u, true);
+    log_cout($me, valid_id($id) ? $id : null, 'conversation', min($euros, 20)); // garde-fou contre une valeur aberrante
+    send_json(['ok' => true, 'euros' => $euros]);
+}
+
 // ---------- Visites ----------
 
 function route_visits_list(): never
@@ -514,7 +651,8 @@ function route_visit_save(string $id): never
     $me = require_user();
     $in = json_input();
     $keys = field_keys();
-    $visit = update_visit($me, $id, function (array $v) use ($in, $keys) {
+    $source = ($in['source'] ?? '') === 'dialogue' ? 'dialogue' : 'agent'; // dicté à l'IA vocale ou saisi à la main
+    $visit = update_visit($me, $id, function (array $v) use ($in, $keys, $source) {
         foreach (['titre', 'titre_annonce', 'annonce', 'rapport_agent', 'rapport_vendeur'] as $k) {
             if (isset($in[$k]) && is_string($in[$k])) $v[$k] = $in[$k];
         }
@@ -526,13 +664,22 @@ function route_visit_save(string $id): never
                 $avant = $champs[$cle]['valeur'] ?? '';
                 if ($valeur === $avant) continue;
                 if ($valeur === '') unset($champs[$cle]);
-                else $champs[$cle] = ['valeur' => $valeur, 'citation' => '', 'source' => 'agent'];
+                else $champs[$cle] = ['valeur' => $valeur, 'citation' => '', 'source' => $source];
             }
             $v['fiche']['champs'] = $champs ?: new stdClass();
         }
         return $v;
     });
-    send_json($visit);
+    send_json(avec_completude($visit));
+}
+
+/** Ajoute à la visite le taux de complétude du dossier et la liste des champs obligatoires manquants. */
+function avec_completude(array $visit): array
+{
+    $champs = (array) $visit['fiche']['champs'];
+    $visit['completude'] = completude($champs);
+    $visit['manquants'] = array_map(fn ($c) => ['cle' => $c['cle'], 'label' => $c['label']], champs_manquants($champs));
+    return $visit;
 }
 
 function route_visit_delete(string $id): never
@@ -582,6 +729,7 @@ function route_chunk_upload(string $id): never
         $morceau['statut'] = 'erreur'; // l'audio est conservé, on retentera à la génération
         $morceau['erreur'] = $e->getMessage();
     }
+    flush_usage($me, $id, 'transcription');
 
     update_visit($me, $id, function (array $v) use ($morceau) {
         $v['morceaux'] = array_values(array_filter($v['morceaux'], fn ($m) => $m['n'] !== $morceau['n']));
@@ -642,7 +790,8 @@ function route_generate(string $id): never
 {
     $me = require_user();
     $visit = load_visit($me, $id);
-    if (!$visit['morceaux']) fail(400, "Aucun enregistrement reçu pour cette visite.");
+    $champsValides = array_filter((array) $visit['fiche']['champs'], fn ($c) => in_array($c['source'] ?? '', ['agent', 'dialogue'], true));
+    if (!$visit['morceaux'] && !$champsValides) fail(400, "Aucun enregistrement reçu pour cette visite.");
 
     // Retente la transcription des morceaux en échec
     $dir = visit_dir($me, $id) . '/audio';
@@ -654,8 +803,14 @@ function route_generate(string $id): never
             fail(502, 'Transcription impossible pour le moment : ' . $e->getMessage());
         }
     }
+    flush_usage($me, $id, 'transcription');
     $transcript = full_transcript($visit);
-    if (trim($transcript) === '') fail(400, "Rien n'a été entendu dans l'enregistrement.");
+    if (trim($transcript) === '' && !$champsValides) fail(400, "Rien n'a été entendu dans l'enregistrement.");
+    if (trim($transcript) === '') $transcript = '(pas d\'enregistrement de visite : se fonder sur les informations validées)';
+    $labels = [];
+    foreach (SECTIONS as $sec) foreach ($sec['champs'] as $c) $labels[$c['cle']] = $c['label'];
+    $connus = [];
+    foreach ($champsValides as $cle => $c) $connus[$labels[$cle] ?? $cle] = $c['valeur'];
 
     update_visit($me, $id, function (array $v) use ($visit) {
         $v['morceaux'] = $visit['morceaux'];
@@ -665,8 +820,10 @@ function route_generate(string $id): never
     });
 
     try {
-        $result = generate_documents($transcript, $me, $visit['titre']);
+        $result = generate_documents($transcript, $me, $visit['titre'], $connus);
+        flush_usage($me, $id, 'analyse');
     } catch (Throwable $e) {
+        flush_usage($me, $id, 'analyse');
         update_visit($me, $id, function (array $v) use ($e) {
             $v['statut'] = 'erreur';
             $v['erreur'] = $e->getMessage();
@@ -676,8 +833,8 @@ function route_generate(string $id): never
     }
 
     $visit = update_visit($me, $id, function (array $v) use ($result) {
-        // Les champs corrigés à la main par l'agent ne sont jamais écrasés par l'IA
-        $champs = array_filter((array) $v['fiche']['champs'], fn ($c) => ($c['source'] ?? '') === 'agent');
+        // Les champs corrigés à la main ou dictés par l'agent ne sont jamais écrasés par l'IA
+        $champs = array_filter((array) $v['fiche']['champs'], fn ($c) => in_array($c['source'] ?? '', ['agent', 'dialogue'], true));
         foreach ($result['champs'] ?? [] as $c) {
             if (!isset($champs[$c['cle']]) && trim($c['valeur']) !== '') {
                 $champs[$c['cle']] = ['valeur' => trim($c['valeur']), 'citation' => $c['citation'], 'source' => 'ia'];

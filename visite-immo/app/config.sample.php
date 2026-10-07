@@ -14,6 +14,9 @@ return [
     // Modèle qui transcrit l'audio de la visite
     'modele_transcription' => 'gemini-2.5-flash',
 
+    // Modèle de la conversation vocale « Compléter le dossier » (API Live, réponses en texte lues par le téléphone)
+    'modele_dialogue'      => 'gemini-live-2.5-flash-preview',
+
     // Dossier de stockage : chemin absolu, ou relatif au dossier de l'appli. Jamais dans public/.
     'data_dir'             => 'data',
 

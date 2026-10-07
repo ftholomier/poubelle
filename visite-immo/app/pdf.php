@@ -441,12 +441,12 @@ function lignes_fiche(array $champs, bool $avecVendeur): array
 {
     $sections = [];
     foreach (SECTIONS as $s) {
-        if (!$avecVendeur && $s['titre'] === 'Vendeur & projet') continue;
+        if (!$avecVendeur && !empty($s['interne'])) continue; // vendeurs, juridique, mandat : dossier interne seulement
         $rows = [];
         foreach ($s['champs'] as $c) {
             $val = fiche_valeur($champs, $c['cle']);
             if ($val === '') continue;
-            if ($c['type'] === 'number') $val = fmt_nombre($val) . (isset($c['unite']) ? "\u{00A0}{$c['unite']}" : '');
+            if ($c['type'] === 'number' && is_numeric($val)) $val = fmt_nombre($val) . (isset($c['unite']) ? "\u{00A0}{$c['unite']}" : '');
             if ($c['type'] === 'bool') $val = ucfirst($val);
             $rows[] = ['label' => $c['label'], 'valeur' => $val, 'long' => $c['type'] === 'textarea' || mb_strlen($val) > 45];
         }
@@ -523,7 +523,7 @@ function rendre_vendeur(VisitePdf $pdf, array $visit, array $agent): void
     $pdf->docLabel = 'Compte rendu de visite';
     $pdf->AddPage();
     // Bloc destinataire, à droite comme un courrier
-    $vendeur = fiche_valeur($champs, 'nom_vendeur');
+    $vendeur = trim(fiche_valeur($champs, 'civilite_vendeur') . ' ' . fiche_valeur($champs, 'prenom_vendeur') . ' ' . fiche_valeur($champs, 'nom_vendeur'));
     $pdf->SetX(118);
     $pdf->font('semi', 10, C_ENCRE);
     if ($vendeur) $pdf->MultiCell(74, 5, $vendeur);

@@ -11,14 +11,14 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 $theme = ['logo' => uploaded_logo_path() !== null, 'agence' => (string) $CONFIG['agence']];
 header('Content-Type: text/html; charset=utf-8');
 
-$assets = ['css/app.css', 'js/app.js', 'js/api.js', 'js/recorder.js', 'js/uploader.js'];
+$assets = ['css/app.css', 'js/app.js', 'js/api.js', 'js/recorder.js', 'js/uploader.js', 'js/dialogue.js'];
 $mtimes = array_map(fn ($f) => (string) @filemtime(__DIR__ . "/$f"), $assets);
 $v = substr(md5(implode('|', $mtimes)), 0, 10);
 $url = fn ($f) => "$f?v=$v";
 
 // Les imports entre modules JS (./api.js…) reçoivent aussi le numéro de version
 $importmap = ['imports' => []];
-foreach (['js/api.js', 'js/recorder.js', 'js/uploader.js'] as $f) $importmap['imports']["./$f"] = './' . $url($f);
+foreach (['js/api.js', 'js/recorder.js', 'js/uploader.js', 'js/dialogue.js'] as $f) $importmap['imports']["./$f"] = './' . $url($f);
 ?>
 <!doctype html>
 <html lang="fr">

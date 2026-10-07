@@ -370,3 +370,44 @@ fieldset.pj label.check { margin-bottom: 10px; }
 .test-row .btn { white-space: nowrap; }
 details.aide { margin-bottom: 14px; }
 details.aide summary { cursor: pointer; font-size: .9rem; font-weight: 600; color: var(--vert); }
+
+/* ---------- Dossier & conversation vocale ---------- */
+
+.dossier-top { display: flex; justify-content: space-between; align-items: baseline; }
+.dossier-top h2 { margin-bottom: 8px; }
+.pct { font-size: 1.6rem; font-weight: 800; letter-spacing: -.03em; }
+.jauge { height: 12px; border: 1.5px solid var(--bord); border-radius: 99px; overflow: hidden; background: var(--bg); margin-bottom: 10px; }
+.jauge span { display: block; height: 100%; background: var(--citron); transition: width .4s; }
+.dossier-card .btn { margin-top: 6px; }
+.manque { color: var(--orange); margin-right: 4px; font-size: .9em; }
+.chip-voix { background: var(--orange); cursor: default; }
+
+.dlg-intro { display: grid; gap: 14px; justify-items: start; padding: 8px 0 24px; }
+.dlg-intro h2 { font-size: 2rem; line-height: 1.05; font-weight: 800; letter-spacing: -.035em; }
+.dlg-intro .done-icon { justify-self: center; }
+
+.dlg-scene { display: grid; justify-items: center; gap: 14px; padding: 12px 0 8px; text-align: center; min-height: 46vh; align-content: start; }
+.orbe {
+  width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--encre);
+  background: var(--surface); display: grid; place-items: center; position: relative;
+  box-shadow: 5px 5px 0 var(--encre); transition: background .2s;
+}
+.orbe span { width: 34px; height: 34px; border-radius: 50%; background: var(--encre); transition: all .2s; }
+.orbe.ecoute { background: var(--citron); }
+.orbe.ecoute::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 3px solid var(--citron); animation: pulse 1.8s ease-out infinite; }
+.orbe.agent { background: var(--orange); }
+.orbe.agent span { width: 46px; height: 46px; animation: battement .5s ease-in-out infinite alternate; }
+.orbe.ia { background: var(--encre); }
+.orbe.ia span { background: var(--citron); border-radius: 6px; width: 40px; height: 14px; animation: ondes .7s ease-in-out infinite alternate; }
+.orbe.reflexion span { border: 4px solid var(--line); border-top-color: var(--encre); background: transparent; animation: spin 1s linear infinite; }
+.orbe.pause { background: var(--line); }
+@keyframes battement { to { transform: scale(.75); } }
+@keyframes ondes { to { height: 34px; } }
+.dlg-etat { font: 700 .7rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.dlg-ia { font-size: 1.5rem; line-height: 1.2; font-weight: 800; letter-spacing: -.02em; margin: 0; max-width: 34ch; }
+.dlg-agent { color: var(--muted); margin: 0; font-size: .95rem; }
+.notes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; max-height: 22vh; overflow-y: auto; }
+.note { font-size: .82rem; background: var(--surface); border: 1.5px solid var(--bord); border-radius: 8px; padding: 5px 9px; animation: up .25s; }
+.note strong { font-weight: 700; }
+.dlg-ecrire { display: flex; gap: 8px; margin-bottom: 8px; }
+.dlg-ecrire input { margin: 0; }

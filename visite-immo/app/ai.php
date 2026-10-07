@@ -39,6 +39,94 @@ function gemini_request(string $method, string $path, string $key, ?array $body 
     return $data ?? [];
 }
 
+// ---------- Coûts (estimation à partir des jetons renvoyés par Gemini) ----------
+
+$AI_USAGE = []; // appels de la requête en cours : [modèle, coût en €, jetons]
+
+/** Tarifs indicatifs en $ par million de jetons [entrée, sortie] selon le type de modèle et la modalité. */
+function tarif(string $model, bool $live = false): array
+{
+    if ($live) return ['TEXT' => [0.50, 2.00], 'AUDIO' => [3.00, 12.00]];
+    if (str_contains($model, 'pro')) return ['TEXT' => [1.25, 10.00], 'AUDIO' => [1.25, 10.00]];
+    if (str_contains($model, 'lite')) return ['TEXT' => [0.10, 0.40], 'AUDIO' => [0.30, 0.40]];
+    return ['TEXT' => [0.30, 2.50], 'AUDIO' => [1.00, 2.50]];
+}
+
+/** Coût estimé en euros d'un usageMetadata Gemini. */
+function cout_usage(string $model, array $u, bool $live = false): float
+{
+    $t = tarif($model, $live);
+    $usd = 0.0;
+    $detailsIn = $u['promptTokensDetails'] ?? [['modality' => 'TEXT', 'tokenCount' => $u['promptTokenCount'] ?? 0]];
+    foreach ($detailsIn as $d) $usd += ($d['tokenCount'] ?? 0) * ($t[$d['modality'] ?? 'TEXT'][0] ?? $t['TEXT'][0]);
+    $detailsOut = $u['responseTokensDetails'] ?? $u['candidatesTokensDetails'] ?? [['modality' => 'TEXT', 'tokenCount' => ($u['responseTokenCount'] ?? $u['candidatesTokenCount'] ?? 0)]];
+    foreach ($detailsOut as $d) $usd += ($d['tokenCount'] ?? 0) * ($t[$d['modality'] ?? 'TEXT'][1] ?? $t['TEXT'][1]);
+    $usd += ($u['thoughtsTokenCount'] ?? 0) * $t['TEXT'][1]; // le raisonnement est facturé comme de la sortie
+    return round($usd / 1e6 * 0.9, 5); // ≈ conversion $ → €
+}
+
+/**
+ * Enregistre les coûts : total du mois (data/couts/AAAA-MM.json, par type et par agent) et total de la visite.
+ * $type : transcription, analyse, conversation.
+ */
+function log_cout(array $user, ?string $visitId, string $type, float $euros): void
+{
+    if ($euros <= 0) return;
+    update_json(DATA_DIR . '/couts/' . date('Y-m') . '.json', function (array $c) use ($user, $type, $euros) {
+        $c['total'] = round(($c['total'] ?? 0) + $euros, 5);
+        $c['par_type'][$type] = round(($c['par_type'][$type] ?? 0) + $euros, 5);
+        $c['par_agent'][$user['id']] = round(($c['par_agent'][$user['id']] ?? 0) + $euros, 5);
+        return $c;
+    });
+    if ($visitId) {
+        try {
+            update_visit($user, $visitId, function (array $v) use ($type, $euros) {
+                $v['couts'][$type] = round(($v['couts'][$type] ?? 0) + $euros, 5);
+                return $v;
+            });
+        } catch (Throwable) {
+            // visite supprimée entre-temps : seul le total du mois compte
+        }
+    }
+}
+
+/** Reporte les coûts des appels Gemini faits pendant la requête. */
+function flush_usage(array $user, ?string $visitId, string $type): void
+{
+    global $AI_USAGE;
+    $total = array_sum(array_column($AI_USAGE, 1));
+    $AI_USAGE = [];
+    log_cout($user, $visitId, $type, $total);
+}
+
+/** Jeton temporaire à usage unique pour ouvrir une conversation Live depuis le téléphone (la clé reste sur le serveur). */
+function gemini_live_token(): string
+{
+    global $CONFIG;
+    $ch = curl_init('https://generativelanguage.googleapis.com/v1alpha/auth_tokens');
+    $body = [
+        'uses'                 => 1,
+        'expireTime'           => gmdate('Y-m-d\TH:i:s\Z', time() + 30 * 60), // durée maximale de la conversation
+        'newSessionExpireTime' => gmdate('Y-m-d\TH:i:s\Z', time() + 120),     // délai pour l'ouvrir
+    ];
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_HTTPHEADER     => ['Content-Type: application/json', 'x-goog-api-key: ' . $CONFIG['gemini_api_key']],
+        CURLOPT_POSTFIELDS     => json_encode($body),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CONNECTTIMEOUT => 10,
+        CURLOPT_TIMEOUT        => 20,
+    ]);
+    $raw = curl_exec($ch);
+    $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    $data = json_decode((string) $raw, true);
+    if ($status >= 400 || empty($data['name'])) {
+        throw new RuntimeException('Impossible d\'ouvrir la conversation Gemini : ' . ($data['error']['message'] ?? "erreur $status"));
+    }
+    return $data['name'];
+}
+
 /** Appelle generateContent et renvoie le texte de la réponse. */
 function gemini_generate(string $model, array $body, int $timeout): string
 {
@@ -48,6 +136,8 @@ function gemini_generate(string $model, array $body, int $timeout): string
     if (!empty($data['promptFeedback']['blockReason'])) {
         throw new RuntimeException('Gemini a bloqué la demande (' . $data['promptFeedback']['blockReason'] . ').');
     }
+    global $AI_USAGE;
+    if (!empty($data['usageMetadata'])) $AI_USAGE[] = [$model, cout_usage($model, $data['usageMetadata']), $data['usageMetadata']];
     $candidate = $data['candidates'][0] ?? null;
     if (!$candidate) throw new RuntimeException('Gemini n\'a renvoyé aucune réponse.');
 
@@ -61,7 +151,7 @@ function gemini_generate(string $model, array $body, int $timeout): string
     return $text;
 }
 
-/** Modèles utilisables avec cette clé (ceux qui acceptent generateContent). */
+/** Modèles utilisables avec cette clé : génération (generateContent) et conversation en direct (bidiGenerateContent). */
 function gemini_models(string $key): array
 {
     $models = [];
@@ -70,13 +160,20 @@ function gemini_models(string $key): array
         $data = gemini_request('GET', '/models?pageSize=1000' . ($page ? '&pageToken=' . urlencode($page) : ''), $key);
         foreach ($data['models'] ?? [] as $m) {
             $id = preg_replace('#^models/#', '', $m['name']);
-            if (!in_array('generateContent', $m['supportedGenerationMethods'] ?? [], true)) continue;
+            $methodes = $m['supportedGenerationMethods'] ?? [];
+            $generation = in_array('generateContent', $methodes, true);
+            $live = in_array('bidiGenerateContent', $methodes, true);
+            if (!$generation && !$live) continue;
             if (preg_match('/embedding|imagen|image|tts|aqa|veo|learnlm/i', $id)) continue; // modèles hors sujet
             $models[] = [
                 'id'          => $id,
                 'nom'         => $m['displayName'] ?? $id,
                 'description' => $m['description'] ?? '',
                 'entree'      => $m['inputTokenLimit'] ?? null,
+                'generation'  => $generation,
+                'live'        => $live,
+                // les modèles « native audio » ne savent répondre qu'en voix : plus chers
+                'audio_natif' => (bool) preg_match('/native-audio|native_audio/i', $id),
             ];
         }
         $page = $data['nextPageToken'] ?? '';
@@ -179,7 +276,7 @@ Texte brut uniquement (pas de markdown, pas d'astérisques). Rédige en françai
 PROMPT;
 }
 
-function generate_documents(string $transcript, array $agent, string $titre = ''): array
+function generate_documents(string $transcript, array $agent, string $titre = '', array $connus = []): array
 {
     global $CONFIG;
     if (empty($CONFIG['gemini_api_key'])) {
@@ -191,7 +288,9 @@ function generate_documents(string $transcript, array $agent, string $titre = ''
         'systemInstruction' => ['parts' => [['text' => generation_prompt($agent)]]],
         'contents' => [[
             'role'  => 'user',
-            'parts' => [['text' => ($titre !== '' ? "Bien visité (saisi par l'agent) : $titre\n\n" : '') . "Transcription de la visite :\n\n" . $transcript]],
+            'parts' => [['text' => ($titre !== '' ? "Bien visité (saisi par l'agent) : $titre\n\n" : '')
+                . ($connus ? "Informations validées par l'agent (prioritaires sur la transcription, à reprendre telles quelles) :\n" . implode("\n", array_map(fn ($k, $v) => "- $k : $v", array_keys($connus), $connus)) . "\n\n" : '')
+                . "Transcription de la visite :\n\n" . $transcript]],
         ]],
         'generationConfig' => [
             'responseMimeType' => 'application/json',

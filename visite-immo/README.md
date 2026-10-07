@@ -60,7 +60,9 @@ visite-immo/
      la liste des modèles disponibles pour cette clé ;
    - **modèle d'analyse** (fiche, annonce, rapports) et **modèle de transcription**, choisis dans cette liste ;
    - **dossier de stockage** : en le changeant, les comptes et visites y sont déplacés automatiquement ;
-   - **identité de l'agence** : nom (signature du compte rendu vendeur), coordonnées et logo (le logo Synapse
+   - **modèle de conversation vocale** (liste des modèles compatibles Gemini Live) ;
+   - **identité de l'agence** : nom (signature du compte rendu vendeur), coordonnées, mentions légales du mandat
+     (raison sociale, carte professionnelle, garant, RCP…) et logo (le logo Synapse
      par défaut ; un logo déposé ici le remplace partout : interface, PDF, e-mails) ;
    - **envoi des e-mails** : serveur SMTP (OVH, o2switch, Gmail, Microsoft 365…) ou fonction `mail()` de l'hébergeur,
      avec un bouton « Envoyer un test ».
@@ -78,6 +80,26 @@ visite-immo/
 - `max_execution_time` à 300 s si possible (la génération prend 20 à 60 s).
 
 Test en local : `php -S localhost:8000 -t public` puis http://localhost:8000 (le micro est autorisé sur localhost).
+
+## Compléter le dossier à la voix
+
+Bouton **🎙️ Compléter à la voix** (fiche d'une visite) : un assistant vocal pose à l'agent les questions qui manquent
+(vendeurs, état civil, régime matrimonial, situation juridique du bien, type de mandat, prix, honoraires, durée, lieu de
+signature…) et remplit les champs pendant la conversation. Une jauge indique le taux de complétude du dossier ; les champs
+obligatoires manquants sont marqués d'un point orange, les champs dictés de l'étiquette « DICTÉ ». À la fin,
+« Mettre à jour les documents » régénère la fiche, l'annonce et les rapports en tenant compte de tout ce qui a été dicté.
+
+Technique et coûts :
+- **Gemini Live** (conversation en temps réel). La clé Gemini reste sur le serveur : le téléphone reçoit un jeton
+  temporaire à usage unique (30 minutes maximum).
+- L'IA répond **en texte, lu par la voix du téléphone** (gratuite). Les modèles « native-audio » ne répondent qu'en voix
+  Gemini (≈ 5 fois plus cher) : l'appli s'y adapte, mais préférez un modèle sans « native-audio » (Paramètres).
+- La détection de parole se fait sur le téléphone : **seuls les moments où l'agent parle sont envoyés**, pas les silences.
+- L'historique est compressé (fenêtre glissante) pour que chaque échange ne refacture pas toute la conversation.
+- Paramètres → **Coût de l'IA** : estimation du mois, par usage (transcription, analyse, conversation) et par agent.
+
+Les champs du mandat suivent les mentions obligatoires définies par la plateforme Synapse.immo (loi Hoguet,
+décret 72-678, Code de la consommation). La génération du mandat lui-même viendra avec les modèles Synapse.
 
 ## Documents PDF et e-mails
 

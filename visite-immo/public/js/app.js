@@ -3,9 +3,10 @@
 import { api, audioUrl } from "./api.js";
 import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
+import { Conversation } from "./dialogue.js";
 
 const $app = document.getElementById("app");
-const APP_VERSION = "8"; // affichée dans le menu pour vérifier qu'on a la dernière version
+const APP_VERSION = "9"; // affichée dans le menu pour vérifier qu'on a la dernière version
 const state = { user: null, demo: null, sections: null };
 
 // ---------- Utilitaires ----------
@@ -101,6 +102,7 @@ async function route() {
     if (page === "connexion") return viewLogin();
     if (page === "nouvelle") return viewRecord(null);
     if (page === "continuer") return viewRecord(id);
+    if (page === "visite" && hash.split("/")[3] === "dialogue") return viewDialogue(id);
     if (page === "visite") return viewVisit(id, hash.split("/")[3] || "fiche");
     if (page === "equipe") return viewUsers();
     if (page === "reglages") return viewSettings();
@@ -397,15 +399,17 @@ async function viewVisit(id, onglet) {
   const saver = makeSaver(id);
   cleanup = () => saver.flush();
 
-  // Visite pas encore générée : on propose de créer la fiche
-  if (!genere && onglet !== "audio") {
+  // Visite pas encore générée : on propose de créer la fiche (la fiche reste consultable si des informations ont été dictées)
+  const aDesChamps = Object.keys(champsOf(visit)).length > 0;
+  if (!genere && onglet !== "audio" && !(onglet === "fiche" && aDesChamps)) {
     const enCours = visit.statut === "generation";
     $c.innerHTML = `<div class="vide">
       ${visit.erreur ? `<p class="erreur">${esc(visit.erreur)}</p>` : ""}
       <p>${pending ? `⏳ ${pending} morceau(x) d'audio encore à envoyer.` : visit.morceaux.length ? "L'enregistrement est prêt." : "Aucun audio enregistré pour cette visite."}</p>
       ${enCours ? `<p class="muted">Une génération est en cours ou a été interrompue.</p>` : ""}
-      ${visit.morceaux.length || pending ? `<button class="btn magic big" id="gen">✨ Créer la fiche</button>` : ""}
+      ${visit.morceaux.length || pending || aDesChamps ? `<button class="btn magic big" id="gen">✨ Créer la fiche</button>` : ""}
       <a class="btn ghost" href="#/continuer/${id}">● ${visit.morceaux.length ? "Reprendre l'enregistrement" : "Enregistrer"}</a>
+      <a class="btn" href="#/visite/${id}/dialogue">🎙️ Compléter le dossier à la voix</a>
     </div>`;
     document.getElementById("gen")?.addEventListener("click", () => generate(id));
     return;
@@ -460,6 +464,7 @@ function renderFiche($c, visit, sections, saver) {
   const champs = champsOf(visit);
   const nbIa = Object.values(champs).filter((c) => c.source === "ia").length;
 
+  const manquants = new Set((visit.manquants || []).map((m) => m.cle));
   const input = (f) => {
     const val = champs[f.cle]?.valeur ?? "";
     const attrs = `name="${f.cle}" id="c-${f.cle}"`;
@@ -469,11 +474,13 @@ function renderFiche($c, visit, sections, saver) {
       return `<select ${attrs}><option value=""></option>${[...opts, ...extra].map((o) => `<option ${o === val ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
     }
     if (f.type === "textarea") return `<textarea ${attrs} rows="2">${esc(val)}</textarea>`;
+    if (f.type === "date") return `<input ${attrs} value="${esc(val)}" placeholder="JJ/MM/AAAA" inputmode="numeric">`;
     return `<input ${attrs} value="${esc(val)}" ${f.type === "number" ? 'inputmode="decimal"' : ""}>`;
   };
 
   $c.innerHTML = `
-    <div class="info-ia">✨ ${nbIa} champ(s) rempli(s) par l'IA. Touchez <span class="chip">IA</span> pour voir ce qui a été dit.</div>
+    ${carteDossier(visit)}
+    ${nbIa ? `<div class="info-ia">✨ ${nbIa} champ(s) rempli(s) par l'IA. Touchez <span class="chip">IA</span> pour voir ce qui a été dit.</div>` : ""}
     ${sections
       .map(
         (s) => `<section class="card">
@@ -481,9 +488,15 @@ function renderFiche($c, visit, sections, saver) {
         ${s.champs
           .map((f) => {
             const c = champs[f.cle];
-            const chip = c?.source === "ia" && c.citation ? `<button type="button" class="chip" data-cite="${esc(c.citation)}">IA</button>` : "";
-            return `<div class="field ${c ? "filled" : ""} ${c?.source === "ia" ? "ia" : ""}">
-              <label for="c-${f.cle}">${esc(f.label)}${f.unite ? ` <span class="muted">(${f.unite})</span>` : ""} ${chip}</label>
+            const chip =
+              c?.source === "ia" && c.citation
+                ? `<button type="button" class="chip" data-cite="${esc(c.citation)}">IA</button>`
+                : c?.source === "dialogue"
+                  ? '<span class="chip chip-voix">DICTÉ</span>'
+                  : "";
+            const manque = manquants.has(f.cle) ? '<span class="manque" title="Obligatoire pour le mandat">●</span>' : "";
+            return `<div class="field ${c ? "filled" : ""} ${c?.source === "ia" || c?.source === "dialogue" ? "ia" : ""}">
+              <label for="c-${f.cle}">${manque}${esc(f.label)}${f.unite ? ` <span class="muted">(${f.unite})</span>` : ""} ${chip}</label>
               ${input(f)}
             </div>`;
           })
@@ -528,6 +541,10 @@ function renderFiche($c, visit, sections, saver) {
     copier(lignes.join("\n"));
   };
   bindDocActions($c, visit, saver);
+  document.getElementById("gen-docs")?.addEventListener("click", async () => {
+    await saver.flush();
+    generate(visit.id);
+  });
   document.getElementById("regen").onclick = async () => {
     if (!confirm("Régénérer la fiche, l'annonce et les rapports à partir de l'audio ? Les textes modifiés seront remplacés (les champs corrigés à la main sont conservés).")) return;
     await saver.flush();
@@ -586,6 +603,184 @@ function renderTexte($c, visit, saver, key, titre, aide, doc) {
 
 function renderVendeur($c, visit, saver) {
   renderTexte($c, visit, saver, "rapport_vendeur", "Compte rendu pour le vendeur", "À relire avant envoi. Ton professionnel, sans remarques internes.", "vendeur");
+}
+
+// ---------- Conversation vocale : compléter le dossier ----------
+
+function carteDossier(visit) {
+  const pct = visit.completude ?? 0;
+  const n = (visit.manquants || []).length;
+  return `<section class="card dossier-card">
+    <div class="dossier-top"><h2>Dossier & mandat</h2><strong class="pct">${pct} %</strong></div>
+    <div class="jauge"><span style="width:${pct}%"></span></div>
+    <p class="small muted">${n ? `${n} information${n > 1 ? "s" : ""} obligatoire${n > 1 ? "s" : ""} à compléter (repérées par <span class="manque">●</span>).` : "Toutes les informations obligatoires sont renseignées."}</p>
+    ${n ? `<a class="btn magic big" href="#/visite/${visit.id}/dialogue">🎙️ Compléter à la voix</a>` : `<a class="btn" href="#/visite/${visit.id}/dialogue">🎙️ Vérifier à la voix</a>`}
+    ${visit.genere_le ? "" : `<button class="btn primary big" id="gen-docs">✨ Créer les documents</button>`}
+  </section>`;
+}
+
+const ETATS = {
+  connexion: ["Connexion…", ""],
+  ecoute: ["À vous", "ecoute"],
+  agent: ["Je vous écoute", "agent"],
+  reflexion: ["…", "reflexion"],
+  ia: ["L'assistant parle", "ia"],
+  pause: ["En pause", "pause"],
+};
+
+async function viewDialogue(id) {
+  const visit = await api("visit", { query: { id } });
+  let conv = null;
+  let noteCount = 0;
+
+  render(`${header("Compléter le dossier", { back: `#/visite/${id}/fiche` })}
+  <main class="page dialogue">
+    <section class="card dossier-card">
+      <div class="dossier-top"><h2>Dossier & mandat</h2><strong class="pct" id="pct">${visit.completude} %</strong></div>
+      <div class="jauge"><span id="jauge" style="width:${visit.completude}%"></span></div>
+      <p class="small muted" id="reste">${visit.manquants.length} information(s) obligatoire(s) à compléter.</p>
+    </section>
+    <div id="zone">
+      <div class="dlg-intro">
+        <span class="tag">Assistant vocal</span>
+        <h2>On complète le dossier <mark>à la voix.</mark></h2>
+        <p class="muted">L'assistant vous pose uniquement les questions qui manquent : vendeurs, mandat, situation juridique… Répondez naturellement, vous pouvez donner plusieurs informations d'un coup, dire « je ne sais pas » ou lui couper la parole.</p>
+        <button class="btn magic big" id="start">🎙️ Démarrer la conversation</button>
+        <p class="small muted center">Parlez près du téléphone. Les informations s'enregistrent au fil de l'eau.</p>
+      </div>
+    </div>
+  </main>`);
+
+  const $ = (x) => document.getElementById(x);
+  const majDossier = (v) => {
+    $("pct").textContent = `${v.completude} %`;
+    $("jauge").style.width = `${v.completude}%`;
+    $("reste").textContent = v.manquants.length ? `${v.manquants.length} information(s) obligatoire(s) à compléter.` : "Toutes les informations obligatoires sont renseignées ✓";
+  };
+
+  const finUsage = (usage) => {
+    if (!usage.promptTokensDetails.length && !usage.responseTokensDetails.length) return;
+    fetch(`api/?${new URLSearchParams({ r: "usage", id })}`, {
+      method: "POST",
+      keepalive: true,
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json", "X-Requested-With": "visite-immo" },
+      body: JSON.stringify({ usage }),
+    }).catch(() => {});
+  };
+
+  const ecranConversation = () => {
+    $("zone").innerHTML = `
+      <div class="dlg-scene">
+        <div class="orbe" id="orbe"><span></span></div>
+        <div class="dlg-etat" id="etat">Connexion…</div>
+        <p class="dlg-ia" id="ia"></p>
+        <p class="dlg-agent" id="agent"></p>
+      </div>
+      <div class="notes" id="notes"></div>
+      <form class="dlg-ecrire" id="ecrire" hidden><input id="ecrire-txt" placeholder="Écrire une réponse (nom à épeler…)" autocomplete="off"><button class="btn primary">Envoyer</button></form>
+      <div class="sticky-actions">
+        <button class="btn" id="pause">⏸ Pause</button>
+        <button class="btn" id="clavier">⌨️ Écrire</button>
+        <button class="btn primary" id="stop">■ Terminer</button>
+      </div>`;
+    $("pause").onclick = () => ($("pause").textContent = conv.basculerPause() ? "▶ Reprendre" : "⏸ Pause");
+    $("clavier").onclick = () => {
+      $("ecrire").hidden = !$("ecrire").hidden;
+      if (!$("ecrire").hidden) $("ecrire-txt").focus();
+    };
+    $("ecrire").onsubmit = (e) => {
+      e.preventDefault();
+      const t = $("ecrire-txt").value.trim();
+      if (t) conv.ecrire(t);
+      $("ecrire-txt").value = "";
+    };
+    $("stop").onclick = () => conv.fermer("arret");
+  };
+
+  const ecranFin = (raison, resume) => {
+    $("zone").innerHTML = `
+      <div class="dlg-intro">
+        <div class="done-icon">✓</div>
+        <h2>${noteCount} information${noteCount > 1 ? "s" : ""} <mark>enregistrée${noteCount > 1 ? "s" : ""}.</mark></h2>
+        ${resume ? `<p>${esc(resume)}</p>` : ""}
+        ${raison.startsWith("refus") ? `<p class="erreur">${esc(raison)}. Vérifiez le modèle de conversation dans les Paramètres.</p>` : raison === "coupure" ? '<p class="erreur">La connexion a été coupée. Vous pouvez reprendre : les informations déjà dictées sont conservées.</p>' : ""}
+        <button class="btn magic big" id="regen">✨ Mettre à jour les documents</button>
+        <a class="btn" href="#/visite/${id}/dialogue" id="encore">🎙️ Reprendre la conversation</a>
+        <a class="btn ghost" href="#/visite/${id}/fiche">Voir la fiche</a>
+      </div>`;
+    $("encore").onclick = (e) => {
+      e.preventDefault();
+      viewDialogue(id);
+    };
+    $("regen").onclick = () => generate(id);
+  };
+
+  let resumeFin = "";
+  const lancer = async () => {
+    const config = await api("live", { method: "POST", query: { id } });
+    conv = new Conversation(config, {
+      onState: (etat) => {
+        const [label, cls] = ETATS[etat] || [etat, ""];
+        if ($("etat")) $("etat").textContent = label;
+        if ($("orbe")) $("orbe").className = `orbe ${cls}`;
+      },
+      onIa: (t) => {
+        if ($("ia")) $("ia").textContent = t;
+        if ($("agent")) $("agent").textContent = "";
+      },
+      onAgent: (t) => {
+        if ($("agent")) $("agent").textContent = `Vous : ${t}`;
+      },
+      onInfo: (t) => toast(t),
+      onNoter: async (champs) => {
+        const valeurs = {};
+        for (const c of champs) if (c.cle && c.valeur !== undefined) valeurs[c.cle] = String(c.valeur);
+        const v = await api("visit", { method: "POST", query: { id }, body: { champs: valeurs, source: "dialogue" } });
+        majDossier(v);
+        const labels = Object.fromEntries((state.sections || []).flatMap((s) => s.champs.map((f) => [f.cle, f.label])));
+        for (const [k, val] of Object.entries(valeurs)) {
+          noteCount++;
+          $("notes")?.insertAdjacentHTML("afterbegin", `<span class="note">✓ ${esc(labels[k] || k)} : <strong>${esc(val)}</strong></span>`);
+        }
+        navigator.vibrate?.(30);
+        return { resultat: "noté", encore_obligatoire: v.manquants.map((m) => m.label) };
+      },
+      onTerminer: (resume) => (resumeFin = resume),
+      onUsage: finUsage,
+      onRelance: async () => {
+        try {
+          const c = await api("live", { method: "POST", query: { id } });
+          conv.config = { ...c, audio_natif: true };
+          conv.connecter();
+        } catch (e) {
+          ecranFin(`refus : ${e.message}`, "");
+        }
+      },
+      onFin: (raison) => {
+        window.onbeforeunload = null;
+        ecranFin(raison, resumeFin);
+      },
+    });
+    ecranConversation();
+    await conv.demarrer();
+    window.onbeforeunload = () => "Conversation en cours";
+  };
+
+  state.sections = state.sections || (await api("fields"));
+  $("start").onclick = async () => {
+    $("start").disabled = true;
+    try {
+      await lancer();
+    } catch (e) {
+      toast(e.name === "NotAllowedError" ? "Accès au micro refusé" : e.message, "erreur");
+      conv?.fermer("arret");
+      viewDialogue(id);
+    }
+  };
+  cleanup = () => {
+    if (conv && !conv.ferme) conv.fermer("arret");
+  };
 }
 
 // ---------- PDF et envoi par e-mail ----------
@@ -833,8 +1028,19 @@ async function viewSettings() {
         <label>Modèle pour la transcription audio
           <select name="modele_transcription" id="m-transcription"></select>
         </label>
+        <label>Modèle pour la conversation vocale <span class="muted">(« Compléter à la voix »)</span>
+          <select name="modele_dialogue" id="m-dialogue"></select>
+        </label>
         <p class="muted small" id="m-desc"></p>
-        <p class="muted small">Conseil : un modèle « Flash » suffit pour la transcription (rapide et économique) ; un modèle « Pro » rédige de meilleurs textes pour l'analyse.</p>
+        <p class="muted small">Conseil : un modèle « Flash » suffit pour la transcription (rapide et économique) ; un modèle « Pro » rédige de meilleurs textes pour l'analyse. Pour la conversation, préférez un modèle <strong>sans « native-audio »</strong> dans son nom : il répond en texte, lu gratuitement par la voix du téléphone (les « native-audio » répondent avec la voix Gemini, environ 5 fois plus cher).</p>
+      </section>
+
+      <section class="card">
+        <h2>Coût de l'IA · ${esc(cfg.couts.mois)}</h2>
+        <p class="pct">≈ ${Number(cfg.couts.total).toLocaleString("fr-FR", { maximumFractionDigits: 2 })} €</p>
+        <p class="small muted">${Object.entries(cfg.couts.par_type).map(([k, v]) => `${esc(k)} : ${Number(v).toLocaleString("fr-FR", { maximumFractionDigits: 2 })} €`).join(" · ") || "Aucune dépense ce mois-ci."}</p>
+        ${Object.keys(cfg.couts.par_agent).length ? `<p class="small muted">${Object.entries(cfg.couts.par_agent).map(([k, v]) => `${esc(k)} : ${Number(v).toLocaleString("fr-FR", { maximumFractionDigits: 2 })} €`).join(" · ")}</p>` : ""}
+        <p class="small muted">Estimation calculée à partir des jetons consommés et des tarifs publics de Gemini ; la facture Google fait foi.</p>
       </section>
 
       <section class="card">
@@ -855,6 +1061,19 @@ async function viewSettings() {
         <label>Coordonnées <span class="muted">(en-tête des PDF et pied des e-mails)</span>
           <textarea name="agence_coordonnees" rows="3" placeholder="Adresse&#10;Téléphone · e-mail&#10;Carte professionnelle">${esc(cfg.agence_coordonnees)}</textarea>
         </label>
+        <details class="aide"><summary>Mentions légales (obligatoires sur le mandat)</summary>
+          ${[
+            ["raison_sociale", "Raison sociale (titulaire de la carte)"],
+            ["siege", "Adresse du siège"],
+            ["siret", "SIRET"],
+            ["carte_numero", "Carte professionnelle n°"],
+            ["carte_delivree_par", "Délivrée par (CCI)"],
+            ["garant", "Garant financier (nom et adresse)"],
+            ["rcp", "Assurance responsabilité civile professionnelle"],
+          ]
+            .map(([k, l]) => `<label>${l}<input name="${k}" value="${esc(cfg.agence_legal[k] || "")}"></label>`)
+            .join("")}
+        </details>
         <div class="logo-zone">
           <span class="label-like">Logo <span class="muted">(par défaut : logo Synapse ; déposez un PNG ou JPG pour le remplacer)</span></span>
           <div class="logo-preview" id="logo-preview">${cfg.logo ? `<img src="api/?r=logo&t=${Date.now()}" alt="Logo">` : '<img src="img/synapse-logo.svg" alt="Synapse">'}</div>
@@ -971,10 +1190,15 @@ async function viewSettings() {
 
   // Remplit les deux listes ; le modèle actuel reste sélectionné même s'il n'est pas (ou plus) proposé
   const fillSelects = () => {
-    for (const [id, actuel] of [["m-analyse", form.modele_analyse.value || cfg.modele_analyse], ["m-transcription", form.modele_transcription.value || cfg.modele_transcription]]) {
-      const ids = modeles.map((m) => m.id);
-      const options = ids.includes(actuel) || !actuel ? modeles : [{ id: actuel, nom: `${actuel} (actuel)` }, ...modeles];
-      $(id).innerHTML = options.map((m) => `<option value="${esc(m.id)}" ${m.id === actuel ? "selected" : ""}>${esc(m.nom)}${m.nom !== m.id ? ` · ${esc(m.id)}` : ""}</option>`).join("");
+    for (const [id, actuel, filtre] of [
+      ["m-analyse", form.modele_analyse.value || cfg.modele_analyse, (m) => m.generation !== false],
+      ["m-transcription", form.modele_transcription.value || cfg.modele_transcription, (m) => m.generation !== false],
+      ["m-dialogue", form.modele_dialogue.value || cfg.modele_dialogue, (m) => m.live],
+    ]) {
+      const liste = modeles.filter(filtre).sort((a, b) => (a.audio_natif || false) - (b.audio_natif || false));
+      const ids = liste.map((m) => m.id);
+      const options = ids.includes(actuel) || !actuel ? liste : [{ id: actuel, nom: `${actuel} (actuel)` }, ...liste];
+      $(id).innerHTML = options.map((m) => `<option value="${esc(m.id)}" ${m.id === actuel ? "selected" : ""}>${esc(m.nom)}${m.nom !== m.id ? ` · ${esc(m.id)}` : ""}${m.audio_natif ? " · voix Gemini (plus cher)" : ""}</option>`).join("");
     }
     showDesc();
   };
@@ -985,6 +1209,7 @@ async function viewSettings() {
   };
   $("m-analyse").onchange = showDesc;
   $("m-transcription").onchange = showDesc;
+  $("m-dialogue").onchange = showDesc;
 
   const loadModels = async () => {
     const cle = form.cle.value.trim();

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 // Point d'entrée commun : configuration, réponses JSON, session, stockage fichiers.
 
-define('APP_VERSION', '8'); // à garder identique à APP_VERSION dans public/js/app.js
+define('APP_VERSION', '9'); // à garder identique à APP_VERSION dans public/js/app.js
 define('APP_ROOT', dirname(__DIR__));
 define('SETTINGS_FILE', __DIR__ . '/settings.json'); // réglages faits dans l'appli
 
@@ -21,6 +21,9 @@ function resolve_data_dir(string $path): string
 
 define('DATA_DIR', resolve_data_dir($CONFIG['data_dir']));
 define('USERS_FILE', DATA_DIR . '/users.json');
+
+/** Mentions légales de l'agence, exigées sur le mandat (Paramètres → Identité de l'agence). */
+const AGENCE_LEGAL = ['raison_sociale', 'siege', 'siret', 'carte_numero', 'carte_delivree_par', 'garant', 'rcp'];
 
 // Formats audio acceptés (type MIME => extension)
 const AUDIO_TYPES = ['audio/webm' => 'webm', 'audio/mp4' => 'm4a', 'audio/ogg' => 'ogg', 'audio/mpeg' => 'mp3', 'audio/wav' => 'wav'];
@@ -196,6 +199,7 @@ function visit_summary(array $v): array
         'type_bien'  => $champs['type_bien']['valeur'] ?? null,
         'ville'      => $champs['ville']['valeur'] ?? null,
         'prix'       => $champs['prix_souhaite']['valeur'] ?? null,
+        'completude' => completude($champs),
     ];
 }
 
