@@ -5,25 +5,12 @@ import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 import { Conversation } from "./dialogue.js";
 import { rendreApercu } from "./apercu.js";
+import "./vues/aujourdhui.js";
 
-const $app = document.getElementById("app");
-const APP_VERSION = "11"; // affichée dans le menu pour vérifier qu'on a la dernière version
-const state = { user: null, demo: null, sections: null };
-
-// ---------- Utilitaires ----------
-
-const esc = (s) =>
-  String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-
-const fmtDuree = (s) => {
-  s = Math.max(0, Math.round(s));
-  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
-  return h ? `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}` : `${m}:${String(sec).padStart(2, "0")}`;
-};
-const fmtDate = (iso) =>
-  new Date(iso).toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-const fmtPrix = (v) => (v ? Number(v).toLocaleString("fr-FR") + " €" : "");
-const champsOf = (v) => (Array.isArray(v.fiche?.champs) ? {} : v.fiche?.champs || {});
+import {
+  APP_VERSION, state, nav, esc, fmtDuree, fmtDate, fmtPrix, champsOf, toast, copier, go, render, theme,
+  logoImg, header, ecran, demoBanner, pdfUrl, ecransDossier, actionsDossier, vues, outils,
+} from "./ui.js";
 
 const STATUTS = {
   enregistrement: ["En cours", "gris"],
@@ -33,67 +20,13 @@ const STATUTS = {
   erreur: ["Erreur", "rouge"],
 };
 
-function toast(message, type = "") {
-  const el = document.createElement("div");
-  el.className = `toast ${type}`;
-  el.textContent = message;
-  document.body.append(el);
-  setTimeout(() => el.classList.add("out"), 2600);
-  setTimeout(() => el.remove(), 3000);
-}
-
-async function copier(texte) {
-  try {
-    await navigator.clipboard.writeText(texte);
-    toast("Copié ✓");
-  } catch {
-    toast("Copie impossible sur cet appareil", "erreur");
-  }
-}
-
-function go(hash) {
-  location.hash = hash;
-}
-
-let cleanup = null; // appelé en quittant un écran (ex. arrêt d'un enregistrement)
-
-function render(html) {
-  $app.innerHTML = html;
-  window.scrollTo(0, 0);
-}
-
-const theme = window.THEME || {};
-const logoSrc = () => `api/?r=logo&v=${theme.logoV || 1}`;
-/** Logo : celui déposé dans les Paramètres, sinon le logo Synapse (version claire en mode sombre). */
-function logoImg(cls = "") {
-  if (theme.logo) return `<img class="${cls}" src="${logoSrc()}" alt="${esc(theme.agence || "")}">`;
-  return `<picture><source srcset="img/synapse-logo-clair.svg" media="(prefers-color-scheme: dark)"><img class="${cls}" src="img/synapse-logo.svg" alt="Synapse"></picture>`;
-}
-function logoMark() {
-  return `<a class="logo" href="#/">${logoImg()}</a>`;
-}
-
-function header(titre, { back = null, actions = "" } = {}) {
-  return `<header class="bar">
-    ${back ? `<a class="icon-btn" href="${back}" aria-label="Retour">←</a>` : logoMark()}
-    <h1>${esc(titre)}</h1>
-    <div class="bar-actions">${actions}</div>
-  </header>`;
-}
-
-function demoBanner() {
-  if (!state.demo) return "";
-  return `<div class="banner">Mode démo : aucune clé Gemini configurée, la transcription et l'analyse sont simulées.
-    ${state.user?.role === "admin" ? `<a href="#/reglages"><strong>⚙️ Configurer Gemini →</strong></a>` : "Demandez à un administrateur de la configurer."}</div>`;
-}
-
 // ---------- Routeur ----------
 
 async function route() {
-  if (cleanup) {
-    const ok = await cleanup();
+  if (nav.cleanup) {
+    const ok = await nav.cleanup();
     if (ok === false) return; // l'écran a refusé de se fermer
-    cleanup = null;
+    nav.cleanup = null;
   }
   const hash = location.hash.slice(1) || "/";
   if (!state.user && hash !== "/connexion") return go("/connexion");
@@ -105,11 +38,13 @@ async function route() {
     if (page === "continuer") return viewRecord(id);
     if (page === "visite" && hash.split("/")[3] === "dialogue") return viewDialogue(id);
     if (page === "visite" && hash.split("/")[3] === "apercu") return viewApercu(id);
-    if (page === "visite") return viewVisit(id, hash.split("/")[3] || "fiche");
+    if (page === "visite") return viewVisit(id, hash.split("/")[3] || "resume");
     if (page === "equipe") return viewUsers();
     if (page === "reglages") return viewSettings();
     if (page === "compte") return viewAccount();
-    return viewHome();
+    if (page === "biens") return viewBiens();
+    if (vues[page]) return vues[page](hash.split("/").slice(2));
+    return vues.aujourdhui ? vues.aujourdhui([]) : viewBiens();
   } catch (e) {
     render(`${header("Erreur", { back: "#/" })}<main class="page"><p class="erreur">${esc(e.message)}</p></main>`);
   }
@@ -156,59 +91,48 @@ function viewLogin() {
   };
 }
 
-// ---------- Accueil : mes visites ----------
+// ---------- Biens : tous les dossiers ----------
 
-async function viewHome() {
-  render(`${header("", { actions: menuButton() })}<main class="page"><div class="loader"></div></main>`);
-  bindMenu();
+const ETAPE_BADGE = {
+  visite: ["Visite", "orange"],
+  preparation: ["À compléter", "orange"],
+  signature: ["Signature", "bleu"],
+  en_vente: ["En vente", "vert"],
+  offre: ["Offre", "vert"],
+  compromis: ["Compromis", "vert"],
+  vendu: ["Vendu", "gris"],
+};
+
+async function viewBiens() {
+  const $m = ecran("Biens", '<div class="loader"></div>', { actif: "biens" });
   const [visites, pending] = await Promise.all([api("visits"), uploader.pending()]);
   const enAttente = new Set(pending.map((p) => p.visitId));
+  const filtre = sessionStorage.getItem("filtre-biens") || "tous";
+  const groupes = { tous: () => true, cours: (v) => !["vendu"].includes(v.etape), vente: (v) => ["en_vente", "offre", "compromis"].includes(v.etape), vendus: (v) => v.etape === "vendu" };
 
-  const items = visites.length
-    ? visites
-        .map((v) => {
-          const [label, couleur] = STATUTS[v.statut] || [v.statut, "gris"];
-          const details = [v.type_bien, v.ville, fmtPrix(v.prix)].filter(Boolean).join(" · ");
-          return `<a class="visite card" href="#/visite/${v.id}">
-            <div class="visite-top"><strong>${esc(v.titre)}</strong><span class="badge ${couleur}">${label}</span></div>
-            ${details ? `<div class="muted">${esc(details)}</div>` : ""}
-            <div class="visite-meta">${fmtDate(v.cree_le)} · 🎙️ ${fmtDuree(v.duree)}${v.audio ? "" : " (audio supprimé)"}${enAttente.has(v.id) ? ' · <span class="orange-txt">⏳ envoi en attente</span>' : ""}</div>
-          </a>`;
-        })
-        .join("")
-    : `<div class="vide"><p>Aucune visite pour l'instant.</p><p class="muted">Appuyez sur le bouton rouge pour enregistrer votre première visite.</p></div>`;
+  const items = visites
+    .filter(groupes[filtre] || groupes.tous)
+    .map((v) => {
+      const [label, couleur] = v.statut === "generation" || v.statut === "erreur" ? STATUTS[v.statut] : ETAPE_BADGE[v.etape] || STATUTS[v.statut] || [v.statut, "gris"];
+      const details = [v.type_bien, v.ville, fmtPrix(v.prix)].filter(Boolean).join(" · ");
+      return `<a class="visite card" href="#/visite/${v.id}">
+        ${v.photo ? `<img class="visite-photo" src="api/?r=photo&id=${v.id}&f=${encodeURIComponent(v.photo)}&mini=1" alt="" loading="lazy">` : ""}
+        <div class="visite-top"><strong>${esc(v.titre)}</strong><span class="badge ${couleur}">${label}</span></div>
+        ${details ? `<div class="muted">${esc(details)}</div>` : ""}
+        <div class="visite-meta">${fmtDate(v.cree_le)} · 🎙️ ${fmtDuree(v.duree)}${v.audio ? "" : " (audio supprimé)"} · dossier ${v.completude} %${enAttente.has(v.id) ? ' · <span class="orange-txt">⏳ envoi en attente</span>' : ""}</div>
+      </a>`;
+    })
+    .join("");
 
-  const prenom = (state.user.nom || "").split(" ")[0];
-  const hero = `<div class="home-hero"><span class="tag">${visites.length} visite${visites.length > 1 ? "s" : ""}</span><h2 style="margin-top:14px">Bonjour ${esc(prenom)}.<br><mark>Vos visites.</mark></h2></div>`;
-  document.querySelector("main").innerHTML = `${hero}${demoBanner()}${items}<div class="spacer"></div>`;
-  document.querySelector("main").insertAdjacentHTML("afterend", `<a class="fab" href="#/nouvelle"><span class="dot"></span> Nouvelle visite</a>`);
-}
-
-function menuButton() {
-  return `<a class="icon-btn" href="#/reglages" aria-label="Paramètres">⚙️</a><button class="icon-btn" id="menu-btn" aria-label="Menu">☰</button>`;
-}
-
-function bindMenu() {
-  document.getElementById("menu-btn").onclick = () => {
-    const sheet = document.createElement("div");
-    sheet.className = "sheet-bg";
-    sheet.innerHTML = `<div class="sheet">
-      <div class="sheet-user">${esc(state.user.nom)}<span class="muted"> · ${esc(state.user.login)} · ${state.user.role === "admin" ? "Administrateur" : "Agent"}</span></div>
-      <a href="#/reglages">⚙️ Paramètres (IA Gemini, stockage, signature)</a>
-      ${state.user.role === "admin" ? `<a href="#/equipe">👥 Gérer l'équipe</a>` : ""}
-      <a href="#/compte">👤 Mon compte (coordonnées, mot de passe)</a>
-      <button id="logout">↪ Se déconnecter</button>
-      <span class="sheet-version">Visite Immo · version ${APP_VERSION}</span>
-    </div>`;
-    sheet.onclick = (e) => e.target === sheet || e.target.closest("a") ? sheet.remove() : null;
-    document.body.append(sheet);
-    sheet.querySelector("#logout").onclick = async () => {
-      await api("logout", { method: "POST" }).catch(() => {});
-      state.user = null;
-      sheet.remove();
-      go("/connexion");
-    };
-  };
+  $m.innerHTML = `${demoBanner()}
+    <div class="filtres">${[["tous", "Tous"], ["cours", "En cours"], ["vente", "En vente"], ["vendus", "Vendus"]]
+      .map(([k, l]) => `<button class="filtre ${k === filtre ? "on" : ""}" data-f="${k}">${l}</button>`)
+      .join("")}</div>
+    ${items || `<div class="vide"><p>Aucun bien ${visites.length ? "dans ce filtre" : "pour l'instant"}.</p><p class="muted">Appuyez sur le bouton rouge pour enregistrer une visite : tout le dossier se prépare à partir d'elle.</p></div>`}`;
+  $m.querySelectorAll("[data-f]").forEach((b) => (b.onclick = () => {
+    sessionStorage.setItem("filtre-biens", b.dataset.f);
+    viewBiens();
+  }));
 }
 
 // ---------- Enregistrement ----------
@@ -332,7 +256,7 @@ async function viewRecord(existingId) {
     };
   };
 
-  cleanup = async () => {
+  nav.cleanup = async () => {
     unsubscribe();
     if (rec && rec.state !== "stopped") {
       if (!confirm("Arrêter l'enregistrement en cours ?")) {
@@ -367,7 +291,7 @@ async function generate(id) {
     }
     navigator.vibrate?.([80, 60, 80]);
     toast("Fiche créée ✨", "ok");
-    go(`/visite/${id}/fiche`);
+    go(`/visite/${id}/resume`);
   } catch (e) {
     render(`${header("Création de la fiche", { back: `#/visite/${id}` })}<main class="page generating">
       <p class="erreur center">${esc(e.message)}</p>
@@ -380,31 +304,40 @@ async function generate(id) {
 // ---------- Visite : fiche, annonce, rapports, audio ----------
 
 const ONGLETS = [
+  ["resume", "Résumé"],
   ["fiche", "Fiche"],
-  ["annonce", "Annonce"],
-  ["rapport", "Rapport"],
-  ["vendeur", "Vendeur"],
-  ["mandat", "Mandat"],
+  ["documents", "Documents"],
+  ["photos", "Photos"],
+  ["vente", "Vente"],
   ["audio", "Audio"],
 ];
+// Écrans de documents (ouverts depuis l'onglet Documents) : les modules en ajoutent dans ecransDossier
+const ECRANS_DOCS = {
+  annonce: (c, v, s) => renderAnnonce(c, v, s),
+  rapport: (c, v, s) => renderTexte(c, v, s, "rapport_agent", "Rapport interne", "Pour vous uniquement : avis, risques, points à vérifier.", "rapport"),
+  vendeur: (c, v, s) => renderVendeur(c, v, s),
+  mandat: (c, v, s) => renderMandat(c, v, s),
+};
 
 async function viewVisit(id, onglet) {
   const [visit, sections] = await Promise.all([api("visit", { query: { id } }), state.sections || api("fields")]);
   state.sections = sections;
   const pending = (await uploader.pending(id)).length;
   const genere = Boolean(visit.genere_le);
+  const ecranDoc = ECRANS_DOCS[onglet] || ecransDossier[onglet];
+  const ongletActif = ecranDoc ? "documents" : onglet;
 
-  render(`${header(visit.titre || "Visite", { back: "#/", actions: `<span class="save-state" id="save"></span>` })}
-  <nav class="tabs">${ONGLETS.map(([k, l]) => `<a href="#/visite/${id}/${k}" class="${k === onglet ? "on" : ""}">${l}</a>`).join("")}</nav>
+  render(`${header(visit.titre || "Visite", { back: ecranDoc ? `#/visite/${id}/documents` : "#/biens", actions: `<span class="save-state" id="save"></span>` })}
+  <nav class="tabs">${ONGLETS.map(([k, l]) => `<a href="#/visite/${id}/${k}" class="${k === ongletActif ? "on" : ""}">${l}</a>`).join("")}</nav>
   <main class="page" id="content"></main>`);
 
   const $c = document.getElementById("content");
   const saver = makeSaver(id);
-  cleanup = () => saver.flush();
+  nav.cleanup = () => saver.flush();
 
   // Visite pas encore générée : on propose de créer la fiche (la fiche reste consultable si des informations ont été dictées)
   const aDesChamps = Object.keys(champsOf(visit)).length > 0;
-  if (!genere && onglet !== "audio" && !(["fiche", "mandat"].includes(onglet) && aDesChamps)) {
+  if (!genere && !["audio", "photos"].includes(onglet) && !(["fiche", "mandat"].includes(onglet) && aDesChamps)) {
     const enCours = visit.statut === "generation";
     $c.innerHTML = `<div class="vide">
       ${visit.erreur ? `<p class="erreur">${esc(visit.erreur)}</p>` : ""}
@@ -418,12 +351,94 @@ async function viewVisit(id, onglet) {
     return;
   }
 
-  if (onglet === "fiche") renderFiche($c, visit, sections, saver);
-  else if (onglet === "annonce") renderAnnonce($c, visit, saver);
-  else if (onglet === "rapport") renderTexte($c, visit, saver, "rapport_agent", "Rapport interne", "Pour vous uniquement : avis, risques, points à vérifier.", "rapport");
-  else if (onglet === "vendeur") renderVendeur($c, visit, saver);
-  else if (onglet === "mandat") renderMandat($c, visit, saver);
+  if (ecranDoc) return ecranDoc($c, visit, saver);
+  if (onglet === "resume") renderResume($c, visit);
+  else if (onglet === "fiche") renderFiche($c, visit, sections, saver);
+  else if (onglet === "documents") renderDocuments($c, visit, saver);
+  else if (ecransDossier[`onglet_${onglet}`]) ecransDossier[`onglet_${onglet}`]($c, visit, saver);
   else renderAudio($c, visit, pending);
+}
+
+// ---------- Résumé : où en est le dossier, et la seule chose à faire maintenant ----------
+
+function stepper(visit) {
+  const cles = Object.keys(visit.etapes || {});
+  const i = cles.indexOf(visit.etape);
+  return `<div class="stepper">${cles
+    .map((k, n) => `<div class="step ${n < i ? "fait" : n === i ? "actuel" : ""}"><span>${n < i ? "✓" : n + 1}</span>${esc(visit.etapes[k].label)}</div>`)
+    .join("")}</div>`;
+}
+
+/** Action de la carte « Prochaine étape » : les modules en ajoutent dans actionsDossier. */
+async function lancerAction(cle, visit) {
+  if (cle === "generer") return generate(visit.id);
+  if (cle === "dialogue") return go(`/visite/${visit.id}/dialogue`);
+  if (actionsDossier[cle]) return actionsDossier[cle](visit);
+  toast("Bientôt disponible");
+}
+
+function renderResume($c, visit) {
+  const v = (k) => champsOf(visit)[k]?.valeur || "";
+  const prix = v("mandat_prix") || v("prix_souhaite");
+  const prets = (visit.documents || []).filter((d) => d.pret);
+  const [action, ...autres] = visit.actions || [];
+  $c.innerHTML = `
+    ${stepper(visit)}
+    ${action
+      ? `<section class="card prochaine">
+          <span class="tag">Prochaine étape</span>
+          <h2 class="prochaine-titre">${esc(action[0])}</h2>
+          <p class="muted">${esc(action[1])}</p>
+          <button class="btn magic big" data-action="${action[2]}">${esc(action[3])}</button>
+        </section>`
+      : `<section class="card prochaine ok"><span class="tag tag-citron">À jour</span><h2 class="prochaine-titre">Rien à faire pour l'instant.</h2><p class="muted">Les relances et comptes rendus partent automatiquement.</p></section>`}
+    ${autres.map((a) => `<button class="card action-ligne" data-action="${a[2]}"><strong>${esc(a[0])}</strong><span class="muted small">${esc(a[1])}</span><span class="fleche">→</span></button>`).join("")}
+    <section class="card">
+      <div class="dossier-top"><h2>Le bien</h2><a class="small" href="#/visite/${visit.id}/fiche"><u>Fiche</u></a></div>
+      <div class="chiffres">
+        ${prix ? `<div class="chiffre noir"><small>Prix</small><strong>${fmtPrix(prix)}</strong></div>` : ""}
+        ${v("surface_habitable") ? `<div class="chiffre"><small>Surface</small><strong>${esc(v("surface_habitable"))} m²</strong></div>` : ""}
+        ${v("nb_pieces") || v("nb_chambres") ? `<div class="chiffre"><small>Pièces</small><strong>${esc([v("nb_pieces") && v("nb_pieces") + " p.", v("nb_chambres") && v("nb_chambres") + " ch."].filter(Boolean).join(" · "))}</strong></div>` : ""}
+        ${visit.avis_valeur?.retenu ? `<div class="chiffre citron"><small>Avis de valeur</small><strong>${fmtPrix(visit.avis_valeur.retenu)}</strong></div>` : ""}
+      </div>
+      <div class="jauge-ligne"><span>Dossier complet à ${visit.completude} %</span><div class="jauge"><span style="width:${visit.completude}%"></span></div></div>
+    </section>
+    <section class="card">
+      <div class="dossier-top"><h2>Préparé automatiquement</h2><a class="small" href="#/visite/${visit.id}/documents"><u>Documents</u></a></div>
+      <ul class="prets">${prets.map((d) => `<li>✓ ${esc(d.label)}${d.interne ? ' <span class="muted small">(interne)</span>' : ""}</li>`).join("")}</ul>
+    </section>
+    ${journalCarte(visit)}`;
+  $c.querySelectorAll("[data-action]").forEach((b) => (b.onclick = () => lancerAction(b.dataset.action, visit)));
+}
+
+function journalCarte(visit) {
+  const j = (visit.journal || []).slice(-12).reverse();
+  if (!j.length) return "";
+  return `<section class="card"><h2>Ce qui s'est passé</h2>${j
+    .map((e) => `<div class="journal-ligne"><span class="muted small">${fmtDate(e.date)}</span><span>${esc(e.texte)}</span></div>`)
+    .join("")}</section>`;
+}
+
+// ---------- Documents : tout ce qui a été préparé, avec PDF et envoi ----------
+
+function renderDocuments($c, visit, saver) {
+  const docs = visit.documents || [];
+  $c.innerHTML = `<section class="card docs-liste">
+      <h2>Documents du dossier</h2>
+      ${docs
+        .map(
+          (d) => `<div class="doc-ligne ${d.pret ? "" : "pas-pret"}">
+            <a class="doc-nom" href="#/visite/${visit.id}/${d.ecran}"><strong>${esc(d.label)}</strong>${d.interne ? ' <span class="badge gris">interne</span>' : ""}${d.pret ? "" : ' <span class="muted small">à compléter</span>'}</a>
+            <div class="doc-actions">
+              <button class="icon-btn" data-pdf="${d.cle}" aria-label="PDF">📄</button>
+              <button class="icon-btn" data-send="${d.cle}" aria-label="Envoyer">✉️</button>
+            </div>
+          </div>`,
+        )
+        .join("")}
+    </section>
+    ${historiqueEnvois(visit)}`;
+  bindDocActions($c, visit, saver);
 }
 
 /** Sauvegarde automatique, une seconde après la dernière frappe. */
@@ -638,7 +653,7 @@ async function viewDialogue(id) {
   let conv = null;
   let noteCount = 0;
 
-  render(`${header("Compléter le dossier", { back: `#/visite/${id}/fiche` })}
+  render(`${header("Compléter le dossier", { back: `#/visite/${id}/resume` })}
   <main class="page dialogue">
     <section class="card dossier-card">
       <div class="dossier-top"><h2>Dossier & mandat</h2><strong class="pct" id="pct">${visit.completude} %</strong></div>
@@ -783,7 +798,7 @@ async function viewDialogue(id) {
       viewDialogue(id);
     }
   };
-  cleanup = () => {
+  nav.cleanup = () => {
     if (conv && !conv.ferme) conv.fermer("arret");
   };
 }
@@ -868,8 +883,6 @@ const DOCS = {
   dossier: { label: "Dossier complet", interne: true },
   mandat: { label: "Mandat de vente", interne: false },
 };
-
-const pdfUrl = (id, doc, dl = false) => `api/?${new URLSearchParams({ r: "pdf", id, doc, ...(dl ? { dl: 1 } : {}) })}`;
 
 function bindDocActions($c, visit, saver) {
   $c.querySelectorAll("[data-pdf]").forEach((b) => {
@@ -1377,6 +1390,8 @@ function appliquerTheme(t) {
 }
 
 // ---------- Démarrage ----------
+
+Object.assign(outils, { generate, openSendSheet, bindDocActions, makeSaver, viewVisit, route, renderTexte, historiqueEnvois });
 
 (async function init() {
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});

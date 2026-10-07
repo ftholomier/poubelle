@@ -11,14 +11,16 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 $theme = ['logo' => uploaded_logo_path() !== null, 'agence' => (string) $CONFIG['agence']];
 header('Content-Type: text/html; charset=utf-8');
 
-$assets = ['css/app.css', 'js/app.js', 'js/api.js', 'js/recorder.js', 'js/uploader.js', 'js/dialogue.js', 'js/apercu.js'];
-$mtimes = array_map(fn ($f) => (string) @filemtime(__DIR__ . "/$f"), $assets);
+// Tous les modules JS (js/ et js/vues/) : ajouter un fichier suffit, il est versionné automatiquement
+$modules = array_map(fn ($f) => substr($f, strlen(__DIR__) + 1), array_merge(glob(__DIR__ . '/js/*.js') ?: [], glob(__DIR__ . '/js/vues/*.js') ?: []));
+$assets = array_merge(['css/app.css'], $modules);
+$mtimes = array_map(fn ($f) => $f . (string) @filemtime(__DIR__ . "/$f"), $assets);
 $v = substr(md5(implode('|', $mtimes)), 0, 10);
 $url = fn ($f) => "$f?v=$v";
 
 // Les imports entre modules JS (./api.js…) reçoivent aussi le numéro de version
 $importmap = ['imports' => []];
-foreach (['js/api.js', 'js/recorder.js', 'js/uploader.js', 'js/dialogue.js', 'js/apercu.js'] as $f) $importmap['imports']["./$f"] = './' . $url($f);
+foreach ($modules as $f) if ($f !== 'js/app.js') $importmap['imports']["./$f"] = './' . $url($f);
 ?>
 <!doctype html>
 <html lang="fr">

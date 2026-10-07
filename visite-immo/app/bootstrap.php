@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 // Point d'entrée commun : configuration, réponses JSON, session, stockage fichiers.
 
-define('APP_VERSION', '11'); // à garder identique à APP_VERSION dans public/js/app.js
+define('APP_VERSION', '12'); // à garder identique à APP_VERSION dans public/js/app.js
 define('APP_ROOT', dirname(__DIR__));
-define('SETTINGS_FILE', __DIR__ . '/settings.json'); // réglages faits dans l'appli
+define('SETTINGS_FILE', getenv('VI_SETTINGS') ?: __DIR__ . '/settings.json'); // réglages faits dans l'appli (VI_SETTINGS : tests)
 
 // Valeurs par défaut (config.php si présent, sinon config.sample.php), remplacées par les réglages de l'appli
 $configFile = file_exists(__DIR__ . '/config.php') ? __DIR__ . '/config.php' : __DIR__ . '/config.sample.php';
@@ -19,7 +19,7 @@ function resolve_data_dir(string $path): string
     return $absolu ? $path : APP_ROOT . '/' . $path;
 }
 
-define('DATA_DIR', resolve_data_dir($CONFIG['data_dir']));
+define('DATA_DIR', resolve_data_dir(getenv('VI_DATA_DIR') ?: $CONFIG['data_dir'])); // VI_DATA_DIR : tests
 define('USERS_FILE', DATA_DIR . '/users.json');
 
 /** Mentions légales de l'agence, exigées sur le mandat (Paramètres → Identité de l'agence). */
@@ -28,11 +28,23 @@ const AGENCE_LEGAL = ['raison_sociale', 'siege', 'siret', 'carte_numero', 'carte
 // Formats audio acceptés (type MIME => extension)
 const AUDIO_TYPES = ['audio/webm' => 'webm', 'audio/mp4' => 'm4a', 'audio/ogg' => 'ogg', 'audio/mpeg' => 'mp3', 'audio/wav' => 'wav'];
 
+/**
+ * Adresse d'un service extérieur. Surchargeable par variable d'environnement (VI_API_<NOM>, utilisé par les tests)
+ * ou par le réglage api_<nom>. Permet de pointer vers un service de test sans toucher au code.
+ */
+function api_base(string $nom, string $defaut): string
+{
+    global $CONFIG;
+    return rtrim((string) (getenv('VI_API_' . strtoupper($nom)) ?: ($CONFIG['api_' . $nom] ?? $defaut)), '/');
+}
+
 require __DIR__ . '/fields.php';
 require __DIR__ . '/ai.php';
 require __DIR__ . '/pdf.php';
 require __DIR__ . '/mandat.php';
 require __DIR__ . '/mailer.php';
+require __DIR__ . '/store.php';
+foreach (glob(__DIR__ . '/modules/*.php') ?: [] as $module) require $module;
 
 // ---------- Réponses ----------
 
@@ -172,7 +184,9 @@ function load_visit(array $user, string $id): array
 {
     $file = visit_dir($user, $id) . '/visite.json';
     if (!is_file($file)) fail(404, 'Visite introuvable.');
-    return read_json($file);
+    $v = read_json($file);
+    $v['agent'] ??= $user['id'];
+    return $v;
 }
 
 function update_visit(array $user, string $id, callable $fn): array
@@ -201,6 +215,8 @@ function visit_summary(array $v): array
         'ville'      => $champs['ville']['valeur'] ?? null,
         'prix'       => $champs['prix_souhaite']['valeur'] ?? null,
         'completude' => completude($champs),
+        'etape'      => function_exists('etape_dossier') ? etape_dossier($v) : null,
+        'photo'      => $v['photos'][0]['fichier'] ?? null,
     ];
 }
 

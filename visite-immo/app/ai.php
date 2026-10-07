@@ -7,11 +7,10 @@
 
 require_once __DIR__ . '/demo.php';
 
-const GEMINI_API = 'https://generativelanguage.googleapis.com/v1beta';
 
 function gemini_request(string $method, string $path, string $key, ?array $body = null, int $timeout = 60): array
 {
-    $ch = curl_init(GEMINI_API . $path);
+    $ch = curl_init(api_base('gemini', 'https://generativelanguage.googleapis.com/v1beta') . $path);
     $headers = ['x-goog-api-key: ' . $key];
     if ($body !== null) {
         $headers[] = 'Content-Type: application/json';
@@ -103,7 +102,7 @@ function flush_usage(array $user, ?string $visitId, string $type): void
 function gemini_live_token(): string
 {
     global $CONFIG;
-    $ch = curl_init('https://generativelanguage.googleapis.com/v1alpha/auth_tokens');
+    $ch = curl_init(api_base('gemini_live', 'https://generativelanguage.googleapis.com/v1alpha') . '/auth_tokens');
     $body = [
         'uses'                 => 1,
         'expireTime'           => gmdate('Y-m-d\TH:i:s\Z', time() + 30 * 60), // durée maximale de la conversation

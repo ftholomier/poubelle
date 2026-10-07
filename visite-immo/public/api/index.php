@@ -7,6 +7,7 @@ require __DIR__ . '/../../app/bootstrap.php';
 
 set_time_limit(320);
 start_session();
+memoriser_url_publique();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $route  = $_GET['r'] ?? '';
@@ -18,6 +19,10 @@ if ($method !== 'GET' && ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') !== 'visite-i
 }
 
 try {
+    if (isset($ROUTES["$method $route"])) {
+        $ROUTES["$method $route"]($id);
+        send_json(['ok' => true]);
+    }
     match ("$method $route") {
         'GET status'      => route_status(),
         'POST setup'      => route_setup(),
@@ -38,12 +43,12 @@ try {
         'GET pdf'         => route_pdf($id),
         'POST send'       => route_send($id),
         'POST live'       => route_live($id),
-        'POST registre'   => send_json(avec_completude(inscrire_registre(require_user(), $id))),
+        'POST registre'   => send_json(vue_dossier(inscrire_registre(require_user(), $id))),
         'POST usage'      => route_usage($id),
         'GET fields'      => send_json(SECTIONS),
         'GET visits'      => route_visits_list(),
         'POST visits'     => route_visit_create(),
-        'GET visit'       => send_json(avec_completude(load_visit(require_user(), $id))),
+        'GET visit'       => send_json(vue_dossier(load_visit(require_user(), $id))),
         'POST visit'      => route_visit_save($id),
         'DELETE visit'    => route_visit_delete($id),
         'POST chunk'      => route_chunk_upload($id),
@@ -627,6 +632,7 @@ function route_visit_create(): never
     $id = date('Ymd-His') . '-' . bin2hex(random_bytes(3));
     $visit = [
         'id'              => $id,
+        'agent'           => $me['id'],
         'titre'           => trim((string) ($in['titre'] ?? '')),
         'statut'          => 'enregistrement',
         'cree_le'         => date('c'),
@@ -671,17 +677,7 @@ function route_visit_save(string $id): never
         }
         return $v;
     });
-    send_json(avec_completude($visit));
-}
-
-/** Ajoute à la visite le taux de complétude du dossier et la liste des champs obligatoires manquants. */
-function avec_completude(array $visit): array
-{
-    $champs = (array) $visit['fiche']['champs'];
-    $visit['completude'] = completude($champs);
-    $visit['manquants'] = array_map(fn ($c) => ['cle' => $c['cle'], 'label' => $c['label']], champs_manquants($champs));
-    $visit['mandat_manques'] = mandat_a_completer($visit, current_user() ?? []);
-    return $visit;
+    send_json(vue_dossier($visit));
 }
 
 function route_visit_delete(string $id): never
