@@ -18,7 +18,7 @@ vues.aujourdhui = async () => {
   const infos = data.elements.filter((e) => e.type === "info");
 
   const ligne = (e) => `<a class="ajd-item ${e.priorite === 1 ? "urgent" : ""}" href="${e.lien || "#/"}">
-      <span class="ajd-ic">${ICONES[e.type] || "•"}</span>
+      ${e.tache ? `<span class="ajd-ic ajd-check" data-tache="${e.tache}" title="Marquer comme fait">✓</span>` : `<span class="ajd-ic">${ICONES[e.type] || "•"}</span>`}
       <span class="ajd-txt"><strong>${esc(e.titre)}</strong><span class="muted small">${esc(e.detail || "")}</span></span>
       ${e.heure ? `<span class="ajd-heure">${esc(e.heure)}</span>` : '<span class="fleche">→</span>'}
     </a>`;

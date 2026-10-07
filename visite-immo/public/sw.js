@@ -1,6 +1,6 @@
 // Service worker : l'interface s'ouvre même sans réseau. L'API n'est jamais mise en cache.
 
-const CACHE = "visite-immo-v9";
+const CACHE = "visite-immo-v12";
 const SHELL = ["./", "icon.svg", "manifest.webmanifest"]; // CSS et JS (versionnés) sont mis en cache au fil de l'eau
 
 self.addEventListener("install", (e) => {
@@ -25,5 +25,27 @@ self.addEventListener("fetch", (e) => {
         return res;
       })
       .catch(() => caches.match(e.request).then((r) => r || caches.match("./"))),
+  );
+});
+
+// Notifications (visite réservée, offre, signature…) : affichage puis ouverture de l'appli au bon écran
+self.addEventListener("push", (e) => {
+  let d = {};
+  try {
+    d = e.data?.json() || {};
+  } catch {
+    d = { titre: "Visite Immo", texte: e.data?.text() || "" };
+  }
+  e.waitUntil(self.registration.showNotification(d.titre || "Visite Immo", { body: d.texte || "", icon: "icon-192.png", badge: "icon-192.png", data: { lien: d.lien || "#/" } }));
+});
+
+self.addEventListener("notificationclick", (e) => {
+  e.notification.close();
+  const url = new URL("./" + (e.notification.data?.lien || "#/"), self.registration.scope).href;
+  e.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((liste) => {
+      for (const c of liste) if ("focus" in c) return c.navigate(url).then((x) => x?.focus());
+      return self.clients.openWindow(url);
+    }),
   );
 });

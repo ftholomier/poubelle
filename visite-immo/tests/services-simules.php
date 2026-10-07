@@ -92,6 +92,17 @@ if (str_starts_with($path, '/signature/demandes')) {
     json(['id' => 'sig_' . substr(md5((string) microtime(true)), 0, 10), 'statut' => 'envoye', 'signataires' => count($in['signataires'] ?? [])]);
 }
 
+// --- Service de notifications push (enregistre le message chiffré pour vérification) ---
+if (str_starts_with($path, '/push/')) {
+    $dir = sys_get_temp_dir() . '/visite-immo-test/push';
+    if (!is_dir($dir)) mkdir($dir, 0777, true);
+    $n = count(glob("$dir/*.bin"));
+    file_put_contents("$dir/$n.bin", file_get_contents('php://input'));
+    file_put_contents("$dir/$n.json", json_encode(['authorization' => $_SERVER['HTTP_AUTHORIZATION'] ?? '', 'encoding' => $_SERVER['HTTP_CONTENT_ENCODING'] ?? '', 'ttl' => $_SERVER['HTTP_TTL'] ?? '']));
+    http_response_code(201);
+    exit;
+}
+
 // --- Gemini generateContent (réponses fixes, pour vérifier les appels réels) ---
 if (preg_match('#^/gemini/models/([^:]+):generateContent$#', $path, $m)) {
     $in = json_decode((string) file_get_contents('php://input'), true) ?: [];

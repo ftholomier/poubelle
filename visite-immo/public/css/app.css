@@ -633,3 +633,25 @@ canvas.pad { display: block; width: 100%; height: 200px; background: #fff; borde
 .ech-depasse > span { background: var(--rouge); color: #fff; border-color: var(--rouge); }
 .ech-a_venir > span { background: var(--citron); color: var(--encre); }
 fieldset.pj input { margin: 0 0 10px; }
+
+/* ---------- Au quotidien ---------- */
+.ajd-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.ajd-bouton { display: grid; justify-items: center; gap: 4px; padding: 14px 6px; font: 700 .82rem "Archivo", sans-serif; color: var(--text); background: var(--surface); border: 1.5px solid var(--bord); border-radius: 12px; cursor: pointer; }
+.ajd-bouton span { font-size: 1.5rem; }
+.ajd-bouton.citron { background: var(--citron); color: var(--encre); border-color: var(--encre); box-shadow: 3px 3px 0 var(--encre); }
+.ajd-check { cursor: pointer; background: var(--surface); color: transparent; }
+.ajd-check:hover { color: var(--vert); }
+.ajd-item.fait { opacity: .45; text-decoration: line-through; }
+.ajd-item.fait .ajd-check { background: var(--vert); color: #fff; }
+.paliers-barre { position: relative; height: 14px; border-radius: 7px; background: var(--line); margin: 34px 0 30px; }
+.paliers-barre > span { position: absolute; left: 0; top: 0; bottom: 0; background: var(--citron); border: 1.5px solid var(--encre); border-radius: 7px; }
+.paliers-barre i { position: absolute; top: -26px; transform: translateX(-50%); font: 600 .62rem var(--mono); font-style: normal; color: var(--muted); display: grid; justify-items: center; white-space: nowrap; }
+.paliers-barre i b { color: var(--text); font-size: .74rem; }
+.paliers-barre i::after { content: ""; width: 2px; height: 18px; background: var(--encre); margin-top: 2px; }
+.etapes-tdb { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 6px; }
+.etapes-tdb div { display: grid; justify-items: center; padding: 10px 4px; border: 1.5px solid var(--bord); border-radius: 10px; }
+.etapes-tdb strong { font-size: 1.5rem; font-weight: 800; }
+.etapes-tdb span { font: 600 .58rem var(--mono); text-transform: uppercase; color: var(--muted); text-align: center; }
+.etapes-tdb .vide-etape { opacity: .45; }
+.paliers-barre i:first-of-type { transform: none; justify-items: start; }
+.paliers-barre i:first-of-type::after { margin-left: 0; }
