@@ -397,7 +397,7 @@ final class Pages
         $r = \App\Services\Search::query($q, $type, $per, ($page - 1) * $per);
         $pages = max(1, (int) ceil($r['total'] / $per));
         $base = url('/recherche/');
-        $qs = fn (array $p) => \App\Front\Mosaic::qs(array_filter(['q' => $q, 'type' => $type] + $p, fn ($v) => $v !== null));
+        $qs = fn (array $p) => \App\Front\Mosaic::qs(array_replace(['q' => $q, 'type' => $type], $p));
         // Raccourcis (saison, face-à-face) tirés de la même recherche, sans la refaire.
         $suggest = $q !== '' ? array_slice(\App\Services\Search::shortcuts($q, $r), 0, 3) : [];
         return self::render('search', [

@@ -647,7 +647,7 @@ final class Explore
         $comp = isset(Mosaic::COMPS[$req->str('comp')]) ? $req->str('comp') : null;
         $rows = self::recordRows($cat, $decade, $comp);
         [$tab, $title, $unit] = self::RECORDS[$cat];
-        $qs = fn (array $p) => Mosaic::qs(array_filter(['cat' => $cat === 'buteurs' ? null : $cat, 'decennie' => $decade ? (string) $decade : null, 'comp' => $comp] + $p, fn ($v) => $v !== null));
+        $qs = fn (array $p) => Mosaic::qs(array_replace(['cat' => $cat === 'buteurs' ? null : $cat, 'decennie' => $decade ? (string) $decade : null, 'comp' => $comp], $p));
         $tabs = [];
         foreach (self::RECORDS as $k => [$l]) {
             $tabs[] = ['label' => t($l), 'href' => url('/records/') . $qs(['cat' => $k === 'buteurs' ? null : $k]), 'on' => $k === $cat];
