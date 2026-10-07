@@ -152,7 +152,10 @@ route('GET prospection', function () {
     send_json(['secteurs' => array_values($p['secteurs'] ?? []), 'cibles' => $cibles, 'stats' => $stats, 'statuts' => STATUTS_CIBLE]);
 });
 
-route('GET communes', fn () => send_json(chercher_commune((string) ($_GET['q'] ?? ''))));
+route('GET communes', function () {
+    require_user();
+    send_json(chercher_commune((string) ($_GET['q'] ?? '')));
+});
 
 route('POST secteur', function () {
     $me = require_user();

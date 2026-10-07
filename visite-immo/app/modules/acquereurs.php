@@ -192,6 +192,7 @@ route('POST acquereur', function ($id) {
     $me = require_user();
     $in = json_input();
     $ancien = $id !== '' ? acquereur($me, $id) : [];
+    unset($in['id']); // l'identifiant vient de l'adresse, jamais du corps de la requête
     $a = normaliser_acquereur($in + ($id !== '' ? ['id' => $id] : []), $ancien);
     if (!$ancien) $a['historique'][] = ['date' => date('c'), 'texte' => 'Fiche créée.'];
     send_json(collection_enregistrer($me, 'acquereurs', $a));

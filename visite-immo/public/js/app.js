@@ -1037,7 +1037,7 @@ function historiqueEnvois(visit) {
     ${envois
       .slice()
       .reverse()
-      .map((e) => `<div class="envoi"><strong>${esc(e.a)}</strong><span class="muted small">${fmtDate(e.date)} · ${e.docs.map((d) => (visit.documents || []).find((x) => x.cle === d)?.label || DOCS[d]?.label || d).join(", ")}${e.copie ? " · copie à moi" : ""}</span></div>`)
+      .map((e) => `<div class="envoi"><strong>${esc(e.a)}</strong><span class="muted small">${fmtDate(e.date)} · ${esc(e.docs.map((d) => (visit.documents || []).find((x) => x.cle === d)?.label || DOCS[d]?.label || d).join(", "))}${e.copie ? " · copie à moi" : ""}</span></div>`)
       .join("")}
   </section>`;
 }

@@ -326,6 +326,11 @@ function champs_modifies(array $agent, string $id, array $cles): void
     }
 }
 
+// Connexion : 5 échecs en 15 min bloquent l'identifiant, 20 bloquent l'adresse IP (voir route_login)
+const ESSAIS_MAX_LOGIN = 5;
+const ESSAIS_MAX_IP = 20;
+const ESSAIS_FENETRE = 900;
+
 // ---------- Réglages ajoutés par les modules (Paramètres) ----------
 
 /** Réglages simples enregistrés tels quels : clé => [type (texte, url, nombre, choix:a|b, secret), valeur par défaut]. */

@@ -258,7 +258,7 @@ ecransDossier.avis = ($c, visit) => {
 ecransDossier.plan = async ($c, visit) => {
   const { svg } = await api("plan", { query: { id: visit.id } });
   const pieces = visit.plan?.pieces || [];
-  const ligne = (p = { nom: "", surface: "", niveau: "RDC" }) => `<div class="plan-ligne"><input data-k="nom" value="${esc(p.nom)}" placeholder="Pièce" aria-label="Nom de la pièce"><input data-k="surface" inputmode="decimal" value="${p.surface || ""}" placeholder="m²" aria-label="Surface (m²)"><input data-k="niveau" value="${esc(p.niveau || "RDC")}" placeholder="Niveau" aria-label="Niveau"><button class="icon-btn" data-suppr aria-label="Supprimer la pièce">✕</button></div>`;
+  const ligne = (p = { nom: "", surface: "", niveau: "RDC" }) => `<div class="plan-ligne"><input data-k="nom" value="${esc(p.nom)}" placeholder="Pièce" aria-label="Nom de la pièce"><input data-k="surface" inputmode="decimal" value="${esc(p.surface || "")}" placeholder="m²" aria-label="Surface (m²)"><input data-k="niveau" value="${esc(p.niveau || "RDC")}" placeholder="Niveau" aria-label="Niveau"><button class="icon-btn" data-suppr aria-label="Supprimer la pièce">✕</button></div>`;
   $c.innerHTML = `
     <section class="card"><h2>Croquis de plan</h2>${svg || '<p class="muted">Aucune pièce citée pendant la visite : ajoutez-les ci-dessous.</p>'}
       <p class="small muted">Disposition indicative, non cotée. Les surfaces suivies de ≈ sont estimées.</p></section>

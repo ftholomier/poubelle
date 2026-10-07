@@ -179,7 +179,7 @@ export function rendreApercu(visit, agent, agence) {
     <div class="lbc-corps">
       <main class="lbc-principal">
         <h1 class="lbc-titre">${esc(titre)}</h1>
-        <p class="lbc-resume">${[v("nb_pieces") && `${v("nb_pieces")} pièces`, v("surface_habitable") && `${v("surface_habitable")} m²`, v("surface_terrain") && `terrain ${Number(v("surface_terrain")).toLocaleString("fr-FR")} m²`].filter(Boolean).join(" · ")}</p>
+        <p class="lbc-resume">${esc([v("nb_pieces") && `${v("nb_pieces")} pièces`, v("surface_habitable") && `${v("surface_habitable")} m²`, v("surface_terrain") && `terrain ${Number(v("surface_terrain")).toLocaleString("fr-FR")} m²`].filter(Boolean).join(" · "))}</p>
         <p class="lbc-prix">${prix ? euros(prix) : "Prix à définir"}</p>
         ${prixM2 ? `<p class="lbc-m2">${prixM2.toLocaleString("fr-FR")} €/m² · Honoraires inclus</p>` : ""}
         <p class="lbc-lieu">📍 ${esc(lieu)}</p>

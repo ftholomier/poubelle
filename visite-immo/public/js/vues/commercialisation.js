@@ -59,7 +59,7 @@ blocsVente.push({
       </details>
       <button class="btn ghost" id="suspendre">Suspendre la diffusion</button>
     </section>
-    ${d.contacts.length ? `<section class="card"><h2>Contacts reçus</h2>${d.contacts.map((c) => `<a class="ligne" href="#/acquereur/${c.acquereur}"><div><strong>${esc(c.nom)}</strong><span class="muted small">${fmtDate(c.date)} · ${esc(c.canal)}${c.rdv ? " · visite réservée" : ""}${c.message ? ` · « ${esc(c.message.slice(0, 80))} »` : ""}</span></div><span class="fleche">→</span></a>`).join("")}</section>` : ""}`;
+    ${d.contacts.length ? `<section class="card"><h2>Contacts reçus</h2>${d.contacts.map((c) => `<a class="ligne" href="#/acquereur/${esc(c.acquereur)}"><div><strong>${esc(c.nom)}</strong><span class="muted small">${fmtDate(c.date)} · ${esc(c.canal)}${c.rdv ? " · visite réservée" : ""}${c.message ? ` · « ${esc(c.message.slice(0, 80))} »` : ""}</span></div><span class="fleche">→</span></a>`).join("")}</section>` : ""}`;
     $el.querySelector("#partager").onclick = () => partager(d.url, visit.titre_annonce || visit.titre);
     $el.querySelector("#copier-flux").onclick = () => copier(d.flux);
     action($el.querySelector("#suspendre"), async () => {

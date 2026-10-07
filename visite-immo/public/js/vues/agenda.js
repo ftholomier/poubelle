@@ -17,7 +17,7 @@ vues.agenda = async () => {
   $m.innerHTML = `
     <div class="btn-row"><button class="btn magic" id="dicter">🎙️ Dicter un rendez-vous</button><button class="btn" id="ajout">+ Ajouter</button></div>
     ${jours.map((j) => `<section class="card agenda-jour"><h2>${new Date(j + "T12:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}</h2>
-      ${parJour[j].map((r) => `<div class="rdv rdv-${r.type}" data-rdv="${r.id}">
+      ${parJour[j].map((r) => `<div class="rdv rdv-${r.type}" data-rdv="${esc(r.id)}">
         <span class="rdv-heure">${fmtHeure(r.debut)}</span>
         <div><strong>${esc(TYPES[r.type])} · ${esc(r.titre)}</strong>
           <span class="muted small">${esc([r.bien, r.acquereur_nom, r.lieu].filter(Boolean).join(" · "))}${r.source === "assistant" ? " · réservé par l'assistant" : ""}</span></div>

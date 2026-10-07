@@ -74,4 +74,5 @@ if (empty($_COOKIE['vu_' . substr(md5($slug), 0, 8)])) {
         return $x;
     });
 }
+csp_pages_clients();
 echo page_vitrine($agent, $v, $slug);

@@ -73,7 +73,7 @@ blocsVente.push({
   async rendre($el, visit) {
     const liste = await api("rapprochements", { query: { id: visit.id } });
     $el.innerHTML = `<section class="card"><div class="dossier-top"><h2>Acquéreurs compatibles</h2><span class="muted small">${liste.length}</span></div>
-      ${liste.map((a) => `<label class="ligne check-ligne"><input type="checkbox" value="${a.id}" ${a.propose || !a.email ? "" : "checked"} ${a.email ? "" : "disabled"}>
+      ${liste.map((a) => `<label class="ligne check-ligne"><input type="checkbox" value="${esc(a.id)}" ${a.propose || !a.email ? "" : "checked"} ${a.email ? "" : "disabled"}>
         <div><strong>${esc(a.nom)}</strong><span class="muted small">${esc(a.raisons.join(", "))} · qualifié ${a.qualification} %${a.propose ? " · déjà proposé" : ""}${a.email ? "" : " · pas d'e-mail"}</span></div><span class="score">${a.score}</span></label>`).join("") || '<p class="muted">Aucun acquéreur de votre fichier ne correspond pour l\'instant.</p>'}
       ${liste.length ? '<button class="btn primary" id="proposer">✉️ Proposer le bien aux acquéreurs cochés</button>' : ""}
     </section>`;

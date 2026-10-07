@@ -23,7 +23,7 @@ blocsVente.push({
     $el.innerHTML = `<section class="card"><h2>Offres d'achat</h2>
       ${offres.map((o) => {
         const [lib, coul] = STATUT_OFFRE[o.statut] || [o.statut, "gris"];
-        return `<div class="visite-acq"><div class="dossier-top"><strong>${esc(o.nom)} · ${fmtPrix(o.montant)}</strong><span class="badge ${coul}">${lib}</span></div>
+        return `<div class="visite-acq"><div class="dossier-top"><strong>${esc(o.nom)} · ${fmtPrix(o.montant)}</strong><span class="badge ${coul}">${esc(lib)}</span></div>
           <p class="small muted">${fmtDate(o.date)} · ${o.financement === "comptant" ? "comptant" : `prêt ${fmtPrix(o.pret.montant)}`} · valable jusqu'au ${new Date(o.validite).toLocaleDateString("fr-FR")}${o.reponse?.prix ? ` · le vendeur propose ${fmtPrix(o.reponse.prix)}` : ""}${o.reponse?.message ? ` · « ${esc(o.reponse.message)} »` : ""}</p>
           <div class="btn-row">
             <a class="btn small-btn" target="_blank" href="${pdfUrl(visit.id, "offre", false, { cle: "offre:" + o.id })}">📄 Offre</a>
@@ -69,10 +69,10 @@ blocsVente.push({
         <p class="small muted">Relances automatiques : prêt à J-15 et J-5 (acquéreur et courtier), notaires à J-10, rappel aux parties à J-2.</p>
       </section>
       <form class="card" id="f-vente"><h2>Dates</h2>
-        <div class="row-2b"><label>Compromis prévu le<input type="date" name="compromis_prevu" value="${dt("compromis_prevu")}"></label><label>Compromis signé le<input type="date" name="compromis_le" value="${dt("compromis_le")}"></label></div>
-        <div class="row-2b"><label>Notification SRU le<input type="date" name="notification_sru" value="${dt("notification_sru")}"></label><label>Financement<select name="financement">${[["pret", "Prêt"], ["comptant", "Comptant"], ["mixte", "Apport + prêt"]].map(([k, l]) => `<option value="${k}" ${k === (s.financement || "pret") ? "selected" : ""}>${l}</option>`).join("")}</select></label></div>
-        <div class="row-2b"><label>Prêt : date limite<input type="date" name="pret_limite" value="${dt("pret_limite")}"></label><label>Offre de prêt reçue le<input type="date" name="pret_obtenu_le" value="${dt("pret_obtenu_le")}"></label></div>
-        <div class="row-2b"><label>Acte prévu le<input type="date" name="acte_prevu" value="${dt("acte_prevu")}"></label><label>Lieu de l'acte<input name="acte_lieu" value="${esc(s.acte_lieu || "")}"></label></div>
+        <div class="row-2b"><label>Compromis prévu le<input type="date" name="compromis_prevu" value="${esc(dt("compromis_prevu"))}"></label><label>Compromis signé le<input type="date" name="compromis_le" value="${esc(dt("compromis_le"))}"></label></div>
+        <div class="row-2b"><label>Notification SRU le<input type="date" name="notification_sru" value="${esc(dt("notification_sru"))}"></label><label>Financement<select name="financement">${[["pret", "Prêt"], ["comptant", "Comptant"], ["mixte", "Apport + prêt"]].map(([k, l]) => `<option value="${k}" ${k === (s.financement || "pret") ? "selected" : ""}>${l}</option>`).join("")}</select></label></div>
+        <div class="row-2b"><label>Prêt : date limite<input type="date" name="pret_limite" value="${esc(dt("pret_limite"))}"></label><label>Offre de prêt reçue le<input type="date" name="pret_obtenu_le" value="${esc(dt("pret_obtenu_le"))}"></label></div>
+        <div class="row-2b"><label>Acte prévu le<input type="date" name="acte_prevu" value="${esc(dt("acte_prevu"))}"></label><label>Lieu de l'acte<input name="acte_lieu" value="${esc(s.acte_lieu || "")}"></label></div>
         ${intervenant("notaire_vendeur", "Notaire du vendeur")}${intervenant("notaire_acquereur", "Notaire de l'acquéreur")}${intervenant("courtier", "Courtier")}
         <button class="btn primary">Enregistrer</button>
       </form>

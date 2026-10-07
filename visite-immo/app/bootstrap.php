@@ -42,6 +42,15 @@ function entetes_securite(): void
     if (est_https()) header('Strict-Transport-Security: max-age=31536000');
 }
 
+/** Politique de sécurité du contenu des pages clients (espace, page du bien) : nos scripts seulement. */
+function csp_pages_clients(array $scriptsEnLigne = []): void
+{
+    if (PHP_SAPI === 'cli' || headers_sent()) return;
+    $hash = implode(' ', array_map(fn ($js) => "'sha256-" . base64_encode(hash('sha256', $js, true)) . "'", $scriptsEnLigne));
+    header("Content-Security-Policy: default-src 'self'; script-src 'self' $hash; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:"
+        . "; connect-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'");
+}
+
 /** HTTPS, y compris derrière un proxy ou un hébergeur qui termine le TLS. */
 function est_https(): bool
 {

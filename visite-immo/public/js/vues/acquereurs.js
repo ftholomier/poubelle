@@ -30,8 +30,8 @@ vues.acquereurs = async () => {
     ${liste.filter(garde).map((a) => {
       const [lib, coul] = STATUTS[a.statut] || [a.statut, "gris"];
       const c = a.criteres || {};
-      return `<a class="card visite" href="#/acquereur/${a.id}">
-        <div class="visite-top"><strong>${esc([a.prenom, a.nom].filter(Boolean).join(" ") || "Sans nom")}</strong><span class="badge ${coul}">${lib}</span></div>
+      return `<a class="card visite" href="#/acquereur/${esc(a.id)}">
+        <div class="visite-top"><strong>${esc([a.prenom, a.nom].filter(Boolean).join(" ") || "Sans nom")}</strong><span class="badge ${coul}">${esc(lib)}</span></div>
         <div class="muted">${esc([c.type, c.budget_max && `≤ ${fmtPrix(c.budget_max)}`, c.chambres_min && `${c.chambres_min} ch.`, c.villes].filter(Boolean).join(" · ") || "Critères à préciser")}</div>
         <div class="visite-meta">Qualifié à ${a.qualification || 0} % · ${a.nb_biens} bien(s) compatible(s)${a.source ? ` · ${esc(a.source)}` : ""}</div>
       </a>`;
@@ -50,7 +50,7 @@ vues.acquereur = async ([id]) => {
   const ligne = (l, v) => (v ? `<div class="m-ligne"><span>${l}</span><strong>${esc(v)}</strong></div>` : "");
   $m.innerHTML = `
     <section class="card">
-      <div class="dossier-top"><span class="badge ${coul}">${lib}</span><strong class="pct">${a.qualification || 0} %</strong></div>
+      <div class="dossier-top"><span class="badge ${coul}">${esc(lib)}</span><strong class="pct">${a.qualification || 0} %</strong></div>
       <div class="jauge" style="margin:10px 0 12px"><span style="width:${a.qualification || 0}%"></span></div>
       <div class="btn-row">
         ${a.telephone ? `<a class="btn" href="tel:${esc(a.telephone.replace(/\s/g, ""))}">📞 Appeler</a>` : ""}

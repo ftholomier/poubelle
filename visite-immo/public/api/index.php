@@ -128,9 +128,6 @@ function route_setup(): never
  * Protection contre les essais de mots de passe en série : 5 échecs en 15 minutes bloquent l'identifiant,
  * 20 échecs bloquent l'adresse IP, pendant 15 minutes. Les échecs sont aussi notés au journal des accès.
  */
-const ESSAIS_MAX_LOGIN = 5;
-const ESSAIS_MAX_IP = 20;
-const ESSAIS_FENETRE = 900;
 
 function essais_connexion(callable $fn): array
 {

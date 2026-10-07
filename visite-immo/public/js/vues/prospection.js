@@ -47,8 +47,8 @@ vues.prospection = async () => {
     ${actives.length ? `<section class="card"><div class="dossier-top"><h2>Logements F / G à cibler</h2><span class="muted small">${actives.length}</span></div>
       <label class="check"><input type="checkbox" id="tout"> Tout sélectionner (à contacter)</label>
       ${actives.map((c) => `<div class="ligne cible"><label class="check-ligne"><input type="checkbox" value="${c.id}" data-statut="${c.statut}"><div><strong>${esc(c.adresse)}</strong>
-          <span class="muted small"><b class="dpe-pastille" style="background:${COUL_DPE[c.dpe] || "#999"}">${esc(c.dpe)}</b> ${esc(c.type || "")}${c.surface ? ` · ${Math.round(c.surface)} m²` : ""}${c.annee ? ` · ${c.annee}` : ""} · DPE du ${new Date(c.date_dpe).toLocaleDateString("fr-FR")}</span></div></label>
-        <div class="cible-droite"><span class="score">${c.score}</span><select data-cible="${c.id}" aria-label="Statut de ${esc(c.adresse || "cette adresse")}">${Object.entries(d.statuts).map(([k, l]) => `<option value="${k}" ${k === c.statut ? "selected" : ""}>${l}</option>`).join("")}</select></div></div>`).join("")}
+          <span class="muted small"><b class="dpe-pastille" style="background:${COUL_DPE[c.dpe] || "#999"}">${esc(c.dpe)}</b> ${esc(c.type || "")}${c.surface ? ` · ${Math.round(c.surface)} m²` : ""}${c.annee ? ` · ${esc(c.annee)}` : ""} · DPE du ${new Date(c.date_dpe).toLocaleDateString("fr-FR")}</span></div></label>
+        <div class="cible-droite"><span class="score">${esc(c.score)}</span><select data-cible="${c.id}" aria-label="Statut de ${esc(c.adresse || "cette adresse")}">${Object.entries(d.statuts).map(([k, l]) => `<option value="${k}" ${k === c.statut ? "selected" : ""}>${l}</option>`).join("")}</select></div></div>`).join("")}
       <div class="sticky-actions"><button class="btn primary" id="courriers">📄 Courriers de la sélection</button></div>
     </section>` : d.secteurs.length ? '<div class="vide"><p>Aucune adresse à cibler.</p></div>' : ""}`;
 

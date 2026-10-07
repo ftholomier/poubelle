@@ -187,6 +187,26 @@ Le dossier (`visite.json`) s'enrichit au fil de la vie du bien :
 | `/avis.php?t=<jeton>` | client après l'acte | jeton, redirection vers la fiche Google |
 | `/api/signature.php` | firma.dev, BoldSign, service générique | firma : `X-Firma-Signature` (HMAC-SHA256 de « t.corps », 1 h max) ; BoldSign : `X-BoldSign-Signature` ; générique : `Authorization: Bearer <clé>` |
 
+### 3.5 Sécurité (revue du 7 octobre 2026)
+
+- **En-têtes sur toutes les réponses** : `nosniff`, `Referrer-Policy: same-origin` (les liens personnels ne fuient
+  pas vers les cartes ou Google), `X-Frame-Options: SAMEORIGIN` (pas de clickjacking sur la signature),
+  `Permissions-Policy` (micro et caméra pour le site seul), HSTS en HTTPS (détecté aussi derrière un proxy).
+- **Politique de contenu (CSP)** stricte sur l'appli, l'espace client et la page du bien : seuls nos fichiers JS
+  s'exécutent (plus Leaflet sur cdnjs), les deux petits scripts en ligne sont autorisés par leur empreinte SHA-256.
+  Une donnée piégée (texte lu par l'IA dans un document du vendeur, message du public) ne peut lancer aucun code.
+- **Échappement** : toute donnée affichée passe par `esc()` (JS) ou `e()` (PHP) ; audit complet fait, derniers
+  oublis corrigés (identifiants d'acquéreur, de rendez-vous, de tâche, rendu Leboncoin, historique des envois).
+- **Connexion** : 5 échecs en 15 min bloquent l'identifiant, 20 l'adresse IP ; échecs notés au journal des accès ;
+  session `HttpOnly`, `SameSite=Strict`, `Secure` en HTTPS, mode strict (pas de fixation de session).
+- **Liens clients** : un document signable n'est visible que par un rôle qui le signe (l'acquéreur ne voit pas le
+  mandat), un lien de signature ne vaut que pour son document et son signataire, l'agent du lien est vérifié.
+- **Entrées** : identifiants imposés par la requête refusés (acquéreur, rendez-vous, références de tâche),
+  documents envoyés au vendeur limités aux documents connus, suppression de photo par nom exact uniquement,
+  recherche de communes réservée aux agents connectés.
+- **Reste à faire en production** : chiffrement des pièces d'identité au repos, sauvegardes chiffrées,
+  authentification à deux facteurs pour les administrateurs, revue par un tiers avant ouverture au réseau.
+
 ---
 
 ## 4. Services extérieurs
@@ -368,13 +388,15 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 ```
 
 - Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
-- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 15 scénarios Playwright sur des
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 17 scénarios Playwright sur des
   données neuves, avec services publics, SMTP, push, firma.dev et BoldSign simulés. Couvre : parcours de base, sortie
   de visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
   vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la
   signature VAPID), prospection, **signature firma.dev / BoldSign** (positions des champs, webhooks HMAC, rejeu,
   exemplaire signé), **estimation en temps réel**, **rendu Leboncoin**, **suivi du projet** (captation, cases en
-  direct, export CRM), **journal des accès**, démo et réseau.
+  direct, export CRM), **journal des accès**, **accessibilité** (audit axe-core WCAG 2.1 AA sur 36 écrans : clair, sombre, plein soleil,
+  espace client, page publique), **sécurité** (en-têtes, essais de connexion, liens cloisonnés, données piégées),
+  démo et réseau.
 
 **Non testé en conditions réelles** (à faire en premier) :
 - vrais appels Gemini (transcription, génération, Live, multimodal, images) ;
@@ -394,6 +416,8 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 - les points d'extension par module (§3.1) : c'est la bonne découpe du métier ;
 - les prompts et schémas (`ai.php`, `type_dictee`), l'assistant vocal et ses optimisations (§6) ;
 - les règles métier et légales (§7) et les délais des relances (§8) ;
+- l'accessibilité (contrastes AA, libellés, cibles de 44 px) et les réglages « Confort sur le terrain » (plein soleil,
+  grands boutons, texte plus grand, sans animations) ;
 - l'UX : un seul bouton pour démarrer, « Prochaine étape », écran Aujourd'hui, dictées de 30 s, espace client sans
   mot de passe, tout signable au doigt.
 

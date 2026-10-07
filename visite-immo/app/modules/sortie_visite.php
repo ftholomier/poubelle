@@ -94,6 +94,7 @@ route('POST envoi_vendeur', function ($id) {
     } catch (RuntimeException $e) {
         fail(502, $e->getMessage());
     }
+    $in['docs'] = array_values(array_intersect((array) ($in['docs'] ?? []), array_keys(pdf_docs()))); // uniquement des documents connus
     $v = update_visit($me, $id, function (array $v) use ($to, $in, $avecMandat) {
         $v = actualiser_pieces($v);
         $v['envoi_vendeur'] = ['date' => date('c'), 'a' => $to, 'docs' => (array) ($in['docs'] ?? []), 'mandat' => $avecMandat];

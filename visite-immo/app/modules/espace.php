@@ -86,6 +86,14 @@ espace_section('vendeur', 30, function (array $ctx): string {
 
 // ---------- Rendu de la page ----------
 
+/** Un lien envoyé pour un document précis (bon de visite, offre…) ne permet de signer que ce document, pour ce signataire. */
+function lien_autorise_signature(array $lien, string $doc, string $signataire): bool
+{
+    if (!empty($lien['doc']) && $lien['doc'] !== $doc) return false;
+    if (!empty($lien['signataire']) && $lien['signataire'] !== $signataire) return false;
+    return true;
+}
+
 function espace_page(string $token): void
 {
     global $CONFIG, $ESPACE_SECTIONS;
@@ -129,9 +137,11 @@ function espace_gabarit(string $titre, string $corps): void
     header('X-Robots-Tag: noindex');
     $logo = uploaded_logo_path() ? '../api/?r=logo' : '../img/synapse-logo.svg';
     $v = substr(md5((string) @filemtime(APP_ROOT . '/public/css/espace.css') . @filemtime(APP_ROOT . '/public/js/espace.js') . @filemtime(APP_ROOT . '/public/js/pad.js')), 0, 8);
+    $importmap = '{"imports":{"../js/pad.js":"../js/pad.js?v=' . $v . '"}}';
+    csp_pages_clients([$importmap]);
     echo '<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">'
         . '<title>' . e($titre) . ' · ' . e((string) $CONFIG['agence']) . '</title><link rel="icon" href="../icon.svg"><link rel="stylesheet" href="../css/espace.css?v=' . $v . '">'
-        . '<script type="importmap">{"imports":{"../js/pad.js":"../js/pad.js?v=' . $v . '"}}</script></head><body>'
+        . '<script type="importmap">' . $importmap . '</script></head><body>'
         . '<div class="es-page"><img class="es-logo" src="' . $logo . '" alt="' . e((string) $CONFIG['agence']) . '">' . $corps
         . '<p class="es-pied">' . e((string) $CONFIG['agence']) . ' · lien personnel, ne le transférez pas.</p></div>'
         . '<script type="module" src="../js/espace.js?v=' . $v . '"></script></body></html>';
@@ -148,11 +158,11 @@ function espace_action(string $token, string $action): never
         switch ($action) {
             case 'code':
                 $s = signataire($v, (string) $in['doc'], (string) $in['signataire']);
-                if ($s['role'] !== $lien['role']) fail(403, 'Non autorisé.');
+                if ($s['role'] !== $lien['role'] || !lien_autorise_signature($lien, (string) $in['doc'], (string) $in['signataire'])) fail(403, 'Non autorisé.');
                 send_json(['envoye' => envoyer_code_signature($agent, $v['id'], (string) $in['doc'], (string) $in['signataire'])]);
             case 'signer':
                 $s = signataire($v, (string) $in['doc'], (string) $in['signataire']);
-                if ($s['role'] !== $lien['role']) fail(403, 'Non autorisé.');
+                if ($s['role'] !== $lien['role'] || !lien_autorise_signature($lien, (string) $in['doc'], (string) $in['signataire'])) fail(403, 'Non autorisé.');
                 if (email_configure() && valid_email($s['email'] ?? '') && empty($in['code'])) fail(400, 'Saisissez le code reçu par e-mail.');
                 enregistrer_signature($agent, $v['id'], (string) $in['doc'], (string) $in['signataire'], (string) ($in['image'] ?? ''), 'lien', (string) ($in['code'] ?? ''));
                 send_json(['ok' => true]);
@@ -191,11 +201,13 @@ function espace_pdf(string $token, string $doc): never
     }
     [$agent, $v] = $trouve;
     $prefixe = explode(':', $doc)[0];
-    acces_lien($lien, $v, 'Document PDF', $doc, in_array($prefixe, PDF_SENSIBLES, true));
-    if (!in_array($prefixe, espace_docs_autorises($lien['role']), true) && !isset($v['signatures'][$doc])) {
+    // Un document signable n'est visible que par ceux qui le signent (ex. : l'acquéreur ne voit pas le mandat du vendeur)
+    $signataireDuDoc = isset($v['signatures'][$doc]) && array_filter($v['signatures'][$doc]['signataires'] ?? [], fn ($s) => ($s['role'] ?? '') === $lien['role']);
+    if ($agent['id'] !== $lien['agent'] || (!in_array($prefixe, espace_docs_autorises($lien['role']), true) && !$signataireDuDoc)) {
         http_response_code(403);
         exit('Document non disponible.');
     }
+    acces_lien($lien, $v, 'Document PDF', $doc, in_array($prefixe, PDF_SENSIBLES, true));
     try {
         [$bin, $nom] = isset($v['signatures'][$doc]) ? pdf_signe($v, $agent, $doc) : build_pdf($prefixe, $v, $agent, ['cle' => $doc] + $_GET);
     } catch (Throwable $e) {

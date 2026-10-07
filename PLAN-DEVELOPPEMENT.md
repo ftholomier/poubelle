@@ -8,7 +8,7 @@ Chaque lot porte un code (ex. **2.3**).
 
 ## État au 7 octobre 2026 : tout est construit dans le prototype
 
-Toutes les phases ont été développées, testées de bout en bout (15 scénarios automatisés, `visite-immo/tests/`)
+Toutes les phases ont été développées, testées de bout en bout (17 scénarios automatisés, `visite-immo/tests/`)
 et poussées. Détail de ce qui est réel, simulé ou reporté :
 
 | Lot | État |
@@ -28,6 +28,7 @@ et poussées. Détail de ce qui est réel, simulé ou reporté :
 | 8.1 RGPD | ✅ conservation de l'audio, export des données d'une personne, registre simplifié, **journal des accès** (écran admin, CSV, purge automatique) |
 | 8.2 Démo | ✅ jeu de démonstration (Paramètres) |
 | 8.3 Passation | ✅ `PASSATION.md` à jour |
+| Ajout · Sécurité et accessibilité | ✅ revue de sécurité (CSP, en-têtes, essais de connexion limités, liens clients cloisonnés, échappement complet), accessibilité WCAG 2.1 AA, mode plein soleil et grands boutons |
 | Ajout · Suivi du projet | ✅ tableau de cases en temps réel (visite, rédigé, mandat, diffusion et CRM, vente), pourcentage « opérationnel », coach de captation pendant l'enregistrement, export CRM (JSON) · ⏳ envoi au CRM : vrai logiciel |
 
 

@@ -31,6 +31,9 @@ PHP natif, sans framework, sans Composer, **sans base de données** : tout est s
 - Pour les clients, **sans mot de passe** : espace vendeur (documents, signature, dépôt des pièces en photo, visites,
   offres), espace notaire, page publique du bien avec assistant.
 
+- **Mon compte → Confort sur le terrain** : plein soleil (contrastes renforcés), grands boutons (gants), texte plus
+  grand, sans animations.
+
 ## Structure
 
 ```

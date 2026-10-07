@@ -13,6 +13,9 @@ function taches(array $agent): array
 
 function tache_ajouter(array $agent, string $titre, ?string $echeance = null, ?string $dossier = null, ?string $acquereur = null, string $source = 'agent'): array
 {
+    // Références vérifiées : elles servent à construire des liens dans l'appli
+    if ($dossier !== null && !valid_id($dossier)) $dossier = null;
+    if ($acquereur !== null && !preg_match('/^a\w{6,30}$/', $acquereur)) $acquereur = null;
     return collection_enregistrer($agent, 'taches', array_filter(['titre' => mb_substr(trim($titre), 0, 200), 'echeance' => $echeance ? date_iso($echeance) ?: substr($echeance, 0, 10) : null,
         'dossier' => $dossier, 'acquereur' => $acquereur, 'source' => $source, 'fait' => false], fn ($x) => $x !== null) + ['fait' => false]);
 }

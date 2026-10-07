@@ -267,7 +267,8 @@ route('POST photos_ordre', function ($id) {
     if (!empty($in['supprimer'])) {
         $dir = photos_dir($me, $id);
         $base = preg_replace('/\.jpg$/', '', (string) $in['supprimer']);
-        if (preg_match('/^[\w-]+$/', $base)) foreach (glob("$dir/$base*.jpg") ?: [] as $f) unlink($f);
+        // Uniquement une photo qui existe, et ses variantes (miniature, original, aménagement virtuel)
+        if (preg_match('/^[\w-]{6,}$/', $base) && is_file("$dir/$base.jpg")) foreach (array_merge(["$dir/$base.jpg"], glob("$dir/$base-*.jpg") ?: []) as $f) unlink($f);
     }
     send_json(['photos' => $v['photos']]);
 });

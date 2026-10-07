@@ -23,7 +23,7 @@ function rdv_enregistrer(array $agent, array $in): array
     $duree = max(10, min(600, (int) ($in['duree'] ?? 45)));
     $fin = !empty($in['fin']) ? (strtotime((string) $in['fin']) ?: $debut + $duree * 60) : $debut + $duree * 60;
     $r = array_filter([
-        'id' => $in['id'] ?? null,
+        'id' => isset($in['id']) && preg_match('/^[a-z]?\w{6,40}$/', (string) $in['id']) ? (string) $in['id'] : null, // sert aussi d'UID dans le calendrier
         'debut' => date('c', $debut), 'fin' => date('c', $fin),
         'type' => isset(TYPES_RDV[$in['type'] ?? '']) ? $in['type'] : 'autre',
         'titre' => mb_substr(trim((string) ($in['titre'] ?? '')), 0, 120),
