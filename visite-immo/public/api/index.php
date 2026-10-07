@@ -19,6 +19,7 @@ if ($method !== 'GET' && ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') !== 'visite-i
 }
 
 try {
+    acces_api($method, $route, $id); // journal des accès aux données personnelles (RGPD)
     if (isset($ROUTES["$method $route"])) {
         $ROUTES["$method $route"]($id);
         send_json(['ok' => true]);

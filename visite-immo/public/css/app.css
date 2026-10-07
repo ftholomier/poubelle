@@ -719,3 +719,10 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .cap-sujet.ok { border: 1.5px solid var(--encre); background: var(--citron); color: var(--encre); font-weight: 600; }
 .cap-boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
 .cap-boutons .btn { text-align: center; font-size: .85rem; }
+
+/* ---------- Journal des accès ---------- */
+.sous-titre { font-size: 1rem; margin: 18px 0 4px; }
+.acces-liste { display: grid; margin: 10px 0; max-height: 420px; overflow: auto; }
+.acces-ligne { display: grid; grid-template-columns: 92px 1fr; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); font-size: .86rem; }
+.acces-ligne.sensible { background: linear-gradient(90deg, #fff1e8, transparent 60%); }
+@media (prefers-color-scheme: dark) { .acces-ligne.sensible { background: linear-gradient(90deg, #3a2216, transparent 60%); } }

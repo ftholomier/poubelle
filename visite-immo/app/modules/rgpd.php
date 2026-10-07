@@ -34,10 +34,14 @@ function donnees_personne(string $recherche): array
         foreach (dossiers($u) as $v) {
             $champs = array_map(fn ($c) => $c['valeur'], (array) $v['fiche']['champs']);
             $vendeur = array_filter($champs, fn ($k) => str_contains($k, 'vendeur'), ARRAY_FILTER_USE_KEY);
-            if (array_filter($vendeur, fn ($x) => $correspond((string) $x))) $trouve['dossiers'][] = ['agent' => $u['nom'], 'bien' => titre_bien($v), 'donnees_vendeur' => $vendeur, 'signatures' => array_map(fn ($d) => array_map(fn ($s) => array_diff_key($s, ['code' => 1]), $d['signataires']), $v['signatures'] ?? []), 'lcbft' => $v['lcbft'] ?? null];
+            if (array_filter($vendeur, fn ($x) => $correspond((string) $x))) $trouve['dossiers'][] = ['agent' => $u['nom'], 'bien' => titre_bien($v), 'id' => $v['id'], 'donnees_vendeur' => $vendeur, 'signatures' => array_map(fn ($d) => array_map(fn ($s) => array_diff_key($s, ['code' => 1]), $d['signataires']), $v['signatures'] ?? []), 'lcbft' => $v['lcbft'] ?? null];
             foreach ($v['contacts'] ?? [] as $c) if ($correspond($c['nom'])) $trouve['contacts'][] = ['agent' => $u['nom'], 'bien' => titre_bien($v)] + $c;
         }
         foreach (acquereurs($u) as $a) if ($correspond(nom_acquereur($a)) || $correspond($a['email'] ?? '')) $trouve['acquereurs'][] = ['agent' => $u['nom']] + $a;
+    }
+    // Qui a consulté ses dossiers (journal des accès)
+    if (function_exists('acces_lire') && $trouve['dossiers']) {
+        $trouve['acces'] = array_map(fn ($a) => array_diff_key($a, ['qui_id' => 1]), acces_lire(['dossiers' => array_column($trouve['dossiers'], 'id')], 2000));
     }
     return $trouve;
 }

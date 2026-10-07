@@ -17,6 +17,7 @@ if (isset($_GET['piece'])) {
     $lien = lien_lire($token);
     $trouve = $lien && in_array($lien['role'], ['notaire', 'vendeur'], true) ? chercher_dossier($lien['dossier']) : null;
     if (!$trouve) { http_response_code(403); exit('Accès refusé.'); }
+    acces_lien($lien, $trouve[1], 'Pièce du dossier', (string) $_GET['piece'], true);
     try {
         servir_piece(visit_dir($trouve[0], $lien['dossier']), (string) $_GET['piece']);
     } catch (HttpError $e) {

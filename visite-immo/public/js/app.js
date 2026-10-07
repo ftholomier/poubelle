@@ -1398,7 +1398,14 @@ async function viewSettings() {
         <h2>Données personnelles (RGPD)</h2>
         <label>Effacer l'audio des visites après (jours, 0 = jamais)<input name="conservation_audio_jours" inputmode="numeric" value="${cfg.conservation_audio_jours}"></label>
         <div class="test-row"><input id="rgpd-q" placeholder="Nom ou e-mail d'une personne"><button type="button" class="btn" id="rgpd-btn">Exporter ses données</button></div>
-        <p class="small muted">Droit d'accès : export de tout ce qui concerne la personne (dossiers, fiches, contacts). Effacement : supprimer la fiche ou le dossier concerné.</p>
+        <p class="small muted">Droit d'accès : export de tout ce qui concerne la personne (dossiers, fiches, contacts, et qui a consulté ses dossiers). Effacement : supprimer la fiche ou le dossier concerné.</p>
+        ${state.user.role === "admin" ? `
+        <h3 class="sous-titre">Journal des accès</h3>
+        <p class="small muted">Qui a consulté quel dossier, quel document, quelle pièce d'identité, et quand (agents et clients par leur lien). Effacé automatiquement après la durée ci-dessous.</p>
+        <label>Conserver le journal (mois)<input name="conservation_journal_mois" inputmode="numeric" value="${cfg.conservation_journal_mois}"></label>
+        <div class="test-row"><input id="acces-q" placeholder="Filtrer : nom, bien, action…"><button type="button" class="btn" id="acces-btn">Afficher</button></div>
+        <label class="check"><input type="checkbox" id="acces-sensible"> Données sensibles seulement (identité, pièces, exports)</label>
+        <div id="acces-liste"></div>` : ""}
       </section>
 
       <section class="card">
@@ -1446,6 +1453,26 @@ async function viewSettings() {
       toast(e.message, "erreur");
     }
   };
+  const afficherAcces = async () => {
+    const q = $("acces-q").value.trim();
+    const sensible = $("acces-sensible").checked ? "1" : "";
+    try {
+      const l = await api("acces", { query: { q, sensible } });
+      $("acces-liste").innerHTML = l.length
+        ? `<div class="acces-liste">${l
+            .slice(0, 60)
+            .map((a) => `<div class="acces-ligne ${a.sensible ? "sensible" : ""}"><span class="mono small">${new Date(a.date).toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span><span><strong>${esc(a.qui)}</strong> <span class="muted small">${esc(a.role)}</span><br>${a.sensible ? "🔒 " : ""}${esc(a.action)}${a.objet ? ` · ${esc(a.objet)}` : ""}${a.bien ? `<br><span class="muted small">${esc(a.bien)}</span>` : ""}</span></div>`)
+            .join("")}</div>
+          <a class="btn" href="api/?${new URLSearchParams({ r: "acces_csv", q, sensible })}" download>⬇️ Exporter tout le journal (CSV)</a>`
+        : '<p class="muted small">Aucun accès correspondant.</p>';
+    } catch (e) {
+      toast(e.message, "erreur");
+    }
+  };
+  if ($("acces-btn")) {
+    $("acces-btn").onclick = afficherAcces;
+    $("acces-sensible").onchange = afficherAcces;
+  }
   $("demo-btn").onclick = async () => {
     if (!confirm("Ajouter les données de démonstration à votre compte ?")) return;
     $("demo-btn").disabled = true;

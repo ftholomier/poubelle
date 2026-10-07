@@ -345,6 +345,7 @@ const REGLAGES_MODULES = [
     'taux_palier3'             => ['nombre', 95],
     'juriste_email'            => ['email', ''],
     'conservation_audio_jours' => ['nombre', 0],
+    'conservation_journal_mois' => ['nombre', 12],
     'vapid_sujet'              => ['texte', ''],
 ];
 

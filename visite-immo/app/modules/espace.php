@@ -97,6 +97,7 @@ function espace_page(string $token): void
         return;
     }
     [$agent, $v] = $trouve;
+    acces_lien($lien, $v, 'Ouverture de son espace');
     // Suivi du dossier : dernière consultation de l'espace par le vendeur, l'acquéreur, le notaire
     $role = (string) $lien['role'];
     if (strtotime($v['espace_vu'][$role] ?? '2000-01-01') < time() - 600) {
@@ -190,6 +191,7 @@ function espace_pdf(string $token, string $doc): never
     }
     [$agent, $v] = $trouve;
     $prefixe = explode(':', $doc)[0];
+    acces_lien($lien, $v, 'Document PDF', $doc, in_array($prefixe, PDF_SENSIBLES, true));
     if (!in_array($prefixe, espace_docs_autorises($lien['role']), true) && !isset($v['signatures'][$doc])) {
         http_response_code(403);
         exit('Document non disponible.');
