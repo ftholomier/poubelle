@@ -1,6 +1,6 @@
 # Visite Immo · Synapse
 
-> **Statut : prototype d'exploration.** Ce projet sert à tester les idées et les usages (enregistrement de visite,
+> **Statut : prototype d'exploration.** Voir aussi [`../PASSATION.md`](../PASSATION.md) pour le futur vrai développement. Ce projet sert à tester les idées et les usages (enregistrement de visite,
 > IA, conversation vocale, documents, diffusion) avant un vrai développement, plus tard, dans le logiciel métier.
 > Les choix techniques (PHP natif, fichiers JSON, pas de base de données) visent la rapidité de test, pas la production.
 
