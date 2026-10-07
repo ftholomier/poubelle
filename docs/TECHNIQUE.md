@@ -1533,3 +1533,32 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   l'original, maximum `SIM_MAX`, nouvel essai avec consigne plus ferme, 3 essais), création des fiches publiées
   (`legacy.fcsmstory`, section « Sources »), rubrique de saison créée si absente, texte de saison dans la description
   de la rubrique seulement si elle est vide. Coûts IA comptés sous `import`. Écran : `App\Admin\Heritage`.
+
+## Trouvailles (`App\Services\Trouvailles`, `App\Admin\Finds`)
+
+Propositions trouvées dans les archives en ligne pour les fiches de match, validées une par une
+(Contenus › Trouvailles, `/admin/trouvailles` ; valider : toute l'équipe ; lancer : administrateurs).
+- **Gallica** (matchs jusqu'en 1955) : SRU `text adj "Sochaux" and text adj "<adversaire>"`,
+  `dc.type all "fascicule"`, **un jour à la fois** du jour du match à J+3 (sur une période, Gallica
+  ne renvoie qu'un numéro par journal ; la recherche « gallica all » est floue : « sociaux » pour
+  « Sochaux », d'où `adj`). Pages d'un numéro : `services/ContentSearch?query="Sochaux"` (guillemets :
+  recherche exacte). Texte : `RequestDigitalElement?O=<ark>&E=ALTO&Deb=<page>` (la page
+  `.texteBrut` est derrière un anti-robot), mots recollés (`HypPart1`/`SUBS_CONTENT`), passages de
+  ±1 500 caractères autour de « Sochaux », ceux qui citent aussi l'adversaire d'abord. Classement :
+  extrait qui cite l'adversaire, presse régionale et sportive, numéros parus après le match ; 8
+  numéros, 2 pages chacun au plus. curl avec un User-Agent (403 sans), ~2 requêtes/s, une
+  nouvelle tentative.
+- **Web** : Gemini avec `google_search` ; seules les pages consultées (ancrage) servent de source,
+  jamais le site du musée.
+- Lecture par l'IA (modèle de la recherche web, usage `trouvailles`) : JSON (score, buteurs,
+  composition, affluence, arbitre, stade, récit, infos, pistes, chacun avec ses sources) ; récit
+  écarté s'il reprend plus de 8 % de suites de six mots des journaux.
+- Propositions : `storage/trouvailles/props/{id}.json` (champ, valeur, ce que dit la fiche, type
+  complément/divergence/récit/info/piste, sources, statut attente/envoye/ecarte) ; jamais deux
+  fois la même valeur (sources fusionnées, écartée jamais reproposée). File et matchs fouillés :
+  `storage/trouvailles/state.json` ; tâche planifiée `trouvailles` (100 s, 4 matchs au plus).
+- Envoi dans la fiche (`Fiches::save`, version) : champs du match, composition (format « NOM
+  Prénom », liens aux fiches gardés), sections « Dans la presse de l'époque » / « Ce qu'en disent
+  les sources », « Compléments », liens ajoutés à « Sources » (`legacy.trouvailles`).
+- Test : `tests/trouvailles.php` (Gallica et Gemini simulés).
+

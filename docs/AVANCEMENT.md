@@ -641,3 +641,5 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 - [x] Reprise 1928-1969 : photos du domaine public de Gallica (BnF, agences Rol et Meurisse, 1928-1955) cherchées et rangées dans la bonne fiche (match du jour, adversaire cité, joueur), crédit « Agence · Gallica, BnF » ; bouton « 5. Chercher sur Gallica »
 - [x] Livre des records et recherche : un filtre cliqué (décennie, compétition, onglet, type) remplace bien la valeur en cours (les liens la perdaient) ; test `tests/filtres.php`
 - [x] Fiches audio : téléchargement des voix IA (ZIP des fiches ou des pages par langue, MP3 nommés d'après le titre, sommaire CSV ; une voix seule depuis la liste ou l'éditeur)
+- [x] Trouvailles (Contenus › Trouvailles) : recherche dans la presse ancienne de Gallica (jusqu'en 1955) et sur le web pour chaque match, propositions (score, buteurs, composition, affluence, arbitre, stade, récit réécrit, informations, pistes) avec leurs sources, validées une par une avant envoi dans la fiche ; essai réel sur Chalon – Sochaux (17/10/1931) : 8 journaux trouvés (L'Est républicain, L'Écho des sports, Le Petit Comtois, Paris-Soir…) ; test `tests/trouvailles.php`
+

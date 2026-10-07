@@ -167,6 +167,20 @@ avec la date et la journée saisies ; sinon la page affiche les champs saisis, u
 jaune le signale dans l'onglet Infos et l'ancien texte est remplacé à l'enregistrement. La
 page affiche la journée saisie (« J15 » → « 15e journée »).
 
+### Trouvailles (archives)
+
+Contenus › **Trouvailles (archives)** : pour chaque fiche de match, le musée fouille la **presse de
+l'époque** numérisée par la BnF (Gallica, matchs jusqu'en 1955 : journaux parus du jour du match à
+trois jours après qui citent Sochaux et l'adversaire) et le **web** (recherche Google faite par
+l'IA). L'IA en tire des **propositions** (score, buteurs, composition, affluence, arbitre, stade,
+récit réécrit dans le style du musée, informations, pistes), chacune avec ce que dit la fiche et
+ses sources (lien vers la page exacte du journal). Vérifier la source, corriger la valeur si besoin,
+puis **Envoyer dans la fiche** (version enregistrée ; le récit va dans « Dans la presse de
+l'époque », les informations dans « Compléments », la source dans « Sources ») ou **Écarter**
+(jamais reproposée). Les administrateurs lancent les recherches (période, sources, fiches
+incomplètes seulement ; essai sur 3 matchs, puis toute la période, fouillée par la tâche planifiée ;
+ou un match précis tout de suite). Coût dans Coûts IA (« Trouvailles »).
+
 ### Fiche personne
 
 | Onglet | Contenu |

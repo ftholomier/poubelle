@@ -32,6 +32,7 @@ class Base
             ['objets', 'Objets (réserves)', '/admin/objets', false],
             ['referentiels', 'Saisons, adversaires, lieux', '/admin/referentiels', false],
             ['medias', 'Médiathèque', '/admin/medias', false],
+            ['trouvailles', 'Trouvailles (archives)', '/admin/trouvailles', false],
         ],
         'Éditorial' => [
             ['accueil', 'Accueil & bandeau', '/admin/accueil', false],

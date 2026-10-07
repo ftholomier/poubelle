@@ -81,6 +81,21 @@ HTML],
 <p>Vérifiez les panneaux de droite, puis passez le statut à <b>Publié</b> (ou <b>Planifié</b>) et enregistrez.</p>
 [[img:match-auto.webp|Ce que l’enregistrement met à jour, et le contrôle qualité de la fiche]]
 HTML],
+        ['id' => 'trouvailles', 'title' => 'Trouvailles : ce que les archives disent du match', 'html' => <<<'HTML'
+<p>Contenus › <b>Trouvailles (archives)</b> rassemble ce que le musée a trouvé, pour les fiches de match, dans les archives en ligne :</p>
+<ul>
+<li>la <b>presse de l’époque</b> numérisée par la BnF (Gallica) : L’Est républicain, Le Petit Comtois, L’Éclair comtois, L’Écho des sports, Match l’Intran, Paris-Soir, la presse de la ville adverse… pour les matchs jusqu’en 1955. Le musée lit les journaux parus du jour du match à trois jours après qui citent Sochaux <i>et</i> l’adversaire ;</li>
+<li>le <b>web</b> (recherche Google faite par l’IA), toutes époques.</li>
+</ul>
+<p>L’IA lit ces sources et en tire des <b>propositions</b> : score, buteurs, composition, affluence, arbitre, stade, un <b>récit</b> rédigé dans le style du musée (jamais recopié du journal), des informations et des pistes. Ce que la fiche dit déjà à l’identique n’est pas proposé ; une proposition <b>Divergence</b> signale que la source dit autre chose que la fiche.</p>
+<ol>
+<li>Ouvrez la source (lien vers la <b>page exacte du journal</b> sur Gallica, ou la page web) et vérifiez : les vieux journaux sont lus par une machine, les noms peuvent être déformés.</li>
+<li>Corrigez la valeur dans la case si besoin (orthographe d’un nom, récit retouché).</li>
+<li><b>Envoyer dans la fiche</b> : la valeur est écrite dans la fiche (une version est enregistrée, on peut revenir en arrière), le récit va dans une partie « Dans la presse de l’époque », les informations dans « Compléments », et la source s’ajoute à la partie « Sources ». Sinon <b>Écarter</b> : elle ne sera plus jamais proposée (onglet « Écartées » pour la remettre en attente).</li>
+</ol>
+[[attention|<p>Rien n’entre dans une fiche sans validation. Une composition envoyée remplace celle de la fiche (les joueurs déjà reliés à leur fiche le restent quand le nom correspond) : vérifiez-la bien.</p>]]
+[[auto|<p>Les administrateurs lancent les recherches : période (par exemple 1928-1955), sources, seulement les fiches incomplètes ; <b>Essai sur 3 matchs</b> d’abord, puis <b>Lancer pour toute la période</b> : la tâche planifiée fouille quelques matchs à chaque passage (environ une minute par match pour la presse). Un match précis se fouille tout de suite (« Fouiller un match précis »). Coût dans Coûts IA (« Trouvailles »).</p>]]
+HTML],
         ['id' => 'checklist', 'title' => 'Avant de publier un match', 'html' => <<<'HTML'
 <ul>
 <li>Date, compétition, adversaire et score justes ; le titre proposé est correct.</li>
