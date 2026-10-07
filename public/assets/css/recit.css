@@ -127,3 +127,14 @@
 /* Barre de lecture en haut de l'écran */
 .rprogress { position: fixed; left: 0; top: 0; height: 4px; width: 0; background: var(--yellow); z-index: 1000; pointer-events: none; transition: width .1s linear; }
 @media print { .recit__aside, .rnext, .rfrise, .rprogress { display: none !important; } .recit { display: block; } }
+
+/* Mobile : sommaire replié (un clic sur « Sommaire » l'ouvre), le texte arrive plus vite. */
+@media (max-width: 1079px) {
+  .rtoc__head { cursor: pointer; }
+  .rtoc__head b::after { content: " ▾"; }
+  .rtoc:not(.is-open) ol { display: none; }
+  .rtoc.is-open .rtoc__head b::after { content: " ▴"; }
+  .rseries ol { display: none; }
+  .rseries.is-open ol { display: flex; }
+  .rseries { cursor: pointer; }
+}

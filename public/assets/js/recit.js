@@ -11,6 +11,9 @@
   top.setAttribute('aria-hidden', 'true');
   document.body.appendChild(top);
 
+  // Mobile : sommaire et série repliés, ouverts d'un clic.
+  root.querySelector('.rtoc__head')?.addEventListener('click', e => e.currentTarget.closest('.rtoc').classList.toggle('is-open'));
+  root.querySelector('.rseries')?.addEventListener('click', e => { if (!e.target.closest('a')) e.currentTarget.classList.toggle('is-open'); });
   let ticking = false;
   const update = () => {
     ticking = false;
