@@ -42,7 +42,8 @@ export async function api(page, route, { method = "GET", query = {}, body } = {}
       });
       const t = await r.text();
       try {
-        return { status: r.status, ...JSON.parse(t) };
+        const d = JSON.parse(t);
+        return Array.isArray(d) ? d : { status: r.status, ...d };
       } catch {
         return { status: r.status, texte: t.slice(0, 300) };
       }

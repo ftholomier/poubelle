@@ -2,6 +2,7 @@
 
 import { api } from "../api.js";
 import { dicter } from "../dictee.js";
+import { transmettreAcquereur } from "./reseau.js";
 import { vues, ecran, esc, toast, go, action, feuille, fmtPrix, fmtCourt, fmtDate } from "../ui.js";
 
 const STATUTS = { nouveau: ["Nouveau", "orange"], qualifie: ["Qualifié", "vert"], visite: ["A visité", "bleu"], offre: ["Offre", "vert"], achete: ["A acheté", "gris"], perdu: ["Perdu", "gris"] };
@@ -74,6 +75,7 @@ vues.acquereur = async ([id]) => {
       <button class="btn" id="modifier">✏️ Modifier la fiche</button>
       <label>Statut<select id="statut">${Object.entries(STATUTS).map(([k, [l]]) => `<option value="${k}" ${k === a.statut ? "selected" : ""}>${l}</option>`).join("")}</select></label>
       <label class="check"><input type="checkbox" id="alertes" ${a.alertes !== false ? "checked" : ""}> Lui envoyer automatiquement les nouveaux biens compatibles</label>
+      <button class="btn" id="transmettre">🤝 Transmettre à un collègue</button>
       <button class="btn danger-ghost" id="suppr">Supprimer la fiche</button>
     </div>`;
   document.getElementById("completer").onclick = async () => {
@@ -81,6 +83,7 @@ vues.acquereur = async ([id]) => {
     if (r) vues.acquereur([id]);
   };
   document.getElementById("modifier").onclick = () => formulaire(a);
+  document.getElementById("transmettre").onclick = () => transmettreAcquereur(id);
   const sauver = async (patch) => {
     await api("acquereur", { method: "POST", query: { id }, body: { ...a, ...patch } });
     toast("Enregistré ✓", "ok");

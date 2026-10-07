@@ -1,10 +1,11 @@
 // Vidéo courte fabriquée dans le navigateur à partir des photos (canvas + MediaRecorder).
-import { navigateur, connexion, verifier } from "./outils.mjs";
+import { navigateur, connexion, verifier, dossierEnVente, configurerEmail } from "./outils.mjs";
 const { browser, page, erreurs, capture } = await navigateur();
 try {
   await connexion(page);
-  const ids = await page.evaluate(async () => (await (await fetch("api/?r=visits")).json()).map((v) => v.id));
-  await page.goto(`http://127.0.0.1:8099/#/visite/${ids[0]}/social`);
+  await configurerEmail(page);
+  const id = await dossierEnVente(page);
+  await page.goto(`http://127.0.0.1:8099/#/visite/${id}/social`);
   await page.waitForSelector("#video");
   await page.click("#video");
   await page.waitForSelector("video.video-apercu", { timeout: 60000 });

@@ -4,7 +4,31 @@ But : construire dans le prototype **toutes les idées** de l'infographie (`syna
 de la prospection jusqu'à l'acte. Le prototype sert à tester et à montrer le parcours complet. Le vrai
 développement se fera ensuite dans le logiciel métier (voir `PASSATION.md`).
 
-Chaque lot porte un code (ex. **2.3**). Pour lancer un lot, dites par exemple « go 2.3 ».
+Chaque lot porte un code (ex. **2.3**).
+
+## État au 7 octobre 2026 : tout est construit dans le prototype
+
+Toutes les phases ont été développées, testées de bout en bout (10 scénarios automatisés, `visite-immo/tests/`)
+et poussées. Détail de ce qui est réel, simulé ou reporté :
+
+| Lot | État |
+|---|---|
+| 0.1 Validation en réel | ⏳ **à faire avec vous** : vraie clé Gemini, vrai téléphone, vrai SMTP, vrais services publics |
+| 0.2 → 0.7 Fondations | ✅ modules, tâches automatiques (cron), notifications push, liens clients, navigation du bas |
+| 1.1 → 1.8 Visite et mandat | ✅ dossier technique, avis de valeur, lecture des papiers, pièces et relances, espace vendeur, signature (intégrée + API générique), photos, home staging |
+| 1.9 Plan 2D | ✅ croquis d'après les pièces citées · ⛔ scan LiDAR : impossible en PWA (appli native) |
+| 2.1, 2.3 → 2.5 Commercialisation | ✅ page du bien, visuels, vidéo, rapprochement et alertes |
+| 2.2 Multidiffusion | ✅ flux XML + aperçu portail · ⏳ diffusion réelle : contrats portails, logiciel métier |
+| 3.1 → 3.6 Acquéreurs et visites | ✅ fiches dictées, agenda + ICS, assistant 24 h/24 sur la page du bien, bon de visite, retours, point du vendredi |
+| 3.3 (suite) | ⏳ lecture de la boîte e-mail de l'agence (IMAP) et SMS/WhatsApp : non construits (compte requis) |
+| 4.1 → 4.7 Compromis à l'acte | ✅ offres, LCB-FT, notaires, échéancier, relances, facture, commission, avis Google |
+| 5.1 → 5.3 Prospection | ✅ logements F/G, rues actives, courriers et boîtage, suivi · ⏳ envoi postal en ligne : non branché |
+| 6.1 → 6.5 Au quotidien | ✅ Aujourd'hui, briefing, bilan d'appel, commande vocale, tableau de bord |
+| 7.1 → 7.4 Réseau | ✅ tête de réseau, coaching 90 jours, contacts partagés, formation ALUR, juriste |
+| 8.1 RGPD | ✅ conservation de l'audio, export des données d'une personne, registre simplifié · ⏳ journal des accès |
+| 8.2 Démo | ✅ jeu de démonstration (Paramètres) |
+| 8.3 Passation | ✅ `PASSATION.md` à jour |
+
 
 ---
 

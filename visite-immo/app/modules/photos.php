@@ -70,12 +70,14 @@ function retoucher($img)
     $cumul = 0; $bas = 0; $haut = 255;
     foreach ($hist as $i => $n) { $cumul += $n; if ($cumul < $total * 0.01) $bas = $i; if ($cumul < $total * 0.99) $haut = $i; }
     $haut = max($haut, $bas + 40);
-    $gain = 255 / ($haut - $bas);
+    $gain = min(1.5, 255 / ($haut - $bas));
     $out = imagecreatetruecolor($w, $h);
     imagecopy($out, $img, 0, 0, 0, 0, $w, $h);
-    if ($gain > 1.03) {
-        imagefilter($out, IMG_FILTER_BRIGHTNESS, (int) -($bas * $gain * 0.9));
-        imagefilter($out, IMG_FILTER_CONTRAST, (int) -min(25, ($gain - 1) * 40));
+    if ($gain > 1.05) {
+        // Étirement des niveaux : on recentre la plage utile sur 128, puis on l'étire (contraste GD : facteur ((100 - c) / 100)²)
+        $milieu = ($bas + $haut) / 2;
+        imagefilter($out, IMG_FILTER_BRIGHTNESS, (int) max(-40, min(40, round(128 - $milieu))));
+        imagefilter($out, IMG_FILTER_CONTRAST, (int) round(100 - 100 * sqrt($gain)));
     }
     // éclaircit légèrement les photos sombres (intérieurs)
     $moyenne = 0;

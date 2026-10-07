@@ -668,3 +668,4 @@ fieldset.pj input { margin: 0 0 10px; }
 .dpe-pastille { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 5px; color: #fff; font-size: .72rem; }
 .choix-commune { width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; font: inherit; color: var(--text); cursor: pointer; }
 .carte { height: 300px; border: 1.5px solid var(--bord); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+.bloc-code { display: block; padding: 10px; background: var(--bg); border: 1.5px dashed var(--line); border-radius: 8px; word-break: break-all; margin-bottom: 14px; }

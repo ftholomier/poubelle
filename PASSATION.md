@@ -1,11 +1,11 @@
 # Passation · prototype « Visite Immo » pour le réseau Synapse
 
 > **À lire en premier par l'équipe (ou l'IA) qui fera le vrai développement.**
-> Ce dépôt contient un **prototype d'exploration** : il a servi à tester des idées vite, avec de vrais utilisateurs,
-> avant de les développer proprement dans le logiciel métier Synapse. Ce document résume ce qui a été construit,
-> ce qui a été appris, les pièges rencontrés et ce qu'il faudra refaire autrement en production.
+> Ce dépôt contient un **prototype d'exploration** : il a servi à tester des idées vite, avant de les développer
+> proprement dans le logiciel métier Synapse. Ce document résume ce qui a été construit, ce qui a été appris,
+> les pièges rencontrés et ce qu'il faudra refaire autrement en production.
 >
-> Feuille de route de la suite : [`PLAN-DEVELOPPEMENT.md`](PLAN-DEVELOPPEMENT.md).
+> Feuille de route et état d'avancement : [`PLAN-DEVELOPPEMENT.md`](PLAN-DEVELOPPEMENT.md).
 >
 > Dernière mise à jour : 7 octobre 2026 · branche `claude/nice-cori-uknqlh` du dépôt `ftholomier/poubelle`.
 
@@ -13,309 +13,363 @@
 
 ## 1. Récupérer tout le travail (export zip)
 
-Tout est versionné dans Git. Trois façons d'en faire un zip :
+Tout est versionné dans Git :
 
 - **GitHub** : ouvrir `https://github.com/ftholomier/poubelle/tree/claude/nice-cori-uknqlh`, bouton **Code → Download ZIP**.
 - **En ligne de commande** :
   ```sh
   git clone -b claude/nice-cori-uknqlh https://github.com/ftholomier/poubelle.git
-  cd poubelle && git archive --format=zip -o visite-immo.zip HEAD visite-immo synapse-offre PASSATION.md
+  cd poubelle && git archive --format=zip -o visite-immo.zip HEAD visite-immo synapse-offre PASSATION.md PLAN-DEVELOPPEMENT.md
   ```
-- L'historique des commits (`git log`) raconte l'ordre des décisions, en français, une étape par commit.
-
-Contenu utile du dépôt :
+- L'historique des commits (`git log`) raconte l'ordre des décisions, en français, une phase par commit.
 
 | Dossier / fichier | Quoi |
 |---|---|
-| `visite-immo/` | Le prototype : PWA mobile + API en PHP natif. Son `README.md` décrit l'installation et l'usage. |
+| `visite-immo/` | Le prototype : PWA mobile + API en PHP natif. Son `README.md` décrit l'installation. |
+| `visite-immo/tests/` | Tests de bout en bout (Playwright) et services simulés. |
 | `synapse-offre/` | L'infographie A4 « L'offre irrésistible » (PDF + générateur). |
-| `PASSATION.md` | Ce document. |
-| autres fichiers à la racine | Sans rapport (exports de logos d'autres projets). |
+| `PASSATION.md`, `PLAN-DEVELOPPEMENT.md` | Ce document et la feuille de route. |
 
 ---
 
-## 2. L'idée et ce qui a été validé
+## 2. Le principe : tout part de la visite
 
-**Objectif métier : que l'agent immobilier ne saisisse (presque) plus rien.** Il fait son vrai métier (visiter,
-rentrer des mandats, conseiller, vendre) ; le logiciel produit la paperasse.
+**Objectif : l'agent fait son métier (visiter, rentrer des mandats, conseiller, vendre), le logiciel fait le reste.**
+L'agent enregistre la visite ; en sortant, tout est prêt automatiquement ; ensuite il n'a **qu'une action à la fois**,
+affichée en grand (« Prochaine étape »). Interface volontairement ultra simple : 5 entrées en bas d'écran
+(Aujourd'hui · Biens · ● Visite · Acquéreurs · Agenda), le reste dans le menu.
 
-Parcours testé dans le prototype :
+Parcours complet, de la prospection à l'acte (chaque étape est construite et testée) :
 
-1. **Enregistrer la visite** au téléphone (gros bouton rouge, consentement du vendeur obligatoire).
-   L'audio part au serveur par morceaux de 3 minutes, transcrits au fil de l'eau.
-2. **« Créer la fiche »** : l'IA produit en une fois la fiche du bien (61 champs), l'annonce, un rapport interne et
-   un compte rendu pour le vendeur. Chaque valeur remplie par l'IA garde la phrase entendue (« citation »).
-3. **« Compléter à la voix »** : en sortant de la visite, un assistant vocal en temps réel pose uniquement les
-   questions qui manquent (vendeurs, état civil, régime matrimonial, cadastre, type de mandat, prix, honoraires…)
-   et remplit les champs pendant la conversation. Jauge de complétude du dossier.
-4. **Mandat de vente en PDF** rempli automatiquement, conforme (mentions obligatoires), avec registre des mandats,
-   clause de rétractation et formulaire détachable quand il est signé au domicile.
-5. **Documents PDF** à la charte (fiche, annonce, rapport, compte rendu, dossier complet) et **envoi par e-mail**
-   avec pièces jointes, depuis l'appli.
-6. **Aperçu de l'annonce sur un portail** (mise en page inspirée de leboncoin), avec les mentions légales calculées.
-
-Ce qui reste à valider avec de vrais agents : la qualité réelle de la transcription et de l'extraction sur des
-visites bruyantes, l'acceptation de la conversation vocale, et les temps gagnés (les chiffres de l'infographie
-sont des estimations).
+| Étape | Ce qui se fait tout seul | Ce que fait l'agent |
+|---|---|---|
+| **Prospection** | Logements classés F/G du secteur (ADEME), rues où les ventes bougent (DVF), courriers « Au propriétaire » personnalisés, flyers de boîtage | Choisir sa commune, imprimer les courriers, suivre les réponses |
+| **Visite** | Enregistrement par morceaux, transcription au fil de l'eau | Appuyer sur le bouton rouge |
+| **Sortie de visite** | Fiche (61 champs), annonce, rapport interne, compte rendu vendeur, publications réseaux, croquis de plan, **dossier technique** (cadastre IGN, Géorisques, DPE ADEME), **avis de valeur** (ventes DVF), **liste des pièces** à demander, mandat pré-rempli | « Compléter à la voix » (l'assistant ne pose que les questions manquantes), puis **« Tout envoyer au vendeur »** |
+| **Mandat** | Numéro au registre, envoi du lien de signature, code par e-mail, relances J+2 / J+5, exemplaire signé à chacun | Signer (au doigt), ou faire signer sur place |
+| **Pièces du vendeur** | Le vendeur dépose en photo dans son espace, **l'IA lit chaque document** (titre, taxe foncière, PV d'AG, diagnostics…), remplit la fiche, signale les points de vigilance ; relances J+2, J+5, J+10… | Rien |
+| **Commercialisation** | Page publique du bien, **assistant acquéreurs 24 h/24** (répond, qualifie, réserve la visite dans l'agenda), flux portails, visuels carré et story, vidéo courte, alertes aux acquéreurs compatibles, statistiques | Publier (un bouton) |
+| **Visites acquéreurs** | Créneaux libres proposés, abonnement calendrier, bon de visite signé, **point de la semaine au vendeur chaque vendredi** | Dicter le retour en 30 secondes |
+| **Offre** | Offre dictée → PDF, signature de l'acquéreur, transmission au vendeur, acceptation signée / refus / contre-proposition depuis son espace | Dicter l'offre |
+| **Compromis → acte** | Échéancier (rétractation SRU de 10 jours avec jours fériés, prêt, acte), relances acquéreur / courtier / notaires, **contrôle anti-blanchiment** (pièce d'identité lue par l'IA, registre des gels), dossier et espace notaire | Saisir les dates, photographier les pièces d'identité |
+| **Acte** | Facture numérotée, note de commission (paliers 80 / 90 / 95 %), retrait de l'annonce, demande d'avis Google suivie (relance si pas de clic) | Appuyer sur « Acte signé » |
+| **Au quotidien** | Écran Aujourd'hui (tout ce qui est à faire, tous modules confondus), briefing du matin à écouter, notifications sur le téléphone, tableau de bord (palier, temps gagné) | Commande vocale (« relance la vendeuse du Chênois »), bilan d'appel dicté |
+| **Réseau** | Coaching des 90 premiers jours (étapes cochées d'après l'activité réelle), suivi formation loi ALUR, vue tête de réseau | Question au juriste, transmettre un contact à un collègue |
 
 ---
 
-## 3. Architecture du prototype
+## 3. Architecture
 
-Choix volontairement simples pour tester vite : **PHP natif sans framework ni Composer, fichiers JSON, pas de base
-de données**, interface en HTML/CSS/JS sans framework (modules ES). À ne pas reproduire tel quel en production
-(voir §9).
+Choix volontairement simples pour tester vite : **PHP 8.2+ natif sans framework ni Composer, fichiers JSON, pas de
+base de données**, interface en HTML/CSS/JS sans framework (modules ES). Environ 14 000 lignes.
+
+### 3.1 Un module = une fonction métier
+
+Tout le métier est dans `app/modules/*.php`. Chaque module **s'enregistre** : ajouter une fonction = ajouter un module,
+sans toucher au reste.
+
+| Point d'extension (dans `app/store.php` et les modules socles) | Rôle |
+|---|---|
+| `route('POST signer', fn ($id) => …)` | route d'API `/api/?r=signer` |
+| `tache_cron('relances_pieces', fn ($agent, $dossiers) => …)` | tâche automatique lancée par `app/cron.php` |
+| `a_faire('pieces', fn ($agent, $dossiers) => […])` | éléments de l'écran « Aujourd'hui » |
+| `pdf_module('avis', 'Avis de valeur', 'rendre_avis_valeur')` | document PDF à la charte |
+| `document_module(fn ($v) => […])` | document listé dans l'onglet « Documents » du dossier |
+| `document_signable('offre', …, pdf:, signataires:, apres:)` | document signable (et ce qui se passe une fois signé) |
+| `type_dictee('appel', $schema, $consigne, $demo)` + `apres_dictee()` | dictée de 30 s transformée en données structurées |
+| `espace_section('vendeur', 20, fn ($ctx) => '<section>…')` | bloc de l'espace client (vendeur, acquéreur, notaire) |
+
+Modules socles (chargés en premier) : `dossier` (étapes, prochaine action, documents), `signature`, `espace`, `dictee`.
+
+| Module | Contenu |
+|---|---|
+| `donnees_publiques` | BAN (géocodage), cadastre IGN, Géorisques, DPE ADEME, DVF ; simulation si un service ne répond pas |
+| `avis_valeur` | comparables DVF, ajustements (état, DPE, extérieurs), fourchette, argumentaire IA, PDF |
+| `plan` | croquis de plan (disposition « squarified » des pièces citées) en SVG et PDF |
+| `pieces` | pièces requises selon le bien, dépôt, lecture IA, alertes, relances |
+| `sortie_visite` | `preparer` (après génération) et « Tout envoyer au vendeur » |
+| `signature` | signature interne (au doigt + code e-mail) ou API externe, certificat de preuve |
+| `espace` | espace client par lien personnel (`public/espace/`) |
+| `photos`, `visuels` | retouche (niveaux, netteté), détection du flou, pièce reconnue, home staging, visuels réseaux sociaux |
+| `commercialisation`, `vitrine` | publication, page publique (`public/v/`), assistant 24 h/24, contacts, flux portails |
+| `acquereurs`, `agenda`, `visites_acquereurs` | fiches, rapprochement, alertes, agenda et ICS, bon de visite, retours, point du vendredi |
+| `offres`, `compromis`, `lcbft`, `facturation` | offre → acceptation, échéancier et relances, anti-blanchiment, facture, commission, avis Google |
+| `aujourdhui`, `quotidien`, `push` | écran Aujourd'hui, tâches, bilan d'appel, commande vocale, briefing, tableau de bord, notifications Web Push |
+| `prospection`, `reseau`, `rgpd`, `demo_jeu` | prospection, réseau, données personnelles, jeu de démonstration |
+
+### 3.2 Fichiers
 
 ```
 visite-immo/
-├── app/                        code serveur (jamais servi directement, .htaccess)
-│   ├── bootstrap.php           config, session, utilisateurs, stockage JSON avec verrous, logo, constantes
-│   ├── config.sample.php       valeurs par défaut (tout se règle ensuite dans l'appli → app/settings.json)
-│   ├── fields.php              LA définition des champs du dossier (formulaire + prompts IA + complétude)
-│   ├── ai.php                  Gemini : modèles, transcription, génération, jeton Live, coûts
-│   ├── demo.php                données simulées (mode démo sans clé API)
-│   ├── pdf.php                 documents PDF (tFPDF) à la charte Synapse
-│   ├── mandat.php              mandat de vente : gabarit, jetons, PDF, registre
-│   ├── mailer.php              client SMTP natif (SSL/STARTTLS) + mail(), MIME, e-mail HTML
-│   ├── assets/synapse-logo.png logo par défaut des PDF et e-mails
-│   └── lib/tfpdf/              tFPDF 1.33 (LGPL, patché) + polices Archivo et JetBrains Mono
-├── data/                       stockage (hors web) : users.json, visites/<agent>/<visite>/, registre.json, couts/
-└── public/                     racine web
-    ├── index.php               page de l'appli (versionne CSS/JS pour casser les caches)
-    ├── api/index.php           toute l'API JSON (/api/?r=<route>)
-    ├── js/app.js               écrans, navigation, formulaires (le gros du front)
-    ├── js/recorder.js          enregistrement micro découpé en morceaux autonomes
-    ├── js/uploader.js          file d'envoi des morceaux (IndexedDB, reprise hors ligne)
-    ├── js/dialogue.js          conversation vocale Gemini Live (micro, détection de parole, voix)
-    ├── js/apercu.js            aperçu de l'annonce façon portail
-    ├── js/api.js               appels à l'API
-    ├── css/app.css             charte Synapse
-    ├── sw.js, manifest         PWA (installable, s'ouvre hors ligne)
-    └── img/, fonts/            logo Synapse vectorisé, polices
+├── app/
+│   ├── bootstrap.php        config, session, stockage JSON (verrous), chargement des modules, api_base()
+│   ├── store.php            dossiers, collections par agent, liens clients, HTTP, dates, points d'extension, réglages
+│   ├── cron.php             tâches automatiques (à lancer toutes les 10 min)
+│   ├── fields.php           LA définition des champs du dossier (formulaire, prompts, complétude, PDF)
+│   ├── ai.php, demo.php     Gemini (transcription, génération, Live, coûts) ; données de démonstration
+│   ├── pdf.php, mandat.php  PDF à la charte (tFPDF), mandat et registre
+│   ├── mailer.php           client SMTP natif, MIME, e-mail HTML
+│   ├── modules/             toutes les fonctions métier (§3.1)
+│   └── lib/tfpdf/           tFPDF 1.33 (LGPL, patché) + polices
+├── data/                    stockage (hors web)
+├── public/
+│   ├── index.php            l'appli (versionne CSS/JS, importmap automatique de js/ et js/vues/)
+│   ├── api/index.php        API JSON (/api/?r=…) ; api/signature.php : retour du service de signature
+│   ├── espace/              espace client (vendeur, acquéreur, notaire), sans mot de passe
+│   ├── v/                   page publique d'un bien + assistant
+│   ├── ics.php, flux.php, avis.php   abonnement calendrier, flux portails, lien d'avis suivi
+│   ├── js/                  app.js (routeur, écrans historiques), ui.js (outils partagés), dictee.js, pad.js,
+│   │                        video.js, recorder.js, uploader.js, dialogue.js, apercu.js, espace.js, vitrine.js
+│   ├── js/vues/             un fichier par grand écran (aujourdhui, dossier-auto, vente, acquereurs, agenda…)
+│   └── css/                 app.css, espace.css, vitrine.css
+└── tests/                   lancer.sh, tout.sh, services-simules.php, smtp-simule.py, e2e-*.mjs
 ```
 
-Environ 5 500 lignes. Tests faits avec Playwright (Chromium, micro simulé), un faux serveur Gemini Live, un faux
-serveur SMTP ; ils sont décrits au §8 mais ne sont pas versionnés.
+### 3.3 Données (`data/`)
 
-### API (`public/api/index.php`, toutes en JSON, `?r=<route>`)
-
-| Route | Rôle |
+| Fichier | Contenu |
 |---|---|
-| `GET status` · `POST setup/login/logout/password/profile` | session, premier compte admin, profil (e-mail, téléphone de l'agent) |
-| `GET/POST/DELETE users` | équipe (admin) |
-| `GET/POST settings` · `POST models` | paramètres (admin) : clé Gemini, modèles, stockage, identité et mentions légales de l'agence, SMTP |
-| `POST mailtest` · `GET/POST/DELETE logo` | e-mail de test, logo de l'agence |
-| `GET visits` · `POST visits` | liste, création d'une visite (consentement obligatoire) |
-| `GET/POST/DELETE visit` | lire (avec complétude et manques du mandat), enregistrer des champs (`source` : `agent` ou `dialogue`), supprimer |
-| `POST chunk` | réception d'un morceau audio + transcription immédiate |
-| `POST generate` | génération fiche + annonce + rapports |
-| `GET/DELETE audio` | lecture (Range, iPhone) ou suppression de l'audio seul |
-| `GET pdf&doc=` | `fiche`, `annonce`, `rapport`, `vendeur`, `dossier`, `mandat` |
-| `POST send` | e-mail avec PDF joints, historique dans la visite |
-| `POST live` · `POST usage` | conversation vocale : jeton temporaire + consignes ; coût consommé |
-| `POST registre` | inscription du mandat au registre (numéro définitif) |
+| `users.json` | comptes (hash), coordonnées, disponibilités, abonnements push, jeton ICS, notes du coach |
+| `visites/<agent>/<dossier>/visite.json` | **le dossier du bien** (voir ci-dessous) + `audio/`, `photos/`, `pieces/`, `signatures/`, `lcbft/` |
+| `agents/<agent>/acquereurs.json`, `agenda.json`, `taches.json`, `prospection.json`, `formations.json`, `questions.json` | collections de l'agent |
+| `liens.json` | liens clients (jeton → agent, dossier, rôle, expiration) |
+| `vitrines.json` | slug de page publique → dossier |
+| `registre.json`, `factures.json` | registre des mandats, registre des factures (numéros chronologiques) |
+| `conversations/` | échanges de l'assistant de la page du bien |
+| `couts/AAAA-MM.json`, `cron.json`, `cache/` | coûts IA, dernier passage du cron, caches (DVF, registre des gels) |
 
-Sécurité du prototype : session PHP (cookie `SameSite=Strict`, `HttpOnly`), en-tête `X-Requested-With: visite-immo`
-exigé sur toute écriture (anti-CSRF), mots de passe `password_hash`, identifiants de visite validés par regex, données
-hors du dossier web.
-
----
-
-## 4. Modèle de données
-
-**Une visite = un fichier `data/visites/<id agent>/<id visite>/visite.json`** (+ `audio/000.webm`…).
+Le dossier (`visite.json`) s'enrichit au fil de la vie du bien :
 
 ```jsonc
 {
-  "id": "20261007-063305-1363a6", "titre": "11 rue du Chenois, 25260 Lougres",
-  "statut": "enregistrement | enregistre | generation | pret | erreur",
-  "cree_le": "…", "consentement_le": "…",
-  "morceaux": [{ "n": 0, "fichier": "000.webm", "mime": "audio/webm", "duree": 180, "transcription": "…", "statut": "transcrit" }],
-  "audio_supprime": false,
-  "fiche": { "champs": { "nb_chambres": { "valeur": "4", "citation": "Il y a quatre chambres", "source": "ia" } } },
+  "id": "…", "agent": "u…", "titre": "…", "cree_le": "…", "consentement_le": "…",
+  "morceaux": [ … ], "fiche": { "champs": { "dpe": { "valeur": "C", "citation": "…", "source": "public" } } },
   "titre_annonce": "…", "annonce": "…", "rapport_agent": "…", "rapport_vendeur": "…",
-  "mandat": { "numero": "2026-0001", "inscrit_le": "…" },
-  "envois": [{ "date": "…", "a": "client@…", "docs": ["vendeur", "fiche"], "copie": true }],
-  "couts": { "transcription": 0.012, "analyse": 0.03, "conversation": 0.41 }
+  "points_forts": [], "plan": { "pieces": [] }, "posts": { "instagram": "…" },
+  "public": { "geo": {}, "cadastre": {}, "risques": {}, "dpe": {}, "ventes": [], "simulation": false },
+  "avis_valeur": { "bas": 0, "haut": 0, "retenu": 0, "comparables": [], "argumentaire": "…" },
+  "pieces": [{ "cle": "titre", "statut": "recue", "fichiers": [{ "resume": "…", "alertes": [] }] }],
+  "envoi_vendeur": { "date": "…" }, "relances_pieces": [],
+  "mandat": { "numero": "2026-0001", "signe_le": "…" },
+  "signatures": { "mandat": { "statut": "signe", "hash": "sha256…", "signataires": [{ "nom": "…", "signe_le": "…", "methode": "…", "ip": "…" }] } },
+  "photos": [{ "fichier": "…", "piece": "Séjour", "floue": false, "staging": { … } }],
+  "vitrine": { "slug": "…", "publiee": true, "vues": { "2026-10-07": 12 } }, "contacts": [],
+  "visites_acq": [{ "acquereur": "a…", "date": "…", "bon_signe": true, "retour": { "interet": 4, "resume_vendeur": "…" } }],
+  "cr_hebdo": [], "offres": [{ "montant": 0, "statut": "acceptee" }],
+  "vente": { "prix": 0, "compromis_le": "…", "notification_sru": "…", "pret_limite": "…", "acte_prevu": "…", "acte_le": "…", "facture": {}, "commission": {} },
+  "lcbft": { "vendeur": { "niveau": "simplifiée", "gels": {} } }, "avis": {}, "journal": [{ "date": "…", "type": "relance", "texte": "…" }]
 }
 ```
 
-- **`source` d'un champ** : `ia` (extrait de la visite), `agent` (corrigé à la main), `dialogue` (dicté à l'assistant
-  vocal). Règle clé : **une régénération par l'IA n'écrase jamais un champ `agent` ou `dialogue`.**
-- **Les champs** sont tous définis dans `app/fields.php` (sections, types `text/number/select/bool/date/textarea`,
-  `requis`, `requis_si` conditionnel comme « régime matrimonial si marié »). Le formulaire, les prompts, la complétude,
-  les PDF et la conversation vocale en découlent : **c'est la pièce à porter en premier** dans le vrai système.
-- Sections marquées `interne` (vendeurs, situation juridique, mandat) : exclues de la fiche envoyée aux clients.
-- `data/registre.json` : registre des mandats `{ compteurs: {2026: 1}, entrees: [...] }`.
-- `data/couts/AAAA-MM.json` : coût IA estimé du mois, par usage et par agent.
+- **`source` d'un champ** : `ia` (extrait de la visite), `agent` (saisi), `dialogue` (dicté), `document` (lu dans une
+  pièce du vendeur), `public` (donnée publique). **L'IA n'écrase jamais** `agent`, `dialogue`, `document`, `public`.
+- **Étape du dossier** (calculée, jamais stockée) : visite → préparation → signature → en vente → offre → compromis → vendu.
+- Le **journal** du dossier trace chaque action automatique : c'est aussi la base du « temps gagné ».
+
+### 3.4 Pages et liens publics
+
+| Adresse | Pour qui | Sécurité |
+|---|---|---|
+| `/espace/?t=<jeton>` | vendeur, acquéreur, notaire | jeton aléatoire 32 caractères, rôle, expiration 90 jours ; écritures avec en-tête `X-Requested-With: espace` |
+| `/v/?b=<slug>` | public (page du bien) | uniquement les champs non internes ; 40 messages par heure et par IP pour l'assistant |
+| `/ics.php?t=<jeton>` | agenda de l'agent | jeton personnel |
+| `/flux.php?t=<jeton>` | portails, multidiffuseur | jeton de l'agence |
+| `/avis.php?t=<jeton>` | client après l'acte | jeton, redirection vers la fiche Google |
+| `/api/signature.php` | service de signature externe | `Authorization: Bearer <clé>` |
+
+---
+
+## 4. Services extérieurs
+
+Toutes les adresses sont surchargeables (variable d'environnement `VI_API_<NOM>` ou réglage `api_<nom>`), ce qui permet
+les tests et un changement d'URL sans toucher au code (`api_base()` dans `bootstrap.php`).
+
+| Service | Adresse par défaut | Usage | Si indisponible |
+|---|---|---|---|
+| Gemini | `generativelanguage.googleapis.com` | transcription, génération, lecture de documents et photos, home staging, Live | mode démo |
+| Adresse (BAN, IGN) | `data.geopf.fr/geocodage/search` | géocodage, communes | données simulées signalées |
+| Cadastre | `apicarto.ign.fr/api/cadastre/parcelle` | parcelle, contenance | simulées |
+| Géorisques | `georisques.gouv.fr/api/v1` (`gaspar/risques`, `zonage_sismique`, `radon`) | risques | simulés |
+| DPE ADEME | `data.ademe.fr/data-fair/api/v1/datasets/dpe03existant/lines` | DPE du logement, logements F/G d'une commune | « non trouvé » |
+| DVF | `files.data.gouv.fr/geo-dvf/latest/csv/<année>/communes/<dép>/<insee>.csv` | ventes (cache 30 jours) | simulées |
+| Gel des avoirs | `gels-avoirs.dgtresor.gouv.fr/…/derniere-publication-flux-json` | LCB-FT (cache 1 jour) | « vérification à refaire » |
+| Leaflet + OpenStreetMap | `cdnjs.cloudflare.com`, tuiles OSM | carte de prospection | liste seule |
+
+**À vérifier en premier en production** : les formats exacts des réponses (écrits d'après la documentation, testés
+contre des services simulés : le réseau de l'environnement de développement bloquait ces adresses), en particulier
+le paramètre `geo_distance` et les noms de colonnes de l'API DPE de l'ADEME, et le format JSON du registre des gels.
+
+### 4.1 Contrat de l'API de signature externe (mode « api »)
+
+Le client a sa propre API de signature ; le prototype parle un contrat générique, à adapter :
+
+```
+POST <signature_api_url>/demandes            Authorization: Bearer <signature_api_cle>
+{ "reference": "<dossier>|<document>", "titre": "Mandat de vente · …",
+  "document": { "nom": "mandat.pdf", "contenu_base64": "…" },
+  "signataires": [{ "id": "s1", "nom": "…", "email": "…", "telephone": "…", "role": "vendeur|agent|acquereur" }],
+  "url_retour": "https://…/api/signature.php" }
+→ { "id": "<id de la demande>" }
+
+Retour (le service appelle) : POST /api/signature.php      Authorization: Bearer <signature_api_cle>
+{ "id": "…", "reference": "<dossier>|<document>", "statut": "en_cours|signe|refuse",
+  "signataires": [{ "id": "s1", "signe_le": "…" }], "document_signe_base64": "…" }
+```
+
+En mode **interne** (par défaut) : signature électronique simple (eIDAS) au doigt, code à 6 chiffres envoyé par e-mail
+(15 min, 5 essais), IP, appareil, horodatage, empreinte SHA-256 du document présenté, images des signatures dans le
+document et **certificat de signature** en dernière page.
+
+### 4.2 Flux pour les portails (`/flux.php`)
+
+XML simple (`<annonces><annonce reference="…"><titre/><type/><prix/><mention_prix/>…<photos><photo/></photos></annonce>`),
+à convertir vers le format du multidiffuseur retenu. La vraie diffusion demande des contrats avec les portails :
+**à faire par le logiciel métier**.
 
 ---
 
 ## 5. L'IA (Gemini)
 
-Choix du client : **Gemini uniquement**, clé et modèles réglables dans l'appli (liste des modèles chargée
-dynamiquement depuis la clé). Tous les appels sont en cURL natif dans `app/ai.php`.
+| Usage | Appel |
+|---|---|
+| Transcription | `generateContent`, audio en `inline_data` |
+| Dossier complet (fiche, annonce, rapports, atouts, pièces du plan, publications) | **un seul** `generateContent` avec `responseSchema` (`generation_schema()`) |
+| Argumentaire de l'avis de valeur, point du vendredi, briefing | `generateContent` texte |
+| Lecture d'une pièce du vendeur, d'une pièce d'identité, d'une photo | `generateContent` multimodal avec schéma |
+| Dictées (acquéreur, retour de visite, appel, offre, rendez-vous, commande) | transcription puis extraction avec schéma (`type_dictee()`) |
+| Assistant de la page du bien | `generateContent` avec historique, schéma (réponse, action, créneau, contact) |
+| Home staging | modèle d'images (réglage `modele_image`, `responseModalities: IMAGE`) |
+| Conversation vocale | Gemini Live (§6) |
 
-| Usage | Appel | Notes |
-|---|---|---|
-| Transcription | `generateContent`, audio en `inline_data` (base64) + consigne | un morceau de 3 min ≈ 1 Mo |
-| Fiche + annonce + rapports | `generateContent` avec `responseMimeType: application/json` + `responseSchema` (format OpenAPI, types en MAJUSCULES) | un seul appel produit tout ; prompt dans `generation_prompt()` |
-| Conversation vocale | **Gemini Live** (WebSocket bidirectionnel) | voir §6 |
+Règles de prompt importantes : ne remplir que ce qui est dit, citation exacte, nombres sans unité, valeurs de listes
+exactes ; l'annonce n'invente rien ; le compte rendu vendeur ne contient aucune remarque interne ; l'assistant public
+ne donne ni l'adresse exacte, ni d'information sur le vendeur, ni de marge de négociation.
 
-Prompts importants (à reprendre) :
-- extraction : ne remplir que ce qui est dit sans ambiguïté, garder la dernière valeur en cas de correction, citation
-  exacte, nombres sans unité, valeurs de listes exactes ;
-- annonce : n'invente rien, pas de motif de vente ni de défauts, mentions en fin ;
-- rapport vendeur : ton valorisant, aucune remarque interne ;
-- les **informations validées par l'agent** sont injectées comme prioritaires dans la génération.
-
-**Mode démo** : sans clé, transcription et génération renvoient des données simulées (`app/demo.php`), ce qui permet
-de tester toute l'interface.
-
-**Coûts** (estimation, `tarif()` / `cout_usage()`) : calculés depuis `usageMetadata` renvoyé par Gemini, convertis en €,
-affichés dans Paramètres. Ordres de grandeur trouvés en octobre 2026 (à revérifier) : visite de 30 min transcrite et
-analysée ≈ 0,15 € ; conversation vocale ≈ 0,05 à 0,50 € selon les optimisations.
+**Mode démo** : sans clé, chaque appel renvoie des données simulées cohérentes (`demo.php` et les fonctions `*_demo`).
+Coûts : estimés depuis `usageMetadata`, ventilés par usage et par agent (Paramètres).
 
 ---
 
 ## 6. Conversation vocale (Gemini Live) · détails et pièges
 
-Fichiers : `public/js/dialogue.js` (client), `route_live()` dans `public/api/index.php` (consignes et outils).
+Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
 
-- **Sécurité de la clé** : le serveur crée un **jeton temporaire à usage unique**
-  (`POST https://generativelanguage.googleapis.com/v1alpha/auth_tokens`, `uses: 1`, expiration 30 min) ; le téléphone
-  se connecte à
-  `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=<jeton>`.
-  Ces formats viennent du SDK officiel `googleapis/js-genai` (`src/live.ts`, `src/tokens.ts`) ; fonction encore
-  marquée expérimentale chez Google.
-- **Message `setup`** : modèle, `generationConfig.responseModalities: ["TEXT"]`, `systemInstruction`, `tools`
-  (fonctions `noter` et `terminer`), `realtimeInputConfig.automaticActivityDetection.disabled: true`,
+- **Jeton temporaire à usage unique** (`POST …/v1alpha/auth_tokens`), la clé ne quitte jamais le serveur ; WebSocket
+  `…BidiGenerateContentConstrained?access_token=<jeton>` (formats du SDK officiel `googleapis/js-genai`).
+- `setup` : `responseModalities: ["TEXT"]`, outils `noter` / `terminer`, détection d'activité désactivée côté serveur,
   `contextWindowCompression.slidingWindow`, `inputAudioTranscription`.
-- **Optimisations de coût retenues** (demandées par le client) :
-  1. réponses en **texte lues par la voix du navigateur** (`speechSynthesis`, gratuite) au lieu de la voix Gemini ;
-  2. **détection de parole sur le téléphone** : seuls les passages parlés sont envoyés (`activityStart`, audio PCM
-     16 kHz en base64, `activityEnd` après 900 ms de silence) ; les silences ne sont pas facturés ;
-  3. historique compressé (fenêtre glissante) ;
-  4. consignes : questions courtes, ne demander que les champs manquants (liste injectée dans les consignes).
-- **Remplissage** : l'IA appelle `noter({champs:[{cle, valeur}]})` ; le client enregistre (`source: dialogue`) et
-  renvoie la liste des champs obligatoires restants dans la réponse de l'outil.
-- **Pièges** :
-  - les modèles « native-audio » ne répondent qu'en voix : le client détecte le nom et bascule en `AUDIO`
-    (lecture PCM 24 kHz), environ 5 fois plus cher ;
-  - pendant que la voix du téléphone parle, le micro l'entend : le seuil de détection est relevé (×3,5) pour éviter
-    que l'IA se réponde à elle-même, tout en laissant l'agent lui couper la parole en parlant fort ;
-  - iOS : `AudioContext` et `speechSynthesis` doivent être débloqués pendant le geste de l'utilisateur (bouton
-    « Démarrer ») ;
-  - les messages du serveur arrivent parfois en binaire (`Blob`) : toujours `await data.text()`.
-- **Statut** : testé de bout en bout contre un **faux serveur Live** respectant le protocole, **pas encore contre le
-  vrai Gemini**. Le nom du modèle par défaut (`gemini-live-2.5-flash-preview`) est à choisir dans la liste réelle.
+- **Optimisations de coût** : réponses texte lues par la voix du navigateur (gratuite) ; détection de parole sur le
+  téléphone (seuls les passages parlés partent) ; historique compressé ; uniquement les champs manquants.
+- **Pièges** : modèles « native-audio » = voix uniquement (bascule automatique, ≈ 5× plus cher) ; seuil de détection
+  relevé pendant que le téléphone parle ; iOS : débloquer `AudioContext` et `speechSynthesis` dans le geste ;
+  messages parfois en `Blob`.
+- Testé contre un faux serveur Live, **pas encore contre le vrai Gemini**.
 
 ---
 
-## 7. Documents, mandat, e-mails
+## 7. Documents, règles métier et légales
 
-- **PDF** : tFPDF 1.33 (UTF-8, polices TrueType intégrées en sous-ensemble). Deux adaptations :
-  - patch dans `tfpdf.php` : le cache de police mémorisait un chemin absolu, recalculé à la lecture ;
-  - Archivo et JetBrains Mono n'existent qu'en polices **variables** ; des versions fixes ont été extraites avec
-    `fontTools.varLib.instancer` (tFPDF ne lit pas les polices variables). La police n'a pas le caractère « ★ » :
-    étoiles dessinées en vectoriel.
-- **Charte Synapse** dans les PDF : fond crème, titre surligné citron, étiquette orange inclinée, cartes à contour noir,
-  carte prix noire, bandeau noir à étoiles en pied de page, DPE aux couleurs officielles.
-- **Mandat** (`app/mandat.php`) : gabarit repris de la plateforme Synapse.immo (dépôt `ftholomier/suisse-immo`,
-  `config/contracts.php`), qui contient la liste des mentions obligatoires avec leurs références légales. Règles
-  appliquées :
-  - jetons `{{…}}` remplis depuis le dossier ; une valeur manquante devient « [à compléter : …] » surligné en rouge ;
-  - **PROJET** en filigrane tant que non inscrit ; inscription refusée si une mention manque ;
-  - **numéro de registre chronologique sans trou ni réemploi** (décret 72-678 art. 72) ;
-  - exclusif et semi-exclusif : clause de dénonciation à trois mois **en caractères très apparents** (encadrée) ;
-  - signé au domicile ou à distance : rétractation de 14 jours avec date de fin et **formulaire détachable** (sans lui,
-    le délai passe à 12 mois et 14 jours : première cause de perte d'honoraires) ;
-  - montants en chiffres et en lettres, prix net vendeur déduit, accords grammaticaux (mariés, née/né).
-  Le texte n'a pas été relu par un juriste : **à faire valider**, puis remplacer par les modèles du réseau (le client a
-  évoqué une dizaine de documents Synapse rédigés ailleurs, non retrouvés dans les dépôts).
-- **E-mails** (`app/mailer.php`) : client SMTP natif (SSL 465 / STARTTLS 587, AUTH PLAIN/LOGIN) ou `mail()`, MIME
-  `mixed > related > alternative` (texte + HTML + logo intégré + PDF joints), `Reply-To` = e-mail de l'agent,
-  copie cachée à l'agent. Testé contre un faux serveur SMTP, pas encore avec un vrai fournisseur.
-- **Annonce et mentions légales** (`public/js/apercu.js`) : prix honoraires inclus, pourcentage TTC et qui paie, prix hors
-  honoraires, DPE/GES, copropriété, mention Géorisques (arrêté du 10 janvier 2017).
+- **PDF** (tFPDF 1.33, polices Archivo et JetBrains Mono en versions fixes, patch du cache de police) : fiche, annonce,
+  rapport, compte rendu, dossier complet, mandat, avis de valeur, dossier technique, croquis de plan, bon de visite,
+  offre d'achat, point de la semaine, fiche notaire, fiche de vigilance, facture, note de commission, courrier de
+  prospection, flyer de boîtage. Charte Synapse partout.
+- **Mandat** (gabarit Synapse.immo) : jetons, « [à compléter] », PROJET en filigrane, **numéro de registre
+  chronologique attribué avant la signature** (il doit figurer sur l'exemplaire signé), clause de dénonciation encadrée
+  (exclusif), rétractation 14 jours + formulaire détachable hors établissement.
+- **Annonce** : prix honoraires inclus, pourcentage TTC et qui paie, prix hors honoraires, DPE/GES, copropriété,
+  Géorisques (arrêté du 10 janvier 2017). **Publication impossible sans mandat signé.**
+- **Avis de valeur** : mention « ne constitue pas une expertise ».
+- **Home staging** : mention « aménagement virtuel · image retouchée » incrustée sur toute image modifiée.
+- **Bon de visite** : engagement de passer par l'agence (durée du mandat + 12 mois).
+- **Offre d'achat** : condition suspensive de prêt (L313-40 code conso), aucun versement (art. 1589-1 code civil),
+  rappel du délai SRU.
+- **Délai SRU** : 10 jours à compter du lendemain de la notification, reporté au premier jour ouvrable (week-ends,
+  jours fériés, Pâques calculé).
+- **LCB-FT** : identification, registre national des gels, PPE, origine des fonds, niveau de vigilance
+  (simplifiée / standard / renforcée / interdit), fiche conservée 5 ans ; en cas de correspondance : ne pas poursuivre,
+  déclarer à TRACFIN.
+- **Facture** : mentions de pénalités de retard et d'indemnité de 40 €, carte professionnelle et garantie.
+- **Prospection** : courrier adressé « Au propriétaire » (données publiques ADEME), mention d'opposition ; pas de
+  démarchage téléphonique (consentement préalable désormais requis) ; pas de récupération des annonces de
+  particuliers sur les portails (conditions d'utilisation).
+- **Tous ces textes sont à faire relire par un juriste** avant usage réel, puis à remplacer par les modèles du réseau.
 
 ---
 
-## 8. Tester le prototype
+## 8. Tâches automatiques (`app/cron.php`, toutes les 10 minutes)
+
+| Tâche | Quand |
+|---|---|
+| `relances_pieces` | J+2, J+5, J+10, J+17, J+24 après l'envoi au vendeur, heures ouvrables, tant qu'il manque des pièces |
+| `relances_signature` | J+2 et J+5 pour chaque signataire qui n'a pas signé |
+| `alertes_acquereurs` | quand un bien publié correspond à un acquéreur (score ≥ 75, alertes actives) |
+| `cr_hebdo` | vendredi à partir de 17 h : point de la semaine (envoyé ou « à relire » selon le choix de l'agent) |
+| `relances_vente` | prêt à J-15 et J-5 (acquéreur, courtier), notaires à J-10 de l'acte, rappel aux parties à J-2 |
+| `avis_google` | J+2 après l'acte, relance à J+9 si le lien n'a pas été ouvert |
+| `briefing` | notification à 7 h 30 les jours ouvrés |
+| `rgpd_audio` | effacement de l'audio après N jours (réglage) |
+
+Chaque tâche mémorise ce qu'elle a déjà fait (pas de doublon). `--maintenant=AAAA-MM-JJTHH:MM` simule une date
+(tests), `--tache=<nom>` n'en lance qu'une.
+
+---
+
+## 9. Tester le prototype
 
 ```sh
 cd visite-immo
-php -S localhost:8000 -t public      # puis http://localhost:8000 : créer le compte admin
+php -S localhost:8000 -t public          # puis http://localhost:8000 : créer le compte admin
 ```
 
-- Sans clé Gemini : **mode démo** complet (enregistrement, fiche, PDF, mandat, aperçu).
-- Avec clé : Paramètres → clé Gemini → choisir les trois modèles (analyse, transcription, conversation).
-- Les tests automatisés de la session utilisaient Playwright avec
-  `--use-fake-device-for-media-stream --use-file-for-fake-audio-capture=<wav>`, un faux Gemini Live (`ws`, Node) et
-  un faux SMTP (`aiosmtpd`). Ils ne sont pas versionnés ; à reconstruire dans une vraie suite de tests.
+- Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 10 scénarios Playwright sur des
+  données neuves, avec services publics, SMTP, push et signature simulés. Couvre : parcours de base, sortie de
+  visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
+  vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la
+  signature VAPID), prospection, démo et réseau.
 
 **Non testé en conditions réelles** (à faire en premier) :
-- vrais appels Gemini (transcription, génération, Live, jeton temporaire) ;
-- formats audio des téléphones (`webm` Android, `mp4` iPhone) : absents de la liste officielle des formats Gemini ;
-- iPhone réel : micro écran verrouillé, voix de synthèse, PWA installée ;
-- envoi SMTP chez OVH / Gmail / o2switch ;
-- relecture juridique du mandat.
+- vrais appels Gemini (transcription, génération, Live, multimodal, images) ;
+- vrais services publics (formats de réponse, §4) ;
+- formats audio des téléphones (`webm` Android, `mp4` iPhone) côté Gemini ;
+- iPhone réel : micro écran verrouillé, voix de synthèse, notifications (PWA installée, iOS 16.4+) ;
+- envoi SMTP chez un vrai fournisseur ; délivrabilité des relances ;
+- l'API de signature du client (contrat §4.1 à aligner) ;
+- relecture juridique de tous les documents.
 
 ---
 
-## 9. Pour le vrai développement : quoi garder, quoi refaire
+## 10. Pour le vrai développement : quoi garder, quoi refaire
 
 **À garder (le savoir, pas forcément le code)**
-- la définition des champs (`fields.php`) et la règle des sources (`ia` / `agent` / `dialogue`) ;
-- les prompts et schémas de sortie (`ai.php`) et les consignes de l'assistant vocal (`route_live`) ;
-- le protocole Live et ses optimisations de coût (§6) ;
-- les règles du mandat et de l'annonce (§7) ; le gabarit et les mentions viennent de la plateforme Synapse.immo,
-  qui reste la source de vérité ;
-- l'enregistrement par morceaux autonomes + file d'envoi hors ligne (fiable sur le terrain) ;
-- l'UX : un gros bouton, « Créer la fiche », jauge de complétude, champs « IA » avec citation et « DICTÉ ».
+- la définition des champs (`fields.php`) et la règle des sources ;
+- les points d'extension par module (§3.1) : c'est la bonne découpe du métier ;
+- les prompts et schémas (`ai.php`, `type_dictee`), l'assistant vocal et ses optimisations (§6) ;
+- les règles métier et légales (§7) et les délais des relances (§8) ;
+- l'UX : un seul bouton pour démarrer, « Prochaine étape », écran Aujourd'hui, dictées de 30 s, espace client sans
+  mot de passe, tout signable au doigt.
 
 **À refaire autrement**
-- **Intégrer dans la plateforme Synapse.immo** (`suisse-immo`, PHP, base de données, CRM, contrats, GED) plutôt que
-  de garder une appli à part. Le dossier d'une visite devient un bien + des contacts + un mandat du CRM.
-  Correspondance des jetons du mandat : `mandant.*`, `bien.*`, `mandat.*`, `agence.*` (identiques au gabarit Synapse).
-- **Un seul registre des mandats** : celui du logiciel métier. Le registre JSON du prototype ne doit pas coexister
-  avec un autre.
-- Base de données à la place des fichiers JSON ; stockage objet pour l'audio ; file de tâches pour la transcription et
-  la génération (aujourd'hui synchrones dans la requête HTTP, `set_time_limit(320)`).
-- Multi-agences (tenants), droits fins, journal d'audit, chiffrement des données personnelles (date de naissance,
-  état civil), durée de conservation de l'audio (RGPD), consentement à l'enregistrement tracé.
-- Signature électronique et diffusion portails via les connecteurs du logiciel métier.
-- Tarifs IA : les lire dans une configuration à jour, pas en dur.
-
----
-
-## 10. Idées suivantes (proposées, non construites)
-
-Détaillées dans l'infographie `synapse-offre/` (parcours en 6 étapes). Priorités suggérées :
-
-1. **Dossier technique automatique depuis l'adresse** : cadastre (IGN), état des risques (Géorisques), DPE (ADEME),
-   ventes du quartier et avis de valeur (DVF). Données publiques gratuites.
-2. **Lecture des papiers du vendeur par l'IA** (acte, taxe foncière, PV d'AG, diagnostics) → remplit origine de
-   propriété, cadastre, lots, charges ; relance automatique des pièces manquantes.
-3. **Assistant acquéreurs 24 h/24** : réponse aux contacts des portails, qualification, prise de rendez-vous.
-4. Compte rendu de visite acquéreur dicté + **rapport de commercialisation hebdomadaire** automatique au vendeur.
-5. Suivi du compromis à l'acte (dossier notaire, échéances SRU / prêt, relances).
-6. Autres : contrôle LCB-FT automatique (la plateforme Synapse.immo a déjà un module de sanctions), plan 2D au LiDAR,
-   photos et vidéos réseaux sociaux, prospection ciblée par courrier (DPE F/G, DVF), briefing du matin, bilan d'appel
-   dicté, facture d'honoraires, demande d'avis Google.
+- **Intégrer dans la plateforme Synapse.immo** (CRM, contrats, GED, registre unique) plutôt qu'une appli à part.
+  Le dossier devient bien + contacts + mandat + vente du CRM.
+- Base de données à la place du JSON ; stockage objet pour l'audio et les photos ; **file de tâches** pour les appels
+  IA (aujourd'hui synchrones dans la requête) ; cron remplacé par un planificateur.
+- Multi-agences, droits fins, journal d'audit, chiffrement des données sensibles (état civil, pièces d'identité),
+  sauvegardes.
+- Diffusion portails et signature via les connecteurs du logiciel métier.
+- Tarifs IA dans une configuration à jour.
 
 ---
 
 ## 11. Décisions prises avec le client (pour ne pas les rediscuter)
 
-- PWA mobile, l'enregistrement se fait **dans l'appli** ; archivage des visites, suppression possible de l'audio seul
-  ou de toute la visite.
-- PHP natif, sans base de données, pour le prototype uniquement.
-- Multi-utilisateurs ; rapports internes **et** compte rendu envoyé au vendeur.
-- IA : **Gemini uniquement**, tout réglable dans l'appli (clé, modèles, stockage, signature).
-- Conversation vocale **en direct**, avec toutes les optimisations de coût, voix du navigateur.
-- Vrais PDF générés côté serveur (pas d'impression navigateur) ; vrai envoi d'e-mails avec pièces jointes.
-- Charte Synapse partout (interface, PDF, e-mails) : crème, encre, citron, orange, vert, Archivo + JetBrains Mono ;
-  logo redessiné en vectoriel d'après une image (à remplacer par le fichier officiel s'il existe).
-- Offre agents (proposition à valider) : 80 % → 90 % (40 k€) → 95 % (80 k€) des honoraires HT sur 12 mois glissants,
-  abonnement 79 € HT/mois, 3 mois offerts, sans engagement.
+- PWA mobile ; enregistrement **dans l'appli** ; archivage ; suppression de l'audio seul ou de tout.
+- PHP natif, sans base de données, **pour le prototype uniquement** ; cron disponible sur l'hébergement.
+- **Interface ultra simple** : presque tout découle de la visite et se fait automatiquement en sortant.
+- IA : **Gemini uniquement**, tout réglable dans l'appli ; conversation vocale en direct, voix du navigateur.
+- Vrais PDF côté serveur, vrais e-mails avec pièces jointes ; charte Synapse partout.
+- Signature : intégrée pour le prototype ; **le client branchera sa propre API** (contrat générique §4.1).
+- Documents Synapse officiels non fournis : on travaille avec le gabarit existant (outil de test).
+- Envoi vers le CRM : **plus tard**, dans le vrai développement.
+- Offre agents (à valider) : 80 % → 90 % (40 k€) → 95 % (80 k€) des honoraires HT sur 12 mois glissants, réglables ;
+  abonnement 79 € HT/mois.

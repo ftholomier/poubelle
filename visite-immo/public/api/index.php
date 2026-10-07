@@ -173,6 +173,7 @@ function route_profile(): never
     $contact = validate_contact($in);
     $nom = trim((string) ($in['nom'] ?? $me['nom']));
     if ($nom === '') fail(400, 'Le nom est obligatoire.');
+    if (array_key_exists('cr_auto', $in)) $contact['cr_auto'] = (bool) $in['cr_auto'];
     update_json(USERS_FILE, fn (array $users) => array_map(fn ($u) => $u['id'] === $me['id'] ? [...$u, ...$contact, 'nom' => $nom] : $u, $users));
     send_json(public_user([...$me, ...$contact, 'nom' => $nom]));
 }

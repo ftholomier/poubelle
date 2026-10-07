@@ -1,89 +1,75 @@
 # Visite Immo · Synapse
 
-> **Statut : prototype d'exploration.** Voir aussi [`../PASSATION.md`](../PASSATION.md) pour le futur vrai développement. Ce projet sert à tester les idées et les usages (enregistrement de visite,
-> IA, conversation vocale, documents, diffusion) avant un vrai développement, plus tard, dans le logiciel métier.
+> **Statut : prototype d'exploration.** Voir [`../PASSATION.md`](../PASSATION.md) (architecture, données, services,
+> ce qui reste à valider) et [`../PLAN-DEVELOPPEMENT.md`](../PLAN-DEVELOPPEMENT.md) (avancement).
 > Les choix techniques (PHP natif, fichiers JSON, pas de base de données) visent la rapidité de test, pas la production.
 
-Interface, PDF et e-mails à la charte **Synapse** : fond crème, encre noire, surlignage citron, étiquettes
-orange, polices Archivo et JetBrains Mono. Logo vectoriel dans `public/img/` (`synapse-logo.svg`,
-`synapse-logo-clair.svg` pour fond sombre, `synapse-icone.svg`).
+Appli mobile (PWA) pour les agents du réseau Synapse. **Presque tout part de la visite** : l'agent l'enregistre, et en
+sortant tout est prêt (fiche, annonce, compte rendu, avis de valeur, dossier technique, mandat, pièces à demander).
+Ensuite l'appli n'affiche qu'**une action à la fois** et fait le reste toute seule : relances, signature en ligne,
+page du bien et assistant acquéreurs 24 h/24, point du vendredi au vendeur, offres, échéancier du compromis,
+dossier notaire, facture, commission, demande d'avis.
 
-Appli mobile (PWA) pour agents immobiliers : l'agent enregistre la visite avec son téléphone, puis un bouton
-« Créer la fiche » produit automatiquement :
-
-- **la fiche du bien**, champs remplis (chambres, surface, DPE, prix…), chaque valeur reliée à la phrase entendue ;
-- **l'annonce** (titre et description pour les portails) ;
-- **le rapport interne** pour l'agent (points forts et faibles, avis sur le prix, choses à vérifier, prochaines étapes) ;
-- **le compte rendu au vendeur**, prêt à envoyer par e-mail.
-
-Les visites sont archivées (audio, transcription, documents) et l'agent peut supprimer l'audio seul ou toute la visite.
-
+Interface, PDF et e-mails à la charte **Synapse** (crème, encre, citron, orange ; Archivo et JetBrains Mono).
 PHP natif, sans framework, sans Composer, **sans base de données** : tout est stocké en fichiers JSON.
 
-## Parcours
+## L'appli en bref
 
-1. 🔴 **Nouvelle visite** → l'agent coche l'accord du vendeur, appuie sur le bouton rouge. Il peut faire pause, reprendre, terminer.
-2. Pendant l'enregistrement, l'audio est découpé en morceaux de 3 minutes, **envoyés et transcrits au fil de l'eau**.
-   Sans réseau, les morceaux attendent dans le téléphone (IndexedDB) et repartent tout seuls.
-3. ✨ **Créer la fiche** → en 20 à 40 secondes, fiche, annonce et rapports sont prêts, modifiables, sauvegardés automatiquement.
-4. 📁 **Mes visites** → archive consultable : réécouter, relire, copier, PDF, envoyer, supprimer.
+- **Aujourd'hui** : tout ce qu'il y a à faire, tous biens confondus ; briefing du matin à écouter ; « Dites-moi »
+  (commande vocale) ; bilan d'appel dicté ; notifications sur le téléphone.
+- **Biens** : chaque dossier avec ses étapes (Visite → Dossier → Mandat → En vente → Offre → Compromis → Vendu),
+  la prochaine action en grand, les documents, les photos, la vente.
+- **● Visite** : le bouton rouge. Enregistrement découpé et transcrit au fil de l'eau, même hors réseau.
+- **Acquéreurs** : fiche dictée en 30 secondes, biens compatibles, alertes automatiques.
+- **Agenda** : rendez-vous, créneaux proposés par l'assistant, abonnement depuis Google / Apple / Outlook.
+- Menu : tableau de bord (palier de rémunération, temps gagné), prospection (logements F/G, courriers),
+  réseau (coaching 90 jours, formation ALUR, juriste, collègues), paramètres.
+- Pour les clients, **sans mot de passe** : espace vendeur (documents, signature, dépôt des pièces en photo, visites,
+  offres), espace notaire, page publique du bien avec assistant.
 
 ## Structure
 
 ```
 visite-immo/
-├── app/                 ← code serveur (hors web)
-│   ├── config.sample.php   valeurs par défaut (tout se règle ensuite dans l'appli)
-│   ├── settings.json       réglages faits dans l'appli (créé automatiquement)
-│   ├── bootstrap.php       session, utilisateurs, stockage JSON
-│   ├── fields.php          liste des champs de la fiche (modifiable)
-│   ├── ai.php              Gemini en cURL : liste des modèles, transcription, génération
-│   ├── pdf.php             mise en page des documents PDF
-│   ├── mailer.php          envoi d'e-mails (client SMTP natif ou mail())
-│   ├── lib/tfpdf/          bibliothèque PDF tFPDF + police Archivo
-│   └── demo.php            données simulées quand il n'y a pas de clé
-├── data/                ← stockage (hors web, créé automatiquement)
-│   ├── users.json
-│   └── visites/<agent>/<visite>/visite.json + audio/
-└── public/              ← racine du site
-    ├── index.php (page de l'appli), manifest.webmanifest, sw.js, icônes
-    ├── api/index.php       API JSON (/api/?r=…)
-    ├── css/app.css
-    └── js/                 app.js, recorder.js, uploader.js, api.js
+├── app/            code serveur (hors web) : bootstrap, store, cron.php, fields.php, ai.php, pdf.php, mandat.php,
+│                   mailer.php, modules/ (une fonction métier par fichier), lib/tfpdf/
+├── data/           stockage (hors web, créé automatiquement)
+├── public/         racine du site : index.php (appli), api/, espace/, v/ (page du bien), ics.php, flux.php, avis.php,
+│                   js/ (+ js/vues/), css/, img/, fonts/, sw.js
+└── tests/          tests de bout en bout et services simulés (./tests/tout.sh)
 ```
+
+Le détail de chaque module et du modèle de données est dans `PASSATION.md`.
 
 ## Installation
 
 1. Déposer le dossier sur l'hébergement et faire pointer le domaine (ou sous-domaine) sur `public/`.
    Si l'hébergeur impose un dossier unique, `app/` et `data/` contiennent un `.htaccess` qui en interdit l'accès.
-2. Donner les droits d'écriture à PHP sur `app/` (pour `settings.json`).
-3. Donner les droits d'écriture à PHP sur `data/`.
+2. Droits d'écriture pour PHP sur `app/` (pour `settings.json`) et sur `data/`.
+3. **Tâches automatiques** (relances, point du vendredi, échéances, alertes, briefing) : ajouter au cron de l'hébergeur
+   ```
+   */10 * * * * php /chemin/vers/visite-immo/app/cron.php >> /chemin/vers/visite-immo/data/cron.log 2>&1
+   ```
+   La ligne exacte est affichée dans Paramètres, avec la date du dernier passage.
 4. Ouvrir le site : au premier lancement, on crée le **compte administrateur**.
-5. Bouton ⚙️ en haut de l'écran, ou menu ☰ → **Paramètres** (administrateurs uniquement) :
-   - **clé API Gemini** (https://aistudio.google.com/apikey) : dès qu'elle est saisie, l'appli la vérifie et charge
-     la liste des modèles disponibles pour cette clé ;
-   - **modèle d'analyse** (fiche, annonce, rapports) et **modèle de transcription**, choisis dans cette liste ;
-   - **dossier de stockage** : en le changeant, les comptes et visites y sont déplacés automatiquement ;
-   - **modèle de conversation vocale** (liste des modèles compatibles Gemini Live) ;
-   - **identité de l'agence** : nom (signature du compte rendu vendeur), coordonnées, mentions légales du mandat
-     (raison sociale, carte professionnelle, garant, RCP…) et logo (le logo Synapse
-     par défaut ; un logo déposé ici le remplace partout : interface, PDF, e-mails) ;
-   - **envoi des e-mails** : serveur SMTP (OVH, o2switch, Gmail, Microsoft 365…) ou fonction `mail()` de l'hébergeur,
-     avec un bouton « Envoyer un test ».
-   Sans clé, l'appli tourne en **mode démo** (transcription et analyse simulées) pour tester l'interface.
-6. Chaque agent renseigne son e-mail et son téléphone dans **Mon compte** : ils apparaissent sur les PDF, et les
-   clients qui répondent à un e-mail écrivent directement à l'agent.
-7. Menu ☰ → « Gérer l'équipe » pour ajouter les agents. Chaque agent ne voit que ses propres visites.
-8. Sur le téléphone : ouvrir le site puis « Ajouter à l'écran d'accueil » pour l'avoir comme une appli.
+5. **Paramètres** (administrateur) : clé Gemini et modèles, identité et mentions légales de l'agence, logo, envoi des
+   e-mails (SMTP), adresse publique du site, signature électronique (intégrée ou votre API), paliers de
+   rémunération, lien d'avis Google, e-mail du juriste, conservation de l'audio, **jeu de démonstration**.
+   Sans clé Gemini, l'appli tourne en **mode démo** (tout est simulé, rien n'est bloqué).
+6. Chaque agent renseigne son e-mail et son téléphone dans **Mon compte** et active les notifications sur son téléphone
+   (écran Aujourd'hui).
+7. Sur le téléphone : ouvrir le site puis « Ajouter à l'écran d'accueil ».
 
 ### Prérequis
 
 - **HTTPS obligatoire** : sans lui, le navigateur refuse l'accès au micro.
-- PHP 8.1+ avec les extensions `curl`, `fileinfo` et `mbstring`.
+- PHP 8.2+ avec les extensions `curl`, `fileinfo`, `mbstring`, `gd` (photos, visuels), `openssl` (notifications) ;
+  `exif` et `calendar` recommandées (photos de téléphone redressées, jours fériés de Pâques).
 - `upload_max_filesize` et `post_max_size` à **10M** minimum (un morceau de 3 min fait environ 1 Mo).
 - `max_execution_time` à 300 s si possible (la génération prend 20 à 60 s).
 
 Test en local : `php -S localhost:8000 -t public` puis http://localhost:8000 (le micro est autorisé sur localhost).
+Tests automatisés : `./tests/tout.sh` (Playwright, Chromium ; services publics, SMTP et notifications simulés).
 
 ## Compléter le dossier à la voix
 
@@ -103,7 +89,7 @@ Technique et coûts :
 - Paramètres → **Coût de l'IA** : estimation du mois, par usage (transcription, analyse, conversation) et par agent.
 
 Les champs du mandat suivent les mentions obligatoires définies par la plateforme Synapse.immo (loi Hoguet,
-décret 72-678, Code de la consommation). La génération du mandat lui-même viendra avec les modèles Synapse.
+décret 72-678, Code de la consommation).
 
 ## Mandat de vente en PDF
 
@@ -119,7 +105,9 @@ réponses dictées) et les mentions légales de l'agence (Paramètres).
   net vendeur, durée avec date de fin, clause de dénonciation encadrée pour l'exclusif et le semi-exclusif.
 - Signé au domicile ou à distance : clause de rétractation de 14 jours avec sa date de fin, et **formulaire de
   rétractation détachable** en dernière page (art. L221-5 et R221-1 du code de la consommation).
-- Téléchargement PDF et envoi au vendeur par e-mail.
+- Téléchargement PDF, envoi au vendeur, **signature électronique** : au doigt sur le téléphone de l'agent, ou par
+  lien personnel avec code envoyé par e-mail ; numéro de registre attribué avant la signature, certificat de preuve
+  en dernière page, exemplaire signé envoyé à chacun. Mode « API » pour brancher votre propre service de signature.
 
 Le texte reprend le gabarit de mandat de la plateforme Synapse.immo : point de départ conforme, à faire relire, puis à
 remplacer par le modèle du réseau (`app/mandat.php`).
@@ -134,15 +122,10 @@ réelle passera par le logiciel métier de l'agence, qui alimente les portails.
 
 ## Documents PDF et e-mails
 
-Depuis chaque visite, boutons **📄 PDF** et **✉️ Envoyer** :
-
-| Document | Contenu | Destiné à |
-|---|---|---|
-| Fiche du bien | chiffres clés, étiquette DPE, caractéristiques (sans la partie vendeur) | client, acquéreur |
-| Annonce | titre, chiffres clés, description, encadré contact de l'agent | acquéreur |
-| Compte rendu de visite | courrier au vendeur, sur papier à en-tête | vendeur |
-| Rapport de visite | rapport interne, marqué « CONFIDENTIEL » | agence uniquement |
-| Dossier complet | tout, y compris la partie vendeur et le rapport interne | agence uniquement |
+Onglet **Documents** d'un dossier : chaque document avec **📄 PDF** et **✉️ Envoyer**. Fiche du bien, annonce,
+compte rendu de visite, rapport interne, dossier complet, mandat, avis de valeur, dossier technique, croquis de plan,
+publications réseaux sociaux ; puis au fil de la vente : bons de visite, point de la semaine, offres, fiche notaire,
+fiches de vigilance, facture et note de commission. Tous à la charte Synapse.
 
 L'envoi : saisir l'adresse du client, l'objet et le message (préremplis), cocher les PDF à joindre, « Envoyer ».
 L'appli demande confirmation avant d'envoyer un document interne. Chaque envoi est consigné dans la visite.

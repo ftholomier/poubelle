@@ -146,7 +146,7 @@ function users(): array
 
 function public_user(array $u): array
 {
-    return ['id' => $u['id'], 'login' => $u['login'], 'nom' => $u['nom'], 'role' => $u['role'], 'email' => $u['email'] ?? '', 'telephone' => $u['telephone'] ?? ''];
+    return ['id' => $u['id'], 'login' => $u['login'], 'nom' => $u['nom'], 'role' => $u['role'], 'email' => $u['email'] ?? '', 'telephone' => $u['telephone'] ?? '', 'cr_auto' => $u['cr_auto'] ?? true];
 }
 
 function current_user(): ?array

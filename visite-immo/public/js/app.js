@@ -14,6 +14,7 @@ import "./vues/commercialisation.js";
 import "./vues/transaction.js";
 import "./vues/quotidien.js";
 import "./vues/prospection.js";
+import "./vues/reseau.js";
 
 import {
   APP_VERSION, state, nav, esc, fmtDuree, fmtDate, fmtPrix, champsOf, toast, copier, go, render, theme,
@@ -1242,12 +1243,90 @@ async function viewSettings() {
         <p class="muted small" id="test-hint">Enregistrez d'abord les paramètres, puis envoyez-vous un e-mail de test.</p>
       </section>
 
+      <section class="card">
+        <h2>Tâches automatiques et adresse du site</h2>
+        <p class="small">${cfg.cron?.dernier ? `✓ Dernier passage : ${fmtDate(cfg.cron.dernier)}${cfg.cron.bilan?.length ? ` · ${esc(cfg.cron.bilan.slice(0, 3).join(" · "))}` : ""}` : '<span class="orange-txt">Pas encore lancées.</span>'}</p>
+        <p class="small muted">Relances, point du vendredi, échéances, alertes, avis Google, briefing. À programmer toutes les 10 minutes dans le cron de l'hébergeur :</p>
+        <code class="bloc-code">*/10 * * * * php ${esc(cfg.chemin_app)}/app/cron.php >> ${esc(cfg.chemin_app)}/data/cron.log 2>&1</code>
+        <label>Adresse publique du site <span class="muted">(liens envoyés par e-mail)</span><input name="url_publique" value="${esc(cfg.url_publique)}" placeholder="https://visite.synapse.immo"></label>
+      </section>
+
+      <section class="card">
+        <h2>Signature électronique</h2>
+        <label>Mode
+          <select name="signature_mode" id="sig-mode">
+            <option value="interne" ${cfg.signature_mode !== "api" ? "selected" : ""}>Intégrée : signature au doigt + code par e-mail</option>
+            <option value="api" ${cfg.signature_mode === "api" ? "selected" : ""}>Mon service de signature (API)</option>
+          </select>
+        </label>
+        <div id="sig-api">
+          <label>Adresse de l'API<input name="signature_api_url" value="${esc(cfg.signature_api_url)}" placeholder="https://signature.exemple.fr/api"></label>
+          <label>Clé de l'API<input name="signature_api_cle" type="password" value="${esc(cfg.signature_api_cle)}" autocomplete="off"></label>
+          <p class="small muted">Adresse de retour à donner au service : <code>${esc((cfg.url_publique || location.origin + location.pathname.replace(/\/$/, "")) + "/api/signature.php")}</code>. Contrat d'échange décrit dans PASSATION.md.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Offre agents : paliers de rémunération</h2>
+        <div class="row-2b"><label>Palier 1 (%)<input name="taux_palier1" inputmode="decimal" value="${cfg.taux_palier1}"></label><span></span></div>
+        <div class="row-2b"><label>Palier 2 dès (€ HT)<input name="seuil_palier2" inputmode="numeric" value="${cfg.seuil_palier2}"></label><label>Palier 2 (%)<input name="taux_palier2" inputmode="decimal" value="${cfg.taux_palier2}"></label></div>
+        <div class="row-2b"><label>Palier 3 dès (€ HT)<input name="seuil_palier3" inputmode="numeric" value="${cfg.seuil_palier3}"></label><label>Palier 3 (%)<input name="taux_palier3" inputmode="decimal" value="${cfg.taux_palier3}"></label></div>
+        <p class="small muted">Honoraires HT encaissés sur 12 mois glissants ; utilisés pour la note de commission et le tableau de bord.</p>
+      </section>
+
+      <section class="card">
+        <h2>Réseau et clients</h2>
+        <label>Lien « Laisser un avis » de la fiche Google<input name="lien_avis_google" value="${esc(cfg.lien_avis_google)}" placeholder="https://g.page/r/…/review"></label>
+        <label>E-mail du juriste du réseau<input name="juriste_email" type="email" value="${esc(cfg.juriste_email)}"></label>
+        <label>Modèle Gemini pour les images (home staging)<input name="modele_image" value="${esc(cfg.modele_image)}"></label>
+      </section>
+
+      <section class="card">
+        <h2>Données personnelles (RGPD)</h2>
+        <label>Effacer l'audio des visites après (jours, 0 = jamais)<input name="conservation_audio_jours" inputmode="numeric" value="${cfg.conservation_audio_jours}"></label>
+        <div class="test-row"><input id="rgpd-q" placeholder="Nom ou e-mail d'une personne"><button type="button" class="btn" id="rgpd-btn">Exporter ses données</button></div>
+        <p class="small muted">Droit d'accès : export de tout ce qui concerne la personne (dossiers, fiches, contacts). Effacement : supprimer la fiche ou le dossier concerné.</p>
+      </section>
+
+      <section class="card">
+        <h2>Démonstration</h2>
+        <p class="small muted">Ajoute à votre compte des biens à toutes les étapes (visite, mandat, en vente, offre, compromis, vendu), des acquéreurs, des rendez-vous et un secteur de prospection, pour présenter l'outil en 10 minutes.</p>
+        <button type="button" class="btn" id="demo-btn">🎬 Charger le jeu de démonstration</button>
+      </section>
+
       <button class="btn primary big">Enregistrer les paramètres</button>
       <div class="spacer"></div>
     </form>`;
 
   const $ = (id) => document.getElementById(id);
   const form = $("f");
+  const majSig = () => ($("sig-api").hidden = $("sig-mode").value !== "api");
+  $("sig-mode").onchange = majSig;
+  majSig();
+  $("rgpd-btn").onclick = async () => {
+    const q = $("rgpd-q").value.trim();
+    if (q.length < 3) return toast("Saisissez au moins 3 caractères", "erreur");
+    try {
+      const r = await api("rgpd_recherche", { query: { q } });
+      if (!r.dossiers && !r.acquereurs && !r.contacts) return toast("Aucune donnée trouvée pour cette personne.");
+      window.open(`api/?${new URLSearchParams({ r: "rgpd_export", q })}`, "_blank");
+    } catch (e) {
+      toast(e.message, "erreur");
+    }
+  };
+  $("demo-btn").onclick = async () => {
+    if (!confirm("Ajouter les données de démonstration à votre compte ?")) return;
+    $("demo-btn").disabled = true;
+    $("demo-btn").textContent = "Préparation…";
+    try {
+      const r = await api("demo", { method: "POST" });
+      toast(`${r.biens} biens et ${r.acquereurs} acquéreurs de démonstration ajoutés ✓`, "ok");
+      go("/");
+    } catch (e) {
+      toast(e.message, "erreur");
+      $("demo-btn").disabled = false;
+    }
+  };
   const updateSig = () => ($("sig").textContent = `${state.user.nom}, ${form.agence.value || "…"}`);
   const majEmail = () => {
     const m = $("email-methode").value;
@@ -1381,6 +1460,7 @@ function viewAccount() {
       <label>Nom<input name="nom" required value="${esc(u.nom)}"></label>
       <label>E-mail<input name="email" type="email" value="${esc(u.email)}" inputmode="email" autocomplete="email"></label>
       <label>Téléphone<input name="telephone" type="tel" value="${esc(u.telephone)}" autocomplete="tel"></label>
+      <label class="check"><input type="checkbox" name="cr_auto" ${u.cr_auto !== false ? "checked" : ""}> Envoyer automatiquement le point du vendredi aux vendeurs (sinon : à relire avant envoi)</label>
       <button class="btn primary">Enregistrer</button>
     </form>
     <form class="card" id="f">
@@ -1392,7 +1472,8 @@ function viewAccount() {
   document.getElementById("profil").onsubmit = async (e) => {
     e.preventDefault();
     try {
-      state.user = await api("profile", { method: "POST", body: Object.fromEntries(new FormData(e.target)) });
+      const fd = new FormData(e.target);
+      state.user = await api("profile", { method: "POST", body: { ...Object.fromEntries(fd), cr_auto: fd.has("cr_auto") } });
       toast("Coordonnées enregistrées ✓", "ok");
     } catch (err) {
       toast(err.message, "erreur");
