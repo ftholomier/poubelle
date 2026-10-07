@@ -53,8 +53,8 @@ final class Mailer
         }
         $host = trim((string) Settings::get('mail.smtp_host', ''));
         try {
-            $ok = $host !== '' ? self::smtp($host, $fromEmail, $to, $headers, $body) : self::phpMail($to, $headers, $body);
-            self::log($to, $subject, $ok);
+            $ok = $host !== '' ? self::smtp($host, $fromEmail, $to, $headers, $body) : self::phpMail($to, $headers, $body, $fromEmail);
+            self::log($to, $subject, $ok, $ok ? '' : ($host !== '' ? 'le serveur SMTP a refusé l’envoi' : 'la fonction mail() du serveur a refusé l’envoi'));
             return $ok;
         } catch (\Throwable $e) {
             self::log($to, $subject, false, $e->getMessage());
@@ -88,7 +88,11 @@ final class Mailer
         return preg_match('/[^\x20-\x7E]/', $s) ? '=?UTF-8?B?' . base64_encode($s) . '?=' : $s;
     }
 
-    private static function phpMail(string $to, array $headers, string $body): bool
+    /**
+     * mail() de PHP. L'expéditeur d'enveloppe (-f) est l'adresse d'expédition : sans lui, l'hébergeur
+     * met son propre compte système, et Gmail, Outlook… classent en indésirable ou refusent (SPF).
+     */
+    private static function phpMail(string $to, array $headers, string $body, string $from = ''): bool
     {
         $subject = $headers['Subject'];
         unset($headers['To'], $headers['Subject']);
@@ -96,7 +100,8 @@ final class Mailer
         foreach ($headers as $k => $v) {
             $h .= "$k: $v\r\n";
         }
-        return mail($to, $subject, $body, rtrim($h));
+        $env = filter_var($from, FILTER_VALIDATE_EMAIL) && preg_match('/^[A-Za-z0-9._%+@-]+$/', $from) ? '-f' . $from : '';
+        return $env !== '' ? mail($to, $subject, $body, rtrim($h), $env) : mail($to, $subject, $body, rtrim($h));
     }
 
     private static function smtp(string $host, string $from, string $to, array $headers, string $body): bool
@@ -157,6 +162,37 @@ final class Mailer
         fwrite($fp, "QUIT\r\n");
         fclose($fp);
         return true;
+    }
+
+    /** Derniers envois (mois en cours et précédent), les plus récents en premier. @return list<array> */
+    public static function recent(int $limit = 15): array
+    {
+        $rows = JsonStore::readLines(STORAGE_PATH . '/mail/' . date('Y-m') . '.jsonl', $limit);
+        if (count($rows) < $limit) {
+            $rows = array_merge($rows, JsonStore::readLines(STORAGE_PATH . '/mail/' . date('Y-m', strtotime('first day of last month')) . '.jsonl', $limit - count($rows)));
+        }
+        return $rows;
+    }
+
+    /**
+     * Mode d'envoi et points à vérifier : expéditeur réglé, domaine de l'expéditeur différent de
+     * celui du site (avec mail(), le message part du serveur du site : un expéditeur @gmail.com ou
+     * d'un autre domaine finit en indésirable ou est refusé). @return array{mode:string,from:string,warn:?string}
+     */
+    public static function diagnose(): array
+    {
+        $from = (string) Settings::get('mail.from_email', '') ?: (string) Settings::get('general.contact_email', '');
+        $smtp = trim((string) Settings::get('mail.smtp_host', '')) !== '';
+        $warn = null;
+        if ($from !== '' && !$smtp) {
+            $dom = strtolower((string) substr(strrchr($from, '@') ?: '', 1));
+            $site = strtolower((string) parse_url(base_url(), PHP_URL_HOST));
+            $root = implode('.', array_slice(explode('.', $site), -2));
+            if ($dom !== '' && $dom !== $root && !str_ends_with($dom, '.' . $root)) {
+                $warn = "L’adresse d’expédition ($dom) n’est pas sur le domaine du site ($root). Envoyés par mail() depuis le serveur du site, ces e-mails sont le plus souvent classés en indésirables ou refusés (Gmail, Outlook…). Utilisez une adresse @$root (créée dans le cPanel d’o2switch), ou renseignez le serveur SMTP de la boîte d’expédition.";
+            }
+        }
+        return ['mode' => $smtp ? 'smtp' : 'mail', 'from' => $from, 'warn' => $warn];
     }
 
     private static function log(string $to, string $subject, bool $ok, string $error = ''): void

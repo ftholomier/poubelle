@@ -35,7 +35,32 @@ $isWaiting = $group === 'waiting';
 <?php elseif ($group === 'couts'): ?>
   <p class="alert alert--info" style="margin:0">Dépense en temps réel, relevés mensuels à faire rembourser et barème des modèles : <a href="/admin/couts-ia">Système › Coûts IA</a>.</p>
 <?php elseif ($group === 'mail'): ?>
-  <p class="alert <?= $status['from'] ? 'alert--ok' : 'alert--error' ?>" style="margin:0"><?= $status['from'] ? 'Les e-mails partent de ' . e($status['from']) . '.' : 'Aucune adresse d’expédition : aucun e-mail ne peut partir (contact, contributions, dons, invitations).' ?></p>
+  <p class="alert <?= $status['from'] ? ($status['warn'] ? '' : 'alert--ok') : 'alert--error' ?>" style="margin:0"><?= $status['from']
+      ? 'Les e-mails partent de <b>' . e($status['from']) . '</b>, ' . ($status['mode'] === 'smtp' ? 'par le serveur SMTP réglé ci-dessous.' : 'par la fonction mail() de PHP (aucun serveur SMTP renseigné).')
+      : 'Aucune adresse d’expédition : aucun e-mail ne peut partir (contact, contributions, dons, invitations, carnet).' ?></p>
+  <?php if ($status['warn']): ?><p class="alert alert--error" style="margin:0"><?= e($status['warn']) ?></p><?php endif; ?>
+  <div class="card card--pad stack" style="gap:10px">
+    <div class="row" style="justify-content:space-between;gap:12px">
+      <h2 class="h-3" style="margin:0">Derniers envois</h2>
+      <?php if ($status['from'] && $status['me'] !== ''): ?>
+      <form method="post" action="/admin/reglages/test-email"><?= csrf_field() ?><button type="submit" class="btn">Envoyer un e-mail d’essai à <?= e($status['me']) ?></button></form>
+      <?php endif; ?>
+    </div>
+    <p class="small" style="margin:0">« Accepté » veut dire que le serveur a pris l’e-mail en charge, pas qu’il est arrivé : s’il manque, regardez les indésirables du destinataire. Adresses masquées (seul le domaine est gardé).</p>
+    <?php if (!$status['recent']): ?>
+      <p class="small" style="margin:0">Aucun envoi ce mois-ci ni le mois dernier.</p>
+    <?php else: ?>
+    <table class="table">
+      <thead><tr><th>Date</th><th>Destinataire</th><th>Objet</th><th>Résultat</th></tr></thead>
+      <tbody>
+      <?php foreach ($status['recent'] as $m): ?>
+        <tr><td class="nowrap"><?= e(date('d/m H:i', strtotime((string) ($m['at'] ?? '')) ?: 0)) ?></td><td><?= e((string) ($m['to'] ?? '')) ?></td><td><?= e((string) ($m['subject'] ?? '')) ?></td>
+          <td><?= !empty($m['ok']) ? '<span class="pill pill--ok">Accepté</span>' : '<span class="pill pill--ko">Échec</span>' . (!empty($m['error']) ? ' <span class="small">' . e((string) $m['error']) . '</span>' : '') ?></td></tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+    <?php endif; ?>
+  </div>
 <?php elseif ($group === 'vitrine'): ?>
   <p class="alert <?= $status['open'] ? 'alert--ok' : '' ?>" style="margin:0">Site de l’association <b><?= $status['open'] ? 'ouvert au public' : 'fermé (page d’attente)' ?></b> sur <?= e($status['base']) ?>. Ouverture, points à vérifier et aperçu : <a href="/admin/association">tableau de bord du site</a>. Réseaux sociaux (Facebook, Instagram, X, YouTube) : ceux du musée, <a href="/admin/reglages?groupe=social">Réglages › Réseaux sociaux</a>.</p>
 <?php elseif ($group === 'donations'): ?>

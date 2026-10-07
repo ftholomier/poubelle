@@ -437,7 +437,7 @@ final class System extends Base
     {
         return match ($group) {
             'ai' => ['ready' => Gemini::ready(), 'check' => null],
-            'mail' => ['from' => (string) Settings::get('mail.from_email', '') ?: (string) Settings::get('general.contact_email', '')],
+            'mail' => \App\Services\Mailer::diagnose() + ['recent' => \App\Services\Mailer::recent(15), 'me' => (string) (Auth::user()['email'] ?? '')],
             'donations' => ['methods' => \App\Front\Donations::methods(), 'test' => \App\Front\Donations::testMode()],
             'waiting' => ['enabled' => (bool) Settings::get('waiting.enabled', false), 'teaser' => is_file(APP_DIR . '/Resources/video/teaser.mp4')],
             default => [],
@@ -453,6 +453,22 @@ final class System extends Base
         $n = \App\Core\PageCache::purge();
         Activity::log(self::actor(), 'a vidé le cache des pages', null);
         return self::back('/admin/reglages?groupe=general', 'Cache des pages vidé (' . $n . ' fichier(s)) : chaque page est refaite à la prochaine visite.');
+    }
+
+    /** Réglages › E-mail : envoie un e-mail d'essai à l'administrateur connecté. */
+    public static function testEmail(Request $req): Response
+    {
+        if (!Auth::can('settings')) {
+            return self::back('/admin/reglages?groupe=mail', null, 'Réservé aux administrateurs.');
+        }
+        $to = (string) (Auth::user()['email'] ?? '');
+        $d = \App\Services\Mailer::diagnose();
+        $ok = $to !== '' && \App\Services\Mailer::send($to, 'Sochaux Rétro · e-mail d’essai',
+            '<p>Cet e-mail d’essai a été envoyé depuis Réglages › E-mail du back-office.</p><p>Mode d’envoi : <b>' . ($d['mode'] === 'smtp' ? 'serveur SMTP' : 'fonction mail() de PHP') . '</b> · expéditeur : <b>' . e($d['from']) . '</b>.</p><p>S’il est arrivé dans les indésirables, voir les conseils sous le réglage.</p>');
+        Activity::log(self::actor(), 'a envoyé un e-mail d’essai', null);
+        return $ok
+            ? self::back('/admin/reglages?groupe=mail', 'E-mail d’essai envoyé à ' . $to . ' : le serveur l’a accepté. Vérifiez la boîte de réception, et les indésirables.')
+            : self::back('/admin/reglages?groupe=mail', null, 'L’e-mail d’essai n’a pas pu partir : voir le détail dans « Derniers envois ».');
     }
 
     public static function settingsSave(Request $req): Response
