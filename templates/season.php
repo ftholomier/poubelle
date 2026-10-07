@@ -20,7 +20,7 @@ $lineLabels = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 
     <h1 class="shero__title"><?= e(substr($season, 0, 4)) ?><span class="yellow">–</span><?= e(substr($season, 7, 2)) ?></h1>
     <div class="shero__sums">
       <?php foreach ($sums as $s): ?>
-        <div<?= !empty($s['title']) ? ' title="' . e($s['title']) . '"' : '' ?>><b<?= !empty($s['yellow']) ? ' class="yellow"' : '' ?>><?= e($s['v']) ?></b><span><?= e($s['k']) ?></span></div>
+        <div<?= !empty($s['title']) ? ' title="' . e($s['title']) . '"' : '' ?>><b class="<?= !empty($s['yellow']) ? 'yellow' : '' ?><?= mb_strlen((string) $s['v']) > 6 ? ' is-long' : '' ?>"><?= e($s['v']) ?></b><span><?= e($s['k']) ?></span></div>
       <?php endforeach; ?>
     </div>
     <?php if ($matches): ?><div class="hero-actions"><?= \App\Core\View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::seasonUrl($season), 'light' => true]) ?><?= !empty($audio) ? \App\Core\View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div><?php endif; ?>

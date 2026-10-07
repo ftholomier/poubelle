@@ -267,8 +267,14 @@ final class Explore
 
     public static function shortDivision(string $div): string
     {
-        $map = ['Division 1' => 'D1', 'Division 2' => 'D2', 'Division 3' => 'D3', 'Ligue 1' => 'L1', 'Ligue 2' => 'L2', 'National' => 'N', 'National 1' => 'N1', 'National 2' => 'N2'];
-        return $map[$div] ?? $div;
+        $map = ['Division 1' => 'D1', 'Division 2' => 'D2', 'Division 3' => 'D3', 'Ligue 1' => 'L1', 'Ligue 2' => 'L2', 'National' => 'N', 'National 1' => 'N1', 'National 2' => 'N2',
+            'Division d’honneur' => 'DH', "Division d'honneur" => 'DH', 'CFA' => 'CFA', 'CFA 2' => 'CFA2'];
+        foreach ($map as $k => $v) {
+            if (mb_strtolower($div) === mb_strtolower($k)) {
+                return $v;
+            }
+        }
+        return $div;
     }
 
     // ================================================================== FACE-À-FACE ET BILANS

@@ -16,7 +16,10 @@
 .shero__sums { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); border: 2px solid var(--cream); background: rgba(14,31,77,.6); }
 .shero__sums div { padding: 16px 18px; border-right: 2px solid var(--cream); display: flex; flex-direction: column; gap: 2px; }
 .shero__sums div:last-child { border-right: 0; }
+.shero__sums div { min-width: 0; justify-content: flex-end; }
 .shero__sums b { font-family: var(--display); font-weight: 900; font-size: 46px; line-height: 1; }
+/* Intitulé long (« Championnat », « Division d'honneur ») : plus petit, passe à la ligne, ne déborde jamais. */
+.shero__sums b.is-long { font-size: clamp(22px, 2.2vw, 30px); line-height: 1.05; text-transform: uppercase; overflow-wrap: anywhere; hyphens: auto; }
 .shero__sums span { font-size: 16px; }
 .sgrid { padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(40px, 6vw, 80px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: clamp(32px, 5vw, 64px); align-items: start; }
 @media (min-width: 1140px) { .sgrid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
