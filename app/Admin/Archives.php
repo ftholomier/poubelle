@@ -30,7 +30,7 @@ final class Archives extends Base
         unset($it);
         return self::html('admin/fiches/archives', [
             'list' => $slice, 'count' => count($list), 'page' => $page, 'pages' => $pages, 'status' => $status, 'type' => $type,
-            'summary' => Catalogue::summary(), 'admin' => \App\Core\Auth::isAdmin(), 'known' => \App\Core\Auth::isAdmin() ? array_keys(Catalogue::items()) : [],
+            'summary' => Catalogue::summary(), 'recits' => \App\Core\Auth::isAdmin() ? \App\Services\GrandsRecits::status() : [], 'admin' => \App\Core\Auth::isAdmin(), 'known' => \App\Core\Auth::isAdmin() ? array_keys(Catalogue::items()) : [],
         ], ['title' => 'Archives à ranger', 'crumb' => 'Contenus', 'nav' => 'archives', 'scripts' => \App\Core\Auth::isAdmin() ? ['vendor/jszip.min.js', 'admin/archives.js'] : []]);
     }
 
@@ -66,6 +66,13 @@ final class Archives extends Base
                     $n = Catalogue::accept($req->str('md5'), $ids, (string) ($req->post['caption'] ?? ''), $user);
                     Activity::log($user, 'a rangé une image d’archives dans ' . $n . ' fiche(s)', null);
                     return self::back($back, 'Image ajoutée à la galerie de ' . $n . ' fiche(s).');
+                case 'recits':
+                    if ($r = self::denyUnlessAdmin()) {
+                        return $r;
+                    }
+                    $n = \App\Services\GrandsRecits::create($user);
+                    Activity::log($user, 'a créé ' . $n . ' grand(s) récit(s)', null);
+                    return self::back($back, $n ? $n . ' grand(s) récit(s) créé(s) dans la rubrique « Grands récits ». Rangez-y maintenant les images proposées.' : 'Tous les grands récits existent déjà.');
                 case 'ecarter':
                     Catalogue::reject($req->str('md5'));
                     return self::back($back, 'Image écartée.');

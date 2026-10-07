@@ -18,6 +18,8 @@ use App\Data\Index;
 final class Recit
 {
     public const ROOT = 'infrastructures';
+    /** Rubriques racines racontées en récit illustré. */
+    public const ROOTS = ['infrastructures', 'grands-recits'];
     /** Photos placées dans un chapitre au plus ; les autres vont à l'album en fin de page. */
     private const PER_CHAPTER = 2;
 
@@ -27,12 +29,7 @@ final class Recit
         if (!in_array($doc['type'] ?? '', ['article', 'page', 'personne'], true)) {
             return false;
         }
-        foreach ((array) ($doc['categories'] ?? []) as $c) {
-            if ($c === self::ROOT || (Categories::get((string) $c) && Categories::root((string) $c) === self::ROOT)) {
-                return true;
-            }
-        }
-        return false;
+        return self::rootOf($doc) !== null;
     }
 
     /**
@@ -206,16 +203,29 @@ final class Recit
      * La page dans l'histoire de sa rubrique : ['rubric' => [label, href], 'timeline' => [...],
      * 'series' => ['title', 'parts' => [...]] ou null, 'prev', 'next'].
      */
+    /** Rubrique racine (Infrastructures, Grands récits) de la fiche, ou null. */
+    public static function rootOf(array $doc): ?string
+    {
+        foreach ((array) ($doc['categories'] ?? []) as $c) {
+            $root = in_array($c, self::ROOTS, true) ? (string) $c : (Categories::get((string) $c) ? Categories::root((string) $c) : null);
+            if ($root !== null && in_array($root, self::ROOTS, true)) {
+                return $root;
+            }
+        }
+        return null;
+    }
+
     public static function place(array $doc): array
     {
+        $root = self::rootOf($doc) ?? self::ROOT;
         $cat = null;
         foreach ((array) ($doc['categories'] ?? []) as $c) {
-            if ($c !== self::ROOT && Categories::get((string) $c) && Categories::root((string) $c) === self::ROOT) {
+            if ($c !== $root && Categories::get((string) $c) && Categories::root((string) $c) === $root) {
                 $cat = (string) $c;
                 break;
             }
         }
-        $cat ??= self::ROOT;
+        $cat ??= $root;
         $c = Categories::get($cat);
         $entries = array_values(array_filter(Index::inCategory($cat), fn ($s) => !isset($s['m'])));
         $id = (int) ($doc['id'] ?? 0);

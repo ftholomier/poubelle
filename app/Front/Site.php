@@ -108,7 +108,11 @@ final class Site
             ]],
             ['key' => 'nos-lions', 'label' => t('Nos Lions'), 'href' => url('/nos-lions/'), 'mega' => ['kind' => 'columns', 'cols' => $lionsCols, 'all' => ['label' => t('Tous les Lions'), 'href' => url('/nos-lions/')]]],
         ];
-        foreach (['supporters' => 'Supporters', 'infrastructures' => 'Infrastructures', 'symboles' => 'Symboles'] as $slug => $label) {
+        $rubrics = ['supporters' => 'Supporters', 'infrastructures' => 'Infrastructures', 'symboles' => 'Symboles'];
+        if (Categories::get('grands-recits')) {
+            $rubrics = ['grands-recits' => 'Grands récits'] + $rubrics;
+        }
+        foreach ($rubrics as $slug => $label) {
             $col = $simple($slug);
             $items[] = ['key' => $slug, 'label' => t($label), 'href' => url("/$slug/"), 'mega' => $col ? ['kind' => 'list', 'col' => $col] : null];
         }

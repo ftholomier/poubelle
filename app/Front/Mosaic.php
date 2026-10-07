@@ -37,6 +37,7 @@ final class Mosaic
         Site::C_LIONS => ['eyebrow' => 'Joueurs, entraîneurs, dirigeants', 'unit' => 'portraits', 'intro' => "Ceux qui ont porté le lion sur le cœur, des pionniers aux Lionceaux d'aujourd'hui.", 'ph' => "Nom d'un joueur, d'un entraîneur…"],
         'supporters' => ['eyebrow' => 'La tribune', 'unit' => 'souvenirs', 'intro' => 'Livres, films, magazines, associations : la mémoire de ceux qui font vivre le lion.', 'ph' => 'Un livre, un film, un groupe…'],
         'infrastructures' => ['eyebrow' => 'Les lieux du club', 'unit' => 'lieux', 'intro' => "Stades, pelouse et centre de formation : là où l'histoire s'est écrite.", 'ph' => 'Un stade, une époque…'],
+        'grands-recits' => ['eyebrow' => 'Les grandes histoires du club', 'unit' => 'récits', 'intro' => 'Les finales, l’Europe, Peugeot, les tournées : l’histoire du FCSM racontée d’après les archives.', 'ph' => 'Une finale, une époque…'],
         'symboles' => ['eyebrow' => 'Ce qui nous identifie', 'unit' => 'pièces', 'intro' => 'Écussons, maillots, hymnes, couleurs : tout ce qui fait le jaune et le bleu.', 'ph' => 'Un logo, un hymne…'],
     ];
 

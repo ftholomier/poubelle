@@ -1534,6 +1534,15 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   (`legacy.fcsmstory`, section « Sources »), rubrique de saison créée si absente, texte de saison dans la description
   de la rubrique seulement si elle est vide. Coûts IA comptés sous `import`. Écran : `App\Admin\Heritage`.
 
+## Grands récits (`App\Services\GrandsRecits`)
+
+Textes livrés avec le site dans `app/Resources/import/recits.php` (clé, titre avec époque, chapô, chapitres,
+mots-clés d'images). `create()` crée la rubrique racine `grands-recits` si besoin, puis chaque récit absent
+(article publié, `legacy.recit` = clé, chapô en première section, `{{match:AAAA-MM-JJ|texte}}` → lien vers la fiche
+du match). Jamais réécrit ensuite. Mise en page : `App\Front\Recit` (`ROOTS` = infrastructures, grands-recits ;
+`rootOf()`), mosaïque de la rubrique (`Mosaic::ROOTS`), menu (`Site`, si la rubrique existe). `forImage()` propose
+les récits dans le rangement des archives. Test : `tests/recits.php`.
+
 ## Catalogue des archives (`App\Services\Catalogue`, `App\Admin\Archives`)
 
 Contenus › Archives à ranger (`/admin/archives` ; dépôt : administrateurs ; rangement : toute l'équipe).

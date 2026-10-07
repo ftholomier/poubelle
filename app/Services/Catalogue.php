@@ -201,6 +201,9 @@ final class Catalogue
                 $out['f' . $e['id']] ??= ['id' => (int) $e['id'], 'title' => (string) ($e['p']['name'] ?? $e['title']), 'kind' => 'Joueur', 'checked' => count((array) $it['persons']) <= 3, 'rank' => 1];
             }
         }
+        foreach (GrandsRecits::forImage($it) as $r) {
+            $out['f' . $r['id']] ??= ['id' => $r['id'], 'title' => $r['title'], 'kind' => 'Grand récit', 'checked' => true, 'rank' => 2];
+        }
         $list = array_values($out);
         usort($list, fn ($a, $b) => [$a['rank'], $a['title']] <=> [$b['rank'], $b['title']]);
         return array_slice($list, 0, 12);

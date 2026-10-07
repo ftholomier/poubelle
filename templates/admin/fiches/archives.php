@@ -1,6 +1,6 @@
 <?php
 /**
- * Contenus › Archives à ranger. Variables : $list, $count, $page, $pages, $status, $type, $summary, $admin, $known
+ * Contenus › Archives à ranger. Variables : $list, $count, $page, $pages, $status, $type, $summary, $admin, $known, $recits
  */
 use App\Services\Catalogue as C;
 
@@ -26,6 +26,17 @@ $rightsTone = ['club' => 'ok', 'peugeot' => 'info', 'presse' => 'warn', 'photogr
     <span class="small" data-arc-status></span>
   </div>
   <div style="height:8px;border:2px solid var(--navy);background:var(--paper)"><i data-arc-bar style="display:block;height:100%;width:0;background:var(--yellow)"></i></div>
+</section>
+<?php endif; ?>
+
+<?php if ($admin && $recits): $missing = count(array_filter($recits, fn ($r) => !$r['fiche'])); ?>
+<section class="card card--pad stack">
+  <div class="row" style="justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <h2 class="card__t" style="margin:0">Grands récits</h2>
+    <?php if ($missing): ?><form method="post" action="/admin/archives"><?= csrf_field() ?><input type="hidden" name="action" value="recits"><button class="btn btn--primary btn--sm" type="submit">Créer les <?= (int) $missing ?> récit(s) manquant(s)</button></form><?php endif; ?>
+  </div>
+  <p class="small" style="margin:0">Récits illustrés de la rubrique « Grands récits », écrits d’après les feuilles de match et les archives. Une fois créés, ils apparaissent dans les fiches proposées pour ranger les images (photos des finales, de la Coupe UEFA, du record de 1976, de la tournée de 1965…). Un récit déjà créé n’est jamais réécrit : retouchez-le librement. Créez-les <b>après l’import des feuilles de match</b> (Système › Feuilles de match) : les récits se relient alors aux fiches des matchs qu’ils racontent.</p>
+  <ul class="small" style="margin:0;padding-left:18px"><?php foreach ($recits as $r): ?><li><?= e($r['title']) ?> — <?= $r['fiche'] ? '<a href="/admin/fiche/' . (int) $r['fiche'] . '">créé (n° ' . (int) $r['fiche'] . ')</a>' : '<span class="muted">pas encore créé</span>' ?></li><?php endforeach; ?></ul>
 </section>
 <?php endif; ?>
 
