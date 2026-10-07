@@ -170,6 +170,7 @@ try {
 } finally {
     foreach ($created as $id) {
         Fiches::destroy($id, ['name' => 'Essai']);
+        exec('rm -rf ' . escapeshellarg(STORAGE_PATH . "/versions/$id"));
     }
     file_put_contents(DATA_PATH . '/categories.json', $catsBefore);
     Categories::forget();
