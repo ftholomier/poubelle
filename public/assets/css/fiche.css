@@ -165,6 +165,9 @@ a.pitch__p:hover { transform: translate(-50%, -50%) scale(1.12); color: var(--ye
 .phero__big div:last-child { border-right: 0; }
 .phero__big b { font-family: var(--display); font-weight: 900; font-size: clamp(40px, 4vw, 60px); line-height: 1; color: var(--yellow); }
 .phero__big span { font-size: 16px; }
+.phero__big[style*="--n:4"] b { font-size: clamp(28px, 2.9vw, 46px); }
+.phero__big[style*="--n:4"] div { padding: 16px 12px; }
+.phero__big span { overflow-wrap: anywhere; }
 .phero__lead { margin: 0; font-size: 20px; line-height: 1.55; max-width: 46ch; text-wrap: pretty; }
 @media (max-width: 480px) { .phero__big div { padding: 12px 10px; } .phero__big span { font-size: 14px; } }
 
