@@ -42,6 +42,7 @@ function rendre_bon_visite(VisitePdf $pdf, array $v, array $agent, array $option
         $pdf->SetXY($x + 5, $y + 4);
         $pdf->font('mono', 7, C_VERT);
         $pdf->Cell(74, 4, $titre);
+        $pdf->zoneSignature($role, 0, $x + 4, $y + 9, 74, 20);
         foreach ($images as $i) if ($i['role'] === $role) {
             [$iw, $ih] = @getimagesize($i['chemin']) ?: [3, 1];
             $pdf->Image($i['chemin'], $x + 5, $y + 10, min(70, 16 * $iw / max(1, $ih)), 0, 'PNG');

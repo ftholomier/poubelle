@@ -1255,14 +1255,22 @@ async function viewSettings() {
         <h2>Signature électronique</h2>
         <label>Mode
           <select name="signature_mode" id="sig-mode">
-            <option value="interne" ${cfg.signature_mode !== "api" ? "selected" : ""}>Intégrée : signature au doigt + code par e-mail</option>
-            <option value="api" ${cfg.signature_mode === "api" ? "selected" : ""}>Mon service de signature (API)</option>
+            <option value="interne" ${(cfg.signature_mode || "interne") === "interne" ? "selected" : ""}>Intégrée : signature au doigt + code par e-mail</option>
+            <option value="firma" ${cfg.signature_mode === "firma" ? "selected" : ""}>firma.dev (recommandé)</option>
+            <option value="boldsign" ${cfg.signature_mode === "boldsign" ? "selected" : ""}>BoldSign (comme le projet Qualiopi)</option>
+            <option value="api" ${cfg.signature_mode === "api" ? "selected" : ""}>Mon service de signature (API générique)</option>
           </select>
         </label>
         <div id="sig-api">
-          <label>Adresse de l'API<input name="signature_api_url" value="${esc(cfg.signature_api_url)}" placeholder="https://signature.exemple.fr/api"></label>
           <label>Clé de l'API<input name="signature_api_cle" type="password" value="${esc(cfg.signature_api_cle)}" autocomplete="off"></label>
-          <p class="small muted">Adresse de retour à donner au service : <code>${esc((cfg.url_publique || location.origin + location.pathname.replace(/\/$/, "")) + "/api/signature.php")}</code>. Contrat d'échange décrit dans PASSATION.md.</p>
+          <label><span id="sig-url-lib">Adresse de l'API</span><input name="signature_api_url" value="${esc(cfg.signature_api_url)}" placeholder="https://signature.exemple.fr/api"></label>
+          <label>Secret du webhook <span class="muted">(vérifie que les retours viennent bien du service)</span><input name="signature_webhook_secret" type="password" value="${esc(cfg.signature_webhook_secret)}" autocomplete="off"></label>
+          <label class="sig-firma">Code de vérification avant de signer (OTP)
+            <select name="signature_otp"><option value="0" ${cfg.signature_otp !== "1" ? "selected" : ""}>Non</option><option value="1" ${cfg.signature_otp === "1" ? "selected" : ""}>Oui</option></select>
+          </label>
+          <p class="small muted">Adresse de retour (webhook) : <code>${esc((cfg.url_publique || location.origin + location.pathname.replace(/\/$/, "")) + "/api/signature.php")}</code></p>
+          <div class="test-row sig-firma"><button type="button" class="btn" id="sig-webhook">Déclarer cette adresse chez firma.dev</button></div>
+          <p class="small muted" id="sig-aide"></p>
         </div>
       </section>
 
@@ -1300,9 +1308,28 @@ async function viewSettings() {
 
   const $ = (id) => document.getElementById(id);
   const form = $("f");
-  const majSig = () => ($("sig-api").hidden = $("sig-mode").value !== "api");
+  const AIDE_SIG = {
+    firma: "firma.dev envoie les e-mails, recueille les signatures (champs placés dans nos cadres) et nous renvoie le PDF signé. Clé : tableau de bord firma.dev → API. Adresse de l'API : laisser vide.",
+    boldsign: "Même intégration que le projet Qualiopi. Clé : BoldSign → API → clé. Adresse : laisser vide (centre EU) ou https://api.boldsign.com pour une clé US. Déclarez l'adresse de retour dans BoldSign → Webhooks (événement Completed) et collez son secret ici.",
+    api: "Contrat d'échange décrit dans PASSATION.md (§ 4.1).",
+  };
+  const majSig = () => {
+    const m = $("sig-mode").value;
+    $("sig-api").hidden = m === "interne";
+    $("sig-url-lib").textContent = m === "api" ? "Adresse de l'API" : "Adresse de l'API (facultatif)";
+    document.querySelectorAll(".sig-firma").forEach((el) => (el.hidden = m !== "firma"));
+    $("sig-aide").textContent = AIDE_SIG[m] || "";
+  };
   $("sig-mode").onchange = majSig;
   majSig();
+  $("sig-webhook").onclick = async () => {
+    try {
+      const r = await api("signature_webhook", { method: "POST" });
+      toast(r.secret_enregistre ? "Adresse déclarée chez firma.dev, secret enregistré ✓" : "Adresse déclarée chez firma.dev ✓ (collez le secret du webhook si firma.dev l'affiche)");
+    } catch (e) {
+      toast(e.message, "erreur");
+    }
+  };
   $("rgpd-btn").onclick = async () => {
     const q = $("rgpd-q").value.trim();
     if (q.length < 3) return toast("Saisissez au moins 3 caractères", "erreur");

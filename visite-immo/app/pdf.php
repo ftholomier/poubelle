@@ -382,6 +382,16 @@ class VisitePdf extends tFPDF
     }
 
     /** Carte noire de contact de l'agent (comme la carte « La priorité » de la charte). */
+    /**
+     * Mémorise l'emplacement d'un cadre de signature (rôle, rang parmi les signataires de ce rôle, page, position en mm).
+     * Sert aux services de signature externes (firma.dev, BoldSign) pour placer le champ au bon endroit.
+     */
+    public function zoneSignature(string $role, int $rang, float $x, float $y, float $w, float $h): void
+    {
+        global $ZONES_SIGNATURE;
+        $ZONES_SIGNATURE[] = ['role' => $role, 'rang' => $rang, 'page' => $this->PageNo(), 'x' => $x, 'y' => $y, 'w' => $w, 'h' => $h, 'page_w' => $this->w, 'page_h' => $this->h];
+    }
+
     public function contactBox(array $agent): void
     {
         $lignes = array_filter([$agent['telephone'] ?? '', $agent['email'] ?? '']);
@@ -543,6 +553,9 @@ function rendre_vendeur(VisitePdf $pdf, array $visit, array $agent): void
     $pdf->richText($visit['rapport_vendeur'], 10.5);
 }
 
+// Cadres de signature repérés pendant le rendu du dernier PDF (voir VisitePdf::zoneSignature)
+$ZONES_SIGNATURE = [];
+
 // Documents ajoutés par les modules (avis de valeur, plan, bon de visite, offre…)
 $PDF_MODULES = [];
 
@@ -567,6 +580,10 @@ function build_pdf(string $doc, array $visit, array $agent, array $options = [])
 {
     global $PDF_MODULES;
     if (!isset(pdf_docs()[$doc])) fail(400, 'Document inconnu.');
+    // Signé chez un service externe (firma.dev, BoldSign…) : l'exemplaire qui fait foi est celui renvoyé par le service
+    $cle = (string) ($options['cle'] ?? $doc);
+    $signe = visit_dir($agent, $visit['id']) . '/signatures/' . slug($cle) . '-signe.pdf';
+    if (($visit['signatures'][$cle]['statut'] ?? '') === 'signe' && is_file($signe) && (str_starts_with($cle, $doc . ':') || $cle === $doc)) return [(string) file_get_contents($signe), slug($visit['signatures'][$cle]['label']) . '-signe.pdf'];
     if ($doc === 'mandat') return build_mandat($visit, $agent);
     if (isset($PDF_MODULES[$doc])) {
         $m = $PDF_MODULES[$doc];

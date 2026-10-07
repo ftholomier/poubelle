@@ -262,6 +262,7 @@ class MandatPdf extends VisitePdf
 {
     public bool $projet = true;
     public ?string $labelSuivant = null; // libellé de la page suivante (le pied de la page en cours garde l'ancien)
+    public bool $deuxVendeurs = false;
 
     public function Header(): void
     {
@@ -338,6 +339,8 @@ class MandatPdf extends VisitePdf
             $this->Cell(74, 4, $titre, 0, 2);
             $this->font('I', 8.5, C_GRIS);
             $this->Cell(74, 4.5, $aide, 0, 2);
+            $nbRole = $role === 'vendeur' ? 1 + (int) ($this->deuxVendeurs ?? false) : 1;
+            for ($k = 0; $k < $nbRole; $k++) $this->zoneSignature($role, $k, $x + 4 + $k * 39, $y + 13, $nbRole > 1 ? 37 : 74, 20);
             $siens = array_values(array_filter($images, fn ($i) => $i['role'] === $role));
             foreach ($siens as $k => $i) {
                 $max = count($siens) > 1 ? 36 : 70;
@@ -363,6 +366,7 @@ function build_mandat(array $visit, array $agent): array
     $pdf->coordonnees = (string) ($CONFIG['agence_coordonnees'] ?? '');
     $pdf->logo = logo_path();
     $pdf->projet = empty($visit['mandat']['numero']);
+    $pdf->deuxVendeurs = trim((string) (((array) $visit['fiche']['champs'])['nom_vendeur2']['valeur'] ?? '')) !== '';
     $pdf->docLabel = 'Mandat ' . ($visit['mandat']['numero'] ?? 'projet');
     $pdf->SetTitle('Mandat de vente · ' . titre_bien($visit), true);
     $pdf->AddPage();

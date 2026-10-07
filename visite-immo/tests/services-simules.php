@@ -2,7 +2,7 @@
 // Services extérieurs simulés pour les tests (php -S 127.0.0.1:8098 tests/services-simules.php).
 // Réponses au format des vrais services : adresse (BAN/Géoplateforme), cadastre (API Carto IGN),
 // Géorisques, DPE (ADEME, data-fair), ventes DVF (fichiers CSV Etalab), gel des avoirs (DG Trésor),
-// signature électronique (API générique) et Gemini (generateContent).
+// signature électronique (API générique, firma.dev, BoldSign) et Gemini (generateContent).
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $q = $_GET;
@@ -103,6 +103,46 @@ if (str_starts_with($path, '/gels')) {
 if (str_starts_with($path, '/signature/demandes')) {
     $in = json_decode((string) file_get_contents('php://input'), true) ?: [];
     json(['id' => 'sig_' . substr(md5((string) microtime(true)), 0, 10), 'statut' => 'envoye', 'signataires' => count($in['signataires'] ?? [])]);
+}
+
+// --- firma.dev (format de https://docs.firma.dev) : la dernière demande est enregistrée pour vérification ---
+$T = sys_get_temp_dir() . '/visite-immo-test';
+function pdf_signe_simule(): string
+{
+    return "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Kids[]/Count 0>>endobj\ntrailer<</Root 1 0 R>>\n%%EOF SIGNE-PAR-LE-SERVICE\n";
+}
+if (str_starts_with($path, '/firma/')) {
+    if (($_SERVER['HTTP_AUTHORIZATION'] ?? '') !== 'Bearer cle-firma-test' && $path !== '/firma/final.pdf') json(['error' => 'Unauthorized'], 401);
+    if ($path === '/firma/signing-requests/create-and-send') {
+        $in = json_decode((string) file_get_contents('php://input'), true) ?: [];
+        if (empty($in['document']) || empty($in['recipients'])) json(['error' => 'document and recipients required'], 400);
+        file_put_contents("$T/firma-derniere.json", json_encode($in));
+        $id = 'sr_' . substr(md5((string) microtime(true)), 0, 10);
+        json(['id' => $id, 'name' => $in['name'], 'status' => 'draft', 'recipients' => array_map(fn ($r) => ['id' => 'rcp_' . $r['id'], 'email' => $r['email']], $in['recipients']), 'fields' => $in['fields'] ?? []], 201);
+    }
+    if (preg_match('#^/firma/signing-requests/([\w-]+)$#', $path, $m)) {
+        $fini = is_file("$T/firma-fini");
+        json(['id' => $m[1], 'status' => ['sent' => true, 'finished' => $fini, 'cancelled' => false, 'declined' => false, 'expired' => false],
+            'final_document_download_url' => $fini ? 'http://127.0.0.1:8098/firma/final.pdf' : null]);
+    }
+    if ($path === '/firma/final.pdf') { header('Content-Type: application/pdf'); exit(pdf_signe_simule()); }
+    if ($path === '/firma/webhooks') json(['id' => 'wh_1', 'url' => json_decode((string) file_get_contents('php://input'), true)['url'] ?? '', 'signing_secret' => 'secret-webhook-test'], 201);
+}
+
+// --- BoldSign (comme le projet Qualiopi) ---
+if (str_starts_with($path, '/boldsign/')) {
+    if (($_SERVER['HTTP_X_API_KEY'] ?? '') !== 'cle-boldsign-test') json(['error' => 'Unauthorized'], 401);
+    if ($path === '/boldsign/v1/document/send') {
+        // Lecture du multipart brut (le serveur simulé tourne sans analyse automatique : les clés « Signers[0].Name » restent intactes)
+        $brut = (string) file_get_contents('php://input');
+        preg_match_all('/name="([^"]+)"(?:; filename="[^"]*")?\r\n(?:[^\r\n]+\r\n)*\r\n(.*?)\r\n--/s', $brut, $m, PREG_SET_ORDER);
+        $champs = [];
+        foreach ($m as $c) $champs[$c[1]] = $c[1] === 'Files' ? substr($c[2], 0, 4) : $c[2];
+        file_put_contents("$T/boldsign-derniere.json", json_encode(['champs' => $champs, 'fichier' => ($champs['Files'] ?? '') === '%PDF']));
+        json(['documentId' => 'bs_' . substr(md5((string) microtime(true)), 0, 10)], 201);
+    }
+    if ($path === '/boldsign/v1/document/download') { header('Content-Type: application/pdf'); exit(pdf_signe_simule()); }
+    if ($path === '/boldsign/v1/document/properties') json(['documentId' => $q['documentId'] ?? '', 'status' => is_file("$T/boldsign-fini") ? 'Completed' : 'InProgress']);
 }
 
 // --- Service de notifications push (enregistre le message chiffré pour vérification) ---

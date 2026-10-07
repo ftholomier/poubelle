@@ -93,6 +93,8 @@ function rendre_offre(VisitePdf $pdf, array $v, array $agent, array $options = [
         $pdf->Cell(74, 4, $titre, 0, 2);
         $pdf->font('I', 8.5, C_GRIS);
         $pdf->Cell(74, 4.5, $aide, 0, 2);
+        $nbRole = $role === 'vendeur' && champ($v, 'nom_vendeur2') !== '' ? 2 : 1;
+        for ($r = 0; $r < $nbRole; $r++) $pdf->zoneSignature($role, $r, $x + 4 + $r * 39, $y + 13, $nbRole > 1 ? 37 : 74, 20);
         $k = 0;
         foreach ($imgs as $i) if ($i['role'] === $role) {
             [$iw, $ih] = @getimagesize($i['chemin']) ?: [3, 1];

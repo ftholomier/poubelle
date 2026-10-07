@@ -1,12 +1,14 @@
 <?php
 // Signature électronique des documents (mandat, bon de visite, offre d'achat…).
 //
-// Deux modes, au choix dans les Paramètres :
+// Quatre modes, au choix dans les Paramètres :
 //   - « interne » : signature au doigt sur le téléphone (sur place) ou depuis l'espace client (lien personnel),
 //     avec code de vérification envoyé par e-mail, horodatage, adresse IP et empreinte SHA-256 du document.
 //     C'est une signature électronique simple (règlement eIDAS) avec fichier de preuve.
-//   - « api » : le document part vers votre service de signature (API générique, contrat décrit dans
-//     PASSATION.md) ; le service rappelle public/api/signature.php quand tout le monde a signé.
+//   - « firma » (firma.dev) ou « boldsign » (même intégration que le projet Qualiopi) : le document part chez le
+//     service avec les champs de signature placés dans nos cadres ; le service envoie les e-mails, recueille les
+//     signatures et rappelle public/api/signature.php (webhook signé). Voir signature_fournisseurs.php.
+//   - « api » : votre propre service (API générique, contrat décrit dans PASSATION.md).
 //
 // Chaque demande est rangée dans $visit['signatures'][<clé>] ; <clé> = « mandat », « bon:<id> », « offre:<id> »…
 
@@ -29,7 +31,9 @@ function signable(string $cle): array
 function mode_signature(): string
 {
     global $CONFIG;
-    return ($CONFIG['signature_mode'] ?? 'interne') === 'api' && !empty($CONFIG['signature_api_url']) ? 'api' : 'interne';
+    $mode = (string) ($CONFIG['signature_mode'] ?? 'interne');
+    if (in_array($mode, ['firma', 'boldsign'], true) && cle_api_signature() !== '') return $mode;
+    return $mode === 'api' && !empty($CONFIG['signature_api_url']) ? 'api' : 'interne';
 }
 
 /** Crée la demande de signature (empreinte du document, liste des signataires) et l'envoie si demandé. */
@@ -47,23 +51,40 @@ function demander_signature(array $agent, string $id, string $cle, bool $envoyer
         'cle' => $cle, 'label' => $doc['label'], 'statut' => 'en_attente', 'mode' => mode_signature(),
         'cree_le' => date('c'), 'hash' => hash('sha256', $bin), 'signataires' => $signataires, 'envois' => [],
     ];
-    if ($demande['mode'] === 'api') {
-        $retour = http_post_json(rtrim((string) $CONFIG['signature_api_url'], '/') . '/demandes', [
-            'reference' => "$id|$cle", 'titre' => $doc['label'] . ' · ' . titre_bien($v),
-            'document' => ['nom' => slug($doc['label']) . '.pdf', 'contenu_base64' => base64_encode($bin)],
-            'signataires' => array_map(fn ($s) => array_intersect_key($s, array_flip(['id', 'nom', 'email', 'telephone', 'role'])), $signataires),
-            'url_retour' => url_publique('api/signature.php'),
-        ], ['Authorization: Bearer ' . ($CONFIG['signature_api_cle'] ?? '')]);
-        if (!$retour || empty($retour['id'])) fail(502, "Le service de signature n'a pas accepté le document.");
-        $demande['api_id'] = $retour['id'];
-    }
     $v = update_visit($agent, $id, function (array $v) use ($cle, $demande) {
         $v['signatures'][$cle] = $demande;
-        journal_ajout($v, 'signature', "{$demande['label']} : demande de signature créée (" . count($demande['signataires']) . ' signataire(s)).');
+        journal_ajout($v, 'signature', "{$demande['label']} : demande de signature préparée (" . count($demande['signataires']) . ' signataire(s)).');
         return $v;
     });
-    if ($envoyer && $demande['mode'] === 'interne') envoyer_liens_signature($agent, $id, $cle);
+    if ($envoyer) envoyer_liens_signature($agent, $id, $cle);
     return load_visit($agent, $id);
+}
+
+/**
+ * Services externes : le document part au moment où l'agent clique « Envoyer » (jamais automatiquement à la
+ * sortie de visite, pour qu'il relise d'abord). Le PDF est reconstruit pour repérer les cadres de signature.
+ */
+function envoyer_signature_externe(array $agent, string $id, string $cle): int
+{
+    $doc = signable($cle);
+    $v = load_visit($agent, $id);
+    $d = $v['signatures'][$cle] ?? null;
+    if (!$d || $d['statut'] !== 'en_attente' || !empty($d['api_id'])) return 0;
+    $GLOBALS['ZONES_SIGNATURE'] = [];
+    [$bin] = ($doc['pdf'])($v, $agent, $cle);
+    $envoi = fournisseur_envoyer($d['mode'], $bin, $d['signataires'], $GLOBALS['ZONES_SIGNATURE'], $d['label'] . ' · ' . titre_bien($v), "$id|$cle");
+    indexer_signature_externe($d['mode'], $envoi['id'], $agent, $id, $cle);
+    update_visit($agent, $id, function (array $v) use ($cle, $envoi, $bin) {
+        $d = &$v['signatures'][$cle];
+        $d['api_id'] = $envoi['id'];
+        $d['hash'] = hash('sha256', $bin);
+        foreach ($d['signataires'] as &$s) if (!empty($envoi['destinataires'][$s['id']])) $s['api_id'] = $envoi['destinataires'][$s['id']];
+        unset($s);
+        $d['envois'][] = date('c');
+        journal_ajout($v, 'signature', "{$d['label']} : envoyé pour signature via " . (NOMS_SIGNATURE[$d['mode']] ?? 'le service de signature') . ' (' . count($d['signataires']) . ' signataire(s)).');
+        return $v;
+    });
+    return count($d['signataires']);
 }
 
 /** Envoie à chaque signataire (hors agent) son lien personnel de signature. */
@@ -72,6 +93,7 @@ function envoyer_liens_signature(array $agent, string $id, string $cle): int
     $v = load_visit($agent, $id);
     $d = $v['signatures'][$cle] ?? null;
     if (!$d) return 0;
+    if ($d['mode'] !== 'interne') return envoyer_signature_externe($agent, $id, $cle); // le service relance lui-même
     $n = 0;
     foreach ($d['signataires'] as $s) {
         if ($s['signe_le'] || $s['role'] === 'agent' || !valid_email($s['email'] ?? '')) continue;
@@ -125,6 +147,7 @@ function enregistrer_signature(array $agent, string $id, string $cle, string $si
     if (strlen($png) < 300 || strlen($png) > 600000 || !str_starts_with($png, "\x89PNG")) fail(400, 'Signature vide ou invalide.');
     $v = load_visit($agent, $id);
     $d = $v['signatures'][$cle] ?? fail(404, 'Aucune demande de signature pour ce document.');
+    if ($d['mode'] !== 'interne') fail(409, 'Ce document est signé chez le service de signature (lien reçu par e-mail).');
     if ($d['statut'] !== 'en_attente') fail(409, 'Ce document n\'est plus en attente de signature.');
     $s = signataire($v, $cle, $signataire);
     if ($s['signe_le']) fail(409, 'Déjà signé.');
@@ -237,7 +260,7 @@ function certificat_signature(VisitePdf $pdf, array $v, string $cle): void
         $pdf->Cell(110, 5, $s['nom'] . ' · ' . (['vendeur' => 'Vendeur', 'agent' => 'Agent immobilier', 'acquereur' => 'Acquéreur'][$s['role']] ?? $s['role']), 0, 2);
         $pdf->font('', 8.5, C_GRIS);
         if ($s['signe_le']) {
-            $pdf->MultiCell(110, 4.3, 'Signé le ' . date('d/m/Y à H:i:s', strtotime($s['signe_le'])) . "\nMéthode : " . $s['methode'] . "\nAdresse IP : " . ($s['ip'] ?: '—') . "\nAppareil : " . mb_strimwidth($s['appareil'] ?? '', 0, 90, '…'));
+            $pdf->MultiCell(110, 4.3, 'Signé le ' . date('d/m/Y à H:i:s', strtotime($s['signe_le'])) . "\nMéthode : " . $s['methode'] . "\nAdresse IP : " . (($s['ip'] ?? '') ?: '—') . "\nAppareil : " . mb_strimwidth($s['appareil'] ?? '', 0, 90, '…'));
             $img = images_signatures($v, user_by_id($v['agent']) ?? ['id' => $v['agent']], $cle);
             foreach ($img as $i) if ($i['id'] === $s['id']) $pdf->Image($i['chemin'], 140, $y + 3, 46, 0, 'PNG');
         } else {

@@ -94,8 +94,8 @@ export const CHAMPS_MANDAT = { civilite_vendeur: "Madame", prenom_vendeur: "Clai
   origine_propriete: "Acquisition en 2005", copropriete: "non", occupation: "Occupé par le propriétaire", mandat_type: "Exclusif", mandat_lieu: "En agence",
   mandat_prix: "412000", mandat_honoraires: "12 000 €", mandat_honoraires_charge: "L'acquéreur", mandat_duree: "3", mandat_date: "07/10/2026" };
 
-/** Crée par l'API un dossier complet (visite démo, documents, mandat signé) : le bien est « en vente ». */
-export async function dossierEnVente(page, titre = "11 rue du Chênois, Lougres") {
+/** Crée par l'API un dossier complet (visite démo, documents, informations du mandat), mandat pas encore signé. */
+export async function dossierAvecMandat(page, titre = "11 rue du Chênois, Lougres") {
   const v = await api(page, "visits", { method: "POST", body: { titre, consentement: true } });
   const id = v.id;
   await api(page, "visit", { method: "POST", query: { id }, body: { champs: { type_bien: "Maison", surface_habitable: "125" }, source: "agent" } });
@@ -103,6 +103,12 @@ export async function dossierEnVente(page, titre = "11 rue du Chênois, Lougres"
   await api(page, "preparer", { method: "POST", query: { id } });
   await api(page, "visit", { method: "POST", query: { id }, body: { champs: CHAMPS_MANDAT, source: "dialogue" } });
   await api(page, "settings", { method: "POST", body: { raison_sociale: "Synapse SAS", siege: "1 rue de la Paix, 25000 Besançon", siret: "123 456 789 00012", carte_numero: "CPI 2501 2026 000 001", carte_delivree_par: "CCI du Doubs", garant: "Galian", rcp: "MMA IARD" } });
+  return id;
+}
+
+/** Crée par l'API un dossier complet (visite démo, documents, mandat signé) : le bien est « en vente ». */
+export async function dossierEnVente(page, titre = "11 rue du Chênois, Lougres") {
+  const id = await dossierAvecMandat(page, titre);
   let d = await api(page, "signature_demande", { method: "POST", query: { id }, body: { doc: "mandat" } });
   const png = await signaturePng();
   for (const s of d.signatures.mandat.signataires) d = await api(page, "signer", { method: "POST", query: { id }, body: { doc: "mandat", signataire: s.id, image: png } });

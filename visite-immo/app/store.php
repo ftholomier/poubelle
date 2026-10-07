@@ -309,9 +309,11 @@ function a_faire(string $nom, callable $fn): void
 /** Réglages simples enregistrés tels quels : clé => [type (texte, url, nombre, choix:a|b, secret), valeur par défaut]. */
 const REGLAGES_MODULES = [
     'url_publique'             => ['url', ''],
-    'signature_mode'           => ['choix:interne|api', 'interne'],
+    'signature_mode'           => ['choix:interne|firma|boldsign|api', 'interne'],
     'signature_api_url'        => ['url', ''],
     'signature_api_cle'        => ['secret', ''],
+    'signature_webhook_secret' => ['secret', ''],
+    'signature_otp'            => ['choix:0|1', '0'],
     'modele_image'             => ['texte', 'gemini-2.5-flash-image'],
     'lien_avis_google'         => ['url', ''],
     'taux_palier1'             => ['nombre', 80],

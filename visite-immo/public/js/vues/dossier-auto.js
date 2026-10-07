@@ -93,7 +93,7 @@ ecransDossier.signature = async ($c, visit) => {
     <section class="card ${signe ? "prochaine ok" : ""}">
       <span class="tag ${signe ? "tag-citron" : ""}">${signe ? "Signé" : "En attente de signature"}</span>
       <h2 class="prochaine-titre">${esc(d.label)}${visit.mandat?.numero && cle === "mandat" ? ` n° ${esc(visit.mandat.numero)}` : ""}</h2>
-      <p class="small muted">Créé le ${fmtDate(d.cree_le)}${d.mode === "api" ? " · service de signature externe" : ""}${signe ? ` · complet le ${fmtDate(d.signe_le)}` : ""}</p>
+      <p class="small muted">Créé le ${fmtDate(d.cree_le)}${d.mode !== "interne" ? ` · ${{ firma: "firma.dev", boldsign: "BoldSign" }[d.mode] || "service de signature externe"}${d.api_id ? " : envoyé, chaque signataire a reçu son lien par e-mail" : " : pas encore envoyé"}` : ""}${signe ? ` · complet le ${fmtDate(d.signe_le)}` : ""}</p>
       <a class="btn" href="${pdfUrl(visit.id, pdfDoc, false, { cle })}" target="_blank">📄 ${signe ? "Exemplaire signé (PDF)" : "Voir le document"}</a>
     </section>
     <section class="card"><h2>Signataires</h2>
@@ -107,12 +107,24 @@ ecransDossier.signature = async ($c, visit) => {
     ${!signe && d.mode === "interne" ? `<div class="card actions-card">
       <button class="btn" id="liens">✉️ Envoyer les liens de signature par e-mail</button>
       <p class="small muted">${(d.envois || []).length ? `Liens envoyés ${d.envois.length} fois, dernier le ${fmtDate(d.envois.at(-1))}. Relances automatiques à J+2 et J+5.` : "Chaque signataire reçoit un lien personnel et un code par e-mail."}</p>
+      <button class="btn ghost" id="annuler">Annuler la demande</button></div>` : ""}
+    ${!signe && d.mode !== "interne" ? `<div class="card actions-card">
+      ${d.api_id
+        ? `<button class="btn" id="synchro">🔄 Vérifier l'état chez ${{ firma: "firma.dev", boldsign: "BoldSign" }[d.mode] || "le service"}</button>
+           <p class="small muted">Envoyé le ${fmtDate(d.envois?.[0] || d.cree_le)}. Le service relance les signataires et nous prévient dès que tout le monde a signé ; l'exemplaire signé arrive alors dans le dossier.</p>`
+        : `<button class="btn magic big" id="liens">✉️ Envoyer pour signature${{ firma: " via firma.dev", boldsign: " via BoldSign" }[d.mode] || ""}</button>
+           <p class="small muted">Chaque signataire (vous compris) reçoit un e-mail du service avec le document ; les cases de signature sont déjà placées.</p>`}
       <button class="btn ghost" id="annuler">Annuler la demande</button></div>` : ""}`;
 
   $c.querySelectorAll("[data-signer]").forEach((b) => (b.onclick = () => padSignature(visit, cle, b.dataset.signer, b.dataset.nom, d.label)));
   action(document.getElementById("liens"), async () => {
     await api("signature_demande", { method: "POST", query: { id: visit.id }, body: { doc: cle, envoyer: true } });
-    toast("Liens de signature envoyés ✓", "ok");
+    toast(d.mode === "interne" ? "Liens de signature envoyés ✓" : "Document envoyé pour signature ✓", "ok");
+    recharger(visit, `signature/${encodeURIComponent(cle)}`);
+  });
+  action(document.getElementById("synchro"), async () => {
+    const r = await api("signature_synchro", { method: "POST", query: { id: visit.id }, body: { doc: cle } });
+    toast(r.etat === "signe" ? "Signé par tous ✓" : r.etat === "annule" ? "Demande refusée, expirée ou annulée" : r.etat ? "Toujours en attente de signature" : "Service injoignable pour l'instant", r.etat === "signe" ? "ok" : "");
     recharger(visit, `signature/${encodeURIComponent(cle)}`);
   });
   action(document.getElementById("annuler"), async () => {
