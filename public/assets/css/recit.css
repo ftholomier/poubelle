@@ -58,10 +58,10 @@
 .rfig a:hover img { transform: scale(1.03); }
 .rfig figcaption { margin-top: 10px; padding-left: 12px; border-left: 4px solid var(--yellow); font-size: 15px; font-style: italic; line-height: 1.4; color: var(--muted); }
 .rfig figcaption span { font-style: normal; font-size: 13px; opacity: .8; }
-.rfig--wide img { max-height: 620px; object-fit: cover; }
+.rfig--wide img { max-height: 85vh; width: auto; max-width: 100%; margin: 0 auto; object-fit: contain; }
 .rfig-pair { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
 .rfig-pair .rfig { margin: 0; }
-.rfig-pair .rfig img { aspect-ratio: 4 / 3; object-fit: cover; }
+.rfig-pair .rfig img { aspect-ratio: 4 / 3; object-fit: contain; background: var(--sand); }
 @media (max-width: 640px) { .rfig-pair { grid-template-columns: 1fr; } }
 
 /* ------------------------------------------------------------------ colonne : sommaire, série */
