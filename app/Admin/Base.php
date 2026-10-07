@@ -80,6 +80,7 @@ class Base
             ['assistant', 'Assistant IA', '/admin/assistant', true],
             ['audio', 'Fiches audio', '/admin/audio', true],
             ['reprise', 'Reprise 1928-1969', '/admin/reprise-1928-1969', true],
+            ['feuilles', 'Feuilles de match', '/admin/import-feuilles', true],
             ['couts', 'Coûts IA', '/admin/couts-ia', true],
             ['utilisateurs', 'Utilisateurs', '/admin/utilisateurs', true],
             ['reglages', 'Réglages', '/admin/reglages', true],

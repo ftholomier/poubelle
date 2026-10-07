@@ -35,6 +35,7 @@ final class Cron
         'newsletter' => [0, 'Newsletter « Ce jour-là »'],
         'carnets' => [600, 'Carnet du supporter : anniversaire des matchs vus (e-mail et notification, à partir de 9 h)'],
         'reprise' => [0, 'Reprise des années 1928-1969 (FCSM Story) : réécriture et création des fiches, un lot à chaque passage'],
+        'feuilles' => [0, 'Import des feuilles de match : création des fiches et écarts envoyés dans Trouvailles, un lot à chaque passage'],
         'trouvailles' => [0, 'Trouvailles : recherche dans les archives (Gallica, web) des matchs de la file, quelques-uns à chaque passage'],
         'radio' => [0, 'Rétro-Direct commenté : fabrication des commentaires radio demandés (texte puis voix, réplique par réplique)'],
         'geolocalisation' => [600, 'Géolocalisation des stades et lieux (OpenStreetMap)'],
@@ -171,6 +172,9 @@ final class Cron
 
             case 'trouvailles':
                 return \App\Services\Trouvailles::tick();
+
+            case 'feuilles':
+                return \App\Services\FeuillesImport::tick();
 
             case 'radio':
                 $n = RetroRadio::pending() ? RetroRadio::work(40.0) : 0;

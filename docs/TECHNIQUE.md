@@ -1534,6 +1534,24 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   (`legacy.fcsmstory`, section « Sources »), rubrique de saison créée si absente, texte de saison dans la description
   de la rubrique seulement si elle est vide. Coûts IA comptés sous `import`. Écran : `App\Admin\Heritage`.
 
+## Import des feuilles de match (`App\Services\FeuillesImport`, `App\Admin\Sheets`)
+
+Système › Feuilles de match (`/admin/import-feuilles`, administrateurs). Les feuilles Word de l'association
+(`FM_aaaabb` officiels, `AM_aaaabb` amicaux) ont été lues une fois pour toutes dans
+`data/import/feuilles-de-match.json.gz` (date, compétition, journée, lieu, stade, équipes, score, mi-temps,
+affluence, arbitre, buts par équipe, buteurs sochaliens avec minutes, composition avec postes et
+remplacements, entraîneur, fichier d'origine). Chaque feuille a une clé stable (`sha1` de type, date, équipes, score).
+
+- `plan()` : rapproche chaque feuille d'un match de l'index (Sochaux impliqué, date ± 3 jours, mots communs
+  du nom de l'adversaire, score égal en bonus) ; une fiche n'est prise qu'une fois. Statuts : `a-creer`,
+  `a-comparer`, `sans-date`, puis `fait`, `compare`, `erreur`. État dans `storage/import/feuilles/state.json`.
+- `run($max)` (verrou `run.lock`, `Fiches::batch`) : `create()` publie la fiche (saison créée au besoin par
+  `FcsmImport::ensureSeason`, `legacy.feuilles` = clé) ; `compare()` envoie les écarts à
+  `Trouvailles::propose()` (origine `feuilles`, source sans lien), sans toucher la fiche.
+- Avancement : la page appelle `action=lot` (JSON) en boucle ; tâche planifiée `feuilles` sinon.
+- Trouvailles : `ORIGINS` (sources + `feuilles`), champ `date` (fiche, texte de date, date du titre),
+  sources sans URL affichées sans lien. Test : `tests/feuilles.php`.
+
 ## Trouvailles (`App\Services\Trouvailles`, `App\Admin\Finds`)
 
 Propositions trouvées dans les archives en ligne pour les fiches de match, validées une par une

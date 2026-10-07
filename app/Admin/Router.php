@@ -223,6 +223,8 @@ final class Router
         $r->post('/admin/trouvailles', fn ($q) => Finds::action($q));
         $r->get('/admin/reprise-1928-1969', fn ($q) => Heritage::index($q));
         $r->post('/admin/reprise-1928-1969', fn ($q) => Heritage::action($q));
+        $r->get('/admin/import-feuilles', fn ($q) => Sheets::index($q));
+        $r->post('/admin/import-feuilles', fn ($q) => Sheets::action($q));
         $r->get('/admin/mises-a-jour', fn ($q) => Updates::index($q));
         $r->post('/admin/mises-a-jour', fn ($q) => Updates::action($q));
         $r->get('/admin/audio', fn ($q) => Audio::index($q));

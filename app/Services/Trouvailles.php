@@ -37,8 +37,10 @@ final class Trouvailles
     public static ?\Closure $ai = null;
 
     public const SOURCES = ['gallica' => 'Presse ancienne (Gallica, BnF)', 'web' => 'Web (Google, via Gemini)'];
+    /** Origines des propositions (filtres et étiquettes) : les sources fouillées et les imports. */
+    public const ORIGINS = self::SOURCES + ['feuilles' => 'Feuilles de match (archives du club)'];
     public const FIELDS = [
-        'score' => 'Score', 'buteurs' => 'Buteurs', 'composition' => 'Composition', 'affluence' => 'Affluence',
+        'score' => 'Score', 'date' => 'Date', 'buteurs' => 'Buteurs', 'composition' => 'Composition', 'affluence' => 'Affluence',
         'arbitre' => 'Arbitre', 'stade' => 'Stade', 'recit' => 'Récit', 'info' => 'Information', 'piste' => 'Piste à consulter',
     ];
     /** Presse ancienne : jusqu'à cette année (domaine public, presse numérisée par Gallica). */
@@ -764,6 +766,18 @@ TXT;
     }
 
     /** Ajoute les propositions nouvelles (jamais deux fois la même, même écartée). @return int ajoutées */
+    /** Propositions venues d'ailleurs (import des feuilles de match) : même file de validation. */
+    public static function propose(int $id, array $items): int
+    {
+        return self::store($id, array_values(array_filter($items, fn ($it) => isset(self::FIELDS[$it['field'] ?? '']))));
+    }
+
+    /** Deux valeurs équivalentes (casse, accents, ponctuation) ? */
+    public static function same(string $a, string $b): bool
+    {
+        return self::norm($a) === self::norm($b);
+    }
+
     private static function store(int $id, array $new): int
     {
         if (!$new) {
@@ -781,9 +795,9 @@ TXT;
                 if (isset($seen[$key])) {
                     // Même proposition d'une autre source : ses sources s'ajoutent.
                     $k = $seen[$key];
-                    $urls = array_column($p['items'][$k]['sources'], 'url');
+                    $urls = array_map(fn ($x) => ($x['url'] ?? '') ?: $x['label'], $p['items'][$k]['sources']);
                     foreach ($it['sources'] as $s) {
-                        if (!in_array($s['url'], $urls, true)) {
+                        if (!in_array(($s['url'] ?? '') ?: $s['label'], $urls, true)) {
                             $p['items'][$k]['sources'][] = $s;
                         }
                     }
@@ -884,6 +898,17 @@ TXT;
                 $m['score_raw'] = $m['score']['home'] . '-' . $m['score']['away'];
                 $m['result'] = $us > $them ? 'V' : ($us < $them ? 'D' : 'N');
                 return 'score : ' . $m['score_raw'];
+            case 'date':
+                if (!preg_match('#^\s*(\d{1,2})/(\d{1,2})/(\d{4})\s*$#', $value, $d) || !checkdate((int) $d[2], (int) $d[1], (int) $d[3])) {
+                    throw new \RuntimeException('Date attendue sous la forme « 21/09/1985 ».');
+                }
+                $old = (string) ($m['date'] ?? '');
+                $m['date'] = sprintf('%04d-%02d-%02d', $d[3], $d[2], $d[1]);
+                $m['date_text'] = ucfirst(date_fr($m['date'], true));
+                if ($old !== '' && preg_match('/^\d{4}-\d{2}-\d{2}$/', $old)) {
+                    $doc['title'] = str_replace(date('d/m/Y', strtotime($old)), date('d/m/Y', strtotime($m['date'])), (string) $doc['title']);
+                }
+                return 'date : ' . date('d/m/Y', strtotime($m['date']));
             case 'affluence':
                 $n = (int) preg_replace('/\D/', '', $value);
                 if ($n <= 0 || $n > 90000) {
@@ -966,11 +991,12 @@ TXT;
         $known = (array) ($legacy['trouvailles'] ?? []);
         $lines = '';
         foreach ($sources as $s) {
-            if (in_array($s['url'], $known, true)) {
+            $ref = ($s['url'] ?? '') !== '' ? $s['url'] : $s['label'];
+            if (in_array($ref, $known, true)) {
                 continue;
             }
-            $known[] = $s['url'];
-            $lines .= '<li><a href="' . e($s['url']) . '" rel="noopener" target="_blank">' . e($s['label']) . '</a>' . (($s['kind'] ?? '') === 'gallica' ? ' (Gallica, BnF)' : '') . '</li>';
+            $known[] = $ref;
+            $lines .= '<li>' . (($s['url'] ?? '') !== '' ? '<a href="' . e($s['url']) . '" rel="noopener" target="_blank">' . e($s['label']) . '</a>' : e($s['label']) . ' (archives de l’association)') . (($s['kind'] ?? '') === 'gallica' ? ' (Gallica, BnF)' : '') . '</li>';
         }
         if ($lines === '') {
             return;
@@ -992,7 +1018,7 @@ TXT;
 
     private static function credit(array $sources, bool $inline = false): string
     {
-        $links = implode(', ', array_map(fn ($s) => '<a href="' . e($s['url']) . '" rel="noopener" target="_blank">' . e($s['label']) . '</a>', array_slice($sources, 0, 4)));
+        $links = implode(', ', array_map(fn ($s) => ($s['url'] ?? '') === '' ? e($s['label']) : '<a href="' . e($s['url']) . '" rel="noopener" target="_blank">' . e($s['label']) . '</a>', array_slice($sources, 0, 4)));
         if ($links === '') {
             return '';
         }

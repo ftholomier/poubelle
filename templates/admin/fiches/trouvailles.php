@@ -78,7 +78,7 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste'];
   <?php foreach ($states as $k => $label): ?><a href="<?= e($qs(['etat' => $k])) ?>"<?= $status === $k ? ' class="is-on"' : '' ?>><?= e($label) ?><?php if (isset($summary[$k])): ?><em><?= (int) $summary[$k] ?></em><?php endif; ?></a><?php endforeach; ?>
   <span style="flex:1"></span>
   <a href="<?= e($qs(['source' => null])) ?>"<?= !$origin ? ' class="is-on"' : '' ?>>Toutes sources</a>
-  <?php foreach (T::SOURCES as $k => $label): ?><a href="<?= e($qs(['source' => $k])) ?>"<?= $origin === $k ? ' class="is-on"' : '' ?>><?= $k === 'gallica' ? 'Presse (Gallica)' : 'Web' ?></a><?php endforeach; ?>
+  <?php foreach (T::ORIGINS as $k => $label): ?><a href="<?= e($qs(['source' => $k])) ?>"<?= $origin === $k ? ' class="is-on"' : '' ?>><?= ['gallica' => 'Presse (Gallica)', 'web' => 'Web', 'feuilles' => 'Feuilles de match'][$k] ?? e($label) ?></a><?php endforeach; ?>
 </nav>
 
 <?php if (!$list): ?>
@@ -100,7 +100,7 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste'];
           <div class="stack" style="gap:6px">
             <b class="small"><?= e(T::FIELDS[$it['field']] ?? $it['field']) ?></b>
             <span><span class="pill pill--<?= e($tc) ?>"><?= e($tl) ?></span></span>
-            <span class="xs muted"><?= ($it['origin'] ?? '') === 'web' ? 'Web' : 'Presse (Gallica)' ?></span>
+            <span class="xs muted"><?= ['web' => 'Web', 'feuilles' => 'Feuille de match'][$it['origin'] ?? ''] ?? 'Presse (Gallica)' ?></span>
           </div>
           <div class="stack" style="gap:8px;min-width:0">
             <?php if ($it['current'] !== ''): ?><p class="small" style="margin:0"><span class="muted">La fiche dit :</span> <?= e($it['current']) ?></p><?php endif; ?>
@@ -116,7 +116,7 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste'];
             <?php endif; ?>
             <ul class="xs" style="margin:0;padding-left:18px">
               <?php foreach ($it['sources'] as $s): ?>
-                <li><a href="<?= e($s['url']) ?>" target="_blank" rel="noopener"><?= e($s['label']) ?> ↗</a><?php if (!empty($s['snippet'])): ?> <span class="muted">— « <?= e(mb_strimwidth($s['snippet'], 0, 220, '…')) ?> »</span><?php endif; ?></li>
+                <li><?php if (($s['url'] ?? '') !== ''): ?><a href="<?= e($s['url']) ?>" target="_blank" rel="noopener"><?= e($s['label']) ?> ↗</a><?php else: ?><?= e($s['label']) ?><?php endif; ?><?php if (!empty($s['snippet'])): ?> <span class="muted">— « <?= e(mb_strimwidth($s['snippet'], 0, 220, '…')) ?> »</span><?php endif; ?></li>
               <?php endforeach; ?>
             </ul>
           </div>

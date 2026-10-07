@@ -22,7 +22,7 @@ final class Finds extends Base
     public static function index(Request $req): Response
     {
         $status = in_array($req->str('etat'), ['attente', 'envoye', 'ecarte', 'tout'], true) ? $req->str('etat') : 'attente';
-        $origin = isset(Trouvailles::SOURCES[$req->str('source')]) ? $req->str('source') : null;
+        $origin = isset(Trouvailles::ORIGINS[$req->str('source')]) ? $req->str('source') : null;
         $list = Trouvailles::listing($status, $origin);
         $page = max(1, (int) $req->str('page'));
         $per = 25;
