@@ -5,6 +5,8 @@
 > avant de les développer proprement dans le logiciel métier Synapse. Ce document résume ce qui a été construit,
 > ce qui a été appris, les pièges rencontrés et ce qu'il faudra refaire autrement en production.
 >
+> Feuille de route de la suite : [`PLAN-DEVELOPPEMENT.md`](PLAN-DEVELOPPEMENT.md).
+>
 > Dernière mise à jour : 7 octobre 2026 · branche `claude/nice-cori-uknqlh` du dépôt `ftholomier/poubelle`.
 
 ---
