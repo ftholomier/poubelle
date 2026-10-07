@@ -67,6 +67,10 @@ foreach ($items as $k => $s):
             $title = Pages::shortTitle($s);
             $primary = Categories::primaryOf($s['categories']);
             $tag = $primary && $primary !== $catSlug ? t(Categories::label($primary)) : t(Categories::label($catSlug));
+            // Un match rangé hors des matchs (le stade, un symbole…) : « Match · 2000 » plutôt que sa compétition.
+            if ($s['type'] === 'match' && Categories::root($catSlug) !== \App\Front\Site::C_MATCHS) {
+                $tag = t('Match') . (!empty($s['m']['date']) ? ' · ' . substr((string) $s['m']['date'], 0, 4) : '');
+            }
             $meta = $s['excerpt'] !== '' ? mb_strimwidth($s['excerpt'], 0, 90, '…') : '';
         }
         if ($view === 'list'): ?>

@@ -26,7 +26,38 @@ $hasAside = $hasKey || count($withTitles) >= 3 || $seasonLink || ($isBilan && tr
 $anchor = fn (int $i, array $s): string => 's' . ($i + 1) . '-' . slugify((string) $s['title']);
 $feat = $doc['featured_image'] ?? null;
 $featInGallery = $feat && in_array($feat, array_column($doc['gallery'] ?? [], 'image'), true);
+$recit ??= null;
 ?>
+<?php if ($recit): ?>
+<section class="ahero rhero<?= $feat ? ' rhero--img' : '' ?>">
+  <?php if ($feat): ?><div class="rhero__bg" aria-hidden="true"><img src="<?= e(img($feat, 1600)) ?>" srcset="<?= e(srcset($feat, [800, 1200, 1600, 2000])) ?>" sizes="100vw" alt="" fetchpriority="high"></div><?php endif; ?>
+  <div class="wrap ahero__inner rhero__inner">
+    <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>">
+      <?php foreach ($crumbs as $c): ?><a href="<?= e($c['href']) ?>"><?= e($c['label']) ?></a><span aria-hidden="true">/</span><?php endforeach; ?>
+      <span aria-current="page"><?= e(mb_strimwidth((string) $doc['title'], 0, 60, '…')) ?></span>
+    </nav>
+    <?php if ($kicker !== ''): ?><span class="ahero__kicker"><?= e($kicker) ?></span><?php endif; ?>
+    <?php if ($recit['era'] !== ''): ?><span class="rhero__era"><?= e($recit['era']) ?></span><?php endif; ?>
+    <h1 class="ahero__title rhero__title"><?= e($recit['era'] !== '' ? \App\Front\Recit::stripEra((string) $doc['title']) : $doc['title']) ?></h1>
+    <ul class="rhero__meta">
+      <li><?= e(t('{n} min de lecture', ['n' => $recit['minutes']])) ?></li>
+      <?php if ($n = count(array_filter($recit['chapters'], fn ($c) => $c['n'] > 0))): ?><li><?= e($n > 1 ? t('{n} chapitres', ['n' => $n]) : t('1 chapitre')) ?></li><?php endif; ?>
+      <?php if ($recit['photos']): ?><li><?= e($recit['photos'] > 1 ? t('{n} photos', ['n' => $recit['photos']]) : t('1 photo')) ?></li><?php endif; ?>
+    </ul>
+    <div class="hero-actions"><?= View::partial('partials/pdf-button', ['href' => \App\Front\PdfExport::ficheUrl($doc), 'light' => true]) ?><?= !empty($audio) ? View::partial('partials/audio-button', ['audio' => $audio]) : '' ?></div>
+  </div>
+  <?php if ($feat && ($cap = \App\Data\Media::caption($feat))): ?><p class="rhero__cap wrap"><?= e($cap) ?></p><?php endif; ?>
+</section>
+<?php
+ob_start();
+if ($hasKey): ?>
+  <div class="keyfig" data-reveal><span class="keyfig__n" data-count><?= e($doc['key_figure']['number']) ?></span><span class="keyfig__t"><?= e($doc['key_figure']['text']) ?></span></div>
+<?php endif;
+$recitAside = (string) ob_get_clean();
+?>
+<?= View::partial('partials/recit', ['r' => $recit, 'doc' => $doc, 'aside' => $recitAside, 'context' => (string) $doc['title']]) ?>
+<?= View::partial('partials/related', ['related' => $related]) ?>
+<?php return; endif; ?>
 <section class="ahero">
   <div class="wrap ahero__inner">
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>">

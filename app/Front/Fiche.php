@@ -468,6 +468,7 @@ final class Fiche
             'rubric' => $rubric,
             'related' => self::relatedForPerson($doc, $matches),
             'albumNo' => self::albumNumber($id),
+            'recit' => Recit::applies($doc) ? Recit::build($doc, $doc['featured_image'] ?? null) : null,
         ], [
             'title' => $seoTitle,
             'description' => $desc,
@@ -479,6 +480,10 @@ final class Fiche
             'styles' => ['css/fiche.css'],
             'scripts' => ['js/fiche.js'],
         ]];
+        if ($vars['recit']) {
+            $page['styles'][] = 'css/recit.css';
+            $page['scripts'][] = 'js/recit.js';
+        }
         return ['vars' => $vars, 'page' => $page];
     }
 
@@ -785,6 +790,7 @@ final class Fiche
             'kicker' => $moment ? t('Moment n° {n}', ['n' => pad2($moment)]) . ' · ' . t('100 ans, 100 moments') : ($cat ? t(Categories::label($cat)) : ($doc['type'] === 'page' ? '' : t('Le musée'))),
             'related' => $related,
             'seasonLink' => $season ? url("/matchs/$season/") : null,
+            'recit' => Recit::applies($doc) ? Recit::build($doc, $doc['featured_image'] ?? null) : null,
         ], [
             'title' => $doc['seo']['title'] ?: $doc['title'],
             'description' => $doc['seo']['description'] ?: excerpt(implode(' ', array_column($doc['sections'], 'html')), 180),
@@ -803,6 +809,10 @@ final class Fiche
                 'image' => $doc['featured_image'] ? base_url() . img($doc['featured_image'], 1200) : null,
             ],
         ]];
+        if ($vars['recit']) {
+            $page['styles'][] = 'css/recit.css';
+            $page['scripts'] = ['js/recit.js'];
+        }
         return ['vars' => $vars, 'page' => $page];
     }
 }

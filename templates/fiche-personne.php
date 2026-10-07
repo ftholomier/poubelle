@@ -140,6 +140,29 @@ $rowsHtml = function (array $list, bool $coach) {
   </div>
 </section>
 
+<?php if (!empty($recit)): ob_start(); ?>
+<?php if (array_filter($idRows, fn ($r) => !empty($r['label']))): ?>
+    <div class="idcard">
+      <div class="idcard__head"><?= e(t("Fiche d'identité")) ?></div>
+      <dl>
+        <?php foreach ($idRows as $r): ?>
+          <?php if ($r['sub']): ?>
+            <div class="idcard__sub"><dt><?= e($r['value']) ?></dt></div>
+          <?php elseif ($r['label']): ?>
+            <div class="idcard__row"><dt><?= e($r['label']) ?></dt><dd><?= e($r['value']) ?></dd></div>
+          <?php else: ?>
+            <div class="idcard__line"><dd><?= e($r['value']) ?></dd></div>
+          <?php endif; ?>
+        <?php endforeach; ?>
+      </dl>
+    </div>
+    <?php endif; ?>
+<?php if (!empty($doc['key_figure']['number']) || !empty($doc['key_figure']['text'])): ?>
+<div class="keyfig" data-reveal><span class="keyfig__n" data-count><?= e($doc['key_figure']['number']) ?></span><span class="keyfig__t"><?= e($doc['key_figure']['text']) ?></span></div>
+<?php endif; ?>
+<?php $recitAside = (string) ob_get_clean(); ?>
+<?= View::partial('partials/recit', ['r' => $recit, 'doc' => $doc, 'aside' => $recitAside, 'context' => $name]) ?>
+<?php else: ?>
 <div class="wrap pbody">
   <?php if ($story): ?>
   <div class="pbody__story">
@@ -195,6 +218,8 @@ $rowsHtml = function (array $list, bool $coach) {
     </div>
   </div>
 </div>
+
+<?php endif; ?>
 
 <?php if ($statsLong || $highlights): ?>
 <section class="wrap pstats">
@@ -278,13 +303,13 @@ $rowsHtml = function (array $list, bool $coach) {
 </section>
 <?php endif; ?>
 
-<?php $videosHtml = View::partial('partials/videos', ['videos' => $doc['videos'] ?? [], 'anchor' => 'video']); if (trim($videosHtml) !== ''): ?>
+<?php $videosHtml = empty($recit) ? View::partial('partials/videos', ['videos' => $doc['videos'] ?? [], 'anchor' => 'video']) : ''; if (trim($videosHtml) !== ''): ?>
 <div class="wrap" style="padding-bottom:clamp(48px,6vw,88px)"><?= $videosHtml ?></div>
 <?php endif; ?>
 
-<?= View::partial('partials/gallery', ['items' => $doc['gallery'] ?? [], 'title' => t('Galerie'), 'anchor' => 'galerie', 'context' => $name]) ?>
+<?= empty($recit) ? View::partial('partials/gallery', ['items' => $doc['gallery'] ?? [], 'title' => t('Galerie'), 'anchor' => 'galerie', 'context' => $name]) : '' ?>
 
-<?php if (!empty($doc['tables'])): ?>
+<?php if (!empty($doc['tables']) && empty($recit)): ?>
 <section class="wrap section fm-tables">
   <?php foreach ($doc['tables'] as $tb): ?>
     <?php if (!empty($tb['title'])): ?><h2 class="h-2"><?= e($tb['title']) ?></h2><?php endif; ?>

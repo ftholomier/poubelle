@@ -181,6 +181,12 @@ final class Pages
             if (!$s['m']['home'] && $s['m']['event']) {
                 return $s['m']['event'];
             }
+            // Match sans Sochaux, rangé pour son événement (« Inauguration du nouveau Stade Bonal ») :
+            // l'événement d'abord, l'affiche ensuite.
+            $round = trim((string) ($s['m']['round'] ?? ''));
+            if (!preg_match('/sochaux/iu', $s['m']['home'] . ' ' . $s['m']['away']) && mb_strlen($round) >= 12 && str_contains($round, ' ') && !preg_match('/^(J\d|\d|journ|tour|finale|demi|quart|huiti|seizi|poule|groupe)/iu', $round)) {
+                return $round . ' (' . $s['m']['home'] . ' – ' . $s['m']['away'] . ')';
+            }
             $score = $s['m']['sh_score'] ? ' ' . $s['m']['sh_score'][0] . '-' . $s['m']['sh_score'][1] : '';
             return $s['m']['home'] . ' – ' . $s['m']['away'] . $score;
         }
