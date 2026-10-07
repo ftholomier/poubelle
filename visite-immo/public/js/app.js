@@ -4,7 +4,7 @@ import { api, audioUrl } from "./api.js";
 import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 import { Conversation } from "./dialogue.js";
-import { rendreApercu } from "./apercu.js";
+import { rendreApercu, controlesAnnonce, texteADiffuser } from "./apercu.js";
 import "./vues/aujourdhui.js";
 import "./vues/dossier-auto.js";
 import "./vues/acquereurs.js";
@@ -641,7 +641,7 @@ function renderAnnonce($c, visit, saver) {
       ${textArea("annonce", visit.annonce, 20)}
     </section>
     <div class="sticky-actions">
-      <a class="btn primary" href="#/visite/${visit.id}/apercu">👁 Aperçu</a>
+      <a class="btn primary" href="#/visite/${visit.id}/apercu">👁 Rendu Leboncoin</a>
       <button class="btn" data-pdf="annonce">📄 PDF</button>
       <button class="btn" data-send="annonce">✉️ Envoyer</button>
       <button class="btn" id="copy">📋 Copier</button>
@@ -856,7 +856,73 @@ async function viewDialogue(id) {
 
 async function viewApercu(id) {
   const visit = await api("visit", { query: { id } });
-  render(`${header("Aperçu portail", { back: `#/visite/${id}/annonce` })}<div class="apercu-page">${rendreApercu(visit, state.user, state.agence || theme.agence)}</div>`);
+  let mode = (() => {
+    try {
+      return localStorage.getItem("vi-apercu") || "mobile";
+    } catch {
+      return "mobile";
+    }
+  })();
+  const ctl = controlesAnnonce(visit);
+  const bloquants = ctl.filter((c) => c.niveau === "bloquant").length;
+  const attentions = ctl.filter((c) => c.niveau === "attention").length;
+  const base = location.href.split("#")[0].replace(/[^/]*$/, "");
+  const page = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${base}">
+    <link rel="stylesheet" href="css/apercu.css?v=${APP_VERSION}"></head><body>${rendreApercu(visit, state.user, state.agence || theme.agence)}</body></html>`;
+
+  render(`${header("Rendu Leboncoin", { back: `#/visite/${id}/annonce` })}
+    <div class="apercu-outils">
+      <div class="segment" id="mode"><button type="button" data-v="mobile">📱 Téléphone</button><button type="button" data-v="ordinateur">🖥️ Ordinateur</button></div>
+    </div>
+    <div class="apercu-cadre" id="cadre"><iframe id="apercu" title="Rendu de l'annonce" sandbox="allow-same-origin" scrolling="no"></iframe></div>
+    <div class="apercu-outils">
+      <section class="card">
+        <div class="score-diff"><h2>Prête à diffuser ?</h2><strong class="${bloquants ? "orange-txt" : "vert-txt"}">${bloquants ? `${bloquants} à corriger` : attentions ? "Oui, à peaufiner" : "Oui ✓"}</strong></div>
+        <div class="controles">${ctl.map((c) => `<div class="controle ${c.niveau}"><i>${c.niveau === "ok" ? "✓" : c.niveau === "attention" ? "!" : "✕"}</i><span>${esc(c.label)}<small>${esc(c.detail)}</small></span></div>`).join("")}</div>
+        <div class="btn-row"><button class="btn" id="copier-titre">Copier le titre</button><button class="btn primary" id="copier-texte">Copier le texte + mentions</button></div>
+        <a class="btn ghost" href="#/visite/${id}/annonce">✏️ Modifier l'annonce</a>
+      </section>
+      <section class="card">
+        <h2>Publier pour de vrai</h2>
+        <p class="small">Ceci est une simulation fidèle, rien n'est publié. Pour diffuser sur Leboncoin : un compte professionnel immobilier (abonnement « pro ») ou un multidiffuseur qui envoie l'annonce à plusieurs portails. Le flux d'annonces de l'appli (format XML) est prêt pour ce branchement, prévu dans le vrai logiciel.</p>
+      </section>
+    </div>`);
+
+  const $f = document.getElementById("apercu");
+  const $cadre = document.getElementById("cadre");
+  $f.srcdoc = page;
+  const ajuster = () => {
+    const largeur = mode === "mobile" ? 390 : 1280;
+    const dispo = Math.min(document.documentElement.clientWidth - 32, mode === "mobile" ? 402 : 1100);
+    const echelle = Math.min(1, dispo / largeur);
+    $f.style.width = `${largeur}px`;
+    $f.style.transform = `scale(${echelle})`;
+    const doc = $f.contentDocument;
+    const h = Math.max(doc?.querySelector(".lbc")?.offsetHeight || 1200, 500); // hauteur réelle de la page simulée à cette largeur
+    $f.style.height = `${h}px`;
+    $cadre.style.width = `${largeur * echelle + ($cadre.classList.contains("mobile") ? 12 : 3)}px`;
+    $cadre.style.height = `${h * echelle + ($cadre.classList.contains("mobile") ? 12 : 3)}px`;
+  };
+  const choisir = (m) => {
+    mode = m;
+    try {
+      localStorage.setItem("vi-apercu", m);
+    } catch {}
+    document.querySelectorAll("#mode button").forEach((b) => b.classList.toggle("on", b.dataset.v === m));
+    $cadre.classList.toggle("mobile", m === "mobile");
+    ajuster();
+    setTimeout(ajuster, 50); // la page simulée se remet en page à sa nouvelle largeur
+  };
+  $f.onload = () => {
+    ajuster();
+    $f.contentDocument?.querySelectorAll("img").forEach((img) => img.addEventListener("load", ajuster));
+  };
+  document.querySelectorAll("#mode button").forEach((b) => (b.onclick = () => choisir(b.dataset.v)));
+  window.addEventListener("resize", ajuster);
+  nav.cleanup = () => window.removeEventListener("resize", ajuster);
+  choisir(mode);
+  document.getElementById("copier-titre").onclick = () => copier(visit.titre_annonce || "");
+  document.getElementById("copier-texte").onclick = () => copier(texteADiffuser(visit));
 }
 
 // ---------- Mandat ----------

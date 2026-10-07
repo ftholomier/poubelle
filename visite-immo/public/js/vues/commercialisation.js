@@ -55,7 +55,7 @@ blocsVente.push({
       <details class="aide"><summary>Portails et flux</summary>
         <p class="small">Le flux ci-dessous liste vos biens publiés, au format d'échange décrit dans la documentation. Un multidiffuseur ou les portails (contrat pro) le lisent pour publier automatiquement.</p>
         <div class="test-row"><input readonly value="${esc(d.flux)}"><button class="btn" id="copier-flux">📋</button></div>
-        <a class="btn ghost" href="#/visite/${visit.id}/apercu">Aperçu sur un portail (simulation)</a>
+        <a class="btn ghost" href="#/visite/${visit.id}/apercu">👁 Rendu Leboncoin (simulation)</a>
       </details>
       <button class="btn ghost" id="suspendre">Suspendre la diffusion</button>
     </section>

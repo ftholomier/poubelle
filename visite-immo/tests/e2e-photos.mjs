@@ -3,7 +3,7 @@ import { navigateur, connexion, verifier, api } from "./outils.mjs";
 import { execSync } from "node:child_process";
 
 // Deux photos de test générées avec GD : une nette (motifs), une floue
-execSync(`php -r '$i=imagecreatetruecolor(1600,1200);for($k=0;$k<400;$k++){imagefilledrectangle($i,rand(0,1600),rand(0,1200),rand(0,1600),rand(0,1200),imagecolorallocate($i,rand(40,200),rand(40,200),rand(40,200)));} imagejpeg($i,"/tmp/nette.jpg",90); for($k=0;$k<30;$k++) imagefilter($i,IMG_FILTER_GAUSSIAN_BLUR); imagejpeg($i,"/tmp/floue.jpg",90);'`);
+execSync(`php -r '$i=imagecreatetruecolor(1600,1200);for($k=0;$k<400;$k++){imagefilledrectangle($i,rand(0,1600),rand(0,1200),rand(0,1600),rand(0,1200),imagecolorallocate($i,rand(40,200),rand(40,200),rand(40,200)));} imagejpeg($i,"/tmp/nette.jpg",90); $p=imagescale($i,80,60);$i=imagescale($p,1600,1200);for($k=0;$k<30;$k++) imagefilter($i,IMG_FILTER_GAUSSIAN_BLUR); imagejpeg($i,"/tmp/floue.jpg",90);'`);
 
 const { browser, page, erreurs, capture } = await navigateur();
 try {

@@ -30,6 +30,8 @@ const SECTIONS = [
         ['cle' => 'travaux_a_prevoir', 'label' => 'Travaux à prévoir', 'type' => 'textarea'],
         ['cle' => 'dpe', 'label' => 'DPE', 'type' => 'select', 'options' => ['A', 'B', 'C', 'D', 'E', 'F', 'G']],
         ['cle' => 'ges', 'label' => 'GES', 'type' => 'select', 'options' => ['A', 'B', 'C', 'D', 'E', 'F', 'G']],
+        ['cle' => 'depenses_energie_min', 'label' => "Dépenses d'énergie estimées, mini (DPE)", 'type' => 'number', 'unite' => '€/an'],
+        ['cle' => 'depenses_energie_max', 'label' => "Dépenses d'énergie estimées, maxi (DPE)", 'type' => 'number', 'unite' => '€/an'],
     ]],
     ['titre' => 'Financier', 'champs' => [
         ['cle' => 'prix_souhaite', 'label' => 'Prix souhaité par le vendeur', 'type' => 'number', 'unite' => '€', 'requis' => true],

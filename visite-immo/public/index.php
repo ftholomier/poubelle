@@ -13,7 +13,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 // Tous les modules JS (js/ et js/vues/) : ajouter un fichier suffit, il est versionné automatiquement
 $modules = array_map(fn ($f) => substr($f, strlen(__DIR__) + 1), array_merge(glob(__DIR__ . '/js/*.js') ?: [], glob(__DIR__ . '/js/vues/*.js') ?: []));
-$assets = array_merge(['css/app.css'], $modules);
+$assets = array_merge(['css/app.css', 'css/apercu.css'], $modules);
 $mtimes = array_map(fn ($f) => $f . (string) @filemtime(__DIR__ . "/$f"), $assets);
 $v = substr(md5(implode('|', $mtimes)), 0, 10);
 $url = fn ($f) => "$f?v=$v";
