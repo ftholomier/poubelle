@@ -635,3 +635,4 @@ Détail : `docs/CONTROLE-2026-10.md`, § 7.
 
 - [x] Mise à jour d'ensemble (07/10) : captures de l'aide refaites (formulaires de match et de personne restructurés, Rétro-Direct avec chrono), guide (138 pages) et mémo régénérés ; infographie A4 (Rétro-Direct avec chrono et vraie ambiance de stade, carte de supporter, ★ pièce unique) ; présentation (58 pages : carte de supporter en deux designs, Rétro-Direct en rediffusion avec le pavé à côté du fil, « Ma carte de supporter » en pièce unique)
 - [x] Carte de supporter : un titre de match long (« Sochaux 7–0 Jeunesse d'Esch ») ne chevauche plus la date (réduit, puis sur deux lignes, la ligne du dessous descend d'autant), designs A et B
+- [x] Teasers grand public (`app/Resources/video/teaser.mp4`) et équipes : Rétro-Direct avec chrono puis le pavé à côté du fil, « Rejoués en direct, commentés à la radio » ; « Ma carte de supporter » dans le montage du grand public
