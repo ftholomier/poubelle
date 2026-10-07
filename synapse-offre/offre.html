@@ -1,5 +1,4 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Synapse · L'offre irrésistible</title><style>
-@font-face{font-family:Archivo;src:url("../visite-immo/public/fonts/Archivo-Regular.ttf");font-weight:400}
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Synapse · L'offre irrésistible</title><style>@font-face{font-family:Archivo;src:url("../visite-immo/public/fonts/Archivo-Regular.ttf");font-weight:400}
 @font-face{font-family:Archivo;src:url("../visite-immo/public/fonts/Archivo-SemiBold.ttf");font-weight:600 700}
 @font-face{font-family:Archivo;src:url("../visite-immo/public/fonts/Archivo-ExtraBold.ttf");font-weight:800 900}
 @font-face{font-family:Mono;src:url("../visite-immo/public/fonts/JetBrainsMono-Medium.ttf")}
@@ -7,60 +6,66 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--creme:#f4f1ea;--papier:#fffdf8;--encre:#111114;--gris:#5f5d57;--citron:#d4f22e;--orange:#ff6b35;--vert:#2e7d3a;--ligne:#ddd7ca}
 html,body{width:210mm;height:297mm}
-body{background:var(--creme);color:var(--encre);font:400 8.6pt/1.35 Archivo,sans-serif;padding:9mm 11mm 8mm;display:flex;flex-direction:column;gap:2.7mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:var(--creme);color:var(--encre);font:400 8pt/1.3 Archivo,sans-serif;padding:8mm 10mm 7mm;display:flex;flex-direction:column;gap:2.3mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .mono{font-family:Mono,monospace;letter-spacing:.08em;text-transform:uppercase}
 .top{display:flex;justify-content:space-between;align-items:flex-start}
-.top svg{height:15mm;width:auto}
-.top .meta{text-align:right;font-size:6.6pt;line-height:1.7;color:var(--gris)}
+.top svg{height:13mm;width:auto}
+.top .meta{text-align:right;font-size:6.2pt;line-height:1.7;color:var(--gris)}
 .top .meta b{color:var(--encre)}
-.tag{display:inline-block;background:var(--orange);font:700 7pt Mono,monospace;letter-spacing:.1em;text-transform:uppercase;padding:2mm 3.2mm;border-radius:1.6mm;transform:rotate(-2deg);box-shadow:0 1.5mm 3mm rgb(255 107 53/.3)}
-h1{font:800 27pt/0.98 Archivo;letter-spacing:-.035em;margin-top:2.6mm}
+.tag{display:inline-block;background:var(--orange);font:700 6.6pt Mono,monospace;letter-spacing:.1em;text-transform:uppercase;padding:1.6mm 3mm;border-radius:1.4mm;transform:rotate(-2deg);box-shadow:0 1.2mm 2.6mm rgb(255 107 53/.3)}
+h1{font:800 24pt/0.98 Archivo;letter-spacing:-.035em;margin-top:2.2mm}
 mark{background:var(--citron);color:var(--encre);padding:0 .08em}
-.chapo{font-size:9.2pt;line-height:1.4;max-width:165mm;color:#2b2b2f;margin-top:1.6mm}
-.cards{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:3mm}
-.card{border:.35mm solid var(--encre);border-radius:3mm;padding:2.8mm 3.4mm;background:var(--papier)}
-.card.noir{background:var(--encre);color:var(--creme)}
-.card.citron{background:var(--citron)}
-.lbl{font:700 6.4pt Mono,monospace;letter-spacing:.08em;text-transform:uppercase}
+.chapo{font-size:8.6pt;line-height:1.38;color:#2b2b2f;margin-top:1.4mm}
+.cards{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:2.6mm}
+.card{border:.35mm solid var(--encre);border-radius:2.6mm;padding:2.3mm 3mm;background:var(--papier)}
+.card.noir{background:var(--encre);color:var(--creme)} .card.citron{background:var(--citron)}
+.lbl{font:700 6pt Mono,monospace;letter-spacing:.08em;text-transform:uppercase}
 .noir .lbl{color:var(--citron)} .orange-t{color:var(--orange)} .vert-t{color:var(--vert)}
-.big{font:800 22pt/1 Archivo;letter-spacing:-.03em;margin:1mm 0 .8mm}
-.big small{font-size:11pt;letter-spacing:-.01em}
-.card p{font-size:7.6pt;line-height:1.35}
-.grille{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
-h2{font:700 7pt Mono,monospace;letter-spacing:.09em;text-transform:uppercase;color:var(--vert);border-bottom:.35mm solid var(--encre);padding-bottom:1mm;margin-bottom:1.8mm}
-.paliers{display:flex;align-items:flex-end;gap:2.4mm;height:23mm;margin-bottom:1.6mm}
+.big{font:800 19pt/1 Archivo;letter-spacing:-.03em;margin:.8mm 0 .6mm}
+.big small{font-size:9.5pt}
+.card p{font-size:7pt;line-height:1.3}
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:2.6mm 5mm}
+h2{font:700 6.6pt Mono,monospace;letter-spacing:.09em;text-transform:uppercase;color:var(--vert);border-bottom:.35mm solid var(--encre);padding-bottom:.9mm;margin-bottom:1.6mm;display:flex;justify-content:space-between}
+h2 span{color:var(--gris)}
+.remu{display:grid;grid-template-columns:44mm 1fr;gap:3mm;align-items:end}
+.paliers{display:flex;align-items:flex-end;gap:1.6mm;height:17mm}
 .palier{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
-.palier .col{background:var(--citron);border:.35mm solid var(--encre);border-radius:1.2mm 1.2mm 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:1mm;font:800 13pt Archivo;letter-spacing:-.03em}
-.palier .sous{font:600 6.3pt Mono,monospace;letter-spacing:.04em;text-transform:uppercase;text-align:center;margin-top:1.2mm;color:var(--gris)}
-.note{font-size:7.2pt;line-height:1.35;color:#2b2b2f}
+.palier .col{background:var(--citron);border:.3mm solid var(--encre);border-radius:1mm 1mm 0 0;display:flex;justify-content:center;padding-top:.7mm;font:800 10pt Archivo;letter-spacing:-.02em}
+.palier .sous{font:600 5.2pt Mono,monospace;text-transform:uppercase;text-align:center;margin-top:.8mm;color:var(--gris)}
+.note{font-size:6.8pt;line-height:1.32;color:#2b2b2f}
 .note b{color:var(--encre)}
-.abo li{list-style:none;font-size:7.6pt;line-height:1.55;padding-left:3.6mm;position:relative}
-.abo li::before{content:"";position:absolute;left:0;top:1.35mm;width:1.8mm;height:1.8mm;background:var(--citron);border:.3mm solid var(--encre);border-radius:.4mm}
-.prix-abo{display:flex;align-items:baseline;gap:2mm;margin-bottom:1.6mm}
-.prix-abo .big{margin:0}
-.legende{display:flex;gap:4mm;font-size:6.8pt;margin-bottom:1.8mm;color:var(--gris)}
-.legende i{display:inline-block;width:3mm;height:2.2mm;border-radius:.6mm;margin-right:1mm;vertical-align:-.2mm}
-.t-row{display:grid;grid-template-columns:38mm 1fr;gap:2mm;align-items:center;margin-bottom:1mm}
-.t-nom{font-size:7.2pt;font-weight:600;line-height:1.2}
-.bar-l{display:flex;align-items:center;gap:1.4mm;height:2.6mm;margin:.45mm 0}
-.bar{display:block;height:100%;border-radius:0 .9mm .9mm 0}
+.abo li{list-style:none;font-size:6.9pt;line-height:1.42;padding-left:3mm;position:relative}
+.abo li::before,.etape li::before{content:"";position:absolute;left:0;top:1.1mm;width:1.5mm;height:1.5mm;background:var(--papier);border:.28mm solid var(--encre);border-radius:.35mm}
+.legende{display:flex;gap:4mm;font-size:6.2pt;color:var(--gris)}
+.legende i{display:inline-block;width:2.6mm;height:2mm;border-radius:.5mm;margin-right:.8mm;vertical-align:-.2mm}
+.t-row{display:grid;grid-template-columns:34mm 1fr;gap:1.6mm;align-items:center;margin-bottom:.6mm}
+.t-nom{font-size:6.6pt;font-weight:600;line-height:1.15}
+.bar-l{display:flex;align-items:center;gap:1.2mm;height:2.1mm;margin:.3mm 0}
+.bar{display:block;height:100%;border-radius:0 .8mm .8mm 0}
 .bar.avant{background:var(--orange)} .bar.apres{background:var(--vert)}
-.bar-l b{font:600 6.2pt Mono,monospace;white-space:nowrap}
-.total{display:flex;justify-content:space-between;align-items:baseline;border-top:.35mm solid var(--encre);padding-top:1.6mm;margin-top:1mm}
-.total .big{font-size:16pt;margin:0}
-.outils{display:grid;grid-template-columns:1fr 1fr;gap:1.3mm 3mm}
-.tuile{display:flex;gap:2mm;align-items:flex-start;background:var(--papier);border:.3mm solid var(--ligne);border-radius:2mm;padding:1.3mm 2mm}
-.tuile .ic{font-size:10pt;line-height:1}
-.tt{font-weight:700;font-size:7.5pt;line-height:1.25}
-.td{font-size:6.7pt;line-height:1.3;color:#3b3b40}
-.pill{font:700 5.2pt Mono,monospace;letter-spacing:.06em;text-transform:uppercase;padding:.4mm 1.2mm;border-radius:.8mm;margin-left:1.4mm;vertical-align:.3mm;border:.25mm solid var(--encre)}
-.pill.test{background:var(--citron)} .pill.bientot{background:transparent;color:var(--gris);border-color:var(--ligne)}
+.bar-l b{font:600 5.6pt Mono,monospace;white-space:nowrap}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:.35mm solid var(--encre);padding-top:1.2mm;margin-top:.8mm}
+.total .big{font-size:13pt;margin:0}
+.parcours{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2mm}
+.etape{background:var(--papier);border:.3mm solid var(--encre);border-radius:2.2mm;padding:1.8mm 2.2mm 1.6mm}
+.e-top{display:flex;align-items:baseline;gap:1.4mm}
+.e-num{font:800 9.5pt Archivo;color:var(--orange)}
+.e-nom{font:800 8.6pt Archivo;letter-spacing:-.01em;flex:1}
+.e-gain{font:700 5.2pt Mono,monospace;letter-spacing:.04em;background:var(--citron);border:.25mm solid var(--encre);border-radius:.8mm;padding:.3mm 1mm;white-space:nowrap}
+.e-sous{font-size:6.3pt;color:var(--gris);font-style:italic;margin:.3mm 0 1mm}
+.etape ul{list-style:none}
+.etape li{position:relative;padding-left:2.8mm;font-size:6.35pt;line-height:1.28;margin-bottom:.7mm}
+.etape li.ok::before{background:var(--citron)}
+.pill{font:700 4.6pt Mono,monospace;letter-spacing:.05em;text-transform:uppercase;padding:.15mm .9mm;border-radius:.6mm;border:.22mm solid var(--encre);background:var(--citron);vertical-align:.25mm;white-space:nowrap}
+.legende2{font-size:6pt;color:var(--gris);margin-top:1.2mm;display:flex;gap:4mm}
+.legende2 i{display:inline-block;width:1.5mm;height:1.5mm;border:.28mm solid var(--encre);border-radius:.35mm;margin-right:1mm;vertical-align:0}
 .accomp{display:grid;grid-template-columns:repeat(4,1fr);gap:2.4mm}
-.acc .lbl{color:var(--orange);margin-bottom:.8mm}
-.acc .tt{font-size:8pt;margin-bottom:.6mm}
-.ticker{background:var(--encre);color:var(--creme);border-radius:2.4mm;padding:2.4mm 3mm;font:600 7pt Mono,monospace;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:auto}
+.acc .lbl{color:var(--orange);margin-bottom:.4mm}
+.acc .tt{font-weight:700;font-size:7.4pt;margin-bottom:.3mm}
+.acc .td{font-size:6.3pt;line-height:1.28;color:#3b3b40}
+.ticker{background:var(--encre);color:var(--creme);border-radius:2.2mm;padding:2.1mm 3mm;font:600 6.6pt Mono,monospace;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:auto}
 .ticker b{color:var(--citron)}
-.fin{display:flex;justify-content:space-between;font-size:5.8pt;color:var(--gris);margin-top:1.4mm}
+.fin{display:flex;justify-content:space-between;font-size:5.4pt;color:var(--gris);margin-top:1.1mm}
 </style></head><body>
 <div class="top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 311 92" width="311" height="92" role="img" aria-label="Synapse"><title>Synapse</title><g id="bol" transform="translate(2 14) scale(1.1)">
   <path d="M31 31 C24 22 25 12 32 5 C39 12 40 22 33 31 Z" fill="#2E7D3A"/>
@@ -77,33 +82,33 @@ h2{font:700 7pt Mono,monospace;letter-spacing:.09em;text-transform:uppercase;col
 
 <div>
   <span class="tag">L'offre irrésistible</span>
-  <h1>Vous allez sur le terrain.<br><mark>On fait tout le reste.</mark></h1>
-  <p class="chapo">Visiter, rentrer des mandats, conseiller, vendre : c'est votre métier. Remplir des fiches, rédiger des annonces, taper des mandats : plus jamais. Chez Synapse, <b>un mandat rentré, c'est 10 minutes de saisie au lieu de 2 h 30</b>, et la plus grosse part des honoraires reste dans votre poche.</p>
+  <h1>Vous allez sur le terrain. <mark>On fait tout le reste.</mark></h1>
+  <p class="chapo">Visiter, rentrer des mandats, conseiller, vendre : c'est votre métier. Fiches, annonces, mandats, relances, papiers du notaire : le logiciel Synapse s'en charge, de la prospection jusqu'à l'acte. <b>Un mandat rentré, c'est 10 minutes de saisie au lieu de 2 h 30</b>, et jusqu'à 95 % des honoraires restent dans votre poche.</p>
 </div>
 
 <div class="cards">
   <div class="card noir"><div class="lbl">Votre part des honoraires</div><div class="big">80 → 95 %</div><p>80 % dès le premier euro, jusqu'à 95 % quand vous performez. Sans plafond, sans frais cachés.</p></div>
-  <div class="card"><div class="lbl orange-t">Abonnement tout compris</div><div class="big">79 €<small> HT/mois</small></div><p>3 mois offerts, 0 € de droit d'entrée, sans engagement. Logiciel, diffusion et formation inclus.</p></div>
-  <div class="card citron"><div class="lbl">Temps rendu par mandat</div><div class="big">2 h 20</div><p>Soit plus d'une journée par mois sur le terrain pour 4 mandats. Le logiciel saisit, vous vendez.</p></div>
+  <div class="card"><div class="lbl orange-t">Abonnement tout compris</div><div class="big">79 €<small> HT/mois</small></div><p>3 mois offerts, 0 € de droit d'entrée, sans engagement.</p></div>
+  <div class="card citron"><div class="lbl">Temps rendu</div><div class="big">≈ 1 jour<small> / semaine</small></div><p>Saisie, annonces, relances et suivi automatisés : du temps rendu au terrain.</p></div>
 </div>
 
 <div class="grille">
   <section>
     <h2>Votre rémunération</h2>
-    <div class="paliers">
-      <div class="palier"><div class="col" style="height:84%">80 %</div><div class="sous">Dès le 1er €</div></div>
-      <div class="palier"><div class="col" style="height:95%">90 %</div><div class="sous">Dès 40 000 €</div></div>
-      <div class="palier"><div class="col" style="height:100%">95 %</div><div class="sous">Dès 80 000 €</div></div>
+    <div class="remu">
+      <div><div class="paliers">
+        <div class="palier"><div class="col" style="height:84%">80 %</div><div class="sous">Dès 1 €</div></div>
+        <div class="palier"><div class="col" style="height:95%">90 %</div><div class="sous">40 000 €</div></div>
+        <div class="palier"><div class="col" style="height:100%">95 %</div><div class="sous">80 000 €</div></div>
+      </div></div>
+      <p class="note">Part des honoraires HT encaissés, selon votre chiffre d'affaires sur 12 mois glissants. Le palier atteint s'applique à toutes vos ventes suivantes. <b>Exemple : 60 000 € d'honoraires = 50 000 € pour vous.</b></p>
     </div>
-    <p class="note">Part des honoraires HT encaissés, selon votre chiffre d'affaires sur 12 mois glissants. Le palier atteint s'applique à toutes vos ventes suivantes. <b>Exemple : 60 000 € d'honoraires dans l'année = 50 000 € pour vous.</b></p>
   </section>
   <section>
-    <h2>L'abonnement</h2>
-    <p class="note" style="margin-bottom:1.4mm"><b>79 € HT par mois, tout compris</b> : 3 premiers mois offerts, 0 € de droit d'entrée, résiliable à tout moment.</p>
+    <h2>L'abonnement · 79 € HT / mois</h2>
     <ul class="abo">
-      <li>Logiciel Synapse complet : visite, voix, mandats, documents</li>
-      <li>Multidiffusion sur les grands portails, illimitée</li>
-      <li>Signature électronique et registre des mandats</li>
+      <li>Le logiciel Synapse complet, toutes les fonctions ci-dessous</li>
+      <li>Multidiffusion illimitée, signature électronique, registre des mandats</li>
       <li>Formation obligatoire loi ALUR incluse (14 h / an)</li>
       <li>Assistance juridique et hotline 6 j / 7</li>
       <li>Pause gratuite en cas de congé, maladie ou parentalité</li>
@@ -112,29 +117,26 @@ h2{font:700 7pt Mono,monospace;letter-spacing:.09em;text-transform:uppercase;col
 </div>
 
 <section>
-  <h2>Le temps rendu, tâche par tâche · un mandat</h2>
-  <div class="legende"><span><i style="background:var(--orange)"></i>Aujourd'hui, à la main</span><span><i style="background:var(--vert)"></i>Avec Synapse</span></div>
-  <div class="grille" style="gap:0 6mm">
-    <div><div class="t-row"><div class="t-nom">Fiche du bien & caractéristiques</div><div class="t-bars">
+  <h2>Le temps rendu sur un mandat <span>estimations, à mesurer en test</span></h2>
+  <div class="legende" style="margin-bottom:1mm"><span><i style="background:var(--orange)"></i>Aujourd'hui, à la main</span><span><i style="background:var(--vert)"></i>Avec Synapse</span></div>
+  <div class="grille" style="gap:0 6mm"><div><div class="t-row"><div class="t-nom">Fiche du bien & caractéristiques</div><div class="t-bars">
       <div class="bar-l"><span class="bar avant" style="width:100.0%"></span><b>45 min</b></div>
       <div class="bar-l"><span class="bar apres" style="width:4.4%"></span><b>2 min</b></div></div></div><div class="t-row"><div class="t-nom">Rédaction de l'annonce</div><div class="t-bars">
       <div class="bar-l"><span class="bar avant" style="width:66.7%"></span><b>30 min</b></div>
       <div class="bar-l"><span class="bar apres" style="width:4.4%"></span><b>2 min</b></div></div></div><div class="t-row"><div class="t-nom">Mandat & pièces du vendeur</div><div class="t-bars">
       <div class="bar-l"><span class="bar avant" style="width:88.9%"></span><b>40 min</b></div>
-      <div class="bar-l"><span class="bar apres" style="width:11.1%"></span><b>5 min</b></div></div></div></div>
-    <div><div class="t-row"><div class="t-nom">Compte rendu au vendeur</div><div class="t-bars">
+      <div class="bar-l"><span class="bar apres" style="width:11.1%"></span><b>5 min</b></div></div></div></div><div><div class="t-row"><div class="t-nom">Compte rendu au vendeur</div><div class="t-bars">
       <div class="bar-l"><span class="bar avant" style="width:44.4%"></span><b>20 min</b></div>
       <div class="bar-l"><span class="bar apres" style="width:2.2%"></span><b>1 min</b></div></div></div><div class="t-row"><div class="t-nom">Diffusion sur les portails</div><div class="t-bars">
       <div class="bar-l"><span class="bar avant" style="width:33.3%"></span><b>15 min</b></div>
       <div class="bar-l"><span class="bar apres" style="width:0.8%"></span><b>0 min</b></div></div></div>
-      <div class="total"><span class="lbl">Total par mandat</span><span><span class="big" style="color:var(--orange)">150 min</span> <span class="mono" style="font-size:7pt">→</span> <span class="big vert-t">10 min</span></span></div>
-    </div>
-  </div>
+    <div class="total"><span class="lbl">Total par mandat</span><span><span class="big" style="color:var(--orange)">150 min</span> <span class="mono" style="font-size:6.6pt">→</span> <span class="big vert-t">10 min</span></span></div></div></div>
 </section>
 
 <section>
-  <h2>Ce que le logiciel fait pour vous</h2>
-  <div class="outils"><div class="tuile"><span class="ic">🎙️</span><div><div class="tt">La visite s'enregistre<span class="pill test">en test</span></div><div class="td">L'IA écoute l'échange avec le vendeur et remplit la fiche toute seule.</div></div></div><div class="tuile"><span class="ic">🗣️</span><div><div class="tt">Le dossier se complète à la voix<span class="pill test">en test</span></div><div class="td">En sortant de la visite, l'assistant pose les questions qui manquent. Vous répondez, c'est rempli.</div></div></div><div class="tuile"><span class="ic">📄</span><div><div class="tt">Mandat conforme, prêt à signer<span class="pill test">en test</span></div><div class="td">Mentions obligatoires, registre, rétractation et bordereau : générés et vérifiés.</div></div></div><div class="tuile"><span class="ic">✍️</span><div><div class="tt">Annonce rédigée pour vous<span class="pill test">en test</span></div><div class="td">Texte vendeur, mentions légales, DPE : prête à diffuser, à relire en 2 minutes.</div></div></div><div class="tuile"><span class="ic">✉️</span><div><div class="tt">Compte rendu vendeur en 1 clic<span class="pill test">en test</span></div><div class="td">Le vendeur reçoit un PDF soigné le jour même. Vous passez pour un pro, sans effort.</div></div></div><div class="tuile"><span class="ic">📢</span><div><div class="tt">Diffusion automatique<span class="pill bientot">à venir</span></div><div class="td">L'annonce part sur les grands portails dès la validation du mandat.</div></div></div><div class="tuile"><span class="ic">📷</span><div><div class="tt">Photos retouchées<span class="pill bientot">à venir</span></div><div class="td">Redressement, lumière, tri des meilleures photos et home staging virtuel.</div></div></div><div class="tuile"><span class="ic">📊</span><div><div class="tt">Avis de valeur en 10 minutes<span class="pill bientot">à venir</span></div><div class="td">Ventes comparables (DVF) et rapport d'estimation prêt à présenter.</div></div></div><div class="tuile"><span class="ic">🖊️</span><div><div class="tt">Signature électronique sur place<span class="pill bientot">à venir</span></div><div class="td">Le mandat se signe sur la tablette, avant de quitter le salon.</div></div></div><div class="tuile"><span class="ic">🔔</span><div><div class="tt">Relances automatiques<span class="pill bientot">à venir</span></div><div class="td">Vendeurs et acquéreurs suivis sans y penser : vous gardez la main.</div></div></div></div>
+  <h2>Le logiciel, de la prospection à l'acte <span>gains estimés</span></h2>
+  <div class="parcours"><div class="etape"><div class="e-top"><span class="e-num">01</span><span class="e-nom">Prospection</span></div><div class="e-sous">Trouver les vendeurs avant les autres</div><ul><li class="">Ciblage des futurs vendeurs : logements F/G (ADEME) et biens détenus depuis longtemps (DVF)</li><li class="">Courrier personnalisé généré et prêt à envoyer, plutôt que le démarchage téléphonique</li><li class="">Rapprochement automatique acquéreurs ↔ nouveaux mandats</li><li class="">Avis de valeur en 10 min avec les ventes du quartier (DVF)</li></ul></div><div class="etape"><div class="e-top"><span class="e-num">02</span><span class="e-nom">Visite & mandat</span><span class="e-gain">≈ 1 h 30 / mandat</span></div><div class="e-sous">Le dossier se remplit pendant que vous parlez</div><ul><li class="ok">Visite enregistrée : l'IA remplit la fiche du bien <span class="pill">en test</span></li><li class="ok">Dossier complété à la voix en sortant de la visite <span class="pill">en test</span></li><li class="ok">Mandat conforme, registre, rétractation et bordereau générés <span class="pill">en test</span></li><li class="">Dossier technique depuis l'adresse : cadastre, état des risques (Géorisques), DPE ADEME</li><li class="">L'IA lit les papiers du vendeur (acte, taxe foncière, PV d'AG) et relance les pièces manquantes</li><li class="">Signature électronique sur place · plan 2D mesuré au téléphone</li></ul></div><div class="etape"><div class="e-top"><span class="e-num">03</span><span class="e-nom">Commercialisation</span><span class="e-gain">≈ 45 min / mandat</span></div><div class="e-sous">L'annonce part sans vous</div><ul><li class="ok">Annonce rédigée avec mentions légales et aperçu portail <span class="pill">en test</span></li><li class="">Diffusion automatique sur les grands portails</li><li class="">Photos triées, retouchées, home staging virtuel</li><li class="">Publications réseaux sociaux et courte vidéo générées pour chaque mandat</li></ul></div><div class="etape"><div class="e-top"><span class="e-num">04</span><span class="e-nom">Acquéreurs & visites</span><span class="e-gain">≈ 4 à 7 h / semaine</span></div><div class="e-sous">Vous ne visitez qu'avec des acquéreurs qualifiés</div><ul><li class="">Assistant acquéreurs 24 h/24 : répond, qualifie (budget, financement, délai) et cale les visites dans votre agenda</li><li class="">Bon de visite signé sur le téléphone, retour dicté en 30 secondes</li><li class="">Compte rendu de commercialisation envoyé au vendeur chaque vendredi, automatiquement</li><li class="ok">Compte rendu de visite vendeur et PDF en 1 clic <span class="pill">en test</span></li></ul></div><div class="etape"><div class="e-top"><span class="e-num">05</span><span class="e-nom">Du compromis à l'acte</span><span class="e-gain">≈ 2 à 3 h / vente</span></div><div class="e-sous">Le dossier avance seul</div><ul><li class="">Dossier pour le notaire assemblé automatiquement</li><li class="">Échéances suivies : rétractation SRU, prêt, conditions suspensives</li><li class="">Relances automatiques de l'acquéreur, du courtier et du notaire</li><li class="">Contrôle anti-blanchiment (LCB-FT) : pièce d'identité, listes de gel, fiche de vigilance</li></ul></div><div class="etape"><div class="e-top"><span class="e-num">06</span><span class="e-nom">Au quotidien</span></div><div class="e-sous">Votre assistant, partout</div><ul><li class="">Briefing du matin à écouter : rendez-vous, relances, nouveaux contacts, échéances</li><li class="">Bilan d'appel dicté : la tâche et la relance se créent seules</li><li class="">Facture d'honoraires et note de commission générées à l'acte</li><li class="">Demande d'avis Google envoyée au client satisfait</li></ul></div></div>
+  <div class="legende2"><span><i style="background:var(--citron)"></i>Déjà en test dans le prototype</span><span><i style="background:var(--papier)"></i>À venir</span><span>Données publiques gratuites : cadastre IGN, Géorisques, ADEME, DVF</span></div>
 </section>
 
 <section>
@@ -142,13 +144,13 @@ h2{font:700 7pt Mono,monospace;letter-spacing:.09em;text-transform:uppercase;col
   <div class="accomp">
     <div class="acc"><div class="lbl">Démarrage</div><div class="tt">Un coach dédié 90 jours</div><div class="td">Objectif : votre premier mandat en 30 jours, avec un plan de prospection sur votre secteur.</div></div>
     <div class="acc"><div class="lbl">Jusqu'à l'acte</div><div class="tt">Un back-office qui relance</div><div class="td">Notaire, syndic, diagnostiqueur, pièces du dossier : on suit, vous êtes prévenu.</div></div>
-    <div class="acc"><div class="lbl">Sécurité</div><div class="tt">Un juriste au bout du fil</div><div class="td">Mandats conformes par construction, et une réponse rapide quand ça se complique.</div></div>
+    <div class="acc"><div class="lbl">Sécurité</div><div class="tt">Un juriste au bout du fil</div><div class="td">Mandats conformes par construction, LCB-FT et démarchage encadrés.</div></div>
     <div class="acc"><div class="lbl">Réseau</div><div class="tt">La communauté Synapse</div><div class="td">Contacts entrants partagés par le réseau social Synapse, entraide entre agents.</div></div>
   </div>
 </section>
 
 <div>
   <div class="ticker">80 à 95 % <b>★</b> 79 € HT / mois <b>★</b> 3 mois offerts <b>★</b> 0 € d'entrée <b>★</b> sans engagement <b>★</b> on ne raconte pas de salades</div>
-  <div class="fin"><span>Proposition de travail, à valider : paliers, tarifs et contenus de l'abonnement sont indicatifs. Temps estimés, à mesurer en conditions réelles.</span><span>Statut agent commercial indépendant (RSAC)</span></div>
+  <div class="fin"><span>Proposition de travail, à valider : paliers, tarifs, contenus et gains de temps sont indicatifs, à mesurer en conditions réelles.</span><span>Statut agent commercial indépendant (RSAC)</span></div>
 </div>
 </body></html>

@@ -1,0 +1,10 @@
+import { chromium } from "playwright";
+const dir = process.argv[2];
+const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" }).catch(() => chromium.launch());
+const page = await browser.newPage();
+await page.goto("file://" + dir + "/offre.html"); await page.evaluate(() => document.fonts.ready);
+const h = await page.evaluate(() => [document.body.scrollHeight, document.body.clientHeight]);
+console.log("hauteur contenu / page (px):", h);
+await page.pdf({ path: dir + "/Synapse-offre-irresistible.pdf", format: "A4", printBackground: true, preferCSSPageSize: true });
+await page.setViewportSize({ width: 794, height: 1123 }); await page.screenshot({ path: dir + "/apercu.png", fullPage: false });
+await browser.close();
