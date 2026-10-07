@@ -11,7 +11,7 @@ use App\Data\Paths;
 
 /**
  * Import des feuilles de match de l'association (FM_*.doc(x), AM_*.doc(x) : ~4 000 matchs de 1928 à 2024),
- * lues une fois pour toutes dans data/import/feuilles-de-match.json.gz.
+ * lues une fois pour toutes dans app/Resources/import/feuilles-de-match.json.gz.
  *
  * plan()  : rapproche chaque feuille d'une fiche du musée (date ± 3 jours, adversaire), sans rien écrire ;
  * run()   : crée les fiches absentes (publiées, rangées dans leur saison) et envoie les écarts avec une
@@ -22,7 +22,7 @@ use App\Data\Paths;
 final class FeuillesImport
 {
     public static string $dir = STORAGE_PATH . '/import/feuilles';
-    public static string $data = APP_ROOT . '/data/import/feuilles-de-match.json.gz';
+    public static string $data = APP_ROOT . '/app/Resources/import/feuilles-de-match.json.gz';
     public const ORIGIN = 'feuilles';
     private const AUTHOR = ['name' => 'Feuilles de match (archives du club)'];
 
@@ -68,6 +68,9 @@ final class FeuillesImport
     public static function plan(): array
     {
         $sheets = self::sheets();
+        if (!$sheets) {
+            throw new \RuntimeException('Fichier des feuilles introuvable ou illisible (' . basename(self::$data) . ') : refaites la mise à jour en un clic.');
+        }
         $byDate = [];
         foreach (Index::all() as $e) {
             $m = $e['m'] ?? null;

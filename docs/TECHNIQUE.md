@@ -1538,7 +1538,7 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
 
 Système › Feuilles de match (`/admin/import-feuilles`, administrateurs). Les feuilles Word de l'association
 (`FM_aaaabb` officiels, `AM_aaaabb` amicaux) ont été lues une fois pour toutes dans
-`data/import/feuilles-de-match.json.gz` (date, compétition, journée, lieu, stade, équipes, score, mi-temps,
+`app/Resources/import/feuilles-de-match.json.gz` (date, compétition, journée, lieu, stade, équipes, score, mi-temps,
 affluence, arbitre, buts par équipe, buteurs sochaliens avec minutes, composition avec postes et
 remplacements, entraîneur, fichier d'origine). Chaque feuille a une clé stable (`sha1` de type, date, équipes, score).
 
