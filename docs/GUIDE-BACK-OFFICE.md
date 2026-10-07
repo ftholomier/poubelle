@@ -32,7 +32,7 @@ Le menu de gauche regroupe les écrans :
 | Éditorial | Accueil & bandeau, 100 moments, Rubriques & menus, Redirections, Page d'attente |
 | Interactif | Quiz, frise, carte, maillots, partenaires… ; Onze & album |
 | Communauté | Contributions, Messages, Newsletter, Dons |
-| Système | Traductions EN, Assistant IA, Utilisateurs, Réglages, Sauvegardes, Tâches planifiées, Mises à jour |
+| Système | Traductions EN, Assistant IA, Fiches audio, Reprise 1928-1969, Coûts IA, Utilisateurs, Réglages, Sauvegardes, Tâches planifiées, Mises à jour |
 
 - **Recherche globale** : `Ctrl + K` (ou la barre en haut) trouve une fiche, une photo,
   un écran.
@@ -567,4 +567,13 @@ administrateurs ; les autres comptes ne le voient pas et n'y ont pas accès.
 - **Réglages du site** : adresse et noms redirigés, nom et signature, e-mail de réception,
   téléphone et adresse postale, adhésion en ligne, lien HelloAsso, LinkedIn, titre et
   description pour Google.
+
+## Reprise des années 1928-1969 (administrateurs)
+
+Système › Reprise 1928-1969 importe les saisons, matchs, tournois, articles et portraits de
+fcsmstory.com (années 20 à 60) : **Analyser** (lecture du site, plan, rien de créé), **Essai sur
+3 matchs**, puis **Lancer tout l'import** (un lot toutes les 5 minutes par la tâche planifiée).
+Chaque texte est réécrit par Gemini puis comparé à l'original (trop proche : réécrit, puis écarté) ;
+les faits sont repris tels quels, sans image ; chaque fiche porte une ligne « Sources ». Rien n'est
+dupliqué : un match à une date déjà au musée et un joueur déjà présent sont écartés, sans être modifiés.
 

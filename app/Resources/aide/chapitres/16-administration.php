@@ -35,6 +35,15 @@ HTML],
 [[img:audio-pages.webp|Carte « Pages de synthèse racontées par l’IA » : essayer sur une page, puis lancer pour toutes les pages]]
 [[astuce|<p>Réglages › <b>Fiches audio</b> : durée maximale, choix de la voix (Charon, Gacrux, Sulafat…), rédaction des explications par l’IA lors du traitement groupé, et mise à jour de nuit des voix des fiches modifiées. Chaque dépense apparaît dans Coûts IA (usage « Fiches audio »).</p>]]
 HTML],
+        ['id' => 'reprise', 'title' => 'Reprise des années 1928-1969', 'admin' => true, 'html' => <<<'HTML'
+<p>Système › <b>Reprise 1928-1969</b> fait entrer au musée les saisons, matchs, tournois, articles et portraits racontés sur fcsmstory.com (années 20 à 60). Trois boutons, dans l’ordre :</p>
+<ol>
+<li><b>Analyser</b> : le site est lu ; chaque saison est découpée en matchs (date, lieu, adversaire, compétition, score, composition, buteurs). Le plan s’affiche : rien n’est encore créé. Un match déjà au musée à la même date, ou un joueur déjà présent (même nom et un prénom commun), est écarté et n’est jamais modifié.</li>
+<li><b>Essai sur 3 matchs</b> : trois fiches sont créées pour juger le style ; ouvrez-les depuis le tableau.</li>
+<li><b>Lancer tout l’import</b> : la tâche planifiée traite un lot toutes les 5 minutes, on peut fermer la page ; « Mettre en pause » l’arrête.</li>
+</ol>
+<p>Chaque texte est <b>entièrement réécrit par Gemini</b> (ordre, tournures, style du musée), puis comparé à l’original : s’il reprend trop de suites de six mots, il est réécrit, puis écarté (« Trop proche »). Les faits sont repris tels quels, aucune image. Les fiches sont publiées dans les rubriques Années 20 à 60 (une saison absente est créée), avec une ligne « Sources ». Le texte d’une saison va dans sa rubrique, seulement si elle n’en a pas déjà un. En bas de page, les joueurs des compositions sans fiche au musée : créez-les si besoin, les matchs s’y relient d’eux-mêmes. Coût dans Coûts IA (« Reprise des années 1928-1969 »).</p>
+HTML],
         ['id' => 'couts', 'title' => 'Coûts de l’IA et remboursement', 'admin' => true, 'html' => <<<'HTML'
 <p>Chaque appel à Gemini (assistant du site, traductions, correcteur d’orthographe, index de l’assistant) est facturé par Google à la personne qui a fourni la clé. Système › <b>Coûts IA</b> calcule ce coût au moment où Google répond : jetons consommés × tarif du modèle, converti en euros. L’écran se met à jour tout seul toutes les 10 secondes : aujourd’hui, ce mois-ci, à rembourser, budget, et les derniers appels (usage, qui l’a demandé, quelle fiche, combien).</p>
 [[img:couts-ia.webp|Les coûts de l’IA : (1) aujourd’hui, (2) à rembourser, (3) budget du mois, (4) derniers appels en direct, (5) noter le remboursement, (6) relevé PDF et CSV]]

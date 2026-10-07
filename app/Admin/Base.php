@@ -78,6 +78,7 @@ class Base
             ['traductions', 'Traductions EN', '/admin/traductions', false],
             ['assistant', 'Assistant IA', '/admin/assistant', true],
             ['audio', 'Fiches audio', '/admin/audio', true],
+            ['reprise', 'Reprise 1928-1969', '/admin/reprise-1928-1969', true],
             ['couts', 'Coûts IA', '/admin/couts-ia', true],
             ['utilisateurs', 'Utilisateurs', '/admin/utilisateurs', true],
             ['reglages', 'Réglages', '/admin/reglages', true],

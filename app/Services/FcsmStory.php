@@ -104,7 +104,7 @@ final class FcsmStory
             return 'tournament';
         }
         // Portrait : titre en « Prénom NOM » (le nom en capitales), sans date.
-        if (!$years && preg_match('/^[\p{Lu}][\p{L}\'’ .-]+ [\p{Lu}\'’ -]{3,}$/u', trim($item['title']))) {
+        if (!$years && preg_match('/^(?:\p{Lu}[\p{L}\'’.-]*\s+)+[\p{Lu}][\p{Lu}\'’ -]{2,}$/u', trim($item['title']))) {
             return 'player';
         }
         return $years || $item['kind'] === 'post' ? 'article' : 'skip';
@@ -126,8 +126,15 @@ final class FcsmStory
         $html = preg_replace('#<(br|/p|/h\d|/li|/tr|/div|/blockquote)\b[^>]*>#i', "\n", $html) ?? '';
         $t = html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $t = str_replace(["\u{00A0}", "\r"], [' ', ''], $t);
-        $lines = array_map(fn ($l) => trim(preg_replace('/[ \t]+/u', ' ', $l) ?? ''), explode("\n", $t));
-        return implode("\n", array_values(array_filter($lines, fn ($l) => $l !== '')));
+        $lines = array_values(array_filter(array_map(fn ($l) => trim(preg_replace('/[ \t]+/u', ' ', $l) ?? ''), explode("\n", $t)), fn ($l) => $l !== ''));
+        // Pied de page du site (articles récents, commentaires, archives) : coupé.
+        foreach ($lines as $i => $l) {
+            if (preg_match('/^(Copyright\s*)?©\s*\d{4}/u', $l) || preg_match('/^Copyright\b/u', $l)) {
+                $lines = array_slice($lines, 0, $i);
+                break;
+            }
+        }
+        return implode("\n", $lines);
     }
 
     /** Ligne d'en-tête d'un match : « Le 20 Septembre 1942 à Montbéliard, défaite 3 à 0 Fives ». */
@@ -171,9 +178,15 @@ final class FcsmStory
         if ($matches) {
             $last = &$matches[count($matches) - 1];
             $k = null;
-            foreach ($last['report_lines'] as $i => $l) {
+            $rl = $last['report_lines'];
+            foreach ($rl as $i => $l) {
                 if (preg_match('/^(Bilan|Classement|Le classement|Liste des|Statistiques|En résumé|Les buteurs)\b/iu', $l)) {
                     $k = $i;
+                    break;
+                }
+                // Liste des joueurs de la saison (« Wartel Paul » / « (46 matchs) ») : titre éventuel compris.
+                if (preg_match('/^\(\d+ matchs?\b/u', $rl[$i + 1] ?? '')) {
+                    $k = $i > 0 && mb_strlen($rl[$i - 1]) < 80 && !preg_match('/[.!?]$/u', $rl[$i - 1]) ? $i - 1 : $i;
                     break;
                 }
             }
@@ -310,15 +323,37 @@ final class FcsmStory
         if ($s === '') {
             return [];
         }
-        $names = array_values(array_filter(array_map('trim', preg_split('/\s*[;,]\s*/u', $s) ?: [])));
+        $s = rtrim(preg_replace('/\s*\((?:c|cap\.?|capitaine)\)\s*/iu', ', ', $s) ?? $s, ' .');
+        // Séparateurs hors parenthèses seulement (« Regan (Sète, Millwall) » reste un seul joueur) ;
+        // deux espaces valent une virgule oubliée.
+        $parts = [];
+        $depth = 0;
+        $cur = '';
+        foreach (preg_split('//u', preg_replace('/\s+et\s+/u', ', ', preg_replace('/ {2,}/u', ', ', $s) ?? $s) ?? $s, -1, PREG_SPLIT_NO_EMPTY) ?: [] as $ch) {
+            $depth += $ch === '(' ? 1 : ($ch === ')' ? -1 : 0);
+            if ($depth <= 0 && ($ch === ',' || $ch === ';')) {
+                $parts[] = $cur;
+                $cur = '';
+                $depth = 0;
+            } else {
+                $cur .= $ch;
+            }
+        }
+        $parts[] = $cur;
+        $names = array_values(array_filter(array_map('trim', $parts)));
         $out = [];
         foreach ($names as $k => $raw) {
             $sub = '';
-            if (preg_match('/^(.*?)\s*\(([^)]*)\)\s*$/u', $raw, $r)) {
+            $raw = trim(preg_replace('/\((?:c|cap\.?|capitaine)\)|\b(?:absent|blessé)\b/iu', '', $raw) ?? $raw, ' .');
+            $raw = trim(preg_replace('/^\([^)]*\)\s*/u', '', $raw) ?? $raw); // « (Jothmaner) Eastman » : nom barré par l'auteur
+            if (preg_match('/^(.*?)\s+puis\s+(.+)$/iu', $raw, $r)) {
+                $raw = trim($r[1]);
+                $sub = trim($r[2]);
+            } elseif (preg_match('/^(.*?)\s*\(([^)]*)\)?\s*$/u', $raw, $r)) {
                 $raw = trim($r[1]);
                 $sub = trim($r[2]);
             }
-            if ($raw === '') {
+            if ($raw === '' || !preg_match('/\p{L}{2}/u', $raw)) {
                 continue;
             }
             $pos = $k === 0 ? 'G' : ($k <= 2 ? 'D' : ($k <= 5 ? 'M' : 'A'));

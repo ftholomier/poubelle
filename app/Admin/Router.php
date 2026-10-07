@@ -219,6 +219,8 @@ final class Router
         $r->get('/admin/assistant', fn ($q) => System::assistant($q));
         $r->post('/admin/assistant', fn ($q) => System::assistantAction($q));
         $r->get('/admin/assistant/export.csv', fn ($q) => System::assistantExport($q));
+        $r->get('/admin/reprise-1928-1969', fn ($q) => Heritage::index($q));
+        $r->post('/admin/reprise-1928-1969', fn ($q) => Heritage::action($q));
         $r->get('/admin/mises-a-jour', fn ($q) => Updates::index($q));
         $r->post('/admin/mises-a-jour', fn ($q) => Updates::action($q));
         $r->get('/admin/audio', fn ($q) => Audio::index($q));

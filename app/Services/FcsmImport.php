@@ -56,7 +56,7 @@ final class FcsmImport
             if (($s['type'] ?? '') === 'match' && !empty($s['m']['date'])) {
                 $existingDates[(string) $s['m']['date']][] = (int) $id;
             } elseif (($s['type'] ?? '') === 'personne') {
-                $existingPeople[Names::personKey(preg_replace('/\(.*?\)/u', '', (string) $s['title']) ?? '')] = (int) $id;
+                $existingPeople[] = [(int) $id, Names::tokens(preg_replace('/\(.*?\)/u', '', (string) $s['title']) ?? '')];
             }
         }
         $items = [];
@@ -85,7 +85,7 @@ final class FcsmImport
         }
         foreach ($a['others']['player'] as $o) {
             $name = self::personName($o['title']);
-            $pid = $existingPeople[Names::personKey($name)] ?? null;
+            $pid = self::samePerson($name, $existingPeople);
             $items['player:' . $o['slug']] = ['key' => 'player:' . $o['slug'], 'kind' => 'player', 'label' => $name, 'source' => $o['link']]
                 + ($pid ? ['status' => 'existe', 'fiche' => $pid, 'why' => 'Déjà au musée : fiche laissée telle quelle'] : []);
         }
@@ -134,6 +134,34 @@ final class FcsmImport
     }
 
     // ------------------------------------------------------------------ traitement
+
+    /** Tâche planifiée : un lot si l'import est lancé. */
+    public static function tick(): ?string
+    {
+        $s = self::state();
+        if (empty($s['running'])) {
+            return null;
+        }
+        $r = self::run(24);
+        if ($r['left'] === 0) {
+            self::start(false);
+        }
+        return $r['done'] . ' créée(s), ' . $r['errors'] . ' erreur(s), ' . $r['left'] . ' restante(s)';
+    }
+
+    /** Remet à faire les éléments en erreur ou trop proches. */
+    public static function retry(): void
+    {
+        JsonStore::update(self::file(), function ($s) {
+            foreach ($s['items'] as &$it) {
+                if (in_array($it['status'] ?? '', ['erreur', 'trop-proche'], true)) {
+                    $it['status'] = 'a-faire';
+                    $it['tries'] = 0;
+                }
+            }
+            return $s;
+        }, []);
+    }
 
     /**
      * Traite au plus $max éléments à faire (ou ceux de $only). Renvoie le nombre créé et les erreurs.
@@ -475,6 +503,7 @@ TXT;
     private static function applySeason(array $it, array $t): int
     {
         $slug = (string) $it['season'];
+        self::ensureSeason($slug);
         $cats = Categories::all();
         if (!isset($cats[$slug])) {
             throw new \RuntimeException("Rubrique de la saison $slug absente");
@@ -546,7 +575,7 @@ TXT;
     {
         $doc['status'] = 'publie';
         $cats = [];
-        if ($season && ($c = Categories::get($season))) {
+        if ($season && self::ensureSeason($season) && ($c = Categories::get($season))) {
             $cats[] = $season;
             if (!empty($c['parent'])) {
                 $cats[] = $c['parent'];
@@ -563,6 +592,34 @@ TXT;
         $doc['slug'] = basename(rtrim($doc['path'], '/'));
         $saved = Fiches::save($doc, self::AUTHOR, 'Reprise des années ' . ($season ? substr($season, 0, 4) : '1928-1969') . ' (FCSM Story)');
         return (int) $saved['id'];
+    }
+
+    /**
+     * Rubrique d'une saison (« 1946-1947 »), créée si elle manque, sous sa décennie (année de début),
+     * au même format que les autres. @return bool rubrique disponible
+     */
+    public static function ensureSeason(string $season): bool
+    {
+        if (!preg_match('/^(\d{4})-(\d{4})$/', $season, $m) || (int) $m[2] !== (int) $m[1] + 1) {
+            return false;
+        }
+        if (Categories::get($season)) {
+            return true;
+        }
+        $decade = 'annees-' . substr($m[1], 2, 1) . '0-fc-sochaux-retro-fcsm';
+        $cats = Categories::all();
+        if (!isset($cats[$decade])) {
+            return false;
+        }
+        $path = '/matchs/' . $season . '/';
+        if (Index::byPath($path)) {
+            return false;
+        }
+        $cats[$season] = ['id' => max(array_map(fn ($c) => (int) ($c['id'] ?? 0), $cats)) + 1, 'slug' => $season, 'name' => $season, 'label' => null, 'position' => null,
+            'description' => '', 'parent' => $decade, 'path' => $path, 'season' => $season, 'technical' => false, 'old_path' => null, 'order' => [], 'wp_count' => 0];
+        Categories::save($cats, self::AUTHOR);
+        Categories::forget();
+        return true;
     }
 
     /** Fiche déjà créée par une reprise précédente (aucun doublon si l'import est relancé). */
@@ -664,6 +721,26 @@ TXT;
         return trim(preg_replace_callback('/\b(\p{Lu}[\p{Lu}\'’-]+)\b/u', fn ($m) => mb_convert_case($m[1], MB_CASE_TITLE), $t) ?? $t);
     }
 
+    /**
+     * Fiche existante d'une même personne : même nom de famille et au moins un prénom commun
+     * (« Miguel Angel Michel Lauri » = « Michel Lauri »). @param list<array{0:int,1:list<string>}> $people
+     */
+    public static function samePerson(string $name, array $people): ?int
+    {
+        $t = Names::tokens($name);
+        if (count($t) < 2) {
+            return null;
+        }
+        $last = end($t);
+        $first = array_slice($t, 0, -1);
+        foreach ($people as [$id, $pt]) {
+            if (count($pt) >= 2 && end($pt) === $last && array_intersect($first, array_slice($pt, 0, -1))) {
+                return $id;
+            }
+        }
+        return null;
+    }
+
     /** Noms des compositions qu'aucune fiche du musée ne porte (pour les historiens). */
     private static function unlinkedPlayers(array $matches): array
     {
@@ -672,7 +749,9 @@ TXT;
             if (($s['type'] ?? '') === 'personne') {
                 $known[Names::lineupLastName(mb_strtoupper(preg_replace('/\(.*?\)/u', '', (string) $s['title']) ?? ''))] = true;
                 $parts = preg_split('/\s+/u', trim(preg_replace('/\(.*?\)/u', '', (string) $s['title']) ?? '')) ?: [];
-                $known[implode(' ', Names::tokens((string) end($parts)))] = true;
+                for ($n = 1; $n <= min(3, count($parts) - 1); $n++) {
+                    $known[implode(' ', Names::tokens(implode(' ', array_slice($parts, -$n))))] = true;
+                }
             }
         }
         $out = [];

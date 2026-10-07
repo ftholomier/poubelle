@@ -103,6 +103,9 @@ $eq('récit à part rattaché au match du plan', $it['match:1931-10-17|chalon'][
 $src = 'Le FC Chalon reçoit le leader sur un terrain lourd et Kenner ouvre la marque d un tir croisé imparable dès la dixième minute de jeu';
 $eq('copie : ressemblance 1', round(FcsmImport::similarity($src, $src), 2), 1.0);
 $eq('réécriture libre : ressemblance 0', FcsmImport::similarity($src, 'Sur une pelouse grasse, il fallut à peine dix minutes au buteur sochalien pour lancer la machine, d\'une frappe en travers.'), 0.0);
+$eq('même personne : nom de famille et un prénom commun', [FcsmImport::samePerson('Miguel Angel Michel Lauri', [[7, ['michel', 'lauri']]]), FcsmImport::samePerson('Pierre Lauri', [[7, ['michel', 'lauri']]])], [7, null]);
+$eq('composition : capitaine, remplaçant, parenthèses avec virgules, « et »', array_map(fn ($r) => [$r['name'], $r['sub']], FcsmStory::lineup('Lozes; Wartel (cap.) Mattler; J Laurent puis Reiner, Regan (Sète, Millwall), Courtois absent et Rougeot.')),
+    [['Lozes', ''], ['Wartel', ''], ['Mattler', ''], ['J Laurent', 'Reiner'], ['Regan', 'Sète, Millwall'], ['Courtois', ''], ['Rougeot', '']]);
 $eq('noms de compositions au format du musée', array_map([FcsmImport::class, 'lineupName'], ['J Laurent', 'Leslie Miller', 'De James', 'Wartel', 'Mykowski I']), ['LAURENT J', 'MILLER Leslie', 'DE JAMES', 'WARTEL', 'MYKOWSKI I']);
 
 // 5. Traitement : réponses simulées ; un texte recopié est refusé puis réécrit.
@@ -161,6 +164,8 @@ try {
     $eq('portrait du joueur absent du musée', [$pl['type'], $pl['title'], $pl['path']], ['personne', 'Zébulon Zzinconnu', '/joueurs/zebulon-zzinconnu/']);
     $ar = Fiches::fresh((int) $st['article:la-coupe-dupuich-1930-fcsm']['fiche']);
     $eq('tournoi : article rangé dans sa saison', [$ar['type'], $ar['title'], $ar['categories'][0] ?? null], ['article', 'Pâques 1930 à Bruxelles', '1930-1931']);
+    $c34 = Categories::get('1933-1934');
+    $eq('saison absente du musée créée sous sa décennie', [$c34['parent'] ?? null, $c34['path'] ?? null, in_array('1933-1934', $nimes['categories'], true)], ['annees-30-fc-sochaux-retro-fcsm', '/matchs/1933-1934/', true]);
     $eq('récit de saison : texte de la rubrique', str_contains((string) (Categories::get('1931-1932')['description'] ?? ''), 'Sur une pelouse grasse'), true);
     $before = $calls;
     FcsmImport::plan($a);

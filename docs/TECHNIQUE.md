@@ -1516,3 +1516,16 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   compositions, citation posée dans une liste et numérotation.
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.
+
+## Reprise des années 1928-1969 (fcsmstory.com)
+
+- `App\Services\FcsmStory` : lecture de l'API REST WordPress (pages et articles, `storage/import/fcsmstory/raw.json`),
+  classement (saison, match, tournoi, article, portrait ; hors 1928-1969 écarté), découpage des pages de saison en
+  matchs (en-tête « Le 20 Septembre 1942 à Montbéliard, défaite 3 à 0 Fives » et variantes, compétition, composition
+  2-3-5, buteurs, récit), fusion des deux blocs d'un même match (calendrier puis récit), pied de page du site coupé.
+- `App\Services\FcsmImport` : plan sans doublon (`state.json` : match à une date déjà au musée écarté, portrait d'une
+  personne présente — même nom, un prénom commun — écarté), réécriture Gemini par lots de 6 en parallèle (tâche
+  planifiée `reprise`, 24 éléments par passage), mesure de ressemblance (part des suites de 6 mots reprises de
+  l'original, maximum `SIM_MAX`, nouvel essai avec consigne plus ferme, 3 essais), création des fiches publiées
+  (`legacy.fcsmstory`, section « Sources »), rubrique de saison créée si absente, texte de saison dans la description
+  de la rubrique seulement si elle est vide. Coûts IA comptés sous `import`. Écran : `App\Admin\Heritage`.
