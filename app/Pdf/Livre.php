@@ -1836,8 +1836,10 @@ final class Livre
         if ($min > 0 && $keep < self::KEEP) {
             return null;
         }
-        $tw = (int) round($w / 72 * self::TARGET_DPI);
-        $th = (int) round($h / 72 * self::TARGET_DPI);
+        // ecran : PDF à lire à l’écran (150 dpi), bien plus léger
+        $res = !empty($this->o['ecran']) ? 150 : self::TARGET_DPI;
+        $tw = (int) round($w / 72 * $res);
+        $th = (int) round($h / 72 * $res);
         $file = $this->cache . '/' . md5($rel . '|' . json_encode($d) . "|$tw|$th") . '.jpg';
         if (!is_file($file)) {
             $src = Media::file($rel);
