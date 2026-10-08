@@ -35,6 +35,7 @@ class Base
             ['trouvailles', 'Trouvailles (archives)', '/admin/trouvailles', false],
             ['archives', 'Archives à ranger', '/admin/archives', false],
             ['livre', 'Livre des récits', '/admin/livre', true],
+            ['maillots', 'Maillots du livre', '/admin/maillots', false],
         ],
         'Éditorial' => [
             ['accueil', 'Accueil & bandeau', '/admin/accueil', false],

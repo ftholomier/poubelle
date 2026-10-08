@@ -1567,7 +1567,10 @@ du carnet, `linked()` ; page de bilan `carnetPage()` avec renvois de pages), `ph
 dans `storage/livres/photos/`, `photoFrame()` : 140, 110 ou 85 mm à 200 dpi, sinon refusée), `maillot_nom`,
 `maillot_numero`, `maillot_style` (`Livre::JERSEYS`) : le navigateur photographie le t-shirt 3D de la boutique floqué
 (`snapshot()` de `shop3d.js`, `public/assets/admin/livre.js`, PNG 1800 × 2000 joint en `maillot_image`, posé
-encadré sur le passe-partout) ; sans WebGL, maillot dessiné en vectoriel, `qr` (QR code de chaque récit, `Qr::matrix`).
+encadré sur le passe-partout) . 15 modèles relevés sur les photos du musée (`Livre::JERSEYS` : motifs peints sur le t-shirt 3D par
+`jerseyGlsl()`, devant et dos en double page) ; validation par les historiens dans Contenus › Maillots du livre
+(`App\Admin\Jerseys`, `storage/livres/maillots.json`) : seuls les maillots validés sont proposés. Sans WebGL,
+maillot dessiné en vectoriel, `qr` (QR code de chaque récit, `Qr::matrix`).
 Test : `tests/livre.php`.
 
 ## Catalogue des archives (`App\Services\Catalogue`, `App\Admin\Archives`)

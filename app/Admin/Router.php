@@ -224,6 +224,8 @@ final class Router
         $r->get('/admin/archives', fn ($q) => Archives::index($q));
         $r->post('/admin/archives', fn ($q) => Archives::action($q));
         $r->get('/admin/livre', fn ($q) => Book::index($q));
+        $r->get('/admin/maillots', fn ($q) => Jerseys::index($q));
+        $r->post('/admin/maillots', fn ($q) => Jerseys::action($q));
         $r->post('/admin/livre', fn ($q) => Book::build($q));
         $r->get('/admin/reprise-1928-1969', fn ($q) => Heritage::index($q));
         $r->post('/admin/reprise-1928-1969', fn ($q) => Heritage::action($q));

@@ -618,7 +618,7 @@ final class Livre
         '1978' => ['label' => '1978-1979 · col V bleu', 'era' => '1978-1979', 'ref' => '2026/06/fc-sochaux-1978-79.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
         '1980' => ['label' => '1979-1980 · manches bleues rayées', 'era' => '1979-1980', 'ref' => '2026/06/yannick-stopyra-fc-sochaux-1980.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => '1A2C7A', 'trim' => '1A2C7A', 'collar' => 'v', 'cuffs' => false, 'layers' => [['t' => 'raglan', 'w' => 0.06, 'color' => 'F6C400']], 'text' => '1A2C7A', 'edge' => 'FFFFFF', 'band' => null],
         '1983' => ['label' => '1983-1985 · fines rayures', 'era' => '1983-1985', 'ref' => '2026/06/sochaux-home-football-shirt-1983-1985-s_44935_1.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'hstripes', 'n' => 26, 'w' => 0.07, 'color' => '6F8FD0'], ['t' => 'chevrons', 'n' => 9, 'w' => 0.2, 'color' => '1E3FA8', 'front' => true]], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
-        '1987' => ['label' => '1987-1988 · épaules bleues', 'era' => '1987-1988', 'ref' => '2024/02/Photo-equipe-juillet-1987-Credit-Jean-Luc-Gilme.png', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => false, 'layers' => [['t' => 'yoke', 'y' => 0.62, 'color' => '1E3FA8']], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
+        '1987' => ['label' => '1987-1988 · épaules bleues', 'era' => '1987-1988', 'ref' => '2024/02/Photo-equipe-juillet-1987-Credit-Jean-Luc-Gilme.png', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => false, 'layers' => [['t' => 'yoke', 'y' => 0.62, 'color' => '1E3FA8', 'front' => true]], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
         '1998' => ['label' => '1998-1999 · flancs bleus', 'era' => '1998-1999', 'ref' => '2026/06/maillot-sochaux-vintage-domicile-1998-1999-aisselle-a-50cm-asics-fc-montbeliard-maillots-de-foot-retro-the-football-market-983_720x.webp', 'body' => 'E9E23A', 'shade' => 'CFC71E', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.38, 'color' => '1E3FA8']], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
         '2004' => ['label' => '2003-2004 · blanc, Coupe de la Ligue', 'era' => '2003-2004', 'ref' => '2026/06/17-avril-2004-Sochaux-remporte-la-Coupe-de-la-ligue.webp', 'body' => 'F4F4F0', 'shade' => 'D8D8D2', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.4, 'color' => 'F6C400']], 'text' => '0E1F4D', 'edge' => 'F6C400', 'band' => null],
         '2007' => ['label' => '2006-2007 · flancs noirs, finale de Coupe', 'era' => '2006-2007', 'ref' => '2026/06/le-onze-de-depart-de-sochaux-non-vous-ne-revez-pas-mickael-isabey-n-est-pas-retenu-il-n-est-meme-pas-sur-la-feuille-de-match-photo-alexandre-marchi-1589306142.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '151515', 'collar' => 'crew', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.36, 'color' => '151515']], 'text' => '151515', 'edge' => 'FFFFFF', 'band' => null],
@@ -627,6 +627,34 @@ final class Livre
         '2026' => ['label' => '2025-2026 · domicile', 'era' => '2025-2026', 'ref' => '2026/05/FCSM-LPF43-2025-2026-1-Michael-Desprez.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'crew', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
         'exterieur' => ['label' => 'Extérieur bleu nuit', 'era' => '', 'ref' => '', 'body' => '14286A', 'shade' => '0B1A45', 'sleeve' => null, 'trim' => 'F6C400', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => 'F6C400', 'edge' => '0B1A45', 'band' => null],
     ];
+
+
+    public const JERSEY_STATUS = STORAGE_PATH . '/livres/maillots.json';
+
+    /** Validation des maillots par les historiens : clé => {status: valide|revoir, by, at, note}. */
+    public static function jerseyStatus(): array
+    {
+        $d = json_decode((string) @file_get_contents(self::JERSEY_STATUS), true);
+        return is_array($d) ? $d : [];
+    }
+
+    public static function setJerseyStatus(string $key, string $status, string $by, string $note = ''): void
+    {
+        if (!isset(self::JERSEYS[$key])) {
+            return;
+        }
+        $d = self::jerseyStatus();
+        $d[$key] = ['status' => $status === 'valide' ? 'valide' : 'revoir', 'by' => $by, 'at' => date('c'), 'note' => mb_substr($note, 0, 500)];
+        @mkdir(dirname(self::JERSEY_STATUS), 0775, true);
+        file_put_contents(self::JERSEY_STATUS, json_encode($d, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX);
+    }
+
+    /** Maillots proposés aux clients : seulement ceux validés par les historiens. @return array<string,array> */
+    public static function jerseysValid(): array
+    {
+        $st = self::jerseyStatus();
+        return array_filter(self::JERSEYS, fn ($k) => ($st[$k]['status'] ?? '') === 'valide', ARRAY_FILTER_USE_KEY);
+    }
 
     /**
      * Option « Ton maillot » : un maillot de collection, vu de dos, floqué au nom et au numéro du lecteur,

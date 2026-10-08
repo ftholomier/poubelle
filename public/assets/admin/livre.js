@@ -27,20 +27,38 @@ ${num ? `<text x="140" y="300" font-size="230" fill="#${st.text}" stroke="#${st.
 </svg>`;
   }
   /** Devant et dos du maillot en 3D (PNG transparents) : { front, back }. */
-  async function jerseyImage(st, name, num) {
+  async function jerseyImage(st, name, num, px = 1800) {
     const { snapshot } = await import('/assets/js/shop3d.js');
     const design = { body: '#' + st.body, sleeve: st.sleeve ? '#' + st.sleeve : null, trim: '#' + st.trim, collar: st.collar, cuffs: !!st.cuffs,
       layers: (st.layers || []).map(l => Object.assign({}, l, { color: '#' + (l.color || st.trim) })) };
     const spec = faces => ({ kind: 'jersey', design, model: '/assets/3d/tshirt.glb', faces });
-    const opt = view => ({ w: 1800, h: 2000, view, zoom: 0.78 });
+    const opt = view => ({ w: px, h: Math.round(px * 1.11), view, zoom: 0.78 });
     const back = await snapshot(spec({ dos: { w: 280, h: 350, svg: await backSvg(name, num, st) } }), opt([Math.PI - 0.28, 0.06]));
     const front = await snapshot(spec({}), opt([0.28, 0.06]));
     return { front, back };
   }
   window.livreJersey = jerseyImage;
+
+  // Écran de validation : aperçus 3D (devant, dos) de chaque modèle, l'un après l'autre.
+  (async () => {
+    for (const box of document.querySelectorAll('[data-jersey-3d]')) {
+      const st = styles[box.dataset.jersey3d];
+      if (!st) continue;
+      try {
+        const { front, back } = await jerseyImage(st, 'SOCHAUX', '10', 600);
+        const [a, b] = box.children;
+        for (const [el, blob] of [[a, front], [b, back]]) {
+          el.textContent = '';
+          const img = new Image(); img.src = URL.createObjectURL(blob); img.alt = ''; img.style.cssText = 'width:100%;height:100%;object-fit:contain';
+          el.appendChild(img);
+        }
+      } catch (err) { console.error(err); }
+    }
+  })();
   window.livreJerseyStyles = styles;
 
   let busy = false;
+  if (form.hidden) return;
   form.addEventListener('submit', async e => {
     if (busy) return;
     const name = (form.maillot_nom.value || '').trim().toUpperCase();

@@ -46,7 +46,7 @@ use App\Pdf\Livre;
   <div class="row" style="gap:12px;flex-wrap:wrap">
     <label class="f"><span class="f__k">Maillot : nom floqué</span><input name="maillot_nom" maxlength="14" placeholder="LUCAS"></label>
     <label class="f"><span class="f__k">Numéro</span><input name="maillot_numero" maxlength="2" inputmode="numeric" placeholder="10" style="width:80px"></label>
-    <label class="f"><span class="f__k">Style</span><select name="maillot_style"><?php foreach (Livre::JERSEYS as $k => $j): ?><option value="<?= e($k) ?>"><?= e($j['label']) ?></option><?php endforeach; ?></select></label>
+    <label class="f"><span class="f__k">Style</span><select name="maillot_style"><?php $valid = Livre::jerseysValid(); foreach (Livre::JERSEYS as $k => $j): ?><option value="<?= e($k) ?>"><?= e($j['label']) ?><?= isset($valid[$k]) ? '' : ' (à vérifier : épreuve seulement)' ?></option><?php endforeach; ?></select> <a class="xs" href="/admin/maillots">Valider les maillots</a></label>
   </div>
   <label class="row" style="gap:6px"><input type="checkbox" name="qr" value="1" checked> QR code de chaque récit vers sa page au musée</label>
   <div class="f"><span class="f__k">Photo de couverture</span>
