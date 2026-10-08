@@ -35,7 +35,7 @@ final class Book extends Base
             $covers[] = ['rel' => $rel, 'dpi' => $book->coverDpi($rel), 'caption' => \App\Data\Media::caption($rel)];
         }
         return self::html('admin/fiches/livre', ['last' => $last, 'decades' => array_keys($groups), 'count' => $count, 'covers' => $covers, 'suggest' => $book->coverSuggestions(), 'sale' => \App\Shop\BookShop::config()],
-            ['title' => 'Livre des récits', 'crumb' => 'Contenus', 'nav' => 'livre', 'scripts' => ['admin/livre.js']]);
+            ['title' => 'Livre des récits', 'crumb' => 'Boutique', 'nav' => 'livre', 'scripts' => ['admin/livre.js']]);
     }
 
     /** POST : photos de couverture (proposer, retirer), sinon compose le livre et le renvoie en téléchargement. */

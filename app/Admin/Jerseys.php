@@ -18,7 +18,7 @@ final class Jerseys extends Base
     public static function index(Request $req): Response
     {
         return self::html('admin/fiches/maillots', ['jerseys' => Livre::JERSEYS, 'status' => Livre::jerseyStatus()],
-            ['title' => 'Maillots du livre', 'crumb' => 'Contenus', 'nav' => 'maillots', 'scripts' => ['admin/livre.js']]);
+            ['title' => 'Maillots du livre', 'crumb' => 'Boutique', 'nav' => 'maillots', 'scripts' => ['admin/livre.js']]);
     }
 
     public static function action(Request $req): Response

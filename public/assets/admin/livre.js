@@ -70,7 +70,7 @@ ${num ? `<text x="140" y="300" font-size="230" fill="#${st.text}" stroke="#${st.
   // Écran de validation : aperçus 3D (devant, dos) de chaque modèle, l'un après l'autre.
   (async () => {
     for (const box of document.querySelectorAll('[data-jersey-3d]')) {
-      const st = styles[box.dataset.jersey3d];
+      const st = styles[box.getAttribute('data-jersey-3d')]; // (« -3d » : pas lisible par dataset)
       if (!st) continue;
       try {
         const { front, back } = await jerseyImage(st, 'SOCHAUX', '10', 600);
