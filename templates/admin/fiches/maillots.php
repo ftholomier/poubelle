@@ -4,7 +4,7 @@
  */
 $n = count(array_filter($status, fn ($s) => ($s['status'] ?? '') === 'valide'));
 ?>
-<p class="alert alert--info" style="margin:0">Les maillots que le lecteur peut choisir pour la double page « Ton maillot » du livre. Chacun a été relevé sur une photo du musée (à gauche), puis reproduit en 3D (devant et dos) : couleurs et motifs seulement, <b>sans sponsor ni logo de marque</b>. Ce sont des <b>maillots « inspirés de »</b>, pour le plaisir : une évocation de l’époque (couleurs, col, motif principal), pas une reproduction fidèle, et la liste n’est pas exhaustive. Comparez avec la photo et, si l’esprit du maillot y est, <b>validez-le</b> ; sinon, renvoyez-le en écrivant ce qui ne va pas (col, manches, couleur, motif…). <b>Seuls les maillots validés sont proposés</b>.</p>
+<p class="alert alert--info" style="margin:0">Les maillots que le lecteur peut choisir pour la double page « Ton maillot » du livre. Chacun a été relevé sur une photo du musée (à gauche), puis reproduit en 3D (devant et dos) : couleurs et motifs seulement, <b>sans sponsor ni logo de marque</b>. Ce sont des <b>maillots « inspirés de »</b>, pour le plaisir : une évocation de l’époque (couleurs, col, motif principal), pas une reproduction fidèle, et la liste n’est pas exhaustive. Comparez avec la photo et, si l’esprit du maillot y est, <b>validez-le</b> ; sinon, renvoyez-le en écrivant ce qui ne va pas (col, manches, couleur, motif…). <b>Tous les maillots sont proposés aux clients, sauf ceux renvoyés « À revoir »</b>.</p>
 
 <div class="kpis">
   <div class="kpi kpi--yellow"><b><?= (int) $n ?></b><span>maillots validés</span><small>sur <?= count($jerseys) ?></small></div>

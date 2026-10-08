@@ -665,11 +665,11 @@ final class Livre
         file_put_contents(self::JERSEY_STATUS, json_encode($d, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX);
     }
 
-    /** Maillots proposés aux clients : seulement ceux validés par les historiens. @return array<string,array> */
+    /** Maillots proposés aux clients : tous, sauf ceux renvoyés « À revoir » par les historiens. @return array<string,array> */
     public static function jerseysValid(): array
     {
         $st = self::jerseyStatus();
-        return array_filter(self::JERSEYS, fn ($k) => ($st[$k]['status'] ?? '') === 'valide', ARRAY_FILTER_USE_KEY);
+        return array_filter(self::JERSEYS, fn ($k) => ($st[$k]['status'] ?? '') !== 'revoir', ARRAY_FILTER_USE_KEY);
     }
 
     /**

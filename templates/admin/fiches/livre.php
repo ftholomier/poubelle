@@ -50,7 +50,7 @@ use App\Pdf\Livre;
   <div class="f"><span class="f__k">Maillot inspiré de <a class="xs" href="/admin/maillots">valider les maillots</a></span>
     <div class="jypick" role="radiogroup">
       <?php $valid = Livre::jerseysValid(); $first = true; foreach (Livre::JERSEYS as $k => $j): [$era, $what] = array_pad(explode(' · ', $j['label'], 2), 2, ''); ?>
-      <label class="jypick__i" title="<?= e($j['label']) ?>"><input type="radio" name="maillot_style" value="<?= e($k) ?>"<?= $first ? ' checked' : '' ?>><span class="jypick__img"><?= \App\Shop\BookShop::jerseySvg($j, 'a' . $k) ?></span><b><?= e($era) ?></b><small><?= e($what) ?></small><?php if (!isset($valid[$k])): ?><em>à vérifier : épreuve seulement</em><?php endif; ?></label>
+      <label class="jypick__i" title="<?= e($j['label']) ?>"><input type="radio" name="maillot_style" value="<?= e($k) ?>"<?= $first ? ' checked' : '' ?>><span class="jypick__img"><?= \App\Shop\BookShop::jerseySvg($j, 'a' . $k) ?></span><b><?= e($era) ?></b><small><?= e($what) ?></small><?php if (!isset($valid[$k])): ?><em>à revoir : épreuve seulement</em><?php endif; ?></label>
       <?php $first = false; endforeach; ?>
     </div>
   </div>

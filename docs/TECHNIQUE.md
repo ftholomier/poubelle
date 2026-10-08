@@ -1569,7 +1569,7 @@ dans `storage/livres/photos/`, `photoFrame()` : 140, 110 ou 85 mm à 200 dpi, si
 (`snapshot()` de `shop3d.js`, `public/assets/admin/livre.js`, PNG 1800 × 2000 joint en `maillot_image`, posé
 encadré sur le passe-partout) . 15 modèles relevés sur les photos du musée (`Livre::JERSEYS` : motifs peints sur le t-shirt 3D par
 `jerseyGlsl()`, devant et dos en double page) ; validation par les historiens dans Contenus › Maillots du livre
-(`App\Admin\Jerseys`, `storage/livres/maillots.json`) : seuls les maillots validés sont proposés. Sans WebGL,
+(`App\Admin\Jerseys`, `storage/livres/maillots.json`) : tous les maillots sont proposés, sauf ceux renvoyés « À revoir ». Sans WebGL,
 maillot dessiné en vectoriel, `qr` (QR code de chaque récit, `Qr::matrix`).
 Mise en page adaptée au contenu : le texte des récits n'est pas dessiné tout de suite (`put()`, file `pending`) ; à la
 fin d'un récit, `balance()` rééquilibre la dernière page sur deux colonnes (sans séparer un intertitre de son texte),
