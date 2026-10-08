@@ -62,6 +62,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
       </div>
     <?php endforeach; ?>
   </div>
+  <p style="text-align:center;margin:14px 0 0"><a class="btn btn--shadow" href="<?= e(url('/palmares/')) ?>"><?= e(t('Tout le palmarès')) ?></a></p>
 </section>
 <section class="counters">
   <div class="counters__grid">

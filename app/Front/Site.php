@@ -129,6 +129,7 @@ final class Site
                 ['icon' => '●', 'label' => t('Rétro-Direct'), 'd' => t('Les grands matchs rejoués en direct, le jour anniversaire.'), 'href' => url('/interactif/retro-direct/')],
                 ['icon' => '◎', 'label' => t('Carto'), 'd' => t('Stades, origines, épopées, lieux.'), 'href' => url('/interactif/carto/')],
                 ['icon' => '×', 'label' => t('Face-à-face'), 'd' => t('Choisissez un adversaire, voyez le bilan.'), 'href' => url('/face-a-face/')],
+                ['icon' => '🏆', 'label' => t('Palmarès'), 'd' => t('Les titres et les finales depuis 1928.'), 'href' => url('/palmares/')],
                 ['icon' => '#', 'label' => t('Records'), 'd' => t('Buteurs, affluences, séries.'), 'href' => url('/records/')],
                 ['icon' => '%', 'label' => t('Les chiffres'), 'd' => t('100 statistiques depuis 1929.'), 'href' => url('/chiffres/')],
                 ['icon' => '→', 'label' => t('Frise'), 'd' => t('De 1928 à aujourd\'hui.'), 'href' => url('/interactif/frise/')],
