@@ -130,8 +130,8 @@ final class Livre
         }
         foreach ($groups as $dec => $items) {
             $this->decade($dec, $items);
-            foreach ($items as $it) {
-                $this->recit($it, $dec);
+            foreach (array_values($items) as $i => $it) {
+                $this->recit($it, $dec, $i === count($items) - 1);
             }
         }
         $this->tocDraw($tocFirst, $tocPages);
@@ -850,7 +850,7 @@ final class Livre
         if (is_file($out)) {
             return $out;
         }
-        $im = @imagecreatefrompng($png);
+        $im = @imagecreatefromstring((string) file_get_contents($png));
         if (!$im) {
             return null;
         }
@@ -1032,6 +1032,7 @@ final class Livre
         $this->dark[$l->page] = true;
         $p = $l->page;
         $label = 'Les années ' . $dec;
+        $this->decItems = $items;
         $this->toc[] = ['t' => $label, 'page' => $p, 'level' => 0];
         $l->pdf->outline($label, $p, $l->ph);
         $l->rect(0, 0, $l->pw, $l->ph, 'navy');
@@ -1069,7 +1070,7 @@ final class Livre
         }
     }
 
-    private function recit(array $it, int $dec): void
+    private function recit(array $it, int $dec, bool $last = false): void
     {
         $l = $this->l;
         $doc = $it['doc'];
@@ -1091,7 +1092,9 @@ final class Livre
         // Ouverture : photo pleine page à gauche si elle le mérite, sinon bandeau, sinon rien.
         $next = $l->pdf->pageCount();
         $full = null;
-        if (!$this->right($next)) {
+        // De la place sous le récit précédent : on la remplit plutôt que d'ouvrir sur une pleine page.
+        $room = $this->inText && $this->col === 0 && $this->bottomY - $this->y > 0.32 * $this->H;
+        if (!$room && !$this->right($next)) {
             foreach ($photos as $k => $p) {
                 if ($full = $this->prepare($p['rel'], $l->pw, $l->ph, self::DPI['page'])) {
                     $full += $p;
@@ -1111,7 +1114,7 @@ final class Livre
         }
         // Récit court qui précède : le suivant commence sur la même page s'il reste de la place
         // (texte précédent fini dans la colonne de gauche, plus de 45 % de la page libre).
-        $shared = !$full && $this->inText && $this->col === 0 && $this->bottomY - $this->y > 0.45 * $this->H;
+        $shared = !$full && $this->inText && $this->col === 0 && $this->bottomY - $this->y > 0.32 * $this->H;
         if ($shared) {
             $p = $l->page;
             [$x, $w] = $this->frame($p);
@@ -1222,13 +1225,6 @@ final class Livre
             }
             $this->flow($bl['runs'], 9.8, 1.48, 5, $bl['k'] === 'li');
         }
-        while ($photos && $placed < GrandsRecits::MAX_PHOTOS) {
-            $n = $this->columnPhoto($photos);
-            if (!$n) {
-                break;
-            }
-            $placed += $n;
-        }
         if ($sources !== []) {
             $this->space(6);
             $this->flow([Layout::run('SOURCES', 'display-b', 7.6, 'muted', null, 1.4)], 7.6, 1.3, 2);
@@ -1236,6 +1232,25 @@ final class Livre
                 $this->flow([Layout::run($s, 'serif', 7.6, 'muted')], 7.6, 1.32, 2);
             }
         }
+        // Dernière page : colonnes équilibrées, puis photos ou citation sous le texte, sur toute la largeur.
+        $end = $this->balance();
+        $before = $this->report['colonne'];
+        if ($last && $this->bottomY - $end > 60 * self::MM) {
+            // Fin de décennie : la place restante devient un album avec les photos encore inutilisées de la décennie.
+            $seen = array_flip(array_column($photos, 'rel'));
+            foreach ($this->decItems as $other) {
+                foreach (array_merge($this->photos($other['doc']), $this->related($other['doc'])) as $ph) {
+                    if (!isset($seen[$ph['rel']]) && !$this->isUsed($ph['rel'])) {
+                        $seen[$ph['rel']] = true;
+                        $photos[] = $ph;
+                    }
+                }
+            }
+        }
+        $end = $this->fillBottom($end, $photos, $blocks, $last);
+        $placed += $this->report['colonne'] - $before;
+        $this->col = 0;
+        $this->y = $end;
         $this->inText = true;
         if (!$placed) {
             $this->report['sans_photo'][] = $title;
@@ -1244,6 +1259,15 @@ final class Livre
     }
 
     // ------------------------------------------------------------------ texte en deux colonnes
+    //
+    // Le texte d'une page n'est pas dessiné tout de suite : chaque ligne, intertitre ou photo de colonne
+    // est mis en attente (pending). Quand la page est pleine, tout part tel quel ; à la fin d'un récit,
+    // la dernière page est recomposée : colonnes équilibrées, puis l'espace libéré en dessous, sur toute
+    // la largeur, reçoit une composition de photos (choisie selon la place et le nombre de photos)
+    // ou une citation tirée du récit. Plus de colonne de droite vide.
+
+    /** @var list<array{col:int,gap:float,h:float,keep:bool,draw:callable}> */
+    private array $pending = [];
 
     private function bottom(): float
     {
@@ -1252,6 +1276,7 @@ final class Livre
 
     private function columns(float $top): void
     {
+        $this->flush();
         $this->top = $top;
         $this->bottomY = $this->bottom();
         $this->col = 0;
@@ -1259,12 +1284,12 @@ final class Livre
     }
 
     /** @return array{0:float,1:float} x et largeur de la colonne courante */
-    private function colBox(): array
+    private function colBox(int $col = -1): array
     {
         [$x, $w] = $this->frame($this->l->page);
         $gap = 7 * self::MM;
         $cw = ($w - $gap) / 2;
-        return [$x + $this->col * ($cw + $gap), $cw];
+        return [$x + ($col < 0 ? $this->col : $col) * ($cw + $gap), $cw];
     }
 
     /** Place pour $h points, sinon colonne ou page suivante (bandeau courant sur les pages de suite). */
@@ -1278,17 +1303,92 @@ final class Livre
             $this->y = $this->top;
             return;
         }
+        $this->flush();
         $this->page();
         $this->running();
         $this->columns($this->b + 20 * self::MM);
         $this->inText = true;
     }
 
+    /** Met un bloc en attente à la position courante. $keep : ne pas le séparer du bloc suivant. */
+    private function put(float $h, callable $draw, bool $keep = false): void
+    {
+        $gap = $this->gap;
+        $this->gap = 0;
+        $this->need($h + ($keep ? 40 : 0));
+        $atTop = $this->y <= $this->top + 0.01;
+        $this->pending[] = ['col' => $this->col, 'y' => $this->y, 'gap' => $atTop ? 0 : $gap, 'h' => $h, 'keep' => $keep, 'draw' => $draw];
+        $this->y += $h;
+    }
+
+    private float $gap = 0;
+
+    /** Dessine les blocs en attente là où le flux les a posés. */
+    private function flush(): void
+    {
+        foreach ($this->pending as $it) {
+            [$x, $cw] = $this->colBox($it['col']);
+            ($it['draw'])($x, $it['y'], $cw);
+        }
+        $this->pending = [];
+    }
+
+    /**
+     * Fin de récit : la dernière page est rééquilibrée sur deux colonnes de même hauteur
+     * (sans couper un intertitre de son texte). Renvoie le bas du texte.
+     */
+    private function balance(): float
+    {
+        $items = $this->pending;
+        $n = count($items);
+        if ($n === 0) {
+            return $this->y;
+        }
+        $hOf = function (int $a, int $b) use ($items): float {
+            $s = 0;
+            for ($i = $a; $i < $b; $i++) {
+                $s += ($i === $a ? 0 : $items[$i]['gap']) + $items[$i]['h'];
+            }
+            return $s;
+        };
+        $avail = $this->bottomY - $this->top;
+        $best = $n;
+        $bestH = $hOf(0, $n) <= $avail ? $hOf(0, $n) : INF;
+        for ($k = 1; $k < $n; $k++) {
+            if ($items[$k - 1]['keep']) {
+                continue;
+            }
+            $h0 = $hOf(0, $k);
+            $h1 = $hOf($k, $n);
+            if ($h0 > $avail || $h1 > $avail) {
+                continue;
+            }
+            // Colonne de gauche un peu plus longue que celle de droite, jamais l'inverse si on peut l'éviter.
+            $score = max($h0, $h1) + ($h1 > $h0 ? 0.5 : 0);
+            if ($score < $bestH) {
+                $bestH = $score;
+                $best = $k;
+            }
+        }
+        if ($bestH === INF) {
+            $this->flush();
+            return $this->bottomY;
+        }
+        $y = [$this->top, $this->top];
+        foreach ($items as $i => $it) {
+            $c = $i < $best ? 0 : 1;
+            $y[$c] += ($i === 0 || $i === $best ? 0 : $it['gap']);
+            $this->pending[$i]['col'] = $c;
+            $this->pending[$i]['y'] = $y[$c];
+            $y[$c] += $it['h'];
+        }
+        $this->flush();
+        return max($y);
+    }
+
     private function space(float $h): void
     {
-        if ($this->y > $this->top) {
-            $this->y = min($this->y + $h, $this->bottomY);
-        }
+        $this->gap += $h;
     }
 
     private function flow(array $runs, float $size, float $lh, float $after, bool $bullet = false): void
@@ -1296,16 +1396,17 @@ final class Livre
         [, $cw] = $this->colBox();
         $indent = $bullet ? 9 : 0;
         $lines = $this->l->wrap($runs, $cw - $indent, $lh);
+        $l = $this->l;
         foreach ($lines as $i => $ln) {
-            $this->need($ln['h']);
-            [$x, $cw] = $this->colBox();
-            if ($bullet && $i === 0) {
-                $this->l->rect($x + 1, $this->y + $ln['h'] / 2 - 1.5, 3, 3, 'yellow');
-            }
-            $this->l->drawLines([$ln], $x + $indent, $this->y, $cw - $indent, count($lines) > 1 && $i < count($lines) - 1 ? 'left' : 'left');
-            $this->y += $ln['h'];
+            $first = $bullet && $i === 0;
+            $this->put($ln['h'], function (float $x, float $y, float $cw) use ($l, $ln, $first, $indent) {
+                if ($first) {
+                    $l->rect($x + 1, $y + $ln['h'] / 2 - 1.5, 3, 3, 'yellow');
+                }
+                $l->drawLines([$ln], $x + $indent, $y, $cw - $indent);
+            });
         }
-        $this->y += $after;
+        $this->space($after);
     }
 
     private function heading(int $n, string $t): void
@@ -1314,12 +1415,15 @@ final class Livre
         $lines = $this->l->wrap([Layout::run(self::roman($n) . '  ', 'display-b', 12, 'B48D00', null, 0.6), Layout::run(mb_strtoupper($t), 'display-b', 12, 'navy', null, 0.6)], $cw, 1.2);
         $h = array_sum(array_column($lines, 'h'));
         $this->space(6);
-        $this->need($h + 40);
-        [$x, $cw] = $this->colBox();
-        $this->y += $this->l->drawLines($lines, $x, $this->y, $cw) + 3;
+        $l = $this->l;
+        $this->put($h + 3, fn (float $x, float $y, float $cw) => $l->drawLines($lines, $x, $y, $cw), true);
     }
 
-    /** Une photo à la largeur d'une colonne (200 dpi au moins), recadrée en 3:2 au plus haut. */
+    /**
+     * Photo dans le fil du texte. La forme suit la photo : en largeur de colonne (paysage recadré
+     * au plus en 3:2, portrait jusqu'à 4:5), et quand deux photos se suivent et que la place le permet,
+     * une paire côte à côte dans la colonne.
+     */
     private function columnPhoto(array &$photos): int
     {
         [, $cw] = $this->colBox();
@@ -1329,30 +1433,169 @@ final class Livre
                 unset($photos[$k]);
                 continue;
             }
-            $h = min($cw * $d[1] / $d[0], $cw * 1.1);
-            $h = max($h, $cw * 0.56);
+            $r = $d[1] / $d[0];
+            $h = $r > 1 ? min($cw * $r, $cw * 1.25) : max(min($cw * $r, $cw * 1.1), $cw * 0.56);
             $img = $this->prepare($ph['rel'], $cw, $h, self::DPI['colonne']);
             if (!$img) {
                 continue;
             }
             $this->mark($ph['rel']);
+            unset($photos[$k]);
             $cap = $this->caption($ph);
             $capL = $cap !== '' ? $this->l->wrap([Layout::run($cap, 'serif-i', 7.6, 'muted')], $cw, 1.28) : [];
             $capH = array_sum(array_column($capL, 'h'));
+            $l = $this->l;
+            $file = $img['file'];
             $this->space(4);
-            $this->need($h + $capH + 10);
-            [$x, $cw2] = $this->colBox();
-            $this->l->drawImage($this->l->loadImage($img['file']), $x, $this->y, $cw2, $h, true);
-            $this->y += $h + 3;
-            if ($capL) {
-                $this->y += $this->l->drawLines($capL, $x, $this->y, $cw2);
-            }
-            $this->y += 8;
-            unset($photos[$k]);
+            $this->put($h + 3 + $capH, function (float $x, float $y, float $cw) use ($l, $file, $h, $capL) {
+                $l->drawImage($l->loadImage($file), $x, $y, $cw, $h, true);
+                if ($capL) {
+                    $l->drawLines($capL, $x, $y + $h + 3, $cw);
+                }
+            });
+            $this->space(8);
             $this->report['colonne']++;
             return 1;
         }
         return 0;
+    }
+
+    /**
+     * Bas de la dernière page d'un récit, sur toute la largeur : une composition de photos qui change
+     * selon la place et les photos disponibles (une grande, deux côte à côte, une verticale et deux
+     * carrés, trois en frise), sinon une citation du récit. Renvoie le nouveau bas occupé.
+     */
+    private function fillBottom(float $y, array &$photos, array $blocks, bool $force): float
+    {
+        $l = $this->l;
+        $mm = self::MM;
+        [$x, $w] = $this->frame($l->page);
+        $y += 6 * $mm;
+        $free = $this->bottomY - $y;
+        if ($free < 34 * $mm) {
+            return $y;
+        }
+        // Les compositions possibles, de la plus riche à la plus simple ; chaque case : x, y, l, h (en fractions).
+        $gap = 3 * $mm;
+        $capH = 11;
+        $hMax = $free - $capH - 4 * $mm;
+        $plans = [];
+        if ($hMax >= 90 * $mm) {
+            $plans[] = [[0, 0, 0.42, 1], [0.42, 0, 0.58, 0.5], [0.42, 0.5, 0.58, 0.5]]; // verticale + deux
+            $plans[] = [[0, 0, 0.5, 0.5], [0.5, 0, 0.5, 0.5], [0, 0.5, 1, 0.5]];       // deux + une large
+        }
+        if ($hMax >= 48 * $mm) {
+            $plans[] = [[0, 0, 0.62, 1], [0.62, 0, 0.38, 1]];                          // grande + étroite
+            $plans[] = [[0, 0, 1 / 3, 1], [1 / 3, 0, 1 / 3, 1], [2 / 3, 0, 1 / 3, 1]];  // frise de trois
+            $plans[] = [[0, 0, 0.5, 1], [0.5, 0, 0.5, 1]];                              // deux côte à côte
+        }
+        $plans[] = [[0, 0, 1, 1]];                                                      // une seule
+        // On alterne d'un récit à l'autre pour ne pas répéter la même figure.
+        $this->fillTurn = ($this->fillTurn + 1) % 3;
+        $first = array_splice($plans, 0, min($this->fillTurn, max(0, count($plans) - 3)));
+        array_splice($plans, count($plans) - 1, 0, $first);
+        $H = min($hMax, max(48 * $mm, $w * 0.62));
+        foreach ($plans as $plan) {
+            $pick = [];
+            $pool = $photos;
+            foreach ($plan as $c) {
+                $cw = $c[2] * $w - ($c[2] < 1 ? $gap / 2 : 0);
+                $ch = $c[3] * $H - ($c[3] < 1 ? $gap / 2 : 0);
+                $got = null;
+                foreach ($pool as $k => $ph) {
+                    if ($img = $this->prepare($ph['rel'], $cw, $ch, self::DPI['colonne'])) {
+                        $got = [$img, $ph, $cw, $ch, $c];
+                        unset($pool[$k]);
+                        break;
+                    }
+                }
+                if (!$got) {
+                    continue 2;
+                }
+                $pick[] = $got;
+            }
+            foreach ($pick as [$img, $ph, $cw, $ch, $c]) {
+                $px = $x + $c[0] * $w + ($c[0] > 0 ? $gap / 2 : 0);
+                $py = $y + $c[1] * $H + ($c[1] > 0 ? $gap / 2 : 0);
+                $l->drawImage($l->loadImage($img['file']), $px, $py, $cw, $ch, true);
+                $this->mark($ph['rel']);
+                $this->report['colonne']++;
+            }
+            $photos = $pool;
+            // Légendes regroupées sous la composition, repérées par leur place.
+            $caps = [];
+            $where = count($pick) === 1 ? [''] : (count($pick) === 2 ? ['À gauche', 'À droite'] : ($plan[0][3] === 1 && $plan[1][3] < 1 ? ['À gauche', 'En haut à droite', 'En bas à droite'] : ($plan[2][2] === 1 ? ['En haut à gauche', 'En haut à droite', 'En bas'] : ['À gauche', 'Au centre', 'À droite'])));
+            foreach ($pick as $i => [, $ph]) {
+                $c = $this->caption($ph);
+                if ($c !== '') {
+                    $caps[] = ($where[$i] !== '' ? $where[$i] . ' : ' : '') . $c;
+                }
+            }
+            $y += $H + 4;
+            if ($caps) {
+                $y += $l->drawLines($l->wrap([Layout::run(implode('  ·  ', $caps), 'serif-i', 7.4, 'muted')], $w, 1.28), $x, $y, $w);
+            }
+            return $y + 4 * $mm;
+        }
+        // Pas de photo qui convienne : une citation du récit, en grand, si la page n'accueille pas la suite.
+        if (!$force && $free > 0.35 * $this->H) {
+            return $y - 6 * $mm;
+        }
+        $quote = $this->quote($blocks);
+        if ($quote === '') {
+            return $y - 6 * $mm;
+        }
+        if ($free > 80 * $mm) {
+            // Grand espace : encadré bleu nuit plein, citation en grand, centrée.
+            $pad = 14 * $mm;
+            $ql = $l->wrap([Layout::run($quote, 'serif-i', 22, 'white')], $w - 2 * $pad, 1.3);
+            $qh = array_sum(array_column($ql, 'h'));
+            $l->rect($x, $y, $w, $this->bottomY - $y, 'navy');
+            $this->stripes($x, $this->bottomY - 6 * $mm, $w, 6 * $mm);
+            $cy = $y + ($this->bottomY - $y - $qh) / 2;
+            $l->text($x + $pad - 4, $cy - 6, '«', 'display', 64, 'yellow');
+            $l->drawLines($ql, $x + $pad, $cy + 18, $w - 2 * $pad);
+            return $this->bottomY;
+        }
+        $size = $free > 70 * $mm ? 20 : 15;
+        $ql = $l->wrap([Layout::run('« ' . $quote . ' »', 'serif-i', $size, 'navy')], $w - 20 * $mm, 1.3);
+        $qh = array_sum(array_column($ql, 'h'));
+        if ($qh > $free - 10 * $mm) {
+            return $y - 6 * $mm;
+        }
+        $qy = $y + max(0, ($free - $qh) / 2 - 10 * $mm);
+        $l->rect($x, $qy, 22, 3.6, 'yellow');
+        $l->rect($x, $qy + 1.2, $w, 1.2, 'navy');
+        $l->drawLines($ql, $x + 10 * $mm, $qy + 6 * $mm, $w - 20 * $mm);
+        return $qy + $qh + 12 * $mm;
+    }
+
+    private int $fillTurn = 0;
+
+    private array $decItems = [];
+
+    /** Une phrase forte du récit (entre guillemets de préférence, sinon une phrase de longueur moyenne). */
+    private function quote(array $blocks): string
+    {
+        $text = '';
+        foreach ($blocks as $bl) {
+            if ($bl['k'] !== 'h') {
+                $text .= ' ' . implode('', array_map(fn ($r) => $r['t'] ?? '', $bl['runs']));
+            }
+        }
+        $text = preg_replace('/\s*\([^)]*\)/u', '', $text);
+        if (preg_match_all('/«\s*([^»]{40,190}?)\s*»/u', $text, $m)) {
+            usort($m[1], fn ($a, $b) => mb_strlen($b) <=> mb_strlen($a));
+            return trim($m[1][0]);
+        }
+        $best = '';
+        foreach (preg_split('/(?<=[.!?])\s+/u', trim($text)) as $s) {
+            $n = mb_strlen($s);
+            if ($n >= 70 && $n <= 170 && !preg_match('/\d{4}.*\d{4}/', $s) && abs($n - 120) < abs(mb_strlen($best) - 120)) {
+                $best = $s;
+            }
+        }
+        return rtrim($best, '.');
     }
 
     private function running(): void
