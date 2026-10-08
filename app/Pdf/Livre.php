@@ -43,6 +43,10 @@ final class Livre
     private string $runRight = '';
     /** @var list<array{t:string,page:int,level:int}> entrées du sommaire */
     private array $toc = [];
+    /** Photos déjà placées dans le livre (nom normalisé et empreinte du fichier) : jamais deux fois la même. */
+    private array $used = [];
+    /** Part minimale de l'image gardée au recadrage. */
+    private const KEEP = 0.62;
     private array $report = ['page' => 0, 'bandeau' => 0, 'large' => 0, 'colonne' => 0, 'ecartees' => 0, 'presse' => 0, 'recits' => 0, 'sans_photo' => []];
     private array $dims = [];
     private string $cache;
@@ -199,6 +203,7 @@ final class Livre
         $rel = (string) ($this->o['couverture'] ?? '');
         if ($rel !== '' && in_array($rel, self::covers(), true) && ($this->coverDpi($rel) ?? 0) >= self::DPI['page']) {
             $img = $this->prepare($rel, $l->pw, self::coverH() + 60 * $mm, 0);
+            $this->mark($rel);
         }
         $this->coverPhoto = $img ? $rel : null;
         if ($img) {
@@ -330,7 +335,7 @@ final class Livre
         $have = array_flip(self::covers());
         foreach ($this->recits() as $items) {
             foreach ($items as $it) {
-                foreach ($this->photos($it['doc']) as $p) {
+                foreach ($this->photos($it['doc'], false, false, true) as $p) {
                     if (isset($have[$p['rel']]) || isset($out[$p['rel']])) {
                         continue;
                     }
@@ -881,6 +886,7 @@ final class Livre
         $ph = $this->photos($doc)[0] ?? null;
         $img = $ph ? $this->prepare($ph['rel'], $l->pw, $this->b + 100 * $mm, self::DPI['bandeau']) : null;
         if ($img) {
+            $this->mark($ph['rel']);
             $l->drawImage($l->loadImage($this->fade($img['file'], 0.86)), 0, 0, $l->pw, $this->b + 100 * $mm, true);
             $y = $this->b + 88 * $mm;
         }
@@ -984,6 +990,7 @@ final class Livre
             }
             foreach ($list as $photo) {
                 if ($img = $this->prepare($photo['rel'], $cw, $ph, self::DPI['colonne'])) {
+                    $this->mark($photo['rel']);
                     break;
                 }
             }
@@ -1033,6 +1040,7 @@ final class Livre
             foreach ($this->photos($it['doc'], true) as $ph) {
                 if ($img = $this->prepare($ph['rel'], $l->pw * 0.5, $l->ph, self::DPI['page'])) {
                     $img += $ph;
+                    $this->mark($ph['rel']);
                     break 2;
                 }
             }
@@ -1069,6 +1077,12 @@ final class Livre
         $era = Recit::eraOf((string) ($doc['title'] ?? ''));
         [$lead, $blocks, $sources] = $this->content($doc);
         $photos = $this->photos($doc);
+        $own = array_flip(array_column($photos, 'rel'));
+        foreach ($this->related($doc) as $p) {
+            if (!isset($own[$p['rel']])) {
+                $photos[] = $p;
+            }
+        }
         $this->report['recits']++;
         $this->runLeft = 'Les années ' . $dec;
         $this->runRight = $title;
@@ -1081,6 +1095,7 @@ final class Livre
             foreach ($photos as $k => $p) {
                 if ($full = $this->prepare($p['rel'], $l->pw, $l->ph, self::DPI['page'])) {
                     $full += $p;
+                    $this->mark($p['rel']);
                     unset($photos[$k]);
                     break;
                 }
@@ -1115,6 +1130,7 @@ final class Livre
             foreach ($photos as $k => $ph) {
                 $band = $this->prepare($ph['rel'], $l->pw, $this->b + 118 * self::MM, self::DPI['bandeau']);
                 if ($band) {
+                    $this->mark($ph['rel']);
                     $l->drawImage($l->loadImage($band['file']), 0, 0, $l->pw, $this->b + 118 * self::MM, true);
                     $cap = $this->caption($ph);
                     $y = $this->b + 118 * self::MM + 5;
@@ -1177,6 +1193,7 @@ final class Livre
                     break;
                 }
                 if ($big = $this->prepare($ph['rel'], $w, $hh, self::DPI['large'])) {
+                    $this->mark($ph['rel']);
                     $l->drawImage($l->loadImage($big['file']), $x, $y, $w, $hh, true);
                     $y += $hh + 4;
                     $cap = $this->caption($ph);
@@ -1318,6 +1335,7 @@ final class Livre
             if (!$img) {
                 continue;
             }
+            $this->mark($ph['rel']);
             $cap = $this->caption($ph);
             $capL = $cap !== '' ? $this->l->wrap([Layout::run($cap, 'serif-i', 7.6, 'muted')], $cw, 1.28) : [];
             $capH = array_sum(array_column($capL, 'h'));
@@ -1450,7 +1468,7 @@ final class Livre
         $shots = [];
         foreach ($this->recits() as $items) {
             foreach ($items as $it) {
-                foreach ($this->photos($it['doc']) as $ph) {
+                foreach ($this->photos($it['doc'], false, false, true) as $ph) {
                     if ($img = $this->prepare($ph['rel'], ($w - 3 * 6) / 4, 30 * $mm, self::DPI['colonne'])) {
                         $shots[] = $img;
                         continue 3;
@@ -1596,13 +1614,129 @@ final class Livre
         return $out;
     }
 
+    /** Clés d'identité d'une photo : nom sans variantes WordPress (-scaled, -1024x683, -1…) et empreinte du fichier. */
+    private function photoKeys(string $rel): array
+    {
+        static $md5 = [];
+        $base = strtolower((string) pathinfo($rel, PATHINFO_FILENAME));
+        $base = (string) preg_replace('/(-scaled|-rotated|-e\d{10,}|-\d+x\d+|-\d{1,2})+$/', '', $base);
+        $keys = ['n:' . $base];
+        if (!array_key_exists($rel, $md5)) {
+            $f = Media::file($rel);
+            $md5[$rel] = $f ? (string) @md5_file($f) : '';
+        }
+        if ($md5[$rel] !== '') {
+            $keys[] = 'h:' . $md5[$rel];
+        }
+        return $keys;
+    }
+
+    private function isUsed(string $rel): bool
+    {
+        foreach ($this->photoKeys($rel) as $k) {
+            if (isset($this->used[$k])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function mark(string $rel): void
+    {
+        foreach ($this->photoKeys($rel) as $k) {
+            $this->used[$k] = true;
+        }
+    }
+
+    /**
+     * Photos d'autres fiches du musée liées au récit, pour varier les images : fiches citées en lien,
+     * joueurs nommés dans le texte, matchs de l'époque contre un adversaire nommé (les plus proches d'abord).
+     */
+    private function related(array $doc, int $max = 14): array
+    {
+        static $idx = null;
+        if ($idx === null) {
+            $idx = ['path' => [], 'people' => [], 'matches' => []];
+            foreach (\App\Data\Index::all() as $e) {
+                if (empty($e['image'])) {
+                    continue;
+                }
+                $id = (int) $e['id'];
+                $idx['path'][(string) ($e['path'] ?? '')] = $id;
+                $title = (string) ($e['title'] ?? '');
+                if (($e['type'] ?? '') === 'personne') {
+                    $name = trim((string) preg_replace('/\s*\(.*$/u', '', $title));
+                    if (mb_strlen($name) >= 7 && str_contains($name, ' ')) {
+                        $idx['people'][mb_strtolower($name)] = $id;
+                    }
+                } elseif (($e['type'] ?? '') === 'match' && preg_match('#-(\d{2})-(\d{2})-(\d{4})/$#', (string) $e['path'], $dm)
+                    && preg_match('#([^–/]+?)\s*/\s*([^–/]+?)\s*–#u', $title, $tm)) {
+                    $opp = stripos($tm[1], 'sochaux') !== false ? $tm[2] : $tm[1];
+                    $opp = mb_strtolower(trim($opp));
+                    if (mb_strlen($opp) >= 4 && !str_contains($opp, 'sochaux')) {
+                        $idx['matches'][] = ['id' => $id, 'opp' => $opp, 'y' => (int) $dm[3] + ((int) $dm[2] >= 7 ? 0.5 : 0)];
+                    }
+                }
+            }
+        }
+        $html = implode(' ', array_column((array) ($doc['sections'] ?? []), 'html'));
+        $text = mb_strtolower(html_entity_decode(strip_tags($html . ' ' . ($doc['intro'] ?? '') . ' ' . ($doc['title'] ?? '')), ENT_QUOTES, 'UTF-8'));
+        $ids = [];
+        $people = [];
+        preg_match_all('#href="(?:https?://musee\.fcsochauxretro\.com)?(/[^"\#?]+/)"#', $html, $mm);
+        foreach (array_unique($mm[1] ?? []) as $path) {
+            if (isset($idx['path'][$path])) {
+                $ids[] = $idx['path'][$path];
+            }
+        }
+        foreach ($idx['people'] as $name => $id) {
+            if (str_contains($text, $name)) {
+                $ids[] = $id;
+                $people[$id] = true;
+            }
+        }
+        $era = Recit::eraOf((string) ($doc['title'] ?? ''));
+        $y0 = $y1 = null;
+        if (preg_match('/(\d{4})(?:\D+(\d{4}))?/', $era, $ym)) {
+            $y0 = (int) $ym[1];
+            $y1 = (int) ($ym[2] ?? $ym[1]) + 1;
+            $near = [];
+            foreach ($idx['matches'] as $m) {
+                if ($m['y'] >= $y0 && $m['y'] <= $y1 && str_contains($text, $m['opp'])) {
+                    $near[] = $m['id'];
+                }
+            }
+            $ids = array_merge($ids, $near);
+        }
+        $out = [];
+        foreach (array_unique($ids) as $id) {
+            $d = $id !== (int) ($doc['id'] ?? 0) ? Fiches::get($id) : null;
+            if (!$d || ($d['status'] ?? '') !== 'publie') {
+                continue;
+            }
+            foreach ($this->photos($d) as $p) {
+                // Pas d'anachronisme : photo datée hors de l'époque du récit écartée ; pour un joueur
+                // (carrière longue), la photo doit être datée et de l'époque.
+                $yr = $p['year'] ?? null;
+                if ($y0 !== null && ($yr !== null ? ($yr < $y0 - 2 || $yr > $y1 + 2) : isset($people[$id]))) {
+                    continue;
+                }
+                $out[$p['rel']] = $p;
+                if (count($out) >= $max) {
+                    return array_values($out);
+                }
+            }
+        }
+        return array_values($out);
+    }
+
     /** Photos du récit, image principale d'abord ; jamais la presse. @return list<array{rel:string,caption:string,credit:string}> */
-    private function photos(array $doc, bool $archivesFirst = false, bool $press = false): array
+    private function photos(array $doc, bool $archivesFirst = false, bool $press = false, bool $reuse = false): array
     {
         $list = [];
         $seen = [];
-        $add = function (string $rel, string $cap, string $cred) use (&$list, &$seen, $press) {
-            if ($rel === '' || isset($seen[$rel]) || \App\Data\Index::isPlaceholderImage($rel)) {
+        $add = function (string $rel, string $cap, string $cred) use (&$list, &$seen, $press, $reuse) {
+            if ($rel === '' || isset($seen[$rel]) || \App\Data\Index::isPlaceholderImage($rel) || (!$reuse && $this->isUsed($rel))) {
                 return;
             }
             $seen[$rel] = true;
@@ -1697,6 +1831,11 @@ final class Livre
         if ($dpi < $min) {
             return null;
         }
+        // Recadrage trop fort (photo en hauteur dans un bandeau, etc.) : têtes et pieds coupés, on refuse.
+        $keep = min(($w / $h) / ($d[0] / $d[1]), ($d[0] / $d[1]) / ($w / $h));
+        if ($min > 0 && $keep < self::KEEP) {
+            return null;
+        }
         $tw = (int) round($w / 72 * self::TARGET_DPI);
         $th = (int) round($h / 72 * self::TARGET_DPI);
         $file = $this->cache . '/' . md5($rel . '|' . json_encode($d) . "|$tw|$th") . '.jpg';
@@ -1713,7 +1852,8 @@ final class Livre
             $cw = (int) round($tw * $s);
             $ch = (int) round($th * $s);
             $cx = (int) (($iw - $cw) / 2);
-            $cy = (int) (($ih - $ch) * 0.35);
+            // Vertical : on garde le haut (les têtes) ; horizontal : centré.
+            $cy = (int) (($ih - $ch) * 0.12);
             $ow = min($tw, $cw);
             $oh = min($th, $ch);
             $out = imagecreatetruecolor($ow, $oh);
