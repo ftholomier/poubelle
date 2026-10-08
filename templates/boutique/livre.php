@@ -45,9 +45,11 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
       <?= \App\Core\View::partial('vitrine/partials/flash', ['flash' => $flash]) ?>
 
       <fieldset class="shopopt"><legend>Format</legend>
+        <?php if ($book['paper'] && $book['price'] > 0): ?>
         <label class="shopchoice"><input type="radio" name="livre[format]" value="papier"<?= $v('format', 'papier') === 'papier' ? ' checked' : '' ?> data-book-in> <span><b>Livre imprimé</b> · <?= e(Orders::money($book['price'])) ?><small>21 × 27 cm, environ 140 pages, livré chez vous</small></span></label>
+        <?php endif; ?>
         <?php if ($book['price_pdf'] > 0): ?>
-        <label class="shopchoice"><input type="radio" name="livre[format]" value="numerique"<?= $v('format') === 'numerique' ? ' checked' : '' ?> data-book-in> <span><b>Livre numérique (PDF)</b> · <?= e(Orders::money($book['price_pdf'])) ?><small>À télécharger dès le paiement, par un lien personnel et sécurisé</small></span></label>
+        <label class="shopchoice"><input type="radio" name="livre[format]" value="numerique"<?= $v('format') === 'numerique' || !$book['paper'] ? ' checked' : '' ?> data-book-in> <span><b>Livre numérique (PDF)</b> · <?= e(Orders::money($book['price_pdf'])) ?><small>À télécharger dès le paiement, par un lien personnel et sécurisé</small></span></label>
         <?php endif; ?>
       </fieldset>
 

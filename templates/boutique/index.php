@@ -18,7 +18,7 @@ use App\Shop\ShopPages;
         <div class="shopcard__txt">
           <span class="eyebrow">Livre · imprimé ou numérique</span>
           <h2 class="shopcard__t">100 récits du Lion</h2>
-          <span class="shopcard__price"><?= $book['price_pdf'] > 0 ? 'à partir de ' . e(Orders::money(min($book['price'], $book['price_pdf']))) : e(Orders::money($book['price'])) ?></span>
+          <span class="shopcard__price"><?= !$book['paper'] ? e(Orders::money($book['price_pdf'])) . ' (PDF)' : ($book['price_pdf'] > 0 ? 'à partir de ' . e(Orders::money(min($book['price'], $book['price_pdf']))) : e(Orders::money($book['price']))) ?></span>
           <span class="shopcard__tag">Personnalisable</span>
         </div>
       </a>

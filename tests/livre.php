@@ -43,5 +43,11 @@ $eq('pages par multiple de 4', $pages % 4, 0);
 $eq('format fini et fonds perdus déclarés', substr_count($pdf, '/TrimBox') === $pages && substr_count($pdf, '/BleedBox') === $pages, true);
 $eq('au plus 3 récits', $book->report()['recits'] <= 3, true);
 
+// Boutique : livre imprimé désactivé par défaut, le livre numérique sort en version écran.
+$eq('livre imprimé désactivé par défaut', \App\Shop\BookShop::DEFAULTS['paper'], false);
+$eq('format papier refusé quand il est désactivé', \App\Shop\BookShop::clean(['nom' => 'Test', 'format' => 'papier'])['values']['format'] ?? '', \App\Shop\BookShop::config()['paper'] ? 'papier' : 'numerique');
+$eq('livre numérique en version écran', \App\Shop\BookShop::options(['format' => 'numerique'], '1')['ecran'], true);
+$eq('fichier imprimeur en 300 dpi', \App\Shop\BookShop::options(['format' => 'papier'], '1')['ecran'], false);
+
 echo $fail ? "\n$fail échec(s).\n" : "\nTout est bon.\n";
 exit($fail ? 1 : 0);

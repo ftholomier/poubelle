@@ -20,7 +20,7 @@ final class BookShop
     private const CONFIG = STORAGE_PATH . '/livres/boutique.json';
     private const NUMBERS = STORAGE_PATH . '/livres/numeros.json';
     public const UPLOADS = STORAGE_PATH . '/livres/envois';
-    public const DEFAULTS = ['active' => false, 'price' => 3900, 'price_pdf' => 1500, 'cost' => 1800, 'desc' => 'Les cent grands récits du FC Sochaux-Montbéliard, des origines à nos jours, réunis dans un livre de 21 × 27 cm illustré par les archives du musée, et composé pour vous : votre nom en couverture, votre dédicace, votre maillot floqué, votre match…'];
+    public const DEFAULTS = ['active' => false, 'paper' => false, 'price' => 3900, 'price_pdf' => 1500, 'cost' => 1800, 'desc' => 'Les cent grands récits du FC Sochaux-Montbéliard, des origines à nos jours, réunis dans un livre de 21 × 27 cm illustré par les archives du musée, et composé pour vous : votre nom en couverture, votre dédicace, votre maillot floqué, votre match…'];
 
     public static function config(): array
     {
@@ -30,7 +30,7 @@ final class BookShop
 
     public static function saveConfig(array $in): array
     {
-        $c = ['active' => !empty($in['active']), 'price' => max(0, (int) round((float) str_replace(',', '.', (string) ($in['price'] ?? 0)) * 100)),
+        $c = ['active' => !empty($in['active']), 'paper' => !empty($in['paper']), 'price' => max(0, (int) round((float) str_replace(',', '.', (string) ($in['price'] ?? 0)) * 100)),
             'price_pdf' => max(0, (int) round((float) str_replace(',', '.', (string) ($in['price_pdf'] ?? 0)) * 100)),
             'cost' => max(0, (int) round((float) str_replace(',', '.', (string) ($in['cost'] ?? 0)) * 100)), 'desc' => mb_substr(trim((string) ($in['desc'] ?? '')), 0, 800)];
         @mkdir(dirname(self::CONFIG), 0775, true);
@@ -42,7 +42,8 @@ final class BookShop
     public static function sellable(): bool
     {
         $c = self::config();
-        return $c['active'] && $c['price'] > 0;
+        // Livre imprimé désactivé par défaut (pas encore d'imprimeur) : le PDF seul suffit.
+        return $c['active'] && (($c['paper'] && $c['price'] > 0) || $c['price_pdf'] > 0);
     }
 
     /** Fichier envoyé par le client (photo, maillot 3D) : jeton => chemin, ou null. */
@@ -115,7 +116,11 @@ final class BookShop
                 $v[$k] = $s;
             }
         }
-        $v['format'] = isset(self::FORMATS[$v['format'] ?? '']) ? $v['format'] : 'papier';
+        $paper = self::config()['paper'];
+        $v['format'] = isset(self::FORMATS[$v['format'] ?? '']) ? $v['format'] : ($paper ? 'papier' : 'numerique');
+        if ($v['format'] === 'papier' && !$paper) {
+            $v['format'] = 'numerique';
+        }
         if (($v['nom'] ?? '') === '') {
             return ['error' => 'Indiquez le nom à imprimer sur la couverture.'];
         }

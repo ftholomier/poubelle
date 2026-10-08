@@ -118,6 +118,7 @@ use App\Pdf\Livre;
   <h2 class="card__t" style="margin:0">Vente dans la boutique</h2>
   <p class="small" style="margin:0">Le client personnalise son livre sur la boutique (page « Le livre ») : couverture, dédicace, maillot (seulement les <a href="/admin/maillots">maillots validés</a>), pages personnelles, et feuillette un extrait. Seuls les récits <b>publiés</b> sont imprimés. Livre imprimé : le PDF part chez l’imprimeur avec la commande. Livre numérique : le client le télécharge par un lien personnel (20 téléchargements au plus), sans frais de port ni imprimeur. Chaque exemplaire reçoit un numéro au paiement.</p>
   <label class="row" style="gap:6px"><input type="checkbox" name="active" value="1"<?= $sale['active'] ? ' checked' : '' ?>> En vente</label>
+  <label class="row" style="gap:6px"><input type="checkbox" name="paper" value="1"<?= $sale['paper'] ? ' checked' : '' ?>> Proposer aussi le livre imprimé (sinon : livre numérique seulement)</label>
   <div class="row" style="gap:12px;flex-wrap:wrap">
     <label class="f"><span class="f__k">Prix du livre imprimé (€)</span><input name="price" inputmode="decimal" value="<?= e(number_format($sale['price'] / 100, 2, ',', '')) ?>"></label>
     <label class="f"><span class="f__k">Prix du livre numérique (€, 0 : pas proposé)</span><input name="price_pdf" inputmode="decimal" value="<?= e(number_format($sale['price_pdf'] / 100, 2, ',', '')) ?>"></label>
