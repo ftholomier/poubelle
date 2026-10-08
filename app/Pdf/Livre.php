@@ -1049,6 +1049,12 @@ final class Livre
                 $this->captionBox($img, $this->b + 12 * self::MM, $l->ph - $this->b - 20 * self::MM);
             } else {
                 $this->stripes(0, 0, $l->pw, $l->ph);
+                // Photo en largeur : sur les deux tiers hauts de la page, fond rayé dessous.
+                if ($img = $this->decadePhoto($dec, $items, $l->pw, $bh = $l->ph * 0.66)) {
+                    $l->drawImage($l->loadImage($img['file']), 0, 0, $l->pw, $bh, true);
+                    $l->rect(0, $bh, $l->pw, 3, 'yellow');
+                    $this->captionBox($img, $this->b + 12 * self::MM, $bh - 16 * self::MM);
+                }
             }
         }
         $this->page();
@@ -1060,20 +1066,35 @@ final class Livre
         $this->toc[] = ['t' => $label, 'page' => $p, 'level' => 0];
         $l->pdf->outline($label, $p, $l->ph);
         $l->rect(0, 0, $l->pw, $l->ph, 'navy');
+        $mm = self::MM;
         $img = $this->decadePhoto($dec, $items, $l->pw * 0.5, $l->ph);
+        // Mise en page : photo verticale sur la moitié droite ; sinon (archives presque toujours en
+        // largeur) photo pleine largeur sur la moitié haute, millésime et récits dessous ; sinon fond rayé.
+        $x = $this->b + 22 * $mm;
+        $ty = $this->b + 34 * $mm;
+        $y = $this->b + 120 * $mm;
+        $lx = $x;
+        $w = $l->pw * 0.5 - $x - 10 * $mm;
         if ($img) {
             $l->drawImage($l->loadImage($img['file']), $l->pw * 0.5, 0, $l->pw * 0.5, $l->ph, true);
             $this->report['page']++;
-            $cap = $l->wrap([Layout::run($this->caption($img), 'serif-i', 8, 'mist')], $l->pw * 0.5 - 30 * self::MM, 1.3);
-            $l->drawLines($cap, $l->pw * 0.5 + 12 * self::MM, $l->ph - $this->b - 16 * self::MM, $l->pw * 0.5 - 30 * self::MM);
+            $cap = $l->wrap([Layout::run($this->caption($img), 'serif-i', 8, 'mist')], $l->pw * 0.5 - 30 * $mm, 1.3);
+            $l->drawLines($cap, $l->pw * 0.5 + 12 * $mm, $l->ph - $this->b - 16 * $mm, $l->pw * 0.5 - 30 * $mm);
+        } elseif ($img = $this->decadePhoto($dec, $items, $l->pw, $bh = $l->ph * 0.5)) {
+            $l->drawImage($l->loadImage($img['file']), 0, 0, $l->pw, $bh, true);
+            $l->rect(0, $bh, $l->pw, 3, 'yellow');
+            $this->captionBox($img, $this->b + 12 * $mm, $bh - 16 * $mm);
+            $this->report['page']++;
+            $ty = $bh + 18 * $mm;
+            $y = $bh + 16 * $mm;
+            $lx = $x + $l->width((string) $dec, 'display', 150) + 8 * $mm;
+            $w = $l->pw - $this->b - 14 * $mm - $lx;
         } else {
             $this->stripes($l->pw * 0.5, 0, $l->pw * 0.5, $l->ph);
         }
-        $x = $this->b + 22 * self::MM;
-        $l->text($x, $this->b + 34 * self::MM, mb_strtoupper($label), 'display-b', 11, 'cream', 3);
-        $l->text($x - 4, $this->b + 34 * self::MM + 140, (string) $dec, 'display', 150, 'yellow');
-        $y = $this->b + 120 * self::MM;
-        $w = $l->pw * 0.5 - $x - 10 * self::MM;
+        $l->text($x, $ty, mb_strtoupper($label), 'display-b', 11, 'cream', 3);
+        $l->text($x - 4, $ty + 140, (string) $dec, 'display', 150, 'yellow');
+        $x = $lx;
         foreach ($items as $it) {
             $t = $this->title($it['doc']);
             $lines = $l->wrap([Layout::run(mb_strtoupper($t), 'display-b', 11, 'white', null, 0.5)], $w - 30, 1.35);
@@ -1090,7 +1111,7 @@ final class Livre
      * fiches liées et de toutes les fiches publiées du musée datées de la décennie. Recadrage permis
      * (pleine page), 150 dpi au moins.
      */
-    private function decadePhoto(int $dec, array $items, float $w, float $h): ?array
+    private function decadePhoto(int $dec, array $items, float $w, float $h, bool $whole = false): ?array
     {
         $cands = [];
         foreach ($items as $it) {
@@ -1120,8 +1141,9 @@ final class Livre
                 $cands[] = ['rel' => (string) $rel, 'caption' => $cap, 'credit' => $cred, 'year' => (int) $ym[0]];
             }
         }
-        $best = null;
-        $bestDpi = 150;
+        // Candidates de l'époque, assez proches du format (recadrage d'un tiers au plus : pas un ballon
+        // et un pied), de la plus nette à la moins nette.
+        $ranked = [];
         $seen = [];
         foreach ($cands as $ph) {
             if (isset($seen[$ph['rel']]) || $this->isUsed($ph['rel']) || $this->whoBlocked($ph['rel'])) {
@@ -1129,37 +1151,35 @@ final class Livre
             }
             $seen[$ph['rel']] = true;
             $yr = $ph['year'] ?? null;
-            if ($yr !== null && ($yr < $dec || $yr >= $dec + 10)) {
+            $d = $this->measure($ph['rel']);
+            if (!$d || ($yr !== null && ($yr < $dec || $yr >= $dec + 10))) {
                 continue;
             }
-            $d = $this->measure($ph['rel']);
-            if ($d && ($dpi = self::dpi($d, $w, $h)) > $bestDpi) {
-                $bestDpi = $dpi;
-                $best = $ph;
+            // $whole : photo entière, à son format, dans la largeur (hauteur bornée).
+            $ph['fh'] = $whole ? min($h, $w * $d[1] / $d[0]) : $h;
+            $keep = min(($w / $ph['fh']) / ($d[0] / $d[1]), ($d[0] / $d[1]) / ($w / $ph['fh']));
+            if ($keep >= ($whole ? 0.9 : self::KEEP)) {
+                $ranked[] = [self::dpi($d, $w, $ph['fh']), $ph];
             }
         }
-        // Archives anciennes (petits scans) : à défaut de 150 dpi, la meilleure photo au-dessus de 60 dpi,
-        // traitée en bichromie bleu nuit façon archive, ce qui fait oublier le manque de netteté.
+        usort($ranked, fn ($a, $b) => $b[0] <=> $a[0]);
+        // Nette (150 dpi) en couleurs ; à défaut, archive (60 dpi) en bichromie bleu nuit, qui fait
+        // oublier le manque de netteté. Jamais une photo à fond ou bords blancs : il la faut « pleine ».
+        $best = $img = null;
         $duo = false;
-        if (!$best) {
-            $bestDpi = 60;
-            foreach ($cands as $ph) {
-                if (!isset($seen[$ph['rel']]) || $this->isUsed($ph['rel'])) {
-                    continue;
+        foreach ([[150, false], [60, true]] as [$min, $tone]) {
+            foreach ($ranked as [$dpi, $ph]) {
+                if ($dpi < $min) {
+                    break;
                 }
-                $yr = $ph['year'] ?? null;
-                if ($yr !== null && ($yr < $dec || $yr >= $dec + 10)) {
-                    continue;
-                }
-                $d = $this->measure($ph['rel']);
-                if ($d && ($dpi = self::dpi($d, $w, $h)) > $bestDpi) {
-                    $bestDpi = $dpi;
-                    $best = $ph;
+                $try = $this->prepare($ph['rel'], $w, $ph['fh'], $tone ? 0 : $min);
+                if ($try && !self::framed($try['file'])) {
+                    [$best, $img, $duo] = [$ph, $try, $tone];
+                    break 2;
                 }
             }
-            $duo = true;
         }
-        if (!$best || !($img = $this->prepare($best['rel'], $w, $h, $duo ? 0 : 150, true))) {
+        if (!$best) {
             return null;
         }
         if ($duo) {
@@ -1177,6 +1197,79 @@ final class Livre
         }
         $this->mark($best['rel']);
         return $img + $best;
+    }
+
+    /**
+     * Code-barres EAN-13 dessiné (ISBN fourni, sinon numéro factice) : barres de garde plus longues,
+     * chiffres sous les barres.
+     */
+    private function barcode(float $x, float $y, float $w, float $h, string $code): void
+    {
+        $l = $this->l;
+        $c = substr(str_pad(preg_replace('/\D/', '', $code), 12, '0'), 0, 12);
+        $sum = 0;
+        for ($i = 0; $i < 12; $i++) {
+            $sum += (int) $c[$i] * ($i % 2 ? 3 : 1);
+        }
+        $c .= (string) ((10 - $sum % 10) % 10);
+        $L = ['0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'];
+        $G = ['0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'];
+        $R = ['1110010', '1100110', '1101100', '1000010', '1011100', '1001110', '1010000', '1000100', '1001000', '1110100'];
+        $par = ['LLLLLL', 'LLGLGG', 'LLGGLG', 'LLGGGL', 'LGLLGG', 'LGGLLG', 'LGGGLL', 'LGLGLG', 'LGLGGL', 'LGGLGL'][(int) $c[0]];
+        $bits = '101';
+        for ($i = 1; $i <= 6; $i++) {
+            $bits .= ($par[$i - 1] === 'L' ? $L : $G)[(int) $c[$i]];
+        }
+        $bits .= '01010';
+        for ($i = 7; $i <= 12; $i++) {
+            $bits .= $R[(int) $c[$i]];
+        }
+        $bits .= '101';
+        $quiet = 9;
+        $m = $w / (strlen($bits) + $quiet);
+        $x0 = $x + $quiet * $m;
+        $th = $h - 9;
+        for ($i = 0, $n = strlen($bits); $i < $n; $i++) {
+            if ($bits[$i] === '1') {
+                $guard = $i < 3 || ($i >= 45 && $i < 50) || $i >= 92;
+                $l->rect($x0 + $i * $m, $y, $m, $guard ? $th + 4 : $th, '111111');
+            }
+        }
+        $fs = 7.5;
+        $l->text($x0 - 7 * $m, $y + $h, $c[0], 'display-b', $fs, '111111');
+        foreach ([[1, 3], [7, 50]] as [$from, $at]) {
+            $t = substr($c, $from, 6);
+            $l->text($x0 + ($at + 21) * $m - $l->width($t, 'display-b', $fs, 1.5) / 2, $y + $h, $t, 'display-b', $fs, '111111', 1.5);
+        }
+    }
+
+    /** Photo à fond ou bords clairs (détourage, scan avec marge, fond de studio) : au moins deux bords quasi blancs. */
+    private static function framed(string $file): bool
+    {
+        $im = @imagecreatefromjpeg($file);
+        if (!$im) {
+            return true;
+        }
+        $w = imagesx($im);
+        $h = imagesy($im);
+        $light = function (int $x0, int $y0, int $x1, int $y1) use ($im): float {
+            $n = $l = 0;
+            $sx = max(1, (int) (($x1 - $x0) / 40));
+            $sy = max(1, (int) (($y1 - $y0) / 40));
+            for ($y = $y0; $y < $y1; $y += $sy) {
+                for ($x = $x0; $x < $x1; $x += $sx) {
+                    $c = imagecolorat($im, $x, $y);
+                    $n++;
+                    $l += (($c >> 16) & 255) > 225 && (($c >> 8) & 255) > 225 && ($c & 255) > 225 ? 1 : 0;
+                }
+            }
+            return $n ? $l / $n : 0;
+        };
+        $bw = max(2, (int) ($w * 0.06));
+        $bh = max(2, (int) ($h * 0.06));
+        $sides = [$light(0, 0, $w, $bh), $light(0, $h - $bh, $w, $h), $light(0, 0, $bw, $h), $light($w - $bw, 0, $w, $h)];
+        imagedestroy($im);
+        return count(array_filter($sides, fn ($v) => $v > 0.55)) >= 2;
     }
 
     private function recit(array $it, int $dec, bool $last = false): void
@@ -1842,10 +1935,10 @@ final class Livre
         $l->text($x + 60, $fy + 44, 'musee.fcsochauxretro.com', 'serif', 10, 'mist');
         $bw = 44 * $mm;
         $bh = 25 * $mm;
-        $l->rect($x + $w - $bw, $fy + 64 - $bh, $bw, $bh, 'white');
-        $isbn = trim((string) ($this->o['isbn'] ?? ''));
-        $t = $isbn !== '' ? 'ISBN ' . $isbn : 'CODE-BARRES';
-        $l->text($x + $w - $bw / 2 - $l->width($t, 'display-b', 8, 1) / 2, $fy + 64 - $bh / 2 + 3, $t, 'display-b', 8, 'muted', 1);
+        $bx = $x + $w - $bw;
+        $by = $fy + 64 - $bh;
+        $l->rect($bx, $by, $bw, $bh, 'white');
+        $this->barcode($bx + 4 * $mm, $by + 3 * $mm, $bw - 8 * $mm, $bh - 6 * $mm, trim((string) ($this->o['isbn'] ?? '')) ?: '9782956789012');
     }
 
     // ------------------------------------------------------------------ contenu
