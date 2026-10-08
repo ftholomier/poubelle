@@ -35,7 +35,6 @@ class Base
             ['medias', 'Médiathèque', '/admin/medias', false],
             ['trouvailles', 'Trouvailles (archives)', '/admin/trouvailles', false],
             ['archives', 'Archives à ranger', '/admin/archives', false],
-            ['livre', 'Livre des récits', '/admin/livre', true],
             ['maillots', 'Maillots du livre', '/admin/maillots', false],
         ],
         'Éditorial' => [
@@ -67,6 +66,7 @@ class Base
             ['boutique-releves', 'Relevés imprimeur', '/admin/boutique/releves', true],
             ['boutique-promos', 'Codes promo', '/admin/boutique/promos', true],
             ['boutique-modeles', 'Modèles', '/admin/boutique/modeles', true],
+            ['livre', 'Livre des récits', '/admin/livre', true],
             ['boutique-textes', 'Banque de textes', '/admin/boutique/textes', true],
             ['boutique-reglages', 'Réglages', '/admin/boutique/reglages', true],
             ['boutique-supports', 'Supports', '/admin/boutique/supports', true],

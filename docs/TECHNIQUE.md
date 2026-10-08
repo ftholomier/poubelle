@@ -1543,7 +1543,7 @@ du match). Jamais réécrit ensuite. Mise en page : `App\Front\Recit` (`ROOTS` =
 `rootOf()`), mosaïque de la rubrique (`Mosaic::ROOTS`), menu (`Site`, si la rubrique existe). `forImage()` propose
 les récits dans le rangement des archives. Test : `tests/recits.php`.
 
-## Livre des récits (`App\Pdf\Livre`, `App\Admin\Book`, Contenus › Livre des récits, admin)
+## Livre des récits (`App\Pdf\Livre`, `App\Admin\Book`, Boutique › Livre des récits, admin)
 
 PDF prêt à imprimer des grands récits dans l'ordre chronologique : 210 × 270 mm, fonds perdus de 3 mm
 (TrimBox/BleedBox sur chaque page), pages par multiple de 4. Couverture et 4e personnalisées (nom), dédicace,
