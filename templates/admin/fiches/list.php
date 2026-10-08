@@ -49,6 +49,12 @@ $roleLabel = ['joueur' => 'Joueur', 'entraineur' => 'Entraîneur', 'dirigeant' =
   <span class="small muted"><?= number_format($total, 0, ',', ' ') ?> fiche<?= $total > 1 ? 's' : '' ?><?= $q !== '' ? ' pour « ' . e($q) . ' »' : '' ?></span>
 </form>
 
+<?php if (($query['cat'] ?? '') === 'grands-recits' && !array_filter(\App\Services\GrandsRecits::all(), fn ($r) => \App\Services\GrandsRecits::existing($r['key']))): ?>
+<div class="alert alert--info" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+  <span><b>Les 100 grands récits n’ont pas encore été créés sur ce site.</b> Ils sont prêts : un clic les crée dans la rubrique « Grands récits » (6 publiés, les autres « à relire »).</span>
+  <?php if (\App\Core\Auth::isAdmin()): ?><form method="post" action="/admin/archives" style="margin:0"><?= csrf_field() ?><input type="hidden" name="action" value="recits"><button class="btn btn--primary btn--sm">Créer les grands récits</button></form><?php else: ?><span class="small">Demandez à un administrateur de les créer.</span><?php endif; ?>
+</div>
+<?php endif; ?>
 <form method="post" action="/admin/fiches/lot" data-bulk-form data-confirm="Appliquer l’action aux fiches sélectionnées ?||Appliquer">
   <?= csrf_field() ?>
   <input type="hidden" name="back" value="<?= e($base . $qs([])) ?>">
