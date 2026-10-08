@@ -34,6 +34,7 @@ class Base
             ['medias', 'Médiathèque', '/admin/medias', false],
             ['trouvailles', 'Trouvailles (archives)', '/admin/trouvailles', false],
             ['archives', 'Archives à ranger', '/admin/archives', false],
+            ['livre', 'Livre des récits', '/admin/livre', true],
         ],
         'Éditorial' => [
             ['accueil', 'Accueil & bandeau', '/admin/accueil', false],

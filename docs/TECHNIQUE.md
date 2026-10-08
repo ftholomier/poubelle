@@ -1543,6 +1543,19 @@ du match). Jamais réécrit ensuite. Mise en page : `App\Front\Recit` (`ROOTS` =
 `rootOf()`), mosaïque de la rubrique (`Mosaic::ROOTS`), menu (`Site`, si la rubrique existe). `forImage()` propose
 les récits dans le rangement des archives. Test : `tests/recits.php`.
 
+## Livre des récits (`App\Pdf\Livre`, `App\Admin\Book`, Contenus › Livre des récits, admin)
+
+PDF prêt à imprimer des grands récits dans l'ordre chronologique : 210 × 270 mm, fonds perdus de 3 mm
+(TrimBox/BleedBox sur chaque page), pages par multiple de 4. Couverture et 4e personnalisées (nom), dédicace,
+numéro d'exemplaire, sommaire (dessiné à la fin, pages réservées), ouverture de décennie (page de droite),
+récits en deux colonnes (un récit court laisse le suivant commencer sur la même page), bandeau courant,
+folios côté extérieur, signets. Photos : jamais la presse (`GrandsRecits::press`) ; une photo n'est placée que si
+sa définition suffit au cadre (`Livre::DPI` : pleine page et bandeau 250 dpi, pleine largeur 220, colonne 200),
+mesurée sur l'original recadré (`measure()`, cache `storage/cache/livre/dims.json`) ; elle est recadrée et réduite
+à 300 dpi (`storage/cache/livre/*.jpg`). `report()` : photos par taille, écartées, récits sans photo (bilan de la
+dernière composition : `storage/livres/dernier.json`). Livre entier : ~25 s et ~80 Mo de mémoire sur le banc.
+Test : `tests/livre.php`.
+
 ## Catalogue des archives (`App\Services\Catalogue`, `App\Admin\Archives`)
 
 Contenus › Archives à ranger (`/admin/archives` ; dépôt : administrateurs ; rangement : toute l'équipe).
