@@ -23,17 +23,31 @@ $here = \App\Admin\Favorites::here($meta);
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
 </head>
 <body data-idle="<?= Auth::idleLimit() ?>">
-<div class="bo" data-bo>
+<?php $compact = ($_COOKIE['bo_nav'] ?? '') === 'compact'; ?>
+<div class="bo<?= $compact ? ' nav-compact' : '' ?>" data-bo>
   <aside class="side" id="side">
     <a class="side__brand" href="/admin"><img src="/assets/img/logo-sochaux-retro.png" alt=""><span><b>Sochaux rétro</b><small>Back-office</small></span></a>
+    <label class="side__mode" title="Menu compact : seules les grandes parties, leurs rubriques s’ouvrent au survol">
+      <span>Menu compact</span>
+      <input type="checkbox" role="switch" data-nav-mode<?= $compact ? ' checked' : '' ?>><i aria-hidden="true"></i>
+    </label>
     <nav aria-label="Menu du back-office">
       <?php foreach (Base::NAV as $group => $items): ?>
         <?php if (!$isAdmin && !array_filter($items, fn ($it) => !$it[3])) { continue; } ?>
-        <span class="side__group"><?= e($group) ?></span>
-        <?php foreach ($items as [$key, $label, $href, $adminOnly]): ?>
-          <?php if ($adminOnly && !$isAdmin) { continue; } ?>
-          <a class="side__item<?= $nav === $key ? ' is-on' : '' ?>" href="<?= e($href) ?>"<?= $nav === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?><?php if (!empty($badges[$key])): ?><span class="side__badge<?= $key === 'qualite' ? ' side__badge--pink' : '' ?>"><?= (int) $badges[$key] ?></span><?php endif; ?></a>
-        <?php endforeach; ?>
+        <?php
+          $vis = array_filter($items, fn ($it) => $isAdmin || !$it[3]);
+          $on = in_array($nav, array_column($vis, 0), true);
+          $sum = array_sum(array_map(fn ($it) => (int) ($badges[$it[0]] ?? 0), $vis));
+          $pink = !empty($badges['qualite']) && in_array('qualite', array_column($vis, 0), true);
+        ?>
+        <div class="side__part<?= $on ? ' is-on' : '' ?>">
+          <span class="side__group"><span><?= e($group) ?></span><?php if ($sum): ?><span class="side__badge side__badge--sum<?= $pink ? ' side__badge--pink' : '' ?>"><?= $sum ?></span><?php endif; ?><i aria-hidden="true">›</i></span>
+          <div class="side__items">
+          <?php foreach ($vis as [$key, $label, $href, $adminOnly]): ?>
+            <a class="side__item<?= $nav === $key ? ' is-on' : '' ?>" href="<?= e($href) ?>"<?= $nav === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?><?php if (!empty($badges[$key])): ?><span class="side__badge<?= $key === 'qualite' ? ' side__badge--pink' : '' ?>"><?= (int) $badges[$key] ?></span><?php endif; ?></a>
+          <?php endforeach; ?>
+          </div>
+        </div>
       <?php endforeach; ?>
     </nav>
     <div class="side__foot">

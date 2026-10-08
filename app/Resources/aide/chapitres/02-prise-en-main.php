@@ -29,6 +29,7 @@ HTML],
 <p>Sous le titre, la ligne <b>★ Favoris</b> garde vos écrans les plus utilisés à un clic (voir ci-dessous).</p>
 HTML],
         ['id' => 'favoris', 'title' => 'Vos favoris, en haut de chaque écran', 'html' => <<<'HTML'
+<p>Le menu de gauche est rangé en grandes parties (Pilotage, Contenus, Éditorial…). L’interrupteur <b>Menu compact</b>, en haut du menu, n’affiche que ces parties : leurs rubriques s’ouvrent au survol de la souris. Votre choix est retenu sur cet ordinateur ; sur téléphone, le menu reste complet.</p>
 <p>Pour ne plus chercher dans le menu de gauche, mettez vos écrans les plus utilisés dans la bande du haut, sous le titre : un clic sur un favori ouvre l’écran.</p>
 <ol>
 <li>Cliquez sur <b>+ Ajouter un favori</b>.</li>

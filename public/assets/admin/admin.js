@@ -227,6 +227,12 @@
       tg.setAttribute('aria-expanded', String(!m.hidden));
     }
   });
+  // Menu compact à deux niveaux : interrupteur en haut du menu, choix gardé un an (cookie lu par le serveur).
+  const navMode = $('[data-nav-mode]');
+  navMode && navMode.addEventListener('change', () => {
+    $('[data-bo]').classList.toggle('nav-compact', navMode.checked);
+    document.cookie = 'bo_nav=' + (navMode.checked ? 'compact' : 'normal') + ';path=/admin;max-age=31536000;samesite=lax';
+  });
   const navBtn = $('[data-nav-toggle]');
   navBtn?.addEventListener('click', () => {
     const bo = $('[data-bo]');
