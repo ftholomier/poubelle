@@ -43,6 +43,7 @@ $here = \App\Admin\Favorites::here($meta);
         <div class="side__part<?= $on ? ' is-on' : '' ?>">
           <span class="side__group"><span><?= e($group) ?></span><?php if ($sum): ?><span class="side__badge side__badge--sum<?= $pink ? ' side__badge--pink' : '' ?>"><?= $sum ?></span><?php endif; ?><i aria-hidden="true">›</i></span>
           <div class="side__items">
+            <span class="side__flytitle" aria-hidden="true"><?= e($group) ?></span>
           <?php foreach ($vis as [$key, $label, $href, $adminOnly]): ?>
             <a class="side__item<?= $nav === $key ? ' is-on' : '' ?>" href="<?= e($href) ?>"<?= $nav === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?><?php if (!empty($badges[$key])): ?><span class="side__badge<?= $key === 'qualite' ? ' side__badge--pink' : '' ?>"><?= (int) $badges[$key] ?></span><?php endif; ?></a>
           <?php endforeach; ?>
