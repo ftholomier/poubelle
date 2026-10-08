@@ -290,7 +290,7 @@ function jerseyGlsl(d) {
     if (l.t === 'vstripes') L.push(`if (fract((p.x + 1.0) * ${(l.n || 20).toFixed(1)}) < ${(l.w || 0.2).toFixed(3)} && abs(p.x) < 0.5${front}) c = ${col};`);
     if (l.t === 'band') L.push(`if (p.y > ${l.y0.toFixed(3)} && p.y < ${l.y1.toFixed(3)} && abs(p.x) < 0.5${front}) c = ${col};`);
     if (l.t === 'checker') L.push(`if (p.y > ${l.y0.toFixed(3)} && p.y < ${l.y1.toFixed(3)} && abs(p.x) < 0.5${front} && mod(floor((p.x + 1.0) * ${(l.n || 14).toFixed(1)}) + floor((p.y + 1.0) * ${(l.n || 14).toFixed(1)}), 2.0) > 0.5) c = ${col};`);
-    if (l.t === 'yoke') L.push(`if (p.y > ${(l.y ?? 0.62).toFixed(3)} - abs(p.x) * ${(l.slope ?? 0).toFixed(3)}${front}) c = ${col};`);
+    if (l.t === 'yoke') L.push(`if (p.y > mix(${(l.yb ?? l.y ?? 0.62).toFixed(3)}, ${(l.y ?? 0.62).toFixed(3)}, smoothstep(-0.25, 0.25, p.z)) - abs(p.x) * ${(l.slope ?? 0).toFixed(3)}) c = ${col};`);
     if (l.t === 'side') L.push(`if (abs(p.x) > ${(l.x ?? 0.36).toFixed(3)} && abs(p.x) < 0.5 && p.y < 0.75) c = ${col};`);
     if (l.t === 'raglan') L.push(`if (${sleeve} && abs(p.z) < ${(l.w ?? 0.07).toFixed(3)}) c = ${col};`);
     if (l.t === 'chevrons') L.push(`if (p.y > 0.45${front} && abs(p.x) < 0.75 && fract((p.y - abs(p.x) * 0.55) * ${(l.n || 9).toFixed(1)}) < ${(l.w || 0.22).toFixed(3)} && p.y - abs(p.x) * 0.55 > 0.3) c = ${col};`);
