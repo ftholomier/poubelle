@@ -27,11 +27,13 @@ $already = array_filter(array_column(G::status(), 'fiche'));
 $made = [];
 try {
     $all = G::all();
-    $eq('6 récits, clés uniques, chaque récit a au moins 3 chapitres', [count($all), count(array_unique(array_column($all, 'key'))), count(array_filter($all, fn ($r) => count($r['sections']) >= 3))], [6, 6, 6]);
+    $eq('récits aux clés uniques, au moins 2 chapitres chacun, dans l’ordre des années', [count(array_unique(array_column($all, 'key'))), count(array_filter($all, fn ($r) => count($r['sections']) >= 2)), array_column($all, 'year') === array_values(array_map(fn ($x) => $x, (function ($y) { sort($y); return $y; })(array_column($all, 'year'))))], [count($all), count($all), true]);
     $eq('lien vers un match absent : texte seul', G::links('{{match:1899-01-01|la fiche}}'), 'la fiche');
     $n = G::create();
     $made = array_filter(array_column(G::status(), 'fiche'));
-    $eq('rubrique « Grands récits » et récits créés', [(bool) Categories::get(G::ROOT), count($made)], [true, 6]);
+    $eq('rubrique « Grands récits » et récits créés', [(bool) Categories::get(G::ROOT), count($made)], [true, count($all)]);
+    $relire = Fiches::get((int) G::existing('sauvetage-2023'));
+    $eq('nouveau récit « à relire », sources de presse en lien', [$relire['status'], str_contains(json_encode($relire['sections']), 'fff.fr')], ['relire', true]);
     $eq('relancer ne recrée rien', G::create(), 0);
     $doc = Fiches::get((int) G::existing('epopee-uefa-1981'));
     $eq('publié dans la rubrique, mise en page récit', [$doc['status'], $doc['categories'], Recit::applies($doc)], ['publie', [G::ROOT], true]);

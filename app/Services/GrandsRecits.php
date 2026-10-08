@@ -21,7 +21,17 @@ final class GrandsRecits
     /** @return list<array> */
     public static function all(): array
     {
-        return require APP_ROOT . '/app/Resources/import/recits.php';
+        static $all = null;
+        if ($all !== null) {
+            return $all;
+        }
+        // Premiers récits, puis un fichier par décennie (app/Resources/import/recits/*.php), dans l'ordre chronologique.
+        $all = require APP_ROOT . '/app/Resources/import/recits.php';
+        foreach (glob(APP_ROOT . '/app/Resources/import/recits/*.php') ?: [] as $f) {
+            $all = array_merge($all, require $f);
+        }
+        usort($all, fn ($a, $b) => ($a['year'] ?? 9999) <=> ($b['year'] ?? 9999));
+        return $all;
     }
 
     /** Fiche déjà créée pour ce récit (clé dans legacy.recit), ou null. */
@@ -75,8 +85,10 @@ final class GrandsRecits
             foreach ($r['sections'] as [$t, $html]) {
                 $doc['sections'][] = ['title' => $t, 'html' => self::links($html)];
             }
-            $doc['sections'][] = ['title' => 'Sources', 'html' => '<p>Récit de Sochaux Rétro d’après les feuilles de match et les bilans de l’association, les documents du club et les archives du musée Peugeot.</p>'];
-            $doc['status'] = 'publie';
+            $links = implode('', array_map(fn ($l) => '<li><a href="' . e($l[1]) . '" rel="noopener" target="_blank">' . e($l[0]) . '</a></li>', (array) ($r['sources'] ?? [])));
+            $doc['sections'][] = ['title' => 'Sources', 'html' => '<p>Récit de Sochaux Rétro d’après les feuilles de match et les bilans de l’association, les documents du club et les archives du musée Peugeot' . ($links ? ', et la presse :' : '.') . '</p>' . ($links ? '<ul>' . $links . '</ul>' : '')];
+            // Les nouveaux récits attendent une relecture avant d'être publiés.
+            $doc['status'] = !empty($r['review']) ? 'relire' : 'publie';
             $doc['categories'] = [self::ROOT];
             $doc['legacy'] = ['recit' => $r['key'], 'image_hint' => $r['image_hint'] ?? []];
             $doc['path'] = Paths::unique('/' . self::ROOT . '/' . $r['key'] . '/', -1);

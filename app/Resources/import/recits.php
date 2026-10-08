@@ -9,6 +9,7 @@
 return [
     [
         'key' => 'peugeot-et-le-fcsm',
+        'year' => 1928,
         'title' => 'Peugeot et le FC Sochaux, une histoire de famille 1928 – 1970',
         'image_hint' => ['peugeot', 'album', 'usine'],
         'intro' => 'À Sochaux, le football est né à l’ombre des usines. De la fusion de 1930 au titre de 1935, de la Coupe de France 1937 aux tournées « ambassadrices » des années 1960, l’histoire du club se confond avec celle de Peugeot : un patron qui préside, des ouvriers qui remplissent les tribunes, une marque qui voyage avec les Lionceaux.',
@@ -22,6 +23,7 @@ return [
     ],
     [
         'key' => 'finales-coupe-de-france',
+        'year' => 1937.5,
         'title' => 'Les finales de Coupe de France 1937 – 2007',
         'image_hint' => ['finale', 'coupe-de-france', 'supporters'],
         'intro' => 'Cinq finales, deux trophées : de Colombes au Stade de France, la Coupe de France raconte à elle seule soixante-dix ans de passion sochalienne, avec ses trains de supporters, ses larmes et ses tirs au but.',
@@ -35,6 +37,7 @@ return [
     ],
     [
         'key' => 'epopee-uefa-1981',
+        'year' => 1980,
         'title' => 'L’épopée européenne 1980 – 1981',
         'image_hint' => ['uefa', 'coupe-uefa', 'zurich', 'boavista'],
         'intro' => 'Deuxième du championnat en 1980, le FC Sochaux de Jean Fauvergue s’offre la plus belle aventure européenne de son histoire : cinq tours, Servette, Boavista, l’Eintracht Francfort, Grasshopper Zurich, jusqu’à une demi-finale de Coupe de l’UEFA contre l’AZ 67 Alkmaar.',
@@ -48,6 +51,7 @@ return [
     ],
     [
         'key' => 'record-bonal-1976',
+        'year' => 1976,
         'title' => 'Sochaux – Saint-Étienne, le record de Bonal 1976',
         'image_hint' => ['affluence', 'saint-etienne', 'public', 'record'],
         'intro' => 'Le 15 mai 1976, pour la dernière journée du championnat, Bonal accueille l’AS Saint-Étienne, la grande équipe de l’époque. 20 866 spectateurs s’entassent dans les tribunes : un record qui fait encore référence dans les archives du club.',
@@ -59,6 +63,7 @@ return [
     ],
     [
         'key' => 'tournee-1965',
+        'year' => 1965,
         'title' => 'Les ambassadeurs de la 204, la tournée de juin 1965',
         'image_hint' => ['tournee', '204', 'antilles', 'guadeloupe', 'martinique', 'guyane', 'suriname'],
         'intro' => 'Du 2 au 24 juin 1965, une délégation de dix-neuf Sochaliens traverse l’Atlantique pour une tournée en Guadeloupe, en Martinique, au Suriname et en Guyane. Objectif : jouer au football… et présenter la toute nouvelle Peugeot 204. Le carnet de voyage tenu par Georges Vuillaume en garde la trace, jour après jour.',
@@ -72,6 +77,7 @@ return [
     ],
     [
         'key' => 'match-du-souvenir-1962',
+        'year' => 1962,
         'title' => 'Le match du souvenir 1962',
         'image_hint' => ['souvenir', '1962', 'anciens'],
         'intro' => 'Le samedi 16 juin 1962, en nocturne, le stade Bonal accueille un match pas comme les autres : une amicale réunit les grands joueurs des années 1930 et 1940 pour les faire connaître aux jeunes générations. Le programme de la soirée, conservé par le musée Peugeot, fait revivre ces gloires.',
