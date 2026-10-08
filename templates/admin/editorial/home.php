@@ -10,7 +10,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
 <form class="stack" data-json-form data-tabs-scope data-url="/admin/accueil" data-lock="ecran:accueil" data-lock-what="l’accueil" novalidate>
   <div class="row" style="justify-content:space-between">
     <div class="ftabs" data-ftabs role="tablist">
-      <?php foreach (['slider' => 'Slider « À la une »', 'bandeau' => 'Bandeau défilant', 'textes' => 'Textes & compteurs', 'palmares' => 'Palmarès', 'epoques' => 'Grandes époques', 'reserves' => 'Réserves', 'vignettes' => 'Vignettes'] as $k => $l): ?>
+      <?php foreach (['slider' => 'Grand slider', 'bandeau' => 'Bandeau défilant', 'textes' => 'Textes & compteurs', 'palmares' => 'Palmarès', 'epoques' => 'Grandes époques', 'reserves' => 'Réserves', 'vignettes' => 'Vignettes'] as $k => $l): ?>
         <button type="button" data-tab="<?= $k ?>" role="tab"><?= e($l) ?></button>
       <?php endforeach; ?>
     </div>
@@ -23,7 +23,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <?= Form::seg('slider.mode', 'Contenu du slider', $slider['mode'] ?? 'random', ['random' => 'Tirage au hasard', 'manual' => 'Sélection manuelle']) ?>
       <div data-show-if="slider.mode" data-show-value="random">
         <?php $minTxt = number_format($slideMin[0], 0, ',', ' ') . ' × ' . number_format($slideMin[1], 0, ',', ' ') . ' pixels'; ?>
-        <p class="alert alert--info" style="margin:0">À chaque visite, <b><?= (int) ($home['slider_count'] ?? 5) ?></b> fiches sont tirées au hasard parmi les <b><?= number_format((int) $pool, 0, ',', ' ') ?></b> fiches publiées marquées « À la une » dont la photo à la une est assez grande pour rester nette en plein écran (au moins <?= e($minTxt) ?>).<?= $poolSmall ? ' Écartées : ' . number_format((int) $poolSmall, 0, ',', ' ') . ' fiches à la photo trop petite' . ($poolNoImage ? ' et ' . (int) $poolNoImage . ' sans vraie photo (pas d’image ou silhouette « ? »)' : '') . '.' : ($poolNoImage ? ' Écartées : ' . (int) $poolNoImage . ' fiches sans vraie photo (pas d’image ou silhouette « ? »).' : '') ?> Cochez « À la une » dans l’onglet « Classement & SEO » d’une fiche pour l’ajouter ; un plus grand scan de sa photo (Médiathèque › « Remplacer le fichier… ») la fait entrer dans le tirage.</p>
+        <p class="alert alert--info" style="margin:0">À chaque visite, <b><?= (int) ($home['slider_count'] ?? 5) ?></b> fiches sont tirées au hasard parmi les <b><?= number_format((int) $pool, 0, ',', ' ') ?></b> fiches publiées (matchs, joueurs, récits, articles…) dont la photo à la une est assez grande pour rester nette en plein écran (au moins <?= e($minTxt) ?>).<?= $poolSmall ? ' Écartées : ' . number_format((int) $poolSmall, 0, ',', ' ') . ' fiches à la photo trop petite' . ($poolNoImage ? ' et ' . (int) $poolNoImage . ' sans vraie photo (pas d’image ou silhouette « ? »)' : '') . '.' : ($poolNoImage ? ' Écartées : ' . (int) $poolNoImage . ' fiches sans vraie photo (pas d’image ou silhouette « ? »).' : '') ?> Cochez « À la une » dans l’onglet « Classement & SEO » d’une fiche pour l’ajouter ; un plus grand scan de sa photo (Médiathèque › « Remplacer le fichier… ») la fait entrer dans le tirage.</p>
       </div>
       <div data-show-if="slider.mode" data-show-value="manual">
         <?= Form::repeater('slider.ids', 'Fiches du slider, dans l’ordre', $manual, fn ($it) => '<div class="row" style="gap:10px;flex-wrap:nowrap">'

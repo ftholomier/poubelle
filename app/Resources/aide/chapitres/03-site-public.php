@@ -5,7 +5,7 @@ return [
     'summary' => 'Ce que voient les visiteurs, d’où vient chaque élément et ce qui se met à jour tout seul.',
     'sections' => [
         ['id' => 'accueil', 'title' => 'L’accueil et les menus', 'html' => <<<'HTML'
-<p>L’accueil réunit le bandeau « En direct du musée », le grand slider des fiches « À la une », le compte à rebours du centenaire (20 mai 2028), « Ce jour-là », <b>le chiffre du jour</b> (un des 100 chiffres du FCSM, un nouveau chaque jour, avec un lien vers la page des chiffres), le palmarès, les grandes époques et les réserves.</p>
+<p>L’accueil réunit le bandeau « En direct du musée », le grand slider (fiches tirées au hasard), le compte à rebours du centenaire (20 mai 2028), « Ce jour-là », <b>le chiffre du jour</b> (un des 100 chiffres du FCSM, un nouveau chaque jour, avec un lien vers la page des chiffres), le palmarès, les grandes époques et les réserves.</p>
 [[img:site-accueil.webp|L’accueil du site public]]
 <p>Les menus reprennent l’arborescence de l’ancien site : <b>Accueil, Matchs, Nos Lions, Supporters, Infrastructures, Symboles</b>, et la nouvelle rubrique <b>Interactif</b>. Chaque menu s’ouvre en méga-menu avec ses sous-rubriques.</p>
 [[img:site-megamenu.webp|Le méga-menu « Matchs »]]

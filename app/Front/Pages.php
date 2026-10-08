@@ -100,10 +100,10 @@ final class Pages
      */
     public static function slidePool(): array
     {
-        return \App\Core\Memo::get('slider-tirage', [Index::CACHE, Media::FILE, __FILE__], implode('x', self::$slideMin), function () {
+        return \App\Core\Memo::get('slider-tirage-tout', [Index::CACHE, Media::FILE, __FILE__], implode('x', self::$slideMin), function () {
             $ids = [];
             foreach (Index::published() as $s) {
-                if ($s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image']) && self::slideReady($s['image'])) {
+                if ($s['image'] && !Index::isPlaceholderImage($s['image']) && self::slideReady($s['image'])) {
                     $ids[] = (int) $s['id'];
                 }
             }
@@ -112,7 +112,7 @@ final class Pages
     }
 
     /**
-     * Slider : N fiches « À la une » tirées au hasard parmi celles dont la photo est assez grande
+     * Slider : N fiches publiées de tout type (matchs, joueurs, récits…) tirées au hasard parmi celles dont la photo est assez grande
      * (sinon, s'il n'y en a aucune, parmi toutes celles qui ont une vraie photo), ou la sélection
      * manuelle du back-office.
      */
@@ -140,7 +140,7 @@ final class Pages
                 }
             }
             if (!$pool) {
-                $pool = array_values(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));
+                $pool = array_values(array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image'])));
                 shuffle($pool);
             }
         }

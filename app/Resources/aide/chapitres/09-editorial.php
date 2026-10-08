@@ -7,14 +7,14 @@ return [
         ['id' => 'accueil', 'title' => 'La page d’accueil', 'html' => <<<'HTML'
 <p>Éditorial › <b>Accueil &amp; bandeau</b>. Chaque bloc de la page d’accueil a sa carte ; enregistrez avec le bouton en bas de page.</p>
 <ul>
-<li><b>Grand slider</b> : tirage au hasard parmi les fiches cochées « À la une » dont la photo à la une est assez grande pour rester nette en plein écran (au moins 1 200 × 600 pixels), ou une liste choisie à la main dans l’ordre voulu. Les fiches à la photo trop petite restent « À la une » mais ne sont pas tirées : la carte dit combien sont écartées. En sélection manuelle, l’étiquette « photo trop petite » signale une photo qui paraîtra floue.</li>
+<li><b>Grand slider</b> : tirage au hasard parmi toutes les fiches publiées (matchs, joueurs, récits, articles…) dont la photo à la une est assez grande pour rester nette en plein écran (au moins 1 200 × 600 pixels), ou une liste choisie à la main dans l’ordre voulu. Les fiches à la photo trop petite ne sont pas tirées : la carte dit combien sont écartées. En sélection manuelle, l’étiquette « photo trop petite » signale une photo qui paraîtra floue.</li>
 <li><b>Compteurs et centenaire</b>, <b>Palmarès</b> (bandeau jaune), <b>Les grandes époques</b> (nom, dates, texte, image, dates clés), <b>Les réserves du musée</b>, <b>« Ils ont porté le lion »</b>, <b>Images des encarts</b> (quiz, maillots, frise, contribuer). Une photo de la médiathèque est choisie au départ pour chaque époque, réserve et encart (et pour la frise et le comparateur de maillots) : « Choisir… » pour la remplacer.</li>
 <li><b>Référencement de l’accueil</b> : titre et description pour Google.</li>
 <li><b>Le chiffre du jour</b> (onglet Textes &amp; compteurs) : un des 100 chiffres du FCSM affiché sous « Ce jour-là », un nouveau chaque jour ; la carte montre celui du jour, la case l’affiche ou le masque.</li>
 <li><b>Le teaser vidéo</b> (onglet Textes &amp; compteurs) : la vidéo de présentation du musée (1 min 55), sous les compteurs. Tant que la page d’attente est active, le public ne la voit pas : seule l’équipe connectée la voit.</li>
 </ul>
 [[img:accueil-slider.webp|Le réglage du grand slider de l’accueil]]
-[[astuce|<p>Pour faire entrer une fiche dans le slider en tirage au hasard : cochez « À la une » dans son onglet « Classement &amp; SEO » et donnez-lui une image à la une d’au moins 1 200 × 600 pixels. Sous la case, la fiche signale une image trop petite : un plus grand scan (Médiathèque › cliquez la photo › « Remplacer le fichier… ») la fait entrer dans le tirage.</p>]]
+[[astuce|<p>Toute fiche publiée entre dans le tirage au hasard du slider dès qu’elle a une image à la une d’au moins 1 200 × 600 pixels. Sous la case, la fiche signale une image trop petite : un plus grand scan (Médiathèque › cliquez la photo › « Remplacer le fichier… ») la fait entrer dans le tirage.</p>]]
 HTML],
         ['id' => 'bandeau', 'title' => 'Le bandeau « En direct du musée »', 'html' => <<<'HTML'
 <p>Le bandeau défilant en haut de toutes les pages mêle des messages automatiques (« Ce jour-là », compte à rebours du centenaire, dernier match fiché), que l’on peut activer ou non, et les <b>messages de l’équipe</b> : étiquette, message, lien facultatif, version anglaise, case « Affiché ».</p>

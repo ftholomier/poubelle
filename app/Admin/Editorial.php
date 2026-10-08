@@ -43,10 +43,10 @@ final class Editorial extends Base
             }
         }
         // Tirage au hasard : fiches « À la une » dont la photo est assez grande ; les autres sont comptées à part.
-        $withPhoto = count(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && $s['image'] && !Index::isPlaceholderImage($s['image'])));
+        $withPhoto = count(array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image'])));
         $pool = Pages::slidePool();
         $poolSmall = max(0, $withPhoto - count($pool));
-        $poolNoImage = count(array_filter(Index::published(), fn ($s) => $s['a_la_une'] && (!$s['image'] || Index::isPlaceholderImage($s['image']))));
+        $poolNoImage = count(array_filter(Index::published(), fn ($s) => (!$s['image'] || Index::isPlaceholderImage($s['image']))));
         $ticker = Collections::get('ticker', ['auto' => ['jour' => true, 'centenaire' => true, 'dernier' => true], 'messages' => Site::defaultTickerMessages()]);
         $home = [];
         foreach (Settings::schema()['home']['fields'] as $k => $f) {
