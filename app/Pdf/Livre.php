@@ -989,7 +989,7 @@ final class Livre
                 $list = array_merge($list, $this->photos($d, false, true));
             }
             foreach ($list as $photo) {
-                if ($img = $this->prepare($photo['rel'], $cw, $ph, self::DPI['colonne'])) {
+                if ($img = $this->prepare($photo['rel'], $cw, $ph, self::DPI['colonne'], true)) {
                     $this->mark($photo['rel']);
                     break;
                 }
@@ -1022,10 +1022,29 @@ final class Livre
     private function decade(int $dec, array $items): void
     {
         $l = $this->l;
-        if ($this->right($l->pdf->pageCount())) {
-            // La prochaine page serait à droite : on intercale une page de gauche.
-        } else {
-            $this->blank();
+        if (!$this->right($l->pdf->pageCount())) {
+            // La prochaine page serait à gauche : elle devient la moitié gauche de l'ouverture de la
+            // décennie (grande photo d'époque, sinon fond bleu nuit rayé) au lieu d'une page blanche.
+            $lp = $this->page();
+            $this->noFolio[$lp] = true;
+            $this->dark[$lp] = true;
+            $l->rect(0, 0, $l->pw, $l->ph, 'navy');
+            $img = null;
+            foreach ($items as $it) {
+                foreach ($this->photos($it['doc'], true) as $ph) {
+                    if ($img = $this->prepare($ph['rel'], $l->pw, $l->ph, self::DPI['page'])) {
+                        $img += $ph;
+                        $this->mark($ph['rel']);
+                        break 2;
+                    }
+                }
+            }
+            if ($img) {
+                $l->drawImage($l->loadImage($img['file']), 0, 0, $l->pw, $l->ph, true);
+                $this->captionBox($img, $this->b + 12 * self::MM, $l->ph - $this->b - 20 * self::MM);
+            } else {
+                $this->stripes(0, 0, $l->pw, $l->ph);
+            }
         }
         $this->page();
         $this->noFolio[$l->page] = true;
@@ -1884,8 +1903,44 @@ final class Livre
         return false;
     }
 
+    /** @var array<string,string> photo => sujet (personne) */
+    private array $who = [];
+    /** @var array<string,array{n:int,r:int}> sujet => nombre de photos et dernier récit */
+    private array $whoSeen = [];
+
+    /**
+     * Une même personne : une seule photo par récit, deux au plus dans tout le livre,
+     * et jamais dans deux récits rapprochés (au moins quatre récits d'écart).
+     */
+    private function whoBlocked(string $rel): bool
+    {
+        $k = $this->who[$rel] ?? '';
+        if ($k === '' || !isset($this->whoSeen[$k])) {
+            return false;
+        }
+        $s = $this->whoSeen[$k];
+        return $s['n'] >= 2 || $this->report['recits'] - $s['r'] < 4;
+    }
+
+    /** Sujet d'une légende quand elle commence par un nom (« Stéphane Paille · Photo… »), sinon ''. */
+    private static function subject(string $cap): string
+    {
+        $head = trim((string) preg_split('/\s+[·–—-]\s+|,|\(|:/u', $cap)[0]);
+        if ($head === '' || preg_match('/\d/', $head) || !preg_match('/^\p{Lu}[\p{L}\'’.-]+(\s+(de |du |van |le |la )?\p{Lu}[\p{L}\'’.-]+){1,3}$/u', $head)) {
+            return '';
+        }
+        if (preg_match('/^(Le |La |Les |Stade|Photo|Équipe|Equipe|FC |Sochaux|Coupe|Saison|Match)/u', $head)) {
+            return '';
+        }
+        return 'n:' . mb_strtolower($head);
+    }
+
     private function mark(string $rel): void
     {
+        if (isset($this->who[$rel])) {
+            $k = $this->who[$rel];
+            $this->whoSeen[$k] = ['n' => ($this->whoSeen[$k]['n'] ?? 0) + 1, 'r' => $this->report['recits']];
+        }
         foreach ($this->photoKeys($rel) as $k) {
             $this->used[$k] = true;
         }
@@ -1964,7 +2019,13 @@ final class Livre
                 if ($y0 !== null && ($yr !== null ? ($yr < $y0 - 2 || $yr > $y1 + 2) : isset($people[$id]))) {
                     continue;
                 }
+                if (isset($people[$id])) {
+                    $this->who[$p['rel']] = 'p:' . $id;
+                }
                 $out[$p['rel']] = $p;
+                if (isset($people[$id])) {
+                    break;
+                }
                 if (count($out) >= $max) {
                     return array_values($out);
                 }
@@ -1989,6 +2050,10 @@ final class Livre
             if (!$press && GrandsRecits::press($cred . ' ' . $cap)) {
                 $this->report['presse']++;
                 return;
+            }
+            $who = self::subject($cap);
+            if ($who !== '' && !isset($this->who[$rel])) {
+                $this->who[$rel] = $who;
             }
             $list[] = ['rel' => $rel, 'caption' => $cap, 'credit' => $cred, 'year' => Recit::year($cap . ' ' . $rel)];
         };
@@ -2064,8 +2129,11 @@ final class Livre
      * Image recadrée au format du cadre et réduite à 300 dpi, si sa définition atteint $min dpi.
      * @return array{file:string,dpi:float}|null
      */
-    private function prepare(string $rel, float $w, float $h, int $min): ?array
+    private function prepare(string $rel, float $w, float $h, int $min, bool $crop = false): ?array
     {
+        if ($this->whoBlocked($rel)) {
+            return null;
+        }
         $d = $this->measure($rel);
         if (!$d) {
             return null;
@@ -2076,7 +2144,7 @@ final class Livre
         }
         // Recadrage trop fort (photo en hauteur dans un bandeau, etc.) : têtes et pieds coupés, on refuse.
         $keep = min(($w / $h) / ($d[0] / $d[1]), ($d[0] / $d[1]) / ($w / $h));
-        if ($min > 0 && $keep < self::KEEP) {
+        if ($min > 0 && !$crop && $keep < self::KEEP) {
             return null;
         }
         // ecran : PDF à lire à l’écran (150 dpi), bien plus léger
