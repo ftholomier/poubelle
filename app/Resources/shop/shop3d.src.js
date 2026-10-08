@@ -295,12 +295,12 @@ function jerseyGlsl(d) {
     if (l.t === 'raglan') L.push(`if (${sleeve} && abs(p.z) < ${(l.w ?? 0.07).toFixed(3)}) c = ${col};`);
     if (l.t === 'chevrons') L.push(`if (p.y > 0.45${front} && abs(p.x) < 0.75 && fract((p.y - abs(p.x) * 0.55) * ${(l.n || 9).toFixed(1)}) < ${(l.w || 0.22).toFixed(3)} && p.y - abs(p.x) * 0.55 > 0.3) c = ${col};`);
   }
-  if (d.cuffs) L.push(`if (abs(p.x) > 0.79 && p.y > 0.12) c = ${glc(d.trim)};`);
+  if (d.cuffs) L.push(`if (abs(p.x) > 0.86 && p.y > 0.12) c = ${glc(d.trim)};`);
   const t = glc(d.trim);
-  if (d.collar === 'v') L.push(`if (p.y > 0.9) c = ${t}; if (p.z > 0.0 && abs(p.x) < 0.3 && p.y > 0.97 - (0.3 - abs(p.x)) * 1.1 && p.y < 1.03 - (0.3 - abs(p.x)) * 1.1) c = ${t};`);
-  else if (d.collar === 'polo') L.push(`if (p.y > 0.86 && abs(p.x) < 0.42) c = ${t};`);
-  else if (d.collar === 'lace') L.push(`if (p.y > 0.9) c = ${t}; if (p.z > 0.0 && abs(p.x) < 0.035 && p.y > 0.62) c = ${t};`);
-  else L.push(`if (p.y > 0.91) c = ${t};`);
+  if (d.collar === 'v') L.push(`if (p.y > 0.93 && abs(p.x) < 0.34) c = ${t}; if (p.z > 0.0 && abs(p.x) < 0.3 && p.y > 0.97 - (0.3 - abs(p.x)) * 1.1 && p.y < 1.03 - (0.3 - abs(p.x)) * 1.1) c = ${t};`);
+  else if (d.collar === 'polo') L.push(`if (p.y > 0.88 && abs(p.x) < 0.36) c = ${t};`);
+  else if (d.collar === 'lace') L.push(`if (p.y > 0.93 && abs(p.x) < 0.34) c = ${t}; if (p.z > 0.0 && abs(p.x) < 0.035 && p.y > 0.62) c = ${t};`);
+  else L.push(`if (p.y > 0.93 && abs(p.x) < 0.34) c = ${t};`);
   return L.join('\n');
 }
 
