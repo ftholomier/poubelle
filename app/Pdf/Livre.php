@@ -1938,7 +1938,7 @@ final class Livre
         $bx = $x + $w - $bw;
         $by = $fy + 64 - $bh;
         $l->rect($bx, $by, $bw, $bh, 'white');
-        $this->barcode($bx + 4 * $mm, $by + 3 * $mm, $bw - 8 * $mm, $bh - 6 * $mm, trim((string) ($this->o['isbn'] ?? '')) ?: '9782956789012');
+        $this->barcode($bx + 4 * $mm, $by + 3 * $mm, $bw - 8 * $mm, $bh - 6 * $mm, trim((string) ($this->o['isbn'] ?? '')) ?: '192820282501'); // 1928 (fondation), 2028 (centenaire), 25 (le Doubs)
     }
 
     // ------------------------------------------------------------------ contenu
