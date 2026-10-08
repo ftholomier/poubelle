@@ -332,3 +332,39 @@ export function viewer(el) {
     destroy() { alive = false; ro.disconnect(); controls.dispose(); renderer.dispose(); renderer.domElement.remove(); },
   };
 }
+
+/**
+ * Photo d'un article en haute définition, sur fond transparent (livre des récits : « Ton maillot »).
+ * view = [azimut, hauteur] en radians (π : vu de dos). Renvoie un Blob PNG de w × h pixels.
+ */
+export async function snapshot({ kind, color, faces, model }, { w = 1800, h = 2000, view = [Math.PI, 0.08], zoom = 1.04 } = {}) {
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(1);
+  renderer.setSize(w, h, false);
+  renderer.outputColorSpace = SRGBColorSpace;
+  renderer.toneMapping = ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.95;
+  const scene = new Scene();
+  const pm = new PMREMGenerator(renderer);
+  scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environmentIntensity = 0.6;
+  const key = new DirectionalLight('#ffffff', 1.7);
+  const g = await (BUILD[kind] || paper)(renderer, faces, color, model);
+  scene.add(g);
+  const box = new Box3().setFromObject(g), sph = box.getBoundingSphere(new Sphere()), c = box.getCenter(new Vector3());
+  const camera = new PerspectiveCamera(26, w / h, 1, 20000);
+  const d = sph.radius / Math.sin((camera.fov * Math.PI / 180) / 2) * zoom;
+  const [az, el2] = view;
+  camera.position.set(c.x + Math.sin(az) * Math.cos(el2) * d, c.y + Math.sin(el2) * d, c.z + Math.cos(az) * Math.cos(el2) * d);
+  camera.lookAt(c);
+  camera.near = d / 100; camera.far = d * 10; camera.updateProjectionMatrix();
+  key.position.set(camera.position.x + 300, camera.position.y + 500, camera.position.z);
+  scene.add(key);
+  renderer.render(scene, camera);
+  const blob = await new Promise(ok => canvas.toBlob(ok, 'image/png'));
+  g.traverse(o => { o.geometry?.dispose(); [].concat(o.material || []).forEach(m => { m.map?.dispose(); m.dispose(); }); });
+  renderer.dispose();
+  return blob;
+}

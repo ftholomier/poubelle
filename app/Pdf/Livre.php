@@ -48,7 +48,7 @@ final class Livre
     private string $cache;
 
     /**
-     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,match?:int,joueurs?:list<int>,naissance?:string,naissance_titre?:string,carnet?:string,photo?:string,photo_legende?:string,maillot_nom?:string,maillot_numero?:string,maillot_style?:string,qr?:bool,relire?:bool,decennies?:list<int>,limite?:int} $o
+     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,match?:int,joueurs?:list<int>,naissance?:string,naissance_titre?:string,carnet?:string,photo?:string,photo_legende?:string,maillot_nom?:string,maillot_numero?:string,maillot_style?:string,maillot_image?:string,qr?:bool,relire?:bool,decennies?:list<int>,limite?:int} $o
      */
     public function __construct(private array $o = [])
     {
@@ -642,6 +642,18 @@ final class Livre
         $m = 13 * $mm;
         $l->rect($fx + $m, $fy + $m, $fw - 2 * $m, $fh - 2 * $m, 'F3EDDF');
         $l->line($fx + $m, $fy + $m, $fx + $fw - $m, $fy + $m, 'D9D1BC', 2);
+        // Maillot photographié en 3D (aperçu de la boutique), posé sur le passe-partout ; sinon dessiné.
+        $shot = (string) ($this->o['maillot_image'] ?? '');
+        if ($shot !== '' && is_file($shot) && ($jpg = $this->onMat($shot))) {
+            $img = $l->loadImage($jpg);
+            $aw = $fw - 2 * $m - 10 * $mm;
+            $ah = $fh - 2 * $m - 34 * $mm;
+            $s2 = min($aw / $img['w'], $ah / $img['h']);
+            $l->drawImage($img, $fx + $fw / 2 - $img['w'] * $s2 / 2, $fy + $m + 4 * $mm, $img['w'] * $s2, $img['h'] * $s2);
+            $name = $name ?: '';
+            $this->plaque($fx, $fy, $fw, $fh, $m, $name, $num);
+            return;
+        }
         // Maillot : repère 1000 × 1060 posé au centre du passe-partout
         $k = ($fw - 2 * $m - 30 * $mm) / 1000;
         $ox = $fx + $fw / 2 - 500 * $k;
@@ -708,7 +720,15 @@ final class Livre
             $l->strokeText($nx, $nb, $num, 'display', $ns, $st['edge'], 7, 6);
             $l->text($nx, $nb, $num, 'display', $ns, $st['text'], 6);
         }
-        // Plaque gravée sous le maillot
+        $this->plaque($fx, $fy, $fw, $fh, $m, $name, $num);
+    }
+
+
+    /** Plaque gravée sous le maillot encadré, et titre de la page. */
+    private function plaque(float $fx, float $fy, float $fw, float $fh, float $m, string $name, string $num): void
+    {
+        $l = $this->l;
+        $mm = self::MM;
         $pw = 92 * $mm;
         $px = $fx + $fw / 2 - $pw / 2;
         $py = $fy + $fh - $m - 26 * $mm;
@@ -720,6 +740,29 @@ final class Livre
         $l->text($px + $pw / 2 - $l->width($t1, 'display', 15, 1.5) / 2, $py + 22, $t1, 'display', 15, '3B2F12', 1.5);
         $l->text($px + $pw / 2 - $l->width($t2, 'display-b', 6.5, 1.4) / 2, $py + 36, $t2, 'display-b', 6.5, '5E4C1E', 1.4);
         $l->text($this->b + $this->W / 2 - $l->width('TON MAILLOT', 'display-b', 11, 3) / 2, $this->b + 16 * $mm, 'TON MAILLOT', 'display-b', 11, 'yellow', 3);
+    }
+
+    /** Photo 3D du maillot (PNG transparent) posée sur le crème du passe-partout, en JPEG. */
+    private function onMat(string $png): ?string
+    {
+        $out = $this->cache . '/' . md5_file($png) . '-mat.jpg';
+        if (is_file($out)) {
+            return $out;
+        }
+        $im = @imagecreatefrompng($png);
+        if (!$im) {
+            return null;
+        }
+        $w = imagesx($im);
+        $h = imagesy($im);
+        $bg = imagecreatetruecolor($w, $h);
+        imagefill($bg, 0, 0, (int) imagecolorallocate($bg, 0xF3, 0xED, 0xDF));
+        imagealphablending($bg, true);
+        imagecopy($bg, $im, 0, 0, 0, 0, $w, $h);
+        imagejpeg($bg, $out, 92);
+        imagedestroy($im);
+        imagedestroy($bg);
+        return $out;
     }
 
     /** Option « Mon match » : une page sur le match choisi par le client (données de la fiche, rien d'inventé). */

@@ -35,7 +35,7 @@ final class Book extends Base
             $covers[] = ['rel' => $rel, 'dpi' => $book->coverDpi($rel), 'caption' => \App\Data\Media::caption($rel)];
         }
         return self::html('admin/fiches/livre', ['last' => $last, 'decades' => array_keys($groups), 'count' => $count, 'covers' => $covers, 'suggest' => $book->coverSuggestions()],
-            ['title' => 'Livre des récits', 'crumb' => 'Contenus', 'nav' => 'livre']);
+            ['title' => 'Livre des récits', 'crumb' => 'Contenus', 'nav' => 'livre', 'scripts' => ['admin/livre.js']]);
     }
 
     /** POST : photos de couverture (proposer, retirer), sinon compose le livre et le renvoie en téléchargement. */
@@ -105,6 +105,18 @@ final class Book extends Base
             $dest = $dir . '/' . bin2hex(random_bytes(8)) . ($info[2] === IMAGETYPE_PNG ? '.png' : '.jpg');
             move_uploaded_file((string) $f['tmp_name'], $dest);
             $o['photo'] = $dest;
+        }
+        // Maillot photographié en 3D par le navigateur (PNG transparent), sinon le maillot dessiné
+        $mi = $req->files['maillot_image'] ?? null;
+        if ($mi && ($mi['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK && (int) $mi['size'] < 20 * 1024 * 1024) {
+            $info = @getimagesize((string) $mi['tmp_name']);
+            if ($info && $info[2] === IMAGETYPE_PNG && $info[0] >= 800) {
+                $dir = STORAGE_PATH . '/livres/photos';
+                @mkdir($dir, 0775, true);
+                $dest = $dir . '/maillot-' . bin2hex(random_bytes(8)) . '.png';
+                move_uploaded_file((string) $mi['tmp_name'], $dest);
+                $o['maillot_image'] = $dest;
+            }
         }
         $book = new Livre($o);
         $t = microtime(true);

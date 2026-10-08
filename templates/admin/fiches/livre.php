@@ -17,7 +17,8 @@ use App\Pdf\Livre;
   <?php endif; ?>
 </div>
 
-<form class="card card--pad stack" method="post" action="/admin/livre" enctype="multipart/form-data">
+<form class="card card--pad stack" method="post" action="/admin/livre" enctype="multipart/form-data" data-livre data-font="/assets/fonts/big-shoulders-display-normal-latin.woff2" data-jerseys="<?= e(json_encode(Livre::JERSEYS)) ?>">
+  <input type="file" name="maillot_image" accept="image/png" hidden>
   <?= csrf_field() ?>
   <h2 class="card__t" style="margin:0">Composer un exemplaire</h2>
   <div class="row" style="gap:12px;flex-wrap:wrap">
@@ -62,7 +63,7 @@ use App\Pdf\Livre;
     </div>
   </div>
   <label class="row" style="gap:6px"><input type="checkbox" name="relire" value="1" checked> Inclure les récits « À relire » (marqués d’un bandeau rouge : épreuve de travail, pas pour l’impression)</label>
-  <div><button class="btn btn--primary" type="submit">Composer le PDF</button> <span class="small muted">Environ une minute pour le livre entier.</span></div>
+  <div><button class="btn btn--primary" type="submit">Composer le PDF</button> <span class="small muted" data-livre-note>Environ une minute pour le livre entier.</span></div>
 </form>
 
 <?php if ($last && $last['sans_photo']): ?>

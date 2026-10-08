@@ -1565,7 +1565,9 @@ match publiée → page « Mon match », `myMatch()`) et `joueurs` (1 à 3 fiche
 proche à 60 jours au plus, page « Mon match »), `carnet` (id : tampon « J'y étais » sur les récits qui lient un match
 du carnet, `linked()` ; page de bilan `carnetPage()` avec renvois de pages), `photo` (+ `photo_legende`, fichier envoyé
 dans `storage/livres/photos/`, `photoFrame()` : 140, 110 ou 85 mm à 200 dpi, sinon refusée), `maillot_nom`,
-`maillot_numero`, `maillot_style` (`Livre::JERSEYS`, dessin vectoriel), `qr` (QR code de chaque récit, `Qr::matrix`).
+`maillot_numero`, `maillot_style` (`Livre::JERSEYS`) : le navigateur photographie le t-shirt 3D de la boutique floqué
+(`snapshot()` de `shop3d.js`, `public/assets/admin/livre.js`, PNG 1800 × 2000 joint en `maillot_image`, posé
+encadré sur le passe-partout) ; sans WebGL, maillot dessiné en vectoriel, `qr` (QR code de chaque récit, `Qr::matrix`).
 Test : `tests/livre.php`.
 
 ## Catalogue des archives (`App\Services\Catalogue`, `App\Admin\Archives`)
