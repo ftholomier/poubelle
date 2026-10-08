@@ -80,7 +80,7 @@ final class Livre
             if (!$doc || ($doc['status'] ?? '') === 'corbeille') {
                 continue;
             }
-            if (($doc['status'] ?? '') !== 'publie' && empty($this->o['relire'])) {
+            if (($doc['status'] ?? '') !== 'publie' && empty($this->o['relire']) && empty($this->o['apercu'])) {
                 continue;
             }
             $dec = (int) (floor((float) $r['year'] / 10) * 10);
@@ -88,14 +88,26 @@ final class Livre
                 continue;
             }
             $out[$dec][] = ['n' => ++$n, 'doc' => $doc, 'year' => (float) $r['year']];
-            if (!empty($this->o['apercu']) && $n >= 2) {
-                break;
-            }
             if (!empty($this->o['limite']) && $n >= (int) $this->o['limite']) {
                 break;
             }
         }
         ksort($out);
+        if (!empty($this->o['apercu'])) {
+            // Extrait : trois vrais récits pris à trois époques (début, milieu, fin du livre).
+            $all = array_merge(...array_values($out ?: [[]]));
+            $pick = [];
+            foreach ([0, intdiv(count($all), 2), count($all) - 1] as $i) {
+                if (isset($all[$i])) {
+                    $pick[$all[$i]['n']] = $all[$i];
+                }
+            }
+            $out = [];
+            foreach ($pick as $it) {
+                $out[(int) (floor($it['year'] / 10) * 10)][] = $it;
+            }
+            ksort($out);
+        }
         return $out;
     }
 
@@ -110,7 +122,10 @@ final class Livre
         $groups = $this->recits();
 
         $this->cover($groups);
-        $this->blank();
+        $ap = !empty($this->o['apercu']);
+        if (!$ap || $this->coverPhoto) {
+            $this->blank(); // verso de la couverture (crédit de la photo)
+        }
         $this->coverCredit();
         $this->dedication();
         $this->myPhoto((string) ($this->o['photo'] ?? ''));
@@ -125,7 +140,7 @@ final class Livre
         for ($i = 0; $i < $tocPages; $i++) {
             $this->page();
         }
-        if ($this->l->pdf->pageCount() % 2 === 1) {
+        if (!$ap && $this->l->pdf->pageCount() % 2 === 1) {
             $this->blank();
         }
         foreach ($groups as $dec => $items) {
@@ -137,7 +152,7 @@ final class Livre
         $this->tocDraw($tocFirst, $tocPages);
         $this->carnetPage();
         // Cahiers d'impression : un multiple de 4 pages, la 4e de couverture en dernier.
-        while (($this->l->pdf->pageCount() + 1) % 4 !== 0) {
+        while (!$ap && ($this->l->pdf->pageCount() + 1) % 4 !== 0) {
             $this->blank();
         }
         $this->back();
@@ -1507,7 +1522,7 @@ final class Livre
         }
         $kick = 'RÉCIT ' . $it['n'] . ($era !== '' ? ' · ' . mb_strtoupper(str_replace('-', '–', $era)) : '');
         $l->text($x, $y + 10, $kick, 'display-b', 10, 'B48D00', 2.2);
-        if (($doc['status'] ?? '') !== 'publie' && empty($this->o['sans_bandeau'])) {
+        if (($doc['status'] ?? '') !== 'publie' && empty($this->o['sans_bandeau']) && empty($this->o['apercu'])) {
             $t = 'À RELIRE';
             $tw = $l->width($t, 'display-b', 8, 1.2) + 10;
             $l->rect($x + $w - $tw, $y, $tw, 14, 'red');
