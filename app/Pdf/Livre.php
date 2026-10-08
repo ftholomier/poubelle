@@ -201,8 +201,12 @@ final class Livre
         // fondue dans le bleu nuit (dégradé incrusté dans l'image), sous le titre.
         $img = null;
         $rel = (string) ($this->o['couverture'] ?? '');
-        if ($rel !== '' && in_array($rel, self::covers(), true) && ($this->coverDpi($rel) ?? 0) >= self::DPI['page']) {
+        $mode = $rel !== '' ? $this->coverMode($rel) : null;
+        if ($mode) {
             $img = $this->prepare($rel, $l->pw, self::coverH() + 60 * $mm, 0);
+            if ($img && $mode === 'bichromie') {
+                $img['file'] = self::toDuo($img['file']);
+            }
             $this->mark($rel);
         }
         $this->coverPhoto = $img ? $rel : null;
@@ -311,34 +315,143 @@ final class Livre
         return is_array($l) ? array_values(array_filter($l, 'is_string')) : [];
     }
 
-    /**
-     * Photos de couverture offertes aux clients : celles choisies par l'admin ; sans choix, les
-     * meilleures photos des récits assez définies pour la pleine page (gardées un jour).
-     * @return list<string>
-     */
-    public static function offeredCovers(): array
-    {
-        if ($own = self::covers()) {
-            return $own;
-        }
-        $f = dirname(self::COVERS) . '/couvertures-auto.json';
-        $l = is_file($f) && filemtime($f) > time() - 86400 ? json_decode((string) @file_get_contents($f), true) : null;
-        if (!is_array($l)) {
-            try {
-                $l = array_column((new self())->coverSuggestions(12), 'rel');
-            } catch (\Throwable) {
-                $l = [];
-            }
-            @mkdir(dirname($f), 0775, true);
-            @file_put_contents($f, json_encode($l, JSON_UNESCAPED_SLASHES));
-        }
-        return array_values(array_filter($l, 'is_string'));
-    }
-
     public static function saveCovers(array $list): void
     {
         @mkdir(dirname(self::COVERS), 0775, true);
         file_put_contents(self::COVERS, json_encode(array_values(array_unique($list)), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    }
+
+    /** Photos d'avant 1970 : acceptées moins nettes en couverture, imprimées en bichromie bleu nuit. */
+    public const COVER_OLD_YEAR = 1970;
+    public const COVER_OLD_DPI = 90;
+
+    /**
+     * Couverture possible pour cette photo : 'couleur' (assez nette pour la pleine page), 'bichromie'
+     * (photo d'avant 1970, moins nette : imprimée en bleu nuit), ou null (refusée).
+     */
+    public function coverMode(string $rel, ?int $year = null): ?string
+    {
+        $dpi = $this->coverDpi($rel);
+        if ($dpi === null) {
+            return null;
+        }
+        if ($dpi >= self::DPI['page']) {
+            return 'couleur';
+        }
+        $year ??= self::photoYear($rel);
+        return $year && $year < self::COVER_OLD_YEAR && $dpi >= self::COVER_OLD_DPI ? 'bichromie' : null;
+    }
+
+    /** Année d'une photo : dans sa légende ou son titre, sinon dans la fiche qui l'utilise. */
+    public static function photoYear(string $rel): ?int
+    {
+        $m = Media::get($rel) ?? [];
+        $txt = ($m['caption'] ?? '') . ' ' . ($m['title'] ?? '') . ' ' . ($m['alt'] ?? '');
+        if (preg_match('/\b(19[2-9]\d|20[0-2]\d)\b/', $txt, $y)) {
+            return (int) $y[1];
+        }
+        foreach ((array) (Media::usage()[$rel] ?? []) as $id) {
+            if (is_int($id) && ($d = \App\Data\Fiches::get($id)) && preg_match('/\b(19[2-9]\d|20[0-2]\d)\b/', (string) (($d['match']['date'] ?? '') ?: ($d['match']['season'] ?? '') ?: ($d['title'] ?? '')), $y)) {
+                return (int) $y[1];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Couverture : jusqu'à $max photos du musée en rapport avec les mots cherchés (joueur, match,
+     * saison, lieu…), les plus belles d'abord, toutes vérifiées (définition, recadrage, pas de presse).
+     * @return list<array{rel:string,caption:string,mode:string,year:?int}>
+     */
+    public function searchCovers(string $q, int $max = 6): array
+    {
+        $q = trim(mb_substr($q, 0, 80));
+        if (mb_strlen($q) < 2) {
+            return [];
+        }
+        $cand = [];
+        $rank = 0;
+        // 1. Fiches trouvées par la recherche du musée : leurs photos
+        $ids = [];
+        foreach (\App\Services\Search::query($q, null, 40)['items'] ?? [] as $i => $it) {
+            $ids[(int) $it['id']] = $i;
+        }
+        if ($ids) {
+            foreach (Media::usage() as $rel => $users) {
+                foreach ((array) $users as $id) {
+                    if (is_int($id) && isset($ids[$id])) {
+                        $cand[$rel] = min($cand[$rel] ?? 99, $ids[$id]);
+                    }
+                }
+            }
+        }
+        // 2. Photos dont la légende ou le titre contient tous les mots
+        $words = array_filter(explode(' ', \App\Services\Search::norm($q)), fn ($w) => mb_strlen($w) >= 2);
+        if ($words) {
+            foreach (Media::all() as $rel => $m) {
+                if (!str_starts_with((string) ($m['mime'] ?? 'image/'), 'image/')) {
+                    continue;
+                }
+                $t = \App\Services\Search::norm(($m['caption'] ?? '') . ' ' . ($m['title'] ?? '') . ' ' . ($m['alt'] ?? ''));
+                $all = true;
+                foreach ($words as $w) {
+                    if (!str_contains($t, $w)) {
+                        $all = false;
+                        break;
+                    }
+                }
+                if ($all) {
+                    $cand[$rel] = min($cand[$rel] ?? 99, 0);
+                }
+            }
+        }
+        // 3. Contrôle de chaque candidate : définition, format, recadrage acceptable
+        $ok = [];
+        $w = (self::TRIM_W + 2 * self::BLEED) * self::MM;
+        $h = self::coverH() + 60 * self::MM;
+        foreach ($cand as $rel => $pos) {
+            if (count($ok) >= 60) {
+                break;
+            }
+            $m = Media::get($rel) ?? [];
+            if (min((int) ($m['width'] ?? 0), (int) ($m['height'] ?? 0)) && max((int) $m['width'], (int) $m['height']) < 600) {
+                continue;
+            }
+            $d = $this->measure($rel);
+            if (!$d) {
+                continue;
+            }
+            $keep = min(($w / $h) / ($d[0] / $d[1]), ($d[0] / $d[1]) / ($w / $h));
+            if ($keep < 0.5) {
+                continue;
+            }
+            $year = self::photoYear($rel);
+            $mode = $this->coverMode($rel, $year);
+            if (!$mode) {
+                continue;
+            }
+            $dpi = (int) $this->coverDpi($rel);
+            // Score : pertinence, netteté, peu recadrée ; les photos en couleur nettes passent devant
+            $score = (30 - min(30, $pos)) * 2 + min(60, $dpi / 8) + $keep * 30 + ($mode === 'couleur' ? 20 : 0);
+            $ok[] = ['rel' => $rel, 'caption' => Media::caption($rel), 'mode' => $mode, 'year' => $year, 's' => $score];
+        }
+        @file_put_contents($this->cache . '/dims.json', json_encode($this->dims));
+        usort($ok, fn ($a, $b) => $b['s'] <=> $a['s']);
+        return array_map(fn ($x) => array_diff_key($x, ['s' => 1]), array_slice($ok, 0, $max));
+    }
+
+    /** Image préparée passée en bichromie bleu nuit (photos anciennes). */
+    private static function toDuo(string $file): string
+    {
+        $out = substr($file, 0, -4) . '-duo.jpg';
+        if (!is_file($out) && ($im = @imagecreatefromjpeg($file))) {
+            imagefilter($im, IMG_FILTER_GRAYSCALE);
+            imagefilter($im, IMG_FILTER_CONTRAST, -10);
+            imagefilter($im, IMG_FILTER_COLORIZE, -20, -10, 25);
+            imagejpeg($im, $out, 88);
+            imagedestroy($im);
+        }
+        return is_file($out) ? $out : $file;
     }
 
     /** Définition d'une photo à la taille de la couverture (dpi), ou null si elle ne peut pas y aller (absente, presse). */

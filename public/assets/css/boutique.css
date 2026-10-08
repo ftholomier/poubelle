@@ -288,3 +288,11 @@
 /* fieldset en bloc (en flex colonne, la grille des maillots était calculée sur une seule colonne) */
 .shopbook .shopopt{display:block}
 .shopbook .shopopt>*+*{margin-top:14px}
+
+/* Livre : recherche de la photo de couverture */
+.shopbook__qrow{display:flex;gap:8px}
+.shopbook__qrow input{flex:1}
+.shopbook__qrow .btn{flex:none;min-height:50px}
+.shopbook__covers label{position:relative}
+.shopbook__covers img.is-duo{filter:grayscale(1) sepia(.3) hue-rotate(180deg) saturate(2.2) brightness(.85)}
+.shopbook__duo{position:absolute;left:4px;bottom:4px;background:var(--navy,#0E1F4D);color:#F6C400;font-size:.65rem;padding:1px 5px;text-transform:uppercase;letter-spacing:.06em}

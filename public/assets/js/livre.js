@@ -18,12 +18,39 @@
   const coverSvg = () => {
     const nom = (q('input[name="livre[nom]"]').value.trim() || 'Votre nom').toUpperCase();
     const pick = form.querySelector('input[name="livre[couverture]"]:checked');
-    const img = pick && pick.dataset.img ? `<image href="${esc(pick.dataset.img)}" x="0" y="0" width="210" height="171" preserveAspectRatio="xMidYMid slice"/><rect x="0" y="120" width="210" height="51" fill="url(#cv)"/>` : '';
+    const duo = pick && pick.dataset.duo ? ' filter="url(#duo)"' : '';
+    const img = pick && pick.dataset.img ? `<image${duo} href="${esc(pick.dataset.img)}" x="0" y="0" width="210" height="171" preserveAspectRatio="xMidYMid slice"/><rect x="0" y="120" width="210" height="51" fill="url(#cv)"/>` : '';
     const f = 'font-family="Big Shoulders Display,Impact,sans-serif" font-weight="900"';
-    cover.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 270" role="img" aria-label="Couverture du livre"><defs><linearGradient id="cv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1F4D" stop-opacity="0"/><stop offset="1" stop-color="#0E1F4D"/></linearGradient></defs><rect width="210" height="270" fill="#0E1F4D"/>${img}<rect x="9" y="9" width="192" height="252" fill="none" stroke="#F6C400" stroke-width=".6"/><text x="16" y="203" ${f} font-size="74" fill="#F6C400">100</text><text x="105" y="180" ${f} font-size="20" fill="#fff">RÉCITS</text><text x="105" y="200" ${f} font-size="20" fill="#fff">DU LION</text><polygon points="0,218 210,208 210,219 0,229" fill="#F6C400"/><rect x="16" y="236" width="${Math.min(180, 20 + nom.length * 6.4)}" height="18" fill="#F3EDDF"/><rect x="16" y="236" width="2" height="18" fill="#F6C400"/><text x="22" y="249" ${f} font-size="10" fill="#0E1F4D">${esc(nom)}</text></svg>`;
+    cover.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 270" role="img" aria-label="Couverture du livre"><defs><filter id="duo"><feColorMatrix type="matrix" values="0.25 0.5 0.1 0 -0.06  0.25 0.5 0.1 0 0  0.3 0.55 0.15 0 0.12  0 0 0 1 0"/></filter><linearGradient id="cv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1F4D" stop-opacity="0"/><stop offset="1" stop-color="#0E1F4D"/></linearGradient></defs><rect width="210" height="270" fill="#0E1F4D"/>${img}<rect x="9" y="9" width="192" height="252" fill="none" stroke="#F6C400" stroke-width=".6"/><text x="16" y="203" ${f} font-size="74" fill="#F6C400">100</text><text x="105" y="180" ${f} font-size="20" fill="#fff">RÉCITS</text><text x="105" y="200" ${f} font-size="20" fill="#fff">DU LION</text><polygon points="0,218 210,208 210,219 0,229" fill="#F6C400"/><rect x="16" y="236" width="${Math.min(180, 20 + nom.length * 6.4)}" height="18" fill="#F3EDDF"/><rect x="16" y="236" width="2" height="18" fill="#F6C400"/><text x="22" y="249" ${f} font-size="10" fill="#0E1F4D">${esc(nom)}</text></svg>`;
   };
-  form.querySelectorAll('[data-book-in]').forEach(i => i.addEventListener('input', coverSvg));
-  form.querySelectorAll('[data-book-in]').forEach(i => i.addEventListener('change', coverSvg));
+  form.addEventListener('input', e => { if (e.target.matches('[data-book-in]')) coverSvg(); });
+  form.addEventListener('change', e => { if (e.target.matches('[data-book-in]')) coverSvg(); });
+
+  // ---------------------------------------------------------------- photo de couverture : recherche par mots-clés
+  const cq = q('[data-cover-q]'), cList = q('[data-cover-list]'), cNote = q('[data-cover-note]');
+  const cSearch = async () => {
+    const v = cq.value.trim();
+    if (v.length < 2) { cNote.textContent = 'Tapez au moins deux lettres : un joueur, un match, une saison, un lieu…'; return; }
+    cNote.textContent = 'Recherche dans les archives du musée…';
+    const d = await (await fetch(root.dataset.covers + '?q=' + encodeURIComponent(v))).json().catch(() => ({ error: 'Recherche impossible.' }));
+    if (d.error) { cNote.textContent = d.error; return; }
+    const keep = [...cList.querySelectorAll('label')].filter(l => { const i = l.querySelector('input'); return i.value === '' || i.checked; });
+    cList.innerHTML = '';
+    keep.forEach(l => cList.appendChild(l));
+    const have = new Set(keep.map(l => l.querySelector('input').value));
+    (d.items || []).filter(it => !have.has(it.rel)).forEach(it => {
+      const l = document.createElement('label');
+      l.title = it.caption;
+      l.innerHTML = `<input type="radio" name="livre[couverture]" value="${esc(it.rel)}" data-book-in data-img="${esc(it.img)}"${it.duo ? ' data-duo="1"' : ''}><img src="${esc(it.img)}" alt="${esc(it.caption)}" loading="lazy"${it.duo ? ' class="is-duo"' : ''}>` + (it.duo ? '<span class="shopbook__duo">archive</span>' : '');
+      cList.appendChild(l);
+    });
+    const n = (d.items || []).length;
+    cNote.textContent = n ? `${n} photo${n > 1 ? 's' : ''} trouvée${n > 1 ? 's' : ''} : cliquez pour l’essayer sur la couverture.` : 'Aucune photo assez belle pour une couverture avec ces mots. Essayez un autre nom, une année ou un lieu.';
+  };
+  if (cq) {
+    q('[data-cover-go]').addEventListener('click', cSearch);
+    cq.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); cSearch(); } });
+  }
 
   // ---------------------------------------------------------------- envois (photo, maillot)
   async function send(blob, name, kind) {

@@ -15,7 +15,7 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
 <section class="section--tight">
   <div class="wrap shopprod shopbook" data-livre-shop data-upload="<?= e(ShopPages::u('/boutique/livre/fichier/')) ?>" data-3d="<?= e(asset('js/shop3d.js')) ?>"
        data-font="<?= e(asset('fonts/big-shoulders-display-normal-latin.woff2')) ?>" data-logo="<?= e(asset('img/logo-sochaux-retro-400.png')) ?>" data-jerseys="<?= e(json_encode($jerseys)) ?>"
-       data-matches="<?= e(ShopPages::u('/boutique/poster/matchs/')) ?>" data-players="<?= e(ShopPages::u('/boutique/poster/joueurs/')) ?>">
+       data-matches="<?= e(ShopPages::u('/boutique/poster/matchs/')) ?>" data-players="<?= e(ShopPages::u('/boutique/poster/joueurs/')) ?>" data-covers="<?= e(ShopPages::u('/boutique/livre/couvertures/')) ?>">
     <div class="shopprod__view">
       <nav class="crumbs vcrumbs"><a href="<?= e(ShopPages::u('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span>Le livre</span></nav>
       <div class="shopprod__stage shopbook__stage">
@@ -63,16 +63,18 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
 
       </fieldset>
 
-      <?php if ($covers): ?>
-      <fieldset class="shopopt"><legend><span class="shopbook__n">3</span> Photo de couverture</legend>
-        <div class="shopbook__covers">
+      <fieldset class="shopopt"><legend><span class="shopbook__n">3</span> Photo de couverture <small>dans les archives du musée</small></legend>
+        <div class="field shopbook__coverq"><label for="b-cq">Un joueur, un match, une saison, un lieu…</label>
+          <div class="shopbook__qrow"><input id="b-cq" type="search" placeholder="Paille, Bonal, 1938, finale 2007…" autocomplete="off" data-cover-q><button type="button" class="btn btn--navy" data-cover-go>Chercher</button></div>
+          <small class="shophelp" data-cover-note>Le musée vous propose jusqu’à 6 photos, toutes vérifiées pour être imprimées nettes en pleine page. Les photos d’avant 1970 passent en bleu nuit, façon archive.</small>
+        </div>
+        <div class="shopbook__covers" data-cover-list>
           <label><input type="radio" name="livre[couverture]" value=""<?= $v('couverture') === '' ? ' checked' : '' ?> data-book-in><span class="shopbook__nophoto">Sans photo</span></label>
           <?php foreach ($covers as $c): ?>
           <label title="<?= e($c['caption']) ?>"><input type="radio" name="livre[couverture]" value="<?= e($c['rel']) ?>"<?= $v('couverture') === $c['rel'] ? ' checked' : '' ?> data-book-in data-img="<?= e(url('/media/480/' . $c['rel'] . '.webp')) ?>"><img src="<?= e(url('/media/320/' . $c['rel'] . '.webp')) ?>" alt="<?= e($c['caption']) ?>" loading="lazy"></label>
           <?php endforeach; ?>
         </div>
       </fieldset>
-      <?php endif; ?>
 
       <?php if ($jerseys): ?>
       <fieldset class="shopopt"><legend><span class="shopbook__n">4</span> Ton maillot floqué <small>double page, facultatif</small></legend>

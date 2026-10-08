@@ -207,6 +207,22 @@ final class ShopPages
             'price' => Orders::money(Catalog::price($m, $size) * max(1, min(20, (int) ($in['qty'] ?? 1))))]);
     }
 
+    /** GET /boutique/livre/couvertures/?q= (JSON) : jusqu'à 6 photos du musée pour la couverture du livre. */
+    public static function bookCovers(Request $req): Response
+    {
+        if (!self::visible() || !BookShop::sellable()) {
+            return Response::json(['error' => 'Boutique fermée.'], 404);
+        }
+        if (!RateLimiter::hit('boutique-livre-couv', $req->ip(), 30, 60)) {
+            return Response::json(['error' => 'Trop de recherches, patientez une minute.'], 429);
+        }
+        $items = [];
+        foreach ((new \App\Pdf\Livre())->searchCovers($req->str('q'), 6) as $c) {
+            $items[] = ['rel' => $c['rel'], 'img' => url('/media/480/' . $c['rel'] . '.webp'), 'caption' => $c['caption'], 'duo' => $c['mode'] === 'bichromie', 'year' => $c['year']];
+        }
+        return Response::json(['ok' => true, 'items' => $items]);
+    }
+
     /** GET /boutique/poster/matchs/?q= (JSON) : matchs proposés pour un poster souvenir. */
     public static function posterMatches(Request $req): Response
     {
@@ -566,7 +582,7 @@ final class ShopPages
             return self::notFound();
         }
         $covers = [];
-        foreach (\App\Pdf\Livre::offeredCovers() as $rel) {
+        foreach (\App\Pdf\Livre::covers() as $rel) {
             $covers[] = ['rel' => $rel, 'caption' => \App\Data\Media::caption($rel)];
         }
         $carnet = \App\Services\Carnet::current();

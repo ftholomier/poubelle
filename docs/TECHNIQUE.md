@@ -1677,3 +1677,10 @@ Compteurs par jour et par motif dans `storage/stats/blocages.json` (carte dans S
 les mêmes robots et le grand format affiché ailleurs pour les fichiers servis sans PHP, et envoie `tdm-reservation: 1`.
 `robots.txt` interdit nommément les robots d'IA (dont Google-Extended et Applebot-Extended). Mentions légales :
 opposition à la fouille de textes et de données (art. L. 122-5-3 CPI). Test : `tests/shield.php`.
+
+### Couverture du livre : recherche par mots-clés
+`GET /boutique/livre/couvertures/?q=` → `Livre::searchCovers()` : photos des fiches trouvées par la recherche du musée
+(`Media::usage`) et photos dont la légende contient tous les mots ; contrôle de chacune (pas de presse, recadrage ≥ 50 %,
+`coverMode()` : `couleur` si ≥ 250 dpi en pleine couverture, `bichromie` si photo d'avant 1970 (`photoYear()`) à ≥ 90 dpi) ;
+classement pertinence + netteté, 6 au plus. `BookShop::clean` accepte toute photo dont `coverMode()` n'est pas nul ;
+`Livre::cover()` applique la bichromie bleu nuit (`toDuo()`).
