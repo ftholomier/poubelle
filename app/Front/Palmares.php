@@ -54,6 +54,7 @@ final class Palmares
         ['comp' => 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'year' => 1931, 'kind' => 'titre'],
         ['comp' => 'Challenge Maurice de Turckheim', 'year' => 1929, 'kind' => 'titre'],
         ['comp' => 'Challenge Maurice de Turckheim', 'year' => 1930, 'kind' => 'titre'],
+        ['comp' => 'Challenge Maurice de Turckheim', 'year' => 1931, 'kind' => 'titre'],
         ['comp' => 'Tournoi de Bruxelles (Coupe Dupuich)', 'year' => 1930, 'kind' => 'finale'],
         ['comp' => 'Coupe des Alpes', 'year' => 1981, 'kind' => 'finale'],
         ['comp' => 'Tournoi de Casablanca', 'year' => 1989, 'kind' => 'titre'],
