@@ -48,7 +48,7 @@ final class Livre
     private string $cache;
 
     /**
-     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,match?:int,joueurs?:list<int>,relire?:bool,decennies?:list<int>,limite?:int} $o
+     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,match?:int,joueurs?:list<int>,naissance?:string,naissance_titre?:string,carnet?:string,photo?:string,photo_legende?:string,maillot_nom?:string,maillot_numero?:string,maillot_style?:string,qr?:bool,relire?:bool,decennies?:list<int>,limite?:int} $o
      */
     public function __construct(private array $o = [])
     {
@@ -106,8 +106,12 @@ final class Livre
         $this->blank();
         $this->coverCredit();
         $this->dedication();
+        $this->myPhoto((string) ($this->o['photo'] ?? ''));
+        $this->myJersey();
+        $this->birthMatch();
         $this->myMatch((int) ($this->o['match'] ?? 0));
         $this->myPlayers(array_slice(array_map('intval', (array) ($this->o['joueurs'] ?? [])), 0, 3));
+        $this->seen = $this->carnetMatches();
         $tocFirst = $this->l->pdf->pageCount();
         $count = array_sum(array_map('count', $groups));
         $tocPages = max(1, (int) ceil(($count + 2 * count($groups)) / 40));
@@ -124,6 +128,7 @@ final class Livre
             }
         }
         $this->tocDraw($tocFirst, $tocPages);
+        $this->carnetPage();
         // Cahiers d'impression : un multiple de 4 pages, la 4e de couverture en dernier.
         while (($this->l->pdf->pageCount() + 1) % 4 !== 0) {
             $this->blank();
@@ -169,6 +174,9 @@ final class Livre
     }
 
     private array $noFolio = [];
+    /** Matchs du carnet du lecteur (id => date d'ajout) et récits tamponnés « J'y étais » */
+    private array $seen = [];
+    private array $stamped = [];
     /** Le flux de texte d'un récit est en cours sur la page courante */
     private bool $inText = false;
     private array $dark = [];
@@ -411,8 +419,245 @@ final class Livre
         return $d && ($d['type'] ?? '') === $type && ($d['status'] ?? '') === 'publie' ? $d : null;
     }
 
+
+    /** QR code (carrés pleins) de côté $size, coin haut gauche ($x, $y), sur fond blanc. */
+    private function qr(string $text, float $x, float $y, float $size): void
+    {
+        $m = \App\Services\Qr::matrix($text);
+        $n = count($m);
+        if (!$n) {
+            return;
+        }
+        $q = $size / ($n + 2);
+        $this->l->rect($x, $y, $size, $size, 'white');
+        foreach ($m as $r => $row) {
+            foreach ($row as $c => $on) {
+                if ($on) {
+                    $this->l->rect($x + ($c + 1) * $q, $y + ($r + 1) * $q, $q + 0.05, $q + 0.05, 'navy');
+                }
+            }
+        }
+    }
+
+    /** Fiches des matchs racontés dans un récit (liens vers /matchs/…). @return list<int> */
+    private function linked(array $doc): array
+    {
+        static $byPath = null;
+        if ($byPath === null) {
+            $byPath = [];
+            foreach (\App\Data\Derived::part('matches') as $id => $x) {
+                $byPath[(string) $x['path']] = (int) $id;
+            }
+        }
+        $html = implode(' ', array_column((array) ($doc['sections'] ?? []), 'html'));
+        preg_match_all('#href="(?:https?://[^/"]+)?(/matchs/[^"]+)"#', $html, $mm);
+        return array_values(array_unique(array_filter(array_map(fn ($p) => $byPath[$p] ?? 0, $mm[1] ?? []))));
+    }
+
+    /** Matchs cochés dans le carnet du supporter choisi. @return array<int,string> */
+    private function carnetMatches(): array
+    {
+        $id = (string) ($this->o['carnet'] ?? '');
+        $c = $id !== '' ? \App\Services\Carnet::get($id) : null;
+        return $c ? array_map('strval', (array) ($c['matches'] ?? [])) : [];
+    }
+
+    /** Page « Mes matchs au stade » : bilan du carnet et récits tamponnés, avec leurs pages. */
+    private function carnetPage(): void
+    {
+        if (!$this->seen) {
+            return;
+        }
+        $st = \App\Services\Carnet::stats(array_keys($this->seen));
+        if (!$st['n']) {
+            return;
+        }
+        $l = $this->l;
+        $mm = self::MM;
+        if (!$this->right($l->pdf->pageCount())) {
+            $this->blank();
+        }
+        $p = $this->page();
+        $this->noFolio[$p] = true;
+        $this->dark[$p] = true;
+        $l->rect(0, 0, $l->pw, $l->ph, 'navy');
+        $this->stripes(0, 0, $l->pw, $l->ph);
+        [$x, $w] = $this->frame($p);
+        $y = $this->b + 24 * $mm;
+        $nom = trim((string) ($this->o['nom'] ?? ''));
+        $l->text($x, $y, 'TIRÉ DU CARNET DU SUPPORTER' . ($nom !== '' ? ' DE ' . mb_strtoupper($nom) : ''), 'display-b', 10, 'yellow', 2.4);
+        $l->text($x, $y + 62, 'J’Y ÉTAIS', 'display', 52, 'white', 0.4);
+        $y += 92;
+        $tiles = [[$st['n'], 'match' . ($st['n'] > 1 ? 's' : '') . ' au stade'], [$st['v'], 'victoire' . ($st['v'] > 1 ? 's' : '')], [$st['nul'], 'nul' . ($st['nul'] > 1 ? 's' : '')], [$st['gf'], 'buts sochaliens']];
+        $tw = ($w - 3 * 8) / 4;
+        foreach ($tiles as $i => [$v, $lab]) {
+            $tx = $x + $i * ($tw + 8);
+            $l->rect($tx, $y, $tw, 70, $i === 0 ? 'yellow' : 'deep');
+            $l->text($tx + 10, $y + 40, (string) $v, 'display', 34, $i === 0 ? 'navy' : 'yellow');
+            $l->text($tx + 10, $y + 58, mb_strtoupper($lab), 'display-b', 7.5, $i === 0 ? 'navy' : 'cream', 1.2);
+        }
+        $y += 92;
+        $line = function (string $k, ?array $x2) use ($l, $x, $w, &$y) {
+            if (!$x2) {
+                return;
+            }
+            $t = $x2['home'] . ' – ' . $x2['away'] . ' (' . ($x2['sh'] ? $x2['us'] . '-' . $x2['them'] : $x2['them'] . '-' . $x2['us']) . '), ' . date_fr((string) $x2['date']);
+            $y += $l->drawLines($l->wrap([Layout::run(mb_strtoupper($k), 'display-b', 9, 'yellow', null, 1.4, 10), Layout::run($t, 'serif', 11, 'white')], $w, 1.4), $x, $y, $w) + 6;
+        };
+        $line('Premier match', $st['first']);
+        $line('Plus belle victoire', $st['best']);
+        $line('Dernier match', $st['last']);
+        if ($this->stamped) {
+            $y += 14;
+            $l->text($x, $y, 'DANS CE LIVRE, LES RÉCITS DE TES MATCHS', 'display-b', 9, 'yellow', 1.8);
+            $y += 16;
+            foreach ($this->stamped as $r) {
+                if ($y > $l->ph - $this->b - 30 * $mm) {
+                    break;
+                }
+                $pg = 'p. ' . ($r['page'] + 1);
+                $l->text($x, $y + 10, $l->fit($r['t'], 'serif', 11, $w - 50), 'serif', 11, 'cream');
+                $l->text($x + $w - $l->width($pg, 'display-b', 10), $y + 10, $pg, 'display-b', 10, 'yellow');
+                $y += 16;
+            }
+        }
+    }
+
+    /** Option « Le jour de ta naissance » : le match du FCSM le plus proche de la date donnée. */
+    private function birthMatch(): void
+    {
+        $d = (string) ($this->o['naissance'] ?? '');
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $d)) {
+            return;
+        }
+        $t = strtotime($d);
+        $best = null;
+        foreach (\App\Data\Derived::part('matches') as $id => $x) {
+            if (empty($x['v']) || empty($x['date'])) {
+                continue;
+            }
+            $diff = abs(strtotime((string) $x['date']) - $t);
+            if ($best === null || $diff < $best[1]) {
+                $best = [(int) $id, $diff, (string) $x['date']];
+            }
+        }
+        if (!$best || $best[1] > 60 * 86400) {
+            return;
+        }
+        $days = (int) round((strtotime($best[2]) - $t) / 86400);
+        $when = $days === 0 ? 'Ce jour-là' : ($days > 0 ? ($days === 1 ? 'Le lendemain' : $days . ' jours plus tard') : ($days === -1 ? 'La veille' : abs($days) . ' jours plus tôt'));
+        $note = 'Le ' . date_fr($d) . ' : ' . mb_strtolower(mb_substr($when, 0, 1)) . mb_substr($when, 1) . ', Sochaux jouait ce match.';
+        $this->myMatch($best[0], (string) ($this->o['naissance_titre'] ?? '') ?: 'Le jour de ta naissance', $note);
+    }
+
+    /** Photo du lecteur, assez définie pour la taille d'impression : largeur du cadre en points, ou null. */
+    public static function photoFrame(string $file): ?float
+    {
+        $i = @getimagesize($file);
+        if (!$i) {
+            return null;
+        }
+        foreach ([140, 110, 85] as $wmm) {
+            $w = $wmm * self::MM;
+            if (self::dpi([(int) $i[0], (int) $i[1]], $w, $w * $i[1] / $i[0]) >= self::DPI['colonne']) {
+                return $w;
+            }
+        }
+        return null;
+    }
+
+    /** Option « Ma photo » : la photo du lecteur, façon photo collée dans un album. */
+    private function myPhoto(string $file): void
+    {
+        if ($file === '' || !is_file($file) || !($fw = self::photoFrame($file))) {
+            return;
+        }
+        $l = $this->l;
+        $mm = self::MM;
+        $p = $this->page();
+        $this->noFolio[$p] = true;
+        $l->rect(0, 0, $l->pw, $l->ph, 'cream');
+        $i = getimagesize($file);
+        $fh = min($fw * $i[1] / $i[0], 150 * $mm);
+        $fw = $fh * $i[0] / $i[1];
+        $cx = $l->pw / 2;
+        $cy = $l->ph / 2 - 20;
+        $img = $l->loadImage($file);
+        $l->rotated(-2.5, $cx, $cy, function () use ($l, $img, $cx, $cy, $fw, $fh) {
+            $l->rect($cx - $fw / 2 - 10 + 4, $cy - $fh / 2 - 10 + 5, $fw + 20, $fh + 34, 'sand');
+            $l->rect($cx - $fw / 2 - 10, $cy - $fh / 2 - 10, $fw + 20, $fh + 34, 'white');
+            if ($img) {
+                $l->drawImage($img, $cx - $fw / 2, $cy - $fh / 2, $fw, $fh);
+            }
+        });
+        foreach ([[-1, 20], [1, -24]] as [$side, $deg]) {
+            $tx = $cx + $side * ($fw / 2 - 6);
+            $ty = $cy - $fh / 2 - 8;
+            $l->rotated($deg, $tx, $ty, function () use ($l, $tx, $ty) {
+                $l->rect($tx - 30, $ty - 9, 60, 18, 'butter');
+            });
+        }
+        $cap = trim((string) ($this->o['photo_legende'] ?? ''));
+        if ($cap !== '') {
+            $w = 140 * $mm;
+            $l->drawLines($l->wrap([Layout::run($cap, 'serif-i', 14, 'ink')], $w, 1.4), $cx - $w / 2, $cy + $fh / 2 + 40, $w, 'center');
+        }
+    }
+
+    /** Styles de maillot (couleurs du maillot, des manches, du col, du flocage). */
+    public const JERSEYS = [
+        'classique' => ['label' => 'Classique jaune et bleu', 'body' => 'yellow', 'sleeve' => 'yellow', 'collar' => 'navy', 'text' => 'navy', 'band' => null],
+        'retro' => ['label' => 'Rétro, col et manches bleus', 'body' => 'yellow', 'sleeve' => 'navy', 'collar' => 'navy', 'text' => 'navy', 'band' => null],
+        'bande' => ['label' => 'Bande bleue sur la poitrine', 'body' => 'yellow', 'sleeve' => 'yellow', 'collar' => 'navy', 'text' => 'navy', 'band' => 'navy'],
+        'exterieur' => ['label' => 'Extérieur bleu nuit', 'body' => 'navy', 'sleeve' => 'navy', 'collar' => 'yellow', 'text' => 'yellow', 'band' => null],
+    ];
+
+    /** Option « Mon maillot » : un maillot dessiné, vu de dos, floqué au nom et au numéro du lecteur. */
+    private function myJersey(): void
+    {
+        $name = mb_strtoupper(trim((string) ($this->o['maillot_nom'] ?? '')));
+        $num = mb_substr(preg_replace('/\D/', '', (string) ($this->o['maillot_numero'] ?? '')), 0, 2);
+        if ($name === '' && $num === '') {
+            return;
+        }
+        $st = self::JERSEYS[(string) ($this->o['maillot_style'] ?? '')] ?? self::JERSEYS['classique'];
+        $l = $this->l;
+        $mm = self::MM;
+        $p = $this->page();
+        $this->noFolio[$p] = true;
+        $l->rect(0, 0, $l->pw, $l->ph, 'cream');
+        $cx = $l->pw / 2;
+        $top = $this->b + 50 * $mm;
+        $W = 120 * $mm;
+        $H = 140 * $mm;
+        $sh = $W * 0.5;
+        // Ombre portée, manches, corps, col
+        $l->polygon([[$cx - $W / 2 + 14, $top + 22], [$cx + $W / 2 + 14, $top + 22], [$cx + $W / 2 + 6, $top + $H + 12], [$cx - $W / 2 + 22, $top + $H + 12]], 'sand');
+        $l->polygon([[$cx - $W / 2, $top + 10], [$cx - $W / 2 - $sh * 0.55, $top + $H * 0.32], [$cx - $W / 2 - $sh * 0.2, $top + $H * 0.42], [$cx - $W / 2 + 8, $top + $H * 0.3]], $st['sleeve']);
+        $l->polygon([[$cx + $W / 2, $top + 10], [$cx + $W / 2 + $sh * 0.55, $top + $H * 0.32], [$cx + $W / 2 + $sh * 0.2, $top + $H * 0.42], [$cx + $W / 2 - 8, $top + $H * 0.3]], $st['sleeve']);
+        $l->polygon([[$cx - $W / 2, $top + 10], [$cx - 34, $top], [$cx + 34, $top], [$cx + $W / 2, $top + 10], [$cx + $W / 2 - 8, $top + $H], [$cx - $W / 2 + 8, $top + $H]], $st['body']);
+        if ($st['band']) {
+            $l->rect($cx - $W / 2 + 4, $top + $H * 0.26, $W - 8, 20, $st['band']);
+        }
+        $l->polygon([[$cx - 34, $top], [$cx + 34, $top], [$cx + 26, $top + 12], [$cx - 26, $top + 12]], $st['collar']);
+        // Flocage
+        if ($name !== '') {
+            $fs = 30;
+            while ($fs > 14 && $l->width($name, 'display', $fs, 2) > $W - 40) {
+                $fs--;
+            }
+            $l->text($cx - $l->width($name, 'display', $fs, 2) / 2, $top + $H * 0.2, $name, 'display', $fs, $st['text'], 2);
+        }
+        if ($num !== '') {
+            $l->text($cx - $l->width($num, 'display', 190) / 2, $top + $H * 0.82, $num, 'display', 190, $st['text']);
+        }
+        $l->text($cx - $l->width('TON MAILLOT', 'display-b', 11, 3) / 2, $this->b + 30 * $mm, 'TON MAILLOT', 'display-b', 11, 'B48D00', 3);
+        $sub = 'Floqué à ton nom, aux couleurs du Lion';
+        $l->text($cx - $l->width($sub, 'serif-i', 13) / 2, $top + $H + 50, $sub, 'serif-i', 13, 'muted');
+    }
+
     /** Option « Mon match » : une page sur le match choisi par le client (données de la fiche, rien d'inventé). */
-    private function myMatch(int $id): void
+    private function myMatch(int $id, string $kicker = 'MON MATCH', string $note = ''): void
     {
         $doc = self::fiche($id, 'match');
         $m = $doc['match'] ?? null;
@@ -434,7 +679,7 @@ final class Livre
             $l->drawImage($l->loadImage($this->fade($img['file'], 0.86)), 0, 0, $l->pw, $this->b + 100 * $mm, true);
             $y = $this->b + 88 * $mm;
         }
-        $l->text($x, $y, 'MON MATCH', 'display-b', 11, 'yellow', 3);
+        $l->text($x, $y, mb_strtoupper($kicker), 'display-b', 11, 'yellow', 3);
         $date = (string) ($m['date'] ?? '');
         $comp = (string) ($m['competition_label'] ?? $m['competition'] ?? '');
         $round = (string) ($m['round_text'] ?? '');
@@ -485,7 +730,10 @@ final class Livre
                 }
             }
         }
-        $l->text($x, $l->ph - $this->b - 14 * $mm, 'Choisi par le lecteur · d’après la fiche du match au musée Sochaux Rétro', 'serif-i', 8, 'mist');
+        if ($note !== '') {
+            $l->drawLines($l->wrap([Layout::run($note, 'serif-i', 11, 'cream')], $w, 1.4), $x, $l->ph - $this->b - 34 * $mm, $w);
+        }
+        $l->text($x, $l->ph - $this->b - 14 * $mm, 'D’après la fiche du match au musée Sochaux Rétro', 'serif-i', 8, 'mist');
     }
 
     /** Option « Mes joueurs » : jusqu'à trois portraits (photo assez définie, sinon blason), avec leur bilan. */
@@ -655,6 +903,28 @@ final class Livre
                 }
             }
         }
+        // Marge droite du titre : QR code vers la page du récit au musée (vidéos, photos, récit lu),
+        // et tampon « J'y étais » si un match raconté est dans le carnet du lecteur.
+        $stamp = $this->seen && array_intersect($this->linked($doc), array_keys($this->seen));
+        $qr = ($this->o['qr'] ?? true) && !empty($doc['path']);
+        if ($qr || $stamp) {
+            $mw = ($stamp ? 32 : 16) * self::MM;
+            $mx = $x + $w - $mw;
+            if ($qr) {
+                $this->qr(rtrim((string) setting('general.base_url', 'https://musee.fcsochauxretro.com'), '/') . $doc['path'], $x + $w - 16 * self::MM, $y + 16, 16 * self::MM);
+            }
+            if ($stamp) {
+                $this->stamped[] = ['t' => $title, 'page' => $l->page];
+                $sx = $mx;
+                $sy = $y + 16 + ($qr ? 16 * self::MM + 14 : 0);
+                $l->rotated(-8, $sx + 41, $sy + 14, function () use ($l, $sx, $sy) {
+                    $l->rect($sx, $sy, 82, 28, null, 'red', 2);
+                    $l->rect($sx + 3, $sy + 3, 76, 22, null, 'red', 0.7);
+                    $l->text($sx + 41 - $l->width('J’Y ÉTAIS', 'display', 15, 1.5) / 2, $sy + 20, 'J’Y ÉTAIS', 'display', 15, 'red', 1.5);
+                });
+            }
+            $w -= $mw + 4 * self::MM;
+        }
         $kick = 'RÉCIT ' . $it['n'] . ($era !== '' ? ' · ' . mb_strtoupper(str_replace('-', '–', $era)) : '');
         $l->text($x, $y + 10, $kick, 'display-b', 10, 'B48D00', 2.2);
         if (($doc['status'] ?? '') !== 'publie') {
@@ -672,6 +942,7 @@ final class Livre
             $l->rect($x, $y + 2, 3, $h - 4, 'yellow');
             $y += $h + 16;
         }
+        [, $w] = $this->frame($l->page);
         // Grande photo sous le titre si l'ouverture n'en a pas (définition « pleine largeur »).
         if (!$placed) {
             foreach ($photos as $k => $ph) {

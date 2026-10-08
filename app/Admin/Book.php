@@ -77,6 +77,35 @@ final class Book extends Base
             'relire' => !empty($req->post['relire']),
             'decennies' => $dec,
         ];
+        // Carnet : identifiant ou adresse de la page publique (/carnet/pseudo)
+        $cid = trim((string) ($req->post['carnet'] ?? ''));
+        if ($cid !== '' && !preg_match('/^[a-f0-9]{16}$/', $cid)) {
+            $c = \App\Services\Carnet::bySlugOrAlias(basename(rtrim($cid, '/')));
+            $cid = $c['id'] ?? '';
+        }
+        $o['carnet'] = $cid;
+        $o['naissance'] = preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($req->post['naissance'] ?? '')) ? (string) $req->post['naissance'] : '';
+        $o['naissance_titre'] = mb_substr(trim((string) ($req->post['naissance_titre'] ?? '')), 0, 50);
+        $o['maillot_nom'] = mb_substr(trim((string) ($req->post['maillot_nom'] ?? '')), 0, 14);
+        $o['maillot_numero'] = mb_substr(preg_replace('/\D/', '', (string) ($req->post['maillot_numero'] ?? '')), 0, 2);
+        $o['maillot_style'] = (string) ($req->post['maillot_style'] ?? 'classique');
+        $o['qr'] = !empty($req->post['qr']);
+        $o['photo_legende'] = mb_substr(trim((string) ($req->post['photo_legende'] ?? '')), 0, 120);
+        $f = $req->files['photo'] ?? null;
+        if ($f && ($f['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+            $info = @getimagesize((string) $f['tmp_name']);
+            if (!$info || !in_array($info[2], [IMAGETYPE_JPEG, IMAGETYPE_PNG], true)) {
+                return self::back('/admin/livre', null, 'Photo du lecteur : JPEG ou PNG seulement.');
+            }
+            if (!Livre::photoFrame((string) $f['tmp_name'])) {
+                return self::back('/admin/livre', null, 'Photo du lecteur trop petite pour être imprimée nettement (' . $info[0] . ' × ' . $info[1] . ' px ; il faut au moins 670 px de large).');
+            }
+            $dir = STORAGE_PATH . '/livres/photos';
+            @mkdir($dir, 0775, true);
+            $dest = $dir . '/' . bin2hex(random_bytes(8)) . ($info[2] === IMAGETYPE_PNG ? '.png' : '.jpg');
+            move_uploaded_file((string) $f['tmp_name'], $dest);
+            $o['photo'] = $dest;
+        }
         $book = new Livre($o);
         $t = microtime(true);
         $pdf = $book->build();

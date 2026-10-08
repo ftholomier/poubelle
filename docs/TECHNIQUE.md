@@ -1561,7 +1561,11 @@ crédit au verso ; `coverSuggestions()` propose les photos des récits assez dé
 4e de couverture : accroche, présentation, frise des décennies, bande de 4 photos d'époque, ligne de l'exemplaire,
 blason, adresse, emplacement du code-barres (option `isbn`). Options facultatives : `match` (id d'une fiche
 match publiée → page « Mon match », `myMatch()`) et `joueurs` (1 à 3 fiches personnes → page « Mes joueurs », portraits
-à 200 dpi sinon blason, bilan `Bilans::forPerson`, chiffre clé).
+à 200 dpi sinon blason, bilan `Bilans::forPerson`, chiffre clé), `naissance` (+ `naissance_titre` : match le plus
+proche à 60 jours au plus, page « Mon match »), `carnet` (id : tampon « J'y étais » sur les récits qui lient un match
+du carnet, `linked()` ; page de bilan `carnetPage()` avec renvois de pages), `photo` (+ `photo_legende`, fichier envoyé
+dans `storage/livres/photos/`, `photoFrame()` : 140, 110 ou 85 mm à 200 dpi, sinon refusée), `maillot_nom`,
+`maillot_numero`, `maillot_style` (`Livre::JERSEYS`, dessin vectoriel), `qr` (QR code de chaque récit, `Qr::matrix`).
 Test : `tests/livre.php`.
 
 ## Catalogue des archives (`App\Services\Catalogue`, `App\Admin\Archives`)

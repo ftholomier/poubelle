@@ -32,7 +32,10 @@ $eq('vignette 480 px refusée même en colonne', Livre::dpi([480, 320], ...$col)
 $eq('photo web 1920 px refusée en couverture', Livre::dpi([1920, 1280], 216 * $mm, Livre::coverH()) >= Livre::DPI['page'], false);
 $eq('original 2560 × 1706 accepté en couverture', Livre::dpi([2560, 1706], 216 * $mm, Livre::coverH()) >= Livre::DPI['page'], true);
 
-$book = new Livre(['nom' => 'Test Lecteur', 'dedicace' => 'Pour toi.', 'numero' => '7', 'depuis' => 1998, 'couverture' => 'absente/inconnue.jpg', 'match' => 999999999, 'joueurs' => [999999998], 'relire' => true, 'limite' => 3]);
+$eq('naissance hors base : pas de page, pas d’erreur', str_starts_with((new Livre(['naissance' => '1800-01-01', 'limite' => 1]))->build(), '%PDF'), true);
+$eq('photo du lecteur trop petite refusée', Livre::photoFrame(PUBLIC_PATH . '/assets/img/favicon.png'), null);
+
+$book = new Livre(['nom' => 'Test Lecteur', 'dedicace' => 'Pour toi.', 'numero' => '7', 'depuis' => 1998, 'couverture' => 'absente/inconnue.jpg', 'match' => 999999999, 'joueurs' => [999999998], 'maillot_nom' => 'Test', 'maillot_numero' => '9', 'carnet' => 'inconnu', 'relire' => true, 'limite' => 3]);
 $pdf = $book->build();
 $eq('PDF produit', str_starts_with($pdf, '%PDF'), true);
 $pages = preg_match_all('#/Type /Page\b#', $pdf);

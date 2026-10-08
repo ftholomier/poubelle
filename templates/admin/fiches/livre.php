@@ -17,7 +17,7 @@ use App\Pdf\Livre;
   <?php endif; ?>
 </div>
 
-<form class="card card--pad stack" method="post" action="/admin/livre">
+<form class="card card--pad stack" method="post" action="/admin/livre" enctype="multipart/form-data">
   <?= csrf_field() ?>
   <h2 class="card__t" style="margin:0">Composer un exemplaire</h2>
   <div class="row" style="gap:12px;flex-wrap:wrap">
@@ -33,6 +33,21 @@ use App\Pdf\Livre;
     <label class="f"><span class="f__k">Option « Mon match » : n° de la fiche du match</span><input name="match" inputmode="numeric" placeholder="14188"></label>
     <label class="f"><span class="f__k">Option « Mes joueurs » : n° de 1 à 3 fiches joueurs</span><input name="joueurs" placeholder="10258, 4901, 9357"></label>
   </div>
+  <div class="row" style="gap:12px;flex-wrap:wrap">
+    <label class="f"><span class="f__k">« Le jour de ta naissance » : date</span><input type="date" name="naissance"></label>
+    <label class="f"><span class="f__k">Titre de cette page</span><input name="naissance_titre" maxlength="50" placeholder="Le jour de ta naissance"></label>
+    <label class="f"><span class="f__k">Carnet du supporter (pseudo ou adresse de sa page)</span><input name="carnet" placeholder="lucas-b"></label>
+  </div>
+  <div class="row" style="gap:12px;flex-wrap:wrap">
+    <label class="f"><span class="f__k">Sa photo (JPEG ou PNG, 670 px de large au moins)</span><input type="file" name="photo" accept="image/jpeg,image/png"></label>
+    <label class="f"><span class="f__k">Légende de sa photo</span><input name="photo_legende" maxlength="120" placeholder="Avec papa à Bonal, août 2024"></label>
+  </div>
+  <div class="row" style="gap:12px;flex-wrap:wrap">
+    <label class="f"><span class="f__k">Maillot : nom floqué</span><input name="maillot_nom" maxlength="14" placeholder="LUCAS"></label>
+    <label class="f"><span class="f__k">Numéro</span><input name="maillot_numero" maxlength="2" inputmode="numeric" placeholder="10" style="width:80px"></label>
+    <label class="f"><span class="f__k">Style</span><select name="maillot_style"><?php foreach (Livre::JERSEYS as $k => $j): ?><option value="<?= e($k) ?>"><?= e($j['label']) ?></option><?php endforeach; ?></select></label>
+  </div>
+  <label class="row" style="gap:6px"><input type="checkbox" name="qr" value="1" checked> QR code de chaque récit vers sa page au musée</label>
   <div class="f"><span class="f__k">Photo de couverture</span>
     <div class="row" style="gap:10px;flex-wrap:wrap">
       <label class="row" style="gap:6px"><input type="radio" name="couverture" value="" checked> Couverture graphique (sans photo)</label>
