@@ -85,6 +85,17 @@ $next = ['paid' => 'production', 'production' => 'shipped', 'shipped' => 'delive
     </section>
     <?php endif; ?>
 
+    <?php $dls = array_filter($o['items'], [\App\Shop\BookShop::class, 'digital']); if ($admin && $dls && $o['status'] !== 'pending'): ?>
+    <section class="card card--pad">
+      <h2 class="card__t card__t--sm">Téléchargements du livre</h2>
+      <?php foreach ($dls as $n => $it): ?><p class="xs"><?= e($it['name']) ?> : <?= (int) ($o['ext']['downloads'][$n] ?? 0) ?> / <?= \App\Shop\BookShop::MAX_DOWNLOADS ?> utilisés</p><?php endforeach; ?>
+      <form method="post" action="<?= e($base) ?>">
+        <?= csrf_field() ?><input type="hidden" name="action" value="downloads">
+        <div class="row" style="justify-content:flex-end"><button class="btn btn--ghost btn--sm">Redonner <?= \App\Shop\BookShop::MAX_DOWNLOADS ?> téléchargements</button></div>
+      </form>
+    </section>
+    <?php endif; ?>
+
     <?php if ($admin && $o['paid'] > $o['refunded']): ?>
     <section class="card card--pad">
       <h2 class="card__t card__t--sm">Rembourser</h2>

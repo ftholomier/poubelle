@@ -294,6 +294,9 @@ final class BookShop
     }
 
     /** Adresse de téléchargement sécurisée d'un livre numérique (jeton secret de la commande). */
+    /** Téléchargements permis par livre numérique ; au-delà, le client écrit au musée. */
+    public const MAX_DOWNLOADS = 5;
+
     public static function downloadUrl(array $o, int $n): string
     {
         return base_url() . url('/boutique/commande/' . $o['token'] . '/livre/' . ($n + 1) . '/');

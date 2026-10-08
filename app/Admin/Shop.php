@@ -237,6 +237,13 @@ final class Shop extends Base
                 }
                 Activity::log(self::actor(), 'a remboursé ' . Orders::money($r['cents']) . ' sur la commande ' . $id, ['path' => $back]);
                 return self::back($back, 'Remboursement de ' . Orders::money($r['cents']) . ' effectué.');
+            case 'downloads':
+                Orders::update($id, function ($x) {
+                    unset($x['ext']['downloads']);
+                    return $x;
+                });
+                Activity::log(self::actor(), 'a redonné les téléchargements du livre de la commande ' . $id, ['path' => $back]);
+                return self::back($back, 'Le client peut de nouveau télécharger son livre ' . \App\Shop\BookShop::MAX_DOWNLOADS . ' fois.');
             case 'paid':
                 Orders::markPaid($id, '', $o['total'], $who . ' (hors ligne)');
                 return self::back($back, 'Paiement enregistré : la commande part chez l’imprimeur.');

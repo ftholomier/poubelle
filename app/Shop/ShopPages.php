@@ -642,7 +642,7 @@ final class ShopPages
             ['title' => 'Commande ' . $o['id'], 'noindex' => true]);
     }
 
-    /** GET /boutique/commande/{jeton}/livre/{n}/ : livre numérique payé, au plus 20 téléchargements. */
+    /** GET /boutique/commande/{jeton}/livre/{n}/ : livre numérique payé, au plus BookShop::MAX_DOWNLOADS téléchargements. */
     public static function bookDownload(Request $req, string $token, string $n): Response
     {
         $o = Orders::byToken($token);
@@ -651,20 +651,20 @@ final class ShopPages
         if (!$o || !$it || !BookShop::digital($it) || !in_array($o['status'], ['paid', 'production', 'shipped', 'delivered'], true)) {
             return self::notFound();
         }
-        $count = 0;
-        Orders::update($o['id'], function ($x) use ($i, &$count) {
-            $count = (int) ($x['ext']['downloads'][$i] ?? 0) + 1;
-            $x['ext']['downloads'][$i] = $count;
-            return $x;
-        });
-        if ($count > 20) {
-            return new Response('Nombre de téléchargements dépassé : écrivez-nous depuis la page de votre commande.', 429, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        if ((int) ($o['ext']['downloads'][$i] ?? 0) >= BookShop::MAX_DOWNLOADS) {
+            Session::set('shop_flash', ['type' => 'error', 'msg' => 'Vous avez utilisé vos ' . BookShop::MAX_DOWNLOADS . ' téléchargements. Besoin d’un nouveau téléchargement ? Écrivez au musée ci-dessous, nous vous répondons rapidement.']);
+            return Response::redirect(self::u('/boutique/commande/' . $token . '/') . '#messages');
         }
         @set_time_limit(600);
         $pdf = Orders::pdf($o, $i);
         if ($pdf === null) {
             return new Response('Votre livre est en cours de composition : réessayez dans quelques minutes.', 503, ['Content-Type' => 'text/plain; charset=UTF-8', 'Retry-After' => '120']);
         }
+        // Compté seulement quand le fichier part (pas pendant la composition).
+        Orders::update($o['id'], function ($x) use ($i) {
+            $x['ext']['downloads'][$i] = (int) ($x['ext']['downloads'][$i] ?? 0) + 1;
+            return $x;
+        });
         return new Response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="100-recits-du-lion-' . slugify((string) ($it['values']['nom'] ?? 'livre')) . '.pdf"', 'Cache-Control' => 'private, no-store', 'X-Robots-Tag' => 'noindex']);
     }
 

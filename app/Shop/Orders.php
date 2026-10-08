@@ -453,7 +453,7 @@ final class Orders
         foreach ($o['items'] as $n => $it) {
             if (BookShop::digital($it)) {
                 $u = BookShop::downloadUrl($o, $n);
-                $dl .= '<p><b>Votre livre numérique est prêt :</b> <a href="' . e($u) . '">télécharger le PDF</a> (lien personnel, ne le partagez pas ; il reste aussi disponible sur la page de votre commande).</p>';
+                $dl .= '<p><b>Votre livre numérique est prêt :</b> <a href="' . e($u) . '">télécharger le PDF</a> (lien personnel, ne le partagez pas : ' . BookShop::MAX_DOWNLOADS . ' téléchargements possibles ; il reste aussi sur la page de votre commande, d’où vous pouvez écrire au musée si vous en avez besoin de plus).</p>';
             }
         }
         self::mail($o['customer']['email'], 'Votre commande ' . $o['id'] . ' est confirmée', '<p>Bonjour ' . e($o['customer']['name']) . ',</p><p>Merci ! Votre commande <b>' . e($o['id']) . '</b> (' . e(self::money($o['total'])) . ') est payée.' . ($phys ? ' Elle part en fabrication chez notre imprimeur. ' . e($c['delay']) : '') . '</p>' . $dl . self::itemsHtml($o) . '<p>Suivez-la et posez vos questions ici : <a href="' . e($link) . '">' . e($link) . '</a></p>', $phys ? ($c['printer_email'] ?: null) : null);
