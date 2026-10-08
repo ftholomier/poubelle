@@ -15,6 +15,12 @@
     for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
     return (fontData = 'data:font/woff2;base64,' + btoa(s));
   };
+  let logoData = null;
+  const logo = async () => {
+    if (logoData) return logoData;
+    const blob = await (await fetch('/assets/img/logo-sochaux-retro-400.png')).blob();
+    return (logoData = await new Promise(ok => { const r = new FileReader(); r.onload = () => ok(r.result); r.readAsDataURL(blob); }));
+  };
   const esc = t => t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   async function backSvg(name, num, st) {
     const f = await font();
@@ -34,7 +40,9 @@ ${num ? `<text x="140" y="300" font-size="230" fill="#${st.text}" stroke="#${st.
     const spec = faces => ({ kind: 'jersey', design, model: '/assets/3d/tshirt.glb', faces });
     const opt = view => ({ w: px, h: Math.round(px * 1.11), view, zoom: 0.78 });
     const back = await snapshot(spec({ dos: { w: 280, h: 350, svg: await backSvg(name, num, st) } }), opt([Math.PI - 0.28, 0.06]));
-    const front = await snapshot(spec({}), opt([0.28, 0.06]));
+    // Blason Sochaux Rétro au cœur (côté gauche du porteur), comme un écusson brodé
+    const heart = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="62" height="70" viewBox="0 0 62 70"><image href="${await logo()}" xlink:href="${await logo()}" x="0" y="0" width="62" height="70"/></svg>`;
+    const front = await snapshot(spec({ coeur: { w: 62, h: 70, x: 78, y: 600, svg: heart } }), opt([0.28, 0.06]));
     return { front, back };
   }
   window.livreJersey = jerseyImage;

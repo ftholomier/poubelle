@@ -320,8 +320,8 @@ async function jersey(r, faces, design, url) {
   for (const o of meshesOf(root)) o.material = jerseyMaterial(design);
   g.add(root);
   for (const [k, f] of Object.entries(faces)) {
-    const y = PLACE.tee[k];
-    if (f.svg && y) await stamp(r, g, root, f, 0, y, k === 'dos', { roughness: 0.8 });
+    const y = f.y ?? PLACE.tee[k];
+    if (f.svg && y) await stamp(r, g, root, f, f.x ?? 0, y, k === 'dos', { roughness: 0.8 });
   }
   return g;
 }

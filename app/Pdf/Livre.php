@@ -771,6 +771,7 @@ final class Livre
         $l = $this->l;
         $mm = self::MM;
         // La double page commence sur une page de gauche : la page déjà ouverte est réutilisée si elle l'est.
+        $this->noFolio[$p] = true;
         if ($this->right($p)) {
             $this->noFolio[$p] = true;
             $p = $this->page();
@@ -801,10 +802,11 @@ final class Livre
             }
             $tx = $i === 0 ? $this->b + 14 * $mm : $this->b + 4 * $mm;
             $l->text($tx, $this->b + 16 * $mm, $i === 0 ? 'TON MAILLOT' : mb_strtoupper(trim(($name !== '' ? $name : '') . ($num !== '' ? ' · N° ' . $num : ''))), 'display', 22, $i === 0 ? 'yellow' : 'white', 1);
-            $l->text($tx, $this->b + 23 * $mm, $label . (($st['era'] ?? '') !== '' ? ' · MODÈLE ' . mb_strtoupper($st['era']) : ''), 'display-b', 9, 'mist', 2);
+            $l->text($tx, $this->b + 23 * $mm, $label . (($st['era'] ?? '') !== '' ? ' · INSPIRÉ DE ' . mb_strtoupper($st['era']) : ''), 'display-b', 9, 'mist', 2);
         }
-        $note = 'Maillot d’après ' . (($st['era'] ?? '') !== '' ? 'le modèle ' . $st['era'] . ' du FC Sochaux-Montbéliard' : 'les couleurs du FC Sochaux-Montbéliard') . ', sans sponsor ni logo, floqué pour toi.';
-        $l->text($this->b + 4 * $mm, $this->b + $this->H - 12 * $mm, $note, 'serif-i', 9, 'mist');
+        $note = 'Maillot inspiré ' . (($st['era'] ?? '') !== '' ? 'des maillots du FCSM de ' . $st['era'] : 'des couleurs du FCSM') . ' : une évocation libre, pas une reproduction fidèle. Ni sponsor ni équipementier, juste le Lion et ton nom, pour le plaisir.';
+        $nl = $l->wrap([Layout::run($note, 'serif-i', 9, 'mist')], $l->pw - $this->b - 18 * $mm, 1.35);
+        $l->drawLines($nl, $this->b + 4 * $mm, $this->b + $this->H - 16 * $mm, $l->pw - $this->b - 18 * $mm);
     }
 
     /** Plaque gravée sous le maillot encadré, et titre de la page. */
