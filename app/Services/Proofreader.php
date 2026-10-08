@@ -976,15 +976,15 @@ final class Proofreader
         if ($wrong === '') {
             return null;
         }
+        // Le correcteur relit un texte aux espaces resserrées (insécables comprises) : on cherche
+        // de même, toute suite d'espaces valant une espace.
+        $re = '/' . implode('[ \\t\\x{00A0}\\x{202F}\\x{2007}\\x{2009}]+', array_map(fn ($w) => preg_quote($w, '/'), preg_split('/[ \\t\\x{00A0}\\x{202F}\\x{2007}\\x{2009}]+/u', $wrong) ?: [$wrong])) . '/u';
         if (!$html) {
-            $pos = -1;
-            for ($i = 0; $i <= $nth; $i++) {
-                $pos = mb_strpos($value, $wrong, $pos + 1);
-                if ($pos === false) {
-                    return null;
-                }
+            if (!preg_match_all($re, $value, $m, PREG_OFFSET_CAPTURE) || !isset($m[0][$nth])) {
+                return null;
             }
-            return mb_substr($value, 0, $pos) . $right . mb_substr($value, $pos + mb_strlen($wrong));
+            [$found, $at] = $m[0][$nth];
+            return substr($value, 0, $at) . $right . substr($value, $at + strlen($found));
         }
         $parts = preg_split('/(<[^>]*>)/u', $value, -1, PREG_SPLIT_DELIM_CAPTURE) ?: [$value];
         $seen = 0;
@@ -993,7 +993,7 @@ final class Proofreader
                 continue;
             }
             $text = html_entity_decode($part, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            $n = mb_substr_count($text, $wrong);
+            $n = (int) preg_match_all($re, $text);
             if ($seen + $n > $nth) {
                 $fixed = self::replaceNth($text, $wrong, $right, $nth - $seen, false);
                 if ($fixed === null) {
