@@ -1004,7 +1004,63 @@ final class Proofreader
             }
             $seen += $n;
         }
-        return null;
+        return self::replaceAcrossTags($value, $re, $right, $nth);
+    }
+
+    /**
+     * Faute à cheval sur une balise (« 65<sup>ème</sup> », « Takac</a> , ») : on la cherche dans
+     * le texte sans balises, puis on ne remplace que la partie qui change, si elle ne contient
+     * pas elle-même de balise. Les balises restent donc en place (« 65<sup>e</sup> »).
+     */
+    private static function replaceAcrossTags(string $value, string $re, string $right, int $nth): ?string
+    {
+        preg_match_all('/<[^>]*>|&#?\w+;|./su', $value, $m, PREG_OFFSET_CAPTURE);
+        $units = [];
+        $text = '';
+        $byByte = [];
+        foreach ($m[0] as [$tok, $at]) {
+            if ($tok[0] === '<') {
+                continue;
+            }
+            $ch = $tok[0] === '&' && strlen($tok) > 1 ? html_entity_decode($tok, ENT_QUOTES | ENT_HTML5, 'UTF-8') : $tok;
+            $byByte[strlen($text)] = count($units);
+            $units[] = [$ch, $at, strlen($tok)];
+            $text .= $ch;
+        }
+        $byByte[strlen($text)] = count($units);
+        if (!preg_match_all($re, $text, $mm, PREG_OFFSET_CAPTURE) || !isset($mm[0][$nth])) {
+            return null;
+        }
+        [$found, $at] = $mm[0][$nth];
+        $i0 = $byByte[$at] ?? null;
+        if ($i0 === null) {
+            return null;
+        }
+        $w = mb_str_split($found);
+        $r = mb_str_split($right);
+        $pre = 0;
+        while ($pre < count($w) && $pre < count($r) && $w[$pre] === $r[$pre]) {
+            $pre++;
+        }
+        $suf = 0;
+        while ($suf < count($w) - $pre && $suf < count($r) - $pre && $w[count($w) - 1 - $suf] === $r[count($r) - 1 - $suf]) {
+            $suf++;
+        }
+        $from = $i0 + $pre;
+        $to = $i0 + count($w) - $suf; // exclu
+        $ins = htmlspecialchars(implode('', array_slice($r, $pre, count($r) - $pre - $suf)), ENT_NOQUOTES, 'UTF-8');
+        if ($from === $to) {
+            $pos = $from > 0 ? $units[$from - 1][1] + $units[$from - 1][2] : $units[$from][1];
+            return substr($value, 0, $pos) . $ins . substr($value, $pos);
+        }
+        for ($i = $from + 1; $i < $to; $i++) {
+            if ($units[$i][1] !== $units[$i - 1][1] + $units[$i - 1][2]) {
+                return null; // une balise au milieu de ce qui change : à faire à la main
+            }
+        }
+        $start = $units[$from][1];
+        $end = $units[$to - 1][1] + $units[$to - 1][2];
+        return substr($value, 0, $start) . $ins . substr($value, $end);
     }
 
     private static function getPath(array $doc, string $k): mixed
