@@ -290,6 +290,43 @@ final class Layout
         $this->op('q ' . ($fill ? self::col($fill) . ' ' : '') . ($stroke ? self::col($stroke, false) . sprintf(' %.2F w 1 j ', $lw) : '') . $d . 'h ' . $paint . ' Q');
     }
 
+    /**
+     * Forme du moteur vectoriel de la boutique (mm, commandes M/L/C/Q/Z, couleurs #hex, règle de
+     * remplissage) posée sur la page : origine ($ox, $oy) en points, $k points par mm.
+     */
+    public function vectorPath(array $sh, float $ox, float $oy, float $k): void
+    {
+        $X = fn (float $x): float => $ox + $x * $k;
+        $Y = fn (float $y): float => $this->ph - ($oy + $y * $k);
+        $d = '';
+        $cx = $cy = 0.0;
+        foreach ($sh['d'] as $c) {
+            switch ($c[0]) {
+                case 'M':
+                case 'L':
+                    $d .= sprintf('%.2F %.2F %s ', $X($c[1]), $Y($c[2]), $c[0] === 'M' ? 'm' : 'l');
+                    [$cx, $cy] = [$c[1], $c[2]];
+                    break;
+                case 'C':
+                    $d .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $X($c[1]), $Y($c[2]), $X($c[3]), $Y($c[4]), $X($c[5]), $Y($c[6]));
+                    [$cx, $cy] = [$c[5], $c[6]];
+                    break;
+                case 'Q':
+                    [$qx, $qy, $ex, $ey] = [$c[1], $c[2], $c[3], $c[4]];
+                    $d .= sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $X($cx + 2 / 3 * ($qx - $cx)), $Y($cy + 2 / 3 * ($qy - $cy)), $X($ex + 2 / 3 * ($qx - $ex)), $Y($ey + 2 / 3 * ($qy - $ey)), $X($ex), $Y($ey));
+                    [$cx, $cy] = [$ex, $ey];
+                    break;
+                case 'Z':
+                    $d .= 'h ';
+            }
+        }
+        $fill = $sh['fill'] ?? null;
+        $stroke = $sh['stroke'] ?? null;
+        $eo = ($sh['rule'] ?? '') === 'evenodd';
+        $paint = $fill && $stroke ? ($eo ? 'B*' : 'B') : ($fill ? ($eo ? 'f*' : 'f') : 'S');
+        $this->op('q ' . ($fill ? self::col(ltrim($fill, '#')) . ' ' : '') . ($stroke ? self::col(ltrim($stroke, '#'), false) . sprintf(' %.3F w ', ($sh['sw'] ?? 0) * $k) : '') . $d . $paint . ' Q');
+    }
+
     /** Dessins faits par $draw tournés de $deg degrés (sens des aiguilles d'une montre) autour de ($cx, $cy). */
     public function rotated(float $deg, float $cx, float $cy, callable $draw): void
     {

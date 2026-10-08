@@ -116,7 +116,7 @@ final class Livre
         $this->myPhoto((string) ($this->o['photo'] ?? ''));
         $this->myJersey();
         $this->birthMatch();
-        $this->myMatch((int) ($this->o['match'] ?? 0), 'MON MATCH', '', isset($this->o['match_feuille']) ? self::fromSheet((array) $this->o['match_feuille']) : null);
+        $this->myMatch((int) ($this->o['match'] ?? 0), 'MON MATCH', '', isset($this->o['match_feuille']) ? self::fromSheet((array) $this->o['match_feuille']) : null, isset($this->o['match_feuille']) ? (array) $this->o['match_feuille'] : null);
         $this->myPlayers(array_slice(array_map('intval', (array) ($this->o['joueurs'] ?? [])), 0, 3));
         $this->seen = $this->carnetMatches();
         $tocFirst = $this->l->pdf->pageCount();
@@ -544,7 +544,7 @@ final class Livre
             $f = (array) $this->o['naissance_feuille'];
             $days = (int) round((strtotime((string) $f['date']) - $t) / 86400);
             $when = $days === 0 ? 'ce jour-là' : ($days > 0 ? $days . ' jour' . ($days > 1 ? 's' : '') . ' plus tard' : abs($days) . ' jour' . (abs($days) > 1 ? 's' : '') . ' plus tôt');
-            $this->myMatch(0, (string) ($this->o['naissance_titre'] ?? '') ?: 'Le jour de ta naissance', 'Le ' . date_fr($d) . ' : ' . $when . ', Sochaux jouait ce match.', self::fromSheet($f));
+            $this->myMatch(0, (string) ($this->o['naissance_titre'] ?? '') ?: 'Le jour de ta naissance', 'Le ' . date_fr($d) . ' : ' . $when . ', Sochaux jouait ce match.', self::fromSheet($f), $f);
             return;
         }
         $best = null;
@@ -867,8 +867,22 @@ final class Livre
     }
 
     /** Option « Mon match » : une page sur le match choisi par le client (données de la fiche, rien d'inventé). */
-    private function myMatch(int $id, string $kicker = 'MON MATCH', string $note = '', ?array $data = null): void
+    private function myMatch(int $id, string $kicker = 'MON MATCH', string $note = '', ?array $data = null, ?array $sheet = null): void
     {
+        // Le poster du match de la boutique en pleine page (toutes les infos du match), si le match
+        // a assez de matière ; sinon la page simple ci-dessous.
+        $nom = trim((string) ($this->o['nom'] ?? ''));
+        $layers = LivrePoster::build4($id, $sheet, trim(($nom !== '' ? $nom . ' · ' : '') . mb_strtolower($kicker)), (string) ($this->o['numero'] ?? ''));
+        if ($layers) {
+            $l = $this->l;
+            $p = $this->page();
+            $this->noFolio[$p] = true;
+            $this->dark[$p] = true;
+            $l->rect(0, 0, $l->pw, $l->ph, '0E1F4D');
+            $k = min($this->W / 297, $this->H / 420);
+            LivrePoster::draw($l, $layers, ($l->pw - 297 * $k) / 2, $this->b + ($this->H - 420 * $k) / 2, $k);
+            return;
+        }
         $doc = $data === null ? self::fiche($id, 'match') : ['match' => $data];
         $m = $doc['match'] ?? null;
         if (!$m) {
@@ -1091,6 +1105,19 @@ final class Livre
                 if ($d) {
                     $cands = array_merge($cands, $this->photos($d, true));
                 }
+            }
+        }
+        // Toute la photothèque : photos dont la légende ou le nom de fichier date de la décennie.
+        foreach (Media::all() as $rel => $m) {
+            if (!str_starts_with((string) ($m['mime'] ?? ''), 'image/') || \App\Data\Index::isPlaceholderImage((string) $rel)) {
+                continue;
+            }
+            $cap = (string) ($m['caption'] ?? '');
+            $cred = (string) ($m['credit'] ?? '');
+            if (preg_match('/\b(19|20)\d{2}\b/', $cap . ' ' . basename((string) $rel), $ym) && (int) $ym[0] >= $dec && (int) $ym[0] < $dec + 10
+                && !GrandsRecits::press($cred . ' ' . $cap)) {
+                $this->tag((string) $rel, $cap);
+                $cands[] = ['rel' => (string) $rel, 'caption' => $cap, 'credit' => $cred, 'year' => (int) $ym[0]];
             }
         }
         $best = null;
@@ -1580,13 +1607,19 @@ final class Livre
         foreach ($plans as $plan) {
             $pick = [];
             $pool = $photos;
+            $taken = [];
             foreach ($plan as $c) {
                 $cw = $c[2] * $w - ($c[2] < 1 ? $gap / 2 : 0);
                 $ch = $c[3] * $H - ($c[3] < 1 ? $gap / 2 : 0);
                 $got = null;
                 foreach ($pool as $k => $ph) {
+                    // Pas deux fois la même personne ou le même lieu dans la composition.
+                    if (array_intersect($this->who[$ph['rel']] ?? [], $taken)) {
+                        continue;
+                    }
                     if ($img = $this->prepare($ph['rel'], $cw, $ch, self::DPI['colonne'])) {
                         $got = [$img, $ph, $cw, $ch, $c];
+                        $taken = array_merge($taken, $this->who[$ph['rel']] ?? []);
                         unset($pool[$k]);
                         break;
                     }
@@ -1789,28 +1822,6 @@ final class Livre
             }
             $y += 44;
         }
-        // Bande de photos d'époque (une par décennie, assez définies pour leur petite taille)
-        $shots = [];
-        foreach ($this->recits() as $items) {
-            foreach ($items as $it) {
-                foreach ($this->photos($it['doc'], false, false, true) as $ph) {
-                    if ($img = $this->prepare($ph['rel'], ($w - 3 * 6) / 4, 30 * $mm, self::DPI['colonne'])) {
-                        $shots[] = $img;
-                        continue 3;
-                    }
-                }
-            }
-        }
-        if (count($shots) >= 4) {
-            $pick = array_values(array_intersect_key($shots, array_flip(array_map(fn ($i) => (int) round($i * (count($shots) - 1) / 3), [0, 1, 2, 3]))));
-            $sw = ($w - 3 * 6) / 4;
-            foreach ($pick as $i => $img) {
-                $sx = $x + $i * ($sw + 6);
-                $l->drawImage($l->loadImage($img['file']), $sx, $y, $sw, 30 * $mm, true);
-                $l->rect($sx, $y + 30 * $mm, $sw, 3, 'yellow');
-            }
-            $y += 30 * $mm + 26;
-        }
         // Dédicace de l'exemplaire
         $nom = trim((string) ($this->o['nom'] ?? ''));
         if ($nom !== '') {
@@ -1966,42 +1977,66 @@ final class Livre
         return false;
     }
 
-    /** @var array<string,string> photo => sujet (personne) */
+    /** @var array<string,list<string>> photo => sujets (personnes « n: », lieux « l: ») */
     private array $who = [];
     /** @var array<string,array{n:int,r:int}> sujet => nombre de photos et dernier récit */
     private array $whoSeen = [];
 
     /**
-     * Une même personne : une seule photo par récit, deux au plus dans tout le livre,
-     * et jamais dans deux récits rapprochés (au moins quatre récits d'écart).
+     * Une même personne : une seule photo par récit, deux au plus dans tout le livre, et au moins
+     * quatre récits d'écart. Un même lieu : jamais dans le même récit ni dans les deux suivants.
      */
     private function whoBlocked(string $rel): bool
     {
-        $k = $this->who[$rel] ?? '';
-        if ($k === '' || !isset($this->whoSeen[$k])) {
-            return false;
+        foreach ($this->who[$rel] ?? [] as $k) {
+            if (!isset($this->whoSeen[$k])) {
+                continue;
+            }
+            $s = $this->whoSeen[$k];
+            $gap = $this->report['recits'] - $s['r'];
+            if ($k[0] === 'l' ? $gap < 3 : ($s['n'] >= 2 || $gap < 4)) {
+                return true;
+            }
         }
-        $s = $this->whoSeen[$k];
-        return $s['n'] >= 2 || $this->report['recits'] - $s['r'] < 4;
+        return false;
     }
 
-    /** Sujet d'une légende quand elle commence par un nom (« Stéphane Paille · Photo… »), sinon ''. */
-    private static function subject(string $cap): string
+    /** Rattache une photo aux personnes et lieux nommés dans sa légende ou son nom de fichier. */
+    private function tag(string $rel, string $cap, array $extra = []): void
     {
-        $head = trim((string) preg_split('/\s+[·–—-]\s+|,|\(|:/u', $cap)[0]);
-        if ($head === '' || preg_match('/\d/', $head) || !preg_match('/^\p{Lu}[\p{L}\'’.-]+(\s+(de |du |van |le |la )?\p{Lu}[\p{L}\'’.-]+){1,3}$/u', $head)) {
-            return '';
+        static $people = null;
+        if ($people === null) {
+            $people = [];
+            foreach (\App\Data\Index::all() as $e) {
+                if (($e['type'] ?? '') === 'personne') {
+                    $n = mb_strtolower(trim((string) preg_replace('/\s*\(.*$/u', '', (string) ($e['title'] ?? ''))));
+                    if (mb_strlen($n) >= 7 && str_contains($n, ' ')) {
+                        $people[$n] = true;
+                    }
+                }
+            }
         }
-        if (preg_match('/^(Le |La |Les |Stade|Photo|Équipe|Equipe|FC |Sochaux|Coupe|Saison|Match)/u', $head)) {
-            return '';
+        $hay = ' ' . mb_strtolower($cap . ' ' . str_replace(['-', '_'], ' ', (string) pathinfo($rel, PATHINFO_FILENAME))) . ' ';
+        $hay = (string) preg_replace('/[\s,.;:·–()]+/u', ' ', $hay);
+        $keys = $extra;
+        foreach ($people as $n => $_) {
+            if (str_contains($hay, ' ' . $n . ' ')) {
+                $keys[] = 'n:' . $n;
+            }
         }
-        return 'n:' . mb_strtolower($head);
+        foreach (['bonal' => 'bonal', 'la forge' => 'forge', 'centre de formation' => 'centre', 'tribune' => 'tribune', 'vestiaire' => 'vestiaire', 'musée' => 'musee', 'maillot' => 'maillot'] as $w => $k) {
+            if (str_contains($hay, ' ' . $w)) {
+                $keys[] = 'l:' . $k;
+            }
+        }
+        if ($keys) {
+            $this->who[$rel] = array_values(array_unique(array_merge($this->who[$rel] ?? [], $keys)));
+        }
     }
 
     private function mark(string $rel): void
     {
-        if (isset($this->who[$rel])) {
-            $k = $this->who[$rel];
+        foreach ($this->who[$rel] ?? [] as $k) {
             $this->whoSeen[$k] = ['n' => ($this->whoSeen[$k]['n'] ?? 0) + 1, 'r' => $this->report['recits']];
         }
         foreach ($this->photoKeys($rel) as $k) {
@@ -2083,7 +2118,7 @@ final class Livre
                     continue;
                 }
                 if (isset($people[$id])) {
-                    $this->who[$p['rel']] = 'p:' . $id;
+                    $this->tag($p['rel'], '', ['n:' . mb_strtolower(trim((string) preg_replace('/\s*\(.*$/u', '', (string) ($d['title'] ?? ''))))]);
                 }
                 $out[$p['rel']] = $p;
                 if (isset($people[$id])) {
@@ -2114,10 +2149,7 @@ final class Livre
                 $this->report['presse']++;
                 return;
             }
-            $who = self::subject($cap);
-            if ($who !== '' && !isset($this->who[$rel])) {
-                $this->who[$rel] = $who;
-            }
+            $this->tag($rel, $cap);
             $list[] = ['rel' => $rel, 'caption' => $cap, 'credit' => $cred, 'year' => Recit::year($cap . ' ' . $rel)];
         };
         if (!empty($doc['featured_image'])) {
