@@ -112,7 +112,7 @@ final class Livre
         $this->myPhoto((string) ($this->o['photo'] ?? ''));
         $this->myJersey();
         $this->birthMatch();
-        $this->myMatch((int) ($this->o['match'] ?? 0));
+        $this->myMatch((int) ($this->o['match'] ?? 0), 'MON MATCH', '', isset($this->o['match_feuille']) ? self::fromSheet((array) $this->o['match_feuille']) : null);
         $this->myPlayers(array_slice(array_map('intval', (array) ($this->o['joueurs'] ?? [])), 0, 3));
         $this->seen = $this->carnetMatches();
         $tocFirst = $this->l->pdf->pageCount();
@@ -534,6 +534,14 @@ final class Livre
             return;
         }
         $t = strtotime($d);
+        if (!empty($this->o['naissance_feuille'])) {
+            // Match tiré des feuilles de l'association (pas encore de fiche au musée).
+            $f = (array) $this->o['naissance_feuille'];
+            $days = (int) round((strtotime((string) $f['date']) - $t) / 86400);
+            $when = $days === 0 ? 'ce jour-là' : ($days > 0 ? $days . ' jour' . ($days > 1 ? 's' : '') . ' plus tard' : abs($days) . ' jour' . (abs($days) > 1 ? 's' : '') . ' plus tôt');
+            $this->myMatch(0, (string) ($this->o['naissance_titre'] ?? '') ?: 'Le jour de ta naissance', 'Le ' . date_fr($d) . ' : ' . $when . ', Sochaux jouait ce match.', self::fromSheet($f));
+            return;
+        }
         $best = null;
         foreach (\App\Data\Derived::part('matches') as $id => $x) {
             if (empty($x['v']) || empty($x['date'])) {
@@ -854,9 +862,9 @@ final class Livre
     }
 
     /** Option « Mon match » : une page sur le match choisi par le client (données de la fiche, rien d'inventé). */
-    private function myMatch(int $id, string $kicker = 'MON MATCH', string $note = ''): void
+    private function myMatch(int $id, string $kicker = 'MON MATCH', string $note = '', ?array $data = null): void
     {
-        $doc = self::fiche($id, 'match');
+        $doc = $data === null ? self::fiche($id, 'match') : ['match' => $data];
         $m = $doc['match'] ?? null;
         if (!$m) {
             return;
@@ -933,6 +941,18 @@ final class Livre
         $l->text($x, $l->ph - $this->b - 14 * $mm, 'D’après la fiche du match au musée Sochaux Rétro', 'serif-i', 8, 'mist');
     }
 
+
+    /** Match d'une feuille de match de l'association (pas encore de fiche au musée), au format des fiches. */
+    public static function fromSheet(array $f): array
+    {
+        $rows = array_map(fn ($r) => ['position' => $r['position'] ?? '', 'name' => $r['name'] ?? '', 'captain' => !empty($r['captain'])], (array) ($f['lineup'] ?? []));
+        return ['date' => $f['date'] ?? '', 'competition_label' => $f['competition'] ?? '', 'round_text' => $f['round'] ?? '',
+            'home' => ['name' => preg_replace('/\s*\(.*\)$/u', '', (string) ($f['home'] ?? ''))], 'away' => ['name' => preg_replace('/\s*\(.*\)$/u', '', (string) ($f['away'] ?? ''))],
+            'score' => ['home' => $f['score_home'] ?? '', 'away' => $f['score_away'] ?? ''], 'stadium' => $f['stadium'] ?? '', 'spectators' => $f['spectators'] ?? 0,
+            'referee' => $f['referee'] ?? '', 'goals' => array_map(fn ($g) => ['team' => $g['team'] ?? '', 'scorers' => $g['text'] ?? ''], (array) ($f['goals_by_team'] ?? [])),
+            'lineup' => ['rows' => $rows]];
+    }
+
     /** Option « Mes joueurs » : jusqu'à trois portraits (photo assez définie, sinon blason), avec leur bilan. */
     private function myPlayers(array $ids): void
     {
@@ -956,8 +976,17 @@ final class Livre
         $ph = min($cw * 1.3, 110 * $mm);
         foreach ($docs as $i => $d) {
             $cx = $x + $i * ($cw + $gap);
-            $photo = $this->photos($d)[0] ?? null;
-            $img = $photo ? $this->prepare($photo['rel'], $cw, $ph, self::DPI['colonne']) : null;
+            // Première photo assez nette ; presse_joueurs : exemplaire privé (cadeau) uniquement, jamais en vente
+            $img = null;
+            $list = $this->photos($d);
+            if (!empty($this->o['presse_joueurs'])) {
+                $list = array_merge($list, $this->photos($d, false, true));
+            }
+            foreach ($list as $photo) {
+                if ($img = $this->prepare($photo['rel'], $cw, $ph, self::DPI['colonne'])) {
+                    break;
+                }
+            }
             $l->rect($cx, $y, $cw, $ph, 'navy');
             if ($img) {
                 $l->drawImage($l->loadImage($img['file']), $cx, $y, $cw, $ph, true);
@@ -1568,11 +1597,11 @@ final class Livre
     }
 
     /** Photos du récit, image principale d'abord ; jamais la presse. @return list<array{rel:string,caption:string,credit:string}> */
-    private function photos(array $doc, bool $archivesFirst = false): array
+    private function photos(array $doc, bool $archivesFirst = false, bool $press = false): array
     {
         $list = [];
         $seen = [];
-        $add = function (string $rel, string $cap, string $cred) use (&$list, &$seen) {
+        $add = function (string $rel, string $cap, string $cred) use (&$list, &$seen, $press) {
             if ($rel === '' || isset($seen[$rel]) || \App\Data\Index::isPlaceholderImage($rel)) {
                 return;
             }
@@ -1580,7 +1609,7 @@ final class Livre
             $m = Media::get($rel) ?? [];
             $cap = $cap !== '' ? $cap : (string) ($m['caption'] ?? '');
             $cred = $cred !== '' ? $cred : (string) ($m['credit'] ?? '');
-            if (GrandsRecits::press($cred . ' ' . $cap)) {
+            if (!$press && GrandsRecits::press($cred . ' ' . $cap)) {
                 $this->report['presse']++;
                 return;
             }
