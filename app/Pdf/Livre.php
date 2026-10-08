@@ -48,7 +48,7 @@ final class Livre
     private string $cache;
 
     /**
-     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,match?:int,joueurs?:list<int>,naissance?:string,naissance_titre?:string,carnet?:string,photo?:string,photo_legende?:string,maillot_nom?:string,maillot_numero?:string,maillot_style?:string,maillot_image?:string,qr?:bool,relire?:bool,decennies?:list<int>,limite?:int} $o
+     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,match?:int,joueurs?:list<int>,naissance?:string,naissance_titre?:string,carnet?:string,photo?:string,photo_legende?:string,maillot_nom?:string,maillot_numero?:string,maillot_style?:string,maillot_image?:string,maillot_devant?:string,qr?:bool,relire?:bool,decennies?:list<int>,limite?:int} $o
      */
     public function __construct(private array $o = [])
     {
@@ -604,12 +604,28 @@ final class Livre
         }
     }
 
-    /** Styles de maillot : corps, ombre du corps, manches, col et poignets, flocage, contour du flocage, bande. */
+    /**
+     * Maillots du FCSM, relevés sur les photos d'équipe et de maillots du musée (sans sponsor ni logo de
+     * marque : seulement les couleurs et les motifs). Pour la photo 3D (shop3d.js, `jerseyGlsl`) : body,
+     * sleeve, trim, collar, cuffs, layers ; pour le maillot dessiné de secours : body, shade, sleeve, trim,
+     * text (flocage), edge (contour du flocage), band. era : saison ou époque ; ref : photo de référence.
+     */
     public const JERSEYS = [
-        'classique' => ['label' => 'Classique jaune et bleu', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => 'F6C400', 'trim' => '0E1F4D', 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
-        'retro' => ['label' => 'Rétro, col et manches bleus', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => '0E1F4D', 'trim' => '0E1F4D', 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
-        'bande' => ['label' => 'Bande bleue sur la poitrine', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => 'F6C400', 'trim' => '0E1F4D', 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => '1E3FA8'],
-        'exterieur' => ['label' => 'Extérieur bleu nuit', 'body' => '14286A', 'shade' => '0B1A45', 'sleeve' => '14286A', 'trim' => 'F6C400', 'text' => 'F6C400', 'edge' => '0B1A45', 'band' => null],
+        'annees-30' => ['label' => 'Années 30 · col lacé', 'era' => 'Années 30', 'ref' => '2024/11/1930-06-01-photo-equipe-2.jpg', 'body' => 'F4CC2A', 'shade' => 'D9AE10', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'lace', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
+        'annees-50' => ['label' => 'Années 50 · col polo', 'era' => 'Années 50', 'ref' => '2024/12/312_001.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'polo', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
+        '1969' => ['label' => '1969-1970 · bande en damier', 'era' => '1969-1970', 'ref' => '2026/06/01-retro-Peugeot-sur-le-maillot-MICHELIN-1024x683-1.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'crew', 'cuffs' => true, 'layers' => [['t' => 'checker', 'y0' => 0.18, 'y1' => 0.42, 'n' => 13, 'color' => '111111', 'front' => true]], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => '111111'],
+        '1970' => ['label' => '1970-1971 · col rond', 'era' => '1970-1971', 'ref' => '2026/06/FC-SOCHAUX-MONTBELIARD-1970-71.jpg', 'body' => 'F7C51E', 'shade' => 'DBA90A', 'sleeve' => null, 'trim' => 'F7C51E', 'collar' => 'crew', 'cuffs' => false, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
+        '1978' => ['label' => '1978-1979 · col V bleu', 'era' => '1978-1979', 'ref' => '2026/06/fc-sochaux-1978-79.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
+        '1980' => ['label' => '1979-1980 · manches bleues rayées', 'era' => '1979-1980', 'ref' => '2026/06/yannick-stopyra-fc-sochaux-1980.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => '1A2C7A', 'trim' => '1A2C7A', 'collar' => 'v', 'cuffs' => false, 'layers' => [['t' => 'raglan', 'w' => 0.06, 'color' => 'F6C400']], 'text' => '1A2C7A', 'edge' => 'FFFFFF', 'band' => null],
+        '1983' => ['label' => '1983-1985 · fines rayures', 'era' => '1983-1985', 'ref' => '2026/06/sochaux-home-football-shirt-1983-1985-s_44935_1.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'hstripes', 'n' => 26, 'w' => 0.07, 'color' => '6F8FD0'], ['t' => 'chevrons', 'n' => 9, 'w' => 0.2, 'color' => '1E3FA8', 'front' => true]], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
+        '1987' => ['label' => '1987-1988 · épaules bleues', 'era' => '1987-1988', 'ref' => '2024/02/Photo-equipe-juillet-1987-Credit-Jean-Luc-Gilme.png', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => false, 'layers' => [['t' => 'yoke', 'y' => 0.62, 'color' => '1E3FA8']], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
+        '1998' => ['label' => '1998-1999 · flancs bleus', 'era' => '1998-1999', 'ref' => '2026/06/maillot-sochaux-vintage-domicile-1998-1999-aisselle-a-50cm-asics-fc-montbeliard-maillots-de-foot-retro-the-football-market-983_720x.webp', 'body' => 'E9E23A', 'shade' => 'CFC71E', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.38, 'color' => '1E3FA8']], 'text' => '1E3FA8', 'edge' => 'FFFFFF', 'band' => null],
+        '2004' => ['label' => '2003-2004 · blanc, Coupe de la Ligue', 'era' => '2003-2004', 'ref' => '2026/06/17-avril-2004-Sochaux-remporte-la-Coupe-de-la-ligue.webp', 'body' => 'F4F4F0', 'shade' => 'D8D8D2', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.4, 'color' => 'F6C400']], 'text' => '0E1F4D', 'edge' => 'F6C400', 'band' => null],
+        '2007' => ['label' => '2006-2007 · flancs noirs, finale de Coupe', 'era' => '2006-2007', 'ref' => '2026/06/le-onze-de-depart-de-sochaux-non-vous-ne-revez-pas-mickael-isabey-n-est-pas-retenu-il-n-est-meme-pas-sur-la-feuille-de-match-photo-alexandre-marchi-1589306142.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '151515', 'collar' => 'crew', 'cuffs' => true, 'layers' => [['t' => 'side', 'x' => 0.36, 'color' => '151515']], 'text' => '151515', 'edge' => 'FFFFFF', 'band' => null],
+        '2015' => ['label' => '2014-2015 · liserés noirs', 'era' => '2014-2015', 'ref' => '2026/06/FC-Sochaux-2015-maillot-domicile.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '151515', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
+        '2023' => ['label' => '2023-2024 · Sociochaux, fines rayures', 'era' => '2023-2024', 'ref' => '2026/06/fcsm-maillot-sociochaux.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '1E3FA8', 'collar' => 'v', 'cuffs' => true, 'layers' => [['t' => 'vstripes', 'n' => 22, 'w' => 0.12, 'color' => 'E9B400']], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
+        '2026' => ['label' => '2025-2026 · domicile', 'era' => '2025-2026', 'ref' => '2026/05/FCSM-LPF43-2025-2026-1-Michael-Desprez.jpg', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => null, 'trim' => '0E1F4D', 'collar' => 'crew', 'cuffs' => true, 'layers' => [], 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
+        'exterieur' => ['label' => 'Extérieur bleu nuit', 'era' => '', 'ref' => '', 'body' => '14286A', 'shade' => '0B1A45', 'sleeve' => null, 'trim' => 'F6C400', 'collar' => 'v', 'cuffs' => true, 'layers' => [], 'text' => 'F6C400', 'edge' => '0B1A45', 'band' => null],
     ];
 
     /**
@@ -623,10 +639,18 @@ final class Livre
         if ($name === '' && $num === '') {
             return;
         }
-        $st = self::JERSEYS[(string) ($this->o['maillot_style'] ?? '')] ?? self::JERSEYS['classique'];
+        $st = self::JERSEYS[(string) ($this->o['maillot_style'] ?? '')] ?? self::JERSEYS['2026'];
+        $st['sleeve'] ??= $st['body'];
         $l = $this->l;
         $mm = self::MM;
         $p = $this->page();
+        // Maillot photographié en 3D : double page, le devant à gauche, le dos floqué à droite, en grand.
+        $back = (string) ($this->o['maillot_image'] ?? '');
+        $front = (string) ($this->o['maillot_devant'] ?? '');
+        if ($back !== '' && is_file($back)) {
+            $this->jerseySpread($st, $name, $num, $front, $back, $p);
+            return;
+        }
         $this->noFolio[$p] = true;
         $this->dark[$p] = true;
         // Mur sombre, cadre, passe-partout
@@ -642,18 +666,6 @@ final class Livre
         $m = 13 * $mm;
         $l->rect($fx + $m, $fy + $m, $fw - 2 * $m, $fh - 2 * $m, 'F3EDDF');
         $l->line($fx + $m, $fy + $m, $fx + $fw - $m, $fy + $m, 'D9D1BC', 2);
-        // Maillot photographié en 3D (aperçu de la boutique), posé sur le passe-partout ; sinon dessiné.
-        $shot = (string) ($this->o['maillot_image'] ?? '');
-        if ($shot !== '' && is_file($shot) && ($jpg = $this->onMat($shot))) {
-            $img = $l->loadImage($jpg);
-            $aw = $fw - 2 * $m - 10 * $mm;
-            $ah = $fh - 2 * $m - 34 * $mm;
-            $s2 = min($aw / $img['w'], $ah / $img['h']);
-            $l->drawImage($img, $fx + $fw / 2 - $img['w'] * $s2 / 2, $fy + $m + 4 * $mm, $img['w'] * $s2, $img['h'] * $s2);
-            $name = $name ?: '';
-            $this->plaque($fx, $fy, $fw, $fh, $m, $name, $num);
-            return;
-        }
         // Maillot : repère 1000 × 1060 posé au centre du passe-partout
         $k = ($fw - 2 * $m - 30 * $mm) / 1000;
         $ox = $fx + $fw / 2 - 500 * $k;
@@ -723,6 +735,49 @@ final class Livre
         $this->plaque($fx, $fy, $fw, $fh, $m, $name, $num);
     }
 
+
+
+    /** Double page « Ton maillot » : devant (page de gauche) et dos (page de droite), photos 3D en grand. */
+    private function jerseySpread(array $st, string $name, string $num, string $front, string $back, int $p): void
+    {
+        $l = $this->l;
+        $mm = self::MM;
+        // La double page commence sur une page de gauche : la page déjà ouverte est réutilisée si elle l'est.
+        if ($this->right($p)) {
+            $this->noFolio[$p] = true;
+            $p = $this->page();
+            $this->noFolio[$p] = true;
+        }
+        $pages = [[$p, $front, 'LE DEVANT'], [null, $back, 'LE DOS']];
+        foreach ($pages as $i => [$pg, $file, $label]) {
+            if ($pg === null) {
+                $pg = $this->page();
+                $this->noFolio[$pg] = true;
+            }
+            $this->dark[$pg] = true;
+            $l->page = $pg;
+            $l->rect(0, 0, $l->pw, $l->ph, 'deep');
+            $this->stripes(0, 0, $l->pw, $l->ph);
+            // Passe-partout qui court sur la double page (côté reliure sans marge)
+            $mx = $i === 0 ? $this->b + 14 * $mm : 0;
+            $mw = $l->pw - $this->b - 14 * $mm;
+            $my = $this->b + 30 * $mm;
+            $mh = $this->H - 52 * $mm;
+            $l->rect($mx, $my, $mw, $mh, 'F3EDDF');
+            if ($file !== '' && is_file($file) && ($jpg = $this->onMat($file))) {
+                $img = $l->loadImage($jpg);
+                $aw = $mw - 8 * $mm;
+                $ah = $mh - 8 * $mm;
+                $s2 = min($aw / $img['w'], $ah / $img['h']);
+                $l->drawImage($img, $mx + $mw / 2 - $img['w'] * $s2 / 2, $my + 4 * $mm, $img['w'] * $s2, $img['h'] * $s2);
+            }
+            $tx = $i === 0 ? $this->b + 14 * $mm : $this->b + 4 * $mm;
+            $l->text($tx, $this->b + 16 * $mm, $i === 0 ? 'TON MAILLOT' : mb_strtoupper(trim(($name !== '' ? $name : '') . ($num !== '' ? ' · N° ' . $num : ''))), 'display', 22, $i === 0 ? 'yellow' : 'white', 1);
+            $l->text($tx, $this->b + 23 * $mm, $label . (($st['era'] ?? '') !== '' ? ' · MODÈLE ' . mb_strtoupper($st['era']) : ''), 'display-b', 9, 'mist', 2);
+        }
+        $note = 'Maillot d’après ' . (($st['era'] ?? '') !== '' ? 'le modèle ' . $st['era'] . ' du FC Sochaux-Montbéliard' : 'les couleurs du FC Sochaux-Montbéliard') . ', sans sponsor ni logo, floqué pour toi.';
+        $l->text($this->b + 4 * $mm, $this->b + $this->H - 12 * $mm, $note, 'serif-i', 9, 'mist');
+    }
 
     /** Plaque gravée sous le maillot encadré, et titre de la page. */
     private function plaque(float $fx, float $fy, float $fw, float $fh, float $m, string $name, string $num): void

@@ -26,6 +26,20 @@ ${name ? `<text font-size="${fs}" letter-spacing="3" fill="#${st.text}"><textPat
 ${num ? `<text x="140" y="300" font-size="230" fill="#${st.text}" stroke="#${st.edge}" stroke-width="7" paint-order="stroke" stroke-linejoin="round">${esc(num)}</text>` : ''}
 </svg>`;
   }
+  /** Devant et dos du maillot en 3D (PNG transparents) : { front, back }. */
+  async function jerseyImage(st, name, num) {
+    const { snapshot } = await import('/assets/js/shop3d.js');
+    const design = { body: '#' + st.body, sleeve: st.sleeve ? '#' + st.sleeve : null, trim: '#' + st.trim, collar: st.collar, cuffs: !!st.cuffs,
+      layers: (st.layers || []).map(l => Object.assign({}, l, { color: '#' + (l.color || st.trim) })) };
+    const spec = faces => ({ kind: 'jersey', design, model: '/assets/3d/tshirt.glb', faces });
+    const opt = view => ({ w: 1800, h: 2000, view, zoom: 0.78 });
+    const back = await snapshot(spec({ dos: { w: 280, h: 350, svg: await backSvg(name, num, st) } }), opt([Math.PI - 0.28, 0.06]));
+    const front = await snapshot(spec({}), opt([0.28, 0.06]));
+    return { front, back };
+  }
+  window.livreJersey = jerseyImage;
+  window.livreJerseyStyles = styles;
+
   let busy = false;
   form.addEventListener('submit', async e => {
     if (busy) return;
@@ -38,13 +52,13 @@ ${num ? `<text x="140" y="300" font-size="230" fill="#${st.text}" stroke="#${st.
     if (btn) btn.disabled = true;
     if (note) note.textContent = 'Photo du maillot en 3D…';
     try {
-      const st = styles[form.maillot_style.value] || styles.classique;
-      const { snapshot } = await import('/assets/js/shop3d.js');
-      const blob = await snapshot({ kind: 'tee', color: '#' + st.body, model: '/assets/3d/tshirt.glb', faces: { dos: { w: 280, h: 350, svg: await backSvg(name, num, st) } } },
-        { w: 1800, h: 2000, view: [Math.PI - 0.32, 0.06], zoom: 0.8 });
-      const dt = new DataTransfer();
-      dt.items.add(new File([blob], 'maillot.png', { type: 'image/png' }));
-      form.maillot_image.files = dt.files;
+      const st = styles[form.maillot_style.value] || styles['2026'];
+      const { front, back } = await jerseyImage(st, name, num);
+      for (const [field, blob] of [['maillot_image', back], ['maillot_devant', front]]) {
+        const dt = new DataTransfer();
+        dt.items.add(new File([blob], field + '.png', { type: 'image/png' }));
+        form[field].files = dt.files;
+      }
     } catch (err) {
       console.error(err); // sans 3D : le maillot dessiné du livre
     }

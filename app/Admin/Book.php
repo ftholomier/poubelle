@@ -88,7 +88,7 @@ final class Book extends Base
         $o['naissance_titre'] = mb_substr(trim((string) ($req->post['naissance_titre'] ?? '')), 0, 50);
         $o['maillot_nom'] = mb_substr(trim((string) ($req->post['maillot_nom'] ?? '')), 0, 14);
         $o['maillot_numero'] = mb_substr(preg_replace('/\D/', '', (string) ($req->post['maillot_numero'] ?? '')), 0, 2);
-        $o['maillot_style'] = (string) ($req->post['maillot_style'] ?? 'classique');
+        $o['maillot_style'] = (string) ($req->post['maillot_style'] ?? '2026');
         $o['qr'] = !empty($req->post['qr']);
         $o['photo_legende'] = mb_substr(trim((string) ($req->post['photo_legende'] ?? '')), 0, 120);
         $f = $req->files['photo'] ?? null;
@@ -107,15 +107,17 @@ final class Book extends Base
             $o['photo'] = $dest;
         }
         // Maillot photographié en 3D par le navigateur (PNG transparent), sinon le maillot dessiné
-        $mi = $req->files['maillot_image'] ?? null;
-        if ($mi && ($mi['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK && (int) $mi['size'] < 20 * 1024 * 1024) {
-            $info = @getimagesize((string) $mi['tmp_name']);
-            if ($info && $info[2] === IMAGETYPE_PNG && $info[0] >= 800) {
-                $dir = STORAGE_PATH . '/livres/photos';
-                @mkdir($dir, 0775, true);
-                $dest = $dir . '/maillot-' . bin2hex(random_bytes(8)) . '.png';
-                move_uploaded_file((string) $mi['tmp_name'], $dest);
-                $o['maillot_image'] = $dest;
+        foreach (['maillot_image', 'maillot_devant'] as $field) {
+            $mi = $req->files[$field] ?? null;
+            if ($mi && ($mi['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK && (int) $mi['size'] < 20 * 1024 * 1024) {
+                $info = @getimagesize((string) $mi['tmp_name']);
+                if ($info && $info[2] === IMAGETYPE_PNG && $info[0] >= 800) {
+                    $dir = STORAGE_PATH . '/livres/photos';
+                    @mkdir($dir, 0775, true);
+                    $dest = $dir . '/maillot-' . bin2hex(random_bytes(8)) . '.png';
+                    move_uploaded_file((string) $mi['tmp_name'], $dest);
+                    $o[$field] = $dest;
+                }
             }
         }
         $book = new Livre($o);

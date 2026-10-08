@@ -269,6 +269,63 @@ const BUILD = {
   tee: (r, f, c, u) => wear(r, f, c, u, 'tee'), hoodie: (r, f, c, u) => wear(r, f, c, u, 'hoodie'), cap: (r, f, c, u) => wear(r, f, c, u, 'cap'),
 };
 
+
+// ------------------------------------------------------------------ maillots du FCSM (livre)
+
+/**
+ * Motif d'un maillot peint sur le t-shirt 3D, d'après la position de chaque point du modèle (coordonnées
+ * du maillage, de -1 à 1 : x de gauche à droite, y de bas en haut, z vers l'avant). design : body, sleeve,
+ * trim (col, poignets), collar ('crew', 'v', 'polo', 'lace'), cuffs (bool) et layers : hstripes, vstripes,
+ * band, checker, yoke, side, raglan, chevrons (voir JERSEYS côté serveur).
+ */
+const glc = h => { const c = new Color(h); return `vec3(${c.r.toFixed(4)},${c.g.toFixed(4)},${c.b.toFixed(4)})`; };
+function jerseyGlsl(d) {
+  const L = [];
+  const sleeve = 'abs(p.x) > 0.5 && p.y > 0.12';
+  if (d.sleeve) L.push(`if (${sleeve}) c = ${glc(d.sleeve)};`);
+  for (const l of d.layers || []) {
+    const col = glc(l.color || d.trim);
+    const front = l.front ? ' && p.z > 0.0' : '';
+    if (l.t === 'hstripes') L.push(`if (fract((p.y + 1.0) * ${(l.n || 20).toFixed(1)}) < ${(l.w || 0.2).toFixed(3)}${l.torso ? ' && abs(p.x) < 0.5' : ''}${front}) c = ${col};`);
+    if (l.t === 'vstripes') L.push(`if (fract((p.x + 1.0) * ${(l.n || 20).toFixed(1)}) < ${(l.w || 0.2).toFixed(3)} && abs(p.x) < 0.5${front}) c = ${col};`);
+    if (l.t === 'band') L.push(`if (p.y > ${l.y0.toFixed(3)} && p.y < ${l.y1.toFixed(3)} && abs(p.x) < 0.5${front}) c = ${col};`);
+    if (l.t === 'checker') L.push(`if (p.y > ${l.y0.toFixed(3)} && p.y < ${l.y1.toFixed(3)} && abs(p.x) < 0.5${front} && mod(floor((p.x + 1.0) * ${(l.n || 14).toFixed(1)}) + floor((p.y + 1.0) * ${(l.n || 14).toFixed(1)}), 2.0) > 0.5) c = ${col};`);
+    if (l.t === 'yoke') L.push(`if (p.y > ${(l.y ?? 0.62).toFixed(3)} - abs(p.x) * ${(l.slope ?? 0).toFixed(3)}) c = ${col};`);
+    if (l.t === 'side') L.push(`if (abs(p.x) > ${(l.x ?? 0.36).toFixed(3)} && abs(p.x) < 0.5 && p.y < 0.75) c = ${col};`);
+    if (l.t === 'raglan') L.push(`if (${sleeve} && abs(p.z) < ${(l.w ?? 0.07).toFixed(3)}) c = ${col};`);
+    if (l.t === 'chevrons') L.push(`if (p.y > 0.45${front} && abs(p.x) < 0.75 && fract((p.y - abs(p.x) * 0.55) * ${(l.n || 9).toFixed(1)}) < ${(l.w || 0.22).toFixed(3)} && p.y - abs(p.x) * 0.55 > 0.3) c = ${col};`);
+  }
+  if (d.cuffs) L.push(`if (abs(p.x) > 0.79 && p.y > 0.12) c = ${glc(d.trim)};`);
+  const t = glc(d.trim);
+  if (d.collar === 'v') L.push(`if (p.y > 0.9) c = ${t}; if (p.z > 0.0 && abs(p.x) < 0.3 && p.y > 0.97 - (0.3 - abs(p.x)) * 1.1 && p.y < 1.03 - (0.3 - abs(p.x)) * 1.1) c = ${t};`);
+  else if (d.collar === 'polo') L.push(`if (p.y > 0.86 && abs(p.x) < 0.42) c = ${t};`);
+  else if (d.collar === 'lace') L.push(`if (p.y > 0.9) c = ${t}; if (p.z > 0.0 && abs(p.x) < 0.035 && p.y > 0.62) c = ${t};`);
+  else L.push(`if (p.y > 0.91) c = ${t};`);
+  return L.join('\n');
+}
+
+function jerseyMaterial(d) {
+  const m = new MeshStandardMaterial({ color: new Color('#ffffff'), roughness: 0.86, metalness: 0, side: DoubleSide });
+  m.onBeforeCompile = sh => {
+    sh.vertexShader = 'varying vec3 vJ;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvJ = position;');
+    sh.fragmentShader = 'varying vec3 vJ;\n' + sh.fragmentShader.replace('#include <color_fragment>',
+      `#include <color_fragment>\n{ vec3 p = vJ; vec3 c = ${glc(d.body)};\n${jerseyGlsl(d)}\ndiffuseColor.rgb = c; }`);
+  };
+  m.customProgramCacheKey = () => JSON.stringify(d);
+  return m;
+}
+
+async function jersey(r, faces, design, url) {
+  const g = new Group(), root = await loadModel(url);
+  for (const o of meshesOf(root)) o.material = jerseyMaterial(design);
+  g.add(root);
+  for (const [k, f] of Object.entries(faces)) {
+    const y = PLACE.tee[k];
+    if (f.svg && y) await stamp(r, g, root, f, 0, y, k === 'dos', { roughness: 0.8 });
+  }
+  return g;
+}
+
 /** Ombre douce au sol, sous l'objet. */
 function contactShadow(size) {
   const c = document.createElement('canvas'); c.width = c.height = 128;
@@ -337,7 +394,7 @@ export function viewer(el) {
  * Photo d'un article en haute définition, sur fond transparent (livre des récits : « Ton maillot »).
  * view = [azimut, hauteur] en radians (π : vu de dos). Renvoie un Blob PNG de w × h pixels.
  */
-export async function snapshot({ kind, color, faces, model }, { w = 1800, h = 2000, view = [Math.PI, 0.08], zoom = 1.04 } = {}) {
+export async function snapshot({ kind, color, faces, model, design }, { w = 1800, h = 2000, view = [Math.PI, 0.08], zoom = 1.04 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.width = w; canvas.height = h;
   const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
@@ -351,7 +408,7 @@ export async function snapshot({ kind, color, faces, model }, { w = 1800, h = 20
   scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environmentIntensity = 0.6;
   const key = new DirectionalLight('#ffffff', 1.7);
-  const g = await (BUILD[kind] || paper)(renderer, faces, color, model);
+  const g = kind === 'jersey' ? await jersey(renderer, faces, design, model) : await (BUILD[kind] || paper)(renderer, faces, color, model);
   scene.add(g);
   const box = new Box3().setFromObject(g), sph = box.getBoundingSphere(new Sphere()), c = box.getCenter(new Vector3());
   const camera = new PerspectiveCamera(26, w / h, 1, 20000);

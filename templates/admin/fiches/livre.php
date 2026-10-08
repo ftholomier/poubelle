@@ -18,7 +18,7 @@ use App\Pdf\Livre;
 </div>
 
 <form class="card card--pad stack" method="post" action="/admin/livre" enctype="multipart/form-data" data-livre data-font="/assets/fonts/big-shoulders-display-normal-latin.woff2" data-jerseys="<?= e(json_encode(Livre::JERSEYS)) ?>">
-  <input type="file" name="maillot_image" accept="image/png" hidden>
+  <input type="file" name="maillot_image" accept="image/png" hidden><input type="file" name="maillot_devant" accept="image/png" hidden>
   <?= csrf_field() ?>
   <h2 class="card__t" style="margin:0">Composer un exemplaire</h2>
   <div class="row" style="gap:12px;flex-wrap:wrap">
