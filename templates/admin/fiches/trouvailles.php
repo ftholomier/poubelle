@@ -23,7 +23,7 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste'];
 <section class="card">
   <div class="card__head"><h2 class="card__t">Journaux déposés</h2><span class="card__note">lus et relevés à l’avance ; rien n’entre dans les fiches sans votre validation</span></div>
   <div class="card__body stack" style="gap:10px">
-    <ul class="small" style="margin:0;padding-left:18px"><?php foreach ($packs as $p): ?><li><b><?= e($p['label']) ?></b> · <?= (int) $p['count'] ?> information(s)<?= $p['missing'] ? ' · <span class="muted">' . count($p['missing']) . ' sans fiche sur ce site</span>' : '' ?></li><?php endforeach; ?></ul>
+    <ul class="small" style="margin:0;padding-left:18px"><?php foreach ($packs as $p): ?><li><b><?= e($p['label']) ?></b> · <?= (int) $p['count'] ?> information(s)<?= !empty($p['to_create']) ? ' · ' . (int) $p['to_create'] . ' match(s) à créer à l’import' : '' ?><?= $p['missing'] ? ' · <span class="muted">' . count($p['missing']) . ' sans fiche sur ce site</span>' : '' ?></li><?php endforeach; ?></ul>
     <form method="post" action="/admin/trouvailles"><?= csrf_field() ?><button class="btn btn--primary btn--sm" name="action" value="lots">Ajouter ces informations aux propositions</button> <span class="xs muted">Relancer ne crée pas de doublon.</span></form>
   </div>
 </section>

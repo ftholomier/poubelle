@@ -789,10 +789,20 @@ TXT;
                 continue;
             }
             $added = 0;
+            $created = 0;
+            $toCreate = 0;
             $missing = [];
             $byId = [];
             foreach ((array) ($pack['items'] ?? []) as $it) {
                 $id = self::resolve((array) ($it['cible'] ?? []));
+                if (!$id && $import && !empty($it['cible']['creer'])) {
+                    $id = self::createMatch((array) $it['cible']['creer'], (array) ($it['source'] ?? $pack['source'] ?? []));
+                    $created++;
+                }
+                if (!$id && !empty($it['cible']['creer'])) {
+                    $toCreate++;
+                    continue;
+                }
                 if (!$id) {
                     $missing[] = (string) json_encode($it['cible'] ?? [], JSON_UNESCAPED_UNICODE);
                     continue;
@@ -806,9 +816,37 @@ TXT;
                     $added += self::propose($id, $items);
                 }
             }
-            $out[] = ['file' => basename($f), 'label' => (string) ($pack['titre'] ?? basename($f)), 'count' => count((array) ($pack['items'] ?? [])), 'added' => $added, 'missing' => $missing];
+            $out[] = ['file' => basename($f), 'label' => (string) ($pack['titre'] ?? basename($f)), 'count' => count((array) ($pack['items'] ?? [])), 'added' => $added, 'missing' => $missing, 'created' => $created, 'to_create' => $toCreate];
         }
         return ['packs' => $out];
+    }
+
+    /** Match absent du site, décrit dans un lot (journal) : créé publié, la source du journal en « Sources ». */
+    private static function createMatch(array $m, array $src): int
+    {
+        $id = \App\Services\FeuillesImport::create($m + ['key' => 'presse-' . ($m['date'] ?? ''), 'file' => (string) ($src['label'] ?? 'presse')]);
+        $doc = Fiches::fresh($id);
+        if ($doc) {
+            foreach ($doc['sections'] as &$sec) {
+                if (($sec['title'] ?? '') === 'Sources') {
+                    $sec['html'] = '<p>' . e((string) ($src['label'] ?? 'Presse')) . '.</p>';
+                }
+            }
+            unset($sec);
+            $doc['legacy'] = ['presse' => (string) ($src['label'] ?? '')];
+            // Saison imposée (amical de préparation de juillet : saison qui commence)
+            if (!empty($m['season']) && $m['season'] !== ($doc['match']['season'] ?? '')) {
+                $doc['match']['season'] = (string) $m['season'];
+                $cats = [];
+                if (\App\Services\FcsmImport::ensureSeason($m['season']) && ($c = \App\Data\Categories::get($m['season']))) {
+                    $cats = array_values(array_filter([$m['season'], $c['parent'] ?? null]));
+                }
+                $doc['categories'] = $cats;
+                $doc['path'] = \App\Data\Paths::unique(\App\Data\Paths::suggest($doc), $id);
+            }
+            Fiches::save($doc, self::AUTHOR, 'Match créé d’après la presse (' . ($src['label'] ?? '') . ')');
+        }
+        return $id;
     }
 
     /** Fiche visée par une cible de lot : numéro, personne (nom exact, sans accents ni casse) ou match (date). */

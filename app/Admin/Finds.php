@@ -59,9 +59,10 @@ final class Finds extends Base
                 }
                 $r = Trouvailles::packs(true);
                 $n = array_sum(array_column($r['packs'], 'added'));
+                $c = array_sum(array_column($r['packs'], 'created'));
                 $miss = array_sum(array_map(fn ($p) => count($p['missing']), $r['packs']));
                 Activity::log(self::actor(), 'a importé ' . $n . ' trouvaille(s) de presse', null);
-                return self::back(self::BACK . '?source=presse', $n . ' proposition(s) de presse ajoutée(s)' . ($miss ? ' ; ' . $miss . ' sans fiche correspondante sur ce site (à créer d’abord)' : '') . '.');
+                return self::back(self::BACK . '?source=presse', ($c ? $c . ' match(s) créé(s) d’après la presse ; ' : '') . $n . ' proposition(s) de presse ajoutée(s)' . ($miss ? ' ; ' . $miss . ' sans fiche correspondante sur ce site (à créer d’abord)' : '') . '.');
             }
             // Recherches : coût IA, réservées aux administrateurs.
             if ($deny = self::denyUnlessAdmin()) {
