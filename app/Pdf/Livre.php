@@ -48,7 +48,7 @@ final class Livre
     private string $cache;
 
     /**
-     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,relire?:bool,decennies?:list<int>,limite?:int} $o
+     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,relire?:bool,decennies?:list<int>,limite?:int} $o
      */
     public function __construct(private array $o = [])
     {
@@ -104,6 +104,7 @@ final class Livre
 
         $this->cover($groups);
         $this->blank();
+        $this->coverCredit();
         $this->dedication();
         $tocFirst = $this->l->pdf->pageCount();
         $count = array_sum(array_map('count', $groups));
@@ -177,30 +178,35 @@ final class Livre
         $this->noFolio[$l->page] = true;
         $this->dark[$l->page] = true;
         $l->rect(0, 0, $l->pw, $l->ph, 'navy');
-        // Photo de couverture : seulement une image assez définie pour la pleine page.
+        // Photo de couverture choisie par le client parmi les photos proposées (assez définies).
         $img = null;
-        foreach ($groups as $items) {
-            foreach ($items as $it) {
-                foreach ($this->photos($it['doc']) as $p) {
-                    if ($img = $this->prepare($p['rel'], $l->pw, $l->ph, self::DPI['page'])) {
-                        break 3;
-                    }
-                }
-            }
+        $rel = (string) ($this->o['couverture'] ?? '');
+        if ($rel !== '' && in_array($rel, self::covers(), true)) {
+            $img = $this->prepare($rel, $l->pw, self::coverH(), self::DPI['page']);
         }
+        $this->coverPhoto = $img ? $rel : null;
+        $top = $img ? self::coverH() : 0.0;
         if ($img) {
-            $l->drawImage($l->loadImage($img['file']), 0, 0, $l->pw, $l->ph, true);
-            $l->rect(0, $l->ph * 0.52, $l->pw, $l->ph * 0.48, 'navy');
+            $l->drawImage($l->loadImage($img['file']), 0, 0, $l->pw, $top, true);
         } else {
             $this->stripes(0, 0, $l->pw, $l->ph);
             $l->logo($this->b + $this->W / 2 - 80, $this->b + 70 * self::MM - 120, 200);
         }
-        $l->rect(0, 0, $l->pw, $this->b + 14 * self::MM, 'yellow');
+        if (!$img) {
+            $l->rect(0, 0, $l->pw, $this->b + 14 * self::MM, 'yellow');
+        }
         $x = $this->b + 16 * self::MM;
-        $y = $this->b + $this->H - 92 * self::MM;
-        $l->text($x, $y, '100 RÉCITS', 'display', 76, 'white', 0.5);
-        $l->text($x, $y + 68, 'DU LION', 'display', 76, 'yellow', 0.5);
-        $l->text($x, $y + 104, 'FC Sochaux-Montbéliard, des origines à nos jours', 'serif-i', 15, 'cream');
+        if ($img) {
+            $l->rect(0, $top, $l->pw, 4, 'yellow');
+            $l->text($x, $top + 62, '100 RÉCITS', 'display', 62, 'white', 0.5);
+            $l->text($x, $top + 118, 'DU LION', 'display', 62, 'yellow', 0.5);
+            $l->text($x, $top + 144, 'FC Sochaux-Montbéliard, des origines à nos jours', 'serif-i', 13, 'cream');
+        } else {
+            $y = $this->b + $this->H - 92 * self::MM;
+            $l->text($x, $y, '100 RÉCITS', 'display', 76, 'white', 0.5);
+            $l->text($x, $y + 68, 'DU LION', 'display', 76, 'yellow', 0.5);
+            $l->text($x, $y + 104, 'FC Sochaux-Montbéliard, des origines à nos jours', 'serif-i', 15, 'cream');
+        }
         $yy = $this->b + $this->H - 30 * self::MM;
         $l->rect($x, $yy, $this->W - 32 * self::MM, 1.4, 'yellow');
         if (($nom = trim((string) ($this->o['nom'] ?? ''))) !== '') {
@@ -210,6 +216,79 @@ final class Livre
         $t = 'MUSÉE SOCHAUX RÉTRO';
         $l->text($this->b + $this->W - 16 * self::MM - $l->width($t, 'display-b', 9.5, 1.6), $yy + 40, $t, 'display-b', 9.5, 'cream', 1.6);
     }
+
+
+    /** Hauteur de la photo de couverture (en haut, à fonds perdus), en points. */
+    public static function coverH(): float
+    {
+        return (self::BLEED + 165) * self::MM;
+    }
+
+    public const COVERS = STORAGE_PATH . '/livres/couvertures.json';
+
+    /** Photos proposées aux clients pour la couverture (choisies dans le back-office). @return list<string> */
+    public static function covers(): array
+    {
+        $l = json_decode((string) @file_get_contents(self::COVERS), true);
+        return is_array($l) ? array_values(array_filter($l, 'is_string')) : [];
+    }
+
+    public static function saveCovers(array $list): void
+    {
+        @mkdir(dirname(self::COVERS), 0775, true);
+        file_put_contents(self::COVERS, json_encode(array_values(array_unique($list)), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    }
+
+    /** Définition d'une photo à la taille de la couverture (dpi), ou null si elle ne peut pas y aller (absente, presse). */
+    public function coverDpi(string $rel): ?int
+    {
+        $m = Media::get($rel);
+        if (!$m || GrandsRecits::press(($m['credit'] ?? '') . ' ' . ($m['caption'] ?? ''))) {
+            return null;
+        }
+        $d = $this->measure($rel);
+        return $d ? (int) round(self::dpi($d, (self::TRIM_W + 2 * self::BLEED) * self::MM, self::coverH())) : null;
+    }
+
+    /** Photos des récits assez définies pour la couverture et pas encore proposées. @return list<array{rel:string,dpi:int,caption:string}> */
+    public function coverSuggestions(int $max = 24): array
+    {
+        $out = [];
+        $have = array_flip(self::covers());
+        foreach ($this->recits() as $items) {
+            foreach ($items as $it) {
+                foreach ($this->photos($it['doc']) as $p) {
+                    if (isset($have[$p['rel']]) || isset($out[$p['rel']])) {
+                        continue;
+                    }
+                    $dpi = $this->coverDpi($p['rel']);
+                    if ($dpi !== null && $dpi >= self::DPI['page']) {
+                        $out[$p['rel']] = ['rel' => $p['rel'], 'dpi' => $dpi, 'caption' => $this->caption($p)];
+                    }
+                }
+            }
+        }
+        @file_put_contents($this->cache . '/dims.json', json_encode($this->dims));
+        return array_slice(array_values($out), 0, $max);
+    }
+
+    /** Verso de la couverture : légende et crédit de la photo choisie. */
+    private function coverCredit(): void
+    {
+        if (!$this->coverPhoto) {
+            return;
+        }
+        $m = Media::get($this->coverPhoto) ?? [];
+        $cap = $this->caption(['caption' => (string) ($m['caption'] ?? ''), 'credit' => (string) ($m['credit'] ?? '')]);
+        if ($cap === '') {
+            return;
+        }
+        [$x, $w] = $this->frame($this->l->page);
+        $lines = $this->l->wrap([Layout::run('En couverture : ' . $cap, 'serif-i', 8.5, 'muted')], $w, 1.3);
+        $this->l->drawLines($lines, $x, $this->b + $this->H - 24 * self::MM, $w);
+    }
+
+    private ?string $coverPhoto = null;
 
     private function stripes(float $x, float $y, float $w, float $h): void
     {
@@ -238,8 +317,13 @@ final class Livre
             $y += 18;
             if ($nom !== '') {
                 $lines = $l->wrap([Layout::run(mb_strtoupper($nom), 'display', 38, 'navy', null, 0.3)], $w, 1.0);
-                $y += $l->drawLines($lines, $x, $y, $w) + 22;
+                $y += $l->drawLines($lines, $x, $y, $w) + 8;
             }
+            if (($depuis = (int) ($this->o['depuis'] ?? 0)) >= 1928 && $depuis <= (int) date('Y')) {
+                $l->text($x, $y + 14, 'SUPPORTER DEPUIS ' . $depuis, 'display-b', 13, 'B48D00', 1.4);
+                $y += 22;
+            }
+            $y += 14;
             if ($ded !== '') {
                 $lines = $l->wrap([Layout::run('« ' . $ded . ' »', 'serif-i', 15, 'ink')], $w, 1.55);
                 $y += $l->drawLines(array_slice($lines, 0, 14), $x, $y, $w) + 18;

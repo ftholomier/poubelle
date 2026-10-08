@@ -28,7 +28,11 @@ $col = [84 * $mm, 56 * $mm];
 $eq('photo web 1600 px acceptée en colonne', Livre::dpi([1600, 1067], ...$col) >= Livre::DPI['colonne'], true);
 $eq('vignette 480 px refusée même en colonne', Livre::dpi([480, 320], ...$col) >= Livre::DPI['colonne'], false);
 
-$book = new Livre(['nom' => 'Test Lecteur', 'dedicace' => 'Pour toi.', 'numero' => '7', 'relire' => true, 'limite' => 3]);
+// Couverture (photo en haut, 216 × 168 mm) : photo web refusée, original 2 560 px accepté.
+$eq('photo web 1920 px refusée en couverture', Livre::dpi([1920, 1280], 216 * $mm, Livre::coverH()) >= Livre::DPI['page'], false);
+$eq('original 2560 × 1706 accepté en couverture', Livre::dpi([2560, 1706], 216 * $mm, Livre::coverH()) >= Livre::DPI['page'], true);
+
+$book = new Livre(['nom' => 'Test Lecteur', 'dedicace' => 'Pour toi.', 'numero' => '7', 'depuis' => 1998, 'couverture' => 'absente/inconnue.jpg', 'relire' => true, 'limite' => 3]);
 $pdf = $book->build();
 $eq('PDF produit', str_starts_with($pdf, '%PDF'), true);
 $pages = preg_match_all('#/Type /Page\b#', $pdf);

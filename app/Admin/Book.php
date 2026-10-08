@@ -29,15 +29,38 @@ final class Book extends Base
                 $count[($it['doc']['status'] ?? '') === 'publie' ? 'publie' : 'relire']++;
             }
         }
-        return self::html('admin/fiches/livre', ['last' => $last, 'decades' => array_keys($groups), 'count' => $count],
+        $book = new Livre(['relire' => true]);
+        $covers = [];
+        foreach (Livre::covers() as $rel) {
+            $covers[] = ['rel' => $rel, 'dpi' => $book->coverDpi($rel), 'caption' => \App\Data\Media::caption($rel)];
+        }
+        return self::html('admin/fiches/livre', ['last' => $last, 'decades' => array_keys($groups), 'count' => $count, 'covers' => $covers, 'suggest' => $book->coverSuggestions()],
             ['title' => 'Livre des récits', 'crumb' => 'Contenus', 'nav' => 'livre']);
     }
 
-    /** POST : compose le livre et le renvoie en téléchargement. */
+    /** POST : photos de couverture (proposer, retirer), sinon compose le livre et le renvoie en téléchargement. */
     public static function build(Request $req): Response
     {
         if ($r = self::denyUnlessAdmin()) {
             return $r;
+        }
+        $action = $req->str('action');
+        if ($action === 'couv-ajouter' || $action === 'couv-retirer') {
+            $rel = \App\Data\Media::safeRel(preg_replace('#^.*?/media/(?:full|\d+)/|\.webp$#', '', trim((string) ($req->post['rel'] ?? ''))) ?? '');
+            $list = Livre::covers();
+            if ($action === 'couv-retirer') {
+                Livre::saveCovers(array_diff($list, [$rel]));
+                return self::back('/admin/livre', 'Photo retirée des couvertures proposées.');
+            }
+            $dpi = (new Livre())->coverDpi($rel);
+            if ($dpi === null) {
+                return self::back('/admin/livre', null, 'Photo introuvable dans la médiathèque, ou photo de presse.');
+            }
+            if ($dpi < Livre::DPI['page']) {
+                return self::back('/admin/livre', null, 'Définition insuffisante pour la couverture : ' . $dpi . ' dpi (il en faut ' . Livre::DPI['page'] . '). Il faut un scan ou un original plus grand.');
+            }
+            Livre::saveCovers(array_merge($list, [$rel]));
+            return self::back('/admin/livre', 'Photo proposée en couverture (' . $dpi . ' dpi).');
         }
         @set_time_limit(600);
         @ini_set('memory_limit', '1024M');
@@ -47,6 +70,8 @@ final class Book extends Base
             'dedicace' => mb_substr(trim((string) ($req->post['dedicace'] ?? '')), 0, 600),
             'signature' => mb_substr(trim((string) ($req->post['signature'] ?? '')), 0, 80),
             'numero' => mb_substr(trim((string) ($req->post['numero'] ?? '')), 0, 12),
+            'depuis' => (int) ($req->post['depuis'] ?? 0),
+            'couverture' => (string) ($req->post['couverture'] ?? ''),
             'relire' => !empty($req->post['relire']),
             'decennies' => $dec,
         ];

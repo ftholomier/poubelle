@@ -1554,6 +1554,10 @@ sa définition suffit au cadre (`Livre::DPI` : pleine page et bandeau 250 dpi, p
 mesurée sur l'original recadré (`measure()`, cache `storage/cache/livre/dims.json`) ; elle est recadrée et réduite
 à 300 dpi (`storage/cache/livre/*.jpg`). `report()` : photos par taille, écartées, récits sans photo (bilan de la
 dernière composition : `storage/livres/dernier.json`). Livre entier : ~25 s et ~80 Mo de mémoire sur le banc.
+Livre vendu toujours complet (option `decennies` réservée aux épreuves). Personnalisation : `nom`, `depuis`,
+`dedicace`, `signature`, `numero`, `couverture` (photo choisie parmi `Livre::covers()`, liste tenue dans le
+back-office, `storage/livres/couvertures.json` ; photo en haut de couverture, 216 × 168 mm à 250 dpi ; légende et
+crédit au verso ; `coverSuggestions()` propose les photos des récits assez définies).
 Test : `tests/livre.php`.
 
 ## Catalogue des archives (`App\Services\Catalogue`, `App\Admin\Archives`)

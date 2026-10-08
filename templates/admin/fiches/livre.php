@@ -1,6 +1,7 @@
 <?php
 /**
- * Contenus › Livre des récits. Variables : $last (bilan de la dernière composition ou null), $decades, $count
+ * Contenus › Livre des récits. Variables : $last (bilan de la dernière composition ou null), $decades, $count,
+ * $covers (photos proposées en couverture), $suggest (photos des récits assez définies pour la couverture)
  */
 use App\Pdf\Livre;
 ?>
@@ -24,8 +25,19 @@ use App\Pdf\Livre;
     <label class="f"><span class="f__k">Numéro d’exemplaire</span><input name="numero" maxlength="12" placeholder="0042"></label>
   </div>
   <label class="f"><span class="f__k">Dédicace (facultative)</span><textarea name="dedicace" rows="3" maxlength="600" placeholder="À mon fils, qui a découvert Bonal sur mes épaules…"></textarea></label>
-  <label class="f"><span class="f__k">Signature de la dédicace</span><input name="signature" maxlength="80" placeholder="Papa, Noël 2026"></label>
-  <div class="f"><span class="f__k">Décennies (aucune cochée : tout le livre)</span>
+  <div class="row" style="gap:12px;flex-wrap:wrap">
+    <label class="f"><span class="f__k">Signature de la dédicace</span><input name="signature" maxlength="80" placeholder="Papa, Noël 2026"></label>
+    <label class="f"><span class="f__k">Supporter depuis (année)</span><input name="depuis" type="number" min="1928" max="<?= (int) date('Y') ?>" placeholder="1998"></label>
+  </div>
+  <div class="f"><span class="f__k">Photo de couverture</span>
+    <div class="row" style="gap:10px;flex-wrap:wrap">
+      <label class="row" style="gap:6px"><input type="radio" name="couverture" value="" checked> Couverture graphique (sans photo)</label>
+      <?php foreach ($covers as $c): if (($c['dpi'] ?? 0) < Livre::DPI['page']) continue; ?>
+        <label class="row" style="gap:6px"><input type="radio" name="couverture" value="<?= e($c['rel']) ?>"> <img src="/media/160/<?= e($c['rel']) ?>.webp" alt="" style="width:60px;height:40px;object-fit:cover"></label>
+      <?php endforeach; ?>
+    </div>
+  </div>
+  <div class="f"><span class="f__k">Épreuve partielle : décennies (aucune cochée : le livre entier, seul vendu)</span>
     <div class="row" style="gap:12px;flex-wrap:wrap">
       <?php foreach ($decades as $d): ?><label class="row" style="gap:6px"><input type="checkbox" name="decennies[]" value="<?= (int) $d ?>"> <?= (int) $d ?></label><?php endforeach; ?>
     </div>
@@ -41,3 +53,42 @@ use App\Pdf\Livre;
   <ul class="small" style="columns:2;margin:0"><?php foreach ($last['sans_photo'] as $t): ?><li><?= e($t) ?></li><?php endforeach; ?></ul>
 </section>
 <?php endif; ?>
+
+<section class="card card--pad stack">
+  <h2 class="card__t" style="margin:0">Photos proposées en couverture (<?= count($covers) ?>)</h2>
+  <p class="small" style="margin:0">Le client choisit sa couverture parmi ces photos. Seules les photos assez définies pour la couverture sont acceptées (<?= Livre::DPI['page'] ?> dpi pour le haut de couverture, soit environ 2 130 × 1 670 pixels au moins), jamais la presse. Légende et crédit sont imprimés au verso de la couverture.</p>
+  <?php if ($covers): ?>
+  <div class="row" style="gap:12px;flex-wrap:wrap">
+    <?php foreach ($covers as $c): ?>
+      <form method="post" action="/admin/livre" class="stack" style="gap:4px;width:180px">
+        <?= csrf_field() ?><input type="hidden" name="action" value="couv-retirer"><input type="hidden" name="rel" value="<?= e($c['rel']) ?>">
+        <img src="/media/320/<?= e($c['rel']) ?>.webp" alt="" style="width:180px;height:120px;object-fit:cover">
+        <span class="xs"><?= e(mb_strimwidth($c['caption'], 0, 70, '…')) ?></span>
+        <span class="xs muted"><?= $c['dpi'] !== null ? (int) $c['dpi'] . ' dpi' : 'introuvable' ?></span>
+        <button class="btn btn--ghost btn--sm" type="submit">Retirer</button>
+      </form>
+    <?php endforeach; ?>
+  </div>
+  <?php endif; ?>
+  <form method="post" action="/admin/livre" class="row" style="gap:8px;flex-wrap:wrap;align-items:end">
+    <?= csrf_field() ?><input type="hidden" name="action" value="couv-ajouter">
+    <label class="f" style="flex:1;min-width:280px"><span class="f__k">Ajouter une photo de la médiathèque (chemin ou adresse de l’image)</span><input name="rel" placeholder="2025/03/scan-bonal-1976.jpg"></label>
+    <button class="btn" type="submit">Proposer en couverture</button>
+  </form>
+  <?php if ($suggest): ?>
+    <h3 class="small" style="margin:8px 0 0">Suggestions : photos des récits assez définies</h3>
+    <div class="row" style="gap:12px;flex-wrap:wrap">
+      <?php foreach ($suggest as $c): ?>
+        <form method="post" action="/admin/livre" class="stack" style="gap:4px;width:180px">
+          <?= csrf_field() ?><input type="hidden" name="action" value="couv-ajouter"><input type="hidden" name="rel" value="<?= e($c['rel']) ?>">
+          <img src="/media/320/<?= e($c['rel']) ?>.webp" alt="" style="width:180px;height:120px;object-fit:cover">
+          <span class="xs"><?= e(mb_strimwidth($c['caption'], 0, 70, '…')) ?></span>
+          <span class="xs muted"><?= (int) $c['dpi'] ?> dpi</span>
+          <button class="btn btn--sm" type="submit">Proposer</button>
+        </form>
+      <?php endforeach; ?>
+    </div>
+  <?php else: ?>
+    <p class="xs muted" style="margin:0">Aucune photo des récits n’a encore la définition d’une couverture : ajoutez des scans ou des originaux en haute définition.</p>
+  <?php endif; ?>
+</section>
