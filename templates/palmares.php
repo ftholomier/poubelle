@@ -1,5 +1,16 @@
 <?php
-/** Palmarès du FCSM. Variables : $groups (comp, titles, finals), $count (titre, finale) */
+/** Palmarès du FCSM. Variables : $groups (comp, titles, finals, semis, second), $count (titre, finale) */
+$fam = function (string $c): string {
+    $l = mb_strtolower($c);
+    return match (true) {
+        str_starts_with($l, 'championnat') || str_starts_with($l, 'division') => 'championnats',
+        str_contains($l, 'uefa') || str_contains($l, 'intertoto') => 'europe',
+        str_contains($l, 'gambardella') => 'jeunes',
+        in_array($c, ['Coupe de France', 'Coupe de la Ligue', 'Trophée des champions'], true) => 'coupes',
+        default => 'tournois',
+    };
+};
+$fams = ['championnats' => 'Championnats', 'coupes' => 'Coupes nationales', 'europe' => 'Europe', 'jeunes' => 'Jeunes', 'tournois' => 'Coupes et tournois amicaux'];
 ?>
 <section class="rhead">
   <div class="wrap rhead__inner">
@@ -10,9 +21,17 @@
     <p class="pal__sum"><b><?= (int) $count['titre'] ?></b> <?= e(t('titres')) ?> · <b><?= (int) $count['finale'] ?></b> <?= e(t('finales et places de vice-champion')) ?></p>
   </div>
 </section>
+<div class="rfilters" data-pal-filters>
+  <div class="wrap rfilters__inner">
+    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Résultat')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-st="">Tout</button><button type="button" class="rchip" data-st="win"><?= e(t('Gagnés')) ?></button><button type="button" class="rchip" data-st="lost"><?= e(t('Finales et places')) ?></button></div></div>
+    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Compétition')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-fam="">Toutes</button><?php foreach ($fams as $k => $l): ?><button type="button" class="rchip" data-fam="<?= e($k) ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
+    <div class="stack" style="gap:6px"><span class="rfilters__l"><?= e(t('Époque')) ?></span><div class="rfilters__chips"><button type="button" class="rchip is-on" data-era="">Toutes</button><?php foreach ([[1928, 1959, '1928-1959'], [1960, 1989, '1960-1989'], [1990, 2100, 'Depuis 1990']] as [$a, $b, $l]): ?><button type="button" class="rchip" data-era="<?= $a ?>-<?= $b ?>"><?= e(t($l)) ?></button><?php endforeach; ?></div></div>
+  </div>
+</div>
 <div class="wrap rbody pal">
+  <p class="mempty" data-pal-empty hidden><span class="mempty__t"><?= e(t('Rien avec ces filtres')) ?></span></p>
   <?php foreach ($groups as $g): ?>
-  <section class="pal__g" data-reveal>
+  <section class="pal__g" data-reveal data-fam="<?= e($fam($g['comp'])) ?>">
     <h2 class="h-2 pal__comp"><?= e(t($g['comp'])) ?> <span class="pal__n"><?= count($g['titles']) ? count($g['titles']) . '×' : '' ?></span></h2>
     <?php
       $all = [];
@@ -23,7 +42,7 @@
     ?>
     <div class="pal__grid">
       <?php foreach ($all as $it): ?>
-      <a class="pal__card pal__card--<?= $it['st'] ?>" href="<?= e($it['href'] ?? $it['seasonHref']) ?>">
+      <a class="pal__card pal__card--<?= $it['st'] ?>" data-st="<?= $it['st'] ?>" data-year="<?= (int) $it['year'] ?>" href="<?= e($it['href'] ?? $it['seasonHref']) ?>">
         <span class="pal__img"><?php if ($it['image']): ?><img src="<?= e(img($it['image'], 480)) ?>" alt="" loading="lazy"><?php else: ?><span class="pal__cup" aria-hidden="true"><?= $it['st'] === 'win' ? '🏆' : '🥈' ?></span><?php endif; ?><span class="pal__tag"><?= e($it['tag']) ?></span></span>
         <span class="pal__year"><?= (int) $it['year'] ?></span>
         <span class="pal__lab"><?= e($it['label'] ?? t('Saison') . ' ' . $it['season']) ?></span>
@@ -55,4 +74,35 @@
 .pal__card--lost .pal__tag{background:#c0392b}
 .pal__legend{display:flex;gap:18px;flex-wrap:wrap;margin:8px 0 0;font-size:15px}
 .pal__legend i{display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px;border:3px solid}
+button.rchip{font:inherit;cursor:pointer}
+.pal__card[hidden],.pal__g[hidden]{display:none}
 </style>
+<script nonce="<?= e(csp_nonce()) ?>">
+(() => {
+  const box = document.querySelector('[data-pal-filters]');
+  if (!box) return;
+  const f = { st: '', fam: '', era: '' };
+  const apply = () => {
+    let shown = 0;
+    document.querySelectorAll('.pal__g').forEach(g => {
+      let n = 0;
+      g.querySelectorAll('.pal__card').forEach(c => {
+        const y = +c.dataset.year;
+        const [a, b] = f.era ? f.era.split('-').map(Number) : [0, 9999];
+        const ok = (!f.st || c.dataset.st === f.st) && (!f.fam || g.dataset.fam === f.fam) && y >= a && y <= b;
+        c.hidden = !ok; if (ok) n++;
+      });
+      g.hidden = !n; shown += n;
+    });
+    document.querySelector('[data-pal-empty]').hidden = shown > 0;
+  };
+  box.addEventListener('click', e => {
+    const b = e.target.closest('button.rchip');
+    if (!b) return;
+    const k = Object.keys(b.dataset).find(x => ['st', 'fam', 'era'].includes(x));
+    f[k] = b.dataset[k];
+    b.parentElement.querySelectorAll('button').forEach(x => x.classList.toggle('is-on', x === b));
+    apply();
+  });
+})();
+</script>
