@@ -1124,7 +1124,7 @@ final class Livre
         }
         $kick = 'RÉCIT ' . $it['n'] . ($era !== '' ? ' · ' . mb_strtoupper(str_replace('-', '–', $era)) : '');
         $l->text($x, $y + 10, $kick, 'display-b', 10, 'B48D00', 2.2);
-        if (($doc['status'] ?? '') !== 'publie') {
+        if (($doc['status'] ?? '') !== 'publie' && empty($this->o['sans_bandeau'])) {
             $t = 'À RELIRE';
             $tw = $l->width($t, 'display-b', 8, 1.2) + 10;
             $l->rect($x + $w - $tw, $y, $tw, 14, 'red');
