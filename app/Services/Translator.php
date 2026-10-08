@@ -348,6 +348,21 @@ final class Translator
      * français a changé et dont la traduction est automatique).
      * Priorité : à la une, légendes, puis fiches les plus récemment modifiées.
      */
+    /**
+     * « À revoir » sans retraduire : la traduction en place est jugée encore bonne après le
+     * changement du français (elle reste relue si elle l'était). Renvoie false si rien à faire.
+     */
+    public static function acknowledge(int $id, ?array $user = null): bool
+    {
+        $doc = Fiches::get($id);
+        if (!$doc || self::status($doc) !== 'stale') {
+            return false;
+        }
+        $doc['i18n']['en']['_src'] = self::hash($doc);
+        Fiches::save($doc, $user ?? ['name' => 'Équipe'], 'Traduction anglaise gardée (le français a changé)');
+        return true;
+    }
+
     public static function run(int $max = 10, bool $now = false): array
     {
         // $now : bouton « Traduire maintenant », même désactivée et sans attendre les fiches en échec.

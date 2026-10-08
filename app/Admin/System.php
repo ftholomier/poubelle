@@ -90,7 +90,7 @@ final class System extends Base
         $list = $state !== '' ? array_values(array_filter($data['list'], fn ($r) => $r['st'] === $state)) : $data['list'];
         usort($list, fn ($a, $b) => strcmp((string) $b['modified'], (string) $a['modified']));
         $fails = JsonStore::read(STORAGE_PATH . '/i18n-fails.json', []) ?: [];
-        return ['counts' => $data['counts'], 'list' => array_slice($list, 0, 150), 'state' => $state, 'fails' => count($fails), 'lastError' => Translator::lastError()];
+        return ['counts' => $data['counts'], 'list' => array_slice($list, 0, 150), 'all' => $list, 'state' => $state, 'fails' => count($fails), 'lastError' => Translator::lastError()];
     }
 
     public static function translationsSave(Request $req): Response
@@ -156,6 +156,18 @@ final class System extends Base
             self::forgetMissing(array_keys($tr));
             Activity::log($user, 'a traduit ' . count($tr) . ' libellé(s) avec Gemini', null);
             return self::back('/admin/traductions', count($tr) . ' libellé(s) traduit(s) avec Gemini : relisez-les (filtre « tous »).' . self::aiCost());
+        }
+        if ($action === 'garder' || $action === 'garder-tout') {
+            // « À revoir » : la traduction en place reste bonne (une fiche, ou toutes d'un coup).
+            $ids = $action === 'garder' ? [(int) ($in['id'] ?? 0)] : array_column(array_filter(self::ficheProgress('stale')['all'], fn ($r) => $r['st'] === 'stale'), 'id');
+            @set_time_limit(280);
+            $n = 0;
+            foreach ($ids as $id) {
+                $n += Translator::acknowledge((int) $id, $user) ? 1 : 0;
+            }
+            @unlink(STORAGE_PATH . '/cache/i18n-progress.json');
+            Activity::log($user, "a gardé $n traduction(s) anglaise(s) « à revoir »", null);
+            return self::back('/admin/traductions?onglet=fiches&etat=stale', $n ? "$n traduction(s) gardée(s) : plus « à revoir »." : 'Aucune fiche à revoir.');
         }
         if ($action === 'gemini-une') {
             // Bouton « Traduire 10 fiches maintenant » : une fiche par appel, la page affiche où il en est.

@@ -445,6 +445,8 @@ un contrôle à la fin de chaque séance de saisie.
   (bouton « Traduire » sur une fiche, ou traduction automatique par la tâche planifiée),
   à relire dans l'onglet **Version EN** de chaque fiche. Une fiche modifiée en français
   signale que sa version anglaise est à revoir.
+  Onglet **Fiches** de Système › Traductions EN : « Tout traduire d'un coup » (avec Stop),
+  « La traduction reste bonne » par fiche et « Tout marquer à jour » pour retirer les alertes.
 
 ## 10. Assistant IA
 
