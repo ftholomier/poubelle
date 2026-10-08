@@ -1111,8 +1111,42 @@ final class Livre
                 $best = $ph;
             }
         }
-        if (!$best || !($img = $this->prepare($best['rel'], $w, $h, 150, true))) {
+        // Archives anciennes (petits scans) : à défaut de 150 dpi, la meilleure photo au-dessus de 60 dpi,
+        // traitée en bichromie bleu nuit façon archive, ce qui fait oublier le manque de netteté.
+        $duo = false;
+        if (!$best) {
+            $bestDpi = 60;
+            foreach ($cands as $ph) {
+                if (!isset($seen[$ph['rel']]) || $this->isUsed($ph['rel'])) {
+                    continue;
+                }
+                $yr = $ph['year'] ?? null;
+                if ($yr !== null && ($yr < $dec || $yr >= $dec + 10)) {
+                    continue;
+                }
+                $d = $this->measure($ph['rel']);
+                if ($d && ($dpi = self::dpi($d, $w, $h)) > $bestDpi) {
+                    $bestDpi = $dpi;
+                    $best = $ph;
+                }
+            }
+            $duo = true;
+        }
+        if (!$best || !($img = $this->prepare($best['rel'], $w, $h, $duo ? 0 : 150, true))) {
             return null;
+        }
+        if ($duo) {
+            $out = substr($img['file'], 0, -4) . '-duo.jpg';
+            if (!is_file($out) && ($im = @imagecreatefromjpeg($img['file']))) {
+                imagefilter($im, IMG_FILTER_GRAYSCALE);
+                imagefilter($im, IMG_FILTER_CONTRAST, -10);
+                imagefilter($im, IMG_FILTER_COLORIZE, -20, -10, 25);
+                imagejpeg($im, $out, 88);
+                imagedestroy($im);
+            }
+            if (is_file($out)) {
+                $img['file'] = $out;
+            }
         }
         $this->mark($best['rel']);
         return $img + $best;
