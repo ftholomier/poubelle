@@ -605,3 +605,10 @@ Chaque texte est réécrit par Gemini puis comparé à l'original (trop proche :
 les faits sont repris tels quels, sans image ; chaque fiche porte une ligne « Sources ». Rien n'est
 dupliqué : un match à une date déjà au musée et un joueur déjà présent sont écartés, sans être modifiés.
 
+
+## Protection contre l'aspiration
+
+Le site refuse les robots d'intelligence artificielle (ChatGPT, Claude, Perplexity…) et les logiciels d'aspiration,
+freine les visiteurs qui demandent trop de pages trop vite, démasque les faux Google, et interdit l'affichage des photos
+en grand format sur d'autres sites. Google et Bing continuent d'indexer le musée normalement. Les tentatives bloquées
+sont comptées dans **Statistiques** (carte « Anti-aspiration »).

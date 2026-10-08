@@ -30,7 +30,17 @@ final class Seo
     public static function robots(): Response
     {
         $base = base_url();
-        $lines = ['User-agent: *'];
+        // Robots d'IA et aspirateurs : interdits partout (et refusés par le serveur, App\Core\Shield).
+        $lines = [];
+        foreach (['GPTBot', 'ChatGPT-User', 'OAI-SearchBot', 'ClaudeBot', 'Claude-Web', 'Claude-User', 'Claude-SearchBot', 'anthropic-ai', 'Google-Extended', 'Applebot-Extended',
+            'CCBot', 'Bytespider', 'PerplexityBot', 'Perplexity-User', 'Amazonbot', 'meta-externalagent', 'meta-externalfetcher', 'FacebookBot', 'cohere-ai',
+            'cohere-training-data-crawler', 'Diffbot', 'ImagesiftBot', 'Omgilibot', 'YouBot', 'Timpibot', 'AI2Bot', 'PanguBot', 'img2dataset', 'DuckAssistBot',
+            'MistralAI-User', 'AhrefsBot', 'SemrushBot', 'MJ12bot', 'DotBot', 'PetalBot', 'DataForSeoBot', 'BLEXBot', 'HTTrack', 'Wget'] as $bot) {
+            $lines[] = 'User-agent: ' . $bot;
+        }
+        $lines[] = 'Disallow: /';
+        $lines[] = '';
+        $lines[] = 'User-agent: *';
         if (self::hidden()) {
             // Site pas encore ouvert : rien ne doit être indexé.
             $lines[] = 'Disallow: /';

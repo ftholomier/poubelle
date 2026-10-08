@@ -10,6 +10,18 @@ AddDefaultCharset UTF-8
     # RewriteCond %{HTTPS} !=on
     # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+    # Anti-aspiration (aussi pour les fichiers servis sans PHP) : robots d'IA et aspirateurs
+    # refusés, sauf pour robots.txt ; même liste que App\Core\Shield.
+    RewriteCond %{REQUEST_URI} !^/robots\.txt$
+    RewriteCond %{HTTP_USER_AGENT} (GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-Web|Claude-User|Claude-SearchBot|anthropic-ai|CCBot|Bytespider|PerplexityBot|Perplexity-User|Amazonbot|meta-external|FacebookBot|cohere-ai|Diffbot|ImagesiftBot|Omgili|YouBot|Timpibot|AI2Bot|PanguBot|Scrapy|img2dataset|DuckAssistBot|MistralAI|AhrefsBot|SemrushBot|MJ12bot|DotBot|PetalBot|DataForSeoBot|BLEXBot|HTTrack|Wget|curl/|python-requests|python-urllib|python-httpx|aiohttp|Go-http-client|libwww-perl|okhttp|node-fetch|axios|HeadlessChrome|PhantomJS|SiteSucker|WebCopier|Offline\ Explorer|WebZIP|grab-site) [NC]
+    RewriteRule ^ - [F,L]
+    # Photos en grand format : pas d'affichage sur d'autres sites (sans référent : permis,
+    # pour les aperçus de partage et l'ouverture directe).
+    RewriteCond %{HTTP_REFERER} !^$
+    RewriteCond %{HTTP_REFERER} !^https?://([a-z0-9-]+\.)*fcsochauxretro\.com/ [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?/ [NC]
+    RewriteRule ^media/full/ - [F,L]
+
     # Images déjà générées : servies directement par Apache.
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
@@ -30,6 +42,8 @@ AddDefaultCharset UTF-8
     # HTTPS strict (une fois le site servi en HTTPS ; sans effet en HTTP)
     Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
     Header always set X-Content-Type-Options "nosniff"
+    # Réserve de fouille de textes et de données (protocole TDMRep, droit européen)
+    Header always set tdm-reservation "1"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(self)"

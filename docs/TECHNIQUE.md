@@ -1663,3 +1663,17 @@ Propositions trouvées dans les archives en ligne pour les fiches de match, vali
   les sources », « Compléments », liens ajoutés à « Sources » (`legacy.trouvailles`).
 - Test : `tests/trouvailles.php` (Gallica et Gemini simulés).
 
+
+## Anti-aspiration (`App\Core\Shield`)
+
+Appelé en tête de `Kernel::dispatch` (musée et site de l'association) :
+- robots d'IA et aspirateurs (`Shield::BLOCKED` : GPTBot, ClaudeBot, CCBot, Bytespider, PerplexityBot, HTTrack, wget, curl,
+  scripts Python/Go/Node, navigateurs sans écran…) et agent vide : 403 ; `robots.txt` reste lisible ;
+- Googlebot et bingbot vérifiés par DNS inverse (cache d'un jour, `storage/ratelimit/robots-verifies.json`) : faux = 403 ;
+- débit par adresse : 180 pages/min et 2 000/h, 400 images fabriquées/min, 60 grands formats/min : 429 (Retry-After 300) ;
+- `/media/full/` : refusé si le référent est un autre site ;
+- jamais filtrés : back-office, équipe connectée, webhooks de paiement, notifications, 127.0.0.1 et le serveur lui-même.
+Compteurs par jour et par motif dans `storage/stats/blocages.json` (carte dans Statistiques). Le `.htaccess` refuse aussi
+les mêmes robots et le grand format affiché ailleurs pour les fichiers servis sans PHP, et envoie `tdm-reservation: 1`.
+`robots.txt` interdit nommément les robots d'IA (dont Google-Extended et Applebot-Extended). Mentions légales :
+opposition à la fouille de textes et de données (art. L. 122-5-3 CPI). Test : `tests/shield.php`.

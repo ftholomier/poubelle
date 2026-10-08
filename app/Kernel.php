@@ -127,6 +127,11 @@ final class Kernel
     {
         $path = $req->path;
 
+        // Anti-aspiration : robots d'IA, aspirateurs, faux moteurs, visiteurs trop rapides
+        if ($deny = Core\Shield::check($req)) {
+            return $deny;
+        }
+
         // Images à la volée
         if (preg_match('#^/media/(\d+|full)/(.+)$#', $path, $m)) {
             return Images::serve($m[1], $m[2]);
