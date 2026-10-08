@@ -311,6 +311,30 @@ final class Livre
         return is_array($l) ? array_values(array_filter($l, 'is_string')) : [];
     }
 
+    /**
+     * Photos de couverture offertes aux clients : celles choisies par l'admin ; sans choix, les
+     * meilleures photos des récits assez définies pour la pleine page (gardées un jour).
+     * @return list<string>
+     */
+    public static function offeredCovers(): array
+    {
+        if ($own = self::covers()) {
+            return $own;
+        }
+        $f = dirname(self::COVERS) . '/couvertures-auto.json';
+        $l = is_file($f) && filemtime($f) > time() - 86400 ? json_decode((string) @file_get_contents($f), true) : null;
+        if (!is_array($l)) {
+            try {
+                $l = array_column((new self())->coverSuggestions(12), 'rel');
+            } catch (\Throwable) {
+                $l = [];
+            }
+            @mkdir(dirname($f), 0775, true);
+            @file_put_contents($f, json_encode($l, JSON_UNESCAPED_SLASHES));
+        }
+        return array_values(array_filter($l, 'is_string'));
+    }
+
     public static function saveCovers(array $list): void
     {
         @mkdir(dirname(self::COVERS), 0775, true);

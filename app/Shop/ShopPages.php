@@ -566,7 +566,7 @@ final class ShopPages
             return self::notFound();
         }
         $covers = [];
-        foreach (\App\Pdf\Livre::covers() as $rel) {
+        foreach (\App\Pdf\Livre::offeredCovers() as $rel) {
             $covers[] = ['rel' => $rel, 'caption' => \App\Data\Media::caption($rel)];
         }
         $carnet = \App\Services\Carnet::current();

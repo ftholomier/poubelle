@@ -127,7 +127,7 @@ final class BookShop
         if (isset($v['depuis']) && (!ctype_digit($v['depuis']) || (int) $v['depuis'] < 1928 || (int) $v['depuis'] > (int) date('Y'))) {
             unset($v['depuis']);
         }
-        if (isset($v['couverture']) && !in_array($v['couverture'], Livre::covers(), true)) {
+        if (isset($v['couverture']) && !in_array($v['couverture'], Livre::offeredCovers(), true)) {
             unset($v['couverture']);
         }
         if (isset($v['naissance']) && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $v['naissance'])) {
