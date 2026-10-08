@@ -197,42 +197,53 @@ final class Livre
             $this->stripes(0, 0, $l->pw, $l->ph);
             $l->logo($l->pw - $b - 118 * $mm, $b + 18 * $mm, 330);
         }
-        // En-tête : blason et musée, à gauche ; fil vertical à droite.
-        $l->logo($b + 14 * $mm, $b + 12 * $mm, 50);
-        $l->text($b + 14 * $mm + 44, $b + 12 * $mm + 22, 'MUSÉE SOCHAUX RÉTRO', 'display-b', 10, 'white', 2);
-        $l->text($b + 14 * $mm + 44, $b + 12 * $mm + 36, 'présente', 'serif-i', 10, 'cream');
-        $vx = $l->pw - $b - 10 * $mm;
-        $l->rotated(90, $vx, $b + 14 * $mm, function () use ($l, $vx, $b, $mm) {
-            $l->text($vx, $b + 14 * $mm, 'FC SOCHAUX-MONTBÉLIARD  ·  1928 — ' . date('Y'), 'display-b', 9, 'yellow', 3);
-        });
-        // Titre : « 100 » géant évidé, « RÉCITS / DU LION » plein à côté.
-        $base = $l->ph - $b - 66 * $mm;
-        $x = $b + 12 * $mm;
-        $w100 = $l->strokeText($x, $base, '100', 'display', 250, 'yellow', 3.2, -4);
-        $tx = $x + $w100 + 6;
-        $l->text($tx, $base - 62, 'RÉCITS', 'display', 62, 'white', 0.5);
-        $l->text($tx, $base, 'DU LION', 'display', 62, 'yellow', 0.5);
-        // Bande jaune en biais : le sous-titre.
-        $y0 = $base + 26;
-        $l->polygon([[0, $y0 + 14], [$l->pw, $y0 - 14], [$l->pw, $y0 + 22], [0, $y0 + 50]], 'yellow');
-        $sub = 'FC SOCHAUX-MONTBÉLIARD, DES ORIGINES À NOS JOURS';
+        // Cadre jaune intérieur, interrompu en haut par le nom du musée.
+        $in = $b + 9 * $mm;
+        $l->rect($in, $in, $l->pw - 2 * $in, $l->ph - 2 * $in, null, 'yellow', 1);
+        $lab = 'MUSÉE SOCHAUX RÉTRO  ·  ÉDITION PERSONNALISÉE';
+        $lw = $l->width($lab, 'display-b', 8.5, 2.2) + 24;
+        $l->rect($l->pw / 2 - $lw / 2, $in - 8, $lw, 16, 'navy');
+        $l->text($l->pw / 2 - $lw / 2 + 12, $in + 3.2, $lab, 'display-b', 8.5, 'yellow', 2.2);
+        $l->logo($in + 8 * $mm, $in + 8 * $mm, 58);
+        $yr = '1928 — ' . date('Y');
+        $l->text($l->pw - $in - 8 * $mm - $l->width($yr, 'display-b', 11, 2), $in + 8 * $mm + 14, $yr, 'display-b', 11, 'white', 2);
+        // Titre : « 100 » géant en relief (contour décalé + aplat jaune), « RÉCITS / DU LION » à côté.
+        $base = $l->ph - $b - 70 * $mm;
+        $x = $in + 6 * $mm;
+        $l->strokeText($x + 7, $base + 7, '100', 'display', 230, 'white', 1.2, -4);
+        $w100 = $l->text($x, $base, '100', 'display', 230, 'yellow', -4);
+        $tx = $x + $w100 + 8;
+        $l->text($tx, $base - 108, 'LES', 'display-b', 16, 'yellow', 3);
+        $l->text($tx, $base - 56, 'RÉCITS', 'display', 58, 'white', 0.5);
+        $l->text($tx, $base, 'DU LION', 'display', 58, 'white', 0.5);
+        // Bande en biais : le sous-titre.
+        $y0 = $base + 30;
+        $l->polygon([[0, $y0 + 16], [$l->pw, $y0 - 16], [$l->pw, $y0 + 14], [0, $y0 + 46]], 'yellow');
+        $sub = 'L’HISTOIRE DU FC SOCHAUX-MONTBÉLIARD, DES ORIGINES À NOS JOURS';
         $cx = $l->pw / 2;
-        $cy = $y0 + 18;
-        $l->rotated(-2.7, $cx, $cy, function () use ($l, $sub, $cx, $cy) {
-            $l->text($cx - $l->width($sub, 'display-b', 13, 2) / 2, $cy + 5, $sub, 'display-b', 13, 'navy', 2);
+        $cy = $y0 + 15;
+        $l->rotated(-3, $cx, $cy, function () use ($l, $sub, $cx, $cy) {
+            $l->text($cx - $l->width($sub, 'display-b', 11.5, 1.6) / 2, $cy + 4.5, $sub, 'display-b', 11.5, 'navy', 1.6);
         });
-        // Étiquette de l'exemplaire, en bas.
-        $yy = $l->ph - $b - 22 * $mm;
-        if (($nom = trim((string) ($this->o['nom'] ?? ''))) !== '') {
-            $nw = max($l->width(mb_strtoupper($nom), 'display', 22, 0.6), $l->width('EXEMPLAIRE DE', 'display-b', 8.5, 2)) + 28;
-            $l->rect($x, $yy - 6, $nw, 46, 'white');
-            $l->rect($x, $yy - 6, 5, 46, 'yellow');
-            $l->text($x + 16, $yy + 8, 'EXEMPLAIRE DE', 'display-b', 8.5, 'muted', 2);
-            $l->text($x + 16, $yy + 31, mb_strtoupper($nom), 'display', 22, 'navy', 0.6);
-        }
-        if (($num = trim((string) ($this->o['numero'] ?? ''))) !== '') {
-            $t = 'N° ' . $num;
-            $l->text($l->pw - $b - 14 * $mm - $l->width($t, 'display', 22, 1), $yy + 31, $t, 'display', 22, 'cream', 1);
+        // Étiquette façon billet de match : nom à gauche, souche numérotée à droite.
+        $nom = trim((string) ($this->o['nom'] ?? ''));
+        $num = trim((string) ($this->o['numero'] ?? ''));
+        if ($nom !== '' || $num !== '') {
+            $th = 54;
+            $ty = $l->ph - $in - 10 * $mm - $th;
+            $nameW = max(150, $l->width(mb_strtoupper($nom), 'display', 22, 0.6) + 34);
+            $stub = $num !== '' ? 70 : 0;
+            $l->rect($x, $ty, $nameW + $stub, $th, 'cream');
+            $l->rect($x, $ty, 5, $th, 'yellow');
+            $l->text($x + 16, $ty + 16, 'BILLET D’ENTRÉE · EXEMPLAIRE DE', 'display-b', 7.5, 'muted', 1.8);
+            $l->text($x + 16, $ty + 41, $l->fit(mb_strtoupper($nom !== '' ? $nom : 'Supporter'), 'display', 22, $nameW - 24, 0.6), 'display', 22, 'navy', 0.6);
+            if ($stub) {
+                for ($d = $ty + 3; $d < $ty + $th - 3; $d += 6) {
+                    $l->rect($x + $nameW, $d, 1, 3, 'muted');
+                }
+                $l->text($x + $nameW + 12, $ty + 18, 'N°', 'display-b', 8, 'muted', 1.5);
+                $l->text($x + $nameW + 12, $ty + 42, $l->fit($num, 'display', 20, $stub - 16), 'display', 20, 'navy');
+            }
         }
     }
 
@@ -896,22 +907,84 @@ final class Livre
     private function back(): void
     {
         $l = $this->l;
+        $mm = self::MM;
+        $b = $this->b;
         $this->page();
         $this->noFolio[$l->page] = true;
         $l->rect(0, 0, $l->pw, $l->ph, 'navy');
-        $x = $this->b + 22 * self::MM;
-        $w = $this->W - 44 * self::MM;
-        $y = $this->b + 34 * self::MM;
-        $l->text($x, $y + 30, 'CENT HISTOIRES,', 'display', 34, 'yellow', 0.4);
-        $l->text($x, $y + 62, 'UN SEUL CLUB.', 'display', 34, 'yellow', 0.4);
-        $y += 90;
-        $txt = 'De la Forge à Bonal, des Peugeot aux socios, cent récits racontent le FC Sochaux-Montbéliard, rassemblés par les historiens bénévoles du musée Sochaux Rétro et illustrés par leurs archives.';
-        $y += $l->drawLines($l->wrap([Layout::run($txt, 'serif', 13, 'cream')], $w, 1.6), $x, $y, $w) + 16;
-        if (($nom = trim((string) ($this->o['nom'] ?? ''))) !== '') {
-            $l->drawLines($l->wrap([Layout::run('Cet exemplaire a été composé pour ', 'serif', 13, 'cream'), Layout::run($nom, 'serif-b', 13, 'yellow'), Layout::run('.', 'serif', 13, 'cream')], $w, 1.6), $x, $y, $w);
+        $this->stripes(0, 0, $l->pw, $l->ph);
+        $in = $b + 9 * $mm;
+        $l->rect($in, $in, $l->pw - 2 * $in, $l->ph - 2 * $in, null, 'yellow', 1);
+        $x = $in + 12 * $mm;
+        $w = $l->pw - 2 * $x;
+        $y = $in + 22 * $mm;
+        // Accroche
+        $l->text($x, $y + 34, 'CENT HISTOIRES,', 'display', 40, 'white', 0.4);
+        $l->text($x, $y + 74, 'UN SEUL CLUB.', 'display', 40, 'yellow', 0.4);
+        $y += 98;
+        $txt = 'De la Forge à Bonal, des Peugeot aux socios : cent récits racontent le FC Sochaux-Montbéliard, des premiers pas chez les pros aux titres de champion, des finales de Coupe à l’épopée européenne, jusqu’au sauvetage de 2023 et au-delà. Rassemblés par les historiens bénévoles du musée Sochaux Rétro, d’après les feuilles de match, les bilans et les archives du club, et illustrés par leurs photos.';
+        $y += $l->drawLines($l->wrap([Layout::run($txt, 'serif', 12, 'cream')], $w, 1.6), $x, $y, $w) + 26;
+        // Frise des décennies
+        $decs = array_values(array_map(fn ($t) => (int) preg_replace('/\D/', '', $t['t']), array_filter($this->toc, fn ($t) => $t['level'] === 0)));
+        if ($decs) {
+            $l->text($x, $y, 'AU FIL DES DÉCENNIES', 'display-b', 9, 'yellow', 2.2);
+            $y += 22;
+            $l->line($x, $y, $x + $w, $y, 'yellow', 1.2);
+            $n = count($decs);
+            foreach ($decs as $i => $d) {
+                $cx = $x + ($n > 1 ? $i * $w / ($n - 1) : 0);
+                $l->rect($cx - 4, $y - 4, 8, 8, 'yellow');
+                $t = "'" . substr((string) $d, 2);
+                $l->text($cx - $l->width($t, 'display-b', 11) / 2, $y + 20, $t, 'display-b', 11, 'white');
+            }
+            $y += 44;
         }
-        $l->logo($x, $this->b + $this->H - 60 * self::MM, 100);
-        $l->text($x, $this->b + $this->H - 14 * self::MM, 'musee.fcsochauxretro.com', 'serif', 9, 'mist');
+        // Bande de photos d'époque (une par décennie, assez définies pour leur petite taille)
+        $shots = [];
+        foreach ($this->recits() as $items) {
+            foreach ($items as $it) {
+                foreach ($this->photos($it['doc']) as $ph) {
+                    if ($img = $this->prepare($ph['rel'], ($w - 3 * 6) / 4, 30 * $mm, self::DPI['colonne'])) {
+                        $shots[] = $img;
+                        continue 3;
+                    }
+                }
+            }
+        }
+        if (count($shots) >= 4) {
+            $pick = array_values(array_intersect_key($shots, array_flip(array_map(fn ($i) => (int) round($i * (count($shots) - 1) / 3), [0, 1, 2, 3]))));
+            $sw = ($w - 3 * 6) / 4;
+            foreach ($pick as $i => $img) {
+                $sx = $x + $i * ($sw + 6);
+                $l->drawImage($l->loadImage($img['file']), $sx, $y, $sw, 30 * $mm, true);
+                $l->rect($sx, $y + 30 * $mm, $sw, 3, 'yellow');
+            }
+            $y += 30 * $mm + 26;
+        }
+        // Dédicace de l'exemplaire
+        $nom = trim((string) ($this->o['nom'] ?? ''));
+        if ($nom !== '') {
+            $runs = [Layout::run('Cet exemplaire' . (($num = trim((string) ($this->o['numero'] ?? ''))) !== '' ? ' n° ' . $num : '') . ' a été composé pour ', 'serif-i', 12, 'cream'), Layout::run($nom, 'serif-b', 12, 'yellow')];
+            if (($dep = (int) ($this->o['depuis'] ?? 0)) >= 1928) {
+                $runs[] = Layout::run(', supporter depuis ' . $dep, 'serif-i', 12, 'cream');
+            }
+            $runs[] = Layout::run('.', 'serif-i', 12, 'cream');
+            $lines = $l->wrap($runs, $w - 20, 1.5);
+            $h = array_sum(array_column($lines, 'h')) + 20;
+            $l->rect($x, $y, 4, $h, 'yellow');
+            $l->drawLines($lines, $x + 16, $y + 10, $w - 20);
+        }
+        // Pied : blason, adresse, emplacement du code-barres
+        $fy = $l->ph - $in - 14 * $mm - 60;
+        $l->logo($x, $fy, 64);
+        $l->text($x + 60, $fy + 28, 'MUSÉE SOCHAUX RÉTRO', 'display-b', 11, 'white', 2);
+        $l->text($x + 60, $fy + 44, 'musee.fcsochauxretro.com', 'serif', 10, 'mist');
+        $bw = 44 * $mm;
+        $bh = 25 * $mm;
+        $l->rect($x + $w - $bw, $fy + 64 - $bh, $bw, $bh, 'white');
+        $isbn = trim((string) ($this->o['isbn'] ?? ''));
+        $t = $isbn !== '' ? 'ISBN ' . $isbn : 'CODE-BARRES';
+        $l->text($x + $w - $bw / 2 - $l->width($t, 'display-b', 8, 1) / 2, $fy + 64 - $bh / 2 + 3, $t, 'display-b', 8, 'muted', 1);
     }
 
     // ------------------------------------------------------------------ contenu

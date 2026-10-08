@@ -1557,7 +1557,9 @@ dernière composition : `storage/livres/dernier.json`). Livre entier : ~25 s et 
 Livre vendu toujours complet (option `decennies` réservée aux épreuves). Personnalisation : `nom`, `depuis`,
 `dedicace`, `signature`, `numero`, `couverture` (photo choisie parmi `Livre::covers()`, liste tenue dans le
 back-office, `storage/livres/couvertures.json` ; photo en haut de couverture, 216 × 168 mm à 250 dpi ; légende et
-crédit au verso ; `coverSuggestions()` propose les photos des récits assez définies). Options facultatives : `match` (id d'une fiche
+crédit au verso ; `coverSuggestions()` propose les photos des récits assez définies). Couverture : cadre jaune, « 100 » en relief, bande en biais, étiquette « billet d'entrée » (nom + souche numérotée).
+4e de couverture : accroche, présentation, frise des décennies, bande de 4 photos d'époque, ligne de l'exemplaire,
+blason, adresse, emplacement du code-barres (option `isbn`). Options facultatives : `match` (id d'une fiche
 match publiée → page « Mon match », `myMatch()`) et `joueurs` (1 à 3 fiches personnes → page « Mes joueurs », portraits
 à 200 dpi sinon blason, bilan `Bilans::forPerson`, chiffre clé).
 Test : `tests/livre.php`.
