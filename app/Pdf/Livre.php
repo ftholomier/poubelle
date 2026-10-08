@@ -604,15 +604,18 @@ final class Livre
         }
     }
 
-    /** Styles de maillot (couleurs du maillot, des manches, du col, du flocage). */
+    /** Styles de maillot : corps, ombre du corps, manches, col et poignets, flocage, contour du flocage, bande. */
     public const JERSEYS = [
-        'classique' => ['label' => 'Classique jaune et bleu', 'body' => 'yellow', 'sleeve' => 'yellow', 'collar' => 'navy', 'text' => 'navy', 'band' => null],
-        'retro' => ['label' => 'Rétro, col et manches bleus', 'body' => 'yellow', 'sleeve' => 'navy', 'collar' => 'navy', 'text' => 'navy', 'band' => null],
-        'bande' => ['label' => 'Bande bleue sur la poitrine', 'body' => 'yellow', 'sleeve' => 'yellow', 'collar' => 'navy', 'text' => 'navy', 'band' => 'navy'],
-        'exterieur' => ['label' => 'Extérieur bleu nuit', 'body' => 'navy', 'sleeve' => 'navy', 'collar' => 'yellow', 'text' => 'yellow', 'band' => null],
+        'classique' => ['label' => 'Classique jaune et bleu', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => 'F6C400', 'trim' => '0E1F4D', 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
+        'retro' => ['label' => 'Rétro, col et manches bleus', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => '0E1F4D', 'trim' => '0E1F4D', 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => null],
+        'bande' => ['label' => 'Bande bleue sur la poitrine', 'body' => 'F6C400', 'shade' => 'D9A800', 'sleeve' => 'F6C400', 'trim' => '0E1F4D', 'text' => '0E1F4D', 'edge' => 'FFFFFF', 'band' => '1E3FA8'],
+        'exterieur' => ['label' => 'Extérieur bleu nuit', 'body' => '14286A', 'shade' => '0B1A45', 'sleeve' => '14286A', 'trim' => 'F6C400', 'text' => 'F6C400', 'edge' => '0B1A45', 'band' => null],
     ];
 
-    /** Option « Mon maillot » : un maillot dessiné, vu de dos, floqué au nom et au numéro du lecteur. */
+    /**
+     * Option « Ton maillot » : un maillot de collection, vu de dos, floqué au nom et au numéro du lecteur,
+     * présenté encadré (cadre bleu nuit, passe-partout crème, plaque gravée).
+     */
     private function myJersey(): void
     {
         $name = mb_strtoupper(trim((string) ($this->o['maillot_nom'] ?? '')));
@@ -625,35 +628,98 @@ final class Livre
         $mm = self::MM;
         $p = $this->page();
         $this->noFolio[$p] = true;
-        $l->rect(0, 0, $l->pw, $l->ph, 'cream');
-        $cx = $l->pw / 2;
-        $top = $this->b + 50 * $mm;
-        $W = 120 * $mm;
-        $H = 140 * $mm;
-        $sh = $W * 0.5;
-        // Ombre portée, manches, corps, col
-        $l->polygon([[$cx - $W / 2 + 14, $top + 22], [$cx + $W / 2 + 14, $top + 22], [$cx + $W / 2 + 6, $top + $H + 12], [$cx - $W / 2 + 22, $top + $H + 12]], 'sand');
-        $l->polygon([[$cx - $W / 2, $top + 10], [$cx - $W / 2 - $sh * 0.55, $top + $H * 0.32], [$cx - $W / 2 - $sh * 0.2, $top + $H * 0.42], [$cx - $W / 2 + 8, $top + $H * 0.3]], $st['sleeve']);
-        $l->polygon([[$cx + $W / 2, $top + 10], [$cx + $W / 2 + $sh * 0.55, $top + $H * 0.32], [$cx + $W / 2 + $sh * 0.2, $top + $H * 0.42], [$cx + $W / 2 - 8, $top + $H * 0.3]], $st['sleeve']);
-        $l->polygon([[$cx - $W / 2, $top + 10], [$cx - 34, $top], [$cx + 34, $top], [$cx + $W / 2, $top + 10], [$cx + $W / 2 - 8, $top + $H], [$cx - $W / 2 + 8, $top + $H]], $st['body']);
+        $this->dark[$p] = true;
+        // Mur sombre, cadre, passe-partout
+        $l->rect(0, 0, $l->pw, $l->ph, 'deep');
+        $this->stripes(0, 0, $l->pw, $l->ph);
+        $fx = $this->b + 18 * $mm;
+        $fy = $this->b + 26 * $mm;
+        $fw = $this->W - 36 * $mm;
+        $fh = 214 * $mm;
+        $l->rect($fx + 6, $fy + 8, $fw, $fh, '050C22');
+        $l->rect($fx, $fy, $fw, $fh, '1B2A5C');
+        $l->rect($fx + 4, $fy + 4, $fw - 8, $fh - 8, '0E1F4D');
+        $m = 13 * $mm;
+        $l->rect($fx + $m, $fy + $m, $fw - 2 * $m, $fh - 2 * $m, 'F3EDDF');
+        $l->line($fx + $m, $fy + $m, $fx + $fw - $m, $fy + $m, 'D9D1BC', 2);
+        // Maillot : repère 1000 × 1060 posé au centre du passe-partout
+        $k = ($fw - 2 * $m - 30 * $mm) / 1000;
+        $ox = $fx + $fw / 2 - 500 * $k;
+        $oy = $fy + $m + 16 * $mm;
+        $P = function (array $cmds) use ($k, $ox, $oy): array {
+            return array_map(function ($c) use ($k, $ox, $oy) {
+                $o = [array_shift($c)];
+                foreach (array_chunk($c, 2) as [$x, $y]) {
+                    $o[] = $ox + $x * $k;
+                    $o[] = $oy + $y * $k;
+                }
+                return $o;
+            }, $cmds);
+        };
+        $body = [['M', 360, 40], ['C', 420, 70, 580, 70, 640, 40], ['L', 800, 92], ['C', 860, 112, 900, 150, 930, 200], ['L', 1000, 380], ['L', 845, 450],
+            ['L', 800, 360], ['C', 790, 560, 795, 820, 805, 1010], ['C', 640, 1050, 360, 1050, 195, 1010], ['C', 205, 820, 210, 560, 200, 360],
+            ['L', 155, 450], ['L', 0, 380], ['L', 70, 200], ['C', 100, 150, 140, 112, 200, 92], ['L', 360, 40]];
+        // Ombre portée sur le passe-partout
+        $shadow = array_map(fn ($c) => array_merge([$c[0]], array_map(fn ($v, $i) => $v + ($i % 2 ? 22 : 16), array_slice($c, 1), array_keys(array_slice($c, 1)))), $body);
+        $l->path($P($shadow), 'D9D1BC');
+        $l->path($P($body), $st['body']);
+        // Manches (couleur propre), poignets
+        $sleeveL = [['M', 200, 92], ['C', 140, 112, 100, 150, 70, 200], ['L', 0, 380], ['L', 155, 450], ['L', 200, 360], ['C', 205, 250, 205, 160, 200, 92]];
+        $sleeveR = [['M', 800, 92], ['C', 860, 112, 900, 150, 930, 200], ['L', 1000, 380], ['L', 845, 450], ['L', 800, 360], ['C', 795, 250, 795, 160, 800, 92]];
+        $l->path($P($sleeveL), $st['sleeve']);
+        $l->path($P($sleeveR), $st['sleeve']);
+        $l->path($P([['M', 0, 380], ['L', 155, 450], ['L', 168, 422], ['L', 12, 352]]), $st['trim']);
+        $l->path($P([['M', 1000, 380], ['L', 845, 450], ['L', 832, 422], ['L', 988, 352]]), $st['trim']);
+        // Volumes : flancs ombrés, pli central léger
+        $l->path($P([['M', 200, 360], ['C', 210, 560, 205, 820, 195, 1010], ['C', 230, 1018, 262, 1024, 290, 1028], ['C', 270, 800, 262, 560, 250, 300], ['L', 200, 360]]), $st['shade']);
+        $l->path($P([['M', 800, 360], ['C', 790, 560, 795, 820, 805, 1010], ['C', 770, 1018, 738, 1024, 710, 1028], ['C', 730, 800, 738, 560, 750, 300], ['L', 800, 360]]), $st['shade']);
         if ($st['band']) {
-            $l->rect($cx - $W / 2 + 4, $top + $H * 0.26, $W - 8, 20, $st['band']);
+            $l->path($P([['M', 203, 300], ['L', 797, 300], ['L', 797, 380], ['L', 203, 380]]), $st['band']);
         }
-        $l->polygon([[$cx - 34, $top], [$cx + 34, $top], [$cx + 26, $top + 12], [$cx - 26, $top + 12]], $st['collar']);
-        // Flocage
+        // Col rond côtelé, vu de dos
+        $l->path($P([['M', 360, 40], ['C', 420, 70, 580, 70, 640, 40], ['L', 668, 52], ['C', 590, 100, 410, 100, 332, 52]]), $st['trim']);
+        // Flocage : nom en arc léger (lettres posées sur une courbe), numéro avec contour
         if ($name !== '') {
-            $fs = 30;
-            while ($fs > 14 && $l->width($name, 'display', $fs, 2) > $W - 40) {
+            $fs = 40;
+            while ($fs > 16 && $l->width($name, 'display', $fs, 3) > 470 * $k) {
                 $fs--;
             }
-            $l->text($cx - $l->width($name, 'display', $fs, 2) / 2, $top + $H * 0.2, $name, 'display', $fs, $st['text'], 2);
+            $chars = mb_str_split($name);
+            $tw = $l->width($name, 'display', $fs, 3);
+            $cx = $ox + 500 * $k;
+            $base = $oy + 225 * $k;
+            $x = $cx - $tw / 2;
+            foreach ($chars as $ch) {
+                $cw = $l->width($ch, 'display', $fs) + 3;
+                $mid = $x + $cw / 2 - $cx;
+                $dy = ($mid * $mid) / (2600 * $k);
+                $ang = rad2deg(atan($mid / (1300 * $k)));
+                $l->rotated($ang, $x + $cw / 2, $base + $dy, function () use ($l, $ch, $x, $base, $dy, $fs, $st) {
+                    $l->text($x, $base + $dy, $ch, 'display', $fs, $st['text']);
+                });
+                $x += $cw;
+            }
         }
         if ($num !== '') {
-            $l->text($cx - $l->width($num, 'display', 190) / 2, $top + $H * 0.82, $num, 'display', 190, $st['text']);
+            $ns = 330 * $k * 1.0;
+            $nw = $l->width($num, 'display', $ns, 6);
+            $nx = $ox + 500 * $k - $nw / 2;
+            $nb = $oy + 700 * $k;
+            $l->strokeText($nx, $nb, $num, 'display', $ns, $st['edge'], 7, 6);
+            $l->text($nx, $nb, $num, 'display', $ns, $st['text'], 6);
         }
-        $l->text($cx - $l->width('TON MAILLOT', 'display-b', 11, 3) / 2, $this->b + 30 * $mm, 'TON MAILLOT', 'display-b', 11, 'B48D00', 3);
-        $sub = 'Floqué à ton nom, aux couleurs du Lion';
-        $l->text($cx - $l->width($sub, 'serif-i', 13) / 2, $top + $H + 50, $sub, 'serif-i', 13, 'muted');
+        // Plaque gravée sous le maillot
+        $pw = 92 * $mm;
+        $px = $fx + $fw / 2 - $pw / 2;
+        $py = $fy + $fh - $m - 26 * $mm;
+        $l->rect($px + 2, $py + 3, $pw, 16 * $mm, 'B5A882');
+        $l->rect($px, $py, $pw, 16 * $mm, 'D8C48A');
+        $l->rect($px + 3, $py + 3, $pw - 6, 16 * $mm - 6, null, 'A8935A', 0.8);
+        $t1 = mb_strtoupper(trim(($name !== '' ? $name : '') . ($num !== '' ? ' · N° ' . $num : '')), 'UTF-8');
+        $t2 = 'FC SOCHAUX-MONTBÉLIARD · MAILLOT DU SUPPORTER';
+        $l->text($px + $pw / 2 - $l->width($t1, 'display', 15, 1.5) / 2, $py + 22, $t1, 'display', 15, '3B2F12', 1.5);
+        $l->text($px + $pw / 2 - $l->width($t2, 'display-b', 6.5, 1.4) / 2, $py + 36, $t2, 'display-b', 6.5, '5E4C1E', 1.4);
+        $l->text($this->b + $this->W / 2 - $l->width('TON MAILLOT', 'display-b', 11, 3) / 2, $this->b + 16 * $mm, 'TON MAILLOT', 'display-b', 11, 'yellow', 3);
     }
 
     /** Option « Mon match » : une page sur le match choisi par le client (données de la fiche, rien d'inventé). */

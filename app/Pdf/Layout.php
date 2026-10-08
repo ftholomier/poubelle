@@ -271,6 +271,25 @@ final class Layout
         $this->op('q ' . self::col($fill) . ' ' . $d . 'h f Q');
     }
 
+    /**
+     * Tracé plein fait de segments et de courbes de Bézier, coordonnées de la page (y depuis le haut) :
+     * ['M', x, y], ['L', x, y], ['C', x1, y1, x2, y2, x, y]. Contour facultatif.
+     */
+    public function path(array $cmds, ?string $fill, ?string $stroke = null, float $lw = 1): void
+    {
+        $d = '';
+        foreach ($cmds as $c) {
+            $op = array_shift($c);
+            $pts = [];
+            foreach (array_chunk($c, 2) as [$x, $y]) {
+                $pts[] = sprintf('%.2F %.2F', $x, $this->ph - $y);
+            }
+            $d .= implode(' ', $pts) . ' ' . ['M' => 'm', 'L' => 'l', 'C' => 'c'][$op] . ' ';
+        }
+        $paint = $fill && $stroke ? 'b' : ($fill ? 'f' : 'S');
+        $this->op('q ' . ($fill ? self::col($fill) . ' ' : '') . ($stroke ? self::col($stroke, false) . sprintf(' %.2F w 1 j ', $lw) : '') . $d . 'h ' . $paint . ' Q');
+    }
+
     /** Dessins faits par $draw tournés de $deg degrés (sens des aiguilles d'une montre) autour de ($cx, $cy). */
     public function rotated(float $deg, float $cx, float $cy, callable $draw): void
     {
