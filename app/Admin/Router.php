@@ -17,7 +17,7 @@ use App\Data\Activity;
 final class Router
 {
     /** Adresses réservées aux administrateurs (en plus des comptes et des réglages, contrôlés écran par écran). */
-    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|association|boutique|notifications)(/|$)#';
+    private const ADMIN_ONLY = '#^/admin/(assistant|audio|couts-ia|sauvegardes|taches|api/couts|dons/recu|statistiques|association|boutique|notifications)(/|$)#';
 
     public static function handle(Request $req): Response
     {
@@ -88,7 +88,11 @@ final class Router
         $r->get('/admin/qualite', fn ($q) => Dashboard::quality($q));
         $r->post('/admin/qualite/controler', fn ($q) => Dashboard::control($q));
         $r->get('/admin/journal', fn ($q) => Dashboard::journal($q));
-        $r->get('/admin/audience', fn ($q) => Dashboard::audience($q));
+        $r->get('/admin/audience', fn ($q) => Response::redirect('/admin/statistiques'));
+        $r->get('/admin/statistiques', fn ($q) => Statistics::index($q));
+        $r->get('/admin/statistiques/direct', fn ($q) => Statistics::live($q));
+        $r->get('/admin/statistiques/rapport.pdf', fn ($q) => Statistics::pdf($q));
+        $r->post('/admin/statistiques/remise-a-zero', fn ($q) => Statistics::reset($q));
 
         // Fiches
         foreach (Fiches::LISTS as $slug => $conf) {

@@ -22,6 +22,7 @@ class Base
     public const NAV = [
         'Pilotage' => [
             ['dash', 'Tableau de bord', '/admin', false],
+            ['stats', 'Statistiques', '/admin/statistiques', true],
             ['qualite', 'Qualité', '/admin/qualite', false],
             ['journal', 'Journal', '/admin/journal', false],
         ],
