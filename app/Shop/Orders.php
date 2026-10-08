@@ -90,6 +90,17 @@ final class Orders
         return $c['free_from'] > 0 && $subtotal >= $c['free_from'] ? 0 : $c['shipping'];
     }
 
+    /** Au moins un article à fabriquer et expédier (le livre numérique ne l'est pas). */
+    public static function physical(array $items): bool
+    {
+        foreach ($items as $it) {
+            if (!BookShop::digital($it)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static function money(int $cents): string
     {
         return number_format($cents / 100, 2, ',', "\u{202F}") . "\u{00A0}€";
@@ -103,6 +114,9 @@ final class Orders
      */
     public static function line(array $in): array
     {
+        if (($in['model'] ?? '') === BookShop::MODEL) {
+            return BookShop::line($in);
+        }
         $m = Catalog::find((string) ($in['model'] ?? ''));
         if (!$m || !Catalog::sellable($m)) {
             return ['error' => 'Cet article n’est plus en vente.'];
@@ -161,6 +175,9 @@ final class Orders
     /** Résumé lisible des choix d'un article (taille, couleur, textes). */
     public static function describe(array $it): string
     {
+        if (($it['model'] ?? '') === BookShop::MODEL) {
+            return BookShop::describe($it);
+        }
         $p = [];
         if ($it['size'] !== '') {
             $p[] = (isset(Catalog::PAPER[$it['size']]) ? 'Format ' : 'Taille ') . $it['size'];
@@ -235,7 +252,7 @@ final class Orders
             }
         }
         $discount = (int) ($pr['discount'] ?? 0);
-        $ship = !empty($pr['free_shipping']) ? 0 : self::shipping($sub - $discount);
+        $ship = !empty($pr['free_shipping']) || !self::physical($clean) ? 0 : self::shipping($sub - $discount);
         $o = [
             'id' => 'SR' . date('ymd') . '-' . strtoupper(bin2hex(random_bytes(2))), 'token' => bin2hex(random_bytes(16)),
             'created' => date('c'), 'status' => 'pending', 'customer' => $c, 'items' => $clean,
@@ -431,8 +448,20 @@ final class Orders
         self::buildPdfs($o);
         $c = self::config();
         $link = self::trackingUrl($o);
-        self::mail($o['customer']['email'], 'Votre commande ' . $o['id'] . ' est confirmée', '<p>Bonjour ' . e($o['customer']['name']) . ',</p><p>Merci ! Votre commande <b>' . e($o['id']) . '</b> (' . e(self::money($o['total'])) . ') est payée. Elle part en fabrication chez notre imprimeur. ' . e($c['delay']) . '</p>' . self::itemsHtml($o) . '<p>Suivez-la et posez vos questions ici : <a href="' . e($link) . '">' . e($link) . '</a></p>', $c['printer_email'] ?: null);
-        if ($c['printer_email'] !== '') {
+        $phys = self::physical($o['items']);
+        $dl = '';
+        foreach ($o['items'] as $n => $it) {
+            if (BookShop::digital($it)) {
+                $u = BookShop::downloadUrl($o, $n);
+                $dl .= '<p><b>Votre livre numérique est prêt :</b> <a href="' . e($u) . '">télécharger le PDF</a> (lien personnel, ne le partagez pas ; il reste aussi disponible sur la page de votre commande).</p>';
+            }
+        }
+        self::mail($o['customer']['email'], 'Votre commande ' . $o['id'] . ' est confirmée', '<p>Bonjour ' . e($o['customer']['name']) . ',</p><p>Merci ! Votre commande <b>' . e($o['id']) . '</b> (' . e(self::money($o['total'])) . ') est payée.' . ($phys ? ' Elle part en fabrication chez notre imprimeur. ' . e($c['delay']) : '') . '</p>' . $dl . self::itemsHtml($o) . '<p>Suivez-la et posez vos questions ici : <a href="' . e($link) . '">' . e($link) . '</a></p>', $phys ? ($c['printer_email'] ?: null) : null);
+        if (!$phys) {
+            // Commande entièrement numérique : livrée dès que le PDF est composé.
+            self::setStatus($o['id'], 'delivered', 'Boutique', 'Livre numérique disponible au téléchargement', false);
+        }
+        if ($phys && $c['printer_email'] !== '') {
             self::mail($c['printer_email'], 'Nouvelle commande ' . $o['id'] . ' à fabriquer', '<p>Bonjour,</p><p>Une nouvelle commande de la boutique Sochaux Rétro est payée et prête à fabriquer : <b>' . e($o['id']) . '</b>, ' . count($o['items']) . ' article(s).</p>' . self::itemsHtml($o) . '<p>Fichiers d’impression, adresse de livraison et suivi : <a href="' . e(base_url() . '/imprimeur/commande/' . $o['id']) . '">espace imprimeur</a>.</p>');
         }
         if ($c['alert_email'] !== '') {
@@ -446,6 +475,15 @@ final class Orders
     {
         @mkdir(self::dir() . '/pdf', 0775, true);
         foreach ($o['items'] as $n => $it) {
+            if ($it['model'] === BookShop::MODEL) {
+                // Livre : numéro d'exemplaire attribué une fois pour toutes, puis composition complète.
+                $num = BookShop::number($o['id'] . '-' . ($n + 1));
+                $pdf = BookShop::pdf($it['values'], $num);
+                if ($pdf !== '') {
+                    file_put_contents(self::pdfPath($o['id'], $n), $pdf);
+                }
+                continue;
+            }
             $m = Catalog::find($it['model']);
             if (!$m) {
                 continue;

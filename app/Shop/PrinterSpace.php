@@ -148,7 +148,7 @@ final class PrinterSpace
         $tab = (string) ($req->query['vue'] ?? 'afaire');
         $tabs = ['afaire' => ['À fabriquer', ['paid']], 'encours' => ['En fabrication', ['production']], 'expediees' => ['Expédiées', ['shipped']], 'toutes' => ['Toutes', ['paid', 'production', 'shipped', 'delivered', 'canceled', 'refunded']]];
         $tab = isset($tabs[$tab]) ? $tab : 'afaire';
-        $all = array_values(array_filter(Orders::all(), fn ($o) => !empty($o['paid_at'])));
+        $all = array_values(array_filter(Orders::all(), fn ($o) => !empty($o['paid_at']) && Orders::physical($o['items'])));
         $h = '<div class="row" style="gap:6px;flex-wrap:wrap;margin:0 0 12px">';
         foreach ($tabs as $k => [$label, $st]) {
             $n = count(array_filter($all, fn ($o) => in_array($o['status'], $st, true)));
@@ -161,7 +161,7 @@ final class PrinterSpace
         }
         $h .= '<table class="shoporders card"><thead><tr><th>Commande</th><th>Payée le</th><th>Client</th><th>Articles</th><th>Étape</th></tr></thead><tbody>';
         foreach ($rows as $o) {
-            $items = implode('<br>', array_map(fn ($it) => (int) $it['qty'] . ' × ' . e($it['support']) . ' · ' . e($it['name']), $o['items']));
+            $items = implode('<br>', array_map(fn ($it) => (int) $it['qty'] . ' × ' . e($it['support']) . ' · ' . e($it['name']), array_filter($o['items'], fn ($it) => !BookShop::digital($it))));
             $h .= '<tr><td><a href="/imprimeur/commande/' . e($o['id']) . '"><b>' . e($o['id']) . '</b></a>' . ($o['messages'] && end($o['messages'])['from'] === 'client' ? ' <span class="shopst shopst--paid">question du client</span>' : '') . '</td><td>' . e(date('d/m/Y H:i', strtotime($o['paid_at']))) . '</td><td>' . e($o['customer']['name']) . '<br><span class="xs muted">' . e($o['customer']['zip'] . ' ' . $o['customer']['city']) . '</span></td><td class="small">' . $items . '</td><td><span class="shopst shopst--' . e($o['status']) . '">' . e(Orders::STATUSES[$o['status']]) . '</span></td></tr>';
         }
         return self::page('Commandes', $h . '</tbody></table>');

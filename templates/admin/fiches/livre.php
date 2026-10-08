@@ -1,7 +1,7 @@
 <?php
 /**
  * Contenus › Livre des récits. Variables : $last (bilan de la dernière composition ou null), $decades, $count,
- * $covers (photos proposées en couverture), $suggest (photos des récits assez définies pour la couverture)
+ * $sale (vente en boutique), $covers (photos proposées en couverture), $suggest (photos des récits assez définies pour la couverture)
  */
 use App\Pdf\Livre;
 ?>
@@ -112,3 +112,17 @@ use App\Pdf\Livre;
     <p class="xs muted" style="margin:0">Aucune photo des récits n’a encore la définition d’une couverture : ajoutez des scans ou des originaux en haute définition.</p>
   <?php endif; ?>
 </section>
+
+<form class="card card--pad stack" method="post" action="/admin/livre">
+  <?= csrf_field() ?><input type="hidden" name="action" value="vente">
+  <h2 class="card__t" style="margin:0">Vente dans la boutique</h2>
+  <p class="small" style="margin:0">Le client personnalise son livre sur la boutique (page « Le livre ») : couverture, dédicace, maillot (seulement les <a href="/admin/maillots">maillots validés</a>), pages personnelles, et feuillette un extrait. Seuls les récits <b>publiés</b> sont imprimés. Livre imprimé : le PDF part chez l’imprimeur avec la commande. Livre numérique : le client le télécharge par un lien personnel (20 téléchargements au plus), sans frais de port ni imprimeur. Chaque exemplaire reçoit un numéro au paiement.</p>
+  <label class="row" style="gap:6px"><input type="checkbox" name="active" value="1"<?= $sale['active'] ? ' checked' : '' ?>> En vente</label>
+  <div class="row" style="gap:12px;flex-wrap:wrap">
+    <label class="f"><span class="f__k">Prix du livre imprimé (€)</span><input name="price" inputmode="decimal" value="<?= e(number_format($sale['price'] / 100, 2, ',', '')) ?>"></label>
+    <label class="f"><span class="f__k">Prix du livre numérique (€, 0 : pas proposé)</span><input name="price_pdf" inputmode="decimal" value="<?= e(number_format($sale['price_pdf'] / 100, 2, ',', '')) ?>"></label>
+    <label class="f"><span class="f__k">Coût de fabrication chez l’imprimeur (€)</span><input name="cost" inputmode="decimal" value="<?= e(number_format($sale['cost'] / 100, 2, ',', '')) ?>"></label>
+  </div>
+  <label class="f"><span class="f__k">Présentation sur la boutique</span><textarea name="desc" rows="3" maxlength="800"><?= e($sale['desc']) ?></textarea></label>
+  <div><button class="btn btn--primary" type="submit">Enregistrer</button></div>
+</form>

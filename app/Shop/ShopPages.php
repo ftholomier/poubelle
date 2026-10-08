@@ -148,7 +148,8 @@ final class ShopPages
             $from = $m['sale']['price'] + ($m['sale']['extra'] ? 0 : 0);
             $cards[] = ['m' => $m, 'sup' => $sup, 'img' => self::previewUrl($m, self::samples($m, self::anecStart($m))), 'from' => $from];
         }
-        return self::page('index', ['cards' => $cards, 'config' => Orders::config(), 'count' => self::count()], ['title' => 'Boutique', 'description' => 'Les objets de Sochaux Rétro, personnalisés et fabriqués à la demande près de chez nous. Chaque achat soutient l’association.']);
+        $book = BookShop::sellable() ? BookShop::config() : null;
+        return self::page('index', ['book' => $book, 'cards' => $cards, 'config' => Orders::config(), 'count' => self::count()], ['title' => 'Boutique', 'description' => 'Les objets de Sochaux Rétro, personnalisés et fabriqués à la demande près de chez nous. Chaque achat soutient l’association.']);
     }
 
     public static function product(Request $req, string $id): Response
@@ -398,7 +399,7 @@ final class ShopPages
             $r = Orders::line($in);
             if (isset($r['item'])) {
                 $m = Catalog::find($in['model']);
-                $lines[] = $r['item'] + ['svg' => self::preview($m, $r['item']['opts'], $r['item']['values'])];
+                $lines[] = $r['item'] + ['svg' => $in['model'] === BookShop::MODEL ? BookShop::coverSvg($r['item']['values']) : self::preview($m, $r['item']['opts'], $r['item']['values'])];
                 $keep[] = $in;
             }
         }
@@ -422,7 +423,7 @@ final class ShopPages
         }
         return self::page('panier', [
             'lines' => $lines, 'sub' => $sub, 'promo' => $promo, 'discount' => $discount,
-            'ship' => $lines ? (!empty($promo['free_shipping']) ? 0 : Orders::shipping($sub - $discount)) : 0, 'config' => Orders::config(), 'count' => self::count(),
+            'ship' => $lines && Orders::physical($lines) ? (!empty($promo['free_shipping']) ? 0 : Orders::shipping($sub - $discount)) : 0, 'config' => Orders::config(), 'count' => self::count(),
             'flash' => $flash, 'old' => Session::pull('shop_old', []), 'payable' => Orders::payable(), 'test' => \App\Core\Settings::get('donations.mode', 'test') !== 'live',
         ], ['title' => 'Votre panier', 'noindex' => true]);
     }
@@ -439,6 +440,24 @@ final class ShopPages
         }
         $cart = self::cart();
         $do = (string) ($req->post['do'] ?? 'add');
+        if ($do === 'add' && ($req->post['model'] ?? '') === BookShop::MODEL) {
+            $in = ['model' => BookShop::MODEL, 'qty' => (int) ($req->post['qty'] ?? 1), 'values' => array_map(fn ($v) => mb_substr((string) $v, 0, 600), (array) ($req->post['livre'] ?? []))];
+            $r = Orders::line($in);
+            if (isset($r['error'])) {
+                Session::set('shop_flash', ['type' => 'error', 'msg' => $r['error']]);
+                Session::set('shop_livre', $in['values']);
+                return Response::redirect(self::u('/boutique/livre/'));
+            }
+            if (count($cart) >= Orders::MAX_ITEMS) {
+                Session::set('shop_flash', ['type' => 'error', 'msg' => 'Votre panier est plein (' . Orders::MAX_ITEMS . ' articles).']);
+                return Response::redirect(self::u('/boutique/panier/'));
+            }
+            $cart[] = ['model' => BookShop::MODEL, 'size' => '', 'qty' => $r['item']['qty'], 'values' => $r['item']['values'], 'opts' => []];
+            Session::set(self::CART, $cart);
+            self::syncBadge();
+            Session::set('shop_flash', ['type' => 'ok', 'msg' => '« ' . BookShop::NAME . ' » ajouté au panier.']);
+            return Response::redirect(self::u('/boutique/panier/'));
+        }
         if ($do === 'add') {
             $in = ['model' => (string) ($req->post['model'] ?? ''), 'size' => (string) ($req->post['size'] ?? ''), 'qty' => (int) ($req->post['qty'] ?? 1),
                 'values' => array_map(fn ($v) => mb_substr((string) $v, 0, 200), (array) ($req->post['values'] ?? [])),
@@ -482,7 +501,7 @@ final class ShopPages
             if ($do === 'remove') {
                 array_splice($cart, $i, 1);
             } elseif ($do === 'qty') {
-                $cart[$i]['qty'] = max(1, min(20, (int) ($req->post['qty'] ?? 1)));
+                $cart[$i]['qty'] = max(1, min(($cart[$i]['model'] ?? '') === BookShop::MODEL ? 5 : 20, (int) ($req->post['qty'] ?? 1)));
             }
             Session::set(self::CART, $cart);
             self::syncBadge();
@@ -534,6 +553,68 @@ final class ShopPages
         return Response::redirect($pay['url']);
     }
 
+
+    // ------------------------------------------------------------------ livre « 100 récits du Lion »
+
+    /** GET /boutique/livre/ : page du livre, personnalisation et aperçu de la couverture. */
+    public static function book(Request $req): Response
+    {
+        if ($r = self::closed()) {
+            return $r;
+        }
+        if (!BookShop::sellable()) {
+            return self::notFound();
+        }
+        $covers = [];
+        foreach (\App\Pdf\Livre::covers() as $rel) {
+            $covers[] = ['rel' => $rel, 'caption' => \App\Data\Media::caption($rel)];
+        }
+        $carnet = \App\Services\Carnet::current();
+        return self::page('livre', [
+            'config' => Orders::config(), 'book' => BookShop::config(), 'count' => self::count(), 'covers' => $covers,
+            'jerseys' => \App\Pdf\Livre::jerseysValid(), 'carnet' => $carnet && !empty($carnet['matches']) ? $carnet : null,
+            'old' => (array) Session::pull('shop_livre', []), 'flash' => Session::pull('shop_flash'),
+        ], ['title' => BookShop::NAME, 'description' => BookShop::config()['desc'], 'scripts' => ['js/boutique.js', 'js/livre.js']]);
+    }
+
+    /** POST /boutique/livre/fichier/ (JSON) : photo du lecteur ou photo 3D du maillot. */
+    public static function bookUpload(Request $req): Response
+    {
+        $json = fn (array $d, int $st = 200) => new Response(json_encode($d, JSON_UNESCAPED_UNICODE), $st, ['Content-Type' => 'application/json; charset=UTF-8']);
+        if (!self::visible() || !BookShop::sellable() || !Session::checkCsrf((string) ($req->post['_csrf'] ?? ''))) {
+            return $json(['error' => 'Session expirée : rechargez la page.'], 403);
+        }
+        if (!RateLimiter::hit('livre-envoi', $req->ip(), 40, 3600)) {
+            return $json(['error' => 'Trop d’envois : réessayez dans une heure.'], 429);
+        }
+        $f = $req->files['file'] ?? null;
+        if (!$f || ($f['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || (int) $f['size'] > 20 * 1024 * 1024) {
+            return $json(['error' => 'Fichier non reçu (20 Mo au plus).'], 422);
+        }
+        $r = BookShop::receive((string) $f['tmp_name'], (string) ($req->post['kind'] ?? 'photo') === 'photo' ? 'photo' : 'maillot');
+        return $json($r, isset($r['error']) ? 422 : 200);
+    }
+
+    /** POST /boutique/livre/extrait/ : extrait à feuilleter (PDF de quelques pages) avec les choix du client. */
+    public static function bookExcerpt(Request $req): Response
+    {
+        if (!self::visible() || !BookShop::sellable() || !Session::checkCsrf((string) ($req->post['_csrf'] ?? ''))) {
+            return new Response('Session expirée : rechargez la page.', 403, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        }
+        if (!RateLimiter::hit('livre-extrait', $req->ip(), 20, 3600)) {
+            return new Response('Trop d’extraits demandés : réessayez dans une heure.', 429, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        }
+        $in = array_map(fn ($v) => mb_substr((string) $v, 0, 600), (array) ($req->post['livre'] ?? []));
+        if (trim((string) ($in['nom'] ?? '')) === '') {
+            $in['nom'] = 'Votre nom';
+        }
+        $r = BookShop::clean($in);
+        @set_time_limit(180);
+        @ini_set('memory_limit', '512M');
+        $pdf = (new \App\Pdf\Livre(BookShop::options($r['values'] ?? [], 'XXXX') + ['apercu' => true]))->build();
+        return new Response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'inline; filename="extrait-100-recits-du-lion.pdf"', 'Cache-Control' => 'private, no-store', 'X-Robots-Tag' => 'noindex']);
+    }
+
     // ------------------------------------------------------------------ suivi de commande
 
     public static function track(Request $req, string $token): Response
@@ -555,10 +636,36 @@ final class ShopPages
         $previews = [];
         foreach ($o['items'] as $it) {
             $m = Catalog::find($it['model']);
-            $previews[] = $m ? self::preview($m, $it['opts'], $it['values']) : '';
+            $previews[] = $it['model'] === BookShop::MODEL ? BookShop::coverSvg($it['values']) : ($m ? self::preview($m, $it['opts'], $it['values']) : '');
         }
         return self::page('suivi', ['o' => $o, 'previews' => $previews, 'flash' => Session::pull('shop_flash'), 'config' => Orders::config(), 'count' => self::count()],
             ['title' => 'Commande ' . $o['id'], 'noindex' => true]);
+    }
+
+    /** GET /boutique/commande/{jeton}/livre/{n}/ : livre numérique payé, au plus 20 téléchargements. */
+    public static function bookDownload(Request $req, string $token, string $n): Response
+    {
+        $o = Orders::byToken($token);
+        $i = (int) $n - 1;
+        $it = $o['items'][$i] ?? null;
+        if (!$o || !$it || !BookShop::digital($it) || !in_array($o['status'], ['paid', 'production', 'shipped', 'delivered'], true)) {
+            return self::notFound();
+        }
+        $count = 0;
+        Orders::update($o['id'], function ($x) use ($i, &$count) {
+            $count = (int) ($x['ext']['downloads'][$i] ?? 0) + 1;
+            $x['ext']['downloads'][$i] = $count;
+            return $x;
+        });
+        if ($count > 20) {
+            return new Response('Nombre de téléchargements dépassé : écrivez-nous depuis la page de votre commande.', 429, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        }
+        @set_time_limit(600);
+        $pdf = Orders::pdf($o, $i);
+        if ($pdf === null) {
+            return new Response('Votre livre est en cours de composition : réessayez dans quelques minutes.', 503, ['Content-Type' => 'text/plain; charset=UTF-8', 'Retry-After' => '120']);
+        }
+        return new Response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="100-recits-du-lion-' . slugify((string) ($it['values']['nom'] ?? 'livre')) . '.pdf"', 'Cache-Control' => 'private, no-store', 'X-Robots-Tag' => 'noindex']);
     }
 
     public static function trackMessage(Request $req, string $token): Response

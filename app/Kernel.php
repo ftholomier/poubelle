@@ -470,6 +470,10 @@ final class Kernel
         $r->get('/boutique/poster/joueurs/', fn ($q) => Shop\ShopPages::posterPlayers($q));
         $r->post('/boutique/poster/preparer/', fn ($q) => Shop\ShopPages::posterPrepare($q));
         $r->get('/boutique/commande/{token}/', fn ($q, $token) => Shop\ShopPages::track($q, $token));
+        $r->get('/boutique/commande/{token}/livre/{n}/', fn ($q, $token, $n) => Shop\ShopPages::bookDownload($q, $token, $n));
+        $r->get('/boutique/livre/', fn ($q) => Shop\ShopPages::book($q));
+        $r->post('/boutique/livre/fichier/', fn ($q) => Shop\ShopPages::bookUpload($q));
+        $r->post('/boutique/livre/extrait/', fn ($q) => Shop\ShopPages::bookExcerpt($q));
         $r->post('/boutique/commande/{token}/', fn ($q, $token) => Shop\ShopPages::trackMessage($q, $token));
         $r->get('/boutique/{id}/', fn ($q, $id) => Shop\ShopPages::product($q, $id));
         $r->get('/faire-un-don/', fn ($q) => Front\Donations::page($q));

@@ -34,7 +34,7 @@ final class Book extends Base
         foreach (Livre::covers() as $rel) {
             $covers[] = ['rel' => $rel, 'dpi' => $book->coverDpi($rel), 'caption' => \App\Data\Media::caption($rel)];
         }
-        return self::html('admin/fiches/livre', ['last' => $last, 'decades' => array_keys($groups), 'count' => $count, 'covers' => $covers, 'suggest' => $book->coverSuggestions()],
+        return self::html('admin/fiches/livre', ['last' => $last, 'decades' => array_keys($groups), 'count' => $count, 'covers' => $covers, 'suggest' => $book->coverSuggestions(), 'sale' => \App\Shop\BookShop::config()],
             ['title' => 'Livre des récits', 'crumb' => 'Contenus', 'nav' => 'livre', 'scripts' => ['admin/livre.js']]);
     }
 
@@ -45,6 +45,11 @@ final class Book extends Base
             return $r;
         }
         $action = $req->str('action');
+        if ($action === 'vente') {
+            $c = \App\Shop\BookShop::saveConfig($req->post);
+            Activity::log(self::actor(), 'a réglé la vente du livre (' . ($c['active'] ? 'en vente' : 'hors vente') . ')', null);
+            return self::back('/admin/livre', $c['active'] ? 'Le livre est en vente dans la boutique.' : 'Réglages enregistrés : le livre n’est pas en vente.');
+        }
         if ($action === 'couv-ajouter' || $action === 'couv-retirer') {
             $rel = \App\Data\Media::safeRel(preg_replace('#^.*?/media/(?:full|\d+)/|\.webp$#', '', trim((string) ($req->post['rel'] ?? ''))) ?? '');
             $list = Livre::covers();

@@ -213,3 +213,28 @@
 .shopanec__tl small { font-weight: 400; color: var(--mist, #6b7280); }
 .shopcarnet__ok { margin: 0 0 4px; padding: 10px 12px; background: var(--butter, #FFF3C2); border: 2px solid var(--navy, #0E1F4D); }
 .shopcarnet__no { margin: 0 0 4px; }
+
+/* Livre « 100 récits du Lion » */
+.shopbook__cover svg,.shopcard--book .shopcard__img svg{display:block;width:100%;height:auto;max-width:420px;margin:0 auto;box-shadow:0 18px 40px rgba(14,31,77,.28)}
+.shopcard--book .shopcard__img{display:grid;place-items:center;padding:18px;background:var(--cream,#F3EDDF)}
+.shopcard--book .shopcard__img svg{max-width:62%}
+.shopbook__jersey{margin-top:18px}
+.shopbook__jersey-imgs{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#F3EDDF;padding:8px}
+.shopbook__jersey-imgs img{width:100%;height:auto;display:block}
+.shopbook__inside{margin:18px 0 0;padding-left:1.1em;line-height:1.6}
+.shopbook__covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.shopbook__covers label{position:relative;cursor:pointer;display:block}
+.shopbook__covers input{position:absolute;opacity:0}
+.shopbook__covers img,.shopbook__nophoto{display:grid;place-items:center;width:100%;aspect-ratio:3/2;object-fit:cover;border:3px solid transparent;background:var(--navy,#0E1F4D);color:#fff;font-size:.8rem}
+.shopbook__covers input:checked+img,.shopbook__covers input:checked+.shopbook__nophoto{border-color:var(--yellow,#F6C400)}
+.shopbook__covers input:focus-visible+*{outline:3px solid var(--blue,#1F3FA8)}
+.shopbook__row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shopbook__search ul{list-style:none;margin:4px 0 0;padding:0;max-height:220px;overflow:auto}
+.shopbook__search li button{display:block;width:100%;text-align:left;padding:6px 8px;border:0;border-bottom:1px solid #ddd;background:#fff;cursor:pointer}
+.shopbook__search li button:hover{background:#FFF3C2}
+.shopbook__tag{display:inline-block;background:#FFF3C2;padding:2px 6px;margin:2px 4px 2px 0;border-radius:3px}
+.shopbook__tag button{border:0;background:none;cursor:pointer;font-weight:700}
+.shopchoice{display:flex;gap:10px;align-items:flex-start;padding:8px 0;cursor:pointer}
+.shopchoice small{display:block;color:var(--muted,#3A4A75)}
+.shopbook__actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+@media (max-width:600px){.shopbook__row{grid-template-columns:1fr}}

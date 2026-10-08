@@ -26,11 +26,11 @@ $cur = array_search($o['status'], $steps, true);
     <?php endif; ?>
     <div class="shopcart">
       <?php foreach ($o['items'] as $n => $it): ?>
-      <div class="shopline"><div class="shopline__img"><?= $previews[$n] ?? '' ?></div><div class="shopline__txt"><b><?= (int) $it['qty'] ?> × <?= e($it['name']) ?></b> <span class="muted">(<?= e($it['support']) ?>)</span><br><small><?= e(Orders::describe($it)) ?></small></div><b class="shopline__price"><?= e(Orders::money($it['total'])) ?></b></div>
+      <div class="shopline"><div class="shopline__img"><?= $previews[$n] ?? '' ?></div><div class="shopline__txt"><b><?= (int) $it['qty'] ?> × <?= e($it['name']) ?></b> <span class="muted">(<?= e($it['support']) ?>)</span><br><small><?= e(Orders::describe($it)) ?></small><?php if (\App\Shop\BookShop::digital($it) && in_array($o['status'], ['paid', 'production', 'shipped', 'delivered'], true)): ?><br><a class="btn btn--yellow btn--sm" href="<?= e(\App\Shop\BookShop::downloadUrl($o, $n)) ?>">Télécharger mon livre (PDF)</a><?php endif; ?></div><b class="shopline__price"><?= e(Orders::money($it['total'])) ?></b></div>
       <?php endforeach; ?>
       <div class="shoptotal"><?php if ((int) ($o['discount'] ?? 0) > 0): ?><span>Code promo <?= e($o['promo']['code'] ?? '') ?></span><b>−<?= e(Orders::money((int) $o['discount'])) ?></b><?php endif; ?><span>Livraison</span><b><?= e($o['shipping'] ? Orders::money($o['shipping']) : 'offerte') ?></b><span class="shoptotal__all">Total</span><b class="shoptotal__all"><?= e(Orders::money($o['total'])) ?></b></div>
     </div>
-    <p class="small">Livraison : <?= e($o['customer']['name'] . ', ' . $o['customer']['line1'] . ', ' . $o['customer']['zip'] . ' ' . $o['customer']['city']) ?>.</p>
+    <?php if (Orders::physical($o['items'])): ?><p class="small">Livraison : <?= e($o['customer']['name'] . ', ' . $o['customer']['line1'] . ', ' . $o['customer']['zip'] . ' ' . $o['customer']['city']) ?>.</p><?php endif; ?>
 
     <h2 class="h-2" id="messages">Une question ?</h2>
     <p>Votre commande est fabriquée par notre imprimeur<?= $config['printer_name'] !== '' ? ', ' . e($config['printer_name']) : '' ?> : il vous répond directement, par e-mail et sur cette page.</p>

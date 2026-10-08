@@ -84,6 +84,9 @@ final class Livre
                 continue;
             }
             $out[$dec][] = ['n' => ++$n, 'doc' => $doc, 'year' => (float) $r['year']];
+            if (!empty($this->o['apercu']) && $n >= 2) {
+                break;
+            }
             if (!empty($this->o['limite']) && $n >= (int) $this->o['limite']) {
                 break;
             }
@@ -1321,6 +1324,16 @@ final class Livre
     {
         $l = $this->l;
         $total = $l->pdf->pageCount();
+        if (!empty($this->o['apercu'])) {
+            // Extrait feuilleté en boutique : bandeau sur chaque page.
+            for ($p = 0; $p < $total; $p++) {
+                $l->page = $p;
+                $t = 'EXTRAIT · APERÇU DE VOTRE LIVRE · LE LIVRE COMPLET COMPTE ENVIRON 140 PAGES';
+                $w = $l->width($t, 'display-b', 7.5, 1.2) + 16;
+                $l->rect($l->pw / 2 - $w / 2, $this->b + 2 * self::MM, $w, 14, 'red');
+                $l->text($l->pw / 2 - $w / 2 + 8, $this->b + 2 * self::MM + 10, $t, 'display-b', 7.5, 'white', 1.2);
+            }
+        }
         for ($p = 0; $p < $total; $p++) {
             if (!empty($this->noFolio[$p])) {
                 continue;

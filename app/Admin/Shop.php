@@ -195,6 +195,10 @@ final class Shop extends Base
     {
         $out = [];
         foreach ($o['items'] as $it) {
+            if ($it['model'] === \App\Shop\BookShop::MODEL) {
+                $out[] = \App\Shop\BookShop::coverSvg($it['values']);
+                continue;
+            }
             $m = Catalog::find($it['model']);
             $sup = $m ? Catalog::support($m['support']) : null;
             if (!$m || !$sup) {
