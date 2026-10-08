@@ -29,7 +29,7 @@ final class Finds extends Base
         return self::html('admin/fiches/trouvailles', [
             'summary' => Trouvailles::summary(), 'list' => array_slice($list, ($page - 1) * $per, $per), 'total' => count($list),
             'page' => $page, 'pages' => max(1, (int) ceil(count($list) / $per)), 'status' => $status, 'origin' => $origin,
-            'admin' => \App\Core\Auth::isAdmin(), 'gemini' => Gemini::ready(), 'cron' => \App\Services\Cron::state(),
+            'admin' => \App\Core\Auth::isAdmin(), 'packs' => Trouvailles::packs()['packs'], 'gemini' => Gemini::ready(), 'cron' => \App\Services\Cron::state(),
         ], ['title' => 'Trouvailles (archives)', 'crumb' => 'Contenus', 'nav' => 'trouvailles', 'scripts' => ['admin/trouvailles.js']]);
     }
 
@@ -52,6 +52,16 @@ final class Finds extends Base
                 case 'retablir':
                     Trouvailles::restore($id, $item);
                     return self::back($back, 'Proposition remise en attente.');
+            }
+            if ($action === 'lots') {
+                if ($deny = self::denyUnlessAdmin()) {
+                    return $deny;
+                }
+                $r = Trouvailles::packs(true);
+                $n = array_sum(array_column($r['packs'], 'added'));
+                $miss = array_sum(array_map(fn ($p) => count($p['missing']), $r['packs']));
+                Activity::log(self::actor(), 'a importé ' . $n . ' trouvaille(s) de presse', null);
+                return self::back(self::BACK . '?source=presse', $n . ' proposition(s) de presse ajoutée(s)' . ($miss ? ' ; ' . $miss . ' sans fiche correspondante sur ce site (à créer d’abord)' : '') . '.');
             }
             // Recherches : coût IA, réservées aux administrateurs.
             if ($deny = self::denyUnlessAdmin()) {

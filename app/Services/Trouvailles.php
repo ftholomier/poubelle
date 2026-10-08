@@ -38,7 +38,9 @@ final class Trouvailles
 
     public const SOURCES = ['gallica' => 'Presse ancienne (Gallica, BnF)', 'web' => 'Web (Google, via Gemini)'];
     /** Origines des propositions (filtres et étiquettes) : les sources fouillées et les imports. */
-    public const ORIGINS = self::SOURCES + ['feuilles' => 'Feuilles de match (archives du club)'];
+    public const ORIGINS = self::SOURCES + ['feuilles' => 'Feuilles de match (archives du club)', 'presse' => 'Presse déposée (journaux lus par l’IA)'];
+    /** Lots de trouvailles préparés hors ligne (journaux déposés, lus et vérifiés) : un JSON par lot. */
+    public const PACKS = APP_ROOT . '/app/Resources/trouvailles';
     public const FIELDS = [
         'score' => 'Score', 'date' => 'Date', 'buteurs' => 'Buteurs', 'composition' => 'Composition', 'affluence' => 'Affluence',
         'arbitre' => 'Arbitre', 'stade' => 'Stade', 'recit' => 'Récit', 'info' => 'Information', 'piste' => 'Piste à consulter',
@@ -772,6 +774,67 @@ TXT;
         return self::store($id, array_values(array_filter($items, fn ($it) => isset(self::FIELDS[$it['field'] ?? '']))));
     }
 
+    /**
+     * Lots préparés (app/Resources/trouvailles/*.json) : [{source:{label,url,snippet}, items:[{cible, field, value}]}].
+     * Cible : {"id": n} ou {"personne": "Prénom Nom"} ou {"match": {"date": "AAAA-MM-JJ"}}, résolue sur ce site.
+     * Jamais deux fois la même proposition (relancer l'import ne double rien).
+     * @return array{packs:list<array{file:string,label:string,added:int,missing:list<string>}>}
+     */
+    public static function packs(bool $import = false): array
+    {
+        $out = [];
+        foreach (glob(self::PACKS . '/*.json') ?: [] as $f) {
+            $pack = json_decode((string) file_get_contents($f), true);
+            if (!is_array($pack)) {
+                continue;
+            }
+            $added = 0;
+            $missing = [];
+            $byId = [];
+            foreach ((array) ($pack['items'] ?? []) as $it) {
+                $id = self::resolve((array) ($it['cible'] ?? []));
+                if (!$id) {
+                    $missing[] = (string) json_encode($it['cible'] ?? [], JSON_UNESCAPED_UNICODE);
+                    continue;
+                }
+                $src = (array) ($it['source'] ?? $pack['source'] ?? []);
+                $byId[$id][] = ['field' => (string) $it['field'], 'value' => trim((string) $it['value']), 'current' => '', 'type' => in_array($it['field'], ['info', 'piste', 'recit'], true) ? $it['field'] : 'complement',
+                    'origin' => 'presse', 'sources' => [['label' => (string) ($src['label'] ?? 'Presse'), 'url' => (string) ($src['url'] ?? ''), 'snippet' => mb_substr((string) ($it['extrait'] ?? $src['snippet'] ?? ''), 0, 400), 'kind' => 'presse']]];
+            }
+            if ($import) {
+                foreach ($byId as $id => $items) {
+                    $added += self::propose($id, $items);
+                }
+            }
+            $out[] = ['file' => basename($f), 'label' => (string) ($pack['titre'] ?? basename($f)), 'count' => count((array) ($pack['items'] ?? [])), 'added' => $added, 'missing' => $missing];
+        }
+        return ['packs' => $out];
+    }
+
+    /** Fiche visée par une cible de lot : numéro, personne (nom exact, sans accents ni casse) ou match (date). */
+    private static function resolve(array $c): ?int
+    {
+        if (!empty($c['id']) && Index::get((int) $c['id'])) {
+            return (int) $c['id'];
+        }
+        if (!empty($c['personne'])) {
+            $want = self::norm((string) $c['personne']);
+            foreach (Index::all() as $e) {
+                if (($e['type'] ?? '') === 'personne' && (self::norm((string) ($e['p']['name'] ?? '')) === $want || self::norm((string) $e['title']) === $want)) {
+                    return (int) $e['id'];
+                }
+            }
+        }
+        if (!empty($c['match']['date'])) {
+            foreach (Index::all() as $e) {
+                if (($e['type'] ?? '') === 'match' && ($e['m']['date'] ?? '') === $c['match']['date']) {
+                    return (int) $e['id'];
+                }
+            }
+        }
+        return null;
+    }
+
     /** Deux valeurs équivalentes (casse, accents, ponctuation) ? */
     public static function same(string $a, string $b): bool
     {
@@ -835,7 +898,7 @@ TXT;
             throw new \RuntimeException('Valeur vide.');
         }
         $doc = Fiches::fresh($id);
-        if (!$doc || ($doc['type'] ?? '') !== 'match') {
+        if (!$doc || (($doc['type'] ?? '') !== 'match' && !in_array($it['field'], ['info', 'recit', 'piste'], true))) {
             throw new \RuntimeException('Fiche introuvable.');
         }
         $done = self::apply($doc, $it['field'], $value, $it['sources'], $it['origin'] ?? 'gallica');
