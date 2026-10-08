@@ -17,25 +17,45 @@ use App\Data\Names;
  */
 final class Palmares
 {
-    /** Titres de référence : [compétition, année de la saison (fin), statut]. */
+    /** Titres de référence (Wikipédia, palmarès du club, vérifié le 8 octobre 2026) : titre, finale (finaliste ou vice-champion), demi. */
     public const DEFAULT = [
         ['comp' => 'Championnat de France', 'year' => 1935, 'kind' => 'titre'],
         ['comp' => 'Championnat de France', 'year' => 1938, 'kind' => 'titre'],
-        ['comp' => 'Championnat de France de D2', 'year' => 1947, 'kind' => 'titre'],
-        ['comp' => 'Championnat de France de D2', 'year' => 1964, 'kind' => 'titre'],
-        ['comp' => 'Championnat de France de D2', 'year' => 2001, 'kind' => 'titre'],
+        ['comp' => 'Championnat de France', 'year' => 1937, 'kind' => 'finale'],
+        ['comp' => 'Championnat de France', 'year' => 1953, 'kind' => 'finale'],
+        ['comp' => 'Championnat de France', 'year' => 1980, 'kind' => 'finale'],
         ['comp' => 'Coupe de France', 'year' => 1937, 'kind' => 'titre'],
         ['comp' => 'Coupe de France', 'year' => 2007, 'kind' => 'titre'],
-        ['comp' => 'Coupe de la Ligue', 'year' => 2004, 'kind' => 'titre'],
-        ['comp' => 'Coupe Charles Drago', 'year' => 1953, 'kind' => 'titre'],
         ['comp' => 'Coupe de France', 'year' => 1959, 'kind' => 'finale'],
         ['comp' => 'Coupe de France', 'year' => 1967, 'kind' => 'finale'],
         ['comp' => 'Coupe de France', 'year' => 1988, 'kind' => 'finale'],
+        ['comp' => 'Coupe de la Ligue', 'year' => 2004, 'kind' => 'titre'],
         ['comp' => 'Coupe de la Ligue', 'year' => 2003, 'kind' => 'finale'],
+        ['comp' => 'Trophée des champions', 'year' => 2007, 'kind' => 'finale'],
+        ['comp' => 'Championnat de France de D2', 'year' => 1947, 'kind' => 'titre'],
+        ['comp' => 'Championnat de France de D2', 'year' => 2001, 'kind' => 'titre'],
+        ['comp' => 'Championnat de France de D2', 'year' => 1964, 'kind' => 'finale'],
+        ['comp' => 'Championnat de France de D2', 'year' => 1988, 'kind' => 'finale'],
+        ['comp' => 'Division 3 (équipe réserve)', 'year' => 1978, 'kind' => 'titre'],
+        ['comp' => 'Division 3 (équipe réserve)', 'year' => 1987, 'kind' => 'titre'],
+        ['comp' => 'Coupe UEFA', 'year' => 1981, 'kind' => 'demi'],
+        ['comp' => 'Coupe Intertoto', 'year' => 2002, 'kind' => 'demi'],
+        ['comp' => 'Coupe Gambardella', 'year' => 1983, 'kind' => 'titre'],
+        ['comp' => 'Coupe Gambardella', 'year' => 2007, 'kind' => 'titre'],
+        ['comp' => 'Coupe Gambardella', 'year' => 2015, 'kind' => 'titre'],
+        ['comp' => 'Coupe Gambardella', 'year' => 1975, 'kind' => 'finale'],
+        ['comp' => 'Coupe Gambardella', 'year' => 2010, 'kind' => 'finale'],
+        ['comp' => 'Coupe Charles Drago', 'year' => 1953, 'kind' => 'titre'],
+        ['comp' => 'Coupe Charles Drago', 'year' => 1963, 'kind' => 'titre'],
+        ['comp' => 'Coupe Charles Drago', 'year' => 1964, 'kind' => 'titre'],
+        ['comp' => 'Coupe Peugeot', 'year' => 1931, 'kind' => 'titre'],
+        ['comp' => 'Coupe des Alpes', 'year' => 1981, 'kind' => 'finale'],
+        ['comp' => 'Tournoi de Casablanca', 'year' => 1989, 'kind' => 'titre'],
+        ['comp' => 'Trophée Joan Gamper', 'year' => 1989, 'kind' => 'finale'],
     ];
 
     /** Ordre d'affichage des compétitions (les autres suivent, par ordre alphabétique). */
-    private const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Championnat de France de D2', 'Coupe Gambardella', 'Coupe Charles Drago'];
+    private const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Coupe UEFA', 'Coupe Intertoto', 'Championnat de France de D2', 'Division 3 (équipe réserve)', 'Coupe Gambardella', 'Coupe Charles Drago', 'Coupe Peugeot', 'Coupe des Alpes', 'Tournoi de Casablanca', 'Trophée Joan Gamper'];
 
     /** Finale d'une compétition (et pas un tour qui contient le mot « finale »). */
     public static function isFinal(string $round): bool
@@ -89,7 +109,7 @@ final class Palmares
                 'image' => $r['match'] && !Index::isPlaceholderImage((string) ($r['match']['image'] ?? '')) ? $r['match']['image'] : null,
             ];
             $groups[$r['comp']]['comp'] = $r['comp'];
-            $groups[$r['comp']][$r['kind'] === 'titre' ? 'titles' : 'finals'][] = $item;
+            $groups[$r['comp']][$r['kind'] === 'titre' ? 'titles' : ($r['kind'] === 'demi' ? 'semis' : 'finals')][] = $item;
         }
         uksort($groups, function ($a, $b) {
             $ia = array_search($a, self::ORDER, true);
@@ -98,14 +118,15 @@ final class Palmares
         });
         $count = ['titre' => 0, 'finale' => 0];
         foreach ($groups as &$g) {
-            $g += ['titles' => [], 'finals' => []];
+            $g += ['titles' => [], 'finals' => [], 'semis' => []];
+            $g['second'] = preg_match('/^(championnat|division)/i', $g['comp']) ? 'Vice-champion' : 'Finaliste';
             usort($g['titles'], fn ($a, $b) => $a['year'] <=> $b['year']);
             usort($g['finals'], fn ($a, $b) => $a['year'] <=> $b['year']);
             $count['titre'] += count($g['titles']);
             $count['finale'] += count($g['finals']);
         }
         unset($g);
-        return ['groups' => array_values(array_filter($groups, fn ($g) => $g['titles'] || $g['finals'])), 'count' => $count];
+        return ['groups' => array_values(array_filter($groups, fn ($g) => $g['titles'] || $g['finals'] || $g['semis'])), 'count' => $count];
     }
 
     private static function key(string $comp, int $year): string
@@ -131,7 +152,7 @@ final class Palmares
         $d = self::data();
         return Pages::render('palmares', $d, [
             'title' => t('Palmarès du FC Sochaux-Montbéliard'),
-            'description' => t('Les titres et les finales du FC Sochaux-Montbéliard depuis 1928 : championnats, Coupes de France, Coupe de la Ligue…'),
+            'description' => t('Les titres, finales et places d’honneur du FC Sochaux-Montbéliard depuis 1928 : championnats, Coupes de France, Coupe de la Ligue, Gambardella, Coupe Drago…'),
             'active' => 'interactif',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
         ]);

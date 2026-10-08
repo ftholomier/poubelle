@@ -6,7 +6,7 @@
     <nav class="crumbs" aria-label="<?= e(t("Fil d'Ariane")) ?>"><a href="<?= e(url('/')) ?>"><?= e(t('Accueil')) ?></a><span aria-hidden="true">/</span><a href="<?= e(url('/interactif/')) ?>"><?= e(t('Interactif')) ?></a><span aria-hidden="true">/</span><span aria-current="page"><?= e(t('Palmarès')) ?></span></nav>
     <span class="eyebrow eyebrow--lg" style="color:var(--navy)"><?= e(t('Depuis 1928')) ?></span>
     <h1 class="rhead__title"><?= e(t('Le palmarès')) ?><br><?= e(t('des Lionceaux')) ?></h1>
-    <p class="pal__sum"><b><?= (int) $count['titre'] ?></b> <?= e(t('titres')) ?> · <b><?= (int) $count['finale'] ?></b> <?= e(t('autres finales')) ?></p>
+    <p class="pal__sum"><b><?= (int) $count['titre'] ?></b> <?= e(t('titres')) ?> · <b><?= (int) $count['finale'] ?></b> <?= e(t('finales et places de vice-champion')) ?></p>
   </div>
 </section>
 <div class="wrap rbody pal">
@@ -25,11 +25,14 @@
     </div>
     <?php endif; ?>
     <?php if ($g['finals']): ?>
-    <p class="pal__fin"><b><?= e(t('Finaliste')) ?> :</b> <?php foreach ($g['finals'] as $i => $it): ?><?= $i ? ', ' : '' ?><a href="<?= e($it['href'] ?? $it['seasonHref']) ?>"><?= (int) $it['year'] ?></a><?php endforeach; ?></p>
+    <p class="pal__fin"><b><?= e(t($g['second'])) ?> :</b> <?php foreach ($g['finals'] as $i => $it): ?><?= $i ? ', ' : '' ?><a href="<?= e($it['href'] ?? $it['seasonHref']) ?>"><?= (int) $it['year'] ?></a><?php endforeach; ?></p>
+    <?php endif; ?>
+    <?php if ($g['semis']): ?>
+    <p class="pal__fin"><b><?= e(t('Demi-finaliste')) ?> :</b> <?php foreach ($g['semis'] as $i => $it): ?><?= $i ? ', ' : '' ?><a href="<?= e($it['href'] ?? $it['seasonHref']) ?>"><?= (int) $it['year'] ?></a><?php endforeach; ?></p>
     <?php endif; ?>
   </section>
   <?php endforeach; ?>
-  <p class="muted small"><?= e(t('Titres de référence complétés automatiquement par les finales des fiches matchs du musée. Une erreur, un trophée oublié ? Écrivez-nous.')) ?> <a href="<?= e(url('/contact/')) ?>"><?= e(t('Contact')) ?></a></p>
+  <p class="muted small"><?= e(t('Palmarès de référence (d’après Wikipédia, vérifié par le musée) complété automatiquement par les finales des fiches matchs. Une erreur, un trophée oublié ? Écrivez-nous.')) ?> <a href="<?= e(url('/contact/')) ?>"><?= e(t('Contact')) ?></a></p>
 </div>
 <style>
 .pal{display:flex;flex-direction:column;gap:40px;padding-bottom:60px}
