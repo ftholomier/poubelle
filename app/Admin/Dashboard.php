@@ -218,7 +218,7 @@ final class Dashboard extends Base
             $skipped += $x['skipped'];
             $fiches += $x['applied'] ? 1 : 0;
         }
-        \App\Services\Activity::log(self::actor(), 'a appliqué ' . $applied . ' correction(s) d’orthographe dans ' . $fiches . ' fiche(s)', null);
+        Activity::log(self::actor(), 'a appliqué ' . $applied . ' correction(s) d’orthographe dans ' . $fiches . ' fiche(s)', null);
         return self::back('/admin/qualite?cat=orthographe', $applied . ' correction(s) appliquée(s) dans ' . $fiches . ' fiche(s)' . ($skipped ? ' ; ' . $skipped . ' laissée(s) de côté (texte modifié depuis, ou passage à cheval sur une mise en forme) : à faire à la main dans la fiche' : '') . '. Les fiches corrigées sont revérifiées par la tâche de fond.');
     }
 
