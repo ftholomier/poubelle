@@ -28,7 +28,7 @@
     return `<svg xmlns="http://www.w3.org/2000/svg" width="280" height="350" viewBox="0 0 280 350">
 <style>@font-face{font-family:BS;src:url(${f}) format('woff2');font-weight:900}text{font-family:BS;font-weight:900;text-anchor:middle}</style>
 <defs><path id="arc" d="M20 78 Q140 40 260 78"/></defs>
-${name ? `<text font-size="${fs}" letter-spacing="3" fill="#${st.text}"><textPath href="#arc" startOffset="50%">${esc(name)}</textPath></text>` : ''}
+${name ? `<text font-size="${fs}" letter-spacing="3" fill="#${st.name || st.text}"><textPath href="#arc" startOffset="50%">${esc(name)}</textPath></text>` : ''}
 ${num ? `<text x="140" y="300" font-size="230" fill="#${st.text}" stroke="#${st.edge}" stroke-width="7" paint-order="stroke" stroke-linejoin="round">${esc(num)}</text>` : ''}
 </svg>`;
   }
