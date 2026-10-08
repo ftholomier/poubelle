@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Data\Categories;
 use App\Data\Fiches;
 use App\Data\Index;
+use App\Data\Names;
 use App\Data\Paths;
 
 /**
@@ -96,7 +97,146 @@ final class GrandsRecits
             Fiches::save($doc, $user ?? self::AUTHOR, 'Création du grand récit');
             $n++;
         }
+        if ($n) {
+            self::illustrate($user);
+        }
         return $n;
+    }
+
+    /** Photos par récit (au plus), et qualité minimale des images d'archives. */
+    public const MAX_PHOTOS = 8;
+
+    /**
+     * Illustre les récits : complète la galerie de chaque récit (sans rien retirer) avec les photos
+     * des fiches qu'il cite (matchs liés, joueurs nommés) et les images du catalogue des archives de
+     * la même époque et du même sujet. Jamais d'image de presse. @return array{recits:int,photos:int}
+     */
+    public static function illustrate(?array $user = null): array
+    {
+        $index = Index::all();
+        $byPath = [];
+        $people = [];
+        foreach ($index as $e) {
+            $byPath[$e['path'] ?? ''] = $e;
+            if (($e['type'] ?? '') === 'personne' && Index::visible($e) && !empty($e['image']) && !Index::isPlaceholderImage($e['image'])) {
+                $name = trim((string) ($e['p']['name'] ?? ''));
+                if (mb_strlen($name) >= 6 && str_contains($name, ' ')) {
+                    $people[$name] = $e;
+                }
+            }
+        }
+        // Images d'archives déjà déposées, utilisables (pas de presse, pas floues).
+        $archives = [];
+        $state = Catalogue::state()['items'];
+        foreach (Catalogue::items() as $md5 => $it) {
+            $file = $state[$md5]['file'] ?? null;
+            if (!$file || ($state[$md5]['status'] ?? '') === 'ecarte' || in_array($it['rights'] ?? '', ['presse', 'photographe'], true)
+                || ($it['quality'] ?? '') === 'faible' || !empty($it['duplicate_of']) || !\App\Data\Media::get($file)) {
+                continue;
+            }
+            $archives[] = $it + ['file' => $file];
+        }
+        $done = ['recits' => 0, 'photos' => 0];
+        foreach (self::all() as $r) {
+            $id = self::existing($r['key']);
+            $doc = $id ? Fiches::get($id) : null;
+            if (!$doc) {
+                continue;
+            }
+            $have = array_column((array) ($doc['gallery'] ?? []), 'image');
+            $room = self::MAX_PHOTOS - count($have);
+            if ($room <= 0) {
+                continue;
+            }
+            $html = implode(' ', array_column((array) $doc['sections'], 'html')) . ' ' . $doc['intro'];
+            $text = html_entity_decode(strip_tags($html), ENT_QUOTES, 'UTF-8');
+            $add = [];
+            $push = function (?string $img, string $caption, string $credit) use (&$add, $have) {
+                if (!$img || in_array($img, $have, true) || isset($add[$img]) || Index::isPlaceholderImage($img) || self::press($credit . ' ' . $caption)) {
+                    return;
+                }
+                $add[$img] = ['image' => $img, 'caption' => $caption, 'credit' => $credit, 'caption_raw' => $caption . ($credit !== '' ? ' – ' . $credit : '')];
+            };
+            // 1. Matchs liés dans le texte : photo principale puis galerie.
+            preg_match_all('#href="(/matchs/[^"]+)"#', $html, $mm);
+            foreach (array_unique($mm[1]) as $path) {
+                $e = $byPath[$path] ?? null;
+                $m = $e ? Fiches::get((int) $e['id']) : null;
+                if (!$m) {
+                    continue;
+                }
+                $label = (string) $m['title'];
+                $push($m['featured_image'] ?? null, \App\Data\Media::caption($m['featured_image'] ?? null, $label), (string) (\App\Data\Media::get($m['featured_image'] ?? null)['credit'] ?? ''));
+                foreach (array_slice((array) ($m['gallery'] ?? []), 0, 2) as $g) {
+                    $push($g['image'] ?? null, (string) (($g['caption'] ?? '') ?: $label), (string) ($g['credit'] ?? ''));
+                }
+            }
+            // 2. Archives de la même époque et du même sujet.
+            [$from, $to] = self::span($r);
+            $hints = array_map('mb_strtolower', (array) ($r['image_hint'] ?? []));
+            $scored = [];
+            foreach ($archives as $it) {
+                $y = (int) substr((string) ($it['date'] ?? ''), 0, 4) ?: (int) ($it['decade'] ?? 0);
+                $hay = mb_strtolower(implode(' ', [(string) $it['title'], (string) $it['caption'], (string) ($it['summary'] ?? ''), implode(' ', (array) ($it['topics'] ?? [])), implode(' ', (array) ($it['persons'] ?? []))]));
+                $hit = count(array_filter($hints, fn ($h) => $h !== '' && str_contains($hay, $h)));
+                $inTime = $y && $y >= $from - 1 && $y <= $to + 1;
+                if ($inTime && ($hit || ($it['type'] ?? '') === 'photo') || (!$y && $hit >= 2)) {
+                    $scored[] = [($inTime ? 2 : 0) + $hit + (($it['type'] ?? '') === 'photo' ? 1 : 0), $it];
+                }
+            }
+            usort($scored, fn ($a, $b) => $b[0] <=> $a[0]);
+            foreach (array_slice($scored, 0, 4) as [, $it]) {
+                $mm2 = \App\Data\Media::get($it['file']);
+                $push($it['file'], (string) ($mm2['caption'] ?? $it['caption']), (string) ($mm2['credit'] ?? ''));
+            }
+            // 3. Portraits des joueurs nommés dans le récit.
+            foreach ($people as $name => $e) {
+                if (count($add) >= $room + 2) {
+                    break;
+                }
+                if (mb_stripos($text, $name) !== false) {
+                    $push($e['image'], $name, (string) (\App\Data\Media::get($e['image'])['credit'] ?? ''));
+                }
+            }
+            $add = array_slice(array_values($add), 0, $room);
+            if (!$add) {
+                continue;
+            }
+            $doc['gallery'] = array_merge((array) ($doc['gallery'] ?? []), $add);
+            if (empty($doc['featured_image'])) {
+                $doc['featured_image'] = $add[0]['image'];
+            }
+            Fiches::save($doc, $user ?? self::AUTHOR, 'Photos ajoutées au récit (' . count($add) . ')');
+            $done['recits']++;
+            $done['photos'] += count($add);
+        }
+        return $done;
+    }
+
+    /** Crédit ou légende de presse (agences, journaux nationaux et régionaux) : image écartée des récits. */
+    public static function press(string $text): bool
+    {
+        if (trim($text) === '') {
+            return false;
+        }
+        if (PhotoWall::risky($text) !== null) {
+            return true;
+        }
+        $t = mb_strtolower(Names::ascii($text));
+        foreach (['est republicain', 'le pays', 'l equipe', 'lequipe', 'france football', 'miroir', 'onze', 'paris match', 'ouest france', 'getty', 'panoramic', 'icon sport', 'maxppp', 'dppi', 'presse'] as $w) {
+            if (str_contains(' ' . preg_replace('/[^a-z0-9]+/', ' ', $t) . ' ', ' ' . $w . ' ')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Années couvertes par un récit, d'après son titre (« … 1952 – 1953 ») ou son année. */
+    public static function span(array $r): array
+    {
+        preg_match_all('/\b(19\d{2}|20\d{2})\b/', (string) $r['title'], $m);
+        $ys = array_map('intval', $m[1]) ?: [(int) ($r['year'] ?? 0)];
+        return [min($ys), max($ys)];
     }
 
     /** {{match:AAAA-MM-JJ|texte}} → lien vers la fiche du match de Sochaux ce jour-là (sinon le texte seul). */

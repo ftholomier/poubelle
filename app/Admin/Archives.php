@@ -73,6 +73,12 @@ final class Archives extends Base
                     $n = \App\Services\GrandsRecits::create($user);
                     Activity::log($user, 'a créé ' . $n . ' grand(s) récit(s)', null);
                     return self::back($back, $n ? $n . ' grand(s) récit(s) créé(s) dans la rubrique « Grands récits ». Rangez-y maintenant les images proposées.' : 'Tous les grands récits existent déjà.');
+                case 'illustrer':
+                    if ($r = self::denyUnlessAdmin()) {
+                        return $r;
+                    }
+                    $r = \App\Services\GrandsRecits::illustrate($user);
+                    return self::back($back, $r['photos'] ? $r['photos'] . ' photo(s) ajoutée(s) à ' . $r['recits'] . ' récit(s). Rien n’est retiré : retouchez les galeries en relisant les récits.' : 'Aucune nouvelle photo à proposer pour l’instant (déposez d’abord les archives).');
                 case 'ecarter':
                     Catalogue::reject($req->str('md5'));
                     return self::back($back, 'Image écartée.');
