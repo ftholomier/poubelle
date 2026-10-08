@@ -101,14 +101,14 @@
     const front = await snapshot(spec({ coeur: { w: 62, h: 70, x: 78, y: 600, svg: heart } }), opt([0.28, 0.06]));
     return { front, back };
   }
-  const jIn = () => ({ style: (q('[name="livre[maillot_style]"]') || {}).value || '', name: ((q('[name="livre[maillot_nom]"]') || {}).value || '').trim().toUpperCase(), num: ((q('[name="livre[maillot_numero]"]') || {}).value || '').replace(/\D/g, '').slice(0, 2) });
+  const jIn = () => ({ style: (q('[name="livre[maillot_style]"]:checked') || q('select[name="livre[maillot_style]"]') || {}).value || '', name: ((q('[name="livre[maillot_nom]"]') || {}).value || '').trim().toUpperCase(), num: ((q('[name="livre[maillot_numero]"]') || {}).value || '').replace(/\D/g, '').slice(0, 2) });
   const jBox = root.querySelector('[data-book-jersey]');
   let jTimer = null, jSig = '', jDone = '';
   const jPreview = () => {
     clearTimeout(jTimer);
     jTimer = setTimeout(async () => {
       const j = jIn();
-      if (!j.style || (!j.name && !j.num)) { if (jBox) jBox.hidden = true; return; }
+      if (!j.style) { if (jBox) jBox.hidden = true; jSig = ''; return; }
       const sig = JSON.stringify(j);
       if (sig === jSig) return;
       jSig = sig;
@@ -123,7 +123,7 @@
       } catch (e) { console.error(e); }
     }, 700);
   };
-  form.querySelectorAll('[data-book-jersey-in]').forEach(i => i.addEventListener('input', jPreview));
+  form.querySelectorAll('[data-book-jersey-in]').forEach(i => { i.addEventListener('input', jPreview); i.addEventListener('change', jPreview); });
   jPreview();
 
   // ---------------------------------------------------------------- envoi du formulaire

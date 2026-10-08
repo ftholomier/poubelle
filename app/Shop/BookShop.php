@@ -287,6 +287,81 @@ final class BookShop
             . '<text x="22" y="249" font-family="Big Shoulders Display,Impact,sans-serif" font-weight="900" font-size="10" fill="#0E1F4D">' . $nom . '</text></svg>';
     }
 
+    /** Vignette d'un maillot du livre (SVG à plat, devant ; couleurs, col, motif d'après Livre::JERSEYS). */
+    public static function jerseySvg(array $j, string $uid = 'j'): string
+    {
+        $c = fn (?string $h, string $d = 'F6C400') => '#' . preg_replace('/[^0-9A-Fa-f]/', '', $h ?: $d);
+        $body = $c($j['body'] ?? null);
+        $shade = $c($j['shade'] ?? null, 'D9A800');
+        $trim = $c($j['trim'] ?? null, '0E1F4D');
+        $sleeve = $c($j['sleeve'] ?? null, ltrim($body, '#'));
+        $torso = 'M26 10 L39 5 Q50 15 61 5 L74 10 L76 36 L78 104 L22 104 L24 36 Z';
+        $sl = 'M26 10 L2 30 L12 46 L24 37 Z';
+        $sr = 'M74 10 L98 30 L88 46 L76 37 Z';
+        $id = 'jc' . preg_replace('/[^a-z0-9]/i', '', $uid);
+        $in = '';
+        foreach ($j['layers'] ?? [] as $l) {
+            $lc = $c($l['color'] ?? null, ltrim($trim, '#'));
+            switch ($l['t'] ?? '') {
+                case 'checker':
+                    $y0 = 6 + 98 * ($l['y0'] ?? .2);
+                    $h = 98 * (($l['y1'] ?? .4) - ($l['y0'] ?? .2)) / 2;
+                    $n = max(4, (int) ($l['n'] ?? 12));
+                    $w = 56 / $n;
+                    for ($r = 0; $r < 2; $r++) {
+                        for ($k = $r % 2; $k < $n; $k += 2) {
+                            $in .= '<rect x="' . round(22 + $k * $w, 2) . '" y="' . round($y0 + $r * $h, 2) . '" width="' . round($w, 2) . '" height="' . round($h, 2) . '" fill="' . $lc . '"/>';
+                        }
+                    }
+                    break;
+                case 'hstripes':
+                    $n = max(4, (int) ($l['n'] ?? 20));
+                    $step = 98 / $n;
+                    for ($k = 0; $k < $n; $k++) {
+                        $in .= '<rect x="0" y="' . round(6 + $k * $step, 2) . '" width="100" height="' . round(max(.5, $step * ($l['w'] ?? .1) * 3), 2) . '" fill="' . $lc . '"/>';
+                    }
+                    break;
+                case 'chevrons':
+                    for ($k = 0; $k < min(5, (int) ($l['n'] ?? 5)); $k++) {
+                        $y = 34 + $k * 7;
+                        $in .= '<path d="M30 ' . $y . ' L50 ' . ($y + 9) . ' L70 ' . $y . '" fill="none" stroke="' . $lc . '" stroke-width="2.2"/>';
+                    }
+                    break;
+                case 'side':
+                    $w = max(4, (0.5 - ($l['x'] ?? .38)) * 70);
+                    $in .= '<rect x="0" y="0" width="' . (22 + $w) . '" height="110" fill="' . $lc . '"/><rect x="' . (78 - $w) . '" y="0" width="40" height="110" fill="' . $lc . '"/>';
+                    break;
+                case 'yoke':
+                    $in .= '<path d="M0 0 H100 V24 Q50 32 0 24 Z" fill="' . $lc . '"/>';
+                    break;
+            }
+        }
+        $raglan = '';
+        $yoke = false;
+        foreach ($j['layers'] ?? [] as $l) {
+            if (($l['t'] ?? '') === 'raglan') {
+                $lc = $c($l['color'] ?? null, ltrim($body, '#'));
+                $raglan = '<path d="M27 11 L5 31 M73 11 L95 31" stroke="' . $lc . '" stroke-width="2.6"/>';
+            }
+            if (($l['t'] ?? '') === 'yoke' || ($l['t'] ?? '') === 'side') {
+                $yoke = $yoke ?: $c($l['color'] ?? null);
+            }
+        }
+        $sleeveFill = ($j['sleeve'] ?? null) ? $sleeve : (($j['layers'][0]['t'] ?? '') === 'yoke' ? $yoke : $body);
+        $collar = match ($j['collar'] ?? 'crew') {
+            'v' => '<path d="M39 5 L50 20 L61 5" fill="none" stroke="' . $trim . '" stroke-width="3" stroke-linejoin="round"/>',
+            'polo' => '<path d="M39 5 L50 15 L61 5" fill="none" stroke="' . $trim . '" stroke-width="2"/><path d="M39 5 L33 15 L47 16 Z M61 5 L67 15 L53 16 Z" fill="' . $trim . '"/><path d="M50 15 V27" stroke="' . $trim . '" stroke-width="1.6"/><circle cx="50" cy="20" r=".9" fill="' . $body . '"/><circle cx="50" cy="24" r=".9" fill="' . $body . '"/>',
+            'lace' => '<path d="M39 5 Q50 13 61 5" fill="none" stroke="' . $trim . '" stroke-width="2.6"/><path d="M48 9 V25 M52 9 V25" stroke="' . $trim . '" stroke-width="1"/><path d="M48 12 L52 15 M52 12 L48 15 M48 18 L52 21 M52 18 L48 21" stroke="' . $trim . '" stroke-width=".8"/>',
+            default => '<path d="M39 5 Q50 15 61 5" fill="none" stroke="' . $trim . '" stroke-width="3.2"/>',
+        };
+        $cuffs = !empty($j['cuffs']) ? '<path d="M3.6 32.6 L13.6 44.6 M96.4 32.6 L86.4 44.6" stroke="' . $trim . '" stroke-width="3.2"/>' : '';
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 108" role="img" aria-label="' . e((string) ($j['label'] ?? 'Maillot')) . '"><defs><clipPath id="' . $id . '"><path d="' . $torso . '"/></clipPath>'
+            . '<linearGradient id="' . $id . 'g" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".14"/><stop offset=".22" stop-color="#000" stop-opacity="0"/><stop offset=".78" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient></defs>'
+            . '<path d="' . $sl . '" fill="' . $sleeveFill . '" stroke="' . $shade . '" stroke-width=".8"/><path d="' . $sr . '" fill="' . $sleeveFill . '" stroke="' . $shade . '" stroke-width=".8"/>' . $raglan . $cuffs
+            . '<path d="' . $torso . '" fill="' . $body . '"/><g clip-path="url(#' . $id . ')">' . $in . '<rect width="100" height="110" fill="url(#' . $id . 'g)"/></g>'
+            . '<path d="' . $torso . '" fill="none" stroke="' . $shade . '" stroke-width=".8"/>' . $collar . '</svg>';
+    }
+
     /** Article numérique (livre PDF : ni impression ni expédition). */
     public static function digital(array $it): bool
     {

@@ -46,8 +46,26 @@ use App\Pdf\Livre;
   <div class="row" style="gap:12px;flex-wrap:wrap">
     <label class="f"><span class="f__k">Maillot : nom floqué</span><input name="maillot_nom" maxlength="14" placeholder="LUCAS"></label>
     <label class="f"><span class="f__k">Numéro</span><input name="maillot_numero" maxlength="2" inputmode="numeric" placeholder="10" style="width:80px"></label>
-    <label class="f"><span class="f__k">Maillot inspiré de</span><select name="maillot_style"><?php $valid = Livre::jerseysValid(); foreach (Livre::JERSEYS as $k => $j): ?><option value="<?= e($k) ?>"><?= e($j['label']) ?><?= isset($valid[$k]) ? '' : ' (à vérifier : épreuve seulement)' ?></option><?php endforeach; ?></select> <a class="xs" href="/admin/maillots">Valider les maillots</a></label>
   </div>
+  <div class="f"><span class="f__k">Maillot inspiré de <a class="xs" href="/admin/maillots">valider les maillots</a></span>
+    <div class="jypick" role="radiogroup">
+      <?php $valid = Livre::jerseysValid(); $first = true; foreach (Livre::JERSEYS as $k => $j): [$era, $what] = array_pad(explode(' · ', $j['label'], 2), 2, ''); ?>
+      <label class="jypick__i" title="<?= e($j['label']) ?>"><input type="radio" name="maillot_style" value="<?= e($k) ?>"<?= $first ? ' checked' : '' ?>><span class="jypick__img"><?= \App\Shop\BookShop::jerseySvg($j, 'a' . $k) ?></span><b><?= e($era) ?></b><small><?= e($what) ?></small><?php if (!isset($valid[$k])): ?><em>à vérifier : épreuve seulement</em><?php endif; ?></label>
+      <?php $first = false; endforeach; ?>
+    </div>
+  </div>
+<style>
+.jypick{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.jypick__i{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:6px;border:2px solid var(--line,#ddd);background:#fff;cursor:pointer;font-size:12px;line-height:1.2}
+.jypick__i:hover{border-color:var(--navy,#0E1F4D)}
+.jypick__i input{position:absolute;opacity:0}
+.jypick__img{display:grid;place-items:center;width:100%;aspect-ratio:1/1;background:#F3EDDF}
+.jypick__img svg{width:80%;height:auto}
+.jypick__i small{opacity:.7}
+.jypick__i em{font-style:normal;font-size:10.5px;color:#a33}
+.jypick__i:has(input:checked){border-color:var(--navy,#0E1F4D);box-shadow:3px 3px 0 var(--yellow,#F6C400);background:#FFF8DA}
+.jypick__i:has(input:focus-visible){outline:3px solid #1F3FA8}
+</style>
   <label class="row" style="gap:6px"><input type="checkbox" name="qr" value="1" checked> QR code de chaque récit vers sa page au musée</label>
   <div class="f"><span class="f__k">Photo de couverture</span>
     <div class="row" style="gap:10px;flex-wrap:wrap">

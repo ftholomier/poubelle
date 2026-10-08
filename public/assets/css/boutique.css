@@ -238,3 +238,21 @@
 .shopchoice small{display:block;color:var(--muted,#3A4A75)}
 .shopbook__actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
 @media (max-width:600px){.shopbook__row{grid-template-columns:1fr}}
+
+/* Livre : étapes numérotées et choix visuel du maillot */
+.shopbook .shopopt legend{display:flex;align-items:center;gap:8px;font-weight:800}
+.shopbook .shopopt legend small{font-weight:400;opacity:.65}
+.shopbook__n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--navy,#0E1F4D);color:var(--yellow,#F6C400);font-size:.85rem}
+.shopbook__jerseys{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;margin-bottom:10px}
+.shopbook__jy{position:relative;display:flex;flex-direction:column;cursor:pointer;border:2px solid rgba(14,31,77,.15);background:#fff;padding:6px 6px 8px;transition:border-color .15s,transform .15s}
+.shopbook__jy:hover{border-color:var(--navy,#0E1F4D);transform:translateY(-2px)}
+.shopbook__jy input{position:absolute;opacity:0}
+.shopbook__jy-img{display:grid;place-items:center;aspect-ratio:1/1;background:#F3EDDF}
+.shopbook__jy-img svg{width:82%;height:auto}
+.shopbook__jy-none{font-size:.8rem;color:#5a6070;text-align:center}
+.shopbook__jy-t{margin-top:5px;font-size:.78rem;line-height:1.2;text-align:center}
+.shopbook__jy-t small{display:block;opacity:.7}
+.shopbook__jy:has(input:checked){border-color:var(--navy,#0E1F4D);box-shadow:3px 3px 0 var(--yellow,#F6C400);background:#FFF8DA}
+.shopbook__jy:has(input:checked)::after{content:"✓";position:absolute;top:4px;right:6px;font-weight:900;color:var(--navy,#0E1F4D)}
+.shopbook__jy:has(input:focus-visible){outline:3px solid var(--blue,#1F3FA8)}
+@media (min-width:900px){.shopbook .shopprod__view{position:sticky;top:90px;align-self:start}}
