@@ -72,6 +72,8 @@ final class Book extends Base
             'numero' => mb_substr(trim((string) ($req->post['numero'] ?? '')), 0, 12),
             'depuis' => (int) ($req->post['depuis'] ?? 0),
             'couverture' => (string) ($req->post['couverture'] ?? ''),
+            'match' => (int) preg_replace('/\D/', '', (string) ($req->post['match'] ?? '')),
+            'joueurs' => array_slice(array_values(array_filter(array_map('intval', preg_split('/\D+/', (string) ($req->post['joueurs'] ?? '')) ?: []))), 0, 3),
             'relire' => !empty($req->post['relire']),
             'decennies' => $dec,
         ];

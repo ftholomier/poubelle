@@ -29,6 +29,10 @@ use App\Pdf\Livre;
     <label class="f"><span class="f__k">Signature de la dédicace</span><input name="signature" maxlength="80" placeholder="Papa, Noël 2026"></label>
     <label class="f"><span class="f__k">Supporter depuis (année)</span><input name="depuis" type="number" min="1928" max="<?= (int) date('Y') ?>" placeholder="1998"></label>
   </div>
+  <div class="row" style="gap:12px;flex-wrap:wrap">
+    <label class="f"><span class="f__k">Option « Mon match » : n° de la fiche du match</span><input name="match" inputmode="numeric" placeholder="14188"></label>
+    <label class="f"><span class="f__k">Option « Mes joueurs » : n° de 1 à 3 fiches joueurs</span><input name="joueurs" placeholder="10258, 4901, 9357"></label>
+  </div>
   <div class="f"><span class="f__k">Photo de couverture</span>
     <div class="row" style="gap:10px;flex-wrap:wrap">
       <label class="row" style="gap:6px"><input type="radio" name="couverture" value="" checked> Couverture graphique (sans photo)</label>

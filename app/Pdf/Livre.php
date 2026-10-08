@@ -48,7 +48,7 @@ final class Livre
     private string $cache;
 
     /**
-     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,relire?:bool,decennies?:list<int>,limite?:int} $o
+     * @param array{nom?:string,dedicace?:string,signature?:string,numero?:string,depuis?:int,couverture?:string,match?:int,joueurs?:list<int>,relire?:bool,decennies?:list<int>,limite?:int} $o
      */
     public function __construct(private array $o = [])
     {
@@ -106,6 +106,8 @@ final class Livre
         $this->blank();
         $this->coverCredit();
         $this->dedication();
+        $this->myMatch((int) ($this->o['match'] ?? 0));
+        $this->myPlayers(array_slice(array_map('intval', (array) ($this->o['joueurs'] ?? [])), 0, 3));
         $tocFirst = $this->l->pdf->pageCount();
         $count = array_sum(array_map('count', $groups));
         $tocPages = max(1, (int) ceil(($count + 2 * count($groups)) / 40));
@@ -387,6 +389,140 @@ final class Livre
         if (($num = trim((string) ($this->o['numero'] ?? ''))) !== '') {
             $t = 'EXEMPLAIRE N° ' . $num;
             $l->text($x + $w - $l->width($t, 'display-b', 8.5, 1.8), $yy + 14, $t, 'display-b', 8.5, 'muted', 1.8);
+        }
+    }
+
+
+    /** Fiche publiée d'un type donné, ou null. */
+    private static function fiche(int $id, string $type): ?array
+    {
+        $d = $id > 0 ? Fiches::get($id) : null;
+        return $d && ($d['type'] ?? '') === $type && ($d['status'] ?? '') === 'publie' ? $d : null;
+    }
+
+    /** Option « Mon match » : une page sur le match choisi par le client (données de la fiche, rien d'inventé). */
+    private function myMatch(int $id): void
+    {
+        $doc = self::fiche($id, 'match');
+        $m = $doc['match'] ?? null;
+        if (!$m) {
+            return;
+        }
+        $l = $this->l;
+        $mm = self::MM;
+        $p = $this->page();
+        $this->noFolio[$p] = true;
+        $this->dark[$p] = true;
+        $l->rect(0, 0, $l->pw, $l->ph, 'navy');
+        [$x, $w] = $this->frame($p);
+        $y = $this->b + 70 * $mm;
+        // Photo du match en haut si elle est assez définie (pleine largeur à fonds perdus)
+        $ph = $this->photos($doc)[0] ?? null;
+        $img = $ph ? $this->prepare($ph['rel'], $l->pw, $this->b + 100 * $mm, self::DPI['bandeau']) : null;
+        if ($img) {
+            $l->drawImage($l->loadImage($this->fade($img['file'], 0.86)), 0, 0, $l->pw, $this->b + 100 * $mm, true);
+            $y = $this->b + 88 * $mm;
+        }
+        $l->text($x, $y, 'MON MATCH', 'display-b', 11, 'yellow', 3);
+        $date = (string) ($m['date'] ?? '');
+        $comp = (string) ($m['competition_label'] ?? $m['competition'] ?? '');
+        $round = (string) ($m['round_text'] ?? '');
+        $sub = trim(($date !== '' ? date_fr($date, true) : '') . ' · ' . ($round !== '' && mb_stripos($round, $comp) !== false ? $round : trim($comp . ' ' . $round)), ' ·');
+        $l->text($x, $y + 18, $sub, 'serif-i', 12, 'cream');
+        $y += 40;
+        $sc = $m['score'] ?? [];
+        $home = (string) ($m['home']['name'] ?? '');
+        $away = (string) ($m['away']['name'] ?? '');
+        foreach ([[$home, $sc['home'] ?? ''], [$away, $sc['away'] ?? '']] as [$team, $g]) {
+            $t = $l->fit(mb_strtoupper($team), 'display', 40, $w - 70, 0.3);
+            $l->text($x, $y + 38, $t, 'display', 40, $team === 'Sochaux' || str_contains($team, 'Sochaux') ? 'yellow' : 'white', 0.3);
+            $gs = (string) $g;
+            $l->text($x + $w - $l->width($gs, 'display', 48), $y + 40, $gs, 'display', 48, 'white');
+            $y += 50;
+        }
+        if (!empty($sc['pens'])) {
+            $l->text($x, $y + 6, 'Tirs au but : ' . (is_array($sc['pens']) ? implode('-', $sc['pens']) : (string) $sc['pens']), 'serif-i', 11, 'cream');
+            $y += 16;
+        }
+        $l->rect($x, $y + 6, $w, 1.2, 'yellow');
+        $y += 22;
+        $facts = array_filter([
+            'Stade' => (string) ($m['stadium'] ?? ''),
+            'Spectateurs' => !empty($m['spectators']) ? number_format((int) $m['spectators'], 0, ',', ' ') : '',
+            'Arbitre' => (string) ($m['referee'] ?? ''),
+            'Buts' => implode(' ; ', array_filter(array_map(fn ($g) => trim(($g['team'] ?? '') . ' : ' . ($g['scorers'] ?? ''), ' :'), (array) ($m['goals'] ?? [])))),
+        ]);
+        foreach ($facts as $k => $v) {
+            $lines = $l->wrap([Layout::run(mb_strtoupper($k) . '   ', 'display-b', 9, 'yellow', null, 1.5), Layout::run($v, 'serif', 11, 'white')], $w, 1.4);
+            $y += $l->drawLines($lines, $x, $y, $w) + 4;
+        }
+        $rows = (array) ($m['lineup']['rows'] ?? []);
+        if ($rows) {
+            $y += 10;
+            $l->text($x, $y + 10, 'LA COMPOSITION SOCHALIENNE', 'display-b', 9, 'yellow', 1.5);
+            $y += 18;
+            $names = array_map(fn ($r) => trim(($r['position'] ?? '') . ' ' . ($r['name'] ?? '')) . (!empty($r['captain']) ? ' (cap.)' : ''), $rows);
+            $half = (int) ceil(count($names) / 2);
+            foreach (array_chunk($names, max(1, $half)) as $c => $list) {
+                $yy = $y;
+                foreach ($list as $n) {
+                    if ($yy > $l->ph - $this->b - 30 * $mm) {
+                        break;
+                    }
+                    $l->text($x + $c * ($w / 2), $yy + 10, $l->fit($n, 'serif', 10.5, $w / 2 - 10), 'serif', 10.5, 'cream');
+                    $yy += 15;
+                }
+            }
+        }
+        $l->text($x, $l->ph - $this->b - 14 * $mm, 'Choisi par le lecteur · d’après la fiche du match au musée Sochaux Rétro', 'serif-i', 8, 'mist');
+    }
+
+    /** Option « Mes joueurs » : jusqu'à trois portraits (photo assez définie, sinon blason), avec leur bilan. */
+    private function myPlayers(array $ids): void
+    {
+        $docs = array_values(array_filter(array_map(fn ($id) => self::fiche($id, 'personne'), $ids)));
+        if (!$docs) {
+            return;
+        }
+        $l = $this->l;
+        $mm = self::MM;
+        $p = $this->page();
+        $this->noFolio[$p] = true;
+        $l->rect(0, 0, $l->pw, $l->ph, 'cream');
+        [$x, $w] = $this->frame($p);
+        $y = $this->b + 22 * $mm;
+        $l->text($x, $y, 'MES JOUEURS', 'display-b', 11, 'B48D00', 3);
+        $l->text($x, $y + 40, count($docs) > 1 ? 'MES LIONCEAUX PRÉFÉRÉS' : 'MON LIONCEAU PRÉFÉRÉ', 'display', 34, 'navy', 0.3);
+        $y += 64;
+        $n = count($docs);
+        $gap = 8 * $mm;
+        $cw = ($w - $gap * ($n - 1)) / $n;
+        $ph = min($cw * 1.3, 110 * $mm);
+        foreach ($docs as $i => $d) {
+            $cx = $x + $i * ($cw + $gap);
+            $photo = $this->photos($d)[0] ?? null;
+            $img = $photo ? $this->prepare($photo['rel'], $cw, $ph, self::DPI['colonne']) : null;
+            $l->rect($cx, $y, $cw, $ph, 'navy');
+            if ($img) {
+                $l->drawImage($l->loadImage($img['file']), $cx, $y, $cw, $ph, true);
+            } else {
+                $l->logo($cx + $cw / 2 - 40, $y + $ph / 2 - 50, 100);
+            }
+            $l->rect($cx, $y + $ph, $cw, 4, 'yellow');
+            $name = trim((string) preg_replace('/\s*\(.*\)\s*$/u', '', (string) ($d['title'] ?? '')));
+            $yy = $y + $ph + 12;
+            $yy += $l->drawLines($l->wrap([Layout::run(mb_strtoupper($name), 'display', 17, 'navy', null, 0.4)], $cw, 1.05), $cx, $yy, $cw) + 4;
+            $bil = \App\Services\Bilans::forPerson((int) $d['id']);
+            if ($bil && $bil['total']['matches'] > 0) {
+                $t = $bil['total'];
+                $line = $t['matches'] . ' match' . ($t['matches'] > 1 ? 's' : '') . ' · ' . $t['goals'] . ' but' . ($t['goals'] > 1 ? 's' : '') . ' · ' . $t['seasons'] . ' saison' . ($t['seasons'] > 1 ? 's' : '');
+                $l->text($cx, $yy + 10, $line, 'display-b', 9.5, 'B48D00', 0.8);
+                $yy += 16;
+            }
+            $kf = trim((string) ($d['key_figure']['text'] ?? ''));
+            if ($kf !== '') {
+                $l->drawLines(array_slice($l->wrap([Layout::run($kf, 'serif-i', 9.5, 'ink')], $cw, 1.35), 0, 7), $cx, $yy, $cw);
+            }
         }
     }
 
