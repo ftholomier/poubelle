@@ -542,6 +542,14 @@ Pilotage › Qualité et la liste des dons, est ouvert à tous les comptes.
   format ; le poster est dédicacé et numéroté à la commande. Coût IA : ligne « Boutique
   (posters souvenirs) » de Coûts IA.
 - Fiche produit : aperçu en direct, **zoom** en grand d'un clic, **vue 3D**.
+- **Livre « 100 récits du Lion »** (Contenus › Livre des récits ; en vente : livre imprimé ou
+  livre numérique PDF). Personnalisation : couverture, dédicace, numéro, sa photo, son maillot,
+  « Mon match » et « Le jour de ta naissance » (le poster du match en pleine page), ses joueurs,
+  son carnet. La mise en page s'adapte au contenu (colonnes équilibrées, photos ou citation
+  dans la place libre) ; jamais deux fois la même photo ni la même personne côte à côte.
+  Le livre numérique est envoyé en version écran (15 à 20 Mo) ; l'imprimeur reçoit le fichier
+  300 dpi avec fonds perdus. Plus les galeries des grands récits sont riches (bouton
+  « Illustrer »), plus le livre est illustré.
 - **Réglages** : budget IA du jour (anecdotes et posters) ; conditions de vente vides = texte proposé.
 
 ## 12. Site de l'association (administrateurs)

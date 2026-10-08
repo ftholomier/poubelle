@@ -1558,8 +1558,8 @@ Livre vendu toujours complet (option `decennies` réservée aux épreuves). Pers
 `dedicace`, `signature`, `numero`, `couverture` (photo choisie parmi `Livre::covers()`, liste tenue dans le
 back-office, `storage/livres/couvertures.json` ; photo en haut de couverture, 216 × 168 mm à 250 dpi ; légende et
 crédit au verso ; `coverSuggestions()` propose les photos des récits assez définies). Couverture : cadre jaune, « 100 » en relief, bande en biais, étiquette « billet d'entrée » (nom + souche numérotée).
-4e de couverture : accroche, présentation, frise des décennies, bande de 4 photos d'époque, ligne de l'exemplaire,
-blason, adresse, emplacement du code-barres (option `isbn`). Options facultatives : `match` (id d'une fiche
+4e de couverture : accroche, présentation, frise des décennies, ligne de l'exemplaire, blason, adresse, code-barres
+EAN-13 dessiné (`barcode()` : option `isbn`, sinon 1928 · 2028 · 25, fondation, centenaire, le Doubs). Options facultatives : `match` (id d'une fiche
 match publiée → page « Mon match », `myMatch()`) et `joueurs` (1 à 3 fiches personnes → page « Mes joueurs », portraits
 à 200 dpi sinon blason, bilan `Bilans::forPerson`, chiffre clé), `naissance` (+ `naissance_titre` : match le plus
 proche à 60 jours au plus, page « Mon match »), `carnet` (id : tampon « J'y étais » sur les récits qui lient un match
@@ -1571,6 +1571,25 @@ encadré sur le passe-partout) . 15 modèles relevés sur les photos du musée (
 `jerseyGlsl()`, devant et dos en double page) ; validation par les historiens dans Contenus › Maillots du livre
 (`App\Admin\Jerseys`, `storage/livres/maillots.json`) : seuls les maillots validés sont proposés. Sans WebGL,
 maillot dessiné en vectoriel, `qr` (QR code de chaque récit, `Qr::matrix`).
+Mise en page adaptée au contenu : le texte des récits n'est pas dessiné tout de suite (`put()`, file `pending`) ; à la
+fin d'un récit, `balance()` rééquilibre la dernière page sur deux colonnes (sans séparer un intertitre de son texte),
+puis `fillBottom()` occupe la place libre sur toute la largeur : composition de photos tournante (verticale + deux,
+deux + une large, grande + étroite, frise de trois, deux, une), sinon citation du récit (`quote()`), en encadré bleu
+nuit si la place est grande ; en fin de décennie, les photos encore libres de la décennie servent d'album. Un récit
+court laisse le suivant commencer dessous (plus d'un tiers de page libre). Ouverture de décennie : `decadePhoto()`
+cherche dans les récits, leurs fiches liées, les fiches datées et toute la médiathèque datée (légende ou nom de
+fichier) ; recadrage d'un tiers au plus (`KEEP`), photos à bords blancs écartées (`framed()`), 150 dpi en couleurs,
+sinon archive 60 dpi en bichromie ; verticale sur la moitié droite, sinon pleine largeur en haut de page (millésime et
+récits dessous) ; une page de gauche intercalée reçoit elle aussi une photo. Doublons : empreinte de fichier
+(`photoKeys()`) et sujets (`tag()` : personnes nommées dans la légende ou le nom de fichier, ou fiche joueur d'origine ;
+lieux Bonal, la Forge, centre de formation…) ; `whoBlocked()` : une personne une fois par récit, deux fois dans le
+livre, quatre récits d'écart ; un lieu, deux récits d'écart ; jamais deux fois le même sujet dans une composition.
+« Mon match » et « Le jour de ta naissance » : poster du match de la boutique en pleine page (`LivrePoster` :
+`PosterLayout` dessiné par `Layout::vectorPath()`) ; sans fiche au musée, rempli par la feuille de match
+(`LivrePoster::fromSheet()` : compo, film des buts, fiche technique, récit factuel, matchs du FCSM de ces semaines-là,
+bilan de la saison d'après les feuilles) ; sinon l'ancienne page simple. Option `ecran` : images à 150 dpi au lieu de
+300 (PDF de 15 à 20 Mo au lieu de 45) ; utilisée pour le livre numérique de la boutique (`BookShop::options()`), le
+fichier d'impression reste en 300 dpi.
 Test : `tests/livre.php`.
 
 ## Catalogue des archives (`App\Services\Catalogue`, `App\Admin\Archives`)

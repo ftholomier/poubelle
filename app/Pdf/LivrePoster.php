@@ -141,7 +141,10 @@ class LivrePoster extends PosterLayout
         if ($all === null) {
             $all = [];
             foreach ((array) json_decode((string) gzdecode((string) file_get_contents(APP_DIR . '/Resources/import/feuilles-de-match.json.gz')), true) as $f) {
-                if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($f['date'] ?? '')) && isset($f['score_home'], $f['score_away'])) {
+                // Seulement les matchs du FCSM (quelques feuilles racontent des tournois entre autres clubs) ;
+                // « Soichaux », « Sochaix » : fautes de frappe des feuilles.
+                if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($f['date'] ?? '')) && isset($f['score_home'], $f['score_away'])
+                    && preg_match('/so.?cha/i', (string) ($f['home'] ?? '') . ' ' . (string) ($f['away'] ?? ''))) {
                     $all[] = $f;
                 }
             }
@@ -154,7 +157,7 @@ class LivrePoster extends PosterLayout
     private static function us(array $f): array
     {
         $clean = fn (string $t) => trim((string) preg_replace('/\s*\(.*\)\s*$/u', '', $t));
-        $home = !empty($f['sochaux_home']) || stripos((string) $f['home'], 'sochaux') !== false;
+        $home = !empty($f['sochaux_home']) || preg_match('/so.?cha/i', (string) $f['home']);
         return $home ? [$clean((string) $f['away']), (int) $f['score_home'], (int) $f['score_away']] : [$clean((string) $f['home']), (int) $f['score_away'], (int) $f['score_home']];
     }
 

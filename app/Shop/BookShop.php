@@ -243,6 +243,8 @@ final class BookShop
     {
         $o = array_intersect_key($v, array_flip(['nom', 'dedicace', 'signature', 'couverture', 'naissance', 'naissance_titre', 'carnet', 'photo_legende', 'maillot_nom', 'maillot_numero', 'maillot_style', 'match']));
         $o['numero'] = $numero;
+        // Livre numérique : PDF pour l'écran (150 dpi, 15 à 20 Mo) ; le fichier d'impression reste en 300 dpi.
+        $o['ecran'] = ($v['format'] ?? '') === 'numerique';
         $o['depuis'] = (int) ($v['depuis'] ?? 0);
         $o['joueurs'] = array_map('intval', array_filter(explode(',', (string) ($v['joueurs'] ?? ''))));
         foreach (['photo', 'maillot_image', 'maillot_devant'] as $k) {
