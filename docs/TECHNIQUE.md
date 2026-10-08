@@ -1680,7 +1680,7 @@ opposition à la fouille de textes et de données (art. L. 122-5-3 CPI). Test : 
 
 ### Couverture du livre : recherche par mots-clés
 `GET /boutique/livre/couvertures/?q=` → `Livre::searchCovers()` : photos des fiches trouvées par la recherche du musée
-(`Media::usage`) et photos dont la légende contient tous les mots ; contrôle de chacune (pas de presse, recadrage ≥ 50 %,
-`coverMode()` : `couleur` si ≥ 250 dpi en pleine couverture, `bichromie` si photo d'avant 1970 (`photoYear()`) à ≥ 90 dpi) ;
+(`Media::usage`) et photos dont la légende contient tous les mots ; contrôle de chacune (pas de presse, recadrage ≥ 30 %,
+`coverMode()` : `couleur` si ≥ 250 dpi en pleine couverture, sinon `bichromie`) ;
 classement pertinence + netteté, 6 au plus. `BookShop::clean` accepte toute photo dont `coverMode()` n'est pas nul ;
 `Livre::cover()` applique la bichromie bleu nuit (`toDuo()`).

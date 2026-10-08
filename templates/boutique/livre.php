@@ -66,7 +66,7 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
       <fieldset class="shopopt"><legend><span class="shopbook__n">3</span> Photo de couverture <small>dans les archives du musée</small></legend>
         <div class="field shopbook__coverq"><label for="b-cq">Un joueur, un match, une saison, un lieu…</label>
           <div class="shopbook__qrow"><input id="b-cq" type="search" placeholder="Paille, Bonal, 1938, finale 2007…" autocomplete="off" data-cover-q><button type="button" class="btn btn--navy" data-cover-go>Chercher</button></div>
-          <small class="shophelp" data-cover-note>Le musée vous propose jusqu’à 6 photos, toutes vérifiées pour être imprimées nettes en pleine page. Les photos d’avant 1970 passent en bleu nuit, façon archive.</small>
+          <small class="shophelp" data-cover-note>Le musée vous propose jusqu’à 6 photos de ses archives. Celles qui ne sont pas assez nettes pour la pleine page sont imprimées en bleu nuit, façon archive.</small>
         </div>
         <div class="shopbook__covers" data-cover-list>
           <label><input type="radio" name="livre[couverture]" value=""<?= $v('couverture') === '' ? ' checked' : '' ?> data-book-in><span class="shopbook__nophoto">Sans photo</span></label>

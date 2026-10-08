@@ -321,13 +321,9 @@ final class Livre
         file_put_contents(self::COVERS, json_encode(array_values(array_unique($list)), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
-    /** Photos d'avant 1970 : acceptées moins nettes en couverture, imprimées en bichromie bleu nuit. */
-    public const COVER_OLD_YEAR = 1970;
-    public const COVER_OLD_DPI = 90;
-
     /**
      * Couverture possible pour cette photo : 'couleur' (assez nette pour la pleine page), 'bichromie'
-     * (photo d'avant 1970, moins nette : imprimée en bleu nuit), ou null (refusée).
+     * (moins nette : imprimée en bleu nuit), ou null (refusée : photo de presse ou introuvable).
      */
     public function coverMode(string $rel, ?int $year = null): ?string
     {
@@ -338,8 +334,8 @@ final class Livre
         if ($dpi >= self::DPI['page']) {
             return 'couleur';
         }
-        $year ??= self::photoYear($rel);
-        return $year && $year < self::COVER_OLD_YEAR && $dpi >= self::COVER_OLD_DPI ? 'bichromie' : null;
+        // Moins nette (ou ancienne) : acceptée, imprimée en bichromie bleu nuit qui gomme le manque de netteté.
+        return 'bichromie';
     }
 
     /** Année d'une photo : dans sa légende ou son titre, sinon dans la fiche qui l'utilise. */
@@ -414,7 +410,7 @@ final class Livre
                 break;
             }
             $m = Media::get($rel) ?? [];
-            if (min((int) ($m['width'] ?? 0), (int) ($m['height'] ?? 0)) && max((int) $m['width'], (int) $m['height']) < 600) {
+            if (min((int) ($m['width'] ?? 0), (int) ($m['height'] ?? 0)) && max((int) $m['width'], (int) $m['height']) < 300) {
                 continue;
             }
             $d = $this->measure($rel);
@@ -422,7 +418,7 @@ final class Livre
                 continue;
             }
             $keep = min(($w / $h) / ($d[0] / $d[1]), ($d[0] / $d[1]) / ($w / $h));
-            if ($keep < 0.5) {
+            if ($keep < 0.3) {
                 continue;
             }
             $year = self::photoYear($rel);
