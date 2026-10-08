@@ -1,6 +1,6 @@
 <?php
 /**
- * Contenus › Maillots du livre. Variables : $jerseys (Livre::JERSEYS), $status (validations)
+ * Boutique › Maillots du livre. Variables : $jerseys (Livre::JERSEYS), $status (validations)
  */
 $n = count(array_filter($status, fn ($s) => ($s['status'] ?? '') === 'valide'));
 ?>

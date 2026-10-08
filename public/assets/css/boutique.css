@@ -257,3 +257,34 @@
 .shopbook__jy:has(input:checked)::after{content:"✓";position:absolute;top:4px;right:6px;font-weight:900;color:var(--navy,#0E1F4D)}
 .shopbook__jy:has(input:focus-visible){outline:3px solid var(--blue,#1F3FA8)}
 @media (min-width:900px){.shopbook .shopprod__view{position:sticky;top:90px;align-self:start}}
+
+/* Livre : formulaire large, champs alignés sur une grille, plus lisibles */
+.shopbook.shopprod{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:44px;max-width:1320px}
+@media (max-width:980px){.shopbook.shopprod{grid-template-columns:1fr}}
+.shopbook .shopprod__form{gap:6px;font-size:1.04rem}
+.shopbook .shopopt{display:flex;flex-direction:column;gap:14px;margin:18px 0 6px;padding:22px 0 0;border-top:2px solid rgba(14,31,77,.12)}
+.shopbook .shopopt legend{float:left;width:100%;margin:0 0 4px;font-size:1.2rem}
+.shopbook .shopopt legend+*{clear:both}
+.shopbook .field{display:flex;flex-direction:column;gap:6px;margin:0;width:100%}
+.shopbook .field label{font-size:.82rem}
+.shopbook .field input:not([type=radio]):not([type=checkbox]),.shopbook .field textarea,.shopbook .field select{width:100%;box-sizing:border-box;font-size:1.05rem;padding:13px 14px;min-height:50px}
+.shopbook .field textarea{min-height:110px;resize:vertical}
+.shopbook__row{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;align-items:end}
+.shopbook .shopchoice{width:100%;padding:14px 16px;border:2px solid rgba(14,31,77,.15);background:#fff}
+.shopbook .shopchoice:has(input:checked){border-color:var(--navy,#0E1F4D);background:#FFF8DA}
+.shopbook__covers{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.shopbook__jerseys{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.shopbook__jy-t{font-size:.85rem}
+.shopbook__actions{margin-top:22px}
+.shopbook__actions .btn{flex:1 1 220px;justify-content:center}
+@media (max-width:600px){.shopbook__row{grid-template-columns:1fr}}
+.shopbook__jerseys{align-items:start}
+.shopbook__jy-img{position:relative;overflow:hidden}
+.shopbook__jy-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.shopbook__jerseys{align-content:start;grid-auto-rows:min-content}
+.shopbook__jy-img svg{position:absolute;inset:9%;width:82%;height:82%}
+.shopbook__jy-img{aspect-ratio:auto;height:0;padding-top:100%}
+.shopbook__jy-none{position:absolute;inset:0;display:grid;place-items:center}
+/* fieldset en bloc (en flex colonne, la grille des maillots était calculée sur une seule colonne) */
+.shopbook .shopopt{display:block}
+.shopbook .shopopt>*+*{margin-top:14px}

@@ -54,8 +54,10 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
       </fieldset>
 
       <fieldset class="shopopt"><legend><span class="shopbook__n">2</span> Couverture et dédicace</legend>
-      <div class="field"><label for="b-nom">Nom imprimé sur la couverture *</label><input id="b-nom" type="text" name="livre[nom]" maxlength="60" required value="<?= e($v('nom')) ?>" placeholder="Lucas Bertrand" data-book-in></div>
-      <div class="field"><label for="b-dep">Supporter depuis (année)</label><input id="b-dep" type="number" name="livre[depuis]" min="1928" max="<?= (int) date('Y') ?>" value="<?= e($v('depuis')) ?>" placeholder="1998"></div>
+      <div class="shopbook__row">
+        <div class="field"><label for="b-nom">Nom imprimé sur la couverture *</label><input id="b-nom" type="text" name="livre[nom]" maxlength="60" required value="<?= e($v('nom')) ?>" placeholder="Lucas Bertrand" data-book-in></div>
+        <div class="field"><label for="b-dep">Supporter depuis (année)</label><input id="b-dep" type="number" name="livre[depuis]" min="1928" max="<?= (int) date('Y') ?>" value="<?= e($v('depuis')) ?>" placeholder="1998"></div>
+      </div>
       <div class="field"><label for="b-ded">Dédicace</label><textarea id="b-ded" name="livre[dedicace]" rows="3" maxlength="600" placeholder="À mon fils, qui a découvert Bonal sur mes épaules…"><?= e($v('dedicace')) ?></textarea></div>
       <div class="field"><label for="b-sig">Signée</label><input id="b-sig" type="text" name="livre[signature]" maxlength="80" value="<?= e($v('signature')) ?>" placeholder="Papa, Noël <?= (int) date('Y') ?>"></div>
 
@@ -75,7 +77,7 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
       <?php if ($jerseys): ?>
       <fieldset class="shopopt"><legend><span class="shopbook__n">4</span> Ton maillot floqué <small>double page, facultatif</small></legend>
         <div class="shopbook__jerseys" role="radiogroup" aria-label="Maillot inspiré de">
-          <label class="shopbook__jy"><input type="radio" name="livre[maillot_style]" value=""<?= $v('maillot_style') === '' ? ' checked' : '' ?> data-book-jersey-in><span class="shopbook__jy-img shopbook__jy-none">Pas de maillot</span><span class="shopbook__jy-t">&nbsp;</span></label>
+          <label class="shopbook__jy"><input type="radio" name="livre[maillot_style]" value=""<?= $v('maillot_style') === '' ? ' checked' : '' ?> data-book-jersey-in><span class="shopbook__jy-img"><span class="shopbook__jy-none">Pas de maillot</span></span><span class="shopbook__jy-t">&nbsp;</span></label>
           <?php foreach ($jerseys as $k => $j): [$era, $what] = array_pad(explode(' · ', $j['label'], 2), 2, ''); ?>
           <label class="shopbook__jy" title="<?= e($j['label']) ?>"><input type="radio" name="livre[maillot_style]" value="<?= e($k) ?>"<?= $v('maillot_style') === $k ? ' checked' : '' ?> data-book-jersey-in><span class="shopbook__jy-img"><?= BookShop::jerseySvg($j, 's' . $k) ?></span><span class="shopbook__jy-t"><b><?= e($era) ?></b><?= $what !== '' ? '<small>' . e($what) . '</small>' : '' ?></span></label>
           <?php endforeach; ?>
