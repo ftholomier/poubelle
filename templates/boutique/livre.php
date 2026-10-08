@@ -15,7 +15,7 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
 <section class="section--tight">
   <div class="wrap shopprod shopbook" data-livre-shop data-upload="<?= e(ShopPages::u('/boutique/livre/fichier/')) ?>" data-3d="<?= e(asset('js/shop3d.js')) ?>"
        data-font="<?= e(asset('fonts/big-shoulders-display-normal-latin.woff2')) ?>" data-logo="<?= e(asset('img/logo-sochaux-retro-400.png')) ?>" data-jerseys="<?= e(json_encode($jerseys)) ?>"
-       data-matches="<?= e(ShopPages::u('/boutique/poster/matchs/')) ?>" data-players="<?= e(ShopPages::u('/boutique/poster/joueurs/')) ?>" data-covers="<?= e(ShopPages::u('/boutique/livre/couvertures/')) ?>">
+       data-matches="<?= e(ShopPages::u('/boutique/poster/matchs/')) ?>" data-players="<?= e(ShopPages::u('/boutique/livre/joueurs/')) ?>" data-covers="<?= e(ShopPages::u('/boutique/livre/couvertures/')) ?>">
     <div class="shopprod__view">
       <nav class="crumbs vcrumbs"><a href="<?= e(ShopPages::u('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span>Le livre</span></nav>
       <div class="shopprod__stage shopbook__stage">

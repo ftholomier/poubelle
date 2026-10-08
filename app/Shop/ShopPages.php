@@ -207,6 +207,39 @@ final class ShopPages
             'price' => Orders::money(Catalog::price($m, $size) * max(1, min(20, (int) ($in['qty'] ?? 1))))]);
     }
 
+    /** GET /boutique/livre/joueurs/?q= (JSON) : toutes les personnes du musée (joueurs, entraîneurs…), les plus capées d'abord. */
+    public static function bookPlayers(Request $req): Response
+    {
+        if (!self::visible() || !BookShop::sellable()) {
+            return Response::json(['error' => 'Boutique fermée.'], 404);
+        }
+        if (!RateLimiter::hit('boutique-poster-q', $req->ip(), 120, 60)) {
+            return Response::json(['error' => 'Trop de demandes.'], 429);
+        }
+        $words = array_values(array_filter(preg_split('/[\s,\/·-]+/u', mb_strtolower(\App\Data\Names::ascii(trim(mb_substr($req->str('q'), 0, 60))))) ?: [], fn ($w) => mb_strlen($w) >= 2));
+        if (!$words) {
+            return Response::json(['ok' => true, 'items' => []]);
+        }
+        $tot = \App\Data\Derived::part('person_totals');
+        $hits = [];
+        foreach (\App\Data\Index::all() as $s) {
+            if (($s['type'] ?? '') !== 'personne' || !\App\Data\Index::visible($s)) {
+                continue;
+            }
+            $p = (array) ($s['p'] ?? []);
+            $hay = ' ' . mb_strtolower(\App\Data\Names::ascii(($p['name'] ?? $s['title']) . ' ' . ($p['nickname'] ?? '') . ' ' . $s['title'])) . ' ';
+            foreach ($words as $w) {
+                if (!str_contains($hay, $w)) {
+                    continue 2;
+                }
+            }
+            $n = (int) ($tot[$s['id']]['matches'] ?? 0);
+            $hits[] = ['id' => (string) $s['id'], 'label' => ($p['name'] ?? $s['title']) . ($n ? ' · ' . $n . ' match' . ($n > 1 ? 's' : '') : ''), 'n' => $n];
+        }
+        usort($hits, fn ($a, $b) => $b['n'] <=> $a['n'] ?: strcmp($a['label'], $b['label']));
+        return Response::json(['ok' => true, 'items' => array_map(fn ($h) => ['id' => $h['id'], 'label' => $h['label']], array_slice($hits, 0, 20))]);
+    }
+
     /** GET /boutique/livre/couvertures/?q= (JSON) : jusqu'à 6 photos du musée pour la couverture du livre. */
     public static function bookCovers(Request $req): Response
     {
