@@ -1029,16 +1029,7 @@ final class Livre
             $this->noFolio[$lp] = true;
             $this->dark[$lp] = true;
             $l->rect(0, 0, $l->pw, $l->ph, 'navy');
-            $img = null;
-            foreach ($items as $it) {
-                foreach ($this->photos($it['doc'], true) as $ph) {
-                    if ($img = $this->prepare($ph['rel'], $l->pw, $l->ph, self::DPI['page'])) {
-                        $img += $ph;
-                        $this->mark($ph['rel']);
-                        break 2;
-                    }
-                }
-            }
+            $img = $this->decadePhoto($dec, $items, $l->pw, $l->ph);
             if ($img) {
                 $l->drawImage($l->loadImage($img['file']), 0, 0, $l->pw, $l->ph, true);
                 $this->captionBox($img, $this->b + 12 * self::MM, $l->ph - $this->b - 20 * self::MM);
@@ -1055,16 +1046,7 @@ final class Livre
         $this->toc[] = ['t' => $label, 'page' => $p, 'level' => 0];
         $l->pdf->outline($label, $p, $l->ph);
         $l->rect(0, 0, $l->pw, $l->ph, 'navy');
-        $img = null;
-        foreach ($items as $it) {
-            foreach ($this->photos($it['doc'], true) as $ph) {
-                if ($img = $this->prepare($ph['rel'], $l->pw * 0.5, $l->ph, self::DPI['page'])) {
-                    $img += $ph;
-                    $this->mark($ph['rel']);
-                    break 2;
-                }
-            }
-        }
+        $img = $this->decadePhoto($dec, $items, $l->pw * 0.5, $l->ph);
         if ($img) {
             $l->drawImage($l->loadImage($img['file']), $l->pw * 0.5, 0, $l->pw * 0.5, $l->ph, true);
             $this->report['page']++;
@@ -1087,6 +1069,53 @@ final class Livre
             $l->text($x, $y + 11, sprintf('%02d', $it['n']), 'display-b', 11, 'yellow', 0.5);
             $y += $l->drawLines($lines, $x + 30, $y, $w - 30) + 3;
         }
+    }
+
+    /**
+     * Photo d'ouverture de décennie : la plus nette parmi les photos des récits de la décennie, de leurs
+     * fiches liées et de toutes les fiches publiées du musée datées de la décennie. Recadrage permis
+     * (pleine page), 150 dpi au moins.
+     */
+    private function decadePhoto(int $dec, array $items, float $w, float $h): ?array
+    {
+        $cands = [];
+        foreach ($items as $it) {
+            $cands = array_merge($cands, $this->photos($it['doc'], true), $this->related($it['doc']));
+        }
+        foreach (\App\Data\Index::all() as $e) {
+            if (empty($e['image']) || ($e['status'] ?? '') !== 'publie' || !in_array($e['type'] ?? '', ['match', 'saison', 'article', 'photo'], true)) {
+                continue;
+            }
+            if (preg_match('/\b(19|20)\d{2}\b/', (string) $e['title'] . ' ' . (string) $e['path'], $m) && (int) $m[0] >= $dec && (int) $m[0] < $dec + 10) {
+                $d = Fiches::get((int) $e['id']);
+                if ($d) {
+                    $cands = array_merge($cands, $this->photos($d, true));
+                }
+            }
+        }
+        $best = null;
+        $bestDpi = 150;
+        $seen = [];
+        foreach ($cands as $ph) {
+            if (isset($seen[$ph['rel']]) || $this->isUsed($ph['rel']) || $this->whoBlocked($ph['rel'])) {
+                continue;
+            }
+            $seen[$ph['rel']] = true;
+            $yr = $ph['year'] ?? null;
+            if ($yr !== null && ($yr < $dec || $yr >= $dec + 10)) {
+                continue;
+            }
+            $d = $this->measure($ph['rel']);
+            if ($d && ($dpi = self::dpi($d, $w, $h)) > $bestDpi) {
+                $bestDpi = $dpi;
+                $best = $ph;
+            }
+        }
+        if (!$best || !($img = $this->prepare($best['rel'], $w, $h, 150, true))) {
+            return null;
+        }
+        $this->mark($best['rel']);
+        return $img + $best;
     }
 
     private function recit(array $it, int $dec, bool $last = false): void
