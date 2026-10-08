@@ -922,6 +922,113 @@ final class Proofreader
         return array_values(array_unique(array_filter($out)));
     }
 
+    // ------------------------------------------------------------------ correction en lot
+
+    /**
+     * Applique d'un coup les corrections déjà trouvées par la tâche de fond (sans nouvel appel à
+     * l'IA), seulement si la fiche n'a pas changé depuis. Une correction qui chevauche une balise
+     * ou qu'on ne retrouve plus est laissée de côté. @return array{applied:int,skipped:int}
+     */
+    public static function applyStored(int $id, ?array $user, bool $languageOnly = false): array
+    {
+        $doc = Fiches::get($id);
+        $stored = JsonStore::read(self::$dir . "/fiches/$id.json", []) ?: [];
+        if (!$doc || !$stored || !self::current($stored, $doc['modified'] ?? null, self::textSig($doc))) {
+            return ['applied' => 0, 'skipped' => 0];
+        }
+        $byField = [];
+        foreach ((array) ($stored['items'] ?? []) as $it) {
+            if ($languageOnly && !in_array($it['type'] ?? '', self::LANGUAGE, true)) {
+                continue;
+            }
+            $byField[$it['k']][] = $it;
+        }
+        $applied = $skipped = 0;
+        $html = array_column(array_map(fn ($f) => ['k' => $f['k'], 'h' => $f['html']], self::fieldsForDoc($doc)), 'h', 'k');
+        foreach ($byField as $k => $items) {
+            $value = self::getPath($doc, $k);
+            if (!is_string($value)) {
+                $skipped += count($items);
+                continue;
+            }
+            // Dernières occurrences d'abord : les rangs des suivantes restent justes.
+            usort($items, fn ($a, $b) => [$b['wrong'], $b['nth']] <=> [$a['wrong'], $a['nth']]);
+            foreach ($items as $it) {
+                $new = self::replaceNth($value, (string) $it['wrong'], (string) $it['right'], (int) $it['nth'], !empty($html[$k]));
+                if ($new === null) {
+                    $skipped++;
+                    continue;
+                }
+                $value = $new;
+                $applied++;
+            }
+            self::setPath($doc, $k, $value);
+        }
+        if ($applied) {
+            Fiches::save($doc, $user ?? ['name' => 'Correcteur'], 'Corrections d’orthographe appliquées en lot (' . $applied . ')');
+        }
+        return ['applied' => $applied, 'skipped' => $skipped];
+    }
+
+    /** Remplace la n-ième occurrence (0 = première) dans le texte ; en HTML, seulement hors balises. */
+    private static function replaceNth(string $value, string $wrong, string $right, int $nth, bool $html): ?string
+    {
+        if ($wrong === '') {
+            return null;
+        }
+        if (!$html) {
+            $pos = -1;
+            for ($i = 0; $i <= $nth; $i++) {
+                $pos = mb_strpos($value, $wrong, $pos + 1);
+                if ($pos === false) {
+                    return null;
+                }
+            }
+            return mb_substr($value, 0, $pos) . $right . mb_substr($value, $pos + mb_strlen($wrong));
+        }
+        $parts = preg_split('/(<[^>]*>)/u', $value, -1, PREG_SPLIT_DELIM_CAPTURE) ?: [$value];
+        $seen = 0;
+        foreach ($parts as $i => $part) {
+            if ($part === '' || $part[0] === '<') {
+                continue;
+            }
+            $text = html_entity_decode($part, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $n = mb_substr_count($text, $wrong);
+            if ($seen + $n > $nth) {
+                $fixed = self::replaceNth($text, $wrong, $right, $nth - $seen, false);
+                if ($fixed === null) {
+                    return null;
+                }
+                $parts[$i] = htmlspecialchars($fixed, ENT_NOQUOTES, 'UTF-8');
+                return implode('', $parts);
+            }
+            $seen += $n;
+        }
+        return null;
+    }
+
+    private static function getPath(array $doc, string $k): mixed
+    {
+        $v = $doc;
+        foreach (explode('.', $k) as $p) {
+            if (!is_array($v) || !array_key_exists(ctype_digit($p) ? (int) $p : $p, $v)) {
+                return null;
+            }
+            $v = $v[ctype_digit($p) ? (int) $p : $p];
+        }
+        // Temps forts, réactions, brèves : texte dans « text » ou chaîne directe.
+        return $v;
+    }
+
+    private static function setPath(array &$doc, string $k, string $value): void
+    {
+        $ref = &$doc;
+        foreach (explode('.', $k) as $p) {
+            $ref = &$ref[ctype_digit($p) ? (int) $p : $p];
+        }
+        $ref = $value;
+    }
+
     // ------------------------------------------------------------------ tâche de fond
 
     /** Résultat de la dernière vérification d'une fiche, s'il correspond à la version enregistrée. */

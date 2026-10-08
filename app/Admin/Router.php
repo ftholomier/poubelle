@@ -87,6 +87,7 @@ final class Router
         $r->get('/admin', fn ($q) => Dashboard::index($q));
         $r->get('/admin/qualite', fn ($q) => Dashboard::quality($q));
         $r->post('/admin/qualite/controler', fn ($q) => Dashboard::control($q));
+        $r->post('/admin/qualite/orthographe-tout', fn ($q) => Dashboard::proofAll($q));
         $r->get('/admin/journal', fn ($q) => Dashboard::journal($q));
         $r->get('/admin/audience', fn ($q) => Response::redirect('/admin/statistiques'));
         $r->get('/admin/statistiques', fn ($q) => Statistics::index($q));

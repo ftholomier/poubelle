@@ -80,7 +80,7 @@ HTML],
 <p>Onglet <b>Version EN</b> › « Traduire avec Gemini » › relisez › Enregistrer. Ou en série : Système › Traductions EN › onglet Fiches.</p>
 HTML],
         ['id' => 'orthographe', 'title' => '… corriger les fautes d’orthographe d’une fiche', 'html' => <<<'HTML'
-<p>Panneau <b>Orthographe</b> de la fiche › <b>Vérifier l’orthographe</b> › « Corriger » sur chaque proposition (ou « Tout corriger ») › <b>Enregistrer</b>. Les fiches à reprendre sont listées dans Qualité › Orthographe. Voir [[aide:fiches#orthographe|Vérifier l’orthographe]].</p>
+<p>Panneau <b>Orthographe</b> de la fiche › <b>Vérifier l’orthographe</b> › « Corriger » sur chaque proposition (ou « Tout corriger ») › <b>Enregistrer</b>. Les fiches à reprendre sont listées dans Qualité › Orthographe. Pour tout le musée d’un coup (administrateurs) : Qualité › onglet Orthographe › <b>Corriger l’orthographe d’un coup</b> (ou « Seulement les fautes de langue ») applique et enregistre toutes les corrections trouvées ; chaque fiche garde ses versions précédentes. Voir [[aide:fiches#orthographe|Vérifier l’orthographe]].</p>
 HTML],
         ['id' => 'dictionnaire', 'title' => '… empêcher le correcteur de corriger un nom', 'html' => <<<'HTML'
 <p>Dans le correcteur, bouton <b>+ Dictionnaire</b> sur la proposition ; ou Qualité › Orthographe › <b>Dictionnaire du musée</b> › « Ajouter : mot » › Enregistrer. Pour une seule fiche, « Ignorer » suffit.</p>

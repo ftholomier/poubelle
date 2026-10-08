@@ -59,6 +59,12 @@ $when = function (string $iso): string {
   </div>
   <span class="small muted"><?= $fresh ? 'Nouvelles anomalies (tous onglets) : ' : '' ?><?= $fmt($total) ?> alerte<?= $total > 1 ? 's' : '' ?><?= ($pages ?? 1) > 1 ? ' (page ' . (int) $page . ' sur ' . (int) $pages . ', les plus graves d’abord)' : '' ?> · recalculées automatiquement à chaque modification</span>
 </div>
+<?php if (!$fresh && $cat === 'orthographe' && \App\Core\Auth::isAdmin() && $total): ?>
+  <div class="row" style="gap:8px;flex-wrap:wrap;margin:0 0 10px">
+    <form method="post" action="/admin/qualite/orthographe-tout" data-confirm="Corriger l’orthographe d’un coup ?|Toutes les corrections proposées par le correcteur sont appliquées et enregistrées dans les fiches concernées (chaque fiche garde ses versions précédentes, restaurables).|Tout corriger" data-busy="Corrections en cours…"><?= csrf_field() ?><button class="btn btn--navy">Corriger l’orthographe d’un coup</button></form>
+    <form method="post" action="/admin/qualite/orthographe-tout" data-confirm="Corriger seulement les fautes de langue ?|Orthographe, accords, conjugaison, homophones, syntaxe, majuscules et fautes de frappe ; la ponctuation et la typographie restent à décider fiche par fiche.|Corriger" data-busy="Corrections en cours…"><?= csrf_field() ?><input type="hidden" name="portee" value="langue"><button class="btn">Seulement les fautes de langue</button></form>
+  </div>
+<?php endif; ?>
 <?php if (!$fresh && $cat === 'orthographe' && $proof): ?>
   <p class="small muted proofinfo">Le correcteur vérifie en tâche de fond chaque fiche nouvelle ou modifiée : <b><?= number_format($proof['checked'], 0, ',', ' ') ?> / <?= number_format($proof['total'], 0, ',', ' ') ?></b> fiches vérifiées<?= \App\Services\Gemini::ready() ? ', dont ' . number_format($proof['ai'], 0, ',', ' ') . ' avec Gemini (orthographe, accords, syntaxe)' : ' avec les règles de base (clé Gemini non réglée : pas de vérification des accords ni de la syntaxe)' ?>. « Corriger » ouvre la fiche avec le correcteur : vous acceptez ou ignorez chaque correction, puis enregistrez. Les noms propres se protègent dans le <a href="/admin/collection/dictionnaire">dictionnaire du musée</a> (<?= count(\App\Services\Proofreader::dictionary()) ?> mot<?= count(\App\Services\Proofreader::dictionary()) > 1 ? 's' : '' ?>).</p>
 <?php endif; ?>

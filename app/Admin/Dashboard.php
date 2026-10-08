@@ -199,6 +199,29 @@ final class Dashboard extends Base
         return self::back('/admin/qualite' . ($r['new'] ? '?nouveau=1' : ''), $msg);
     }
 
+    /** POST /admin/qualite/orthographe-tout : applique toutes les corrections trouvées, fiche par fiche. */
+    public static function proofAll(Request $req): Response
+    {
+        if ($deny = self::denyUnlessAdmin()) {
+            return $deny;
+        }
+        session_write_close();
+        @set_time_limit(300);
+        $lang = $req->str('portee') === 'langue';
+        $fiches = $applied = $skipped = 0;
+        foreach (\App\Services\Proofreader::summary()['rows'] as $r) {
+            if (\App\Services\QualityAck::acked((int) $r['id'], 'orthographe', '')) {
+                continue;
+            }
+            $x = \App\Services\Proofreader::applyStored((int) $r['id'], self::actor(), $lang);
+            $applied += $x['applied'];
+            $skipped += $x['skipped'];
+            $fiches += $x['applied'] ? 1 : 0;
+        }
+        \App\Services\Activity::log(self::actor(), 'a appliqué ' . $applied . ' correction(s) d’orthographe dans ' . $fiches . ' fiche(s)', null);
+        return self::back('/admin/qualite?cat=orthographe', $applied . ' correction(s) appliquée(s) dans ' . $fiches . ' fiche(s)' . ($skipped ? ' ; ' . $skipped . ' laissée(s) de côté (texte modifié depuis, ou passage à cheval sur une mise en forme) : à faire à la main dans la fiche' : '') . '. Les fiches corrigées sont revérifiées par la tâche de fond.');
+    }
+
     public static function journal(Request $req): Response
     {
         $who = $req->str('qui');
