@@ -23,7 +23,7 @@ final class Quality
         $id = (int) $doc['id'];
         foreach (Derived::part('quality') as $a) {
             if ((int) $a['id'] === $id) {
-                $out[] = [$a['sev'] === 'haute' ? 'ko' : 'warn', $a['msg']];
+                $out[] = [$a['sev'] === 'haute' ? 'ko' : 'warn', $a['msg'], $a['code']];
                 $codes[$a['code']] = true;
             }
         }
@@ -77,12 +77,14 @@ final class Quality
         }
         $proof = \App\Services\Proofreader::forFiche($doc);
         if ($proof && $proof['n'] > 0) {
-            $out[] = ['warn', $proof['n'] . ' correction' . ($proof['n'] > 1 ? 's' : '') . ' d’orthographe proposée' . ($proof['n'] > 1 ? 's' : '') . ' (bouton « Vérifier l’orthographe »)'];
+            $out[] = ['warn', $proof['n'] . ' correction' . ($proof['n'] > 1 ? 's' : '') . ' d’orthographe proposée' . ($proof['n'] > 1 ? 's' : '') . ' (bouton « Vérifier l’orthographe »)', 'orthographe'];
         }
         $en = Translator::status($doc);
         if ($en === 'stale' && !isset($codes['traduction'])) {
             $out[] = ['warn', 'Version anglaise à revoir (le français a changé)'];
         }
+        // Alertes mises de côté par un historien (« Remettre à zéro ») : plus signalées pour la même raison.
+        $out = array_values(array_filter($out, fn ($c) => $c[0] === 'ok' || !\App\Services\QualityAck::acked($id, (string) ($c[2] ?? ''), (string) $c[1])));
         if (!$out || !array_filter($out, fn ($c) => $c[0] !== 'ok')) {
             $out[] = ['ok', 'Aucune alerte'];
         }
@@ -137,6 +139,9 @@ final class Quality
                 continue; // listés plus bas (onglet des liens), avec le bouton de création de fiche
             }
             $id = isset($a['id']) ? (int) $a['id'] : null;
+            if ($id && \App\Services\QualityAck::acked($id, (string) $a['code'], (string) $a['msg'])) {
+                continue; // mise de côté sur la fiche par un historien
+            }
             $s = $id ? Index::get($id) : null;
             // Noms reliés par rapprochement et fiches en double : onglet des liens ; « xx » de l'ancien
             // site, fiches à venir, arbitre, vidéos : « À compléter » ; adresses, rubriques, images : « Adresses et médias ».
@@ -156,6 +161,9 @@ final class Quality
         }
         // Correcteur d'orthographe (tâche de fond) : fiches avec des corrections proposées.
         foreach (\App\Services\Proofreader::summary()['rows'] as $r) {
+            if (\App\Services\QualityAck::acked((int) $r['id'], 'orthographe', '')) {
+                continue;
+            }
             $add('orthographe', [
                 'sev' => $r['hi'] >= 3 ? 'haute' : ($r['hi'] > 0 ? 'moyenne' : 'basse'), 'code' => 'orthographe',
                 'msg' => ($r['n'] > 1 ? $r['n'] . ' corrections proposées' : '1 correction proposée') . ($r['hi'] ? ' dont ' . $r['hi'] . ' faute' . ($r['hi'] > 1 ? 's' : '') . ' de langue' : ' (ponctuation, typographie)') . ($r['ex'] ? ' · ' . $r['ex'] : ''),

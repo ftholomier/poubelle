@@ -4,6 +4,10 @@ return [
     'title' => 'Administration',
     'summary' => 'Pour les administrateurs : utilisateurs, réglages, assistant IA, fiches audio, coûts de l’IA, dons hors ligne et reçus fiscaux, sauvegardes, tâches, journal.',
     'sections' => [
+        ['id' => 'statistiques', 'title' => 'Statistiques du musée', 'html' => <<<'HTML'
+<p>Pilotage › <b>Statistiques</b> (administrateurs) : l’audience du musée. En haut, le <b>direct</b> : visiteurs en ligne (une page vue dans les 5 dernières minutes), pages vues minute par minute et ce qu’ils regardent, mis à jour toutes les 15 secondes. Puis, sur la période choisie (aujourd’hui, 7 ou 30 jours, mois, année, depuis le début, ou deux dates) : visiteurs, visites, pages vues, pages par visite, visites d’une seule page, part en anglais, chacun comparé à la période précédente ; un encadré <b>À retenir</b> ; la courbe de fréquentation, les heures et jours de visite, les appareils, d’où viennent les visiteurs, les décennies les plus consultées et les classements (joueurs, matchs, récits, rubriques, pages, jeux, recherches). <b>Rapport PDF</b> télécharge le tout pour la période. <b>Remise à zéro</b> (avant l’ouverture) : tapez REMETTRE A ZERO ; les anciennes données sont gardées de côté sur le serveur.</p>
+<p>La mesure se fait sans cookie et sans garder d’adresse IP : un visiteur est reconnu par une empreinte anonyme qui change chaque jour (pas de bandeau de consentement nécessaire).</p>
+HTML],
         ['id' => 'utilisateurs', 'title' => 'Utilisateurs et invitations', 'html' => <<<'HTML'
 <p>Système › <b>Utilisateurs</b> (administrateurs) : <b>Inviter une personne</b> (nom, e-mail, niveau) ; elle reçoit un lien pour choisir son mot de passe, que l’on peut aussi copier et transmettre autrement. On peut renvoyer une invitation, changer le niveau ou désactiver un compte.</p>
 [[img:utilisateurs.webp|L’équipe du back-office et les invitations]]

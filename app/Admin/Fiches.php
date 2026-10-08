@@ -51,6 +51,9 @@ final class Fiches extends Base
         }
         $quality = [];
         foreach (Derived::part('quality') as $a) {
+            if (\App\Services\QualityAck::acked((int) $a['id'], (string) $a['code'], (string) $a['msg'])) {
+                continue;
+            }
             $quality[(int) $a['id']][] = $a;
         }
         $totals = Derived::part('person_totals');
@@ -437,6 +440,28 @@ final class Fiches extends Base
         Store::trash($id, self::actor());
         Moments::renumber();
         return self::back('/admin/fiche/' . $id, 'Fiche mise à la corbeille. Elle n’est plus visible sur le site.');
+    }
+
+    /**
+     * Contrôle qualité de la fiche remis à zéro par l'historien : les alertes affichées ne seront plus
+     * signalées pour la même raison (une alerte pour une autre raison réapparaîtra).
+     */
+    public static function qualityReset(Request $req, int $id): Response
+    {
+        $doc = Store::get($id);
+        if (!$doc) {
+            return self::back('/admin', null, 'Fiche introuvable.');
+        }
+        $alerts = array_map(fn ($c) => [(string) ($c[2] ?? ''), (string) $c[1]], array_filter(Quality::forDoc($doc), fn ($c) => $c[0] !== 'ok'));
+        $n = \App\Services\QualityAck::acknowledge($id, $alerts, (string) (Auth::user()['name'] ?? 'équipe'));
+        \App\Data\Activity::log(self::actor(), 'a remis à zéro le contrôle qualité de la fiche « ' . ($doc['title'] ?? $id) . ' »', ['path' => '/admin/fiche/' . $id]);
+        return self::back('/admin/fiche/' . $id . '#qualite', $n ? 'Contrôle qualité remis à zéro : ' . $n . ' alerte' . ($n > 1 ? 's' : '') . ' mise' . ($n > 1 ? 's' : '') . ' de côté. Seule une alerte pour une autre raison sera signalée.' : 'Aucune alerte à mettre de côté.');
+    }
+
+    public static function qualityReopen(Request $req, int $id): Response
+    {
+        \App\Services\QualityAck::reopen($id);
+        return self::back('/admin/fiche/' . $id . '#qualite', 'Toutes les alertes de la fiche sont de nouveau signalées.');
     }
 
     public static function untrash(Request $req, int $id): Response

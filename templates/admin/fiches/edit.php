@@ -154,12 +154,19 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
     <?php endif; ?>
 
     <?php if ($checks): ?>
-      <div class="card card--pad">
+      <?php $ack = \App\Services\QualityAck::get($id); $alerts = array_filter($checks, fn ($c) => $c[0] !== 'ok'); ?>
+      <div class="card card--pad" id="qualite">
         <h2 class="card__t card__t--sm">Contrôle qualité</h2>
         <div class="checks">
           <?php foreach (array_slice($checks, 0, 8) as [$lvl, $msg]): ?><span><b class="<?= $lvl ?>"><?= $lvl === 'ok' ? '✓' : '⚠' ?></b><?= e($msg) ?></span><?php endforeach; ?>
           <?php if (count($checks) > 8): ?><span class="xs muted">… et <?= count($checks) - 8 ?> autres alertes</span><?php endif; ?>
         </div>
+        <?php if ($alerts): ?>
+          <button type="submit" class="linkbtn xs" form="quality-reset-form" style="align-self:flex-start">Remettre à zéro ces alertes</button>
+        <?php endif; ?>
+        <?php if ($ack): ?>
+          <span class="xs muted">Contrôle remis à zéro par <?= e((string) $ack['by']) ?> le <?= date('d/m/Y', strtotime((string) $ack['at'])) ?> : <?= count($ack['keys'] ?? []) + (!empty($ack['ortho']) ? 1 : 0) ?> raison<?= count($ack['keys'] ?? []) + (!empty($ack['ortho']) ? 1 : 0) > 1 ? 's' : '' ?> mise<?= count($ack['keys'] ?? []) + (!empty($ack['ortho']) ? 1 : 0) > 1 ? 's' : '' ?> de côté. <button type="submit" class="linkbtn xs" form="quality-reopen-form">Tout réafficher</button></span>
+        <?php endif; ?>
       </div>
     <?php endif; ?>
 
@@ -186,5 +193,7 @@ $enLabel = ['none' => 'Non traduite', 'auto' => 'Traduite (Gemini)', 'manual' =>
   <form id="restore-form" method="post" action="/admin/fiche/<?= $id ?>" data-confirm="Restaurer cette version ?|Rien n’est perdu : la restauration crée une nouvelle version, elle-même réversible.|Restaurer"><?= csrf_field() ?></form>
   <form id="trash-form" method="post" action="/admin/fiche/<?= $id ?>/corbeille" data-confirm="Mettre à la corbeille ?|La fiche disparaît du site. Vous pourrez la récupérer depuis la corbeille.|Mettre à la corbeille|danger"><?= csrf_field() ?></form>
   <form id="untrash-form" method="post" action="/admin/fiche/<?= $id ?>/sortir-corbeille"><?= csrf_field() ?></form>
+  <form id="quality-reset-form" method="post" action="/admin/fiche/<?= $id ?>/qualite-zero" data-confirm="Remettre à zéro le contrôle qualité ?|Les alertes affichées ne seront plus signalées pour cette fiche, ni ici, ni dans l’écran Qualité, ni lors d’un prochain contrôle. Une alerte pour une autre raison réapparaîtra.|Remettre à zéro"><?= csrf_field() ?></form>
+  <form id="quality-reopen-form" method="post" action="/admin/fiche/<?= $id ?>/qualite-reafficher"><?= csrf_field() ?></form>
   <form id="destroy-form" method="post" action="/admin/fiche/<?= $id ?>/supprimer" data-confirm="Supprimer définitivement ?|Cette action est irréversible (une copie reste dans l’historique des versions).|Supprimer|danger"><?= csrf_field() ?></form>
 <?php endif; ?>

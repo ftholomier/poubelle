@@ -104,6 +104,8 @@ final class Router
         $r->get('/admin/fiche/{id}', fn ($q, $id) => ctype_digit($id) ? Fiches::edit($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/enregistrer', fn ($q, $id) => ctype_digit($id) ? Fiches::save($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/corbeille', fn ($q, $id) => ctype_digit($id) ? Fiches::trash($q, (int) $id) : null);
+        $r->post('/admin/fiche/{id}/qualite-zero', fn ($q, $id) => ctype_digit($id) ? Fiches::qualityReset($q, (int) $id) : null);
+        $r->post('/admin/fiche/{id}/qualite-reafficher', fn ($q, $id) => ctype_digit($id) ? Fiches::qualityReopen($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/sortir-corbeille', fn ($q, $id) => ctype_digit($id) ? Fiches::untrash($q, (int) $id) : null);
         $r->post('/admin/fiche/{id}/supprimer', fn ($q, $id) => ctype_digit($id) ? Fiches::destroy($q, (int) $id) : null);
         $r->get('/admin/fiche/{id}/version/{n}', fn ($q, $id, $n) => ctype_digit($id) && ctype_digit($n) ? Fiches::version($q, (int) $id, (int) $n) : null);

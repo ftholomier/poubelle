@@ -254,7 +254,7 @@ class Base
         // et vérifications du site (redirections, référentiels, textes de l'interface).
         $high = 0;
         foreach (array_merge(Derived::part('quality'), \App\Services\Controle::siteChecks()) as $q) {
-            if (($q['sev'] ?? '') === 'haute' && ($q['code'] ?? '') !== 'nonrelie') {
+            if (($q['sev'] ?? '') === 'haute' && ($q['code'] ?? '') !== 'nonrelie' && !(isset($q['id']) && \App\Services\QualityAck::acked((int) $q['id'], (string) $q['code'], (string) $q['msg']))) {
                 $high++;
             }
         }
