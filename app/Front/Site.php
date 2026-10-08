@@ -109,9 +109,6 @@ final class Site
             ['key' => 'nos-lions', 'label' => t('Nos Lions'), 'href' => url('/nos-lions/'), 'mega' => ['kind' => 'columns', 'cols' => $lionsCols, 'all' => ['label' => t('Tous les Lions'), 'href' => url('/nos-lions/')]]],
         ];
         $rubrics = ['supporters' => 'Supporters', 'infrastructures' => 'Infrastructures', 'symboles' => 'Symboles'];
-        if (Categories::get('grands-recits')) {
-            $rubrics = ['grands-recits' => 'Grands récits'] + $rubrics;
-        }
         foreach ($rubrics as $slug => $label) {
             $col = $simple($slug);
             $items[] = ['key' => $slug, 'label' => t($label), 'href' => url("/$slug/"), 'mega' => $col ? ['kind' => 'list', 'col' => $col] : null];
@@ -128,6 +125,7 @@ final class Site
     {
         return [
             ['title' => t("Explorer l'histoire"), 'tools' => [
+                ...(Categories::get('grands-recits') ? [['icon' => '¶', 'label' => t('Grands récits'), 'd' => t('Les grandes histoires du club, racontées d’après les archives.'), 'href' => url('/grands-recits/')]] : []),
                 ['icon' => '●', 'label' => t('Rétro-Direct'), 'd' => t('Les grands matchs rejoués en direct, le jour anniversaire.'), 'href' => url('/interactif/retro-direct/')],
                 ['icon' => '◎', 'label' => t('Carto'), 'd' => t('Stades, origines, épopées, lieux.'), 'href' => url('/interactif/carto/')],
                 ['icon' => '×', 'label' => t('Face-à-face'), 'd' => t('Choisissez un adversaire, voyez le bilan.'), 'href' => url('/face-a-face/')],
