@@ -25,7 +25,7 @@ Au total : **~3 600 matchs officiels + 211 amicaux, 87 saisons de minutes jouée
 
 - **Planches-contacts originales** (août 1968) : joueurs à l'entraînement, noms manuscrits (Manolios, Truchot…). Inédites.
 - **Album illustré Peugeot** (aquarelles, « esprit d'équipe » usine/club).
-- **Peugeot-Commercial**, journal interne : « Rubrique sportive » 1960-1961 (analyse de l'effectif, match nul 2-2 contre l'équipe nationale suisse le 3 mai 1961, US Lionceaux de La Garenne), supplément « Sports actualités » sur la finale de Coupe de France 1967 ; bilan 1966-67 avec le président de la République.
+- **Peugeot-Commercial**, journal interne : « Rubrique sportive » 1960-1961 (analyse de l'effectif, match nul 0-0 contre l'équipe nationale suisse le 3 mai 1961, US Lionceaux de La Garenne), supplément « Sports actualités » sur la finale de Coupe de France 1967 ; bilan 1966-67 avec le président de la République.
 - **Comptes rendus de tournée dactylographiés** (reliure spirale, années 60) : déplacements, compositions, scores, affluences.
 - **Programmes de soirée** : photos d'équipe légendées nom par nom (1937 à Fruneville, 1939-40).
 - **Brochure du centre de formation (1981)** : sélections nationales 1978-81, 10 contrats pros au 1.7.81.

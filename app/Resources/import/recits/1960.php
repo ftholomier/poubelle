@@ -63,7 +63,7 @@ return [
         'image_hint' => ['1964', 'montée', 'Roger Hug', 'Liron'],
         'intro' => 'Après la relégation de 1962, Roger Hug rajeunit l’équipe avec des joueurs amateurs. Troisième en 1963, Sochaux finit deuxième de la deuxième division en 1964 et remonte, porté par les 30 buts de Liron.',
         'sections' => [
-            ['Une équipe rajeunie', '<p>À l’été 1962, l’équipe incorpore plusieurs joueurs amateurs. Elle s’impose 5-1 à Béziers dès la 2e journée ({{match:1962-08-19|la fiche du match}}). Fin 1962, le club annonce le retour du Yougoslave Krstic et un échange Guy-Liron. Sochaux termine 3e avec 51 points et la meilleure attaque de son histoire en deuxième division : 68 buts, dont 21 de Schmit et 19 de Liron.</p>'],
+            ['Une équipe rajeunie', '<p>À l’été 1962, l’équipe incorpore plusieurs joueurs amateurs. Elle s’impose 5-1 à Béziers dès la 2e journée ({{match:1962-08-19|la fiche du match}}). Fin 1962, le club annonce le retour du Yougoslave Krstic et un échange Guy-Liron. Sochaux termine 3e avec 51 points et 68 buts marqués, dont 21 de Schmit et 19 de Liron.</p>'],
             ['Cinq buts de Liron', '<p>En Coupe de France, le 20 janvier 1963, Liron marque cinq fois contre Forbach (6-1) ({{match:1963-01-20|la fiche du match}}). Sochaux élimine ensuite le RC Lens (1-0), puis tient l’AS Monaco en échec 1-1 après prolongation à Marseille, avant de perdre le match d’appui 5-1.</p>'],
             ['1964, deuxième et promu', '<p>La saison 1963-1964 confirme la progression : 16 victoires, 12 nuls, 6 défaites, 62 buts marqués. Sochaux bat Montpellier 6-0, Besançon 5-0 devant 8 945 spectateurs ({{match:1964-02-02|la fiche du match}}) et Le Havre 4-0. Il termine 2e avec 42 points et retrouve la première division. Liron marque 30 buts toutes compétitions confondues. En Coupe de France, Monaco est éliminé 2-1 devant 11 165 spectateurs avant une défaite 4-2 après prolongation à Lens.</p>'],
         ],
@@ -110,7 +110,7 @@ return [
         'sections' => [
             ['Une séance numérotée', '<p>Les clichés portent la mention « 29.8.68 » et des numéros de B7 à B39. Chaque série de trois vues réunit en général deux joueurs : Leclerc et Schmit, Schmit et Lassalette, Lassalette et Melic, Dewilder et Zimmermann, Zimmermann et Gester, Nardin et Andrieux. Marconnet et le gardien Manolios ont leur propre série.</p>'],
             ['L’entraîneur dans le cadre', '<p>Une série associe Vuillaume et Krstic, l’entraîneur de l’équipe, qui sort d’une 3e place en championnat. Une autre réunit Manolios et Truchot. Le 9 septembre 1968, une seconde séance montre les professionnels à l’entraînement, dont Tardivon et Nardin (clichés B1 à B3).</p>'],
-            ['Un document de travail', '<p>Ces images n’étaient pas destinées à être publiées telles quelles. Les planches-contacts servaient à choisir les vues pour le journal de l’entreprise et la documentation. Elles rejoignent d’autres fiches du même fonds, comme celles du match Sochaux-Cherbourg de mars 1961 au stade Bonal, et permettent aujourd’hui de mettre un visage sur les noms des feuilles de match.</p>'],
+            ['Un document de travail', '<p>Une planche-contact rassemble toutes les vues d’une pellicule, avant le choix des tirages. Ces planches rejoignent d’autres fiches du même fonds, comme celles du match Sochaux-Cherbourg de mars 1961 au stade Bonal, et permettent aujourd’hui de mettre un visage sur les noms des feuilles de match.</p>'],
         ],
     ],
     [
