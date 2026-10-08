@@ -17,6 +17,22 @@
   <button class="btn btn--sm btn--ghost" name="style" value="a">+ Poster « Ma carte de supporter » · Charte du musée</button>
   <button class="btn btn--sm btn--ghost" name="style" value="b">+ Poster « Ma carte de supporter » · Billet de match</button>
 </form>
+<?php $bk = \App\Shop\BookShop::config(); $bkOn = \App\Shop\BookShop::sellable(); ?>
+<div class="shopgrid" style="margin-bottom:18px">
+  <article class="shopcard">
+    <span class="shopcard__st shopcard__st--<?= $bkOn ? 'on' : ($bk['active'] ? 'warn' : 'off') ?>"><?= $bkOn ? 'En vente · ' . e(\App\Shop\Orders::money($bk['paper'] ? min($bk['price'], $bk['price_pdf'] ?: $bk['price']) : $bk['price_pdf'])) . ($bk['paper'] ? '' : ' (PDF)') : ($bk['active'] ? 'Pas en vente : sans prix' : 'Pas en vente') ?></span>
+    <span class="shopcard__uniq" title="Nom en couverture, dédicace, maillot, match… : chaque exemplaire est unique">★ Personnalisé</span>
+    <a class="shopcard__img" href="/admin/livre"><?= \App\Shop\BookShop::coverSvg(['nom' => 'Votre nom']) ?></a>
+    <div class="shopcard__body">
+      <a class="shopcard__t" href="/admin/livre">Livre « 100 récits du Lion »</a>
+      <p class="shopcard__meta"><?= $bk['paper'] ? 'Livre imprimé et numérique' : 'Livre numérique (PDF)' ?> · toujours en tête de la boutique</p>
+    </div>
+    <div class="shopcard__foot">
+      <a class="btn btn--sm btn--navy" href="/admin/livre">Modifier</a>
+      <?php if ($bkOn): ?><a class="btn btn--sm btn--ghost" href="<?= e(\App\Shop\ShopPages::u('/boutique/livre/')) ?>" target="_blank" rel="noopener">Voir en boutique</a><?php endif; ?>
+    </div>
+  </article>
+</div>
 <?php if (!$models): ?><p class="empty">Aucun modèle pour l’instant : créez le premier ci-dessus.</p><?php endif; ?>
 <?php if (count($models) > 1): ?><p class="xs muted" style="margin:0 0 8px">Glissez une carte par sa poignée jaune ✥ pour la déplacer : la boutique présente les produits dans cet ordre (enregistré aussitôt).</p><?php endif; ?>
 <div class="shopgrid" data-sortable data-model-order>
