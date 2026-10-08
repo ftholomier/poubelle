@@ -57,8 +57,13 @@ final class Palmares
                 continue;
             }
             $comp = trim((string) ($m['competition_label'] ?? '')) ?: (string) ($m['competition'] ?? '');
-            $comp = self::canonical($comp);
             $year = (int) substr((string) ($m['date'] ?? ''), 0, 4);
+            // « Coupe » tout court entre 1953 et 1965 : la Coupe Charles Drago (coupe des éliminés
+            // de la Coupe de France), ou toute finale dont le titre la nomme.
+            if (preg_match('/drago/i', (string) $e['title'] . ' ' . ($m['round_text'] ?? '') . ' ' . ($m['event'] ?? '')) || (mb_strtolower(trim($comp)) === 'coupe' && $year >= 1953 && $year <= 1965)) {
+                $comp = 'Coupe Charles Drago';
+            }
+            $comp = self::canonical($comp);
             if (!$year || $comp === '') {
                 continue;
             }
