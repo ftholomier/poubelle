@@ -100,6 +100,7 @@ final class Site
                 'explore' => [
                     ['label' => t('Saisons'), 'href' => url('/saisons/')],
                     ['label' => t('Face-à-face'), 'href' => url('/face-a-face/')],
+                    ['label' => t('Palmarès'), 'href' => url('/palmares/')],
                     ['label' => t('Records'), 'href' => url('/records/')],
                     ['label' => t('Les chiffres'), 'href' => url('/chiffres/')],
                     ['label' => t('Bilan à Bonal'), 'href' => url('/bilans/stade-auguste-bonal/')],
