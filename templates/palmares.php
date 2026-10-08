@@ -51,7 +51,7 @@ $fams = ['championnats' => 'Championnats', 'coupes' => 'Coupes nationales', 'eur
     </div>
   </section>
   <?php endforeach; ?>
-  <p class="muted small"><?= e(t('Palmarès de référence (d’après Wikipédia, vérifié par le musée) complété automatiquement par les finales des fiches matchs. Une erreur, un trophée oublié ? Écrivez-nous.')) ?> <a href="<?= e(url('/contact/')) ?>"><?= e(t('Contact')) ?></a></p>
+  <p class="muted small"><?= e(t('Palmarès de référence (d’après Wikipédia et FCSM Story) complété automatiquement par les finales des fiches matchs. Une erreur, un trophée oublié ? Écrivez-nous.')) ?> <a href="<?= e(url('/contact/')) ?>"><?= e(t('Contact')) ?></a></p>
 </div>
 <style>
 .pal{display:flex;flex-direction:column;gap:40px;padding-bottom:60px}

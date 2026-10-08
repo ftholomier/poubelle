@@ -17,7 +17,7 @@ use App\Data\Names;
  */
 final class Palmares
 {
-    /** Titres de référence (Wikipédia, palmarès du club, vérifié le 8 octobre 2026) : titre, finale (finaliste ou vice-champion), demi. */
+    /** Titres de référence (Wikipédia et fcsmstory.com, vérifiés le 8 octobre 2026) : titre, finale (finaliste ou vice-champion), demi. */
     public const DEFAULT = [
         ['comp' => 'Championnat de France', 'year' => 1935, 'kind' => 'titre'],
         ['comp' => 'Championnat de France', 'year' => 1938, 'kind' => 'titre'],
@@ -49,13 +49,19 @@ final class Palmares
         ['comp' => 'Coupe Charles Drago', 'year' => 1963, 'kind' => 'titre'],
         ['comp' => 'Coupe Charles Drago', 'year' => 1964, 'kind' => 'titre'],
         ['comp' => 'Coupe Peugeot', 'year' => 1931, 'kind' => 'titre'],
+        // Débuts du club (fcsmstory.com, saisons 1929-1930 à 1931-1932, Coupe Dupuich)
+        ['comp' => 'Championnat de Bourgogne-Franche-Comté', 'year' => 1932, 'kind' => 'titre'],
+        ['comp' => 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'year' => 1931, 'kind' => 'titre'],
+        ['comp' => 'Challenge Maurice de Turckheim', 'year' => 1929, 'kind' => 'titre'],
+        ['comp' => 'Challenge Maurice de Turckheim', 'year' => 1930, 'kind' => 'titre'],
+        ['comp' => 'Tournoi de Bruxelles (Coupe Dupuich)', 'year' => 1930, 'kind' => 'finale'],
         ['comp' => 'Coupe des Alpes', 'year' => 1981, 'kind' => 'finale'],
         ['comp' => 'Tournoi de Casablanca', 'year' => 1989, 'kind' => 'titre'],
         ['comp' => 'Trophée Joan Gamper', 'year' => 1989, 'kind' => 'finale'],
     ];
 
     /** Ordre d'affichage des compétitions (les autres suivent, par ordre alphabétique). */
-    private const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Coupe UEFA', 'Coupe Intertoto', 'Championnat de France de D2', 'Division 3 (équipe réserve)', 'Coupe Gambardella', 'Coupe Charles Drago', 'Coupe Peugeot', 'Coupe des Alpes', 'Tournoi de Casablanca', 'Trophée Joan Gamper'];
+    private const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Coupe UEFA', 'Coupe Intertoto', 'Championnat de France de D2', 'Division 3 (équipe réserve)', 'Championnat de Bourgogne-Franche-Comté', 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'Coupe Gambardella', 'Coupe Charles Drago', 'Coupe Peugeot', 'Challenge Maurice de Turckheim', 'Tournoi de Bruxelles (Coupe Dupuich)', 'Coupe des Alpes', 'Tournoi de Casablanca', 'Trophée Joan Gamper'];
 
     /** Finale d'une compétition (et pas un tour qui contient le mot « finale »). */
     public static function isFinal(string $round): bool
