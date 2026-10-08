@@ -27,6 +27,7 @@ final class Palmares
         ['comp' => 'Coupe de France', 'year' => 1937, 'kind' => 'titre'],
         ['comp' => 'Coupe de France', 'year' => 2007, 'kind' => 'titre'],
         ['comp' => 'Coupe de la Ligue', 'year' => 2004, 'kind' => 'titre'],
+        ['comp' => 'Coupe Charles Drago', 'year' => 1953, 'kind' => 'titre'],
         ['comp' => 'Coupe de France', 'year' => 1959, 'kind' => 'finale'],
         ['comp' => 'Coupe de France', 'year' => 1967, 'kind' => 'finale'],
         ['comp' => 'Coupe de France', 'year' => 1988, 'kind' => 'finale'],
