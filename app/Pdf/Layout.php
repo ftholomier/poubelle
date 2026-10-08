@@ -174,6 +174,20 @@ final class Layout
         return $w;
     }
 
+    /** Texte en contour seul (lettres évidées), posé sur sa ligne de base. */
+    public function strokeText(float $x, float $baseline, string $s, string $font, float $size, string $color, float $lw = 1.5, float $spacing = 0): float
+    {
+        if ($s === '') {
+            return 0;
+        }
+        $hex = '';
+        foreach ($this->fonts[$font]->glyphs($s) as $g) {
+            $hex .= sprintf('%04X', $g);
+        }
+        $this->op(sprintf('q %s %.2F w 1 j BT /%s %.2F Tf 1 Tr %.2F Tc %.2F %.2F Td <%s> Tj ET Q', self::col($color, false), $lw, $this->pdf->fontRes($font), $size, $spacing, $x, $this->ph - $baseline, $hex));
+        return $this->width($s, $font, $size, $spacing);
+    }
+
     /**
      * Texte retourné (à lire tête en bas, comme les solutions d'un jeu), centré sur $cx ;
      * $y : haut de la ligne une fois la page retournée… c'est-à-dire sa ligne de base.

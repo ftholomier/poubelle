@@ -177,46 +177,95 @@ final class Livre
         $this->page();
         $this->noFolio[$l->page] = true;
         $this->dark[$l->page] = true;
+        $mm = self::MM;
+        $b = $this->b;
         $l->rect(0, 0, $l->pw, $l->ph, 'navy');
-        // Photo de couverture choisie par le client parmi les photos proposées (assez définies).
+        // Photo choisie par le client parmi les photos proposées : nette sur sa zone (250 dpi), puis
+        // fondue dans le bleu nuit (dégradé incrusté dans l'image), sous le titre.
         $img = null;
         $rel = (string) ($this->o['couverture'] ?? '');
-        if ($rel !== '' && in_array($rel, self::covers(), true)) {
-            $img = $this->prepare($rel, $l->pw, self::coverH(), self::DPI['page']);
+        if ($rel !== '' && in_array($rel, self::covers(), true) && ($this->coverDpi($rel) ?? 0) >= self::DPI['page']) {
+            $img = $this->prepare($rel, $l->pw, self::coverH() + 60 * $mm, 0);
         }
         $this->coverPhoto = $img ? $rel : null;
-        $top = $img ? self::coverH() : 0.0;
         if ($img) {
-            $l->drawImage($l->loadImage($img['file']), 0, 0, $l->pw, $top, true);
+            $file = $this->fade($img['file'], self::coverH() / (self::coverH() + 60 * $mm));
+            $l->drawImage($l->loadImage($file), 0, 0, $l->pw, self::coverH() + 60 * $mm, true);
         } else {
             $this->stripes(0, 0, $l->pw, $l->ph);
-            $l->logo($this->b + $this->W / 2 - 80, $this->b + 70 * self::MM - 120, 200);
+            $l->logo($l->pw - $b - 118 * $mm, $b + 18 * $mm, 330);
         }
-        if (!$img) {
-            $l->rect(0, 0, $l->pw, $this->b + 14 * self::MM, 'yellow');
-        }
-        $x = $this->b + 16 * self::MM;
-        if ($img) {
-            $l->rect(0, $top, $l->pw, 4, 'yellow');
-            $l->text($x, $top + 62, '100 RÉCITS', 'display', 62, 'white', 0.5);
-            $l->text($x, $top + 118, 'DU LION', 'display', 62, 'yellow', 0.5);
-            $l->text($x, $top + 144, 'FC Sochaux-Montbéliard, des origines à nos jours', 'serif-i', 13, 'cream');
-        } else {
-            $y = $this->b + $this->H - 92 * self::MM;
-            $l->text($x, $y, '100 RÉCITS', 'display', 76, 'white', 0.5);
-            $l->text($x, $y + 68, 'DU LION', 'display', 76, 'yellow', 0.5);
-            $l->text($x, $y + 104, 'FC Sochaux-Montbéliard, des origines à nos jours', 'serif-i', 15, 'cream');
-        }
-        $yy = $this->b + $this->H - 30 * self::MM;
-        $l->rect($x, $yy, $this->W - 32 * self::MM, 1.4, 'yellow');
+        // En-tête : blason et musée, à gauche ; fil vertical à droite.
+        $l->logo($b + 14 * $mm, $b + 12 * $mm, 50);
+        $l->text($b + 14 * $mm + 44, $b + 12 * $mm + 22, 'MUSÉE SOCHAUX RÉTRO', 'display-b', 10, 'white', 2);
+        $l->text($b + 14 * $mm + 44, $b + 12 * $mm + 36, 'présente', 'serif-i', 10, 'cream');
+        $vx = $l->pw - $b - 10 * $mm;
+        $l->rotated(90, $vx, $b + 14 * $mm, function () use ($l, $vx, $b, $mm) {
+            $l->text($vx, $b + 14 * $mm, 'FC SOCHAUX-MONTBÉLIARD  ·  1928 — ' . date('Y'), 'display-b', 9, 'yellow', 3);
+        });
+        // Titre : « 100 » géant évidé, « RÉCITS / DU LION » plein à côté.
+        $base = $l->ph - $b - 66 * $mm;
+        $x = $b + 12 * $mm;
+        $w100 = $l->strokeText($x, $base, '100', 'display', 250, 'yellow', 3.2, -4);
+        $tx = $x + $w100 + 6;
+        $l->text($tx, $base - 62, 'RÉCITS', 'display', 62, 'white', 0.5);
+        $l->text($tx, $base, 'DU LION', 'display', 62, 'yellow', 0.5);
+        // Bande jaune en biais : le sous-titre.
+        $y0 = $base + 26;
+        $l->polygon([[0, $y0 + 14], [$l->pw, $y0 - 14], [$l->pw, $y0 + 22], [0, $y0 + 50]], 'yellow');
+        $sub = 'FC SOCHAUX-MONTBÉLIARD, DES ORIGINES À NOS JOURS';
+        $cx = $l->pw / 2;
+        $cy = $y0 + 18;
+        $l->rotated(-2.7, $cx, $cy, function () use ($l, $sub, $cx, $cy) {
+            $l->text($cx - $l->width($sub, 'display-b', 13, 2) / 2, $cy + 5, $sub, 'display-b', 13, 'navy', 2);
+        });
+        // Étiquette de l'exemplaire, en bas.
+        $yy = $l->ph - $b - 22 * $mm;
         if (($nom = trim((string) ($this->o['nom'] ?? ''))) !== '') {
-            $l->text($x, $yy + 18, 'EXEMPLAIRE DE', 'display-b', 9.5, 'cream', 1.6);
-            $l->text($x, $yy + 40, mb_strtoupper($nom), 'display', 20, 'yellow', 0.6);
+            $nw = max($l->width(mb_strtoupper($nom), 'display', 22, 0.6), $l->width('EXEMPLAIRE DE', 'display-b', 8.5, 2)) + 28;
+            $l->rect($x, $yy - 6, $nw, 46, 'white');
+            $l->rect($x, $yy - 6, 5, 46, 'yellow');
+            $l->text($x + 16, $yy + 8, 'EXEMPLAIRE DE', 'display-b', 8.5, 'muted', 2);
+            $l->text($x + 16, $yy + 31, mb_strtoupper($nom), 'display', 22, 'navy', 0.6);
         }
-        $t = 'MUSÉE SOCHAUX RÉTRO';
-        $l->text($this->b + $this->W - 16 * self::MM - $l->width($t, 'display-b', 9.5, 1.6), $yy + 40, $t, 'display-b', 9.5, 'cream', 1.6);
+        if (($num = trim((string) ($this->o['numero'] ?? ''))) !== '') {
+            $t = 'N° ' . $num;
+            $l->text($l->pw - $b - 14 * $mm - $l->width($t, 'display', 22, 1), $yy + 31, $t, 'display', 22, 'cream', 1);
+        }
     }
 
+    /** Photo de couverture fondue dans le bleu nuit à partir de $from (fraction de la hauteur), haut assombri. */
+    private function fade(string $file, float $from): string
+    {
+        $out = substr($file, 0, -4) . '-couv.jpg';
+        if (is_file($out)) {
+            return $out;
+        }
+        $im = @imagecreatefromjpeg($file);
+        if (!$im) {
+            return $file;
+        }
+        $w = imagesx($im);
+        $h = imagesy($im);
+        $start = (int) ($h * ($from - 0.28));
+        for ($y = 0; $y < $h; $y++) {
+            $a = 0.0;
+            if ($y >= $start) {
+                $t = min(1, ($y - $start) / max(1, $h - $start));
+                $a = $t * $t * (3 - 2 * $t);
+            } elseif ($y < $h * 0.22) {
+                $a = 0.45 * (1 - $y / ($h * 0.22));
+            }
+            if ($a <= 0.004) {
+                continue;
+            }
+            $col = imagecolorallocatealpha($im, 0x0E, 0x1F, 0x4D, (int) round(127 * (1 - $a)));
+            imageline($im, 0, $y, $w - 1, $y, $col);
+        }
+        imagejpeg($im, $out, 90);
+        imagedestroy($im);
+        return $out;
+    }
 
     /** Hauteur de la photo de couverture (en haut, à fonds perdus), en points. */
     public static function coverH(): float
