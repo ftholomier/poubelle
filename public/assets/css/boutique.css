@@ -249,6 +249,7 @@
 .shopbook__jy input{position:absolute;opacity:0}
 .shopbook__jy-img{display:grid;place-items:center;aspect-ratio:1/1;background:#F3EDDF}
 .shopbook__jy-img svg{width:82%;height:auto}
+.shopbook__jy-img img{width:100%;height:100%;object-fit:contain}
 .shopbook__jy-none{font-size:.8rem;color:#5a6070;text-align:center}
 .shopbook__jy-t{margin-top:5px;font-size:.78rem;line-height:1.2;text-align:center}
 .shopbook__jy-t small{display:block;opacity:.7}

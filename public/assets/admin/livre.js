@@ -47,6 +47,26 @@ ${num ? `<text x="140" y="300" font-size="230" fill="#${st.text}" stroke="#${st.
   }
   window.livreJersey = jerseyImage;
 
+  /** Vignettes du choix du maillot : vue 3D de face (blason au cœur), l'une après l'autre. */
+  async function jerseyFront(st, px) {
+    const { snapshot } = await import('/assets/js/shop3d.js');
+    const design = { body: '#' + st.body, sleeve: st.sleeve ? '#' + st.sleeve : null, trim: '#' + st.trim, collar: st.collar, cuffs: !!st.cuffs,
+      layers: (st.layers || []).map(l => Object.assign({}, l, { color: '#' + (l.color || st.trim) })) };
+    const heart = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="62" height="70" viewBox="0 0 62 70"><image href="${await logo()}" xlink:href="${await logo()}" x="0" y="0" width="62" height="70"/></svg>`;
+    return snapshot({ kind: 'jersey', design, model: '/assets/3d/tshirt.glb', faces: { coeur: { w: 62, h: 70, x: 78, y: 600, svg: heart } } }, { w: px, h: Math.round(px * 1.11), view: [0.28, 0.06], zoom: 0.78 });
+  }
+  (async () => {
+    for (const inp of form.querySelectorAll('.jypick__i input')) {
+      const st = styles[inp.value], box = inp.parentElement.querySelector('.jypick__img');
+      if (!st || !box) continue;
+      try {
+        const img = new Image(); img.src = URL.createObjectURL(await jerseyFront(st, 320)); img.alt = '';
+        img.style.cssText = 'width:100%;height:100%;object-fit:contain';
+        box.textContent = ''; box.appendChild(img);
+      } catch (err) { console.error(err); return; }
+    }
+  })();
+
   // Écran de validation : aperçus 3D (devant, dos) de chaque modèle, l'un après l'autre.
   (async () => {
     for (const box of document.querySelectorAll('[data-jersey-3d]')) {

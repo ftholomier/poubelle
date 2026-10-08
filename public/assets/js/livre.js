@@ -101,6 +101,25 @@
     const front = await snapshot(spec({ coeur: { w: 62, h: 70, x: 78, y: 600, svg: heart } }), opt([0.28, 0.06]));
     return { front, back };
   }
+  // Vignettes du choix : vue 3D de face de chaque maillot (le dessin reste affiché en attendant).
+  (async () => {
+    const boxes = [...form.querySelectorAll('.shopbook__jy input')].filter(i => styles[i.value]);
+    if (!boxes.length) return;
+    try {
+      const { snapshot } = await import(root.dataset['3d']);
+      logoData = logoData || await dataUrl(root.dataset.logo);
+      const heart = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="62" height="70" viewBox="0 0 62 70"><image href="${logoData}" xlink:href="${logoData}" width="62" height="70"/></svg>`;
+      for (const inp of boxes) {
+        const st = styles[inp.value];
+        const design = { body: '#' + st.body, sleeve: st.sleeve ? '#' + st.sleeve : null, trim: '#' + st.trim, collar: st.collar, cuffs: !!st.cuffs, layers: (st.layers || []).map(l => Object.assign({}, l, { color: '#' + (l.color || st.trim) })) };
+        const blob = await snapshot({ kind: 'jersey', design, model: root.dataset['3d'].replace(/js\/shop3d\.js.*$/, '3d/tshirt.glb'), faces: { coeur: { w: 62, h: 70, x: 78, y: 600, svg: heart } } }, { w: 320, h: 355, view: [0.28, 0.06], zoom: 0.78 });
+        const box = inp.parentElement.querySelector('.shopbook__jy-img');
+        const img = new Image(); img.src = URL.createObjectURL(blob); img.alt = '';
+        box.textContent = ''; box.appendChild(img);
+      }
+    } catch (e) { console.error(e); }
+  })();
+
   const jIn = () => ({ style: (q('[name="livre[maillot_style]"]:checked') || q('select[name="livre[maillot_style]"]') || {}).value || '', name: ((q('[name="livre[maillot_nom]"]') || {}).value || '').trim().toUpperCase(), num: ((q('[name="livre[maillot_numero]"]') || {}).value || '').replace(/\D/g, '').slice(0, 2) });
   const jBox = root.querySelector('[data-book-jersey]');
   let jTimer = null, jSig = '', jDone = '';
