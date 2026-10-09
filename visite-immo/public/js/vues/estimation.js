@@ -279,7 +279,7 @@ function popupVente(c, rang) {
  * Bloc « Estimation » de la fiche : prix, carte (le bien au centre, le prix de chaque vente autour), le calcul qui
  * justifie le prix et la liste des ventes. Se recalcule quand la surface, l'état, le DPE… changent.
  */
-export function carteVentesFiche($el, visit) {
+export function carteVentesFiche($el, visit, { lier = () => {} } = {}) {
   let carte = null;
   let timer = null;
   let dernier = "";
@@ -319,12 +319,15 @@ export function carteVentesFiche($el, visit) {
       ${justification(e)}
       ${e.communes_voisines?.length ? `<p class="small muted">Peu de ventes dans la commune : ventes de ${e.communes_voisines.map(esc).join(", ")} ajoutées (les plus proches pèsent le plus).</p>` : ""}
       <details class="aide"><summary>Les ${e.comparables.length} ventes retenues</summary>${listeComparables(e.comparables)}</details>
+      <div class="btn-row"><button class="btn primary" data-pdf="avis">📄 Rapport d'estimation</button><button class="btn" data-send="avis">✉️ Envoyer au vendeur</button></div>
+      <p class="small muted">Le rapport reprend tout pour le vendeur : la carte des ventes autour de son bien, le calcul de ce prix, les ventes retenues et l'évolution du marché.</p>
       <p class="small muted">Ventes réelles publiées par la DGFiP (DVF), sur 5 ans. Touchez un prix sur la carte pour le détail.</p>`;
     if (avant) {
       $el.classList.remove("flash");
       void $el.offsetWidth;
       $el.classList.add("flash");
     }
+    lier($el); // boutons PDF et envoi (liés par la fiche)
     dessiner(r, e);
     $el.querySelector("#toutes-ventes")?.addEventListener("change", (ev) => {
       toutes = ev.target.checked;

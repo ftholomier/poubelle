@@ -598,7 +598,7 @@ function renderFiche($c, visit, sections, saver) {
     field.querySelector(".chip")?.remove(); // corrigé par l'agent : ce n'est plus l'IA
   });
   // Estimation : carte des ventes autour du bien et justification du prix, recalculées à chaque modification
-  carteVentesFiche(document.getElementById("estim-fiche"), visit);
+  carteVentesFiche(document.getElementById("estim-fiche"), visit, { lier: (el) => bindDocActions(el, visit, saver) });
   $c.addEventListener("click", (e) => {
     const aide = e.target.closest(".aide-champ");
     if (aide) {

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 // Point d'entrée commun : configuration, réponses JSON, session, stockage fichiers.
 
-define('APP_VERSION', '18'); // à garder identique à APP_VERSION dans public/js/app.js
+define('APP_VERSION', '19'); // à garder identique à APP_VERSION dans public/js/app.js
 define('APP_ROOT', dirname(__DIR__));
 define('SETTINGS_FILE', getenv('VI_SETTINGS') ?: __DIR__ . '/settings.json'); // réglages faits dans l'appli (VI_SETTINGS : tests)
 

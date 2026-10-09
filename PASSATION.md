@@ -371,6 +371,14 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
 - **Fond de carte : Plan IGN** (Géoplateforme, `data.geopf.fr`, gratuit, sans clé ; `public/js/carte.js`). Plus
   OpenStreetMap : ses serveurs refusent les demandes sans en-tête Referer, et l'appli n'en envoie pas aux sites
   externes (`Referrer-Policy: same-origin`). Cartes sans animations de zoom (redessinées souvent).
+- **Rapport d'estimation pour le vendeur** (PDF « Avis de valeur », `rendre_avis_valeur()`) : prix conseillé,
+  le bien, l'analyse, **carte imprimable des ventes autour du bien** (`carte_ventes_png()` dans
+  `modules/carte_ventes.php` : tuiles Plan IGN assemblées avec GD, en cache 30 jours, ventes retenues numérotées comme
+  dans le tableau avec leur prix, autres ventes en gris, échelle ; sans réseau, fond neutre quadrillé), le calcul pas
+  à pas, le graphique des prix au m², le tableau des ventes (distance, ressemblance) et l'évolution du marché.
+  Boutons « Rapport d'estimation » et « Envoyer au vendeur » dans le bloc Estimation de la fiche ; c'est aussi la
+  pièce jointe de « Tout envoyer au vendeur » et le document de son espace. Sans avis calculé, le rapport prend
+  l'estimation du jour (texte sans IA).
 - Tests : Leaflet servi depuis `tests/node_modules/leaflet` (`npm pack leaflet@1.9.4`), tuiles IGN simulées.
 - **Acquéreurs ↔ biens** : la commune recherchée est un critère éliminatoire (accents, tirets, « St/Saint » et code
   postal ignorés). Les communes voisines sont proposées jusqu'à 15 km avec un score qui baisse avec la distance

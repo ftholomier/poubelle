@@ -188,6 +188,22 @@ if (str_starts_with($path, '/push/')) {
 
 // --- Gemini generateContent (réponses fixes, pour vérifier les appels réels) ---
 // Liste des modèles (comme l'API Gemini) : l'ancien modèle Live a disparu, deux nouveaux sont proposés
+// Tuiles Plan IGN (WMTS) : fond clair avec des « rues » qui dépendent de la tuile, pour voir la carte du rapport
+if ($path === '/ign/wmts') {
+    $x = (int) ($q['TILECOL'] ?? 0); $y = (int) ($q['TILEROW'] ?? 0);
+    $im = imagecreatetruecolor(256, 256);
+    imagefill($im, 0, 0, imagecolorallocate($im, 242, 239, 230));
+    $rue = imagecolorallocate($im, 255, 255, 255);
+    $bord = imagecolorallocate($im, 214, 208, 195);
+    imagesetthickness($im, 9);
+    foreach ([40 + ($x * 37) % 120, 170 + ($y * 23) % 60] as $c) { imageline($im, $c, 0, $c + 30, 256, $bord); imageline($im, 0, $c, 256, $c - 20, $bord); }
+    imagesetthickness($im, 6);
+    foreach ([40 + ($x * 37) % 120, 170 + ($y * 23) % 60] as $c) { imageline($im, $c, 0, $c + 30, 256, $rue); imageline($im, 0, $c, 256, $c - 20, $rue); }
+    imagefilledrectangle($im, 90, 90, 130, 120, imagecolorallocate($im, 220, 214, 200));
+    header('Content-Type: image/png');
+    imagepng($im);
+    exit;
+}
 // Jeton temporaire d'une conversation Live
 if ($path === '/gemini/auth_tokens') json(['name' => 'auth_tokens/jeton-test']);
 if ($path === '/gemini/models') {

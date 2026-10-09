@@ -1,6 +1,8 @@
 // Estimation en temps réel : outil « Estimer un bien » (adresse, caractéristiques → prix qui bouge à chaque
 // changement) et estimation en direct dans la fiche d'un dossier.
-import { navigateur, connexion, api, verifier, configurerEmail, dossierAvecMandat, BASE } from "./outils.mjs";
+import { execFileSync } from "node:child_process";
+import { writeFileSync, existsSync } from "node:fs";
+import { navigateur, connexion, api, verifier, configurerEmail, dossierAvecMandat, BASE, DONNEES } from "./outils.mjs";
 
 const { browser, page, erreurs, capture } = await navigateur();
 // Fond de carte Plan IGN simulé (pas d'accès à Internet pendant les tests) : on compte les tuiles demandées
@@ -98,6 +100,19 @@ try {
   verifier(tuilesIgn > 0 && (await page.$$eval(".leaflet-tile", (l) => l.every((t) => t.src.startsWith("https://data.geopf.fr/")))), `fond de carte Plan IGN (${tuilesIgn} tuiles), plus OpenStreetMap`);
   await page.locator("#estim-fiche").scrollIntoViewIfNeeded();
   await capture("estim-03-fiche");
+
+  // Rapport d'estimation pour le vendeur (PDF) : carte imprimable, calcul, ventes, marché
+  verifier((await page.isVisible("#estim-fiche [data-pdf='avis']")) && (await page.isVisible("#estim-fiche [data-send='avis']")), "fiche : boutons « Rapport d'estimation » et « Envoyer au vendeur »");
+  const octets = await page.evaluate(async (id) => Array.from(new Uint8Array(await (await fetch(`api/?r=pdf&id=${id}&doc=avis`)).arrayBuffer())), id);
+  const fichier = `${DONNEES}/rapport-estimation.pdf`;
+  writeFileSync(fichier, Buffer.from(octets));
+  const texte = execFileSync("pdftotext", ["-layout", fichier, "-"]).toString();
+  const images = execFileSync("pdfimages", ["-list", fichier]).toString().trim().split("\n").slice(2);
+  verifier(texte.includes("LES VENTES AUTOUR DE VOTRE BIEN") && images.some((l) => /\s(\d{4})\s+(\d{3,4})\s/.test(l)), `rapport : carte des ventes autour du bien (${images.length} image(s))`);
+  verifier(texte.includes("COMMENT NOUS AVONS CALCULÉ VOTRE PRIX") && /surface habitable de votre bien\s+160 m² =/.test(texte) && texte.includes("Valeur estimée"), "rapport : le calcul pas à pas (prix au m² × surface, ajustements, valeur)");
+  verifier(texte.includes("LES VENTES RETENUES") && /\n\s*1\s+\d{2}\/\d{4}/.test(texte) && texte.includes("DISTANCE"), "rapport : ventes retenues numérotées comme sur la carte, avec leur distance");
+  verifier(texte.includes("VOTRE BIEN") && texte.includes("SURFACE HABITABLE") && texte.includes("NOTRE ANALYSE"), "rapport : le bien et l'analyse");
+  verifier(existsSync(`${DONNEES}/data/cache/tuiles`), "carte du rapport sur fond Plan IGN (tuiles en cache)");
   v = await api(page, "dossier", { query: { id } });
   verifier(v.avis_valeur.retenu > avant && v.avis_valeur.direct, "avis de valeur enregistré mis à jour sans relancer l'IA");
   verifier(v.avis_valeur.argumentaire_perime === true, "argumentaire signalé « à réécrire »");
