@@ -25,7 +25,7 @@ try {
   await page.waitForSelector("text=Biens compatibles");
   await page.waitForTimeout(500);
   await capture("secteur-01-acquereur");
-  verifier(!(await page.locator("text=Lougres").count()), "aucun bien de Lougres à l'écran");
+  verifier(!(await page.locator(".ligne.compat", { hasText: "Lougres" }).count()), "aucun bien de Lougres dans les biens compatibles (ils sont dans « écartés », avec la raison)");
 
   // Dans l'autre sens : le bien de Lougres ne lui est pas proposé
   const r = await api(page, "rapprochements", { query: { id: lougres[0] } });
@@ -48,6 +48,22 @@ try {
     ]);`));
   verifier(score[0] === 100 && score[1] < 100 && score[1] >= 75 && score[2].bloquant, `classement par score : Châtillon-le-Duc ${score[0]} %, École-Valentin ${score[1]} %, Lougres écarté (${score[2].raisons.join(", ")})`);
   verifier(res[1][0] === "oui", "« St-Vit » reconnu comme « Saint-Vit »");
+
+  // Colombier-Fontaine, à côté de Lougres : les 3 biens de Lougres sont proposés, juste sous 100 %
+  const b = await api(page, "acquereur", { method: "POST", body: { prenom: "Léa", nom: "Martin", email: "lea@exemple.fr", criteres: { type: "Maison", budget_max: 500000, villes: "Colombier-Fontaine" } } });
+  const fb = await api(page, "acquereur", { query: { id: b.id } });
+  verifier(fb.biens.length === 3 && fb.biens.every((x) => lougres.includes(x.id) && x.score < 100 && x.score >= 80 && /commune voisine, à [\d,]+ km de Colombier-Fontaine/.test(x.raisons.join())), `Colombier-Fontaine : les 3 biens de Lougres proposés (${fb.biens[0]?.score} %, « ${fb.biens[0]?.raisons.at(-1)} »)`);
+  verifier(fb.ecartes.some((x) => x.id === chatillon && /hors secteur : .* km de Colombier-Fontaine/.test(x.raisons.join())), "Châtillon-le-Duc écarté, avec la distance dans la raison");
+  await page.goto(`${BASE}#/acquereur/${b.id}`);
+  await page.waitForSelector(".compat-score");
+  await page.click("text=écarté");
+  await capture("secteur-02-voisines");
+
+  // Position du bien simulée (service public injoignable, jeu de démonstration) : la commune est retrouvée par son nom
+  const sim = JSON.parse(php(`echo json_encode(secteur_compatible("Colombier-Fontaine", ["titre" => "11 rue du Chênois, Lougres", "public" => ["simulation" => true, "geo" => ["lat" => 46.5, "lon" => 2.5, "city" => "Lougres"]], "fiche" => ["champs" => ["ville" => ["valeur" => "25260 Lougres"]]]]), JSON_UNESCAPED_UNICODE);`));
+  verifier(sim[0] === "proche", `position simulée ignorée, bien situé par sa commune : « ${sim[1]} »`);
+  const inconnue = JSON.parse(php(`echo json_encode(secteur_compatible("Zzzville", ["fiche" => ["champs" => ["ville" => ["valeur" => "25260 Lougres"]]]]), JSON_UNESCAPED_UNICODE);`));
+  verifier(inconnue[0] === "non" && inconnue[1].includes("impossible de situer Zzzville"), "commune introuvable : la raison est dite clairement");
   verifier(erreurs.length === 0, "aucune erreur JavaScript" + (erreurs.length ? " : " + erreurs.join(" | ") : ""));
   console.log("\nSecteur des acquéreurs : OK");
 } catch (e) {

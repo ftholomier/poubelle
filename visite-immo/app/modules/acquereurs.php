@@ -91,27 +91,45 @@ function commune_geo(string $nom): ?array
     return $memo[$cle] = $r;
 }
 
-/** Le bien est-il dans le secteur recherché ? ['oui'|'proche'|'non', raison]. */
-function secteur_compatible(string $villes, array $v): array
+/**
+ * Position du bien : celle du dossier technique si elle est réelle ; sinon (service public injoignable, données
+ * simulées, jeu de démonstration) le centre de sa commune, retrouvé par son nom.
+ */
+function position_bien(array $v): ?array
 {
     $geo = $v['public']['geo'] ?? [];
-    $communeBien = trim(($geo['city'] ?? '') ?: preg_replace('/\b\d{5}\b/', '', champ($v, 'ville')));
-    $cleBien = cle_commune($communeBien . ' ' . champ($v, 'ville'));
-    $demandees = array_filter(array_map('trim', preg_split('/[,;\/]| ou | et /u', $villes)));
+    $nomCommune = trim(($geo['city'] ?? '') ?: preg_replace('/\b\d{5}\b/', '', champ($v, 'ville')));
+    if (!empty($geo['lat']) && empty($v['public']['simulation'])) return ['lat' => (float) $geo['lat'], 'lon' => (float) $geo['lon'], 'nom' => $nomCommune, 'citycode' => $geo['citycode'] ?? ''];
+    if ($nomCommune === '') $nomCommune = trim((string) preg_replace('/^.*,\s*/', '', (string) ($v['titre'] ?? '')));
+    $g = $nomCommune !== '' ? commune_geo(trim(champ($v, 'ville')) ?: $nomCommune) : null;
+    return $g ? ['lat' => (float) $g['lat'], 'lon' => (float) $g['lon'], 'nom' => $g['nom'] ?? $nomCommune, 'citycode' => $g['citycode'] ?? ''] : ($nomCommune !== '' ? ['nom' => $nomCommune] : null);
+}
+
+/** Le bien est-il dans le secteur recherché ? ['oui'|'proche'|'non', raison, distance en km]. */
+function secteur_compatible(string $villes, array $v): array
+{
+    $pos = position_bien($v);
+    $communeBien = $pos['nom'] ?? '';
+    $cleBien = cle_commune($communeBien . ' ' . champ($v, 'ville') . ' ' . preg_replace('/^.*,\s*/', '', (string) ($v['titre'] ?? '')));
+    $demandees = array_filter(array_map('trim', preg_split('/[,;\/]| ou | et |\balentours?\b|\bsecteur\b|\bautour de\b/u', $villes)));
     $plusProche = null;
+    $introuvables = [];
     foreach ($demandees as $d) {
         $cd = cle_commune($d);
         if ($cd === '') continue;
-        if (preg_match('/(^| )' . preg_quote($cd, '/') . '( |$)/', $cleBien)) return ['oui', 'secteur recherché'];
+        if (preg_match('/(^| )' . preg_quote($cd, '/') . '( |$)/', $cleBien)) return ['oui', 'secteur recherché', 0];
         $g = commune_geo($d);
-        if ($g && !empty($geo['citycode']) && $g['citycode'] === $geo['citycode']) return ['oui', 'secteur recherché'];
-        if ($g && !empty($geo['lat'])) {
-            $km = distance_m((float) $geo['lat'], (float) $geo['lon'], (float) $g['lat'], (float) $g['lon']) / 1000;
+        if (!$g) { $introuvables[] = $d; continue; }
+        if (!empty($pos['citycode']) && ($g['citycode'] ?? '') === $pos['citycode']) return ['oui', 'secteur recherché', 0];
+        if (isset($pos['lat'])) {
+            $km = distance_m($pos['lat'], $pos['lon'], (float) $g['lat'], (float) $g['lon']) / 1000;
             if ($plusProche === null || $km < $plusProche[1]) $plusProche = [$g['nom'] ?? $d, $km];
         }
     }
     if ($plusProche && $plusProche[1] <= RAYON_SECTEUR_KM) return ['proche', 'commune voisine, à ' . number_format($plusProche[1], 1, ',', '') . ' km de ' . $plusProche[0], $plusProche[1]];
-    return ['non', 'hors secteur (' . ($communeBien ?: 'commune inconnue') . ')'];
+    if ($plusProche) return ['non', 'hors secteur : ' . ($communeBien ?: 'ce bien') . ' est à ' . round($plusProche[1]) . ' km de ' . $plusProche[0], $plusProche[1]];
+    if ($introuvables) return ['non', 'impossible de situer ' . implode(', ', $introuvables) . " (service d'adresses injoignable ou commune mal orthographiée)", 0];
+    return ['non', 'hors secteur (' . ($communeBien ?: 'commune du bien inconnue') . ')', 0];
 }
 
 /** Compatibilité acquéreur ↔ bien, de 0 à 100, avec les raisons. */
@@ -153,16 +171,20 @@ function rapprochement(array $a, array $v): array
     return ['score' => max(0, $score), 'raisons' => $raisons, 'bloquant' => $bloquant];
 }
 
-/** Biens en vente (ou prêts) de l'agent, les plus compatibles d'abord. */
-function biens_pour(array $agent, array $a): array
+/** Biens en vente (ou prêts) de l'agent, les plus compatibles d'abord. Avec $ecartes : les autres, et pourquoi. */
+function biens_pour(array $agent, array $a, ?array &$ecartes = null): array
 {
     $out = [];
+    $ecartes = [];
     foreach (dossiers($agent) as $v) {
         if (!in_array(etape_dossier($v), ['preparation', 'signature', 'en_vente'], true)) continue;
         $r = rapprochement($a, $v);
-        if ($r['score'] >= 50 && !$r['bloquant']) $out[] = ['id' => $v['id'], 'titre' => titre_bien($v), 'prix' => champ($v, 'mandat_prix') ?: champ($v, 'prix_souhaite'), 'etape' => etape_dossier($v)] + $r;
+        $ligne = ['id' => $v['id'], 'titre' => titre_bien($v), 'prix' => champ($v, 'mandat_prix') ?: champ($v, 'prix_souhaite'), 'etape' => etape_dossier($v)] + $r;
+        if ($r['score'] >= 50 && !$r['bloquant']) $out[] = $ligne;
+        else $ecartes[] = $ligne;
     }
     usort($out, fn ($x, $y) => $y['score'] <=> $x['score']);
+    usort($ecartes, fn ($x, $y) => $y['score'] <=> $x['score']);
     return $out;
 }
 
@@ -238,7 +260,8 @@ route('GET acquereur', function ($id) {
     $a = acquereur($me, $id);
     $visites = [];
     foreach (dossiers($me) as $v) foreach ($v['visites_acq'] ?? [] as $va) if (($va['acquereur'] ?? '') === $id) $visites[] = $va + ['dossier' => $v['id'], 'bien' => titre_bien($v)];
-    send_json(['acquereur' => $a, 'biens' => biens_pour($me, $a), 'visites' => $visites]);
+    $biens = biens_pour($me, $a, $ecartes);
+    send_json(['acquereur' => $a, 'biens' => $biens, 'ecartes' => array_slice($ecartes, 0, 10), 'visites' => $visites]);
 });
 
 route('POST acquereur', function ($id) {

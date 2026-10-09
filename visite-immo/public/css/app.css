@@ -793,3 +793,4 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .compat-score.haut { background: var(--citron); }
 .compat-score.moyen { background: #ffe0b8; }
 .compat-score.bas { background: var(--surface); color: var(--text); border-color: var(--muted); }
+.nowrap { white-space: nowrap; }

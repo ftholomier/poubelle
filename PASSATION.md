@@ -340,7 +340,9 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
   l'écran et dans l'argumentaire de l'avis de valeur.
 - **Acquéreurs ↔ biens** : la commune recherchée est un critère éliminatoire (accents, tirets, « St/Saint » et code
   postal ignorés). Les communes voisines sont proposées jusqu'à 15 km avec un score qui baisse avec la distance
-  (−5 points puis −2,5 par km) ; liste classée du plus au moins compatible, score affiché.
+  (−5 points puis −2,5 par km) ; liste classée du plus au moins compatible, score affiché. Position du bien : celle
+  du dossier technique si elle est réelle, sinon le centre de sa commune retrouvé par son nom (données simulées, jeu
+  de démonstration). Les biens écartés sont listés avec la raison (distance, budget, type, commune introuvable).
 - **Journal des accès** : consultations de dossier par les agents (une ligne par quart d'heure et par dossier), PDF
   (mandat, dossier complet, fiche notaire, fiche de vigilance marqués sensibles), pièces, audio, exports, dépôt de
   pièce d'identité ; côté clients, ouverture de l'espace, documents et pièces. Date, personne, rôle, bien, objet,

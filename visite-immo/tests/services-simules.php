@@ -20,6 +20,13 @@ const LON = 6.3561;
 const LAT = 47.0942;
 
 // --- Adresse ---
+if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') !== 'municipality' && preg_match('/ch[âa]tillon/iu', (string) ($q['q'] ?? ''))) {
+    json(['type' => 'FeatureCollection', 'features' => [[
+        'type' => 'Feature', 'geometry' => ['type' => 'Point', 'coordinates' => [5.9950, 47.3070]],
+        'properties' => ['label' => '3 Rue des Vergers 25870 Châtillon-le-Duc', 'score' => 0.92, 'housenumber' => '3', 'street' => 'Rue des Vergers',
+            'postcode' => '25870', 'citycode' => '25132', 'city' => 'Châtillon-le-Duc', 'context' => '25, Doubs, Bourgogne-Franche-Comté'],
+    ]]]);
+}
 if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') !== 'municipality') {
     json(['type' => 'FeatureCollection', 'features' => [[
         'type' => 'Feature',
@@ -62,8 +69,14 @@ if (str_starts_with($path, '/dpe/lines') && str_contains((string) ($q['qs'] ?? '
 if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality' && preg_match('/ch[âa]tillon/iu', (string) ($q['q'] ?? ''))) {
     json(['features' => [['geometry' => ['coordinates' => [5.9950, 47.3070]], 'properties' => ['label' => 'Châtillon-le-Duc', 'city' => 'Châtillon-le-Duc', 'citycode' => '25132', 'postcode' => '25870', 'score' => 0.96, 'type' => 'municipality', 'context' => '25, Doubs']]]]);
 }
+if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality' && preg_match('/colombier/iu', (string) ($q['q'] ?? ''))) {
+    json(['features' => [['geometry' => ['coordinates' => [LON - 0.031, LAT + 0.004]], 'properties' => ['label' => 'Colombier-Fontaine', 'city' => 'Colombier-Fontaine', 'citycode' => '25156', 'postcode' => '25260', 'score' => 0.96, 'type' => 'municipality', 'context' => '25, Doubs']]]]);
+}
 if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality' && preg_match('/[ée]cole-valentin/iu', (string) ($q['q'] ?? ''))) {
     json(['features' => [['geometry' => ['coordinates' => [5.9780, 47.2780]], 'properties' => ['label' => 'École-Valentin', 'city' => 'École-Valentin', 'citycode' => '25212', 'postcode' => '25480', 'score' => 0.96, 'type' => 'municipality', 'context' => '25, Doubs']]]]);
+}
+if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality' && !preg_match('/lougres/iu', (string) ($q['q'] ?? ''))) {
+    json(['type' => 'FeatureCollection', 'features' => []]); // commune inconnue
 }
 if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality') {
     json(['features' => [['geometry' => ['coordinates' => [LON, LAT]], 'properties' => ['label' => 'Lougres', 'city' => 'Lougres', 'citycode' => '25349', 'postcode' => '25260', 'score' => 0.97, 'type' => 'municipality', 'context' => '25, Doubs']]]]);

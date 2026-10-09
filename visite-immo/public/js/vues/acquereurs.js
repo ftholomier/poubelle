@@ -43,7 +43,7 @@ vues.acquereurs = async () => {
 
 vues.acquereur = async ([id]) => {
   const $m = ecran("Acquéreur", '<div class="loader"></div>', { actif: "acquereurs", back: "#/acquereurs" });
-  const { acquereur: a, biens, visites } = await api("acquereur", { query: { id } });
+  const { acquereur: a, biens, ecartes = [], visites } = await api("acquereur", { query: { id } });
   const c = a.criteres || {}, f = a.financement || {};
   const [lib, coul] = STATUTS[a.statut] || [a.statut, "gris"];
   document.querySelector(".bar h1").textContent = [a.prenom, a.nom].filter(Boolean).join(" ") || "Acquéreur";
@@ -67,6 +67,7 @@ vues.acquereur = async ([id]) => {
     </section>
     <section class="card"><h2>Biens compatibles <span class="muted">du plus au moins compatible</span></h2>
       ${biens.map((b) => `<a class="ligne compat" href="#/visite/${b.id}/vente"><span class="compat-score ${b.score >= 85 ? "haut" : b.score >= 70 ? "moyen" : "bas"}">${b.score} %</span><div><strong>${esc(b.titre)}</strong><span class="muted small">${fmtPrix(b.prix)} · ${esc(b.raisons.join(", "))}</span></div><span class="fleche">→</span></a>`).join("") || '<p class="muted">Aucun bien compatible pour l\'instant. Il sera prévenu automatiquement dès qu\'un bien correspond.</p>'}
+      ${ecartes.length ? `<details class="aide"><summary>${ecartes.length} bien(s) écarté(s) : pourquoi ?</summary>${ecartes.map((b) => `<a class="ligne" href="#/visite/${esc(b.id)}/resume"><div><strong>${esc(b.titre)}</strong><span class="muted small">${esc(b.raisons.filter((r) => !/^(dans le budget|surface ok|extérieur)$/.test(r)).join(", ") || "score trop bas")}</span></div><span class="muted small nowrap">${b.score} %</span></a>`).join("")}</details>` : ""}
     </section>
     ${visites.length ? `<section class="card"><h2>Visites</h2>${visites.map((x) => `<a class="ligne" href="#/visite/${x.dossier}/vente"><div><strong>${esc(x.bien)}</strong><span class="muted small">${fmtDate(x.date)}${x.retour ? ` · intérêt ${x.retour.interet}/5` : ""}</span></div><span class="fleche">→</span></a>`).join("")}</section>` : ""}
     <section class="card"><h2>Historique</h2>${(a.historique || []).slice().reverse().map((h) => `<div class="journal-ligne"><span class="muted small">${fmtCourt(h.date)}</span><span>${esc(h.texte)}</span></div>`).join("")}</section>
