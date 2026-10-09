@@ -389,6 +389,28 @@ final class Community extends Base
             $r = Newsletter::tick(true);
             return self::back('/admin/newsletter', 'Envoi lancé : ' . ($r['sent'] ?? 0) . ' e-mail(s) envoyé(s)' . (($r['remaining'] ?? 0) ? ', ' . $r['remaining'] . ' en attente (suite au prochain passage de la tâche planifiée)' : '') . '.');
         }
+        if ($action === 'ajouter') {
+            $email = mb_strtolower(trim((string) ($req->post['email'] ?? '')));
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return self::back('/admin/newsletter', null, 'Adresse e-mail invalide.');
+            }
+            $lang = ($req->post['lang'] ?? '') === 'en' ? 'en' : 'fr';
+            $key = hash('sha256', $email);
+            $was = null;
+            JsonStore::update(STORAGE_PATH . '/newsletter/subscribers.json', function ($all) use ($key, $email, $lang, &$was) {
+                $all = $all ?: [];
+                $was = $all[$key]['status'] ?? null;
+                if ($was !== 'active') {
+                    $all[$key] = ['email' => $email, 'status' => 'active', 'token' => bin2hex(random_bytes(16)), 'created' => $all[$key]['created'] ?? date('c'), 'confirmed' => date('c'), 'lang' => $lang, 'by' => 'équipe'];
+                }
+                return $all;
+            }, []);
+            if ($was === 'active') {
+                return self::back('/admin/newsletter', $email . ' est déjà abonné(e).');
+            }
+            Activity::log(Auth::user(), 'a abonné à la newsletter', ['title' => $email]);
+            return self::back('/admin/newsletter', $email . ' est abonné(e) : il ou elle recevra la prochaine lettre.');
+        }
         if ($action === 'desinscrire' && ($key = (string) ($req->post['key'] ?? '')) !== '') {
             JsonStore::update(STORAGE_PATH . '/newsletter/subscribers.json', function ($all) use ($key) {
                 if (isset($all[$key])) {

@@ -58,21 +58,29 @@ final class Newsletter
         if (trim(strip_tags($intro)) !== '') {
             $html .= '<div style="font-size:17px;line-height:1.55;margin:0 0 8px">' . $intro . '</div>';
         }
+        $cells = [];
         foreach ($items as $m) {
             $href = e($base . url($m['path']));
-            $img = $m['image'] ? $base . img($m['image'], 800) : null;
+            $img = $m['image'] ? self::photo((string) $m['image']) : null;
             $score = $m['us'] !== null ? ($m['sh'] ? $m['us'] . ' – ' . $m['them'] : $m['them'] . ' – ' . $m['us']) : '–';
             $ago = (int) date('Y', $ts) - (int) substr((string) $m['date'], 0, 4);
-            $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0 0;background:#FFFDF6;border:3px solid #0E1F4D">'
-                . ($img ? '<tr><td style="padding:0;border-bottom:3px solid #F6C400"><a href="' . $href . '"><img src="' . e($img) . '" width="546" alt="" style="display:block;width:100%;max-width:546px;height:auto;border:0"></a></td></tr>' : '')
-                . '<tr><td style="padding:16px 18px 18px">'
-                . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>'
-                . '<td style="' . $D . ';font-size:14px;letter-spacing:2px;color:#1F3FA8;font-weight:800">' . e(date_fr((string) $m['date'], true)) . ' · ' . e($m['label'] ?: $m['comp']) . '</td>'
-                . ($ago > 0 ? '<td align="right" style="white-space:nowrap"><span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:13px;font-weight:900;letter-spacing:1px;padding:4px 8px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span></td>' : '')
-                . '</tr></table>'
-                . '<div style="' . $D . ';font-size:30px;line-height:1.05;font-weight:900;color:#0E1F4D;margin:8px 0 14px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
-                . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#0E1F4D;color:#F6C400;font-size:16px;font-weight:900;letter-spacing:1px;text-decoration:none;padding:10px 16px;border-bottom:4px solid #F6C400">' . e(t('Lire la fiche du match')) . ' →</a>'
+            $cells[] = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFFDF6;border:3px solid #0E1F4D">'
+                . '<tr><td style="padding:0;border-bottom:3px solid #F6C400;background:#0E1F4D;line-height:0">'
+                . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="" style="display:block;width:100%;height:auto;border:0"></a>'
+                    : '<a href="' . $href . '" style="display:block;' . $D . ';color:#F6C400;font-size:34px;font-weight:900;line-height:1;padding:52px 0;text-align:center;text-decoration:none">' . e(substr((string) $m['date'], 0, 4)) . '</a>')
+                . '</td></tr><tr><td style="padding:12px 14px 14px">'
+                . ($ago > 0 ? '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:900;letter-spacing:1px;padding:3px 7px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span>' : '')
+                . '<div style="' . $D . ';font-size:13px;letter-spacing:1px;color:#1F3FA8;font-weight:800;margin-top:8px">' . e(date_fr((string) $m['date'], true)) . '<br>' . e($m['label'] ?: $m['comp']) . '</div>'
+                . '<div style="' . $D . ';font-size:22px;line-height:1.05;font-weight:900;color:#0E1F4D;margin:6px 0 12px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
+                . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#0E1F4D;color:#F6C400;font-size:14px;font-weight:900;letter-spacing:1px;text-decoration:none;padding:8px 12px;border-bottom:3px solid #F6C400">' . e(t('Lire la fiche')) . ' →</a>'
                 . '</td></tr></table>';
+        }
+        // Deux colonnes (une seule sur téléphone, voir .nl-col dans Mailer::letter).
+        foreach (array_chunk($cells, 2) as $pair) {
+            $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px"><tr>'
+                . '<td class="nl-col" width="50%" valign="top" style="width:50%;padding-right:8px;vertical-align:top">' . $pair[0] . '</td>'
+                . '<td class="nl-col" width="50%" valign="top" style="width:50%;padding-left:8px;vertical-align:top">' . ($pair[1] ?? '') . '</td>'
+                . '</tr></table>';
         }
         if (!$items) {
             $html .= '<p style="font-size:17px">' . e(t('Aucun match fiché cette semaine dans l’histoire : profitez-en pour explorer les saisons du club !')) . '</p><p><a href="' . e($base . url('/saisons/')) . '" style="color:#1F3FA8;font-weight:bold">' . e(t('Toutes les saisons')) . ' →</a></p>';
@@ -83,6 +91,50 @@ final class Newsletter
             . '<div style="' . $D . ';font-size:16px;letter-spacing:2px;font-weight:800;color:#F3EDDF">' . e(t('avant les 100 ans')) . '</div></td>'
             . '<td align="right" style="padding:18px 20px"><a href="' . e($base . url('/faire-un-don/')) . '" style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:16px;font-weight:900;letter-spacing:1px;padding:12px 16px;text-decoration:none">♥ ' . e(t('Faire un don')) . '</a></td></tr></table>';
         return $html;
+    }
+
+    /**
+     * Photo de la lettre : JPEG net (qualité 88, pris sur l'original), recadré en 3:2 sur
+     * 560 × 374 (deux fois la taille affichée, pour les écrans fins). Les messageries ne lisent
+     * pas toutes le WebP du site. Préparée une fois, gardée dans public/media/lettre/.
+     */
+    private static function photo(string $rel): ?string
+    {
+        $src = \App\Data\Media::file(\App\Data\Media::safeRel($rel));
+        if (!$src || str_ends_with(strtolower($src), '.svg')) {
+            return null;
+        }
+        $name = substr(sha1($rel . '|' . filemtime($src)), 0, 20) . '.jpg';
+        $dest = PUBLIC_PATH . '/media/lettre/' . $name;
+        if (!is_file($dest)) {
+            $im = @imagecreatefromstring((string) file_get_contents($src));
+            if (!$im) {
+                return null;
+            }
+            [$w, $h] = [imagesx($im), imagesy($im)];
+            $tw = 560;
+            $th = 374;
+            // Recadrage centré (un peu vers le haut : les visages).
+            if ($w / $h > $tw / $th) {
+                $cw = (int) round($h * $tw / $th);
+                $ch = $h;
+                $cx = (int) (($w - $cw) / 2);
+                $cy = 0;
+            } else {
+                $cw = $w;
+                $ch = (int) round($w * $th / $tw);
+                $cx = 0;
+                $cy = (int) (($h - $ch) / 3);
+            }
+            $out = imagecreatetruecolor($tw, $th);
+            imagecopyresampled($out, $im, 0, 0, $cx, $cy, $tw, $th, $cw, $ch);
+            @mkdir(dirname($dest), 0775, true);
+            imageinterlace($out, true);
+            imagejpeg($out, $dest, 88);
+            imagedestroy($im);
+            imagedestroy($out);
+        }
+        return '/media/lettre/' . $name;
     }
 
     /**

@@ -89,7 +89,7 @@ final class Mailer
     {
         $D = "font-family:'Big Shoulders Display',Impact,'Arial Narrow',Arial,sans-serif;text-transform:uppercase";
         return '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="color-scheme" content="light only"><title>' . e($title) . '</title>'
-            . '<style>@import url(\'' . e($base) . '/assets/css/fonts.css\');@media (max-width:620px){.nl-pad{padding:18px 14px!important}}</style></head>'
+            . '<style>@import url(\'' . e($base) . '/assets/css/fonts.css\');@media (max-width:620px){.nl-pad{padding:18px 14px!important}.nl-col{display:block!important;width:100%!important;padding:0 0 14px!important}}</style></head>'
             . '<body style="margin:0;background:#0E1F4D;font-family:Georgia,serif;color:#0E1F4D">'
             . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0E1F4D;padding:20px 0"><tr><td align="center">'
             . '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">'

@@ -34,6 +34,15 @@ $enabled = (bool) Settings::get('newsletter.enabled', false);
         <?php if (Auth::isAdmin()): ?><a class="btn btn--ghost" href="/admin/reglages?groupe=newsletter">Objet, texte d’introduction, jour d’envoi…</a><?php endif; ?>
       </div>
     </div>
+    <div class="card card--pad">
+      <h2 class="card__t card__t--sm">Ajouter un abonné</h2>
+      <p class="small muted" style="margin:0 0 10px">Pour une personne qui vous a demandé de l’inscrire : elle est abonnée tout de suite, sans e-mail de confirmation. Chaque lettre garde son lien de désinscription.</p>
+      <form method="post" action="/admin/newsletter" class="row" style="gap:8px;flex-wrap:wrap;align-items:flex-end"><?= csrf_field() ?>
+        <label class="f" style="flex:1 1 240px;margin:0"><span class="f__k">Adresse e-mail</span><input type="email" name="email" required maxlength="190" placeholder="prenom.nom@exemple.fr"></label>
+        <label class="f" style="margin:0"><span class="f__k">Langue</span><select name="lang"><option value="fr">Français</option><option value="en">Anglais</option></select></label>
+        <button type="submit" name="action" value="ajouter" class="btn btn--navy">Abonner</button>
+      </form>
+    </div>
     <?php if ($state): ?>
       <div class="card card--pad">
         <h2 class="card__t card__t--sm">Dernier envoi</h2>

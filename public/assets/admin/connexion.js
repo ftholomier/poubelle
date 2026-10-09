@@ -87,7 +87,7 @@
   const goal = () => {
     score[0]++;
     state = 'goal'; celebrate = 3.2; net = 1;
-    flash = ['BUT !', 'BUUUT !', 'BUT !', 'QUEL BUT !'][Math.floor(Math.random() * 4)];
+    flash = 'BUT !';
     const [gx, gy] = P(105, 34);
     for (let i = 0; i < 90; i++) {
       const a = rnd(0, Math.PI * 2), v = rnd(120, 520);
@@ -259,8 +259,13 @@
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillStyle = YEL;
         ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowOffsetX = 5; ctx.shadowOffsetY = 5;
-        ctx.translate(tx, ty); ctx.rotate(-0.06);
+        ctx.translate(tx, ty - size * 0.18); ctx.rotate(-0.06);
         ctx.fillText(flash, 0, 0);
+        // Et dessous, plus petit : pour qui.
+        ctx.font = `800 ${Math.round(size * 0.3)}px 'Big Shoulders Display', 'Arial Narrow', sans-serif`;
+        ctx.fillStyle = CREAM;
+        ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
+        ctx.fillText('POUR LE FCSM', 0, size * 0.66);
       }
       ctx.restore();
     }
