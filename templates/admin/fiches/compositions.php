@@ -60,6 +60,7 @@ $added = array_sum(array_column($seasons, 'added'));
       <?= csrf_field() ?>
       <input class="input" name="relay" value="<?= e($relay) ?>" placeholder="https://api.scraperapi.com/?api_key=…&amp;url={url}" style="flex:1;min-width:320px">
       <button class="btn btn--primary" name="action" value="relais">Enregistrer</button>
+      <button class="btn" name="action" value="tester" title="Le serveur essaie d’ouvrir chaque site source et dit ce qu’il reçoit">Tester l’accès aux sites</button>
     </form>
     <p class="xs muted" style="margin:0">Autre solution, sans relais : ouvrez le rapport du match sur transfermarkt.fr, enregistrez la page (Ctrl+S, « page web complète » ou « HTML seulement ») et déposez le fichier sur la fiche, onglet Composition. Les saisons déjà relevées pour le musée sont aussi livrées avec le site et ne demandent rien à Transfermarkt.</p>
   </div>

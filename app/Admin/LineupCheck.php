@@ -65,6 +65,13 @@ final class LineupCheck extends Base
                     $n = Compos::start($ids, $sources);
                     Activity::log(self::actor(), 'a lancé le contrôle des compositions pour ' . count($ids) . ' match(s)', null);
                     return self::back(self::BACK, count($ids) . ' match(s) mis dans la file (' . $n . ' nouveaux) : la tâche planifiée les contrôle quelques-uns à chaque passage. Les écarts arrivent dans Trouvailles.');
+                case 'tester':
+                    @set_time_limit(300);
+                    $lines = [];
+                    foreach (Compos::probe() as $site => [$ok, $d]) {
+                        $lines[] = ($ok ? '✓ ' : '✗ ') . $site . ' : ' . $d;
+                    }
+                    return self::back(self::BACK, 'Accès du serveur aux sites — ' . implode(' · ', $lines));
                 case 'relais':
                     $relay = trim($req->str('relay'));
                     if ($relay !== '' && (!preg_match('#^https://#', $relay) || !str_contains($relay, '{url}'))) {

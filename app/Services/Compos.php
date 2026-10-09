@@ -827,6 +827,27 @@ final class Compos
 
     // ------------------------------------------------------------------ téléchargement
 
+    /** Essai d'accès direct du serveur à chaque site source : [site => [ok, détail]]. */
+    public static function probe(): array
+    {
+        $out = [];
+        $relay = trim((string) \App\Core\Settings::get('compos.relay', ''));
+        $tests = ['Transfermarkt' => self::TM . '/fc-sochaux-montbeliard/startseite/verein/' . self::TM_CLUB, 'worldfootball.net' => 'https://www.worldfootball.net/teams/fc-sochaux/',
+            'footballdatabase.eu' => 'https://www.footballdatabase.eu/fr/club/equipe/176-sochaux', 'pari-et-gagne.com' => 'https://www.pari-et-gagne.com/', 'fcsmstory.com' => 'https://fcsmstory.com/'];
+        foreach ($tests as $site => $url) {
+            $b = self::fetch($url, 25);
+            $ok = strlen($b) > 5000 && stripos($b, 'sochaux') !== false;
+            $line = ($ok ? 'accessible' : 'bloqué ou vide') . ' (' . self::$diag . ', ' . round(strlen($b) / 1024) . ' Ko)';
+            if (!$ok && $relay !== '' && $site === 'Transfermarkt') {
+                $b = self::fetch(str_replace('{url}', rawurlencode($url), $relay), 90);
+                $ok = strlen($b) > 5000 && stripos($b, 'sochaux') !== false;
+                $line .= ' ; par le relais : ' . ($ok ? 'accessible' : 'échec') . ' (' . self::$diag . ')';
+            }
+            $out[$site] = [$ok, $line];
+        }
+        return $out;
+    }
+
     /** Ce que le dernier téléchargement a reçu (code, titre de la page), pour comprendre un blocage. */
     private static string $diag = '';
 
