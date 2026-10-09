@@ -10,15 +10,8 @@ const RATE_IN = 16000; // ce que Gemini attend en entrée
 const RATE_OUT = 24000; // ce que Gemini renvoie quand il répond en voix
 const FRAME = 320; // 20 ms à 16 kHz
 
-const WORKLET = `
-class Capteur extends AudioWorkletProcessor {
-  process(inputs) {
-    const ch = inputs[0] && inputs[0][0];
-    if (ch) this.port.postMessage(ch.slice(0));
-    return true;
-  }
-}
-registerProcessor("capteur", Capteur);`;
+// Module audio du micro : un vrai fichier du site (la politique de sécurité interdit les scripts créés à la volée)
+const WORKLET = new URL("./worklets/capteur.js", import.meta.url).href;
 
 function base64FromInt16(int16) {
   const bytes = new Uint8Array(int16.buffer, int16.byteOffset, int16.byteLength);
@@ -83,8 +76,7 @@ export class Conversation {
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 },
     });
-    const url = URL.createObjectURL(new Blob([WORKLET], { type: "application/javascript" }));
-    await this.ctx.audioWorklet.addModule(url);
+    await this.ctx.audioWorklet.addModule(WORKLET);
     this.source = this.ctx.createMediaStreamSource(this.stream);
     this.node = new AudioWorkletNode(this.ctx, "capteur");
     this.node.port.onmessage = (e) => this.audioEntrant(e.data);

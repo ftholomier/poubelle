@@ -15,6 +15,29 @@ try {
   const api401 = await fetch(BASE + "api/?r=visits");
   verifier(api401.status === 401 && api401.headers.get("x-content-type-options") === "nosniff", "API : non connecté → 401, avec les en-têtes de sécurité");
 
+  // ---------- La politique de contenu ne casse pas le micro de l'assistant vocal ----------
+  await page.goto(BASE);
+  const micro = await page.evaluate(async () => {
+    const ctx = new AudioContext();
+    const res = {};
+    try {
+      await ctx.audioWorklet.addModule(new URL("js/worklets/capteur.js", location.href).href);
+      new AudioWorkletNode(ctx, "capteur");
+      res.fichier = "ok";
+    } catch (e) {
+      res.fichier = e.message;
+    }
+    try {
+      await ctx.audioWorklet.addModule(URL.createObjectURL(new Blob(["registerProcessor('x', class extends AudioWorkletProcessor { process() { return true; } })"], { type: "application/javascript" })));
+      res.blob = "chargé";
+    } catch {
+      res.blob = "bloqué";
+    }
+    return res;
+  });
+  verifier(micro.fichier === "ok", `module audio de l'assistant vocal chargé malgré la politique stricte (${micro.fichier})`);
+  verifier(micro.blob === "bloqué", "un script créé à la volée reste bloqué");
+
   // ---------- Essais de mots de passe ----------
   await connexion(page);
   await configurerEmail(page);
