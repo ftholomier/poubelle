@@ -47,7 +47,15 @@ final class Site
             }
             return $counts;
         });
-        return self::$counts[$slug] ?? 0;
+        $n = self::$counts[$slug] ?? 0;
+        // « L'équipe de Sochaux Rétro » montre les membres de l'équipe (écran Équipe), pas des
+        // fiches : ils comptent pour elle et pour sa rubrique parente.
+        if ($slug === 'lequipe-de-sochaux-retro' || in_array('lequipe-de-sochaux-retro', Categories::descendants($slug, false), true)) {
+            static $team = null;
+            $team ??= count(\App\Vitrine\Content::team());
+            $n += $team;
+        }
+        return $n;
     }
 
     public static function catUrl(string $slug): string

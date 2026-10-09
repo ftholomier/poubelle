@@ -206,6 +206,7 @@ final class PageCache
             DATA_PATH . '/redirects.json',
             DATA_PATH . '/i18n/en.json',
             DATA_PATH . '/collections',
+            DATA_PATH . '/vitrine/equipe.json', // membres de l'équipe : page et compteur du menu
             DATA_PATH . '/fiches',
             PUBLIC_PATH . '/assets',
         ]);
