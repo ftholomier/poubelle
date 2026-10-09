@@ -425,6 +425,6 @@ final class Community extends Base
 
     public static function newsletterPreview(Request $req): Response
     {
-        return Response::html(Mailer::layout(Newsletter::subject(), Newsletter::html() . '<p style="font-size:12px;color:#3A4A75;margin-top:24px">Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là ». <a href="#">Se désinscrire</a></p>'));
+        return Response::html(Mailer::layout(Newsletter::subject(), Newsletter::html() . '<p style="font-size:12px;color:#3A4A75;margin-top:24px;text-align:center">Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » de Sochaux Rétro.<br><a href="#" style="color:#3A4A75">Se désinscrire</a></p>'));
     }
 }
