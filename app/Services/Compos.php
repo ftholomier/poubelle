@@ -39,6 +39,8 @@ final class Compos
 
     /** Essais : remplace le téléchargement (url → html) et Gemini. */
     public static ?\Closure $get = null;
+    /** Raison du dernier échec d'une source web (note affichée). */
+    private static string $why = '';
 
     // ------------------------------------------------------------------ état et file
 
@@ -176,11 +178,12 @@ final class Compos
                 if ($key === 'transfermarkt') {
                     $ext = self::transfermarkt($m);
                     $ext ? $found[] = $ext : null;
-                    $report[] = ['key' => $key, 'ok' => (bool) $ext, 'note' => $ext ? ($ext['players'] ? count($ext['players']) . ' joueurs lus' : 'match trouvé, sans composition') : 'match introuvable'];
+                    $report[] = ['key' => $key, 'ok' => (bool) $ext, 'note' => $ext ? ($ext['players'] ? count($ext['players']) . ' joueurs lus' : 'match trouvé, sans composition') : (in_array($m['competition'] ?? '', ['amical', 'Amical'], true) || preg_match('/amical/i', (string) ($m['competition_label'] ?? '')) ? 'match amical : Transfermarkt ne liste que les matchs officiels' : 'match introuvable dans le calendrier de la saison')];
                 } elseif (isset(self::WEB[$key])) {
+                    self::$why = 'pas de feuille trouvée';
                     $ext = self::web($doc, $key);
                     $ext ? $found[] = $ext : null;
-                    $report[] = ['key' => $key, 'ok' => (bool) $ext, 'note' => $ext ? count($ext['players']) . ' joueurs lus' : 'pas de feuille trouvée'];
+                    $report[] = ['key' => $key, 'ok' => (bool) $ext, 'note' => $ext ? count($ext['players']) . ' joueurs lus' : self::$why];
                 } elseif ($key === 'gallica') {
                     if ((int) substr((string) $m['date'], 0, 4) > Trouvailles::GALLICA_LAST_YEAR) {
                         $report[] = ['key' => $key, 'ok' => false, 'note' => 'match après ' . Trouvailles::GALLICA_LAST_YEAR . ' : pas de presse numérisée'];
@@ -639,7 +642,12 @@ final class Compos
             $t = substr($t, $a, $b - $a + 1);
         }
         $d = json_decode($t, true);
-        if (!is_array($d) || empty($d['trouve']) || empty($d['joueurs'])) {
+        if (!is_array($d)) {
+            self::$why = 'réponse illisible de l’IA';
+            return null;
+        }
+        if (empty($d['trouve']) || empty($d['joueurs'])) {
+            self::$why = 'Google ne trouve pas la page du match sur ce site';
             return null;
         }
         // La page doit être sur le site demandé et avoir été réellement consultée (ancrage Google).
@@ -647,6 +655,7 @@ final class Compos
         $grounded = array_filter(array_map(fn ($c) => (string) ($c['web']['uri'] ?? '') . ' ' . (string) ($c['web']['title'] ?? ''), (array) ($r['raw']['candidates'][0]['groundingMetadata']['groundingChunks'] ?? [])));
         $onSite = fn (string $s) => stripos($s, $domain) !== false;
         if (!self::$get && !array_filter($grounded, $onSite)) {
+            self::$why = 'composition annoncée par l’IA mais aucune page du site réellement consultée : écartée par prudence';
             return null;
         }
         if (!$onSite($url)) {
@@ -672,8 +681,11 @@ final class Compos
     private static function page(string $url, string $cacheKey, int $ttl): string
     {
         $f = self::DIR . '/cache/' . $cacheKey . '.html';
-        if (is_file($f) && filemtime($f) > time() - $ttl) {
-            return (string) file_get_contents($f);
+        // Une vraie page Transfermarkt contient des liens de rapports de match ; sinon c'est une page
+        // de blocage (anti-robots, consentement) : jamais gardée, signalée comme erreur.
+        $real = fn (string $b) => str_contains($b, '/spielbericht/');
+        if (is_file($f) && filemtime($f) > time() - $ttl && $real($c = (string) file_get_contents($f))) {
+            return $c;
         }
         if (self::$get) {
             $b = (string) (self::$get)($url);
@@ -694,6 +706,10 @@ final class Compos
             if (!is_string($b) || $b === '' || $code >= 400) {
                 throw new \RuntimeException('Transfermarkt ne répond pas (code ' . $code . ')');
             }
+        }
+        if (!$real($b)) {
+            @unlink($f);
+            throw new \RuntimeException('Transfermarkt refuse la lecture depuis le serveur (page de protection anti-robots reçue au lieu de la page demandée)');
         }
         @mkdir(dirname($f), 0775, true);
         file_put_contents($f, $b);
