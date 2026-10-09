@@ -316,11 +316,14 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
 - **Pièges** : modèles « native-audio » = voix uniquement (bascule automatique, ≈ 5× plus cher) ; seuil de détection
   relevé pendant que le téléphone parle ; iOS : débloquer `AudioContext` et `speechSynthesis` dans le geste ;
   messages parfois en `Blob`.
-- **Gemini 3 (3.1 Flash Live, 3.8 Live)** : voix seulement (`live_voix_seule()`), donc gamme €€€€. **3.1 refuse le
-  texte envoyé en `clientContent` après l'ouverture** et coupe la conversation (code 1007) : pour lui, le texte de
-  l'agent (ouverture, boutons, clavier) part en `realtimeInput.text`, encadré par `activityStart` / `activityEnd`
-  (`live_texte_direct()`, `Conversation.texte()`). Si un autre modèle coupe en 1007 après un `clientContent`, l'appli
-  rouvre seule la conversation dans ce mode. Toute autre coupure affiche le code et le motif donnés par Google.
+- **Gemini 3 (3.1 Flash Live, 3.8 Live)** : voix seulement (`live_voix_seule()`), donc gamme €€€€. Gemini 3.1 coupe la
+  conversation (code 1007) si le texte arrive en `clientContent` (« invalid argument ») ou si on lui impose la
+  détection de parole manuelle / `languageCode` (« Precondition check failed », constaté en réel). Pour lui
+  (`live_texte_direct()`, « mode direct ») : réglage standard de Google (il détecte la parole lui-même), audio envoyé
+  seulement quand l'agent parle puis `audioStreamEnd`, texte en `realtimeInput.text`, langue non imposée (aucun
+  modèle en voix Gemini ne reçoit `languageCode`). Si un autre modèle coupe en 1007 après un `clientContent`, l'appli
+  rouvre seule la conversation en mode direct. Toute coupure affiche le code, le motif de Google et le dernier type
+  de message envoyé (sans contenu), pour le diagnostic.
 - **Questions difficiles** : boutons « ⏭ Passer cette question » et « ❓ Je ne comprends pas » sous la conversation.
   Ils envoient un tour texte `[PASSER] …` / `[EXPLIQUER] …` (`Conversation.commande()`) ; les consignes disent à l'IA
   de ne plus reposer une question passée, et d'expliquer en deux phrases avec un exemple avant de la reposer. Les

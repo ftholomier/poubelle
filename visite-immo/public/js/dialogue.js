@@ -103,13 +103,15 @@ export class Conversation {
         generationConfig,
         systemInstruction: { parts: [{ text: this.config.system }] },
         tools: this.config.tools,
-        realtimeInputConfig: { automaticActivityDetection: { disabled: true } }, // c'est le téléphone qui détecte la parole
         contextWindowCompression: { slidingWindow: {}, triggerTokens: "12000" },
         inputAudioTranscription: {},
       };
+      // Modèles classiques : c'est le téléphone qui dit quand l'agent commence et finit de parler.
+      // Gemini 3 (mode direct) : réglage standard de Google, qui détecte la parole lui-même.
+      if (!this.texteDirect) setup.realtimeInputConfig = { automaticActivityDetection: { disabled: true } };
       if (this.modalite === "AUDIO") {
         setup.outputAudioTranscription = {};
-        generationConfig.speechConfig = { languageCode: "fr-FR" };
+        // les modèles en voix Gemini choisissent eux-mêmes la langue (imposer fr-FR peut être refusé) : les consignes en français suffisent
       }
       ws.send(JSON.stringify({ setup }));
     };
@@ -138,12 +140,14 @@ export class Conversation {
         this.h.onRelance?.();
         return;
       }
-      const detail = `code ${e.code}${e.reason ? ` · ${e.reason}` : ""}`;
+      const detail = `code ${e.code}${e.reason ? ` · ${e.reason}` : ""}${this.dernierEnvoi ? ` · après ${this.dernierEnvoi}` : ""}${this.texteDirect ? " · mode direct" : ""}`;
       this.h.onFin(this.setupOk ? `coupure : ${detail}` : `refus : ${e.reason || `connexion impossible (${detail})`}`);
     };
   }
 
   envoyer(obj) {
+    // gardé pour le diagnostic d'une coupure (sans le contenu) : « realtimeInput.text », « toolResponse »…
+    this.dernierEnvoi = Object.entries(obj).map(([k, v]) => (v && typeof v === "object" && !Array.isArray(v) ? `${k}.${Object.keys(v)[0]}` : k))[0];
     if (this.ws?.readyState === 1) this.ws.send(JSON.stringify(obj));
   }
 
@@ -286,7 +290,7 @@ export class Conversation {
         this.parle = true;
         this.silenceFrames = 0;
         if (this.iaParle) this.taireIa(); // l'agent coupe la parole à l'IA
-        this.envoyer({ realtimeInput: { activityStart: {} } });
+        this.debutParole();
         this.envoi = [...this.preroll];
         this.preroll = [];
         this.h.onState("agent");
@@ -300,7 +304,7 @@ export class Conversation {
     if (this.silenceFrames >= 45) {
       // 900 ms de silence : fin de la réponse de l'agent
       this.vider();
-      this.envoyer({ realtimeInput: { activityEnd: {} } });
+      this.finParole();
       this.parle = false;
       this.voixFrames = 0;
       this.h.onState("reflexion");
@@ -341,12 +345,20 @@ export class Conversation {
     this.envoyer({ toolResponse: { functionResponses: reponses } });
   }
 
-  /** Texte de l'agent. Gemini 3.1 n'accepte que realtimeInput (encadré comme une prise de parole, détection manuelle). */
+  /** Prise de parole de l'agent : signalée à Gemini en mode classique ; en mode direct, Google la détecte seul. */
+  debutParole() {
+    if (!this.texteDirect) this.envoyer({ realtimeInput: { activityStart: {} } });
+  }
+
+  /** Fin de parole : en mode direct, « fin du flux audio » pour que Google réponde sans attendre. */
+  finParole() {
+    this.envoyer({ realtimeInput: this.texteDirect ? { audioStreamEnd: true } : { activityEnd: {} } });
+  }
+
+  /** Texte de l'agent. Gemini 3.1 n'accepte que realtimeInput.text (clientContent coupe la conversation). */
   texte(t) {
     if (this.texteDirect) {
-      this.envoyer({ realtimeInput: { activityStart: {} } });
       this.envoyer({ realtimeInput: { text: t } });
-      this.envoyer({ realtimeInput: { activityEnd: {} } });
     } else {
       this.dernierClientContent = Date.now();
       this.envoyer({ clientContent: { turns: [{ role: "user", parts: [{ text: t }] }], turnComplete: true } });
@@ -373,7 +385,7 @@ export class Conversation {
     this.pause = !this.pause;
     if (this.pause && this.parle) {
       this.vider();
-      this.envoyer({ realtimeInput: { activityEnd: {} } });
+      this.finParole();
       this.parle = false;
     }
     this.h.onState(this.pause ? "pause" : "ecoute");
