@@ -640,6 +640,7 @@ PROMPT;
         'manquants' => array_column(champs_manquants($champs), 'cle'),
         'audio_natif' => $audioNatif,
         'texte_direct' => live_texte_direct($modele),
+        'tarif'   => tarif($modele, true), // pour le compteur en direct : $ par million de jetons, par modalité
     ]);
 }
 

@@ -1,6 +1,6 @@
 // Appli Visite Immo : navigation, écrans et logique d'interface.
 
-import { api, audioUrl } from "./api.js";
+import { api, audioUrl, signalerCout } from "./api.js";
 import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 import { Conversation } from "./dialogue.js";
@@ -20,7 +20,7 @@ import "./vues/reseau.js";
 
 import {
   APP_VERSION, state, nav, esc, fmtDuree, fmtDate, fmtPrix, champsOf, toast, copier, go, render, theme,
-  logoImg, header, ecran, demoBanner, pdfUrl, ecransDossier, actionsDossier, vues, outils,
+  logoImg, header, ecran, demoBanner, pdfUrl, ecransDossier, actionsDossier, vues, outils, afficherCout, coutEnDirect, coutEnregistre,
 } from "./ui.js";
 
 const STATUTS = {
@@ -39,6 +39,8 @@ async function route() {
     if (ok === false) return; // l'écran a refusé de se fermer
     nav.cleanup = null;
   }
+  afficherCout(); // compteur du coût de l'IA : affiché une fois connecté, retiré à la déconnexion
+
   const hash = location.hash.slice(1) || "/";
   if (!state.user && hash !== "/connexion") return go("/connexion");
 
@@ -763,7 +765,10 @@ async function viewDialogue(id) {
       credentials: "same-origin",
       headers: { "Content-Type": "application/json", "X-Requested-With": "visite-immo" },
       body: JSON.stringify({ usage }),
-    }).catch(() => {});
+    })
+      .then(signalerCout)
+      .catch(() => {});
+    coutEnregistre();
   };
 
   const ecranConversation = () => {
@@ -851,6 +856,7 @@ async function viewDialogue(id) {
       },
       onTerminer: (resume) => (resumeFin = resume),
       onUsage: finUsage,
+      onCout: coutEnDirect,
       onRelance: async () => {
         try {
           const c = await api("live", { method: "POST", query: { id } });

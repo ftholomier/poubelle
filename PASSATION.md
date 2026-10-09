@@ -300,6 +300,12 @@ ne donne ni l'adresse exacte, ni d'information sur le vendeur, ni de marge de n�
 
 **Mode démo** : sans clé, chaque appel renvoie des données simulées cohérentes (`demo.php` et les fonctions `*_demo`).
 Coûts : estimés depuis `usageMetadata`, ventilés par usage et par agent (Paramètres).
+**Compteur 🪙 en haut à droite** (toujours visible une fois connecté) : coût du mois en euros, total de l'agence pour
+un administrateur, ses propres dépenses pour un agent. Le serveur le joint à chaque réponse (en-tête `X-Cout-IA`,
+`entete_cout_ia()` dans `bootstrap.php`), sans requête en plus. Pendant une conversation vocale, le téléphone ajoute en
+direct le coût des jetons Live (`Conversation.coutEstime()`, tarifs envoyés avec la configuration Live) ; le compteur
+passe alors en jaune. À la fin, le serveur enregistre la conversation et le compteur reprend son chiffre exact. Les
+montants sont des estimations (tarifs indicatifs de `tarif()`, 1 $ ≈ 0,90 €), pas la facture Google.
 
 ---
 
@@ -413,7 +419,7 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 ```
 
 - Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
-- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 21 scénarios Playwright sur des
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 22 scénarios Playwright sur des
   données neuves, avec services publics, SMTP, push, firma.dev et BoldSign simulés. Couvre : parcours de base, sortie
   de visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
   vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la

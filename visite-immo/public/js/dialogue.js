@@ -402,6 +402,19 @@ export class Conversation {
     ajouter(this.usage.responseTokensDetails, u.responseTokensDetails);
     if (!u.responseTokensDetails && u.responseTokenCount) this.usage.responseTokensDetails.TEXT = (this.usage.responseTokensDetails.TEXT || 0) + u.responseTokenCount;
     this.usage.thoughtsTokenCount += u.thoughtsTokenCount || 0;
+    this.h.onCout?.(this.coutEstime());
+  }
+
+  /** Coût en euros de la conversation jusqu'ici (même calcul que cout_usage() côté serveur). */
+  coutEstime() {
+    const t = this.config.tarif;
+    if (!t) return 0;
+    const prix = (modalite, i) => (t[modalite] || t.TEXT)[i];
+    let usd = 0;
+    for (const [m, n] of Object.entries(this.usage.promptTokensDetails)) usd += n * prix(m, 0);
+    for (const [m, n] of Object.entries(this.usage.responseTokensDetails)) usd += n * prix(m, 1);
+    usd += this.usage.thoughtsTokenCount * t.TEXT[1];
+    return (usd / 1e6) * 0.9; // ≈ conversion $ → €
   }
 
   /** Usage au format usageMetadata, pour le calcul du coût côté serveur. */

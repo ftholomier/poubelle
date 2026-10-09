@@ -802,3 +802,21 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .aide-champ[aria-expanded="true"] { background: var(--citron); color: var(--encre); border-color: var(--encre); }
 .aide-texte { font-size: .86rem; line-height: 1.45; background: var(--surface); border: 1.5px dashed var(--bord); border-radius: 8px; padding: 8px 10px; margin: 4px 0 6px; text-transform: none; letter-spacing: 0; }
 .aide-texte::before { content: "💡 "; }
+
+/* ---------- Compteur du coût de l'IA (toujours visible en haut à droite) ---------- */
+
+.cout-ia {
+  position: fixed; top: calc(14px + var(--safe-top)); right: 12px; z-index: 45;
+  display: inline-flex; align-items: center; gap: 5px; height: 34px; padding: 0 11px;
+  border: 1.5px solid var(--bord); border-radius: 999px; background: var(--surface); color: var(--text);
+  font: 600 .78rem var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; white-space: nowrap; cursor: pointer;
+}
+.cout-ia.en-direct { background: var(--citron); color: var(--encre); border-color: var(--encre); }
+.cout-ia.en-direct::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--encre); animation: cout-clignote 1s infinite; }
+.cout-ia.pulse { animation: cout-pulse .45s ease-out; }
+@keyframes cout-pulse { 40% { transform: scale(1.08); } }
+@keyframes cout-clignote { 50% { opacity: .2; } }
+/* la barre du haut laisse la place au compteur */
+body.avec-cout .bar { padding-right: calc(14px + 118px); }
+@media (prefers-reduced-motion: reduce) { .cout-ia.pulse, .cout-ia.en-direct::after { animation: none; } }
+@media print { .cout-ia { display: none; } }

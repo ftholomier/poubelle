@@ -7,6 +7,12 @@ export class ApiError extends Error {
   }
 }
 
+/** Coût de l'IA du mois joint par le serveur à chaque réponse (« 0.01234;agence ») : met à jour le compteur. */
+export function signalerCout(res) {
+  const c = res.headers.get("X-Cout-IA");
+  if (c !== null) window.dispatchEvent(new CustomEvent("cout-ia", { detail: c }));
+}
+
 export async function api(route, { method = "GET", query = {}, body, form, signal } = {}) {
   const params = new URLSearchParams({ r: route, ...query });
   const headers = { "X-Requested-With": "visite-immo" };
@@ -24,6 +30,7 @@ export async function api(route, { method = "GET", query = {}, body, form, signa
     if (e.name === "AbortError") throw e; // requête remplacée par une plus récente
     throw new ApiError("Pas de connexion réseau.", 0);
   }
+  signalerCout(res);
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     if (res.status === 401 && route !== "login") window.dispatchEvent(new Event("session-expired"));

@@ -2,7 +2,7 @@
 
 import { api } from "./api.js";
 
-export const APP_VERSION = "16"; // à garder identique à APP_VERSION dans app/bootstrap.php
+export const APP_VERSION = "17"; // à garder identique à APP_VERSION dans app/bootstrap.php
 export const state = { user: null, demo: null, sections: null, email: false, agence: "" };
 export const nav = { cleanup: null }; // appelé en quittant un écran (ex. arrêt d'un enregistrement)
 /** Écrans ajoutés par les modules dans un dossier : ecransDossier.avis = ($c, visit, saver) => … ;
@@ -75,6 +75,61 @@ export const logoSrc = () => `api/?r=logo&v=${theme.logoV || 1}`;
 export function logoImg(cls = "") {
   if (theme.logo) return `<img class="${cls}" src="${logoSrc()}" alt="${esc(theme.agence || "")}">`;
   return `<picture><source srcset="img/synapse-logo-clair.svg" media="(prefers-color-scheme: dark)"><img class="${cls}" src="img/synapse-logo.svg" alt="Synapse"></picture>`;
+}
+
+/* ---------- Compteur du coût de l'IA (toujours visible en haut à droite) ---------- */
+
+const cout = { mois: 0, portee: "moi", direct: 0 };
+
+/** 0,0042 € → « 0,004 € » : on garde des décimales tant que les montants sont petits. */
+export const fmtCout = (v) => Number(v || 0).toLocaleString("fr-FR", { minimumFractionDigits: v < 1 ? 3 : 2, maximumFractionDigits: v < 1 ? 3 : 2 }) + " €";
+
+export function afficherCout() {
+  let el = document.getElementById("cout-ia");
+  if (!state.user) return el?.remove();
+  if (!el) {
+    el = document.createElement("button");
+    el.id = "cout-ia";
+    el.type = "button";
+    el.className = "cout-ia";
+    el.onclick = () => {
+      const qui = cout.portee === "agence" ? "de l'agence" : "de vos dossiers";
+      toast(`Coût de l'IA ${qui} ce mois-ci : ≈ ${fmtCout(cout.mois + cout.direct)}${cout.direct ? ` (dont ${fmtCout(cout.direct)} pour la conversation en cours)` : ""}. Estimation d'après les jetons Gemini.`);
+    };
+    document.body.append(el);
+    document.body.classList.add("avec-cout");
+  }
+  const total = cout.mois + cout.direct;
+  const avant = el.dataset.v;
+  el.innerHTML = `<span aria-hidden="true">🪙</span> ${fmtCout(total)}`;
+  el.dataset.v = total.toFixed(5);
+  el.setAttribute("aria-label", `Coût de l'IA ce mois-ci : environ ${fmtCout(total)}. Afficher le détail`);
+  el.classList.toggle("en-direct", cout.direct > 0);
+  if (avant !== undefined && avant !== el.dataset.v) {
+    el.classList.remove("pulse");
+    void el.offsetWidth; // relance l'animation
+    el.classList.add("pulse");
+  }
+}
+
+window.addEventListener("cout-ia", (e) => {
+  const [euros, portee] = String(e.detail).split(";");
+  cout.mois = Number(euros) || 0;
+  cout.portee = portee || "moi";
+  afficherCout();
+});
+
+/** Coût de la conversation vocale en cours, ajouté en direct au compteur (0 quand elle est enregistrée côté serveur). */
+export function coutEnDirect(euros) {
+  cout.direct = Math.max(0, euros || 0);
+  afficherCout();
+}
+
+/** Conversation terminée : son coût passe dans le total du mois, en attendant le chiffre exact du serveur. */
+export function coutEnregistre() {
+  cout.mois += cout.direct;
+  cout.direct = 0;
+  afficherCout();
 }
 
 export function header(titre, { back = null, actions = "" } = {}) {

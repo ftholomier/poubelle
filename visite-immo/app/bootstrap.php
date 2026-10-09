@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 // Point d'entrée commun : configuration, réponses JSON, session, stockage fichiers.
 
-define('APP_VERSION', '16'); // à garder identique à APP_VERSION dans public/js/app.js
+define('APP_VERSION', '17'); // à garder identique à APP_VERSION dans public/js/app.js
 define('APP_ROOT', dirname(__DIR__));
 define('SETTINGS_FILE', getenv('VI_SETTINGS') ?: __DIR__ . '/settings.json'); // réglages faits dans l'appli (VI_SETTINGS : tests)
 
@@ -104,8 +104,27 @@ function send_json(mixed $data, int $status = 200): never
     http_response_code($status);
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-Control: no-store');
+    entete_cout_ia();
     echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
+}
+
+/**
+ * Compteur du coût de l'IA, joint à chaque réponse (en-tête X-Cout-IA, euros du mois en cours) pour l'afficher en
+ * direct en haut à droite : total de l'agence pour un administrateur, ses propres dépenses pour un agent.
+ */
+function entete_cout_ia(): void
+{
+    if (headers_sent() || empty($_SESSION['uid']) || !defined('DATA_DIR')) return;
+    try {
+        $c = read_json(DATA_DIR . '/couts/' . date('Y-m') . '.json', []);
+        $u = current_user();
+        if (!$u) return;
+        $euros = $u['role'] === 'admin' ? ($c['total'] ?? 0) : ($c['par_agent'][$u['id']] ?? 0);
+        header('X-Cout-IA: ' . round((float) $euros, 5) . ';' . ($u['role'] === 'admin' ? 'agence' : 'moi'));
+    } catch (Throwable) {
+        // le compteur ne doit jamais empêcher une réponse
+    }
 }
 
 function json_input(): array
