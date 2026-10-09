@@ -282,7 +282,10 @@ final class Community
         if (($sub['status'] ?? '') === 'unsubscribed') {
             return self::message(t('Désinscription effectuée'), t('Vous ne recevrez plus la newsletter. Votre adresse a été effacée.'));
         }
-        if ($req->method !== 'POST' || !Session::checkCsrf((string) ($req->post['_csrf'] ?? ''))) {
+        // Désinscription en un clic (RFC 8058) : la messagerie poste « List-Unsubscribe=One-Click »
+        // depuis son propre bouton, sans page ni jeton de formulaire ; le jeton secret de l'URL suffit.
+        $oneClick = $req->method === 'POST' && ($req->post['List-Unsubscribe'] ?? '') === 'One-Click';
+        if (!$oneClick && ($req->method !== 'POST' || !Session::checkCsrf((string) ($req->post['_csrf'] ?? '')))) {
             return self::message(t('Se désinscrire de la newsletter'), t('Vous ne recevrez plus la newsletter « Ce jour-là » et votre adresse sera effacée.'), t('Me désinscrire'));
         }
         JsonStore::update(self::SUBS, function ($all) use ($token) {
@@ -294,6 +297,9 @@ final class Community
             }
             return $all ?: [];
         }, []);
+        if ($oneClick) {
+            return new Response('OK', 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        }
         return self::message(t('Désinscription effectuée'), t('Vous ne recevrez plus la newsletter. Votre adresse a été effacée.'));
     }
 

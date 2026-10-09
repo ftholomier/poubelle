@@ -193,13 +193,14 @@ final class Kernel
             if ($api) {
                 return Response::json(['error' => t('Le site ouvrira bientôt.')], 503);
             }
-            // Le suivi d'une commande de la boutique reste accessible (lien envoyé au client).
-            if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true) && !str_starts_with($path, '/boutique/commande/')) {
+            // Le suivi d'une commande de la boutique et les liens de la newsletter (confirmer, se
+            // désinscrire, y compris en un clic depuis la messagerie) restent accessibles.
+            if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true) && !str_starts_with($path, '/boutique/commande/') && !preg_match('#^/newsletter/(desinscription|confirmer)/#', $path)) {
                 return Front\Pages::waiting();
             }
         }
         // Accès restreint par mot de passe (pré-lancement)
-        if (($pwd = Settings::get('general.front_password', '')) && !Auth::user()) {
+        if (($pwd = Settings::get('general.front_password', '')) && !Auth::user() && !preg_match('#^/newsletter/(desinscription|confirmer)/#', $path)) {
             if ($api && !Front\Pages::gateOpen((string) $pwd)) {
                 return Response::json(['error' => t('Accès réservé.')], 401);
             }

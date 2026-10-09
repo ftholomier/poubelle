@@ -51,9 +51,13 @@ final class Newsletter
         $base = base_url();
         $items = self::items($ts);
         $D = "font-family:'Big Shoulders Display','Arial Narrow',Arial,sans-serif;text-transform:uppercase";
+        // Titres forts (titre de la lettre, scores, compte à rebours) : Impact partout, à sa graisse
+        // naturelle (jamais forcée en gras, sinon les lettres s'empâtent) ; même rendu dans toutes
+        // les messageries, la plupart ne chargeant pas la police du site.
+        $H = "font-family:Impact,'Arial Narrow Bold','Arial Black',sans-serif;text-transform:uppercase;font-weight:normal;letter-spacing:.5px";
         $html = self::MARK
             . '<div style="' . $D . ';font-size:14px;letter-spacing:3px;color:#1F3FA8;font-weight:700">' . e(t('La semaine du')) . ' ' . e(Site::dayMonth($ts)) . '</div>'
-            . '<div style="' . $D . ';font-size:34px;line-height:1;font-weight:700;color:#0E1F4D;margin:6px 0 14px">' . e(t('Cette semaine-là, dans l’histoire')) . '</div>';
+            . '<div style="' . $H . ';font-size:36px;line-height:1;color:#0E1F4D;margin:6px 0 14px">' . e(t('Cette semaine-là, dans l’histoire')) . '</div>';
         $intro = safe_html((string) Settings::get('newsletter.intro', ''));
         if (trim(strip_tags($intro)) !== '') {
             $html .= '<div style="font-size:17px;line-height:1.55;margin:0 0 8px">' . $intro . '</div>';
@@ -71,7 +75,7 @@ final class Newsletter
                 . '</td></tr><tr><td style="padding:12px 14px 14px">'
                 . ($ago > 0 ? '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span>' : '')
                 . '<div style="' . $D . ';font-size:13px;letter-spacing:1px;color:#1F3FA8;font-weight:700;margin-top:8px">' . e(date_fr((string) $m['date'], true)) . '<br>' . e($m['label'] ?: $m['comp']) . '</div>'
-                . '<div style="' . $D . ';font-size:22px;line-height:1.05;font-weight:700;color:#0E1F4D;margin:6px 0 12px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
+                . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:#0E1F4D;margin:6px 0 12px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
                 . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#0E1F4D;color:#F6C400;font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px;border-bottom:3px solid #F6C400">' . e(t('Lire la fiche')) . ' →</a>'
                 . '</td></tr></table>';
         }
@@ -241,7 +245,7 @@ final class Newsletter
             I18n::set($l);
             $unsub = base_url() . url('/newsletter/desinscription/' . $token . '/');
             $body = ($state['html'][$l] ?? reset($state['html'])) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » de Sochaux Rétro.')) . ' <a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
-            $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body, null, [], ['List-Unsubscribe' => '<' . $unsub . '>']);
+            $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body, null, [], ['List-Unsubscribe' => '<' . $unsub . '>', 'List-Unsubscribe-Post' => 'List-Unsubscribe=One-Click']);
             I18n::set($prev);
             $state[$ok ? 'sent' : 'failed']++;
         }

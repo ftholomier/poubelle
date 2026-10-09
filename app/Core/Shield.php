@@ -41,8 +41,8 @@ final class Shield
         if ($path === '/robots.txt' || $path === '/admin' || str_starts_with($path, '/admin/')) {
             return null;
         }
-        // Paiements, notifications de l'appli : appels de services, jamais filtrés.
-        if (preg_match('#^/api/(dons/(stripe|paypal)/webhook|push/)|^/boutique/.*webhook#', $path)) {
+        // Paiements, notifications de l'appli, désinscription en un clic des messageries : appels de services, jamais filtrés.
+        if (preg_match('#^/api/(dons/(stripe|paypal)/webhook|push/)|^/boutique/.*webhook|^(/en)?/newsletter/desinscription/#', $path)) {
             return null;
         }
         $ip = $req->ip();
