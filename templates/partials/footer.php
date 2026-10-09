@@ -89,6 +89,16 @@ $join = array_merge([[t('Contribuer'), '/contribuer/'], [t('La newsletter'), '/n
       <?php if ($shop): ?><a href="<?= e(url('/boutique/')) ?>"><?= e(t('La boutique')) ?></a><?php endif; ?>
       <a href="<?= e($asso) ?>" rel="noopener" target="_blank"><?= e(t('L’association Sochaux Rétro')) ?> ↗</a>
     </nav>
+    <?php $pick = \App\Shop\ShopPages::homePicks(1)[0] ?? null; if ($pick): ?>
+    <div class="mf-col mf-shop">
+      <h2><?= e(t('À la boutique')) ?></h2>
+      <a class="mf-shop__card" href="<?= e($pick['href']) ?>">
+        <span class="mf-shop__img"><img src="<?= e($pick['img']) ?>" alt="" loading="lazy" decoding="async"></span>
+        <span class="mf-shop__txt"><small><?= e($pick['kind']) ?></small><b><?= e($pick['name']) ?></b><span><?= e($pick['price']) ?></span></span>
+      </a>
+      <a class="mf-shop__go" href="<?= e(url('/boutique/')) ?>"><?= e(t('Personnalisez-le, commandez : chaque achat fait vivre le musée')) ?> →</a>
+    </div>
+    <?php endif; ?>
   </div>
   <div class="site-footer__bar">
     <?php if (($copy = $ft('copyright')) !== ''): ?><span><?= e(str_replace(['{année}', '{annee}', '{year}'], date('Y'), $copy)) ?></span><?php endif; ?>
