@@ -389,11 +389,12 @@ html { scroll-padding-top: var(--head-h, 0px); }
 .mf-cta__btns { display: flex; gap: 14px; flex-wrap: wrap; }
 .mf-cta__btns .btn { font-size: 17px; padding: 14px 22px; }
 .mf-main { max-width: var(--wrap); margin: 0 auto; padding: clamp(40px, 5vw, 64px) var(--gutter); display: grid; grid-template-columns: minmax(310px, 1.5fr) repeat(3, minmax(0, 1fr)); gap: 32px; }
-.mf-main:has(.mf-shop) { grid-template-columns: minmax(310px, 1.5fr) repeat(3, minmax(0, .85fr)) minmax(0, 1.1fr); gap: 26px; }
+.mf-main:has(.mf-shop) { grid-template-columns: minmax(310px, 1.5fr) repeat(3, minmax(0, .9fr)) minmax(0, .9fr); gap: 26px; }
 @media (max-width: 1180px) { .mf-main:has(.mf-shop) { grid-template-columns: repeat(3, minmax(0, 1fr)); } .mf-main:has(.mf-shop) .mf-brand { grid-column: 1 / -1; } }
 @media (max-width: 960px) { .mf-main, .mf-main:has(.mf-shop) { grid-template-columns: 1fr 1fr; } .mf-brand { grid-column: 1 / -1; } }
 @media (max-width: 520px) { .mf-main, .mf-main:has(.mf-shop) { grid-template-columns: 1fr; } }
-.mf-brand { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+.mf-brand { display: flex; flex-direction: column; gap: 30px; align-items: flex-start; }
+.mf-brand .mf-social { margin-top: 10px; }
 .mf-logo { display: flex; gap: 14px; align-items: center; color: var(--cream); }
 .mf-logo img { height: 79px; width: auto; }
 .mf-logo b { display: block; font-family: var(--display); font-weight: 900; font-size: 30px; text-transform: uppercase; line-height: 1; }
@@ -846,16 +847,16 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .home-shop__price { padding: 0 14px; font-weight: 600; }
 @media (max-width: 900px) { .home-shop { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-/* Pied de page : un objet de la boutique tiré au hasard, en fiche verticale */
-.mf-shop__card { display: flex !important; flex-direction: column; background: var(--cream) !important; color: var(--navy) !important; border: 3px solid var(--yellow); box-shadow: 6px 6px 0 var(--yellow); padding: 0 !important; opacity: 1 !important; text-decoration: none; max-width: 240px; transition: transform .15s, box-shadow .15s; }
-.mf-shop__card:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--yellow); color: var(--navy) !important; }
-.mf-shop__img { display: block; aspect-ratio: 1; background: #fff; border-bottom: 3px solid var(--yellow); position: relative; }
-.mf-shop__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
-.mf-shop__txt { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px 12px; }
-.mf-shop__txt small { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); }
-.mf-shop__txt b { font-family: var(--display); font-weight: 800; font-size: 19px; line-height: 1.1; text-transform: uppercase; }
-.mf-shop__txt span { font-weight: 600; font-size: 15px; }
-.mf-shop__go { font-size: 15px !important; color: var(--yellow) !important; opacity: 1 !important; margin-top: 6px; max-width: 240px; }
+/* Pied de page : un objet de la boutique tiré au hasard, en fiche verticale et discrète */
+.mf-shop__card { display: flex !important; flex-direction: column; background: var(--navy-2) !important; color: var(--cream) !important; border: 2px solid rgba(246, 196, 0, .55); padding: 0 !important; opacity: 1 !important; text-decoration: none; max-width: 190px; transition: border-color .2s, transform .15s; }
+.mf-shop__card:hover { border-color: var(--yellow); transform: translateY(-2px); color: var(--cream) !important; }
+.mf-shop__img { display: block; aspect-ratio: 1; position: relative; background: radial-gradient(circle at 50% 45%, rgba(243, 237, 223, .22), rgba(243, 237, 223, .04) 70%); border-bottom: 2px solid rgba(246, 196, 0, .55); }
+.mf-shop__img img { position: absolute; inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); object-fit: contain; display: block; }
+.mf-shop__txt { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px 10px; }
+.mf-shop__txt small { font-family: var(--display); font-weight: 700; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--yellow); }
+.mf-shop__txt b { font-family: var(--display); font-weight: 800; font-size: 16px; line-height: 1.1; text-transform: uppercase; }
+.mf-shop__txt span { font-size: 14px; opacity: .9; }
+.mf-shop__go { font-size: 14px !important; color: var(--yellow) !important; opacity: 1 !important; margin-top: 6px; max-width: 190px; }
 /* Accueil, boutique : cartes de même hauteur, images au même format */
 .home-shop__img { position: relative; overflow: hidden; }
 .home-shop__img img { position: absolute; inset: 0; }
