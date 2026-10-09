@@ -303,6 +303,7 @@ final class Cron
     private static function housekeeping(): array
     {
         $out = ['assistant' => Rag::purgeLogs()];
+        $out['newsletter'] = NewsletterStats::purge();
         $purgeMonthly = function (string $dir, int $months): int {
             $n = 0;
             $limit = date('Y-m', strtotime("-$months months"));

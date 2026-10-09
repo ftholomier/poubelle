@@ -169,6 +169,21 @@ final class NewsletterStats
         return $out;
     }
 
+    /** Mesures des lettres de plus de 2 ans effacées (politique de confidentialité). */
+    public static function purge(): int
+    {
+        $n = 0;
+        $limit = date('o-W', strtotime('-2 years'));
+        foreach (glob(self::DIR . '/*.json') ?: [] as $f) {
+            if (basename($f, '.json') < $limit) {
+                @unlink($f);
+                @unlink($f . '.lock');
+                $n++;
+            }
+        }
+        return $n;
+    }
+
     /** Nom lisible d'un lien suivi : le titre de la fiche, sinon le chemin. */
     private static function label(string $url): string
     {
