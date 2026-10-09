@@ -288,11 +288,13 @@ final class Community
         if (!$oneClick && ($req->method !== 'POST' || !Session::checkCsrf((string) ($req->post['_csrf'] ?? '')))) {
             return self::message(t('Se désinscrire de la newsletter'), t('Vous ne recevrez plus la newsletter « Ce jour-là » et votre adresse sera effacée.'), t('Me désinscrire'));
         }
-        JsonStore::update(self::SUBS, function ($all) use ($token) {
+        $via = $oneClick ? 'messagerie' : 'lien';
+        \App\Services\NewsletterStats::unsub($via);
+        JsonStore::update(self::SUBS, function ($all) use ($token, $via) {
             foreach ($all ?: [] as $k => $s) {
                 if (hash_equals((string) $s['token'], $token)) {
                     // Désinscription : l'adresse est effacée (RGPD), seule l'empreinte reste pour mémoire.
-                    $all[$k] = ['email' => null, 'status' => 'unsubscribed', 'token' => $s['token'], 'created' => $s['created'] ?? null, 'unsubscribed' => date('c')];
+                    $all[$k] = ['email' => null, 'status' => 'unsubscribed', 'token' => $s['token'], 'created' => $s['created'] ?? null, 'confirmed' => $s['confirmed'] ?? null, 'unsubscribed' => date('c'), 'by' => $via];
                 }
             }
             return $all ?: [];

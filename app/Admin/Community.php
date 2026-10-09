@@ -350,7 +350,20 @@ final class Community extends Base
         $q = mb_strtolower($req->str('q'));
         $subs = array_filter($all, fn ($s) => ($s['status'] ?? '') !== 'unsubscribed' && ($q === '' || str_contains(mb_strtolower((string) ($s['email'] ?? '')), $q)));
         uasort($subs, fn ($a, $b) => strcmp((string) ($b['created'] ?? ''), (string) ($a['created'] ?? '')));
-        return self::html('admin/community/newsletter', ['stat' => $stat, 'state' => $state, 'next' => $next, 'subs' => array_slice($subs, 0, 200, true), 'found' => count($subs), 'q' => $q, 'items' => Newsletter::items()], ['title' => 'Newsletter « Ce jour-là »', 'crumb' => 'Communauté', 'nav' => 'newsletter']);
+        // Abonnés gagnés et perdus, semaine par semaine (12 dernières semaines).
+        $growth = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $growth[date('o-W', strtotime("-$i week"))] = ['label' => date('d/m', strtotime('monday this week', strtotime("-$i week"))), 'in' => 0, 'out' => 0];
+        }
+        foreach ($all as $s) {
+            if (!empty($s['confirmed']) && isset($growth[$w = date('o-W', strtotime((string) $s['confirmed']))])) {
+                $growth[$w]['in']++;
+            }
+            if (!empty($s['unsubscribed']) && isset($growth[$w = date('o-W', strtotime((string) $s['unsubscribed']))])) {
+                $growth[$w]['out']++;
+            }
+        }
+        return self::html('admin/community/newsletter', ['history' => \App\Services\NewsletterStats::history(), 'growth' => $growth, 'stat' => $stat, 'state' => $state, 'next' => $next, 'subs' => array_slice($subs, 0, 200, true), 'found' => count($subs), 'q' => $q, 'items' => Newsletter::items()], ['title' => 'Newsletter « Ce jour-là »', 'crumb' => 'Communauté', 'nav' => 'newsletter']);
     }
 
     private static function nextSend(): ?string
@@ -414,10 +427,11 @@ final class Community extends Base
         if ($action === 'desinscrire' && ($key = (string) ($req->post['key'] ?? '')) !== '') {
             JsonStore::update(STORAGE_PATH . '/newsletter/subscribers.json', function ($all) use ($key) {
                 if (isset($all[$key])) {
-                    $all[$key] = ['email' => null, 'status' => 'unsubscribed', 'token' => $all[$key]['token'] ?? '', 'created' => $all[$key]['created'] ?? null, 'unsubscribed' => date('c'), 'by' => 'équipe'];
+                    $all[$key] = ['email' => null, 'status' => 'unsubscribed', 'token' => $all[$key]['token'] ?? '', 'created' => $all[$key]['created'] ?? null, 'confirmed' => $all[$key]['confirmed'] ?? null, 'unsubscribed' => date('c'), 'by' => 'équipe'];
                 }
                 return $all ?: [];
             }, []);
+            \App\Services\NewsletterStats::unsub('équipe');
             return self::back('/admin/newsletter', 'Abonné désinscrit, adresse effacée.');
         }
         return self::back('/admin/newsletter', null, 'Action inconnue.');

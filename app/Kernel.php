@@ -195,12 +195,12 @@ final class Kernel
             }
             // Le suivi d'une commande de la boutique et les liens de la newsletter (confirmer, se
             // désinscrire, y compris en un clic depuis la messagerie) restent accessibles.
-            if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true) && !str_starts_with($path, '/boutique/commande/') && !preg_match('#^/newsletter/(desinscription|confirmer)/#', $path)) {
+            if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true) && !str_starts_with($path, '/boutique/commande/') && !preg_match('#^/newsletter/(desinscription|confirmer|c|o)/#', $path)) {
                 return Front\Pages::waiting();
             }
         }
         // Accès restreint par mot de passe (pré-lancement)
-        if (($pwd = Settings::get('general.front_password', '')) && !Auth::user() && !preg_match('#^/newsletter/(desinscription|confirmer)/#', $path)) {
+        if (($pwd = Settings::get('general.front_password', '')) && !Auth::user() && !preg_match('#^/newsletter/(desinscription|confirmer|c|o)/#', $path)) {
             if ($api && !Front\Pages::gateOpen((string) $pwd)) {
                 return Response::json(['error' => t('Accès réservé.')], 401);
             }
@@ -496,6 +496,8 @@ final class Kernel
         $r->post('/newsletter/confirmer/{token}/', fn ($q, $token) => Front\Community::newsletterConfirm($q, $token));
         $r->get('/newsletter/desinscription/{token}/', fn ($q, $token) => Front\Community::newsletterUnsubscribe($q, $token));
         $r->post('/newsletter/desinscription/{token}/', fn ($q, $token) => Front\Community::newsletterUnsubscribe($q, $token));
+        $r->get('/newsletter/c/{week}/{token}/{i}/', fn ($q, $week, $token, $i) => \App\Services\NewsletterStats::click($q, $week, $token, $i));
+        $r->get('/newsletter/o/{week}/{token}/', fn ($q, $week, $token) => \App\Services\NewsletterStats::open($q, $week, $token));
         $r->get('/partage-et-newsletter/', fn ($q) => Front\Community::sharePage($q));
         return $r;
     }

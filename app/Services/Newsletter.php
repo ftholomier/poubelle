@@ -237,6 +237,7 @@ final class Newsletter
             }
             I18n::set($prev);
             $state = ['week' => $week, 'started' => date('c'), 'subject' => $subject, 'html' => $html, 'pending' => array_column($subs, 'token'), 'sent' => 0, 'failed' => 0];
+            NewsletterStats::start($week, (string) ($subject['fr'] ?? reset($subject)), $html, count($state['pending']));
         }
         $byToken = [];
         foreach (Community::subscribers() as $s) {
@@ -263,7 +264,7 @@ final class Newsletter
                 $l = isset($state['html'][$s['lang'] ?? '']) ? $s['lang'] : 'fr';
                 I18n::set($l);
                 $unsub = base_url() . url('/newsletter/desinscription/' . $token . '/');
-                $body = ($state['html'][$l] ?? reset($state['html'])) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px;text-align:center">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » de Sochaux Rétro.')) . '<br><a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
+                $body = NewsletterStats::personalize((string) ($state['html'][$l] ?? reset($state['html'])), $state['week'], $token) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px;text-align:center">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » de Sochaux Rétro.')) . '<br><a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
                 $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body, null, [], ['List-Unsubscribe' => '<' . $unsub . '>', 'List-Unsubscribe-Post' => 'List-Unsubscribe=One-Click']);
                 I18n::set($prev);
                 $state[$ok ? 'sent' : 'failed']++;
@@ -283,6 +284,7 @@ final class Newsletter
             unset($state['html']);
         }
         JsonStore::write(self::STATE, $state);
+        NewsletterStats::progress($state['week'], (int) $state['sent'], (int) $state['failed'], !$state['pending']);
         return ['sent' => (int) $state['sent'], 'remaining' => count($state['pending'])];
     }
 }

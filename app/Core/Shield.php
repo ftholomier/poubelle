@@ -42,7 +42,7 @@ final class Shield
             return null;
         }
         // Paiements, notifications de l'appli, désinscription en un clic des messageries : appels de services, jamais filtrés.
-        if (preg_match('#^/api/(dons/(stripe|paypal)/webhook|push/)|^/boutique/.*webhook|^(/en)?/newsletter/desinscription/#', $path)) {
+        if (preg_match('#^/api/(dons/(stripe|paypal)/webhook|push/)|^/boutique/.*webhook|^(/en)?/newsletter/(desinscription|o|c)/#', $path)) {
             return null;
         }
         $ip = $req->ip();
