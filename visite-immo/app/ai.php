@@ -171,8 +171,8 @@ function gemini_models(string $key): array
                 'entree'      => $m['inputTokenLimit'] ?? null,
                 'generation'  => $generation,
                 'live'        => $live,
-                // les modèles « native audio » ne savent répondre qu'en voix : plus chers
-                'audio_natif' => (bool) preg_match('/native-audio|native_audio/i', $id),
+                // ces modèles ne savent répondre qu'en voix : plus chers
+                'audio_natif' => live_voix_seule($id),
                 'prix'        => gamme_prix($id, $live),
             ];
         }
@@ -196,7 +196,7 @@ function modele_live(): array
     global $CONFIG;
     $modele = trim((string) ($CONFIG['modele_dialogue'] ?? ''));
     if ($modele === '') throw new RuntimeException("Choisissez le modèle de conversation vocale dans Paramètres → Modèles.");
-    $natif = (bool) preg_match('/native-audio|native_audio/i', $modele);
+    $natif = live_voix_seule($modele);
     $cle = (string) ($CONFIG['gemini_api_key'] ?? '');
     $cache = DATA_DIR . '/cache/modeles_live.json';
     $c = read_json($cache, []);
@@ -217,10 +217,25 @@ function modele_live(): array
     return [$modele, $natif];
 }
 
+/** Modèle Live qui ne répond qu'en voix : les « native audio » et toute la génération Gemini 3 (3.1 Flash Live, 3.8 Live…). */
+function live_voix_seule(string $id): bool
+{
+    return (bool) preg_match('/native-audio|native_audio|gemini-3\.|live-3/i', $id);
+}
+
+/**
+ * Gemini 3.1 Flash Live refuse le texte envoyé en « clientContent » pendant la conversation (coupure, code 1007) :
+ * le texte de l'agent (boutons, clavier) passe alors par « realtimeInput ».
+ */
+function live_texte_direct(string $id): bool
+{
+    return (bool) preg_match('/gemini-3\.1/i', $id);
+}
+
 /** Gamme de prix indicative d'un modèle, pour choisir dans les Paramètres : 1 (le moins cher) à 4. */
 function gamme_prix(string $id, bool $live = false): int
 {
-    if (preg_match('/native-audio|native_audio/i', $id)) return 4; // répond avec la voix Gemini
+    if (live_voix_seule($id)) return 4; // répond avec la voix Gemini
     if (str_contains($id, 'pro')) return 3;
     if (str_contains($id, 'lite')) return 1;
     return $live ? 2 : 2;

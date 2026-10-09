@@ -573,7 +573,8 @@ function renderFiche($c, visit, sections, saver) {
                       : "";
             const manque = manquants.has(f.cle) ? '<span class="manque" title="Obligatoire pour le mandat">●</span>' : "";
             return `<div class="field ${c ? "filled" : ""} ${["ia", "dialogue", "document", "public"].includes(c?.source) ? "ia" : ""}">
-              <label for="c-${f.cle}">${manque}${esc(f.label)}${f.unite ? ` <span class="muted">(${f.unite})</span>` : ""} ${chip}</label>
+              <label for="c-${f.cle}">${manque}${esc(f.label)}${f.unite ? ` <span class="muted">(${f.unite})</span>` : ""} ${chip}${f.aide ? ` <button type="button" class="aide-champ" data-aide="${f.cle}" aria-expanded="false" aria-controls="aide-${f.cle}" aria-label="Que veut dire « ${esc(f.label)} » ?">?</button>` : ""}</label>
+              ${f.aide ? `<p class="aide-texte" id="aide-${f.cle}" hidden>${esc(f.aide)}</p>` : ""}
               ${input(f)}
             </div>`;
           })
@@ -610,6 +611,14 @@ function renderFiche($c, visit, sections, saver) {
   };
   window.addEventListener("dossier-maj", majEstim);
   $c.addEventListener("click", (e) => {
+    const aide = e.target.closest(".aide-champ");
+    if (aide) {
+      e.preventDefault();
+      const p = document.getElementById(`aide-${aide.dataset.aide}`);
+      p.hidden = !p.hidden;
+      aide.setAttribute("aria-expanded", String(!p.hidden));
+      return;
+    }
     const chip = e.target.closest(".chip[data-cite]");
     if (chip) {
       e.preventDefault();
@@ -766,6 +775,10 @@ async function viewDialogue(id) {
         <p class="dlg-agent" id="agent"></p>
       </div>
       <div class="notes" id="notes"></div>
+      <div class="dlg-aides">
+        <button class="btn" id="passer">⏭ Passer cette question</button>
+        <button class="btn" id="expliquer">❓ Je ne comprends pas</button>
+      </div>
       <form class="dlg-ecrire" id="ecrire" hidden><input id="ecrire-txt" aria-label="Écrire une réponse" placeholder="Écrire une réponse (nom à épeler…)" autocomplete="off"><button class="btn primary">Envoyer</button></form>
       <div class="sticky-actions">
         <button class="btn" id="pause">⏸ Pause</button>
@@ -784,6 +797,8 @@ async function viewDialogue(id) {
       $("ecrire-txt").value = "";
     };
     $("stop").onclick = () => conv.fermer("arret");
+    $("passer").onclick = () => conv.commande("[PASSER] Je n'ai pas cette information pour l'instant : passez à la question suivante sans la reposer.", "(question passée)");
+    $("expliquer").onclick = () => conv.commande("[EXPLIQUER] Je ne comprends pas cette question. Expliquez-la simplement avec un exemple de réponse, puis reposez-la.", "(explication demandée)");
   };
 
   const ecranFin = (raison, resume) => {
@@ -792,7 +807,7 @@ async function viewDialogue(id) {
         <div class="done-icon">✓</div>
         <h2>${noteCount} information${noteCount > 1 ? "s" : ""} <mark>enregistrée${noteCount > 1 ? "s" : ""}.</mark></h2>
         ${resume ? `<p>${esc(resume)}</p>` : ""}
-        ${raison.startsWith("refus") ? `<p class="erreur">${esc(raison)}. Vérifiez le modèle de conversation dans les Paramètres.</p>` : raison === "coupure" ? '<p class="erreur">La connexion a été coupée. Vous pouvez reprendre : les informations déjà dictées sont conservées.</p>' : ""}
+        ${raison.startsWith("refus") ? `<p class="erreur">${esc(raison)}. Vérifiez le modèle de conversation dans les Paramètres.</p>` : raison.startsWith("coupure") ? `<p class="erreur">La connexion a été coupée par Google (${esc(raison.slice(10) || "sans détail")}). Vous pouvez reprendre : les informations déjà dictées sont conservées.</p>` : ""}
         <button class="btn magic big" id="regen">✨ Mettre à jour les documents</button>
         <a class="btn" href="#/visite/${id}/dialogue" id="encore">🎙️ Reprendre la conversation</a>
         <a class="btn ghost" href="#/visite/${id}/fiche">Voir la fiche</a>

@@ -90,6 +90,45 @@ function field_keys(): array
     return $keys;
 }
 
+/**
+ * Explications simples des questions techniques ou juridiques (bouton « Expliquer » de l'assistant vocal, « ? » de la
+ * fiche). Une phrase pour comprendre, une pour savoir où trouver l'information, un exemple de réponse.
+ */
+const AIDE_CHAMPS = [
+    'origine_propriete' => "Comment le vendeur est devenu propriétaire : achat, héritage (succession), donation ou construction, et en quelle année. C'est écrit sur son titre de propriété (l'acte notarié). Exemple : « Acquisition en 2005 chez Maître Durand, notaire à Besançon ».",
+    'cadastre' => "Les références de la parcelle au cadastre : une section (lettres) et un numéro. Elles figurent sur le titre de propriété ou la taxe foncière, et l'appli les trouve souvent toute seule à partir de l'adresse. Exemple : « Section AB numéro 123 ».",
+    'copropriete' => "Le bien fait-il partie d'un immeuble ou d'un ensemble géré par un syndic, avec des parties communes ? Oui pour la plupart des appartements, non pour une maison individuelle.",
+    'lots_copropriete' => "Les numéros des lots que possède le vendeur dans la copropriété (appartement, cave, parking). Ils sont sur le titre de propriété ou les appels de charges. Exemple : « lots 12 et 45 ».",
+    'surface_carrez' => "La surface privative mesurée selon la loi Carrez (sans les parties de moins de 1,80 m de hauteur), obligatoire en copropriété. Elle figure dans le certificat de mesurage du diagnostiqueur. Exemple : « 68,5 ».",
+    'occupation' => "Le bien sera-t-il libre à la vente, occupé par le propriétaire jusqu'à la vente, ou loué à un locataire ?",
+    'servitudes' => "Un droit de passage, une canalisation d'un voisin, un litige en cours ou une procédure (copropriété, voisinage, urbanisme) ? Le titre de propriété les mentionne. Répondez « aucune » s'il n'y en a pas.",
+    'diagnostics' => "Les diagnostics déjà faits (DPE, amiante, plomb, électricité, gaz, termites, assainissement…) et ceux qu'il faut commander avant la vente.",
+    'situation_vendeur' => "La situation familiale du vendeur : célibataire, marié, pacsé, divorcé, veuf ou en concubinage. Elle dit qui doit signer le mandat.",
+    'regime_vendeur' => "Si le vendeur est marié : le contrat de mariage. Sans contrat, c'est « communauté réduite aux acquêts ». Il décide si le conjoint doit aussi signer. Exemple : « mariés sans contrat ».",
+    'autres_proprietaires' => "Y a-t-il d'autres propriétaires que les vendeurs déjà cités : conjoint, ex-conjoint, enfants, frères et sœurs en indivision après un héritage ? Tous devront signer.",
+    'naissance_date_vendeur' => "Date de naissance du vendeur, obligatoire sur le mandat pour l'identifier. Exemple : « 12 avril 1961 ».",
+    'naissance_lieu_vendeur' => "Ville (et département ou pays) de naissance du vendeur, obligatoire sur le mandat. Exemple : « Besançon, Doubs ».",
+    'mandat_type' => "Simple : le vendeur peut aussi vendre par d'autres agences ou lui-même. Semi-exclusif : une seule agence, mais il peut vendre lui-même. Exclusif : seule votre agence vend pendant la durée du mandat.",
+    'mandat_lieu' => "Où le mandat sera signé : à l'agence, chez le vendeur, ou à distance. Chez le vendeur ou à distance, il a 14 jours pour se rétracter.",
+    'mandat_prix' => "Le prix affiché dans l'annonce, honoraires de l'agence compris. Exemple : « 412 000 ».",
+    'mandat_honoraires' => "La rémunération de l'agence, toutes taxes comprises, en euros ou en pourcentage du prix. Exemple : « 12 000 € » ou « 3 % ».",
+    'mandat_honoraires_charge' => "Qui paie les honoraires : l'acquéreur (le plus courant, ils sont inclus dans le prix affiché) ou le vendeur.",
+    'mandat_duree' => "Durée du mandat en mois, souvent 3 mois renouvelables. Exemple : « 3 ».",
+    'mandat_date' => "Le jour où le mandat sera signé. Exemple : « 7 octobre 2026 ».",
+    'mandat_notes' => "Des conditions particulières à écrire dans le mandat : date de libération, meubles inclus, visites seulement le samedi… Répondez « aucune » s'il n'y en a pas.",
+    'motif_vente' => "Pourquoi le vendeur vend : mutation, succession, séparation, achat d'un autre bien… Utile pour la stratégie de prix et le délai.",
+    'disponibilite' => "Quand le bien sera libre pour l'acquéreur. Exemple : « dès la signature » ou « à partir de juin ».",
+    'ges' => "L'étiquette climat du DPE (de A à G), à côté de l'étiquette énergie, sur le diagnostic de performance énergétique.",
+    'depenses_energie_min' => "Sur le DPE récent : la fourchette « estimation des coûts annuels d'énergie », chiffre bas. Obligatoire dans l'annonce.",
+    'depenses_energie_max' => "Sur le DPE récent : la fourchette « estimation des coûts annuels d'énergie », chiffre haut. Obligatoire dans l'annonce.",
+];
+
+/** Les sections avec, pour chaque champ qui en a une, son explication (pour l'interface). */
+function sections_avec_aide(): array
+{
+    return array_map(fn ($s) => ['champs' => array_map(fn ($c) => !empty(AIDE_CHAMPS[$c['cle']]) ? $c + ['aide' => AIDE_CHAMPS[$c['cle']]] : $c, $s['champs'])] + $s, SECTIONS);
+}
+
 function fields_prompt(): string
 {
     $hints = ['number' => 'nombre', 'bool' => 'oui/non', 'text' => 'texte', 'textarea' => 'texte', 'date' => 'date JJ/MM/AAAA'];

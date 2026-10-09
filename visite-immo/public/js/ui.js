@@ -2,7 +2,7 @@
 
 import { api } from "./api.js";
 
-export const APP_VERSION = "14"; // à garder identique à APP_VERSION dans app/bootstrap.php
+export const APP_VERSION = "15"; // à garder identique à APP_VERSION dans app/bootstrap.php
 export const state = { user: null, demo: null, sections: null, email: false, agence: "" };
 export const nav = { cleanup: null }; // appelé en quittant un écran (ex. arrêt d'un enregistrement)
 /** Écrans ajoutés par les modules dans un dossier : ecransDossier.avis = ($c, visit, saver) => … ;

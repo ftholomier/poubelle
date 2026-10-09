@@ -794,3 +794,11 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .compat-score.moyen { background: #ffe0b8; }
 .compat-score.bas { background: var(--surface); color: var(--text); border-color: var(--muted); }
 .nowrap { white-space: nowrap; }
+
+/* ---------- Aide sur les questions ---------- */
+.dlg-aides { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.dlg-aides .btn { font-size: .88rem; padding: 10px 8px; }
+.aide-champ { display: inline-grid; place-items: center; width: 26px; height: 26px; min-height: 26px; margin-left: 4px; border-radius: 50%; border: 1.5px solid var(--bord); background: var(--surface); color: var(--text); font: 800 .8rem "Archivo", sans-serif; vertical-align: middle; cursor: pointer; text-transform: none; padding: 0; }
+.aide-champ[aria-expanded="true"] { background: var(--citron); color: var(--encre); border-color: var(--encre); }
+.aide-texte { font-size: .86rem; line-height: 1.45; background: var(--surface); border: 1.5px dashed var(--bord); border-radius: 8px; padding: 8px 10px; margin: 4px 0 6px; text-transform: none; letter-spacing: 0; }
+.aide-texte::before { content: "💡 "; }

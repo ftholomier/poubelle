@@ -46,7 +46,7 @@ try {
         'POST live'       => route_live($id),
         'POST registre'   => send_json(vue_dossier(inscrire_registre(require_user(), $id))),
         'POST usage'      => route_usage($id),
-        'GET fields'      => send_json(SECTIONS),
+        'GET fields'      => send_json(sections_avec_aide()),
         'GET visits'      => route_visits_list(),
         'POST visits'     => route_visit_create(),
         'GET visit'       => send_json(vue_dossier(load_visit(require_user(), $id))),
@@ -557,6 +557,7 @@ function route_live(string $id): never
     $manquantsTxt = $manquants ? implode("\n", $manquants) : '(aucun : proposer de vérifier les champs facultatifs utiles, puis terminer)';
     $optionsTxt = implode("\n", $options);
     $tousTxt = fields_prompt();
+    $aidesTxt = implode("\n", array_map(fn ($k, $t) => "- $k : $t", array_keys(AIDE_CHAMPS), AIDE_CHAMPS));
 
     $consignes = <<<PROMPT
 Tu es l'assistant vocal de {$me['nom']}, agent immobilier chez {$agence}. Il sort d'une visite et tu l'aides à compléter le dossier du bien (fiche, vendeurs, situation juridique, mandat de vente) en lui posant des questions à l'oral.
@@ -571,7 +572,8 @@ Méthode :
 - Ne demande jamais une information déjà connue. Commence par les champs manquants, dans cet ordre : mandat, vendeurs, situation juridique du bien, puis le reste de la fiche.
 - Demande s'il y a d'autres propriétaires (conjoint, indivision) : si oui, recueille l'identité du vendeur 2.
 - Pour un nom propre au moindre doute, fais-le épeler. Pour un montant important, fais-le confirmer.
-- Si l'agent ne sait pas ou dit de passer, n'insiste pas et passe à la suite.
+- Si l'agent ne sait pas ou dit de passer (ou envoie « [PASSER] »), n'insiste pas, ne note rien pour cette question, ne la repose plus dans cette conversation, et pose la suivante.
+- Si l'agent ne comprend pas la question (ou envoie « [EXPLIQUER] ») : explique-la simplement en deux phrases courtes, avec l'explication fournie plus bas quand il y en a une et un exemple de réponse, puis repose la question.
 - Valeurs : dates au format JJ/MM/AAAA, nombres en chiffres sans unité ni espace, oui/non pour les questions fermées, et pour les listes exactement l'une des valeurs proposées.
 - Quand il ne manque plus rien d'obligatoire ou que l'agent veut arrêter, dis en une phrase ce qui reste éventuellement à vérifier, puis appelle terminer.
 
@@ -579,6 +581,9 @@ Commence directement par la première question utile, sans te présenter longuem
 
 Valeurs possibles des listes :
 {$optionsTxt}
+
+Explications à donner si l'agent ne comprend pas une question :
+{$aidesTxt}
 
 Tous les champs du dossier :
 {$tousTxt}
@@ -634,6 +639,7 @@ PROMPT;
         'tools'   => $outils,
         'manquants' => array_column(champs_manquants($champs), 'cle'),
         'audio_natif' => $audioNatif,
+        'texte_direct' => live_texte_direct($modele),
     ]);
 }
 

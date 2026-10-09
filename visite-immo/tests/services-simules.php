@@ -188,12 +188,15 @@ if (str_starts_with($path, '/push/')) {
 
 // --- Gemini generateContent (réponses fixes, pour vérifier les appels réels) ---
 // Liste des modèles (comme l'API Gemini) : l'ancien modèle Live a disparu, deux nouveaux sont proposés
+// Jeton temporaire d'une conversation Live
+if ($path === '/gemini/auth_tokens') json(['name' => 'auth_tokens/jeton-test']);
 if ($path === '/gemini/models') {
     $m = fn ($id, $methodes) => ['name' => "models/$id", 'displayName' => $id, 'supportedGenerationMethods' => $methodes];
     json(['models' => [
         $m('gemini-2.5-flash', ['generateContent', 'countTokens']),
         $m('gemini-2.6-flash-native-audio-preview', ['bidiGenerateContent']),
         $m('gemini-live-2.6-flash', ['bidiGenerateContent']),
+        $m('gemini-3.1-flash-live-preview', ['bidiGenerateContent']), // voix seulement, texte en realtimeInput
         $m('gemini-live-2.6-flash-preview', ['bidiGenerateContent']),
     ]]);
 }

@@ -316,6 +316,16 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
 - **Pièges** : modèles « native-audio » = voix uniquement (bascule automatique, ≈ 5× plus cher) ; seuil de détection
   relevé pendant que le téléphone parle ; iOS : débloquer `AudioContext` et `speechSynthesis` dans le geste ;
   messages parfois en `Blob`.
+- **Gemini 3 (3.1 Flash Live, 3.8 Live)** : voix seulement (`live_voix_seule()`), donc gamme €€€€. **3.1 refuse le
+  texte envoyé en `clientContent` après l'ouverture** et coupe la conversation (code 1007) : pour lui, le texte de
+  l'agent (ouverture, boutons, clavier) part en `realtimeInput.text`, encadré par `activityStart` / `activityEnd`
+  (`live_texte_direct()`, `Conversation.texte()`). Si un autre modèle coupe en 1007 après un `clientContent`, l'appli
+  rouvre seule la conversation dans ce mode. Toute autre coupure affiche le code et le motif donnés par Google.
+- **Questions difficiles** : boutons « ⏭ Passer cette question » et « ❓ Je ne comprends pas » sous la conversation.
+  Ils envoient un tour texte `[PASSER] …` / `[EXPLIQUER] …` (`Conversation.commande()`) ; les consignes disent à l'IA
+  de ne plus reposer une question passée, et d'expliquer en deux phrases avec un exemple avant de la reposer. Les
+  explications des champs juridiques (`AIDE_CHAMPS` dans `app/fields.php`) sont jointes aux consignes et affichées
+  dans la Fiche derrière un « ? » à côté du libellé.
 - Testé contre un faux serveur Live, **pas encore contre le vrai Gemini**.
 
 ---
@@ -400,7 +410,7 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 ```
 
 - Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
-- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 20 scénarios Playwright sur des
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 21 scénarios Playwright sur des
   données neuves, avec services publics, SMTP, push, firma.dev et BoldSign simulés. Couvre : parcours de base, sortie
   de visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
   vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la

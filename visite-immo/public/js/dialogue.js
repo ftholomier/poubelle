@@ -47,7 +47,8 @@ export class Conversation {
   constructor(config, h) {
     this.config = config;
     this.h = h;
-    this.modalite = config.audio_natif ? "AUDIO" : "TEXT"; // les modèles « native audio » ne répondent qu'en voix
+    this.modalite = config.audio_natif ? "AUDIO" : "TEXT"; // les modèles « native audio » et Gemini 3 ne répondent qu'en voix
+    this.texteDirect = !!config.texte_direct; // Gemini 3.1 : le texte passe par realtimeInput (clientContent refusé)
     this.texteIa = "";
     this.parle = false; // l'agent est en train de parler
     this.iaParle = false;
@@ -131,7 +132,14 @@ export class Conversation {
         this.h.onRelance?.(); // demande un nouveau jeton puis rappelle connecter()
         return;
       }
-      this.h.onFin(this.setupOk ? "coupure" : `refus : ${e.reason || "connexion impossible"}`);
+      // Texte refusé en clientContent (code 1007, cas de Gemini 3.1) : on rouvre la conversation en realtimeInput
+      if (e.code === 1007 && this.dernierClientContent && !this.texteDirect) {
+        this.texteDirect = true;
+        this.h.onRelance?.();
+        return;
+      }
+      const detail = `code ${e.code}${e.reason ? ` · ${e.reason}` : ""}`;
+      this.h.onFin(this.setupOk ? `coupure : ${detail}` : `refus : ${e.reason || `connexion impossible (${detail})`}`);
     };
   }
 
@@ -144,7 +152,7 @@ export class Conversation {
       this.setupOk = true;
       this.h.onState("ecoute");
       // L'IA ouvre la conversation avec la première question utile
-      this.envoyer({ clientContent: { turns: [{ role: "user", parts: [{ text: "Je suis prêt, posez-moi la première question." }] }], turnComplete: true } });
+      this.texte("Je suis prêt, posez-moi la première question.");
       this.h.onState("reflexion");
     }
     if (msg.usageMetadata) this.compter(msg.usageMetadata);
@@ -333,10 +341,30 @@ export class Conversation {
     this.envoyer({ toolResponse: { functionResponses: reponses } });
   }
 
+  /** Texte de l'agent. Gemini 3.1 n'accepte que realtimeInput (encadré comme une prise de parole, détection manuelle). */
+  texte(t) {
+    if (this.texteDirect) {
+      this.envoyer({ realtimeInput: { activityStart: {} } });
+      this.envoyer({ realtimeInput: { text: t } });
+      this.envoyer({ realtimeInput: { activityEnd: {} } });
+    } else {
+      this.dernierClientContent = Date.now();
+      this.envoyer({ clientContent: { turns: [{ role: "user", parts: [{ text: t }] }], turnComplete: true } });
+    }
+  }
+
+  /** Commande d'un bouton (passer la question, la faire expliquer) : consigne pour l'assistant, libellé pour l'écran. */
+  commande(consigne, libelle) {
+    this.taireIa();
+    this.texte(consigne);
+    this.h.onAgent(libelle);
+    this.h.onState("reflexion");
+  }
+
   /** Réponse écrite (lieu bruyant, nom à épeler…). */
   ecrire(texte) {
     this.taireIa();
-    this.envoyer({ clientContent: { turns: [{ role: "user", parts: [{ text: texte }] }], turnComplete: true } });
+    this.texte(texte);
     this.h.onAgent(texte);
     this.h.onState("reflexion");
   }
