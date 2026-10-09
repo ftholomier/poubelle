@@ -21,8 +21,9 @@ HTML],
 [[img:accueil-bandeau.webp|Les messages du bandeau]]
 HTML],
         ['id' => 'menus', 'title' => 'Les menus du site (menu principal, Interactif, pied de page)', 'html' => <<<'HTML'
-<p>Éditorial › <b>Menus du site</b> règle tous les liens des menus, en quatre onglets. Chaque ligne a un libellé (et sa version anglaise, ou le bouton « Traduire en anglais »), un lien et une case <b>Masqué</b> ; l’ordre se change par glisser-déposer ou avec les flèches ↑ ↓.</p>
+<p>Éditorial › <b>Menus du site</b> règle tous les liens des menus, en cinq onglets. Chaque ligne a un libellé (et sa version anglaise, ou le bouton « Traduire en anglais »), un lien et une case <b>Masqué</b> ; l’ordre se change par glisser-déposer ou avec les flèches ↑ ↓.</p>
 <ul>
+<li><b>Boutons du haut</b> : les trois boutons en haut à droite (le lien discret « Contribuer », le bouton bleu de la boutique avec son panier, le bouton jaune ♥ du don), repris dans le menu sur téléphone et, pour la boutique et le don, dans le pied de page. Leur place et leur style restent fixes ; libellé, lien et « Masqué » se changent.</li>
 <li><b>Menu principal</b> : les entrées du haut du site. Celles marquées « grand menu » ouvrent leur menu déroulant (Matchs, Nos Lions, Supporters, Infrastructures, Symboles, Interactif) ; vous pouvez les renommer, les déplacer ou les masquer. « Ajouter un lien au menu » crée une entrée simple.</li>
 <li><b>Matchs › Explorer</b> : la colonne de liens du grand menu Matchs (Saisons, Face-à-face, Palmarès…).</li>
 <li><b>Interactif</b> : les groupes d’outils du grand menu Interactif et de la page Interactif, avec pour chaque outil une icône, un libellé, une phrase et un lien. Le groupe des murs de photos se remplit tout seul.</li>

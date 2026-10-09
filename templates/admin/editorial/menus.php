@@ -20,7 +20,7 @@ $link = fn (array $x, bool $desc = false) => '<div class="fgrid">'
 <form class="stack" data-json-form data-tabs-scope data-url="/admin/menus" data-lock="ecran:menus" data-lock-what="les menus" novalidate>
   <div class="row" style="justify-content:space-between">
     <div class="ftabs" data-ftabs role="tablist">
-      <?php foreach (['nav' => 'Menu principal', 'explore' => 'Matchs › Explorer', 'interactif' => 'Interactif', 'footer' => 'Pied de page'] as $k => $l): ?>
+      <?php foreach (['boutons' => 'Boutons du haut', 'nav' => 'Menu principal', 'explore' => 'Matchs › Explorer', 'interactif' => 'Interactif', 'footer' => 'Pied de page'] as $k => $l): ?>
         <button type="button" data-tab="<?= $k ?>" role="tab"><?= e($l) ?></button>
       <?php endforeach; ?>
     </div>
@@ -30,10 +30,25 @@ $link = fn (array $x, bool $desc = false) => '<div class="fgrid">'
     </div>
   </div>
 
+  <div class="fpanel" data-panel="boutons">
+    <div class="card card--pad">
+      <h2 class="card__t">Boutons du haut</h2>
+      <p class="muted">Les trois boutons en haut à droite de chaque page (et dans le menu sur téléphone) : un lien discret, le bouton bleu (avec le panier, affiché seulement si la boutique est ouverte) et le bouton jaune ♥. Leur place et leur style restent fixes ; changez le libellé, le lien, ou masquez-les. <?= e($hrefHelp) ?></p>
+      <div class="rep rep--compact" data-repeater="buttons">
+        <?php foreach ($menus['buttons'] as $b): ?>
+          <div class="rep__item" data-item><div class="rep__body">
+            <p class="small" style="margin:0 0 6px"><b><?= e(['contribuer' => 'Lien discret (à côté de la recherche)', 'boutique' => 'Bouton bleu (boutique)', 'don' => 'Bouton jaune ♥ (don)'][$b['key']] ?? '') ?></b></p>
+            <?= Form::hidden('@key', $b['key']) . $link($b) ?>
+          </div></div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </div>
+
   <div class="fpanel" data-panel="nav">
     <div class="card card--pad">
       <h2 class="card__t">Menu principal</h2>
-      <p class="muted">Les entrées du haut du site, dans l’ordre (glisser-déposer). Les entrées marquées « grand menu » ouvrent leur menu déroulant : son contenu suit les rubriques (Éditorial › Rubriques &amp; menus) ou les onglets suivants. Une entrée ajoutée est un simple lien. Les boutons Contribuer, Boutique et Faire un don restent en haut à droite.</p>
+      <p class="muted">Les entrées du haut du site, dans l’ordre (glisser-déposer). Les entrées marquées « grand menu » ouvrent leur menu déroulant : son contenu suit les rubriques (Éditorial › Rubriques &amp; menus) ou les onglets suivants. Une entrée ajoutée est un simple lien. Les boutons Contribuer, Boutique et Faire un don se règlent dans l’onglet « Boutons du haut ».</p>
       <?= Form::repeater('nav', '', $menus['nav'], fn ($x) => (isset(Menus::MEGA[$x['key'] ?? '']) ? '<p class="small" style="margin:0 0 6px"><span class="pill">grand menu</span> ' . e(Menus::MEGA[$x['key']]) . '</p>' : '')
           . Form::hidden('@key', $x['key'] ?? '') . $link($x), ['compact' => true, 'add' => 'Ajouter un lien au menu']) ?>
     </div>

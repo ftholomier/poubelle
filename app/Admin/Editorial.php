@@ -117,6 +117,12 @@ final class Editorial extends Base
                 $nav[] = $r;
             }
         }
+        $buttons = [];
+        foreach ((array) ($in['buttons'] ?? []) as $x) {
+            if (is_array($x) && in_array($x['key'] ?? '', ['contribuer', 'boutique', 'don'], true) && ($r = $link($x))) {
+                $buttons[] = $r + ['key' => $x['key']];
+            }
+        }
         $groups = [];
         foreach ((array) ($in['interactif'] ?? []) as $g) {
             if (!is_array($g) || ($t = $line($g['title'] ?? '')) === '') {
@@ -134,7 +140,7 @@ final class Editorial extends Base
         if (!$nav) {
             return Response::json(['ok' => false, 'error' => 'Le menu principal doit garder au moins une entrée.'], 422);
         }
-        Collections::save(\App\Front\Menus::NAME, ['nav' => $nav, 'matchs_explore' => $list($in['matchs_explore'] ?? []), 'interactif' => $groups, 'footer' => array_slice($footer, 0, 4)], self::actor(), 'Menus du site');
+        Collections::save(\App\Front\Menus::NAME, ['buttons' => count($buttons) === 3 ? $buttons : \App\Front\Menus::defaults()['buttons'], 'nav' => $nav, 'matchs_explore' => $list($in['matchs_explore'] ?? []), 'interactif' => $groups, 'footer' => array_slice($footer, 0, 4)], self::actor(), 'Menus du site');
         Activity::log(self::actor(), 'a modifié', ['title' => 'les menus du site']);
         return Response::json(['ok' => true, 'message' => 'Menus enregistrés : ils sont à jour sur le site.']);
     }

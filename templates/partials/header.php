@@ -48,9 +48,10 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
           </div>
         </div>
         <?php endif; ?>
-        <a class="hcontrib" href="<?= e(url('/contribuer/')) ?>"><?= e(t('Contribuer')) ?></a>
-        <?php if (\App\Shop\ShopPages::visible()): ?><span class="hshopw"><a class="hshop<?= ($active ?? '') === 'boutique' ? ' is-on' : '' ?>" href="<?= e(url('/boutique/')) ?>"><?= e(t('Boutique')) ?></a><a class="hcart" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden aria-label="<?= e(t('Voir mon panier')) ?>"><b data-cart-n>0</b></a></span><?php endif; ?>
-        <a class="hdon" href="<?= e(url('/faire-un-don/')) ?>">♥ <?= e(t('Faire un don')) ?></a>
+<?php $bC = \App\Front\Menus::button('contribuer'); $bS = \App\Shop\ShopPages::visible() ? \App\Front\Menus::button('boutique') : null; $bD = \App\Front\Menus::button('don'); $tgt = fn ($b) => $b['ext'] ? ' rel="noopener" target="_blank"' : ''; ?>
+        <?php if ($bC): ?><a class="hcontrib" href="<?= e($bC['href']) ?>"<?= $tgt($bC) ?>><?= e($bC['label']) ?></a><?php endif; ?>
+        <?php if ($bS): ?><span class="hshopw"><a class="hshop<?= ($active ?? '') === 'boutique' ? ' is-on' : '' ?>" href="<?= e($bS['href']) ?>"<?= $tgt($bS) ?>><?= e($bS['label']) ?></a><a class="hcart" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden aria-label="<?= e(t('Voir mon panier')) ?>"><b data-cart-n>0</b></a></span><?php endif; ?>
+        <?php if ($bD): ?><a class="hdon" href="<?= e($bD['href']) ?>"<?= $tgt($bD) ?>>♥ <?= e($bD['label']) ?></a><?php endif; ?>
         <?php if (\App\Shop\ShopPages::visible()): ?><a class="hcart-m" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden aria-label="<?= e(t('Voir mon panier')) ?>"><b data-cart-n>0</b></a><?php endif; ?>
         <button type="button" class="hburger" data-burger aria-label="<?= e(t('Menu')) ?>" aria-expanded="false">☰</button>
       </div>
@@ -162,11 +163,11 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
     <div class="mobilemenu__tools">
       <?php foreach (I18n::enabled() as $code): ?><a href="<?= e(I18n::switchUrl($path ?? '/', $code)) ?>" class="<?= $code === $lang ? 'is-on' : '' ?>"><?= e(strtoupper($code)) ?></a><?php endforeach; ?>
       <button type="button" data-textsize><?= e(t('Taille du texte')) ?> · <span data-textsize-label>100%</span></button>
-      <a href="<?= e(url('/contribuer/')) ?>"><?= e(t('Contribuer')) ?></a>
+      <?php if ($bC): ?><a href="<?= e($bC['href']) ?>"<?= $tgt($bC) ?>><?= e($bC['label']) ?></a><?php endif; ?>
     </div>
     <div class="mobilemenu__btns">
-      <?php if (\App\Shop\ShopPages::visible()): ?><a class="hshop" href="<?= e(url('/boutique/')) ?>"><?= e(t('La boutique')) ?></a><a class="hshop hshop--cart" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden><?= e(t('Mon panier')) ?> (<span data-cart-n>0</span>)</a><?php endif; ?>
-      <a class="hdon" href="<?= e(url('/faire-un-don/')) ?>">♥ <?= e(t('Faire un don')) ?></a>
+      <?php if ($bS): ?><a class="hshop" href="<?= e($bS['href']) ?>"<?= $tgt($bS) ?>><?= e($bS['label']) ?></a><a class="hshop hshop--cart" href="<?= e(url('/boutique/panier/')) ?>" data-cart-badge hidden><?= e(t('Mon panier')) ?> (<span data-cart-n>0</span>)</a><?php endif; ?>
+      <?php if ($bD): ?><a class="hdon" href="<?= e($bD['href']) ?>"<?= $tgt($bD) ?>>♥ <?= e($bD['label']) ?></a><?php endif; ?>
     </div>
     <?php if ($official !== ''): ?><a class="mobilemenu__official" href="<?= e($official) ?>" rel="noopener" target="_blank"><?= e(t('Site officiel du FC Sochaux-Montbéliard')) ?> ↗</a><?php endif; ?>
   </div>

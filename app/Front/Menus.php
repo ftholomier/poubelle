@@ -23,6 +23,11 @@ final class Menus
         $l = fn (string $label, string $href, array $more = []) => ['label' => $label, 'label_en' => '', 'href' => $href] + $more;
         $tool = fn (string $icon, string $label, string $d, string $href) => ['icon' => $icon, 'label' => $label, 'label_en' => '', 'd' => $d, 'd_en' => '', 'href' => $href];
         return [
+            'buttons' => [
+                $l('Contribuer', '/contribuer/', ['key' => 'contribuer']),
+                $l('Boutique', '/boutique/', ['key' => 'boutique']),
+                $l('Faire un don', '/faire-un-don/', ['key' => 'don']),
+            ],
             'nav' => [
                 $l('Accueil', '/', ['key' => 'accueil']),
                 $l('Matchs', '/matchs/', ['key' => 'matchs']),
@@ -88,6 +93,18 @@ final class Menus
         $saved = Collections::get(self::NAME, []);
         $saved = is_array($saved) ? $saved : [];
         return array_replace(self::defaults(), array_intersect_key($saved, self::defaults()));
+    }
+
+    /** Boutons du haut à droite (contribuer, boutique, don) : [libellé, adresse, externe] ou null s'il est masqué. */
+    public static function button(string $key): ?array
+    {
+        foreach (self::get()['buttons'] as $b) {
+            if (($b['key'] ?? '') === $key) {
+                $h = empty($b['hidden']) ? self::href((string) ($b['href'] ?? '')) : null;
+                return $h ? ['label' => self::text($b), 'href' => $h[0], 'ext' => $h[1]] : null;
+            }
+        }
+        return null;
     }
 
     /** Libellé affiché : anglais saisi, sinon traduction du français. */
