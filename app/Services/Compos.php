@@ -113,6 +113,20 @@ final class Compos
             }
             self::remember($id, $r);
             $done++;
+            // Gemini surchargé pour une source : le match repasse en fin de file (trois essais au plus).
+            if (array_filter((array) ($r['sources'] ?? []), fn ($x) => str_contains((string) $x['note'], 'surchargé'))) {
+                JsonStore::update(self::DIR . '/etat.json', function ($st) use ($id) {
+                    $st = is_array($st) ? $st : [];
+                    $n = (int) ($st['retry'][(string) $id] ?? 0);
+                    if ($n < 3) {
+                        $st['retry'][(string) $id] = $n + 1;
+                        $st['queue'][] = $id;
+                        $st['on'] = true;
+                    }
+                    return $st;
+                }, []);
+                sleep(10);
+            }
         }
         return $done ? "$done match(s) contrôlé(s), $added écart(s) envoyé(s) dans Trouvailles" : null;
     }
@@ -438,6 +452,19 @@ final class Compos
         $y = (int) substr($date, 0, 4);
         $mo = (int) substr($date, 5, 2);
         $season = $mo >= 7 ? $y : $y - 1;
+        try {
+            return self::tmDirect($m, $date, $season, $mo);
+        } catch (\RuntimeException $e) {
+            if (!str_contains($e->getMessage(), 'refuse') && !str_contains($e->getMessage(), 'ne répond pas')) {
+                throw $e;
+            }
+            // Serveur bloqué par Transfermarkt : les pages sont lues par Google (Gemini, lecture d'adresse).
+            return self::tmGemini($m, $date, $season, $mo);
+        }
+    }
+
+    private static function tmDirect(array $m, string $date, int $season, int $mo): ?array
+    {
         $tmId = null;
         foreach ([$season, $mo === 7 ? $season - 1 : null] as $sid) {
             if ($sid === null) {
@@ -617,6 +644,116 @@ final class Compos
     // ------------------------------------------------------------------ autres sites (Gemini + Google)
 
     /** Feuille d'un autre site, trouvée et lue par Gemini avec la recherche Google, ou null. */
+    /** Transfermarkt lu par Google : calendrier de la saison (gardé une semaine), puis rapport du match. */
+    private static function tmGemini(array $m, string $date, int $season, int $mo): ?array
+    {
+        $tmId = null;
+        foreach ([$season, $mo === 7 ? $season - 1 : null] as $sid) {
+            if ($sid === null) {
+                continue;
+            }
+            $f = self::DIR . '/cache/tm-g-s-' . $sid . '.json';
+            $list = is_file($f) && filemtime($f) > time() - 86400 * 7 ? (array) json_decode((string) file_get_contents($f), true) : null;
+            if ($list === null) {
+                $url = self::TM . '/fc-sochaux-montbeliard/spielplan/verein/' . self::TM_CLUB . '/saison_id/' . $sid;
+                $r = self::ai("Lis la page $url (calendrier du FC Sochaux-Montbéliard, saison $sid-" . ($sid + 1) . '). Donne TOUS les matchs listés avec leur date et le numéro du lien « /spielbericht/index/spielbericht/NUMÉRO » (rapport de match). '
+                    . 'Réponds en JSON seul : {"matchs": [{"date": "AAAA-MM-JJ", "id": NUMÉRO}]}. N’invente rien.', null, [['url_context' => new \stdClass()]], (int) ($m['id'] ?? 0));
+                $d = self::json($r['text']);
+                $list = [];
+                foreach ((array) ($d['matchs'] ?? []) as $g) {
+                    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($g['date'] ?? '')) && (int) ($g['id'] ?? 0) > 0) {
+                        $list[] = ['date' => $g['date'], 'id' => (int) $g['id']];
+                    }
+                }
+                if (!$list) {
+                    throw new \RuntimeException('Transfermarkt bloque le serveur, et Google n’a pas pu lire le calendrier de la saison');
+                }
+                @mkdir(dirname($f), 0775, true);
+                file_put_contents($f, json_encode($list));
+            }
+            foreach ($list as $g) {
+                if (abs(strtotime($g['date']) - strtotime($date)) <= 86400) {
+                    $tmId = (int) $g['id'];
+                    break 2;
+                }
+            }
+        }
+        if (!$tmId) {
+            return null;
+        }
+        $url = self::TM . '/spielbericht/index/spielbericht/' . $tmId;
+        $r = self::ai("Lis la page $url (rapport de match Transfermarkt). " . self::ASK, null, [['url_context' => new \stdClass()]], (int) ($m['id'] ?? 0));
+        $d = self::json($r['text']);
+        if (!$d || empty($d['joueurs'])) {
+            return ['label' => 'Transfermarkt · rapport de match (lu par Google)', 'url' => $url, 'players' => [], 'coach' => ''];
+        }
+        return ['label' => 'Transfermarkt · rapport de match (lu par Google)', 'url' => $url] + self::players($d);
+    }
+
+    /** Demande commune : la composition de Sochaux en JSON. */
+    private const ASK = 'Réponds en JSON seul : {"trouve": bool, "url": "adresse de la page", "entraineur": "Prénom Nom" | null, "joueurs": [{"nom": "Prénom Nom", "poste": "G|D|M|A|R", "entre": minute|null, "sorti": minute|null, "buts": [minutes], "jaunes": [minutes], "rouges": [minutes]}]}. '
+        . 'Seulement les joueurs du FC Sochaux-Montbéliard ; « R » pour un remplaçant (avec sa minute d’entrée s’il est entré) ; n’invente rien : si la page ne donne pas la composition, {"trouve": false}.';
+
+    /**
+     * Appel Gemini avec relances : quand le modèle est surchargé (« high demand », quota), on attend
+     * puis on réessaie, d'abord le même modèle, puis un modèle plus léger.
+     */
+    private static function ai(string $text, ?string $system, array $tools, int $ref): array
+    {
+        if (!Gemini::ready()) {
+            throw new \RuntimeException('il faut une clé Gemini (Réglages › Assistant IA)');
+        }
+        $models = array_values(array_unique([WebCheck::model(), 'gemini-2.5-flash']));
+        $last = null;
+        foreach ([[$models[0], 0], [$models[0], 6], [$models[1] ?? $models[0], 3], [$models[1] ?? $models[0], 15]] as [$model, $wait]) {
+            if ($wait) {
+                sleep($wait);
+            }
+            try {
+                return Gemini::generate([['role' => 'user', 'text' => $text]], $system, ['for' => 'trouvailles', 'model' => $model, 'max_tokens' => 4096, 'temperature' => 0.2, 'timeout' => 120,
+                    'json' => false, 'raw' => true, 'ref' => 'fiche:' . $ref, 'tools' => $tools]);
+            } catch (\RuntimeException $e) {
+                $last = $e;
+                if (!self::busy($e->getMessage())) {
+                    throw $e;
+                }
+            }
+        }
+        throw new \RuntimeException('Gemini surchargé, match remis dans la file (' . mb_substr((string) $last?->getMessage(), 0, 60) . ')');
+    }
+
+    public static function busy(string $msg): bool
+    {
+        return (bool) preg_match('/high demand|overload|unavailable|try again|quota|surcharg|503|429/i', $msg);
+    }
+
+    private static function json(string $t): ?array
+    {
+        $t = trim(preg_replace('/^```(?:json)?\s*|\s*```$/u', '', trim($t)) ?? '');
+        if (($a = strpos($t, '{')) !== false && ($b = strrpos($t, '}')) > $a) {
+            $t = substr($t, $a, $b - $a + 1);
+        }
+        $d = json_decode($t, true);
+        return is_array($d) ? $d : null;
+    }
+
+    /** Joueurs au format commun depuis la réponse JSON de l'IA. */
+    private static function players(array $d): array
+    {
+        $players = [];
+        foreach ((array) ($d['joueurs'] ?? []) as $j) {
+            $name = trim((string) ($j['nom'] ?? ''));
+            if ($name === '') {
+                continue;
+            }
+            $pos = in_array($j['poste'] ?? '', ['G', 'D', 'M', 'A', 'R'], true) ? $j['poste'] : 'M';
+            $players[] = ['name' => $name, 'pos' => $pos, 'in' => self::min($j['entre'] ?? null), 'out' => self::min($j['sorti'] ?? null),
+                'goals' => array_values(array_filter(array_map([self::class, 'min'], (array) ($j['buts'] ?? [])))), 'yellow' => array_values(array_filter(array_map([self::class, 'min'], (array) ($j['jaunes'] ?? [])))),
+                'red' => array_values(array_filter(array_map([self::class, 'min'], (array) ($j['rouges'] ?? [])))), 'cap' => false, 'num' => null, 'key' => self::key($name)];
+        }
+        return ['players' => $players, 'coach' => (string) ($d['entraineur'] ?? '')];
+    }
+
     public static function web(array $doc, string $key): ?array
     {
         $domain = self::WEB[$key];
@@ -631,17 +768,9 @@ final class Compos
         if (self::$get) {
             $r = ['text' => (string) (self::$get)('gemini:' . $key . ':' . $text), 'raw' => []];
         } else {
-            if (!Gemini::ready()) {
-                throw new \RuntimeException('il faut une clé Gemini (Réglages › Assistant IA)');
-            }
-            $r = Gemini::generate([['role' => 'user', 'text' => $text]], $system, ['for' => 'trouvailles', 'model' => WebCheck::model(), 'max_tokens' => 4096, 'temperature' => 0.2, 'timeout' => 120,
-                'json' => false, 'raw' => true, 'ref' => 'fiche:' . (int) $doc['id'], 'tools' => [['google_search' => new \stdClass()]]]);
+            $r = self::ai($text, $system, [['google_search' => new \stdClass()]], (int) $doc['id']);
         }
-        $t = trim(preg_replace('/^```(?:json)?\s*|\s*```$/u', '', trim((string) ($r['text'] ?? ''))) ?? '');
-        if (($a = strpos($t, '{')) !== false && ($b = strrpos($t, '}')) > $a) {
-            $t = substr($t, $a, $b - $a + 1);
-        }
-        $d = json_decode($t, true);
+        $d = self::json((string) ($r['text'] ?? ''));
         if (!is_array($d)) {
             self::$why = 'réponse illisible de l’IA';
             return null;
@@ -661,18 +790,7 @@ final class Compos
         if (!$onSite($url)) {
             $url = 'https://' . $domain . '/';
         }
-        $players = [];
-        foreach ((array) $d['joueurs'] as $j) {
-            $name = trim((string) ($j['nom'] ?? ''));
-            if ($name === '') {
-                continue;
-            }
-            $pos = in_array($j['poste'] ?? '', ['G', 'D', 'M', 'A', 'R'], true) ? $j['poste'] : 'M';
-            $players[] = ['name' => $name, 'pos' => $pos, 'in' => self::min($j['entre'] ?? null), 'out' => self::min($j['sorti'] ?? null),
-                'goals' => array_values(array_filter(array_map([self::class, 'min'], (array) ($j['buts'] ?? [])))), 'yellow' => array_values(array_filter(array_map([self::class, 'min'], (array) ($j['jaunes'] ?? [])))),
-                'red' => array_values(array_filter(array_map([self::class, 'min'], (array) ($j['rouges'] ?? [])))), 'cap' => false, 'num' => null, 'key' => self::key($name)];
-        }
-        return ['label' => self::SOURCES[$key], 'url' => $url, 'players' => $players, 'coach' => (string) ($d['entraineur'] ?? '')];
+        return ['label' => self::SOURCES[$key], 'url' => $url] + self::players($d);
     }
 
     // ------------------------------------------------------------------ téléchargement
