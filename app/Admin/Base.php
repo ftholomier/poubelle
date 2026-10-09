@@ -40,6 +40,7 @@ class Base
             ['accueil', 'Accueil & bandeau', '/admin/accueil', false],
             ['moments', '100 moments', '/admin/moments', false],
             ['rubriques', 'Rubriques & menus', '/admin/rubriques', false],
+            ['menus', 'Menus du site', '/admin/menus', false],
             ['redirections', 'Redirections', '/admin/redirections', false],
             ['attente', 'Page d’attente', '/admin/page-attente', false],
         ],

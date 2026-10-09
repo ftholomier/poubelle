@@ -124,6 +124,8 @@ final class Router
         // Référentiels, éditorial, rubriques
         $r->get('/admin/referentiels', fn ($q) => Referentials::index($q));
         $r->post('/admin/referentiels/enregistrer', fn ($q) => Referentials::save($q));
+        $r->get('/admin/menus', fn ($q) => Editorial::menus($q));
+        $r->post('/admin/menus', fn ($q) => Editorial::menusSave($q));
         $r->get('/admin/accueil', fn ($q) => Editorial::home($q));
         $r->post('/admin/accueil', fn ($q) => Editorial::homeSave($q));
         $r->get('/admin/moments', fn ($q) => Editorial::moments($q));

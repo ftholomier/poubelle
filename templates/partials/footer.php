@@ -38,9 +38,6 @@ $social = array_filter([
 ], fn ($s) => !empty($s[1]));
 $shop = \App\Shop\ShopPages::visible();
 $asso = \App\Vitrine\Host::base();
-$explore = [[t('Matchs'), '/matchs/'], [t('Saisons'), '/saisons/'], [t('Nos Lions'), '/nos-lions/'], [t('Face-à-face'), '/face-a-face/'], [t('Records'), '/records/'], [t('Les chiffres'), '/chiffres/'], [t('Le centenaire'), '/centenaire/']];
-$play = [[t('Rétro-Direct'), '/interactif/retro-direct/'], [t('Le défi du jour'), '/interactif/defi/'], [t('Quiz'), '/interactif/quiz/'], [t('Album'), '/interactif/album/'], [t('Fil jaune'), '/interactif/fil-jaune/'], [t('Frise'), '/interactif/frise/'], [t('Tout Interactif'), '/interactif/']];
-$join = array_merge([[t('Contribuer'), '/contribuer/'], [t('La newsletter'), '/newsletter/']], Settings::get('app.enabled', true) ? [[t('L’appli du musée'), '/appli/']] : [], [[t('Nous contacter'), '/contact/']]);
 ?>
 <footer class="site-footer">
   <?php if ($title || $buttons): ?>
@@ -75,20 +72,12 @@ $join = array_merge([[t('Contribuer'), '/contribuer/'], [t('La newsletter'), '/n
       </div>
       <?php endif; ?>
     </div>
-    <nav class="mf-col" aria-label="<?= e(t('Explorer')) ?>">
-      <h2><?= e(t('Explorer')) ?></h2>
-      <?php foreach ($explore as [$l, $h]): ?><a href="<?= e(url($h)) ?>"><?= e($l) ?></a><?php endforeach; ?>
+    <?php foreach (\App\Front\Menus::get()['footer'] as $col): $links = \App\Front\Menus::links((array) ($col['links'] ?? [])); if (!$links) continue; $ct = \App\Front\Menus::text($col, 'title'); ?>
+    <nav class="mf-col" aria-label="<?= e($ct) ?>">
+      <h2><?= e($ct) ?></h2>
+      <?php foreach ($links as $lk): ?><a href="<?= e($lk['href']) ?>"<?= $lk['ext'] ? ' rel="noopener" target="_blank"' : '' ?>><?= e($lk['label']) ?><?= $lk['ext'] ? ' ↗' : '' ?></a><?php endforeach; ?>
     </nav>
-    <nav class="mf-col" aria-label="<?= e(t('Interactif')) ?>">
-      <h2><?= e(t('Interactif')) ?></h2>
-      <?php foreach ($play as [$l, $h]): ?><a href="<?= e(url($h)) ?>"><?= e($l) ?></a><?php endforeach; ?>
-    </nav>
-    <nav class="mf-col" aria-label="<?= e(t('Participer')) ?>">
-      <h2><?= e(t('Participer')) ?></h2>
-      <?php foreach ($join as [$l, $h]): ?><a href="<?= e(url($h)) ?>"><?= e($l) ?></a><?php endforeach; ?>
-      <?php if ($shop): ?><a href="<?= e(url('/boutique/')) ?>"><?= e(t('La boutique')) ?></a><?php endif; ?>
-      <a href="<?= e($asso) ?>" rel="noopener" target="_blank"><?= e(t('L’association Sochaux Rétro')) ?> ↗</a>
-    </nav>
+    <?php endforeach; ?>
     <?php $pick = \App\Shop\ShopPages::homePicks(1)[0] ?? null; if ($pick): ?>
     <div class="mf-col mf-shop">
       <h2><?= e(t('À la boutique')) ?></h2>

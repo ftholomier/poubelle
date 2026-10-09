@@ -58,6 +58,7 @@ final class Help extends Base
         'contributions' => 'communaute#contributions',
         'messages' => 'communaute#messages',
         'newsletter' => 'communaute#newsletter',
+        'menus' => 'editorial#menus',
         'dons' => 'communaute#dons',
         'traductions' => 'anglais',
         'assistant' => 'administration#assistant',

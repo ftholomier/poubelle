@@ -101,28 +101,26 @@ final class Site
                 'desc' => $c['description'] ?? ''];
         };
 
-        $items = [
-            ['key' => 'accueil', 'label' => t('Accueil'), 'href' => url('/')],
-            ['key' => 'matchs', 'label' => t('Matchs'), 'href' => url('/matchs/'), 'mega' => [
-                'kind' => 'matchs', 'competitions' => $comps, 'decades' => array_values($decades),
-                'explore' => [
-                    ['label' => t('Saisons'), 'href' => url('/saisons/')],
-                    ['label' => t('Face-à-face'), 'href' => url('/face-a-face/')],
-                    ['label' => t('Palmarès'), 'href' => url('/palmares/')],
-                    ['label' => t('Records'), 'href' => url('/records/')],
-                    ['label' => t('Les chiffres'), 'href' => url('/chiffres/')],
-                    ['label' => t('Bilan à Bonal'), 'href' => url('/bilans/stade-auguste-bonal/')],
-                    ['label' => t('Bilan en Coupe de France'), 'href' => url('/bilans/coupe-de-france/')],
-                ],
-            ]],
-            ['key' => 'nos-lions', 'label' => t('Nos Lions'), 'href' => url('/nos-lions/'), 'mega' => ['kind' => 'columns', 'cols' => $lionsCols, 'all' => ['label' => t('Tous les Lions'), 'href' => url('/nos-lions/')]]],
+        // Entrées du menu principal : ordre, libellés et visibilité réglés dans Éditorial › Menus.
+        $menus = Menus::get();
+        $megas = [
+            'matchs' => ['kind' => 'matchs', 'competitions' => $comps, 'decades' => array_values($decades), 'explore' => Menus::links($menus['matchs_explore'])],
+            'nos-lions' => ['kind' => 'columns', 'cols' => $lionsCols, 'all' => ['label' => t('Tous les Lions'), 'href' => url('/nos-lions/')]],
+            'interactif' => ['kind' => 'interactif', 'groups' => self::interactiveTools()],
         ];
-        $rubrics = ['supporters' => 'Supporters', 'infrastructures' => 'Infrastructures', 'symboles' => 'Symboles'];
-        foreach ($rubrics as $slug => $label) {
-            $col = $simple($slug);
-            $items[] = ['key' => $slug, 'label' => t($label), 'href' => url("/$slug/"), 'mega' => $col ? ['kind' => 'list', 'col' => $col] : null];
+        $items = [];
+        foreach ($menus['nav'] as $i => $n) {
+            if (!empty($n['hidden']) || ($h = Menus::href((string) ($n['href'] ?? ''))) === null) {
+                continue;
+            }
+            $key = (string) ($n['key'] ?? '') ?: 'lien-' . $i;
+            $mega = $megas[$key] ?? null;
+            if (!$mega && in_array($key, ['supporters', 'infrastructures', 'symboles'], true)) {
+                $col = $simple($key);
+                $mega = $col ? ['kind' => 'list', 'col' => $col] : null;
+            }
+            $items[] = ['key' => $key, 'label' => Menus::text($n), 'href' => $h[0], 'mega' => $mega];
         }
-        $items[] = ['key' => 'interactif', 'label' => t('Interactif'), 'href' => url('/interactif/'), 'mega' => ['kind' => 'interactif', 'groups' => self::interactiveTools()]];
         foreach ($items as &$it) {
             $it['active'] = $it['key'] === $active;
         }
@@ -132,35 +130,25 @@ final class Site
     /** Outils de la rubrique INTERACTIF (3 groupes validés). */
     public static function interactiveTools(): array
     {
-        return [
-            ['title' => t("Explorer l'histoire"), 'tools' => [
-                ...(Categories::get('grands-recits') ? [['icon' => '¶', 'label' => t('Grands récits'), 'd' => t('Les grandes histoires du club, racontées d’après les archives.'), 'href' => url('/grands-recits/')]] : []),
-                ['icon' => '●', 'label' => t('Rétro-Direct'), 'd' => t('Les grands matchs rejoués en direct, le jour anniversaire.'), 'href' => url('/interactif/retro-direct/')],
-                ['icon' => '◎', 'label' => t('Carto'), 'd' => t('Stades, origines, épopées, lieux.'), 'href' => url('/interactif/carto/')],
-                ['icon' => '×', 'label' => t('Face-à-face'), 'd' => t('Choisissez un adversaire, voyez le bilan.'), 'href' => url('/face-a-face/')],
-                ['icon' => '🏆', 'label' => t('Palmarès'), 'd' => t('Les titres et les finales depuis 1928.'), 'href' => url('/palmares/')],
-                ['icon' => '#', 'label' => t('Records'), 'd' => t('Buteurs, affluences, séries.'), 'href' => url('/records/')],
-                ['icon' => '%', 'label' => t('Les chiffres'), 'd' => t('100 statistiques depuis 1929.'), 'href' => url('/chiffres/')],
-                ['icon' => '→', 'label' => t('Frise'), 'd' => t('De 1928 à aujourd\'hui.'), 'href' => url('/interactif/frise/')],
-                ['icon' => '↔', 'label' => t('Maillots'), 'd' => t('Deux époques, un curseur.'), 'href' => url('/interactif/maillots/')],
-            ]],
-            ['title' => t('Les murs de photos'), 'tools' => Walls::tools()],
-            ['title' => t('Jouer'), 'tools' => [
-                ['icon' => '?', 'label' => t('Quiz'), 'd' => t('Êtes-vous un vrai Lionceau ?'), 'href' => url('/interactif/quiz/')],
-                ['icon' => '★', 'label' => t('Le défi du jour'), 'd' => t('Dix questions, un essai par jour, un classement.'), 'href' => url('/interactif/defi/')],
-                ['icon' => '♛', 'label' => t('Championnat du club-house'), 'd' => t('Les soirées quiz en salle, saison après saison.'), 'href' => url('/interactif/quiz-live/championnat/')],
-                ['icon' => '▦', 'label' => t('Album'), 'd' => t('Collectionnez les cartes des Lions.'), 'href' => url('/interactif/album/')],
-                ['icon' => '⟿', 'label' => t('Fil jaune'), 'd' => t('Reliez deux Lionceaux par leurs matchs.'), 'href' => url('/interactif/fil-jaune/')],
-            ]],
-            ['title' => t('Participer'), 'tools' => [
-                ['icon' => '✓', 'label' => t('Mon carnet du supporter'), 'd' => t('Vos matchs vus au stade, votre bilan.'), 'href' => url('/carnet/')],
-                ['icon' => 'XI', 'label' => t('Onze de légende'), 'd' => t('Votez pour le centenaire.'), 'href' => url('/centenaire/') . '#onze'],
-                ['icon' => '100', 'label' => t('100 moments'), 'd' => t('Dévoilés un à un jusqu’au centenaire.'), 'href' => url('/centenaire/100-moments/')],
-                ['icon' => '✎', 'label' => t('Contribuer'), 'd' => t('Vos archives enrichissent le musée.'), 'href' => url('/contribuer/')],
-                ['icon' => '@', 'label' => t('Ce jour-là'), 'd' => t('La newsletter du musée.'), 'href' => url('/partage-et-newsletter/')],
-                ['icon' => '❝', 'label' => t('Kit souvenirs'), 'd' => t('Raconte-moi Bonal : à imprimer pour les anciens.'), 'href' => url('/interactif/souvenirs/')],
-            ]],
-        ];
+        $out = [];
+        foreach (Menus::get()['interactif'] as $g) {
+            if (($g['auto'] ?? '') === 'walls') {
+                $tools = Walls::tools();
+            } else {
+                $tools = [];
+                foreach ((array) ($g['tools'] ?? []) as $x) {
+                    $href = (string) ($x['href'] ?? '');
+                    if (!empty($x['hidden']) || ($href === '/grands-recits/' && !Categories::get('grands-recits')) || ($h = Menus::href($href)) === null) {
+                        continue;
+                    }
+                    $tools[] = ['icon' => (string) ($x['icon'] ?? '•'), 'label' => Menus::text($x), 'd' => Menus::text($x, 'd'), 'href' => $h[0]];
+                }
+            }
+            if ($tools) {
+                $out[] = ['title' => Menus::text($g, 'title'), 'tools' => $tools];
+            }
+        }
+        return $out;
     }
 
     /** Bandeau « En direct du musée » : messages automatiques + messages manuels. */

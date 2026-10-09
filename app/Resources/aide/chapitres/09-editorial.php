@@ -20,6 +20,17 @@ HTML],
 <p>Le bandeau défilant en haut de toutes les pages mêle des messages automatiques (« Ce jour-là », compte à rebours du centenaire, dernier match fiché), que l’on peut activer ou non, et les <b>messages de l’équipe</b> : étiquette, message, lien facultatif, version anglaise, case « Affiché ».</p>
 [[img:accueil-bandeau.webp|Les messages du bandeau]]
 HTML],
+        ['id' => 'menus', 'title' => 'Les menus du site (menu principal, Interactif, pied de page)', 'html' => <<<'HTML'
+<p>Éditorial › <b>Menus du site</b> règle tous les liens des menus, en quatre onglets. Chaque ligne a un libellé (et sa version anglaise, ou le bouton « Traduire en anglais »), un lien et une case <b>Masqué</b> ; l’ordre se change par glisser-déposer ou avec les flèches ↑ ↓.</p>
+<ul>
+<li><b>Menu principal</b> : les entrées du haut du site. Celles marquées « grand menu » ouvrent leur menu déroulant (Matchs, Nos Lions, Supporters, Infrastructures, Symboles, Interactif) ; vous pouvez les renommer, les déplacer ou les masquer. « Ajouter un lien au menu » crée une entrée simple.</li>
+<li><b>Matchs › Explorer</b> : la colonne de liens du grand menu Matchs (Saisons, Face-à-face, Palmarès…).</li>
+<li><b>Interactif</b> : les groupes d’outils du grand menu Interactif et de la page Interactif, avec pour chaque outil une icône, un libellé, une phrase et un lien. Le groupe des murs de photos se remplit tout seul.</li>
+<li><b>Pied de page</b> : les colonnes de liens (jusqu’à 4), chacune avec son titre.</li>
+</ul>
+<p><b>Liens</b> : une adresse du site (<code>/palmares/</code>, la barre finale est ajoutée toute seule), une adresse complète (<code>https://…</code>, ouverte dans un nouvel onglet) ou <code>{association}</code> pour le site de l’association. Un lien vers la boutique ou l’appli disparaît quand elles sont fermées.</p>
+<p>Le contenu des sous-menus des rubriques (saisons, compétitions, sous-rubriques) se règle toujours dans Rubriques &amp; menus ; la phrase, le bandeau et le copyright du pied de page dans Réglages › Pied de page. <b>Revenir aux menus de départ</b>, en bas de l’écran, efface tous les changements.</p>
+HTML],
         ['id' => 'rubriques', 'title' => 'Rubriques, menus et ordre des mosaïques', 'html' => <<<'HTML'
 <p>Éditorial › <b>Rubriques &amp; menus</b> : l’arborescence du site, reprise de l’ancien WordPress. Cliquez une rubrique pour régler :</p>
 <ul>

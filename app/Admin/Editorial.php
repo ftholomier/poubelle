@@ -66,6 +66,79 @@ final class Editorial extends Base
         ], ['title' => 'Accueil & bandeau', 'crumb' => 'Éditorial', 'nav' => 'accueil']);
     }
 
+    /** Menus du site : menu principal, Matchs › Explorer, Interactif, pied de page. */
+    public static function menus(Request $req): Response
+    {
+        return self::html('admin/editorial/menus', ['menus' => \App\Front\Menus::get(), 'saved' => \App\Data\Collections::get(\App\Front\Menus::NAME, []) !== []],
+            ['title' => 'Menus du site', 'crumb' => 'Éditorial', 'nav' => 'menus']);
+    }
+
+    public static function menusSave(Request $req): Response
+    {
+        if ($locked = self::lockedJson('ecran:menus', 'les menus')) {
+            return $locked;
+        }
+        $in = $req->json();
+        if (($in['reset'] ?? false) === true) {
+            Collections::save(\App\Front\Menus::NAME, [], self::actor(), 'Menus du site : retour aux menus de départ');
+            return Response::json(['ok' => true, 'message' => 'Menus de départ rétablis.', 'reload' => true]);
+        }
+        $line = fn ($v, int $max = 120) => Html::line($v, $max);
+        $href = function ($v): string {
+            $v = trim((string) $v);
+            if ($v === '{association}' || preg_match('#^https?://[^\s"<>]+$#', $v)) {
+                return mb_substr($v, 0, 300);
+            }
+            if ($v === '') {
+                return '';
+            }
+            $v = '/' . ltrim(mb_substr((string) preg_replace('#[\s"<>]#', '', $v), 0, 300), '/');
+            // Barre finale des pages du site (« palmares » → « /palmares/ »), sauf fichier, ancre ou paramètres.
+            return preg_match('#(/|\.\w{2,5}|[?\#].*)$#', $v) ? $v : $v . '/';
+        };
+        $link = function ($x, array $extra = []) use ($line, $href): ?array {
+            $l = $line($x['label'] ?? '');
+            $h = $href($x['href'] ?? '');
+            if ($l === '' || $h === '') {
+                return null;
+            }
+            $out = ['label' => $l, 'label_en' => $line($x['label_en'] ?? ''), 'href' => $h, 'hidden' => !empty($x['hidden'])];
+            foreach ($extra as $k => $max) {
+                $out[$k] = $line($x[$k] ?? '', $max);
+            }
+            return $out;
+        };
+        $list = fn ($rows, array $extra = []) => array_values(array_filter(array_map(fn ($x) => is_array($x) ? $link($x, $extra) : null, (array) $rows)));
+        $nav = [];
+        foreach ((array) ($in['nav'] ?? []) as $x) {
+            if (is_array($x) && ($r = $link($x))) {
+                $key = (string) ($x['key'] ?? '');
+                $r['key'] = isset(\App\Front\Menus::MEGA[$key]) || $key === 'accueil' ? $key : '';
+                $nav[] = $r;
+            }
+        }
+        $groups = [];
+        foreach ((array) ($in['interactif'] ?? []) as $g) {
+            if (!is_array($g) || ($t = $line($g['title'] ?? '')) === '') {
+                continue;
+            }
+            $auto = ($g['auto'] ?? '') === 'walls' ? 'walls' : '';
+            $groups[] = ['title' => $t, 'title_en' => $line($g['title_en'] ?? '')] + ($auto ? ['auto' => $auto, 'tools' => []] : ['tools' => $list($g['tools'] ?? [], ['icon' => 4, 'd' => 160, 'd_en' => 160])]);
+        }
+        $footer = [];
+        foreach ((array) ($in['footer'] ?? []) as $c) {
+            if (is_array($c) && ($t = $line($c['title'] ?? '')) !== '') {
+                $footer[] = ['title' => $t, 'title_en' => $line($c['title_en'] ?? ''), 'links' => $list($c['links'] ?? [])];
+            }
+        }
+        if (!$nav) {
+            return Response::json(['ok' => false, 'error' => 'Le menu principal doit garder au moins une entrée.'], 422);
+        }
+        Collections::save(\App\Front\Menus::NAME, ['nav' => $nav, 'matchs_explore' => $list($in['matchs_explore'] ?? []), 'interactif' => $groups, 'footer' => array_slice($footer, 0, 4)], self::actor(), 'Menus du site');
+        Activity::log(self::actor(), 'a modifié', ['title' => 'les menus du site']);
+        return Response::json(['ok' => true, 'message' => 'Menus enregistrés : ils sont à jour sur le site.']);
+    }
+
     public static function homeSave(Request $req): Response
     {
         if ($locked = self::lockedJson('ecran:accueil', 'l’accueil')) {
