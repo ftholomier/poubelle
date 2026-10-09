@@ -59,6 +59,12 @@ if (str_starts_with($path, '/dpe/lines') && str_contains((string) ($q['qs'] ?? '
     }
     json(['total' => count($res), 'results' => $res]);
 }
+if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality' && preg_match('/ch[âa]tillon/iu', (string) ($q['q'] ?? ''))) {
+    json(['features' => [['geometry' => ['coordinates' => [5.9950, 47.3070]], 'properties' => ['label' => 'Châtillon-le-Duc', 'city' => 'Châtillon-le-Duc', 'citycode' => '25132', 'postcode' => '25870', 'score' => 0.96, 'type' => 'municipality', 'context' => '25, Doubs']]]]);
+}
+if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality' && preg_match('/[ée]cole-valentin/iu', (string) ($q['q'] ?? ''))) {
+    json(['features' => [['geometry' => ['coordinates' => [5.9780, 47.2780]], 'properties' => ['label' => 'École-Valentin', 'city' => 'École-Valentin', 'citycode' => '25212', 'postcode' => '25480', 'score' => 0.96, 'type' => 'municipality', 'context' => '25, Doubs']]]]);
+}
 if (str_starts_with($path, '/adresse/search') && ($q['type'] ?? '') === 'municipality') {
     json(['features' => [['geometry' => ['coordinates' => [LON, LAT]], 'properties' => ['label' => 'Lougres', 'city' => 'Lougres', 'citycode' => '25349', 'postcode' => '25260', 'score' => 0.97, 'type' => 'municipality', 'context' => '25, Doubs']]]]);
 }

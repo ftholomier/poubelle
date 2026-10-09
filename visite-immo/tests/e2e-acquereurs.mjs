@@ -19,7 +19,7 @@ try {
   await page.click("#d-rec");
   await page.waitForTimeout(1500);
   await page.click("#d-rec");
-  await page.waitForSelector(".score", { timeout: 20000 });
+  await page.waitForSelector(".compat-score", { timeout: 20000 });
   await capture("32-fiche-acquereur");
   const acqId = page.url().split("/acquereur/")[1];
   const fa = await api(page, "acquereur", { query: { id: acqId } });

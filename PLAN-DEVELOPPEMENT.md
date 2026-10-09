@@ -8,7 +8,7 @@ Chaque lot porte un code (ex. **2.3**).
 
 ## État au 7 octobre 2026 : tout est construit dans le prototype
 
-Toutes les phases ont été développées, testées de bout en bout (18 scénarios automatisés, `visite-immo/tests/`)
+Toutes les phases ont été développées, testées de bout en bout (19 scénarios automatisés, `visite-immo/tests/`)
 et poussées. Détail de ce qui est réel, simulé ou reporté :
 
 | Lot | État |

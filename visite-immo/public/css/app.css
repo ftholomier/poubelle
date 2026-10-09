@@ -786,3 +786,10 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .ajd-suppr:hover, .ajd-suppr:focus-visible { opacity: 1; background: var(--bg); }
 .icon-btn.petit { width: 44px; height: 44px; font-size: 1rem; flex-shrink: 0; }
 .piece-fichier-ligne { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+/* ---------- Biens compatibles d'un acquéreur ---------- */
+.ligne.compat { display: grid; grid-template-columns: 62px 1fr auto; gap: 10px; align-items: center; }
+.compat-score { font-weight: 800; font-size: .95rem; text-align: center; padding: 6px 0; border-radius: 8px; border: 1.5px solid var(--encre); color: var(--encre); }
+.compat-score.haut { background: var(--citron); }
+.compat-score.moyen { background: #ffe0b8; }
+.compat-score.bas { background: var(--surface); color: var(--text); border-color: var(--muted); }

@@ -338,6 +338,9 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
   demandant à geo.api.gouv.fr la commune de 16 points placés à 4 et 9 km), jusqu'à 30 ventes et 6 communes au plus ;
   la distance est alors jugée à l'échelle du canton (5 km au lieu de 1,5 km). Les communes ajoutées sont citées à
   l'écran et dans l'argumentaire de l'avis de valeur.
+- **Acquéreurs ↔ biens** : la commune recherchée est un critère éliminatoire (accents, tirets, « St/Saint » et code
+  postal ignorés). Les communes voisines sont proposées jusqu'à 15 km avec un score qui baisse avec la distance
+  (−5 points puis −2,5 par km) ; liste classée du plus au moins compatible, score affiché.
 - **Journal des accès** : consultations de dossier par les agents (une ligne par quart d'heure et par dossier), PDF
   (mandat, dossier complet, fiche notaire, fiche de vigilance marqués sensibles), pièces, audio, exports, dépôt de
   pièce d'identité ; côté clients, ouverture de l'espace, documents et pièces. Date, personne, rôle, bien, objet,
@@ -389,7 +392,7 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 ```
 
 - Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
-- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 18 scénarios Playwright sur des
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 19 scénarios Playwright sur des
   données neuves, avec services publics, SMTP, push, firma.dev et BoldSign simulés. Couvre : parcours de base, sortie
   de visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
   vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la

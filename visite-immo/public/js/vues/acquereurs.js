@@ -65,8 +65,8 @@ vues.acquereur = async ([id]) => {
       ${ligne("Apport", f.apport && fmtPrix(f.apport))}${ligne("Financement", f.mode)}${ligne("Banque", f.accord_banque)}${ligne("Courtier", f.courtier)}${ligne("Bien à vendre", f.bien_a_vendre)}${ligne("Délai", a.delai)}
       ${a.notes ? `<p class="small muted">${esc(a.notes)}</p>` : ""}
     </section>
-    <section class="card"><h2>Biens compatibles</h2>
-      ${biens.map((b) => `<a class="ligne" href="#/visite/${b.id}/vente"><div><strong>${esc(b.titre)}</strong><span class="muted small">${fmtPrix(b.prix)} · ${esc(b.raisons.join(", "))}</span></div><span class="score">${b.score}</span></a>`).join("") || '<p class="muted">Aucun bien compatible pour l\'instant. Il sera prévenu automatiquement dès qu\'un bien correspond.</p>'}
+    <section class="card"><h2>Biens compatibles <span class="muted">du plus au moins compatible</span></h2>
+      ${biens.map((b) => `<a class="ligne compat" href="#/visite/${b.id}/vente"><span class="compat-score ${b.score >= 85 ? "haut" : b.score >= 70 ? "moyen" : "bas"}">${b.score} %</span><div><strong>${esc(b.titre)}</strong><span class="muted small">${fmtPrix(b.prix)} · ${esc(b.raisons.join(", "))}</span></div><span class="fleche">→</span></a>`).join("") || '<p class="muted">Aucun bien compatible pour l\'instant. Il sera prévenu automatiquement dès qu\'un bien correspond.</p>'}
     </section>
     ${visites.length ? `<section class="card"><h2>Visites</h2>${visites.map((x) => `<a class="ligne" href="#/visite/${x.dossier}/vente"><div><strong>${esc(x.bien)}</strong><span class="muted small">${fmtDate(x.date)}${x.retour ? ` · intérêt ${x.retour.interet}/5` : ""}</span></div><span class="fleche">→</span></a>`).join("")}</section>` : ""}
     <section class="card"><h2>Historique</h2>${(a.historique || []).slice().reverse().map((h) => `<div class="journal-ligne"><span class="muted small">${fmtCourt(h.date)}</span><span>${esc(h.texte)}</span></div>`).join("")}</section>
