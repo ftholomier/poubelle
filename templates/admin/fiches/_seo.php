@@ -38,8 +38,10 @@ $site = parse_url(base_url(), PHP_URL_HOST) ?: 'fcsochauxretro.com';
         $uneHelp = 'Image à la une générique (silhouette « ? ») : la fiche n’est pas tirée au hasard dans le slider. Choisissez une vraie photo.';
     } elseif (empty($uneM['width'])) {
         $uneHelp = 'Image à la une absente de la médiathèque (taille inconnue) : la fiche n’est pas tirée au hasard dans le slider.';
-    } elseif (!\App\Front\Pages::slideReady($uneImg)) {
-        $uneMin = number_format(\App\Front\Pages::$slideMin[0], 0, ',', ' ') . ' × ' . number_format(\App\Front\Pages::$slideMin[1], 0, ',', ' ');
+    } elseif (!\App\Front\Pages::slideReady($uneImg, $uneYear = (($sum = \App\Data\Index::get((int) ($doc['id'] ?? 0))) ? \App\Front\Pages::slideYear($sum) : null))) {
+        $so = \App\Front\Pages::slideOpts();
+        [$mw, $mh] = $uneYear !== null && $uneYear < $so['old_before'] ? [$so['old_min_w'], $so['old_min_h']] : [$so['min_w'], $so['min_h']];
+        $uneMin = number_format($mw, 0, ',', ' ') . ' × ' . number_format($mh, 0, ',', ' ');
         $uneHelp = 'Image à la une trop petite pour le grand slider (' . (int) $uneM['width'] . ' × ' . (int) ($uneM['height'] ?? 0) . ' pixels ; il en faut au moins ' . $uneMin . ') : la fiche n’est pas tirée au hasard. Un plus grand scan (Médiathèque › « Remplacer le fichier… ») la fait entrer dans le tirage.';
     }
     ?>

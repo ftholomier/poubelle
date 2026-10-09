@@ -1,6 +1,6 @@
 <?php
 /**
- * Accueil & bandeau. Variables : $slider, $manual, $pool, $poolSmall, $poolNoImage, $slideMin, $ticker, $home, $schema,
+ * Accueil & bandeau. Variables : $slider, $manual, $pool, $poolSmall, $poolNoImage, $slideMin, $slideOpts, $ticker, $home, $schema,
  * $palmares, $palmaresTitres, $palmaresData, $eras, $reserves, $teasers, $legends, $figure (chiffre du jour)
  */
 use App\Admin\Form;
@@ -23,7 +23,23 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
       <?= Form::seg('slider.mode', 'Contenu du slider', $slider['mode'] ?? 'random', ['random' => 'Tirage au hasard', 'manual' => 'Sélection manuelle']) ?>
       <div data-show-if="slider.mode" data-show-value="random">
         <?php $minTxt = number_format($slideMin[0], 0, ',', ' ') . ' × ' . number_format($slideMin[1], 0, ',', ' ') . ' pixels'; ?>
-        <p class="alert alert--info" style="margin:0">À chaque visite, <b><?= (int) ($home['slider_count'] ?? 5) ?></b> fiches sont tirées au hasard parmi les <b><?= number_format((int) $pool, 0, ',', ' ') ?></b> fiches publiées (matchs, joueurs, récits, articles…) dont la photo à la une est assez grande pour rester nette en plein écran (au moins <?= e($minTxt) ?>).<?= $poolSmall ? ' Écartées : ' . number_format((int) $poolSmall, 0, ',', ' ') . ' fiches à la photo trop petite' . ($poolNoImage ? ' et ' . (int) $poolNoImage . ' sans vraie photo (pas d’image ou silhouette « ? »)' : '') . '.' : ($poolNoImage ? ' Écartées : ' . (int) $poolNoImage . ' fiches sans vraie photo (pas d’image ou silhouette « ? »).' : '') ?> Cochez « À la une » dans l’onglet « Classement & SEO » d’une fiche pour l’ajouter ; un plus grand scan de sa photo (Médiathèque › « Remplacer le fichier… ») la fait entrer dans le tirage.</p>
+        <p class="alert alert--info" style="margin:0">À chaque visite, <b><?= (int) ($home['slider_count'] ?? 5) ?></b> fiches sont tirées au hasard parmi les <b><?= number_format((int) $pool, 0, ',', ' ') ?></b> fiches publiées (matchs, joueurs, récits, articles…) dont la photo à la une est assez grande pour rester nette en plein écran (au moins <?= e($minTxt) ?> pour une fiche récente).<?= $poolSmall ? ' Écartées : ' . number_format((int) $poolSmall, 0, ',', ' ') . ' fiches à la photo trop petite' . ($poolNoImage ? ' et ' . (int) $poolNoImage . ' sans vraie photo (pas d’image ou silhouette « ? »)' : '') . '.' : ($poolNoImage ? ' Écartées : ' . (int) $poolNoImage . ' fiches sans vraie photo (pas d’image ou silhouette « ? »).' : '') ?> Dont <b><?= number_format((int) $poolOld, 0, ',', ' ') ?></b> fiches anciennes (avant <?= (int) $slideOpts['old_before'] ?>), retenues avec une photo d’au moins <?= (int) $slideOpts['old_min_w'] ?> × <?= (int) $slideOpts['old_min_h'] ?> pixels. Un plus grand scan d’une photo (Médiathèque › « Remplacer le fichier… ») fait entrer sa fiche dans le tirage.</p>
+        <h3 class="card__t card__t--sm" style="margin:18px 0 6px">Réglages du tirage</h3>
+        <p class="small muted" style="margin:0 0 8px">Chaque visite tire <?= (int) ($home['slider_count'] ?? 5) ?> fiches (nombre réglable dans « Textes &amp; compteurs »). Les minimums ci-dessous sont respectés tant qu’il y a assez de fiches ; le reste est tiré au hasard.</p>
+        <div class="fgrid">
+          <?= Form::number('slider.opts.n_match', 'Matchs, au moins', $slideOpts['n_match'], ['min' => 0, 'max' => 10]) ?>
+          <?= Form::number('slider.opts.n_lion', 'Lions (joueurs, entraîneurs), au moins', $slideOpts['n_lion'], ['min' => 0, 'max' => 10]) ?>
+          <?= Form::number('slider.opts.n_other', 'Autres fiches (récits, lieux, articles…), au moins', $slideOpts['n_other'], ['min' => 0, 'max' => 10]) ?>
+          <?= Form::number('slider.opts.n_old', 'Fiches anciennes, au moins', $slideOpts['n_old'], ['min' => 0, 'max' => 10]) ?>
+        </div>
+        <div class="fgrid">
+          <?= Form::number('slider.opts.min_w', 'Photo récente : largeur mini (px)', $slideOpts['min_w'], ['min' => 300, 'max' => 4000, 'step' => 50]) ?>
+          <?= Form::number('slider.opts.min_h', 'Photo récente : hauteur mini (px)', $slideOpts['min_h'], ['min' => 200, 'max' => 3000, 'step' => 50]) ?>
+          <?= Form::number('slider.opts.old_before', 'Fiche ancienne : avant l’année', $slideOpts['old_before'], ['min' => 1928, 'max' => 2100]) ?>
+          <?= Form::number('slider.opts.old_min_w', 'Photo ancienne : largeur mini (px)', $slideOpts['old_min_w'], ['min' => 200, 'max' => 4000, 'step' => 50]) ?>
+          <?= Form::number('slider.opts.old_min_h', 'Photo ancienne : hauteur mini (px)', $slideOpts['old_min_h'], ['min' => 150, 'max' => 3000, 'step' => 50]) ?>
+        </div>
+        <span class="f__help">Une fiche est « ancienne » d’après la date du match ou l’arrivée du joueur. Les photos d’époque étant rarement grandes, elles ont droit à une taille minimale plus petite ; plus vous baissez les minimums, plus il y a de choix, mais une photo trop petite paraît floue en plein écran. Le nombre de fiches retenues est mis à jour après l’enregistrement.</span>
       </div>
       <div data-show-if="slider.mode" data-show-value="manual">
         <?= Form::repeater('slider.ids', 'Fiches du slider, dans l’ordre', $manual, fn ($it) => '<div class="row" style="gap:10px;flex-wrap:nowrap">'

@@ -38,7 +38,7 @@ final class Editorial extends Base
                 $m = $s['image'] ? \App\Data\Media::get($s['image']) : null;
                 $manual[] = ['id' => (int) $id, 'title' => $s['title'], 'image' => $s['image'], 'status' => $s['status'],
                     // Photo trop petite pour le plein écran : bulle avec sa taille.
-                    'small' => !$s['image'] || Pages::slideReady($s['image']) ? ''
+                    'small' => !$s['image'] || Pages::slideReady($s['image'], Pages::slideYear($s)) ? ''
                         : (empty($m['width']) ? 'Taille inconnue (photo absente de la médiathèque)' : 'Photo de ' . (int) $m['width'] . ' × ' . (int) ($m['height'] ?? 0) . ' pixels : floue en plein écran')];
             }
         }
@@ -53,7 +53,7 @@ final class Editorial extends Base
             $home[$k] = Settings::get("home.$k");
         }
         return self::html('admin/editorial/home', [
-            'slider' => $slider, 'manual' => $manual, 'pool' => count($pool), 'poolSmall' => $poolSmall, 'poolNoImage' => $poolNoImage, 'slideMin' => Pages::$slideMin,
+            'slider' => $slider, 'manual' => $manual, 'pool' => count($pool), 'poolOld' => count(array_filter($pool, fn ($x) => $x['old'])), 'poolSmall' => $poolSmall, 'poolNoImage' => $poolNoImage, 'slideMin' => [Pages::slideOpts()['min_w'], Pages::slideOpts()['min_h']], 'slideOpts' => Pages::slideOpts(),
             'ticker' => $ticker, 'home' => $home, 'schema' => Settings::schema()['home']['fields'],
             'palmares' => Collections::get('palmares', Pages::defaultPalmares()),
             'palmaresTitres' => \App\Front\Palmares::titles(),
@@ -161,7 +161,12 @@ final class Editorial extends Base
         $done = [];
         if (isset($in['slider'])) {
             $ids = array_values(array_unique(array_filter(array_map(fn ($x) => (int) (is_array($x) ? ($x['id'] ?? 0) : $x), (array) ($in['slider']['ids'] ?? [])), fn ($id) => $id > 0 && Index::get($id))));
-            Collections::save('slider', ['mode' => ($in['slider']['mode'] ?? '') === 'manual' ? 'manual' : 'random', 'ids' => $ids], $user, 'Slider de l’accueil');
+            $o = (array) ($in['slider']['opts'] ?? []);
+            $num = fn (string $k, int $min, int $max, int $def) => isset($o[$k]) && is_numeric($o[$k]) ? max($min, min($max, (int) $o[$k])) : $def;
+            $opts = ['min_w' => $num('min_w', 300, 4000, 1200), 'min_h' => $num('min_h', 200, 3000, 600), 'old_before' => $num('old_before', 1928, 2100, 1980),
+                'old_min_w' => $num('old_min_w', 200, 4000, 600), 'old_min_h' => $num('old_min_h', 150, 3000, 380),
+                'n_match' => $num('n_match', 0, 10, 3), 'n_lion' => $num('n_lion', 0, 10, 1), 'n_other' => $num('n_other', 0, 10, 1), 'n_old' => $num('n_old', 0, 10, 2)];
+            Collections::save('slider', ['mode' => ($in['slider']['mode'] ?? '') === 'manual' ? 'manual' : 'random', 'ids' => $ids, 'opts' => $opts], $user, 'Slider de l’accueil');
             $done[] = 'slider';
         }
         if (isset($in['ticker'])) {

@@ -85,41 +85,81 @@ final class Pages
     /**
      * Taille minimale (largeur, hauteur en pixels) d'une photo tirée au hasard pour le grand slider :
      * plein écran (jusqu'à 1 920 × 840) avec un léger zoom, une photo plus petite y paraît floue.
+     * Valeur de départ ; réglable dans Accueil & bandeau › Grand slider (slideOpts).
      */
     public static array $slideMin = [1200, 600];
 
-    /** Photo assez grande pour le grand slider (dimensions de la médiathèque). */
-    public static function slideReady(?string $image): bool
+    /** Réglages du tirage (Accueil & bandeau › Grand slider), avec leurs valeurs de départ. */
+    public static function slideOpts(): array
     {
-        $m = $image ? Media::get($image) : null;
-        return (int) ($m['width'] ?? 0) >= self::$slideMin[0] && (int) ($m['height'] ?? 0) >= self::$slideMin[1];
+        $o = (array) (Collections::get('slider', [])['opts'] ?? []);
+        $d = ['min_w' => self::$slideMin[0], 'min_h' => self::$slideMin[1], 'old_before' => 1980, 'old_min_w' => 600, 'old_min_h' => 380,
+            'n_match' => 3, 'n_lion' => 1, 'n_other' => 1, 'n_old' => 2];
+        foreach ($d as $k => $v) {
+            $d[$k] = isset($o[$k]) && is_numeric($o[$k]) ? max(0, (int) $o[$k]) : $v;
+        }
+        return $d;
+    }
+
+    /** Année d'une fiche pour le slider : date du match, arrivée du joueur, sinon saison ; null si inconnue. */
+    public static function slideYear(array $s): ?int
+    {
+        $y = (int) substr((string) ($s['m']['date'] ?? ''), 0, 4)
+            ?: (int) ($s['p']['arrival'] ?? 0) ?: (int) ($s['p']['departure'] ?? 0)
+            ?: (int) substr((string) ($s['m']['season'] ?? $s['season'] ?? ''), 0, 4);
+        return $y >= 1900 ? $y : null;
     }
 
     /**
-     * Fiches que le tirage au hasard peut montrer : « À la une », vraie photo, assez grande.
-     * Recalculé quand les fiches ou la médiathèque changent. @return list<int>
+     * Photo assez grande pour le grand slider (dimensions de la médiathèque). Une fiche ancienne
+     * (avant l'année réglée) a droit à une taille plus petite : les photos d'époque sont rarement grandes.
+     */
+    public static function slideReady(?string $image, ?int $year = null): bool
+    {
+        $m = $image ? Media::get($image) : null;
+        $o = self::slideOpts();
+        [$w, $h] = $year !== null && $year < $o['old_before'] ? [$o['old_min_w'], $o['old_min_h']] : [$o['min_w'], $o['min_h']];
+        return (int) ($m['width'] ?? 0) >= $w && (int) ($m['height'] ?? 0) >= $h;
+    }
+
+    /** Genre d'une fiche pour l'équilibre du slider : match, lion (personne) ou autre. */
+    private static function slideKind(array $s): string
+    {
+        return isset($s['m']) || ($s['type'] ?? '') === 'match' ? 'match' : (isset($s['p']) || ($s['type'] ?? '') === 'personne' ? 'lion' : 'other');
+    }
+
+    /**
+     * Fiches que le tirage au hasard peut montrer : vraie photo, assez grande (selon l'époque).
+     * Recalculé quand les fiches, la médiathèque ou les réglages changent.
+     * @return list<array{id:int,k:string,old:bool}>
      */
     public static function slidePool(): array
     {
-        return \App\Core\Memo::get('slider-tirage-tout', [Index::CACHE, Media::FILE, __FILE__], implode('x', self::$slideMin), function () {
-            $ids = [];
+        $o = self::slideOpts();
+        return \App\Core\Memo::get('slider-tirage-v2', [Index::CACHE, Media::FILE, __FILE__, DATA_PATH . '/collections/slider.json'], json_encode($o), function () use ($o) {
+            $out = [];
             foreach (Index::published() as $s) {
-                if ($s['image'] && !Index::isPlaceholderImage($s['image']) && self::slideReady($s['image'])) {
-                    $ids[] = (int) $s['id'];
+                if (!$s['image'] || Index::isPlaceholderImage($s['image'])) {
+                    continue;
+                }
+                $y = self::slideYear($s);
+                if (self::slideReady($s['image'], $y)) {
+                    $out[] = ['id' => (int) $s['id'], 'k' => self::slideKind($s), 'old' => $y !== null && $y < $o['old_before']];
                 }
             }
-            return $ids;
+            return $out;
         });
     }
 
     /**
-     * Slider : N fiches publiées de tout type (matchs, joueurs, récits…) tirées au hasard parmi celles dont la photo est assez grande
-     * (sinon, s'il n'y en a aucune, parmi toutes celles qui ont une vraie photo), ou la sélection
-     * manuelle du back-office.
+     * Slider : N fiches tirées au hasard parmi celles dont la photo est assez grande, avec au moins
+     * le nombre réglé de matchs, de lions, d'autres fiches et de fiches anciennes (s'il y en a) ;
+     * ou la sélection manuelle du back-office.
      */
     public static function slides(int $n): array
     {
         $conf = Collections::get('slider', ['mode' => 'random', 'ids' => []]);
+        $n = max(1, $n);
         $pool = [];
         if (($conf['mode'] ?? 'random') === 'manual' && !empty($conf['ids'])) {
             foreach ($conf['ids'] as $id) {
@@ -129,24 +169,44 @@ final class Pages
                 }
             }
         } else {
-            $ids = self::slidePool();
-            shuffle($ids);
-            foreach ($ids as $id) {
-                $s = Index::get($id);
-                if ($s && Index::visible($s)) {
-                    $pool[] = $s;
-                    if (count($pool) >= max(1, $n)) {
-                        break;
+            $o = self::slideOpts();
+            $cands = self::slidePool();
+            shuffle($cands);
+            $picked = [];
+            $take = function (callable $ok, int $count) use (&$cands, &$picked, $n): void {
+                foreach ($cands as $i => $c) {
+                    if ($count <= 0 || count($picked) >= $n) {
+                        return;
+                    }
+                    if ($ok($c)) {
+                        $s = Index::get($c['id']);
+                        unset($cands[$i]);
+                        if ($s && Index::visible($s)) {
+                            $picked[] = $c + ['s' => $s];
+                            $count--;
+                        }
                     }
                 }
+            };
+            $has = function (string $k) use (&$picked): int {
+                return count(array_filter($picked, fn ($p) => $p['k'] === $k));
+            };
+            // D'abord les anciennes, en respectant l'équilibre des genres, puis les quotas, puis le reste.
+            $take(fn ($c) => $c['old'] && $c['k'] === 'match', min($o['n_old'], $o['n_match']));
+            $take(fn ($c) => $c['old'], $o['n_old'] - count(array_filter($picked, fn ($p) => $p['old'])));
+            foreach (['match' => $o['n_match'], 'lion' => $o['n_lion'], 'other' => $o['n_other']] as $k => $min) {
+                $take(fn ($c) => $c['k'] === $k, $min - $has($k));
             }
+            $take(fn ($c) => true, $n);
+            shuffle($picked);
+            $pool = array_column($picked, 's');
             if (!$pool) {
                 $pool = array_values(array_filter(Index::published(), fn ($s) => $s['image'] && !Index::isPlaceholderImage($s['image'])));
                 shuffle($pool);
             }
         }
         $out = [];
-        foreach (array_slice($pool, 0, max(1, $n)) as $s) {
+        foreach (array_slice($pool, 0, $n) as $s) {
             $out[] = [
                 'kind' => self::kindLabel($s),
                 'title' => self::shortTitle($s),
