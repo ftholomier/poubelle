@@ -21,15 +21,19 @@ final class Compos
 {
     public const SOURCES = [
         'transfermarkt' => 'Transfermarkt',
-        'pari-et-gagne' => 'pari-et-gagne.com',
         'footballdatabase' => 'footballdatabase.eu',
-        'worldfootball' => 'worldfootball.net',
-        'fcsmstory' => 'FCSM Story',
+        'pari-et-gagne' => 'pari-et-gagne.com (par l’IA)',
+        'worldfootball' => 'worldfootball.net (par l’IA)',
+        'fcsmstory' => 'FCSM Story (par l’IA)',
         'gallica' => 'Presse d’époque (Gallica)',
     ];
     /** Domaines des sources lues par Gemini. */
-    public const WEB = ['pari-et-gagne' => 'pari-et-gagne.com', 'footballdatabase' => 'footballdatabase.eu', 'worldfootball' => 'worldfootball.net', 'fcsmstory' => 'fcsmstory.com'];
+    public const WEB = ['pari-et-gagne' => 'pari-et-gagne.com', 'worldfootball' => 'worldfootball.net', 'fcsmstory' => 'fcsmstory.com'];
+    private const FDB = 'https://www.footballdatabase.eu';
+    private const FDB_CLUB = '19-sochaux'; // FC Sochaux-Montbéliard chez footballdatabase.eu
     public const ORIGIN = 'compos';
+    /** Sources lues directement (fiables) : cochées d'office. */
+    public const DEFAULT_SOURCES = ['transfermarkt', 'footballdatabase', 'gallica'];
     private const TM = 'https://www.transfermarkt.fr';
     private const TM_CLUB = 750; // FC Sochaux-Montbéliard chez Transfermarkt
     private const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
@@ -46,7 +50,7 @@ final class Compos
 
     public static function state(): array
     {
-        return (array) JsonStore::read(self::DIR . '/etat.json', []) + ['queue' => [], 'done' => [], 'on' => false, 'sources' => array_keys(self::SOURCES), 'last' => null];
+        return (array) JsonStore::read(self::DIR . '/etat.json', []) + ['queue' => [], 'done' => [], 'on' => false, 'sources' => self::DEFAULT_SOURCES, 'last' => null];
     }
 
     /** Lance le contrôle d'une liste de fiches (file de la tâche planifiée). */
@@ -182,7 +186,7 @@ final class Compos
         if (empty($m['date'])) {
             throw new \RuntimeException('Match sans date : impossible de le retrouver dans les sources.');
         }
-        $sources = $sources ?: array_keys(self::SOURCES);
+        $sources = $sources ?: self::DEFAULT_SOURCES;
         $ours = self::ours($m);
         $report = [];
         $items = [];
@@ -193,6 +197,10 @@ final class Compos
                     $ext = $html !== null ? self::fromHtml($html) : self::transfermarkt($m);
                     $ext ? $found[] = $ext : null;
                     $report[] = ['key' => $key, 'ok' => (bool) $ext, 'note' => $ext ? ($ext['players'] ? count($ext['players']) . ' joueurs lus' : 'match trouvé, sans composition') : (in_array($m['competition'] ?? '', ['amical', 'Amical'], true) || preg_match('/amical/i', (string) ($m['competition_label'] ?? '')) ? 'match amical : Transfermarkt ne liste que les matchs officiels' : 'match introuvable dans le calendrier de la saison')];
+                } elseif ($key === 'footballdatabase') {
+                    $ext = self::footballdatabase($m);
+                    $ext ? $found[] = $ext : null;
+                    $report[] = ['key' => $key, 'ok' => (bool) $ext, 'note' => $ext ? ($ext['players'] ? count($ext['players']) . ' joueurs lus' : 'match trouvé, sans composition') : 'match introuvable dans le calendrier de la saison'];
                 } elseif (isset(self::WEB[$key])) {
                     self::$why = 'pas de feuille trouvée';
                     $ext = self::web($doc, $key);
@@ -468,6 +476,67 @@ final class Compos
                 throw $e;
             }
         }
+    }
+
+    /** footballdatabase.eu, lu directement : calendrier de la saison du club, puis page du match. */
+    public static function footballdatabase(array $m): ?array
+    {
+        $date = (string) $m['date'];
+        $y = (int) substr($date, 0, 4);
+        $season = (int) substr($date, 5, 2) >= 7 ? $y : $y - 1;
+        $id = null;
+        foreach ([$season, $season - 1, $season + 1] as $sid) {
+            $label = $sid . '-' . ($sid + 1);
+            $html = self::page(self::FDB . '/fr/club/equipe/' . self::FDB_CLUB . '/' . $label, 'fdb-s-' . $sid, 86400 * 7, '/fr/match/resume/', 'footballdatabase.eu');
+            foreach (preg_split('/<tr[\s>]/', $html) ?: [] as $tr) {
+                if (preg_match('#/fr/match/resume/(\d+-[a-z0-9_-]+)#', $tr, $l) && preg_match('#(\d{2})/(\d{2})/(\d{4})#', strip_tags($tr), $d)
+                    && abs(strtotime("$d[3]-$d[2]-$d[1]") - strtotime($date)) <= 86400) {
+                    $id = $l[1];
+                    break 2;
+                }
+            }
+        }
+        if (!$id) {
+            return null;
+        }
+        $url = self::FDB . '/fr/match/resume/' . $id;
+        return ['label' => 'footballdatabase.eu · feuille de match', 'url' => $url] + self::fdbParse(self::page($url, 'fdb-m-' . (int) $id, 86400 * 30, 'Titulaires', 'footballdatabase.eu'));
+    }
+
+    /** Page de match footballdatabase.eu : titulaires et remplaçants de Sochaux, minutes, buts, cartons, entraîneur. */
+    public static function fdbParse(string $html): array
+    {
+        $team = null;
+        // Les deux équipes : blocs « toggleteam1 » et « toggleteam2 », chacun avec son nom.
+        foreach ([1, 2] as $t) {
+            if (preg_match('#section titulaires toggleteam' . $t . '.{0,400}?<p class="team">([^<]+)</p>#s', $html, $x) && stripos($x[1], 'sochaux') !== false) {
+                $team = $t;
+            }
+        }
+        if ($team === null) {
+            return ['players' => [], 'coach' => ''];
+        }
+        $players = [];
+        $mins = fn (string $cls, string $td) => preg_match_all("#<span class='$cls'>([0-9+]+)</span>#", $td, $mm) ? array_map(fn ($v) => (string) self::min($v), $mm[1]) : [];
+        preg_match_all('#<div class="section titulaires toggleteam' . $team . '">(.*?)(?=<div class="section |<div class="row")#s', $html, $blocks);
+        foreach ($blocks[1] as $bi => $block) {
+            $bench = $bi > 0 || str_contains($block, 'Remplaçants');
+            foreach (preg_split('/<tr>/', $block) ?: [] as $tr) {
+                if (!str_contains($tr, 'class="position"') || !preg_match("#href='/fr/joueur/details/[^']+'>([^<]+)</a>#", $tr, $n)) {
+                    continue;
+                }
+                $tds = preg_split('#</td>#', $tr) ?: [];
+                $events = (string) ($tds[4] ?? '');
+                $pos = preg_match('#class="position">([GDMA])<#', $tr, $pp) ? $pp[1] : 'M';
+                $in = $mins('subin', $events)[0] ?? null;
+                $name = trim(html_entity_decode($n[1], ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+                $players[] = ['name' => $name, 'pos' => $bench ? 'R' : $pos, 'in' => $in, 'out' => $mins('subout', $events)[0] ?? null,
+                    'goals' => $mins('goal', $events), 'yellow' => $mins('yellowcard', $events), 'red' => $mins('redcard', $events),
+                    'cap' => false, 'num' => preg_match('#<td>\s*(\d{1,2})\s*$#', (string) ($tds[0] ?? ''), $nn) ? (int) $nn[1] : null, 'key' => self::key($name)];
+            }
+        }
+        $coach = preg_match('#section entraineur toggleteam' . $team . '.*?href=\'/fr/joueur/details/[^\']+\'>([^<]+)</a>#s', $html, $c) ? trim(html_entity_decode($c[1], ENT_QUOTES | ENT_HTML5, 'UTF-8')) : '';
+        return ['players' => $players, 'coach' => $coach];
     }
 
     /** Relevé Transfermarkt déjà fait et livré avec le site (app/Resources/compos), s'il couvre ce match. */
@@ -833,7 +902,7 @@ final class Compos
         $out = [];
         $relay = trim((string) \App\Core\Settings::get('compos.relay', ''));
         $tests = ['Transfermarkt' => self::TM . '/fc-sochaux-montbeliard/startseite/verein/' . self::TM_CLUB, 'worldfootball.net' => 'https://www.worldfootball.net/teams/fc-sochaux/',
-            'footballdatabase.eu' => 'https://www.footballdatabase.eu/fr/club/equipe/176-sochaux', 'pari-et-gagne.com' => 'https://www.pari-et-gagne.com/', 'fcsmstory.com' => 'https://fcsmstory.com/'];
+            'footballdatabase.eu' => 'https://www.footballdatabase.eu/fr/club/equipe/19-sochaux', 'pari-et-gagne.com' => 'https://www.pari-et-gagne.com/', 'fcsmstory.com' => 'https://fcsmstory.com/'];
         foreach ($tests as $site => $url) {
             $b = self::fetch($url, 25);
             $ok = strlen($b) > 5000 && stripos($b, 'sochaux') !== false;
@@ -870,12 +939,12 @@ final class Compos
     }
 
     /** Page gardée sur disque ($ttl secondes) ; une demande toutes les PAUSE secondes au plus. */
-    private static function page(string $url, string $cacheKey, int $ttl): string
+    private static function page(string $url, string $cacheKey, int $ttl, string $marker = '/spielbericht/', string $site = 'Transfermarkt'): string
     {
         $f = self::DIR . '/cache/' . $cacheKey . '.html';
         // Une vraie page Transfermarkt contient des liens de rapports de match ; sinon c'est une page
         // de blocage (anti-robots, consentement) : jamais gardée, signalée comme erreur.
-        $real = fn (string $b) => str_contains($b, '/spielbericht/');
+        $real = fn (string $b) => str_contains($b, $marker);
         if (is_file($f) && filemtime($f) > time() - $ttl && $real($c = (string) file_get_contents($f))) {
             return $c;
         }
@@ -889,7 +958,7 @@ final class Compos
                 sleep(min($wait, self::PAUSE));
             }
             @touch($lock);
-            $b = self::fetch($url);
+            $b = self::fetch($url, 45);
             if (!$real($b)) {
                 // Bloqué : on repasse par le service relais s'il est réglé (adresses non bloquées).
                 $relay = trim((string) \App\Core\Settings::get('compos.relay', ''));
@@ -901,7 +970,7 @@ final class Compos
         if (!$real($b)) {
             @unlink($f);
             $hint = trim((string) \App\Core\Settings::get('compos.relay', '')) === '' ? ' ; réglez un service relais dans Contenus › Contrôle des compositions' : ' ; le service relais n’a pas pu la lire non plus';
-            throw new \RuntimeException('Transfermarkt refuse la lecture depuis le serveur (' . self::$diag . ')' . $hint);
+            throw new \RuntimeException($site . ' refuse la lecture depuis le serveur (' . self::$diag . ')' . $hint);
         }
         @mkdir(dirname($f), 0775, true);
         file_put_contents($f, $b);
