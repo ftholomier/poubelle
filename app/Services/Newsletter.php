@@ -89,6 +89,10 @@ final class Newsletter
                 . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#0E1F4D;color:#F6C400;font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px;border-bottom:3px solid #F6C400">' . e(t('Lire la fiche')) . ' →</a>'
                 . '</td></tr></table>';
         }
+        // Pavé de la boutique, glissé à une place tirée au hasard dans la grille (boutique ouverte).
+        if ($cells && \App\Shop\Orders::open()) {
+            array_splice($cells, random_int(0, count($cells)), 0, [self::shopCell($base, $D, $H)]);
+        }
         // Deux colonnes (une seule sur téléphone, voir .nl-col dans Mailer::letter).
         foreach (array_chunk($cells, 2) as $pair) {
             $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px"><tr>'
@@ -147,6 +151,59 @@ final class Newsletter
             imagejpeg($out, $dest, 88);
             imagedestroy($im);
             imagedestroy($out);
+        }
+        return '/media/lettre/' . $name;
+    }
+
+    /** Carte « Boutique » de la grille : fond bleu nuit, même format que celles des matchs. */
+    private static function shopCell(string $base, string $D, string $H): string
+    {
+        $href = e($base . url('/boutique/'));
+        $img = self::shopImage();
+        return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0E1F4D;border:3px solid #0E1F4D">'
+            . '<tr><td style="padding:0;border-bottom:3px solid #F6C400;line-height:0">' . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="' . e(t('La boutique du musée')) . '" style="display:block;width:100%;height:auto;border:0"></a>' : '') . '</td></tr>'
+            . '<tr><td style="padding:12px 14px 14px">'
+            . '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(t('Boutique du musée')) . '</span>'
+            . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:#FFFFFF;margin:10px 0 6px">' . e(t('Portez l’histoire du FCSM')) . '</div>'
+            . '<div style="font-family:Georgia,serif;font-size:14px;line-height:1.45;color:#F3EDDF;margin:0 0 12px">' . e(t('Posters de vos matchs, maillots, mugs, le livre des récits… à personnaliser. Chaque achat fait vivre le musée.')) . '</div>'
+            . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px">' . e(t('Découvrir la boutique')) . ' →</a>'
+            . '</td></tr></table>';
+    }
+
+    /** Image de la carte Boutique (560 × 374, comme les photos des matchs), préparée une fois. */
+    private static function shopImage(): ?string
+    {
+        $name = 'boutique-v1.jpg';
+        $dest = PUBLIC_PATH . '/media/lettre/' . $name;
+        $font = APP_DIR . '/Resources/fonts/BigShouldersDisplay-Black.ttf';
+        $logo = PUBLIC_PATH . '/assets/img/logo-sochaux-retro.png';
+        if (!is_file($dest)) {
+            if (!is_file($font) || !function_exists('imagettftext')) {
+                return null;
+            }
+            $im = imagecreatetruecolor(560, 374);
+            imagefill($im, 0, 0, imagecolorallocate($im, 14, 31, 77));
+            $line = imagecolorallocate($im, 32, 52, 108);
+            imagesetthickness($im, 3);
+            imageline($im, 280, 0, 280, 374, $line);
+            imageellipse($im, 280, 187, 150, 150, $line);
+            if (is_file($logo) && ($l = @imagecreatefrompng($logo))) {
+                $lh = 150;
+                $lw = (int) round(imagesx($l) * $lh / imagesy($l));
+                imagecopyresampled($im, $l, (int) ((560 - $lw) / 2), 34, 0, 0, $lw, $lh, imagesx($l), imagesy($l));
+                imagedestroy($l);
+            }
+            $yel = imagecolorallocate($im, 246, 196, 0);
+            $txt = 'LA BOUTIQUE';
+            $box = imagettfbbox(64, 0, $font, $txt);
+            imagettftext($im, 64, 0, (int) ((560 - ($box[2] - $box[0])) / 2), 300, $yel, $font, $txt);
+            $cream = imagecolorallocate($im, 243, 237, 223);
+            $sub = 'DU MUSÉE SOCHAUX RÉTRO';
+            $box = imagettfbbox(22, 0, $font, $sub);
+            imagettftext($im, 22, 0, (int) ((560 - ($box[2] - $box[0])) / 2), 340, $cream, $font, $sub);
+            @mkdir(dirname($dest), 0775, true);
+            imagejpeg($im, $dest, 90);
+            imagedestroy($im);
         }
         return '/media/lettre/' . $name;
     }

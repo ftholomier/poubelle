@@ -21,9 +21,39 @@ HTML],
 [[img:messages.webp|Les messages reçus]]
 HTML],
         ['id' => 'newsletter', 'title' => 'La newsletter « Ce jour-là »', 'html' => <<<'HTML'
-<p>Une lettre hebdomadaire présente les matchs joués cette semaine-là dans l’histoire. Elle part automatiquement (jour et heure dans Réglages › Newsletter) aux abonnés confirmés.</p>
-<p>Communauté › <b>Newsletter</b> : abonnés, aperçu de la prochaine lettre, <b>envoi de test</b> à votre adresse, dernier envoi.</p>
-[[img:newsletter.webp|La newsletter : abonnés et prochaine lettre]]
+<p>Une lettre hebdomadaire présente les matchs joués cette semaine-là dans l’histoire. Elle se fabrique toute seule et part automatiquement (jour et heure dans Réglages › Newsletter) aux abonnés confirmés, chacun dans sa langue (FR ou EN).</p>
+<h3>Ce que contient la lettre</h3>
+<ul>
+<li><b>Le bandeau animé</b> : le match de la page de connexion (« BUT ! pour le FCSM »), en GIF. Outlook sur ordinateur n’en montre que la première image, fixe.</li>
+<li><b>Les matchs de la semaine</b>, 7 au plus, en deux colonnes (une seule sur téléphone) : photo de la fiche (recadrée et nette), « Il y a X ans », date, compétition, score et bouton « Lire la fiche ». Un match sans photo reçoit une image bleue avec son année, au même format.</li>
+<li><b>Le pavé « Boutique »</b>, quand la boutique est ouverte : un pavé bleu nuit glissé à une place tirée au hasard dans la grille, qui invite à découvrir les objets à personnaliser.</li>
+<li><b>Le compte à rebours du centenaire</b> et le bouton « Faire un don ».</li>
+<li><b>En bas</b>, centré : la mention d’inscription et le lien « Se désinscrire », propre à chaque abonné.</li>
+</ul>
+<h3>Le tableau de bord</h3>
+<p>Communauté › <b>Newsletter</b> commence par un tableau de bord :</p>
+<ul>
+<li><b>Indicateurs</b> : taux d’ouverture et taux de clic moyens, désinscriptions (4 dernières lettres) et solde des abonnés sur 12 semaines.</li>
+<li><b>Envoi en cours</b> (pendant un envoi seulement) : barre de progression, e-mails envoyés, restants et en échec, fin estimée. La page se met à jour toute seule toutes les 20 secondes.</li>
+<li><b>Dernière lettre</b> : envoyés, ouvertures, clics, désinscriptions (par le lien de la lettre, le bouton de la messagerie ou l’équipe) et <b>liens les plus cliqués</b>.</li>
+<li><b>Abonnés sur 12 semaines</b> : arrivées (bleu) et départs (rouge), semaine par semaine.</li>
+<li><b>Historique des lettres</b> : une ligne par lettre.</li>
+</ul>
+<p><b>À savoir :</b> les ouvertures sont approximatives : certaines messageries chargent les images d’office (Apple Mail), d’autres les bloquent ; un clic compte aussi comme ouverture. Les abonnés n’y figurent que sous une empreinte anonyme, jamais par leur adresse ; ces mesures sont effacées après 2 ans (voir la page Confidentialité).</p>
+<h3>Envoyer</h3>
+<ul>
+<li><b>M’envoyer un test</b> : la lettre de la semaine arrive dans votre boîte (sans lien de désinscription, vous n’êtes pas abonné).</li>
+<li><b>Envoyer maintenant</b> : la lettre part tout de suite à tous les abonnés ; l’envoi automatique de la semaine est alors considéré comme fait.</li>
+<li><b>Rythme</b> : par lots de 10 à 30 e-mails, avec des pauses de 3 à 40 secondes tirées au hasard, 300 e-mails par heure au plus, à chaque passage de la tâche planifiée (toutes les 5 minutes). Une adresse ne reçoit jamais la lettre deux fois.</li>
+</ul>
+<h3>Abonnés et désinscriptions</h3>
+<ul>
+<li><b>Inscription par le site</b> : double validation, la personne confirme par le lien reçu.</li>
+<li><b>Ajouter un abonné</b> : pour quelqu’un qui vous l’a demandé, tapez son e-mail, choisissez la langue et cliquez « Abonner » ; il est abonné tout de suite, sans e-mail de confirmation. N’ajoutez que des personnes qui l’ont vraiment demandé.</li>
+<li><b>Désinscription</b> : par le lien de chaque lettre, par le bouton « Se désabonner » de la messagerie (Gmail, Outlook, Apple Mail…, en un clic) ou par la croix ✕ de la liste. L’adresse est alors effacée. Ces liens marchent même quand le site est en page d’attente.</li>
+</ul>
+<p><b>À savoir :</b> pour que la lettre n’arrive pas en indésirables : réglages SPF, DKIM et DMARC du domaine chez l’hébergeur, et envoi par un compte SMTP (Réglages › E-mail).</p>
+[[img:newsletter.webp|La newsletter : tableau de bord, prochaine lettre et abonnés]]
 HTML],
         ['id' => 'appli', 'title' => 'L’appli du musée (installation, hors connexion)', 'html' => <<<'HTML'
 <p>Le musée s’installe comme une application, sans passer par un store : la page publique <b>« L’appli du musée »</b> (lien en pied de page, adresse /appli/) explique comment faire selon l’appareil. Sur Android et sur ordinateur (Chrome, Edge), un bouton <b>« Installer l’appli »</b> ; sur iPhone et iPad, la marche à suivre dans Safari (Partager › Sur l’écran d’accueil).</p>
