@@ -172,7 +172,7 @@ final class Compos
      * Contrôle une fiche avec les sources choisies et envoie les écarts dans Trouvailles.
      * @return array{added:int, sources:list<array{key:string,ok:bool,note:string}>}
      */
-    public static function check(int $id, ?array $sources = null): array
+    public static function check(int $id, ?array $sources = null, ?string $html = null): array
     {
         $doc = Fiches::get($id);
         if (!$doc || ($doc['type'] ?? '') !== 'match') {
@@ -190,7 +190,7 @@ final class Compos
         foreach ($sources as $key) {
             try {
                 if ($key === 'transfermarkt') {
-                    $ext = self::transfermarkt($m);
+                    $ext = $html !== null ? self::fromHtml($html) : self::transfermarkt($m);
                     $ext ? $found[] = $ext : null;
                     $report[] = ['key' => $key, 'ok' => (bool) $ext, 'note' => $ext ? ($ext['players'] ? count($ext['players']) . ' joueurs lus' : 'match trouvé, sans composition') : (in_array($m['competition'] ?? '', ['amical', 'Amical'], true) || preg_match('/amical/i', (string) ($m['competition_label'] ?? '')) ? 'match amical : Transfermarkt ne liste que les matchs officiels' : 'match introuvable dans le calendrier de la saison')];
                 } elseif (isset(self::WEB[$key])) {
@@ -452,15 +452,47 @@ final class Compos
         $y = (int) substr($date, 0, 4);
         $mo = (int) substr($date, 5, 2);
         $season = $mo >= 7 ? $y : $y - 1;
+        if ($saved = self::tmSaved($date, $season)) {
+            return $saved;
+        }
         try {
             return self::tmDirect($m, $date, $season, $mo);
         } catch (\RuntimeException $e) {
-            if (!str_contains($e->getMessage(), 'refuse') && !str_contains($e->getMessage(), 'ne répond pas')) {
+            if (!str_contains($e->getMessage(), 'refuse') || !Gemini::ready()) {
                 throw $e;
             }
-            // Serveur bloqué par Transfermarkt : les pages sont lues par Google (Gemini, lecture d'adresse).
-            return self::tmGemini($m, $date, $season, $mo);
+            // Dernier essai : la page lue par Google (Gemini, lecture d'adresse).
+            try {
+                return self::tmGemini($m, $date, $season, $mo);
+            } catch (\Throwable) {
+                throw $e;
+            }
         }
+    }
+
+    /** Relevé Transfermarkt déjà fait et livré avec le site (app/Resources/compos), s'il couvre ce match. */
+    private static function tmSaved(string $date, int $season): ?array
+    {
+        foreach ([$season, $season - 1] as $sid) {
+            $f = APP_ROOT . '/app/Resources/compos/tm-' . $sid . '.json';
+            foreach (is_file($f) ? (array) json_decode((string) file_get_contents($f), true) : [] as $g) {
+                if (abs(strtotime($g['date']) - strtotime($date)) <= 86400 && count($g['players']) >= 11) {
+                    $players = array_map(fn ($p) => $p + ['in' => null, 'out' => null, 'goals' => [], 'yellow' => [], 'red' => [], 'num' => null, 'cap' => false, 'key' => self::key((string) $p['name'])], $g['players']);
+                    return ['label' => 'Transfermarkt · rapport de match', 'url' => self::TM . '/spielbericht/index/spielbericht/' . $g['id'], 'players' => $players, 'coach' => (string) $g['coach']];
+                }
+            }
+        }
+        return null;
+    }
+
+    /** Page de rapport de match Transfermarkt enregistrée par l'historien (Ctrl+S) et déposée sur la fiche. */
+    private static function fromHtml(string $html): array
+    {
+        if (!str_contains($html, 'transfermarkt') || !str_contains($html, '/verein/' . self::TM_CLUB)) {
+            throw new \RuntimeException('ce fichier n’est pas un rapport de match Transfermarkt du FC Sochaux');
+        }
+        $url = preg_match('#https://www\.transfermarkt\.[a-z.]+/[^"\s]*/spielbericht/(?:index/spielbericht/)?\d+#', $html, $u) ? $u[0] : self::TM;
+        return ['label' => 'Transfermarkt · rapport de match (page déposée)', 'url' => $url] + self::tmParse($html);
     }
 
     private static function tmDirect(array $m, string $date, int $season, int $mo): ?array
@@ -795,6 +827,27 @@ final class Compos
 
     // ------------------------------------------------------------------ téléchargement
 
+    /** Ce que le dernier téléchargement a reçu (code, titre de la page), pour comprendre un blocage. */
+    private static string $diag = '';
+
+    /** Téléchargement avec les en-têtes d'un vrai navigateur (et ses cookies, gardés entre deux pages). */
+    private static function fetch(string $url, int $timeout = 40): string
+    {
+        @mkdir(self::DIR . '/cache', 0775, true);
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 4, CURLOPT_TIMEOUT => $timeout, CURLOPT_CONNECTTIMEOUT => 15,
+            CURLOPT_ENCODING => '', CURLOPT_COOKIEJAR => self::DIR . '/cache/.cookies', CURLOPT_COOKIEFILE => self::DIR . '/cache/.cookies', CURLOPT_USERAGENT => self::UA,
+            CURLOPT_HTTPHEADER => ['Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8', 'Accept-Language: fr-FR,fr;q=0.9,en;q=0.8',
+                'Cache-Control: no-cache', 'Referer: https://www.transfermarkt.fr/', 'Sec-Fetch-Dest: document', 'Sec-Fetch-Mode: navigate', 'Sec-Fetch-Site: same-origin', 'Upgrade-Insecure-Requests: 1']]);
+        $b = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        $err = curl_error($ch);
+        curl_close($ch);
+        $title = is_string($b) && preg_match('/<title>([^<]{0,80})/i', $b, $t) ? trim(html_entity_decode($t[1])) : '';
+        self::$diag = 'code ' . $code . ($title !== '' ? ', page « ' . $title . ' »' : '') . ($err !== '' ? ', ' . $err : '');
+        return is_string($b) ? $b : '';
+    }
+
     /** Page gardée sur disque ($ttl secondes) ; une demande toutes les PAUSE secondes au plus. */
     private static function page(string $url, string $cacheKey, int $ttl): string
     {
@@ -815,19 +868,19 @@ final class Compos
                 sleep(min($wait, self::PAUSE));
             }
             @touch($lock);
-            $ch = curl_init($url);
-            curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 3, CURLOPT_TIMEOUT => 40, CURLOPT_CONNECTTIMEOUT => 15,
-                CURLOPT_USERAGENT => self::UA, CURLOPT_HTTPHEADER => ['Accept-Language: fr-FR,fr;q=0.9', 'Accept: text/html']]);
-            $b = curl_exec($ch);
-            $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-            curl_close($ch);
-            if (!is_string($b) || $b === '' || $code >= 400) {
-                throw new \RuntimeException('Transfermarkt ne répond pas (code ' . $code . ')');
+            $b = self::fetch($url);
+            if (!$real($b)) {
+                // Bloqué : on repasse par le service relais s'il est réglé (adresses non bloquées).
+                $relay = trim((string) \App\Core\Settings::get('compos.relay', ''));
+                if ($relay !== '') {
+                    $b = self::fetch(str_replace('{url}', rawurlencode($url), $relay), 90);
+                }
             }
         }
         if (!$real($b)) {
             @unlink($f);
-            throw new \RuntimeException('Transfermarkt refuse la lecture depuis le serveur (page de protection anti-robots reçue au lieu de la page demandée)');
+            $hint = trim((string) \App\Core\Settings::get('compos.relay', '')) === '' ? ' ; réglez un service relais dans Contenus › Contrôle des compositions' : ' ; le service relais n’a pas pu la lire non plus';
+            throw new \RuntimeException('Transfermarkt refuse la lecture depuis le serveur (' . self::$diag . ')' . $hint);
         }
         @mkdir(dirname($f), 0775, true);
         file_put_contents($f, $b);

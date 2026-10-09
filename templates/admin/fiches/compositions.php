@@ -46,6 +46,26 @@ $added = array_sum(array_column($seasons, 'added'));
 </section>
 <?php endif; ?>
 
+<?php if ($admin): ?>
+<section class="card">
+  <div class="card__head"><h2 class="card__t">Service relais pour Transfermarkt</h2><span class="card__note"><?= $relay !== '' ? 'réglé' : 'non réglé' ?></span></div>
+  <div class="card__body stack" style="gap:10px">
+    <p class="small" style="margin:0">Transfermarkt refuse les pages demandées par les serveurs d’hébergement (comme o2switch) : il les prend pour des robots. Un <b>service relais</b> lit la page à la place du serveur, depuis des adresses ordinaires, puis la lui renvoie. Le musée ne s’en sert que lorsque Transfermarkt bloque, et chaque page est gardée en mémoire (une seule demande par match). Créez un compte gratuit chez l’un d’eux, copiez votre clé et collez l’adresse ci-dessous en remplaçant <code>VOTRE_CLE</code> :</p>
+    <ul class="xs" style="margin:0;padding-left:18px">
+      <li><b>ScraperAPI</b> (1 000 pages gratuites par mois) : <code>https://api.scraperapi.com/?api_key=VOTRE_CLE&amp;url={url}</code></li>
+      <li><b>ScrapingBee</b> (1 000 pages à l’essai) : <code>https://app.scrapingbee.com/api/v1/?api_key=VOTRE_CLE&amp;render_js=false&amp;url={url}</code></li>
+      <li><b>ZenRows</b> (1 000 pages à l’essai) : <code>https://api.zenrows.com/v1/?apikey=VOTRE_CLE&amp;url={url}</code></li>
+    </ul>
+    <form method="post" action="/admin/compositions" class="row" style="gap:8px;flex-wrap:wrap">
+      <?= csrf_field() ?>
+      <input class="input" name="relay" value="<?= e($relay) ?>" placeholder="https://api.scraperapi.com/?api_key=…&amp;url={url}" style="flex:1;min-width:320px">
+      <button class="btn btn--primary" name="action" value="relais">Enregistrer</button>
+    </form>
+    <p class="xs muted" style="margin:0">Autre solution, sans relais : ouvrez le rapport du match sur transfermarkt.fr, enregistrez la page (Ctrl+S, « page web complète » ou « HTML seulement ») et déposez le fichier sur la fiche, onglet Composition. Les saisons déjà relevées pour le musée sont aussi livrées avec le site et ne demandent rien à Transfermarkt.</p>
+  </div>
+</section>
+<?php endif; ?>
+
 <section class="card">
   <div class="card__head"><h2 class="card__t">Derniers contrôles</h2><span class="card__note">pour une seule fiche : bouton « Contrôler la composition » dans l’onglet Composition de la fiche</span></div>
   <div class="card__body" style="padding:0">

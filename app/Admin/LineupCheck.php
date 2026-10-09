@@ -42,7 +42,7 @@ final class LineupCheck extends Base
         }
         return self::html('admin/fiches/compositions', [
             'state' => $state, 'seasons' => $bySeason, 'recent' => $recent, 'titles' => $titles,
-            'admin' => \App\Core\Auth::isAdmin(), 'gemini' => \App\Services\Gemini::ready(), 'cron' => \App\Services\Cron::state(),
+            'relay' => (string) \App\Core\Settings::get('compos.relay', ''), 'admin' => \App\Core\Auth::isAdmin(), 'gemini' => \App\Services\Gemini::ready(), 'cron' => \App\Services\Cron::state(),
         ], ['title' => 'Contrôle des compositions', 'crumb' => 'Contenus', 'nav' => 'compositions']);
     }
 
@@ -65,6 +65,13 @@ final class LineupCheck extends Base
                     $n = Compos::start($ids, $sources);
                     Activity::log(self::actor(), 'a lancé le contrôle des compositions pour ' . count($ids) . ' match(s)', null);
                     return self::back(self::BACK, count($ids) . ' match(s) mis dans la file (' . $n . ' nouveaux) : la tâche planifiée les contrôle quelques-uns à chaque passage. Les écarts arrivent dans Trouvailles.');
+                case 'relais':
+                    $relay = trim($req->str('relay'));
+                    if ($relay !== '' && (!preg_match('#^https://#', $relay) || !str_contains($relay, '{url}'))) {
+                        return self::back(self::BACK, null, 'L’adresse du relais doit commencer par https:// et contenir {url}.');
+                    }
+                    \App\Core\Settings::save(['compos.relay' => $relay]);
+                    return self::back(self::BACK, $relay === '' ? 'Service relais retiré.' : 'Service relais enregistré : relancez le contrôle d’un match pour l’essayer.');
                 case 'pause':
                     Compos::stop();
                     return self::back(self::BACK, 'Contrôle en pause.');
@@ -94,7 +101,9 @@ final class LineupCheck extends Base
         try {
             \App\Core\Session::release();
             @set_time_limit(300);
-            $r = Compos::check($id);
+            $f = $req->files['tm_html'] ?? null;
+            $html = $f && ($f['error'] ?? 1) === UPLOAD_ERR_OK && ($f['size'] ?? 0) < 8_000_000 ? (string) file_get_contents($f['tmp_name']) : null;
+            $r = Compos::check($id, $html !== null ? ['transfermarkt'] : null, $html);
             Compos::remember($id, $r);
             Activity::log(self::actor(), 'a contrôlé la composition d’un match', \App\Data\Fiches::get($id));
         } catch (\Throwable $e) {
