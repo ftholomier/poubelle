@@ -1,7 +1,7 @@
 <?php
 /**
  * Accueil & bandeau. Variables : $slider, $manual, $pool, $poolSmall, $poolNoImage, $slideMin, $ticker, $home, $schema,
- * $palmares, $eras, $reserves, $teasers, $legends, $figure (chiffre du jour)
+ * $palmares, $palmaresTitres, $palmaresData, $eras, $reserves, $teasers, $legends, $figure (chiffre du jour)
  */
 use App\Admin\Form;
 
@@ -104,6 +104,25 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
           . Form::text('@title', 'Titre', $p['title'] ?? '', ['placeholder' => 'Champion de France', 'maxlength' => 80, 'class' => 'f--2', 'proof' => 'title'])
           . Form::text('@title_en', 'Titre (EN)', $p['title_en'] ?? '', ['maxlength' => 80, 'class' => 'f--2', 'proof' => 'title'])
           . '<div class="f" style="justify-content:flex-end">' . $tr('title') . '</div></div>', ['compact' => true, 'add' => 'Ajouter un titre']) ?>
+    <?php
+      $sum = [];
+      foreach ($palmaresData['groups'] as $g) {
+          if ($g['titles']) {
+              $sum[] = e($g['comp']) . ' <b>' . count($g['titles']) . '×</b>';
+          }
+      }
+    ?>
+    <p class="muted" style="margin:10px 0 0">Les chiffres du bandeau se tapent à la main. D’après la liste complète ci-dessous : <?= implode(' · ', $sum) ?>.</p>
+    </div>
+    <div class="card card--pad" style="margin-top:18px">
+      <h2 class="card__t">Palmarès complet (page <a href="/palmares/" target="_blank">/palmares/</a>)</h2>
+      <p class="muted">Une ligne par titre, finale perdue ou deuxième place. Les finales trouvées dans les fiches de matchs s’ajoutent toutes seules ; une ligne ici les remplace pour la même compétition et la même année. Cadre vert sur le site pour « Gagné », rouge pour les autres.</p>
+      <datalist id="palm-comps"><?php foreach (\App\Front\Palmares::ORDER as $c): ?><option value="<?= e($c) ?>"><?php endforeach; ?></datalist>
+      <?= Form::repeater('palmares_titres', '', $palmaresTitres, fn ($p) => '<div class="fgrid">'
+          . Form::text('@comp', 'Compétition', $p['comp'] ?? '', ['maxlength' => 120, 'class' => 'f--2', 'list' => 'palm-comps'])
+          . Form::number('@year', 'Année', $p['year'] ?? '', ['min' => 1900, 'max' => 2100])
+          . Form::select('@kind', 'Résultat', $p['kind'] ?? 'titre', ['titre' => 'Gagné', 'finale' => 'Finaliste / 2e', 'demi' => 'Demi-finale'])
+          . '</div>', ['compact' => true, 'add' => 'Ajouter une ligne']) ?>
     </div>
   </div>
 

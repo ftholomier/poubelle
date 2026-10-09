@@ -56,6 +56,8 @@ final class Editorial extends Base
             'slider' => $slider, 'manual' => $manual, 'pool' => count($pool), 'poolSmall' => $poolSmall, 'poolNoImage' => $poolNoImage, 'slideMin' => Pages::$slideMin,
             'ticker' => $ticker, 'home' => $home, 'schema' => Settings::schema()['home']['fields'],
             'palmares' => Collections::get('palmares', Pages::defaultPalmares()),
+            'palmaresTitres' => \App\Front\Palmares::titles(),
+            'palmaresData' => \App\Front\Palmares::data(),
             'eras' => Collections::get('epoques', Pages::defaultEras()),
             'reserves' => Collections::get('reserves', Pages::defaultReserves()),
             'teasers' => Collections::get('teasers', Pages::defaultTeasers()),
@@ -126,6 +128,19 @@ final class Editorial extends Base
             }
             Collections::save('palmares', $rows, $user, 'Palmarès de l’accueil');
             $done[] = 'palmarès';
+        }
+        if (isset($in['palmares_titres'])) {
+            $rows = [];
+            foreach ((array) $in['palmares_titres'] as $p) {
+                $comp = $line($p['comp'] ?? '', 120);
+                $year = (int) ($p['year'] ?? 0);
+                $kind = in_array($p['kind'] ?? '', ['titre', 'finale', 'demi'], true) ? $p['kind'] : 'titre';
+                if ($comp !== '' && $year >= 1900 && $year <= 2100) {
+                    $rows[] = ['comp' => $comp, 'year' => $year, 'kind' => $kind];
+                }
+            }
+            Collections::save('palmares_titres', $rows, $user, 'Palmarès complet');
+            $done[] = 'palmarès complet';
         }
         if (isset($in['eras'])) {
             $rows = [];

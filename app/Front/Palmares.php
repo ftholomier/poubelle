@@ -62,7 +62,7 @@ final class Palmares
     ];
 
     /** Ordre d'affichage des compétitions (les autres suivent, par ordre alphabétique). */
-    private const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Coupe UEFA', 'Coupe Intertoto', 'Championnat de France de D2', 'Division 3 (équipe réserve)', 'Championnat de Bourgogne-Franche-Comté', 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'Coupe Gambardella', 'Coupe Charles Drago', 'Coupe Peugeot', 'Challenge Maurice de Turckheim', 'Tournoi de Bruxelles (Coupe Dupuich)', 'Coupe des Alpes', 'Tournoi de Casablanca', 'Trophée Joan Gamper'];
+    public const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Coupe UEFA', 'Coupe Intertoto', 'Championnat de France de D2', 'Division 3 (équipe réserve)', 'Championnat de Bourgogne-Franche-Comté', 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'Coupe Gambardella', 'Coupe Charles Drago', 'Coupe Peugeot', 'Challenge Maurice de Turckheim', 'Tournoi de Bruxelles (Coupe Dupuich)', 'Coupe des Alpes', 'Tournoi de Casablanca', 'Trophée Joan Gamper'];
 
     /** Finale d'une compétition (et pas un tour qui contient le mot « finale »). */
     public static function isFinal(string $round): bool
@@ -134,6 +134,18 @@ final class Palmares
         }
         unset($g);
         return ['groups' => array_values(array_filter($groups, fn ($g) => $g['titles'] || $g['finals'] || $g['semis'])), 'count' => $count];
+    }
+
+    /** Liste éditable dans le back-office (Accueil & bandeau › Palmarès), triée comme la page. */
+    public static function titles(): array
+    {
+        $rows = array_values(array_filter((array) Collections::get('palmares_titres', self::DEFAULT), 'is_array'));
+        usort($rows, function ($a, $b) {
+            $ia = array_search($a['comp'] ?? '', self::ORDER, true);
+            $ib = array_search($b['comp'] ?? '', self::ORDER, true);
+            return [$ia === false ? 99 : $ia, $a['comp'] ?? '', (int) ($a['year'] ?? 0)] <=> [$ib === false ? 99 : $ib, $b['comp'] ?? '', (int) ($b['year'] ?? 0)];
+        });
+        return $rows;
     }
 
     private static function key(string $comp, int $year): string
