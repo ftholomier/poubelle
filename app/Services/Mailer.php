@@ -67,6 +67,9 @@ final class Mailer
     {
         $site = e((string) Settings::get('general.site_name', 'Sochaux Rétro'));
         $base = base_url();
+        if (str_starts_with($html, Newsletter::MARK)) {
+            return self::letter($title, $html, $site, $base);
+        }
         return '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>' . e($title) . '</title></head>'
             . '<body style="margin:0;background:#E8DFC9;font-family:Georgia,serif;color:#0E1F4D">'
             . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#E8DFC9;padding:24px 0"><tr><td align="center">'
@@ -75,6 +78,25 @@ final class Mailer
             . '<span style="font-family:Arial Narrow,Arial,sans-serif;font-weight:bold;font-size:22px;text-transform:uppercase;letter-spacing:1px;vertical-align:middle">' . $site . '</span></td></tr>'
             . '<tr><td style="padding:24px;font-size:17px;line-height:1.55">' . $html . '</td></tr>'
             . '<tr><td style="padding:12px 24px;background:#E8DFC9;font-size:12px;color:#3A4A75;text-align:center">' . $site . ' · <a href="' . e($base) . '/" style="color:#1F3FA8">' . e(preg_replace('#^https?://#', '', $base)) . '</a></td></tr>'
+            . '</table></td></tr></table></body></html>';
+    }
+
+    /**
+     * Gabarit de la newsletter : fond nuit, bandeau animé (le match de la page de connexion,
+     * en GIF : Outlook montre la première image, fixe), carte crème, pied de page navy.
+     */
+    private static function letter(string $title, string $html, string $site, string $base): string
+    {
+        $D = "font-family:'Big Shoulders Display',Impact,'Arial Narrow',Arial,sans-serif;text-transform:uppercase";
+        return '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="color-scheme" content="light only"><title>' . e($title) . '</title>'
+            . '<style>@import url(\'' . e($base) . '/assets/css/fonts.css\');@media (max-width:620px){.nl-pad{padding:18px 14px!important}}</style></head>'
+            . '<body style="margin:0;background:#0E1F4D;font-family:Georgia,serif;color:#0E1F4D">'
+            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0E1F4D;padding:20px 0"><tr><td align="center">'
+            . '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">'
+            . '<tr><td style="padding:0"><a href="' . e($base) . '/"><img src="' . e($base) . '/assets/img/newsletter-entete.gif" width="600" alt="' . e(t('Ce jour-là · la lettre de Sochaux Rétro')) . '" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:#0E1F4D;color:#F6C400"></a></td></tr>'
+            . '<tr><td class="nl-pad" style="background:#F3EDDF;padding:26px 24px 30px;font-size:17px;line-height:1.55">' . substr($html, strlen(Newsletter::MARK)) . '</td></tr>'
+            . '<tr><td style="background:#0E1F4D;border-top:6px solid #F6C400;padding:18px 24px;text-align:center"><a href="' . e($base) . '/" style="' . $D . ';color:#F6C400;font-size:18px;font-weight:900;letter-spacing:2px;text-decoration:none">' . $site . '</a>'
+            . '<div style="font-size:12px;color:#B9C3E0;margin-top:4px">' . e(t('Le musée de l’histoire du FC Sochaux-Montbéliard')) . '</div></td></tr>'
             . '</table></td></tr></table></body></html>';
     }
 

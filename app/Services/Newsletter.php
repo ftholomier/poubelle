@@ -41,31 +41,47 @@ final class Newsletter
         return str_replace('{semaine}', Site::dayMonth($ts), $tpl);
     }
 
+    /** Marque reconnue par Mailer::layout : gabarit « lettre » (bandeau animé, fond nuit). */
+    public const MARK = '<!--lettre-->';
+
     /** Corps HTML (le lien de désinscription est ajouté par abonné). */
     public static function html(?int $ts = null): string
     {
+        $ts ??= time();
         $base = base_url();
         $items = self::items($ts);
-        $html = safe_html((string) Settings::get('newsletter.intro', ''));
+        $D = "font-family:'Big Shoulders Display',Impact,'Arial Narrow',Arial,sans-serif;text-transform:uppercase";
+        $html = self::MARK
+            . '<div style="' . $D . ';font-size:14px;letter-spacing:3px;color:#1F3FA8;font-weight:800">' . e(t('La semaine du')) . ' ' . e(Site::dayMonth($ts)) . '</div>'
+            . '<div style="' . $D . ';font-size:34px;line-height:1;font-weight:900;color:#0E1F4D;margin:6px 0 14px">' . e(t('Cette semaine-là, dans l’histoire')) . '</div>';
+        $intro = safe_html((string) Settings::get('newsletter.intro', ''));
+        if (trim(strip_tags($intro)) !== '') {
+            $html .= '<div style="font-size:17px;line-height:1.55;margin:0 0 8px">' . $intro . '</div>';
+        }
         foreach ($items as $m) {
-            $label = Site::matchLabel($m);
+            $href = e($base . url($m['path']));
             $img = $m['image'] ? $base . img($m['image'], 800) : null;
-            $score = $m['us'] !== null ? ($m['sh'] ? $m['us'] . '-' . $m['them'] : $m['them'] . '-' . $m['us']) : '';
-            $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:18px 0;border:2px solid #0E1F4D;background:#F3EDDF"><tr>'
-                . ($img ? '<td width="180" style="width:180px;vertical-align:top"><a href="' . e($base . url($m['path'])) . '"><img src="' . e($img) . '" width="180" alt="" style="display:block;width:180px;height:auto;border:0"></a></td>' : '')
-                . '<td style="padding:12px 16px;vertical-align:top">'
-                . '<div style="font-family:Arial Narrow,Arial,sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#1F3FA8;font-weight:bold">' . e(date_fr((string) $m['date'], true)) . ' · ' . e($m['label'] ?: $m['comp']) . '</div>'
-                . '<div style="font-family:Arial Narrow,Arial,sans-serif;font-size:22px;font-weight:bold;text-transform:uppercase;margin:6px 0">' . e($m['home'] . ' ' . $score . ' ' . $m['away']) . '</div>'
-                . '<a href="' . e($base . url($m['path'])) . '" style="color:#0E1F4D;font-size:15px">' . e(t('Lire la fiche du match')) . ' →</a>'
+            $score = $m['us'] !== null ? ($m['sh'] ? $m['us'] . ' – ' . $m['them'] : $m['them'] . ' – ' . $m['us']) : '–';
+            $ago = (int) date('Y', $ts) - (int) substr((string) $m['date'], 0, 4);
+            $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0 0;background:#FFFDF6;border:3px solid #0E1F4D">'
+                . ($img ? '<tr><td style="padding:0;border-bottom:3px solid #F6C400"><a href="' . $href . '"><img src="' . e($img) . '" width="546" alt="" style="display:block;width:100%;max-width:546px;height:auto;border:0"></a></td></tr>' : '')
+                . '<tr><td style="padding:16px 18px 18px">'
+                . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>'
+                . '<td style="' . $D . ';font-size:14px;letter-spacing:2px;color:#1F3FA8;font-weight:800">' . e(date_fr((string) $m['date'], true)) . ' · ' . e($m['label'] ?: $m['comp']) . '</td>'
+                . ($ago > 0 ? '<td align="right" style="white-space:nowrap"><span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:13px;font-weight:900;letter-spacing:1px;padding:4px 8px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span></td>' : '')
+                . '</tr></table>'
+                . '<div style="' . $D . ';font-size:30px;line-height:1.05;font-weight:900;color:#0E1F4D;margin:8px 0 14px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
+                . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#0E1F4D;color:#F6C400;font-size:16px;font-weight:900;letter-spacing:1px;text-decoration:none;padding:10px 16px;border-bottom:4px solid #F6C400">' . e(t('Lire la fiche du match')) . ' →</a>'
                 . '</td></tr></table>';
-            unset($label);
         }
         if (!$items) {
-            $html .= '<p>' . e(t('Aucun match fiché cette semaine dans l’histoire : profitez-en pour explorer les saisons du club !')) . '</p><p><a href="' . e($base . url('/saisons/')) . '">' . e(t('Toutes les saisons')) . ' →</a></p>';
+            $html .= '<p style="font-size:17px">' . e(t('Aucun match fiché cette semaine dans l’histoire : profitez-en pour explorer les saisons du club !')) . '</p><p><a href="' . e($base . url('/saisons/')) . '" style="color:#1F3FA8;font-weight:bold">' . e(t('Toutes les saisons')) . ' →</a></p>';
         }
         $days = Site::daysToCentenary();
-        $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:22px;background:#0E1F4D;color:#F3EDDF"><tr><td style="padding:16px 18px;font-family:Arial Narrow,Arial,sans-serif;font-size:20px;font-weight:bold;text-transform:uppercase">J-' . (int) $days . ' <span style="color:#F6C400">' . e(t('avant les 100 ans')) . '</span></td>'
-            . '<td align="right" style="padding:16px 18px"><a href="' . e($base . url('/faire-un-don/')) . '" style="display:inline-block;background:#F6C400;color:#0E1F4D;padding:10px 14px;font-weight:bold;text-decoration:none">♥ ' . e(t('Faire un don')) . '</a></td></tr></table>';
+        $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;background:#0E1F4D;border:3px solid #F6C400"><tr>'
+            . '<td style="padding:18px 20px"><div style="' . $D . ';font-size:46px;line-height:.95;font-weight:900;color:#F6C400">J-' . (int) $days . '</div>'
+            . '<div style="' . $D . ';font-size:16px;letter-spacing:2px;font-weight:800;color:#F3EDDF">' . e(t('avant les 100 ans')) . '</div></td>'
+            . '<td align="right" style="padding:18px 20px"><a href="' . e($base . url('/faire-un-don/')) . '" style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:16px;font-weight:900;letter-spacing:1px;padding:12px 16px;text-decoration:none">♥ ' . e(t('Faire un don')) . '</a></td></tr></table>';
         return $html;
     }
 
