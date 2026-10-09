@@ -17,7 +17,17 @@ use App\Front\Site;
 final class Newsletter
 {
     private const STATE = STORAGE_PATH . '/newsletter/envoi.json';
-    private const PER_RUN = 150;
+    /**
+     * Rythme d'envoi : des lots de 10 à 30 e-mails, séparés par des pauses de 3 à 40 secondes
+     * tirées au hasard, pendant 2 minutes au plus par passage de la tâche planifiée (qui revient
+     * toutes les 5 minutes ; 45 secondes depuis le bouton « Envoyer maintenant », pour ne pas
+     * faire attendre la page). Plafond horaire : la limite d'envoi de l'hébergeur n'est jamais atteinte.
+     */
+    private const LOT = [10, 30];
+    private const PAUSE = [3, 40];
+    private const BUDGET_CRON = 120;
+    private const BUDGET_WEB = 45;
+    private const PER_HOUR = 300;
 
     /** Matchs des 7 prochains jours (dans l'histoire), 2 au plus par jour, 7 au total. */
     public static function items(?int $from = null): array
@@ -232,22 +242,41 @@ final class Newsletter
         foreach (Community::subscribers() as $s) {
             $byToken[$s['token']] = $s;
         }
-        for ($n = 0; $state['pending'] && $n < self::PER_RUN; $n++) {
-            // Adresse retirée de la file et état enregistré avant l'envoi : jamais deux fois la même lettre.
-            $token = array_shift($state['pending']);
-            JsonStore::write(self::STATE, $state);
-            $s = $byToken[$token] ?? null;
-            if (!$s) {
-                continue; // désinscrit entre-temps
+        $start = time();
+        $budget = PHP_SAPI === 'cli' ? self::BUDGET_CRON : self::BUDGET_WEB;
+        @set_time_limit($budget + 60);
+        $hour = date('Y-m-d H');
+        if (($state['hour'][0] ?? '') !== $hour) {
+            $state['hour'] = [$hour, 0];
+        }
+        while ($state['pending'] && time() - $start < $budget && $state['hour'][1] < self::PER_HOUR) {
+            $lot = min(random_int(...self::LOT), self::PER_HOUR - $state['hour'][1]);
+            for ($n = 0; $state['pending'] && $n < $lot; $n++) {
+                // Adresse retirée de la file et état enregistré avant l'envoi : jamais deux fois la même lettre.
+                $token = array_shift($state['pending']);
+                JsonStore::write(self::STATE, $state);
+                $s = $byToken[$token] ?? null;
+                if (!$s) {
+                    continue; // désinscrit entre-temps
+                }
+                $prev = I18n::lang();
+                $l = isset($state['html'][$s['lang'] ?? '']) ? $s['lang'] : 'fr';
+                I18n::set($l);
+                $unsub = base_url() . url('/newsletter/desinscription/' . $token . '/');
+                $body = ($state['html'][$l] ?? reset($state['html'])) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » de Sochaux Rétro.')) . ' <a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
+                $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body, null, [], ['List-Unsubscribe' => '<' . $unsub . '>', 'List-Unsubscribe-Post' => 'List-Unsubscribe=One-Click']);
+                I18n::set($prev);
+                $state[$ok ? 'sent' : 'failed']++;
+                $state['hour'][1]++;
             }
-            $prev = I18n::lang();
-            $l = isset($state['html'][$s['lang'] ?? '']) ? $s['lang'] : 'fr';
-            I18n::set($l);
-            $unsub = base_url() . url('/newsletter/desinscription/' . $token . '/');
-            $body = ($state['html'][$l] ?? reset($state['html'])) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » de Sochaux Rétro.')) . ' <a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
-            $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body, null, [], ['List-Unsubscribe' => '<' . $unsub . '>', 'List-Unsubscribe-Post' => 'List-Unsubscribe=One-Click']);
-            I18n::set($prev);
-            $state[$ok ? 'sent' : 'failed']++;
+            // Pause au hasard avant le lot suivant, si le temps du passage le permet.
+            $pause = random_int(...self::PAUSE);
+            if ($state['pending'] && time() - $start + $pause < $budget) {
+                JsonStore::write(self::STATE, $state);
+                sleep($pause);
+            } else {
+                break;
+            }
         }
         if (!$state['pending']) {
             $state['finished'] = date('c');

@@ -47,7 +47,7 @@ $enabled = (bool) Settings::get('newsletter.enabled', false);
       <div class="card card--pad">
         <h2 class="card__t card__t--sm">Dernier envoi</h2>
         <p style="margin:0">Semaine <?= e((string) ($state['week'] ?? '')) ?> · commencé <?= e(Base::ago($state['started'] ?? null)) ?><?= !empty($state['finished']) ? ', terminé ' . e(Base::ago($state['finished'])) : '' ?></p>
-        <p style="margin:0"><span class="ok"><?= $fmt($state['sent'] ?? 0) ?> envoyé(s)</span><?= !empty($state['failed']) ? ' · <span class="ko">' . $fmt($state['failed']) . ' échec(s)</span>' : '' ?><?= !empty($state['pending']) ? ' · ' . $fmt(count($state['pending'])) . ' en attente (envoi par lots de 150, toutes les 5 minutes)' : '' ?></p>
+        <p style="margin:0"><span class="ok"><?= $fmt($state['sent'] ?? 0) ?> envoyé(s)</span><?= !empty($state['failed']) ? ' · <span class="ko">' . $fmt($state['failed']) . ' échec(s)</span>' : '' ?><?= !empty($state['pending']) ? ' · ' . $fmt(count($state['pending'])) . ' en attente (envoi par lots de 10 à 30, pauses au hasard, 300 par heure au plus)' : '' ?></p>
       </div>
     <?php endif; ?>
   </div>
