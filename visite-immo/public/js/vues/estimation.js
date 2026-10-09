@@ -88,7 +88,7 @@ vues.estimation = async () => {
       <div class="segment" id="type">${["Maison", "Appartement"].map((t) => `<button type="button" data-v="${t}" class="${t === bien.type_bien ? "on" : ""}">${t}</button>`).join("")}</div>
       <label>Surface habitable : <strong id="surf-v">${bien.surface_habitable} m²</strong><input type="range" id="surf" min="15" max="400" step="1" value="${bien.surface_habitable}"></label>
       <div class="row-2b">
-        <label>Pièces<div class="stepper"><button type="button" data-d="-1">−</button><output id="pieces">${bien.nb_pieces}</output><button type="button" data-d="1">+</button></div></label>
+        <label>Pièces<div class="compteur"><button type="button" data-d="-1">−</button><output id="pieces">${bien.nb_pieces}</output><button type="button" data-d="1">+</button></div></label>
         <label id="terrain-l">Terrain (m²)<input id="terrain" inputmode="numeric" placeholder="ex. 900"></label>
       </div>
       <div class="lbl-chips">État</div>
@@ -240,7 +240,7 @@ vues.estimation = async () => {
     $("surf-v").textContent = `${ev.target.value} m²`;
     lancer();
   };
-  document.querySelectorAll(".stepper button").forEach(
+  document.querySelectorAll(".compteur button").forEach(
     (b) =>
       (b.onclick = () => {
         bien.nb_pieces = Math.max(1, Math.min(12, Number(bien.nb_pieces) + Number(b.dataset.d)));

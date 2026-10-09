@@ -636,9 +636,9 @@ fieldset.pj input { margin: 0 0 10px; }
 .segment button { padding: 11px; border: 0; background: var(--surface); color: var(--text); font: 700 .95rem inherit; font-family: inherit; }
 .segment button.on { background: var(--encre); color: var(--creme); }
 input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 0; background: none; }
-.stepper { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; border: 1.5px solid var(--bord); border-radius: 10px; overflow: hidden; margin-top: 4px; }
-.stepper button { height: 44px; border: 0; background: var(--surface); color: var(--text); font-size: 1.3rem; font-weight: 700; }
-.stepper output { text-align: center; font-weight: 800; font-size: 1.1rem; text-transform: none; }
+.compteur { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; border: 1.5px solid var(--bord); border-radius: 10px; overflow: hidden; margin-top: 4px; }
+.compteur button { height: 44px; border: 0; background: var(--surface); color: var(--text); font-size: 1.3rem; font-weight: 700; }
+.compteur output { text-align: center; font-weight: 800; font-size: 1.1rem; text-transform: none; }
 .lbl-chips { font: 600 .62rem var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 10px 0 6px; }
 .chips-choix, .chips-dpe { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips-choix button { border: 1.5px solid var(--bord); background: var(--surface); color: var(--text); border-radius: 999px; padding: 7px 12px; font: 600 .82rem inherit; font-family: inherit; }
