@@ -8,7 +8,7 @@ use App\Services\Trouvailles as T;
 $types = ['complement' => ['Complément', 'ok'], 'divergence' => ['Divergence', 'warn'], 'recit' => ['Récit', 'navy'], 'info' => ['Information', 'info'], 'piste' => ['Piste', 'brouillon']];
 $states = ['attente' => 'En attente', 'envoye' => 'Envoyées', 'ecarte' => 'Écartées', 'tout' => 'Toutes'];
 $qs = fn (array $p) => '/admin/trouvailles?' . http_build_query(array_filter(['etat' => $status, 'source' => $origin, 'page' => null] + $p, fn ($v) => $v !== null && $v !== ''));
-$long = ['recit', 'info', 'composition', 'buteurs', 'piste'];
+$long = ['recit', 'info', 'composition', 'buteurs', 'piste', 'feuille'];
 ?>
 <p class="alert alert--info" style="margin:0">Le musée fouille les archives en ligne pour chaque match : la <b>presse de l’époque</b> numérisée par la BnF (Gallica : L’Est républicain, Le Petit Comtois, L’Écho des sports, Match l’Intran, Paris-Soir… jusqu’en <?= T::GALLICA_LAST_YEAR ?>) et le <b>web</b> (recherche Google par Gemini). Chaque trouvaille arrive ici comme une <b>proposition</b> : rien n’entre dans une fiche sans votre validation. Vérifiez la source (lien vers la page du journal), corrigez la valeur si besoin, puis <b>Envoyer dans la fiche</b> ou <b>Écarter</b>.</p>
 
@@ -109,13 +109,13 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste'];
           <div class="stack" style="gap:6px">
             <b class="small"><?= e(T::FIELDS[$it['field']] ?? $it['field']) ?></b>
             <span><span class="pill pill--<?= e($tc) ?>"><?= e($tl) ?></span></span>
-            <span class="xs muted"><?= ['web' => 'Web', 'feuilles' => 'Feuille de match'][$it['origin'] ?? ''] ?? 'Presse (Gallica)' ?></span>
+            <span class="xs muted"><?= ['web' => 'Web', 'feuilles' => 'Feuille de match', 'compos' => 'Contrôle des compositions'][$it['origin'] ?? ''] ?? 'Presse (Gallica)' ?></span>
           </div>
           <div class="stack" style="gap:8px;min-width:0">
-            <?php if ($it['current'] !== ''): ?><p class="small" style="margin:0"><span class="muted">La fiche dit :</span> <?= e($it['current']) ?></p><?php endif; ?>
+            <?php if ($it['current'] !== '' && $it['field'] === 'feuille'): ?><details class="small"><summary class="muted">La fiche dit actuellement…</summary><pre style="white-space:pre-wrap;margin:6px 0 0;font:inherit"><?= e($it['current']) ?></pre></details><?php elseif ($it['current'] !== ''): ?><p class="small" style="margin:0"><span class="muted">La fiche dit :</span> <?= e($it['current']) ?></p><?php endif; ?>
             <?php if ($pending): ?>
               <?php if (in_array($it['field'], $long, true)): ?>
-                <textarea class="input" name="value" rows="<?= $it['field'] === 'recit' ? 7 : 3 ?>" style="width:100%"><?= e($it['value']) ?></textarea>
+                <textarea class="input" name="value" rows="<?= $it['field'] === 'recit' ? 7 : ($it['field'] === 'feuille' ? 16 : 3) ?>" style="width:100%"><?= e($it['value']) ?></textarea>
               <?php else: ?>
                 <input class="input" name="value" value="<?= e($it['value']) ?>" style="max-width:420px">
               <?php endif; ?>

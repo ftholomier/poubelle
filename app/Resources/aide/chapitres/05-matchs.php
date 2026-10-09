@@ -107,6 +107,16 @@ HTML],
 [[attention|<p>Rien n’entre dans une fiche sans validation. Une composition envoyée remplace celle de la fiche (les joueurs déjà reliés à leur fiche le restent quand le nom correspond) : vérifiez-la bien.</p>]]
 [[auto|<p>Les administrateurs lancent les recherches : période (par exemple 1928-1955), sources, seulement les fiches incomplètes ; <b>Essai sur 3 matchs</b> d’abord, puis <b>Lancer pour toute la période</b>. Tant que la page Trouvailles reste ouverte, elle fait avancer la recherche elle-même, un match à la fois (une à deux minutes chacun), et le journal montre chaque match fouillé ; page fermée, la tâche planifiée prend le relais (l’écran signale si elle ne passe pas). Un match précis se fouille tout de suite (« Fouiller un match précis »). Coût dans Coûts IA (« Trouvailles »).</p>]]
 HTML],
+        ['id' => 'controle-compositions', 'title' => 'Contrôle des compositions : la feuille de match comparée aux sources', 'html' => <<<'HTML'
+<p>Contenus › <b>Contrôle des compositions</b> compare la composition de chaque fiche de match (titulaires, remplaçants entrés, minutes des changements, buts, cartons, entraîneur) à plusieurs sources :</p>
+<ul>
+<li><b>Transfermarkt</b>, lu directement : calendrier de la saison, puis rapport du match (composition, changements, buts et cartons à la minute) ;</li>
+<li><b>pari-et-gagne.com</b>, <b>footballdatabase.eu</b>, <b>worldfootball.net</b> et <b>FCSM Story</b> : la page du match est trouvée et lue par l’IA avec la recherche Google (il faut une clé Gemini ; seules les pages réellement consultées sur ces sites comptent) ;</li>
+<li>la <b>presse d’époque</b> (Gallica) pour les matchs jusqu’en 1955 : recherche habituelle des Trouvailles.</li>
+</ul>
+<p>Rien n’est écrit dans les fiches. Quand une source dit autre chose (joueur absent ou en trop, titulaire ou remplaçant, minute d’un changement décalée de plus de deux minutes, nombre de buts, expulsion), une proposition <b>Feuille de match</b> part dans <b>Trouvailles</b> (filtre « Contrôle des compositions ») : la feuille corrigée, une ligne par joueur (« D · NOM Prénom · n° 4, but 39', sorti 72' », « R · … · entré 72' », « E · » pour l’entraîneur), avec la liste des écarts et le lien vers la source. Corrigez la feuille si besoin, puis <b>Envoyer dans la fiche</b> : les joueurs déjà reliés à leur fiche le restent, l’orthographe, le poste, le numéro et le capitanat de la fiche sont gardés quand la source ne les donne pas.</p>
+<p><b>Une seule fiche</b> : onglet <b>Composition</b> de la fiche, bouton <b>Contrôler la composition</b> (enregistrez d’abord vos modifications ; une à deux minutes). <b>Tout le site</b> (administrateurs) : choisissez une saison ou toutes, cochez les sources, <b>Mettre dans la file</b> ; la tâche planifiée « Contrôle des compositions » avance quelques matchs à chaque passage. L’écran montre les derniers contrôles et l’avancement par saison.</p>
+HTML],
         ['id' => 'checklist', 'title' => 'Avant de publier un match', 'html' => <<<'HTML'
 <ul>
 <li>Date, compétition, adversaire et score justes ; le titre proposé est correct.</li>

@@ -230,6 +230,9 @@ final class Router
         $r->get('/admin/assistant/export.csv', fn ($q) => System::assistantExport($q));
         $r->get('/admin/trouvailles', fn ($q) => Finds::index($q));
         $r->post('/admin/trouvailles', fn ($q) => Finds::action($q));
+        $r->get('/admin/compositions', fn ($q) => LineupCheck::index($q));
+        $r->post('/admin/compositions', fn ($q) => LineupCheck::action($q));
+        $r->post('/admin/fiche/{id}/controler-composition', fn ($q, $id) => ctype_digit($id) ? LineupCheck::fiche($q, (int) $id) : null);
         $r->get('/admin/archives', fn ($q) => Archives::index($q));
         $r->post('/admin/archives', fn ($q) => Archives::action($q));
         $r->get('/admin/livre', fn ($q) => Book::index($q));

@@ -38,12 +38,13 @@ final class Trouvailles
 
     public const SOURCES = ['gallica' => 'Presse ancienne (Gallica, BnF)', 'web' => 'Web (Google, via Gemini)'];
     /** Origines des propositions (filtres et étiquettes) : les sources fouillées et les imports. */
-    public const ORIGINS = self::SOURCES + ['feuilles' => 'Feuilles de match (archives du club)', 'presse' => 'Presse déposée (journaux lus par l’IA)'];
+    public const ORIGINS = self::SOURCES + ['feuilles' => 'Feuilles de match (archives du club)', 'presse' => 'Presse déposée (journaux lus par l’IA)', 'compos' => 'Contrôle des compositions'];
     /** Lots de trouvailles préparés hors ligne (journaux déposés, lus et vérifiés) : un JSON par lot. */
     public const PACKS = APP_ROOT . '/app/Resources/trouvailles';
     public const FIELDS = [
         'score' => 'Score', 'date' => 'Date', 'buteurs' => 'Buteurs', 'composition' => 'Composition', 'affluence' => 'Affluence',
         'arbitre' => 'Arbitre', 'stade' => 'Stade', 'recit' => 'Récit', 'info' => 'Information', 'piste' => 'Piste à consulter',
+        'feuille' => 'Feuille de match',
     ];
     /** Presse ancienne : jusqu'à cette année (domaine public, presse numérisée par Gallica). */
     public const GALLICA_LAST_YEAR = 1955;
@@ -1050,6 +1051,8 @@ TXT;
                 $m['lineup']['rows'] = $rows;
                 $m['lineup']['source_table'] = null;
                 return 'composition : ' . count($rows) . ' joueurs';
+            case 'feuille':
+                return Compos::apply($m, $value);
             case 'recit':
                 $title = $origin === 'gallica' ? 'Dans la presse de l’époque' : 'Ce qu’en disent les sources';
                 self::section($doc, $title, self::paras($value) . self::credit($sources));

@@ -34,6 +34,7 @@ class Base
             ['referentiels', 'Saisons, adversaires, lieux', '/admin/referentiels', false],
             ['medias', 'Médiathèque', '/admin/medias', false],
             ['trouvailles', 'Trouvailles (archives)', '/admin/trouvailles', false],
+            ['compositions', 'Contrôle des compositions', '/admin/compositions', false],
             ['archives', 'Archives à ranger', '/admin/archives', false],
         ],
         'Éditorial' => [
