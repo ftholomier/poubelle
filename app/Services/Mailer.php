@@ -13,7 +13,7 @@ use App\Core\Settings;
  */
 final class Mailer
 {
-    public static function send(string $to, string $subject, string $html, ?string $replyTo = null, array $attachments = []): bool
+    public static function send(string $to, string $subject, string $html, ?string $replyTo = null, array $attachments = [], array $extraHeaders = []): bool
     {
         if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
             return false;
@@ -35,6 +35,12 @@ final class Mailer
             'Message-ID' => '<' . bin2hex(random_bytes(10)) . '@' . (parse_url(base_url(), PHP_URL_HOST) ?: 'sochauxretro.local') . '>',
             'MIME-Version' => '1.0',
         ];
+        // En-têtes ajoutés par l'appelant (List-Unsubscribe de la newsletter), sans retour à la ligne.
+        foreach ($extraHeaders as $k => $v) {
+            if (preg_match('/^[A-Za-z-]+$/', (string) $k) && !preg_match('/[\r\n]/', (string) $v)) {
+                $headers[$k] = (string) $v;
+            }
+        }
         if ($replyTo && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
             $headers['Reply-To'] = $replyTo;
         }
@@ -87,7 +93,7 @@ final class Mailer
      */
     private static function letter(string $title, string $html, string $site, string $base): string
     {
-        $D = "font-family:'Big Shoulders Display',Impact,'Arial Narrow',Arial,sans-serif;text-transform:uppercase";
+        $D = "font-family:'Big Shoulders Display','Arial Narrow',Arial,sans-serif;text-transform:uppercase";
         return '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="color-scheme" content="light only"><title>' . e($title) . '</title>'
             . '<style>@import url(\'' . e($base) . '/assets/css/fonts.css\');@media (max-width:620px){.nl-pad{padding:18px 14px!important}.nl-col{display:block!important;width:100%!important;padding:0 0 14px!important}}</style></head>'
             . '<body style="margin:0;background:#0E1F4D;font-family:Georgia,serif;color:#0E1F4D">'
@@ -95,7 +101,7 @@ final class Mailer
             . '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">'
             . '<tr><td style="padding:0"><a href="' . e($base) . '/"><img src="' . e($base) . '/assets/img/newsletter-entete.gif?v=' . @filemtime(PUBLIC_PATH . '/assets/img/newsletter-entete.gif') . '" width="600" alt="' . e(t('Ce jour-là · la lettre de Sochaux Rétro')) . '" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:#0E1F4D;color:#F6C400"></a></td></tr>'
             . '<tr><td class="nl-pad" style="background:#F3EDDF;padding:26px 24px 30px;font-size:17px;line-height:1.55">' . substr($html, strlen(Newsletter::MARK)) . '</td></tr>'
-            . '<tr><td style="background:#0E1F4D;border-top:6px solid #F6C400;padding:18px 24px;text-align:center"><a href="' . e($base) . '/" style="' . $D . ';color:#F6C400;font-size:18px;font-weight:900;letter-spacing:2px;text-decoration:none">' . $site . '</a>'
+            . '<tr><td style="background:#0E1F4D;border-top:6px solid #F6C400;padding:18px 24px;text-align:center"><a href="' . e($base) . '/" style="' . $D . ';color:#F6C400;font-size:18px;font-weight:700;letter-spacing:2px;text-decoration:none">' . $site . '</a>'
             . '<div style="font-size:12px;color:#B9C3E0;margin-top:4px">' . e(t('Le musée de l’histoire du FC Sochaux-Montbéliard')) . '</div></td></tr>'
             . '</table></td></tr></table></body></html>';
     }

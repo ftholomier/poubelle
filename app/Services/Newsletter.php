@@ -50,10 +50,10 @@ final class Newsletter
         $ts ??= time();
         $base = base_url();
         $items = self::items($ts);
-        $D = "font-family:'Big Shoulders Display',Impact,'Arial Narrow',Arial,sans-serif;text-transform:uppercase";
+        $D = "font-family:'Big Shoulders Display','Arial Narrow',Arial,sans-serif;text-transform:uppercase";
         $html = self::MARK
-            . '<div style="' . $D . ';font-size:14px;letter-spacing:3px;color:#1F3FA8;font-weight:800">' . e(t('La semaine du')) . ' ' . e(Site::dayMonth($ts)) . '</div>'
-            . '<div style="' . $D . ';font-size:34px;line-height:1;font-weight:900;color:#0E1F4D;margin:6px 0 14px">' . e(t('Cette semaine-là, dans l’histoire')) . '</div>';
+            . '<div style="' . $D . ';font-size:14px;letter-spacing:3px;color:#1F3FA8;font-weight:700">' . e(t('La semaine du')) . ' ' . e(Site::dayMonth($ts)) . '</div>'
+            . '<div style="' . $D . ';font-size:34px;line-height:1;font-weight:700;color:#0E1F4D;margin:6px 0 14px">' . e(t('Cette semaine-là, dans l’histoire')) . '</div>';
         $intro = safe_html((string) Settings::get('newsletter.intro', ''));
         if (trim(strip_tags($intro)) !== '') {
             $html .= '<div style="font-size:17px;line-height:1.55;margin:0 0 8px">' . $intro . '</div>';
@@ -67,12 +67,12 @@ final class Newsletter
             $cells[] = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFFDF6;border:3px solid #0E1F4D">'
                 . '<tr><td style="padding:0;border-bottom:3px solid #F6C400;background:#0E1F4D;line-height:0">'
                 . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="" style="display:block;width:100%;height:auto;border:0"></a>'
-                    : '<a href="' . $href . '" style="display:block;' . $D . ';color:#F6C400;font-size:34px;font-weight:900;line-height:1;padding:52px 0;text-align:center;text-decoration:none">' . e(substr((string) $m['date'], 0, 4)) . '</a>')
+                    : '<a href="' . $href . '" style="display:block;' . $D . ';color:#F6C400;font-size:34px;font-weight:700;line-height:1;padding:52px 0;text-align:center;text-decoration:none">' . e(substr((string) $m['date'], 0, 4)) . '</a>')
                 . '</td></tr><tr><td style="padding:12px 14px 14px">'
-                . ($ago > 0 ? '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:900;letter-spacing:1px;padding:3px 7px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span>' : '')
-                . '<div style="' . $D . ';font-size:13px;letter-spacing:1px;color:#1F3FA8;font-weight:800;margin-top:8px">' . e(date_fr((string) $m['date'], true)) . '<br>' . e($m['label'] ?: $m['comp']) . '</div>'
-                . '<div style="' . $D . ';font-size:22px;line-height:1.05;font-weight:900;color:#0E1F4D;margin:6px 0 12px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
-                . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#0E1F4D;color:#F6C400;font-size:14px;font-weight:900;letter-spacing:1px;text-decoration:none;padding:8px 12px;border-bottom:3px solid #F6C400">' . e(t('Lire la fiche')) . ' →</a>'
+                . ($ago > 0 ? '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span>' : '')
+                . '<div style="' . $D . ';font-size:13px;letter-spacing:1px;color:#1F3FA8;font-weight:700;margin-top:8px">' . e(date_fr((string) $m['date'], true)) . '<br>' . e($m['label'] ?: $m['comp']) . '</div>'
+                . '<div style="' . $D . ';font-size:22px;line-height:1.05;font-weight:700;color:#0E1F4D;margin:6px 0 12px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
+                . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#0E1F4D;color:#F6C400;font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px;border-bottom:3px solid #F6C400">' . e(t('Lire la fiche')) . ' →</a>'
                 . '</td></tr></table>';
         }
         // Deux colonnes (une seule sur téléphone, voir .nl-col dans Mailer::letter).
@@ -87,9 +87,9 @@ final class Newsletter
         }
         $days = Site::daysToCentenary();
         $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;background:#0E1F4D;border:3px solid #F6C400"><tr>'
-            . '<td style="padding:18px 20px"><div style="' . $D . ';font-size:46px;line-height:.95;font-weight:900;color:#F6C400">J-' . (int) $days . '</div>'
-            . '<div style="' . $D . ';font-size:16px;letter-spacing:2px;font-weight:800;color:#F3EDDF">' . e(t('avant les 100 ans')) . '</div></td>'
-            . '<td align="right" style="padding:18px 20px"><a href="' . e($base . url('/faire-un-don/')) . '" style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:16px;font-weight:900;letter-spacing:1px;padding:12px 16px;text-decoration:none">♥ ' . e(t('Faire un don')) . '</a></td></tr></table>';
+            . '<td style="padding:18px 20px"><div style="' . $D . ';font-size:46px;line-height:.95;font-weight:700;color:#F6C400">J-' . (int) $days . '</div>'
+            . '<div style="' . $D . ';font-size:16px;letter-spacing:2px;font-weight:700;color:#F3EDDF">' . e(t('avant les 100 ans')) . '</div></td>'
+            . '<td align="right" style="padding:18px 20px"><a href="' . e($base . url('/faire-un-don/')) . '" style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:16px;font-weight:700;letter-spacing:1px;padding:12px 16px;text-decoration:none">♥ ' . e(t('Faire un don')) . '</a></td></tr></table>';
         return $html;
     }
 
@@ -241,7 +241,7 @@ final class Newsletter
             I18n::set($l);
             $unsub = base_url() . url('/newsletter/desinscription/' . $token . '/');
             $body = ($state['html'][$l] ?? reset($state['html'])) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » de Sochaux Rétro.')) . ' <a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
-            $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body);
+            $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body, null, [], ['List-Unsubscribe' => '<' . $unsub . '>']);
             I18n::set($prev);
             $state[$ok ? 'sent' : 'failed']++;
         }
