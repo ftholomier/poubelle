@@ -867,3 +867,6 @@ body.avec-cout .bar { padding-right: calc(14px + 118px); }
 .justif .justif-total { border-top: 1.5px solid var(--bord); font-weight: 800; }
 .justif .justif-total strong { font-size: 1.15rem; }
 @media (prefers-reduced-motion: reduce) { .estim-fiche.flash { animation: none; } }
+/* liens repérables autrement que par la couleur (crédits de la carte, lien vers l'avis) */
+.leaflet-container .leaflet-control-attribution a { color: inherit; text-decoration: underline; }
+.estim-tete a { text-decoration: underline; }
