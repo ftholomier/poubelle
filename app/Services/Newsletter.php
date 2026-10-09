@@ -54,6 +54,9 @@ final class Newsletter
     /** Marque reconnue par Mailer::layout : gabarit « lettre » (bandeau animé, fond nuit). */
     public const MARK = '<!--lettre-->';
 
+    /** Hauteur de la partie texte des cartes (matchs et boutique) : toutes les cartes d'une ligne alignées. */
+    private const CARD_TEXT = 240;
+
     /** Corps HTML (le lien de désinscription est ajouté par abonné). */
     public static function html(?int $ts = null): string
     {
@@ -82,7 +85,7 @@ final class Newsletter
                 . '<tr><td style="padding:0;border-bottom:3px solid #F6C400;background:#0E1F4D;line-height:0">'
                 . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="" style="display:block;width:100%;height:auto;border:0"></a>'
                     : '<a href="' . $href . '" style="display:block;' . $D . ';color:#F6C400;font-size:34px;font-weight:700;line-height:1;padding:52px 0;text-align:center;text-decoration:none">' . e(substr((string) $m['date'], 0, 4)) . '</a>')
-                . '</td></tr><tr><td style="padding:12px 14px 14px">'
+                . '</td></tr><tr><td height="' . self::CARD_TEXT . '" valign="top" style="padding:12px 14px 14px;height:' . self::CARD_TEXT . 'px;vertical-align:top">'
                 . ($ago > 0 ? '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span>' : '')
                 . '<div style="' . $D . ';font-size:13px;letter-spacing:1px;color:#1F3FA8;font-weight:700;margin-top:8px">' . e(date_fr((string) $m['date'], true)) . '<br>' . e($m['label'] ?: $m['comp']) . '</div>'
                 . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:#0E1F4D;margin:6px 0 12px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
@@ -162,7 +165,7 @@ final class Newsletter
         $img = self::shopImage();
         return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0E1F4D;border:3px solid #0E1F4D">'
             . '<tr><td style="padding:0;border-bottom:3px solid #F6C400;line-height:0">' . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="' . e(t('La boutique du musée')) . '" style="display:block;width:100%;height:auto;border:0"></a>' : '') . '</td></tr>'
-            . '<tr><td style="padding:12px 14px 14px">'
+            . '<tr><td height="' . self::CARD_TEXT . '" valign="top" style="padding:12px 14px 14px;height:' . self::CARD_TEXT . 'px;vertical-align:top">'
             . '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(t('Boutique du musée')) . '</span>'
             . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:#FFFFFF;margin:10px 0 6px">' . e(t('Portez l’histoire du FCSM')) . '</div>'
             . '<div style="font-family:Georgia,serif;font-size:14px;line-height:1.45;color:#F3EDDF;margin:0 0 12px">' . e(t('Posters de vos matchs, maillots, mugs, le livre des récits… à personnaliser. Chaque achat fait vivre le musée.')) . '</div>'

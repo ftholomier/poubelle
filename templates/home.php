@@ -239,6 +239,31 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
   </div>
 </section>
 
+<?php if (!empty($shop)): ?>
+<section id="boutique" class="bg-yellow bt bb">
+  <div class="wrap section">
+    <div class="row" style="justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px" data-reveal>
+      <div class="stack gap-14" style="max-width:56ch">
+        <span class="eyebrow" style="color:var(--navy)"><?= e(t('La boutique du musée')) ?></span>
+        <h2 class="h-section"><?= e(t('Portez l’histoire du FCSM.')) ?></h2>
+        <p style="margin:0;font-size:19px;line-height:1.5"><?= e(t('Posters de vos matchs, maillots, mugs, le livre des récits… personnalisés et fabriqués à la demande. Chaque achat fait vivre le musée.')) ?></p>
+      </div>
+      <a class="btn btn--navy" href="<?= e(url('/boutique/')) ?>"><?= e(t('Découvrir la boutique')) ?> →</a>
+    </div>
+    <div class="home-shop" style="--n:<?= count($shop) ?>">
+      <?php foreach ($shop as $p): ?>
+        <a class="home-shop__card" href="<?= e($p['href']) ?>" data-reveal>
+          <span class="home-shop__img"><img src="<?= e($p['img']) ?>" alt="" loading="lazy" decoding="async"></span>
+          <span class="home-shop__kind"><?= e($p['kind']) ?></span>
+          <span class="home-shop__name"><?= e($p['name']) ?></span>
+          <span class="home-shop__price"><?= e($p['price']) ?></span>
+        </a>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
+
 <section id="don" class="bg-navy">
   <div class="wrap section grid-fit" style="--min:440px">
     <div class="stack gap-20" data-reveal>

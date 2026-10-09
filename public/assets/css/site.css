@@ -831,3 +831,14 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .mf-col a, .site-footer__bar a { background: linear-gradient(var(--yellow), var(--yellow)) left 100% / 0 1.5px no-repeat; padding-bottom: 2px; transition: background-size .35s cubic-bezier(.4, 0, .2, 1), color .2s; }
 .mf-col a:hover, .mf-col a:focus-visible, .site-footer__bar a:hover, .site-footer__bar a:focus-visible { background-size: 100% 1.5px; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) { .mf-col a, .site-footer__bar a { transition: none; } }
+
+/* Accueil : la boutique en vitrine */
+.home-shop { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 18px; }
+.home-shop__card { display: flex; flex-direction: column; gap: 4px; background: var(--cream); border: 3px solid var(--navy); box-shadow: 6px 6px 0 var(--navy); padding: 0 0 14px; color: var(--navy); text-decoration: none; transition: transform .15s, box-shadow .15s; }
+.home-shop__card:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--navy); }
+.home-shop__img { display: block; aspect-ratio: 1; background: #fff; border-bottom: 3px solid var(--navy); margin-bottom: 8px; }
+.home-shop__img img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.home-shop__kind { padding: 0 14px; font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); }
+.home-shop__name { padding: 0 14px; font-family: var(--display); font-weight: 800; font-size: 21px; line-height: 1.1; text-transform: uppercase; }
+.home-shop__price { padding: 0 14px; font-weight: 600; }
+@media (max-width: 900px) { .home-shop { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

@@ -50,6 +50,26 @@ final class ShopPages
     }
 
     /** @return list<array> modèles en vente */
+    /**
+     * Quelques objets tirés au hasard pour l'accueil du musée (boutique ouverte au public).
+     * @return list<array{href:string,img:string,name:string,kind:string,price:string}>
+     */
+    public static function homePicks(int $n = 4): array
+    {
+        if (!Orders::open()) {
+            return [];
+        }
+        $all = self::products();
+        shuffle($all);
+        $out = [];
+        foreach (array_slice($all, 0, $n) as $m) {
+            $out[] = ['href' => self::u('/boutique/' . $m['id'] . '/'), 'img' => self::previewUrl($m, self::samples($m, self::anecStart($m))),
+                'name' => (string) $m['name'], 'kind' => (string) (Catalog::support($m['support'])['name'] ?? ''),
+                'price' => ($m['sale']['extra'] ? t('à partir de') . ' ' : '') . Orders::money($m['sale']['price'])];
+        }
+        return $out;
+    }
+
     private static function products(): array
     {
         return array_values(array_filter(Catalog::models(), fn ($m) => Catalog::sellable($m)));
