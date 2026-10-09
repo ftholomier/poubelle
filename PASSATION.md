@@ -288,6 +288,12 @@ XML simple (`<annonces><annonce reference="…"><titre/><type/><prix/><mention_p
 | Home staging | modèle d'images (réglage `modele_image`, `responseModalities: IMAGE`) |
 | Conversation vocale | Gemini Live (§6) |
 
+**Choix des modèles** : toujours par l'administrateur (Paramètres → Modèles), dans la liste renvoyée par Google
+pour sa clé, avec un prix indicatif (€ à €€€€, moins chers en premier). Google retire régulièrement des modèles
+(ex. `gemini-live-2.5-flash-preview`) : l'appli ne change jamais de modèle d'elle-même ; elle vérifie avant une
+conversation que le modèle existe encore (`modele_live()`, liste gardée 12 h) et sinon affiche lesquels choisir,
+et Paramètres signale ⚠ le modèle retiré.
+
 Règles de prompt importantes : ne remplir que ce qui est dit, citation exacte, nombres sans unité, valeurs de listes
 exactes ; l'annonce n'invente rien ; le compte rendu vendeur ne contient aucune remarque interne ; l'assistant public
 ne donne ni l'adresse exacte, ni d'information sur le vendeur, ni de marge de négociation.
@@ -394,7 +400,7 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 ```
 
 - Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
-- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 19 scénarios Playwright sur des
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 20 scénarios Playwright sur des
   données neuves, avec services publics, SMTP, push, firma.dev et BoldSign simulés. Couvre : parcours de base, sortie
   de visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
   vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la

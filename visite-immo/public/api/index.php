@@ -622,17 +622,18 @@ PROMPT;
     ]];
 
     try {
+        [$modele, $audioNatif] = modele_live(); // le modèle choisi dans Paramètres, s'il existe encore chez Google
         $token = gemini_live_token();
     } catch (RuntimeException $e) {
         fail(502, $e->getMessage());
     }
     send_json([
         'url'     => 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=' . rawurlencode($token),
-        'model'   => 'models/' . ($CONFIG['modele_dialogue'] ?? 'gemini-live-2.5-flash-preview'),
+        'model'   => 'models/' . $modele,
         'system'  => $consignes,
         'tools'   => $outils,
         'manquants' => array_column(champs_manquants($champs), 'cle'),
-        'audio_natif' => (bool) preg_match('/native-audio|native_audio/i', (string) ($CONFIG['modele_dialogue'] ?? '')),
+        'audio_natif' => $audioNatif,
     ]);
 }
 

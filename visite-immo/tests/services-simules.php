@@ -187,6 +187,16 @@ if (str_starts_with($path, '/push/')) {
 }
 
 // --- Gemini generateContent (réponses fixes, pour vérifier les appels réels) ---
+// Liste des modèles (comme l'API Gemini) : l'ancien modèle Live a disparu, deux nouveaux sont proposés
+if ($path === '/gemini/models') {
+    $m = fn ($id, $methodes) => ['name' => "models/$id", 'displayName' => $id, 'supportedGenerationMethods' => $methodes];
+    json(['models' => [
+        $m('gemini-2.5-flash', ['generateContent', 'countTokens']),
+        $m('gemini-2.6-flash-native-audio-preview', ['bidiGenerateContent']),
+        $m('gemini-live-2.6-flash', ['bidiGenerateContent']),
+        $m('gemini-live-2.6-flash-preview', ['bidiGenerateContent']),
+    ]]);
+}
 if (preg_match('#^/gemini/models/([^:]+):generateContent$#', $path, $m)) {
     $in = json_decode((string) file_get_contents('php://input'), true) ?: [];
     $schema = $in['generationConfig']['responseSchema']['properties'] ?? [];

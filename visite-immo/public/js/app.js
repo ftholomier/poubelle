@@ -388,7 +388,7 @@ async function viewVisit(id, onglet) {
 function stepper(visit) {
   const cles = Object.keys(visit.etapes || {});
   const i = cles.indexOf(visit.etape);
-  return `<div class="stepper">${cles
+  return `<div class="stepper" tabindex="0" role="region" aria-label="Étapes du dossier">${cles
     .map((k, n) => `<div class="step ${n < i ? "fait" : n === i ? "actuel" : ""}"><span>${n < i ? "✓" : n + 1}</span>${esc(visit.etapes[k].label)}</div>`)
     .join("")}</div>`;
 }
@@ -861,9 +861,10 @@ async function viewDialogue(id) {
     try {
       await lancer();
     } catch (e) {
-      toast(e.name === "NotAllowedError" ? "Accès au micro refusé" : e.message, "erreur");
       conv?.fermer("arret");
-      viewDialogue(id);
+      await viewDialogue(id);
+      const msg = e.name === "NotAllowedError" ? "Accès au micro refusé : autorisez-le dans les réglages du navigateur." : e.message;
+      document.getElementById("start")?.insertAdjacentHTML("afterend", `<section class="card alerte" id="dlg-erreur"><p>${esc(msg)}</p>${/Paramètres/.test(msg) && state.user.role === "admin" ? '<a class="btn" href="#/reglages">⚙️ Ouvrir les Paramètres</a>' : ""}</section>`);
     }
   };
   nav.cleanup = () => {
@@ -1265,6 +1266,7 @@ async function viewSettings() {
         </label>
         <p class="muted small" id="m-desc"></p>
         <p class="muted small">Conseil : un modèle « Flash » suffit pour la transcription (rapide et économique) ; un modèle « Pro » rédige de meilleurs textes pour l'analyse. Pour la conversation, préférez un modèle <strong>sans « native-audio »</strong> dans son nom : il répond en texte, lu gratuitement par la voix du téléphone (les « native-audio » répondent avec la voix Gemini, environ 5 fois plus cher).</p>
+        <p class="muted small">€ à €€€€ : prix indicatif, du moins cher au plus cher. La liste vient de Google pour votre clé : seuls les modèles encore proposés apparaissent. Si un modèle choisi est retiré par Google, il est signalé ⚠ ici et l'appli vous le dit au moment de l'utiliser ; elle ne change jamais de modèle à votre place.</p>
       </section>
 
       <section class="card">
@@ -1559,10 +1561,11 @@ async function viewSettings() {
       ["m-transcription", form.modele_transcription.value || cfg.modele_transcription, (m) => m.generation !== false],
       ["m-dialogue", form.modele_dialogue.value || cfg.modele_dialogue, (m) => m.live],
     ]) {
-      const liste = modeles.filter(filtre).sort((a, b) => (a.audio_natif || false) - (b.audio_natif || false));
+      // Les moins chers en premier (gamme indicative de 1 à 4), puis les plus récents
+      const liste = modeles.filter(filtre).sort((a, b) => (a.prix || 2) - (b.prix || 2));
       const ids = liste.map((m) => m.id);
-      const options = ids.includes(actuel) || !actuel ? liste : [{ id: actuel, nom: `${actuel} (actuel)` }, ...liste];
-      $(id).innerHTML = options.map((m) => `<option value="${esc(m.id)}" ${m.id === actuel ? "selected" : ""}>${esc(m.nom)}${m.nom !== m.id ? ` · ${esc(m.id)}` : ""}${m.audio_natif ? " · voix Gemini (plus cher)" : ""}</option>`).join("");
+      const options = ids.includes(actuel) || !actuel ? liste : [{ id: actuel, nom: `⚠ ${actuel} : plus proposé par Google, choisissez-en un autre` }, ...liste];
+      $(id).innerHTML = options.map((m) => `<option value="${esc(m.id)}" ${m.id === actuel ? "selected" : ""}>${m.prix ? "€".repeat(m.prix) + " · " : ""}${esc(m.nom)}${m.nom !== m.id ? ` · ${esc(m.id)}` : ""}${m.audio_natif ? " · voix Gemini" : ""}</option>`).join("");
     }
     showDesc();
   };

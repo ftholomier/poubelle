@@ -173,6 +173,7 @@ function gemini_models(string $key): array
                 'live'        => $live,
                 // les modèles « native audio » ne savent répondre qu'en voix : plus chers
                 'audio_natif' => (bool) preg_match('/native-audio|native_audio/i', $id),
+                'prix'        => gamme_prix($id, $live),
             ];
         }
         $page = $data['nextPageToken'] ?? '';
@@ -182,6 +183,47 @@ function gemini_models(string $key): array
     usort($models, fn ($a, $b) => (str_starts_with($b['id'], 'gemini') <=> str_starts_with($a['id'], 'gemini'))
         ?: strnatcasecmp($b['id'], $a['id']));
     return $models;
+}
+
+/**
+ * Modèle de conversation en direct choisi par l'administrateur (Paramètres → Modèles). L'appli ne le change jamais
+ * d'elle-même : elle vérifie seulement qu'il existe encore chez Google (liste des modèles qui acceptent
+ * bidiGenerateContent, gardée 12 h) et, sinon, explique quoi choisir à la place.
+ * Renvoie [modèle, répond seulement en voix Gemini ?].
+ */
+function modele_live(): array
+{
+    global $CONFIG;
+    $modele = trim((string) ($CONFIG['modele_dialogue'] ?? ''));
+    if ($modele === '') throw new RuntimeException("Choisissez le modèle de conversation vocale dans Paramètres → Modèles.");
+    $natif = (bool) preg_match('/native-audio|native_audio/i', $modele);
+    $cle = (string) ($CONFIG['gemini_api_key'] ?? '');
+    $cache = DATA_DIR . '/cache/modeles_live.json';
+    $c = read_json($cache, []);
+    $liste = ($c['cle'] ?? '') === hash('sha256', $cle) && ($c['le'] ?? 0) > time() - 12 * 3600 ? $c['liste'] : null;
+    if ($liste === null || !in_array($modele, $liste, true)) {
+        try {
+            $liste = array_values(array_column(array_filter(gemini_models($cle), fn ($m) => $m['live']), 'id'));
+            if (!is_dir(dirname($cache))) mkdir(dirname($cache), 0770, true);
+            write_json($cache, ['cle' => hash('sha256', $cle), 'le' => time(), 'liste' => $liste]);
+        } catch (Throwable) {
+            return [$modele, $natif]; // liste injoignable : on tente le modèle choisi
+        }
+    }
+    if (!in_array($modele, $liste, true)) {
+        throw new RuntimeException("Le modèle de conversation « $modele » n'est plus proposé par Google. Choisissez-en un autre dans Paramètres → Modèles"
+            . ($liste ? ' (disponibles avec votre clé : ' . implode(', ', $liste) . ').' : ' (aucun modèle de conversation en direct disponible avec cette clé).'));
+    }
+    return [$modele, $natif];
+}
+
+/** Gamme de prix indicative d'un modèle, pour choisir dans les Paramètres : 1 (le moins cher) à 4. */
+function gamme_prix(string $id, bool $live = false): int
+{
+    if (preg_match('/native-audio|native_audio/i', $id)) return 4; // répond avec la voix Gemini
+    if (str_contains($id, 'pro')) return 3;
+    if (str_contains($id, 'lite')) return 1;
+    return $live ? 2 : 2;
 }
 
 // ---------- Transcription ----------
