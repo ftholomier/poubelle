@@ -2,26 +2,12 @@
 // prix, fourchette, confiance, tendance du marché. Le résultat se met à jour à chaque changement.
 
 import { api } from "../api.js";
+import { chargerLeaflet, fondCarte } from "../carte.js";
 import { vues, ecran, esc, fmtEuros, go, copier } from "../ui.js";
 
 const ETATS = ["À rénover", "Travaux à prévoir", "Bon état", "Très bon état", "Refait à neuf"];
 const DPE = { A: "#009c6d", B: "#52b153", C: "#a5cc74", D: "#f4e70f", E: "#f2a541", F: "#eb8235", G: "#d7221f" };
 
-function chargerLeaflet() {
-  if (window.L) return Promise.resolve(window.L);
-  return new Promise((ok, ko) => {
-    const css = document.createElement("link");
-    css.rel = "stylesheet";
-    css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
-    document.head.append(css);
-    const s = document.createElement("script");
-    s.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
-    s.onload = () => ok(window.L);
-    s.onerror = ko;
-    document.head.append(s);
-    setTimeout(() => ko(new Error("délai")), 6000);
-  });
-}
 
 /** Prix médian au m² par année : barres fines, valeur au survol et en texte sous chaque barre. */
 export function graphiqueTendance(t) {
@@ -164,8 +150,8 @@ vues.estimation = async () => {
       const el = $("carte");
       if (!el) return;
       carte?.remove();
-      carte = L.map(el, { zoomControl: false, attributionControl: true }).setView([r.lat, r.lon], 15);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(carte);
+      carte = L.map(el, { zoomControl: false, attributionControl: true, ...SANS_ANIMATION }).setView([r.lat, r.lon], 15);
+      fondCarte(L, carte);
       const pts = [[r.lat, r.lon]];
       L.circleMarker([r.lat, r.lon], { radius: 9, color: "#111114", weight: 2, fillColor: "#d4f22e", fillOpacity: 1 }).addTo(carte).bindTooltip("Votre bien");
       e.comparables.forEach((c) => {
@@ -257,3 +243,140 @@ vues.estimation = async () => {
     lancer();
   };
 };
+
+/* ---------- Dans la fiche : carte des ventes autour du bien et justification du prix ---------- */
+
+// Sans animations : la carte est souvent redessinée (estimation en direct) ou quittée en cours d'animation,
+// ce qui fait planter Leaflet (« _leaflet_pos »)
+const SANS_ANIMATION = { zoomAnimation: false, fadeAnimation: false, markerZoomAnimation: false };
+const kEuros = (p) => (p >= 1e6 ? `${(p / 1e6).toFixed(2).replace(".", ",")} M€` : `${Math.round(p / 1000)} k€`);
+const moisAn = (d) => new Date(d).toLocaleDateString("fr-FR", { month: "short", year: "numeric" });
+const distance = (m) => (m == null ? "" : m < 1000 ? `${m} m` : `${(m / 1000).toFixed(1).replace(".", ",")} km`);
+// couleur selon le rang (ventes déjà triées par ressemblance) : les 4 premières, les 4 suivantes, le reste
+const classeRang = (i) => (i < 4 ? "sim-haute" : i < 8 ? "sim-moyenne" : "sim-basse");
+
+/** Le calcul en clair : prix au m² des ventes ressemblantes × surface, ajustements, fourchette. */
+function justification(e) {
+  const brut = e.prix_m2_marche * e.surface;
+  const ajust = e.ajustements.map((x) => `${esc(x[0])} ${x[1] > 0 ? "+" : ""}${Math.round(x[1] * 100)} %`).join(", ");
+  return `<ol class="justif">
+    <li><span>Prix au m² des ventes qui ressemblent le plus à votre bien <small>(médiane pondérée par la ressemblance, prix actualisés au marché d'aujourd'hui)</small></span><strong>${fmtEuros(e.prix_m2_marche)}/m²</strong></li>
+    <li><span>× surface habitable du bien</span><strong>${e.surface} m² = ${fmtEuros(Math.round(brut / 1000) * 1000)}</strong></li>
+    ${e.ajustements.length ? `<li><span>Ajustements propres au bien : ${ajust}</span><strong>${e.coefficient >= 1 ? "+" : ""}${Math.round((e.coefficient - 1) * 100)} %</strong></li>` : ""}
+    <li class="justif-total"><span>Estimation</span><strong>${fmtEuros(e.prix)}</strong></li>
+  </ol>
+  <p class="small muted">Fourchette ${fmtEuros(e.bas)} – ${fmtEuros(e.haut)} : de ${fmtEuros(e.prix_m2_bas)} à ${fmtEuros(e.prix_m2_haut)}/m² selon les ventes retenues (20 % les moins chères et les plus chères écartées).</p>`;
+}
+
+function popupVente(c, rang) {
+  return `<div class="pop-vente"><strong>${fmtEuros(c.prix)}</strong>${rang != null ? ` <span class="pop-sim ${classeRang(rang)}">n° ${rang + 1} · ressemblance ${c.similarite} %</span>` : ""}
+    <div>${esc(c.type || "")} · ${Math.round(c.surface)} m²${c.pieces ? ` · ${c.pieces} p.` : ""}${c.terrain ? ` · terrain ${Math.round(c.terrain)} m²` : ""}</div>
+    <div>${fmtEuros(c.prix_m2)}/m²${c.prix_m2_actualise && c.prix_m2_actualise !== c.prix_m2 ? ` · aujourd'hui ≈ ${fmtEuros(c.prix_m2_actualise)}/m²` : ""}</div>
+    <div class="muted">${esc(c.adresse || "")}${c.commune ? `, ${esc(c.commune)}` : ""} · vendu en ${moisAn(c.date)}${c.distance != null ? ` · à ${distance(c.distance)}` : ""}</div></div>`;
+}
+
+/**
+ * Bloc « Estimation » de la fiche : prix, carte (le bien au centre, le prix de chaque vente autour), le calcul qui
+ * justifie le prix et la liste des ventes. Se recalcule quand la surface, l'état, le DPE… changent.
+ */
+export function carteVentesFiche($el, visit) {
+  let carte = null;
+  let timer = null;
+  let dernier = "";
+  let toutes = false;
+
+  async function charger() {
+    let r;
+    try {
+      r = await api("estimation_dossier", { query: { id: visit.id } });
+    } catch (err) {
+      $el.innerHTML = `<h2>Estimation</h2><p class="orange-txt small">${esc(err.message)}</p>`;
+      return;
+    }
+    if (!$el.isConnected) return;
+    const e = r.estimation;
+    const empreinte = JSON.stringify([e?.prix, e?.comparables?.length, r.autres.length]);
+    if (empreinte === dernier) return;
+    const avant = dernier;
+    dernier = empreinte;
+    if (!e) {
+      $el.innerHTML = `<h2>Estimation</h2><p class="muted small">${r.bien ? "Pas encore assez de ventes comparables : renseignez au moins le type de bien et la surface habitable." : "Renseignez l'adresse et la ville : les ventes alentour (DVF) apparaîtront ici, sur une carte, avec le prix estimé."}</p>`;
+      return;
+    }
+    $el.innerHTML = `
+      <div class="estim-tete"><h2>Estimation</h2><a class="small" href="#/visite/${visit.id}/avis">Avis de valeur ›</a></div>
+      <div class="estim-fiche-prix"><strong data-prix>${fmtEuros(e.prix)}</strong><span class="muted small">${fmtEuros(e.bas)} – ${fmtEuros(e.haut)} · ${fmtEuros(e.prix_m2)}/m²</span>
+        <span class="confiance confiance-${e.confiance.niveau === "élevée" ? "haute" : e.confiance.niveau === "moyenne" ? "moyenne" : "basse"}">${e.confiance.niveau === "élevée" ? "●●●" : e.confiance.niveau === "moyenne" ? "●●○" : "●○○"} Confiance ${esc(e.confiance.niveau)}</span></div>
+      ${r.retenu && r.retenu !== e.prix ? `<p class="small">Prix retenu par vous dans l'avis de valeur : <strong>${fmtEuros(r.retenu)}</strong></p>` : ""}
+      ${e.ecart_vendeur != null ? `<p class="small ${Math.abs(e.ecart_vendeur) >= 5 ? "orange-txt" : ""}">Prix souhaité par le vendeur : ${e.ecart_vendeur > 0 ? "+" : ""}${String(e.ecart_vendeur).replace(".", ",")} % par rapport à l'estimation.</p>` : ""}
+      ${e.simulation ? '<p class="small"><span class="badge orange">ventes simulées (service DVF indisponible)</span></p>' : ""}
+      <div class="carte-ventes" id="carte-ventes" role="region" aria-label="Carte des ventes autour du bien"></div>
+      <div class="legende-ventes small">
+        <span><i class="pt-bien"></i>Votre bien</span><span><i class="pt-comp sim-haute"></i>Les 4 plus ressemblantes</span><span><i class="pt-comp sim-moyenne"></i>Les suivantes</span><span><i class="pt-comp sim-basse"></i>Les moins ressemblantes</span>
+        ${r.autres.length ? `<label class="toutes"><input type="checkbox" id="toutes-ventes" ${toutes ? "checked" : ""}> Autres ventes (${r.autres.length})</label>` : ""}
+      </div>
+      <h3 class="justif-titre">Pourquoi ce prix</h3>
+      ${justification(e)}
+      ${e.communes_voisines?.length ? `<p class="small muted">Peu de ventes dans la commune : ventes de ${e.communes_voisines.map(esc).join(", ")} ajoutées (les plus proches pèsent le plus).</p>` : ""}
+      <details class="aide"><summary>Les ${e.comparables.length} ventes retenues</summary>${listeComparables(e.comparables)}</details>
+      <p class="small muted">Ventes réelles publiées par la DGFiP (DVF), sur 5 ans. Touchez un prix sur la carte pour le détail.</p>`;
+    if (avant) {
+      $el.classList.remove("flash");
+      void $el.offsetWidth;
+      $el.classList.add("flash");
+    }
+    dessiner(r, e);
+    $el.querySelector("#toutes-ventes")?.addEventListener("change", (ev) => {
+      toutes = ev.target.checked;
+      dessiner(r, e);
+    });
+  }
+
+  async function dessiner(r, e) {
+    let L;
+    try {
+      L = await chargerLeaflet();
+    } catch {
+      $el.querySelector("#carte-ventes")?.remove(); // hors ligne : le calcul et la liste suffisent
+      return;
+    }
+    const el = $el.querySelector("#carte-ventes");
+    if (!el) return;
+    carte?.remove();
+    const centre = r.bien || e.comparables.find((c) => c.lat) || null;
+    if (!centre) return el.remove();
+    // sur téléphone, un doigt fait défiler la page ; la carte se déplace avec deux doigts ou les boutons
+    carte = L.map(el, { scrollWheelZoom: false, dragging: !L.Browser.mobile, tap: false, ...SANS_ANIMATION }).setView([centre.lat, centre.lon], 15);
+    fondCarte(L, carte);
+    const pts = [];
+    if (toutes) {
+      r.autres.forEach((c) => {
+        L.circleMarker([c.lat, c.lon], { radius: 4, color: "#fffdf8", weight: 1, fillColor: "#8a877f", fillOpacity: 0.85 }).addTo(carte).bindPopup(popupVente(c, null));
+        pts.push([c.lat, c.lon]);
+      });
+    }
+    // les ventes les plus ressemblantes passent au-dessus des autres quand les étiquettes se chevauchent
+    e.comparables.forEach((c, i) => {
+      if (!c.lat) return;
+      pts.push([c.lat, c.lon]);
+      const icone = L.divIcon({ className: "pin-vente", html: `<span class="${classeRang(i)}">${kEuros(c.prix)}</span>`, iconSize: null, iconAnchor: [0, 0] });
+      L.marker([c.lat, c.lon], { icon: icone, title: `${fmtEuros(c.prix)}, ${Math.round(c.surface)} m²`, riseOnHover: true, zIndexOffset: (20 - i) * 10 }).addTo(carte).bindPopup(popupVente(c, i));
+    });
+    if (r.bien) {
+      const icone = L.divIcon({ className: "pin-bien", html: `<span>🏠 ${kEuros(e.prix)}</span>`, iconSize: null, iconAnchor: [0, 0] });
+      L.marker([r.bien.lat, r.bien.lon], { icon: icone, zIndexOffset: 1000, title: "Votre bien" }).addTo(carte).bindPopup(`<div class="pop-vente"><strong>Votre bien · ${fmtEuros(e.prix)}</strong><div>${esc(r.bien.adresse)}</div><div>${e.surface} m² · ${fmtEuros(e.prix_m2)}/m²</div></div>`);
+      pts.push([r.bien.lat, r.bien.lon]);
+    }
+    if (pts.length > 1) carte.fitBounds(pts, { padding: [30, 30], maxZoom: 16 });
+  }
+
+  // Une caractéristique change (surface, état, DPE, prix souhaité…) : nouvelle estimation, sans recharger la carte pour rien
+  const maj = () => {
+    if (!$el.isConnected) return window.removeEventListener("dossier-maj", maj);
+    clearTimeout(timer);
+    timer = setTimeout(charger, 400);
+  };
+  window.addEventListener("dossier-maj", maj);
+  $el.innerHTML = `<h2>Estimation</h2><p class="muted small">Recherche des ventes autour du bien…</p>`;
+  charger();
+}

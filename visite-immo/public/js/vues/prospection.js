@@ -1,25 +1,11 @@
 // Prospection : secteurs, logements F/G à cibler, rues actives (boîtage), courriers personnalisés, suivi.
 
 import { api } from "../api.js";
+import { chargerLeaflet, fondCarte } from "../carte.js";
 import { vues, ecran, esc, toast, action, fmtEuros } from "../ui.js";
 
 const COUL_DPE = { F: "#eb8235", G: "#d7221f" };
 
-function chargerLeaflet() {
-  if (window.L) return Promise.resolve(window.L);
-  return new Promise((ok, ko) => {
-    const css = document.createElement("link");
-    css.rel = "stylesheet";
-    css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
-    document.head.append(css);
-    const s = document.createElement("script");
-    s.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
-    s.onload = () => ok(window.L);
-    s.onerror = ko;
-    document.head.append(s);
-    setTimeout(() => ko(new Error("délai")), 6000);
-  });
-}
 
 vues.prospection = async () => {
   const $m = ecran("Prospection", '<div class="loader"></div>', { back: "#/" });
@@ -95,7 +81,7 @@ vues.prospection = async () => {
       if (!el) return;
       el.hidden = false;
       const carte = L.map(el).setView([points[0].lat, points[0].lon], 14);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(carte);
+      fondCarte(L, carte);
       const groupe = L.featureGroup(points.map((c) => L.circleMarker([c.lat, c.lon], { radius: 8, color: "#111114", weight: 1.5, fillColor: COUL_DPE[c.dpe], fillOpacity: 0.9 }).bindPopup(`${esc(c.adresse)}<br>DPE ${esc(c.dpe)}`))).addTo(carte);
       carte.fitBounds(groupe.getBounds().pad(0.2));
     }).catch(() => {});

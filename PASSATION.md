@@ -363,6 +363,15 @@ Fichiers : `public/js/dialogue.js`, `route_live()` dans `public/api/index.php`.
   demandant à geo.api.gouv.fr la commune de 16 points placés à 4 et 9 km), jusqu'à 30 ventes et 6 communes au plus ;
   la distance est alors jugée à l'échelle du canton (5 km au lieu de 1,5 km). Les communes ajoutées sont citées à
   l'écran et dans l'argumentaire de l'avis de valeur.
+- **Estimation dans la Fiche** (bloc en haut, `carteVentesFiche()` dans `vues/estimation.js`, route
+  `estimation_dossier`) : prix, fourchette, confiance ; carte avec le bien (étiquette jaune, son prix estimé) et le
+  prix de chaque vente retenue (vert foncé : les 4 plus ressemblantes, puis vert clair, puis gris ; un toucher donne le
+  détail) ; case « Autres ventes » pour les ventes du même type alentour (150 plus proches) ; « Pourquoi ce prix » :
+  prix au m² des ventes ressemblantes × surface, ajustements, estimation. Recalculé à chaque modification.
+- **Fond de carte : Plan IGN** (Géoplateforme, `data.geopf.fr`, gratuit, sans clé ; `public/js/carte.js`). Plus
+  OpenStreetMap : ses serveurs refusent les demandes sans en-tête Referer, et l'appli n'en envoie pas aux sites
+  externes (`Referrer-Policy: same-origin`). Cartes sans animations de zoom (redessinées souvent).
+- Tests : Leaflet servi depuis `tests/node_modules/leaflet` (`npm pack leaflet@1.9.4`), tuiles IGN simulées.
 - **Acquéreurs ↔ biens** : la commune recherchée est un critère éliminatoire (accents, tirets, « St/Saint » et code
   postal ignorés). Les communes voisines sont proposées jusqu'à 15 km avec un score qui baisse avec la distance
   (−5 points puis −2,5 par km) ; liste classée du plus au moins compatible, score affiché. Position du bien : celle

@@ -820,3 +820,50 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 body.avec-cout .bar { padding-right: calc(14px + 118px); }
 @media (prefers-reduced-motion: reduce) { .cout-ia.pulse, .cout-ia.en-direct::after { animation: none; } }
 @media print { .cout-ia { display: none; } }
+
+/* ---------- Fiche : estimation, carte des ventes autour du bien ---------- */
+
+.estim-fiche { transition: box-shadow .3s; }
+.estim-fiche.flash { animation: estim-flash .9s; }
+@keyframes estim-flash { 30% { box-shadow: 0 0 0 4px var(--citron); } }
+.estim-tete { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.estim-tete a { color: var(--text); font-weight: 700; }
+.estim-fiche-prix { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 4px 0 8px; }
+.estim-fiche-prix strong { font-size: 1.9rem; font-weight: 800; letter-spacing: -.03em; }
+.carte-ventes { height: 300px; border-radius: 10px; border: 1.5px solid var(--bord); margin: 10px 0 8px; z-index: 0; }
+.legende-ventes { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; color: var(--muted); }
+.legende-ventes span { display: inline-flex; align-items: center; gap: 6px; }
+.legende-ventes i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid var(--encre); }
+.legende-ventes .pt-bien { background: var(--citron); }
+.legende-ventes .toutes { display: inline-flex; align-items: center; gap: 6px; text-transform: none; letter-spacing: 0; font: inherit; margin: 0; }
+.legende-ventes .toutes input { width: auto; min-height: 0; }
+
+/* étiquettes de prix sur la carte (posées au-dessus du point, avec une petite pointe) */
+.pin-vente, .pin-bien { background: none; border: 0; }
+.pin-vente span, .pin-bien span, .legende-ventes .pt-comp {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, calc(-100% - 6px));
+  padding: 3px 7px; border-radius: 7px; border: 1.5px solid var(--encre); white-space: nowrap;
+  font: 700 .74rem var(--mono); font-variant-numeric: tabular-nums; box-shadow: 0 2px 6px rgb(0 0 0 / 25%); cursor: pointer;
+}
+.pin-vente span::after, .pin-bien span::after {
+  content: ""; position: absolute; left: 50%; bottom: -7px; width: 10px; height: 10px; transform: translateX(-50%) rotate(45deg);
+  background: inherit; border-right: 1.5px solid var(--encre); border-bottom: 1.5px solid var(--encre);
+}
+.legende-ventes .pt-comp { position: static; transform: none; padding: 0; box-shadow: none; }
+.sim-haute { background: #2e7d3a; color: #fff; }
+.sim-moyenne { background: #5f7f24; color: #fff; }
+.sim-basse { background: #ece8dc; color: #111114; }
+.pin-bien span { background: var(--citron); color: var(--encre); font-size: .82rem; padding: 4px 9px; z-index: 2; }
+.pop-vente { display: grid; gap: 3px; font: .85rem "Archivo", sans-serif; }
+.pop-vente strong { font-size: 1rem; }
+.pop-sim { padding: 1px 6px; border-radius: 6px; font: 700 .68rem var(--mono); }
+
+/* le calcul, ligne par ligne */
+.justif-titre { font-size: 1rem; font-weight: 800; margin: 14px 0 6px; }
+.justif { list-style: none; padding: 0; margin: 0 0 8px; display: grid; gap: 0; }
+.justif li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); font-size: .9rem; }
+.justif li small { display: block; color: var(--muted); font-size: .76rem; }
+.justif li strong { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.justif .justif-total { border-top: 1.5px solid var(--bord); font-weight: 800; }
+.justif .justif-total strong { font-size: 1.15rem; }
+@media (prefers-reduced-motion: reduce) { .estim-fiche.flash { animation: none; } }

@@ -307,4 +307,24 @@ route('GET estimation', function () {
 });
 
 /** Estimation du dossier, recalculée à la volée (sans enregistrer). */
-route('GET estimation_dossier', fn ($id) => send_json(['estimation' => estimation_dossier(load_visit(require_user(), $id))]));
+/**
+ * Estimation du dossier pour la carte de la fiche : le bien, les ventes qui justifient le prix (comparables) et les
+ * autres ventes du même type autour (points gris), les 150 plus proches.
+ */
+route('GET estimation_dossier', function ($id) {
+    $v = load_visit(require_user(), $id);
+    $e = estimation_dossier($v);
+    $geo = $v['public']['geo'] ?? [];
+    $type = champ($v, 'type_bien');
+    $cle = fn ($x) => ($x['date'] ?? '') . '|' . ($x['prix'] ?? '') . '|' . ($x['adresse'] ?? '');
+    $dejaVues = array_flip(array_map($cle, $e['comparables'] ?? []));
+    $autres = array_values(array_filter($v['public']['ventes'] ?? [], fn ($x) => !empty($x['lat']) && !isset($dejaVues[$cle($x)])
+        && (!in_array($type, ['Maison', 'Appartement'], true) || $x['type'] === $type)));
+    usort($autres, fn ($a, $b) => ($a['distance'] ?? PHP_INT_MAX) <=> ($b['distance'] ?? PHP_INT_MAX));
+    send_json([
+        'estimation' => $e,
+        'bien' => !empty($geo['lat']) ? ['lat' => (float) $geo['lat'], 'lon' => (float) $geo['lon'], 'adresse' => (string) ($geo['label'] ?? '')] : null,
+        'autres' => array_map(fn ($x) => array_intersect_key($x, array_flip(['date', 'prix', 'type', 'surface', 'pieces', 'adresse', 'lat', 'lon', 'prix_m2', 'distance'])), array_slice($autres, 0, 150)),
+        'retenu' => $v['avis_valeur']['retenu_agent'] ?? null,
+    ]);
+});

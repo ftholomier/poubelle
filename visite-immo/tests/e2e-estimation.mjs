@@ -3,6 +3,10 @@
 import { navigateur, connexion, api, verifier, configurerEmail, dossierAvecMandat, BASE } from "./outils.mjs";
 
 const { browser, page, erreurs, capture } = await navigateur();
+// Fond de carte Plan IGN simulé (pas d'accès à Internet pendant les tests) : on compte les tuiles demandées
+let tuilesIgn = 0;
+const TUILE = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4/+8/AAX+Av4N70a4AAAAAElFTkSuQmCC", "base64");
+await page.route("https://data.geopf.fr/**", (r) => (tuilesIgn++, r.fulfill({ status: 200, contentType: "image/png", body: TUILE })));
 const prix = async () => Number((await page.textContent("[data-prix]")).replace(/\D/g, ""));
 async function attendreChangement(avant) {
   await page.waitForFunction((p) => {
@@ -68,16 +72,36 @@ try {
   const avant = v.avis_valeur.retenu;
   verifier(avant > 100000 && v.avis_valeur.confiance && v.avis_valeur.comparables[0].similarite > 0, `avis de valeur du dossier : ${avant.toLocaleString("fr-FR")} €, confiance ${v.avis_valeur.confiance.niveau}`);
   await page.goto(`${BASE}#/visite/${id}/fiche`);
-  await page.waitForSelector("#estim-direct:not([hidden])");
-  const affiche = await page.textContent("#estim-direct strong");
+  await page.waitForSelector("#estim-fiche [data-prix]");
+  const affiche = await page.textContent("#estim-fiche [data-prix]");
   await page.fill("#c-surface_habitable", "160");
-  await page.waitForFunction((a) => document.querySelector("#estim-direct strong")?.textContent !== a, affiche, { timeout: 8000 });
-  verifier(true, `fiche : surface 125 → 160 m², estimation en direct ${affiche} → ${await page.textContent("#estim-direct strong")}`);
+  await page.waitForFunction((a) => document.querySelector("#estim-fiche [data-prix]")?.textContent !== a, affiche, { timeout: 8000 });
+  verifier(true, `fiche : surface 125 → 160 m², estimation en direct ${affiche} → ${await page.textContent("#estim-fiche [data-prix]")}`);
+  // La carte de la fiche : le bien, le prix de chaque vente retenue, le calcul qui justifie le prix
+  // carte redessinée avec la nouvelle estimation (530 k€) : le bien et les ventes retenues
+  await page.waitForFunction(() => document.querySelector("#estim-fiche .pin-bien span")?.textContent.includes("530") && document.querySelectorAll("#estim-fiche .pin-vente span").length >= 3);
+  const pins = await page.$$eval("#estim-fiche .pin-vente span", (l) => l.map((x) => x.textContent));
+  verifier(pins.length >= 3 && pins.every((t) => /\d+ k€|M€/.test(t)), `carte : ${pins.length} ventes avec leur prix (${pins.slice(0, 4).join(", ")}…)`);
+  verifier((await page.textContent("#estim-fiche .pin-bien")).includes("k€"), "carte : votre bien et son prix estimé");
+  verifier((await page.$$("#estim-fiche .pin-vente .sim-haute")).length === Math.min(4, pins.length), "carte : les 4 ventes les plus ressemblantes en vert foncé");
+  const justif = await page.textContent("#estim-fiche .justif");
+  verifier(/€\/m²/.test(justif) && justif.includes("160 m²") && /Estimation/.test(justif), "« Pourquoi ce prix » : prix au m² des ventes × surface, ajustements, estimation");
+  await page.locator("#estim-fiche .pin-vente span").first().dispatchEvent("click");
+  await page.waitForSelector(".pop-vente");
+  verifier(/ressemblance \d+ %/.test(await page.textContent(".pop-vente")) && /vendu en/.test(await page.textContent(".pop-vente")), "toucher un prix : détail de la vente (ressemblance, date, surface)");
+  if (await page.$("#toutes-ventes")) {
+    const avantPts = await page.$$eval("#estim-fiche path.leaflet-interactive", (l) => l.length);
+    await page.check("#toutes-ventes");
+    await page.waitForFunction((n) => document.querySelectorAll("#estim-fiche path.leaflet-interactive").length > n, avantPts);
+    verifier(true, `« Autres ventes » : ${await page.$$eval("#estim-fiche path.leaflet-interactive", (l) => l.length)} ventes alentour ajoutées en gris`);
+  }
+  verifier(tuilesIgn > 0 && (await page.$$eval(".leaflet-tile", (l) => l.every((t) => t.src.startsWith("https://data.geopf.fr/")))), `fond de carte Plan IGN (${tuilesIgn} tuiles), plus OpenStreetMap`);
+  await page.locator("#estim-fiche").scrollIntoViewIfNeeded();
   await capture("estim-03-fiche");
   v = await api(page, "dossier", { query: { id } });
   verifier(v.avis_valeur.retenu > avant && v.avis_valeur.direct, "avis de valeur enregistré mis à jour sans relancer l'IA");
   verifier(v.avis_valeur.argumentaire_perime === true, "argumentaire signalé « à réécrire »");
-  await page.click("#estim-direct");
+  await page.click("#estim-fiche a[href$='/avis']");
   await page.waitForSelector(".comparable");
   await capture("estim-04-avis");
   verifier(await page.isVisible("text=Les chiffres ont changé"), "écran avis : invitation à réécrire l'argumentaire");

@@ -28,8 +28,8 @@ $jsTheme = 'window.THEME = ' . json_encode($theme, JSON_UNESCAPED_UNICODE | JSON
 $jsImportmap = json_encode($importmap, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG);
 $empreinte = fn (string $js) => "'sha256-" . base64_encode(hash('sha256', $js, true)) . "'";
 header("Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com " . $empreinte($jsTheme) . ' ' . $empreinte($jsImportmap)
-    . "; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org"
-    . "; media-src 'self' blob: data:; connect-src 'self' blob: https://cdnjs.cloudflare.com https://*.tile.openstreetmap.org wss://generativelanguage.googleapis.com; font-src 'self' data:"
+    . "; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: blob: https://data.geopf.fr"
+    . "; media-src 'self' blob: data:; connect-src 'self' blob: https://cdnjs.cloudflare.com https://data.geopf.fr wss://generativelanguage.googleapis.com; font-src 'self' data:"
     . "; worker-src 'self'; manifest-src 'self'; frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'");
 ?>
 <!doctype html>

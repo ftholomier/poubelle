@@ -1,6 +1,6 @@
 // Outils communs aux tests de bout en bout (Playwright, Chromium avec micro simulé).
 import { chromium } from "playwright";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, existsSync, readFileSync } from "node:fs";
 
 export const BASE = "http://127.0.0.1:8099/";
 export const CAPTURES = new URL("./captures/", import.meta.url).pathname;
@@ -11,6 +11,14 @@ export async function navigateur({ audio } = {}) {
   if (audio) args.push(`--use-file-for-fake-audio-capture=${audio}`);
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || "/opt/pw-browsers/chromium", args }).catch(() => chromium.launch({ args }));
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, permissions: ["microphone", "camera"], locale: "fr-FR" });
+  // Leaflet (cartes) servi depuis tests/node_modules/leaflet quand il y est (npm pack leaflet@1.9.4) : pas d'Internet pendant les tests
+  const leaflet = new URL("./node_modules/leaflet/dist/", import.meta.url).pathname;
+  if (existsSync(leaflet + "leaflet.js")) {
+    await ctx.route("https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/*", (r) => {
+      const nom = r.request().url().endsWith(".css") ? "leaflet.css" : "leaflet.js";
+      r.fulfill({ status: 200, contentType: nom.endsWith(".css") ? "text/css" : "application/javascript", body: readFileSync(leaflet + nom) });
+    });
+  }
   const page = await ctx.newPage();
   const erreurs = [];
   page.on("pageerror", (e) => erreurs.push(e.message));

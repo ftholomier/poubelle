@@ -14,8 +14,8 @@ import "./vues/commercialisation.js";
 import "./vues/transaction.js";
 import "./vues/quotidien.js";
 import "./vues/prospection.js";
-import "./vues/estimation.js";
 import { coachCaptation } from "./vues/suivi.js";
+import { carteVentesFiche } from "./vues/estimation.js";
 import "./vues/reseau.js";
 
 import {
@@ -546,15 +546,10 @@ function renderFiche($c, visit, sections, saver) {
     return `<input ${attrs} value="${esc(val)}" ${f.type === "number" ? 'inputmode="decimal"' : ""}>`;
   };
 
-  const estimDirect = (v) => {
-    const a = v.avis_valeur;
-    if (!a?.retenu) return "";
-    return `<span><small>Estimation en direct</small><strong>${fmtPrix(a.retenu)}</strong></span><span class="muted small">${fmtPrix(a.bas)} – ${fmtPrix(a.haut)}${a.confiance ? ` · confiance ${esc(a.confiance.niveau)}` : ""}</span><span class="estim-fleche">›</span>`;
-  };
 
   $c.innerHTML = `
     ${carteDossier(visit)}
-    <a class="estim-direct" id="estim-direct" href="#/visite/${visit.id}/avis" ${visit.avis_valeur?.retenu ? "" : "hidden"}>${estimDirect(visit)}</a>
+    <section class="card estim-fiche" id="estim-fiche"></section>
     ${nbIa ? `<div class="info-ia">✨ ${nbIa} champ(s) rempli(s) par l'IA. Touchez <span class="chip">IA</span> pour voir ce qui a été dit.</div>` : ""}
     ${sections
       .map(
@@ -602,16 +597,8 @@ function renderFiche($c, visit, sections, saver) {
     field.classList.toggle("filled", el.value !== "");
     field.querySelector(".chip")?.remove(); // corrigé par l'agent : ce n'est plus l'IA
   });
-  // L'estimation suit chaque modification de surface, d'état, de DPE… (recalculée côté serveur à l'enregistrement)
-  const majEstim = (ev) => {
-    const el = document.getElementById("estim-direct");
-    if (!el) return window.removeEventListener("dossier-maj", majEstim);
-    const avant = el.querySelector("strong")?.textContent;
-    el.innerHTML = estimDirect(ev.detail);
-    el.hidden = !ev.detail.avis_valeur?.retenu;
-    if (avant && avant !== el.querySelector("strong")?.textContent) el.classList.add("flash"), setTimeout(() => el.classList.remove("flash"), 900);
-  };
-  window.addEventListener("dossier-maj", majEstim);
+  // Estimation : carte des ventes autour du bien et justification du prix, recalculées à chaque modification
+  carteVentesFiche(document.getElementById("estim-fiche"), visit);
   $c.addEventListener("click", (e) => {
     const aide = e.target.closest(".aide-champ");
     if (aide) {
