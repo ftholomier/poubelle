@@ -176,13 +176,23 @@ ecransDossier.pieces = async ($c, visit) => {
           (p) => `<div class="ligne piece ${p.statut === "recue" ? "ok" : ""}"><div>
             <strong>${p.statut === "recue" ? "✓ " : ""}${esc(p.label)}</strong>
             ${p.aide ? `<span class="muted small">${esc(p.aide)}</span>` : ""}${p.facultative ? '<span class="muted small"> · facultatif</span>' : ""}
-            ${(p.fichiers || []).map((f) => `<a class="small piece-fichier" href="api/?r=piece&id=${visit.id}&f=${encodeURIComponent(f.nom)}" target="_blank">📎 ${esc(f.resume || f.nom)}${f.par === "vendeur" ? " · déposé par le vendeur" : ""}</a>`).join("")}
+            ${(p.fichiers || []).map((f) => `<div class="piece-fichier-ligne"><a class="small piece-fichier" href="api/?r=piece&id=${visit.id}&f=${encodeURIComponent(f.nom)}" target="_blank">📎 ${esc(f.resume || f.nom)}${f.par === "vendeur" ? " · déposé par le vendeur" : ""}</a><button type="button" class="icon-btn petit" data-suppr-piece="${esc(f.nom)}" aria-label="Supprimer ce document">🗑</button></div>`).join("")}
           </div>
           <label class="btn small-btn">📷<input type="file" accept="image/*,application/pdf" data-piece="${esc(p.cle)}" hidden></label></div>`,
         )
         .join("")}
       <label class="btn magic big" style="margin-top:14px">📷 Ajouter un document (l'IA reconnaît la pièce)<input type="file" accept="image/*,application/pdf" data-piece="auto" hidden></label>
     </section>`;
+  $c.querySelectorAll("[data-suppr-piece]").forEach((b) => (b.onclick = async () => {
+    if (!confirm("Supprimer ce document ? La pièce redeviendra « à recevoir » s'il n'en reste aucun.")) return;
+    try {
+      await api("piece_supprimer", { method: "POST", query: { id: visit.id }, body: { fichier: b.dataset.supprPiece } });
+      toast("Document supprimé");
+      ecransDossier.pieces($c, visit);
+    } catch (e) {
+      toast(e.message, "erreur");
+    }
+  }));
   $c.querySelectorAll("input[data-piece]").forEach((input) => {
     input.onchange = async () => {
       const f = input.files[0];

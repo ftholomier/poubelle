@@ -100,6 +100,7 @@ Modules socles (chargés en premier) : `dossier` (étapes, prochaine action, doc
 | `offres`, `compromis`, `lcbft`, `facturation` | offre → acceptation, échéancier et relances, anti-blanchiment, facture, commission, avis Google |
 | `aujourdhui`, `quotidien`, `push` | écran Aujourd'hui, tâches, bilan d'appel, commande vocale, briefing, tableau de bord, notifications Web Push |
 | `prospection`, `reseau`, `rgpd`, `demo_jeu` | prospection, réseau, données personnelles, jeu de démonstration |
+| `suppressions` | supprimer une tâche, un document du vendeur, un secteur de prospection, un contact reçu, une visite d'acquéreur (le bien entier : bouton en bas du résumé) |
 | `journal_acces` | journal des accès (RGPD) : qui a consulté quel dossier, document ou pièce d'identité ; écran admin, CSV, purge |
 
 ### 3.2 Fichiers
@@ -388,7 +389,7 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
 ```
 
 - Paramètres → **« Charger le jeu de démonstration »** : 6 biens à toutes les étapes, acquéreurs, agenda, prospection.
-- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 17 scénarios Playwright sur des
+- **Tests automatisés** (`tests/`, voir son en-tête) : `./tests/tout.sh` lance 18 scénarios Playwright sur des
   données neuves, avec services publics, SMTP, push, firma.dev et BoldSign simulés. Couvre : parcours de base, sortie
   de visite complète, espace vendeur et signature avec code, photos, acquéreurs et agenda, assistant qui réserve,
   vidéo, offre → acte, quotidien (dont **déchiffrement réel d'une notification push** et vérification de la
@@ -396,7 +397,7 @@ php -S localhost:8000 -t public          # puis http://localhost:8000 : créer l
   exemplaire signé), **estimation en temps réel**, **rendu Leboncoin**, **suivi du projet** (captation, cases en
   direct, export CRM), **journal des accès**, **accessibilité** (audit axe-core WCAG 2.1 AA sur 36 écrans : clair, sombre, plein soleil,
   espace client, page publique), **sécurité** (en-têtes, essais de connexion, liens cloisonnés, données piégées),
-  démo et réseau.
+  **suppressions**, démo et réseau.
 
 **Non testé en conditions réelles** (à faire en premier) :
 - vrais appels Gemini (transcription, génération, Live, multimodal, images) ;

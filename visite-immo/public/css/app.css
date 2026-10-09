@@ -780,3 +780,9 @@ input[type=range] { width: 100%; accent-color: var(--vert); padding: 0; border: 
 .confort-texte body { font-size: 18px; }
 .confort-texte .small { font-size: .95rem; }
 .confort-texte .tabs a { font-size: .8rem; }
+
+/* ---------- Suppressions ---------- */
+.ajd-suppr { display: grid; place-items: center; min-width: 44px; min-height: 44px; border-radius: 10px; opacity: .7; }
+.ajd-suppr:hover, .ajd-suppr:focus-visible { opacity: 1; background: var(--bg); }
+.icon-btn.petit { width: 44px; height: 44px; font-size: 1rem; flex-shrink: 0; }
+.piece-fichier-ligne { display: flex; align-items: center; justify-content: space-between; gap: 8px; }

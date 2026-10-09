@@ -163,6 +163,11 @@ function deposer_piece(array $agent, string $id, array $fichier, string $cle, st
         journal_ajout($v, 'piece', ($par === 'vendeur' ? 'Le vendeur a déposé' : 'Pièce ajoutée') . " : {$lecture['resume']}" . ($n ? " · $n information(s) reportée(s) dans la fiche." : '') . ($lecture['alertes'] ? ' · ⚠ ' . implode(' ; ', $lecture['alertes']) : ''));
         return $v;
     });
+    if ($modifies) {
+        champs_modifies($agent, $id, $modifies); // ex. : surface lue dans un document → estimation recalculée
+        $v = load_visit($agent, $id);
+    }
+    return $v;
 }
 
 // ---------- Relances automatiques ----------

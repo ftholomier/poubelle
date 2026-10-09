@@ -20,7 +20,7 @@ vues.aujourdhui = async () => {
   const ligne = (e) => `<a class="ajd-item ${e.priorite === 1 ? "urgent" : ""}" href="${esc(e.lien || "#/")}">
       ${e.tache ? `<span class="ajd-ic ajd-check" data-tache="${esc(e.tache)}" title="Marquer comme fait">✓</span>` : `<span class="ajd-ic">${ICONES[e.type] || "•"}</span>`}
       <span class="ajd-txt"><strong>${esc(e.titre)}</strong><span class="muted small">${esc(e.detail || "")}</span></span>
-      ${e.heure ? `<span class="ajd-heure">${esc(e.heure)}</span>` : '<span class="fleche">→</span>'}
+      ${e.tache ? `<span class="ajd-suppr" data-suppr-tache="${esc(e.tache)}" role="button" aria-label="Supprimer la tâche" title="Supprimer">🗑</span>` : e.heure ? `<span class="ajd-heure">${esc(e.heure)}</span>` : '<span class="fleche">→</span>'}
     </a>`;
 
   $m.innerHTML = `

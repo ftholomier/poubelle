@@ -432,7 +432,17 @@ function renderResume($c, visit) {
       <div class="dossier-top"><h2>Préparé automatiquement</h2><a class="small" href="#/visite/${visit.id}/documents"><u>Documents</u></a></div>
       <ul class="prets">${prets.map((d) => `<li>✓ ${esc(d.label)}${d.interne ? ' <span class="muted small">(interne)</span>' : ""}</li>`).join("")}</ul>
     </section>
-    ${journalCarte(visit)}`;
+    ${journalCarte(visit)}
+    <section class="card danger-zone">
+      <button class="btn danger-ghost" id="suppr-bien">🗑 Supprimer ce bien</button>
+      <p class="small muted">Efface tout le dossier : audio, fiche, documents, photos, signatures. Irréversible.</p>
+    </section>`;
+  document.getElementById("suppr-bien").onclick = async () => {
+    if (!confirm(`Supprimer définitivement « ${visit.titre || "ce bien"} » et tout son dossier ?`)) return;
+    await api("visit", { method: "DELETE", query: { id: visit.id } });
+    toast("Bien supprimé");
+    go("/biens");
+  };
   $c.querySelectorAll("[data-action]").forEach((b) => (b.onclick = () => lancerAction(b.dataset.action, visit)));
 }
 

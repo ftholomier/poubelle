@@ -125,6 +125,14 @@ blocsAujourdhui.push({
       c.closest(".ajd-item").classList.add("fait");
       toast("Fait ✓", "ok");
     }));
+    $m.querySelectorAll("[data-suppr-tache]").forEach((c) => (c.onclick = async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!confirm("Supprimer cette tâche ?")) return;
+      await api("tache", { method: "DELETE", query: { id: c.dataset.supprTache } });
+      c.closest(".ajd-item").remove();
+      toast("Tâche supprimée");
+    }));
     if (location.search.includes("briefing=1")) {
       history.replaceState(null, "", location.pathname + location.hash);
       ecouterBriefing();

@@ -40,6 +40,7 @@ blocsVente.push({
           <div class="btn-row">
             <button class="btn small-btn ${va.bon_signe ? "" : "primary"}" data-bon="${va.id}">${va.bon_signe ? "✓ Bon de visite" : sig?.statut === "en_attente" ? "✍️ Bon à signer" : "✍️ Bon de visite"}</button>
             <button class="btn small-btn ${r ? "" : "magic"}" data-retour="${va.id}">🎙️ ${r ? "Refaire le retour" : "Dicter le retour"}</button>
+            <button class="icon-btn" data-suppr-visite="${esc(va.id)}" data-nom="${esc(va.nom)}" aria-label="Supprimer cette visite">🗑</button>
           </div></div>`;
       }).join("") || '<p class="muted">Aucune visite pour l\'instant.</p>'}
       <div class="btn-row" style="margin-top:10px"><button class="btn" id="planifier">📅 Planifier une visite</button><button class="btn" id="passage">🚶 Visiteur présent</button></div>
@@ -56,6 +57,12 @@ blocsVente.push({
       };
     };
     $el.querySelectorAll("[data-bon]").forEach((b) => (b.onclick = () => go(`/visite/${visit.id}/signature/${encodeURIComponent("bon:" + b.dataset.bon)}`)));
+    $el.querySelectorAll("[data-suppr-visite]").forEach((b) => (b.onclick = async () => {
+      if (!confirm(`Supprimer la visite de ${b.dataset.nom} ? Le rendez-vous est retiré de l'agenda.`)) return;
+      await api("visite_acq_supprimer", { method: "POST", query: { id: visit.id }, body: { visite: b.dataset.supprVisite } });
+      toast("Visite supprimée");
+      recharger(visit);
+    }));
     $el.querySelectorAll("[data-retour]").forEach((b) => (b.onclick = async () => {
       const r = await dicter("retour_visite", { titre: "Retour de visite", aide: "Ce qui a plu, ce qui freine, l'avis sur le prix, la suite.", exemple: "Ils ont adoré le jardin, la cuisine les freine, ils trouvent le prix un peu haut, ils veulent revenir avec un artisan.", params: { dossier: visit.id, visite: b.dataset.retour } });
       if (r) {

@@ -41,7 +41,7 @@ vues.prospection = async () => {
         ${s.marche.prix_m2_appartement ? `<div class="chiffre"><small>Appartements</small><strong>${fmtEuros(s.marche.prix_m2_appartement)}/m²</strong></div>` : ""}
       </div>
       ${s.marche.rues.length ? `<details class="aide"><summary>Rues actives : boîtage « votre rue se vend »</summary>${s.marche.rues.map((r) => `<div class="ligne"><div><strong>${esc(r.rue)}</strong><span class="muted small">${r.ventes} ventes · ${fmtEuros(r.prix_m2)}/m²</span></div><a class="icon-btn" target="_blank" href="api/?${new URLSearchParams({ r: "boitage", commune: s.citycode, rue: r.rue })}">📄</a></div>`).join("")}</details>` : ""}
-      <button class="btn ghost" data-reanalyser='${esc(JSON.stringify(s))}'>↻ Actualiser</button>
+      <div class="btn-row"><button class="btn ghost" data-reanalyser='${esc(JSON.stringify(s))}'>↻ Actualiser</button><button class="btn danger-ghost small-btn" data-suppr-secteur="${esc(s.citycode)}" data-nom="${esc(s.nom)}">🗑 Retirer ce secteur</button></div>
     </section>`).join("")}
     <div id="carte" class="carte" hidden></div>
     ${actives.length ? `<section class="card"><div class="dossier-top"><h2>Logements F / G à cibler</h2><span class="muted small">${actives.length}</span></div>
@@ -67,6 +67,12 @@ vues.prospection = async () => {
   $m.querySelectorAll("[data-reanalyser]").forEach((b) => action(b, async () => {
     const r = await api("secteur", { method: "POST", body: JSON.parse(b.dataset.reanalyser) });
     toast(`${r.ajouts} nouvelle(s) adresse(s)`, "ok");
+    vues.prospection();
+  }));
+  $m.querySelectorAll("[data-suppr-secteur]").forEach((b) => (b.onclick = async () => {
+    if (!confirm(`Retirer le secteur ${b.dataset.nom} ? Les adresses pas encore contactées sont retirées aussi ; celles déjà suivies restent.`)) return;
+    await api("secteur", { method: "DELETE", query: { citycode: b.dataset.supprSecteur } });
+    toast("Secteur retiré");
     vues.prospection();
   }));
   $m.querySelectorAll("[data-cible]").forEach((s) => (s.onchange = async () => {
