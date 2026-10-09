@@ -62,7 +62,6 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
             <a href="<?= e($item['href']) ?>" class="<?= $item['active'] ? 'is-active' : '' ?>"<?= $item['active'] ? ' aria-current="page"' : '' ?>><?= e($item['label']) ?></a>
           <?php endif; ?>
         <?php endforeach; ?>
-        <?php if (\App\Shop\ShopPages::visible()): ?><a href="<?= e(url('/boutique/')) ?>" class="mainnav__shop<?= ($active ?? '') === 'boutique' ? ' is-active' : '' ?>"><?= e(t('Boutique')) ?></a><?php endif; ?>
       </nav>
     </div>
   </div>
