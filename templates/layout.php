@@ -62,10 +62,6 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 </head>
 <body class="<?= e($page['body_class'] ?? '') ?>">
 <a class="skip-link" href="#contenu"><?= e(t('Aller au contenu')) ?></a>
-<?php if (\App\Front\Seo::closed() && \App\Core\Auth::user()): ?>
-<?php $waitingOn = (bool) Settings::get('waiting.enabled', false); ?>
-<div class="team-bar" role="note" lang="fr"><span class="wrap"><b>Site fermé au public</b> (<?= $waitingOn ? 'page d’attente' : 'mot de passe d’accès' ?>) : vous le voyez parce que vous êtes connecté au back-office, et rien n’est indexé par les moteurs de recherche.<?php if ($waitingOn): ?> <a href="/?apercu-attente=1">Voir ce que voit le public</a> ·<?php endif; ?> <a href="/admin">Back-office</a></span></div>
-<?php endif; ?>
 <?php if (empty($page['bare'])): ?>
 <?= \App\Core\View::partial('partials/header', ['active' => $page['active'] ?? '', 'path' => $path]) ?>
 <?php endif; ?>
