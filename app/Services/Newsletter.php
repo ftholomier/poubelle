@@ -61,7 +61,7 @@ final class Newsletter
         $cells = [];
         foreach ($items as $m) {
             $href = e($base . url($m['path']));
-            $img = $m['image'] ? self::photo((string) $m['image']) : null;
+            $img = ($m['image'] ? self::photo((string) $m['image']) : null) ?? self::yearCard((int) substr((string) $m['date'], 0, 4));
             $score = $m['us'] !== null ? ($m['sh'] ? $m['us'] . ' – ' . $m['them'] : $m['them'] . ' – ' . $m['us']) : '–';
             $ago = (int) date('Y', $ts) - (int) substr((string) $m['date'], 0, 4);
             $cells[] = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFFDF6;border:3px solid #0E1F4D">'
@@ -133,6 +133,37 @@ final class Newsletter
             imagejpeg($out, $dest, 88);
             imagedestroy($im);
             imagedestroy($out);
+        }
+        return '/media/lettre/' . $name;
+    }
+
+    /**
+     * Match sans photo : une image de même format (560 × 374) avec l'année en grand, pour que
+     * les deux cartes d'une ligne restent alignées.
+     */
+    private static function yearCard(int $year): ?string
+    {
+        $name = 'annee-' . $year . '.jpg';
+        $dest = PUBLIC_PATH . '/media/lettre/' . $name;
+        $font = APP_DIR . '/Resources/fonts/BigShouldersDisplay-Black.ttf';
+        if (!is_file($dest)) {
+            if (!$year || !is_file($font) || !function_exists('imagettftext')) {
+                return null;
+            }
+            $im = imagecreatetruecolor(560, 374);
+            imagefill($im, 0, 0, imagecolorallocate($im, 14, 31, 77));
+            // Terrain en filigrane : ligne médiane et rond central.
+            $line = imagecolorallocate($im, 32, 52, 108);
+            imagesetthickness($im, 3);
+            imageline($im, 280, 0, 280, 374, $line);
+            imageellipse($im, 280, 187, 150, 150, $line);
+            $yel = imagecolorallocate($im, 246, 196, 0);
+            $box = imagettfbbox(120, 0, $font, (string) $year);
+            $w = $box[2] - $box[0];
+            imagettftext($im, 120, 0, (int) ((560 - $w) / 2), 187 + 50, $yel, $font, (string) $year);
+            @mkdir(dirname($dest), 0775, true);
+            imagejpeg($im, $dest, 90);
+            imagedestroy($im);
         }
         return '/media/lettre/' . $name;
     }
