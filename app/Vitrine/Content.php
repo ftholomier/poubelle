@@ -190,7 +190,7 @@ final class Content
                 ];
             }
         }
-        $c = (string) Settings::get('home.centenary_date', '2028-05-20');
+        $c = (string) Settings::get('home.centenary_date', '2028-06-14');
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $c)) {
             $all[] = [
                 'slug' => 'centenaire-du-fcsm',

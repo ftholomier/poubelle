@@ -85,7 +85,7 @@ $tr = fn (string $fields) => '<button type="button" class="btn btn--sm btn--ghos
         <?= Form::number('home.slider_count', $schema['slider_count']['label'], $home['slider_count'] ?? 5, ['min' => 1, 'max' => 12]) ?>
         <?= Form::text('home.counter_community', $schema['counter_community']['label'], $home['counter_community'] ?? '') ?>
         <?= Form::text('home.counter_videos', $schema['counter_videos']['label'], $home['counter_videos'] ?? '') ?>
-        <?= Form::text('home.centenary_date', $schema['centenary_date']['label'], $home['centenary_date'] ?? '2028-05-20', ['type' => 'date']) ?>
+        <?= Form::text('home.centenary_date', $schema['centenary_date']['label'], $home['centenary_date'] ?? '2028-06-14', ['type' => 'date']) ?>
       </div>
       <p class="small muted" style="margin:0">Les compteurs de matchs et de joueurs sont calculés automatiquement à partir des fiches.</p>
     </div>

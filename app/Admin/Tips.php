@@ -148,7 +148,7 @@ final class Tips
             'crédit / propriétaire' => 'À qui appartient l’objet ou qui l’a photographié.',
         ],
         'moments' => [
-            'screen' => '« 100 ans, 100 moments » jusqu’au centenaire (20 mai 2028) : vous choisissez la date de parution de chaque moment (statut « Planifié » et sa date, dans la fiche) ; le numéro suit l’ordre des dates. Sur le site, les moments à venir restent « À venir », sans date.',
+            'screen' => '« 100 ans, 100 moments » jusqu’au centenaire (14 juin 2028) : vous choisissez la date de parution de chaque moment (statut « Planifié » et sa date, dans la fiche) ; le numéro suit l’ordre des dates. Sur le site, les moments à venir restent « À venir », sans date.',
             'calendrier de parution' => 'Les moments validés, dans l’ordre de parution. Tant qu’un moment n’est pas en ligne, sa date se change ici (« Changer ») ; une fois en ligne, sa date et son numéro ne bougent plus.',
             'moments à dater' => 'Les moments à relire (dont les premiers jets de l’IA) et les brouillons, avec la date anniversaire de l’événement proposée. Ouvrez-en un, relisez, puis validez avec une date : une seule validation suffit.',
             'à surveiller' => 'Deux moments le même jour, un long trou sans moment, un moment à venir sans image, un numéro dont le moment a été retiré du site.',
@@ -180,7 +180,7 @@ final class Tips
             'nombre de slides tirées au hasard dans « à la une »' => 'Combien de fiches le slider tire au hasard à chaque visite (1 à 12).',
             'compteur : membres de la communauté' => 'Chiffre affiché tel quel sur l’accueil (ex. « 11000+ ») : à mettre à jour à la main. Les nombres de matchs et de joueurs, eux, sont calculés.',
             'compteur : vidéos youtube' => 'Chiffre affiché tel quel sur l’accueil (ex. « 1400+ ») : à mettre à jour à la main.',
-            'date du centenaire (compte à rebours)' => 'La date visée par le compte à rebours du site (20 mai 2028).',
+            'date du centenaire (compte à rebours)' => 'La date visée par le compte à rebours du site (14 juin 2028).',
             'dates clés' => 'Quelques repères de l’époque (année et fait), affichés avec son texte.',
             'lien « visiter cette époque »' => 'L’adresse ouverte par le bouton de l’époque (ex. « /interactif/frise/#1928 »).',
             'identifiant (adresse)' => 'Le mot de l’adresse de la collection : /reserves/identifiant/ (minuscules, sans espace ni accent).',

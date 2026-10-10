@@ -26,7 +26,7 @@ final class Pages
             'partners' => Content::partners(),
             'teaser' => $teaser,
             'days' => \App\Front\Site::daysToCentenary(),
-            'centenary' => (string) Settings::get('home.centenary_date', '2028-05-20'),
+            'centenary' => (string) Settings::get('home.centenary_date', '2028-06-14'),
         ], [
             'full_title' => (string) Settings::get('vitrine.seo_title', '') ?: Site::name(),
             'description' => (string) Settings::get('vitrine.seo_description', ''),
@@ -86,7 +86,7 @@ final class Pages
             'figures' => !empty($a['stats']) ? Content::figures() : [],
             'videos' => !empty($a['videos']) ? Videos::latest(6) : [],
             'channel' => Videos::channelUrl(),
-            'centenary' => (string) Settings::get('home.centenary_date', '2028-05-20'),
+            'centenary' => (string) Settings::get('home.centenary_date', '2028-06-14'),
         ], [
             'title' => $a['title'], 'description' => $a['excerpt'] ?? $a['lead'] ?? '', 'image' => self::share($a['image'] ?? null), 'active' => 'actions',
         ]);

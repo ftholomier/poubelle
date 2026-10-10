@@ -265,7 +265,7 @@ final class Interactive
             'votes' => self::onzeVoters(),
         ], [
             'title' => t('Le centenaire du FC Sochaux-Montbéliard : 1928-2028'),
-            'description' => t('Compte à rebours jusqu’au 20 mai 2028, 100 moments de l’histoire du club et vote du Onze de légende.'),
+            'description' => t('Compte à rebours jusqu’au 14 juin 2028, 100 moments de l’histoire du club et vote du Onze de légende.'),
             'active' => 'interactif',
             'body_class' => 'page-centenary',
             'styles' => ['css/interactif.css'],

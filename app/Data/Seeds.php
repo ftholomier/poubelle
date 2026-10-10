@@ -13,7 +13,7 @@ final class Seeds
     public static function quiz(): array
     {
         $q = [
-            ['En quelle année le FC Sochaux est-il fondé ?', ['1919', '1928', '1932', '1945'], 1, 'Le club voit le jour le 20 mai 1928 : son centenaire sera célébré le 20 mai 2028.'],
+            ['En quelle année le FC Sochaux est-il fondé ?', ['1919', '1928', '1932', '1945'], 1, 'Le club voit le jour le 14 juin 1928 : son centenaire sera célébré le 14 juin 2028.'],
             ['Comment surnomme-t-on les joueurs sochaliens ?', ['Les Aiglons', 'Les Canaris', 'Les Lionceaux', 'Les Dogues'], 2, "Le lion est l'emblème du club… et de la région."],
             ['Combien de titres de champion de France le club compte-t-il ?', ['Aucun', 'Un', 'Deux', 'Trois'], 2, 'Deux titres, en 1935 et 1938.'],
             ['Quel est le nom du stade du FCSM ?', ['Stade Auguste-Bonal', 'Stade de la Meinau', 'Stade Bollaert', "Stade de l'Abbé-Deschamps"], 0, 'Le stade Auguste-Bonal, à Montbéliard.'],
@@ -30,7 +30,7 @@ final class Seeds
             ['Contre quel adversaire Sochaux dispute-t-il la finale de la Coupe de France 1988 ?', ['Metz', 'Monaco', 'Bordeaux', 'Marseille'], 0, 'La finale face au FC Metz se joue au Parc des Princes.'],
         ];
         $en = [
-            ['In which year was FC Sochaux founded?', ['1919', '1928', '1932', '1945'], 'The club was founded on 20 May 1928: its centenary will be celebrated on 20 May 2028.'],
+            ['In which year was FC Sochaux founded?', ['1919', '1928', '1932', '1945'], 'The club was founded on 14 June 1928: its centenary will be celebrated on 14 June 2028.'],
             ['What nickname is given to Sochaux players?', ['Les Aiglons', 'Les Canaris', 'Les Lionceaux', 'Les Dogues'], 'The lion is the emblem of the club… and of the region.'],
             ['How many French league titles has the club won?', ['None', 'One', 'Two', 'Three'], 'Two titles, in 1935 and 1938.'],
             ['What is the name of FCSM’s stadium?', ['Stade Auguste-Bonal', 'Stade de la Meinau', 'Stade Bollaert', "Stade de l'Abbé-Deschamps"], 'Stade Auguste-Bonal, in Montbéliard.'],
@@ -52,7 +52,7 @@ final class Seeds
     public static function frise(): array
     {
         $e = [
-            [1928, 'Fondation du club', 'Le FC Sochaux voit le jour le 20 mai 1928.', 'n', '2024/11/1928-FC-Sochaux3b1-1536x992-1.jpg'],
+            [1928, 'Fondation du club', 'Le FC Sochaux voit le jour le 14 juin 1928.', 'n', '2024/11/1928-FC-Sochaux3b1-1536x992-1.jpg'],
             [1931, 'Ouverture du stade de la Forge', 'Le futur stade Auguste-Bonal accueille ses premiers matchs.', '', '2025/03/Tribune-terminee-1931-Bis-1.jpg'],
             [1935, 'Premier titre de champion de France', '', 'y', '2024/12/5-79.jpg'],
             [1937, 'Première Coupe de France', '', 'y', '2025/03/Phanphare-Peugeot-coupe-de-France-37-a-Paris.jpg'],
@@ -64,10 +64,10 @@ final class Seeds
             [2000, 'Un nouveau stade Bonal', 'Le stade est entièrement reconstruit.', '', '2025/11/519640823_1128725095737251_737815365501537839_n.jpg'],
             [2004, 'Coupe de la Ligue', 'Victoire face à Nantes aux tirs au but.', 'y', '2025/01/photos-il-y-a-quinze-ans-sochaux-remportait-la-coupe-de-la-ligue-au-stade-de-france-1554725436.jpg'],
             [2007, 'Deuxième Coupe de France', "Victoire face à l'OM au Stade de France, aux tirs au but.", 'y', '2026/06/le-onze-de-depart-de-sochaux-non-vous-ne-revez-pas-mickael-isabey-n-est-pas-retenu-il-n-est-meme-pas-sur-la-feuille-de-match-photo-alexandre-marchi-1589306142.jpg'],
-            [2028, 'Le centenaire', 'Rendez-vous le 20 mai 2028.', 'n', '2025/03/le-deplacement-des-supporters-de-reims-a-sochaux-sera-encadre-1705584005.jpg'],
+            [2028, 'Le centenaire', 'Rendez-vous le 14 juin 2028.', 'n', '2025/03/le-deplacement-des-supporters-de-reims-a-sochaux-sera-encadre-1705584005.jpg'],
         ];
         $en = [
-            ['The club is founded', 'FC Sochaux is born on 20 May 1928.'],
+            ['The club is founded', 'FC Sochaux is born on 14 June 1928.'],
             ['The Stade de la Forge opens', 'The future Stade Auguste-Bonal hosts its first matches.'],
             ['First French league title', ''],
             ['First Coupe de France', ''],
@@ -79,7 +79,7 @@ final class Seeds
             ['A new Stade Bonal', 'The stadium is completely rebuilt.'],
             ['Coupe de la Ligue', 'Victory against Nantes on penalties.'],
             ['Second Coupe de France', 'Victory against OM at the Stade de France, on penalties.'],
-            ['The centenary', 'See you on 20 May 2028.'],
+            ['The centenary', 'See you on 14 June 2028.'],
         ];
         return array_map(fn ($x, $t) => ['year' => $x[0], 'title' => $x[1], 'text' => $x[2], 'title_en' => $t[0], 'text_en' => $t[1], 'tone' => $x[3], 'image' => $x[4] ?? null, 'href' => null, 'validated' => false], $e, $en);
     }

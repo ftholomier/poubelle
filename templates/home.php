@@ -78,7 +78,7 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
       </a>
       <?php endif; ?>
       <div class="hcard hcard--cent">
-        <span class="hcard__k"><?= e(t('Le centenaire')) ?> · 20 <?= e(t('mai')) ?> 1928 → <?= e(date_fr($centenary)) ?></span>
+        <span class="hcard__k"><?= e(t('Le centenaire')) ?> · 14 <?= e(t('juin')) ?> 1928 → <?= e(date_fr($centenary)) ?></span>
         <span class="hcard__t hcard__t--s"><?= e(t('Cent ans de lion.')) ?> <?= e(t('Aidez-nous à tout sauver.')) ?></span>
         <?= countdown_html($centenary) ?>
         <span class="row gap-8" style="flex-wrap:wrap">

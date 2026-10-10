@@ -7,7 +7,7 @@ $posName = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A'
 <section class="chero">
   <div class="wrap chero__inner">
     <div class="stack" style="gap:20px">
-      <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('20 mai 1928 → 20 mai 2028')) ?></span>
+      <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('14 juin 1928 → 14 juin 2028')) ?></span>
       <h1 class="chero__title"><?= e(t('Cent')) ?><br><span class="yellow"><?= e(t('ans.')) ?></span></h1>
       <p class="lead" style="max-width:40ch"><?= e(t("Jusqu'au centenaire, le musée dévoile un à un 100 moments de l'histoire du club, et vous invite à composer le Onze de légende.")) ?></p>
       <div class="row" style="gap:12px;flex-wrap:wrap">
@@ -22,7 +22,7 @@ $posName = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A'
 
 <section id="moments" class="wrap cmoments">
   <div class="between" style="align-items:flex-end;gap:20px;flex-wrap:wrap">
-    <div class="stack" style="gap:10px;flex:1 1 420px;min-width:0"><span class="eyebrow"><?= e(t('Jusqu’au 20 mai 2028')) ?></span><h2 class="h-section"><?= e(t('100 ans, 100 moments')) ?></h2></div>
+    <div class="stack" style="gap:10px;flex:1 1 420px;min-width:0"><span class="eyebrow"><?= e(t('Jusqu’au 14 juin 2028')) ?></span><h2 class="h-section"><?= e(t('100 ans, 100 moments')) ?></h2></div>
     <div class="stack" style="gap:6px;min-width:260px"><b class="cmoments__count"><?= $pub ?> / 100 <?= e(t('publiés')) ?></b><div class="abox__bar abox__bar--light"><span style="width:<?= $pub ?>%"></span></div></div>
   </div>
   <?= \App\Core\View::partial('interactif/moments-grid', ['moments' => $moments]) ?>
@@ -34,7 +34,7 @@ $posName = ['G' => t('Gardien'), 'D' => t('Défenseur'), 'M' => t('Milieu'), 'A'
     <div class="stack" style="gap:20px">
       <span class="eyebrow eyebrow--lg eyebrow--yellow"><?= e(t('Vote du centenaire')) ?></span>
       <h2 class="h-section" style="color:var(--cream)"><?= e(t('Composez le Onze de légende')) ?></h2>
-      <p class="lead" style="max-width:42ch"><?= e(t('Cliquez un poste sur le terrain, choisissez un joueur. Le Onze du public sera dévoilé le 20 mai 2028.')) ?></p>
+      <p class="lead" style="max-width:42ch"><?= e(t('Cliquez un poste sur le terrain, choisissez un joueur. Le Onze du public sera dévoilé le 14 juin 2028.')) ?></p>
       <div class="opick">
         <b class="opick__t" data-onze-title></b>
         <label class="sr-only" for="onzeq"><?= e(t('Chercher un joueur')) ?></label>

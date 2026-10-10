@@ -24,7 +24,7 @@ final class Moments
     public const HOUR = '08:00';
     private const ROBOT = ['name' => 'Calendrier des 100 moments'];
 
-    /** Dernier jour de la série : le centenaire (20 mai 2028). */
+    /** Dernier jour de la série : le centenaire (14 juin 2028). */
     public static function end(): string
     {
         return Site::centenaryDate();

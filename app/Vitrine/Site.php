@@ -138,7 +138,7 @@ final class Site
         ];
     }
 
-    /** « Samedi 23 janvier 2027 · 14 h 30 » (événement), « 20 mai 2028 » (journée entière). */
+    /** « Samedi 23 janvier 2027 · 14 h 30 » (événement), « 14 juin 2028 » (journée entière). */
     public static function when(array $e): string
     {
         $ts = strtotime((string) $e['start']);

@@ -46,7 +46,7 @@ return [
             'slider_count' => ['label' => 'Nombre de slides tirées au hasard dans « À la une »', 'type' => 'number', 'default' => 5],
             'counter_community' => ['label' => 'Compteur : membres de la communauté', 'type' => 'text', 'default' => '11000+'],
             'counter_videos' => ['label' => 'Compteur : vidéos YouTube', 'type' => 'text', 'default' => '1400+'],
-            'centenary_date' => ['label' => 'Date du centenaire (compte à rebours)', 'type' => 'date', 'default' => '2028-05-20'],
+            'centenary_date' => ['label' => 'Date du centenaire (compte à rebours)', 'type' => 'date', 'default' => '2028-06-14'],
             'daily_figure' => ['label' => 'Afficher « Le chiffre du jour » (un des 100 chiffres du FCSM, un nouveau chaque jour)', 'type' => 'bool', 'default' => true],
             'teaser' => ['label' => 'Afficher le teaser vidéo sur l’accueil (le public le voit à l’ouverture du site)', 'type' => 'bool', 'default' => true],
         ],
@@ -252,7 +252,7 @@ return [
     'centenary' => [
         'label' => 'Centenaire',
         'fields' => [
-            'onze_reveal' => ['label' => 'Date de dévoilement du Onze du public', 'type' => 'date', 'default' => '2028-05-20'],
+            'onze_reveal' => ['label' => 'Date de dévoilement du Onze du public', 'type' => 'date', 'default' => '2028-06-14'],
         ],
     ],
     'legal' => [
