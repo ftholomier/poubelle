@@ -969,3 +969,11 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 @media (max-width: 760px) { .heras--full .heras__panel { grid-template-columns: 1fr; } }
 .searchbar--xl { min-width: 0; } .searchbar--xl input { min-width: 0; flex: 1 1 auto; } @media (max-width: 600px) { .searchbar--xl input { font-size: 16px; padding: 12px; } .searchbar--xl button { padding: 0 14px; } .hfind__links a { font-size: 13px; padding: 6px 10px; } }
 .hcard--fig:hover, .hcard--fig:hover * { color: var(--yellow); } .hcard--fig:hover .hcard__big small { color: var(--cream); }
+
+/* Pied de page : fiche boutique qui se retourne (vignette Panini) toutes les 3 s. */
+.mf-shop__flip { display: grid; perspective: 900px; max-width: 190px; }
+.mf-shop__flip > .mf-shop__card { grid-area: 1 / 1; visibility: hidden; }
+.mf-shop__flip > .mf-shop__card.is-on { visibility: visible; transform: rotateY(0); transition: transform .28s ease-in, border-color .2s; }
+.mf-shop__flip.is-turning > .mf-shop__card.is-on { transform: rotateY(90deg); }
+.mf-shop__flip > .mf-shop__card.is-on:not(:only-child) { animation: mfFlipIn .28s ease-out; }
+@keyframes mfFlipIn { from { transform: rotateY(-90deg); } to { transform: rotateY(0); } }

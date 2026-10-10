@@ -431,4 +431,23 @@
     $$('[data-cart-badge]').forEach(b => { b.hidden = false; b.title = cartN + (cartN > 1 ? ' articles' : ' article') + ' dans le panier'; });
     $$('[data-cart-n]').forEach(n => { n.textContent = cartN > 99 ? '99+' : String(cartN); });
   }
+
+  // Pied de page : la fiche boutique se retourne comme une vignette Panini toutes les 3 s pour montrer un autre produit.
+  $$('[data-flip-cycle]').forEach(box => {
+    const cards = [...box.children];
+    if (cards.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let i = 0, hover = false;
+    box.addEventListener('mouseenter', () => { hover = true; });
+    box.addEventListener('mouseleave', () => { hover = false; });
+    setInterval(() => {
+      if (hover || document.hidden) return;
+      box.classList.add('is-turning');
+      setTimeout(() => {
+        cards[i].classList.remove('is-on'); cards[i].setAttribute('tabindex', '-1'); cards[i].setAttribute('aria-hidden', 'true');
+        i = (i + 1) % cards.length;
+        cards[i].classList.add('is-on'); cards[i].removeAttribute('tabindex'); cards[i].removeAttribute('aria-hidden');
+        box.classList.remove('is-turning');
+      }, 280);
+    }, 3000);
+  });
 })();

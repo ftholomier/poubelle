@@ -78,13 +78,17 @@ $asso = \App\Vitrine\Host::base();
       <?php foreach ($links as $lk): ?><a href="<?= e($lk['href']) ?>"<?= $lk['ext'] ? ' rel="noopener" target="_blank"' : '' ?>><?= e($lk['label']) ?><?= $lk['ext'] ? ' ↗' : '' ?></a><?php endforeach; ?>
     </nav>
     <?php endforeach; ?>
-    <?php $pick = \App\Shop\ShopPages::homePicks(1)[0] ?? null; if ($pick): ?>
+    <?php $picks = \App\Shop\ShopPages::homePicks(6); if ($picks): ?>
     <div class="mf-col mf-shop">
       <h2><?= e(t('À la boutique')) ?></h2>
-      <a class="mf-shop__card" href="<?= e($pick['href']) ?>">
-        <span class="mf-shop__img"><img src="<?= e($pick['img']) ?>" alt="" loading="lazy" decoding="async"></span>
-        <span class="mf-shop__txt"><small><?= e($pick['kind']) ?></small><b><?= e($pick['name']) ?></b><span><?= e($pick['price']) ?></span></span>
-      </a>
+      <div class="mf-shop__flip" data-flip-cycle>
+        <?php foreach ($picks as $i => $pick): ?>
+        <a class="mf-shop__card<?= $i === 0 ? ' is-on' : '' ?>" href="<?= e($pick['href']) ?>"<?= $i ? ' tabindex="-1" aria-hidden="true"' : '' ?>>
+          <span class="mf-shop__img"><img src="<?= e($pick['img']) ?>" alt="" loading="lazy" decoding="async"></span>
+          <span class="mf-shop__txt"><small><?= e($pick['kind']) ?></small><b><?= e($pick['name']) ?></b><span><?= e($pick['price']) ?></span></span>
+        </a>
+        <?php endforeach; ?>
+      </div>
       <a class="mf-shop__go" href="<?= e(url('/boutique/')) ?>"><?= e(t('Personnalisez-le, commandez : chaque achat fait vivre le musée')) ?> →</a>
     </div>
     <?php endif; ?>
