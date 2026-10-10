@@ -120,3 +120,45 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
   </div>
 </section>
 
+
+<?php if (!empty($photoDay) || !empty($ago)): ?>
+<section class="hband hband--more" aria-label="<?= e(t('Photo du jour et souvenirs')) ?>">
+  <div class="wrap">
+    <div class="hbento hbento--more<?= empty($photoDay) ? ' hbento--one' : '' ?>">
+      <?php if (!empty($photoDay)): ?>
+      <figure class="hphoto">
+        <?php if ($photoDay['href']): ?><a href="<?= e($photoDay['href']) ?>" class="hphoto__img"><?php else: ?><span class="hphoto__img"><?php endif; ?>
+          <img src="<?= e(img($photoDay['image'], 800)) ?>" srcset="<?= e(srcset($photoDay['image'], [480, 800, 1200])) ?>" sizes="(max-width:980px) 100vw, 33vw" alt="<?= e($photoDay['caption']) ?>" loading="lazy">
+        <?= $photoDay['href'] ? '</a>' : '</span>' ?>
+        <figcaption>
+          <span class="hcard__k"><?= e(t('La photo du jour')) ?><?= $photoDay['year'] ? ' · ' . (int) $photoDay['year'] : '' ?></span>
+          <?php if ($photoDay['caption'] !== ''): ?><span class="hphoto__cap"><?= e($photoDay['caption']) ?></span><?php endif; ?>
+          <?php if ($photoDay['credit'] !== ''): ?><small>© <?= e($photoDay['credit']) ?></small><?php endif; ?>
+        </figcaption>
+      </figure>
+      <?php endif; ?>
+      <?php if (!empty($ago)): ?>
+      <div class="hago" data-ago>
+        <div class="hago__tabs" role="tablist" aria-label="<?= e(t('Il y a…')) ?>">
+          <?php foreach ($ago as $i => $a): ?>
+            <button type="button" role="tab" class="hago__tab<?= $i === 0 ? ' is-on' : '' ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>" data-ago-tab="<?= $i ?>"><?= e(t('Il y a')) ?> <b><?= (int) $a['n'] ?></b> <?= e(t('ans')) ?></button>
+          <?php endforeach; ?>
+        </div>
+        <?php foreach ($ago as $i => $a): ?>
+          <a class="hago__panel<?= $i === 0 ? ' is-on' : '' ?>" role="tabpanel" data-ago-panel="<?= $i ?>" href="<?= e((string) $a['href']) ?>"<?= $i === 0 ? '' : ' hidden' ?>>
+            <span class="hago__media"><?php if ($a['image']): ?><img src="<?= e(img($a['image'], 640)) ?>" alt="" loading="lazy"><?php else: ?><span class="hago__year num"><?= e(substr($a['date'], 0, 4)) ?></span><?php endif; ?></span>
+            <span class="hago__body">
+              <span class="hcard__k"><?= e($a['kind']) ?> · <?= e(date_fr($a['date'])) ?></span>
+              <span class="hcard__t"><?= e($a['title']) ?></span>
+              <?php if ($a['score']): ?><span class="num hcard__score"><?= e($a['score']) ?></span><?php endif; ?>
+              <span class="hago__text"><?= e($a['text']) ?></span>
+              <span class="hcard__more"><?= e(t('Découvrir')) ?> →</span>
+            </span>
+          </a>
+        <?php endforeach; ?>
+      </div>
+      <?php endif; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>

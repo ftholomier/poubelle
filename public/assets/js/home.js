@@ -85,3 +85,16 @@
     });
   }
 })();
+
+/* Accueil : onglets « Il y a N ans ». */
+(() => {
+  const box = document.querySelector('[data-ago]');
+  if (!box) return;
+  const tabs = [...box.querySelectorAll('[data-ago-tab]')];
+  const panels = [...box.querySelectorAll('[data-ago-panel]')];
+  const show = (i) => {
+    tabs.forEach((t, k) => { t.classList.toggle('is-on', k === i); t.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+    panels.forEach((p, k) => { p.classList.toggle('is-on', k === i); p.hidden = k !== i; });
+  };
+  tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
+})();

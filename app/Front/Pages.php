@@ -27,6 +27,72 @@ final class Pages
 
     // ------------------------------------------------------------------ accueil
 
+    /** Photo du jour : une photo d'archive des murs de photos, la même toute la journée (plutôt grande). */
+    public static function photoOfDay(): ?array
+    {
+        $all = \App\Services\PhotoWall::photos();
+        $big = array_values(array_filter($all, fn ($p) => ($p['w'] ?? 0) >= 900 && ($p['f'] ?? 0)));
+        $pool = $big ?: $all;
+        if (!$pool) {
+            return null;
+        }
+        $p = $pool[crc32(date('Y-m-d')) % count($pool)];
+        $e = !empty($p['f']) ? Index::get((int) $p['f']) : null;
+        return ['image' => $p['r'], 'caption' => (string) ((\App\Services\I18n::isEn() && ($p['cap_en'] ?? '') !== '') ? $p['cap_en'] : ($p['cap'] ?? '')),
+            'credit' => (string) ($p['c'] ?? ''), 'year' => (int) ($p['y'] ?? 0), 'href' => $e ? url((string) $e['path']) : null];
+    }
+
+    /**
+     * « Il y a N ans » : pour chaque écart, le match du FCSM le plus proche de la même date N ans plus
+     * tôt (dans les 6 semaines), sinon la saison de cette année-là.
+     * @return list<array{n:int,date:string,kind:string,title:string,text:string,href:?string,image:?string,score:?string}>
+     */
+    public static function yearsAgo(array $years): array
+    {
+        $matches = [];
+        foreach (Index::published('match') as $e) {
+            if (!empty($e['m']['date'])) {
+                $matches[] = $e;
+            }
+        }
+        $out = [];
+        foreach ($years as $n) {
+            $target = strtotime('-' . $n . ' years', strtotime('today'));
+            $best = null;
+            $bestD = 86400 * 42;
+            foreach ($matches as $e) {
+                $d = abs(strtotime((string) $e['m']['date']) - $target);
+                if ($d < $bestD) {
+                    [$best, $bestD] = [$e, $d];
+                }
+            }
+            $item = ['n' => $n, 'date' => date('Y-m-d', $target), 'kind' => '', 'title' => '', 'text' => '', 'href' => null, 'image' => null, 'score' => null];
+            if ($best) {
+                $m = $best['m'];
+                $days = (int) round($bestD / 86400);
+                $sc = $m['sh_score'] ?? null;
+                $item['kind'] = trim(($m['label'] ?? '') ?: ($m['competition'] ?? ''));
+                $item['title'] = trim(($m['home'] ?? '') . ' – ' . ($m['away'] ?? ''), ' –');
+                $item['score'] = is_array($sc) && isset($sc[0], $sc[1]) ? ($m['sh'] ? $sc[0] . ' – ' . $sc[1] : $sc[1] . ' – ' . $sc[0]) : null;
+                $item['text'] = $days === 0 ? t('Jour pour jour, le {d}.', ['d' => date_fr((string) $m['date'])]) : t('Le {d}, à quelques jours près.', ['d' => date_fr((string) $m['date'])]);
+                $item['href'] = url((string) $best['path']);
+                $item['image'] = $best['image'] ?? null;
+                if (!empty($best['excerpt'])) {
+                    $item['text'] .= ' ' . $best['excerpt'];
+                }
+            } else {
+                $y = (int) date('Y', $target);
+                $season = (int) date('n', $target) >= 7 ? $y . '-' . ($y + 1) : ($y - 1) . '-' . $y;
+                $item['kind'] = t('Saison');
+                $item['title'] = t('La saison {s}', ['s' => $season]);
+                $item['text'] = t('Les matchs, les joueurs et les souvenirs de cette saison-là.');
+                $item['href'] = url('/saisons/' . $season . '/');
+            }
+            $out[] = $item;
+        }
+        return $out;
+    }
+
     public static function home(Request $req): Response
     {
         $slides = self::slides((int) Settings::get('home.slider_count', 5));
@@ -50,6 +116,8 @@ final class Pages
             'jour' => $jour,
             'jourDoc' => $jourDoc,
             'jourLabel' => Site::dayMonth($jourDate),
+            'photoDay' => self::photoOfDay(),
+            'ago' => self::yearsAgo([5, 10, 20, 30]),
             'chiffre' => Settings::get('home.daily_figure', true) ? \App\Services\Chiffres::daily() : null,
             'teaser' => Settings::get('home.teaser', true) && is_file(self::TEASER . '.mp4'),
             'shop' => \App\Shop\ShopPages::homePicks(4),
