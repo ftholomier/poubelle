@@ -463,19 +463,10 @@ final class Compos
         if ($saved = self::tmSaved($date, $season)) {
             return $saved;
         }
-        try {
-            return self::tmDirect($m, $date, $season, $mo);
-        } catch (\RuntimeException $e) {
-            if (!str_contains($e->getMessage(), 'refuse') || !Gemini::ready()) {
-                throw $e;
-            }
-            // Dernier essai : la page lue par Google (Gemini, lecture d'adresse).
-            try {
-                return self::tmGemini($m, $date, $season, $mo);
-            } catch (\Throwable) {
-                throw $e;
-            }
+        if (preg_match('/amical/i', (string) ($m['competition'] ?? '') . ' ' . (string) ($m['competition_label'] ?? ''))) {
+            return null; // Transfermarkt ne liste que les matchs officiels
         }
+        return self::tmDirect($m, $date, $season, $mo);
     }
 
     /** footballdatabase.eu, lu directement : calendrier de la saison du club, puis page du match. */
@@ -900,18 +891,12 @@ final class Compos
     public static function probe(): array
     {
         $out = [];
-        $relay = trim((string) \App\Core\Settings::get('compos.relay', ''));
         $tests = ['Transfermarkt' => self::TM . '/fc-sochaux-montbeliard/startseite/verein/' . self::TM_CLUB, 'worldfootball.net' => 'https://www.worldfootball.net/teams/fc-sochaux/',
             'footballdatabase.eu' => 'https://www.footballdatabase.eu/fr/club/equipe/19-sochaux', 'pari-et-gagne.com' => 'https://www.pari-et-gagne.com/', 'fcsmstory.com' => 'https://fcsmstory.com/'];
         foreach ($tests as $site => $url) {
             $b = self::fetch($url, 25);
             $ok = strlen($b) > 5000 && stripos($b, 'sochaux') !== false;
             $line = ($ok ? 'accessible' : 'bloqué ou vide') . ' (' . self::$diag . ', ' . round(strlen($b) / 1024) . ' Ko)';
-            if (!$ok && $relay !== '' && $site === 'Transfermarkt') {
-                $b = self::fetch(str_replace('{url}', rawurlencode($url), $relay), 90);
-                $ok = strlen($b) > 5000 && stripos($b, 'sochaux') !== false;
-                $line .= ' ; par le relais : ' . ($ok ? 'accessible' : 'échec') . ' (' . self::$diag . ')';
-            }
             $out[$site] = [$ok, $line];
         }
         return $out;
@@ -959,17 +944,10 @@ final class Compos
             }
             @touch($lock);
             $b = self::fetch($url, 45);
-            if (!$real($b)) {
-                // Bloqué : on repasse par le service relais s'il est réglé (adresses non bloquées).
-                $relay = trim((string) \App\Core\Settings::get('compos.relay', ''));
-                if ($relay !== '') {
-                    $b = self::fetch(str_replace('{url}', rawurlencode($url), $relay), 90);
-                }
-            }
         }
         if (!$real($b)) {
             @unlink($f);
-            $hint = trim((string) \App\Core\Settings::get('compos.relay', '')) === '' ? ' ; réglez un service relais dans Contenus › Contrôle des compositions' : ' ; le service relais n’a pas pu la lire non plus';
+            $hint = $site === 'Transfermarkt' ? ' ; déposez la page du match sur la fiche (bouton « Déposer la page Transfermarkt »)' : '';
             throw new \RuntimeException($site . ' refuse la lecture depuis le serveur (' . self::$diag . ')' . $hint);
         }
         @mkdir(dirname($f), 0775, true);

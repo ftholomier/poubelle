@@ -42,7 +42,7 @@ final class LineupCheck extends Base
         }
         return self::html('admin/fiches/compositions', [
             'state' => $state, 'seasons' => $bySeason, 'recent' => $recent, 'titles' => $titles,
-            'relay' => (string) \App\Core\Settings::get('compos.relay', ''), 'admin' => \App\Core\Auth::isAdmin(), 'gemini' => \App\Services\Gemini::ready(), 'cron' => \App\Services\Cron::state(),
+            'admin' => \App\Core\Auth::isAdmin(), 'gemini' => \App\Services\Gemini::ready(), 'cron' => \App\Services\Cron::state(),
         ], ['title' => 'Contrôle des compositions', 'crumb' => 'Contenus', 'nav' => 'compositions']);
     }
 
@@ -72,13 +72,6 @@ final class LineupCheck extends Base
                         $lines[] = ($ok ? '✓ ' : '✗ ') . $site . ' : ' . $d;
                     }
                     return self::back(self::BACK, 'Accès du serveur aux sites — ' . implode(' · ', $lines));
-                case 'relais':
-                    $relay = trim($req->str('relay'));
-                    if ($relay !== '' && (!preg_match('#^https://#', $relay) || !str_contains($relay, '{url}'))) {
-                        return self::back(self::BACK, null, 'L’adresse du relais doit commencer par https:// et contenir {url}.');
-                    }
-                    \App\Core\Settings::save(['compos.relay' => $relay]);
-                    return self::back(self::BACK, $relay === '' ? 'Service relais retiré.' : 'Service relais enregistré : relancez le contrôle d’un match pour l’essayer.');
                 case 'pause':
                     Compos::stop();
                     return self::back(self::BACK, 'Contrôle en pause.');
