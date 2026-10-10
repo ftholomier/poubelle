@@ -985,3 +985,13 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
   .hero__lead { font-size: 17px; }
   .hero__thumb { padding-top: 10px; padding-bottom: 12px; }
 }
+
+/* Pied de page sur mobile : 2 colonnes de liens, logo et fiche boutique sur toute la largeur. */
+@media (max-width: 520px) {
+  .mf-main, .mf-main:has(.mf-shop) { grid-template-columns: 1fr 1fr; gap: 22px 16px; }
+  .mf-brand { grid-column: 1 / -1; }
+  .mf-main .mf-shop .mf-shop__flip { max-width: 100%; }
+  .mf-main .mf-col { gap: 6px; } .mf-main .mf-col a { font-size: 15px; line-height: 1.3; }
+  .mf-main .mf-col h2 { margin-bottom: 6px; }
+  .mf-shop__go { display: none; }
+}
