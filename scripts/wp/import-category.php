@@ -168,3 +168,10 @@ if (!$dry && $created) {
     write_json(DATA . '/redirects.json', $redirects);
 }
 out(count($created) . ' fiche(s) ' . ($dry ? 'à créer' : 'créée(s)'));
+if (!$dry && $created) {
+    // Index des fiches et données calculées refaits : les nouvelles fiches apparaissent sur le site.
+    foreach (['index', 'derived', 'search'] as $task) {
+        passthru(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(ROOT . '/bin/console.php') . ' ' . $task);
+    }
+    out('Index refaits : les fiches sont en ligne. Reste à copier leurs photos (scripts/wp/media-sync.php).');
+}
