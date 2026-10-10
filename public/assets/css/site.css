@@ -995,3 +995,4 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
   .mf-main .mf-col h2 { margin-bottom: 6px; }
   .mf-shop__go { display: none; }
 }
+@media (max-width: 700px) { .site-footer__bar { padding-bottom: 84px; } }
