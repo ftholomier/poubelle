@@ -85,9 +85,10 @@ $long = ['recit', 'info', 'composition', 'buteurs', 'piste', 'feuille'];
 
 <nav class="tabsbar" style="padding:0">
   <?php foreach ($states as $k => $label): ?><a href="<?= e($qs(['etat' => $k])) ?>"<?= $status === $k ? ' class="is-on"' : '' ?>><?= e($label) ?><?php if (isset($summary[$k])): ?><em><?= (int) $summary[$k] ?></em><?php endif; ?></a><?php endforeach; ?>
-  <span style="flex:1"></span>
+</nav>
+<nav class="tabsbar" style="padding:0;flex-wrap:wrap;overflow:visible" aria-label="Filtrer par source">
   <a href="<?= e($qs(['source' => null])) ?>"<?= !$origin ? ' class="is-on"' : '' ?>>Toutes sources</a>
-  <?php foreach (T::ORIGINS as $k => $label): ?><a href="<?= e($qs(['source' => $k])) ?>"<?= $origin === $k ? ' class="is-on"' : '' ?>><?= ['gallica' => 'Presse (Gallica)', 'web' => 'Web', 'feuilles' => 'Feuilles de match'][$k] ?? e($label) ?></a><?php endforeach; ?>
+  <?php foreach (T::ORIGINS as $k => $label): ?><a href="<?= e($qs(['source' => $k])) ?>"<?= $origin === $k ? ' class="is-on"' : '' ?>><?= ['gallica' => 'Presse (Gallica)', 'web' => 'Web', 'feuilles' => 'Feuilles de match', 'presse' => 'Presse déposée', 'compos' => 'Contrôle des compositions'][$k] ?? e($label) ?></a><?php endforeach; ?>
 </nav>
 
 <?php if (!$list): ?>
