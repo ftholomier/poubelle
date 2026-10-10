@@ -942,7 +942,7 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 
 /* Accueil v2 : dégradé bas du slider (lisibilité des 5 vignettes), recherche pleine largeur, époques. */
 .hero__shade { background:
-  linear-gradient(0deg, rgba(14,31,77,.97) 0%, rgba(14,31,77,.82) 16%, rgba(14,31,77,0) 42%),
+  linear-gradient(0deg, rgba(14,31,77,.94) 0%, rgba(14,31,77,.86) 5%, rgba(14,31,77,.72) 10%, rgba(14,31,77,.54) 15%, rgba(14,31,77,.36) 20%, rgba(14,31,77,.2) 25%, rgba(14,31,77,.09) 29%, rgba(14,31,77,.02) 32%, rgba(14,31,77,0) 34%),
   linear-gradient(90deg, rgba(14,31,77,.92) 0%, rgba(14,31,77,.55) 45%, rgba(14,31,77,.05) 80%); }
 .hfind { background: var(--yellow); border-top: 2px solid var(--navy); border-bottom: 2px solid var(--navy); padding: clamp(32px, 4vw, 56px) 0; }
 .hfind__in { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
@@ -977,3 +977,11 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .mf-shop__flip.is-turning > .mf-shop__card.is-on { transform: rotateY(90deg); }
 .mf-shop__flip > .mf-shop__card.is-on:not(:only-child) { animation: mfFlipIn .28s ease-out; }
 @keyframes mfFlipIn { from { transform: rotateY(-90deg); } to { transform: rotateY(0); } }
+/* Écrans peu hauts : slider resserré pour tenir dans la fenêtre. */
+@media (max-height: 800px) and (min-width: 700px) {
+  .hero .hero__ui { padding-top: 24px; }
+  .hero__copy { gap: 14px; }
+  .hero__title { font-size: clamp(40px, 7vh, 72px); }
+  .hero__lead { font-size: 17px; }
+  .hero__thumb { padding-top: 10px; padding-bottom: 12px; }
+}

@@ -7,8 +7,10 @@
     const ui = root.querySelector('.hero__ui');
     const fit = () => { if (ui) ui.style.minHeight = Math.max(480, window.innerHeight - (root.getBoundingClientRect().top + window.scrollY)) + 'px'; };
     fit();
-    let rw = window.innerWidth;
-    addEventListener('resize', () => { if (window.innerWidth !== rw) { rw = window.innerWidth; fit(); } });
+    // Recalculée à chaque changement de taille de la fenêtre (largeur ou hauteur), sans à-coups.
+    let raf = 0;
+    addEventListener('resize', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fit); });
+    addEventListener('orientationchange', () => setTimeout(fit, 200));
     const slides = [...root.querySelectorAll('[data-slide]')];
     const copies = [...root.querySelectorAll('[data-copy]')];
     const thumbs = [...root.querySelectorAll('[data-goto]')];
