@@ -641,7 +641,10 @@ final class FicheAudio
         if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
             throw new \RuntimeException('Dossier impossible à créer : ' . $dir);
         }
-        $pcm = self::trimTail($pcm, $rate);
+        // Fin : seuls les bruits après la dernière parole sont retirés (tolérance large, pour ne jamais
+        // couper une syllabe dite plus bas), puis 2 s de silence. Début : 0,3 s de silence et un fondu
+        // d'entrée de 30 ms, contre le petit claquement du premier échantillon.
+        $pcm = self::pad(self::trimTail($pcm, $rate, $cut, 0.7, 60.0), $rate);
         $file = null;
         if ($ff = self::ffmpeg()) {
             $tmp = self::$dir . "/tmp-$base.wav";
@@ -719,7 +722,7 @@ final class FicheAudio
         $last = -1;
         $run = 0;
         for ($f = $nf - 1; $f >= max(0, $nf - 1500); $f--) {
-            $voiced = $db[$f] > $ref - 30 && self::periodicity($pcm, $f * $fs, $fs, $rate) >= 0.5;
+            $voiced = $db[$f] > $ref - 42 && self::periodicity($pcm, $f * $fs, $fs, $rate) >= 0.35;
             $run = $voiced ? $run + 1 : 0;
             if ($run === 3) {
                 $last = $f + 2;
@@ -750,6 +753,23 @@ final class FicheAudio
             $tail .= pack('v', (int) round($v * 0.5 * (1 + cos(M_PI * ++$i / $fade))) & 0xFFFF);
         }
         return substr($pcm, 0, ($keep - $fade) * 2) . $tail;
+    }
+
+    /** Silence au début (0,3 s) et à la fin (2 s), fondu d'entrée de 30 ms. */
+    public static function pad(string $pcm, int $rate, float $head = 0.3, float $tail = 2.0): string
+    {
+        $n = intdiv(strlen($pcm), 2);
+        $fade = min($n, intdiv($rate * 3, 100));
+        if ($fade > 0) {
+            $out = '';
+            $i = 0;
+            foreach (unpack("v$fade", $pcm) as $v) {
+                $v = $v > 32767 ? $v - 65536 : $v;
+                $out .= pack('v', (int) round($v * $i++ / $fade) & 0xFFFF);
+            }
+            $pcm = $out . substr($pcm, $fade * 2);
+        }
+        return str_repeat("\0\0", (int) round($rate * $head)) . $pcm . str_repeat("\0\0", (int) round($rate * $tail));
     }
 
     /**
