@@ -12,7 +12,7 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
 <header class="site-header<?= $ticker ? ' has-ticker' : '' ?>" data-header>
   <?php if ($ticker): ?>
   <div class="ticker" role="region" aria-label="<?= e(t('En direct du musée')) ?>">
-    <span class="ticker__label"><span class="ticker__dot" aria-hidden="true"></span><?= e(t('En direct du musée')) ?></span>
+    <span class="ticker__label"><span class="ticker__dot" aria-hidden="true"></span><?= e(t('En direct')) ?><span class="ticker__more"> <?= e(t('du musée')) ?></span></span>
     <div class="ticker__viewport">
       <div class="ticker__track">
         <?php foreach ([0, 1] as $copy): ?>

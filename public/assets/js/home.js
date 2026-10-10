@@ -3,6 +3,12 @@
   'use strict';
   const root = document.querySelector('[data-slider]');
   if (root) {
+    // Bas du slider calé sur le bas de l'écran : hauteur = écran moins ce qui est au-dessus (bandeau + menu).
+    const ui = root.querySelector('.hero__ui');
+    const fit = () => { if (ui) ui.style.minHeight = Math.max(480, window.innerHeight - (root.getBoundingClientRect().top + window.scrollY)) + 'px'; };
+    fit();
+    let rw = window.innerWidth;
+    addEventListener('resize', () => { if (window.innerWidth !== rw) { rw = window.innerWidth; fit(); } });
     const slides = [...root.querySelectorAll('[data-slide]')];
     const copies = [...root.querySelectorAll('[data-copy]')];
     const thumbs = [...root.querySelectorAll('[data-goto]')];
