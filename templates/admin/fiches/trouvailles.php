@@ -7,7 +7,7 @@ use App\Services\Trouvailles as T;
 
 $types = ['complement' => ['Complément', 'ok'], 'divergence' => ['Divergence', 'warn'], 'recit' => ['Récit', 'navy'], 'info' => ['Information', 'info'], 'piste' => ['Piste', 'brouillon']];
 $states = ['attente' => 'En attente', 'envoye' => 'Envoyées', 'ecarte' => 'Écartées', 'tout' => 'Toutes'];
-$qs = fn (array $p) => '/admin/trouvailles?' . http_build_query(array_filter(['etat' => $status, 'source' => $origin, 'page' => null] + $p, fn ($v) => $v !== null && $v !== ''));
+$qs = fn (array $p) => '/admin/trouvailles?' . http_build_query(array_filter($p + ['etat' => $status, 'source' => $origin, 'page' => null], fn ($v) => $v !== null && $v !== ''));
 $long = ['recit', 'info', 'composition', 'buteurs', 'piste', 'feuille'];
 ?>
 <p class="alert alert--info" style="margin:0">Le musée fouille les archives en ligne pour chaque match : la <b>presse de l’époque</b> numérisée par la BnF (Gallica : L’Est républicain, Le Petit Comtois, L’Écho des sports, Match l’Intran, Paris-Soir… jusqu’en <?= T::GALLICA_LAST_YEAR ?>) et le <b>web</b> (recherche Google par Gemini). Chaque trouvaille arrive ici comme une <b>proposition</b> : rien n’entre dans une fiche sans votre validation. Vérifiez la source (lien vers la page du journal), corrigez la valeur si besoin, puis <b>Envoyer dans la fiche</b> ou <b>Écarter</b>.</p>
