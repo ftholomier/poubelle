@@ -968,3 +968,4 @@ button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font
 .heras--full .heras__name { font-size: 20px; } .heras--full .heras__body p { font-size: 17px; }
 @media (max-width: 760px) { .heras--full .heras__panel { grid-template-columns: 1fr; } }
 .searchbar--xl { min-width: 0; } .searchbar--xl input { min-width: 0; flex: 1 1 auto; } @media (max-width: 600px) { .searchbar--xl input { font-size: 16px; padding: 12px; } .searchbar--xl button { padding: 0 14px; } .hfind__links a { font-size: 13px; padding: 6px 10px; } }
+.hcard--fig:hover, .hcard--fig:hover * { color: var(--yellow); } .hcard--fig:hover .hcard__big small { color: var(--cream); }
