@@ -517,7 +517,7 @@ final class Pages
     {
         $jpg = str_ends_with($path, '.jpg');
         $file = self::TEASER . ($jpg ? '.jpg' : '.mp4');
-        $on = (bool) Settings::get('waiting.teaser', false) || (Settings::get('home.teaser', true) && !Seo::closed());
+        $on = (bool) Settings::get('waiting.teaser', false) || !Seo::closed();
         if (!is_file($file) || (!$on && !\App\Core\Auth::user())) {
             return null;
         }
@@ -525,6 +525,19 @@ final class Pages
         $res->headers['Cache-Control'] = $on ? 'public, max-age=86400' : 'private, no-store';
         $res->headers['X-Content-Type-Options'] = 'nosniff';
         return $res;
+    }
+
+    /** /teaser/ : la vidéo de présentation du musée (lien du pied de page). */
+    public static function teaserPage(Request $req): Response
+    {
+        if (!is_file(self::TEASER . '.mp4')) {
+            return self::notFound();
+        }
+        return self::render('teaser', [], [
+            'title' => t('Le teaser du musée'),
+            'description' => t('Deux minutes pour découvrir le musée : près d’un siècle de matchs, de joueurs et de souvenirs du FC Sochaux-Montbéliard.'),
+            'active' => '',
+        ]);
     }
 
     /** Mot de passe d'accès au site public (pré-lancement). */

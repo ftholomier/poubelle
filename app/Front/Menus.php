@@ -81,7 +81,7 @@ final class Menus
                 ]],
                 ['title' => 'Participer', 'title_en' => '', 'links' => [
                     $l('Contribuer', '/contribuer/'), $l('La newsletter', '/newsletter/'), $l('L’appli du musée', '/appli/'), $l('Nous contacter', '/contact/'),
-                    $l('La boutique', '/boutique/'), $l('L’association Sochaux Rétro', '{association}'),
+                    $l('La boutique', '/boutique/'), $l('L’association Sochaux Rétro', '{association}'), $l('Vidéo teaser', '/teaser/'),
                 ]],
             ],
         ];
