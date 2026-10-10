@@ -120,12 +120,14 @@ final class Mosaic
             // Décennies + saisons
             $compBase = $comp ? (self::COMPS[$comp][1] && ($cc = Categories::get(self::COMPS[$comp][1])) ? url((string) $cc['path']) : url('/matchs/')) : null;
             $tiles = [];
+            // Compteurs des décennies : sur tous les matchs du musée (une page de décennie ne contient que les siens).
+            $pool = $catDecade ? array_values(array_filter(Index::published('match'), fn ($s) => !$comp || ($s['m']['competition'] ?? '') === self::COMPS[$comp][2])) : $byComp;
             foreach (Categories::children(Site::C_MATCHS) as $c) {
                 if (!preg_match('/^annees-(\d+)/', $c['slug'], $dm)) {
                     continue;
                 }
                 $d = strlen($dm[1]) === 2 ? (int) ('19' . $dm[1]) : (int) $dm[1];
-                $n = count(array_filter($byComp, fn ($s) => self::decadeOf($s) === $d));
+                $n = count(array_filter($pool, fn ($s) => self::decadeOf($s) === $d));
                 $href = $comp ? $compBase . self::qs(($comp && !self::COMPS[$comp][1] ? ['f' => $comp] : []) + ['decennie' => (string) $d]) : url((string) $c['path']);
                 $tiles[$d] = ['label' => $d < 2000 ? "'" . substr((string) $d, 2) : (string) $d, 'full' => (string) $d, 'on' => $decade === $d, 'href' => $href, 'count' => $n];
             }
