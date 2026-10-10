@@ -50,6 +50,22 @@ final class Pages
      */
     public static function yearsAgo(array $years): array
     {
+        // Choix du jour gardé (le même toute la journée) ; fiches déjà montrées dans les 30 derniers
+        // jours écartées, pour ne pas revoir les mêmes d'un jour à l'autre.
+        $logFile = STORAGE_PATH . '/home/il-y-a.json';
+        $log = (array) (\App\Core\JsonStore::read($logFile, []) ?: []);
+        $today = date('Y-m-d');
+        if (isset($log[$today]['years']) && $log[$today]['years'] === $years) {
+            return $log[$today]['items'];
+        }
+        $seen = [];
+        foreach ($log as $day => $entry) {
+            if ($day !== $today && $day >= date('Y-m-d', strtotime('-30 days'))) {
+                foreach ((array) ($entry['items'] ?? []) as $it) {
+                    $seen[(string) ($it['key'] ?? '')] = true;
+                }
+            }
+        }
         $matches = [];
         foreach (Index::published('match') as $e) {
             if (!empty($e['m']['date'])) {
@@ -59,16 +75,21 @@ final class Pages
         $people = Index::published('personne');
         $frise = array_map(fn ($e) => Collections::loc($e, ['title', 'text']), Collections::get('frise', \App\Data\Seeds::frise()));
         $seed = (int) date('z');
+        $bilans = array_values(array_filter(Index::published('article'), fn ($e) => !empty($e['a']['season'])));
+        $moments = array_values(array_filter(\App\Services\Moments::all(), fn ($m) => !empty($m['visible'])));
         $out = [];
         foreach ($years as $n) {
             $target = strtotime('-' . $n . ' years', strtotime('today'));
             $y = (int) date('Y', $target);
             $base = ['n' => $n, 'date' => date('Y-m-d', $target), 'kind' => '', 'title' => '', 'text' => '', 'href' => null, 'image' => null, 'score' => null];
             $make = [
-                'match' => function () use ($matches, $target, $base) {
+                'match' => function () use ($matches, $target, $base, &$seen) {
                     $best = null;
                     $bestD = 86400 * 42;
                     foreach ($matches as $e) {
+                        if (isset($seen['f' . $e['id']])) {
+                            continue;
+                        }
                         $d = abs(strtotime((string) $e['m']['date']) - $target);
                         if ($d < $bestD) {
                             [$best, $bestD] = [$e, $d];
@@ -82,10 +103,10 @@ final class Pages
                     $txt = (int) round($bestD / 86400) === 0 ? t('Jour pour jour, le {d}.', ['d' => date_fr((string) $m['date'])]) : t('Le {d}, à quelques jours près.', ['d' => date_fr((string) $m['date'])]);
                     return ['kind' => trim(($m['label'] ?? '') ?: ($m['competition'] ?? '')) ?: t('Match'), 'title' => trim(($m['home'] ?? '') . ' – ' . ($m['away'] ?? ''), ' –'),
                         'score' => is_array($sc) && isset($sc[0], $sc[1]) ? ($m['sh'] ? $sc[0] . ' – ' . $sc[1] : $sc[1] . ' – ' . $sc[0]) : null,
-                        'text' => trim($txt . ' ' . ($best['excerpt'] ?? '')), 'href' => url((string) $best['path']), 'image' => $best['image'] ?? null] + $base;
+                        'text' => trim($txt . ' ' . ($best['excerpt'] ?? '')), 'href' => url((string) $best['path']), 'image' => $best['image'] ?? null, 'key' => 'f' . $best['id'], 'exact' => $bestD < 43200] + $base;
                 },
-                'joueur' => function () use ($people, $y, $seed, $base) {
-                    $list = array_values(array_filter($people, fn ($e) => (int) ($e['p']['arrival'] ?? 0) === $y && !empty($e['image'])));
+                'joueur' => function () use ($people, $y, $seed, $base, &$seen) {
+                    $list = array_values(array_filter($people, fn ($e) => (int) ($e['p']['arrival'] ?? 0) === $y && !empty($e['image']) && !isset($seen['f' . $e['id']])));
                     if (!$list) {
                         return null;
                     }
@@ -95,26 +116,66 @@ final class Pages
                     $stay = (int) ($p['departure'] ?? 0) > $y ? t('Il restera au club jusqu’en {d}.', ['d' => (int) $p['departure']]) : '';
                     return ['kind' => t('Arrivée au club'), 'title' => (string) ($p['name'] ?? $e['title']),
                         'text' => trim(t('Il y a {n} ans, {name} arrivait à Sochaux ({role}).', ['n' => $base['n'], 'name' => (string) ($p['name'] ?? $e['title']), 'role' => $role]) . ' ' . $stay),
-                        'href' => url((string) $e['path']), 'image' => $e['image']] + $base;
+                        'href' => url((string) $e['path']), 'image' => $e['image'], 'key' => 'f' . $e['id']] + $base;
                 },
-                'fait' => function () use ($frise, $y, $base) {
-                    $list = array_values(array_filter($frise, fn ($f) => (int) ($f['year'] ?? 0) === $y));
+                'depart' => function () use ($people, $y, $seed, $base, &$seen) {
+                    $list = array_values(array_filter($people, fn ($e) => (int) ($e['p']['departure'] ?? 0) === $y && (int) ($e['p']['arrival'] ?? 0) > 0 && !empty($e['image']) && !isset($seen['f' . $e['id']])));
+                    if (!$list) {
+                        return null;
+                    }
+                    $e = $list[($seed + $y * 7) % count($list)];
+                    $p = $e['p'];
+                    $len = $y - (int) $p['arrival'];
+                    return ['kind' => t('Départ du club'), 'title' => (string) ($p['name'] ?? $e['title']),
+                        'text' => t('Il y a {n} ans, {name} quittait Sochaux, arrivé en {a}{d}.', ['n' => $base['n'], 'name' => (string) ($p['name'] ?? $e['title']), 'a' => (int) $p['arrival'],
+                            'd' => $len > 1 ? ' (' . t('{x} saisons au club', ['x' => $len]) . ')' : '']),
+                        'href' => url((string) $e['path']), 'image' => $e['image'], 'key' => 'f' . $e['id']] + $base;
+                },
+                'bilan' => function () use ($bilans, $target, $base, &$seen) {
+                    $y = (int) date('Y', $target);
+                    $season = (int) date('n', $target) >= 7 ? $y . '-' . ($y + 1) : ($y - 1) . '-' . $y;
+                    foreach ($bilans as $e) {
+                        if (($e['a']['season'] ?? '') === $season && !isset($seen['f' . $e['id']])) {
+                            return ['kind' => t('Bilan de saison'), 'title' => (string) $e['title'], 'text' => (string) ($e['excerpt'] ?? t('Le bilan complet de la saison {s}.', ['s' => $season])),
+                                'href' => url((string) $e['path']), 'image' => $e['image'] ?? null, 'key' => 'f' . $e['id']] + $base;
+                        }
+                    }
+                    return null;
+                },
+                'moment' => function () use ($moments, $y, $base, &$seen) {
+                    foreach ($moments as $mo) {
+                        if ((int) ($mo['year'] ?? 0) === $y && !isset($seen['f' . $mo['id']])) {
+                            return ['kind' => t('100 moments') . ($mo['number'] ? ' · n° ' . (int) $mo['number'] : ''), 'title' => (string) $mo['title'], 'text' => (string) ($mo['event'] ?? ''),
+                                'href' => url((string) $mo['path']), 'image' => $mo['image'] ?? null, 'key' => 'f' . $mo['id']] + $base;
+                        }
+                    }
+                    return null;
+                },
+                'fait' => function () use ($frise, $y, $base, &$seen) {
+                    $list = array_values(array_filter($frise, fn ($f) => (int) ($f['year'] ?? 0) === $y && !isset($seen['frise' . md5((string) $f['title'])])));
                     if (!$list) {
                         return null;
                     }
                     $f = $list[0];
                     return ['kind' => t('Fait marquant') . ' · ' . $y, 'title' => (string) $f['title'], 'text' => (string) ($f['text'] ?? ''),
-                        'href' => !empty($f['href']) ? url((string) $f['href']) : url('/interactif/frise/'), 'image' => $f['image'] ?? null] + $base;
+                        'href' => !empty($f['href']) ? url((string) $f['href']) : url('/interactif/frise/'), 'image' => $f['image'] ?? null, 'key' => 'frise' . md5((string) $f['title'])] + $base;
                 },
             ];
-            $order = ['match', 'joueur', 'fait'];
-            $k = ($seed + $n) % 3;
-            $order = array_merge(array_slice($order, $k), array_slice($order, 0, $k));
-            $item = null;
-            foreach ($order as $type) {
-                if ($item = $make[$type]()) {
-                    break;
+            // Un match joué le jour J passe avant tout ; sinon match le plus proche, joueur ou fait, à tour de rôle.
+            $item = $make['match']();
+            if (!$item || empty($item['exact'])) {
+                $order = ['match', 'joueur', 'moment', 'depart', 'fait', 'bilan'];
+                $k = ($seed + $n) % count($order);
+                $order = array_merge(array_slice($order, $k), array_slice($order, 0, $k));
+                $item = null;
+                foreach ($order as $type) {
+                    if ($item = $make[$type]()) {
+                        break;
+                    }
                 }
+            }
+            if ($item && !empty($item['key'])) {
+                $seen[$item['key']] = true; // pas deux fois la même fiche le même jour
             }
             if (!$item) {
                 $season = (int) date('n', $target) >= 7 ? $y . '-' . ($y + 1) : ($y - 1) . '-' . $y;
@@ -122,6 +183,10 @@ final class Pages
             }
             $out[] = $item;
         }
+        $log = array_filter($log, fn ($k) => $k >= date('Y-m-d', strtotime('-40 days')), ARRAY_FILTER_USE_KEY);
+        $log[$today] = ['years' => $years, 'items' => $out];
+        @mkdir(dirname($logFile), 0775, true);
+        \App\Core\JsonStore::write($logFile, $log);
         return $out;
     }
 
