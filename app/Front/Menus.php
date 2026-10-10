@@ -92,7 +92,27 @@ final class Menus
     {
         $saved = Collections::get(self::NAME, []);
         $saved = is_array($saved) ? $saved : [];
-        return array_replace(self::defaults(), array_intersect_key($saved, self::defaults()));
+        $menus = array_replace(self::defaults(), array_intersect_key($saved, self::defaults()));
+        // Lien « Vidéo teaser » ajouté après coup : présent même si les menus ont déjà été enregistrés
+        // (il se masque dans Éditorial › Menus du site, case « Masqué »).
+        $has = false;
+        foreach ($menus['footer'] as $col) {
+            foreach ((array) ($col['links'] ?? []) as $x) {
+                $has = $has || ($x['href'] ?? '') === '/teaser/';
+            }
+        }
+        if (!$has && $menus['footer']) {
+            $k = array_key_last($menus['footer']);
+            foreach ($menus['footer'] as $i => $col) {
+                foreach ((array) ($col['links'] ?? []) as $x) {
+                    if (($x['href'] ?? '') === '{association}') {
+                        $k = $i;
+                    }
+                }
+            }
+            $menus['footer'][$k]['links'][] = ['label' => 'Vidéo teaser', 'label_en' => '', 'href' => '/teaser/'];
+        }
+        return $menus;
     }
 
     /** Boutons du haut à droite (contribuer, boutique, don) : [libellé, adresse, externe] ou null s'il est masqué. */
