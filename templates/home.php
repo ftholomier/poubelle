@@ -53,6 +53,36 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
 </section>
 <?php endif; ?>
 
+<section class="hfind" aria-labelledby="hfind-t">
+  <div class="wrap hfind__in">
+    <div class="hfind__head">
+      <span class="eyebrow eyebrow--yellow"><?= e(t('Rechercher dans le musée')) ?></span>
+      <h2 class="hfind__t" id="hfind-t"><?= e(t('Retrouvez tout')) ?></h2>
+      <p class="hfind__lead"><?= e(t('Un match, une saison, un joueur, un récit, une affiche… près d’un siècle d’archives du FCSM.')) ?></p>
+    </div>
+    <div class="hfind__box">
+      <form class="searchbar searchbar--xl" action="<?= e(url('/recherche/')) ?>" method="get" role="search">
+        <label class="sr-only" for="q-home"><?= e(t('Rechercher')) ?></label>
+        <input id="q-home" type="search" name="q" placeholder="<?= e(t('Ex. Sochaux – Nantes 1988, Genghini, Bonal, Coupe de France…')) ?>">
+        <button type="submit"><?= e(t('Chercher')) ?></button>
+      </form>
+      <div class="hfind__links">
+        <a href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a>
+        <a href="<?= e(url('/saisons/')) ?>"><?= e(t('Saisons')) ?></a>
+        <a href="<?= e(Site::catUrl(Site::C_JOUEURS)) ?>"><?= e(t('Joueurs')) ?></a>
+        <a href="<?= e(url('/grands-recits/')) ?>"><?= e(t('Grands récits')) ?></a>
+        <a href="<?= e(url('/face-a-face/')) ?>"><?= e(t('Face-à-face')) ?></a>
+        <a href="<?= e(url('/records/')) ?>"><?= e(t('Records')) ?></a>
+        <a href="<?= e(url('/palmares/')) ?>"><?= e(t('Palmarès')) ?></a>
+      </div>
+      <div class="hfind__dec">
+        <span><?= e(t('Par décennie')) ?></span>
+        <?php foreach ($decades as $d): ?><a href="<?= e($d['href']) ?>"><?= e($d['label']) ?></a><?php endforeach; ?>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="hband" aria-label="<?= e(t('Aujourd’hui au musée')) ?>">
   <div class="wrap">
     <div class="hband__head"><span class="eyebrow"><?= e(t('Aujourd’hui au musée')) ?></span></div>
@@ -90,57 +120,3 @@ $pad = fn ($n) => str_pad((string) $n, 2, '0', STR_PAD_LEFT);
   </div>
 </section>
 
-<section class="hfind" aria-labelledby="hfind-t">
-  <div class="wrap hfind__in">
-    <div class="hfind__head">
-      <span class="eyebrow eyebrow--yellow"><?= e(t('Rechercher dans le musée')) ?></span>
-      <h2 class="hfind__t" id="hfind-t"><?= e(t('Retrouvez tout')) ?></h2>
-      <p class="hfind__lead"><?= e(t('Un match, une saison, un joueur, un récit, une affiche… près d’un siècle d’archives du FCSM.')) ?></p>
-    </div>
-    <div class="hfind__box">
-      <form class="searchbar searchbar--xl" action="<?= e(url('/recherche/')) ?>" method="get" role="search">
-        <label class="sr-only" for="q-home"><?= e(t('Rechercher')) ?></label>
-        <input id="q-home" type="search" name="q" placeholder="<?= e(t('Ex. Sochaux – Nantes 1988, Genghini, Bonal, Coupe de France…')) ?>">
-        <button type="submit"><?= e(t('Chercher')) ?></button>
-      </form>
-      <div class="hfind__links">
-        <a href="<?= e(url('/matchs/')) ?>"><?= e(t('Matchs')) ?></a>
-        <a href="<?= e(url('/saisons/')) ?>"><?= e(t('Saisons')) ?></a>
-        <a href="<?= e(Site::catUrl(Site::C_JOUEURS)) ?>"><?= e(t('Joueurs')) ?></a>
-        <a href="<?= e(url('/grands-recits/')) ?>"><?= e(t('Grands récits')) ?></a>
-        <a href="<?= e(url('/face-a-face/')) ?>"><?= e(t('Face-à-face')) ?></a>
-        <a href="<?= e(url('/records/')) ?>"><?= e(t('Records')) ?></a>
-        <a href="<?= e(url('/palmares/')) ?>"><?= e(t('Palmarès')) ?></a>
-      </div>
-      <div class="hfind__dec">
-        <span><?= e(t('Par décennie')) ?></span>
-        <?php foreach ($decades as $d): ?><a href="<?= e($d['href']) ?>"><?= e($d['label']) ?></a><?php endforeach; ?>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="parcours" class="hband bg-navy">
-  <div class="wrap">
-    <div class="hband__head"><span class="eyebrow"><?= e(t('Le musée')) ?></span><h2 class="hband__t"><?= e(t('Un siècle de Lions, réuni dans un seul musée')) ?></h2></div>
-    <div class="heras heras--full">
-      <div class="eras eras--compact" role="tablist" data-eras>
-        <?php foreach ($eras as $i => $era): ?>
-          <button type="button" class="eras__tab<?= $i === 1 ? ' is-on' : '' ?>" role="tab" aria-selected="<?= $i === 1 ? 'true' : 'false' ?>" data-era="<?= $i ?>"><b><?= e($era['range']) ?></b><span><?= e(t($era['name'])) ?></span></button>
-        <?php endforeach; ?>
-      </div>
-      <?php foreach ($eras as $i => $era): ?>
-        <div class="eras__panel heras__panel<?= $i === 1 ? ' is-on' : '' ?>" data-era-panel="<?= $i ?>" role="tabpanel"<?= $i === 1 ? '' : ' hidden' ?>>
-          <div class="heras__media"><?php if (!empty($era['image'])): ?><img src="<?= e(img($era['image'], 1200)) ?>" alt="" loading="lazy"><?php else: ?><span class="ph"><?= icon_photo() ?></span><?php endif; ?></div>
-          <div class="heras__body">
-            <span class="num yellow heras__range"><?= e($era['range']) ?></span>
-            <b class="heras__name"><?= e(t($era['name'])) ?></b>
-            <p><?= rich_inline(t($era['text'])) ?></p>
-            <div class="facts facts--s"><?php foreach ($era['facts'] as $f): ?><div class="facts__row"><b><?= e($f['y']) ?></b><span><?= e(t($f['t'])) ?></span></div><?php endforeach; ?></div>
-            <a class="link-under" href="<?= e(url($era['href'] ?? '/interactif/frise/')) ?>"><?= e(t('Visiter cette époque')) ?> →</a>
-          </div>
-        </div>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
