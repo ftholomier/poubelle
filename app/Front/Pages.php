@@ -43,8 +43,9 @@ final class Pages
     }
 
     /**
-     * « Il y a N ans » : pour chaque écart, le match du FCSM le plus proche de la même date N ans plus
-     * tôt (dans les 6 semaines), sinon la saison de cette année-là.
+     * « Il y a N ans » : pour chaque écart, à tour de rôle selon le jour, un match (le plus proche de
+     * la même date, dans les 6 semaines), un joueur arrivé au club cette année-là ou un fait de la
+     * frise de cette année ; sinon la saison.
      * @return list<array{n:int,date:string,kind:string,title:string,text:string,href:?string,image:?string,score:?string}>
      */
     public static function yearsAgo(array $years): array
@@ -55,38 +56,69 @@ final class Pages
                 $matches[] = $e;
             }
         }
+        $people = Index::published('personne');
+        $frise = array_map(fn ($e) => Collections::loc($e, ['title', 'text']), Collections::get('frise', \App\Data\Seeds::frise()));
+        $seed = (int) date('z');
         $out = [];
         foreach ($years as $n) {
             $target = strtotime('-' . $n . ' years', strtotime('today'));
-            $best = null;
-            $bestD = 86400 * 42;
-            foreach ($matches as $e) {
-                $d = abs(strtotime((string) $e['m']['date']) - $target);
-                if ($d < $bestD) {
-                    [$best, $bestD] = [$e, $d];
+            $y = (int) date('Y', $target);
+            $base = ['n' => $n, 'date' => date('Y-m-d', $target), 'kind' => '', 'title' => '', 'text' => '', 'href' => null, 'image' => null, 'score' => null];
+            $make = [
+                'match' => function () use ($matches, $target, $base) {
+                    $best = null;
+                    $bestD = 86400 * 42;
+                    foreach ($matches as $e) {
+                        $d = abs(strtotime((string) $e['m']['date']) - $target);
+                        if ($d < $bestD) {
+                            [$best, $bestD] = [$e, $d];
+                        }
+                    }
+                    if (!$best) {
+                        return null;
+                    }
+                    $m = $best['m'];
+                    $sc = $m['sh_score'] ?? null;
+                    $txt = (int) round($bestD / 86400) === 0 ? t('Jour pour jour, le {d}.', ['d' => date_fr((string) $m['date'])]) : t('Le {d}, à quelques jours près.', ['d' => date_fr((string) $m['date'])]);
+                    return ['kind' => trim(($m['label'] ?? '') ?: ($m['competition'] ?? '')) ?: t('Match'), 'title' => trim(($m['home'] ?? '') . ' – ' . ($m['away'] ?? ''), ' –'),
+                        'score' => is_array($sc) && isset($sc[0], $sc[1]) ? ($m['sh'] ? $sc[0] . ' – ' . $sc[1] : $sc[1] . ' – ' . $sc[0]) : null,
+                        'text' => trim($txt . ' ' . ($best['excerpt'] ?? '')), 'href' => url((string) $best['path']), 'image' => $best['image'] ?? null] + $base;
+                },
+                'joueur' => function () use ($people, $y, $seed, $base) {
+                    $list = array_values(array_filter($people, fn ($e) => (int) ($e['p']['arrival'] ?? 0) === $y && !empty($e['image'])));
+                    if (!$list) {
+                        return null;
+                    }
+                    $e = $list[($seed + $y) % count($list)];
+                    $p = $e['p'];
+                    $role = in_array('entraineur', (array) ($p['roles'] ?? []), true) ? t('entraîneur') : (string) (($p['position'] ?? '') ?: t('joueur'));
+                    $stay = (int) ($p['departure'] ?? 0) > $y ? t('Il restera au club jusqu’en {d}.', ['d' => (int) $p['departure']]) : '';
+                    return ['kind' => t('Arrivée au club'), 'title' => (string) ($p['name'] ?? $e['title']),
+                        'text' => trim(t('Il y a {n} ans, {name} arrivait à Sochaux ({role}).', ['n' => $base['n'], 'name' => (string) ($p['name'] ?? $e['title']), 'role' => $role]) . ' ' . $stay),
+                        'href' => url((string) $e['path']), 'image' => $e['image']] + $base;
+                },
+                'fait' => function () use ($frise, $y, $base) {
+                    $list = array_values(array_filter($frise, fn ($f) => (int) ($f['year'] ?? 0) === $y));
+                    if (!$list) {
+                        return null;
+                    }
+                    $f = $list[0];
+                    return ['kind' => t('Fait marquant') . ' · ' . $y, 'title' => (string) $f['title'], 'text' => (string) ($f['text'] ?? ''),
+                        'href' => !empty($f['href']) ? url((string) $f['href']) : url('/interactif/frise/'), 'image' => $f['image'] ?? null] + $base;
+                },
+            ];
+            $order = ['match', 'joueur', 'fait'];
+            $k = ($seed + $n) % 3;
+            $order = array_merge(array_slice($order, $k), array_slice($order, 0, $k));
+            $item = null;
+            foreach ($order as $type) {
+                if ($item = $make[$type]()) {
+                    break;
                 }
             }
-            $item = ['n' => $n, 'date' => date('Y-m-d', $target), 'kind' => '', 'title' => '', 'text' => '', 'href' => null, 'image' => null, 'score' => null];
-            if ($best) {
-                $m = $best['m'];
-                $days = (int) round($bestD / 86400);
-                $sc = $m['sh_score'] ?? null;
-                $item['kind'] = trim(($m['label'] ?? '') ?: ($m['competition'] ?? ''));
-                $item['title'] = trim(($m['home'] ?? '') . ' – ' . ($m['away'] ?? ''), ' –');
-                $item['score'] = is_array($sc) && isset($sc[0], $sc[1]) ? ($m['sh'] ? $sc[0] . ' – ' . $sc[1] : $sc[1] . ' – ' . $sc[0]) : null;
-                $item['text'] = $days === 0 ? t('Jour pour jour, le {d}.', ['d' => date_fr((string) $m['date'])]) : t('Le {d}, à quelques jours près.', ['d' => date_fr((string) $m['date'])]);
-                $item['href'] = url((string) $best['path']);
-                $item['image'] = $best['image'] ?? null;
-                if (!empty($best['excerpt'])) {
-                    $item['text'] .= ' ' . $best['excerpt'];
-                }
-            } else {
-                $y = (int) date('Y', $target);
+            if (!$item) {
                 $season = (int) date('n', $target) >= 7 ? $y . '-' . ($y + 1) : ($y - 1) . '-' . $y;
-                $item['kind'] = t('Saison');
-                $item['title'] = t('La saison {s}', ['s' => $season]);
-                $item['text'] = t('Les matchs, les joueurs et les souvenirs de cette saison-là.');
-                $item['href'] = url('/saisons/' . $season . '/');
+                $item = ['kind' => t('Saison'), 'title' => t('La saison {s}', ['s' => $season]), 'text' => t('Les matchs, les joueurs et les souvenirs de cette saison-là.'), 'href' => url('/saisons/' . $season . '/')] + $base;
             }
             $out[] = $item;
         }
