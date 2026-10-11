@@ -1,0 +1,482 @@
+{
+ "a-lessai": {
+  "slug": "a-lessai",
+  "name": "A l'essai",
+  "label": "À l'essai",
+  "position": 4,
+  "description": "",
+  "parent": "joueurs-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/joueurs/a-l-essai/",
+  "technical": false
+ },
+ "administratifs": {
+  "slug": "administratifs",
+  "name": "Administratifs",
+  "label": null,
+  "position": 6,
+  "description": "",
+  "parent": "dirigeants-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/dirigeants/administratifs/",
+  "technical": false
+ },
+ "amical": {
+  "slug": "amical",
+  "name": "Amical",
+  "label": null,
+  "position": 8,
+  "description": "",
+  "parent": "matchs-fc-sochaux-retro-fcsm",
+  "path": "/matchs/amical/",
+  "technical": false
+ },
+ "associations": {
+  "slug": "associations",
+  "name": "Associations",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "supporters",
+  "path": "/supporters/associations/",
+  "technical": false
+ },
+ "barrages": {
+  "slug": "barrages",
+  "name": "Barrages",
+  "label": null,
+  "position": 4,
+  "description": "",
+  "parent": "matchs-fc-sochaux-retro-fcsm",
+  "path": "/matchs/barrages/",
+  "technical": false
+ },
+ "couleurs": {
+  "slug": "couleurs",
+  "name": "Couleurs",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "symboles",
+  "path": "/symboles/couleurs/",
+  "technical": false
+ },
+ "coupe-deurope": {
+  "slug": "coupe-deurope",
+  "name": "Coupe d'Europe",
+  "label": null,
+  "position": 3,
+  "description": "",
+  "parent": "matchs-fc-sochaux-retro-fcsm",
+  "path": "/matchs/coupe-d-europe/",
+  "technical": false
+ },
+ "coupe-de-france": {
+  "slug": "coupe-de-france",
+  "name": "Coupe de France",
+  "label": null,
+  "position": 1,
+  "description": "",
+  "parent": "matchs-fc-sochaux-retro-fcsm",
+  "path": "/matchs/coupe-de-france/",
+  "technical": false
+ },
+ "coupe-de-la-ligue": {
+  "slug": "coupe-de-la-ligue",
+  "name": "Coupe de la Ligue",
+  "label": null,
+  "position": 2,
+  "description": "",
+  "parent": "matchs-fc-sochaux-retro-fcsm",
+  "path": "/matchs/coupe-de-la-ligue/",
+  "technical": false
+ },
+ "coupes-diverses": {
+  "slug": "coupes-diverses",
+  "name": "Coupes diverses",
+  "label": null,
+  "position": 6,
+  "description": "",
+  "parent": "matchs-fc-sochaux-retro-fcsm",
+  "path": "/matchs/coupes-diverses/",
+  "technical": false
+ },
+ "culture-populaire": {
+  "slug": "culture-populaire",
+  "name": "Culture populaire",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "symboles",
+  "path": "/symboles/culture-populaire/",
+  "technical": false
+ },
+ "directeurs-du-centre-de-formation": {
+  "slug": "directeurs-du-centre-de-formation",
+  "name": "Directeurs centre de formation",
+  "label": "Directeurs du centre de formation",
+  "position": 5,
+  "description": "",
+  "parent": "dirigeants-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/dirigeants/directeurs-du-centre-de-formation/",
+  "technical": false
+ },
+ "directeurs-sportifs": {
+  "slug": "directeurs-sportifs",
+  "name": "Directeurs sportifs",
+  "label": null,
+  "position": 4,
+  "description": "",
+  "parent": "dirigeants-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/dirigeants/directeurs-sportifs/",
+  "technical": false
+ },
+ "dirigeants-fc-sochaux-retro-fcsm": {
+  "slug": "dirigeants-fc-sochaux-retro-fcsm",
+  "name": "DIRIGEANTS",
+  "label": "Dirigeants",
+  "position": 3,
+  "description": "",
+  "parent": "nos-lions-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/dirigeants/",
+  "technical": false
+ },
+ "entraineurs-fc-sochaux-retro-fcsm": {
+  "slug": "entraineurs-fc-sochaux-retro-fcsm",
+  "name": "ENTRAINEURS",
+  "label": "Entraîneurs",
+  "position": 2,
+  "description": "",
+  "parent": "nos-lions-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/entraineurs/",
+  "technical": false
+ },
+ "entraineurs-adjoints": {
+  "slug": "entraineurs-adjoints",
+  "name": "Entraineurs adjoints",
+  "label": "Entraîneurs adjoints",
+  "position": 2,
+  "description": "",
+  "parent": "entraineurs-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/entraineurs/entraineurs-adjoints/",
+  "technical": false
+ },
+ "entraineurs-principaux": {
+  "slug": "entraineurs-principaux",
+  "name": "Entraineurs principaux",
+  "label": "Entraîneurs principaux",
+  "position": 1,
+  "description": "",
+  "parent": "entraineurs-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/entraineurs/entraineurs-principaux/",
+  "technical": false
+ },
+ "films-documentaires": {
+  "slug": "films-documentaires",
+  "name": "Films documentaires",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "supporters",
+  "path": "/supporters/films-documentaires/",
+  "technical": false
+ },
+ "formes-au-club-fc-sochaux-retro-fcsm": {
+  "slug": "formes-au-club-fc-sochaux-retro-fcsm",
+  "name": "Formés au club",
+  "label": null,
+  "position": 3,
+  "description": "",
+  "parent": "joueurs-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/joueurs/formes-au-club/",
+  "technical": false
+ },
+ "hymnes": {
+  "slug": "hymnes",
+  "name": "Hymnes",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "symboles",
+  "path": "/symboles/hymnes/",
+  "technical": false
+ },
+ "infrastructures": {
+  "slug": "infrastructures",
+  "name": "Infrastructures",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": "/infrastructures/",
+  "technical": false
+ },
+ "internationaux-fc-sochaux-retro-fcsm": {
+  "slug": "internationaux-fc-sochaux-retro-fcsm",
+  "name": "Internationaux",
+  "label": null,
+  "position": 1,
+  "description": "",
+  "parent": "joueurs-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/joueurs/internationaux/",
+  "technical": false
+ },
+ "internationaux-francais-fc-sochaux-retro-fcsm": {
+  "slug": "internationaux-francais-fc-sochaux-retro-fcsm",
+  "name": "Internationaux français",
+  "label": null,
+  "position": 2,
+  "description": "",
+  "parent": "joueurs-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/joueurs/internationaux-francais/",
+  "technical": false
+ },
+ "joueurs-fc-sochaux-retro-fcsm": {
+  "slug": "joueurs-fc-sochaux-retro-fcsm",
+  "name": "JOUEURS",
+  "label": "Joueurs",
+  "position": 1,
+  "description": "",
+  "parent": "nos-lions-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/joueurs/",
+  "technical": false
+ },
+ "la-pelouse": {
+  "slug": "la-pelouse",
+  "name": "La pelouse",
+  "label": null,
+  "position": 2,
+  "description": "",
+  "parent": "infrastructures",
+  "path": "/infrastructures/la-pelouse/",
+  "technical": false
+ },
+ "le-centre-de-formation": {
+  "slug": "le-centre-de-formation",
+  "name": "Le centre de formation",
+  "label": null,
+  "position": 3,
+  "description": "",
+  "parent": "infrastructures",
+  "path": "/infrastructures/le-centre-de-formation/",
+  "technical": false
+ },
+ "le-stade": {
+  "slug": "le-stade",
+  "name": "Le stade",
+  "label": null,
+  "position": 1,
+  "description": "",
+  "parent": "infrastructures",
+  "path": "/infrastructures/le-stade/",
+  "technical": false
+ },
+ "lieux": {
+  "slug": "lieux",
+  "name": "Lieux",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "supporters",
+  "path": "/supporters/lieux/",
+  "technical": false
+ },
+ "livres": {
+  "slug": "livres",
+  "name": "Livres",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "supporters",
+  "path": "/supporters/livres/",
+  "technical": false
+ },
+ "logos": {
+  "slug": "logos",
+  "name": "Logos",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "symboles",
+  "path": "/symboles/logos/",
+  "technical": false
+ },
+ "magazines": {
+  "slug": "magazines",
+  "name": "Magazines",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "supporters",
+  "path": "/supporters/magazines/",
+  "technical": false
+ },
+ "maillots": {
+  "slug": "maillots",
+  "name": "Maillots",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "symboles",
+  "path": "/symboles/maillots/",
+  "technical": false
+ },
+ "mascotte": {
+  "slug": "mascotte",
+  "name": "Mascotte",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "symboles",
+  "path": "/symboles/mascotte/",
+  "technical": false
+ },
+ "matchs-fc-sochaux-retro-fcsm": {
+  "slug": "matchs-fc-sochaux-retro-fcsm",
+  "name": "MATCHS",
+  "label": "Matchs",
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": "/matchs/",
+  "technical": false
+ },
+ "medias-locaux": {
+  "slug": "medias-locaux",
+  "name": "Médias locaux",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "supporters",
+  "path": "/supporters/medias-locaux/",
+  "technical": false
+ },
+ "nos-lions-fc-sochaux-retro-fcsm": {
+  "slug": "nos-lions-fc-sochaux-retro-fcsm",
+  "name": "NOS {nickname}",
+  "label": "Nos Lions",
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": "/nos-lions/",
+  "technical": false
+ },
+ "personnages-emblematiques-fc-sochaux-retro-fcsm": {
+  "slug": "personnages-emblematiques-fc-sochaux-retro-fcsm",
+  "name": "PERSONNAGES EMBLEMATIQUES",
+  "label": "Personnages emblématiques",
+  "position": 4,
+  "description": "",
+  "parent": "nos-lions-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/personnages-emblematiques/",
+  "technical": false
+ },
+ "presidents": {
+  "slug": "presidents",
+  "name": "Présidents",
+  "label": null,
+  "position": 1,
+  "description": "",
+  "parent": "dirigeants-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/dirigeants/presidents/",
+  "technical": false
+ },
+ "presidents-dhonneur": {
+  "slug": "presidents-dhonneur",
+  "name": "Présidents d'honneur",
+  "label": "Présidents d'honneur",
+  "position": 3,
+  "description": "",
+  "parent": "dirigeants-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/dirigeants/presidents-d-honneur/",
+  "technical": false
+ },
+ "presidents-executifs": {
+  "slug": "presidents-executifs",
+  "name": "Présidents exécutifs",
+  "label": null,
+  "position": 2,
+  "description": "",
+  "parent": "dirigeants-fc-sochaux-retro-fcsm",
+  "path": "/nos-lions/dirigeants/presidents-executifs/",
+  "technical": false
+ },
+ "sites-et-reseaux-sociaux": {
+  "slug": "sites-et-reseaux-sociaux",
+  "name": "Sites et réseaux sociaux",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "supporters",
+  "path": "/supporters/sites-et-reseaux-sociaux/",
+  "technical": false
+ },
+ "supporters": {
+  "slug": "supporters",
+  "name": "Supporters",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": "/supporters/",
+  "technical": false
+ },
+ "symboles": {
+  "slug": "symboles",
+  "name": "Symboles",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": "/symboles/",
+  "technical": false
+ },
+ "uncategorized": {
+  "slug": "uncategorized",
+  "name": "Uncategorized",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": null,
+  "technical": true
+ },
+ "zoom-sur-defilement-bas": {
+  "slug": "zoom-sur-defilement-bas",
+  "name": "ZOOM SUR - Défilement bas",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": null,
+  "technical": true
+ },
+ "zoom-sur-pave-droit": {
+  "slug": "zoom-sur-pave-droit",
+  "name": "ZOOM SUR - Pavé droit",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": null,
+  "technical": true
+ },
+ "a-la-une": {
+  "slug": "a-la-une",
+  "name": "A la Une",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": null,
+  "path": null,
+  "technical": true
+ },
+ "lequipe-du-musee": {
+  "slug": "lequipe-du-musee",
+  "name": "L'équipe du musée",
+  "label": null,
+  "position": null,
+  "description": "",
+  "parent": "supporters",
+  "path": "/supporters/l-equipe-du-musee/",
+  "technical": false
+ }
+}

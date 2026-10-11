@@ -64,6 +64,13 @@ switch ($cmd) {
         echo "{$u['email']} a maintenant accès à tous les musées.\n";
         break;
 
+    case 'club-rubriques':
+        echo \App\Services\ClubSetup::categories() . "\n";
+        foreach (['index', 'derived', 'search'] as $task) {
+            passthru(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__FILE__) . " $task --club=" . escapeshellarg(CLUB_ID));
+        }
+        break;
+
     case 'club-creer':
         $id = basename((string) ($argv[2] ?? ''));
         if ($id === '' || !is_file(APP_ROOT . "/config/clubs/$id.php")) {
@@ -76,6 +83,8 @@ switch ($cmd) {
             is_dir("$base/$d") || mkdir("$base/$d", 0755, true);
         }
         is_dir($media) || mkdir($media, 0755, true);
+        // Rubriques de départ (dans un processus au nom du club : ses dossiers de données).
+        passthru(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__FILE__) . ' club-rubriques --club=' . escapeshellarg($id));
         echo "Musée « $id » prêt : $base (données) et $media (images).\n";
         echo "Ensuite : php bin/console.php admin <email> <nom> --club=$id, puis la tâche cron : php bin/console.php cron --club=$id\n";
         break;
