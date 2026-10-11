@@ -179,3 +179,11 @@ Revenus possibles : abonnement, commission sur les ventes de la boutique de chaq
 | 6 | Assistant de création d'un musée | Paris Rétro créé vide | 2 j |
 | 7 | Remplissage automatique (sites fournis, web, images libres, réécriture) | Fiches « à relire » dans le back-office | 1-2 sem. |
 | 8 | Relecture, mise en ligne, `parisretro.com` | Ouverture | selon la relecture |
+
+## 10. Accès au back-office : aucun musée « maître »
+
+- Chaque domaine a son `/admin` : `musee.fcsochauxretro.com/admin` ouvre Sochaux, `parisretro.com/admin` ouvre Paris.
+- On peut entrer par n'importe quel musée. Un super-admin voit un sélecteur de musée en haut du back-office et passe de l'un à l'autre sans ressaisir son mot de passe.
+- Comment ça marche : la session est liée au domaine (sécurité des navigateurs). Le sélecteur envoie donc vers l'autre domaine avec un jeton de connexion signé, à usage unique et valable 60 secondes. Il fonctionne seulement pour un compte autorisé sur le musée visé.
+- Les comptes sont communs : un fichier d'utilisateurs partagé, avec pour chaque compte les musées autorisés et le rôle dans chacun.
+- Plus tard, si l'offre est commercialisée : un domaine neutre pour la marque SaaS (vitrine commerciale + console de tous les musées). Ce n'est pas nécessaire pour démarrer.
