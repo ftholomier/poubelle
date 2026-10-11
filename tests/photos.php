@@ -73,7 +73,7 @@ $eq('raison d’une photo : retirée à la main, crédit vidé, DR, exclu, trop 
     PhotoWall::reasonKey(PhotoWall::reason($one['r'], ['credit' => 'AFP'] + $m, $usage)), PhotoWall::reasonKey(null),
 ], ['retirée à la main', 'sans crédit', 'crédit DR', 'crédit exclu (AFP)', 'crédit sans auteur', 'trop petite', 'exclu', 'montrees']);
 $eq('photo d’aucune fiche publiée : écartée', PhotoWall::reason($one['r'], $m, [$one['r'] => []]), 'dans aucune fiche publiée');
-$eq('liste des crédits exclus : celle de départ tant qu’elle n’est pas modifiée', PhotoWall::excluded(), PhotoWall::RISKY);
+$eq('liste des crédits exclus : celle de départ tant qu’elle n’est pas modifiée', PhotoWall::excluded(), PhotoWall::riskyDefault());
 $hits = PhotoWall::excludedHits();
 $eq('ce que retire chaque ligne : autant que de photos au crédit exclu', array_sum($hits) >= ($stats['exclu'] ?? 0), true);
 
@@ -97,7 +97,7 @@ $eq('filtres inconnus ignorés', Walls::filters(new Request('GET', '/', ['decenn
 
 // 4. Motifs de la mosaïque
 $cells = fn (array $g): int => array_sum(array_map(fn ($r) => count(array_filter($r)), $g));
-foreach (array_keys(Walls::MOTIFS) as $k) {
+foreach (array_keys(Walls::motifs()) as $k) {
     $k = (string) $k;
     $w = Walls::grid($k, true);
     $n = Walls::grid($k, false);
