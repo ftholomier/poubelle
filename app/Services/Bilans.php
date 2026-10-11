@@ -51,7 +51,8 @@ final class Bilans
         if (self::$raw !== null) {
             return self::$raw;
         }
-        $j = is_file(self::$data) ? gzdecode((string) file_get_contents(self::$data)) : false;
+        // Archives propres au musée historique : aucun autre musée ne les lit.
+        $j = \App\Core\Club::isDefault() && is_file(self::$data) ? gzdecode((string) file_get_contents(self::$data)) : false;
         $d = $j ? json_decode($j, true) : null;
         $rows = [];
         foreach ((array) ($d['rows'] ?? []) as $r) {

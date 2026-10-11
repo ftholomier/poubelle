@@ -43,7 +43,7 @@ final class Catalogue
         if (self::$items !== null) {
             return self::$items;
         }
-        $j = is_file(self::$data) ? gzdecode((string) file_get_contents(self::$data)) : false;
+        $j = \App\Core\Club::isDefault() && is_file(self::$data) ? gzdecode((string) file_get_contents(self::$data)) : false;
         $d = $j ? json_decode($j, true) : null;
         $out = [];
         foreach ((array) ($d['items'] ?? []) as $it) {

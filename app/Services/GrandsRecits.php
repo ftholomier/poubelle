@@ -27,6 +27,10 @@ final class GrandsRecits
             return $all;
         }
         // Premiers récits, puis un fichier par décennie (app/Resources/import/recits/*.php), dans l'ordre chronologique.
+        // Récits propres au musée historique : aucun autre musée ne les reçoit.
+        if (!\App\Core\Club::isDefault()) {
+            return $all = [];
+        }
         $all = require APP_ROOT . '/app/Resources/import/recits.php';
         foreach (glob(APP_ROOT . '/app/Resources/import/recits/*.php') ?: [] as $f) {
             $all = array_merge($all, require $f);

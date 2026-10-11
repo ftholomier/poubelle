@@ -37,7 +37,7 @@ final class FeuillesImport
             return $cache;
         }
         $for = self::$data;
-        $raw = is_file(self::$data) ? gzdecode((string) file_get_contents(self::$data)) : false;
+        $raw = \App\Core\Club::isDefault() && is_file(self::$data) ? gzdecode((string) file_get_contents(self::$data)) : false;
         $list = $raw ? json_decode($raw, true) : null;
         $cache = [];
         foreach (is_array($list) ? $list : [] as $s) {

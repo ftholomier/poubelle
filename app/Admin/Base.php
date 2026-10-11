@@ -87,6 +87,7 @@ class Base
             ['audio', 'Fiches audio', '/admin/audio', true],
             ['reprise', 'Reprise 1928-1969', '/admin/reprise-1928-1969', true],
             ['feuilles', 'Feuilles de match', '/admin/import-feuilles', true],
+            ['depart', 'Contenus de départ', '/admin/contenus-de-depart', true],
             ['couts', 'Coûts IA', '/admin/couts-ia', true],
             ['utilisateurs', 'Utilisateurs', '/admin/utilisateurs', true],
             ['reglages', 'Réglages', '/admin/reglages', true],
@@ -105,13 +106,14 @@ class Base
      */
     public static function nav(): array
     {
-        if (\App\Core\Club::isDefault()) {
-            return self::NAV;
-        }
         $nav = self::NAV;
-        unset($nav['Site de l’association']);
+        $hide = \App\Services\StarterPack::packs() ? [] : ['depart'];
+        if (!\App\Core\Club::isDefault()) {
+            unset($nav['Site de l’association']);
+            $hide = array_merge($hide, ['reprise', 'feuilles']);
+        }
         foreach ($nav as $g => $items) {
-            $nav[$g] = array_values(array_filter($items, fn ($it) => $it[0] !== 'reprise'));
+            $nav[$g] = array_values(array_filter($items, fn ($it) => !in_array($it[0], $hide, true)));
         }
         return $nav;
     }
