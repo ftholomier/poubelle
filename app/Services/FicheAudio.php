@@ -54,7 +54,7 @@ final class FicheAudio
 
     public static string $dir = STORAGE_PATH . '/audio';
     /** Dossier public des médias : les voix vont dans media/audio/ (servies directement par Apache). */
-    public static string $media = PUBLIC_PATH . '/media';
+    public static string $media = MEDIA_PATH;
     /** Compression MP3 : null = ffmpeg détecté automatiquement, false = WAV (essais). */
     public static ?bool $mp3 = null;
     private static ?string $ffmpeg = null;
@@ -602,7 +602,7 @@ final class FicheAudio
             return null;
         }
         $cur ??= self::current($doc, $lang);
-        return ($a['th'] ?? '') === sha1($cur['text']) ? $a + ['url' => '/media/' . $a['file']] : null;
+        return ($a['th'] ?? '') === sha1($cur['text']) ? $a + ['url' => MEDIA_URL . '/' . $a['file']] : null;
     }
 
     /** Fabrique la voix IA d'une fiche tout de suite (tarif normal). */
@@ -628,7 +628,7 @@ final class FicheAudio
         if ($old && $old !== $entry['file']) {
             @unlink(self::$media . '/' . $old);
         }
-        return $entry + ['url' => '/media/' . $entry['file']];
+        return $entry + ['url' => MEDIA_URL . '/' . $entry['file']];
     }
 
     /**

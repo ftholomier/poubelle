@@ -8,10 +8,25 @@ declare(strict_types=1);
 
 define('APP_ROOT', dirname(__DIR__));
 define('APP_DIR', APP_ROOT . '/app');
-define('DATA_PATH', APP_ROOT . '/data');
-define('STORAGE_PATH', APP_ROOT . '/storage');
 define('PUBLIC_PATH', APP_ROOT . '/public');
 define('TEMPLATES_PATH', APP_ROOT . '/templates');
+define('I18N_PATH', APP_ROOT . '/data/i18n'); // libellés d'interface traduits : communs à tous les clubs
+
+// Musée servi (plusieurs clubs, un seul code) : le club historique garde data/, storage/ et
+// public/media/ ; chaque autre club a les siens sous clubs/<id>/ et public/m/<id>/.
+require APP_DIR . '/Core/Club.php';
+define('CLUB_ID', \App\Core\Club::boot($_SERVER['HTTP_HOST'] ?? null));
+if (\App\Core\Club::isDefault()) {
+    define('DATA_PATH', APP_ROOT . '/data');
+    define('STORAGE_PATH', APP_ROOT . '/storage');
+    define('MEDIA_PATH', PUBLIC_PATH . '/media');
+    define('MEDIA_URL', '/media');
+} else {
+    define('DATA_PATH', APP_ROOT . '/clubs/' . CLUB_ID . '/data');
+    define('STORAGE_PATH', APP_ROOT . '/clubs/' . CLUB_ID . '/storage');
+    define('MEDIA_PATH', PUBLIC_PATH . '/m/' . CLUB_ID);
+    define('MEDIA_URL', '/m/' . CLUB_ID);
+}
 
 // Hébergement mal réglé (version de PHP, extension indispensable absente) : un message clair
 // plutôt qu'une erreur 500 muette. Liste complète : back-office › Tâches planifiées › Serveur.

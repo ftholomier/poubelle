@@ -16,7 +16,7 @@ $n = count(array_filter($status, fn ($s) => ($s['status'] ?? '') === 'valide'));
 <?php foreach ($jerseys as $k => $j): $s = $status[$k] ?? null; ?>
   <section class="card card--pad" id="m-<?= e($k) ?>" style="display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start">
     <div class="stack" style="gap:6px">
-      <?php if ($j['ref']): ?><a href="/media/full/<?= e($j['ref']) ?>" target="_blank" rel="noopener"><img src="/media/480/<?= e($j['ref']) ?>.webp" alt="" style="width:240px;height:180px;object-fit:cover;border:2px solid var(--navy)"></a>
+      <?php if ($j['ref']): ?><a href="<?= MEDIA_URL ?>/full/<?= e($j['ref']) ?>" target="_blank" rel="noopener"><img src="<?= MEDIA_URL ?>/480/<?= e($j['ref']) ?>.webp" alt="" style="width:240px;height:180px;object-fit:cover;border:2px solid var(--navy)"></a>
       <span class="xs muted">Photo de référence (cliquez pour l’agrandir)</span><?php else: ?><span class="xs muted">Modèle générique, sans photo de référence.</span><?php endif; ?>
     </div>
     <div class="stack" style="gap:10px">

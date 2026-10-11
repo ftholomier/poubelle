@@ -71,7 +71,7 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
         <div class="shopbook__covers" data-cover-list>
           <label><input type="radio" name="livre[couverture]" value=""<?= $v('couverture') === '' ? ' checked' : '' ?> data-book-in><span class="shopbook__nophoto">Sans photo</span></label>
           <?php foreach ($covers as $c): ?>
-          <label title="<?= e($c['caption']) ?>"><input type="radio" name="livre[couverture]" value="<?= e($c['rel']) ?>"<?= $v('couverture') === $c['rel'] ? ' checked' : '' ?> data-book-in data-img="<?= e(url('/media/480/' . $c['rel'] . '.webp')) ?>"><img src="<?= e(url('/media/320/' . $c['rel'] . '.webp')) ?>" alt="<?= e($c['caption']) ?>" loading="lazy"></label>
+          <label title="<?= e($c['caption']) ?>"><input type="radio" name="livre[couverture]" value="<?= e($c['rel']) ?>"<?= $v('couverture') === $c['rel'] ? ' checked' : '' ?> data-book-in data-img="<?= e(url(MEDIA_URL . '/480/' . $c['rel'] . '.webp')) ?>"><img src="<?= e(url(MEDIA_URL . '/320/' . $c['rel'] . '.webp')) ?>" alt="<?= e($c['caption']) ?>" loading="lazy"></label>
           <?php endforeach; ?>
         </div>
       </fieldset>

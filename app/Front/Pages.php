@@ -568,11 +568,12 @@ final class Pages
             return Mosaic::show($req, $cat);
         }
         // Rubriques racines sans catégorie propre
-        if ($req->path === '/nos-lions/') {
-            return Mosaic::show($req, Categories::get(Site::C_LIONS));
+        // (absentes d'un musée tout juste créé, avant que ses rubriques soient générées)
+        if ($req->path === '/nos-lions/' && ($c = Categories::get(Site::C_LIONS))) {
+            return Mosaic::show($req, $c);
         }
-        if ($req->path === '/matchs/') {
-            return Mosaic::show($req, Categories::get(Site::C_MATCHS));
+        if ($req->path === '/matchs/' && ($c = Categories::get(Site::C_MATCHS))) {
+            return Mosaic::show($req, $c);
         }
         return null;
     }

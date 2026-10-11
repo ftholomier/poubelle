@@ -2,6 +2,10 @@
 /storage/*
 !/storage/.gitkeep
 /public/media/
+# Données, fichiers de travail et médias des autres clubs (clubs/<id>/, public/m/<id>/)
+/clubs/*/data/
+/clubs/*/storage/
+/public/m/
 /vendor/
 .DS_Store
 /storage/*.pid

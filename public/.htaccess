@@ -23,6 +23,19 @@ AddDefaultCharset UTF-8
     RewriteRule ^media/full/ - [F,L]
 
     # Images déjà générées : servies directement par Apache.
+    # Médias en taille réelle d'un autre club : même protection (lien depuis le site lui-même).
+    RewriteCond %{HTTP_REFERER} !^$
+    RewriteCond %{HTTP_HOST}@@%{HTTP_REFERER} !^([^@]+)@@https?://\1/ [NC]
+    RewriteRule ^m/[a-z0-9-]+/full/ - [F,L]
+    # Autres clubs que le club historique (Sochaux) : ses médias (public/media/) n'y sont jamais
+    # servis ; manifeste, service worker, page hors connexion et icônes de la racine sont produits
+    # par l'application, aux couleurs du club.
+    RewriteCond %{HTTP_HOST} !(^|\.)fcsochauxretro\.com$ [NC]
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:[0-9]+)?$ [NC]
+    RewriteRule ^media/ - [R=404,L]
+    RewriteCond %{HTTP_HOST} !(^|\.)fcsochauxretro\.com$ [NC]
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:[0-9]+)?$ [NC]
+    RewriteRule ^(manifest\.webmanifest|sw\.js|hors-ligne\.html|favicon\.ico|apple-touch-icon(-precomposed)?\.png)$ index.php [L]
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 

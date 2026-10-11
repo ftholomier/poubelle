@@ -127,7 +127,7 @@ final class Newsletter
             return null;
         }
         $name = substr(sha1($rel . '|' . filemtime($src)), 0, 20) . '.jpg';
-        $dest = PUBLIC_PATH . '/media/lettre/' . $name;
+        $dest = MEDIA_PATH . '/lettre/' . $name;
         if (!is_file($dest)) {
             $im = @imagecreatefromstring((string) file_get_contents($src));
             if (!$im) {
@@ -156,7 +156,7 @@ final class Newsletter
             imagedestroy($im);
             imagedestroy($out);
         }
-        return '/media/lettre/' . $name;
+        return MEDIA_URL . '/lettre/' . $name;
     }
 
     /** Carte « Boutique » de la grille : fond bleu nuit, même format que celles des matchs. */
@@ -178,7 +178,7 @@ final class Newsletter
     private static function shopImage(): ?string
     {
         $name = 'boutique-v1.jpg';
-        $dest = PUBLIC_PATH . '/media/lettre/' . $name;
+        $dest = MEDIA_PATH . '/lettre/' . $name;
         $font = APP_DIR . '/Resources/fonts/BigShouldersDisplay-Black.ttf';
         $logo = PUBLIC_PATH . Club::s('logo_png');
         if (!is_file($dest)) {
@@ -209,7 +209,7 @@ final class Newsletter
             imagejpeg($im, $dest, 90);
             imagedestroy($im);
         }
-        return '/media/lettre/' . $name;
+        return MEDIA_URL . '/lettre/' . $name;
     }
 
     /**
@@ -219,7 +219,7 @@ final class Newsletter
     private static function yearCard(int $year): ?string
     {
         $name = 'annee-' . $year . '.jpg';
-        $dest = PUBLIC_PATH . '/media/lettre/' . $name;
+        $dest = MEDIA_PATH . '/lettre/' . $name;
         $font = APP_DIR . '/Resources/fonts/BigShouldersDisplay-Black.ttf';
         if (!is_file($dest)) {
             if (!$year || !is_file($font) || !function_exists('imagettftext')) {
@@ -240,7 +240,7 @@ final class Newsletter
             imagejpeg($im, $dest, 90);
             imagedestroy($im);
         }
-        return '/media/lettre/' . $name;
+        return MEDIA_URL . '/lettre/' . $name;
     }
 
     /**

@@ -51,7 +51,7 @@ final class Book extends Base
             return self::back('/admin/livre', $c['active'] ? 'Le livre est en vente dans la boutique.' : 'Réglages enregistrés : le livre n’est pas en vente.');
         }
         if ($action === 'couv-ajouter' || $action === 'couv-retirer') {
-            $rel = \App\Data\Media::safeRel(preg_replace('#^.*?/media/(?:full|\d+)/|\.webp$#', '', trim((string) ($req->post['rel'] ?? ''))) ?? '');
+            $rel = \App\Data\Media::safeRel(preg_replace('#^.*?(?:/media|' . preg_quote(MEDIA_URL, '#') . ')/(?:full|\d+)/|\.webp$#', '', trim((string) ($req->post['rel'] ?? ''))) ?? '');
             $list = Livre::covers();
             if ($action === 'couv-retirer') {
                 Livre::saveCovers(array_diff($list, [$rel]));

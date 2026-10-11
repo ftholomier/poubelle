@@ -11,6 +11,8 @@ return [
     'site' => 'Paris Rétro',
     'site_lc' => 'Paris rétro',
     'site_de' => 'de Paris Rétro',
+    // Noms de domaine qui servent ce musée (adresse principale en premier).
+    'domains' => ['parisretro.sportia.com', 'parisretro.com', 'www.parisretro.com'],
     'domain' => 'parisretro.sportia.com',
     'base_url' => 'https://parisretro.sportia.com',
     'logo_png' => '/assets/clubs/paris/logo.png',

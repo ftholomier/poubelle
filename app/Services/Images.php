@@ -45,7 +45,7 @@ final class Images
         if (!$src) {
             return self::placeholder();
         }
-        $dest = PUBLIC_PATH . "/media/$width/$srcRel.webp";
+        $dest = MEDIA_PATH . "/$width/$srcRel.webp";
         if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
             $made = self::make($src, $dest, $width, Media::get($srcRel)['edit'] ?? null, true);
             if ($made === null) {
@@ -77,7 +77,7 @@ final class Images
         if (!$src) {
             return null;
         }
-        $dest = PUBLIC_PATH . "/media/$width/$rel.webp";
+        $dest = MEDIA_PATH . "/$width/$rel.webp";
         if (!is_file($dest) || filemtime($dest) < filemtime($src)) {
             if (!self::make($src, $dest, $width, Media::get($rel)['edit'] ?? null, false)) {
                 return null;
@@ -143,9 +143,9 @@ final class Images
         $widths = self::WIDTHS;
         usort($widths, fn ($a, $b) => abs($a - $width) <=> abs($b - $width) ?: $b <=> $a);
         foreach ($widths as $w) {
-            $f = PUBLIC_PATH . "/media/$w/$srcRel.webp";
+            $f = MEDIA_PATH . "/$w/$srcRel.webp";
             if ($w !== $width && is_file($f) && filemtime($f) >= filemtime($src)) {
-                return new Response('', 302, ['Location' => "/media/$w/" . str_replace('%2F', '/', rawurlencode($srcRel)) . '.webp', 'Cache-Control' => 'no-store']);
+                return new Response('', 302, ['Location' => MEDIA_URL . "/$w/" . str_replace('%2F', '/', rawurlencode($srcRel)) . '.webp', 'Cache-Control' => 'no-store']);
             }
         }
         return self::placeholder();
@@ -285,7 +285,7 @@ final class Images
                 continue;
             }
             $src = Media::file($rel);
-            $dest = PUBLIC_PATH . "/media/$width/$rel.webp";
+            $dest = MEDIA_PATH . "/$width/$rel.webp";
             if ($src && !is_file($dest) && self::make($src, $dest, $width, $m['edit'] ?? null, false)) {
                 $n++;
                 if ($log && $n % 200 === 0) {

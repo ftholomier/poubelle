@@ -37,10 +37,10 @@ function img(?string $rel, int $width = 800): string
         return '/assets/img/placeholder.svg';
     }
     if (str_ends_with(strtolower($rel), '.svg')) {
-        return '/media/full/' . str_replace('%2F', '/', rawurlencode($rel));
+        return MEDIA_URL . '/full/' . str_replace('%2F', '/', rawurlencode($rel));
     }
     $v = \App\Data\Media::version($rel);
-    return '/media/' . $width . '/' . str_replace('%2F', '/', rawurlencode($rel)) . '.webp' . ($v !== null ? '?v=' . $v : '');
+    return MEDIA_URL . '/' . $width . '/' . str_replace('%2F', '/', rawurlencode($rel)) . '.webp' . ($v !== null ? '?v=' . $v : '');
 }
 
 /** srcset WebP pour une image responsive. */
@@ -55,7 +55,7 @@ function srcset(?string $rel, array $widths = [480, 800, 1200]): string
 /** URL de l'image originale. */
 function img_original(?string $rel): string
 {
-    return $rel ? '/media/full/' . str_replace('%2F', '/', rawurlencode($rel)) : '/assets/img/placeholder.svg';
+    return $rel ? MEDIA_URL . '/full/' . str_replace('%2F', '/', rawurlencode($rel)) : '/assets/img/placeholder.svg';
 }
 
 function csrf_field(): string
@@ -294,7 +294,7 @@ function video_embed(array $v): ?array
         'dailymotion' => ['provider' => 'dailymotion', 'id' => $id, 'embed' => 'https://geo.dailymotion.com/player.html?video=' . rawurlencode((string) $id), 'link' => 'https://www.dailymotion.com/video/' . rawurlencode((string) $id), 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
         'vimeo' => ['provider' => 'vimeo', 'id' => $id, 'embed' => 'https://player.vimeo.com/video/' . rawurlencode((string) $id) . '?dnt=1', 'link' => 'https://vimeo.com/' . rawurlencode((string) $id), 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
         'rutube' => ['provider' => 'rutube', 'id' => $id, 'embed' => 'https://rutube.ru/play/embed/' . rawurlencode((string) $id), 'link' => 'https://rutube.ru/video/' . rawurlencode((string) $id) . '/', 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
-        'file' => ['provider' => 'file', 'id' => null, 'embed' => preg_replace('#^https?://(www\.)?fcsochauxretro\.com/wp-content/uploads/#', '/media/full/', $url), 'link' => $url, 'thumb' => null, 'title' => (string) ($v['title'] ?? '')],
+        'file' => ['provider' => 'file', 'id' => null, 'embed' => preg_replace('#^https?://(www\.)?fcsochauxretro\.com/wp-content/uploads/#', MEDIA_URL . '/full/', $url), 'link' => $url, 'thumb' => null, 'title' => (string) ($v['title'] ?? '')],
         'iframe' => $url !== '' && preg_match('#^https://#', $url) ? ['provider' => 'iframe', 'id' => null, 'embed' => $url, 'link' => $url, 'thumb' => null, 'title' => (string) ($v['title'] ?? '')] : null,
         default => null,
     };

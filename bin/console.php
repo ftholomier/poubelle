@@ -17,6 +17,10 @@
  *   php bin/console.php audio [secondes]       fiches audio : envoie et range les traitements groupés (voix et résumés IA)
  *   php bin/console.php controle         contrôle complet (comme le bouton « Contrôler maintenant » de l'écran Qualité)
  *   php bin/console.php controle-reference ["libellé"]  réécrit la référence livrée (anomalies déjà connues des données du dépôt)
+ *   php bin/console.php club-creer <id>  prépare les dossiers d'un nouveau musée (profil config/clubs/<id>.php)
+ *
+ * Plusieurs musées : ajouter --club=<id> à n'importe quelle commande (club historique par défaut),
+ * par exemple dans la tâche cron de chaque musée : php bin/console.php cron --club=paris
  */
 
 declare(strict_types=1);
@@ -28,6 +32,15 @@ if (PHP_SAPI !== 'cli') {
     exit(1);
 }
 
+// Musée visé : --club=<id> (avant le démarrage, qui choisit les dossiers du club).
+foreach ($argv as $i => $a) {
+    if (str_starts_with($a, '--club=')) {
+        putenv('MUSEE_CLUB=' . substr($a, 7));
+        array_splice($argv, $i, 1);
+        break;
+    }
+}
+
 require __DIR__ . '/../app/bootstrap.php';
 
 use App\Data\Derived;
@@ -37,6 +50,22 @@ $cmd = $argv[1] ?? 'help';
 $t0 = microtime(true);
 
 switch ($cmd) {
+    case 'club-creer':
+        $id = basename((string) ($argv[2] ?? ''));
+        if ($id === '' || !is_file(APP_ROOT . "/config/clubs/$id.php")) {
+            fwrite(STDERR, "Profil introuvable : config/clubs/$id.php\n");
+            exit(1);
+        }
+        $base = $id === \App\Core\Club::DEFAULT ? APP_ROOT : APP_ROOT . "/clubs/$id";
+        $media = $id === \App\Core\Club::DEFAULT ? PUBLIC_PATH . '/media' : PUBLIC_PATH . "/m/$id";
+        foreach (['data/fiches', 'data/legacy', 'data/collections', 'storage/cache', 'storage/sessions', 'storage/logs', 'storage/media/originals'] as $d) {
+            is_dir("$base/$d") || mkdir("$base/$d", 0755, true);
+        }
+        is_dir($media) || mkdir($media, 0755, true);
+        echo "Musée « $id » prêt : $base (données) et $media (images).\n";
+        echo "Ensuite : php bin/console.php admin <email> <nom> --club=$id, puis la tâche cron : php bin/console.php cron --club=$id\n";
+        break;
+
     case 'index':
         $items = Index::rebuild();
         echo count($items) . " fiches indexées\n";

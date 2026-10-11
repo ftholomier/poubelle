@@ -7,6 +7,11 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
+// Médias d'un club autre que le club historique : /m/<club>/… est traité comme /media/….
+if (MEDIA_URL !== '/media' && str_starts_with((string) ($_SERVER['REQUEST_URI'] ?? ''), MEDIA_URL . '/')) {
+    $_SERVER['REQUEST_URI'] = '/media' . substr((string) $_SERVER['REQUEST_URI'], strlen(MEDIA_URL));
+}
+
 $request = \App\Core\Request::fromGlobals();
 // Pages du musée pour les visiteurs anonymes : resservies depuis le cache quand c'est possible.
 $response = \App\Core\PageCache::serve($request) ?? \App\Core\PageCache::store($request, \App\Kernel::handle($request));

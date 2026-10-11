@@ -57,7 +57,7 @@ final class ServerCheck
         if (function_exists('gd_info') && empty(gd_info()['WebP Support'])) {
             $out[] = 'GD sans le format WebP : les vignettes des photos ne peuvent pas être créées.';
         }
-        foreach ([STORAGE_PATH, STORAGE_PATH . '/cache', STORAGE_PATH . '/sessions', STORAGE_PATH . '/logs', DATA_PATH, DATA_PATH . '/fiches', PUBLIC_PATH . '/media'] as $dir) {
+        foreach ([STORAGE_PATH, STORAGE_PATH . '/cache', STORAGE_PATH . '/sessions', STORAGE_PATH . '/logs', DATA_PATH, DATA_PATH . '/fiches', MEDIA_PATH] as $dir) {
             if (is_dir($dir) && !is_writable($dir)) {
                 $out[] = 'Dossier « ' . self::rel($dir) . ' » non inscriptible par PHP : droits 755 dans le gestionnaire de fichiers de cPanel.';
             }

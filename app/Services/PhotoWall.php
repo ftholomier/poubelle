@@ -151,7 +151,7 @@ final class PhotoWall
             $c = self::credit((string) $m['credit']);
             $t = 0;
             foreach (self::WIDTHS as $i => $w) {
-                $t |= is_file(PUBLIC_PATH . "/media/$w/$rel.webp") ? 1 << $i : 0;
+                $t |= is_file(MEDIA_PATH . "/$w/$rel.webp") ? 1 << $i : 0;
             }
             $photos[] = [
                 'r' => $rel, 'w' => (int) $m['width'], 'h' => (int) $m['height'], 'c' => $c['name'], 'k' => $c['key'], 'who' => $c['who'],
@@ -546,7 +546,7 @@ final class PhotoWall
         $left = 0;
         foreach (self::photos() as $p) {
             foreach (self::WIDTHS as $w) {
-                if (is_file(PUBLIC_PATH . "/media/$w/{$p['r']}.webp")) {
+                if (is_file(MEDIA_PATH . "/$w/{$p['r']}.webp")) {
                     continue;
                 }
                 if (microtime(true) - $t0 > $seconds) {

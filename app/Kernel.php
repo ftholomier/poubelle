@@ -195,7 +195,7 @@ final class Kernel
             }
             // Le suivi d'une commande de la boutique et les liens de la newsletter (confirmer, se
             // désinscrire, y compris en un clic depuis la messagerie) restent accessibles.
-            if (!in_array($path, ['/robots.txt', '/mentions-legales/', '/confidentialite/', '/cookies/'], true) && !str_starts_with($path, '/boutique/commande/') && !preg_match('#^/newsletter/(desinscription|confirmer|c|o)/#', $path)) {
+            if (!in_array($path, ['/robots.txt', '/manifest.webmanifest', '/sw.js', '/hors-ligne.html', '/favicon.ico', '/apple-touch-icon.png', '/apple-touch-icon-precomposed.png', '/mentions-legales/', '/confidentialite/', '/cookies/'], true) && !str_starts_with($path, '/boutique/commande/') && !preg_match('#^/newsletter/(desinscription|confirmer|c|o)/#', $path)) {
                 return Front\Pages::waiting();
             }
         }
@@ -214,7 +214,7 @@ final class Kernel
         }
 
         // Adresses sans barre finale → avec (une seule adresse par page)
-        if ($req->method === 'GET' && $path !== '/' && !str_ends_with($path, '/') && !preg_match('#\.\w{2,5}$#', $path)) {
+        if ($req->method === 'GET' && $path !== '/' && !str_ends_with($path, '/') && !preg_match('#\.\w{2,11}$#', $path)) {
             $qs = $req->query ? '?' . http_build_query($req->query) : '';
             return Response::redirect(url($path . '/') . $qs, 301);
         }
@@ -266,7 +266,7 @@ final class Kernel
         static $routes = null;
         $routes ??= self::routes();
         // Fichier présent dans public/ : servi directement par le serveur web (jamais hors du dossier).
-        if (preg_match('#\.\w{2,5}$#', $path) && !str_contains($path, "\0")) {
+        if (preg_match('#\.\w{2,11}$#', $path) && !str_contains($path, "\0")) {
             $public = realpath(PUBLIC_PATH);
             $real = $public ? realpath(PUBLIC_PATH . $path) : false;
             if ($real && str_starts_with($real, $public . DIRECTORY_SEPARATOR) && is_file($real)) {
@@ -293,7 +293,7 @@ final class Kernel
         if (str_starts_with($path, '/api/')) {
             return [200, null, 'page'];
         }
-        if ($path !== '/' && !str_ends_with($path, '/') && !preg_match('#\.\w{2,5}$#', $path)) {
+        if ($path !== '/' && !str_ends_with($path, '/') && !preg_match('#\.\w{2,11}$#', $path)) {
             return [301, $pre . $path . '/' . ($query ? '?' . http_build_query($query) : ''), 'barre'];
         }
         if ($path === '/' && $query && ($to = Redirects::legacyQuery($query))) {
@@ -395,6 +395,13 @@ final class Kernel
         $r->get('/', fn ($q) => Front\Pages::home($q));
         $r->get('/robots.txt', fn () => Front\Seo::robots());
         $r->get('/sitemap.xml', fn () => Front\Seo::sitemap());
+        // Fichiers de la racine déclinés par club (les fichiers fixes sont ceux du club historique).
+        $r->get('/manifest.webmanifest', fn () => Front\ClubFiles::manifest());
+        $r->get('/sw.js', fn () => Front\ClubFiles::serviceWorker());
+        $r->get('/hors-ligne.html', fn () => Front\ClubFiles::offline());
+        $r->get('/favicon.ico', fn () => Front\ClubFiles::icon('favicon'));
+        $r->get('/apple-touch-icon.png', fn () => Front\ClubFiles::icon('apple'));
+        $r->get('/apple-touch-icon-precomposed.png', fn () => Front\ClubFiles::icon('apple'));
         $r->get('/recherche/', fn ($q) => Front\Pages::search($q));
         $r->get('/partage/{id}.png', fn ($q, $id) => ctype_digit($id) ? Front\Share::image((int) $id) : null);
         // Export PDF (vrai document mis en page, pas une impression)

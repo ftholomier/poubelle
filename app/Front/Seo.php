@@ -48,7 +48,7 @@ final class Seo
             foreach (['/admin', '/api/', '/recherche/', '/partage/', '/pdf/', '/en/pdf/', '/*?q=', '/*&q=', '/*?tri=', '/*&tri=', '/*?vue=', '/*&vue=', '/*?fragment=', '/*?apercu'] as $d) {
                 $lines[] = 'Disallow: ' . $d;
             }
-            $lines[] = 'Allow: /media/';
+            $lines[] = 'Allow: ' . MEDIA_URL . '/';
             $lines[] = '';
             $lines[] = 'Sitemap: ' . $base . '/sitemap.xml';
         }

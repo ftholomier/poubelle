@@ -25,7 +25,7 @@ use App\Services\Translator;
  */
 final class System extends Base
 {
-    private const DICT = DATA_PATH . '/i18n/en.json';
+    private const DICT = I18N_PATH . '/en.json';
     private const MISSING = STORAGE_PATH . '/i18n-missing-en.json';
 
     // ------------------------------------------------------------------ traductions

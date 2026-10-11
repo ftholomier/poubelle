@@ -182,8 +182,8 @@ final class Medias extends Base
             'file' => $rel,
             'name' => basename($rel),
             'thumb' => $isPdf ? '/assets/admin/pdf.svg' : img($rel, 320),
-            'large' => $isPdf ? '/media/full/' . $rel : img($rel, 800),
-            'full' => '/media/full/' . $rel,
+            'large' => $isPdf ? MEDIA_URL . '/full/' . $rel : img($rel, 800),
+            'full' => MEDIA_URL . '/full/' . $rel,
             'pdf' => $isPdf,
             'missing' => $file === null,
             'caption' => (string) ($m['caption'] ?? ''),
@@ -409,7 +409,7 @@ final class Medias extends Base
     private static function purgeDerivatives(string $rel): void
     {
         foreach (Images::WIDTHS as $w) {
-            @unlink(PUBLIC_PATH . "/media/$w/$rel.webp");
+            @unlink(MEDIA_PATH . "/$w/$rel.webp");
         }
     }
 }

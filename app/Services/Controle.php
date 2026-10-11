@@ -257,7 +257,7 @@ final class Controle
     {
         clearstatcache();
         $sig = md5(implode('|', array_map(fn ($f) => @filemtime($f) . ':' . @filesize($f), [
-            Redirects::FILE, DATA_PATH . '/i18n/en.json', Collections::DIR . '/clubs.json', Collections::DIR . '/stades.json',
+            Redirects::FILE, I18N_PATH . '/en.json', Collections::DIR . '/clubs.json', Collections::DIR . '/stades.json',
             DATA_PATH . '/categories.json', DATA_PATH . '/media.json', Index::CACHE, STORAGE_PATH . '/cache/derived.php',
         ])));
         $c = PhpCache::read(self::SITE_CACHE);
@@ -378,7 +378,7 @@ final class Controle
         }
 
         // Traductions de l'interface : mêmes variables ({n}, {nom}…) et mêmes balises dans les deux langues.
-        $dict = DATA_PATH . '/i18n/en.json';
+        $dict = I18N_PATH . '/en.json';
         if (!self::readable($dict)) {
             $add('traductions', 'haute', 'fichier', 'Fichier des textes anglais de l’interface illisible (JSON abîmé) : le site anglais s’affiche en français. À remplacer par sa dernière sauvegarde.', 'data/i18n/en.json', null, 'en.json');
         }

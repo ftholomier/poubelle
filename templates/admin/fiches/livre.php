@@ -71,7 +71,7 @@ use App\Pdf\Livre;
     <div class="row" style="gap:10px;flex-wrap:wrap">
       <label class="row" style="gap:6px"><input type="radio" name="couverture" value="" checked> Couverture graphique (sans photo)</label>
       <?php foreach ($covers as $c): if (($c['dpi'] ?? 0) < Livre::DPI['page']) continue; ?>
-        <label class="row" style="gap:6px"><input type="radio" name="couverture" value="<?= e($c['rel']) ?>"> <img src="/media/160/<?= e($c['rel']) ?>.webp" alt="" style="width:60px;height:40px;object-fit:cover"></label>
+        <label class="row" style="gap:6px"><input type="radio" name="couverture" value="<?= e($c['rel']) ?>"> <img src="<?= MEDIA_URL ?>/160/<?= e($c['rel']) ?>.webp" alt="" style="width:60px;height:40px;object-fit:cover"></label>
       <?php endforeach; ?>
     </div>
   </div>
@@ -100,7 +100,7 @@ use App\Pdf\Livre;
     <?php foreach ($covers as $c): ?>
       <form method="post" action="/admin/livre" class="stack" style="gap:4px;width:180px">
         <?= csrf_field() ?><input type="hidden" name="action" value="couv-retirer"><input type="hidden" name="rel" value="<?= e($c['rel']) ?>">
-        <img src="/media/320/<?= e($c['rel']) ?>.webp" alt="" style="width:180px;height:120px;object-fit:cover">
+        <img src="<?= MEDIA_URL ?>/320/<?= e($c['rel']) ?>.webp" alt="" style="width:180px;height:120px;object-fit:cover">
         <span class="xs"><?= e(mb_strimwidth($c['caption'], 0, 70, '…')) ?></span>
         <span class="xs muted"><?= $c['dpi'] !== null ? (int) $c['dpi'] . ' dpi' : 'introuvable' ?></span>
         <button class="btn btn--ghost btn--sm" type="submit">Retirer</button>
@@ -119,7 +119,7 @@ use App\Pdf\Livre;
       <?php foreach ($suggest as $c): ?>
         <form method="post" action="/admin/livre" class="stack" style="gap:4px;width:180px">
           <?= csrf_field() ?><input type="hidden" name="action" value="couv-ajouter"><input type="hidden" name="rel" value="<?= e($c['rel']) ?>">
-          <img src="/media/320/<?= e($c['rel']) ?>.webp" alt="" style="width:180px;height:120px;object-fit:cover">
+          <img src="<?= MEDIA_URL ?>/320/<?= e($c['rel']) ?>.webp" alt="" style="width:180px;height:120px;object-fit:cover">
           <span class="xs"><?= e(mb_strimwidth($c['caption'], 0, 70, '…')) ?></span>
           <span class="xs muted"><?= (int) $c['dpi'] ?> dpi</span>
           <button class="btn btn--sm" type="submit">Proposer</button>

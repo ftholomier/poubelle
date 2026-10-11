@@ -119,7 +119,7 @@ final class PageAudio
             $text = self::sayText((string) $st['text'], $en);
             if ($text !== '') {
                 $a = self::voiceOf($st);
-                return ['text' => $text, 'url' => $a ? '/media/' . $a['file'] : null, 'lang' => FicheAudio::LANGS[$lang], 'dur' => $a['dur'] ?? null,
+                return ['text' => $text, 'url' => $a ? MEDIA_URL . '/' . $a['file'] : null, 'lang' => FicheAudio::LANGS[$lang], 'dur' => $a['dur'] ?? null,
                     'secs' => (int) round((float) ($a['dur'] ?? 0) ?: FicheAudio::words($text) / FicheAudio::WPM * 60), 'src' => 'ai'];
             }
         }

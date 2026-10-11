@@ -275,7 +275,7 @@ final class BookShop
         $nom = e(mb_strtoupper((string) ($v['nom'] ?? 'Votre nom')));
         $img = '';
         if (!empty($v['couverture'])) {
-            $img = '<image href="' . e(url('/media/480/' . $v['couverture'] . '.webp')) . '" x="0" y="0" width="210" height="171" preserveAspectRatio="xMidYMid slice"/><rect x="0" y="120" width="210" height="51" fill="url(#cv)"/>';
+            $img = '<image href="' . e(url(MEDIA_URL . '/480/' . $v['couverture'] . '.webp')) . '" x="0" y="0" width="210" height="171" preserveAspectRatio="xMidYMid slice"/><rect x="0" y="120" width="210" height="51" fill="url(#cv)"/>';
         }
         return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 270" role="img" aria-label="Couverture du livre"><defs><linearGradient id="cv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' . \App\Core\Club::color('navy') . '" stop-opacity="0"/><stop offset="1" stop-color="' . \App\Core\Club::color('navy') . '"/></linearGradient></defs>'
             . '<rect width="210" height="270" fill="' . \App\Core\Club::color('navy') . '"/>' . $img

@@ -49,7 +49,7 @@ final class I18n
         }
         if (self::$dict === null) {
             try {
-                $d = JsonStore::read(DATA_PATH . '/i18n/' . self::$lang . '.json', []);
+                $d = JsonStore::read(I18N_PATH . '/' . self::$lang . '.json', []);
             } catch (\RuntimeException $e) {
                 error_log($e->getMessage()); // fichier abîmé : textes en français, signalé dans Qualité
                 $d = [];

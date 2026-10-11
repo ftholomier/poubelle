@@ -848,7 +848,7 @@ final class FicheForm
         if (preg_match('#rutube\.ru/(?:play/embed|video)/([a-f0-9]{20,})#i', $url, $m)) {
             return ['provider' => 'rutube', 'id' => strtolower($m[1])];
         }
-        if (preg_match('#^/media/|^https?://.+\.(mp4|webm)$#i', $url)) {
+        if (preg_match('#^(?:/media|' . preg_quote(MEDIA_URL, '#') . ')/|^https?://.+\.(mp4|webm)$#i', $url)) {
             return ['provider' => 'file', 'id' => '', 'url' => $url];
         }
         return null;

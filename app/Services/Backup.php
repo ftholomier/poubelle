@@ -52,12 +52,14 @@ final class Backup
         if ($zip->open($file, \ZipArchive::CREATE | \ZipArchive::EXCL) !== true) {
             return ['error' => 'Impossible de créer l’archive.'];
         }
-        $root = APP_ROOT;
+        $root = dirname(DATA_PATH); // dossier du club : data/ et storage/ (racine pour le club historique)
         $count = 0;
         $paths = self::PATHS;
         if ($withMedia) {
             $paths[] = 'storage/media';
-            $paths[] = 'public/media/audio'; // voix IA des fiches (payées : on les garde)
+            if (MEDIA_URL === '/media') {
+                $paths[] = 'public/media/audio'; // voix IA des fiches (payées : on les garde)
+            }
         }
         foreach ($paths as $rel) {
             $abs = $root . '/' . $rel;

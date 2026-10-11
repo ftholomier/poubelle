@@ -13,6 +13,8 @@ return [
     'site' => 'Sochaux Rétro',           // nom du musée
     'site_lc' => 'Sochaux rétro',        // variante en minuscule (logo, en-tête)
     'site_de' => 'de Sochaux Rétro',
+    // Noms de domaine qui servent ce musée (adresse principale en premier).
+    'domains' => ['musee.fcsochauxretro.com', 'www.fcsochauxretro.com', 'fcsochauxretro.com'],
     'domain' => 'musee.fcsochauxretro.com',
     'base_url' => 'https://musee.fcsochauxretro.com',
     'logo_png' => '/assets/img/logo-sochaux-retro.png',

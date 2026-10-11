@@ -25,7 +25,7 @@ use App\Front\Fiche;
 final class RetroRadio
 {
     public static string $dir = STORAGE_PATH . '/radio';
-    public static string $media = PUBLIC_PATH . '/media';
+    public static string $media = MEDIA_PATH;
     /** Essais : rédaction (fn(string $system, string $user): string JSON) et voix (fn(string $text): array{pcm,rate}). */
     public static ?\Closure $writer = null;
     public static ?\Closure $speaker = null;
@@ -272,7 +272,7 @@ final class RetroRadio
             if (empty($s['file']) || self::spoiled($s) || !is_file(self::$media . '/' . $s['file'])) {
                 return null;
             }
-            $out[] = ['t' => (int) $s['t'] + self::LAG, 'url' => '/media/' . $s['file'], 'dur' => (float) $s['dur'], 'kind' => $s['kind']];
+            $out[] = ['t' => (int) $s['t'] + self::LAG, 'url' => MEDIA_URL . '/' . $s['file'], 'dur' => (float) $s['dur'], 'kind' => $s['kind']];
         }
         return $out;
     }
@@ -551,7 +551,7 @@ final class RetroRadio
     {
         $path = self::$media . '/radio/ambiance.mp3';
         if (is_file($path) || is_file(self::$media . '/radio/ambiance.wav')) {
-            return is_file($path) ? '/media/radio/ambiance.mp3' : '/media/radio/ambiance.wav';
+            return is_file($path) ? MEDIA_URL . '/radio/ambiance.mp3' : MEDIA_URL . '/radio/ambiance.wav';
         }
         @mkdir(self::$media . '/radio', 0775, true);
         $rate = 24000;
@@ -565,7 +565,7 @@ final class RetroRadio
             $s[$i] = (int) round($s[$i] * $a + $s[$len + $i] * (1 - $a));
         }
         $file = self::encode(self::$media . '/radio/ambiance', pack('s*', ...array_slice($s, 0, $len)), $rate);
-        return '/media/' . substr($file, strlen(self::$media) + 1);
+        return MEDIA_URL . '/' . substr($file, strlen(self::$media) + 1);
     }
 
     /**
@@ -583,7 +583,7 @@ final class RetroRadio
         }
         foreach (['mp3', 'wav'] as $ext) {
             if (is_file(self::$media . '/radio/ambiance.' . $ext)) {
-                return '/media/radio/ambiance.' . $ext;
+                return MEDIA_URL . '/radio/ambiance.' . $ext;
             }
         }
         return null;

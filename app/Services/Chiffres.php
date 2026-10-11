@@ -213,7 +213,7 @@ final class Chiffres
     {
         $files = [STORAGE_PATH . '/cache/derived.php', \App\Data\Index::CACHE];
         if (I18n::lang() !== I18n::DEFAULT) {
-            $files[] = DATA_PATH . '/i18n/' . I18n::lang() . '.json';
+            $files[] = I18N_PATH . '/' . I18n::lang() . '.json';
         }
         return implode('-', array_map(fn ($f) => is_file($f) ? (string) filemtime($f) : '0', $files));
     }

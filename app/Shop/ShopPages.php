@@ -272,7 +272,7 @@ final class ShopPages
         }
         $items = [];
         foreach ((new \App\Pdf\Livre())->searchCovers($req->str('q'), 6) as $c) {
-            $items[] = ['rel' => $c['rel'], 'img' => url('/media/480/' . $c['rel'] . '.webp'), 'caption' => $c['caption'], 'duo' => $c['mode'] === 'bichromie', 'year' => $c['year']];
+            $items[] = ['rel' => $c['rel'], 'img' => url(MEDIA_URL . '/480/' . $c['rel'] . '.webp'), 'caption' => $c['caption'], 'duo' => $c['mode'] === 'bichromie', 'year' => $c['year']];
         }
         return Response::json(['ok' => true, 'items' => $items]);
     }

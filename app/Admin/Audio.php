@@ -334,7 +334,7 @@ final class Audio extends Base
             foreach (FicheAudio::state((int) $m[1]) as $lang => $x) {
                 if (!empty($x['audio']['file']) && is_file(FicheAudio::$media . '/' . $x['audio']['file'])) {
                     $s = \App\Data\Index::get((int) $m[1]);
-                    $out[] = ['id' => (int) $m[1], 'title' => $s['title'] ?? ('Fiche ' . $m[1]), 'lang' => strtoupper((string) $lang), 'name' => self::downloadName((string) ($s['title'] ?? 'fiche-' . $m[1]), (string) $lang, $x['audio']['file']), 'url' => '/media/' . $x['audio']['file'], 'dur' => $x['audio']['dur'] ?? null, 'at' => $x['audio']['at'] ?? null, 'voice' => $x['audio']['voice'] ?? ''];
+                    $out[] = ['id' => (int) $m[1], 'title' => $s['title'] ?? ('Fiche ' . $m[1]), 'lang' => strtoupper((string) $lang), 'name' => self::downloadName((string) ($s['title'] ?? 'fiche-' . $m[1]), (string) $lang, $x['audio']['file']), 'url' => MEDIA_URL . '/' . $x['audio']['file'], 'dur' => $x['audio']['dur'] ?? null, 'at' => $x['audio']['at'] ?? null, 'voice' => $x['audio']['voice'] ?? ''];
                 }
             }
             if (count($out) >= $n) {

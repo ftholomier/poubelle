@@ -15,11 +15,57 @@ final class Club
     /** @var array<string, mixed>|null */
     private static ?array $profile = null;
 
-    /** Club servi : variable d'environnement MUSEE_CLUB (essais), sinon le club par défaut. */
+    /** Club choisi au démarrage (Club::boot), sinon le club par défaut. */
+    private static ?string $current = null;
+
     private static function current(): string
     {
-        $id = (string) (getenv('MUSEE_CLUB') ?: self::DEFAULT);
-        return is_file(APP_ROOT . '/config/clubs/' . basename($id) . '.php') ? basename($id) : self::DEFAULT;
+        return self::$current ?? self::DEFAULT;
+    }
+
+    /**
+     * Choisit le club servi, au démarrage (app/bootstrap.php) : variable d'environnement MUSEE_CLUB
+     * (tâches planifiées, essais), sinon le nom de domaine demandé (clé « domains » des profils),
+     * sinon le club par défaut.
+     */
+    public static function boot(?string $host): string
+    {
+        $env = basename((string) getenv('MUSEE_CLUB'));
+        if ($env !== '' && is_file(self::file($env))) {
+            return self::$current = $env;
+        }
+        $host = strtolower(preg_replace('/:\d+$/', '', (string) $host) ?? '');
+        if ($host !== '') {
+            foreach (glob(APP_ROOT . '/config/clubs/*.php') ?: [] as $f) {
+                $p = (array) require $f;
+                if (in_array($host, array_map('strtolower', (array) ($p['domains'] ?? [])), true)) {
+                    self::$profile = $p;
+                    return self::$current = basename($f, '.php');
+                }
+            }
+        }
+        return self::$current = self::DEFAULT;
+    }
+
+    /** Le club servi est-il le club historique (dossiers data/, storage/, public/media/ à la racine) ? */
+    public static function isDefault(): bool
+    {
+        return self::current() === self::DEFAULT;
+    }
+
+    /** Tous les profils de clubs : identifiant → profil. @return array<string, array<string, mixed>> */
+    public static function all(): array
+    {
+        $out = [];
+        foreach (glob(APP_ROOT . '/config/clubs/*.php') ?: [] as $f) {
+            $out[basename($f, '.php')] = (array) require $f;
+        }
+        return $out;
+    }
+
+    private static function file(string $id): string
+    {
+        return APP_ROOT . '/config/clubs/' . basename($id) . '.php';
     }
 
     public static function id(): string
@@ -100,7 +146,6 @@ final class Club
     /** @return array<string, mixed> */
     private static function load(string $id): array
     {
-        $file = APP_ROOT . '/config/clubs/' . basename($id) . '.php';
-        return is_file($file) ? (array) require $file : [];
+        return is_file(self::file($id)) ? (array) require self::file($id) : [];
     }
 }
