@@ -159,3 +159,23 @@ Revenus possibles : abonnement, commission sur les ventes de la boutique de chaq
 3. Un club pilote, idéalement d'un autre sport.
 4. Une présentation commerciale de l'offre pour démarcher.
 5. Le libre-service, si la demande est là.
+
+## 9. Premier club : Paris Rétro
+
+- Le nom retenu est **Paris Rétro**, sur le domaine `parisretro.com`. « PSG » est une marque renommée, risquée avec une boutique.
+- Le sous-titre est descriptif : « le musée rétro des supporters du Paris Saint-Germain ». Le pied de page porte la mention « site non officiel, sans lien avec le club ».
+- Le logo est dans `docs/clubs/logo-paris-retro.svg` : même écusson que Sochaux rétro, tour Eiffel, 1970. Il est généré par `docs/clubs/psg.py`.
+- En attendant le domaine, le musée est consultable sur un sous-domaine technique (ex. `paris.pafl1370.odns.fr`), fermé par la page d'attente.
+
+### Les étapes de développement
+
+| # | Étape | Résultat visible | Durée |
+|---|---|---|---|
+| 1 | Profil club et extraction des textes « Sochaux » | Sochaux identique, mais piloté par `club.json` | 1 sem. |
+| 2 | Thème (couleurs, logo, polices) | Paris Rétro en bleu, rouge et blanc | 2-3 j |
+| 3 | Multi-clubs (dossiers par club, choix au domaine) | Les deux musées tournent sur le même code | 2-3 j |
+| 4 | Back-office commun (sélecteur, rôles, super-admin) | Passage d'un musée à l'autre en un clic | 3-4 j |
+| 5 | Boutique par club (logo, textes, Stripe, imprimeur) | Boutique Paris Rétro | 2-3 j |
+| 6 | Assistant de création d'un musée | Paris Rétro créé vide | 2 j |
+| 7 | Remplissage automatique (sites fournis, web, images libres, réécriture) | Fiches « à relire » dans le back-office | 1-2 sem. |
+| 8 | Relecture, mise en ligne, `parisretro.com` | Ouverture | selon la relecture |
