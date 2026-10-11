@@ -317,6 +317,7 @@ final class Shop extends Base
 
     public static function models(Request $req): Response
     {
+        \App\Shop\ClubCopy::auto();
         $previews = [];
         foreach (Catalog::models() as $id => $m) {
             $sup = Catalog::support($m['support']);

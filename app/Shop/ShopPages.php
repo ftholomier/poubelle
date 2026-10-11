@@ -160,6 +160,7 @@ final class ShopPages
 
     public static function index(Request $req): Response
     {
+        ClubCopy::auto();
         if ($r = self::closed()) {
             return $r;
         }

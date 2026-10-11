@@ -82,7 +82,27 @@ final class ClubCopy
             }
             Collections::save(Texts::FILE, $lists, $user, 'Banque de textes du musée');
         }
+        // Réglages de la boutique (imprimeur, livraison, délais) : ceux du musée historique si ce musée n'en a pas.
+        // Boutique laissée fermée au public tant que le paiement de ce musée n'est pas réglé.
+        $cfg = STORAGE_PATH . '/shop/config.json';
+        $srcCfg = JsonStore::read(APP_ROOT . '/storage/shop/config.json', []) ?: [];
+        if (!is_file($cfg) && $srcCfg) {
+            unset($srcCfg['cgv']);
+            $srcCfg['open'] = false;
+            @mkdir(dirname($cfg), 0775, true);
+            JsonStore::write($cfg, $srcCfg);
+        }
         return $out;
+    }
+
+    /** Reprise automatique quand ce musée n'a encore aucun produit (une seule fois). */
+    public static function auto(): void
+    {
+        if (self::available() && !Collections::get(Catalog::MODELS_FILE, []) && !is_file(STORAGE_PATH . '/shop/reprise.flag')) {
+            @mkdir(STORAGE_PATH . '/shop', 0775, true);
+            @file_put_contents(STORAGE_PATH . '/shop/reprise.flag', date('c'));
+            self::run(['name' => 'Reprise automatique']);
+        }
     }
 
     /** Textes (correspondance exacte) et couleurs (#RRGGBB) transposés, partout dans la structure. */
