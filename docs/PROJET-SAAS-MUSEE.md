@@ -225,3 +225,11 @@ Où l'afficher :
 - les e-mails de commande, la page d'attente et l'appli (page « L'appli »).
 
 Mise en œuvre prévue : une clé `disclaimer` dans le profil (texte par défaut ci-dessus avec {club_le}), modifiable par musée, affichée aux endroits ci-dessus et traduite en anglais.
+
+## 14. À faire : sources et crédits (consigne du 11 octobre 2026)
+
+- **Retirer la section « Sources » de toutes les fiches** des musées créés par les contenus de départ (matchs, joueurs, bilans de saison) : plus aucun lien vers les sites d'origine sur les fiches.
+  - Côté code : ne plus ajouter la section dans `StarterPack::create()` / `refresh()`, et retirer celle déjà posée sur les fiches existantes (seulement si la fiche n'a pas été modifiée à la main).
+  - Les sources restent gardées en interne (`legacy.sources` de chaque fiche) pour répondre en cas de question.
+- **Crédit global dans les mentions légales** de chaque musée : les informations ont été rassemblées à partir de sources publiques sur Internet (sites d'actualité, blogs, sites d'histoire et de statistiques), puis entièrement retravaillées et réécrites par l'équipe éditoriale du musée (ex. « l'équipe éditoriale de Paris Rétro »).
+- Reprise des récits de matchs de Paris : lots 4 à 27 (environ 2 390 récits) + 28 récits refusés au contrôle anti-plagiat, à réécrire.
