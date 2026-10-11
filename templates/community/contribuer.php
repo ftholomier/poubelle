@@ -21,7 +21,7 @@ $after = [
   <?php if ($ticket): ?>
     <div class="cwizard cwizard--done">
       <div class="cwizard__body cthanks">
-        <img src="/assets/img/logo-sochaux-retro.png" alt="" width="106" height="120" class="is-in">
+        <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="106" height="120" class="is-in">
         <b><?= e(t('Merci, Lionceau !')) ?></b>
         <p><?= e(t('Votre contribution est dans la file de validation. Vous recevrez un e-mail dès sa publication.')) ?></p>
         <span class="cticket"><?= e(t('N° de suivi')) ?> · <?= e($ticket) ?></span>

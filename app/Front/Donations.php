@@ -888,7 +888,7 @@ final class Donations
             '{montant}' => e(self::money($don['amount']) . ($don['frequency'] === 'month' ? ' ' . t('par mois') : '')),
         ]);
         $manage = base_url() . url('/faire-un-don/gerer/' . $don['manage'] . '/');
-        $html .= '<p style="font-size:15px;color:#3A4A75">' . e($don['frequency'] === 'month' ? t('Pour suivre, modifier votre nom sur le mur des donateurs ou arrêter votre don mensuel à tout moment :') : t('Pour retrouver votre don et vos préférences pour le mur des donateurs :')) . '<br><a href="' . e($manage) . '">' . e(t('Gérer mon don')) . '</a></p>';
+        $html .= '<p style="font-size:15px;color:' . \App\Core\Club::color('muted') . '">' . e($don['frequency'] === 'month' ? t('Pour suivre, modifier votre nom sur le mur des donateurs ou arrêter votre don mensuel à tout moment :') : t('Pour retrouver votre don et vos préférences pour le mur des donateurs :')) . '<br><a href="' . e($manage) . '">' . e(t('Gérer mon don')) . '</a></p>';
         $att = [];
         if ($receipt && is_file($f = self::RECEIPTS . '/' . substr($receipt, 3, 4) . "/$receipt.pdf")) {
             $html .= '<p>' . e(t('Votre reçu fiscal est joint à ce message.')) . '</p>';
@@ -1001,10 +1001,10 @@ final class Donations
     private static function receiptPdf(string $num, array $don, int $cents, array $dates): string
     {
         $g = fn (string $k, string $def = '') => (string) Settings::get('donations.' . $k, $def);
-        $navy = [0.055, 0.122, 0.302];
-        $muted = [0.227, 0.29, 0.459];
+        $navy = Pdf::theme('navy');
+        $muted = Pdf::theme('muted');
         $p = (new Pdf())->addPage();
-        $logo = PUBLIC_PATH . '/assets/img/logo-sochaux-retro.png';
+        $logo = PUBLIC_PATH . \App\Core\Club::s('logo_png');
         if (is_file($logo) && ($src = @imagecreatefrompng($logo))) {
             $w = imagesx($src);
             $h = imagesy($src);
@@ -1025,15 +1025,15 @@ final class Donations
         $p->textAlign(553, 50, 'Reçu n° ' . $num, 11, 'B', 'R');
         $p->textAlign(553, 64, 'Cerfa n° 11580*05', 8, 'R', 'R', $muted);
 
-        $p->rect(42, 120, 511, 46, [0.965, 0.769, 0], null);
+        $p->rect(42, 120, 511, 46, Pdf::theme('yellow'), null);
         $p->textAlign(297.6, 140, 'Reçu au titre des dons à certains organismes d’intérêt général', 13, 'B', 'C');
         $p->textAlign(297.6, 156, 'Articles 200, 238 bis et 978 du code général des impôts', 9, 'R', 'C');
 
-        $box = function (float $y, string $title, array $rows) use ($p, $muted): float {
+        $box = function (float $y, string $title, array $rows) use ($p, $muted, $navy): float {
             $h = 26 + count($rows) * 15;
             $p->rect(42, $y, 511, $h);
-            $p->rect(42, $y, 511, 18, [0.055, 0.122, 0.302], null);
-            $p->text(52, $y + 13, mb_strtoupper($title), 9, 'B', [0.965, 0.769, 0]);
+            $p->rect(42, $y, 511, 18, $navy, null);
+            $p->text(52, $y + 13, mb_strtoupper($title), 9, 'B', Pdf::theme('yellow'));
             $yy = $y + 34;
             foreach ($rows as [$k, $v]) {
                 $p->text(52, $yy, $k, 9, 'R', $muted);

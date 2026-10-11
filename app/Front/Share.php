@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Front;
 
+use App\Core\Club;
 use App\Core\Response;
 use App\Core\Settings;
 use App\Data\Derived;
@@ -66,15 +67,15 @@ final class Share
         // Même contenu et même charte que la carte « musée » du carnet (App\Shop\CarnetCard, design a).
         $key = 'carnet-' . substr(md5(json_encode([$d, self::VERSION])), 0, 16);
         return self::cached($key, function () use ($d) {
-            $im = self::canvas([14, 31, 77]);
-            $cream = [243, 237, 223];
-            $yellow = [246, 196, 0];
+            $im = self::canvas(sscanf(Club::color('navy'), '#%02x%02x%02x'));
+            $cream = sscanf(Club::color('cream'), '#%02x%02x%02x');
+            $yellow = sscanf(Club::color('yellow'), '#%02x%02x%02x');
             $blue = [30, 63, 168];
             $mist = [170, 180, 210];
-            $navy = [14, 31, 77];
+            $navy = sscanf(Club::color('navy'), '#%02x%02x%02x');
             imagefilledrectangle($im, 0, 0, self::W, 12, self::color($im, $yellow));
             // Colonne du blason : le logo en grand, « Mon carnet de supporter », le pseudo.
-            self::logo($im, 62, 52, 270, 'logo-sochaux-retro-400.png');
+            self::logo($im, 62, 52, 270, Club::s('logo_400'));
             $k = mb_strtoupper(t('Mon carnet de supporter'));
             $lines = preg_match('/^(.+) (DE SUPPORTER)$/u', $k, $m) ? [$m[1], $m[2]] : [$k];
             $y = 372;
@@ -161,7 +162,7 @@ final class Share
 
     private static function fallback(): Response
     {
-        return new Response((string) file_get_contents(PUBLIC_PATH . '/assets/img/partage-defaut.png'), 200, ['Content-Type' => 'image/png', 'Cache-Control' => 'public, max-age=3600']);
+        return new Response((string) file_get_contents(PUBLIC_PATH . Club::s('share_image')), 200, ['Content-Type' => 'image/png', 'Cache-Control' => 'public, max-age=3600']);
     }
 
     // ------------------------------------------------------------------ gabarits
@@ -169,16 +170,16 @@ final class Share
     private static function drawMatch(array $doc): \GdImage
     {
         $m = $doc['match'];
-        $im = self::canvas([14, 31, 77]);
+        $im = self::canvas(sscanf(Club::color('navy'), '#%02x%02x%02x'));
         // Photo à droite (55 %), fondu vers le marine à gauche
         self::photo($im, $doc['featured_image'] ?? null, 540, 0, 660, self::H);
-        self::gradient($im, 528, 900, [14, 31, 77], 0, 100);
-        imagefilledrectangle($im, 0, 0, 528, self::H, self::color($im, [14, 31, 77]));
+        self::gradient($im, 528, 900, sscanf(Club::color('navy'), '#%02x%02x%02x'), 0, 100);
+        imagefilledrectangle($im, 0, 0, 528, self::H, self::color($im, sscanf(Club::color('navy'), '#%02x%02x%02x')));
 
-        $yellow = [246, 196, 0];
-        $cream = [243, 237, 223];
+        $yellow = sscanf(Club::color('yellow'), '#%02x%02x%02x');
+        $cream = sscanf(Club::color('cream'), '#%02x%02x%02x');
         $tag = trim(($m['competition_label'] ?: $m['competition']) . ($m['date'] ? ' · ' . date_num($m['date']) : ''), ' ·');
-        self::tag($im, mb_strtoupper($tag), 60, 60, $yellow, [14, 31, 77]);
+        self::tag($im, mb_strtoupper($tag), 60, 60, $yellow, sscanf(Club::color('navy'), '#%02x%02x%02x'));
 
         $home = mb_strtoupper((string) ($m['home']['name'] ?? ''));
         $away = mb_strtoupper((string) ($m['away']['name'] ?? ''));
@@ -211,8 +212,8 @@ final class Share
     private static function drawPerson(array $doc): \GdImage
     {
         $p = $doc['personne'];
-        $navy = [14, 31, 77];
-        $im = self::canvas([246, 196, 0]);
+        $navy = sscanf(Club::color('navy'), '#%02x%02x%02x');
+        $im = self::canvas(sscanf(Club::color('yellow'), '#%02x%02x%02x'));
         // Portrait encadré avec ombre portée
         $x = 1200 - 60 - 408;
         imagefilledrectangle($im, $x + 20, 80, $x + 408 + 20, 570 + 20, self::color($im, $navy));
@@ -245,26 +246,26 @@ final class Share
 
     private static function drawArticle(array $doc): \GdImage
     {
-        $im = self::canvas([14, 31, 77]);
+        $im = self::canvas(sscanf(Club::color('navy'), '#%02x%02x%02x'));
         self::photo($im, $doc['featured_image'] ?? null, 0, 0, self::W, self::H, 0.3);
         // Voile marine pour la lisibilité
-        $veil = imagecolorallocatealpha($im, 14, 31, 77, 30);
+        $veil = imagecolorallocatealpha($im, ...[...sscanf(Club::color('navy'), '#%02x%02x%02x'), 30]);
         imagefilledrectangle($im, 0, 0, self::W, self::H, $veil);
         $cat = \App\Data\Categories::primaryOf($doc['categories'] ?? []);
         if ($cat) {
-            self::tag($im, mb_strtoupper(\App\Data\Categories::label($cat)), 60, 60, [246, 196, 0], [14, 31, 77]);
+            self::tag($im, mb_strtoupper(\App\Data\Categories::label($cat)), 60, 60, sscanf(Club::color('yellow'), '#%02x%02x%02x'), sscanf(Club::color('navy'), '#%02x%02x%02x'));
         }
-        self::paragraph($im, mb_strtoupper((string) $doc['title']), 'BigShouldersDisplay-900', 92, 60, 200, 1080, 3, [243, 237, 223], .9);
-        self::brand($im, 60, 560, (string) Settings::get('general.domain_label', 'fcsochauxretro.com'), [243, 237, 223]);
+        self::paragraph($im, mb_strtoupper((string) $doc['title']), 'BigShouldersDisplay-900', 92, 60, 200, 1080, 3, sscanf(Club::color('cream'), '#%02x%02x%02x'), .9);
+        self::brand($im, 60, 560, (string) Settings::get('general.domain_label', 'fcsochauxretro.com'), sscanf(Club::color('cream'), '#%02x%02x%02x'));
         return $im;
     }
 
     private static function drawH2H(string $club, array $c): \GdImage
     {
         $im = self::canvas([31, 63, 168]);
-        $cream = [243, 237, 223];
-        $yellow = [246, 196, 0];
-        $navy = [14, 31, 77];
+        $cream = sscanf(Club::color('cream'), '#%02x%02x%02x');
+        $yellow = sscanf(Club::color('yellow'), '#%02x%02x%02x');
+        $navy = sscanf(Club::color('navy'), '#%02x%02x%02x');
         self::text($im, 'HISTORIQUE COMPLET · ' . $c['count'] . ' MATCHS', 'BigShouldersDisplay-700', 30, 60, 92, $yellow, 5);
         $name = mb_strtoupper(Fiche::clubName($club));
         $line = 'SOCHAUX × ' . $name;
@@ -444,9 +445,9 @@ final class Share
         self::text($im, mb_strtoupper($label), 'BigShouldersDisplay-700', 26, $x + 86, $y + 12, $rgb, 3);
     }
 
-    private static function logo(\GdImage $im, int $x, int $y, int $h, string $file = 'logo-sochaux-retro.png'): void
+    private static function logo(\GdImage $im, int $x, int $y, int $h, ?string $file = null): void
     {
-        $logo = @imagecreatefrompng(PUBLIC_PATH . '/assets/img/' . $file);
+        $logo = @imagecreatefrompng(PUBLIC_PATH . ($file ?? Club::s('logo_png')));
         if (!$logo) {
             return;
         }

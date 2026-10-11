@@ -855,9 +855,9 @@ final class Livre
         $fh = 214 * $mm;
         $l->rect($fx + 6, $fy + 8, $fw, $fh, '050C22');
         $l->rect($fx, $fy, $fw, $fh, '1B2A5C');
-        $l->rect($fx + 4, $fy + 4, $fw - 8, $fh - 8, '0E1F4D');
+        $l->rect($fx + 4, $fy + 4, $fw - 8, $fh - 8, 'navy');
         $m = 13 * $mm;
-        $l->rect($fx + $m, $fy + $m, $fw - 2 * $m, $fh - 2 * $m, 'F3EDDF');
+        $l->rect($fx + $m, $fy + $m, $fw - 2 * $m, $fh - 2 * $m, 'cream');
         $l->line($fx + $m, $fy + $m, $fx + $fw - $m, $fy + $m, 'D9D1BC', 2);
         // Maillot : repère 1000 × 1060 posé au centre du passe-partout
         $k = ($fw - 2 * $m - 30 * $mm) / 1000;
@@ -957,7 +957,7 @@ final class Livre
             $mw = $l->pw - $this->b - 14 * $mm;
             $my = $this->b + 30 * $mm;
             $mh = $this->H - 52 * $mm;
-            $l->rect($mx, $my, $mw, $mh, 'F3EDDF');
+            $l->rect($mx, $my, $mw, $mh, 'cream');
             if ($file !== '' && is_file($file) && ($jpg = $this->onMat($file))) {
                 $img = $l->loadImage($jpg);
                 $aw = $mw - 8 * $mm;
@@ -1027,7 +1027,7 @@ final class Livre
             $p = $this->page();
             $this->noFolio[$p] = true;
             $this->dark[$p] = true;
-            $l->rect(0, 0, $l->pw, $l->ph, '0E1F4D');
+            $l->rect(0, 0, $l->pw, $l->ph, 'navy');
             $k = min($this->W / 297, $this->H / 420);
             LivrePoster::draw($l, $layers, ($l->pw - 297 * $k) / 2, $this->b + ($this->H - 420 * $k) / 2, $k);
             return;

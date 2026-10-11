@@ -2,7 +2,7 @@
 /** Message de confirmation (newsletter…). Variables : $title, $text, $action (bouton à valider : [libellé] ou null) */
 ?>
 <section class="wrap cmessage">
-  <img src="/assets/img/logo-sochaux-retro.png" alt="" width="106" height="120">
+  <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="106" height="120">
   <h1 class="h-2"><?= e($title) ?></h1>
   <p class="lead" style="margin:0 auto"><?= e($text) ?></p>
   <?php if (!empty($action)): ?>

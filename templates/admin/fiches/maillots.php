@@ -29,8 +29,8 @@ $n = count(array_filter($status, fn ($s) => ($s['status'] ?? '') === 'valide'));
       </div>
       <?php if (!empty($s['note'])): ?><p class="small" style="margin:0"><b>Remarque :</b> <?= e($s['note']) ?></p><?php endif; ?>
       <div class="row" style="gap:8px" data-jersey-3d="<?= e($k) ?>">
-        <div style="width:200px;height:222px;background:#F3EDDF;display:grid;place-items:center" class="xs muted">devant…</div>
-        <div style="width:200px;height:222px;background:#F3EDDF;display:grid;place-items:center" class="xs muted">dos…</div>
+        <div style="width:200px;height:222px;background:<?= \App\Core\Club::color('cream') ?>;display:grid;place-items:center" class="xs muted">devant…</div>
+        <div style="width:200px;height:222px;background:<?= \App\Core\Club::color('cream') ?>;display:grid;place-items:center" class="xs muted">dos…</div>
       </div>
       <form method="post" action="/admin/maillots" class="row" style="gap:8px;flex-wrap:wrap;align-items:end">
         <?= csrf_field() ?><input type="hidden" name="key" value="<?= e($k) ?>">

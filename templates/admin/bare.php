@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title><?= e(($meta['title'] ?? 'Connexion') . ' · Back-office ' . \App\Core\Club::s('site')) ?></title>
-<link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
 </head>

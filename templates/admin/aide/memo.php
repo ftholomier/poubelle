@@ -13,7 +13,7 @@
 <body class="aide-print aide-memo">
 <section class="mpage">
   <header class="mhead">
-    <img src="/assets/img/logo-sochaux-retro.png" alt="">
+    <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="">
     <div><span><?= e(\App\Core\Club::s('site')) ?> · back-office</span><h1>Mémo des historiens</h1></div>
   </header>
   <div class="mgrid">

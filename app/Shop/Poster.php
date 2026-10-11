@@ -33,13 +33,10 @@ final class Poster
     public const SAMPLE = '14188';
     private const VERSION = 1;
 
-    private const NAVY = '#0E1F4D';
     private const BLUE = '#094687';
     private const ROI = '#1E3FA8';
     private const BOX = '#13286A';
     private const LINE = '#2F3F75';
-    private const YELLOW = '#F6C400';
-    private const CREAM = '#F3EDDF';
 
     /** @var array<string,?array> */
     private static array $cache = [];

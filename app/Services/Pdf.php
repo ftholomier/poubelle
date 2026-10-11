@@ -32,21 +32,21 @@ final class Pdf
         return $this;
     }
 
-    public function text(float $x, float $y, string $s, float $size = 10, string $font = 'R', array $rgb = [0.055, 0.122, 0.302]): self
+    public function text(float $x, float $y, string $s, float $size = 10, string $font = 'R', array $rgb = []): self
     {
         $this->out(sprintf('BT %s rg /F%s %.2F Tf %.2F %.2F Td (%s) Tj ET', self::rgb($rgb), $font, $size, $x, self::H - $y, self::esc($s)));
         return $this;
     }
 
     /** Texte aligné : 'L', 'C' (centré sur $x) ou 'R' (aligné à droite sur $x). */
-    public function textAlign(float $x, float $y, string $s, float $size, string $font, string $align, array $rgb = [0.055, 0.122, 0.302]): self
+    public function textAlign(float $x, float $y, string $s, float $size, string $font, string $align, array $rgb = []): self
     {
         $w = self::width($s, $size, $font);
         return $this->text($align === 'C' ? $x - $w / 2 : ($align === 'R' ? $x - $w : $x), $y, $s, $size, $font, $rgb);
     }
 
     /** Paragraphe avec retour à la ligne automatique. Renvoie l'ordonnée sous le dernier ligne. */
-    public function paragraph(float $x, float $y, float $width, string $s, float $size = 10, string $font = 'R', float $leading = 1.35, array $rgb = [0.055, 0.122, 0.302]): float
+    public function paragraph(float $x, float $y, float $width, string $s, float $size = 10, string $font = 'R', float $leading = 1.35, array $rgb = []): float
     {
         foreach (preg_split('/\R/u', $s) as $para) {
             $line = '';
@@ -68,14 +68,15 @@ final class Pdf
         return $y;
     }
 
-    public function line(float $x1, float $y1, float $x2, float $y2, float $w = 0.8, array $rgb = [0.055, 0.122, 0.302]): self
+    public function line(float $x1, float $y1, float $x2, float $y2, float $w = 0.8, array $rgb = []): self
     {
         $this->out(sprintf('%s RG %.2F w %.2F %.2F m %.2F %.2F l S', self::rgb($rgb), $w, $x1, self::H - $y1, $x2, self::H - $y2));
         return $this;
     }
 
-    public function rect(float $x, float $y, float $w, float $h, ?array $fill = null, ?array $stroke = [0.055, 0.122, 0.302], float $lw = 0.8): self
+    public function rect(float $x, float $y, float $w, float $h, ?array $fill = null, ?array $stroke = [], float $lw = 0.8): self
     {
+        $stroke = $stroke === [] ? self::theme('navy') : $stroke;
         $op = $fill && $stroke ? 'B' : ($fill ? 'f' : 'S');
         $this->out(trim(($fill ? self::rgb($fill) . ' rg ' : '') . ($stroke ? self::rgb($stroke) . ' RG ' : '') . sprintf('%.2F w %.2F %.2F %.2F %.2F re %s', $lw, $x, self::H - $y - $h, $w, $h, $op)));
         return $this;
@@ -179,8 +180,15 @@ final class Pdf
         $this->pages[$this->cur] .= $op . "\n";
     }
 
+    /** Couleur de la charte du club (Club::color) en composantes 0-1. Couleur vide : bleu nuit. */
+    public static function theme(string $name): array
+    {
+        return array_map(fn ($v) => $v / 255, sscanf(\App\Core\Club::color($name), '#%02x%02x%02x'));
+    }
+
     private static function rgb(array $c): string
     {
+        $c = $c ?: self::theme('navy');
         return sprintf('%.3F %.3F %.3F', $c[0], $c[1], $c[2]);
     }
 

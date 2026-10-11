@@ -541,7 +541,7 @@ final class Fiches extends Base
         \App\Services\I18n::set($req->str('lang') === 'en' ? 'en' : 'fr');
         $res = \App\Front\Fiche::show(new Request('GET', $doc['path'] ?: '/', [], [], [], $req->server, ''), $doc);
         $res->body = str_replace('<body', '<body data-preview', $res->body);
-        $res->body = preg_replace('#<main id="contenu">#', '<div style="position:sticky;top:0;z-index:200;background:#F6C400;border-bottom:2px solid #0E1F4D;padding:8px 16px;font-family:Arial,sans-serif;font-weight:bold;text-align:center">Aperçu — ' . e(\App\Data\Fiches::STATUSES[$doc['status']] ?? $doc['status']) . ' · ce n’est pas la page publique</div><main id="contenu">', $res->body, 1);
+        $res->body = preg_replace('#<main id="contenu">#', '<div style="position:sticky;top:0;z-index:200;background:' . Club::color('yellow') . ';border-bottom:2px solid ' . Club::color('navy') . ';padding:8px 16px;font-family:Arial,sans-serif;font-weight:bold;text-align:center">Aperçu — ' . e(\App\Data\Fiches::STATUSES[$doc['status']] ?? $doc['status']) . ' · ce n’est pas la page publique</div><main id="contenu">', $res->body, 1);
         $res->headers['X-Robots-Tag'] = 'noindex';
         return $res;
     }

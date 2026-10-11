@@ -19,7 +19,7 @@ $theme = ($theme ?? 'musee') === 'asso' ? 'asso' : 'musee';
   <button type="button" class="tcard" data-tflip aria-pressed="false" aria-label="<?= e('Retourner la carte de ' . $name) ?>" style="--d:<?= ($i % 8) * 60 ?>ms">
     <span class="tcard__in">
       <span class="tcard__face tcard__front">
-        <span class="tcard__top"><span class="tcard__no">N° <?= $no ?></span><img src="/assets/img/logo-sochaux-retro.png" alt="" width="34" height="34"></span>
+        <span class="tcard__top"><span class="tcard__no">N° <?= $no ?></span><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="34" height="34"></span>
         <span class="tcard__photo"><?php if ($photo): ?><img src="<?= e(img($photo, 480)) ?>" alt="<?= e($name) ?>" loading="lazy"><?php else: ?><span class="tcard__ini" aria-hidden="true"><?= e(\App\Admin\Base::initials($name)) ?></span><?php endif; ?></span>
         <span class="tcard__name"><b><?= e($name) ?></b><?php if ($role !== ''): ?><span><?= e($role) ?></span><?php endif; ?></span>
       </span>

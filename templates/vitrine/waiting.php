@@ -37,8 +37,8 @@ $desc = mb_substr(trim((string) preg_replace('/\s+/u', ' ', strip_tags($text))),
 <meta property="og:title" content="<?= e($title) ?>">
 <meta property="og:description" content="<?= e($desc) ?>">
 <meta property="og:image" content="<?= e(Host::abs('/assets/img/vitrine/partage.jpg')) ?>">
-<meta name="theme-color" content="#F3EDDF">
-<link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<meta name="theme-color" content="<?= \App\Core\Club::color('cream') ?>">
+<link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/vitrine.css') ?>">
@@ -61,7 +61,7 @@ $desc = mb_substr(trim((string) preg_replace('/\s+/u', ' ', strip_tags($text))),
   </div>
 
   <div class="vwait__main">
-    <div class="vwait__brand"><img src="/assets/img/logo-sochaux-retro.png" alt="" width="133" height="150"><span><b><?= e($name) ?></b><small>L’association</small></span></div>
+    <div class="vwait__brand"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="133" height="150"><span><b><?= e($name) ?></b><small>L’association</small></span></div>
 
     <div class="vwait__intro">
       <?php if (trim((string) ($w['eyebrow'] ?? '')) !== ''): ?><span class="eyebrow"><?= e($w['eyebrow']) ?></span><?php endif; ?>

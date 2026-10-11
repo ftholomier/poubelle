@@ -18,15 +18,12 @@ class PosterLayout
     protected const GAP = 3.5;
     protected const ROWS = 43;
 
-    protected const NAVY = '#0E1F4D';
     protected const BLUE = '#094687';
     protected const STRIPE = '#0D4C90';
     protected const BOX = '#13286A';
     protected const LINE = '#2F3F75';
     protected const RULE = '#6E6640';
     protected const PITCHLINE = '#8A9BBE';
-    protected const YELLOW = '#F6C400';
-    protected const CREAM = '#F3EDDF';
     protected const MIST = '#AEB6CE';
 
     protected array $L = [];
@@ -50,7 +47,7 @@ class PosterLayout
     {
         $d = $this->d;
         $this->L = [];
-        $this->rect(0, 0, self::W, self::H, self::NAVY);
+        $this->rect(0, 0, self::W, self::H, Club::color('navy'));
         $this->header();
         $this->top = self::PAD + 9;
         $bottom = self::H - self::PAD - 6;
@@ -120,7 +117,7 @@ class PosterLayout
         $iw = self::W - 2 * self::PAD - 9;
         $cw = ($iw - 3 * 5.5) / 4;
         $size = self::pt(13.5);
-        $lines = Vector::layout($this->text(0, 0, $cw, $this->d['recit'], 'serif', $size, self::NAVY, ['lh' => 1.36, 'dry' => true]))['lines'];
+        $lines = Vector::layout($this->text(0, 0, $cw, $this->d['recit'], 'serif', $size, Club::color('navy'), ['lh' => 1.36, 'dry' => true]))['lines'];
         $h = ceil(count($lines) / 4) * $size * 25.4 / 72 * 1.36 + 15;
         return max(4, (int) ceil(($h + self::GAP) / ($this->u + self::GAP)));
     }
@@ -178,8 +175,9 @@ class PosterLayout
         return Vector::textHeight($l);
     }
 
-    protected function kicker(float $x, float $y, float $w, string $t, string $color = self::YELLOW): float
+    protected function kicker(float $x, float $y, float $w, string $t, ?string $color = null): float
     {
+        $color ??= Club::color('yellow');
         $s = self::pt(15);
         $this->text($x, $y, $w, $t, 'display-b', $s, $color, ['upper' => true, 'spacing' => 200, 'fit' => true, 'min' => $s * 0.6]);
         return $y + $s * 25.4 / 72 * 1.15 + 2.2;
@@ -227,7 +225,7 @@ class PosterLayout
         $s = self::pt(16);
         $y = self::PAD;
         $pour = 'pour ' . $this->pour;
-        $left = [[Club::s('site') . ' · ', 'display-b', self::MIST], [club('le musée des {nickname}'), 'display-b', self::YELLOW]];
+        $left = [[Club::s('site') . ' · ', 'display-b', self::MIST], [club('le musée des {nickname}'), 'display-b', Club::color('yellow')]];
         $lw = 0;
         foreach ($left as $seg) {
             $lw += self::width(mb_strtoupper($seg[0]), 'display-b', $s, 220);
@@ -239,8 +237,8 @@ class PosterLayout
         $dw = self::width($date, 'display-b', $s, 220);
         $room = self::W - self::PAD - $dw - 6 - $px;
         $tw = min($room - 5, self::width(mb_strtoupper($pour), 'display-b', $s, 160));
-        $this->rect($px, $y - 1.2, $tw + 5, $s * 25.4 / 72 + 2.4, self::YELLOW);
-        $this->text($px + 2.5, $y, $tw + 0.5, $pour, 'display-b', $s, self::NAVY, ['upper' => true, 'spacing' => 160, 'fit' => true, 'min' => $s * 0.5]);
+        $this->rect($px, $y - 1.2, $tw + 5, $s * 25.4 / 72 + 2.4, Club::color('yellow'));
+        $this->text($px + 2.5, $y, $tw + 0.5, $pour, 'display-b', $s, Club::color('navy'), ['upper' => true, 'spacing' => 160, 'fit' => true, 'min' => $s * 0.5]);
         $this->text(self::W - self::PAD - $dw - 1, $y, $dw + 1, $date, 'display-b', $s, self::MIST, ['spacing' => 220, 'align' => 'right']);
     }
 
@@ -257,7 +255,7 @@ class PosterLayout
     protected function hero(float $x, float $y, float $w, float $h): void
     {
         $d = $this->d;
-        $this->rect($x, $y, $w, $h, self::NAVY, self::YELLOW, 0.8);
+        $this->rect($x, $y, $w, $h, Club::color('navy'), Club::color('yellow'), 0.8);
         $ix = $x + 5;
         $iw = $w - 10;
         $this->kicker($ix, $y + 3.2, $iw, $d['kicker']);
@@ -268,24 +266,24 @@ class PosterLayout
         $c1 = $cx - $r - 4.5;
         $c2 = $cx + $r + 4.5;
         foreach ([[$c1, $d['sh']], [$c2, $d['sa']]] as [$c, $v]) {
-            $this->circle($c, $cy, $r + 1.75, '', self::YELLOW, 0.75);
-            $this->circle($c, $cy, $r, self::YELLOW);
+            $this->circle($c, $cy, $r + 1.75, '', Club::color('yellow'), 0.75);
+            $this->circle($c, $cy, $r, Club::color('yellow'));
             $ns = self::pt(64) * (strlen((string) $v) > 1 ? 0.75 : 1);
-            $this->text($c - $r, $cy - $ns * 25.4 / 72 * 0.62, 2 * $r, (string) $v, 'display', $ns, self::NAVY, ['align' => 'center', 'lh' => 1]);
+            $this->text($c - $r, $cy - $ns * 25.4 / 72 * 0.62, 2 * $r, (string) $v, 'display', $ns, Club::color('navy'), ['align' => 'center', 'lh' => 1]);
         }
-        $this->rect($cx - 2.5, $cy - 0.9, 5, 1.8, self::CREAM);
+        $this->rect($cx - 2.5, $cy - 0.9, 5, 1.8, Club::color('cream'));
         $ts = self::pt(66);
         $tw = $c1 - $r - 4 - $ix;
         foreach ([[$ix, $d['home'], 'right'], [$c2 + $r + 4, $d['away'], 'left']] as [$tx, $name, $al]) {
-            $l = $this->text($tx, 0, $tw, $name, 'display', $ts, self::CREAM, ['upper' => true, 'align' => $al, 'fit' => true, 'min' => 18, 'lh' => 1, 'dry' => true]);
+            $l = $this->text($tx, 0, $tw, $name, 'display', $ts, Club::color('cream'), ['upper' => true, 'align' => $al, 'fit' => true, 'min' => 18, 'lh' => 1, 'dry' => true]);
             $sz = Vector::layout($l)['size'];
             $l['y'] = $cy - $sz * 25.4 / 72 * 0.62;
             $this->L[] = $l;
         }
-        $sub = [[$d['when'], 'display-b', self::CREAM]];
+        $sub = [[$d['when'], 'display-b', Club::color('cream')]];
         foreach (array_filter(explode(' · ', $d['extra'])) as $e) {
-            $sub[] = ['', 'dot', self::YELLOW];
-            $sub[] = [$e, 'display-b', self::CREAM];
+            $sub[] = ['', 'dot', Club::color('yellow')];
+            $sub[] = [$e, 'display-b', Club::color('cream')];
         }
         $this->row($sub, $ix, $y + $h - 7.2, $iw, self::pt(17), 140, 'center');
     }
@@ -299,10 +297,10 @@ class PosterLayout
         $sx = $x + ($w - $sw) / 2;
         $sy = $y + 3.5 + $lw * 1.133 + 2.5;
         $sh = $y + $h - 3 - $sy;
-        $this->rect($sx, $sy, $sw, $sh, '', self::YELLOW, 0.75);
-        $this->text($sx, $sy + 1.6, $sw, 'Pièce unique', 'display-b', self::pt(14), self::YELLOW, ['upper' => true, 'spacing' => 140, 'align' => 'center', 'fit' => true]);
+        $this->rect($sx, $sy, $sw, $sh, '', Club::color('yellow'), 0.75);
+        $this->text($sx, $sy + 1.6, $sw, 'Pièce unique', 'display-b', self::pt(14), Club::color('yellow'), ['upper' => true, 'spacing' => 140, 'align' => 'center', 'fit' => true]);
         $no = $this->no !== '' ? 'N° ' . $this->no : 'N° à la commande';
-        $this->text($sx, $sy + 1.6 + self::pt(14) * 25.4 / 72 * 1.2, $sw, $no, 'display', self::pt(26), self::YELLOW, ['upper' => true, 'spacing' => 80, 'align' => 'center', 'fit' => true]);
+        $this->text($sx, $sy + 1.6 + self::pt(14) * 25.4 / 72 * 1.2, $sw, $no, 'display', self::pt(26), Club::color('yellow'), ['upper' => true, 'spacing' => 80, 'align' => 'center', 'fit' => true]);
     }
 
     protected function pitch(float $x, float $y, float $w, float $h): void
@@ -324,7 +322,7 @@ class PosterLayout
         $py = $ty;
         $pw = $iw;
         $ph = $y + $h - 4 - $noteH - $py;
-        $this->rect($px, $py, $pw, $ph, self::BLUE, self::CREAM, 0.75);
+        $this->rect($px, $py, $pw, $ph, self::BLUE, Club::color('cream'), 0.75);
         for ($sy = $py + 0.4, $i = 0; $sy < $py + $ph - 0.5; $sy += 11, $i++) {
             if ($i % 2 === 0) {
                 $this->rect($px + 0.4, $sy, $pw - 0.8, min(5.5, $py + $ph - 0.4 - $sy), self::STRIPE);
@@ -351,19 +349,19 @@ class PosterLayout
             $cx = $px + 7 + ($pw - 14) * ((float) $p['x'] - 10) / 80;
             $cy = strtoupper((string) ($p['position'] ?? '')) === 'G' ? $gy
                 : $py + 8.5 + ($gy - 19.5 - $py - 8.5) * ($y1 > $y0 ? ((float) $p['y'] - $y0) / ($y1 - $y0) : 0.5);
-            $this->circle($cx, $cy, $r + 0.6, self::NAVY);
-            $this->circle($cx, $cy, $r, !empty($p['captain']) ? self::CREAM : self::YELLOW);
+            $this->circle($cx, $cy, $r + 0.6, Club::color('navy'));
+            $this->circle($cx, $cy, $r, !empty($p['captain']) ? Club::color('cream') : Club::color('yellow'));
             $num = (string) ($p['num'] ?? $p['n'] ?? '');
-            $this->text($cx - $r, $cy - 2.6, 2 * $r, $num, 'display', self::pt(24), self::NAVY, ['align' => 'center', 'lh' => 1]);
+            $this->text($cx - $r, $cy - 2.6, 2 * $r, $num, 'display', self::pt(24), Club::color('navy'), ['align' => 'center', 'lh' => 1]);
             $name = mb_strtoupper((string) ($p['short'] ?? $p['display'] ?? '')) . (!empty($p['captain']) ? ' (C)' : '');
             $nw = min($pw * 0.42, self::width($name, 'display-b', $ns, 0) + 3);
             $nx = max($px + 0.8, min($px + $pw - 0.8 - $nw, $cx - $nw / 2));
             $ny = $cy + $r + 1;
-            $this->rect($nx, $ny, $nw, $ns * 25.4 / 72 + 1.3, self::NAVY);
-            $this->text($nx + 1.5, $ny + 0.45, $nw - 3, $name, 'display-b', $ns, self::CREAM, ['align' => 'center', 'fit' => true, 'min' => $ns * 0.6, 'lh' => 1.1]);
+            $this->rect($nx, $ny, $nw, $ns * 25.4 / 72 + 1.3, Club::color('navy'));
+            $this->text($nx + 1.5, $ny + 0.45, $nw - 3, $name, 'display-b', $ns, Club::color('cream'), ['align' => 'center', 'fit' => true, 'min' => $ns * 0.6, 'lh' => 1.1]);
         }
         if ($cap) {
-            $this->text($ix, $y + $h - 4 - $noteH + 2, $iw, 'Capitaine : ' . ($cap['display'] ?? ''), 'serif-i', self::pt(15), self::CREAM, ['fit' => true]);
+            $this->text($ix, $y + $h - 4 - $noteH + 2, $iw, 'Capitaine : ' . ($cap['display'] ?? ''), 'serif-i', self::pt(15), Club::color('cream'), ['fit' => true]);
         }
     }
 
@@ -382,7 +380,7 @@ class PosterLayout
         for ($size = self::pt(15); ; $size -= 0.4) {
             $hs = [];
             foreach ($items as $it) {
-                $hs[] = max(2 * $r, self::height($this->text($tx, 0, $tw, $it['text'], !empty($it['goal']) ? 'serif-b' : 'serif', $size, self::CREAM, ['lh' => 1.18, 'dry' => true])));
+                $hs[] = max(2 * $r, self::height($this->text($tx, 0, $tw, $it['text'], !empty($it['goal']) ? 'serif-b' : 'serif', $size, Club::color('cream'), ['lh' => 1.18, 'dry' => true])));
             }
             $total = array_sum($hs) + 1.4 * (count($hs) - 1);
             if ($total <= $avail) {
@@ -416,11 +414,11 @@ class PosterLayout
             $cy = $centers[$i];
             $goal = !empty($it['goal']);
             $end = !empty($it['end']);
-            $this->circle($ix + $r, $cy, $r, $goal ? self::YELLOW : self::NAVY, $end ? self::CREAM : self::YELLOW, 0.75);
+            $this->circle($ix + $r, $cy, $r, $goal ? Club::color('yellow') : Club::color('navy'), $end ? Club::color('cream') : Club::color('yellow'), 0.75);
             $m = (string) $it['min'];
             $ms = self::pt(19) * (mb_strlen($m) > 3 ? 0.78 : 1);
-            $this->text($ix, $cy - $ms * 25.4 / 72 * 0.55, 2 * $r, $m, 'display', $ms, $goal ? self::NAVY : ($end ? self::CREAM : self::YELLOW), ['align' => 'center', 'lh' => 1]);
-            $l = $this->text($tx, 0, $tw, $it['text'], $goal ? 'serif-b' : 'serif', $size, $goal ? self::YELLOW : self::CREAM, ['lh' => 1.18, 'dry' => true]);
+            $this->text($ix, $cy - $ms * 25.4 / 72 * 0.55, 2 * $r, $m, 'display', $ms, $goal ? Club::color('navy') : ($end ? Club::color('cream') : Club::color('yellow')), ['align' => 'center', 'lh' => 1]);
+            $l = $this->text($tx, 0, $tw, $it['text'], $goal ? 'serif-b' : 'serif', $size, $goal ? Club::color('yellow') : Club::color('cream'), ['lh' => 1.18, 'dry' => true]);
             $l['y'] = $cy - self::height($l) / 2;
             $this->L[] = $l;
         }
@@ -428,15 +426,15 @@ class PosterLayout
 
     protected function crowd(float $x, float $y, float $w, float $h): void
     {
-        $this->rect($x, $y, $w, $h, self::YELLOW);
+        $this->rect($x, $y, $w, $h, Club::color('yellow'));
         $ix = $x + 4.5;
         $iw = $w - 9;
-        $ty = $this->kicker($ix, $y + 4, $iw, 'Tribunes', self::NAVY);
+        $ty = $this->kicker($ix, $y + 4, $iw, 'Tribunes', Club::color('navy'));
         $n = number_format($this->d['spectators'], 0, ',', ' ');
-        $l = $this->text($ix, $ty, $iw, $n, 'display', self::pt(72), self::NAVY, ['fit' => true, 'lh' => 0.95, 'dry' => true]);
+        $l = $this->text($ix, $ty, $iw, $n, 'display', self::pt(72), Club::color('navy'), ['fit' => true, 'lh' => 0.95, 'dry' => true]);
         $this->L[] = $l;
         $nh = Vector::layout($l)['size'] * 25.4 / 72 * 0.95;
-        $this->text($ix, $ty + $nh + 1.2, $iw, 'spectateurs', 'display-b', self::pt(17), self::NAVY, ['upper' => true, 'spacing' => 140]);
+        $this->text($ix, $ty + $nh + 1.2, $iw, 'spectateurs', 'display-b', self::pt(17), Club::color('navy'), ['upper' => true, 'spacing' => 140]);
     }
 
     /** Citation : grandes capitales, trait jaune, pastille aux initiales. */
@@ -459,15 +457,15 @@ class PosterLayout
             $h -= 5;
         }
         $qh = $h - $whoH - 2;
-        $l = $this->text($x + 4, $y, $w - 4, $q['text'], 'display', $size, self::CREAM, ['upper' => true, 'lh' => 1.04, 'h' => $qh, 'fit' => true, 'min' => self::pt(12), 'valign' => 'middle', 'dry' => true]);
+        $l = $this->text($x + 4, $y, $w - 4, $q['text'], 'display', $size, Club::color('cream'), ['upper' => true, 'lh' => 1.04, 'h' => $qh, 'fit' => true, 'min' => self::pt(12), 'valign' => 'middle', 'dry' => true]);
         $this->L[] = $l;
         $lay = Vector::layout($l);
         $th = count($lay['lines']) * $lay['size'] * 25.4 / 72 * 1.04;
-        $this->rect($x, $y + ($qh - $th) / 2, 1.5, $th, self::YELLOW);
+        $this->rect($x, $y + ($qh - $th) / 2, 1.5, $th, Club::color('yellow'));
         $wy = $y + $h - $whoH + 1;
-        $this->circle($x + 5, $wy + 5, 5, self::YELLOW);
-        $this->text($x, $wy + 5 - 2.1, 10, self::initials($q['who']), 'display', self::pt(17), self::NAVY, ['align' => 'center', 'lh' => 1]);
-        $this->text($x + 12.5, $wy + 1.2, $w - 12.5, $q['who'], 'display-b', self::pt(14), self::CREAM, ['upper' => true, 'spacing' => 100, 'fit' => true]);
+        $this->circle($x + 5, $wy + 5, 5, Club::color('yellow'));
+        $this->text($x, $wy + 5 - 2.1, 10, self::initials($q['who']), 'display', self::pt(17), Club::color('navy'), ['align' => 'center', 'lh' => 1]);
+        $this->text($x + 12.5, $wy + 1.2, $w - 12.5, $q['who'], 'display-b', self::pt(14), Club::color('cream'), ['upper' => true, 'spacing' => 100, 'fit' => true]);
         if (($q['role'] ?? '') !== '') {
             $this->text($x + 12.5, $wy + 5.6, $w - 12.5, $q['role'], 'serif-i', self::pt(13), self::MIST, ['fit' => true]);
         }
@@ -498,42 +496,42 @@ class PosterLayout
 
     protected function anecdote(array $a, float $x, float $y, float $w, float $h): void
     {
-        $this->rect($x, $y, $w, $h, self::YELLOW);
+        $this->rect($x, $y, $w, $h, Club::color('yellow'));
         $ix = $x + 4.5;
         $iw = $w - 9;
-        $ty = $this->kicker($ix, $y + 4, $iw, 'L’anecdote', self::NAVY);
+        $ty = $this->kicker($ix, $y + 4, $iw, 'L’anecdote', Club::color('navy'));
         $avail = $y + $h - 4 - $ty;
-        $title = $this->text($ix, $ty, $iw, $a['title'], 'display', self::pt(38), self::NAVY, ['upper' => true, 'lh' => 0.92, 'h' => $avail * 0.42, 'fit' => true, 'min' => self::pt(20), 'dry' => true]);
+        $title = $this->text($ix, $ty, $iw, $a['title'], 'display', self::pt(38), Club::color('navy'), ['upper' => true, 'lh' => 0.92, 'h' => $avail * 0.42, 'fit' => true, 'min' => self::pt(20), 'dry' => true]);
         $this->L[] = $title;
         $th = self::height($title);
-        $this->text($ix, $ty + $th + 2, $iw, $a['text'], 'serif', self::pt($w > 120 ? 26 : 21), self::NAVY, ['lh' => 1.28, 'h' => $avail - $th - 2, 'fit' => true, 'min' => self::pt(11), 'valign' => 'middle']);
+        $this->text($ix, $ty + $th + 2, $iw, $a['text'], 'serif', self::pt($w > 120 ? 26 : 21), Club::color('navy'), ['lh' => 1.28, 'h' => $avail - $th - 2, 'fit' => true, 'min' => self::pt(11), 'valign' => 'middle']);
     }
 
     protected function figure(float $x, float $y, float $w, float $h): void
     {
         $f = $this->d['figure'];
-        $this->rect($x, $y, $w, $h, self::NAVY, self::CREAM, 0.75);
+        $this->rect($x, $y, $w, $h, Club::color('navy'), Club::color('cream'), 0.75);
         $ix = $x + 4.5;
         $iw = $w - 9;
         $ty = $this->kicker($ix, $y + 4, $iw, 'Le chiffre');
         $avail = $y + $h - 4 - $ty;
         $r = min(13.0, $avail / 2);
         $cy = $ty + $avail / 2;
-        $this->circle($ix + $r, $cy, $r, self::YELLOW);
-        $l = $this->text($ix + 1.5, 0, 2 * $r - 3, $f['n'], 'display', self::pt(76), self::NAVY, ['align' => 'center', 'fit' => true, 'lh' => 1, 'dry' => true]);
+        $this->circle($ix + $r, $cy, $r, Club::color('yellow'));
+        $l = $this->text($ix + 1.5, 0, 2 * $r - 3, $f['n'], 'display', self::pt(76), Club::color('navy'), ['align' => 'center', 'fit' => true, 'lh' => 1, 'dry' => true]);
         $l['y'] = $cy - Vector::layout($l)['size'] * 25.4 / 72 * 0.6;
         $this->L[] = $l;
         $tx = $ix + 2 * $r + 5;
-        $this->text($tx, $ty, $ix + $iw - $tx, $f['text'], 'serif', self::pt(18), self::CREAM, ['lh' => 1.3, 'h' => $avail, 'fit' => true, 'min' => self::pt(11), 'valign' => 'middle']);
+        $this->text($tx, $ty, $ix + $iw - $tx, $f['text'], 'serif', self::pt(18), Club::color('cream'), ['lh' => 1.3, 'h' => $avail, 'fit' => true, 'min' => self::pt(11), 'valign' => 'middle']);
     }
 
     protected function enjeu(float $x, float $y, float $w, float $h): void
     {
-        $this->rect($x, $y, $w, $h, self::CREAM);
+        $this->rect($x, $y, $w, $h, Club::color('cream'));
         $ix = $x + 4.5;
         $iw = $w - 9;
         $ty = $this->kicker($ix, $y + 4, $iw, 'Avant le match', self::BLUE);
-        $this->text($ix, $ty, $iw, $this->d['enjeu'], 'serif', self::pt(21), self::NAVY, ['lh' => 1.32, 'h' => $y + $h - 4 - $ty, 'fit' => true, 'min' => self::pt(12), 'valign' => 'middle']);
+        $this->text($ix, $ty, $iw, $this->d['enjeu'], 'serif', self::pt(21), Club::color('navy'), ['lh' => 1.32, 'h' => $y + $h - 4 - $ty, 'fit' => true, 'min' => self::pt(12), 'valign' => 'middle']);
     }
 
     /** Fiche technique : stade, arbitre, spectateurs, entraîneur, système. */
@@ -549,7 +547,7 @@ class PosterLayout
             'Système' => $d['formation'],
             'Saison' => (string) ($d['dm']['season'] ?? ''),
         ]);
-        $this->rect($x, $y, $w, $h, self::CREAM);
+        $this->rect($x, $y, $w, $h, Club::color('cream'));
         $ix = $x + 4.5;
         $iw = $w - 9;
         $ty = $this->kicker($ix, $y + 4, $iw, 'La fiche du match', self::BLUE);
@@ -558,7 +556,7 @@ class PosterLayout
             $k = array_keys($rows)[$i];
             $ry = $ty + $i * $rh;
             $this->text($ix, $ry, $iw * 0.36, $k, 'display-b', self::pt(14), self::BLUE, ['upper' => true, 'spacing' => 120, 'fit' => true]);
-            $this->text($ix + $iw * 0.38, $ry - 0.3, $iw * 0.62, $v, 'serif-b', self::pt(16), self::NAVY, ['fit' => true]);
+            $this->text($ix + $iw * 0.38, $ry - 0.3, $iw * 0.62, $v, 'serif-b', self::pt(16), Club::color('navy'), ['fit' => true]);
             $this->rect($ix, $ry + $rh - 1.6, $iw, 0.25, '#D9CFB8');
         }
     }
@@ -571,7 +569,7 @@ class PosterLayout
     /** Le récit, en colonnes justifiées à gauche, au plus grand corps qui tient. */
     protected function recit(float $x, float $y, float $w, float $h): void
     {
-        $this->rect($x, $y, $w, $h, self::CREAM);
+        $this->rect($x, $y, $w, $h, Club::color('cream'));
         $ix = $x + 4.5;
         $iw = $w - 9;
         $ty = $this->kicker($ix, $y + 4, $iw, $this->recitKicker(), self::BLUE);
@@ -587,7 +585,7 @@ class PosterLayout
         for ($size = self::pt(14); $size >= self::pt(9.4); $size -= 0.2) {
             $cols = 4;
             $cw = ($iw - ($cols - 1) * $gap) / $cols;
-            $lines = Vector::layout($this->text(0, 0, $cw, $text, 'serif', $size, self::NAVY, ['lh' => $lh, 'dry' => true]))['lines'];
+            $lines = Vector::layout($this->text(0, 0, $cw, $text, 'serif', $size, Club::color('navy'), ['lh' => $lh, 'dry' => true]))['lines'];
             $per = (int) floor($avail / ($size * 25.4 / 72 * $lh));
             if (count($lines) <= $per * $cols) {
                 break;
@@ -599,14 +597,14 @@ class PosterLayout
             $keep = implode(' ', array_slice($lines, 0, $per * $cols));
             $cut = max(mb_strrpos($keep, '. ') ?: 0, mb_strrpos($keep, '! ') ?: 0);
             $text = $cut > 200 ? mb_substr($keep, 0, $cut + 1) : rtrim($keep, ' ,;') . '…';
-            $lines = Vector::layout($this->text(0, 0, $cw, $text, 'serif', $size, self::NAVY, ['lh' => $lh, 'dry' => true]))['lines'];
+            $lines = Vector::layout($this->text(0, 0, $cw, $text, 'serif', $size, Club::color('navy'), ['lh' => $lh, 'dry' => true]))['lines'];
         }
         // Colonnes équilibrées.
         $per = (int) ceil(count($lines) / $cols);
         for ($c = 0; $c < $cols; $c++) {
             $chunk = array_slice($lines, $c * $per, $per);
             if ($chunk) {
-                $this->text($ix + $c * ($cw + $gap), $ty, $cw + 0.5, implode("\n", $chunk), 'serif', $size, self::NAVY, ['lh' => $lh]);
+                $this->text($ix + $c * ($cw + $gap), $ty, $cw + 0.5, implode("\n", $chunk), 'serif', $size, Club::color('navy'), ['lh' => $lh]);
             }
         }
     }
@@ -614,22 +612,22 @@ class PosterLayout
     protected function season(float $x, float $y, float $w, float $h): void
     {
         $s = $this->d['season'];
-        $this->rect($x, $y, $w, $h, self::YELLOW);
+        $this->rect($x, $y, $w, $h, Club::color('yellow'));
         $ix = $x + 4.5;
         $iw = $w - 9;
-        $ty = $this->kicker($ix, $y + 2.6, $iw * 0.7, 'Saison ' . $s['season'] . ' · ' . Club::team() . ' ' . $s['level'], self::NAVY);
+        $ty = $this->kicker($ix, $y + 2.6, $iw * 0.7, 'Saison ' . $s['season'] . ' · ' . Club::team() . ' ' . $s['level'], Club::color('navy'));
         $px = $ix;
         foreach ([[$s['w'], 'victoires'], [$s['d'], 'nuls'], [$s['l'], 'défaites'], [$s['gf'], 'buts marqués'], [$s['ga'], 'encaissés']] as [$n, $lab]) {
             $ns = self::pt(34);
             $nw = self::width((string) $n, 'display', $ns);
             $lw = self::width(mb_strtoupper($lab), 'display-b', self::pt(13), 100);
-            $this->text($px, $ty - 1, $nw + 1, (string) $n, 'display', $ns, self::NAVY, ['lh' => 0.9]);
-            $this->text($px, $ty - 1 + $ns * 25.4 / 72 * 0.9 + 0.3, $lw + 1, $lab, 'display-b', self::pt(13), self::NAVY, ['upper' => true, 'spacing' => 100]);
+            $this->text($px, $ty - 1, $nw + 1, (string) $n, 'display', $ns, Club::color('navy'), ['lh' => 0.9]);
+            $this->text($px, $ty - 1 + $ns * 25.4 / 72 * 0.9 + 0.3, $lw + 1, $lab, 'display-b', self::pt(13), Club::color('navy'), ['upper' => true, 'spacing' => 100]);
             $px += max($nw, $lw) + 9;
         }
         if ($this->d['opp_level'] !== '' && ($this->d['dm']['opp'] ?? '') !== '') {
             $t = 'Adversaire du jour : ' . $this->d['dm']['opp'] . ' (' . $this->d['opp_level'] . ')';
-            $this->text($ix + $iw * 0.5, $y + $h - 7.5, $iw * 0.5, $t, 'serif-i', self::pt(17), self::NAVY, ['align' => 'right', 'fit' => true]);
+            $this->text($ix + $iw * 0.5, $y + $h - 7.5, $iw * 0.5, $t, 'serif-i', self::pt(17), Club::color('navy'), ['align' => 'right', 'fit' => true]);
         }
     }
 }

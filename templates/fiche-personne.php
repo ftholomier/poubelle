@@ -94,7 +94,7 @@ $rowsHtml = function (array $list, bool $coach) {
           <span class="pcard__face pcard__front">
             <span class="pcard__top">
               <span class="pcard__no"><?= $cardNo ? 'N° ' . e($cardNo) : e($years) ?></span>
-              <img src="/assets/img/logo-sochaux-retro.png" alt="" width="42" height="42">
+              <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="42" height="42">
             </span>
             <span class="pcard__photo">
               <?php if (!empty($doc['featured_image'])): ?>

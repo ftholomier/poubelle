@@ -25,10 +25,7 @@ final class CarnetCard
     /** Matchs vus au minimum pour qu'une carte existe. */
     public const MIN = 1;
 
-    private const NAVY = '#0E1F4D';
     private const BLUE = '#1E3FA8';
-    private const YELLOW = '#F6C400';
-    private const CREAM = '#F3EDDF';
     private const PAPER = '#F4EBD3';
     private const MIST = '#AAB4D2';
     private const PT = 72 / 25.4; // mm → points
@@ -142,7 +139,7 @@ final class CarnetCard
         $style = self::style((string) ($frame['style'] ?? 'a'));
         $L = self::build($d, $style);
         // Fond de la carte (le calque ne compte pas sur le fond de la face du produit).
-        array_unshift($L, ['id' => 'cbg', 'type' => 'rect', 'x' => 0, 'y' => 0, 'w' => self::W, 'h' => self::H, 'fill' => $style === 'b' ? self::PAPER : self::NAVY, 'stroke' => '', 'sw' => 0, 'r' => 0]);
+        array_unshift($L, ['id' => 'cbg', 'type' => 'rect', 'x' => 0, 'y' => 0, 'w' => self::W, 'h' => self::H, 'fill' => $style === 'b' ? self::PAPER : Club::color('navy'), 'stroke' => '', 'sw' => 0, 'r' => 0]);
         return self::fit($L, $frame);
     }
 
@@ -182,7 +179,7 @@ final class CarnetCard
 
     private static function side(array $d, string $style): array
     {
-        return ['w' => self::W, 'h' => self::H, 'bleed' => 0, 'bg' => self::style($style) === 'b' ? self::PAPER : self::NAVY, 'layers' => self::build($d, $style)];
+        return ['w' => self::W, 'h' => self::H, 'bleed' => 0, 'bg' => self::style($style) === 'b' ? self::PAPER : Club::color('navy'), 'layers' => self::build($d, $style)];
     }
 
     /** Aperçu SVG de la carte (page du carnet). */
@@ -246,15 +243,15 @@ final class CarnetCard
     private function museum(): void
     {
         $d = $this->d;
-        $this->rect(0, 0, self::W, self::H, self::NAVY);
-        $this->rect(0, 0, self::W, 2.2, self::YELLOW);
+        $this->rect(0, 0, self::W, self::H, Club::color('navy'));
+        $this->rect(0, 0, self::W, 2.2, Club::color('yellow'));
         // Colonne du blason : le logo en grand, puis « Mon carnet de supporter » et le pseudo.
         $this->logo(9, 9, 34);
         $ky = 9 + 34 * 1407 / 1242 + 3.2;
         $kicker = $d['pseudo'] !== '' ? 3.3 : 4.2;
-        $this->text(7, $ky, 38, (string) preg_replace('/ (de supporter)$/u', "\n$1", t('Mon carnet de supporter')), 'display-b', $kicker, self::YELLOW, ['align' => 'center', 'upper' => true, 'spacing' => 97, 'lh' => 1.02, 'fit' => false]);
+        $this->text(7, $ky, 38, (string) preg_replace('/ (de supporter)$/u', "\n$1", t('Mon carnet de supporter')), 'display-b', $kicker, Club::color('yellow'), ['align' => 'center', 'upper' => true, 'spacing' => 97, 'lh' => 1.02, 'fit' => false]);
         if ($d['pseudo'] !== '') {
-            $this->text(7, $ky + 2 * $kicker * 1.02 + 1.4, 38, $d['pseudo'], 'display', 5.6, self::CREAM, ['align' => 'center', 'upper' => true, 'h' => 12, 'lh' => 1.0, 'min' => 3.6]);
+            $this->text(7, $ky + 2 * $kicker * 1.02 + 1.4, 38, $d['pseudo'], 'display', 5.6, Club::color('cream'), ['align' => 'center', 'upper' => true, 'h' => 12, 'lh' => 1.0, 'min' => 3.6]);
         }
         // Le nombre de matchs, puis le bilan.
         $x = 51.0;
@@ -262,16 +259,16 @@ final class CarnetCard
         $big = (string) $d['n'];
         $bs = min(31.0, 31.0 * 38 / max(1.0, self::width($big, 'display', 31)));
         $bw = self::width($big, 'display', $bs);
-        $this->text($x - 0.6, 8.4 + (31 - $bs) * 0.7, $bw + 2, $big, 'display', $bs, self::CREAM, ['lh' => 0.86, 'fit' => false]);
+        $this->text($x - 0.6, 8.4 + (31 - $bs) * 0.7, $bw + 2, $big, 'display', $bs, Club::color('cream'), ['lh' => 0.86, 'fit' => false]);
         $hx = $x + $bw + 3;
-        $this->text($hx, 14.2, $x + $w - $hx, str_replace(' au ', "\nau ", $d['matches']), 'display', 7.4, self::YELLOW, ['upper' => true, 'lh' => 0.92, 'h' => 14]);
-        $this->text($hx, 28.8, $x + $w - $hx, $d['period'], 'serif-i', 3.6, self::CREAM);
+        $this->text($hx, 14.2, $x + $w - $hx, str_replace(' au ', "\nau ", $d['matches']), 'display', 7.4, Club::color('yellow'), ['upper' => true, 'lh' => 0.92, 'h' => 14]);
+        $this->text($hx, 28.8, $x + $w - $hx, $d['period'], 'serif-i', 3.6, Club::color('cream'));
         // Trois cases : victoires, nuls, défaites (en toutes lettres).
         $tw = ($w - 2 * 1.8) / 3;
         $ty = 38.0;
         foreach ($d['tiles'] as $k => [$num, $lab]) {
             $tx = $x + $k * ($tw + 1.8);
-            [$bg, $fg] = [[self::YELLOW, self::NAVY], [self::CREAM, self::NAVY], [self::BLUE, self::CREAM]][$k];
+            [$bg, $fg] = [[Club::color('yellow'), Club::color('navy')], [Club::color('cream'), Club::color('navy')], [self::BLUE, Club::color('cream')]][$k];
             $this->rect($tx, $ty, $tw, 14.2, $bg, $k === 2 ? '#5C6FB8' : '', $k === 2 ? 0.3 : 0, 1);
             $this->text($tx + 2.2, $ty + 1.6, $tw - 4, (string) $num, 'display', 8.6, $fg, ['lh' => 0.95]);
             $this->text($tx + 2.2, $ty + 10.2, $tw - 4, $lab, 'display-b', 2.9, $fg, ['upper' => true, 'spacing' => 86]);
@@ -280,23 +277,23 @@ final class CarnetCard
         [$g1, $g2, $g3] = $d['goals'];
         $gy = $ty + 14.2 + 3.2;
         $w1 = self::width(mb_strtoupper($g1), 'display-b', 4.4, 34) + 1.2;
-        $this->text($x, $gy, $w1 + 0.5, $g1, 'display-b', 4.4, self::YELLOW, ['upper' => true, 'spacing' => 34]);
-        $this->text($x + $w1, $gy, $w - $w1, $g2 . ' · ' . $g3, 'display-b', 4.4, self::CREAM, ['upper' => true, 'spacing' => 34]);
-        $this->bar($x, $gy + 8.4, $w, 3.0, [self::YELLOW, self::CREAM, self::BLUE], self::CREAM, 0.35);
+        $this->text($x, $gy, $w1 + 0.5, $g1, 'display-b', 4.4, Club::color('yellow'), ['upper' => true, 'spacing' => 34]);
+        $this->text($x + $w1, $gy, $w - $w1, $g2 . ' · ' . $g3, 'display-b', 4.4, Club::color('cream'), ['upper' => true, 'spacing' => 34]);
+        $this->bar($x, $gy + 8.4, $w, 3.0, [Club::color('yellow'), Club::color('cream'), self::BLUE], Club::color('cream'), 0.35);
         $this->text($x, $gy + 13.0, $w / 2, $d['pct'], 'display-b', 2.6, self::MIST, ['upper' => true, 'spacing' => 96]);
         $this->text($x + $w / 2, $gy + 13.0, $w / 2, $d['badges'], 'display-b', 2.6, self::MIST, ['upper' => true, 'spacing' => 96, 'align' => 'right']);
         // Bandeau crème : plus beau match, buteur, porte-bonheur.
         $fy = self::H - 24;
-        $this->rect(0, $fy, self::W, 24, self::CREAM);
+        $this->rect(0, $fy, self::W, 24, Club::color('cream'));
         $cols = [7.0, 58.0, 99.0];
         $widths = [47.0, 37.0, 42.0];
         foreach ($d['facts'] as $k => [$kick, $main, $sub]) {
             $fx = $cols[$k];
             $this->text($fx, $fy + 3.2, $widths[$k], $kick, 'display-b', 2.6, self::BLUE, ['upper' => true, 'spacing' => 115]);
             // Titre long (« Sochaux 7–0 Jeunesse d'Esch ») : réduit, puis sur deux lignes ; la ligne du dessous descend d'autant.
-            $mh = Vector::textHeight($this->text($fx, $fy + 6.6, $widths[$k], $main, 'display', 4.2, self::NAVY, ['upper' => true, 'min' => 3.0]));
+            $mh = Vector::textHeight($this->text($fx, $fy + 6.6, $widths[$k], $main, 'display', 4.2, Club::color('navy'), ['upper' => true, 'min' => 3.0]));
             $sy = $fy + 6.6 + max(4.6, $mh + 0.4);
-            $this->text($fx, $sy, $widths[$k], $sub, 'serif', 2.9, self::NAVY, ['lh' => 1.2, 'h' => $fy + 19.2 - $sy, 'min' => 2.3]);
+            $this->text($fx, $sy, $widths[$k], $sub, 'serif', 2.9, Club::color('navy'), ['lh' => 1.2, 'h' => $fy + 19.2 - $sy, 'min' => 2.3]);
         }
         $this->text(self::W - 7 - 60, self::H - 3.9, 60, $d['host'], 'display-b', 2.3, self::BLUE, ['align' => 'right', 'spacing' => 150]);
     }
@@ -310,65 +307,65 @@ final class CarnetCard
         // Partie principale : cadre double et bandeau du stade.
         $mx = 3.5;
         $mw = self::W - 41 - $mx;
-        $this->rect($mx, 3.5, $mw, self::H - 7, '', self::NAVY, 0.5, 1.2);
-        $this->rect($mx + 1, 4.5, $mw - 2, self::H - 9, '', self::NAVY, 0.2, 0.8);
-        $this->rect($mx, 3.5, $mw, 9, self::NAVY, '', 0, 1.2);
-        $this->text($mx + 4, 6.4, $mw - 30, t('{club} · Stade Auguste-Bonal'), 'display-b', 3.2, self::YELLOW, ['upper' => true, 'spacing' => 110]);
-        $this->text($mx + $mw - 26, 6.6, 22, Club::s('site'), 'display-b', 2.9, self::CREAM, ['upper' => true, 'spacing' => 110, 'align' => 'right']);
+        $this->rect($mx, 3.5, $mw, self::H - 7, '', Club::color('navy'), 0.5, 1.2);
+        $this->rect($mx + 1, 4.5, $mw - 2, self::H - 9, '', Club::color('navy'), 0.2, 0.8);
+        $this->rect($mx, 3.5, $mw, 9, Club::color('navy'), '', 0, 1.2);
+        $this->text($mx + 4, 6.4, $mw - 30, t('{club} · Stade Auguste-Bonal'), 'display-b', 3.2, Club::color('yellow'), ['upper' => true, 'spacing' => 110]);
+        $this->text($mx + $mw - 26, 6.6, 22, Club::s('site'), 'display-b', 2.9, Club::color('cream'), ['upper' => true, 'spacing' => 110, 'align' => 'right']);
         $x = 9.0;
         $w = $mw + $mx - 5.5 - $x;
         $y = 16.0;
         if ($d['pseudo'] !== '') {
             $this->text($x, $y, $w, t('Carnet de supporter de'), 'display-b', 3.2, self::BLUE, ['upper' => true, 'spacing' => 125]);
-            $this->text($x, $y + 4.2, $w, $d['pseudo'], 'display', 6.6, self::NAVY, ['upper' => true, 'min' => 4]);
+            $this->text($x, $y + 4.2, $w, $d['pseudo'], 'display', 6.6, Club::color('navy'), ['upper' => true, 'min' => 4]);
             $y += 12.4;
         } else {
-            $this->text($x, $y, $w, t('Mon carnet de supporter'), 'display', 6.6, self::NAVY, ['upper' => true]);
+            $this->text($x, $y, $w, t('Mon carnet de supporter'), 'display', 6.6, Club::color('navy'), ['upper' => true]);
             $y += 8.6;
         }
         $big = (string) $d['n'];
         $bs = min(22.0, 22.0 * 26 / max(1.0, self::width($big, 'display', 22)));
         $bw = self::width($big, 'display', $bs);
-        $this->text($x - 0.4, $y + (22 - $bs) * 0.7, $bw + 2, $big, 'display', $bs, self::NAVY, ['lh' => 0.86, 'fit' => false]);
+        $this->text($x - 0.4, $y + (22 - $bs) * 0.7, $bw + 2, $big, 'display', $bs, Club::color('navy'), ['lh' => 0.86, 'fit' => false]);
         $hx = $x + $bw + 2.4;
-        $this->text($hx, $y + 7.6, $x + $w - $hx, $d['matches'], 'display', 6.2, self::NAVY, ['upper' => true, 'lh' => 0.95]);
-        $this->text($hx, $y + 14.0, $x + $w - $hx, $d['period'], 'serif-i', 3.4, self::NAVY);
+        $this->text($hx, $y + 7.6, $x + $w - $hx, $d['matches'], 'display', 6.2, Club::color('navy'), ['upper' => true, 'lh' => 0.95]);
+        $this->text($hx, $y + 14.0, $x + $w - $hx, $d['period'], 'serif-i', 3.4, Club::color('navy'));
         // Trois tampons.
         $sy = $y + 20.6;
         $sw = ($w - 2 * 1.8) / 3;
         foreach ($d['tiles'] as $k => [$num, $lab]) {
             $sx = $x + $k * ($sw + 1.8);
-            [$bg, $fg] = [[self::YELLOW, self::NAVY], ['#FBF6EA', self::NAVY], [self::NAVY, self::CREAM]][$k];
-            $this->rect($sx, $sy, $sw, 11.2, $bg, self::NAVY, 0.45, 0.8);
+            [$bg, $fg] = [[Club::color('yellow'), Club::color('navy')], ['#FBF6EA', Club::color('navy')], [Club::color('navy'), Club::color('cream')]][$k];
+            $this->rect($sx, $sy, $sw, 11.2, $bg, Club::color('navy'), 0.45, 0.8);
             $this->text($sx, $sy + 1.0, $sw, (string) $num, 'display', 7.6, $fg, ['align' => 'center', 'lh' => 0.95]);
             $this->text($sx, $sy + 7.9, $sw, $lab, 'display-b', 2.7, $fg, ['align' => 'center', 'upper' => true, 'spacing' => 92]);
         }
-        $this->bar($x, $sy + 14.0, $w, 2.2, [self::YELLOW, '#FFFFFF', self::NAVY], self::NAVY, 0.4);
+        $this->bar($x, $sy + 14.0, $w, 2.2, [Club::color('yellow'), '#FFFFFF', Club::color('navy')], Club::color('navy'), 0.4);
         // Plus beau match, buteur, porte-bonheur.
         $fy = $sy + 19.6;
         $fw = [$w * 0.42, $w * 0.27, $w * 0.31];
         $fx = $x;
         foreach ($d['facts'] as $k => [$kick, $main, $sub]) {
             $this->text($fx, $fy, $fw[$k] - 2.5, $kick, 'display-b', 2.5, self::BLUE, ['upper' => true, 'spacing' => 120]);
-            $mh = Vector::textHeight($this->text($fx, $fy + 3.0, $fw[$k] - 2.5, $main, 'display-b', 3.4, self::NAVY, ['upper' => true, 'min' => 2.6]));
+            $mh = Vector::textHeight($this->text($fx, $fy + 3.0, $fw[$k] - 2.5, $main, 'display-b', 3.4, Club::color('navy'), ['upper' => true, 'min' => 2.6]));
             $sy = $fy + 3.0 + max(4.0, $mh + 0.3);
-            $this->text($fx, $sy, $fw[$k] - 2.5, $sub, 'serif', 2.8, self::NAVY, ['lh' => 1.15, 'h' => $fy + 14.0 - $sy, 'min' => 2.2]);
+            $this->text($fx, $sy, $fw[$k] - 2.5, $sub, 'serif', 2.8, Club::color('navy'), ['lh' => 1.15, 'h' => $fy + 14.0 - $sy, 'min' => 2.2]);
             $fx += $fw[$k];
         }
         [$g1, $g2, $g3] = $d['goals'];
         $gw = self::width(mb_strtoupper($g1), 'display-b', 3.2, 60) + 1;
         $this->text($x, self::H - 10.4, $gw + 0.5, $g1, 'display-b', 3.2, self::BLUE, ['upper' => true, 'spacing' => 60]);
-        $this->text($x + $gw, self::H - 10.4, $w - $gw, $g2 . ' · ' . $g3, 'display-b', 3.2, self::NAVY, ['upper' => true, 'spacing' => 60]);
+        $this->text($x + $gw, self::H - 10.4, $w - $gw, $g2 . ' · ' . $g3, 'display-b', 3.2, Club::color('navy'), ['upper' => true, 'spacing' => 60]);
         // Pointillés de découpe et talon : le blason en grand, le numéro du billet.
         for ($py = 1.0; $py < self::H; $py += 2.2) {
             $this->rect(self::W - 37.6, $py, 0.3, 1.2, '#7D84A0');
         }
         $tx = self::W - 33.5;
-        $this->rect($tx, 3.5, 30, self::H - 7, '', self::NAVY, 0.5, 1.2);
+        $this->rect($tx, 3.5, 30, self::H - 7, '', Club::color('navy'), 0.5, 1.2);
         $this->logo($tx + 4, 8.5, 22);
-        $this->text($tx, 37.5, 30, t('Billet n°'), 'display-b', 3.0, self::NAVY, ['align' => 'center', 'upper' => true, 'spacing' => 130]);
+        $this->text($tx, 37.5, 30, t('Billet n°'), 'display-b', 3.0, Club::color('navy'), ['align' => 'center', 'upper' => true, 'spacing' => 130]);
         $this->text($tx, 41.6, 30, sprintf('%04d', $d['n']), 'display', 7.0, self::BLUE, ['align' => 'center']);
-        $this->text($tx + 2, 52, 26, t('Tribune de mes souvenirs'), 'display-b', 2.5, self::NAVY, ['align' => 'center', 'upper' => true, 'spacing' => 120, 'lh' => 1.15, 'h' => 7]);
-        $this->text($tx + 1, self::H - 11.5, 28, str_replace('.COM', "\n.COM", $d['host']), 'display-b', 2.1, self::NAVY, ['align' => 'center', 'spacing' => 80, 'lh' => 1.2, 'h' => 6]);
+        $this->text($tx + 2, 52, 26, t('Tribune de mes souvenirs'), 'display-b', 2.5, Club::color('navy'), ['align' => 'center', 'upper' => true, 'spacing' => 120, 'lh' => 1.15, 'h' => 7]);
+        $this->text($tx + 1, self::H - 11.5, 28, str_replace('.COM', "\n.COM", $d['host']), 'display-b', 2.1, Club::color('navy'), ['align' => 'center', 'spacing' => 80, 'lh' => 1.2, 'h' => 6]);
     }
 }

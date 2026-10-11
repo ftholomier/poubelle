@@ -266,8 +266,8 @@ final class Images
 
     public static function placeholder(): Response
     {
-        $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#E8DFC9"/>'
-            . '<g fill="none" stroke="#0E1F4D" stroke-opacity=".35" stroke-width="6"><rect x="150" y="105" width="100" height="80" rx="6"/>'
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="' . \App\Core\Club::color('sand') . '"/>'
+            . '<g fill="none" stroke="' . \App\Core\Club::color('navy') . '" stroke-opacity=".35" stroke-width="6"><rect x="150" y="105" width="100" height="80" rx="6"/>'
             . '<circle cx="178" cy="132" r="9"/><path d="M155 180l35-30 25 20 15-12 20 22"/></g></svg>';
         // Jamais gardée par le navigateur : l'image s'affiche dès que l'original arrive (copie des médias).
         return new Response($svg, 200, ['Content-Type' => 'image/svg+xml', 'Cache-Control' => 'no-store']);

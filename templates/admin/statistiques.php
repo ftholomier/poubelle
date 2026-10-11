@@ -64,7 +64,7 @@ $tips = StatsReport::tips($r);
 .st-mini i{flex:1;background:var(--yellow);min-height:2px;opacity:.85}
 .st-d{font-weight:800}.st-d.is-up{color:#1f8f4e}.st-d.is-down{color:#c0392b}
 .st-rank{list-style:none;margin:0;padding:0;counter-reset:r}
-.st-rank li{position:relative;display:flex;gap:10px;align-items:baseline;padding:6px 8px 6px 34px;counter-increment:r;border-bottom:1px solid rgba(14,31,77,.08)}
+.st-rank li{position:relative;display:flex;gap:10px;align-items:baseline;padding:6px 8px 6px 34px;counter-increment:r;border-bottom:1px solid rgba(<?= str_replace(' ', '', \App\Core\Club::rgb('navy')) ?>,.08)}
 .st-rank li::before{content:counter(r);position:absolute;left:6px;font-family:var(--display);font-weight:900;color:var(--blue)}
 .st-rank__n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;z-index:1}
 .st-rank b{position:relative;z-index:1;font-family:var(--display)}
@@ -118,7 +118,7 @@ $tips = StatsReport::tips($r);
   <svg viewBox="0 0 <?= $W ?> <?= $H ?>" width="100%" role="img" aria-label="Courbe de fréquentation">
     <?php for ($g = 0; $g <= 4; $g++): $gy = $H - 26 - $g / 4 * ($H - 50); ?><line x1="<?= $pad ?>" x2="<?= $W - $pad ?>" y1="<?= $gy ?>" y2="<?= $gy ?>" stroke="#e3dccb"/><text x="2" y="<?= $gy + 4 ?>" font-size="11" fill="#6b7398"><?= $fmt($mx * $g / 4) ?></text><?php endfor; ?>
     <?php if (count($pv) > 1): ?>
-    <polygon points="<?= $pad ?>,<?= $H - 26 ?> <?= implode(' ', $pv) ?> <?= $W - $pad ?>,<?= $H - 26 ?>" fill="rgba(246,196,0,.45)" stroke="none"/>
+    <polygon points="<?= $pad ?>,<?= $H - 26 ?> <?= implode(' ', $pv) ?> <?= $W - $pad ?>,<?= $H - 26 ?>" fill="rgba(<?= str_replace(' ', '', \App\Core\Club::rgb('yellow')) ?>,.45)" stroke="none"/>
     <polyline points="<?= implode(' ', $pv) ?>" fill="none" stroke="#d9a800" stroke-width="2"/>
     <polyline points="<?= implode(' ', $pu) ?>" fill="none" stroke="#1E3FA8" stroke-width="3"/>
     <?php endif; ?>
@@ -137,7 +137,7 @@ $tips = StatsReport::tips($r);
     </div>
   </div>
   <div class="card card--pad"><h2 class="card__t card__t--sm">Appareils</h2>
-    <?php $acc = 0; $cols = ['mobile' => '#F6C400', 'ordinateur' => '#0E1F4D', 'tablette' => '#1E3FA8']; ?>
+    <?php $acc = 0; $cols = ['mobile' => \App\Core\Club::color('yellow'), 'ordinateur' => \App\Core\Club::color('navy'), 'tablette' => '#1E3FA8']; ?>
     <div style="display:flex;gap:18px;align-items:center">
       <svg viewBox="0 0 42 42" width="150" height="150"><circle cx="21" cy="21" r="15.9" fill="none" stroke="#eee6d2" stroke-width="7"/>
         <?php foreach ($r['dev'] as $dv => $c): $pct = $c / $devTotal * 100; ?><circle cx="21" cy="21" r="15.9" fill="none" stroke="<?= $cols[$dv] ?? '#999' ?>" stroke-width="7" stroke-dasharray="<?= round($pct, 2) ?> <?= round(100 - $pct, 2) ?>" stroke-dashoffset="<?= round(25 - $acc, 2) ?>"/><?php $acc += $pct; endforeach; ?></svg>

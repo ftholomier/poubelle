@@ -34,7 +34,7 @@ $tiers = ['legende' => t('Légende'), 'classique' => t('Classique'), 'actuel' =>
   <div class="acard" data-card="<?= (int) $c['id'] ?>" data-tier="<?= e($c['tier']) ?>">
     <div class="acard__in">
       <div class="acard__face acard__back">
-        <img src="/assets/img/logo-sochaux-retro.png" alt="" width="57" height="64" loading="lazy">
+        <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="57" height="64" loading="lazy">
         <span class="acard__no">N° <?= e(str_pad((string) $c['n'], 3, '0', STR_PAD_LEFT)) ?></span>
         <span class="acard__hint"><?= e($c['tier'] === 'legende' ? t('Visitez sa fiche ou réussissez le quiz') : t('Visitez sa fiche')) ?></span>
         <a class="acard__go" href="<?= e($c['href']) ?>"><?= e(t('Visiter la fiche')) ?></a>
@@ -49,7 +49,7 @@ $tiers = ['legende' => t('Légende'), 'classique' => t('Classique'), 'actuel' =>
   <?php endforeach; ?>
   <?php for ($i = count($cards); $i < $total; $i++): ?>
   <div class="acard acard--mystery" data-mystery>
-    <div class="acard__in"><div class="acard__face acard__back"><img src="/assets/img/logo-sochaux-retro.png" alt="" width="57" height="64" loading="lazy"><span class="acard__no">N° <?= e(str_pad((string) ($i + 1), 3, '0', STR_PAD_LEFT)) ?></span><span class="acard__hint"><?= e(t('Carte mystère · à débloquer au fil du centenaire')) ?></span></div></div>
+    <div class="acard__in"><div class="acard__face acard__back"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="57" height="64" loading="lazy"><span class="acard__no">N° <?= e(str_pad((string) ($i + 1), 3, '0', STR_PAD_LEFT)) ?></span><span class="acard__hint"><?= e(t('Carte mystère · à débloquer au fil du centenaire')) ?></span></div></div>
   </div>
   <?php endfor; ?>
 </div>

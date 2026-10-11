@@ -13,7 +13,7 @@ use App\Admin\Help;
 </head>
 <body class="aide-print">
 <section class="pcover">
-  <img src="/assets/img/logo-sochaux-retro.png" alt="" class="pcover__logo">
+  <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" class="pcover__logo">
   <span class="pcover__kicker"><?= e(\App\Core\Club::s('site')) ?> · le musée en ligne <?= e(\App\Core\Club::s('club_de')) ?></span>
   <h1>Guide d’utilisation<br>du back-office</h1>
   <p>Pour les historiens et les administrateurs du musée : saisir, illustrer et publier les contenus, comprendre ce que le site fait tout seul, et prendre la relève de l’ancien WordPress.</p>

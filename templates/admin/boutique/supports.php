@@ -48,12 +48,12 @@ $form = function (array $s, bool $new = false) use ($mockups): string {
 </div>
 <style>
 .colpick{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
-.colpick li{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1.5px solid rgba(14,31,77,.2);background:#fff}
-.colpick input[type=color]{width:38px;height:32px;padding:0;border:2px solid #0e1f4d;background:none;cursor:pointer}
+.colpick li{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1.5px solid rgba(<?= str_replace(' ', '', \App\Core\Club::rgb('navy')) ?>,.2);background:#fff}
+.colpick input[type=color]{width:38px;height:32px;padding:0;border:2px solid <?= strtolower(\App\Core\Club::color('navy')) ?>;background:none;cursor:pointer}
 .colpick input[type=text]{flex:1;min-width:0}
 .colpick code{font-size:12px;color:#5a6070;width:64px}
 .colpick__x{border:0;background:none;font-size:18px;line-height:1;cursor:pointer;color:#b3261e;padding:2px 6px}
-.colpick__sw{width:24px;height:24px;border-radius:50%;border:2px solid #0e1f4d;background:var(--c);cursor:pointer;padding:0}
+.colpick__sw{width:24px;height:24px;border-radius:50%;border:2px solid <?= strtolower(\App\Core\Club::color('navy')) ?>;background:var(--c);cursor:pointer;padding:0}
 .colpick__sw:hover{transform:scale(1.15)}
 .colpick__empty{font-size:13px;color:#5a6070;font-style:italic;padding:4px 0}
 </style>

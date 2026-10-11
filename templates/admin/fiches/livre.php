@@ -57,14 +57,14 @@ use App\Pdf\Livre;
 <style>
 .jypick{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
 .jypick__i{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:6px;border:2px solid var(--line,#ddd);background:#fff;cursor:pointer;font-size:12px;line-height:1.2}
-.jypick__i:hover{border-color:var(--navy,#0E1F4D)}
+.jypick__i:hover{border-color:var(--navy,<?= \App\Core\Club::color('navy') ?>)}
 .jypick__i input{position:absolute;opacity:0}
-.jypick__img{display:grid;place-items:center;width:100%;aspect-ratio:1/1;background:#F3EDDF}
+.jypick__img{display:grid;place-items:center;width:100%;aspect-ratio:1/1;background:<?= \App\Core\Club::color('cream') ?>}
 .jypick__img svg{width:80%;height:auto}
 .jypick__i small{opacity:.7}
 .jypick__i em{font-style:normal;font-size:10.5px;color:#a33}
-.jypick__i:has(input:checked){border-color:var(--navy,#0E1F4D);box-shadow:3px 3px 0 var(--yellow,#F6C400);background:#FFF8DA}
-.jypick__i:has(input:focus-visible){outline:3px solid #1F3FA8}
+.jypick__i:has(input:checked){border-color:var(--navy,<?= \App\Core\Club::color('navy') ?>);box-shadow:3px 3px 0 var(--yellow,<?= \App\Core\Club::color('yellow') ?>);background:#FFF8DA}
+.jypick__i:has(input:focus-visible){outline:3px solid <?= \App\Core\Club::color('blue') ?>}
 </style>
   <label class="row" style="gap:6px"><input type="checkbox" name="qr" value="1" checked> QR code de chaque récit vers sa page au musée</label>
   <div class="f"><span class="f__k">Photo de couverture</span>

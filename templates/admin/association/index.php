@@ -43,7 +43,7 @@ $host = (string) parse_url($base, PHP_URL_HOST);
     <div class="card">
       <div class="card__head"><h2 class="card__t">À vérifier</h2><span class="card__note"><?= count($checks) ?> point<?= count($checks) > 1 ? 's' : '' ?></span></div>
       <?php foreach ($checks as [$sev, $text, $btn, $href]): ?>
-        <a class="card__row" style="grid-template-columns:12px minmax(0,1fr) auto" href="<?= e($href) ?>"><span class="dot" style="background:<?= ['haute' => '#D9342B', 'moyenne' => '#F6C400', 'info' => '#C9CFE0'][$sev] ?>;width:10px;height:10px"></span><span><?= e($text) ?></span><span class="d" style="font-weight:800;font-size:14px;text-transform:uppercase;color:var(--blue)"><?= e($btn) ?> →</span></a>
+        <a class="card__row" style="grid-template-columns:12px minmax(0,1fr) auto" href="<?= e($href) ?>"><span class="dot" style="background:<?= ['haute' => \App\Core\Club::color('red'), 'moyenne' => \App\Core\Club::color('yellow'), 'info' => \App\Core\Club::color('mist')][$sev] ?>;width:10px;height:10px"></span><span><?= e($text) ?></span><span class="d" style="font-weight:800;font-size:14px;text-transform:uppercase;color:var(--blue)"><?= e($btn) ?> →</span></a>
       <?php endforeach; ?>
       <?php if (!$checks): ?><div class="card__body"><span class="ok">✓</span> Tout est en ordre.</div><?php endif; ?>
       <div class="card__body xs muted" style="border-top:1px solid var(--line, #ddd)">Les contenus livrés au départ (textes, actions, actualités, agenda d’exemple) sont rédigés à partir de ce que fait vraiment le musée ; ce qui ne pouvait pas être connu est marqué « à vérifier ». Aucun nom de personne, de partenaire ni article de presse n’a été inventé.</div>

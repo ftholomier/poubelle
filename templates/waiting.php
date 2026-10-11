@@ -24,11 +24,11 @@ $site = (string) Settings::get('general.site_name', \App\Core\Club::s('site'));
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="<?= e(mb_substr(trim(strip_tags($text)), 0, 160)) ?>">
 <meta property="og:title" content="<?= e($title ?: $site) ?>">
-<meta property="og:image" content="<?= e(base_url()) ?>/assets/img/partage-defaut.png">
-<meta name="theme-color" content="#0E1F4D">
-<link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<meta property="og:image" content="<?= e(base_url()) ?><?= e(\App\Core\Club::s('share_image')) ?>">
+<meta name="theme-color" content="<?= \App\Core\Club::color('navy') ?>">
+<link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
 <?php if (!empty($app)): ?>
-<link rel="apple-touch-icon" href="/assets/img/app/180.png">
+<link rel="apple-touch-icon" href="<?= e(\App\Core\Club::s('app_icons')) ?>/180.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -44,7 +44,7 @@ $site = (string) Settings::get('general.site_name', \App\Core\Club::s('site'));
     <?php if (!empty($logo) && \App\Data\Media::get($logo)): ?>
       <img src="<?= e(img($logo, 480)) ?>" alt="<?= e($site) ?>" style="max-width:240px;max-height:200px;width:auto;height:auto">
     <?php else: ?>
-      <img src="/assets/img/logo-sochaux-retro.png" alt="<?= e($site) ?>" width="133" height="150">
+      <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="<?= e($site) ?>" width="133" height="150">
     <?php endif; ?>
     <?php if ($title !== ''): ?><h1 class="h-xl" style="color:var(--cream)"><?= e($title) ?></h1><?php endif; ?>
     <?php if (trim(strip_tags($text)) !== ''): ?><div class="prose"><?= safe_html($text) ?></div><?php endif; ?>

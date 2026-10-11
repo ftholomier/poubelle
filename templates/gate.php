@@ -8,7 +8,7 @@ $site = (string) \App\Core\Settings::get('general.site_name', \App\Core\Club::s(
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e(t('Accès réservé')) ?> | <?= e($site) ?></title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
 <?= \App\Core\Club::themeCss() ?>
@@ -16,7 +16,7 @@ $site = (string) \App\Core\Settings::get('general.site_name', \App\Core\Club::s(
 <body>
 <main class="waiting">
   <div class="waiting__inner" style="max-width:520px">
-    <img src="/assets/img/logo-sochaux-retro.png" alt="<?= e($site) ?>" width="133" height="150">
+    <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="<?= e($site) ?>" width="133" height="150">
     <h1 class="h-2" style="color:var(--cream)"><?= e(t('Accès réservé')) ?></h1>
     <p class="lead" style="margin:0 auto"><?= e(t('Le nouveau musée est en préparation. Saisissez le mot de passe qui vous a été communiqué.')) ?></p>
     <form method="post" class="gateform">

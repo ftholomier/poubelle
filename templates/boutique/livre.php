@@ -14,7 +14,7 @@ $v = fn (string $k, string $d = '') => (string) ($old[$k] ?? $d);
 <?= \App\Core\View::partial('boutique/_bar', ['config' => $config, 'count' => $count]) ?>
 <section class="section--tight">
   <div class="wrap shopprod shopbook" data-livre-shop data-upload="<?= e(ShopPages::u('/boutique/livre/fichier/')) ?>" data-3d="<?= e(asset('js/shop3d.js')) ?>"
-       data-font="<?= e(asset('fonts/big-shoulders-display-normal-latin.woff2')) ?>" data-logo="<?= e(asset('img/logo-sochaux-retro-400.png')) ?>" data-jerseys="<?= e(json_encode($jerseys)) ?>"
+       data-font="<?= e(asset('fonts/big-shoulders-display-normal-latin.woff2')) ?>" data-logo="<?= e(asset(substr(\App\Core\Club::s('logo_400'), strlen('/assets/')))) ?>" data-jerseys="<?= e(json_encode($jerseys)) ?>"
        data-matches="<?= e(ShopPages::u('/boutique/poster/matchs/')) ?>" data-players="<?= e(ShopPages::u('/boutique/livre/joueurs/')) ?>" data-covers="<?= e(ShopPages::u('/boutique/livre/couvertures/')) ?>">
     <div class="shopprod__view">
       <nav class="crumbs vcrumbs"><a href="<?= e(ShopPages::u('/boutique/')) ?>">Boutique</a><span aria-hidden="true">›</span><span>Le livre</span></nav>

@@ -62,24 +62,24 @@ final class Dashboard extends Base
         $todos = [];
         // Hébergement à régler (version de PHP, extensions, droits des dossiers) : en tête de liste.
         if (\App\Core\Auth::isAdmin() && ($srv = \App\Services\ServerCheck::problems())) {
-            $todos[] = ['#D9342B', 'Régler le serveur : ' . rtrim($srv[0], '.') . (count($srv) > 1 ? ' (et ' . (count($srv) - 1) . ' autre' . (count($srv) > 2 ? 's' : '') . ' réglage' . (count($srv) > 2 ? 's' : '') . ')' : ''), 'Serveur', '/admin/taches#serveur'];
+            $todos[] = [\App\Core\Club::color('red'), 'Régler le serveur : ' . rtrim($srv[0], '.') . (count($srv) > 1 ? ' (et ' . (count($srv) - 1) . ' autre' . (count($srv) > 2 ? 's' : '') . ' réglage' . (count($srv) > 2 ? 's' : '') . ')' : ''), 'Serveur', '/admin/taches#serveur'];
         }
         // Site ouvert au public mais toujours masqué aux moteurs de recherche : à ne pas oublier.
         if (\App\Core\Auth::isAdmin() && !\App\Front\Seo::closed() && \App\Core\Settings::get('general.noindex', false)) {
-            $todos[] = ['#F6C400', 'Le site est ouvert mais masqué aux moteurs de recherche : décocher « Masquer le site aux moteurs de recherche » quand il doit être trouvé sur Google', 'Réglages', '/admin/reglages?groupe=general'];
+            $todos[] = [\App\Core\Club::color('yellow'), 'Le site est ouvert mais masqué aux moteurs de recherche : décocher « Masquer le site aux moteurs de recherche » quand il doit être trouvé sur Google', 'Réglages', '/admin/reglages?groupe=general'];
         }
         // Anomalies apparues depuis le dernier contrôle complet (bouton « Contrôler maintenant »).
         $fresh = array_sum(array_map(fn ($l) => count(array_filter($l, fn ($i) => $i['new'])), $quality));
         if ($fresh) {
             $since = Controle::state()['since'];
-            $todos[] = ['#D9342B', 'Vérifier ' . $fresh . ' nouvelle' . ($fresh > 1 ? 's' : '') . ' anomalie' . ($fresh > 1 ? 's' : '') . ($since ? ' depuis ' . Controle::sinceLabel($since) : ''), 'Qualité', '/admin/qualite?nouveau=1'];
+            $todos[] = [\App\Core\Club::color('red'), 'Vérifier ' . $fresh . ' nouvelle' . ($fresh > 1 ? 's' : '') . ' anomalie' . ($fresh > 1 ? 's' : '') . ($since ? ' depuis ' . Controle::sinceLabel($since) : ''), 'Qualité', '/admin/qualite?nouveau=1'];
         }
         if ($high) {
-            $todos[] = ['#D9342B', "Corriger $high alerte" . ($high > 1 ? 's' : '') . ' grave' . ($high > 1 ? 's' : '') . ' (statistiques et dates incohérentes)', 'Qualité', '/admin/qualite?cat=stats&niveau=haute'];
+            $todos[] = [\App\Core\Club::color('red'), "Corriger $high alerte" . ($high > 1 ? 's' : '') . ' grave' . ($high > 1 ? 's' : '') . ' (statistiques et dates incohérentes)', 'Qualité', '/admin/qualite?cat=stats&niveau=haute'];
         }
         $broken = count(array_filter($quality['site'], fn ($q) => $q['sev'] === 'haute' && $q['code'] !== 'photos'));
         if ($broken) {
-            $todos[] = ['#D9342B', "Corriger $broken anomalie" . ($broken > 1 ? 's' : '') . ' grave' . ($broken > 1 ? 's' : '') . ' d’adresse, de fichier ou de référentiel', 'Qualité', '/admin/qualite?cat=site&niveau=haute'];
+            $todos[] = [\App\Core\Club::color('red'), "Corriger $broken anomalie" . ($broken > 1 ? 's' : '') . ' grave' . ($broken > 1 ? 's' : '') . ' d’adresse, de fichier ou de référentiel', 'Qualité', '/admin/qualite?cat=site&niveau=haute'];
         }
         // Autres onglets (textes de l'interface anglaise…), hors orthographe relue en tâche de fond.
         $other = 0;
@@ -90,54 +90,54 @@ final class Dashboard extends Base
             $otherTab ??= $n ? $tab : null;
         }
         if ($other) {
-            $todos[] = ['#D9342B', "Corriger $other autre" . ($other > 1 ? 's' : '') . ' alerte' . ($other > 1 ? 's' : '') . ' grave' . ($other > 1 ? 's' : '') . ' (' . mb_strtolower(Quality::TABS[$otherTab][0]) . ')', 'Qualité', '/admin/qualite?cat=' . $otherTab . '&niveau=haute'];
+            $todos[] = [\App\Core\Club::color('red'), "Corriger $other autre" . ($other > 1 ? 's' : '') . ' alerte' . ($other > 1 ? 's' : '') . ' grave' . ($other > 1 ? 's' : '') . ' (' . mb_strtolower(Quality::TABS[$otherTab][0]) . ')', 'Qualité', '/admin/qualite?cat=' . $otherTab . '&niveau=haute'];
         }
         // Serveur neuf : photos originales pas encore copiées depuis WordPress (administrateurs).
         if (\App\Core\Auth::isAdmin() && array_filter($quality['site'], fn ($q) => $q['code'] === 'photos')) {
-            $todos[] = ['#D9342B', 'Copier les photos originales sur le serveur (copie depuis WordPress à faire ou à terminer)', 'Qualité', '/admin/qualite?cat=site'];
+            $todos[] = [\App\Core\Club::color('red'), 'Copier les photos originales sur le serveur (copie depuis WordPress à faire ou à terminer)', 'Qualité', '/admin/qualite?cat=site'];
         }
         if ($contribs) {
-            $todos[] = ['#F6C400', 'Valider ' . count($contribs) . ' contribution' . (count($contribs) > 1 ? 's' : ''), 'Contributions', '/admin/contributions'];
+            $todos[] = [\App\Core\Club::color('yellow'), 'Valider ' . count($contribs) . ' contribution' . (count($contribs) > 1 ? 's' : ''), 'Contributions', '/admin/contributions'];
         }
         if ($messages) {
-            $todos[] = ['#1F3FA8', 'Répondre à ' . count($messages) . ' message' . (count($messages) > 1 ? 's' : ''), 'Messages', '/admin/messages'];
+            $todos[] = [\App\Core\Club::color('blue'), 'Répondre à ' . count($messages) . ' message' . (count($messages) > 1 ? 's' : ''), 'Messages', '/admin/messages'];
         }
         if ($toReview) {
-            $todos[] = ['#1F3FA8', "Relire $toReview fiche" . ($toReview > 1 ? 's' : '') . ' « à relire »', 'Fiches', '/admin/matchs?statut=relire'];
+            $todos[] = [\App\Core\Club::color('blue'), "Relire $toReview fiche" . ($toReview > 1 ? 's' : '') . ' « à relire »', 'Fiches', '/admin/matchs?statut=relire'];
         }
         if (count($quality['credits'])) {
-            $todos[] = ['#F6C400', 'Créditer ' . number_format(count($quality['credits']), 0, ',', ' ') . ' photo' . (count($quality['credits']) > 1 ? 's' : ''), 'Médias', '/admin/medias?filtre=sans-credit'];
+            $todos[] = [\App\Core\Club::color('yellow'), 'Créditer ' . number_format(count($quality['credits']), 0, ',', ' ') . ' photo' . (count($quality['credits']) > 1 ? 's' : ''), 'Médias', '/admin/medias?filtre=sans-credit'];
         }
         $spell = count(array_filter($quality['orthographe'], fn ($q) => $q['sev'] !== 'basse'));
         if ($spell) {
-            $todos[] = ['#1F3FA8', 'Corriger l’orthographe de ' . $spell . ' fiche' . ($spell > 1 ? 's' : '') . ' (corrections proposées)', 'Qualité', '/admin/qualite?cat=orthographe'];
+            $todos[] = [\App\Core\Club::color('blue'), 'Corriger l’orthographe de ' . $spell . ' fiche' . ($spell > 1 ? 's' : '') . ' (corrections proposées)', 'Qualité', '/admin/qualite?cat=orthographe'];
         }
         $noFiche = count(array_filter($quality['liens'], fn ($q) => $q['id'] === null));
         if ($noFiche) {
-            $todos[] = ['#1F3FA8', 'Créer les fiches de ' . $noFiche . ' joueurs cités sans fiche', 'Qualité', '/admin/qualite?cat=liens'];
+            $todos[] = [\App\Core\Club::color('blue'), 'Créer les fiches de ' . $noFiche . ' joueurs cités sans fiche', 'Qualité', '/admin/qualite?cat=liens'];
         }
         // Site d'essai sur un sous-domaine : les liens des e-mails doivent y mener aussi.
         if (\App\Core\Auth::isAdmin() && ($mis = self::addressMismatch($req))) {
-            $todos[] = ['#D9342B', 'Régler l’adresse du site : les liens des e-mails (invitations, mot de passe oublié) mènent à ' . $mis[0] . ', alors que le site est ouvert sur ' . $mis[1], 'Réglages', '/admin/reglages?groupe=general'];
+            $todos[] = [\App\Core\Club::color('red'), 'Régler l’adresse du site : les liens des e-mails (invitations, mot de passe oublié) mènent à ' . $mis[0] . ', alors que le site est ouvert sur ' . $mis[1], 'Réglages', '/admin/reglages?groupe=general'];
         }
         if (\App\Core\Auth::isAdmin() && ($maj = \App\Services\Updater::available())) {
-            $todos[] = ['#F6C400', \App\Services\Updater::summary($maj), 'Mises à jour', '/admin/mises-a-jour'];
+            $todos[] = [\App\Core\Club::color('yellow'), \App\Services\Updater::summary($maj), 'Mises à jour', '/admin/mises-a-jour'];
         }
         if (!\App\Services\Gemini::ready() && \App\Core\Auth::isAdmin()) {
-            $todos[] = ['#F6C400', 'Saisir la clé Gemini (assistant IA, traductions)', 'Réglages', '/admin/reglages?groupe=ai'];
+            $todos[] = [\App\Core\Club::color('yellow'), 'Saisir la clé Gemini (assistant IA, traductions)', 'Réglages', '/admin/reglages?groupe=ai'];
         }
         if (\App\Core\Auth::isAdmin()) {
             // Frais d'IA avancés : mois terminés pas encore remboursés, budget du mois atteint.
             $due = \App\Services\AiCosts::toReimburse(false);
             if ($due['eur'] >= 0.01) {
-                $todos[] = ['#F6C400', 'Faire rembourser ' . number_format($due['eur'], 2, ',', ' ') . ' € de frais d’IA (' . implode(', ', array_map([Costs::class, 'monthLabel'], $due['months'])) . ')', 'Coûts IA', '/admin/couts-ia#mois'];
+                $todos[] = [\App\Core\Club::color('yellow'), 'Faire rembourser ' . number_format($due['eur'], 2, ',', ' ') . ' € de frais d’IA (' . implode(', ', array_map([Costs::class, 'monthLabel'], $due['months'])) . ')', 'Coûts IA', '/admin/couts-ia#mois'];
             }
             if (\App\Services\AiCosts::budget()['over']) {
-                $todos[] = ['#D9342B', 'Budget IA du mois atteint' . (\App\Services\AiCosts::paused('correcteur') ? ' : tâches automatiques en pause' : ''), 'Coûts IA', '/admin/couts-ia'];
+                $todos[] = [\App\Core\Club::color('red'), 'Budget IA du mois atteint' . (\App\Services\AiCosts::paused('correcteur') ? ' : tâches automatiques en pause' : ''), 'Coûts IA', '/admin/couts-ia'];
             }
         }
         if (!(string) Settings::get('general.contact_email', '') && \App\Core\Auth::isAdmin()) {
-            $todos[] = ['#D9342B', 'Renseigner l’e-mail de contact (messages, contributions)', 'Réglages', '/admin/reglages?groupe=general'];
+            $todos[] = [\App\Core\Club::color('red'), 'Renseigner l’e-mail de contact (messages, contributions)', 'Réglages', '/admin/reglages?groupe=general'];
         }
         $moments = Interactive::moments100();
         $published = count(array_filter($moments, fn ($m) => !empty($m['open'])));

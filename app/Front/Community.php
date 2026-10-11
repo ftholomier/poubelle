@@ -240,7 +240,7 @@ final class Community
         }
         $link = base_url() . url('/newsletter/confirmer/' . $state[$key]['token'] . '/');
         Mailer::send($email, t('Confirmez votre inscription à « Ce jour-là »'),
-            '<p>' . e(t('Bonjour,')) . '</p><p>' . e(t('Pour recevoir chaque semaine la newsletter « Ce jour-là » du musée {site}, confirmez votre adresse :')) . '</p><p><a href="' . e($link) . '" style="display:inline-block;background:#0E1F4D;color:#F6C400;padding:12px 18px;text-decoration:none;font-weight:bold">' . e(t('Je confirme mon inscription')) . '</a></p><p style="font-size:13px;color:#3A4A75">' . e(t('Si vous n’êtes pas à l’origine de cette demande, ignorez simplement ce message.')) . '</p>');
+            '<p>' . e(t('Bonjour,')) . '</p><p>' . e(t('Pour recevoir chaque semaine la newsletter « Ce jour-là » du musée {site}, confirmez votre adresse :')) . '</p><p><a href="' . e($link) . '" style="display:inline-block;background:' . \App\Core\Club::color('navy') . ';color:' . \App\Core\Club::color('yellow') . ';padding:12px 18px;text-decoration:none;font-weight:bold">' . e(t('Je confirme mon inscription')) . '</a></p><p style="font-size:13px;color:' . \App\Core\Club::color('muted') . '">' . e(t('Si vous n’êtes pas à l’origine de cette demande, ignorez simplement ce message.')) . '</p>');
         return Response::json(['ok' => true, 'message' => t('Presque fini ! Confirmez votre inscription grâce au lien reçu par e-mail.')]);
     }
 

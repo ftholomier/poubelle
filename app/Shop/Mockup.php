@@ -21,11 +21,11 @@ final class Mockup
         $design = Vector::svgShapes(Vector::shapes($face['layers'] ?? [], $values), $face['bg'] ?: null, [0, 0, $w, $h]);
         $color = Vector::hex($color ?: '#FFFFFF', '#FFFFFF');
         $dark = self::isDark($color);
-        $stroke = $dark ? 'rgba(255,255,255,.18)' : 'rgba(14,31,77,.28)';
+        $stroke = $dark ? 'rgba(255,255,255,.18)' : 'rgba(' . str_replace(' ', '', \App\Core\Club::rgb('navy')) . ',.28)';
         $nest = fn (float $x, float $y, float $ww, float $hh, string $vb = '', string $extra = ''): string => '<svg x="' . round($x, 2) . '" y="' . round($y, 2) . '" width="' . round($ww, 2) . '" height="' . round($hh, 2) . '" viewBox="' . ($vb ?: "0 0 $w $h") . '" preserveAspectRatio="none" overflow="hidden"' . $extra . '>' . $design . '</svg>';
         $defs = '<defs><linearGradient id="mk-light" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".16"/><stop offset=".22" stop-color="#fff" stop-opacity=".10"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset=".8" stop-color="#000" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>'
             . '<linearGradient id="mk-fold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#000" stop-opacity=".10"/></linearGradient>'
-            . '<filter id="mk-shadow" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0e1f4d" flood-opacity=".22"/></filter></defs>';
+            . '<filter id="mk-shadow" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="' . strtolower(\App\Core\Club::color('navy')) . '" flood-opacity=".22"/></filter></defs>';
 
         switch ($kind) {
             case 'tee':
@@ -191,7 +191,7 @@ final class Mockup
                 $aw = 1000;
                 $s = '<g filter="url(#mk-shadow)"><rect x="' . $ax . '" y="' . $ay . '" width="' . $aw . '" height="' . round($ah, 2) . '" fill="#ddd"/>' . $nest($ax, $ay, $aw, $ah) . '</g>';
                 // Franges aux deux bouts, de la couleur du fond.
-                $fr = $face['bg'] ?: '#0E1F4D';
+                $fr = $face['bg'] ?: \App\Core\Club::color('navy');
                 for ($i = 0; $i < 14; $i++) {
                     $yy = $ay + 4 + $i * ($ah - 8) / 13;
                     $s .= '<line x1="' . ($ax - 30) . '" y1="' . round($yy, 1) . '" x2="' . $ax . '" y2="' . round($yy, 1) . '" stroke="' . $fr . '" stroke-width="4" stroke-linecap="round"/>'

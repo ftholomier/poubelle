@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Front;
 
+use App\Core\Club;
 use App\Core\Request;
 use App\Core\Response;
 use App\Pdf\Layout;
@@ -399,7 +400,7 @@ final class WallPdf
         if ($tone !== 'color') {
             imagefilter($im, IMG_FILTER_GRAYSCALE);
             imagetruecolortopalette($im, false, 256);
-            [$b, $c, $rgb] = $tone === 'on' ? [1.75, 0.8, [246, 196, 0]] : [0.6, 1.15, [20, 42, 104]];
+            [$b, $c, $rgb] = $tone === 'on' ? [1.75, 0.8, sscanf(Club::color('yellow'), '#%02x%02x%02x')] : [0.6, 1.15, [20, 42, 104]];
             for ($i = 0, $n = imagecolorstotal($im); $i < $n; $i++) {
                 $g = imagecolorsforindex($im, $i)['red'] / 255;
                 $v = max(0.0, min(1.0, (min(1.0, $g * $b) - 0.5) * $c + 0.5));

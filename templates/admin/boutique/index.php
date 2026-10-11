@@ -46,9 +46,9 @@ $monthsFr = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août',
     <h2 class="card__t">Ventes des 12 derniers mois</h2>
     <svg class="shopchart" viewBox="0 0 600 220" role="img" aria-label="Ventes par mois">
       <?php $i = 0; foreach ($d['months'] as $ym => $v): $h = round(170 * $v / $max); $x = 10 + $i * 49; ?>
-        <rect x="<?= $x ?>" y="<?= 185 - $h ?>" width="36" height="<?= max(1, $h) ?>" fill="<?= $ym === date('Y-m') ? '#F6C400' : '#0E1F4D' ?>"><title><?= e($ym . ' : ' . $m($v)) ?></title></rect>
-        <?php if ($v > 0): ?><text x="<?= $x + 18 ?>" y="<?= 180 - $h ?>" text-anchor="middle" font-size="10" fill="#0E1F4D"><?= e(number_format($v / 100, 0, ',', ' ')) ?></text><?php endif; ?>
-        <text x="<?= $x + 18 ?>" y="203" text-anchor="middle" font-size="11" fill="#3A4A75"><?= e($monthsFr[(int) substr($ym, 5, 2) - 1]) ?></text>
+        <rect x="<?= $x ?>" y="<?= 185 - $h ?>" width="36" height="<?= max(1, $h) ?>" fill="<?= $ym === date('Y-m') ? \App\Core\Club::color('yellow') : \App\Core\Club::color('navy') ?>"><title><?= e($ym . ' : ' . $m($v)) ?></title></rect>
+        <?php if ($v > 0): ?><text x="<?= $x + 18 ?>" y="<?= 180 - $h ?>" text-anchor="middle" font-size="10" fill="<?= \App\Core\Club::color('navy') ?>"><?= e(number_format($v / 100, 0, ',', ' ')) ?></text><?php endif; ?>
+        <text x="<?= $x + 18 ?>" y="203" text-anchor="middle" font-size="11" fill="<?= \App\Core\Club::color('muted') ?>"><?= e($monthsFr[(int) substr($ym, 5, 2) - 1]) ?></text>
       <?php $i++; endforeach; ?>
     </svg>
     <p class="xs muted" style="margin:4px 0 0">En euros, ventes encaissées (livraison comprise). Depuis l’ouverture : <?= e($m($d['all']['sales'])) ?>, <?= $d['all']['orders'] ?> commandes, marge <?= e($m($d['all']['margin'])) ?>.</p>

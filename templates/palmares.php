@@ -56,15 +56,15 @@ $fams = ['championnats' => 'Championnats', 'coupes' => 'Coupes nationales', 'eur
 <style>
 .pal{display:flex;flex-direction:column;gap:40px;padding-bottom:60px}
 .pal__sum{font-size:20px;margin:6px 0 0;color:var(--navy)}
-.pal__comp{display:flex;align-items:baseline;gap:12px;border-bottom:3px solid var(--yellow,#F6C400);padding-bottom:8px}
-.pal__n{font-family:var(--display,Impact,sans-serif);color:var(--blue,#1F3FA8)}
+.pal__comp{display:flex;align-items:baseline;gap:12px;border-bottom:3px solid var(--yellow,<?= \App\Core\Club::color('yellow') ?>);padding-bottom:8px}
+.pal__n{font-family:var(--display,Impact,sans-serif);color:var(--blue,<?= \App\Core\Club::color('blue') ?>)}
 .pal__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:16px}
-.pal__card{display:flex;flex-direction:column;background:var(--paper,#fffdf7);border:2px solid var(--navy,#0E1F4D);box-shadow:5px 5px 0 var(--navy,#0E1F4D);text-decoration:none;color:var(--navy,#0E1F4D);transition:transform .15s}
+.pal__card{display:flex;flex-direction:column;background:var(--paper,#fffdf7);border:2px solid var(--navy,<?= \App\Core\Club::color('navy') ?>);box-shadow:5px 5px 0 var(--navy,<?= \App\Core\Club::color('navy') ?>);text-decoration:none;color:var(--navy,<?= \App\Core\Club::color('navy') ?>);transition:transform .15s}
 .pal__card:hover{transform:translate(-2px,-2px)}
-.pal__img{display:grid;place-items:center;aspect-ratio:16/10;background:var(--navy,#0E1F4D);overflow:hidden}
+.pal__img{display:grid;place-items:center;aspect-ratio:16/10;background:var(--navy,<?= \App\Core\Club::color('navy') ?>);overflow:hidden}
 .pal__img img{width:100%;height:100%;object-fit:cover}
 .pal__cup{font-size:56px}
-.pal__year{font-family:var(--display,Impact,sans-serif);font-size:44px;line-height:1;padding:12px 14px 0;color:var(--navy,#0E1F4D)}
+.pal__year{font-family:var(--display,Impact,sans-serif);font-size:44px;line-height:1;padding:12px 14px 0;color:var(--navy,<?= \App\Core\Club::color('navy') ?>)}
 .pal__lab{padding:4px 14px 14px;font-size:14px}
 .pal__card--win{border-color:#1f8a4c;box-shadow:5px 5px 0 #1f8a4c}
 .pal__card--lost{border-color:#c0392b;box-shadow:5px 5px 0 #c0392b}

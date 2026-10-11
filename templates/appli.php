@@ -15,7 +15,7 @@ $perks = [
       <p class="lead"><?= e(t('Pas besoin de store : {site} s’installe directement depuis le site, gratuitement, en deux gestes.')) ?></p>
     </div>
     <div class="appli__card" data-appli>
-      <img src="/assets/img/app/192.png" alt="" width="96" height="96">
+      <img src="<?= e(\App\Core\Club::s('app_icons')) ?>/192.png" alt="" width="96" height="96">
       <!-- Déjà dans l'appli -->
       <div data-state="app" hidden>
         <h2 class="h-3"><?= e(t('Vous êtes dans l’appli')) ?></h2>

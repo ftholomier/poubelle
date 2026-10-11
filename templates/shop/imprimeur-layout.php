@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/boutique.css') ?>">
 <style>
-  body { background: var(--paper, #f3eddf); }
-  .pr-top { background: #0e1f4d; color: #fff; padding: 12px 20px; display: flex; align-items: center; gap: 16px; }
+  body { background: var(--paper, <?= strtolower(\App\Core\Club::color('cream')) ?>); }
+  .pr-top { background: <?= strtolower(\App\Core\Club::color('navy')) ?>; color: #fff; padding: 12px 20px; display: flex; align-items: center; gap: 16px; }
   .pr-top b { font-family: var(--display); letter-spacing: .04em; text-transform: uppercase; font-size: 18px; }
   .pr-top a { color: #fdc729; margin-left: auto; }
   .pr-main { max-width: 1240px; margin: 0 auto; padding: 20px 16px 60px; }

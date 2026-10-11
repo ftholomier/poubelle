@@ -70,8 +70,8 @@ final class Newsletter
         // les messageries, la plupart ne chargeant pas la police du site.
         $H = "font-family:Impact,'Arial Narrow Bold','Arial Black',sans-serif;text-transform:uppercase;font-weight:normal;letter-spacing:.5px";
         $html = self::MARK
-            . '<div style="' . $D . ';font-size:14px;letter-spacing:3px;color:#1F3FA8;font-weight:700">' . e(t('La semaine du')) . ' ' . e(Site::dayMonth($ts)) . '</div>'
-            . '<div style="' . $H . ';font-size:36px;line-height:1;color:#0E1F4D;margin:6px 0 14px">' . e(t('Cette semaine-là, dans l’histoire')) . '</div>';
+            . '<div style="' . $D . ';font-size:14px;letter-spacing:3px;color:' . Club::color('blue') . ';font-weight:700">' . e(t('La semaine du')) . ' ' . e(Site::dayMonth($ts)) . '</div>'
+            . '<div style="' . $H . ';font-size:36px;line-height:1;color:' . Club::color('navy') . ';margin:6px 0 14px">' . e(t('Cette semaine-là, dans l’histoire')) . '</div>';
         $intro = safe_html((string) Settings::get('newsletter.intro', ''));
         if (trim(strip_tags($intro)) !== '') {
             $html .= '<div style="font-size:17px;line-height:1.55;margin:0 0 8px">' . $intro . '</div>';
@@ -82,15 +82,15 @@ final class Newsletter
             $img = ($m['image'] ? self::photo((string) $m['image']) : null) ?? self::yearCard((int) substr((string) $m['date'], 0, 4));
             $score = $m['us'] !== null ? ($m['sh'] ? $m['us'] . ' – ' . $m['them'] : $m['them'] . ' – ' . $m['us']) : '–';
             $ago = (int) date('Y', $ts) - (int) substr((string) $m['date'], 0, 4);
-            $cells[] = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFFDF6;border:3px solid #0E1F4D">'
-                . '<tr><td style="padding:0;border-bottom:3px solid #F6C400;background:#0E1F4D;line-height:0">'
+            $cells[] = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:' . Club::color('paper') . ';border:3px solid ' . Club::color('navy') . '">'
+                . '<tr><td style="padding:0;border-bottom:3px solid ' . Club::color('yellow') . ';background:' . Club::color('navy') . ';line-height:0">'
                 . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="" style="display:block;width:100%;height:auto;border:0"></a>'
-                    : '<a href="' . $href . '" style="display:block;' . $D . ';color:#F6C400;font-size:34px;font-weight:700;line-height:1;padding:52px 0;text-align:center;text-decoration:none">' . e(substr((string) $m['date'], 0, 4)) . '</a>')
+                    : '<a href="' . $href . '" style="display:block;' . $D . ';color:' . Club::color('yellow') . ';font-size:34px;font-weight:700;line-height:1;padding:52px 0;text-align:center;text-decoration:none">' . e(substr((string) $m['date'], 0, 4)) . '</a>')
                 . '</td></tr><tr><td height="' . self::CARD_TEXT . '" valign="top" style="padding:12px 14px 14px;height:' . self::CARD_TEXT . 'px;vertical-align:top">'
-                . ($ago > 0 ? '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span>' : '')
-                . '<div style="' . $D . ';font-size:13px;letter-spacing:1px;color:#1F3FA8;font-weight:700;margin-top:8px">' . e(date_fr((string) $m['date'], true)) . '<br>' . e($m['label'] ?: $m['comp']) . '</div>'
-                . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:#0E1F4D;margin:6px 0 12px">' . e($m['home']) . ' <span style="color:#1F3FA8;white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
-                . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#0E1F4D;color:#F6C400;font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px;border-bottom:3px solid #F6C400">' . e(t('Lire la fiche')) . ' →</a>'
+                . ($ago > 0 ? '<span style="' . $D . ';display:inline-block;background:' . Club::color('yellow') . ';color:' . Club::color('navy') . ';font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(sprintf(t('Il y a %d ans'), $ago)) . '</span>' : '')
+                . '<div style="' . $D . ';font-size:13px;letter-spacing:1px;color:' . Club::color('blue') . ';font-weight:700;margin-top:8px">' . e(date_fr((string) $m['date'], true)) . '<br>' . e($m['label'] ?: $m['comp']) . '</div>'
+                . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:' . Club::color('navy') . ';margin:6px 0 12px">' . e($m['home']) . ' <span style="color:' . Club::color('blue') . ';white-space:nowrap">' . e($score) . '</span> ' . e($m['away']) . '</div>'
+                . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:' . Club::color('navy') . ';color:' . Club::color('yellow') . ';font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px;border-bottom:3px solid ' . Club::color('yellow') . '">' . e(t('Lire la fiche')) . ' →</a>'
                 . '</td></tr></table>';
         }
         // Pavé de la boutique, glissé à une place tirée au hasard dans la grille (boutique ouverte).
@@ -105,13 +105,13 @@ final class Newsletter
                 . '</tr></table>';
         }
         if (!$items) {
-            $html .= '<p style="font-size:17px">' . e(t('Aucun match fiché cette semaine dans l’histoire : profitez-en pour explorer les saisons du club !')) . '</p><p><a href="' . e($base . url('/saisons/')) . '" style="color:#1F3FA8;font-weight:bold">' . e(t('Toutes les saisons')) . ' →</a></p>';
+            $html .= '<p style="font-size:17px">' . e(t('Aucun match fiché cette semaine dans l’histoire : profitez-en pour explorer les saisons du club !')) . '</p><p><a href="' . e($base . url('/saisons/')) . '" style="color:' . Club::color('blue') . ';font-weight:bold">' . e(t('Toutes les saisons')) . ' →</a></p>';
         }
         $days = Site::daysToCentenary();
-        $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;background:#0E1F4D;border:3px solid #F6C400"><tr>'
-            . '<td style="padding:18px 20px"><div style="' . $D . ';font-size:46px;line-height:.95;font-weight:700;color:#F6C400">J-' . (int) $days . '</div>'
-            . '<div style="' . $D . ';font-size:16px;letter-spacing:2px;font-weight:700;color:#F3EDDF">' . e(t('avant les 100 ans')) . '</div></td>'
-            . '<td align="right" style="padding:18px 20px"><a href="' . e($base . url('/faire-un-don/')) . '" style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:16px;font-weight:700;letter-spacing:1px;padding:12px 16px;text-decoration:none">♥ ' . e(t('Faire un don')) . '</a></td></tr></table>';
+        $html .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;background:' . Club::color('navy') . ';border:3px solid ' . Club::color('yellow') . '"><tr>'
+            . '<td style="padding:18px 20px"><div style="' . $D . ';font-size:46px;line-height:.95;font-weight:700;color:' . Club::color('yellow') . '">J-' . (int) $days . '</div>'
+            . '<div style="' . $D . ';font-size:16px;letter-spacing:2px;font-weight:700;color:' . Club::color('cream') . '">' . e(t('avant les 100 ans')) . '</div></td>'
+            . '<td align="right" style="padding:18px 20px"><a href="' . e($base . url('/faire-un-don/')) . '" style="' . $D . ';display:inline-block;background:' . Club::color('yellow') . ';color:' . Club::color('navy') . ';font-size:16px;font-weight:700;letter-spacing:1px;padding:12px 16px;text-decoration:none">♥ ' . e(t('Faire un don')) . '</a></td></tr></table>';
         return $html;
     }
 
@@ -164,13 +164,13 @@ final class Newsletter
     {
         $href = e($base . url('/boutique/'));
         $img = self::shopImage();
-        return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0E1F4D;border:3px solid #0E1F4D">'
-            . '<tr><td style="padding:0;border-bottom:3px solid #F6C400;line-height:0">' . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="' . e(t('La boutique du musée')) . '" style="display:block;width:100%;height:auto;border:0"></a>' : '') . '</td></tr>'
+        return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:' . Club::color('navy') . ';border:3px solid ' . Club::color('navy') . '">'
+            . '<tr><td style="padding:0;border-bottom:3px solid ' . Club::color('yellow') . ';line-height:0">' . ($img ? '<a href="' . $href . '"><img src="' . e($base . $img) . '" width="252" alt="' . e(t('La boutique du musée')) . '" style="display:block;width:100%;height:auto;border:0"></a>' : '') . '</td></tr>'
             . '<tr><td height="' . self::CARD_TEXT . '" valign="top" style="padding:12px 14px 14px;height:' . self::CARD_TEXT . 'px;vertical-align:top">'
-            . '<span style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(t('Boutique du musée')) . '</span>'
+            . '<span style="' . $D . ';display:inline-block;background:' . Club::color('yellow') . ';color:' . Club::color('navy') . ';font-size:12px;font-weight:700;letter-spacing:1px;padding:3px 7px">' . e(t('Boutique du musée')) . '</span>'
             . '<div style="' . $H . ';font-size:23px;line-height:1.08;color:#FFFFFF;margin:10px 0 6px">' . e(t('Portez l’histoire {sigle_de}')) . '</div>'
-            . '<div style="font-family:Georgia,serif;font-size:14px;line-height:1.45;color:#F3EDDF;margin:0 0 12px">' . e(t('Posters de vos matchs, maillots, mugs, le livre des récits… à personnaliser. Chaque achat fait vivre le musée.')) . '</div>'
-            . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:#F6C400;color:#0E1F4D;font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px">' . e(t('Découvrir la boutique')) . ' →</a>'
+            . '<div style="font-family:Georgia,serif;font-size:14px;line-height:1.45;color:' . Club::color('cream') . ';margin:0 0 12px">' . e(t('Posters de vos matchs, maillots, mugs, le livre des récits… à personnaliser. Chaque achat fait vivre le musée.')) . '</div>'
+            . '<a href="' . $href . '" style="' . $D . ';display:inline-block;background:' . Club::color('yellow') . ';color:' . Club::color('navy') . ';font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;padding:8px 12px">' . e(t('Découvrir la boutique')) . ' →</a>'
             . '</td></tr></table>';
     }
 
@@ -186,7 +186,7 @@ final class Newsletter
                 return null;
             }
             $im = imagecreatetruecolor(560, 374);
-            imagefill($im, 0, 0, imagecolorallocate($im, 14, 31, 77));
+            imagefill($im, 0, 0, imagecolorallocate($im, ...sscanf(Club::color('navy'), '#%02x%02x%02x')));
             $line = imagecolorallocate($im, 32, 52, 108);
             imagesetthickness($im, 3);
             imageline($im, 280, 0, 280, 374, $line);
@@ -197,11 +197,11 @@ final class Newsletter
                 imagecopyresampled($im, $l, (int) ((560 - $lw) / 2), 34, 0, 0, $lw, $lh, imagesx($l), imagesy($l));
                 imagedestroy($l);
             }
-            $yel = imagecolorallocate($im, 246, 196, 0);
+            $yel = imagecolorallocate($im, ...sscanf(Club::color('yellow'), '#%02x%02x%02x'));
             $txt = 'LA BOUTIQUE';
             $box = imagettfbbox(64, 0, $font, $txt);
             imagettftext($im, 64, 0, (int) ((560 - ($box[2] - $box[0])) / 2), 300, $yel, $font, $txt);
-            $cream = imagecolorallocate($im, 243, 237, 223);
+            $cream = imagecolorallocate($im, ...sscanf(Club::color('cream'), '#%02x%02x%02x'));
             $sub = 'DU MUSÉE SOCHAUX RÉTRO';
             $box = imagettfbbox(22, 0, $font, $sub);
             imagettftext($im, 22, 0, (int) ((560 - ($box[2] - $box[0])) / 2), 340, $cream, $font, $sub);
@@ -226,13 +226,13 @@ final class Newsletter
                 return null;
             }
             $im = imagecreatetruecolor(560, 374);
-            imagefill($im, 0, 0, imagecolorallocate($im, 14, 31, 77));
+            imagefill($im, 0, 0, imagecolorallocate($im, ...sscanf(Club::color('navy'), '#%02x%02x%02x')));
             // Terrain en filigrane : ligne médiane et rond central.
             $line = imagecolorallocate($im, 32, 52, 108);
             imagesetthickness($im, 3);
             imageline($im, 280, 0, 280, 374, $line);
             imageellipse($im, 280, 187, 150, 150, $line);
-            $yel = imagecolorallocate($im, 246, 196, 0);
+            $yel = imagecolorallocate($im, ...sscanf(Club::color('yellow'), '#%02x%02x%02x'));
             $box = imagettfbbox(120, 0, $font, (string) $year);
             $w = $box[2] - $box[0];
             imagettftext($im, 120, 0, (int) ((560 - $w) / 2), 187 + 50, $yel, $font, (string) $year);
@@ -325,7 +325,7 @@ final class Newsletter
                 $l = isset($state['html'][$s['lang'] ?? '']) ? $s['lang'] : 'fr';
                 I18n::set($l);
                 $unsub = base_url() . url('/newsletter/desinscription/' . $token . '/');
-                $body = NewsletterStats::personalize((string) ($state['html'][$l] ?? reset($state['html'])), $state['week'], $token) . '<p style="font-size:12px;color:#3A4A75;margin-top:24px;text-align:center">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » {site_de}.')) . '<br><a href="' . e($unsub) . '" style="color:#3A4A75">' . e(t('Se désinscrire')) . '</a></p>';
+                $body = NewsletterStats::personalize((string) ($state['html'][$l] ?? reset($state['html'])), $state['week'], $token) . '<p style="font-size:12px;color:' . Club::color('muted') . ';margin-top:24px;text-align:center">' . e(t('Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » {site_de}.')) . '<br><a href="' . e($unsub) . '" style="color:' . Club::color('muted') . '">' . e(t('Se désinscrire')) . '</a></p>';
                 $ok = Mailer::send((string) $s['email'], (string) ($state['subject'][$l] ?? reset($state['subject'])), $body, null, [], ['List-Unsubscribe' => '<' . $unsub . '>', 'List-Unsubscribe-Post' => 'List-Unsubscribe=One-Click']);
                 I18n::set($prev);
                 $state[$ok ? 'sent' : 'failed']++;

@@ -39,7 +39,6 @@ final class Vector
         '#FDC729' => [0, .2, .9, 0], '#F3EDDF' => [.03, .05, .12, 0], '#FFFFFF' => [0, 0, 0, 0], '#111111' => [0, 0, 0, 1],
         '#000000' => [0, 0, 0, 1], '#B3261E' => [.15, 1, 1, .1], '#8A8F9C' => [.45, .35, .25, .1],
     ];
-    public const LOGO = APP_DIR . '/Resources/shop/logo-sochaux-retro.svg';
     /** Rapport hauteur / largeur du logo. */
     public const LOGO_RATIO = 1407 / 1242;
     private const MM = 72 / 25.4;
@@ -269,7 +268,7 @@ final class Vector
         if (self::$logo !== null) {
             return self::$logo;
         }
-        $svg = (string) @file_get_contents(self::LOGO);
+        $svg = (string) @file_get_contents(APP_ROOT . '/' . \App\Core\Club::s('logo_svg'));
         preg_match_all('/<path fill="(#[0-9A-Fa-f]{6})"[^>]* d="([^"]+)"/', $svg, $m, PREG_SET_ORDER);
         self::$logo = [];
         foreach ($m as $p) {

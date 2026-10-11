@@ -24,12 +24,12 @@ $i18n = [
 ?>
 <div class="chat" data-chat data-api="<?= e(url('/api/chat')) ?>" data-feedback="<?= e(url('/api/chat/avis')) ?>" data-i18n="<?= e(json_encode($i18n, JSON_UNESCAPED_UNICODE)) ?>">
   <button type="button" class="chat__fab" data-chat-toggle aria-expanded="false" aria-controls="chat-panel">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 6h24v16H13l-6 5v-5H4z" fill="currentColor"/><circle cx="11" cy="14" r="1.8" fill="#0E1F4D"/><circle cx="16" cy="14" r="1.8" fill="#0E1F4D"/><circle cx="21" cy="14" r="1.8" fill="#0E1F4D"/></svg>
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 6h24v16H13l-6 5v-5H4z" fill="currentColor"/><circle cx="11" cy="14" r="1.8" fill="<?= \App\Core\Club::color('navy') ?>"/><circle cx="16" cy="14" r="1.8" fill="<?= \App\Core\Club::color('navy') ?>"/><circle cx="21" cy="14" r="1.8" fill="<?= \App\Core\Club::color('navy') ?>"/></svg>
     <span><?= e(t('Une question ?')) ?></span>
   </button>
   <section class="chat__panel" id="chat-panel" role="dialog" aria-modal="false" aria-labelledby="chat-title" hidden>
     <header class="chat__head">
-      <img src="/assets/img/logo-sochaux-retro.png" alt="" width="40" height="44">
+      <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="40" height="44">
       <div class="chat__who"><b id="chat-title"><?= e($name) ?></b><span><?= e(t('Assistant IA · répond à partir des fiches du musée')) ?></span></div>
       <button type="button" class="chat__icon" data-chat-clear title="<?= e(t('Nouvelle conversation')) ?>" aria-label="<?= e(t('Nouvelle conversation')) ?>"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
       <button type="button" class="chat__icon" data-chat-close aria-label="<?= e(t('Fermer')) ?>"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4"/></svg></button>

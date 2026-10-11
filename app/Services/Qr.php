@@ -64,8 +64,9 @@ final class Qr
     }
 
     /** Dessin SVG (carrés fusionnés par ligne), marge de 4 modules. */
-    public static function svg(string $text, int $px = 4, string $dark = '#0E1F4D', string $light = '#FFFFFF'): string
+    public static function svg(string $text, int $px = 4, ?string $dark = null, string $light = '#FFFFFF'): string
     {
+        $dark ??= \App\Core\Club::color('navy');
         $m = self::matrix($text);
         $n = count($m);
         $w = ($n + 8) * $px;

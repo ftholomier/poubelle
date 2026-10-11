@@ -175,13 +175,13 @@ final class Carnet
             $link .= '?quiz=' . rawurlencode($quiz);
             $html = '<p>' . e(t('Bonjour,')) . '</p>'
                 . '<p>' . e(t('Voici votre lien personnel {site}. Ouvrez-le sur le téléphone avec lequel vous jouez : il garde votre place aux classements du quiz (championnat du club-house, défi du jour), sous votre pseudo. Il ouvre aussi votre carnet du supporter. Gardez-le pour vous.')) . '</p>'
-                . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Valider sur ce téléphone')) . '</a></p>'
+                . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:' . \App\Core\Club::color('yellow') . ';color:' . \App\Core\Club::color('navy') . ';padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Valider sur ce téléphone')) . '</a></p>'
                 . '<p style="font-size:13px;color:#555">' . e(t('Nouveau téléphone, ou lien perdu ? Redemandez un lien depuis la page du championnat, avec la même adresse.')) . ' ' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
             return Mailer::send($c['email'], t('Votre place aux classements du quiz {site}'), Mailer::layout(t('Quiz {site}'), $html));
         }
         $html = '<p>' . e(t('Bonjour,')) . '</p>'
             . '<p>' . e(t('Voici le lien personnel de votre carnet du supporter {site} : il l’ouvre sur n’importe quel téléphone ou ordinateur. Gardez-le pour vous.')) . '</p>'
-            . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Ouvrir mon carnet')) . '</a></p>'
+            . '<p style="margin:24px 0"><a href="' . e($link) . '" style="background:' . \App\Core\Club::color('yellow') . ';color:' . \App\Core\Club::color('navy') . ';padding:12px 20px;text-decoration:none;font-weight:bold">' . e(t('Ouvrir mon carnet')) . '</a></p>'
             . '<p style="font-size:13px;color:#555">' . e(t('Vous n’avez rien demandé ? Ignorez ce message : sans ce lien, personne ne peut ouvrir le carnet.')) . '</p>';
         return Mailer::send($c['email'], t('Votre carnet du supporter {site}'), Mailer::layout(t('Votre carnet du supporter'), $html));
     }
@@ -486,7 +486,7 @@ final class Carnet
                     $msg = $bday ? self::birthdayMessage($c, $a) : self::anniversaryMessage($a);
                     $stop = base_url() . url('/carnet/rappels/arret/' . $id . '/' . self::stopSig($id) . '/');
                     $html = '<p style="font-size:20px"><b>' . e($msg['title']) . '</b></p><p style="font-size:18px">' . e($msg['body']) . '</p>'
-                        . '<p style="margin:24px 0"><a href="' . e(base_url() . $msg['url']) . '" style="background:#F6C400;color:#0E1F4D;padding:12px 20px;text-decoration:none;font-weight:bold">' . e(str_contains($msg['url'], '/carnet/') ? t('Mon carnet du supporter') : t('Revivre le match')) . '</a></p>'
+                        . '<p style="margin:24px 0"><a href="' . e(base_url() . $msg['url']) . '" style="background:' . \App\Core\Club::color('yellow') . ';color:' . \App\Core\Club::color('navy') . ';padding:12px 20px;text-decoration:none;font-weight:bold">' . e(str_contains($msg['url'], '/carnet/') ? t('Mon carnet du supporter') : t('Revivre le match')) . '</a></p>'
                         . '<p><a href="' . e(base_url() . url('/carnet/')) . '">' . e(t('Mon carnet du supporter')) . '</a></p>'
                         . '<p style="font-size:13px;color:#555"><a href="' . e($stop) . '" style="color:#555">' . e(t('Ne plus recevoir ces rappels')) . '</a></p>';
                     if (Mailer::send($c['email'], $msg['title'], Mailer::layout($msg['title'], $html))) {

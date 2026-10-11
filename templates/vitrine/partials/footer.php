@@ -23,7 +23,7 @@ $email = Site::email();
   </div>
   <div class="vf__main wrap">
     <div class="vf__brand">
-      <a href="<?= e(Host::url('/')) ?>" class="vf__logo"><img src="/assets/img/logo-sochaux-retro.png" alt="" width="70" height="79" loading="lazy"><span><b><?= e(Site::name()) ?></b><small>L’association</small></span></a>
+      <a href="<?= e(Host::url('/')) ?>" class="vf__logo"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="70" height="79" loading="lazy"><span><b><?= e(Site::name()) ?></b><small>L’association</small></span></a>
       <?php if (($tag = Site::tagline()) !== ''): ?><p class="vf__tag"><?= e($tag) ?></p><?php endif; ?>
       <a class="btn btn--yellow vf__museum" href="<?= e(Host::museum('/')) ?>" target="_blank" rel="noopener">Entrer dans le musée ↗</a>
       <?php if ($social): ?>

@@ -257,7 +257,7 @@ final class Site
             'title' => $full,
             'description' => mb_substr(trim(preg_replace('/\s+/u', ' ', strip_tags((string) ($p['description'] ?? '')))) ?: t("L'histoire {club_de} depuis {founded} : matchs, joueurs, entraîneurs, dirigeants, supporters, stades et symboles."), 0, 300),
             'canonical' => $base . $canonical,
-            'og_image' => $base . ($p['image'] ?? '/assets/img/partage-defaut.png'),
+            'og_image' => $base . ($p['image'] ?? \App\Core\Club::s('share_image')),
             'type' => $p['type'] ?? 'website',
             'alternates' => array_merge(
                 array_map(fn ($l) => ['lang' => $l, 'href' => $base . I18n::switchUrl($path, $l)], $enOk ? I18n::enabled() : [I18n::DEFAULT]),

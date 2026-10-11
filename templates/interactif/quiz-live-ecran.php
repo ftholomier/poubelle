@@ -27,7 +27,7 @@ $i18n = [
 <body class="qls">
 <script type="application/json" id="qls-data"><?= json_encode(['code' => $g['code'], 'key' => $key, 'lang' => $g['lang'], 't' => $i18n], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
 <header class="qls__top">
-  <img src="/assets/img/logo-sochaux-retro.png" alt="<?= e($site) ?>" width="62" height="70">
+  <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="<?= e($site) ?>" width="62" height="70">
   <div class="qls__brand"><b><?= e(t('Quiz du club-house')) ?></b><span data-qls-progress></span></div>
   <div class="qls__code"><span><?= e(t('Code')) ?></span><b><?= e($g['code']) ?></b></div>
   <button type="button" class="qls__fs" data-qls-fs title="<?= e(t('Plein écran')) ?>" aria-label="<?= e(t('Plein écran')) ?>">⤢</button>

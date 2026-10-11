@@ -221,7 +221,7 @@ final class Account extends Base
             $subject = "Réinitialisation de votre mot de passe · $site";
             $html = '<p>Bonjour ' . e($u['name']) . ',</p><p>Pour choisir un nouveau mot de passe, cliquez sur le lien ci-dessous :</p>';
         }
-        $html .= '<p><a href="' . e($link) . '" style="display:inline-block;background:#0E1F4D;color:#F6C400;padding:12px 18px;text-decoration:none;font-weight:bold">' . ($kind === 'invite' ? 'Activer mon compte' : 'Choisir un mot de passe') . '</a></p><p style="font-size:13px;color:#3A4A75">Ce lien est valable 7 jours. Si vous n’êtes pas concerné(e), ignorez ce message.</p>';
+        $html .= '<p><a href="' . e($link) . '" style="display:inline-block;background:' . Club::color('navy') . ';color:' . Club::color('yellow') . ';padding:12px 18px;text-decoration:none;font-weight:bold">' . ($kind === 'invite' ? 'Activer mon compte' : 'Choisir un mot de passe') . '</a></p><p style="font-size:13px;color:' . Club::color('muted') . '">Ce lien est valable 7 jours. Si vous n’êtes pas concerné(e), ignorez ce message.</p>';
         return Mailer::send($u['email'], $subject, $html);
     }
 

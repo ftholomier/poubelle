@@ -38,9 +38,9 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0E1F4D">
-<link rel="icon" href="/assets/img/favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="/assets/img/app/180.png">
+<meta name="theme-color" content="<?= \App\Core\Club::color('navy') ?>">
+<link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
+<link rel="apple-touch-icon" href="<?= e(\App\Core\Club::s('app_icons')) ?>/180.png">
 <?php if (Settings::get('app.enabled', true)): ?>
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">

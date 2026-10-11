@@ -121,7 +121,7 @@ class LivrePoster extends PosterLayout
         }
         $this->used['facts'] = true;
         $rows = $this->d['facts'];
-        $this->rect($x, $y, $w, $h, self::CREAM);
+        $this->rect($x, $y, $w, $h, Club::color('cream'));
         $ix = $x + 4.5;
         $iw = $w - 9;
         $ty = $this->kicker($ix, $y + 4, $iw, 'La fiche du match', self::BLUE);
@@ -130,7 +130,7 @@ class LivrePoster extends PosterLayout
         foreach ($rows as $k => $v) {
             $ry = $ty + $i++ * $rh;
             $this->text($ix, $ry, $iw * 0.36, $k, 'display-b', self::pt(14), self::BLUE, ['upper' => true, 'spacing' => 120, 'fit' => true]);
-            $this->text($ix + $iw * 0.38, $ry - 0.3, $iw * 0.62, (string) $v, 'serif-b', self::pt(16), self::NAVY, ['fit' => true]);
+            $this->text($ix + $iw * 0.38, $ry - 0.3, $iw * 0.62, (string) $v, 'serif-b', self::pt(16), Club::color('navy'), ['fit' => true]);
             $this->rect($ix, $ry + $rh - 1.6, $iw, 0.25, '#D9CFB8');
         }
     }
@@ -190,7 +190,7 @@ class LivrePoster extends PosterLayout
             }
         }
         $list = array_slice($all, max(0, $i0 - 2), 5);
-        $this->rect($x, $y, $w, $h, self::CREAM);
+        $this->rect($x, $y, $w, $h, Club::color('cream'));
         $ix = $x + 4.5;
         $iw = $w - 9;
         $ty = $this->kicker($ix, $y + 4, $iw, Club::team() . ', ces semaines-là', self::BLUE);
@@ -200,12 +200,12 @@ class LivrePoster extends PosterLayout
             $ry = $ty + $k * $rh;
             $me = $f['date'] === $date;
             if ($me) {
-                $this->rect($ix - 1.5, $ry - 1.2, $iw + 3, $rh - 0.6, self::YELLOW);
+                $this->rect($ix - 1.5, $ry - 1.2, $iw + 3, $rh - 0.6, Club::color('yellow'));
             }
             $res = $a > $b ? 'V' : ($a < $b ? 'D' : 'N');
             $this->text($ix, $ry, $iw * 0.2, implode('/', array_reverse(explode('-', $f['date']))), 'display-b', self::pt(13), self::BLUE, ['fit' => true]);
-            $this->text($ix + $iw * 0.22, $ry - 0.3, $iw * 0.5, (empty($f['sochaux_home']) ? 'à ' : 'contre ') . $opp, $me ? 'serif-b' : 'serif', self::pt(15), self::NAVY, ['fit' => true]);
-            $this->text($ix + $iw * 0.74, $ry - 0.3, $iw * 0.26, $res . '  ' . $a . '-' . $b . '  ' . (string) ($f['competition'] ?? ''), 'display-b', self::pt(13), self::NAVY, ['fit' => true]);
+            $this->text($ix + $iw * 0.22, $ry - 0.3, $iw * 0.5, (empty($f['sochaux_home']) ? 'à ' : 'contre ') . $opp, $me ? 'serif-b' : 'serif', self::pt(15), Club::color('navy'), ['fit' => true]);
+            $this->text($ix + $iw * 0.74, $ry - 0.3, $iw * 0.26, $res . '  ' . $a . '-' . $b . '  ' . (string) ($f['competition'] ?? ''), 'display-b', self::pt(13), Club::color('navy'), ['fit' => true]);
         }
     }
 

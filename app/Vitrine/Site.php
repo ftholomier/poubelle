@@ -169,7 +169,7 @@ final class Site
             '@type' => 'NGO',
             'name' => self::name(),
             'url' => Host::abs('/'),
-            'logo' => Host::abs('/assets/img/logo-sochaux-retro.png'),
+            'logo' => Host::abs(\App\Core\Club::s('logo_png')),
             'description' => (string) Settings::get('vitrine.seo_description', ''),
             'email' => self::email() ?: null,
             'sameAs' => array_values(array_map(fn ($s) => $s[1], self::social())) ?: null,

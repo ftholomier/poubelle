@@ -22,7 +22,7 @@ $data = array_map(fn ($q) => ['q' => $q['q'], 'a' => array_values($q['a']), 'c' 
       </div>
     </div>
     <div class="quiz__result" data-step="result" hidden>
-      <img src="/assets/img/logo-sochaux-retro.png" alt="" width="142" height="160" data-quiz-lion>
+      <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="142" height="160" data-quiz-lion>
       <span class="quiz__big" data-quiz-final></span>
       <h2 class="quiz__rank" data-quiz-rank></h2>
       <p class="quiz__lead" data-quiz-ranktext></p>

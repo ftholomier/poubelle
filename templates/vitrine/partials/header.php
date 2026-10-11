@@ -10,7 +10,7 @@ $active = $active ?? '';
 <header class="vh" data-vheader>
   <div class="vh__bar">
     <a class="vh__brand" href="<?= e(Host::url('/')) ?>" aria-label="<?= e(Site::name()) ?>, accueil">
-      <img src="/assets/img/logo-sochaux-retro.png" alt="" width="53" height="60">
+      <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="53" height="60">
       <span><b><?= e(Site::name()) ?></b><small>L’association</small></span>
     </a>
     <nav class="vh__nav" aria-label="Menu principal">

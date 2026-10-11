@@ -153,7 +153,7 @@ final class Shield
             ? 'Trop de pages demandées en peu de temps. Merci de patienter quelques minutes avant de continuer la visite.'
             : 'Accès refusé aux robots et aux outils d’aspiration. Les contenus du musée ne peuvent pas être copiés en masse ni servir à entraîner une intelligence artificielle.';
         $html = '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>' . htmlspecialchars(Club::s('site'), ENT_QUOTES, 'UTF-8') . '</title></head>'
-            . '<body style="font-family:Georgia,serif;background:#F3EDDF;color:#0E1F4D;display:grid;place-items:center;min-height:90vh;margin:0;padding:20px"><div style="max-width:520px;text-align:center"><h1 style="font-family:Impact,sans-serif;letter-spacing:.04em">' . htmlspecialchars(mb_strtoupper(Club::s('site')), ENT_QUOTES, 'UTF-8') . '</h1><p>' . $msg . '</p></div></body></html>';
+            . '<body style="font-family:Georgia,serif;background:' . Club::color('cream') . ';color:' . Club::color('navy') . ';display:grid;place-items:center;min-height:90vh;margin:0;padding:20px"><div style="max-width:520px;text-align:center"><h1 style="font-family:Impact,sans-serif;letter-spacing:.04em">' . htmlspecialchars(mb_strtoupper(Club::s('site')), ENT_QUOTES, 'UTF-8') . '</h1><p>' . $msg . '</p></div></body></html>';
         $h = ['Content-Type' => 'text/html; charset=UTF-8', 'Cache-Control' => 'no-store', 'X-Robots-Tag' => 'noindex'];
         if ($code === 429) {
             $h['Retry-After'] = '300';

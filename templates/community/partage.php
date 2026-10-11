@@ -29,7 +29,7 @@ use App\Front\Site;
       <small class="muted" style="color:var(--mist)"><?= e(t('Un e-mail de confirmation vous sera envoyé. Désinscription en un clic à chaque envoi.')) ?></small>
     </div>
     <div class="nlpreview" aria-hidden="true">
-      <div class="nlpreview__head"><img src="/assets/img/logo-sochaux-retro.png" alt="" width="42" height="48"><div><b><?= e(t('Ce jour-là')) ?></b><small><?= e(t('Aperçu de la newsletter')) ?></small></div></div>
+      <div class="nlpreview__head"><img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="42" height="48"><div><b><?= e(t('Ce jour-là')) ?></b><small><?= e(t('Aperçu de la newsletter')) ?></small></div></div>
       <div class="nlpreview__body">
         <?php if ($sample): ?>
           <div class="nlpreview__img"><?php if ($sample['image']): ?><img src="<?= e(img($sample['image'], 640)) ?>" alt="" loading="lazy"><?php else: ?><span class="ph"><?= icon_photo() ?></span><?php endif; ?></div>

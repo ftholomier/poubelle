@@ -64,7 +64,7 @@ $topicName = fn (string $k) => Notifications::TOPICS[$k][0] ?? ($k === 'essai' ?
           </div>
         </details>
         <div class="notif-preview" aria-hidden="true">
-          <img src="/assets/img/app/192.png" alt="" width="40" height="40">
+          <img src="<?= e(\App\Core\Club::s('app_icons')) ?>/192.png" alt="" width="40" height="40">
           <div><b data-out="title"><?= e($o('title') ?: 'Titre de la notification') ?></b><span data-out="body"><?= e($o('body') ?: 'Le texte apparaît ici.') ?></span><small><?= e(\App\Core\Club::s('site')) ?> · <?= e(\App\Core\Club::s('domain')) ?></small></div>
         </div>
       </div>

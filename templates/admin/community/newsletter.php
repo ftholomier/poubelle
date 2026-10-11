@@ -44,7 +44,7 @@ $maxG = max(1, ...array_values(array_map(fn ($g) => max($g["in"], $g["out"]), $g
       <h2 class="card__t" style="margin:0">Envoi en cours · <?= e((string) ($state['week'] ?? '')) ?></h2>
       <span class="pill pill--warn">● en direct, mis à jour toutes les 20 s</span>
     </div>
-    <div style="height:18px;background:var(--cream-2,#E8DFC9);border:2px solid var(--navy);margin:14px 0 8px"><div style="height:100%;width:<?= round($done / $total * 100, 1) ?>%;background:var(--yellow)"></div></div>
+    <div style="height:18px;background:var(--cream-2,<?= \App\Core\Club::color('sand') ?>);border:2px solid var(--navy);margin:14px 0 8px"><div style="height:100%;width:<?= round($done / $total * 100, 1) ?>%;background:var(--yellow)"></div></div>
     <p style="margin:0"><b><?= $fmt($state['sent'] ?? 0) ?></b> envoyé(s) · <b><?= $fmt($left) ?></b> restant(s)<?= !empty($state['failed']) ? ' · <span class="ko">' . $fmt($state['failed']) . ' échec(s)</span>' : '' ?> · <?= round($done / $total * 100) ?> % · fin estimée dans <?= $eta >= 60 ? floor($eta / 60) . ' h ' . sprintf('%02d', $eta % 60) : $eta . ' min' ?></p>
     <p class="small muted" style="margin:4px 0 0">Lots de 10 à 30 e-mails, pauses de 3 à 40 secondes au hasard, 300 e-mails par heure au plus, à chaque passage de la tâche planifiée (toutes les 5 minutes).</p>
   </div>
@@ -65,7 +65,7 @@ $maxG = max(1, ...array_values(array_map(fn ($g) => max($g["in"], $g["out"]), $g
       <h3 class="card__t card__t--sm" style="margin:16px 0 6px">Liens les plus cliqués</h3>
       <?php foreach (array_slice($last['top'], 0, 7) as $t): ?>
         <div class="row small" style="gap:10px;align-items:center;margin:4px 0">
-          <span style="flex:0 0 120px;height:10px;background:var(--cream-2,#E8DFC9)"><span style="display:block;height:100%;width:<?= round($t['people'] / max(1, $last['top'][0]['people']) * 100) ?>%;background:var(--blue)"></span></span>
+          <span style="flex:0 0 120px;height:10px;background:var(--cream-2,<?= \App\Core\Club::color('sand') ?>)"><span style="display:block;height:100%;width:<?= round($t['people'] / max(1, $last['top'][0]['people']) * 100) ?>%;background:var(--blue)"></span></span>
           <b style="min-width:3ch"><?= $fmt($t['people']) ?></b>
           <a href="<?= e($t['url']) ?>" target="_blank" rel="noopener" style="flex:1;min-width:0;overflow-wrap:anywhere"><?= e($t['label']) ?></a>
         </div>

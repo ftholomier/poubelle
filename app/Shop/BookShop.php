@@ -277,15 +277,15 @@ final class BookShop
         if (!empty($v['couverture'])) {
             $img = '<image href="' . e(url('/media/480/' . $v['couverture'] . '.webp')) . '" x="0" y="0" width="210" height="171" preserveAspectRatio="xMidYMid slice"/><rect x="0" y="120" width="210" height="51" fill="url(#cv)"/>';
         }
-        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 270" role="img" aria-label="Couverture du livre"><defs><linearGradient id="cv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1F4D" stop-opacity="0"/><stop offset="1" stop-color="#0E1F4D"/></linearGradient></defs>'
-            . '<rect width="210" height="270" fill="#0E1F4D"/>' . $img
-            . '<rect x="9" y="9" width="192" height="252" fill="none" stroke="#F6C400" stroke-width=".6"/>'
-            . '<text x="16" y="203" font-family="Big Shoulders Display,Impact,sans-serif" font-weight="900" font-size="74" fill="#F6C400">100</text>'
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 270" role="img" aria-label="Couverture du livre"><defs><linearGradient id="cv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' . \App\Core\Club::color('navy') . '" stop-opacity="0"/><stop offset="1" stop-color="' . \App\Core\Club::color('navy') . '"/></linearGradient></defs>'
+            . '<rect width="210" height="270" fill="' . \App\Core\Club::color('navy') . '"/>' . $img
+            . '<rect x="9" y="9" width="192" height="252" fill="none" stroke="' . \App\Core\Club::color('yellow') . '" stroke-width=".6"/>'
+            . '<text x="16" y="203" font-family="Big Shoulders Display,Impact,sans-serif" font-weight="900" font-size="74" fill="' . \App\Core\Club::color('yellow') . '">100</text>'
             . '<text x="105" y="180" font-family="Big Shoulders Display,Impact,sans-serif" font-weight="900" font-size="20" fill="#fff">RÉCITS</text>'
             . '<text x="105" y="200" font-family="Big Shoulders Display,Impact,sans-serif" font-weight="900" font-size="20" fill="#fff">DU LION</text>'
-            . '<polygon points="0,218 210,208 210,219 0,229" fill="#F6C400"/>'
-            . '<rect x="16" y="236" width="' . min(180, 20 + mb_strlen($nom) * 6.4) . '" height="18" fill="#F3EDDF"/><rect x="16" y="236" width="2" height="18" fill="#F6C400"/>'
-            . '<text x="22" y="249" font-family="Big Shoulders Display,Impact,sans-serif" font-weight="900" font-size="10" fill="#0E1F4D">' . $nom . '</text></svg>';
+            . '<polygon points="0,218 210,208 210,219 0,229" fill="' . \App\Core\Club::color('yellow') . '"/>'
+            . '<rect x="16" y="236" width="' . min(180, 20 + mb_strlen($nom) * 6.4) . '" height="18" fill="' . \App\Core\Club::color('cream') . '"/><rect x="16" y="236" width="2" height="18" fill="' . \App\Core\Club::color('yellow') . '"/>'
+            . '<text x="22" y="249" font-family="Big Shoulders Display,Impact,sans-serif" font-weight="900" font-size="10" fill="' . \App\Core\Club::color('navy') . '">' . $nom . '</text></svg>';
     }
 
     /** Vignette d'un maillot du livre (SVG à plat, devant ; couleurs, col, motif d'après Livre::JERSEYS). */

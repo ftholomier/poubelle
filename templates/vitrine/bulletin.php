@@ -16,7 +16,7 @@ use App\Vitrine\Site;
 <div class="vbulletin__tools"><button type="button" class="vbulletin__print" data-print>Imprimer</button></div>
 <main class="vbulletin__page">
   <header class="vbulletin__head">
-    <img src="/assets/img/logo-sochaux-retro.png" alt="" width="70" height="79">
+    <img src="<?= e(\App\Core\Club::s('logo_png')) ?>" alt="" width="70" height="79">
     <div><h1>Bulletin d’adhésion <?= date('Y') ?></h1><p><?= e(Site::name()) ?> · <?= e(Site::tagline()) ?></p></div>
   </header>
   <section>

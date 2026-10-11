@@ -244,8 +244,8 @@ final class Community extends Base
         $prev = \App\Services\I18n::lang();
         \App\Services\I18n::set($c['lang'] ?? 'fr');
         $hello = '<p>' . e(t('Bonjour {prenom},', ['prenom' => $c['name']])) . '</p>';
-        $ref = '<p style="font-size:13px;color:#3A4A75">' . e(t('N° de suivi')) . ' : ' . e($c['ticket']) . '</p>';
-        $msg = $note !== '' ? '<blockquote style="border-left:4px solid #F6C400;margin:12px 0;padding:6px 12px">' . $note . '</blockquote>' : '';
+        $ref = '<p style="font-size:13px;color:' . Club::color('muted') . '">' . e(t('N° de suivi')) . ' : ' . e($c['ticket']) . '</p>';
+        $msg = $note !== '' ? '<blockquote style="border-left:4px solid ' . Club::color('yellow') . ';margin:12px 0;padding:6px 12px">' . $note . '</blockquote>' : '';
         [$subject, $body] = match ($kind) {
             'valide' => [t('Votre contribution est publiée · {site}'), $hello . '<p>' . e(t('Bonne nouvelle : votre contribution a été validée par l’équipe du musée. Merci pour ce précieux souvenir !')) . '</p>' . $msg . ($doc && Store::isVisible($doc) ? '<p><a href="' . e(base_url() . $doc['path']) . '">' . e(t('Voir la fiche')) . ' →</a></p>' : '')],
             'refuse' => [t('Votre contribution · {site}'), $hello . '<p>' . e(t('Merci pour votre contribution. Après examen, l’équipe ne peut malheureusement pas la publier.')) . '</p>' . $msg],
@@ -318,7 +318,7 @@ final class Community extends Base
             if ($text === '') {
                 return self::back('/admin/messages/' . $id, null, 'Écrivez votre réponse.');
             }
-            $ok = Mailer::send((string) $m['email'], 'Re : ' . (Front::REASONS[$m['reason']] ?? 'votre message') . ' · ' . Club::s('site'), $text . '<p style="font-size:13px;color:#3A4A75;border-top:1px solid #E8DFC9;padding-top:10px">' . e($user['name']) . ' · ' . e(Club::s('site')) . '</p><blockquote style="color:#3A4A75;border-left:3px solid #E8DFC9;margin:10px 0;padding:4px 10px;font-size:14px">' . nl2br(e(mb_substr((string) $m['message'], 0, 2000))) . '</blockquote>', (string) Settings::get('general.contact_email', '') ?: null);
+            $ok = Mailer::send((string) $m['email'], 'Re : ' . (Front::REASONS[$m['reason']] ?? 'votre message') . ' · ' . Club::s('site'), $text . '<p style="font-size:13px;color:' . Club::color('muted') . ';border-top:1px solid ' . Club::color('sand') . ';padding-top:10px">' . e($user['name']) . ' · ' . e(Club::s('site')) . '</p><blockquote style="color:' . Club::color('muted') . ';border-left:3px solid ' . Club::color('sand') . ';margin:10px 0;padding:4px 10px;font-size:14px">' . nl2br(e(mb_substr((string) $m['message'], 0, 2000))) . '</blockquote>', (string) Settings::get('general.contact_email', '') ?: null);
             $m['replies'][] = ['by' => $user['name'], 'at' => date('c'), 'text' => $text, 'sent' => $ok];
             $m['status'] = 'traite';
             JsonStore::write(Front::INBOX . "/messages/$id.json", $m);
@@ -391,7 +391,7 @@ final class Community extends Base
         $action = (string) ($req->post['action'] ?? '');
         if ($action === 'test') {
             $u = Auth::user();
-            $ok = Mailer::send((string) $u['email'], '[Test] ' . Newsletter::subject(), Newsletter::html() . '<p style="font-size:12px;color:#3A4A75">Envoi de test.</p>');
+            $ok = Mailer::send((string) $u['email'], '[Test] ' . Newsletter::subject(), Newsletter::html() . '<p style="font-size:12px;color:' . Club::color('muted') . '">Envoi de test.</p>');
             return self::back('/admin/newsletter', $ok ? 'E-mail de test envoyé à ' . $u['email'] . '.' : null, $ok ? null : 'Envoi impossible : vérifiez les réglages e-mail (Réglages › E-mail).');
         }
         if ($action === 'envoyer') {
@@ -440,6 +440,6 @@ final class Community extends Base
 
     public static function newsletterPreview(Request $req): Response
     {
-        return Response::html(Mailer::layout(Newsletter::subject(), Newsletter::html() . '<p style="font-size:12px;color:#3A4A75;margin-top:24px;text-align:center">Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » ' . e(Club::s('site_de')) . '.<br><a href="#" style="color:#3A4A75">Se désinscrire</a></p>'));
+        return Response::html(Mailer::layout(Newsletter::subject(), Newsletter::html() . '<p style="font-size:12px;color:' . Club::color('muted') . ';margin-top:24px;text-align:center">Vous recevez ce message car vous êtes inscrit(e) à la newsletter « Ce jour-là » ' . e(Club::s('site_de')) . '.<br><a href="#" style="color:' . Club::color('muted') . '">Se désinscrire</a></p>'));
     }
 }

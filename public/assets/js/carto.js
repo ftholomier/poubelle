@@ -6,7 +6,9 @@
   if (!root || !window.L) return;
   const EN = root.dataset.lang === 'en';
   const T = (fr, en) => (EN ? en : fr);
-  const C = { navy: '#0E1F4D', blue: '#1F3FA8', yellow: '#F6C400', cream: '#F3EDDF', sand: '#E8DFC9', paper: '#FFFDF6' };
+  // Couleurs de la charte du club, lues dans les variables CSS (valeurs de base en secours).
+  const cssVar = (n, d) => getComputedStyle(document.documentElement).getPropertyValue('--' + n).trim() || d;
+  const C = { navy: cssVar('navy', '#0E1F4D'), blue: cssVar('blue', '#1F3FA8'), yellow: cssVar('yellow', '#F6C400'), cream: cssVar('cream', '#F3EDDF'), sand: cssVar('sand', '#E8DFC9'), paper: cssVar('paper', '#FFFDF6') };
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const fmt = n => n.toLocaleString(EN ? 'en-GB' : 'fr-FR');
@@ -149,7 +151,7 @@
     panel.querySelector('#clcount').textContent = S.lview === 'Villes' ? `${byCity.length} ${T('villes', 'cities')} · ${ppl.length}` : `${byIso.length} ${T('pays', 'countries')} · ${ppl.length}`;
     const list = panel.querySelector('#clist');
     if (S.lview === 'Villes') list.innerHTML = byCity.map((c, i) => `<button type="button" class="crow" data-city="${esc(c.city)}"><span class="c-rank">${String(i + 1).padStart(2, '0')}</span><span><span class="c-name">${esc(c.city)}</span><span class="c-meta"> · ${esc(c.country)}</span></span><span class="c-num">${c.v.length}</span></button>`).join('');
-    else { const mx = byIso[0]?.[1] || 1; list.innerHTML = byIso.map(([iso, n], i) => `<button type="button" class="crow" data-iso="${esc(iso)}"><span class="c-rank">${String(i + 1).padStart(2, '0')}</span><span><span class="c-name">${esc(cname[iso] || iso)}</span><div class="c-bar" style="border:0;background:rgba(14,31,77,.08)"><span style="width:${n / mx * 100}%;background:${C.blue}"></span></div></span><span class="c-num">${n}</span></button>`).join(''); }
+    else { const mx = byIso[0]?.[1] || 1; list.innerHTML = byIso.map(([iso, n], i) => `<button type="button" class="crow" data-iso="${esc(iso)}"><span class="c-rank">${String(i + 1).padStart(2, '0')}</span><span><span class="c-name">${esc(cname[iso] || iso)}</span><div class="c-bar" style="border:0;background:rgb(var(--navy-rgb) / .08)"><span style="width:${n / mx * 100}%;background:${C.blue}"></span></div></span><span class="c-num">${n}</span></button>`).join(''); }
     if (!ppl.length) list.innerHTML = `<p class="cp-intro" style="padding:16px">${T('Personne ne correspond à ces filtres.', 'Nobody matches these filters.')}</p>`;
     list.querySelectorAll('.crow').forEach(r => { r.onclick = () => r.dataset.city ? openCity(r.dataset.city, true) : openCountry(r.dataset.iso); });
     layer.clearLayers(); geo = null;

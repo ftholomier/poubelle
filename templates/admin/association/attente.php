@@ -92,12 +92,12 @@ $confirm = $open
           <?= $f('newsletter') ?>
           <?= $f('newsletter_title') ?>
           <?= $f('newsletter_text') ?>
-          <hr style="border:0;border-top:1px solid rgba(14,31,77,.15);margin:2px 0;width:100%">
+          <hr style="border:0;border-top:1px solid rgba(<?= str_replace(' ', '', \App\Core\Club::rgb('navy')) ?>,.15);margin:2px 0;width:100%">
           <?= $f('museum') ?>
           <p class="xs muted" style="margin:0">Le musée est <?= $museumOpen ? '<b>ouvert</b> : l’encart propose « Visiter le musée ».' : '<b>fermé</b> : l’encart annonce qu’il ouvre bientôt, sans lien.' ?></p>
           <?= $f('teaser') ?>
           <?php if (!$teaserFile): ?><p class="xs muted" style="margin:0">Aucun teaser installé : la case est sans effet.</p><?php endif; ?>
-          <hr style="border:0;border-top:1px solid rgba(14,31,77,.15);margin:2px 0;width:100%">
+          <hr style="border:0;border-top:1px solid rgba(<?= str_replace(' ', '', \App\Core\Club::rgb('navy')) ?>,.15);margin:2px 0;width:100%">
           <?= $f('contact') ?>
           <p class="xs muted" style="margin:0"><?= $email !== '' ? 'Adresse affichée : ' . e($email) . '.' : 'Aucun e-mail réglé : rien ne s’affiche (<a href="/admin/association/reglages">Réglages du site</a>).' ?></p>
           <?= $f('social') ?>

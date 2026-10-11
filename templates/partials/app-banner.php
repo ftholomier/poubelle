@@ -7,7 +7,7 @@
 $share = '<svg class="appbar__share" viewBox="0 0 24 24" width="18" height="18" aria-label="' . e(t('Partager')) . '" role="img"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10H6a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 ?>
 <div class="appbar" data-appbar hidden role="dialog" aria-label="<?= e(t('L’appli du musée')) ?>">
-  <img src="/assets/img/app/192.png" alt="" width="44" height="44">
+  <img src="<?= e(\App\Core\Club::s('app_icons')) ?>/192.png" alt="" width="44" height="44">
   <div class="appbar__txt">
     <b><?= e(t('L’appli du musée')) ?></b>
     <span data-appbar-for="prompt"><?= e(t('Sur votre écran d’accueil : plein écran, plus rapide, lisible sans réseau.')) ?></span>

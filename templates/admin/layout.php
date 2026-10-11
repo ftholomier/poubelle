@@ -18,7 +18,7 @@ $here = \App\Admin\Favorites::here($meta);
 <meta name="robots" content="noindex, nofollow">
 <meta name="csrf" content="<?= e(\App\Core\Session::csrfToken()) ?>">
 <title><?= e(($meta['title'] ?? 'Back-office') . ' · Back-office ' . \App\Core\Club::s('site')) ?></title>
-<link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
 <link rel="stylesheet" href="<?= asset('admin/admin.css') ?>">
 </head>
@@ -66,7 +66,7 @@ $here = \App\Admin\Favorites::here($meta);
         <h1 class="top__h"><span class="top__ht"><?= e($meta['title'] ?? '') ?></span></h1>
       </div>
       <button type="button" class="top__search" data-qk-open aria-label="Rechercher partout (Ctrl+K)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="<?= \App\Core\Club::color('navy') ?>" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
         <span>Rechercher partout (fiches, médias, personnes)…</span><kbd>Ctrl K</kbd>
       </button>
       <div class="me" data-dropdown>

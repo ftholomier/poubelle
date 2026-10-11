@@ -63,23 +63,23 @@
 </div>
 <style>
 .shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-.shopcard{position:relative;display:flex;flex-direction:column;background:#fffdf7;border:2px solid #0e1f4d;box-shadow:4px 4px 0 #0e1f4d;overflow:hidden}
-.shopcard__grip{position:absolute;top:10px;left:10px;z-index:2;display:grid;place-items:center;width:32px;height:32px;border:2px solid #0e1f4d;background:#f6c400;color:#0e1f4d;font-size:17px;cursor:grab;touch-action:none;user-select:none}
+.shopcard{position:relative;display:flex;flex-direction:column;background:#fffdf7;border:2px solid <?= strtolower(\App\Core\Club::color('navy')) ?>;box-shadow:4px 4px 0 <?= strtolower(\App\Core\Club::color('navy')) ?>;overflow:hidden}
+.shopcard__grip{position:absolute;top:10px;left:10px;z-index:2;display:grid;place-items:center;width:32px;height:32px;border:2px solid <?= strtolower(\App\Core\Club::color('navy')) ?>;background:<?= strtolower(\App\Core\Club::color('yellow')) ?>;color:<?= strtolower(\App\Core\Club::color('navy')) ?>;font-size:17px;cursor:grab;touch-action:none;user-select:none}
 .shopcard__grip:active{cursor:grabbing}
-.shopcard__st{position:absolute;top:10px;right:10px;z-index:2;padding:4px 8px;font:700 11px/1 var(--display, sans-serif);letter-spacing:.06em;text-transform:uppercase;border:2px solid #0e1f4d;background:#fff}
-.shopcard__uniq{position:absolute;top:44px;right:10px;z-index:2;padding:4px 8px;font:700 11px/1 var(--display, sans-serif);letter-spacing:.06em;text-transform:uppercase;border:2px solid #0e1f4d;background:#f6c400;color:#0e1f4d;box-shadow:2px 2px 0 #0e1f4d;transform:rotate(-3deg)}
+.shopcard__st{position:absolute;top:10px;right:10px;z-index:2;padding:4px 8px;font:700 11px/1 var(--display, sans-serif);letter-spacing:.06em;text-transform:uppercase;border:2px solid <?= strtolower(\App\Core\Club::color('navy')) ?>;background:#fff}
+.shopcard__uniq{position:absolute;top:44px;right:10px;z-index:2;padding:4px 8px;font:700 11px/1 var(--display, sans-serif);letter-spacing:.06em;text-transform:uppercase;border:2px solid <?= strtolower(\App\Core\Club::color('navy')) ?>;background:<?= strtolower(\App\Core\Club::color('yellow')) ?>;color:<?= strtolower(\App\Core\Club::color('navy')) ?>;box-shadow:2px 2px 0 <?= strtolower(\App\Core\Club::color('navy')) ?>;transform:rotate(-3deg)}
 .shopcard__st--on{background:#9ed7a9}.shopcard__st--warn{background:#f3c9c4}.shopcard__st--off{background:#e6e1d4;color:#5a6070}
-.shopcard__img{display:block;background:#f3eddf;padding:44px 12px 10px;border-bottom:2px solid #0e1f4d}
+.shopcard__img{display:block;background:<?= strtolower(\App\Core\Club::color('cream')) ?>;padding:44px 12px 10px;border-bottom:2px solid <?= strtolower(\App\Core\Club::color('navy')) ?>}
 .shopcard__img > svg{display:block;width:100%;height:200px}
 .shopcard__body{padding:12px 14px 6px;flex:1}
-.shopcard__t{display:block;font-weight:700;font-size:16px;color:#0e1f4d;text-decoration:none;line-height:1.25}
+.shopcard__t{display:block;font-weight:700;font-size:16px;color:<?= strtolower(\App\Core\Club::color('navy')) ?>;text-decoration:none;line-height:1.25}
 .shopcard__t:hover{text-decoration:underline}
 .shopcard__meta{margin:4px 0 0;font-size:12.5px;color:#5a6070}
-.shopcard__foot{display:flex;align-items:center;gap:6px;padding:10px 14px 12px;border-top:1px solid rgba(14,31,77,.12)}
+.shopcard__foot{display:flex;align-items:center;gap:6px;padding:10px 14px 12px;border-top:1px solid rgba(<?= str_replace(' ', '', \App\Core\Club::rgb('navy')) ?>,.12)}
 .shopcard__foot form{margin:0;display:flex;gap:4px}
 .shopcard__tools{margin-left:auto !important}
-.shopcard__ico{width:30px;height:30px;display:grid;place-items:center;border:1.5px solid rgba(14,31,77,.35);background:#fff;color:#0e1f4d;font-size:14px;cursor:pointer}
-.shopcard__ico:hover{border-color:#0e1f4d;background:#f6c400}
+.shopcard__ico{width:30px;height:30px;display:grid;place-items:center;border:1.5px solid rgba(<?= str_replace(' ', '', \App\Core\Club::rgb('navy')) ?>,.35);background:#fff;color:<?= strtolower(\App\Core\Club::color('navy')) ?>;font-size:14px;cursor:pointer}
+.shopcard__ico:hover{border-color:<?= strtolower(\App\Core\Club::color('navy')) ?>;background:<?= strtolower(\App\Core\Club::color('yellow')) ?>}
 .shopcard__ico--danger:hover{background:#f3c9c4}
 .shopcard.is-sorting-src{opacity:.35}
 </style>

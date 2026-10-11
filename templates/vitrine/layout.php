@@ -27,9 +27,9 @@ $meta = Site::meta($page, $path);
 <meta property="og:url" content="<?= e($meta['canonical']) ?>">
 <meta property="og:image" content="<?= e($meta['og_image']) ?>">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0E1F4D">
-<link rel="icon" href="/assets/img/favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="/assets/img/logo-sochaux-retro.png">
+<meta name="theme-color" content="<?= \App\Core\Club::color('navy') ?>">
+<link rel="icon" href="<?= e(\App\Core\Club::s('favicon')) ?>" type="image/png">
+<link rel="apple-touch-icon" href="<?= e(\App\Core\Club::s('logo_png')) ?>">
 <link rel="preload" href="/assets/fonts/big-shoulders-display-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">

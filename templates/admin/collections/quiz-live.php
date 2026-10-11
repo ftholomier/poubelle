@@ -57,7 +57,7 @@ $phases = ['lobby' => ['Salle d’attente', 'info'], 'question' => ['Question en
       <thead><tr><th>Code</th><th>Créée</th><th>Questions</th><th>Joueurs</th><th>État</th><th>Championnat</th><th></th></tr></thead>
       <tbody>
       <?php foreach ($games as $g): [$st, $tone] = $phases[$g['phase']] ?? ['—', 'info']; ?>
-        <tr<?= $g['code'] === $new ? ' style="background:var(--butter,#FFF3C2)"' : '' ?>>
+        <tr<?= $g['code'] === $new ? ' style="background:var(--butter,' . \App\Core\Club::color('butter') . ')"' : '' ?>>
           <td><b style="font-size:18px;letter-spacing:.12em"><?= e($g['code']) ?></b><?= $g['lang'] === 'en' ? ' <span class="pill pill--info">EN</span>' : '' ?></td>
           <td class="small nowrap"><?= e(date('d/m H:i', $g['created'])) ?><?= $g['by'] !== '' ? '<br><span class="xs muted">par ' . e($g['by']) . '</span>' : '' ?></td>
           <td class="small"><?= (int) $g['n'] ?> × <?= (int) $g['duration'] ?> s<?= $g['idx'] >= 0 && $g['phase'] !== 'end' ? '<br><span class="xs muted">question ' . ((int) $g['idx'] + 1) . '</span>' : '' ?></td>

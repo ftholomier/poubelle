@@ -34,7 +34,7 @@ $official = trim((string) \App\Core\Settings::get('social.official', ''));
         <span class="masthead__name"><?= e(\App\Core\Club::s('site_lc')) ?></span>
         <span class="masthead__tag"><span class="masthead__tagtext"><?= e(t('Le musée en ligne {sigle_de} · depuis {founded}')) ?></span><?php if ($official !== ''): ?><a class="masthead__official" href="<?= e($official) ?>" rel="noopener" target="_blank" title="<?= e(t('Site officiel {club_de}')) ?>"><?= e(t('Site officiel {sigle_de}')) ?> ↗</a><?php endif; ?></span>
         <button type="button" class="hbtn hsearch" data-search-open aria-label="<?= e(t('Rechercher dans le musée')) ?>">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="<?= \App\Core\Club::color('navy') ?>" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
           <span><?= e(t('Un match, un joueur, une saison…')) ?></span>
         </button>
         <button type="button" class="hbtn hsize" data-textsize aria-label="<?= e(t('Taille du texte')) ?>" title="<?= e(t('Taille du texte')) ?>">A<small>A</small><span class="lbl" data-textsize-label>100%</span></button>

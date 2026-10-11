@@ -25,10 +25,12 @@ final class Layout
     ];
 
     public const C = [
-        'navy' => '0E1F4D', 'deep' => '07112E', 'blue' => '1E3FA8', 'yellow' => 'F6C400', 'cream' => 'F3EDDF',
-        'paper' => 'FFFDF6', 'sand' => 'E8DFC9', 'muted' => '3A4A75', 'mist' => 'C9CFE0', 'butter' => 'FFF3C2',
+        'deep' => '07112E', 'blue' => '1E3FA8',
         'green' => '267A40', 'red' => 'B3261E', 'white' => 'FFFFFF', 'ink' => '1B2547', 'stripe' => '1C2948', 'line' => 'D9D1BC',
     ];
+
+    /** Couleurs lues dans la charte du club (Club::color). */
+    private const THEME = ['navy', 'yellow', 'cream', 'paper', 'sand', 'muted', 'mist', 'butter'];
 
     public Writer $pdf;
     /** Format des pages (A4 portrait ; A4 paysage : largeur et hauteur échangées avant la première page). */
@@ -106,7 +108,7 @@ final class Layout
 
     private static function rgb(string $c): array
     {
-        $hex = self::C[$c] ?? ltrim($c, '#');
+        $hex = in_array($c, self::THEME, true) ? ltrim(Club::color($c), '#') : (self::C[$c] ?? ltrim($c, '#'));
         return [hexdec(substr($hex, 0, 2)) / 255, hexdec(substr($hex, 2, 2)) / 255, hexdec(substr($hex, 4, 2)) / 255];
     }
 

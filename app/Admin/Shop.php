@@ -355,7 +355,7 @@ final class Shop extends Base
             }
             $f = $sup['faces']['recto'];
             $name = 'Poster « Ma carte de supporter » · ' . ($style === 'b' ? 'Billet de match' : 'Charte du musée');
-            $m = Catalog::saveModel(['name' => $name, 'support' => $sup['key'], 'faces' => ['recto' => ['bg' => $style === 'b' ? '#F4EBD3' : '#0E1F4D',
+            $m = Catalog::saveModel(['name' => $name, 'support' => $sup['key'], 'faces' => ['recto' => ['bg' => $style === 'b' ? '#F4EBD3' : \App\Core\Club::color('navy'),
                 'layers' => [['id' => 'carte', 'type' => 'carte', 'style' => $style, 'x' => 0, 'y' => 0, 'w' => $f['w'], 'h' => $f['h']]]]]], Auth::user());
             Activity::log(self::actor(), 'a créé le modèle « ' . $name . ' » de la boutique', ['path' => '/admin/boutique/modeles/' . $m['id']]);
             return self::back('/admin/boutique/modeles/' . $m['id'], 'Modèle créé : donnez-lui un prix, puis activez-le.');
@@ -386,7 +386,7 @@ final class Shop extends Base
         $fk = array_key_first($sup['faces']);
         $f = $sup['faces'][$fk];
         $lw = min($f['w'] * 0.4, $f['h'] * 0.5 / Vector::LOGO_RATIO);
-        return [$fk => ['bg' => $sup['colors'] ? '' : '#0E1F4D', 'layers' => [['id' => 'logo', 'type' => 'logo', 'x' => round(($f['w'] - $lw) / 2, 1), 'y' => round($f['h'] * 0.08, 1), 'w' => round($lw, 1)]]]];
+        return [$fk => ['bg' => $sup['colors'] ? '' : \App\Core\Club::color('navy'), 'layers' => [['id' => 'logo', 'type' => 'logo', 'x' => round(($f['w'] - $lw) / 2, 1), 'y' => round($f['h'] * 0.08, 1), 'w' => round($lw, 1)]]]];
     }
 
     public static function editor(Request $req, string $id): Response
