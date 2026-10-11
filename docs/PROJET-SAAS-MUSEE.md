@@ -74,9 +74,10 @@ Ils sont activables ou désactivables par club.
 L'objectif est d'éviter de fouiller le web et les archives à la main. Le musée est créé vide, puis rempli automatiquement.
 
 **Les sources du texte :**
-1. le site du club que tu fournis, aspiré comme l'ancien WordPress de Sochaux ;
-2. un scan du web et des archives : Gallica et la presse ancienne, Transfermarkt, footballdatabase, Wikipédia, sites d'historiens… Le service Trouvailles existe déjà ;
-3. la vérification croisée des faits (dates, scores, compositions) entre ces sources.
+1. **les sites que tu fournis**, aspirés comme l'ancien WordPress de Sochaux : le site du club, mais aussi d'autres sites (supporters, historiens, anciens, presse locale, associations…) ;
+2. **une recherche autonome sur le web**, sans liste fournie, pour compléter ce qui manque : presse ancienne (Gallica, Retronews en accès libre), Wikipédia, Transfermarkt, footballdatabase, sites de statistiques, archives municipales et départementales en ligne, blogs d'historiens. Le service Trouvailles existe déjà ;
+3. **des trous comblés en priorité** : saisons sans fiche, matchs sans compo ou sans score, joueurs sans biographie. Le back-office liste ce qui manque encore ;
+4. **la vérification croisée des faits** (dates, scores, compositions) entre ces sources. Un fait trouvé sur une seule source est marqué « à confirmer ».
 
 **Les images sont obligatoirement libres de droits**, même si on en trouve peu :
 - seulement le domaine public, Wikimedia Commons sous licence CC (avec le crédit affiché), Gallica libre, ou les photos fournies par le club ;
@@ -93,7 +94,7 @@ L'objectif est d'éviter de fouiller le web et les archives à la main. Le musé
 **La relecture humaine :** les fiches arrivent « à relire » dans le back-office, comme les premiers jets des 100 moments. Rien n'est publié sans validation.
 
 **Ce qu'il faut respecter :**
-- le site fourni doit appartenir au club ou être utilisé avec son accord ;
+- les sites fournis ou trouvés servent de sources de faits : on ne reprend ni leurs textes ni leurs photos ;
 - on respecte les sites qui interdisent l'aspiration ;
 - les données personnelles (anciens joueurs encore vivants) restent limitées à leur carrière sportive.
 
