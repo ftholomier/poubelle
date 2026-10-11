@@ -187,3 +187,12 @@ Revenus possibles : abonnement, commission sur les ventes de la boutique de chaq
 - Comment ça marche : la session est liée au domaine (sécurité des navigateurs). Le sélecteur envoie donc vers l'autre domaine avec un jeton de connexion signé, à usage unique et valable 60 secondes. Il fonctionne seulement pour un compte autorisé sur le musée visé.
 - Les comptes sont communs : un fichier d'utilisateurs partagé, avec pour chaque compte les musées autorisés et le rôle dans chacun.
 - Plus tard, si l'offre est commercialisée : un domaine neutre pour la marque SaaS (vitrine commerciale + console de tous les musées). Ce n'est pas nécessaire pour démarrer.
+
+## 11. Domaines : la marque Sportia (piste)
+
+- Domaine de la marque envisagé : `sportia.com` (disponibilité et prix à vérifier).
+- Chaque musée démarre sur un sous-domaine : `parisretro.sportia.com`, `xxx.sportia.com`… Rien à acheter par club, et l'ouverture se fait en quelques minutes.
+- `sportia.com` lui-même porte la vitrine commerciale de l'offre et la console.
+- Si un musée marche, on achète son propre domaine (`parisretro.com`). Celui-ci devient l'adresse principale, et le sous-domaine Sportia redirige vers lui (redirection 301, sans perte de référencement).
+- Côté code : le profil de chaque club liste ses domaines (adresse principale + alias redirigés).
+- Hébergement : chaque sous-domaine est déclaré dans cPanel avec la même racine que les autres musées, et le certificat HTTPS est automatique. Un sous-domaine « joker » (`*.sportia.com`) est possible, si l'hébergeur fournit un certificat joker.
