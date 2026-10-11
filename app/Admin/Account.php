@@ -144,8 +144,15 @@ final class Account extends Base
         if ($url === null) {
             return self::html('admin/message', ['title' => 'Accès refusé', 'text' => 'Votre compte n’a pas accès à ce musée.', 'back' => '/admin'], ['title' => 'Accès refusé']);
         }
-        Activity::log(Auth::actor(), 'est passé au musée ' . (string) (Club::all()[$club]['site'] ?? $club), null);
-        return Response::redirect($url);
+        $site = (string) (Club::all()[$club]['site'] ?? $club);
+        Activity::log(Auth::actor(), 'est passé au musée ' . $site, null);
+        // Page de passage plutôt qu'une redirection : la politique de sécurité (form-action) interdit
+        // à un formulaire de mener vers un autre domaine ; un lien ou un rafraîchissement, non.
+        return new Response('<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
+            . '<meta http-equiv="refresh" content="0;url=' . e($url) . '"><title>Ouverture du musée…</title></head>'
+            . '<body style="margin:0;min-height:100vh;display:grid;place-items:center;font-family:Georgia,serif;background:' . Club::color('cream') . ';color:' . Club::color('navy') . '">'
+            . '<p>Ouverture du back-office de ' . e($site) . '… <a href="' . e($url) . '">continuer</a></p></body></html>',
+            200, ['Content-Type' => 'text/html; charset=utf-8', 'Cache-Control' => 'no-store', 'Referrer-Policy' => 'no-referrer']);
     }
 
     /** Arrivée par jeton de bascule : session ouverte sur ce musée, ou page de connexion. */
