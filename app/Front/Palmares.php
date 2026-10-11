@@ -27,7 +27,7 @@ final class Palmares
     }
 
     /** Ordre d'affichage des compétitions (les autres suivent, par ordre alphabétique). */
-    public const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Coupe UEFA', 'Coupe Intertoto', 'Championnat de France de D2', 'Division 3 (équipe réserve)', 'Championnat de Bourgogne-Franche-Comté', 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'Coupe Gambardella', 'Coupe Charles Drago', 'Coupe Peugeot', 'Challenge Maurice de Turckheim', 'Tournoi de Bruxelles (Coupe Dupuich)', 'Coupe des Alpes', 'Tournoi de Casablanca', 'Trophée Joan Gamper'];
+    public const ORDER = ['Championnat de France', 'Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Ligue des champions', 'Coupe des coupes', 'Supercoupe de l\'UEFA', 'Coupe intercontinentale', 'Coupe du monde des clubs', 'Coupe UEFA', 'Coupe Intertoto', 'Championnat de France de D2', 'Championnat de France de D3', 'Division 3 (équipe réserve)', 'Championnat de Bourgogne-Franche-Comté', 'Championnat de promotion (Ligue de Bourgogne-Franche-Comté)', 'Coupe Gambardella', 'Coupe Charles Drago', 'Coupe Peugeot', 'Challenge Maurice de Turckheim', 'Tournoi de Bruxelles (Coupe Dupuich)', 'Coupe des Alpes', 'Tournoi de Casablanca', 'Trophée Joan Gamper'];
 
     /** Finale d'une compétition (et pas un tour qui contient le mot « finale »). */
     public static function isFinal(string $round): bool

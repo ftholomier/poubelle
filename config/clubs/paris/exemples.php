@@ -1,0 +1,27 @@
+<?php
+// Exemples des champs de saisie (boutique, back-office, site public) propres au musée de Paris.
+return [
+    'modele_nom' => 'ex. T-shirt « Rouge et bleu depuis 1970 »',
+    'textes_consigne' => 'ex. souvenirs de nocturnes au Parc, phrases pour un anniversaire…',
+    'livre_dedicace' => 'À ma fille, qui a découvert le Parc à six ans…',
+    'livre_couverture' => 'Parc des Princes, 1982, Bruxelles 1996, Munich 2025…',
+    'livre_joueurs' => 'Tapez un nom (Rocheteau, Weah, Pauleta…)',
+    'livre_photo' => 'Au Parc avec papa, août 2024',
+    'produit_joueur' => 'Ex. : Dahleb, Rocheteau, Raí, Pauleta…',
+    'produit_match' => 'Ex. : Saint-Étienne 1982, Real Madrid 1993, Rapid Vienne 1996…',
+    'produit_texte' => 'Ex. : Rocheteau, finale 1982, Parc des Princes…',
+    'media_chemin' => '2026/10/scan-parc-1982.jpg',
+    'recherche_accueil' => 'Ex. PSG – Real Madrid 1993, Rocheteau, Parc des Princes, Coupe de France…',
+    'recherche' => 'Essayez « Parc des Princes », « 1996 », « Coupe de France 1982 » ou le nom d’un joueur.',
+    'don_mur' => 'ex. Famille D., au Parc depuis 1986',
+    'dico_mot' => 'Titis',
+    'dico_note' => 'Surnom des jeunes joueurs formés au club',
+    'objet_titre' => 'Ex. : Programme PSG – Saint-Étienne, finale 1982',
+    'redirection' => '/2016/05/psg-saint-etienne-1982/ ou https://paris.fcsochauxretro.com/…',
+    'match_buteurs' => 'Toko, Rocheteau pour le PSG ; Platini (2) pour Saint-Étienne',
+    'match_lignes' => 'Toko, Rocheteau pour le PSG.',
+    'match_evenement' => 'ex. Premier match au Parc des Princes',
+    'souvenirs_intro' => 'Ce soir-là, le Parc tremblait…',
+    'retro_match' => 'Tapez « PSG Real Madrid 1993 »…',
+    'retro_intro' => 'Il y a 30 ans, Paris soulevait sa première coupe d’Europe à Bruxelles…',
+];
