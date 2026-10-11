@@ -1,7 +1,7 @@
 <?php
 /** Carte interactive (maquette « Carto ») : stades, origines, épopées, lieux. */
 ?>
-<section class="carto" data-carto data-api="/api/carte" data-lang="<?= e(\App\Services\I18n::lang()) ?>">
+<section class="carto" data-carto data-api="/api/carte" data-lang="<?= e(\App\Services\I18n::lang()) ?>" data-bilan="<?= e(stadium_bilan_path()) ?>" data-titles="<?= e(json_encode((object) \App\Core\Club::content('carto-titres', []), JSON_UNESCAPED_UNICODE)) ?>">
   <div class="carto__top">
     <div class="carto__brand"><b><?= e(t('La carto du musée')) ?></b><i><?= e(t('Stades, origines, épopées et lieux')) ?></i></div>
     <nav class="carto__tabs" role="tablist" aria-label="<?= e(t('Vues de la carte')) ?>">

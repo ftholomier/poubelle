@@ -58,9 +58,13 @@
     });
     $('[data-quiz-next]', quiz).addEventListener('click', () => { if (i + 1 < N) { i++; show(); } else finish(); });
     $$('[data-quiz-start]', quiz).forEach(b => b.addEventListener('click', start));
-    const ranks = s => s >= N ? [T("Lion d'or", 'Golden Lion'), T('Sans faute. Vous connaissez Bonal par cœur.', 'Flawless. You know Bonal by heart.')]
+    // Rangs propres au club (data-quiz-ranks posé par le gabarit), sinon rangs neutres.
+    let R = {}; try { R = JSON.parse(quiz.dataset.quizRanks || '{}') || {}; } catch (e) { R = {}; }
+    const top = R.top || ['Légende du club', 'Club legend', 'Sans faute. Vous connaissez le club par cœur.', 'Flawless. You know the club by heart.'];
+    const form = R.formation || ['Espoir en formation', 'Prospect in training'];
+    const ranks = s => s >= N ? [T(top[0], top[1]), T(top[2], top[3])]
       : s >= Math.ceil(N * 2 / 3) ? [T('Pilier de tribune', 'Terrace stalwart'), T("Très solide ! Encore un ou deux matchs d'archives et c'est parfait.", 'Very solid! A couple more archive matches and you’re there.')]
-      : s >= Math.ceil(N / 3) ? [T('Lionceau en formation', 'Lion cub in training'), T('Le centre de formation vous attend : la frise est faite pour vous.', 'The academy awaits: the timeline is made for you.')]
+      : s >= Math.ceil(N / 3) ? [T(form[0], form[1]), T('Le centre de formation vous attend : la frise est faite pour vous.', 'The academy awaits: the timeline is made for you.')]
       : [T("Recrue de l'intersaison", 'Pre-season signing'), T('Pas grave : tout est dans le musée, il suffit de le visiter.', 'No worries: it’s all in the museum, just look around.')];
     function finish() {
       step('result');

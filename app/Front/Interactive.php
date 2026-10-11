@@ -40,7 +40,7 @@ final class Interactive
         $pool = array_values(array_filter($all, fn ($q) => ($q['active'] ?? true) && !empty($q['q']) && count($q['a'] ?? []) >= 2));
         $pool = array_map(fn ($q) => Collections::loc($q, ['q', 'a', 'fact']), $pool);
         return Pages::render('interactif/quiz', ['pool' => $pool, 'count' => min(6, count($pool))], [
-            'title' => t('Quiz : êtes-vous un vrai Lionceau ?'),
+            'title' => t(club('Quiz : êtes-vous un vrai {nickname_sg} ?')),
             'description' => t('Six questions sur l’histoire {club_de}. Testez vos connaissances et partagez votre score.'),
             'active' => 'interactif',
             'body_class' => 'page-quiz',
@@ -121,7 +121,7 @@ final class Interactive
     {
         $cards = self::albumCards();
         return Pages::render('interactif/album', ['cards' => $cards, 'total' => max(120, count($cards))], [
-            'title' => t('L’album du centenaire : collectionnez les Lions'),
+            'title' => t(\App\Core\Club::content('libelles', [])['album_title'] ?? 'L’album du centenaire : collectionnez les joueurs'),
             'description' => t('Chaque fiche visitée débloque la carte d’un joueur. Un sans-faute au quiz en offre une rare.'),
             'active' => 'interactif',
             'styles' => ['css/interactif.css'],
@@ -162,7 +162,7 @@ final class Interactive
     {
         return Pages::render('interactif/carto', [], [
             'title' => t('Carto : stades, origines, épopées et lieux {sigle_de}'),
-            'description' => t('Une carte interactive : partout où le Lion a joué, d’où viennent nos joueurs, les grandes épopées et les lieux du club.'),
+            'description' => t(\App\Core\Club::content('libelles', [])['carto_desc'] ?? 'Une carte interactive : partout où le club a joué, d’où viennent nos joueurs, les grandes épopées et les lieux du club.'),
             'active' => 'interactif',
             'body_class' => 'page-carto',
             'bare' => false,
@@ -208,7 +208,7 @@ final class Interactive
                     'h' => $x['sh'] ? 1 : 0,
                 ];
             }
-            $places[] = ['id' => $key, 'name' => $info['name'], 'city' => $info['city'] ?? '', 'll' => [(float) $info['lat'], (float) $info['lng']], 'home' => $key === 'auguste-bonal', 'recs' => $recs];
+            $places[] = ['id' => $key, 'name' => $info['name'], 'city' => $info['city'] ?? '', 'll' => [(float) $info['lat'], (float) $info['lng']], 'home' => $key === stadium_key(), 'recs' => $recs];
         }
         // Origines : lieu de naissance géolocalisé
         $geo = Collections::get('geo', []);
