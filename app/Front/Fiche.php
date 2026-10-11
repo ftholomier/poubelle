@@ -365,7 +365,7 @@ final class Fiche
                 break;
             }
             if ($r['href'] && ($s = Index::byPath(preg_replace('#^/en#', '', $r['href']))) && $s['image']) {
-                $out[] = ['kind' => t('Nos Lions'), 'title' => $s['p']['name'] ?? $s['title'], 'href' => $r['href'], 'image' => $s['image']];
+                $out[] = ['kind' => t(club_text('nos_lions', 'Nos joueurs')), 'title' => $s['p']['name'] ?? $s['title'], 'href' => $r['href'], 'image' => $s['image']];
             }
         }
         return array_slice($out, 0, 3);
@@ -429,7 +429,7 @@ final class Fiche
 
         $highlights = self::personHighlights($doc, $matches);
         $rubric = self::personRubric($doc);
-        $crumbs = [['label' => t('Accueil'), 'href' => url('/')], ['label' => t('Nos Lions'), 'href' => url('/nos-lions/')]];
+        $crumbs = [['label' => t('Accueil'), 'href' => url('/')], ['label' => t(club_text('nos_lions', 'Nos joueurs')), 'href' => url('/nos-lions/')]];
         if ($rubric) {
             $crumbs[] = ['label' => t(Categories::label($rubric)), 'href' => Site::catUrl($rubric)];
         }
@@ -745,7 +745,7 @@ final class Fiche
             foreach ($cat ? Index::inCategory($cat) : [] as $s) {
                 if (!isset($seen[$s['id']]) && $s['image'] && $s['type'] === 'personne') {
                     $seen[$s['id']] = true;
-                    $out[] = ['kind' => t('Nos Lions'), 'title' => $s['p']['name'], 'href' => url($s['path']), 'image' => $s['image']];
+                    $out[] = ['kind' => t(club_text('nos_lions', 'Nos joueurs')), 'title' => $s['p']['name'], 'href' => url($s['path']), 'image' => $s['image']];
                 }
                 if (count($out) >= 3) {
                     break;

@@ -346,8 +346,8 @@ final class Kernel
                 return $key !== $club && isset(Data\Derived::part('clubs')[$key]) ? [301, $pre . '/face-a-face/' . $key . '/', 'page'] : null;
             case '/bilans/{key}/':
                 $key = (string) $p['key'];
-                if ($key === 'auguste-bonal' || $key === 'bonal') {
-                    return [301, $pre . '/bilans/stade-auguste-bonal/', 'page'];
+                if ($key === stadium_key() || $key === slugify(Core\Club::s('stadium_short'))) {
+                    return [301, $pre . stadium_bilan_path(), 'page'];
                 }
                 if (isset(Front\Mosaic::COMPS[$key])) {
                     $family = Front\Mosaic::COMPS[$key][2];

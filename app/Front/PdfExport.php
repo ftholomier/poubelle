@@ -69,7 +69,7 @@ final class PdfExport
         }
         $doc = Fiche::localizeDoc($doc);
         $key = 'fiche-' . $id . '-' . I18n::lang() . '-' . self::stamp((string) ($doc['modified'] ?? ''));
-        return self::respond($req, $key, 'sochaux-retro-' . ($doc['slug'] ?: $id), fn () => self::buildFiche($doc), $visible);
+        return self::respond($req, $key, slugify(\App\Core\Club::s('site')) . '-' . ($doc['slug'] ?: $id), fn () => self::buildFiche($doc), $visible);
     }
 
     public static function season(Request $req, string $season): ?Response
@@ -81,7 +81,7 @@ final class PdfExport
         if (!$v) {
             return null;
         }
-        return self::respond($req, 'saison-' . $season . '-' . I18n::lang() . '-' . self::stamp(), 'sochaux-retro-saison-' . $season, fn () => self::buildSeason($season, $v['vars']));
+        return self::respond($req, 'saison-' . $season . '-' . I18n::lang() . '-' . self::stamp(), slugify(\App\Core\Club::s('site')) . '-saison-' . $season, fn () => self::buildSeason($season, $v['vars']));
     }
 
     public static function opponent(Request $req, string $club): ?Response
@@ -94,7 +94,7 @@ final class PdfExport
             return null;
         }
         $name = Fiche::clubName($club);
-        return self::respond($req, 'h2h-' . $club . '-' . I18n::lang() . '-' . self::stamp(), 'sochaux-retro-face-a-face-' . $club, fn () => self::buildH2h($v['vars'], t('Face-à-face'), \App\Core\Club::team() . ' × ' . $name, self::opponentUrl($club), url('/face-a-face/' . $club . '/')));
+        return self::respond($req, 'h2h-' . $club . '-' . I18n::lang() . '-' . self::stamp(), slugify(\App\Core\Club::s('site')) . '-face-a-face-' . $club, fn () => self::buildH2h($v['vars'], t('Face-à-face'), \App\Core\Club::team() . ' × ' . $name, self::opponentUrl($club), url('/face-a-face/' . $club . '/')));
     }
 
     public static function bilan(Request $req, string $key): ?Response
@@ -107,12 +107,12 @@ final class PdfExport
             return null;
         }
         $title = trim(html_entity_decode(strip_tags((string) $v['vars']['titleHtml']), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
-        return self::respond($req, 'bilan-' . $key . '-' . I18n::lang() . '-' . self::stamp(), 'sochaux-retro-bilan-' . $key, fn () => self::buildH2h($v['vars'], t('Bilan'), $title, self::bilanUrl($key), url('/bilans/' . $key . '/')));
+        return self::respond($req, 'bilan-' . $key . '-' . I18n::lang() . '-' . self::stamp(), slugify(\App\Core\Club::s('site')) . '-bilan-' . $key, fn () => self::buildH2h($v['vars'], t('Bilan'), $title, self::bilanUrl($key), url('/bilans/' . $key . '/')));
     }
 
     public static function records(Request $req): Response
     {
-        return self::respond($req, 'records-' . I18n::lang() . '-' . self::stamp(), 'sochaux-retro-livre-des-records', fn () => self::buildRecords());
+        return self::respond($req, 'records-' . I18n::lang() . '-' . self::stamp(), slugify(\App\Core\Club::s('site')) . '-livre-des-records', fn () => self::buildRecords());
     }
 
     // ================================================================== cache et réponse
@@ -147,7 +147,7 @@ final class PdfExport
                 self::gc();
             }
         }
-        $name = trim((string) preg_replace('/[^a-z0-9-]+/', '-', strtolower(Names::ascii($name))), '-') ?: 'sochaux-retro';
+        $name = trim((string) preg_replace('/[^a-z0-9-]+/', '-', strtolower(Names::ascii($name))), '-') ?: slugify(\App\Core\Club::s('site'));
         return new Response($bytes, 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="' . $name . '.pdf"',
@@ -714,7 +714,7 @@ final class PdfExport
             $photoBottom = $top + $ph + 18;
             $l->mr += $pw + 22;
         }
-        self::titleBlock($l, implode(' · ', array_filter([t('Nos Lions'), $role, $years])), $last ?: $name, '', $first);
+        self::titleBlock($l, implode(' · ', array_filter([t(club_text('nos_lions', 'Nos joueurs')), $role, $years])), $last ?: $name, '', $first);
         if (!empty($p['nickname'])) {
             $l->para([Layout::run('« ' . $p['nickname'] . ' »', 'serif-i', 13, 'blue')], ['after' => 10]);
         }

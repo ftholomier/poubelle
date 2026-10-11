@@ -117,7 +117,7 @@ final class Api
     private static function salt(): string
     {
         $f = STORAGE_PATH . '/secret.key';
-        return is_file($f) ? substr(hash('sha256', (string) file_get_contents($f)), 0, 16) : 'sochaux-retro';
+        return is_file($f) ? substr(hash('sha256', (string) file_get_contents($f)), 0, 16) : slugify(\App\Core\Club::s('site'));
     }
 
     private static function onThisDay(Request $req): Response

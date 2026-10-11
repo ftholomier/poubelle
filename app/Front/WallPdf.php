@@ -92,7 +92,7 @@ final class WallPdf
                     $l->rect($x, $y + $sh - 6.2, 4, 3.6, self::PAPER);
                 }
                 $l->polygon([[$l->ml + $pad, $y + 10], [$l->ml + $pad + 4.2, $y + 7.6], [$l->ml + $pad + 4.2, $y + 12.4]], self::AMBER);
-                $l->text($l->ml + $pad + 7, $y + 12.3, '400 · SOCHAUX RÉTRO · ' . sprintf('%02d', $s + 1), 'display-b', 6, self::AMBER, 1.1);
+                $l->text($l->ml + $pad + 7, $y + 12.3, '400 · ' . mb_strtoupper(\App\Core\Club::s('site')) . ' · ' . sprintf('%02d', $s + 1), 'display-b', 6, self::AMBER, 1.1);
                 $i = 0;
                 foreach ($strip as $k => $p) {
                     $x = $l->ml + $pad + $i++ * ($fw + $gap);

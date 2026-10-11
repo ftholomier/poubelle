@@ -105,7 +105,7 @@ final class Site
         $menus = Menus::get();
         $megas = [
             'matchs' => ['kind' => 'matchs', 'competitions' => $comps, 'decades' => array_values($decades), 'explore' => Menus::links($menus['matchs_explore'])],
-            'nos-lions' => ['kind' => 'columns', 'cols' => $lionsCols, 'all' => ['label' => t('Tous les Lions'), 'href' => url('/nos-lions/')]],
+            'nos-lions' => ['kind' => 'columns', 'cols' => $lionsCols, 'all' => ['label' => t(club_text('tous_les_lions', 'Tous les joueurs')), 'href' => url('/nos-lions/')]],
             'interactif' => ['kind' => 'interactif', 'groups' => self::interactiveTools()],
         ];
         $items = [];

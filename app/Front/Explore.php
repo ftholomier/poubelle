@@ -293,7 +293,7 @@ final class Explore
         $M = Derived::part('matches');
         $list = [];
         foreach (Derived::part('clubs') as $club => $c) {
-            if (($c['count'] ?? 0) === 0 || $club === 'sochaux') {
+            if (($c['count'] ?? 0) === 0 || $club === Names::clubKey(\App\Core\Club::team())) {
                 continue;
             }
             $official = array_values(array_filter($c['matches'], fn ($id) => !in_array($M[$id]['comp'] ?? '', Derived::OFFICIAL_EXCLUDED, true)));
@@ -309,7 +309,7 @@ final class Explore
         }
         usort($list, fn ($x, $y) => $y['count'] <=> $x['count'] ?: strcoll($x['name'], $y['name']));
         return Pages::render('opponents', ['list' => $list], [
-            'title' => t('Face-à-face : le bilan du FC Sochaux contre chaque adversaire'),
+            'title' => t(club('Face-à-face : le bilan du {club_short} contre chaque adversaire')),
             'description' => t('Victoires, nuls, défaites, buts : le bilan complet de {team} contre ses {n} adversaires, calculé depuis les fiches matchs.', ['n' => count($list)]),
             'active' => 'matchs',
             'styles' => ['css/mosaic.css', 'css/explore.css'],
@@ -341,7 +341,7 @@ final class Explore
         $clubs = Derived::part('clubs');
         uasort($clubs, fn ($x, $y) => $y['count'] <=> $x['count']);
         foreach (array_slice($clubs, 0, 12, true) as $k => $x) {
-            if ($k !== 'sochaux') {
+            if ($k !== Names::clubKey(\App\Core\Club::team())) {
                 $top[] = ['name' => Fiche::clubName($k), 'href' => url('/face-a-face/' . $k . '/'), 'on' => $k === $club];
             }
         }
@@ -373,8 +373,8 @@ final class Explore
     /** Bilans : une compétition (/bilans/coupe-de-france/) ou un stade (/bilans/stade-auguste-bonal/). */
     public static function bilan(Request $req, string $key): ?Response
     {
-        if ($key === 'auguste-bonal' || $key === 'bonal') {
-            return Response::redirect(url('/bilans/stade-auguste-bonal/'), 301);
+        if ($key === stadium_key() || $key === slugify(\App\Core\Club::s('stadium_short'))) {
+            return Response::redirect(url(stadium_bilan_path()), 301);
         }
         $v = self::bilanPage($key);
         if (!$v) {
@@ -395,7 +395,7 @@ final class Explore
         foreach (['coupe-de-france', 'coupe-de-la-ligue', 'coupe-d-europe', 'championnat'] as $k) {
             $chips[] = ['name' => t(Mosaic::COMPS[$k][0]), 'href' => url('/bilans/' . $k . '/'), 'on' => $k === $key];
         }
-        $chips[] = ['name' => t('Stade Auguste-Bonal'), 'href' => url('/bilans/stade-auguste-bonal/'), 'on' => $key === 'stade-auguste-bonal'];
+        $chips[] = ['name' => t(\App\Core\Club::s('stadium_full')), 'href' => url(stadium_bilan_path()), 'on' => $key === 'stade-' . stadium_key()];
 
         if (isset(Mosaic::COMPS[$key])) {
             [$label, , $family] = Mosaic::COMPS[$key];
@@ -459,7 +459,7 @@ final class Explore
                 return (string) $s['name'];
             }
         }
-        return $key === 'auguste-bonal' ? 'stade Auguste-Bonal' : ucwords(str_replace('-', ' ', $key));
+        return $key === stadium_key() ? \App\Core\Club::s('stadium_full_lc') : ucwords(str_replace('-', ' ', $key));
     }
 
     /**
@@ -654,7 +654,7 @@ final class Explore
         $all = \App\Services\Chiffres::all();
         $scope = $all['scope'];
         $v = ['vars' => ['chapters' => $all['chapters'], 'count' => $all['count'], 'scope' => $scope], 'page' => [
-            'title' => t('Les chiffres {sigle_de} : {n} statistiques depuis 1929', ['n' => $all['count']]),
+            'title' => t('Les chiffres {sigle_de} : {n} statistiques depuis ' . ((int) \App\Core\Club::s('founded') + 1), ['n' => $all['count']]),
             'description' => t('Meilleur buteur de l’histoire, recordman des matchs, plus longue invincibilité, but le plus rapide, affluences : {n} chiffres {club_de} calculés depuis les fiches du musée.', ['n' => $all['count']]),
             'active' => 'matchs',
             'styles' => ['css/explore.css', 'css/chiffres.css'],

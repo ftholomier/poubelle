@@ -151,9 +151,9 @@ final class Retro
     {
         $id = (int) $req->str('match');
         $date = $req->str('date');
-        $lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sochaux Retro//Retro-Direct//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+        $lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//' . (transliterator_transliterate('Any-Latin; Latin-ASCII', \App\Core\Club::s('site')) ?: 'Musee') . '//Retro-Direct//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
             'X-WR-CALNAME:' . self::icsText(t('Rétro-Direct · {site}')), 'X-WR-TIMEZONE:Europe/Paris', 'REFRESH-INTERVAL;VALUE=DURATION:PT12H'];
-        $host = parse_url(base_url(), PHP_URL_HOST) ?: 'fcsochauxretro.com';
+        $host = parse_url(base_url(), PHP_URL_HOST) ?: \App\Core\Club::s('domain');
         $n = 0;
         foreach (RetroDirect::program() as $e) {
             if ($e['state'] === 'termine' || ($id && ($e['id'] !== $id || $e['date'] !== $date))) {

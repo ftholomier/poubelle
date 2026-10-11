@@ -34,11 +34,11 @@ final class Mosaic
 
     private const ROOTS = [
         Site::C_MATCHS => ['eyebrow' => 'Les archives des rencontres', 'unit' => 'matchs archivés', 'intro' => 'Fiches, résumés, compositions et photos de chaque rencontre retrouvée.', 'ph' => 'Adversaire, stade, saison…'],
-        Site::C_LIONS => ['eyebrow' => 'Joueurs, entraîneurs, dirigeants', 'unit' => 'portraits', 'intro' => "Ceux qui ont porté le lion sur le cœur, des pionniers aux {nickname} d'aujourd'hui.", 'ph' => "Nom d'un joueur, d'un entraîneur…"],
-        'supporters' => ['eyebrow' => 'La tribune', 'unit' => 'souvenirs', 'intro' => 'Livres, films, magazines, associations : la mémoire de ceux qui font vivre le lion.', 'ph' => 'Un livre, un film, un groupe…'],
+        Site::C_LIONS => ['eyebrow' => 'Joueurs, entraîneurs, dirigeants', 'unit' => 'portraits', 'intro' => "Ceux qui ont marqué l'histoire du club, des pionniers aux {nickname} d'aujourd'hui.", 'ph' => "Nom d'un joueur, d'un entraîneur…"],
+        'supporters' => ['eyebrow' => 'La tribune', 'unit' => 'souvenirs', 'intro' => 'Livres, films, magazines, associations : la mémoire de ceux qui font vivre le club.', 'ph' => 'Un livre, un film, un groupe…'],
         'infrastructures' => ['eyebrow' => 'Les lieux du club', 'unit' => 'lieux', 'intro' => "Stades, pelouse et centre de formation : là où l'histoire s'est écrite.", 'ph' => 'Un stade, une époque…'],
-        'grands-recits' => ['eyebrow' => 'Les grandes histoires du club', 'unit' => 'récits', 'intro' => 'Les finales, l’Europe, Peugeot, les tournées : l’histoire {sigle_de} racontée d’après les archives.', 'ph' => 'Une finale, une époque…'],
-        'symboles' => ['eyebrow' => 'Ce qui nous identifie', 'unit' => 'pièces', 'intro' => 'Écussons, maillots, hymnes, couleurs : tout ce qui fait le jaune et le bleu.', 'ph' => 'Un logo, un hymne…'],
+        'grands-recits' => ['eyebrow' => 'Les grandes histoires du club', 'unit' => 'récits', 'intro' => 'Les finales, les épopées, les tournées : l’histoire {sigle_de} racontée d’après les archives.', 'ph' => 'Une finale, une époque…'],
+        'symboles' => ['eyebrow' => 'Ce qui nous identifie', 'unit' => 'pièces', 'intro' => 'Écussons, maillots, hymnes, couleurs : tout ce qui fait le {colors}.', 'ph' => 'Un logo, un hymne…'],
     ];
 
     public static function show(Request $req, array $cat): Response
@@ -51,6 +51,11 @@ final class Mosaic
             default => 'articles',
         };
         $conf = self::ROOTS[$root] ?? self::ROOTS['symboles'];
+        // Phrase d'introduction propre au club (config/clubs/<id>/rubriques-intros.php), sinon texte neutre.
+        $intros = (array) \App\Core\Club::content('rubriques-intros', []);
+        if (isset($intros[isset(self::ROOTS[$root]) ? $root : 'symboles'])) {
+            $conf['intro'] = (string) $intros[isset(self::ROOTS[$root]) ? $root : 'symboles'];
+        }
         $base = (string) $cat['path'];
 
         // ------------------------------------------------------------ filtres
@@ -251,7 +256,7 @@ final class Mosaic
                 ['label' => t('Saisons'), 'href' => url('/saisons/'), 'on' => false],
                 ['label' => t('Face-à-face'), 'href' => url('/face-a-face/'), 'on' => false],
                 ['label' => t('Records'), 'href' => url('/records/'), 'on' => false],
-                ['label' => t('Bilan {stadium_a}'), 'href' => url('/bilans/stade-auguste-bonal/'), 'on' => false],
+                ['label' => t('Bilan {stadium_a}'), 'href' => url(stadium_bilan_path()), 'on' => false],
                 ['label' => t('Bilan en Coupe de France'), 'href' => url('/bilans/coupe-de-france/'), 'on' => false],
             ];
         } else {
@@ -281,7 +286,7 @@ final class Mosaic
         $parent = count($trail) > 1 ? t(Categories::label($trail[count($trail) - 2]['slug'])) : t($conf['eyebrow']);
         $desc = \App\Services\I18n::isEn() && trim(strip_tags((string) ($cat['description_en'] ?? ''))) !== '' ? $cat['description_en'] : ($cat['description'] ?? '');
         $intro = trim(strip_tags((string) $desc)) ?: ($slug === $root ? t($conf['intro']) : '');
-        $titleSeo = $label . ($kind === 'matchs' ? ' – ' . t('Matchs {club_de}') : ($kind === 'lions' && $slug !== Site::C_LIONS ? ' – ' . t('Nos Lions {sigle_de}') : ''));
+        $titleSeo = $label . ($kind === 'matchs' ? ' – ' . t('Matchs {club_de}') : ($kind === 'lions' && $slug !== Site::C_LIONS ? ' – ' . t(club_text('nos_lions', 'Nos joueurs') . ' {sigle_de}') : ''));
         if ($page > 1) {
             $titleSeo .= ' – ' . t('page {n}', ['n' => $page]);
         }

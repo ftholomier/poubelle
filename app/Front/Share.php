@@ -205,7 +205,7 @@ final class Share
         } else {
             self::paragraph($im, mb_strtoupper((string) ($m['event'] ?: $doc['title'])), 'BigShouldersDisplay-900', 60, 60, 160, 620, 4, $cream, 1.15);
         }
-        self::brand($im, 60, 560, (string) Settings::get('general.domain_label', 'fcsochauxretro.com'), $cream);
+        self::brand($im, 60, 560, (string) Settings::get('general.domain_label', Club::s('domain')), $cream);
         return $im;
     }
 
@@ -224,7 +224,7 @@ final class Share
         $roles = $p['roles'] ?: ['joueur'];
         $lines = ['G' => 'GARDIEN', 'D' => 'DÉFENSEUR', 'M' => 'MILIEU', 'A' => 'ATTAQUANT'];
         $role = ($roles[0] ?? 'joueur') === 'joueur' ? ($lines[$p['line'] ?? ''] ?? 'JOUEUR') : mb_strtoupper(Fiche::roleLabel($p));
-        self::text($im, mb_strimwidth('NOS LIONS · ' . $role, 0, 40, '…'), 'BigShouldersDisplay-700', 22, 60, 100, [31, 63, 168], 4);
+        self::text($im, mb_strimwidth(mb_strtoupper(club_text('nos_lions', 'Nos joueurs')) . ' · ' . $role, 0, 40, '…'), 'BigShouldersDisplay-700', 22, 60, 100, [31, 63, 168], 4);
         $first = mb_strtoupper(trim((string) ($p['first_name'] ?? '')));
         $last = mb_strtoupper(trim((string) ($p['last_name'] ?? '')) ?: (string) $doc['title']);
         $f = 'BigShouldersDisplay-900';
@@ -256,7 +256,7 @@ final class Share
             self::tag($im, mb_strtoupper(\App\Data\Categories::label($cat)), 60, 60, sscanf(Club::color('yellow'), '#%02x%02x%02x'), sscanf(Club::color('navy'), '#%02x%02x%02x'));
         }
         self::paragraph($im, mb_strtoupper((string) $doc['title']), 'BigShouldersDisplay-900', 92, 60, 200, 1080, 3, sscanf(Club::color('cream'), '#%02x%02x%02x'), .9);
-        self::brand($im, 60, 560, (string) Settings::get('general.domain_label', 'fcsochauxretro.com'), sscanf(Club::color('cream'), '#%02x%02x%02x'));
+        self::brand($im, 60, 560, (string) Settings::get('general.domain_label', Club::s('domain')), sscanf(Club::color('cream'), '#%02x%02x%02x'));
         return $im;
     }
 
@@ -268,7 +268,7 @@ final class Share
         $navy = sscanf(Club::color('navy'), '#%02x%02x%02x');
         self::text($im, 'HISTORIQUE COMPLET · ' . $c['count'] . ' MATCHS', 'BigShouldersDisplay-700', 30, 60, 92, $yellow, 5);
         $name = mb_strtoupper(Fiche::clubName($club));
-        $line = 'SOCHAUX × ' . $name;
+        $line = mb_strtoupper(Club::team()) . ' × ' . $name;
         $size = min(130, self::fit($line, 'BigShouldersDisplay-900', 1080, 130));
         self::text($im, $line, 'BigShouldersDisplay-900', $size, 56, 300, $cream);
         // Barre V / N / D
