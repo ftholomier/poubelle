@@ -126,7 +126,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
       </dl>
       <?php endif; ?>
       <div class="mhero__goals">
-        <?php foreach ($m['goals'] ?? [] as $g): $isS = stripos((string) $g['team'], 'sochaux') !== false; ?>
+        <?php foreach ($m['goals'] ?? [] as $g): $isS = \App\Core\Club::isUs((string) $g['team']); ?>
           <span><strong class="<?= $isS ? 'yellow' : '' ?>"><?= e(mb_strtoupper((string) $g['team'])) ?></strong> · <?= e($g['scorers']) ?></span>
         <?php endforeach; ?>
         <?php if (empty($m['goals']) && !empty($m['goals_text'])): ?><span><?= e(t('Buts')) ?> : <?= e($m['goals_text']) ?></span><?php endif; ?>
@@ -173,7 +173,8 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
                   [$a, $b] = [(int) $sc[1], (int) $sc[2]];
                   $isS = $sh ? $a > $prev[0] : $b > $prev[1];
                   if ($a <= $prev[0] && $b <= $prev[1]) {
-                      $isS = stripos($txt, 'sochal') !== false || stripos($txt, 'sochaux') !== false;
+                      $gentil = mb_substr(\App\Core\Club::s('gentile'), 0, 6);
+                      $isS = ($gentil !== '' && mb_stripos($txt, $gentil) !== false) || \App\Core\Club::isUs($txt);
                   }
                   $prev = [$a, $b];
                   $txt = trim(preg_replace('/\s*\(\s*\d+\s*-\s*\d+\s*\)\s*\.?\s*$/u', '', $txt));

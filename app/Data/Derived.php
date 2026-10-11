@@ -602,7 +602,7 @@ final class Derived
                 $sochauxHome = (bool) ($m['sochaux_home'] ?? true);
                 $oppName = $sochauxHome ? ($m['away']['name'] ?? '') : ($m['home']['name'] ?? '');
                 $clubId = null;
-                if ($oppName !== '' && !preg_match('/sochaux/iu', $oppName)) {
+                if ($oppName !== '' && !\App\Core\Club::isUs($oppName)) {
                     $key = Names::clubKey($oppName);
                     $clubId = $m['opponent_club'] ?: ($clubAlias[$key] ?? null);
                     if (!$clubId) {
@@ -757,7 +757,7 @@ final class Derived
                 // Contrôles qualité du match (les buts contre son camp de l'adversaire, cités avec
                 // les buteurs sochaliens, comptent pour Sochaux sans figurer dans la composition).
                 foreach ($m['goals'] ?? [] as $gl) {
-                    if (stripos((string) ($gl['team'] ?? ''), 'sochaux') !== false) {
+                    if (\App\Core\Club::isUs((string) ($gl['team'] ?? ''))) {
                         $teamGoals += preg_match_all('/c\s*\.?\s*s\s*\.?\s*c|contre son camp/iu', (string) ($gl['scorers'] ?? ''));
                     }
                 }
