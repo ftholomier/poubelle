@@ -33,7 +33,7 @@ $here = \App\Admin\Favorites::here($meta);
       <input type="checkbox" role="switch" data-nav-mode<?= $compact ? ' checked' : '' ?>><i aria-hidden="true"></i>
     </label>
     <nav aria-label="Menu du back-office">
-      <?php foreach (Base::NAV as $group => $items): ?>
+      <?php foreach (Base::nav() as $group => $items): ?>
         <?php if (!$isAdmin && !array_filter($items, fn ($it) => !$it[3])) { continue; } ?>
         <?php
           $vis = array_filter($items, fn ($it) => $isAdmin || !$it[3]);
@@ -77,6 +77,20 @@ $here = \App\Admin\Favorites::here($meta);
         </div>
       </div>
       <a class="top__help" href="<?= e(\App\Admin\Help::urlFor($meta['help'] ?? $nav)) ?>" title="Aide sur cet écran"><span aria-hidden="true">?</span> Aide</a>
+      <?php $clubs = \App\Core\Auth::clubsOf($user ?? []); if (count($clubs) > 1): $all = \App\Core\Club::all(); ?>
+      <div class="me club-switch" data-dropdown>
+        <button type="button" class="btn btn--sm" data-dropdown-toggle aria-expanded="false" title="Passer à un autre musée">
+          <span class="club-switch__dot" style="background:<?= e(\App\Core\Club::color('navy')) ?>;border-color:<?= e(\App\Core\Club::color('yellow')) ?>"></span><?= e(\App\Core\Club::s('site')) ?> ▾
+        </button>
+        <div class="menu" hidden>
+          <?php foreach ($clubs as $cid => $role): $p = $all[$cid] ?? []; $th = (array) ($p['theme'] ?? []) + \App\Core\Club::THEME; ?>
+          <form method="post" action="/admin/basculer"><?= csrf_field() ?><input type="hidden" name="club" value="<?= e($cid) ?>">
+            <button type="submit"<?= $cid === CLUB_ID ? ' disabled aria-current="true"' : '' ?>><span class="club-switch__dot" style="background:<?= e($th['navy']) ?>;border-color:<?= e($th['yellow']) ?>"></span><?= e((string) ($p['site'] ?? $cid)) ?><small><?= e($cid === CLUB_ID ? 'musée actuel' : (string) (($p['domains'] ?? [''])[0])) ?></small></button>
+          </form>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <?php endif; ?>
       <a class="top__site" href="/" target="_blank" rel="noopener">Site ↗</a>
       <div class="me" data-dropdown>
         <button type="button" data-dropdown-toggle aria-expanded="false" aria-label="Mon compte">

@@ -40,7 +40,7 @@ final class Favorites extends Base
     {
         $admin = Auth::isAdmin();
         $out = [];
-        foreach (self::NAV as $group => $items) {
+        foreach (self::nav() as $group => $items) {
             foreach ($items as [, $label, $href, $adminOnly]) {
                 if (!$adminOnly || $admin) {
                     $out[$group][] = ['label' => $label, 'url' => $href];
@@ -128,7 +128,7 @@ final class Favorites extends Base
             return true;
         }
         $path = (string) parse_url($url, PHP_URL_PATH);
-        foreach (self::NAV as $items) {
+        foreach (self::nav() as $items) {
             foreach ($items as [, , $href, $adminOnly]) {
                 if ($adminOnly && ($path === $href || str_starts_with($path, $href . '/'))) {
                     return false;

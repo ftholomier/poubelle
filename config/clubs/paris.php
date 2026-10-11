@@ -12,9 +12,9 @@ return [
     'site_lc' => 'Paris rétro',
     'site_de' => 'de Paris Rétro',
     // Noms de domaine qui servent ce musée (adresse principale en premier).
-    'domains' => ['parisretro.sportia.com', 'paris.fcsochauxretro.com', 'parisretro.com', 'www.parisretro.com'],
-    'domain' => 'parisretro.sportia.com',
-    'base_url' => 'https://parisretro.sportia.com',
+    'domains' => ['paris.fcsochauxretro.com', 'paris.epics.club', 'parisretro.sportia.com', 'parisretro.com', 'www.parisretro.com'],
+    'domain' => 'paris.fcsochauxretro.com',
+    'base_url' => 'https://paris.fcsochauxretro.com',
     'logo_png' => '/assets/clubs/paris/logo.png',
     'logo_svg' => 'public/assets/clubs/paris/logo.svg',
 

@@ -99,6 +99,23 @@ class Base
         ],
     ];
 
+    /**
+     * Menu du musée servi : sans les outils propres au musée historique (site de l'association,
+     * reprise de ses archives 1928-1969) sur les autres musées.
+     */
+    public static function nav(): array
+    {
+        if (\App\Core\Club::isDefault()) {
+            return self::NAV;
+        }
+        $nav = self::NAV;
+        unset($nav['Site de l’association']);
+        foreach ($nav as $g => $items) {
+            $nav[$g] = array_values(array_filter($items, fn ($it) => $it[0] !== 'reprise'));
+        }
+        return $nav;
+    }
+
     /** Liens du bouton « + Nouveau » (et des favoris, rubrique « Créer »). */
     public static function createLinks(bool $admin): array
     {

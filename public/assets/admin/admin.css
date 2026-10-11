@@ -890,3 +890,14 @@ body.has-proof .bo { padding-right: 440px; }
 .notif-preview b { display: block; font-size: 15px; line-height: 1.25; }
 .notif-preview span { display: block; font-size: 14px; line-height: 1.35; margin-top: 2px; overflow-wrap: anywhere; }
 .notif-preview small { display: block; font-size: 12px; color: #6A6A75; margin-top: 6px; }
+
+/* Sélecteur de musée (comptes ayant accès à plusieurs musées) */
+.club-switch .btn { display: inline-flex; align-items: center; gap: 8px; }
+.club-switch__dot { display: inline-block; width: 14px; height: 14px; border: 3px solid; border-radius: 50%; flex: none; margin-right: 8px; vertical-align: -2px; }
+.club-switch .btn .club-switch__dot { margin-right: 0; }
+.club-switch .menu button { display: flex; align-items: center; width: 100%; text-align: left; flex-wrap: wrap; }
+.club-switch .menu button small { flex-basis: 100%; padding-left: 22px; opacity: .7; }
+.club-switch .menu button[disabled] { opacity: .6; cursor: default; }
+.club-switch > .btn { max-width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; }
+.top:has(.club-switch) .top__search { flex-basis: 220px; }
+.top:has(.club-switch) .me__who span { display: none; }
